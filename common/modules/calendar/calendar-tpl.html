@@ -1,0 +1,62 @@
+<%
+    var yearmonth=data.yearmonth,dates=data.dates;
+    var containerID = data.containerID;
+    var ym = yearmonth.split("-");
+    var year = ym[0];
+    var month = ym[1];
+%>
+<div id="<%=containerID%>-topCalendar" class="calendarHead">
+    <div class="con"><span id="<%=containerID%>-top-calendar-date" class="top-calendar-date"></span></div>
+    <a id="<%=containerID%>-monthNavBtnNext" class="monthNavBtn next" href="javascript:void(0)"><i class="iconfont">&#xe60d;</i></a>
+    <a id="<%=containerID%>-monthNavBtnPrev" class="monthNavBtn prev" href="javascript:void(0)"><i class="iconfont">&#xe60c;</i></a>
+</div>
+<div id="<%=containerID%>-calendar-panel-<%=yearmonth%>" class="calendar-panel">
+    <table id="calendar-table-<%=yearmonth%>"  class="calendar-table">
+        <thead id="<%=containerID%>-calendar-thead-<%=yearmonth%>" class="calendar-thead">
+        <th data-yearmonth="<%=yearmonth%>" data-week="0">
+            <label for="calendar-weeken-checkbox-<%=yearmonth%>-0">日</label>
+        </th>
+        <th data-yearmonth="<%=yearmonth%>" data-week="1">
+            <label for="calendar-weeken-checkbox-<%=yearmonth%>-1">一</label>
+        </th>
+        <th data-yearmonth="<%=yearmonth%>" data-week="2">
+            <label for="calendar-weeken-checkbox-<%=yearmonth%>-2">二</label>
+        </th>
+        <th data-yearmonth="<%=yearmonth%>" data-week="3">
+            <label for="calendar-weeken-checkbox-<%=yearmonth%>-3">三</label>
+        </th>
+        <th data-yearmonth="<%=yearmonth%>" data-week="4">
+            <label for="calendar-weeken-checkbox-<%=yearmonth%>-4">四</label>
+        </th>
+        <th data-yearmonth="<%=yearmonth%>" data-week="5">
+            <label for="calendar-weeken-checkbox-<%=yearmonth%>-5">五</label>
+        </th>
+        <th data-yearmonth="<%=yearmonth%>" data-week="6">
+            <label for="calendar-weeken-checkbox-<%=yearmonth%>-6">六</label>
+        </th>
+        </thead>
+        <tbody id="<%=containerID%>-calendar-tbody-<%=yearmonth%>" class="calendar-tbody">
+            <%_.each(dates,function(tr){%>
+                <tr>
+                    <%_.each(tr,function(td){%>
+                        <%
+                            var date = td.date;
+                            var day = td.day;
+                            var weeken = td.weeken;
+                            var yearmonth = td.yearmonth;
+                        %>
+                        <%if(day){%>
+                            <td class="calendar-td day" data-day="<%=day%>" data-date="<%=date%>" data-yearmonth="<%=yearmonth%>" data-week="<%=weeken%>" id="<%=containerID%>-calendar-td-<%=date%>">
+                                <div class="tdCon">
+                                    <span class="dayNum"><%=day%></span>
+                                </div>
+                            </td>
+                        <%}else{%>
+                            <td class="calendar-td empty"></td>
+                        <%}%>
+                    <% }) %>
+                </tr>
+             <% }) %>
+        </tbody>
+    </table>
+</div>

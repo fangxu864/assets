@@ -1,0 +1,92 @@
+<% _.each(data,function(item,index){ %>
+<li class="orderItem" id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>">
+    <div class="oTit">
+        联系人：<span class="contactor"><%=item.ordername%></span><span class="mobile">电话：<%=item.ordertel%></span>
+        <% if(item.status!=0){ %>
+            <span class="flag status_<%=item.status%>"><%={
+                "0" : "未使用",
+                "1" : "已使用",
+                "2" : "已过期",
+                "3" : "已取消",
+                "4" : "凭证码被替代",
+                "5" : "被终端撤销(已取消)",
+                "6" : "被终端撤销(已使用)"
+            }[item.status]%></span>
+        <% } %>
+        <span class="flag pmode_<%=item.paystatus%>"><%={
+            0 : "景区到付",
+            1 : "已支付",
+            2 : "未支付"
+        }[item.paystatus]%></span>
+    </div>
+    <div class="itemCon">
+        <div class="ltCon">
+            <p class="line">
+                <span class="lt">订单号：<span class="vhidden">订</span></span>
+                <span class="rt"><%=item.ordernum%></span>
+            </p>
+            <p class="line">
+                <span class="lt">下单时间：</span>
+                <span class="rt"><%=item.ordertime%></span>
+            </p>
+            <p class="line">
+                <span class="lt">游玩时间：</span>
+                <span class="rt"><%=item.begintime%></span>
+            </p>
+        </div>
+        <div class="inCon">
+            <% var tickets=item.tickets;%>
+            <% if(tickets && tickets.length){ %>
+                <ul class="ticketUl">
+                    <% _.each(tickets,function(ticket,ind){ %>
+                        <li class="ticketLi clearfix">
+                            <div class="inpCtrol">
+                                <input class="tinp countInp" type="text" value="<%=ticket.tnum%>"
+                                       data-ptype="A"
+                                       data-maxnum="<%=ticket.tnum%>"
+                                       data-mainordernum="<%=tickets[0].ordernum%>"
+                                       data-ordernum="<%=ticket.ordernum%>"/>
+                                <span class="zhang">张</span>
+                            </div>
+                            <div class="trnameCol">
+                                <p class="tname">【<%=ticket.name%>】</p>
+                                <p class="bt">共<em class="tnum total_tnum"><%=ticket.tnum_s ? ticket.tnum_s : 10%></em>张<i class="vt"></i>未验证<em class="tnum un_terminal_tnum"><%=ticket.tnum%></em>张</p>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+                <div class="checkMethodBox">
+                    <% if(item.ptype!="F"){ %>
+                        <input type="radio" checked name="check_method" value="0" id="check_method_<%=item.ordernum%>_0"/><label style="margin-right:15px" for="check_method_<%=item.ordernum%>_0">取消余票</label>
+                        <input type="radio" name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
+                    <% }else{ %> <!--套票的子票只能保留余票，不能取消余票-->
+                        <input type="radio" checked name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
+                    <% } %>
+                </div>
+                <div class="doActionBox">
+                    <%
+                        var checkBtnCls = "";
+                        var orderStatus = item.status;
+                        var pmode = item.pmode;
+                        var payStatus = item.paystatus;
+                        if(orderStatus==1 || orderStatus==3 || orderStatus==5 || orderStatus==6 || (payStatus==2 && pmode!=4)){
+                            //已使用｜已取消｜被终端撤销(已取消)｜被终端撤销(已使用)|未支付
+                            //不能验证
+                            //已过期的订单(status==2)admin与普通帐号均可验证
+                            checkBtnCls = "disable";
+                        }
+                    %>
+                    <a class="checkBtn <%=checkBtnCls%>" data-ptype="<%=item.ptype%>" href="javascript:void(0)" data-mainordernum="<%=tickets[0].ordernum%>">验 证</a>
+                    <% if(item.endtime){ %>
+                        <span class="termTimeWrap"><input readonly class="termTimeInp" type="text" value="<%=item.endtime%>"/><i class="iconfont">&#xe65b;</i></span>
+                    <% } %>
+                    <span class="errorTip"></span>
+                </div>
+                <% if(item.pmode==4){ %>
+                    <p class="payTypeTip">请先确认游客已现场付费，然后给予验证</p>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</li>
+<% }) %>
