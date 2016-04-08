@@ -6,8 +6,8 @@ var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 	entry : {
-		terminal : "./modules/terminal/js/main.js",
-		yx_storage_normal : "./modules/yx_storage_normal/js/main.js"
+		terminal : "./modules/terminal/js/main.js"
+		,yx_storage_normal : "./modules/yx_storage_normal/js/main.js"
 	},
 	output : {
 		path : path.join(__dirname, "./build"),
