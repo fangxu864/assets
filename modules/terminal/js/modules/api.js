@@ -32,9 +32,14 @@ var Api = {
 		fetchProduct : "terminal_chk.html",
 		//验证&搜索订单
 		//terminal : "call/terminal.php",
-		//2015-10-19改
-		terminal : "api/index.php?f=terminal",
-		queryOrder : "api/index.php?f=terminal"
+//		terminal : "api/index.php?f=terminal",
+//		queryOrder : "api/index.php?f=terminal"
+		terminal : function(){
+			return $("#apiHideInp").val()
+		},
+		queryOrder : function(){
+			return $("#apiHideInp").val()
+		}
 	},
 	AJAX_TIMEOUT : 1000 * 60, //秒
 	AJAX_TIMEOUT_TEXT : "请求超时，请稍后重试",
@@ -119,7 +124,7 @@ var Api = {
 		if(!salerid || !voucher) return false;
 		salerid = $.trim(salerid);
 		voucher = $.trim(voucher);
-		var api = this.api.queryOrder;
+		var api = this.api.queryOrder();
 		var fn = this.fn;
 		var opt = opt || {};
 		var loading = opt.loading || fn;
@@ -175,7 +180,7 @@ var Api = {
 	 */
 	terminal : function(params,opt){
 		var that = this;
-		var api = this.api.terminal;
+		var api = this.api.terminal();
 		var params = params || {};
 		var opt = opt || {};
 		var fn = this.fn;
