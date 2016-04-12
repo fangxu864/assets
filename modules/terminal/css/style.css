@@ -57,7 +57,7 @@
 .orderList .sta{ height:150px; line-height:110px; padding-left:20px;}
 .orderList .sta .loadingImg{ width:22px; vertical-align:middle; margin-right:3px;}
 .orderList .sta .t{ vertical-align:middle}
-.orderList .checkMethodBox{ margin-bottom:5px; text-align:right;}
+.orderList .checkMethodBox{ display:none; margin-bottom:5px; text-align:right;}
 .orderList .checkMethodBox input{ position:relative; top:2px; vertical-align:middle; margin-right:2px;}
 .orderList .checkMethodBox label{ vertical-align:middle;}
 
