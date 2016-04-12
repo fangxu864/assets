@@ -1,0 +1,29 @@
+.myRight{ background:#fff; border:1px solid #e5e5e5; overflow:hidden;}
+.slideContainer{ position:relative; width:2415px; overflow:hidden;}
+.slideContainer .slidePanel{ float:left; width:805px;}
+.slideContainer .setpTop{ position:relative; padding:20px 10px; overflow:hidden;}
+.slideContainer .setpTop .line{ position:absolute; z-index:1; left:80px; right:90px; top:54px; height:1px; font-size:0; background:#dbdbdb}
+.slideContainer .setpTop .stepItem{ position:relative; z-index:2;}
+.slideContainer .setpTop .stepCon{ float:left; width:100px; background:#fff; text-align:center;}
+.slideContainer .setpTop .stepItem.step_1 .stepCon{ margin-left:118px;}
+.slideContainer .setpTop .stepItem.step_2 .stepCon{ margin-left:118px;}
+.slideContainer .setpTop .stepItem.step_3 .stepCon{ margin-left:118px;}
+.slideContainer .setpTop .icon{ position:relative; display:inline-block; width:66px; height:67px; font-size:0; background:url("http://static.12301.cc/assets/build/images/register_step_bg.png") no-repeat 0 0}
+.slideContainer .setpTop .icon.step_1{ background-position:0 0}
+.slideContainer .setpTop .icon.step_2{ background-position:-66px 0}
+.slideContainer .setpTop .icon.step_3{ background-position:-132px 0}
+.slideContainer .slidePanel.step_1.active .setpTop .icon.step_1{ background-position:0 -67px}
+.slideContainer .slidePanel.step_2.active .setpTop .icon.step_2{ background-position:-66px -67px}
+.slideContainer .slidePanel.step_3.active .setpTop .icon.step_3{ background-position:-132px -67px}
+
+
+
+
+
+
+
+
+
+
+
+/*# sourceMappingURL=register.all.css.map*/
