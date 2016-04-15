@@ -80,7 +80,7 @@ var Product = RichBase.extend({
 		var tarItem = $(e.currentTarget);
 		var id = tarItem.attr("data-id");
 		var salerid = tarItem.attr("data-salerid");
-		var terminal = tarItem.attr("data-id");
+		var terminal = tarItem.attr("data-terminal");
 		var text = tarItem.text();
 		var imgSrc = tarItem.attr("data-img");
 		tarItem.addClass("active").siblings().removeClass("active");
