@@ -4,10 +4,4 @@
 .idea/
 *.txt
 *.map
-d/logs/
-d/images/
-d/web/rebuild/gh
-d/web/rebuild/dd
-d/upload/
-d/module/zax/z.php
 node_modules/
