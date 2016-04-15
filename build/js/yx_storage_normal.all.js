@@ -1,2 +1,573 @@
-!function(t){function n(a){if(e[a])return e[a].exports;var i=e[a]={exports:{},id:a,loaded:!1};return t[a].call(i.exports,i,i.exports,n),i.loaded=!0,i.exports}var e={};return n.m=t,n.c=e,n.p="",n(0)}([function(t,n,e){e(12);var a=e(7),i=RichBase.extend({init:function(){this.areaSelect=$("#areaSelect"),this.switchBtn=$("#switchStorageBtn"),this.list=new a,this.bindEvents()},bindEvents:function(){var t=this;this.areaSelect.on("change",function(n){t.list.fetchList()}),this.switchBtn.on("click",function(t){var n=$(t.currentTarget);n.toggleClass("on")})}});$(function(){new i})},,function(t,n){var e={api:"/route/?c=product_storage",fn:new Function,AJAX_TIMEOUT:6e4,AJAX_TIMEOUT_TEXT:"请求超时，请稍后重试",AJAX_SERVER_ERROR_TEXT:"请求出错，请稍后重试",getVenusId:function(){return $.trim($("#venueIdHidInp").val())},getDefaultRoundId:function(){return $.trim($("#default_roundIdHidInp").val())},getDefaultDate:function(){return $.trim($("#default_dateHidInp").val())},getAreaId:function(){return $("#areaSelect").val()},fetchList:function(t,n,e){var a=this,i=a.api+"&a=getListDefault",e=e||{},r=a.fn,o=a.AJAX_TIMEOUT,s=e.loading||r,l=e.removeLoading||r,u=e.success||r,c=e.empty||r,d=e.fail||r,f=e.timeout||function(){alert(a.AJAX_TIMEOUT_TEXT)},v=e.serverError||function(){alert(a.AJAX_SERVER_ERROR_TEXT)};return t?n?void PFT.Ajax({url:i,type:"post",dataType:"json",data:{venus_id:t,area_id:n},ttimeout:o,loading:function(){s()},removeLoading:function(){l()},timeout:function(t){f(t)},serverError:function(t){v(t)}},function(t){var t=t||{},n=t.code,e=t.data||{},a=e.list;e.summary||{},t.msg;200==n?a.length?u(t):c(t):d(t)}):alert("缺少area_id"):alert("缺少venus_id")},getAreaList:function(t){var n=this,e=this.getVenusId();if(!e)return alert("缺少venus_id");var a=n.api+"&a=getConfigDefault",t=t||{},i=n.fn,r=n.AJAX_TIMEOUT,o=t.loading||i,s=t.removeLoading||i,l=t.success||i,u=t.fail||i,c=t.timeout||function(){alert(n.AJAX_TIMEOUT_TEXT)},d=t.serverError||function(){alert(n.AJAX_SERVER_ERROR_TEXT)};PFT.Ajax({url:a,type:"post",dataType:"json",ttimeout:r,data:{venus_id:e},loading:function(){o()},removeLoading:function(){s()},timeout:function(){c()},serverError:function(){d()}},function(t){var t=t||{},n=t.code;200==n?l(t):u(t)})},submit:function(t,n){var e=this,a=e.api+"&a=setListDefault",n=n||{},i=e.fn,r=e.AJAX_TIMEOUT,o=n.loading||i,s=n.removeLoading||i,l=n.success||i,u=n.fail||i,c=n.timeout||function(){alert(e.AJAX_TIMEOUT_TEXT)},d=n.serverError||function(){alert(e.AJAX_SERVER_ERROR_TEXT)},f=$("#switchStorageBtn").hasClass("on")?1:0;PFT.Ajax({url:a,type:"post",dataType:"json",ttimeout:r,data:{area_id:e.getAreaId(),venus_id:e.getVenusId(),status:f,data:e.stringify(t)},loading:function(){o()},removeLoading:function(){s()},timeout:function(){c()},serverError:function(){d()}},function(t){var t=t||{},n=t.code,e=t.msg||"请求出错，请稍后重试";200==n?l(t):(t.msg=e,u(t))})},stringify:function(t){if(window.JSON)return JSON.stringify(t);var n=typeof t;if("object"!=n||null===t)return"string"==n&&(t='"'+t+'"'),String(t);var e,a,i=[],r=t&&t.constructor==Array,o=arguments.callee;for(e in t)a=t[e],n=typeof a,t.hasOwnProperty(e)&&("string"==n?a='"'+a+'"':"object"==n&&null!==a&&(a=o(a)),i.push((r?"":'"'+e+'":')+String(a)));return(r?"[":"{")+String(i)+(r?"]":"}")},parse:function(t){return window.JSON?window.JSON.parse(t):$.parseJSON(t)}};t.exports=e},,,,,function(t,n,e){var a=e(2),i=e(8),r=RichBase.extend({init:function(t){var n=this;this.container=$("#listContainerWrap"),this.listUl=$("#listContainer"),this.loadingBox=$("#listLoading"),this.areaSelect=$("#areaSelect"),this.errorBox=$("#errorStatusBox"),this.switchBtn=$("#switchStorageBtn"),this.tpl=e(15),this.listManager=new i,this.getAreaList(function(t){setTimeout(function(){n.fetchList()},50)})},fetchList:function(){var t=this,n=a.getVenusId(),e=a.getAreaId();a.fetchList(n,e,{loading:function(){t.container.hide(),t.errorBox.hide(),t.loadingBox.show(),$("#searchBtn").addClass("disable")},removeLoading:function(){t.loadingBox.hide(),$("#searchBtn").removeClass("disable")},success:function(n){var e=n.data,a=e.summary||{},i=a.status;t.render(e,"success"),1==i?t.switchBtn.addClass("on"):t.switchBtn.removeClass("on")},empty:function(n){t.render(null,"empty")},fail:function(n){t.render(n,"fail")},timeout:function(n){t.render(null,"timeout")},serverError:function(n){t.render(null,"serverError")}})},getAreaList:function(t){var n=this;a.getAreaList({loading:function(){},removeLoading:function(){},success:function(e){var a=e.data||{},i=a.area_list||[];if(!i.length)return alert("暂无该场馆对应的分区");var r="";for(var o in i){var s=i[o],l=s.id,u=s.name;r+='<option value="'+l+'">'+u+"</option>"}n.areaSelect.html(r),t&&t(e)},fail:function(t){var t=t||{},n=t.msg||"请求分区列表出错，请稍后重试";alert(n)}})},render:function(t,n){var e=this,a=this.tpl,i="";if("success"==n){var r=t.list,o=t.summary;1*o.total,1*o.reserve;for(var s in r){var l=r[s];l.total_num;i+=e.parseTemplate(a,l)}e.container.show(),e.listUl.html(i),$("#total_total").text(o.total),setTimeout(function(){e.listManager.setTotal_unallocated()},50)}else if("empty"==n)e.container.hide(),e.loadingBox.hide(),e.errorBox.show().find(".t").text("无匹配条件分销商");else if("fail"==n){var u=t.msg||"请求出错，请稍后重试";e.container.hide(),e.loadingBox.hide(),e.errorBox.show().find(".t").text(u)}}});t.exports=r},function(t,n,e){var a=e(2),i=RichBase.extend({EVENTS:{click:{"#listContainer .countBtn":"onCountBtnClick","#submitBtn":"onSubmitClick"},blur:{"#listContainer .countInp":"onCountInpBlur"},focus:{"#listContainer .countInp":"onCountInpFocus"}},input_last_val:"",init:function(){this.listUl=$("#listContainer")},onCountBtnClick:function(t,n){var e=$(n.currentTarget),a=e.parents(".item"),i=a.find(".countInp"),r=(1*a.find(".selled").text(),$.trim(i.val())),o=e.hasClass("add")?1*r+1:1*r-1;t.onCountInpChange(i,o,r)},onCountInpBlur:function(t,n){var e=$(n.currentTarget),a=$.trim(e.val()),i=e.attr("data-lastval");""==a&&(a="0"),t.onCountInpChange(e,a,i)},onCountInpChange:function(t,n,e){if(-1==n)t.val(n),this.setTotal_unallocated();else{if(!PFT.Help.isPositiveNum(n,!0))return t.val(e);t.val(n);var a=this.calculate_unallocated(),i=1*$("#total_total").text();if(0>i-a)return alert("保留库存总和不能超出总库存"),t.val(e),!1;this.setTotal_unallocated(a)}},onCountInpFocus:function(t,n){var e=$(n.currentTarget);e.attr("data-lastval",e.val())},onSubmitClick:function(t,n){var e=$(n.currentTarget),i=1*$("#total_unallocated").text(),r=1*$("#total_total").text();if(0>i)return alert("保留库存总和不能大于总库存"+r);if(e.hasClass("disable"))return!1;var o=[];$("#listContainer").children(".item").each(function(){var t=$(this),n=t.find(".countInp"),e=n.attr("data-id"),a=n.val();o.push({reseller_id:e,total_num:a})}),a.submit(o,{loading:function(){e.addClass("disable").text("正在保存...")},removeLoading:function(){e.removeClass("disable").text("保存配置")},timeout:function(){alert(a.AJAX_TIMEOUT_TEXT)},serverError:function(){alert(a.AJAX_SERVER_ERROR_TEXT)},success:function(t){PFT.Help.AlertTo("success",'<p style="width:200px">保存成功</p>')},fail:function(t){alert(t.msg)}})},calculate_unallocated:function(){var t=0;return this.listUl.children(".item").each(function(){var n=$(this),e=1*$.trim(n.find(".countInp").val());return-1==e?!0:void(t+=e)}),t},setTotal_unallocated:function(t){var n=1*$("#total_total").text(),t="undefined"==typeof t?this.calculate_unallocated():t;$("#total_unallocated").text(n-t)}});t.exports=i},,,,function(t,n){},,,function(t,n){t.exports='<tr class=item data-id="<%=id%>"> <td class=ltTxt> <span></span> <span class=colorGray><%=name%>（<%=account%>）</span> </td> <td> <a class="iconfont countBtn minu" href="javascript: void(0);">&#xe6b5;</a> <input data-id="<%=id%>" class="baseInp countInp" type=text value="<%=total_num%>"/> <a class="iconfont countBtn add" href="javascript: void(0);">&#xe649;</a> </td> <td class=total style=color:#c4c4c4;text-align:left;padding-left:10px>-1表示使用未分配库存</td> </tr>'}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 0:
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by Administrator on 16-4-6.
+	 */
+	__webpack_require__(25);
+	var List = __webpack_require__(27);
+	var Main = RichBase.extend({
+		init : function(){
+			this.areaSelect = $("#areaSelect");
+			this.switchBtn = $("#switchStorageBtn");
+			this.list = new List();
+			this.bindEvents();
+	
+		},
+		bindEvents : function(){
+			var that = this;
+			this.areaSelect.on("change",function(e){
+				that.list.fetchList();
+			})
+		}
+	});
+	
+	$(function(){ new Main()})
+
+/***/ },
+
+/***/ 25:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 27:
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by Administrator on 16-2-3.
+	 */
+	var Api = __webpack_require__(28);
+	var ListManager = __webpack_require__(29);
+	var List = RichBase.extend({
+		init : function(opt){
+			var that = this;
+			this.container = $("#listContainerWrap");
+			this.listUl = $("#listContainer");
+			this.loadingBox = $("#listLoading");
+			this.areaSelect = $("#areaSelect");
+			this.errorBox = $("#errorStatusBox");
+			this.switchBtn = $("#switchStorageBtn");
+			this.tpl = __webpack_require__(30);
+			this.listManager = new ListManager();
+			this.getAreaList(function(res){
+				setTimeout(function(){
+					that.fetchList();
+				},50)
+			});
+			this.switchBtn.on("click",function(e){
+				var tarBtn = $(e.currentTarget);
+				var type = tarBtn.hasClass("on") ? "close" : "open";
+				if(tarBtn.hasClass("disable")) return false;
+				Api.switchOpenOrClose(type,{
+					loading : function(){
+						tarBtn.addClass("disable");
+					},
+					removeLoading : function(){
+						tarBtn.removeClass("disable");
+					},
+					success : function(res){
+						tarBtn.toggleClass("on");
+						var text = tarBtn.hasClass("on") ? "开启成功" : "关闭成功";
+						PFT.Help.AlertTo("success",'<p style="width:180">'+text+'</p>');
+					},
+					fail : function(res){
+						var msg = res.msg || "请求出错，请稍后重试";
+						alert(msg);
+					}
+				})
+			})
+		},
+		//获取分销商列表
+		fetchList : function(){
+			var that = this;
+			var venus_id = Api.getVenusId();
+			var area_id = Api.getAreaId();
+			Api.fetchList(venus_id,area_id,{
+				loading : function(){
+					that.container.hide();
+					that.errorBox.hide();
+					that.loadingBox.show();
+					$("#searchBtn").addClass("disable");
+				},
+				removeLoading : function(){
+					that.loadingBox.hide();
+					$("#searchBtn").removeClass("disable");
+				},
+				success : function(res){
+					var data = res.data;
+					var summary = data.summary || {};
+					var status = summary.status;
+					that.render(data,"success");
+					if(status==1){ //开启分销商存
+						that.switchBtn.addClass("on")
+					}else{ //关闭
+						that.switchBtn.removeClass("on")
+					}
+				},
+				empty : function(res){that.render(null,"empty")},
+				fail : function(res){that.render(res,"fail")},
+				timeout : function(res){that.render(null,"timeout")},
+				serverError : function(res){that.render(null,"serverError")}
+			})
+		},
+		//获取分区
+		getAreaList : function(callback){
+			var that = this;
+			Api.getAreaList({
+				loading : function(){},
+				removeLoading : function(){},
+				success : function(res){
+					var data = res.data || {};
+					var areaList = data.area_list || [];
+					if(!areaList.length) return alert("暂无该场馆对应的分区");
+					var html = "";
+					for(var i in areaList){
+						var area = areaList[i];
+						var id = area.id;
+						var name = area.name;
+						html += '<option value="'+id+'">'+name+'</option>';
+					}
+					that.areaSelect.html(html);
+					callback && callback(res);
+				},
+				fail : function(res){
+					var res = res || {};
+					var msg = res.msg || "请求分区列表出错，请稍后重试";
+					alert(msg);
+				}
+			})
+		},
+		render : function(data,type){
+			var that = this;
+			var tpl = this.tpl;
+			var html = "";
+			if(type=="success"){
+				var list = data.list;
+				var summary = data.summary;
+				var total = summary.total*1;
+				var reserve = summary.reserve*1;
+				for(var i in list){
+					var d = list[i];
+					var total_num = d["total_num"];
+					html += that.parseTemplate(tpl,d);
+				}
+				that.container.show();
+				that.listUl.html(html);
+				//总库存
+				$("#total_total").text(summary.total);
+				setTimeout(function(){
+					that.listManager.setTotal_unallocated();
+				},50)
+	
+			}else if(type=="empty"){
+				that.container.hide();
+				that.loadingBox.hide();
+				that.errorBox.show().find(".t").text("无匹配条件分销商");
+			}else if(type=="fail"){
+				var msg = data.msg || "请求出错，请稍后重试";
+				that.container.hide();
+				that.loadingBox.hide();
+				that.errorBox.show().find(".t").text(msg);
+			}
+		}
+	});
+	
+	module.exports = List;
+
+
+/***/ },
+
+/***/ 28:
+/***/ function(module, exports) {
+
+	/**
+	 * Created by Administrator on 16-2-3.
+	 */
+	var Api = {
+		api : "/route/?c=product_storage",
+		fn : new Function,
+		AJAX_TIMEOUT : 60*1000,
+		AJAX_TIMEOUT_TEXT : "请求超时，请稍后重试",
+		AJAX_SERVER_ERROR_TEXT : "请求出错，请稍后重试",
+		getVenusId : function(){
+			return $.trim($("#venueIdHidInp").val());
+		},
+		//获取默认场次id
+		getDefaultRoundId : function(){
+			return $.trim($("#default_roundIdHidInp").val());
+		},
+		getDefaultDate : function(){
+			return $.trim($("#default_dateHidInp").val());
+		},
+		//获取分区id
+		getAreaId : function(){
+			return $("#areaSelect").val()
+		},
+		//获取分销商列表
+		fetchList : function(venus_id,area_id,opt){
+			var that = this;
+			var api = that.api+"&a=getListDefault";
+			var opt = opt || {};
+			var fn = that.fn;
+			var ajax_timeout = that.AJAX_TIMEOUT;
+			var loading = opt.loading || fn;
+			var removeLoaidng = opt.removeLoading || fn;
+			var success = opt.success || fn;
+			var empty = opt.empty || fn;
+			var fail = opt.fail || fn;
+			var timeout = opt.timeout || function(){ alert(that.AJAX_TIMEOUT_TEXT)};
+			var serverError = opt.serverError || function(){ alert(that.AJAX_SERVER_ERROR_TEXT)};
+			if(!venus_id) return alert("缺少venus_id");
+			if(!area_id) return alert("缺少area_id");
+			PFT.Ajax({
+				url : api,
+				type : "post",
+				dataType : "json",
+				data : {
+					venus_id : venus_id,
+					area_id : area_id
+				},
+				ttimeout : ajax_timeout,
+				loading : function(){loading()},
+				removeLoading : function(){removeLoaidng()},
+				timeout : function(res){timeout(res)},
+				serverError : function(res){serverError(res)}
+			},function(res){
+				var res = res || {};
+				var code = res.code;
+				var data = res.data || {};
+				var list = data.list;
+				var summary = data.summary || {};
+				var msg = res.msg;
+				if(code==200){
+					if(list.length){
+						success(res);
+					}else{
+						empty(res)
+					}
+				}else{
+					fail(res);
+				}
+			})
+		},
+		getAreaList : function(opt){
+			var that = this;
+			var venus_id = this.getVenusId();
+			if(!venus_id) return alert('缺少venus_id');
+			var api = that.api+"&a=getConfigDefault";
+			var opt = opt || {};
+			var fn = that.fn;
+			var ajax_timeout = that.AJAX_TIMEOUT;
+			var loading = opt.loading || fn;
+			var removeLoaidng = opt.removeLoading || fn;
+			var success = opt.success || fn;
+			var fail = opt.fail || fn;
+			var timeout = opt.timeout || function(){ alert(that.AJAX_TIMEOUT_TEXT)};
+			var serverError = opt.serverError || function(){ alert(that.AJAX_SERVER_ERROR_TEXT)};
+			PFT.Ajax({
+				url : api,
+				type : "post",
+				dataType : "json",
+				ttimeout : ajax_timeout,
+				data : {
+					venus_id : venus_id
+				},
+				loading : function(){loading();},
+				removeLoading : function(){removeLoaidng();},
+				timeout : function(){timeout();},
+				serverError : function(){serverError();}
+			},function(res){
+				var res = res || {};
+				var code = res.code;
+				if(code==200){
+					success(res);
+				}else{
+					fail(res);
+				}
+			})
+		},
+		//开启&&关闭分销库存设置
+		//type=open||close
+		switchOpenOrClose : function(type,opt){
+			var that = this;
+			var venus_id = this.getVenusId();
+			if(!venus_id) return alert('缺少venus_id');
+			var area_id = this.getAreaId();
+			if(!area_id) return alert('area_id');
+			var action = type=="open" ? "openDefault" : "closeDefault";
+			var api = that.api+"&a="+action;
+			var opt = opt || {};
+			var fn = that.fn;
+			var ajax_timeout = that.AJAX_TIMEOUT;
+			var loading = opt.loading || fn;
+			var removeLoaidng = opt.removeLoading || fn;
+			var success = opt.success || fn;
+			var fail = opt.fail || fn;
+			var timeout = opt.timeout || function(){ alert(that.AJAX_TIMEOUT_TEXT)};
+			var serverError = opt.serverError || function(){ alert(that.AJAX_SERVER_ERROR_TEXT)};
+			PFT.Ajax({
+				url : api,
+				type : "post",
+				dataType : "json",
+				ttimeout : ajax_timeout,
+				data : {
+					venus_id : venus_id,
+					area_id : area_id
+				},
+				loading : function(){loading();},
+				removeLoading : function(){removeLoaidng();},
+				timeout : function(){timeout();},
+				serverError : function(){serverError();}
+			},function(res){
+				var res = res || {};
+				var code = res.code;
+				if(code==200){
+					success(res);
+				}else{
+					fail(res);
+				}
+			})
+		},
+		/**
+		 * 保存设置
+		 */
+		submit : function(data,opt){
+			var that = this;
+			var api = that.api+"&a=setListDefault";
+			var opt = opt || {};
+			var fn = that.fn;
+			var ajax_timeout = that.AJAX_TIMEOUT;
+			var loading = opt.loading || fn;
+			var removeLoaidng = opt.removeLoading || fn;
+			var success = opt.success || fn;
+			var fail = opt.fail || fn;
+			var timeout = opt.timeout || function(){ alert(that.AJAX_TIMEOUT_TEXT)};
+			var serverError = opt.serverError || function(){ alert(that.AJAX_SERVER_ERROR_TEXT)};
+			var status = $("#switchStorageBtn").hasClass("on") ? 1 : 0;
+			PFT.Ajax({
+				url : api,
+				type : "post",
+				dataType : "json",
+				ttimeout : ajax_timeout,
+				data : {
+					area_id : that.getAreaId(),
+					venus_id : that.getVenusId(),
+					status : status,
+					data : that.stringify(data)
+				},
+				loading : function(){loading()},
+				removeLoading : function(){removeLoaidng()},
+				timeout : function(){timeout()},
+				serverError : function(){serverError()}
+			},function(res){
+				var res = res || {};
+				var code = res.code;
+				var msg = res.msg || "请求出错，请稍后重试";
+				if(code==200){
+					success(res);
+				}else{
+					res["msg"] = msg;
+					fail(res);
+				}
+			})
+		},
+		stringify : function(obj){
+			//如果是IE8+ 浏览器(ff,chrome,safari都支持JSON对象)，使用JSON.stringify()来序列化
+			if(window.JSON) return JSON.stringify(obj);
+			var t = typeof (obj);
+			if (t != "object" || obj === null) {
+				if (t == "string") obj = '"' + obj + '"';
+				return String(obj);
+			} else {
+				var n, v, json = [], arr = (obj && obj.constructor == Array);
+				var self = arguments.callee;
+				for (n in obj) {
+					v = obj[n];
+					t = typeof(v);
+					if (obj.hasOwnProperty(n)) {
+						if (t == "string") v = '"' + v + '"'; else if (t == "object" && v !== null)
+							v = self(v);
+						json.push((arr ? "" : '"' + n + '":') + String(v));
+					}
+				}
+				return (arr ? "[" : "{") + String(json) + (arr ? "]" : "}");
+			}
+		},
+		parse : function(jsonString) {
+			if (window.JSON) return window.JSON.parse(jsonString);
+			return $.parseJSON(jsonString);
+		}
+	};
+	module.exports = Api;
+
+/***/ },
+
+/***/ 29:
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by Administrator on 16-2-4.
+	 */
+	var Api = __webpack_require__(28);
+	var ListManager = RichBase.extend({
+		EVENTS : {
+			"click" : {
+				"#listContainer .countBtn" : "onCountBtnClick",
+				"#submitBtn" : "onSubmitClick"
+			},
+			"blur" : {
+				"#listContainer .countInp" : "onCountInpBlur"
+			},
+			"focus" : {
+				"#listContainer .countInp" : "onCountInpFocus"
+			}
+		},
+		input_last_val : "",
+		init : function(){
+			this.listUl = $("#listContainer");
+		},
+		onCountBtnClick : function(that,e){
+			var tarBtn = $(e.currentTarget);
+			var trParent = tarBtn.parents(".item");
+			var tarInp = trParent.find(".countInp");
+			var selled = trParent.find(".selled").text()*1;
+			var val = $.trim(tarInp.val());
+			var newVal = tarBtn.hasClass("add") ? (val*1+1) : (val*1-1);
+			that.onCountInpChange(tarInp,newVal,val);
+		},
+		onCountInpBlur : function(that,e){
+			var tarInp = $(e.currentTarget);
+			var newVal = $.trim(tarInp.val());
+			var oldVal = tarInp.attr("data-lastval");
+			if(newVal=="") newVal="0";
+			that.onCountInpChange(tarInp,newVal,oldVal);
+		},
+		onCountInpChange : function(tarInp,newVal,oldVal){
+			if(newVal==-1){
+				tarInp.val(newVal);
+				this.setTotal_unallocated();
+			}else{
+				if(!PFT.Help.isPositiveNum(newVal,true)) return tarInp.val(oldVal);
+				tarInp.val(newVal);
+				var unallocated = this.calculate_unallocated();
+				var total_all = $("#total_total").text()*1;
+				if(total_all-unallocated<0){
+					alert("保留库存总和不能超出总库存");
+					tarInp.val(oldVal);
+					return false;
+				}
+				this.setTotal_unallocated(unallocated);
+			}
+		},
+		onCountInpFocus : function(that,e){
+			var tarInp = $(e.currentTarget);
+			tarInp.attr("data-lastval",tarInp.val());
+		},
+		onSubmitClick : function(that,e){
+			var submitBtn = $(e.currentTarget);
+			var total_unallocated = $("#total_unallocated").text() * 1;
+			var total_total = $("#total_total").text() * 1;
+			if(total_unallocated<0) return alert("保留库存总和不能大于总库存"+total_total);
+			if(submitBtn.hasClass("disable")) return false;
+			var data = [];
+			$("#listContainer").children(".item").each(function(){
+				var tarItem = $(this);
+				var tarInp = tarItem.find(".countInp");
+				var id = tarInp.attr("data-id");
+				var val = tarInp.val();
+				data.push({
+					"reseller_id" : id,
+					"total_num" : val
+				})
+			})
+			Api.submit(data,{
+				loading : function(){
+					submitBtn.addClass("disable").text("正在保存...");
+				},
+				removeLoading : function(){
+					submitBtn.removeClass("disable").text("保存配置")
+				},
+				timeout : function(){ alert(Api.AJAX_TIMEOUT_TEXT)},
+				serverError : function(){ alert(Api.AJAX_SERVER_ERROR_TEXT)},
+				success : function(res){
+					PFT.Help.AlertTo("success",'<p style="width:200px">保存成功</p>');
+				},
+				fail : function(res){ alert(res.msg)}
+			})
+		},
+		calculate_unallocated : function(){
+			var total = 0;
+			this.listUl.children(".item").each(function(){
+				var tarItem = $(this);
+				var save = $.trim(tarItem.find(".countInp").val())*1;
+				if(save==-1) return true;
+				total = total+save;
+			})
+			return total;
+		},
+		setTotal_unallocated : function(unallocated){
+			var total_all = $("#total_total").text()*1;
+			var unallocated = typeof unallocated=="undefined" ? this.calculate_unallocated() : unallocated;
+			$("#total_unallocated").text(total_all-unallocated);
+		}
+	});
+	module.exports = ListManager;
+
+/***/ },
+
+/***/ 30:
+/***/ function(module, exports) {
+
+	module.exports = "<tr class=\"item\" data-id=\"<%=id%>\">\r\n    <td class=\"ltTxt\">\r\n        <span></span>\r\n        <span class=\"colorGray\"><%=name%>（<%=account%>）</span>\r\n    </td>\r\n    <td>\r\n        <a class=\"iconfont countBtn minu\" href=\"javascript: void(0);\">&#xe6b5;</a>\r\n        <input data-id=\"<%=id%>\" class=\"baseInp countInp\" type=\"text\" value=\"<%=total_num%>\"/>\r\n        <a class=\"iconfont countBtn add \" href=\"javascript: void(0);\">&#xe649;</a>\r\n    </td>\r\n    <td class=\"total\" style=\"color:#c4c4c4; text-align:left; padding-left:10px;\">-1表示使用未分配库存</td>\r\n</tr>";
+
+/***/ }
+
+/******/ });
 //# sourceMappingURL=yx_storage_normal.all.js.map

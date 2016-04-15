@@ -1,7 +1,7 @@
 .w150{width: 150px;}
-.baseInp{height: 20px; line-height: 20px; padding: 5px 8px; border: 1px solid #C9C9C9; border-radius: 3px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);}
-.baseSelect{height: 30px; line-height: 30px; padding-left:6px; width:200px; border: 1px solid #C9C9C9; border-radius: 3px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);}
-.baseBtn{display: inline-block; text-align: center; border-radius: 3px;}
+.baseInp{height: 20px; line-height: 20px; padding: 5px 8px; border: 1px solid #C9C9C9; -moz-border-radius: 3px; border-radius: 3px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);}
+.baseSelect{height: 30px; line-height: 30px; padding-left:6px; width:200px; border: 1px solid #C9C9C9;-moz-border-radius: 3px; border-radius: 3px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);}
+.baseBtn{display: inline-block; text-align: center; -moz-border-radius: 3px; border-radius: 3px;}
 .baseInp:focus{border-color: #0797D9; color: #0797D9;}
 
 .colorOrange{color: #F07845;}
@@ -47,4 +47,3 @@
 .statusBox .iconfont,.statusBox img{ margin-right:3px}
 #listLoading{ display:block}
 #listContainerWrap{ display:none}
-/*# sourceMappingURL=yx_storage_normal.all.css.map*/
