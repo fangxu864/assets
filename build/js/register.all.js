@@ -48,9 +48,9 @@
 	 * Created by Administrator on 16-4-12.
 	 */
 	__webpack_require__(1);
-	var Placeholder = __webpack_require__(11);
-	var SlideManager = __webpack_require__(5);
-	var VRegister = __webpack_require__(6);
+	var Placeholder = __webpack_require__(5);
+	var SlideManager = __webpack_require__(6);
+	var VRegister = __webpack_require__(7);
 	var Router = Backbone.Router.extend({
 		routes : {
 			"" : "main",
@@ -95,6 +95,36 @@
 /***/ function(module, exports) {
 
 	/**
+	 * Created by Administrator on 16-4-14.
+	 */
+	module.exports = {
+		init : function(){
+			if("placeholder" in document.createElement("input")) return false;
+			$("input").each(function(){
+				var tarInp = $(this);
+				var placeholder = tarInp.prop("placeholder");
+				var val = $.trim(tarInp.val());
+				if(placeholder && !val) tarInp.val(placeholder);
+			})
+			$(document).on("focus","input",function(e){
+				var tarInp = $(e.currentTarget);
+				var val = $.trim(tarInp.val());
+				var placeholder = tarInp.prop("placeholder");
+				if(placeholder && val==placeholder) tarInp.val("");
+			}).on("blur","input",function(e){
+				var tarInp = $(e.currentTarget);
+				var val = $.trim(tarInp.val());
+				var placeholder = tarInp.prop("placeholder");
+				if(placeholder && !val) tarInp.val(placeholder);
+			})
+		}
+	}
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	/**
 	 * Created by Administrator on 16-4-12.
 	 */
 	var SlideManager = Backbone.View.extend({
@@ -116,14 +146,14 @@
 	module.exports = SlideManager;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-13.
 	 */
-	var Ajax = __webpack_require__(9);
-	var Validate = __webpack_require__(10);
+	var Ajax = __webpack_require__(8);
+	var Validate = __webpack_require__(9);
 	var VRegister = Backbone.View.extend({
 		api : {
 			getVCode : "call/jh_mem.php",
@@ -357,9 +387,7 @@
 	module.exports = VRegister;
 
 /***/ },
-/* 7 */,
-/* 8 */,
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -407,7 +435,7 @@
 	}
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	var Validate = {
@@ -517,36 +545,6 @@
 	};
 	module.exports = Validate;
 
-
-/***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	/**
-	 * Created by Administrator on 16-4-14.
-	 */
-	module.exports = {
-		init : function(){
-			if("placeholder" in document.createElement("input")) return false;
-			$("input").each(function(){
-				var tarInp = $(this);
-				var placeholder = tarInp.prop("placeholder");
-				var val = $.trim(tarInp.val());
-				if(placeholder && !val) tarInp.val(placeholder);
-			})
-			$(document).on("focus","input",function(e){
-				var tarInp = $(e.currentTarget);
-				var val = $.trim(tarInp.val());
-				var placeholder = tarInp.prop("placeholder");
-				if(placeholder && val==placeholder) tarInp.val("");
-			}).on("blur","input",function(e){
-				var tarInp = $(e.currentTarget);
-				var val = $.trim(tarInp.val());
-				var placeholder = tarInp.prop("placeholder");
-				if(placeholder && !val) tarInp.val(placeholder);
-			})
-		}
-	}
 
 /***/ }
 /******/ ]);
