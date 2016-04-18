@@ -35,13 +35,20 @@
             </p>
         </div>
         <div class="inCon">
+            <!-- refund_audit=0:支持改单验证 -->
+            <!-- refund_audit=1:不支持改单验证 -->
+            <% if(item.refund_audit==1){ %>
+                <p style="text-align:right; margin-bottom:5px; color:#e12424" class="refundTip">*退票需审核，不支持改单验证</p>
+            <% } %>
             <% var tickets=item.tickets;%>
             <% if(tickets && tickets.length){ %>
                 <ul class="ticketUl">
                     <% _.each(tickets,function(ticket,ind){ %>
                         <li class="ticketLi clearfix">
                             <div class="inpCtrol">
+                                <% var readonly = item.refund_audit==0 ? "" : "readonly";%>
                                 <input class="tinp countInp" type="text" value="<%=ticket.tnum%>"
+                                       <%=readonly%>
                                        data-ptype="A"
                                        data-maxnum="<%=ticket.tnum%>"
                                        data-mainordernum="<%=tickets[0].ordernum%>"
@@ -66,11 +73,19 @@
                     <% }) %>
                 </ul>
                 <div class="checkMethodBox">
+                    <!-- 如果支持分批验证，则默认选中保留余票 -->
+                    <!-- 如果不支持分批验证，则默认选中取消余票 -->
+                    <%
+                        var checked={
+                                cancel_last : item.batch_check==1 ? "" : "checked",
+                                save_last : item.batch_check==1 ? "checked" : ""
+                            };
+                    %>
                     <% if(item.ptype!="F"){ %>
-                        <input type="radio" checked name="check_method" value="0" id="check_method_<%=item.ordernum%>_0"/><label style="margin-right:15px" for="check_method_<%=item.ordernum%>_0">取消余票</label>
-                        <input type="radio" name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
+                        <input type="radio" <%=checked.cancel_last%> name="check_method" value="0" id="check_method_<%=item.ordernum%>_0"/><label style="margin-right:15px" for="check_method_<%=item.ordernum%>_0">取消余票</label>
+                        <input type="radio" <%=checked.save_last%> name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
                     <% }else{ %> <!--套票的子票只能保留余票，不能取消余票-->
-                        <input type="radio" checked name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
+                        <input type="radio" <%=checked.save_last%> name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
                     <% } %>
                 </div>
                 <div class="doActionBox">

@@ -47,11 +47,11 @@
 	/**
 	 * Created by Administrator on 15-10-20.
 	 */
-	__webpack_require__(16);
-	__webpack_require__(18);
-	var Api = __webpack_require__(20);
-	var Product = __webpack_require__(21);
-	var OrderList = __webpack_require__(22);
+	__webpack_require__(17);
+	__webpack_require__(19);
+	var Api = __webpack_require__(21);
+	var Product = __webpack_require__(22);
+	var OrderList = __webpack_require__(23);
 	var Main = RichBase.extend({
 		init : function(){
 			this.searchOrderBtn = $("#termSearBtn");
@@ -106,21 +106,22 @@
 /* 13 */,
 /* 14 */,
 /* 15 */,
-/* 16 */
+/* 16 */,
+/* 17 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 17 */,
-/* 18 */
+/* 18 */,
+/* 19 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 19 */,
-/* 20 */
+/* 20 */,
+/* 21 */
 /***/ function(module, exports) {
 
 	/**
@@ -359,13 +360,13 @@
 	module.exports = Api;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 15-10-20.
 	 */
-	var Api = __webpack_require__(20);
+	var Api = __webpack_require__(21);
 	var Product = RichBase.extend({
 		statics : {
 			SEARCH_FLAG : true,
@@ -539,15 +540,15 @@
 	module.exports = Product;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-3-31.
 	 */
-	var Api = __webpack_require__(20);
-	var orderListTpl = __webpack_require__(23);
-	var Calendar = __webpack_require__(24);
+	var Api = __webpack_require__(21);
+	var orderListTpl = __webpack_require__(24);
+	var Calendar = __webpack_require__(25);
 	var OrderList = RichBase.extend({
 		init : function(){
 			this.listUl = $("#myOrderList");
@@ -675,7 +676,23 @@
 			Api.queryOrder(salerid,voucher,{
 				loading : function(){ that.render("loading",null)},
 				removeLoading : function(){ that.render("removeLoading",null)},
-				success : function(res){ that.render("success",res)},
+				success : function(res){
+					var orders = res.orders;
+					for(var i in orders){
+						var order = orders[i];
+						order["batch_check"] = 1; //支持分批验证
+						order["refund_audit"] = 0;//支持改单验证
+						var tickets = order.tickets;
+						for(var t in tickets){
+							var ticket = tickets[t];
+							var batch_check = ticket.batch_check;
+							var refund_audit = ticket.refund_audit;
+							if(batch_check==0) order["batch_check"] = 0;
+							if(refund_audit==1) order["refund_audit"] = 1;
+						}
+					}
+					that.render("success",res);
+				},
 				empty : function(res){ that.render("empty",res)},
 				fail : function(res){ that.render("fail",res)},
 				unlogin : function(res){ that.render("unlogin",res)}
@@ -707,6 +724,7 @@
 			}else if(type=="removeLoading"){
 				listUl.html("");
 			}else if(type=="success"){
+				console.log(data);
 				html = this.template({data:data.orders});
 				listUl.html(html);
 			}else if(type=="empty"){
@@ -722,20 +740,20 @@
 	module.exports = OrderList;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
-	module.exports = "<% _.each(data,function(item,index){ %>\r\n<li class=\"orderItem\" id=\"orderItem-<%=item.ordernum%>\" data-ordernum=\"<%=item.ordernum%>\">\r\n    <div class=\"oTit\">\r\n        联系人：<span class=\"contactor\"><%=item.ordername%></span><span class=\"mobile\">电话：<%=item.ordertel%></span>\r\n        <% if(item.status!=0){ %>\r\n            <span class=\"flag status_<%=item.status%>\"><%={\r\n                \"0\" : \"未使用\",\r\n                \"1\" : \"已使用\",\r\n                \"2\" : \"已过期\",\r\n                \"3\" : \"已取消\",\r\n                \"4\" : \"凭证码被替代\",\r\n                \"5\" : \"被终端撤销(已取消)\",\r\n                \"6\" : \"被终端撤销(已使用)\"\r\n            }[item.status]%></span>\r\n        <% } %>\r\n        <span class=\"flag pmode_<%=item.paystatus%>\"><%={\r\n            0 : \"景区到付\",\r\n            1 : \"已支付\",\r\n            2 : \"未支付\"\r\n        }[item.paystatus]%></span>\r\n    </div>\r\n    <div class=\"itemCon\">\r\n        <div class=\"ltCon\">\r\n            <p class=\"line\">\r\n                <span class=\"lt\">订单号：<span class=\"vhidden\">订</span></span>\r\n                <span class=\"rt\"><%=item.ordernum%></span>\r\n            </p>\r\n            <p class=\"line\">\r\n                <span class=\"lt\">下单时间：</span>\r\n                <span class=\"rt\"><%=item.ordertime%></span>\r\n            </p>\r\n            <p class=\"line\">\r\n                <span class=\"lt\">游玩时间：</span>\r\n                <span class=\"rt\"><%=item.begintime%></span>\r\n            </p>\r\n        </div>\r\n        <div class=\"inCon\">\r\n            <% var tickets=item.tickets;%>\r\n            <% if(tickets && tickets.length){ %>\r\n                <ul class=\"ticketUl\">\r\n                    <% _.each(tickets,function(ticket,ind){ %>\r\n                        <li class=\"ticketLi clearfix\">\r\n                            <div class=\"inpCtrol\">\r\n                                <input class=\"tinp countInp\" type=\"text\" value=\"<%=ticket.tnum%>\"\r\n                                       data-ptype=\"A\"\r\n                                       data-maxnum=\"<%=ticket.tnum%>\"\r\n                                       data-mainordernum=\"<%=tickets[0].ordernum%>\"\r\n                                       data-ordernum=\"<%=ticket.ordernum%>\"/>\r\n                                <span class=\"zhang\">张</span>\r\n                            </div>\r\n                            <div class=\"trnameCol\">\r\n                                <p class=\"tname\">【<%=ticket.name%>】</p>\r\n                                <p class=\"bt\">\r\n                                    共<em class=\"tnum total_tnum\"><%=ticket.tnum_s ? ticket.tnum_s : 10%></em>张\r\n                                    <i class=\"vt\"></i>\r\n                                    <%\r\n                                        var has_terminal=ticket.tnum_s-ticket.tnum;\r\n                                        if(has_terminal<0) has_terminal=0;\r\n                                    %>\r\n                                    已使用<em class=\"tnum has_terminal_tnum\"><%=has_terminal%></em>张\r\n                                    <i class=\"vt\"></i>\r\n                                    待验证<em class=\"tnum un_terminal_tnum\"><%=ticket.tnum%></em>张\r\n                                </p>\r\n                            </div>\r\n                        </li>\r\n                    <% }) %>\r\n                </ul>\r\n                <div class=\"checkMethodBox\">\r\n                    <% if(item.ptype!=\"F\"){ %>\r\n                        <input type=\"radio\" checked name=\"check_method\" value=\"0\" id=\"check_method_<%=item.ordernum%>_0\"/><label style=\"margin-right:15px\" for=\"check_method_<%=item.ordernum%>_0\">取消余票</label>\r\n                        <input type=\"radio\" name=\"check_method\" value=\"1\" id=\"check_method_<%=item.ordernum%>_1\"/><label for=\"check_method_<%=item.ordernum%>_1\">保留余票</label>\r\n                    <% }else{ %> <!--套票的子票只能保留余票，不能取消余票-->\r\n                        <input type=\"radio\" checked name=\"check_method\" value=\"1\" id=\"check_method_<%=item.ordernum%>_1\"/><label for=\"check_method_<%=item.ordernum%>_1\">保留余票</label>\r\n                    <% } %>\r\n                </div>\r\n                <div class=\"doActionBox\">\r\n                    <%\r\n                        var checkBtnCls = \"\";\r\n                        var orderStatus = item.status;\r\n                        var pmode = item.pmode;\r\n                        var payStatus = item.paystatus;\r\n                        if(orderStatus==1 || orderStatus==3 || orderStatus==5 || orderStatus==6 || (payStatus==2 && pmode!=4)){\r\n                            //已使用｜已取消｜被终端撤销(已取消)｜被终端撤销(已使用)|未支付\r\n                            //不能验证\r\n                            //已过期的订单(status==2)admin与普通帐号均可验证\r\n                            checkBtnCls = \"disable\";\r\n                        }\r\n                    %>\r\n                    <a class=\"checkBtn <%=checkBtnCls%>\" data-ptype=\"<%=item.ptype%>\" href=\"javascript:void(0)\" data-mainordernum=\"<%=tickets[0].ordernum%>\">验 证</a>\r\n                    <% if(item.endtime){ %>\r\n                        <span class=\"termTimeWrap\"><input readonly class=\"termTimeInp\" type=\"text\" value=\"<%=item.endtime%>\"/><i class=\"iconfont\">&#xe65b;</i></span>\r\n                    <% } %>\r\n                    <span class=\"errorTip\"></span>\r\n                </div>\r\n                <% if(item.pmode==4){ %>\r\n                    <p class=\"payTypeTip\">请先确认游客已现场付费，然后给予验证</p>\r\n                <% } %>\r\n            <% } %>\r\n        </div>\r\n    </div>\r\n</li>\r\n<% }) %>";
+	module.exports = "<% _.each(data,function(item,index){ %>\r\n<li class=\"orderItem\" id=\"orderItem-<%=item.ordernum%>\" data-ordernum=\"<%=item.ordernum%>\">\r\n    <div class=\"oTit\">\r\n        联系人：<span class=\"contactor\"><%=item.ordername%></span><span class=\"mobile\">电话：<%=item.ordertel%></span>\r\n        <% if(item.status!=0){ %>\r\n            <span class=\"flag status_<%=item.status%>\"><%={\r\n                \"0\" : \"未使用\",\r\n                \"1\" : \"已使用\",\r\n                \"2\" : \"已过期\",\r\n                \"3\" : \"已取消\",\r\n                \"4\" : \"凭证码被替代\",\r\n                \"5\" : \"被终端撤销(已取消)\",\r\n                \"6\" : \"被终端撤销(已使用)\"\r\n            }[item.status]%></span>\r\n        <% } %>\r\n        <span class=\"flag pmode_<%=item.paystatus%>\"><%={\r\n            0 : \"景区到付\",\r\n            1 : \"已支付\",\r\n            2 : \"未支付\"\r\n        }[item.paystatus]%></span>\r\n    </div>\r\n    <div class=\"itemCon\">\r\n        <div class=\"ltCon\">\r\n            <p class=\"line\">\r\n                <span class=\"lt\">订单号：<span class=\"vhidden\">订</span></span>\r\n                <span class=\"rt\"><%=item.ordernum%></span>\r\n            </p>\r\n            <p class=\"line\">\r\n                <span class=\"lt\">下单时间：</span>\r\n                <span class=\"rt\"><%=item.ordertime%></span>\r\n            </p>\r\n            <p class=\"line\">\r\n                <span class=\"lt\">游玩时间：</span>\r\n                <span class=\"rt\"><%=item.begintime%></span>\r\n            </p>\r\n        </div>\r\n        <div class=\"inCon\">\r\n            <!-- refund_audit=0:支持改单验证 -->\r\n            <!-- refund_audit=1:不支持改单验证 -->\r\n            <% if(item.refund_audit==1){ %>\r\n                <p style=\"text-align:right; margin-bottom:5px; color:#e12424\" class=\"refundTip\">*退票需审核，不支持改单验证</p>\r\n            <% } %>\r\n            <% var tickets=item.tickets;%>\r\n            <% if(tickets && tickets.length){ %>\r\n                <ul class=\"ticketUl\">\r\n                    <% _.each(tickets,function(ticket,ind){ %>\r\n                        <li class=\"ticketLi clearfix\">\r\n                            <div class=\"inpCtrol\">\r\n                                <% var readonly = item.refund_audit==0 ? \"\" : \"readonly\";%>\r\n                                <input class=\"tinp countInp\" type=\"text\" value=\"<%=ticket.tnum%>\"\r\n                                       <%=readonly%>\r\n                                       data-ptype=\"A\"\r\n                                       data-maxnum=\"<%=ticket.tnum%>\"\r\n                                       data-mainordernum=\"<%=tickets[0].ordernum%>\"\r\n                                       data-ordernum=\"<%=ticket.ordernum%>\"/>\r\n                                <span class=\"zhang\">张</span>\r\n                            </div>\r\n                            <div class=\"trnameCol\">\r\n                                <p class=\"tname\">【<%=ticket.name%>】</p>\r\n                                <p class=\"bt\">\r\n                                    共<em class=\"tnum total_tnum\"><%=ticket.tnum_s ? ticket.tnum_s : 10%></em>张\r\n                                    <i class=\"vt\"></i>\r\n                                    <%\r\n                                        var has_terminal=ticket.tnum_s-ticket.tnum;\r\n                                        if(has_terminal<0) has_terminal=0;\r\n                                    %>\r\n                                    已使用<em class=\"tnum has_terminal_tnum\"><%=has_terminal%></em>张\r\n                                    <i class=\"vt\"></i>\r\n                                    待验证<em class=\"tnum un_terminal_tnum\"><%=ticket.tnum%></em>张\r\n                                </p>\r\n                            </div>\r\n                        </li>\r\n                    <% }) %>\r\n                </ul>\r\n                <div class=\"checkMethodBox\">\r\n                    <!-- 如果支持分批验证，则默认选中保留余票 -->\r\n                    <!-- 如果不支持分批验证，则默认选中取消余票 -->\r\n                    <%\r\n                        var checked={\r\n                                cancel_last : item.batch_check==1 ? \"\" : \"checked\",\r\n                                save_last : item.batch_check==1 ? \"checked\" : \"\"\r\n                            };\r\n                    %>\r\n                    <% if(item.ptype!=\"F\"){ %>\r\n                        <input type=\"radio\" <%=checked.cancel_last%> name=\"check_method\" value=\"0\" id=\"check_method_<%=item.ordernum%>_0\"/><label style=\"margin-right:15px\" for=\"check_method_<%=item.ordernum%>_0\">取消余票</label>\r\n                        <input type=\"radio\" <%=checked.save_last%> name=\"check_method\" value=\"1\" id=\"check_method_<%=item.ordernum%>_1\"/><label for=\"check_method_<%=item.ordernum%>_1\">保留余票</label>\r\n                    <% }else{ %> <!--套票的子票只能保留余票，不能取消余票-->\r\n                        <input type=\"radio\" <%=checked.save_last%> name=\"check_method\" value=\"1\" id=\"check_method_<%=item.ordernum%>_1\"/><label for=\"check_method_<%=item.ordernum%>_1\">保留余票</label>\r\n                    <% } %>\r\n                </div>\r\n                <div class=\"doActionBox\">\r\n                    <%\r\n                        var checkBtnCls = \"\";\r\n                        var orderStatus = item.status;\r\n                        var pmode = item.pmode;\r\n                        var payStatus = item.paystatus;\r\n                        if(orderStatus==1 || orderStatus==3 || orderStatus==5 || orderStatus==6 || (payStatus==2 && pmode!=4)){\r\n                            //已使用｜已取消｜被终端撤销(已取消)｜被终端撤销(已使用)|未支付\r\n                            //不能验证\r\n                            //已过期的订单(status==2)admin与普通帐号均可验证\r\n                            checkBtnCls = \"disable\";\r\n                        }\r\n                    %>\r\n                    <a class=\"checkBtn <%=checkBtnCls%>\" data-ptype=\"<%=item.ptype%>\" href=\"javascript:void(0)\" data-mainordernum=\"<%=tickets[0].ordernum%>\">验 证</a>\r\n                    <% if(item.endtime){ %>\r\n                        <span class=\"termTimeWrap\"><input readonly class=\"termTimeInp\" type=\"text\" value=\"<%=item.endtime%>\"/><i class=\"iconfont\">&#xe65b;</i></span>\r\n                    <% } %>\r\n                    <span class=\"errorTip\"></span>\r\n                </div>\r\n                <% if(item.pmode==4){ %>\r\n                    <p class=\"payTypeTip\">请先确认游客已现场付费，然后给予验证</p>\r\n                <% } %>\r\n            <% } %>\r\n        </div>\r\n    </div>\r\n</li>\r\n<% }) %>";
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-2-18.
 	 */
-	__webpack_require__(25);
-	var CalendarCore = __webpack_require__(27);
+	__webpack_require__(26);
+	var CalendarCore = __webpack_require__(28);
 	var fn = new Function();
 	var Calendar = RichBase.extend({
 		selected : {},
@@ -750,7 +768,7 @@
 			//是否支持多选日期 默认不支持
 			this.mult = typeof opt.mult=="boolean" ? opt.mult : false;
 			//模板
-			this.tpl = opt.tpl || __webpack_require__(28);
+			this.tpl = opt.tpl || __webpack_require__(29);
 	
 			this.template = _.template(this.tpl);
 	
@@ -891,14 +909,14 @@
 	module.exports = Calendar;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 26 */,
-/* 27 */
+/* 27 */,
+/* 28 */
 /***/ function(module, exports) {
 
 	/**
@@ -1132,7 +1150,7 @@
 	module.exports = CalendarCore;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = "<%\r\n    var yearmonth=data.yearmonth,dates=data.dates;\r\n    var containerID = data.containerID;\r\n    var ym = yearmonth.split(\"-\");\r\n    var year = ym[0];\r\n    var month = ym[1];\r\n%>\r\n<div id=\"<%=containerID%>-topCalendar\" class=\"calendarHead\">\r\n    <div class=\"con\"><span id=\"<%=containerID%>-top-calendar-date\" class=\"top-calendar-date\"></span></div>\r\n    <a id=\"<%=containerID%>-monthNavBtnNext\" class=\"monthNavBtn next\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe60d;</i></a>\r\n    <a id=\"<%=containerID%>-monthNavBtnPrev\" class=\"monthNavBtn prev\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe60c;</i></a>\r\n</div>\r\n<div id=\"<%=containerID%>-calendar-panel-<%=yearmonth%>\" class=\"calendar-panel\">\r\n    <table id=\"calendar-table-<%=yearmonth%>\"  class=\"calendar-table\">\r\n        <thead id=\"<%=containerID%>-calendar-thead-<%=yearmonth%>\" class=\"calendar-thead\">\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"0\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-0\">日</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"1\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-1\">一</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"2\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-2\">二</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"3\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-3\">三</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"4\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-4\">四</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"5\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-5\">五</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"6\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-6\">六</label>\r\n        </th>\r\n        </thead>\r\n        <tbody id=\"<%=containerID%>-calendar-tbody-<%=yearmonth%>\" class=\"calendar-tbody\">\r\n            <%_.each(dates,function(tr){%>\r\n                <tr>\r\n                    <%_.each(tr,function(td){%>\r\n                        <%\r\n                            var date = td.date;\r\n                            var day = td.day;\r\n                            var weeken = td.weeken;\r\n                            var yearmonth = td.yearmonth;\r\n                        %>\r\n                        <%if(day){%>\r\n                            <td class=\"calendar-td day\" data-day=\"<%=day%>\" data-date=\"<%=date%>\" data-yearmonth=\"<%=yearmonth%>\" data-week=\"<%=weeken%>\" id=\"<%=containerID%>-calendar-td-<%=date%>\">\r\n                                <div class=\"tdCon\">\r\n                                    <span class=\"dayNum\"><%=day%></span>\r\n                                </div>\r\n                            </td>\r\n                        <%}else{%>\r\n                            <td class=\"calendar-td empty\"></td>\r\n                        <%}%>\r\n                    <% }) %>\r\n                </tr>\r\n             <% }) %>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n";

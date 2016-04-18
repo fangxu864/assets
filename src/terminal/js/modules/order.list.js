@@ -131,7 +131,23 @@ var OrderList = RichBase.extend({
 		Api.queryOrder(salerid,voucher,{
 			loading : function(){ that.render("loading",null)},
 			removeLoading : function(){ that.render("removeLoading",null)},
-			success : function(res){ that.render("success",res)},
+			success : function(res){
+				var orders = res.orders;
+				for(var i in orders){
+					var order = orders[i];
+					order["batch_check"] = 1; //支持分批验证
+					order["refund_audit"] = 0;//支持改单验证
+					var tickets = order.tickets;
+					for(var t in tickets){
+						var ticket = tickets[t];
+						var batch_check = ticket.batch_check;
+						var refund_audit = ticket.refund_audit;
+						if(batch_check==0) order["batch_check"] = 0;
+						if(refund_audit==1) order["refund_audit"] = 1;
+					}
+				}
+				that.render("success",res);
+			},
 			empty : function(res){ that.render("empty",res)},
 			fail : function(res){ that.render("fail",res)},
 			unlogin : function(res){ that.render("unlogin",res)}
@@ -163,6 +179,7 @@ var OrderList = RichBase.extend({
 		}else if(type=="removeLoading"){
 			listUl.html("");
 		}else if(type=="success"){
+			console.log(data);
 			html = this.template({data:data.orders});
 			listUl.html(html);
 		}else if(type=="empty"){

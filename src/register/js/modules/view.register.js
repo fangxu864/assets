@@ -40,7 +40,7 @@ var VRegister = Backbone.View.extend({
 				container : {
 					header : '注册失败',
 					content : [
-						'<div class="dialogCon" style="margin-left:20px">',
+						'<div style="width:300px;" class="dialogCon" style="margin-left:20px">',
 						'<div class="line" style="margin-bottom:10px;">您的手机已被关联到已有的平台帐号</div>',
 						'<div class="line" style="margin-bottom:5px;"><a class="dbtn login" style="margin-right:10px" href="dlogin_n.html">点击登录</a>使用此手机号登录</div>',
 						'<div class="line" style="margin-bottom:5px;"><a class="dbtn reReg reRegBtn" style="margin-right:10px" href="javascript:void(0)">返回注册</a>更换其它手机号码</div>',

@@ -710,7 +710,7 @@ var extend = {
 		var $dialogBox = win.jQuery(dialogBox);
 		for(var event in events){
 			var ename = event.split(" ")[0];
-			var selector = event.split(" ")[1];
+			var selector = event.substring(event.indexOf(" "));
 			var handler = events[event];
 			$dialogBox.on(ename,selector,handler);
 		}

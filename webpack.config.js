@@ -6,7 +6,10 @@ var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 	entry : {
+		//新注册页
 		register : "./src/register/js/main.js",
+		//个人设置页：基本信息->修改绑定的手机号
+		modify_mobileBinded : "./src/register/modify_mobileBinded/modify_mobileBinded.js",
 		terminal : "./src/terminal/js/main.js",
 		yx_storage_normal : "./src/yx_storage_normal/js/main.js"
 	},
