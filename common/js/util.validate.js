@@ -101,6 +101,63 @@ var Validate = {
 			}
 		}
 		return pass;
+	},
+	//验证密码(合法性及安全度)
+	//6-20数字、字母和常用符号两种以上组合
+	validatePwd : function(pwd){
+		var len = pwd.length;
+		//常用英文符号
+		var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
+		if(!pwd) return {error:"缺少pwd",level:""};
+		if(len<6 || len>20) return {error:"位数须在6-20间",level:""};
+		//判断密码可用性
+		//不能全为数字  不能全为字母   不能全为符号
+		//须是数字、字母、符号  三项中任意两项或三项组合
+		var check = function(pwd){
+			var error = "";
+			var len = pwd.length;
+			if(/\s/g.test(pwd)) return error = "不能包含空格";
+			if(Validate.typeNum(pwd)) return error = "不能是纯数字";
+			if(Validate.typeEe(pwd)) return error = "不能是纯字母";
+			var num_leter_result = [];
+			for(var i=0; i<len; i++){
+				var s = pwd[i];
+				if(Validate.typeNum(s) || Validate.typeEe(s)){
+					num_leter_result.push(s);
+				}
+			}
+			if(num_leter_result.length==0) error = "必须包含数字或字母";
+			return error;
+		};
+		//判断密码强弱程度
+		//弱密码：6位数字字母(大小写均可)组合。
+		//中密码: 7位数及以上 数字字母（小写）组合
+		//强密码：7位数及以上 数字字母并且存在大写字母或符号
+		var getCheckLevel = function(pwd){
+			var len = pwd.length;
+			if(len==6) return "weak";
+			var hasUpcaseLetterOrChar = (function(){
+				var res = false;
+				for(var i=0; i<len; i++){
+					var s = pwd[i];
+					if(Validate.typeE(s) || sChar.test(s)){
+						res = true;
+						break;
+					}
+				}
+				return res;
+			})();
+			//只要包含有大写字母或常用符号的7位及以上密码
+			if(hasUpcaseLetterOrChar) return "strong";
+			return "normal";
+		};
+		var check_able = check(pwd);
+		if(check_able){
+			return{error:check_able,level:""};
+		}else{
+			var level = getCheckLevel(pwd);
+			return{error:"",level:level};
+		}
 	}
 };
 module.exports = Validate;

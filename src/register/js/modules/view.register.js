@@ -3,6 +3,7 @@
  */
 var Ajax = require("../../../../common/js/util.ajax.js");
 var Validate = require("../../../../common/js/util.validate.js");
+var Dialog = require("../../../../common/modules/easydialog");
 var VRegister = Backbone.View.extend({
 	api : {
 		getVCode : "call/jh_mem.php",
@@ -32,6 +33,28 @@ var VRegister = Backbone.View.extend({
 		this.pwdLevelBar = this.pwdInpParent.find(".levelBar");
 		this.getVCodeBtn = $("#getValidCodeBtn");
 		this.regForm = $("#regForm");
+
+		//当注册时，使用已使用过的手机号时
+		this.on("reg.mobild.exist",function(){
+			Dialog.open({
+				container : {
+					header : '注册失败',
+					content : [
+						'<div class="dialogCon" style="margin-left:20px">',
+						'<div class="line" style="margin-bottom:10px;">您的手机已被关联到已有的平台帐号</div>',
+						'<div class="line" style="margin-bottom:5px;"><a class="dbtn login" style="margin-right:10px" href="dlogin_n.html">点击登录</a>使用此手机号登录</div>',
+						'<div class="line" style="margin-bottom:5px;"><a class="dbtn reReg reRegBtn" style="margin-right:10px" href="javascript:void(0)">返回注册</a>更换其它手机号码</div>',
+						'</div>'
+					].join("")
+				},
+				offsetY : -100,
+				events : {
+					"click .reRegBtn" : function(e){
+						Dialog.close();
+					}
+				}
+			});
+		})
 		//成功获取验证码后
 		this.on("get.vcode.success",function(res){
 			var that = this;
@@ -57,9 +80,6 @@ var VRegister = Backbone.View.extend({
 		var pwdParent = this.pwdInpParent;
 		var pwdError = this.pwdInpErrorTip;
 		var pwdLevelBar = this.pwdLevelBar;
-		var len = pwd.length;
-		//常用英文符号
-		var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
 		var onError = function(error){
 			var error = error || "错误";
 			pwdParent.addClass("error");
@@ -71,55 +91,9 @@ var VRegister = Backbone.View.extend({
 			pwdLevelBar.removeClass("weak").removeClass("normal").removeClass("strong").addClass(level);
 		};
 		if(!pwd) return onError("*必填");
-		if(len<6 || len>20) return onError("位数须在6-20间");
-		//判断密码可用性
-		//不能全为数字  不能全为字母   不能全为符号
-		//须是数字、字母、符号  三项中任意两项或三项组合
-		var check = function(pwd){
-			var error = "";
-			var len = pwd.length;
-			if(/\s/g.test(pwd)) return error = "不能包含空格";
-			if(Validate.typeNum(pwd)) return error = "不能是纯数字";
-			if(Validate.typeEe(pwd)) return error = "不能是纯字母";
-			var num_leter_result = [];
-			for(var i=0; i<len; i++){
-				var s = pwd[i];
-				if(Validate.typeNum(s) || Validate.typeEe(s)){
-					num_leter_result.push(s);
-				}
-			}
-			if(num_leter_result.length==0) error = "必须包含数字或字母";
-			return error;
-		};
-		//判断密码强弱程度
-		//弱密码：6位数字字母(大小写均可)组合。
-		//中密码: 7位数及以上 数字字母（小写）组合
-		//强密码：7位数及以上 数字字母并且存在大写字母或符号
-		var getCheckLevel = function(pwd){
-			var len = pwd.length;
-			if(len==6) return "weak";
-			var hasUpcaseLetterOrChar = (function(){
-				var res = false;
-				for(var i=0; i<len; i++){
-					var s = pwd[i];
-					if(Validate.typeE(s) || sChar.test(s)){
-						res = true;
-						break;
-					}
-				}
-				return res;
-			})();
-			//只要包含有大写字母或常用符号的7位及以上密码
-			if(hasUpcaseLetterOrChar) return "strong";
-			return "normal";
-		};
-		var check_able = check(pwd);
-		if(check_able){
-			onError(check_able);
-		}else{
-			var level = getCheckLevel(pwd);
-			onOk(level);
-		}
+		var result = Validate.validatePwd(pwd);
+		if(result.error) return onError(result.error);
+		onOk(result.level);
 	},
 	onPwdInpBlur : function(e){
 		var val = $(e.currentTarget).val();
