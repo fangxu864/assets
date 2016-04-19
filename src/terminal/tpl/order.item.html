@@ -10,7 +10,8 @@
                 "3" : "已取消",
                 "4" : "凭证码被替代",
                 "5" : "被终端撤销(已取消)",
-                "6" : "被终端撤销(已使用)"
+                "6" : "被终端撤销(已使用)",
+                "7" : "已部分使用"
             }[item.status]%></span>
         <% } %>
         <span class="flag pmode_<%=item.paystatus%>"><%={
@@ -58,13 +59,14 @@
                             <div class="trnameCol">
                                 <p class="tname">【<%=ticket.name%>】</p>
                                 <p class="bt">
-                                    共<em class="tnum total_tnum"><%=ticket.tnum_s ? ticket.tnum_s : 10%></em>张
+                                    共<em class="tnum total_tnum"><%=ticket.tnum_s%></em>张
                                     <i class="vt"></i>
                                     <%
                                         var has_terminal=ticket.tnum_s-ticket.tnum;
                                         if(has_terminal<0) has_terminal=0;
                                     %>
-                                    已使用<em class="tnum has_terminal_tnum"><%=has_terminal%></em>张
+                                    <% var dcls = item.status!=3 ? "inline" : "none"; %>
+                                    <span style="display:<%=dcls%>">已使用<em class="tnum has_terminal_tnum"><%=has_terminal%></em>张</span>
                                     <i class="vt"></i>
                                     待验证<em class="tnum un_terminal_tnum"><%=ticket.tnum%></em>张
                                 </p>
@@ -72,7 +74,7 @@
                         </li>
                     <% }) %>
                 </ul>
-                <div class="checkMethodBox">
+                <div style="display:none" class="checkMethodBox">
                     <!-- 如果支持分批验证，则默认选中保留余票 -->
                     <!-- 如果不支持分批验证，则默认选中取消余票 -->
                     <%
