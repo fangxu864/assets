@@ -2,7 +2,7 @@
  * Created by Administrator on 16-4-12.
  */
 require("../css/register.css");
-var Placeholder = require("../../../common/js/util.placeholder.js");
+var Placeholder = require("common/js/util.placeholder.js");
 var SlideManager = require("./modules/slide.manager.js");
 var VRegister = require("./modules/view.register.js");
 var VInfo = require("./modules/view.info.js");
