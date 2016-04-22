@@ -12,7 +12,7 @@ var List = RichBase.extend({
 		this.areaSelect = $("#areaSelect");
 		this.errorBox = $("#errorStatusBox");
 		this.switchBtn = $("#switchStorageBtn");
-		this.tpl = require("../../tpl/list_item_tpl.html");
+		this.tpl = require("../../view/list_item_tpl.html");
 		this.listManager = new ListManager();
 		this.getAreaList(function(res){
 			setTimeout(function(){

@@ -2,8 +2,8 @@
  * Created by Administrator on 16-3-31.
  */
 var Api = require("./api.js");
-var orderListTpl = require("../../tpl/order.item.html");
-var Calendar = require("../../../../common/modules/calendar/calendar.js");
+var orderListTpl = require("../../view/order.item.html");
+var Calendar = require("COMMON/modules/calendar/calendar.js");
 var OrderList = RichBase.extend({
 	init : function(){
 		this.listUl = $("#myOrderList");
@@ -179,7 +179,6 @@ var OrderList = RichBase.extend({
 		}else if(type=="removeLoading"){
 			listUl.html("");
 		}else if(type=="success"){
-			console.log(data);
 			html = this.template({data:data.orders});
 			listUl.html(html);
 		}else if(type=="empty"){

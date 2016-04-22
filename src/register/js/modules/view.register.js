@@ -1,11 +1,11 @@
 /**
  * Created by Administrator on 16-4-13.
  */
-var Ajax = require("common/js/util.ajax.js");
-var VCode = require("common/js/util.vcode.js");
-var URLParseQuery = require("common/js/util.url.parse.query.js");
-var Validate = require("common/js/util.validate.js");
-var Dialog = require("common/modules/easydialog");
+var Ajax = require("COMMON/js/util.ajax.js");
+var VCode = require("COMMON/js/util.vcode.js");
+var URLParseQuery = require("COMMON/js/util.url.parse.query.js");
+var Validate = require("COMMON/js/util.validate.js");
+var Dialog = require("COMMON/modules/easydialog");
 var md5 = require("js-md5"); //md5.hex(pwd)   in node_modules/
 var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 var VRegister = Backbone.View.extend({
@@ -143,8 +143,9 @@ var VRegister = Backbone.View.extend({
 		var that = this;
 		var submitBtn = this.regSubmitBtn;
 		var mobile = that.mobileInp.val();
-		Ajax(this.api+"&a=chkMobile",{
+		Ajax(this.api,{
 			params : {
+				a : "chkMobile",
 				mobile : mobile
 			},
 			loading : function(){ submitBtn.text("正在注册...").addClass("disable")},

@@ -715,6 +715,8 @@ var extend = {
 			$dialogBox.on(ename,selector,handler);
 		}
 		Dialog.data("$dialogBox", $dialogBox );
+		var callback = arguments[1];
+		if(typeof callback=="function") callback();
 	},
 	
 	close : function(){
