@@ -65,7 +65,7 @@
                                         var has_terminal=ticket.tnum_s-ticket.tnum;
                                         if(has_terminal<0) has_terminal=0;
                                     %>
-                                    <% var dcls = item.status!=3 ? "inline" : "none"; %>
+                                    <% var dcls = ticket.status!=3 ? "inline" : "none"; %>
                                     <span style="display:<%=dcls%>">已使用<em class="tnum has_terminal_tnum"><%=has_terminal%></em>张</span>
                                     <i class="vt"></i>
                                     待验证<em class="tnum un_terminal_tnum"><%=ticket.tnum%></em>张

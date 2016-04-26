@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build";
+/******/ 	__webpack_require__.p = "http://static.12301dev.com/assets/build";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -42,16 +42,19 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/*!*********************************!*\
+  !*** ./src/register/js/main.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-12.
 	 */
-	__webpack_require__(11);
-	var Placeholder = __webpack_require__(13);
-	var SlideManager = __webpack_require__(14);
-	var VRegister = __webpack_require__(15);
-	var VInfo = __webpack_require__(42);
+	__webpack_require__(/*! ../css/register.css */ 11);
+	var Placeholder = __webpack_require__(/*! COMMON/js/util.placeholder.js */ 13);
+	var SlideManager = __webpack_require__(/*! ./modules/slide.manager.js */ 14);
+	var VRegister = __webpack_require__(/*! ./modules/view.register.js */ 15);
+	var VInfo = __webpack_require__(/*! ./modules/view.info.js */ 42);
 	var Router = Backbone.Router.extend({
 		routes : {
 			"" : "main",
@@ -83,15 +86,21 @@
 
 /***/ },
 /* 1 */
+/*!********************************************!*\
+  !*** ./common/modules/easydialog/index.js ***!
+  \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-18.
 	 */
-	module.exports = __webpack_require__(2);
+	module.exports = __webpack_require__(/*! ./easydialog.js */ 2);
 
 /***/ },
 /* 2 */
+/*!*************************************************!*\
+  !*** ./common/modules/easydialog/easydialog.js ***!
+  \*************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/** 
@@ -100,7 +109,7 @@
 	 * Author : chenmnkken@gmail.com
 	 * Date : 2012-04-22
 	 */
-	__webpack_require__(3);
+	__webpack_require__(/*! ./easydialog.css */ 3);
 	(function( win, undefined ){
 	
 	var	doc = win.document,
@@ -940,6 +949,9 @@
 
 /***/ },
 /* 3 */
+/*!**************************************************!*\
+  !*** ./common/modules/easydialog/easydialog.css ***!
+  \**************************************************/
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -950,12 +962,15 @@
 /* 6 */,
 /* 7 */,
 /* 8 */
+/*!*********************************!*\
+  !*** ./common/js/util.vcode.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-20.
 	 */
-	var Ajax = __webpack_require__(9);
+	var Ajax = __webpack_require__(/*! ./util.ajax.js */ 9);
 	var fn = new Function;
 	var ERROR = "请求出错，请稍后重试";
 	//验证码操作相关
@@ -1025,6 +1040,9 @@
 
 /***/ },
 /* 9 */
+/*!********************************!*\
+  !*** ./common/js/util.ajax.js ***!
+  \********************************/
 /***/ function(module, exports) {
 
 	/**
@@ -1073,6 +1091,9 @@
 
 /***/ },
 /* 10 */
+/*!************************************!*\
+  !*** ./common/js/util.validate.js ***!
+  \************************************/
 /***/ function(module, exports) {
 
 	var Validate = {
@@ -1242,6 +1263,9 @@
 
 /***/ },
 /* 11 */
+/*!***************************************!*\
+  !*** ./src/register/css/register.css ***!
+  \***************************************/
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
@@ -1249,6 +1273,9 @@
 /***/ },
 /* 12 */,
 /* 13 */
+/*!***************************************!*\
+  !*** ./common/js/util.placeholder.js ***!
+  \***************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -1279,6 +1306,9 @@
 
 /***/ },
 /* 14 */
+/*!**************************************************!*\
+  !*** ./src/register/js/modules/slide.manager.js ***!
+  \**************************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -1304,17 +1334,20 @@
 
 /***/ },
 /* 15 */
+/*!**************************************************!*\
+  !*** ./src/register/js/modules/view.register.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-13.
 	 */
-	var Ajax = __webpack_require__(9);
-	var VCode = __webpack_require__(8);
-	var URLParseQuery = __webpack_require__(16);
-	var Validate = __webpack_require__(10);
-	var Dialog = __webpack_require__(1);
-	var md5 = __webpack_require__(17); //md5.hex(pwd)   in node_modules/
+	var Ajax = __webpack_require__(/*! COMMON/js/util.ajax.js */ 9);
+	var VCode = __webpack_require__(/*! COMMON/js/util.vcode.js */ 8);
+	var URLParseQuery = __webpack_require__(/*! COMMON/js/util.url.parse.query.js */ 16);
+	var Validate = __webpack_require__(/*! COMMON/js/util.validate.js */ 10);
+	var Dialog = __webpack_require__(/*! COMMON/modules/easydialog */ 1);
+	var md5 = __webpack_require__(/*! js-md5 */ 17); //md5.hex(pwd)   in node_modules/
 	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 	var VRegister = Backbone.View.extend({
 		api : "route/index.php?c=Member_Register",
@@ -1576,6 +1609,9 @@
 
 /***/ },
 /* 16 */
+/*!*******************************************!*\
+  !*** ./common/js/util.url.parse.query.js ***!
+  \*******************************************/
 /***/ function(module, exports) {
 
 	/**
@@ -1595,6 +1631,9 @@
 
 /***/ },
 /* 17 */
+/*!*****************************!*\
+  !*** ./~/js-md5/src/md5.js ***!
+  \*****************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global) {/**
@@ -1614,7 +1653,7 @@
 	    root = global;
 	  }
 	  var COMMON_JS = !root.JS_MD5_TEST && typeof module == 'object' && module.exports;
-	  var AMD = "function" == 'function' && __webpack_require__(19);
+	  var AMD = "function" == 'function' && __webpack_require__(/*! !webpack amd options */ 19);
 	  var ARRAY_BUFFER = !root.JS_MD5_TEST && typeof ArrayBuffer != 'undefined';
 	  var HEX_CHARS = '0123456789abcdef'.split('');
 	  var EXTRA = [128, 32768, 8388608, -2147483648];
@@ -1726,8 +1765,8 @@
 	      if (root.JS_MD5_TEST) {
 	        throw 'JS_MD5_TEST';
 	      }
-	      crypto = __webpack_require__(20);
-	      Buffer = __webpack_require__(21).Buffer;
+	      crypto = __webpack_require__(/*! crypto */ 20);
+	      Buffer = __webpack_require__(/*! buffer */ 21).Buffer;
 	    } catch (e) {
 	      console.log(e);
 	      return method;
@@ -2205,10 +2244,13 @@
 	  }
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 18), (function() { return this; }())))
 
 /***/ },
 /* 18 */
+/*!**********************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/process/browser.js ***!
+  \**********************************************************/
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -2306,6 +2348,9 @@
 
 /***/ },
 /* 19 */
+/*!****************************************!*\
+  !*** (webpack)/buildin/amd-options.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -2314,9 +2359,12 @@
 
 /***/ },
 /* 20 */
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(25)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(/*! ./rng */ 25)
 	
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -2327,9 +2375,9 @@
 	    ].join('\n'))
 	}
 	
-	exports.createHash = __webpack_require__(27)
+	exports.createHash = __webpack_require__(/*! ./create-hash */ 27)
 	
-	exports.createHmac = __webpack_require__(39)
+	exports.createHmac = __webpack_require__(/*! ./create-hmac */ 39)
 	
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -2350,7 +2398,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 	
-	var p = __webpack_require__(40)(exports)
+	var p = __webpack_require__(/*! ./pbkdf2 */ 40)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 	
@@ -2370,10 +2418,13 @@
 	  }
 	})
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer))
 
 /***/ },
 /* 21 */
+/*!*******************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/buffer/index.js ***!
+  \*******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -2386,9 +2437,9 @@
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(22)
-	var ieee754 = __webpack_require__(23)
-	var isArray = __webpack_require__(24)
+	var base64 = __webpack_require__(/*! base64-js */ 22)
+	var ieee754 = __webpack_require__(/*! ieee754 */ 23)
+	var isArray = __webpack_require__(/*! isarray */ 24)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -3925,10 +3976,13 @@
 	  return i
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer, (function() { return this; }())))
 
 /***/ },
 /* 22 */
+/*!*********************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/buffer/~/base64-js/lib/b64.js ***!
+  \*********************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -4059,6 +4113,9 @@
 
 /***/ },
 /* 23 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/buffer/~/ieee754/index.js ***!
+  \*****************************************************************/
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -4149,6 +4206,9 @@
 
 /***/ },
 /* 24 */
+/*!*****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/buffer/~/isarray/index.js ***!
+  \*****************************************************************/
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -4160,12 +4220,15 @@
 
 /***/ },
 /* 25 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/rng.js ***!
+  \****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(26)
+	    g.crypto || g.msCrypto || __webpack_require__(/*! crypto */ 26)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -4189,22 +4252,28 @@
 	  }
 	}())
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer))
 
 /***/ },
 /* 26 */
+/*!************************!*\
+  !*** crypto (ignored) ***!
+  \************************/
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
 /* 27 */
+/*!************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/create-hash.js ***!
+  \************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(28)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! sha.js */ 28)
 	
-	var md5 = toConstructor(__webpack_require__(36))
-	var rmd160 = toConstructor(__webpack_require__(38))
+	var md5 = toConstructor(__webpack_require__(/*! ./md5 */ 36))
+	var rmd160 = toConstructor(__webpack_require__(/*! ripemd160 */ 38))
 	
 	function toConstructor (fn) {
 	  return function () {
@@ -4232,10 +4301,13 @@
 	  return createHash(alg)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer))
 
 /***/ },
 /* 28 */
+/*!***************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/~/sha.js/index.js ***!
+  \***************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = function (alg) {
@@ -4244,16 +4316,19 @@
 	  return new Alg()
 	}
 	
-	var Buffer = __webpack_require__(21).Buffer
-	var Hash   = __webpack_require__(29)(Buffer)
+	var Buffer = __webpack_require__(/*! buffer */ 21).Buffer
+	var Hash   = __webpack_require__(/*! ./hash */ 29)(Buffer)
 	
-	exports.sha1 = __webpack_require__(30)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(34)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(35)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(/*! ./sha1 */ 30)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(/*! ./sha256 */ 34)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(/*! ./sha512 */ 35)(Buffer, Hash)
 
 
 /***/ },
 /* 29 */
+/*!**************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/~/sha.js/hash.js ***!
+  \**************************************************************************/
 /***/ function(module, exports) {
 
 	module.exports = function (Buffer) {
@@ -4337,6 +4412,9 @@
 
 /***/ },
 /* 30 */
+/*!**************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/~/sha.js/sha1.js ***!
+  \**************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -4348,7 +4426,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 	
-	var inherits = __webpack_require__(31).inherits
+	var inherits = __webpack_require__(/*! util */ 31).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -4481,6 +4559,9 @@
 
 /***/ },
 /* 31 */
+/*!****************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/util.js ***!
+  \****************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -5008,7 +5089,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(32);
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 32);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -5052,7 +5133,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(33);
+	exports.inherits = __webpack_require__(/*! inherits */ 33);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -5070,10 +5151,13 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(18)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 18)))
 
 /***/ },
 /* 32 */
+/*!***********************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/support/isBufferBrowser.js ***!
+  \***********************************************************************/
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -5085,6 +5169,9 @@
 
 /***/ },
 /* 33 */
+/*!***************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/util/~/inherits/inherits_browser.js ***!
+  \***************************************************************************/
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -5114,6 +5201,9 @@
 
 /***/ },
 /* 34 */
+/*!****************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/~/sha.js/sha256.js ***!
+  \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -5125,7 +5215,7 @@
 	 *
 	 */
 	
-	var inherits = __webpack_require__(31).inherits
+	var inherits = __webpack_require__(/*! util */ 31).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -5267,9 +5357,12 @@
 
 /***/ },
 /* 35 */
+/*!****************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/~/sha.js/sha512.js ***!
+  \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(31).inherits
+	var inherits = __webpack_require__(/*! util */ 31).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -5517,6 +5610,9 @@
 
 /***/ },
 /* 36 */
+/*!****************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/md5.js ***!
+  \****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -5528,7 +5624,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 	
-	var helpers = __webpack_require__(37);
+	var helpers = __webpack_require__(/*! ./helpers */ 37);
 	
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -5678,6 +5774,9 @@
 
 /***/ },
 /* 37 */
+/*!********************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/helpers.js ***!
+  \********************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var intSize = 4;
@@ -5715,10 +5814,13 @@
 	
 	module.exports = { hash: hash };
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer))
 
 /***/ },
 /* 38 */
+/*!**************************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/~/ripemd160/lib/ripemd160.js ***!
+  \**************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -5927,13 +6029,16 @@
 	
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer))
 
 /***/ },
 /* 39 */
+/*!************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/create-hmac.js ***!
+  \************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(27)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! ./create-hash */ 27)
 	
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -5977,13 +6082,16 @@
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer))
 
 /***/ },
 /* 40 */
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/pbkdf2.js ***!
+  \*******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(41)
+	var pbkdf2Export = __webpack_require__(/*! pbkdf2-compat/pbkdf2 */ 41)
 	
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -5999,6 +6107,9 @@
 
 /***/ },
 /* 41 */
+/*!***********************************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/crypto-browserify/~/pbkdf2-compat/pbkdf2.js ***!
+  \***********************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {module.exports = function(crypto) {
@@ -6086,16 +6197,19 @@
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/buffer/index.js */ 21).Buffer))
 
 /***/ },
 /* 42 */
+/*!**********************************************!*\
+  !*** ./src/register/js/modules/view.info.js ***!
+  \**********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-15.
 	 */
-	var CitySelect = __webpack_require__(43);
+	var CitySelect = __webpack_require__(/*! ../../../../common/js/component.city.select.simple.js */ 43);
 	var VInfo = Backbone.View.extend({
 		el : $("#infoForm"),
 		events : {
@@ -6125,6 +6239,9 @@
 
 /***/ },
 /* 43 */
+/*!***************************************************!*\
+  !*** ./common/js/component.city.select.simple.js ***!
+  \***************************************************/
 /***/ function(module, exports) {
 
 	/**
