@@ -4,7 +4,10 @@
   "description": "pft",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "local": "webpack -local",
+    "test": "webpack -test",
+    "dev": "webpack -dev",
+    "prod": "webpack -p"
   },
   "repository": {
     "type": "git",
@@ -16,14 +19,16 @@
   "author": "huangzhiyang166",
   "license": "ISC",
   "devDependencies": {
+    "art-template": "^3.0.3",
     "css-loader": "^0.23.1",
     "cssnext-loader": "^1.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.15.0",
+    "js-md5": "^0.4.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.12.14"
+    "webpack": "^1.13.0"
   }
 }
