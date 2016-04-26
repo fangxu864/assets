@@ -4,7 +4,10 @@
   "description": "pft",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "local": "webpack -local",
+    "test": "webpack -test",
+    "dev": "webpack -dev",
+    "prod": "webpack -p"
   },
   "repository": {
     "type": "git",
