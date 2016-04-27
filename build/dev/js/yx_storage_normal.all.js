@@ -51,8 +51,8 @@
 	/**
 	 * Created by Administrator on 16-4-6.
 	 */
-	__webpack_require__(/*! ../css/fenx_storage_default.css */ 57);
-	var List = __webpack_require__(/*! ./modules/list.js */ 59);
+	__webpack_require__(/*! ../css/fenx_storage_default.css */ 58);
+	var List = __webpack_require__(/*! ./modules/list.js */ 60);
 	var Main = RichBase.extend({
 		init : function(){
 			this.areaSelect = $("#areaSelect");
@@ -73,7 +73,7 @@
 
 /***/ },
 
-/***/ 57:
+/***/ 58:
 /*!************************************************************!*\
   !*** ./src/yx_storage_normal/css/fenx_storage_default.css ***!
   \************************************************************/
@@ -83,7 +83,7 @@
 
 /***/ },
 
-/***/ 59:
+/***/ 60:
 /*!**************************************************!*\
   !*** ./src/yx_storage_normal/js/modules/list.js ***!
   \**************************************************/
@@ -92,8 +92,8 @@
 	/**
 	 * Created by Administrator on 16-2-3.
 	 */
-	var Api = __webpack_require__(/*! ./api.js */ 60);
-	var ListManager = __webpack_require__(/*! ./list_manager.js */ 61);
+	var Api = __webpack_require__(/*! ./api.js */ 61);
+	var ListManager = __webpack_require__(/*! ./list_manager.js */ 62);
 	var List = RichBase.extend({
 		init : function(opt){
 			var that = this;
@@ -103,7 +103,7 @@
 			this.areaSelect = $("#areaSelect");
 			this.errorBox = $("#errorStatusBox");
 			this.switchBtn = $("#switchStorageBtn");
-			this.tpl = __webpack_require__(/*! ../../view/list_item_tpl.html */ 62);
+			this.tpl = __webpack_require__(/*! ../../view/list_item_tpl.html */ 63);
 			this.listManager = new ListManager();
 			this.getAreaList(function(res){
 				setTimeout(function(){
@@ -233,7 +233,7 @@
 
 /***/ },
 
-/***/ 60:
+/***/ 61:
 /*!*************************************************!*\
   !*** ./src/yx_storage_normal/js/modules/api.js ***!
   \*************************************************/
@@ -461,7 +461,7 @@
 
 /***/ },
 
-/***/ 61:
+/***/ 62:
 /*!**********************************************************!*\
   !*** ./src/yx_storage_normal/js/modules/list_manager.js ***!
   \**********************************************************/
@@ -470,7 +470,7 @@
 	/**
 	 * Created by Administrator on 16-2-4.
 	 */
-	var Api = __webpack_require__(/*! ./api.js */ 60);
+	var Api = __webpack_require__(/*! ./api.js */ 61);
 	var ListManager = RichBase.extend({
 		EVENTS : {
 			"click" : {
@@ -577,7 +577,7 @@
 
 /***/ },
 
-/***/ 62:
+/***/ 63:
 /*!*******************************************************!*\
   !*** ./src/yx_storage_normal/view/list_item_tpl.html ***!
   \*******************************************************/

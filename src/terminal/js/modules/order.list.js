@@ -4,6 +4,7 @@
 var Api = require("./api.js");
 var orderListTpl = require("../../view/order.item.html");
 var Calendar = require("COMMON/modules/calendar/calendar.js");
+var AdaptOrder = require("./adaptOrder.js");
 var OrderList = RichBase.extend({
 	init : function(){
 		this.listUl = $("#myOrderList");
@@ -136,17 +137,9 @@ var OrderList = RichBase.extend({
 				var orders = res.orders;
 				for(var i in orders){
 					var order = orders[i];
-					order["batch_check"] = 1; //支持分批验证
-					order["refund_audit"] = 0;//支持改单验证
-					var tickets = order.tickets;
-					for(var t in tickets){
-						var ticket = tickets[t];
-						var batch_check = ticket.batch_check;
-						var refund_audit = ticket.refund_audit;
-						if(batch_check==0) order["batch_check"] = 0;
-						if(refund_audit==1) order["refund_audit"] = 1;
-					}
+					AdaptOrder.adapt(order);
 				}
+				console.log(res);
 				that.render("success",res);
 			},
 			empty : function(res){ that.render("empty",res)},
