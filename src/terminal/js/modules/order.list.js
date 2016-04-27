@@ -98,24 +98,25 @@ var OrderList = RichBase.extend({
 			},
 			success : function(res){
 				PFT.Help.AlertTo("success",'<p style="width:200px">验证成功</p>');
-				parent.find(".ticketLi").each(function(){
-					var tarLi = $(this);
-					var countInp = tarLi.find(".countInp");
-					var has_terminal_num = countInp.val()*1;
-					var un_terminal = tarLi.find(".trnameCol .un_terminal_tnum");
-					var total = tarLi.find(".total_tnum");
-					var total_num = total.text() * 1;
-					var un_terminal_num = un_terminal.text()*1;
-					if(check_method==0){ //取消余票
-						un_terminal.text(0);
-						total.text(total_num-(un_terminal_num-has_terminal_num))
-						countInp.val(0);
-					}else if(check_method==1){ //保留余票
-						un_terminal.text(un_terminal_num-has_terminal_num);
-						countInp.val(un_terminal_num-has_terminal_num);
-					}
-					that.setCountInpMax();
-				})
+				that.query(Api.getSalerid(),$("#termSearInp").val());
+//				parent.find(".ticketLi").each(function(){
+//					var tarLi = $(this);
+//					var countInp = tarLi.find(".countInp");
+//					var has_terminal_num = countInp.val()*1;
+//					var un_terminal = tarLi.find(".trnameCol .un_terminal_tnum");
+//					var total = tarLi.find(".total_tnum");
+//					var total_num = total.text() * 1;
+//					var un_terminal_num = un_terminal.text()*1;
+//					if(check_method==0){ //取消余票
+//						un_terminal.text(0);
+//						total.text(total_num-(un_terminal_num-has_terminal_num))
+//						countInp.val(0);
+//					}else if(check_method==1){ //保留余票
+//						un_terminal.text(un_terminal_num-has_terminal_num);
+//						countInp.val(un_terminal_num-has_terminal_num);
+//					}
+//					that.setCountInpMax();
+//				})
 			},
 			unlogin : function(res){
 				errorTip.show().html('登录状态已过期，请重新<a style="margin:0 2px;" href="dlogin_n.html">登录</a>');
