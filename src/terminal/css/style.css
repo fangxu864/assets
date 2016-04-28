@@ -47,6 +47,7 @@
 .orderList .ticketLi .trnameCol .tname{ position:relative; right:-5px; margin-top:2px; font-size:14px; font-weight:bold}
 .orderList .ticketLi .trnameCol .tnum{ font-weight:bold; color:#f17848; margin:0 2px;}
 .orderList .ticketLi .trnameCol .vt{ margin:0 3px;}
+.orderList .ticketLi .trnameCol .flag{ color:#fff; padding:0 3px;}
 .orderList .checkBtn{ float:right; display:inline-block; height:34px; margin-top:3px; line-height:34px; padding:0 50px; background:#ff7734; color:#fff;}
 .orderList .checkBtn:hover{ text-decoration:none; background:#ff601a}
 .orderList .checkBtn.disabled,.orderList .checkBtn.disable{ background:#cacaca; color:#7c7c7c; cursor:default}

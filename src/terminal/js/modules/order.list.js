@@ -139,7 +139,6 @@ var OrderList = RichBase.extend({
 					var order = orders[i];
 					AdaptOrder.adapt(order);
 				}
-				console.log(res);
 				that.render("success",res);
 			},
 			empty : function(res){ that.render("empty",res)},

@@ -46,14 +46,38 @@ var AdaptOrder = {
 		}
 		return result;
 	},
+	/**
+	 * 判断此订单是否可以验证
+	 * 判断一个订单是否可以验证，如果此订单内的，只要一张票可以验证，即判定此订单可以验证
+	 * 除非此订单下的所有票都不能验证，才能判定此订单不可验证
+	 * @param order  true:可验证   false:不能验证
+	 */
+	check_terminal : function(order){
+		// 判断一个订单是否可以验证，如果此订单内的，只要一张票可以验证，即判定此订单可以验证
+		// 除非此订单下的所有票都不能验证，才能判定此订单不可验证
+		var result = false;
+		var tickets = order.tickets || [];
+		for(var i in tickets){
+			var ticket = tickets[i];
+			var status = ticket.status;
+			var tnum = ticket.tnum;
+			if((status==0 || status==2 || status==7) && (tnum>0)){ // 只有 未使用 | 已过期 | 部分使用  的订单可以验证
+				result = true;
+				break;
+			}
+		}
+		return result;
+	},
 	adapt : function(order){
 		if(!order) return alert("缺少order参数");
 		var batch_check = this.batch_check(order);
+		var can_check = this.check_terminal(order);
 		var ptype = order.ptype;
 		if(!ptype) return alert("缺少ptype");
 		var readonly = "";
 		var tip = "";
-		order["batch_check"] = batch_check;
+		order["batch_check"] = batch_check; //判断此订单是否支持分批验证
+		order["can_check"] = can_check;     //判断此订单是否可验证
 		if(batch_check){//如果支持分批验证
 			//所有类型的订单都可以修改票数
 			readonly = true;
