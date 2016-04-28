@@ -51,11 +51,11 @@
 	/**
 	 * Created by Administrator on 15-10-20.
 	 */
-	__webpack_require__(/*! ../../../common/css/reset_style.css */ 44);
-	__webpack_require__(/*! ../css/style.css */ 46);
-	var Api = __webpack_require__(/*! ./modules/api.js */ 48);
-	var Product = __webpack_require__(/*! ./modules/product.js */ 49);
-	var OrderList = __webpack_require__(/*! ./modules/order.list.js */ 50);
+	__webpack_require__(/*! ../../../common/css/reset_style.css */ 43);
+	__webpack_require__(/*! ../css/style.css */ 45);
+	var Api = __webpack_require__(/*! ./modules/api.js */ 47);
+	var Product = __webpack_require__(/*! ./modules/product.js */ 48);
+	var OrderList = __webpack_require__(/*! ./modules/order.list.js */ 49);
 	var Main = RichBase.extend({
 		init : function(){
 			this.searchOrderBtn = $("#termSearBtn");
@@ -96,7 +96,7 @@
 
 /***/ },
 
-/***/ 44:
+/***/ 43:
 /*!************************************!*\
   !*** ./common/css/reset_style.css ***!
   \************************************/
@@ -106,7 +106,7 @@
 
 /***/ },
 
-/***/ 46:
+/***/ 45:
 /*!************************************!*\
   !*** ./src/terminal/css/style.css ***!
   \************************************/
@@ -116,7 +116,7 @@
 
 /***/ },
 
-/***/ 48:
+/***/ 47:
 /*!****************************************!*\
   !*** ./src/terminal/js/modules/api.js ***!
   \****************************************/
@@ -359,7 +359,7 @@
 
 /***/ },
 
-/***/ 49:
+/***/ 48:
 /*!********************************************!*\
   !*** ./src/terminal/js/modules/product.js ***!
   \********************************************/
@@ -368,7 +368,7 @@
 	/**
 	 * Created by Administrator on 15-10-20.
 	 */
-	var Api = __webpack_require__(/*! ./api.js */ 48);
+	var Api = __webpack_require__(/*! ./api.js */ 47);
 	var Product = RichBase.extend({
 		statics : {
 			SEARCH_FLAG : true,
@@ -543,7 +543,7 @@
 
 /***/ },
 
-/***/ 50:
+/***/ 49:
 /*!***********************************************!*\
   !*** ./src/terminal/js/modules/order.list.js ***!
   \***********************************************/
@@ -552,10 +552,10 @@
 	/**
 	 * Created by Administrator on 16-3-31.
 	 */
-	var Api = __webpack_require__(/*! ./api.js */ 48);
-	var orderListTpl = __webpack_require__(/*! ../../view/order.item.html */ 51);
-	var Calendar = __webpack_require__(/*! COMMON/modules/calendar/calendar.js */ 52);
-	var AdaptOrder = __webpack_require__(/*! ./adaptOrder.js */ 57);
+	var Api = __webpack_require__(/*! ./api.js */ 47);
+	var orderListTpl = __webpack_require__(/*! ../../view/order.item.html */ 50);
+	var Calendar = __webpack_require__(/*! COMMON/modules/calendar/calendar.js */ 51);
+	var AdaptOrder = __webpack_require__(/*! ./adaptOrder.js */ 56);
 	var OrderList = RichBase.extend({
 		init : function(){
 			this.listUl = $("#myOrderList");
@@ -739,7 +739,7 @@
 
 /***/ },
 
-/***/ 51:
+/***/ 50:
 /*!*******************************************!*\
   !*** ./src/terminal/view/order.item.html ***!
   \*******************************************/
@@ -749,7 +749,7 @@
 
 /***/ },
 
-/***/ 52:
+/***/ 51:
 /*!*********************************************!*\
   !*** ./common/modules/calendar/calendar.js ***!
   \*********************************************/
@@ -758,8 +758,8 @@
 	/**
 	 * Created by Administrator on 16-2-18.
 	 */
-	__webpack_require__(/*! ./style.css */ 53);
-	var CalendarCore = __webpack_require__(/*! ../../js/CalendarCore.js */ 55);
+	__webpack_require__(/*! ./style.css */ 52);
+	var CalendarCore = __webpack_require__(/*! ../../js/CalendarCore.js */ 54);
 	var fn = new Function();
 	var Calendar = RichBase.extend({
 		selected : {},
@@ -774,7 +774,7 @@
 			//是否支持多选日期 默认不支持
 			this.mult = typeof opt.mult=="boolean" ? opt.mult : false;
 			//模板
-			this.tpl = opt.tpl || __webpack_require__(/*! ./calendar-tpl.html */ 56);
+			this.tpl = opt.tpl || __webpack_require__(/*! ./calendar-tpl.html */ 55);
 	
 			this.template = _.template(this.tpl);
 	
@@ -916,7 +916,7 @@
 
 /***/ },
 
-/***/ 53:
+/***/ 52:
 /*!*******************************************!*\
   !*** ./common/modules/calendar/style.css ***!
   \*******************************************/
@@ -926,7 +926,7 @@
 
 /***/ },
 
-/***/ 55:
+/***/ 54:
 /*!***********************************!*\
   !*** ./common/js/CalendarCore.js ***!
   \***********************************/
@@ -1164,7 +1164,7 @@
 
 /***/ },
 
-/***/ 56:
+/***/ 55:
 /*!***************************************************!*\
   !*** ./common/modules/calendar/calendar-tpl.html ***!
   \***************************************************/
@@ -1174,7 +1174,7 @@
 
 /***/ },
 
-/***/ 57:
+/***/ 56:
 /*!***********************************************!*\
   !*** ./src/terminal/js/modules/adaptOrder.js ***!
   \***********************************************/
@@ -1250,6 +1250,15 @@
 			}
 			return result;
 		},
+		/**
+		 * 在订单json里加入4个字段
+		 *   batch_check: 是否支持分批验证       true=支持  false=不支持
+		 *   can_check  : 判断此订单是否可以验证  ture=可以   false=不可以
+		 *   readonly   : 是否可以修改票数       readonly=""->可以     readonly="readonly"->不可以
+		 *   tip        : 当不能修改票数时，提示用户为什么不能修改票数
+		 * @param order
+		 * @returns {*}
+		 */
 		adapt : function(order){
 			if(!order) return alert("缺少order参数");
 			var batch_check = this.batch_check(order);
@@ -1262,7 +1271,7 @@
 			order["can_check"] = can_check;     //判断此订单是否可验证
 			if(batch_check){//如果支持分批验证
 				//所有类型的订单都可以修改票数
-				readonly = true;
+				readonly = "";
 			}else{//不支持分批验证
 				var refund_audit = this.refund_audit(order);
 				if(ptype=="F"){ //如果是套票，都不能修改票数

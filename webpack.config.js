@@ -4,7 +4,8 @@
 //-dev  :预生产环境
 //-p    :生产环境
 var ENV = (function(){
-	var pro = process.argv[2];
+	var argv = process.argv;
+	var pro = argv[argv.length-1];
 	pro = pro.replace("-",""); //pro=local,test,dev,p
 	var EXT = {  //build后的文件名后缀
 		local : "local",  //本地开发环境使用
@@ -16,22 +17,27 @@ var ENV = (function(){
 	console.log("webpack run "+EXT);
 	return EXT;
 })();
+var fs = require("fs");
 var path = require("path");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+//动态获取入口文件
+var getEntry = function(){
+	var srcDir = "./src/";
+	var dirs = fs.readdirSync(srcDir);
+	var files = {};
+	dirs.forEach(function(project_name){
+		var js = fs.readdirSync(srcDir+project_name+"/js");
+		if(!js || js.length==0) return;
+		var main_file_path = srcDir+project_name+"/js/main.js";
+		if(fs.readFileSync(main_file_path)){
+			files[project_name] = main_file_path;
+		}
+	});
+	return files;
+}
 //入口文件配置
-var entry = (function(){
-	var entry = {
-		//新注册页
-		register : "./src/register/js/main.js",
-		//个人设置页：基本信息->修改绑定的手机号
-		modify_mobileBinded : "./src/register/modify_mobileBinded/modify_mobileBinded.js",
-		terminal : "./src/terminal/js/main.js",
-		yx_storage_normal : "./src/yx_storage_normal/js/main.js"
-	};
-	return entry;
-})();
+var entry = getEntry();
 //输出目录配置
 var output = (function(){
 	var output = {
@@ -96,6 +102,5 @@ module.exports = {
 			COMMON : path.resolve("./common")
 		}
 	},
-	watch : true,
 	devtool : "#source-map"
 };

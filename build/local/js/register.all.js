@@ -47,11 +47,11 @@
 	/**
 	 * Created by Administrator on 16-4-12.
 	 */
-	__webpack_require__(11);
-	var Placeholder = __webpack_require__(13);
-	var SlideManager = __webpack_require__(14);
-	var VRegister = __webpack_require__(15);
-	var VInfo = __webpack_require__(42);
+	__webpack_require__(1);
+	var Placeholder = __webpack_require__(5);
+	var SlideManager = __webpack_require__(6);
+	var VRegister = __webpack_require__(7);
+	var VInfo = __webpack_require__(41);
 	var Router = Backbone.Router.extend({
 		routes : {
 			"" : "main",
@@ -83,15 +83,662 @@
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by Administrator on 16-4-14.
+	 */
+	module.exports = {
+		init : function(){
+			if("placeholder" in document.createElement("input")) return false;
+			$("input").each(function(){
+				var tarInp = $(this);
+				var placeholder = tarInp.prop("placeholder");
+				var val = $.trim(tarInp.val());
+				if(placeholder && !val) tarInp.val(placeholder);
+			})
+			$(document).on("focus","input",function(e){
+				var tarInp = $(e.currentTarget);
+				var val = $.trim(tarInp.val());
+				var placeholder = tarInp.prop("placeholder");
+				if(placeholder && val==placeholder) tarInp.val("");
+			}).on("blur","input",function(e){
+				var tarInp = $(e.currentTarget);
+				var val = $.trim(tarInp.val());
+				var placeholder = tarInp.prop("placeholder");
+				if(placeholder && !val) tarInp.val(placeholder);
+			})
+		}
+	}
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by Administrator on 16-4-12.
+	 */
+	var SlideManager = Backbone.View.extend({
+		el : $("#slideContainer"),
+		initialize : function(){
+			this.stepWidth = this.$el.children().first().width();
+		},
+		slide : function(id){
+			var that = this;
+			var dir = -1;
+			this.$el.children(".step_"+id).addClass("active").siblings().removeClass("active");
+			var id = id-1;
+			this.trigger("slide.before",id);
+			this.$el.animate({left:dir*id*this.stepWidth},200,function(){
+				that.trigger("slide.after",id+1);
+			});
+		}
+	});
+	module.exports = SlideManager;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by Administrator on 16-4-13.
+	 */
+	var Ajax = __webpack_require__(8);
+	var VCode = __webpack_require__(9);
+	var URLParseQuery = __webpack_require__(10);
+	var Validate = __webpack_require__(11);
+	var Dialog = __webpack_require__(12);
+	var md5 = __webpack_require__(16); //md5.hex(pwd)   in node_modules/
+	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
+	var VRegister = Backbone.View.extend({
+		api : "route/index.php?c=Member_Register",
+		el : $("#regForm"),
+		RESEND_VCODE_TIME : 60,
+		timer : null,
+		events : {
+			"click #tiaokuanCheckbox" : "onTiaoKuanCheckBoxClick",
+			"click #getValidCodeBtn" : "onGetValidCodeBtnClick",
+			"click #regSubmitBtn" : "onRegSubmitBtnClick",
+			"mousedown #showPwdBtn" : "onShowPwdBtnMousedown",
+			"mouseup #showPwdBtn" : "onShowPwdBtnMouseup",
+			"blur .textInp" : "onTextInpBlur",
+			"blur #pwdInp" : "onPwdInpBlur",
+			"input #pwdInp" : "onPwdInpChange",
+			"focus .textInp" : "onTextInpFocus"
+		},
+		initialize : function(opt){
+			this.router = opt.router;
+			this.registerBtn = $("#regSubmitBtn");
+			this.mobileInp = $("#mobileInp");
+			this.pwdInp = $("#pwdInp");
+			this.pwdInpParent = this.pwdInp.parents(".rt");
+			this.pwdInpErrorTip = this.pwdInpParent.find(".error");
+			this.pwdLevelBar = this.pwdInpParent.find(".levelBar");
+			this.getVCodeBtn = $("#getValidCodeBtn");
+			this.vcodeInp = $("#validCodeInp");
+			this.regForm = $("#regForm");
+			this.regSubmitBtn = $("#regSubmitBtn");
+			this.regSubmitBtn_text = this.regSubmitBtn.text();
+			//成功获取验证码后
+			this.on("get.vcode.success",function(res){
+				var that = this;
+				var getBtn = this.getVCodeBtn;
+				var last_time = this.RESEND_VCODE_TIME;
+				PFT.Help.AlertTo("success",'<p style="width:400px">验证码已发送到手机'+this.mobileInp.val()+'上，'+last_time+'秒后可重新获取</p>',2000);
+				clearInterval(this.timer);
+				getBtn.text(last_time+"秒后重新获取")
+				this.timer = setInterval(function(){
+					if(last_time==0){
+						getBtn.removeClass("disable").text("获取验证码");
+						return clearInterval(that.timer);
+					}
+					last_time--;
+					getBtn.addClass("disable");
+					getBtn.text(last_time+"秒后重新获取")
+				},1000)
+			})
+		},
+		//验证密码(合法性及安全度)
+		//6-20数字、字母和常用符号两种以上组合
+		validatePwd : function(pwd){
+			var pwdParent = this.pwdInpParent;
+			var pwdError = this.pwdInpErrorTip;
+			var pwdLevelBar = this.pwdLevelBar;
+			var onError = function(error){
+				var error = error || "错误";
+				pwdParent.addClass("error");
+				pwdError.text(error);
+				pwdLevelBar.removeClass("weak").removeClass("normal").removeClass("strong");
+			};
+			var onOk = function(level){
+				pwdParent.removeClass("error");
+				pwdLevelBar.removeClass("weak").removeClass("normal").removeClass("strong").addClass(level);
+			};
+			if(!pwd) return onError("*必填");
+			var result = Validate.validatePwd(pwd);
+			if(result.error) return onError(result.error);
+			onOk(result.level);
+		},
+		onPwdInpBlur : function(e){
+			var val = $(e.currentTarget).val();
+			this.validatePwd(val);
+		},
+		onPwdInpChange : function(e){
+			this.onPwdInpBlur(e);
+		},
+		onTextInpBlur : function(e){
+			var tarInp = $(e.currentTarget);
+			this.validateInput(tarInp);
+		},
+		onTextInpFocus : function(e){
+			var tarInp = $(e.currentTarget);
+			var parent = tarInp.parents(".rt");
+			parent.removeClass("ok").removeClass("error");
+		},
+		onGetValidCodeBtnClick : function(e){
+			var that = this;
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("disable")) return false;
+			var mobile = $.trim(this.mobileInp.val());
+			if(!mobile) return alert("请先填写手机号");
+			if(!this.mobileInp.parents(".rt").hasClass("ok")) return alert("请填写正确格式手机号");
+			VCode.get(mobile,{
+				loading : function(){ tarBtn.addClass("disable").text("正在获取...")},
+				complete : function(){ tarBtn.removeClass("disable").text("获取验证码")},
+				success : function(res){
+					that.trigger("get.vcode.success",res);
+				}
+			})
+		},
+		onShowPwdBtnMousedown : function(e){
+			this.pwdInp.prop("type","text");
+		},
+		onShowPwdBtnMouseup : function(e){
+			this.pwdInp.prop("type","password");
+		},
+		//点击注册提交按钮
+		onRegSubmitBtnClick : function(e){
+			//return this.router.navigate("/step/2",{trigger:true});
+			var that = this;
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("disable")) return false;
+			var can_submit = true;
+			$("input[data-validate]").each(function(){
+				var tarInp = $(this);
+				tarInp.trigger("blur");
+				if(tarInp.parents(".rt").hasClass("error")){
+					can_submit = false;
+					return false;
+				}
+			})
+			if(!can_submit) return false;
+			this.check_mobile_exist(function(mobile){
+				//如果手机号未被注册过
+				that.check_vcode_enable(function(vcode){
+					//如果此验证码可用
+					that.submit_register();
+				})
+			})
+		},
+		//提交注册前-校验该帐号名是否被注册过
+		check_mobile_exist : function(callback){
+			var that = this;
+			var submitBtn = this.regSubmitBtn;
+			var mobile = that.mobileInp.val();
+			Ajax(this.api,{
+				params : {
+					a : "chkMobile",
+					mobile : mobile
+				},
+				loading : function(){ submitBtn.text("正在注册...").addClass("disable")},
+				complete : function(){ submitBtn.text(that.regSubmitBtn_text).removeClass("disable")},
+				success : function(res){
+					var res = res || {};
+					var code = res.code;
+					if(code==200){ //手机号未被注册过
+						callback && callback(mobile)
+					}else{ //当注册时，使用已使用过的手机号时
+						var msg = res.msg || '您的手机已被关联到已有的平台帐号';
+						Dialog.open({
+							container : {
+								header : '注册失败',
+								content : [
+									'<div style="width:300px;" class="dialogCon" style="margin-left:20px">',
+									'<div class="line" style="margin-bottom:10px;">'+msg+'</div>',
+									'<div class="line" style="margin-bottom:5px;"><a class="dbtn login" style="margin-right:10px" href="dlogin_n.html">点击登录</a>使用此手机号登录</div>',
+									'<div class="line" style="margin-bottom:5px;"><a class="dbtn reReg reRegBtn" style="margin-right:10px" href="javascript:void(0)">返回注册</a>更换其它手机号码</div>',
+									'</div>'
+								].join("")
+							},
+							offsetY : -100,
+							events : {
+								"click .reRegBtn" : function(e){
+									Dialog.close();
+								}
+							}
+						});
+					}
+				}
+			})
+		},
+		//提交注册前-校验验证码是否可用
+		check_vcode_enable : function(callback){
+			var that = this;
+			var submitBtn = this.regSubmitBtn;
+			var vcode = that.vcodeInp.val();
+			Ajax(this.api,{
+				params : {
+					a : "verifyVcode",
+					vcode : vcode
+				},
+				loading : function(){ submitBtn.text("正在注册...").addClass("disable")},
+				complete : function(){ submitBtn.text(that.regSubmitBtn_text).removeClass("disable")},
+				success : function(res){
+					var res = res || {};
+					var code = res.code;
+					if(code==200){
+						callback && callback(vcode)
+					}else{
+						alert(res.msg || AJAX_ERROR_TEXT);
+					}
+				}
+			})
+		},
+		//提交注册
+		submit_register : function(){
+			var urlQuery = URLParseQuery();
+			var dtype = urlQuery.dtype;
+			if(!dtype) return alert("缺省dtype");
+			var mobile = this.mobileInp.val();
+			var vcode = this.vcodeInp.val();
+			var password = md5.hex(this.pwdInp.val());
+			Ajax(this.api,{
+				type : "post",
+				params : {
+					a : "memberRegister",
+					dtype : dtype,
+					mobile : mobile,
+					password : password,
+					vcode : vcode
+				},
+				loading : function(){},
+				complete : function(){},
+				success : function(res){
+					var res = res || {};
+					var code = res.code;
+					if(code==200){
+	
+					}else{
+						alert(res.msg || AJAX_ERROR_TEXT);
+					}
+				}
+			})
+		},
+		validateInput : function(tarInp){
+			var rules = tarInp.data("validate");
+			var val = $.trim(tarInp.val());
+			var result = true;
+			if(!rules) return false;
+			rules = rules.split(" ");
+			for(var i in rules){
+				var rule = rules[i];
+				if(Validate[rule]){
+					result = Validate[rule](val);
+					if(!result) break;
+				}
+			}
+			if(result){
+				if(tarInp.attr("id")=="validCodeInp" && val.length!=6){
+					return tarInp.parents(".rt").removeClass("ok").addClass("error");
+				}
+				tarInp.parents(".rt").removeClass("error").addClass("ok");
+			}else{
+				tarInp.parents(".rt").removeClass("ok").addClass("error");
+			}
+		},
+		//是否同意条款
+		onTiaoKuanCheckBoxClick : function(e){
+			var checkbox = $(e.currentTarget);
+			if(!!checkbox.prop("checked")){
+				this.registerBtn.removeClass("disable");
+			}else{
+				this.registerBtn.addClass("disable");
+			}
+		}
+	});
+	module.exports = VRegister;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by Administrator on 16-4-13.
+	 */
+	module.exports = function(url,opt){
+		if(!url) return alert("ajax请求缺少url");
+		var fn = new Function;
+		var opt = opt || {};
+		var params = opt.params || {};
+		var loading = opt.loading || fn;
+		var complete = opt.complete || fn;
+		var success = opt.success || fn;
+		var timeout = opt.timeout || function(){ alert("请求超时，请稍后重试")};
+		var serverError = opt.serverError || function(xhr,txt){
+			var txt = txt || "请求出错，请稍后重试";
+			if(txt=="parsererror") txt = "请求出错，请稍后重试";
+			alert(txt);
+		};
+		var type = opt.type || "get";
+		var dataType = opt.dataType || "json";
+		var ttimeout = opt.ttimeout || 120 * 1000;
+		$.ajax({
+			url : url,
+			type : type,
+			dataType : dataType,
+			data : params,
+			timeout :ttimeout,
+			beforeSend : function(){
+				loading();
+			},
+			success : function(res){
+				complete(res);
+				success(res);
+			},
+			error : function(xhr,txt){
+				complete(xhr,txt);
+				if(txt == "timeout"){
+					timeout(xhr,txt);
+				}else{
+					serverError(xhr,txt);
+				}
+			}
+		})
+	}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Created by Administrator on 16-4-20.
+	 */
+	var Ajax = __webpack_require__(8);
+	var fn = new Function;
+	var ERROR = "请求出错，请稍后重试";
+	//验证码操作相关
+	module.exports = {
+		api : "route/?c=Member_Register",
+		//获取验证码
+		get : function(mobile,opt){
+			if(!mobile) return false;
+			var opt = opt || {};
+			var url = opt.url;
+			var api = url ? url : this.api;
+			var success = opt.success || fn;
+			var fail = opt.fail;
+			Ajax(api,{
+				params : {
+					a : "sendVcode",
+					mobile : mobile
+				},
+				loading : opt.loading,
+				complete : opt.complete,
+				success : function(res){
+					var res = res || {};
+					var code = res.code;
+					var msg = res.msg || "请求出错，请稍后重试";
+					if(code==200){
+						success(res);
+					}else{
+						res["msg"] = res.msg || msg;
+						fail ? fail(res) : alert(ERROR);
+					}
+				},
+				timeout : opt.timeout,
+				serverError : opt.serverError
+			})
+		},
+		//校验验证码
+		check : function(vcode,opt){
+			if(!vcode) return false;
+			var opt = opt || {};
+			var url = opt.url;
+			var api = url ? url : this.api;
+			var success = opt.success || fn;
+			var fail = opt.fail;
+			Ajax(api,{
+				params : {
+					a : "verifyVcode",
+					vcode : vcode
+				},
+				loading : opt.loading,
+				complete : opt.complete,
+				success : function(res){
+					var res = res || {};
+					var code = res.code;
+					var msg = res.msg || "请求出错，请稍后重试";
+					if(code==200){
+						success(res);
+					}else{
+						res["msg"] = res.msg || msg;
+						fail ? fail(res) : alert(ERROR);
+					}
+				},
+				timeout : opt.timeout,
+				serverError : opt.serverError
+			})
+		}
+	}
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by Administrator on 16-4-20.
+	 */
+	module.exports = function(url){
+		if(!url) url = window.location.search.substr(1);
+		var reg = /(([^?&=]+)(?:=([^?&=]*))*)/g;
+		var result = {};
+		url.replace(reg,function(){
+			var key = arguments[2];
+			var val = arguments[3];
+			result[key] = val;
+		})
+		return result;
+	};
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	var Validate = {
+		//非空
+		noBlank: function( value ){
+			return !!value;
+		},
+		//最小
+		min: function( value, rule ){
+			return value.length >= rule;
+		},
+		//最大
+		max: function( value, rule ){
+			return value.length <= rule;
+		},
+		//验证常用英文符号，常用于密码验证
+		typeChar : function(val){
+			//常用英文符号
+			var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
+			return sChar.test(val);
+		},
+		typeCN : function(str){
+			var result = true;
+			var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/g;
+			for(var i= 0,len=str.length; i<len; i++){
+				if(!reg.test(str)){
+					result = false;
+					break;
+				}
+			}
+			return result;
+		},
+		//中文、英文
+		typeZE: function( value ){
+			return /^[\u4E00-\u9FA5\uf900-\ufa2d\uFE30-\uFFA0a-zA-Z]+$/.test( value );
+		},
+		//英文、数字
+		typeEN: function( value ){
+			return /^[0-9|a-z|A-Z]+$/.test( value );
+		},
+		//只能大写英文字母
+		typeE : function(value){
+			return /^[A-Z]+$/g.test(value);
+		},
+		//只能小写英文字母
+		typee : function(value){
+			return /^[a-z]+$/g.test(value);
+		},
+		//只能大小写英文字母
+		typeEe : function(value){
+			return /^[a-zA-Z]+$/g.test(value);
+		},
+		//数字
+		typeNum: function( value ){
+			return !isNaN( value );
+		},
+		//电话
+		typePhone: function( value ){
+			var reg = /^1[0-9]{10}$/;
+			return reg.test( value );
+		},
+		//email
+		typeEmail: function( value ){
+			return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value)
+		},
+		//身份证号合法性验证
+		//支持15位和18位身份证号
+		//支持地址编码、出生日期、校验位验证
+		idcard : function(code){
+			var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
+			var tip = "";
+			var pass= true;
+	
+			if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
+				tip = "身份证号格式错误";
+				pass = false;
+			}else if(!city[code.substr(0,2)]){
+				tip = "地址编码错误";
+				pass = false;
+			}else{
+				//18位身份证需要验证最后一位校验位
+				if(code.length == 18){
+					code = code.split('');
+					//∑(ai×Wi)(mod 11)
+					//加权因子
+					var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+					//校验位
+					var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+					var sum = 0;
+					var ai = 0;
+					var wi = 0;
+					for (var i = 0; i < 17; i++)
+					{
+						ai = code[i];
+						wi = factor[i];
+						sum += ai * wi;
+					}
+					var last = parity[sum % 11];
+					if(parity[sum % 11] != code[17]){
+						tip = "校验位错误";
+						pass =false;
+					}
+				}
+			}
+			return pass;
+		},
+		//验证密码(合法性及安全度)
+		//6-20数字、字母和常用符号两种以上组合
+		validatePwd : function(pwd){
+			var len = pwd.length;
+			//常用英文符号
+			var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
+			if(!pwd) return {error:"缺少pwd",level:""};
+			if(len<6 || len>20) return {error:"位数须在6-20间",level:""};
+			//判断密码可用性
+			//不能全为数字  不能全为字母   不能全为符号
+			//须是数字、字母、符号  三项中任意两项或三项组合
+			var check = function(pwd){
+				var error = "";
+				var len = pwd.length;
+				if(/\s/g.test(pwd)) return error = "不能包含空格";
+				if(Validate.typeNum(pwd)) return error = "不能是纯数字";
+				if(Validate.typeEe(pwd)) return error = "不能是纯字母";
+				var num_leter_result = [];
+				for(var i=0; i<len; i++){
+					var s = pwd[i];
+					if(Validate.typeNum(s) || Validate.typeEe(s)){
+						num_leter_result.push(s);
+					}
+				}
+				if(num_leter_result.length==0) error = "必须包含数字或字母";
+				return error;
+			};
+			//判断密码强弱程度
+			//弱密码：6位数字字母(大小写均可)组合。
+			//中密码: 7位数及以上 数字字母（小写）组合
+			//强密码：7位数及以上 数字字母并且存在大写字母或符号
+			var getCheckLevel = function(pwd){
+				var len = pwd.length;
+				if(len==6) return "weak";
+				var hasUpcaseLetterOrChar = (function(){
+					var res = false;
+					for(var i=0; i<len; i++){
+						var s = pwd[i];
+						if(Validate.typeE(s) || sChar.test(s)){
+							res = true;
+							break;
+						}
+					}
+					return res;
+				})();
+				//只要包含有大写字母或常用符号的7位及以上密码
+				if(hasUpcaseLetterOrChar) return "strong";
+				return "normal";
+			};
+			var check_able = check(pwd);
+			if(check_able){
+				return{error:check_able,level:""};
+			}else{
+				var level = getCheckLevel(pwd);
+				return{error:"",level:level};
+			}
+		}
+	};
+	module.exports = Validate;
+
+
+/***/ },
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-18.
 	 */
-	module.exports = __webpack_require__(2);
+	module.exports = __webpack_require__(13);
 
 /***/ },
-/* 2 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** 
@@ -100,7 +747,7 @@
 	 * Author : chenmnkken@gmail.com
 	 * Date : 2012-04-22
 	 */
-	__webpack_require__(3);
+	__webpack_require__(14);
 	(function( win, undefined ){
 	
 	var	doc = win.document,
@@ -939,662 +1586,14 @@
 	// 2012-04-22 修复弹出层内容的尺寸大于浏览器当前屏尺寸的BUG
 
 /***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Created by Administrator on 16-4-20.
-	 */
-	var Ajax = __webpack_require__(9);
-	var fn = new Function;
-	var ERROR = "请求出错，请稍后重试";
-	//验证码操作相关
-	module.exports = {
-		api : "route/?c=Member_Register",
-		//获取验证码
-		get : function(mobile,opt){
-			if(!mobile) return false;
-			var opt = opt || {};
-			var url = opt.url;
-			var api = url ? url : this.api;
-			var success = opt.success || fn;
-			var fail = opt.fail;
-			Ajax(api,{
-				params : {
-					a : "sendVcode",
-					mobile : mobile
-				},
-				loading : opt.loading,
-				complete : opt.complete,
-				success : function(res){
-					var res = res || {};
-					var code = res.code;
-					var msg = res.msg || "请求出错，请稍后重试";
-					if(code==200){
-						success(res);
-					}else{
-						res["msg"] = res.msg || msg;
-						fail ? fail(res) : alert(ERROR);
-					}
-				},
-				timeout : opt.timeout,
-				serverError : opt.serverError
-			})
-		},
-		//校验验证码
-		check : function(vcode,opt){
-			if(!vcode) return false;
-			var opt = opt || {};
-			var url = opt.url;
-			var api = url ? url : this.api;
-			var success = opt.success || fn;
-			var fail = opt.fail;
-			Ajax(api,{
-				params : {
-					a : "verifyVcode",
-					vcode : vcode
-				},
-				loading : opt.loading,
-				complete : opt.complete,
-				success : function(res){
-					var res = res || {};
-					var code = res.code;
-					var msg = res.msg || "请求出错，请稍后重试";
-					if(code==200){
-						success(res);
-					}else{
-						res["msg"] = res.msg || msg;
-						fail ? fail(res) : alert(ERROR);
-					}
-				},
-				timeout : opt.timeout,
-				serverError : opt.serverError
-			})
-		}
-	}
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	/**
-	 * Created by Administrator on 16-4-13.
-	 */
-	module.exports = function(url,opt){
-		if(!url) return alert("ajax请求缺少url");
-		var fn = new Function;
-		var opt = opt || {};
-		var params = opt.params || {};
-		var loading = opt.loading || fn;
-		var complete = opt.complete || fn;
-		var success = opt.success || fn;
-		var timeout = opt.timeout || function(){ alert("请求超时，请稍后重试")};
-		var serverError = opt.serverError || function(xhr,txt){
-			var txt = txt || "请求出错，请稍后重试";
-			if(txt=="parsererror") txt = "请求出错，请稍后重试";
-			alert(txt);
-		};
-		var type = opt.type || "get";
-		var dataType = opt.dataType || "json";
-		var ttimeout = opt.ttimeout || 120 * 1000;
-		$.ajax({
-			url : url,
-			type : type,
-			dataType : dataType,
-			data : params,
-			timeout :ttimeout,
-			beforeSend : function(){
-				loading();
-			},
-			success : function(res){
-				complete(res);
-				success(res);
-			},
-			error : function(xhr,txt){
-				complete(xhr,txt);
-				if(txt == "timeout"){
-					timeout(xhr,txt);
-				}else{
-					serverError(xhr,txt);
-				}
-			}
-		})
-	}
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	var Validate = {
-		//非空
-		noBlank: function( value ){
-			return !!value;
-		},
-		//最小
-		min: function( value, rule ){
-			return value.length >= rule;
-		},
-		//最大
-		max: function( value, rule ){
-			return value.length <= rule;
-		},
-		//验证常用英文符号，常用于密码验证
-		typeChar : function(val){
-			//常用英文符号
-			var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
-			return sChar.test(val);
-		},
-		typeCN : function(str){
-			var result = true;
-			var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/g;
-			for(var i= 0,len=str.length; i<len; i++){
-				if(!reg.test(str)){
-					result = false;
-					break;
-				}
-			}
-			return result;
-		},
-		//中文、英文
-		typeZE: function( value ){
-			return /^[\u4E00-\u9FA5\uf900-\ufa2d\uFE30-\uFFA0a-zA-Z]+$/.test( value );
-		},
-		//英文、数字
-		typeEN: function( value ){
-			return /^[0-9|a-z|A-Z]+$/.test( value );
-		},
-		//只能大写英文字母
-		typeE : function(value){
-			return /^[A-Z]+$/g.test(value);
-		},
-		//只能小写英文字母
-		typee : function(value){
-			return /^[a-z]+$/g.test(value);
-		},
-		//只能大小写英文字母
-		typeEe : function(value){
-			return /^[a-zA-Z]+$/g.test(value);
-		},
-		//数字
-		typeNum: function( value ){
-			return !isNaN( value );
-		},
-		//电话
-		typePhone: function( value ){
-			var reg = /^1[0-9]{10}$/;
-			return reg.test( value );
-		},
-		//email
-		typeEmail: function( value ){
-			return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value)
-		},
-		//身份证号合法性验证
-		//支持15位和18位身份证号
-		//支持地址编码、出生日期、校验位验证
-		idcard : function(code){
-			var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
-			var tip = "";
-			var pass= true;
-	
-			if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
-				tip = "身份证号格式错误";
-				pass = false;
-			}else if(!city[code.substr(0,2)]){
-				tip = "地址编码错误";
-				pass = false;
-			}else{
-				//18位身份证需要验证最后一位校验位
-				if(code.length == 18){
-					code = code.split('');
-					//∑(ai×Wi)(mod 11)
-					//加权因子
-					var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
-					//校验位
-					var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
-					var sum = 0;
-					var ai = 0;
-					var wi = 0;
-					for (var i = 0; i < 17; i++)
-					{
-						ai = code[i];
-						wi = factor[i];
-						sum += ai * wi;
-					}
-					var last = parity[sum % 11];
-					if(parity[sum % 11] != code[17]){
-						tip = "校验位错误";
-						pass =false;
-					}
-				}
-			}
-			return pass;
-		},
-		//验证密码(合法性及安全度)
-		//6-20数字、字母和常用符号两种以上组合
-		validatePwd : function(pwd){
-			var len = pwd.length;
-			//常用英文符号
-			var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
-			if(!pwd) return {error:"缺少pwd",level:""};
-			if(len<6 || len>20) return {error:"位数须在6-20间",level:""};
-			//判断密码可用性
-			//不能全为数字  不能全为字母   不能全为符号
-			//须是数字、字母、符号  三项中任意两项或三项组合
-			var check = function(pwd){
-				var error = "";
-				var len = pwd.length;
-				if(/\s/g.test(pwd)) return error = "不能包含空格";
-				if(Validate.typeNum(pwd)) return error = "不能是纯数字";
-				if(Validate.typeEe(pwd)) return error = "不能是纯字母";
-				var num_leter_result = [];
-				for(var i=0; i<len; i++){
-					var s = pwd[i];
-					if(Validate.typeNum(s) || Validate.typeEe(s)){
-						num_leter_result.push(s);
-					}
-				}
-				if(num_leter_result.length==0) error = "必须包含数字或字母";
-				return error;
-			};
-			//判断密码强弱程度
-			//弱密码：6位数字字母(大小写均可)组合。
-			//中密码: 7位数及以上 数字字母（小写）组合
-			//强密码：7位数及以上 数字字母并且存在大写字母或符号
-			var getCheckLevel = function(pwd){
-				var len = pwd.length;
-				if(len==6) return "weak";
-				var hasUpcaseLetterOrChar = (function(){
-					var res = false;
-					for(var i=0; i<len; i++){
-						var s = pwd[i];
-						if(Validate.typeE(s) || sChar.test(s)){
-							res = true;
-							break;
-						}
-					}
-					return res;
-				})();
-				//只要包含有大写字母或常用符号的7位及以上密码
-				if(hasUpcaseLetterOrChar) return "strong";
-				return "normal";
-			};
-			var check_able = check(pwd);
-			if(check_able){
-				return{error:check_able,level:""};
-			}else{
-				var level = getCheckLevel(pwd);
-				return{error:"",level:level};
-			}
-		}
-	};
-	module.exports = Validate;
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 12 */,
-/* 13 */
-/***/ function(module, exports) {
-
-	/**
-	 * Created by Administrator on 16-4-14.
-	 */
-	module.exports = {
-		init : function(){
-			if("placeholder" in document.createElement("input")) return false;
-			$("input").each(function(){
-				var tarInp = $(this);
-				var placeholder = tarInp.prop("placeholder");
-				var val = $.trim(tarInp.val());
-				if(placeholder && !val) tarInp.val(placeholder);
-			})
-			$(document).on("focus","input",function(e){
-				var tarInp = $(e.currentTarget);
-				var val = $.trim(tarInp.val());
-				var placeholder = tarInp.prop("placeholder");
-				if(placeholder && val==placeholder) tarInp.val("");
-			}).on("blur","input",function(e){
-				var tarInp = $(e.currentTarget);
-				var val = $.trim(tarInp.val());
-				var placeholder = tarInp.prop("placeholder");
-				if(placeholder && !val) tarInp.val(placeholder);
-			})
-		}
-	}
-
-/***/ },
 /* 14 */
 /***/ function(module, exports) {
 
-	/**
-	 * Created by Administrator on 16-4-12.
-	 */
-	var SlideManager = Backbone.View.extend({
-		el : $("#slideContainer"),
-		initialize : function(){
-			this.stepWidth = this.$el.children().first().width();
-		},
-		slide : function(id){
-			var that = this;
-			var dir = -1;
-			this.$el.children(".step_"+id).addClass("active").siblings().removeClass("active");
-			var id = id-1;
-			this.trigger("slide.before",id);
-			this.$el.animate({left:dir*id*this.stepWidth},200,function(){
-				that.trigger("slide.after",id+1);
-			});
-		}
-	});
-	module.exports = SlideManager;
+	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Created by Administrator on 16-4-13.
-	 */
-	var Ajax = __webpack_require__(9);
-	var VCode = __webpack_require__(8);
-	var URLParseQuery = __webpack_require__(16);
-	var Validate = __webpack_require__(10);
-	var Dialog = __webpack_require__(1);
-	var md5 = __webpack_require__(17); //md5.hex(pwd)   in node_modules/
-	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
-	var VRegister = Backbone.View.extend({
-		api : "route/index.php?c=Member_Register",
-		el : $("#regForm"),
-		RESEND_VCODE_TIME : 60,
-		timer : null,
-		events : {
-			"click #tiaokuanCheckbox" : "onTiaoKuanCheckBoxClick",
-			"click #getValidCodeBtn" : "onGetValidCodeBtnClick",
-			"click #regSubmitBtn" : "onRegSubmitBtnClick",
-			"mousedown #showPwdBtn" : "onShowPwdBtnMousedown",
-			"mouseup #showPwdBtn" : "onShowPwdBtnMouseup",
-			"blur .textInp" : "onTextInpBlur",
-			"blur #pwdInp" : "onPwdInpBlur",
-			"input #pwdInp" : "onPwdInpChange",
-			"focus .textInp" : "onTextInpFocus"
-		},
-		initialize : function(opt){
-			this.router = opt.router;
-			this.registerBtn = $("#regSubmitBtn");
-			this.mobileInp = $("#mobileInp");
-			this.pwdInp = $("#pwdInp");
-			this.pwdInpParent = this.pwdInp.parents(".rt");
-			this.pwdInpErrorTip = this.pwdInpParent.find(".error");
-			this.pwdLevelBar = this.pwdInpParent.find(".levelBar");
-			this.getVCodeBtn = $("#getValidCodeBtn");
-			this.vcodeInp = $("#validCodeInp");
-			this.regForm = $("#regForm");
-			this.regSubmitBtn = $("#regSubmitBtn");
-			this.regSubmitBtn_text = this.regSubmitBtn.text();
-			//成功获取验证码后
-			this.on("get.vcode.success",function(res){
-				var that = this;
-				var getBtn = this.getVCodeBtn;
-				var last_time = this.RESEND_VCODE_TIME;
-				PFT.Help.AlertTo("success",'<p style="width:400px">验证码已发送到手机'+this.mobileInp.val()+'上，'+last_time+'秒后可重新获取</p>',2000);
-				clearInterval(this.timer);
-				getBtn.text(last_time+"秒后重新获取")
-				this.timer = setInterval(function(){
-					if(last_time==0){
-						getBtn.removeClass("disable").text("获取验证码");
-						return clearInterval(that.timer);
-					}
-					last_time--;
-					getBtn.addClass("disable");
-					getBtn.text(last_time+"秒后重新获取")
-				},1000)
-			})
-		},
-		//验证密码(合法性及安全度)
-		//6-20数字、字母和常用符号两种以上组合
-		validatePwd : function(pwd){
-			var pwdParent = this.pwdInpParent;
-			var pwdError = this.pwdInpErrorTip;
-			var pwdLevelBar = this.pwdLevelBar;
-			var onError = function(error){
-				var error = error || "错误";
-				pwdParent.addClass("error");
-				pwdError.text(error);
-				pwdLevelBar.removeClass("weak").removeClass("normal").removeClass("strong");
-			};
-			var onOk = function(level){
-				pwdParent.removeClass("error");
-				pwdLevelBar.removeClass("weak").removeClass("normal").removeClass("strong").addClass(level);
-			};
-			if(!pwd) return onError("*必填");
-			var result = Validate.validatePwd(pwd);
-			if(result.error) return onError(result.error);
-			onOk(result.level);
-		},
-		onPwdInpBlur : function(e){
-			var val = $(e.currentTarget).val();
-			this.validatePwd(val);
-		},
-		onPwdInpChange : function(e){
-			this.onPwdInpBlur(e);
-		},
-		onTextInpBlur : function(e){
-			var tarInp = $(e.currentTarget);
-			this.validateInput(tarInp);
-		},
-		onTextInpFocus : function(e){
-			var tarInp = $(e.currentTarget);
-			var parent = tarInp.parents(".rt");
-			parent.removeClass("ok").removeClass("error");
-		},
-		onGetValidCodeBtnClick : function(e){
-			var that = this;
-			var tarBtn = $(e.currentTarget);
-			if(tarBtn.hasClass("disable")) return false;
-			var mobile = $.trim(this.mobileInp.val());
-			if(!mobile) return alert("请先填写手机号");
-			if(!this.mobileInp.parents(".rt").hasClass("ok")) return alert("请填写正确格式手机号");
-			VCode.get(mobile,{
-				loading : function(){ tarBtn.addClass("disable").text("正在获取...")},
-				complete : function(){ tarBtn.removeClass("disable").text("获取验证码")},
-				success : function(res){
-					that.trigger("get.vcode.success",res);
-				}
-			})
-		},
-		onShowPwdBtnMousedown : function(e){
-			this.pwdInp.prop("type","text");
-		},
-		onShowPwdBtnMouseup : function(e){
-			this.pwdInp.prop("type","password");
-		},
-		//点击注册提交按钮
-		onRegSubmitBtnClick : function(e){
-			//return this.router.navigate("/step/2",{trigger:true});
-			var that = this;
-			var tarBtn = $(e.currentTarget);
-			if(tarBtn.hasClass("disable")) return false;
-			var can_submit = true;
-			$("input[data-validate]").each(function(){
-				var tarInp = $(this);
-				tarInp.trigger("blur");
-				if(tarInp.parents(".rt").hasClass("error")){
-					can_submit = false;
-					return false;
-				}
-			})
-			if(!can_submit) return false;
-			this.check_mobile_exist(function(mobile){
-				//如果手机号未被注册过
-				that.check_vcode_enable(function(vcode){
-					//如果此验证码可用
-					that.submit_register();
-				})
-			})
-		},
-		//提交注册前-校验该帐号名是否被注册过
-		check_mobile_exist : function(callback){
-			var that = this;
-			var submitBtn = this.regSubmitBtn;
-			var mobile = that.mobileInp.val();
-			Ajax(this.api,{
-				params : {
-					a : "chkMobile",
-					mobile : mobile
-				},
-				loading : function(){ submitBtn.text("正在注册...").addClass("disable")},
-				complete : function(){ submitBtn.text(that.regSubmitBtn_text).removeClass("disable")},
-				success : function(res){
-					var res = res || {};
-					var code = res.code;
-					if(code==200){ //手机号未被注册过
-						callback && callback(mobile)
-					}else{ //当注册时，使用已使用过的手机号时
-						var msg = res.msg || '您的手机已被关联到已有的平台帐号';
-						Dialog.open({
-							container : {
-								header : '注册失败',
-								content : [
-									'<div style="width:300px;" class="dialogCon" style="margin-left:20px">',
-									'<div class="line" style="margin-bottom:10px;">'+msg+'</div>',
-									'<div class="line" style="margin-bottom:5px;"><a class="dbtn login" style="margin-right:10px" href="dlogin_n.html">点击登录</a>使用此手机号登录</div>',
-									'<div class="line" style="margin-bottom:5px;"><a class="dbtn reReg reRegBtn" style="margin-right:10px" href="javascript:void(0)">返回注册</a>更换其它手机号码</div>',
-									'</div>'
-								].join("")
-							},
-							offsetY : -100,
-							events : {
-								"click .reRegBtn" : function(e){
-									Dialog.close();
-								}
-							}
-						});
-					}
-				}
-			})
-		},
-		//提交注册前-校验验证码是否可用
-		check_vcode_enable : function(callback){
-			var that = this;
-			var submitBtn = this.regSubmitBtn;
-			var vcode = that.vcodeInp.val();
-			Ajax(this.api,{
-				params : {
-					a : "verifyVcode",
-					vcode : vcode
-				},
-				loading : function(){ submitBtn.text("正在注册...").addClass("disable")},
-				complete : function(){ submitBtn.text(that.regSubmitBtn_text).removeClass("disable")},
-				success : function(res){
-					var res = res || {};
-					var code = res.code;
-					if(code==200){
-						callback && callback(vcode)
-					}else{
-						alert(res.msg || AJAX_ERROR_TEXT);
-					}
-				}
-			})
-		},
-		//提交注册
-		submit_register : function(){
-			var urlQuery = URLParseQuery();
-			var dtype = urlQuery.dtype;
-			if(!dtype) return alert("缺省dtype");
-			var mobile = this.mobileInp.val();
-			var vcode = this.vcodeInp.val();
-			var password = md5.hex(this.pwdInp.val());
-			Ajax(this.api,{
-				type : "post",
-				params : {
-					a : "memberRegister",
-					dtype : dtype,
-					mobile : mobile,
-					password : password,
-					vcode : vcode
-				},
-				loading : function(){},
-				complete : function(){},
-				success : function(res){
-					var res = res || {};
-					var code = res.code;
-					if(code==200){
-	
-					}else{
-						alert(res.msg || AJAX_ERROR_TEXT);
-					}
-				}
-			})
-		},
-		validateInput : function(tarInp){
-			var rules = tarInp.data("validate");
-			var val = $.trim(tarInp.val());
-			var result = true;
-			if(!rules) return false;
-			rules = rules.split(" ");
-			for(var i in rules){
-				var rule = rules[i];
-				if(Validate[rule]){
-					result = Validate[rule](val);
-					if(!result) break;
-				}
-			}
-			if(result){
-				if(tarInp.attr("id")=="validCodeInp" && val.length!=6){
-					return tarInp.parents(".rt").removeClass("ok").addClass("error");
-				}
-				tarInp.parents(".rt").removeClass("error").addClass("ok");
-			}else{
-				tarInp.parents(".rt").removeClass("ok").addClass("error");
-			}
-		},
-		//是否同意条款
-		onTiaoKuanCheckBoxClick : function(e){
-			var checkbox = $(e.currentTarget);
-			if(!!checkbox.prop("checked")){
-				this.registerBtn.removeClass("disable");
-			}else{
-				this.registerBtn.addClass("disable");
-			}
-		}
-	});
-	module.exports = VRegister;
-
-/***/ },
+/* 15 */,
 /* 16 */
-/***/ function(module, exports) {
-
-	/**
-	 * Created by Administrator on 16-4-20.
-	 */
-	module.exports = function(url){
-		if(!url) url = window.location.search.substr(1);
-		var reg = /(([^?&=]+)(?:=([^?&=]*))*)/g;
-		var result = {};
-		url.replace(reg,function(){
-			var key = arguments[2];
-			var val = arguments[3];
-			result[key] = val;
-		})
-		return result;
-	};
-
-/***/ },
-/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global) {/**
@@ -1614,7 +1613,7 @@
 	    root = global;
 	  }
 	  var COMMON_JS = !root.JS_MD5_TEST && typeof module == 'object' && module.exports;
-	  var AMD = "function" == 'function' && __webpack_require__(19);
+	  var AMD = "function" == 'function' && __webpack_require__(18);
 	  var ARRAY_BUFFER = !root.JS_MD5_TEST && typeof ArrayBuffer != 'undefined';
 	  var HEX_CHARS = '0123456789abcdef'.split('');
 	  var EXTRA = [128, 32768, 8388608, -2147483648];
@@ -1726,8 +1725,8 @@
 	      if (root.JS_MD5_TEST) {
 	        throw 'JS_MD5_TEST';
 	      }
-	      crypto = __webpack_require__(20);
-	      Buffer = __webpack_require__(21).Buffer;
+	      crypto = __webpack_require__(19);
+	      Buffer = __webpack_require__(20).Buffer;
 	    } catch (e) {
 	      console.log(e);
 	      return method;
@@ -2205,10 +2204,10 @@
 	  }
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), (function() { return this; }())))
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -2305,7 +2304,7 @@
 
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -2313,10 +2312,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(25)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(24)
 	
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -2327,9 +2326,9 @@
 	    ].join('\n'))
 	}
 	
-	exports.createHash = __webpack_require__(27)
+	exports.createHash = __webpack_require__(26)
 	
-	exports.createHmac = __webpack_require__(39)
+	exports.createHmac = __webpack_require__(38)
 	
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -2350,7 +2349,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 	
-	var p = __webpack_require__(40)(exports)
+	var p = __webpack_require__(39)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 	
@@ -2370,10 +2369,10 @@
 	  }
 	})
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -2386,9 +2385,9 @@
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(22)
-	var ieee754 = __webpack_require__(23)
-	var isArray = __webpack_require__(24)
+	var base64 = __webpack_require__(21)
+	var ieee754 = __webpack_require__(22)
+	var isArray = __webpack_require__(23)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -3925,10 +3924,10 @@
 	  return i
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -4058,7 +4057,7 @@
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -4148,7 +4147,7 @@
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -4159,13 +4158,13 @@
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(26)
+	    g.crypto || g.msCrypto || __webpack_require__(25)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -4189,22 +4188,22 @@
 	  }
 	}())
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(20).Buffer))
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(28)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(27)
 	
-	var md5 = toConstructor(__webpack_require__(36))
-	var rmd160 = toConstructor(__webpack_require__(38))
+	var md5 = toConstructor(__webpack_require__(35))
+	var rmd160 = toConstructor(__webpack_require__(37))
 	
 	function toConstructor (fn) {
 	  return function () {
@@ -4232,10 +4231,10 @@
 	  return createHash(alg)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = function (alg) {
@@ -4244,16 +4243,16 @@
 	  return new Alg()
 	}
 	
-	var Buffer = __webpack_require__(21).Buffer
-	var Hash   = __webpack_require__(29)(Buffer)
+	var Buffer = __webpack_require__(20).Buffer
+	var Hash   = __webpack_require__(28)(Buffer)
 	
-	exports.sha1 = __webpack_require__(30)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(34)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(35)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(29)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(33)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(34)(Buffer, Hash)
 
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = function (Buffer) {
@@ -4336,7 +4335,7 @@
 
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -4348,7 +4347,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 	
-	var inherits = __webpack_require__(31).inherits
+	var inherits = __webpack_require__(30).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -4480,7 +4479,7 @@
 
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -5008,7 +5007,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(32);
+	exports.isBuffer = __webpack_require__(31);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -5052,7 +5051,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(33);
+	exports.inherits = __webpack_require__(32);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -5070,10 +5069,10 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(18)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(17)))
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -5084,7 +5083,7 @@
 	}
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -5113,7 +5112,7 @@
 
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -5125,7 +5124,7 @@
 	 *
 	 */
 	
-	var inherits = __webpack_require__(31).inherits
+	var inherits = __webpack_require__(30).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -5266,10 +5265,10 @@
 
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(31).inherits
+	var inherits = __webpack_require__(30).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -5516,7 +5515,7 @@
 
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -5528,7 +5527,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 	
-	var helpers = __webpack_require__(37);
+	var helpers = __webpack_require__(36);
 	
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -5677,7 +5676,7 @@
 
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var intSize = 4;
@@ -5715,10 +5714,10 @@
 	
 	module.exports = { hash: hash };
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -5927,13 +5926,13 @@
 	
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(27)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(26)
 	
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -5977,13 +5976,13 @@
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(41)
+	var pbkdf2Export = __webpack_require__(40)
 	
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -5998,7 +5997,7 @@
 
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {module.exports = function(crypto) {
@@ -6086,16 +6085,16 @@
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20).Buffer))
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-15.
 	 */
-	var CitySelect = __webpack_require__(43);
+	var CitySelect = __webpack_require__(42);
 	var VInfo = Backbone.View.extend({
 		el : $("#infoForm"),
 		events : {
@@ -6124,7 +6123,7 @@
 	module.exports = VInfo;
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports) {
 
 	/**

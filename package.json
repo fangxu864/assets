@@ -4,10 +4,14 @@
   "description": "pft",
   "main": "webpack.config.js",
   "scripts": {
-    "local": "webpack -local",
-    "test": "webpack -test",
-    "dev": "webpack -dev",
-    "prod": "webpack -p"
+    "local-build": "webpack -local",
+    "local": "webpack -w -local",
+    "test-build": "webpack -test",
+    "test": "webpack -w -test",
+    "dev-build": "webpack -dev",
+    "dev": "webpack -w -dev",
+    "prod-build": "webpack -p",
+    "prod": "webpack -w -p"
   },
   "repository": {
     "type": "git",

@@ -68,6 +68,15 @@ var AdaptOrder = {
 		}
 		return result;
 	},
+	/**
+	 * 在订单json里加入4个字段
+	 *   batch_check: 是否支持分批验证       true=支持  false=不支持
+	 *   can_check  : 判断此订单是否可以验证  ture=可以   false=不可以
+	 *   readonly   : 是否可以修改票数       readonly=""->可以     readonly="readonly"->不可以
+	 *   tip        : 当不能修改票数时，提示用户为什么不能修改票数
+	 * @param order
+	 * @returns {*}
+	 */
 	adapt : function(order){
 		if(!order) return alert("缺少order参数");
 		var batch_check = this.batch_check(order);
@@ -80,7 +89,7 @@ var AdaptOrder = {
 		order["can_check"] = can_check;     //判断此订单是否可验证
 		if(batch_check){//如果支持分批验证
 			//所有类型的订单都可以修改票数
-			readonly = true;
+			readonly = "";
 		}else{//不支持分批验证
 			var refund_audit = this.refund_audit(order);
 			if(ptype=="F"){ //如果是套票，都不能修改票数
