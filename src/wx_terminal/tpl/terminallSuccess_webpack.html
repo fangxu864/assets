@@ -4,7 +4,7 @@
             <span class="tname"><%=ticket.name%></span>
             共<span class="num"><%=ticket.tnum_s%></span>张
             <% var dcls = ticket.status!=3 ? "inline" : "none"; %>
-            <span style="display:<%=dcls%>; margin-left:5px;">已使用<span class="num"><%=ticket.tnum_s-ticket.tnum%></span>张</span>
+            <span style="display:none; margin-left:5px;">已使用<span class="num"><%=ticket.tnum_s-ticket.tnum%></span>张</span>
             <span style="margin-left:5px">待验证<span class="num"><%=ticket.tnum%></span>张</span>
                 <span class="flag flag_<%=ticket.status%> status_<%=ticket.status%>"><%={
                         "0" : "未使用",

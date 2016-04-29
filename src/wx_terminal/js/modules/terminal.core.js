@@ -114,6 +114,7 @@ var TerminalCore = RichBase.extend({
 			data : {
 				data : JSON.stringify(data)
 			},
+			ttimeout : this.statics.ttimeout,
 			loading : function(){ loading()},
 			removeLoading : function(){ removeLoading()},
 			timeout : function(){ timeout()},

@@ -51,15 +51,15 @@
 	 * Created by Administrator on 15-10-8.
 	 */
 	__webpack_require__(/*! ../css/terminal_16u_wx.css */ 1);
-	__webpack_require__(/*! ../css/order.item.css */ 15);
-	__webpack_require__(/*! ../css/terminal.success.css */ 17);
-	var Product = __webpack_require__(/*! ./modules/product.js */ 5);
+	__webpack_require__(/*! ../css/order.item.css */ 5);
+	__webpack_require__(/*! ../css/terminal.success.css */ 7);
+	var Product = __webpack_require__(/*! ./modules/product.js */ 9);
 	var productList = null;
-	var TerminalFast = __webpack_require__(/*! ./modules/terminal.fast.js */ 8);
+	var TerminalFast = __webpack_require__(/*! ./modules/terminal.fast.js */ 14);
 	var terminalFast = null;
-	var TerminalNormal = __webpack_require__(/*! ./modules/terminal.normal.js */ 11);
+	var TerminalNormal = __webpack_require__(/*! ./modules/terminal.normal.js */ 17);
 	var terminalNormal = null;
-	var TodayOrder = __webpack_require__(/*! ./modules/todayOrder.js */ 12);
+	var TodayOrder = __webpack_require__(/*! ./modules/todayOrder.js */ 18);
 	var todayOrder = null;
 	var Main = RichBase.extend({
 		init : function(){},
@@ -131,6 +131,26 @@
 /* 3 */,
 /* 4 */,
 /* 5 */
+/*!********************************************!*\
+  !*** ./src/wx_terminal/css/order.item.css ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 6 */,
+/* 7 */
+/*!**************************************************!*\
+  !*** ./src/wx_terminal/css/terminal.success.css ***!
+  \**************************************************/
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 8 */,
+/* 9 */
 /*!***********************************************!*\
   !*** ./src/wx_terminal/js/modules/product.js ***!
   \***********************************************/
@@ -139,7 +159,7 @@
 	/**
 	 * Created by Administrator on 15-9-21.
 	 */
-	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 6);
+	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 10);
 	var Product = RichBase.extend({
 		statics : {
 			api : "../m/voucher_check.php",
@@ -282,7 +302,7 @@
 
 
 /***/ },
-/* 6 */
+/* 10 */
 /*!*****************************************************!*\
   !*** ./src/wx_terminal/js/modules/terminal.core.js ***!
   \*****************************************************/
@@ -291,7 +311,7 @@
 	/**
 	 * Created by Administrator on 15-9-28.
 	 */
-	var AdaptOrder = __webpack_require__(/*! ./adaptOrder.js */ 7);
+	var AdaptOrder = __webpack_require__(/*! ./adaptOrder.js */ 11);
 	var TerminalCore = RichBase.extend({
 		fn : new Function,
 		AJAX_TIMEOUT_TEXT : "请求超时，请稍后重试",
@@ -340,8 +360,8 @@
 				return $("#productname").attr("data-salerid") || "";
 			},
 			tpl : {
-				orderItem : __webpack_require__(/*! ../../tpl/orderlist_webpack.html */ 13),
-				terminalSuccess : __webpack_require__(/*! ../../tpl/terminallSuccess_webpack.html */ 14)
+				orderItem : __webpack_require__(/*! ../../tpl/orderlist_webpack.html */ 12),
+				terminalSuccess : __webpack_require__(/*! ../../tpl/terminallSuccess_webpack.html */ 13)
 			}
 		},
 		init : function(){},
@@ -404,6 +424,7 @@
 				data : {
 					data : JSON.stringify(data)
 				},
+				ttimeout : this.statics.ttimeout,
 				loading : function(){ loading()},
 				removeLoading : function(){ removeLoading()},
 				timeout : function(){ timeout()},
@@ -550,7 +571,7 @@
 	module.exports = TerminalCore;
 
 /***/ },
-/* 7 */
+/* 11 */
 /*!**************************************************!*\
   !*** ./src/wx_terminal/js/modules/adaptOrder.js ***!
   \**************************************************/
@@ -682,7 +703,25 @@
 	module.exports = AdaptOrder;
 
 /***/ },
-/* 8 */
+/* 12 */
+/*!****************************************************!*\
+  !*** ./src/wx_terminal/tpl/orderlist_webpack.html ***!
+  \****************************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<% var STATUS={\r\n    0 : { text:\"未使用\",           color:\"#3eba40\"},\r\n        1 : { text:\"已使用\",           color:\"#f37138\"},\r\n        2 : { text:\"已过期\",           color:\"#e12424\"},\r\n        3 : { text:\"已取消\",           color:\"#f37138\"},\r\n        4 : { text:\"凭证码被替代\",      color:\"#f37138\"},\r\n        5 : { text:\"被终端撤销(已取消)\", color:\"#f37138\"},\r\n        6 : { text:\"被终端撤销(已使用)\", color:\"#f37138\"},\r\n        7 : { text:\"已部分使用\",        color:\"#f37138\"}\r\n    };%>\r\n    <% _.each(data,function(item){ %>\r\n        <%console.log(item)%>\r\n        <li class=\"orderItem\">\r\n            <div class=\"titBox\">\r\n                <p class=\"line\">\r\n                    <span class=\"lt\">订单号：</span><span class=\"ordernum rt\"><%=item.ordernum%></span>\r\n                </p>\r\n                <p class=\"line\">\r\n                    <span class=\"lt\">联系人：</span><span class=\"ordername rt\"><%=item.ordername%><span class=\"tel\"><%=item.ordertel%></span></span>\r\n                </p>\r\n                <p class=\"line\">\r\n                    <span class=\"lt\">游玩时间：</span><span class=\"begintime rt\"><%=item.begintime%></span>\r\n                </p>\r\n            </div>\r\n            <% if(item.tip){ %>\r\n                <p style=\"text-align:right; margin-top:12px; margin-right:10px; color:#e12424\" class=\"refundTip\">*<%=item.tip%></p>\r\n            <% } %>\r\n            <ul class=\"ticketUl\">\r\n                <% _.each(item.tickets,function(ticket){ %>\r\n                    <li class=\"ticItem\">\r\n                        <div class=\"con\">\r\n                            <div class=\"lt\">\r\n                                <p class=\"tname\"><%=ticket.name%></p>\r\n                                <p class=\"desc\">\r\n                                    <span>共<i class=\"num\"><%=ticket.tnum_s%></i>张</span>\r\n                                    <span class=\"flag status_<%=ticket.status%>\" style=\"color:#fff; padding:0 3px; background:<%=STATUS[ticket.status]['color']%>\"><%=STATUS[ticket.status][\"text\"]%></span>\r\n                                    <span style=\"display:none\">已使用<i class=\"num unterminal\"><%=ticket.tnum_s-ticket.tnum<0 ? 0 :ticket.tnum_s-ticket.tnum%></i>张</span>\r\n                                    <span>待验证<i class=\"num unterminal\"><%=ticket.tnum%></i>张</span>\r\n                                </p>\r\n                            </div>\r\n                            <div class=\"countBox\">\r\n                                <div class=\"con\">\r\n                                    <input type=\"text\" name=\"\" id=\"\" <%=item.readonly%> data-max=\"<%=ticket.tnum%>\" data-min=\"0\" data-ordernum=\"<%=ticket.ordernum%>\" class=\"countInp\" value=\"<%=ticket.tnum%>\"/>\r\n                                    <a class=\"btn plus disable\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe649;</i></a>\r\n                                    <a class=\"btn minus <%=item.readonly=='readonly' ? 'disable' : ''%>\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe6b5;</i></a>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </li>\r\n                <% }) %>\r\n            </ul>\r\n            <div style=\"display:none\" class=\"checkMethodBox\">\r\n                <!-- 如果支持分批验证，则默认选中保留余票 -->\r\n                <!-- 如果不支持分批验证，则默认选中取消余票 -->\r\n                <!-- item.batch_check==true时 支持分批验证 -->\r\n                <input type=\"radio\" <%=item.batch_check ? \"\" : \"checked\"%> name=\"check_method\" value=\"0\" id=\"check_method_<%=item.ordernum%>_0\"/><label style=\"margin-right:25px\" for=\"check_method_<%=item.ordernum%>_0\">取消余票</label>\r\n                <input type=\"radio\" <%=item.batch_check ? \"checked\" : \"\"%> name=\"check_method\" value=\"1\" id=\"check_method_<%=item.ordernum%>_1\"/><label for=\"check_method_<%=item.ordernum%>_1\">保留余票</label>\r\n            </div>\r\n            <div class=\"botBox\">\r\n                <div class=\"btnBox\">\r\n                    <% if((item.ptype==4 && item.paystatus==0) || (item.ptype==4 && item.paystatus==2)){ %>\r\n                        <span class=\"flag flag_xianchangPay\">现场支付</span>\r\n                    <% }else{ %>\r\n                        <span class=\"flag pmode_<%=item.paystatus%>\"><%={\r\n                                0 : \"景区到付\",\r\n                            1 : \"已支付\",\r\n                            2 : \"未支付\"\r\n                        }[item.paystatus]%></span>\r\n                    <% } %>\r\n                    <a class=\"terminalBtn <%=item.can_check ? '' : 'disable'%>\" data-endtime=\"<%=item.endtime ? item.endtime : ''%>\" data-checkmethod=\"<%=item.batch_check ? 1 : 0%>\" data-ordernum=\"<%=item.ordernum%>\" href=\"javascript:void(0)\">验证</a>\r\n                </div>\r\n                <div class=\"msgBox\"></div>\r\n            </div>\r\n        </li>\r\n    <% }) %>";
+
+/***/ },
+/* 13 */
+/*!***********************************************************!*\
+  !*** ./src/wx_terminal/tpl/terminallSuccess_webpack.html ***!
+  \***********************************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<li style=\"text-align:left\" class=\"dialog_order_item terimalItem\">\r\n    <% _.each(data.order.tickets,function(ticket){ %>\r\n        <p data-ordernum=\"<%=ticket.ordernum%>\" data-tnum=\"<%=ticket.tnum%>\" class=\"ticketLine\">\r\n            <span class=\"tname\"><%=ticket.name%></span>\r\n            共<span class=\"num\"><%=ticket.tnum_s%></span>张\r\n            <% var dcls = ticket.status!=3 ? \"inline\" : \"none\"; %>\r\n            <span style=\"display:none; margin-left:5px;\">已使用<span class=\"num\"><%=ticket.tnum_s-ticket.tnum%></span>张</span>\r\n            <span style=\"margin-left:5px\">待验证<span class=\"num\"><%=ticket.tnum%></span>张</span>\r\n                <span class=\"flag flag_<%=ticket.status%> status_<%=ticket.status%>\"><%={\r\n                        \"0\" : \"未使用\",\r\n                    \"1\" : \"已使用\",\r\n                    \"2\" : \"已过期\",\r\n                    \"3\" : \"已取消\",\r\n                    \"4\" : \"凭证码被替代\",\r\n                    \"5\" : \"被终端撤销(已取消)\",\r\n                    \"6\" : \"被终端撤销(已使用)\",\r\n                    \"7\" : \"已部分使用\"\r\n                }[ticket.status]%></span>\r\n        </p>\r\n    <% }) %>\r\n    <a class=\"terminalBtn <%=data.can_check ? '' : 'hidden'%>\" href=\"javascript:void(0)\"\r\n       data-ordernum=\"<%=data.order.ordernum%>\"\r\n       data-checkmethod=\"\"\r\n       data-endtime=<%=data.order.endtime%>\r\n    >验证</a>\r\n</li>";
+
+/***/ },
+/* 14 */
 /*!*****************************************************!*\
   !*** ./src/wx_terminal/js/modules/terminal.fast.js ***!
   \*****************************************************/
@@ -691,9 +730,9 @@
 	/**
 	 * Created by Administrator on 15-10-8.
 	 */
-	var KeyBoard = __webpack_require__(/*! ./keyBoard.js */ 9);
-	var TerDialog = __webpack_require__(/*! ./dialog.js */ 10);
-	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 6);
+	var KeyBoard = __webpack_require__(/*! ./keyBoard.js */ 15);
+	var TerDialog = __webpack_require__(/*! ./dialog.js */ 16);
+	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 10);
 	var keyBoard = null;
 	var dialog = null;
 	var Core = null;
@@ -940,7 +979,7 @@
 	module.exports = TerminalFast;
 
 /***/ },
-/* 9 */
+/* 15 */
 /*!************************************************!*\
   !*** ./src/wx_terminal/js/modules/keyBoard.js ***!
   \************************************************/
@@ -992,7 +1031,7 @@
 	module.exports = KeyBoard;
 
 /***/ },
-/* 10 */
+/* 16 */
 /*!**********************************************!*\
   !*** ./src/wx_terminal/js/modules/dialog.js ***!
   \**********************************************/
@@ -1061,7 +1100,7 @@
 	module.exports = TerDialog;
 
 /***/ },
-/* 11 */
+/* 17 */
 /*!*******************************************************!*\
   !*** ./src/wx_terminal/js/modules/terminal.normal.js ***!
   \*******************************************************/
@@ -1071,7 +1110,7 @@
 	 * Created by Administrator on 15-10-8.
 	 */
 	
-	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 6);
+	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 10);
 	var TerminalNormal = RichBase.extend({
 		EVENTS : {
 			"tap" : {
@@ -1266,7 +1305,7 @@
 	module.exports = TerminalNormal;
 
 /***/ },
-/* 12 */
+/* 18 */
 /*!**************************************************!*\
   !*** ./src/wx_terminal/js/modules/todayOrder.js ***!
   \**************************************************/
@@ -1275,7 +1314,7 @@
 	/**
 	 * Created by Administrator on 15-9-30.
 	 */
-	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 6);
+	var TerminalCore = __webpack_require__(/*! ./terminal.core.js */ 10);
 	var TodayOrder = RichBase.extend({
 		statics : {
 			cache : true,
@@ -1375,43 +1414,6 @@
 	});
 	module.exports = TodayOrder;
 
-
-/***/ },
-/* 13 */
-/*!****************************************************!*\
-  !*** ./src/wx_terminal/tpl/orderlist_webpack.html ***!
-  \****************************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<% var STATUS={\r\n    0 : { text:\"未使用\",           color:\"#3eba40\"},\r\n        1 : { text:\"已使用\",           color:\"#f37138\"},\r\n        2 : { text:\"已过期\",           color:\"#e12424\"},\r\n        3 : { text:\"已取消\",           color:\"#f37138\"},\r\n        4 : { text:\"凭证码被替代\",      color:\"#f37138\"},\r\n        5 : { text:\"被终端撤销(已取消)\", color:\"#f37138\"},\r\n        6 : { text:\"被终端撤销(已使用)\", color:\"#f37138\"},\r\n        7 : { text:\"已部分使用\",        color:\"#f37138\"}\r\n    };%>\r\n    <% _.each(data,function(item){ %>\r\n        <%console.log(item)%>\r\n        <li class=\"orderItem\">\r\n            <div class=\"titBox\">\r\n                <p class=\"line\">\r\n                    <span class=\"lt\">订单号：</span><span class=\"ordernum rt\"><%=item.ordernum%></span>\r\n                </p>\r\n                <p class=\"line\">\r\n                    <span class=\"lt\">联系人：</span><span class=\"ordername rt\"><%=item.ordername%><span class=\"tel\"><%=item.ordertel%></span></span>\r\n                </p>\r\n                <p class=\"line\">\r\n                    <span class=\"lt\">游玩时间：</span><span class=\"begintime rt\"><%=item.begintime%></span>\r\n                </p>\r\n            </div>\r\n            <% if(item.tip){ %>\r\n                <p style=\"text-align:right; margin-top:12px; margin-right:10px; color:#e12424\" class=\"refundTip\">*<%=item.tip%></p>\r\n            <% } %>\r\n            <ul class=\"ticketUl\">\r\n                <% _.each(item.tickets,function(ticket){ %>\r\n                    <li class=\"ticItem\">\r\n                        <div class=\"con\">\r\n                            <div class=\"lt\">\r\n                                <p class=\"tname\"><%=ticket.name%></p>\r\n                                <p class=\"desc\">\r\n                                    <span>共<i class=\"num\"><%=ticket.tnum_s%></i>张</span>\r\n                                    <span class=\"flag status_<%=ticket.status%>\" style=\"color:#fff; padding:0 3px; background:<%=STATUS[ticket.status]['color']%>\"><%=STATUS[ticket.status][\"text\"]%></span>\r\n                                    <span style=\"display:none\">已使用<i class=\"num unterminal\"><%=ticket.tnum_s-ticket.tnum<0 ? 0 :ticket.tnum_s-ticket.tnum%></i>张</span>\r\n                                    <span>待验证<i class=\"num unterminal\"><%=ticket.tnum%></i>张</span>\r\n                                </p>\r\n                            </div>\r\n                            <div class=\"countBox\">\r\n                                <div class=\"con\">\r\n                                    <input type=\"text\" name=\"\" id=\"\" <%=item.readonly%> data-max=\"<%=ticket.tnum%>\" data-min=\"0\" data-ordernum=\"<%=ticket.ordernum%>\" class=\"countInp\" value=\"<%=ticket.tnum%>\"/>\r\n                                    <a class=\"btn plus disable\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe649;</i></a>\r\n                                    <a class=\"btn minus <%=item.readonly=='readonly' ? 'disable' : ''%>\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe6b5;</i></a>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </li>\r\n                <% }) %>\r\n            </ul>\r\n            <div style=\"display:none\" class=\"checkMethodBox\">\r\n                <!-- 如果支持分批验证，则默认选中保留余票 -->\r\n                <!-- 如果不支持分批验证，则默认选中取消余票 -->\r\n                <!-- item.batch_check==true时 支持分批验证 -->\r\n                <input type=\"radio\" <%=item.batch_check ? \"\" : \"checked\"%> name=\"check_method\" value=\"0\" id=\"check_method_<%=item.ordernum%>_0\"/><label style=\"margin-right:25px\" for=\"check_method_<%=item.ordernum%>_0\">取消余票</label>\r\n                <input type=\"radio\" <%=item.batch_check ? \"checked\" : \"\"%> name=\"check_method\" value=\"1\" id=\"check_method_<%=item.ordernum%>_1\"/><label for=\"check_method_<%=item.ordernum%>_1\">保留余票</label>\r\n            </div>\r\n            <div class=\"botBox\">\r\n                <div class=\"btnBox\">\r\n                    <% if((item.ptype==4 && item.paystatus==0) || (item.ptype==4 && item.paystatus==2)){ %>\r\n                        <span class=\"flag flag_xianchangPay\">现场支付</span>\r\n                    <% }else{ %>\r\n                        <span class=\"flag pmode_<%=item.paystatus%>\"><%={\r\n                                0 : \"景区到付\",\r\n                            1 : \"已支付\",\r\n                            2 : \"未支付\"\r\n                        }[item.paystatus]%></span>\r\n                    <% } %>\r\n                    <a class=\"terminalBtn <%=item.can_check ? '' : 'disable'%>\" data-endtime=\"<%=item.endtime ? item.endtime : ''%>\" data-checkmethod=\"<%=item.batch_check ? 1 : 0%>\" data-ordernum=\"<%=item.ordernum%>\" href=\"javascript:void(0)\">验证</a>\r\n                </div>\r\n                <div class=\"msgBox\"></div>\r\n            </div>\r\n        </li>\r\n    <% }) %>";
-
-/***/ },
-/* 14 */
-/*!***********************************************************!*\
-  !*** ./src/wx_terminal/tpl/terminallSuccess_webpack.html ***!
-  \***********************************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<li style=\"text-align:left\" class=\"dialog_order_item terimalItem\">\r\n    <% _.each(data.order.tickets,function(ticket){ %>\r\n        <p data-ordernum=\"<%=ticket.ordernum%>\" data-tnum=\"<%=ticket.tnum%>\" class=\"ticketLine\">\r\n            <span class=\"tname\"><%=ticket.name%></span>\r\n            共<span class=\"num\"><%=ticket.tnum_s%></span>张\r\n            <% var dcls = ticket.status!=3 ? \"inline\" : \"none\"; %>\r\n            <span style=\"display:<%=dcls%>; margin-left:5px;\">已使用<span class=\"num\"><%=ticket.tnum_s-ticket.tnum%></span>张</span>\r\n            <span style=\"margin-left:5px\">待验证<span class=\"num\"><%=ticket.tnum%></span>张</span>\r\n                <span class=\"flag flag_<%=ticket.status%> status_<%=ticket.status%>\"><%={\r\n                        \"0\" : \"未使用\",\r\n                    \"1\" : \"已使用\",\r\n                    \"2\" : \"已过期\",\r\n                    \"3\" : \"已取消\",\r\n                    \"4\" : \"凭证码被替代\",\r\n                    \"5\" : \"被终端撤销(已取消)\",\r\n                    \"6\" : \"被终端撤销(已使用)\",\r\n                    \"7\" : \"已部分使用\"\r\n                }[ticket.status]%></span>\r\n        </p>\r\n    <% }) %>\r\n    <a class=\"terminalBtn <%=data.can_check ? '' : 'hidden'%>\" href=\"javascript:void(0)\"\r\n       data-ordernum=\"<%=data.order.ordernum%>\"\r\n       data-checkmethod=\"\"\r\n       data-endtime=<%=data.order.endtime%>\r\n    >验证</a>\r\n</li>";
-
-/***/ },
-/* 15 */
-/*!********************************************!*\
-  !*** ./src/wx_terminal/css/order.item.css ***!
-  \********************************************/
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 16 */,
-/* 17 */
-/*!**************************************************!*\
-  !*** ./src/wx_terminal/css/terminal.success.css ***!
-  \**************************************************/
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
