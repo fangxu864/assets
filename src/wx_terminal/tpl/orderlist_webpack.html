@@ -1,0 +1,75 @@
+<% var STATUS={
+    0 : { text:"未使用",           color:"#3eba40"},
+        1 : { text:"已使用",           color:"#f37138"},
+        2 : { text:"已过期",           color:"#e12424"},
+        3 : { text:"已取消",           color:"#f37138"},
+        4 : { text:"凭证码被替代",      color:"#f37138"},
+        5 : { text:"被终端撤销(已取消)", color:"#f37138"},
+        6 : { text:"被终端撤销(已使用)", color:"#f37138"},
+        7 : { text:"已部分使用",        color:"#f37138"}
+    };%>
+    <% _.each(data,function(item){ %>
+        <%console.log(item)%>
+        <li class="orderItem">
+            <div class="titBox">
+                <p class="line">
+                    <span class="lt">订单号：</span><span class="ordernum rt"><%=item.ordernum%></span>
+                </p>
+                <p class="line">
+                    <span class="lt">联系人：</span><span class="ordername rt"><%=item.ordername%><span class="tel"><%=item.ordertel%></span></span>
+                </p>
+                <p class="line">
+                    <span class="lt">游玩时间：</span><span class="begintime rt"><%=item.begintime%></span>
+                </p>
+            </div>
+            <% if(item.tip){ %>
+                <p style="text-align:right; margin-top:12px; margin-right:10px; color:#e12424" class="refundTip">*<%=item.tip%></p>
+            <% } %>
+            <ul class="ticketUl">
+                <% _.each(item.tickets,function(ticket){ %>
+                    <li class="ticItem">
+                        <div class="con">
+                            <div class="lt">
+                                <p class="tname"><%=ticket.name%></p>
+                                <p class="desc">
+                                    <span>共<i class="num"><%=ticket.tnum_s%></i>张</span>
+                                    <span class="flag status_<%=ticket.status%>" style="color:#fff; padding:0 3px; background:<%=STATUS[ticket.status]['color']%>"><%=STATUS[ticket.status]["text"]%></span>
+                                    <span style="display:none">已使用<i class="num unterminal"><%=ticket.tnum_s-ticket.tnum<0 ? 0 :ticket.tnum_s-ticket.tnum%></i>张</span>
+                                    <span>待验证<i class="num unterminal"><%=ticket.tnum%></i>张</span>
+                                </p>
+                            </div>
+                            <div class="countBox">
+                                <div class="con">
+                                    <input type="text" name="" id="" <%=item.readonly%> data-max="<%=ticket.tnum%>" data-min="0" data-ordernum="<%=ticket.ordernum%>" class="countInp" value="<%=ticket.tnum%>"/>
+                                    <a class="btn plus disable" href="javascript:void(0)"><i class="iconfont">&#xe649;</i></a>
+                                    <a class="btn minus <%=item.readonly=='readonly' ? 'disable' : ''%>" href="javascript:void(0)"><i class="iconfont">&#xe6b5;</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <% }) %>
+            </ul>
+            <div style="display:none" class="checkMethodBox">
+                <!-- 如果支持分批验证，则默认选中保留余票 -->
+                <!-- 如果不支持分批验证，则默认选中取消余票 -->
+                <!-- item.batch_check==true时 支持分批验证 -->
+                <input type="radio" <%=item.batch_check ? "" : "checked"%> name="check_method" value="0" id="check_method_<%=item.ordernum%>_0"/><label style="margin-right:25px" for="check_method_<%=item.ordernum%>_0">取消余票</label>
+                <input type="radio" <%=item.batch_check ? "checked" : ""%> name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
+            </div>
+            <div class="botBox">
+                <div class="btnBox">
+                    <% if((item.ptype==4 && item.paystatus==0) || (item.ptype==4 && item.paystatus==2)){ %>
+                        <span class="flag flag_xianchangPay">现场支付</span>
+                    <% }else{ %>
+                        <span class="flag pmode_<%=item.paystatus%>"><%={
+                                0 : "景区到付",
+                            1 : "已支付",
+                            2 : "未支付"
+                        }[item.paystatus]%></span>
+                    <% } %>
+                    <a class="terminalBtn <%=item.can_check ? '' : 'disable'%>" data-endtime="<%=item.endtime ? item.endtime : ''%>" data-checkmethod="<%=item.batch_check ? 1 : 0%>" data-ordernum="<%=item.ordernum%>" href="javascript:void(0)">验证</a>
+                </div>
+                <div class="msgBox"></div>
+            </div>
+        </li>
+    <% }) %>

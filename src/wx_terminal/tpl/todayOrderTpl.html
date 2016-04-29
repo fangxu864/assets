@@ -1,0 +1,35 @@
+<style type="text/css">
+    .todayItem{ padding:10px; border-bottom:1px solid #dcdcdc; font-size:14px;}
+    .todayItem .line{ line-height:1.5}
+    .todayItem .lt{ display:inline-block; width:80px;}
+    .todayItem .star,.todayItem .num{ position:relative; top:1px; color:#f37138}
+    .todayItem .num{ top:2px; font-size:20px; font-weight:600}
+</style>
+<script id="todayOrderTpl" type="text/template">
+    <% _.each(data,function(item){ %>
+        <li class="todayItem">
+            <div class="con">
+                <div class="line">
+                    <span class="lt">订单号：</span>
+                    <span class="rt"><%=item.ordernum%></span>
+                </div>
+                <div class="line">
+                    <span class="lt">联系人：</span>
+                    <span class="rt"><%=item.orderName%> <%=item.orderTel%></span>
+                </div>
+                <div class="line">
+                    <span class="lt">票类：</span>
+                    <span class="rt">
+                        <span class="tic"><%=item.ttitle%></span>
+                        <i class="star">*</i>
+                        <span class="num"><%=item.tnum%></span>
+                    </span>
+                </div>
+                <div class="line">
+                    <span class="lt">验证时间：</span>
+                    <span class="rt"><%=item.dtime%></span>
+                </div>
+            </div>
+        </li>
+    <% }) %>
+</script>

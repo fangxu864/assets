@@ -1,0 +1,33 @@
+.terminalSucPage{ display:none; position:absolute; top:0; right:0; left:0; bottom:0; background:rgba(0,0,0,0.5)}
+.terminalSucPage > .con{ position:absolute; top:20%; bottom:20%; left:15px; right:15px; background:#fff; border-radius:3px; overflow:hidden;}
+.terminalSucPage .title,.terminalSucPage .btnBox{ position:absolute; left:0; right:0; height:38px; line-height:38px; background:#efefef; text-align:center;}
+.terminalSucPage .title{ top:0; border-bottom:1px solid #d0d0d0}
+.terminalSucPage .title .iconfont{ font-size:18px; color:#3eba40; margin-right:2px; vertical-align:middle}
+.terminalSucPage .btnBox{ overflow:hidden; height:45px; line-height:45px; bottom:0; border-top:1px solid #d0d0d0}
+.terminalSucPage .btnBox .btn{ display:block; height:100%; width:100%; font-size:14px; font-size:600;}
+.terminalSucPage .btnBox .btn.noBtn{ display:none}
+.terminalSucPage .btnBox.doub .btn{ float:left; width:50%;}
+.terminalSucPage .btnBox.doub .btn.noBtn{ display:block; border-right:1px solid #d0d0d0; margin-left:-1px;}
+.terminalSucPage .mainCon{ position:absolute; left:0; right:0; top:39px; bottom:46px; overflow:auto; -webkit-overflow-scrolling:touch}
+.terminalSucPage .mainCon .listUl{ padding:0;}
+.terminalSucPage .mainCon .listUl li{ width:100%; height:42px; line-height:42px; padding:0 5px; border-bottom:1px solid #e0e0e0; text-align:center; -webkit-box-sizing:border-box; box-sizing:border-box}
+.terminalSucPage .mainCon .listUl .num{ font-size:16px; font-weight:600; color:#f37138; margin:0 2px;}
+.terminalSucPage .mainCon .listUl li.terimalItem{
+    height:auto; line-height:26px; overflow:hidden; text-align:left; padding:20px 15px;
+}
+.terminalSucPage .mainCon .listUl li.terimalItem .tit{ margin-left:10px;}
+.terminalSucPage .mainCon .listUl li.terimalItem .terminalBtn{
+    position:relative; display:block; margin:8px auto 0;
+    width:100%; height:36px; line-height:36px; text-align:center;
+    background:#2a98da; color:#fff; border-radius:3px;
+}
+.terminalSucPage .mainCon .listUl li.terimalItem .terminalBtn.hidden{ display:none;}
+.terminalSucPage .mainCon .listUl li.terimalItem .terminalBtn.valifyed{ background:#3eba40}
+.terminalSucPage .mainCon .listUl li.terimalItem .num{ position:relative; top:2px;}
+.terminalSucPage .mainCon .listUl li.terimalItem .dot{ position:relative; top:2px;}
+.terminalSucPage .mainCon .listUl li.terimalItem .flag{ position:absolute; top:5px; right:0; display:inline-block; float:right; height:20px; top:5px; line-height:20px; padding:0 10px; color:#fff; background:#f17848; }
+.terminalSucPage .mainCon .listUl li.terimalItem .flag.overDate{ background:#f17848}
+.terminalSucPage .mainCon .listUl li.terimalItem .flag.paytype{ background:#f17848}
+.terminalSucPage .mainCon .listUl li.terimalItem .flag.pmode_1{ background:#3eba40}
+.terminalSucPage .mainCon .listUl li.terimalItem .flag.status_0{ background:#3eba40}
+.terminalSucPage .mainCon .listUl li.terimalItem .ticketLine{ position:relative; padding-right:60px}

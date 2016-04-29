@@ -1,0 +1,26 @@
+<li style="text-align:left" class="dialog_order_item terimalItem">
+    <% _.each(data.order.tickets,function(ticket){ %>
+        <p data-ordernum="<%=ticket.ordernum%>" data-tnum="<%=ticket.tnum%>" class="ticketLine">
+            <span class="tname"><%=ticket.name%></span>
+            共<span class="num"><%=ticket.tnum_s%></span>张
+            <% var dcls = ticket.status!=3 ? "inline" : "none"; %>
+            <span style="display:<%=dcls%>; margin-left:5px;">已使用<span class="num"><%=ticket.tnum_s-ticket.tnum%></span>张</span>
+            <span style="margin-left:5px">待验证<span class="num"><%=ticket.tnum%></span>张</span>
+                <span class="flag flag_<%=ticket.status%> status_<%=ticket.status%>"><%={
+                        "0" : "未使用",
+                    "1" : "已使用",
+                    "2" : "已过期",
+                    "3" : "已取消",
+                    "4" : "凭证码被替代",
+                    "5" : "被终端撤销(已取消)",
+                    "6" : "被终端撤销(已使用)",
+                    "7" : "已部分使用"
+                }[ticket.status]%></span>
+        </p>
+    <% }) %>
+    <a class="terminalBtn <%=data.can_check ? '' : 'hidden'%>" href="javascript:void(0)"
+       data-ordernum="<%=data.order.ordernum%>"
+       data-checkmethod=""
+       data-endtime=<%=data.order.endtime%>
+    >验证</a>
+</li>

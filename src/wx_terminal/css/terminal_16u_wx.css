@@ -1,0 +1,113 @@
+html,body{ font-size:12px; height:100%; overflow:hidden; position:relative; background:#e8ebed}
+.mPage{ position:absolute; top:46px; left:0; right:0; bottom:47px;}
+.productComp{ position:relative; height:46px; line-height:45px; width:100%; overflow:hidden; background:#0797d9; color:#fff}
+.productComp > .con{ height:100%; line-height:inherit; font-size:14px; margin-right:60px; padding-left:10px; overflow:hidden; color:#fff}
+.productComp > .con .toggleBtn{ margin-left:5px;}
+.productComp > .con .toggleBtn .iconfont{ font-size:22px; vertical-align:middle; color:#fff}
+.productComp > .moreBtn{ position:absolute; display:block; top:0; right:0; bottom:0; width:60px; line-height:inherit; text-align:center; color:#fff}
+#productname{ color:#fff}
+.terminalEntry{ position:relative; overflow:hidden; margin:10px;}
+.terminalEntry .inpCon{ border:1px solid #cbcbcb; border-radius:4px; overflow:hidden}
+.terminalEntry .inpCon input[type=text]{ display:block; width:100%; height:42px; font-size:16px; padding:0 10px; border:0 none; -webkit-box-sizing:border; box-sizing:border-box;
+    -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+}
+.keyboradComp{ position:absolute; bottom:0; left:0; right:0}
+.keyboradUl{ position:relative;}
+.keyboradUl .keyBox{ position:absolute; width:25%; height:69px; line-height:69px; overflow:hidden; text-align:center; border-top:1px solid #eee; background:#fff}
+.keyboradUl .keyBox.num{ font-size:14px; font-weight:600;}
+.keyboradUl .keyBox.num:active{ background:#f5f5f5; font-size:16px;}
+.keyboradUl .keyBox > .con{ display:block; height:100%; line-height:inherit;}
+.keyboradUl .keyBox > .con.br{ border-right:1px solid #eee}
+.keyboradUl .keyBox.zeo{ width:75%; left:0; bottom:0}
+.keyboradUl .keyBox.empty{ right:0; bottom:210px; color:#f37138; font-size:16px;}
+.keyboradUl .keyBox.empty:active{ background:#f5f5f5}
+.keyboradUl .keyBox.back{ right:0; bottom:140px;}
+.keyboradUl .keyBox.back:active{ background:#f5f5f5}
+.keyboradUl .keyBox.back .icon{ position:relative; top:9px; display:inline-block; width:44px; height:30px; background:url("http://wx.12301.cc/terminal/images/terminal-keybox-back.png") no-repeat 0 0;
+    background-size:70% 70%;
+    background-position:center center;
+}
+.keyboradUl .keyBox.valify{ right:0; bottom:0; height:140px; line-height:140px; background:#1fa1dd; color:#fff}
+.keyboradUl .keyBox.num_9{ left:50%; bottom:70px;}
+.keyboradUl .keyBox.num_8{ left:25%; bottom:70px;}
+.keyboradUl .keyBox.num_7{ left:0; bottom:70px;}
+.keyboradUl .keyBox.num_6{ left:50%; bottom:140px;}
+.keyboradUl .keyBox.num_5{ left:25%; bottom:140px;}
+.keyboradUl .keyBox.num_4{ left:0; bottom:140px;}
+.keyboradUl .keyBox.num_3{ left:50%; bottom:210px;}
+.keyboradUl .keyBox.num_2{ left:25%; bottom:210px;}
+.keyboradUl .keyBox.num_1{ left:0; bottom:210px;}
+
+.modelTab{ position:absolute; left:0; right:0; bottom:0; height:46px; line-height:46px; background:#fff; border-top:1px solid #eee;}
+.modelTab > .con{ width:100%; height:100%; line-height:inherit; overflow:hidden;}
+.modelTab .tabItem{ display:block; float:left; width:50%; height:100%; line-height:inherit; text-align:center; font-size:16px; font-weight:600;}
+.modelTab .tabItem:active{ background:#ececec}
+.modelTab .tabItem .icon{ display:inline-block; width:30px; height:30px; vertical-align:middle; margin-right:2px; background:url("http://wx.12301.cc/terminal/images/model_tabItem_icon.png") no-repeat 0 0;}
+.modelTab .tabItem .icon.fast{ background-position:left bottom}
+.modelTab .tabItem.active .icon.fast{ background-position:left top}
+.modelTab .tabItem .icon.normal{ background-position:right bottom}
+.modelTab .tabItem.active .icon.normal{ background-position:right top}
+.modelTab .tabItem .t{ vertical-align:middle; color:#6c7882}
+.modelTab .tabItem.active .t{ color:#2a98da}
+
+
+
+.prodListPage{ position:absolute; top:46px; left:0; right:0; bottom:0; background:#fff; overflow:hidden}
+.prodListPage .searchProdBox{ position:absolute; top:5px; left:10px; right:10px; border:1px solid #e0e0e0; border-radius:3px; overflow:hidden; background:#fff;
+    -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+}
+.prodListPage .searchProdBox input{ display:block; width:100%; height:40px; font-size:14px; padding:3px 45px 3px 30px; background:none; border:0 none;
+    -webkit-box-sizing:border-box; box-sizing:border-box;
+}
+.prodListPage .searchProdBox input:focus{ color:#f37138}
+.prodListPage .searchProdBox .iconfont.search{ position:absolute; left:10px; top:14px;}
+.prodListPage .searchProdBox .clearBtn{ position:absolute; right:9px; top:9px; display:none; width:22px; height:22px; line-height:22px; color:#858585; background:#d9d9d9; border-radius:50%; text-align:center;}
+.prodListPage .closeBtn{ position:absolute; left:0; right:0; bottom:0; height:48px; line-height:48px; text-align:center;
+    background:#f2f2f2; border-top:1px solid #e0e0e0;
+    color:#0797d9;
+}
+.prodListPage .closeBtn .iconfont{ font-size:18px; vertical-align:middle; margin-right:2px}
+.prodListPage .listBox{ position:absolute; top:50px; left:10px; right:10px; bottom:49px; overflow:auto; -webkit-overflow-scrolling:touch;}
+.prodListPage .listBox .item{ width:100%; height:50px; line-height:50px; padding-left:4px; border-bottom:1px solid #e0e0e0; overflow:hidden;
+    -webkit-box-sizing:border-box; box-sizing:border-box;
+}
+.prodListPage .listBox .item:last-child{ border-bottom:0 none}
+.prodListPage .listBox .item.active{ color:#2a98da}
+.prodListPage .listBox .item:active{ background:#f6f6f6}
+
+#mainCon .mPage{ display:none}
+#mainCon .mPage.active{ display:block;}
+.normalPage .searchBox{ position:relative; padding:7px 65px 7px 10px; border-top:1px solid #1788bc; background:#2a98da}
+.normalPage .searchBox .inputBox{ position:relative; height:36px; padding-right:33px; border-radius:3px; overflow:hidden; background:#fff;}
+.normalPage .searchBox .inputBox input{ display:block; width:100%; height:100%; padding:0 0 0 5px; border:0 none; background:none; -webkit-box-sizing:border-box; box-sizing:border-box}
+.normalPage .searchBox .inputBox input:focus{ color:#f37138;}
+.normalPage .searchBox .searchBtn{ display:block; position:absolute; top:8px; right:8px; width:53px; height:34px; line-height:34px; background:#fff; border-radius:3px; text-align:center}
+.normalPage .searchBox .clearSearBtn{ display:none; position:absolute; top:6px; right:9px; width:24px; height:24px; line-height:24px; background:#d7d7d7; text-align:center; border-radius:50%;}
+.normalPage .searchResultWrap{ position:absolute; top:51px; left:0; right:0; bottom:0; overflow:auto; -webkit-overflow-scrolling:touch; overflow-scrolling:touch}
+.normalPage .listUl .sta{ width:100%; height:200px; line-height:200px; text-align:center;}
+.normalPage .listUl .sta .iconfont{ vertical-align:middle; margin-right:2px; font-size:18px;}
+.normalPage .listUl .sta .t{ vertical-align:middle; font-size:14px;}
+
+
+
+.todayOrderPage{ display:none; position:absolute; z-index:100001; top:0; right:0; left:0; bottom:0; background:#fff}
+.todayOrderPage .todayHead{ position:absolute; top:0; right:0; left:0; height:46px; line-height:46px; font-size:14px; background:#2a98da; color:#fff; text-align:center}
+.todayOrderPage .todayHead .todayBack{ display:block; position:absolute; top:0; left:0; bottom:0; width:60px; line-height:inherit; color:#fff;}
+.todayOrderPage .todayHead .todayBack:active{ background:#268cc7}
+.todayOrderPage .todayHead .todayBack .iconfont{ font-size:20px;}
+.todayOrderPage .tomainCon{ position:absolute; top:48px; left:0; right:0; bottom:0; overflow:auto; -webkit-overflow-scrolling:touch;}
+.todayOrderPage .listUl .sta{ height:200px; line-height:200px; text-align:center;}
+.todayOrderPage .listUl .sta .iconfont{ font-size:20px; vertical-align:middle; margin-right:2px;}
+.todayOrderPage .listUl .sta .t{ font-size:14px; vertical-align:middle;}
+
+
+
+
+
+
+
+
+
+
+
+

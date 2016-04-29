@@ -1,0 +1,5 @@
+{
+	"template" : "./src/terminal/view/index.html",
+	"filename" : "myfilename",
+	"hash" : true
+}

@@ -1,0 +1,12 @@
+<div style="display:none" id="prodListPage" class="prodListPage">
+    <div id="searchProdBox" class="searchProdBox">
+        <input type="text" name="" id="prodSearchInp" class="prodSearchInp" placeholder="景区名"/>
+        <i class="iconfont search">&#xe633;</i>
+        <span class="clearBtn"><i class="iconfont">&#xe634;</i></span>
+    </div>
+    <div class="listBox"><ul class="listUl"></ul></div>
+    <a style="display:block" href="javascript:window.history.go(-1)" class="closeBtn"><i class="iconfont">&#xe627;</i><span class="t">关闭</span></a>
+</div>
+<script type="text/template" id="productItemTpl">
+    <li class="item" data-id="<%=salerid%>"><span class="t"><%=title%></span></li>
+</script>

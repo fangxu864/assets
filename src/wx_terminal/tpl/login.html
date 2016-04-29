@@ -1,0 +1,146 @@
+<div style="display:none" id="loginWrap" class="loginWrap">
+    <input id="headImgHidInp" name="" type="hidden" value="<?=$headimgurl?>"/>
+    <?php
+    if(empty($headimgurl)){
+        $photoImg = "http://www.12301.cc/images/defaultThum.jpg";
+    }else{
+        $photoImg = $headimgurl;
+    }
+    ?>
+    <div class="setBg">
+        <a class="goBackBtn" href="javascript:history.go(-1)"><i class="iconfont">&#xe60c;</i></a>
+        <div class="userPhoto">
+            <img class="userImg" src="<?=$photoImg?>" />
+        </div>
+        <div class="loginBox">
+            <div class="inpBox ui-radius">
+                <div><i class="iconfont loginIcon">&#xe682;</i><input id="login-userInp" class="loginInp setBorder login-userInp" type="text" placeholder="6位帐号或11位手机号"/></div>
+                <div><i class="iconfont loginIcon">&#xe62d;</i><input id="login-pwdInp" class="loginInp login-pwdInp" type="password" placeholder="请输入密码"/></div>
+            </div>
+            <a id="loginBtn" class="loginBtn longinBtn ui-radius" href="javascript:void(0)">登录</a>
+        </div>
+        <a class="forgetBtn" href="resetpassword.html">忘记密码?</a>
+        <a class="regBtn" href="register.html">注册</a>
+    </div>
+</div>
+<script type="text/javascript" src="http://www.12301.cc/js/md5.js"></script>
+<script type="text/javascript">
+    var Login = RichBase.extend({
+        EVENTS : {
+            "focus" : {
+                ".login-userInp" : "onuserInpFocus",
+                ".login-pwdInp" : "onpwdInpFocus"
+            },
+            "blur" : {
+                ".login-userInp" : "onuserInpBlur",
+                ".login-pwdInp" : "onpwdInpBlur"
+            },
+            "tap" : {
+                ".loginBtn" : "onLoginBtnTap"
+            }
+        },
+        init : function(opt){
+            this.container = opt.container;
+            this.userInp = $("#login-userInp");
+            this.pwdInp = $("#login-pwdInp");
+        },
+        onuserInpFocus : function(that,e){},
+        onpwdInpFocus : function(that,e){},
+        onuserInpBlur : function(that,e){},
+        onpwdInpBlur : function(that,e){},
+        onLoginBtnTap : function(that,e){
+            var loginBtn = $(e.currentTarget);
+            if(loginBtn.hasClass("login")) return false;
+            var userInp = that.userInp;
+            var pwdInp = that.pwdInp;
+            var username = userInp.val();
+            var pwd = pwdInp.val();
+            if(!username || (username.length!==6 && username.length!==11)){
+                alert("请输入6位帐号或11位手机号");
+                that.fire("username.error",username);
+                return false;
+            }
+            if(!pwd) return false;
+            pwd = hex_md5(pwd);
+            var data = {username:username,pwd:pwd};
+            that.login(username,pwd,{
+                loading : function(){
+                    loginBtn.addClass("loading").text("正在登录...");
+                    that.fire("login.loading",data);
+                },
+                removeLoading : function(){
+                    loginBtn.removeClass("loading").text("登录");
+                    that.fire("login.removeLoading",data);
+                },
+                success : function(res){
+                    data["res"] = res;
+                    that.fire("login.success",data);
+                },
+                timeout : function(){
+                    that.fire("login.timeout",data);
+                },
+                fail : function(res){
+                    data["res"] = res;
+                    that.fire("login.fail",data);
+                },
+                error : function(res){
+                    data["res"] = res;
+                    that.fire("login.error",data);
+                }
+            })
+        },
+        setUsername : function(username,callback){
+            username && this.userInp.val(username);
+            callback && callback();
+        },
+        setPassword : function(password,callback){
+            password && this.pwdInp.val(password);
+            callback && callback();
+        },
+        open : function(callback){
+            this.container.show();
+            callback && callback();
+        },
+        close : function(callback){
+            this.container.hide();
+            callback && callback();
+        },
+        login : function(username,pwd,opt){
+            if(!username || !pwd) return false;
+            var opt = opt || {};
+            var fn = new Function();
+            var loading = opt.loading || fn;
+            var removeLoading = opt.removeLoading || fn;
+            var timeout = opt.timeout || fn;
+            var error = opt.error || fn;
+            var fail = opt.fail || fn;
+            var success = opt.success || fn;
+            $.ajax({
+                url : "../api/login.php",
+                type : "post",
+                dataType : "json",
+                beforeSend : function(){ loading() },
+                data : {
+                    account : username,
+                    password : pwd
+                },
+                success : function(res){
+                    removeLoading();
+                    if(res && res.status == "ok"){ //登录成功
+                        success(res,username,pwd);
+                    }else{
+                        fail(res.msg);
+                    }
+                },
+                error : function(xhr,txt){
+                    removeLoading();
+                    if(txt == "timeout"){
+                        timeout();
+                    }else{
+                        error(txt);
+                    }
+                }
+            })
+        }
+    });
+</script>

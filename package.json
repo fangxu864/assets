@@ -10,8 +10,8 @@
     "test": "webpack -w -test",
     "dev-build": "webpack -dev",
     "dev": "webpack -w -dev",
-    "prod-build": "webpack -p",
-    "prod": "webpack -w -p"
+    "prod-build": "webpack -myProduct",
+    "prod": "webpack -w -myProduct"
   },
   "repository": {
     "type": "git",
