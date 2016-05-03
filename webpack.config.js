@@ -31,6 +31,8 @@ var fs = require("fs");
 var path = require("path");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var precss = require("precss");
+var autoprefixer = require("autoprefixer");
 //动态获取入口文件
 var getEntry = function(project_name){
 	var root = ROOT_PATH;
@@ -125,11 +127,22 @@ module.exports = {
 			loader: "html?-minimize"
 		},{
 			test: /\.css$/,
-			loader: ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!cssnext-loader")
+			loader: ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!cssnext-loader!postcss-loader")
+		},{
+			test: /\.js$/,
+			exclude: /node_modules/,
+			loader: 'babel'
 		},{
 			test: /\.(png|jpe?g|gif)$/,
 			loader: 'url-loader?limit=8192&name=imgs/[name]-[hash].[ext]'
 		}]
+	},
+	postcss: function () {
+		return [precss, autoprefixer];
+	},
+	babel: {
+		presets: ['es2015', 'stage-0'],
+		plugins: ['transform-runtime']
 	},
 	plugins : Plugins,
 	resolve : {
