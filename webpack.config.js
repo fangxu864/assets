@@ -66,14 +66,14 @@ var entry = getEntry(Params.project_name);
 var output = (function(){
 	var env = Params.env;
 	var output = {
-		path : path.join(__dirname, "./build/"+env),
+		path : path.join(__dirname, "./build/"+env+"/"),
 		filename: "js/[name].all.js"
 	};
 	var host = {
-		local : "http://static.12301.local/assets/build/local",
-		test  : "http://static.12301.test/assets/build",
-		dev   : "http://static.12301dev.com/assets/build",
-		prod  : "http://static.12301.cc/assets/build"
+		local : "http://static.12301.local/assets/build/local/",
+		test  : "http://static.12301.test/assets/build/",
+		dev   : "http://static.12301dev.com/assets/build/",
+		prod  : "http://static.12301.cc/assets/build/"
 	}[env];
 	output["publicPath"] = host;
 	return output;
