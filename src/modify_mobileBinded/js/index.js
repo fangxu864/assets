@@ -2,14 +2,15 @@
  * Created by Administrator on 16-4-18.
  */
 var Dialog = require("COMMON/modules/easydialog");
-var tpl = require("../view/modify_mobileBinded.html");
+var tpl = require("../modify_mobileBinded.html");
 var VCode = require("COMMON/js/util.vcode.js");
 var Validate = require("COMMON/js/util.validate.js");
 var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 var Main = {
+	timer : null,
+	INTERVAL : 60, //60秒后重新获取验证码
 	init : function(){
-		this.old_mobile = "18305917899";
-		this.modifyMobileTrigger = $("#modifyBtn");
+		this.modifyMobileTrigger = $("#modify_mobileBindedBtn");
 		this.bindEvents();
 	},
 	bindEvents : function(){
@@ -20,7 +21,7 @@ var Main = {
 					header : '修改绑定手机号',
 					content : tpl
 				},
-				offsetY : -160,
+				offsetY : -50,
 				overlay : false,
 				events : {
 					"focus #modifyDialogBox .textInp" : function(e){
@@ -33,14 +34,15 @@ var Main = {
 					"click #modifyDialogBox .getVCodeBtn" : function(e){
 						that.onGetVCodeBtnClick($(e.target));
 					}
-				}
+				},
+				drag : false
 			},function(){
-				$("#mobileInp_old").val(that.old_mobile);
+				$("#mobileInp_old").val(that.getOldMobile());
 			})
 		})
 	},
 	getOldMobile : function(){
-		return this.old_mobile;
+		return $("#mob").text();
 	},
 	getNewMobile : function(){
 		return $.trim($("#mobileInp_new").val());
@@ -61,16 +63,32 @@ var Main = {
 		if(!mobile || !Validate.typePhone(mobile)) error = "请填写正确格式手机号";
 		return error;
 	},
+	//获取验证码
 	onGetVCodeBtnClick : function(tarBtn){
+		var that = this;
 		if(tarBtn.hasClass("disable")) return false;
 		var mobile = tarBtn.hasClass("old") ? this.getOldMobile() : this.getNewMobile();
-		var validate = this.validate_mobile();
+		var validate = this.validate_mobile(mobile);
 		if(validate) return alert(validate);
+		var orign_text = tarBtn.text();
+		var interval = that.INTERVAL-1;
 		VCode.get(mobile,{
-			loading : function(){},
-			complate : function(){},
+			loading : function(){ tarBtn.addClass("disable").text("正在获取...");},
+			complete : function(){
+				tarBtn.removeClass("disable").text(orign_text);
+			},
 			success : function(res){
-
+				tarBtn.addClass("disable");
+				clearInterval(that.timer);
+				that.timer = setInterval(function(){
+					interval=interval-1;
+					if(interval==0){
+						clearInterval(that.timer);
+						tarBtn.removeClass("disable").text(orign_text);
+					}else{
+						tarBtn.text("验证码已发送，"+interval+"秒后可重新获取");
+					}
+				},1000)
 			}
 		})
 	},
@@ -95,8 +113,8 @@ var Main = {
 
 		}
 	},
+	//核对验证码
 	checkVCode : function(vcode,tarBtn,callback){
-		return callback(vcode);
 		var validate = this.validate_vcode(vcode);
 		if(validate) return alert(validate);
 		VCode.check(vcode,{
