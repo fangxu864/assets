@@ -160,6 +160,7 @@
 				var validate_vcode = this.validate_vcode(vcode);
 				if (validate_mobile) return alert(validate_mobile);
 				if (validate_vcode) return alert(validate_vcode);
+				console.log("new");
 			}
 		},
 		//核对验证码
