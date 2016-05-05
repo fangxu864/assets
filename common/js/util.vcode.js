@@ -29,8 +29,8 @@ module.exports = {
 				if(code==200){
 					success(res);
 				}else{
-					res["msg"] = res.msg || msg;
-					fail ? fail(res) : alert(ERROR);
+					res["msg"] = msg;
+					fail ? fail(res) : alert(msg);
 				}
 			},
 			timeout : opt.timeout,
@@ -59,8 +59,8 @@ module.exports = {
 				if(code==200){
 					success(res);
 				}else{
-					res["msg"] = res.msg || msg;
-					fail ? fail(res) : alert(ERROR);
+					res["msg"] = msg;
+					fail ? fail(res) : alert(msg);
 				}
 			},
 			timeout : opt.timeout,

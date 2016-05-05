@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/";
+/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -55,6 +55,8 @@
 	var Validate = __webpack_require__(42);
 	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 	var Main = {
+		timer: null,
+		INTERVAL: 60, //60秒后重新获取验证码
 		init: function init() {
 			this.modifyMobileTrigger = $("#modify_mobileBindedBtn");
 			this.bindEvents();
@@ -67,7 +69,7 @@
 						header: '修改绑定手机号',
 						content: tpl
 					},
-					offsetY: -160,
+					offsetY: -50,
 					overlay: false,
 					events: {
 						"focus #modifyDialogBox .textInp": function focusModifyDialogBoxTextInp(e) {
@@ -109,15 +111,35 @@
 			if (!mobile || !Validate.typePhone(mobile)) error = "请填写正确格式手机号";
 			return error;
 		},
+		//获取验证码
 		onGetVCodeBtnClick: function onGetVCodeBtnClick(tarBtn) {
+			var that = this;
 			if (tarBtn.hasClass("disable")) return false;
 			var mobile = tarBtn.hasClass("old") ? this.getOldMobile() : this.getNewMobile();
-			var validate = this.validate_mobile();
+			var validate = this.validate_mobile(mobile);
 			if (validate) return alert(validate);
+			var orign_text = tarBtn.text();
+			var interval = that.INTERVAL - 1;
 			VCode.get(mobile, {
-				loading: function loading() {},
-				complate: function complate() {},
-				success: function success(res) {}
+				loading: function loading() {
+					tarBtn.addClass("disable").text("正在获取...");
+				},
+				complete: function complete() {
+					tarBtn.removeClass("disable").text(orign_text);
+				},
+				success: function success(res) {
+					tarBtn.addClass("disable");
+					clearInterval(that.timer);
+					that.timer = setInterval(function () {
+						interval = interval - 1;
+						if (interval == 0) {
+							clearInterval(that.timer);
+							tarBtn.removeClass("disable").text(orign_text);
+						} else {
+							tarBtn.text("验证码已发送，" + interval + "秒后可重新获取");
+						}
+					}, 1000);
+				}
 			});
 		},
 		onTextInpFocus: function onTextInpFocus(tarInp) {
@@ -140,8 +162,8 @@
 				if (validate_vcode) return alert(validate_vcode);
 			}
 		},
+		//核对验证码
 		checkVCode: function checkVCode(vcode, tarBtn, callback) {
-			return callback(vcode);
 			var validate = this.validate_vcode(vcode);
 			if (validate) return alert(validate);
 			VCode.check(vcode, {
@@ -1643,7 +1665,7 @@
 /* 39 */
 /***/ function(module, exports) {
 
-	module.exports = "<style type=\"text/css\">\r\n    #modifyDialogBox p{ margin:0; padding:0;}\r\n    #modifyDialogBox{ width:450px; overflow:hidden; padding:20px 0 20px 50px;}\r\n    .modifyDialogBoxCon{ width:100%; overflow:hidden; position:relative;}\r\n    #modifyDialogBox .slideCon{ position:relative; width:1350px; overflow:hidden; list-style:none; padding:0; margin:0;}\r\n    #modifyDialogBox .slideCon .slideItem{ width:450px; float:left; padding:0}\r\n    #modifyDialogBox .slideItem .line{ width:100%; overflow:hidden;}\r\n    #modifyDialogBox .line{ margin-bottom:15px;}\r\n    #modifyDialogBox .line .lt{ float:left; width:80px; margin-top:6px;}\r\n    #modifyDialogBox .line .rt{ float:left;}\r\n    #modifyDialogBox .line .textInp{ width:120px; height:22px; line-height:22px; padding:6px; border:1px solid #e5e5e5; background:#fff;\r\n        box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -o-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n    }\r\n    #modifyDialogBox .line .textInp:focus{ outline:none; color:#f37138}\r\n    #modifyDialogBox .line .submitBtn{ display:block; width:80px; height:30px; line-height:30px; margin-top:20px; text-align:center; color:#fff; background:#008fc2; text-decoration:none}\r\n    #modifyDialogBox .line .submitBtn:hover{ background:#0081af; text-decoration:none}\r\n    #modifyDialogBox .line .submitBtn.disable,#modifyDialogBox .line .submitBtn.disable:hover{ background:#818181; cursor:default}\r\n    #modifyDialogBox .getVCodeBtn{ position:relative; top:1px; padding:4px 6px; background:#008fc2; color:#fff; text-decoration:none}\r\n    #modifyDialogBox .getVCodeBtn:hover{ background:#0081af; text-decoration:none}\r\n    #modifyDialogBox .getVCodeBtn.disable,#modifyDialogBox .getVCodeBtn.disable:hover{ background:#0081af; text-decoration:none}\r\n    #modifyDialogBox .line .rt .tip.error{ display:none}\r\n    #modifyDialogBox .line .rt.error .textInp{ border-color:#e12424; color:#e12424}\r\n    #modifyDialogBox .line .rt.error .tip.error{ display:block; color:#e12424}\r\n    #modifyDialogBox .line.mobile_new .rt.error .tip.error{ display:inline-block;}\r\n</style>\r\n<div id=\"modifyDialogBox\" class=\"modifyDialogBox\">\r\n    <div class=\"modifyDialogBoxCon\">\r\n        <ul id=\"slideContainer\" class=\"slideCon\">\r\n            <li class=\"slideItem slideItem_1 item_1\">\r\n                <div class=\"line clearfix mobile_old\">\r\n                    <div class=\"lt\">旧手机号</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" name=\"\" readonly style=\"width:180px\" class=\"textInp mobileInp_old\" id=\"mobileInp_old\" placeholder=\"手机号\"/>\r\n                        <span class=\"tip error\">*请输入正确格式手机号</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\">输入验证码</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" name=\"\" class=\"textInp vcodeInp vcodeInpOld old\" id=\"vcodeInpOld\" placeholder=\"验证码\"/>\r\n                        <a class=\"getVCodeBtn old getVCode_old\" href=\"javascript:void(0)\">获取验证码</a>\r\n                        <p class=\"tip error\">*请填写6位数验证码</p>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <a class=\"submitBtn submitBtnOld old\" href=\"javascript:void(0)\">下一步</a>\r\n                    </div>\r\n                </div>\r\n            </li>\r\n            <li class=\"slideItem slideItem_2 item_2\">\r\n                <div class=\"line clearfix mobile_new\">\r\n                    <div class=\"lt\">新手机号</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" name=\"\" style=\"width:180px\" class=\"textInp mobileInp_new\" id=\"mobileInp_new\" placeholder=\"手机号\"/>\r\n                        <span class=\"tip error\">*请输入正确格式手机号</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\">输入验证码</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" style=\"width:100px;\" name=\"\" class=\"textInp vcodeInp vcodeInpNew new\" id=\"vcodeInpNew\" placeholder=\"验证码\"/>\r\n                        <a class=\"getVCodeBtn new getVCode_new\" href=\"javascript:void(0)\">获取验证码</a>\r\n                        <p class=\"tip error\">*请填写6位数验证码</p>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <a class=\"submitBtn submitBtnNew new\" href=\"javascript:void(0)\">下一步</a>\r\n                    </div>\r\n                </div>\r\n            </li>\r\n            <li class=\"slideItem slideItem_3 item_3\">\r\n                <p class=\"line\">修改绑定手机成功！</p>\r\n                <p class=\"line\">你绑定的新号码为：<span id=\"mobile_new\">1333333333</span></p>\r\n                <p class=\"line\"><a id=\"successBtn\" class=\"submitBtn\" href=\"javascript:void(0)\">确定</a></p>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</div>";
+	module.exports = "<style type=\"text/css\">\r\n    #modifyDialogBox p{ margin:0; padding:0;}\r\n    #modifyDialogBox{ width:450px; overflow:hidden; padding:20px 0 20px 50px;}\r\n    .modifyDialogBoxCon{ width:100%; overflow:hidden; position:relative;}\r\n    #modifyDialogBox .slideCon{ position:relative; width:1350px; overflow:hidden; list-style:none; padding:0; margin:0;}\r\n    #modifyDialogBox .slideCon .slideItem{ width:450px; float:left; padding:0}\r\n    #modifyDialogBox .slideItem .line{ width:100%; overflow:hidden;}\r\n    #modifyDialogBox .line{ margin-bottom:15px;}\r\n    #modifyDialogBox .line .lt{ float:left; width:80px; margin-top:6px;}\r\n    #modifyDialogBox .line .rt{ float:left;}\r\n    #modifyDialogBox .line .textInp{ width:120px; height:22px; line-height:22px; padding:6px; border:1px solid #e5e5e5; background:#fff;\r\n        box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -o-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n        -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);\r\n    }\r\n    #modifyDialogBox .line .textInp:focus{ outline:none; color:#f37138}\r\n    #modifyDialogBox .line .submitBtn{ display:block; width:80px; height:30px; line-height:30px; margin-top:20px; text-align:center; color:#fff; background:#008fc2; text-decoration:none}\r\n    #modifyDialogBox .line .submitBtn:hover{ background:#0081af; text-decoration:none}\r\n    #modifyDialogBox .line .submitBtn.disable,#modifyDialogBox .line .submitBtn.disable:hover{ background:#818181; cursor:default}\r\n    #modifyDialogBox .getVCodeBtn{ position:relative; top:1px; padding:4px 6px; background:#008fc2; color:#fff; text-decoration:none}\r\n    #modifyDialogBox .getVCodeBtn:hover{ background:#0081af; text-decoration:none}\r\n    #modifyDialogBox .getVCodeBtn.disable,#modifyDialogBox .getVCodeBtn.disable:hover{ cursor:default; background:#a6a6a6; text-decoration:none}\r\n    #modifyDialogBox .line .rt .tip.error{ display:none}\r\n    #modifyDialogBox .line .rt.error .textInp{ border-color:#e12424; color:#e12424}\r\n    #modifyDialogBox .line .rt.error .tip.error{ display:block; color:#e12424}\r\n    #modifyDialogBox .line.mobile_new .rt.error .tip.error{ display:inline-block;}\r\n</style>\r\n<div id=\"modifyDialogBox\" class=\"modifyDialogBox\">\r\n    <div class=\"modifyDialogBoxCon\">\r\n        <ul id=\"slideContainer\" class=\"slideCon\">\r\n            <li class=\"slideItem slideItem_1 item_1\">\r\n                <div class=\"line clearfix mobile_old\">\r\n                    <div class=\"lt\">旧手机号</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" name=\"\" readonly style=\"width:180px\" class=\"textInp mobileInp_old\" id=\"mobileInp_old\" placeholder=\"手机号\"/>\r\n                        <span class=\"tip error\">*请输入正确格式手机号</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\">输入验证码</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" name=\"\" class=\"textInp vcodeInp vcodeInpOld old\" id=\"vcodeInpOld\" placeholder=\"验证码\"/>\r\n                        <a class=\"getVCodeBtn old getVCode_old\" href=\"javascript:void(0)\">获取验证码</a>\r\n                        <p class=\"tip error\">*请填写6位数验证码</p>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <a class=\"submitBtn submitBtnOld old\" href=\"javascript:void(0)\">下一步</a>\r\n                    </div>\r\n                </div>\r\n            </li>\r\n            <li class=\"slideItem slideItem_2 item_2\">\r\n                <div class=\"line clearfix mobile_new\">\r\n                    <div class=\"lt\">新手机号</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" name=\"\" style=\"width:180px\" class=\"textInp mobileInp_new\" id=\"mobileInp_new\" placeholder=\"手机号\"/>\r\n                        <span class=\"tip error\">*请输入正确格式手机号</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\">输入验证码</div>\r\n                    <div class=\"rt\">\r\n                        <input type=\"text\" style=\"width:100px;\" name=\"\" class=\"textInp vcodeInp vcodeInpNew new\" id=\"vcodeInpNew\" placeholder=\"验证码\"/>\r\n                        <a class=\"getVCodeBtn new getVCode_new\" href=\"javascript:void(0)\">获取验证码</a>\r\n                        <p class=\"tip error\">*请填写6位数验证码</p>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <a class=\"submitBtn submitBtnNew new\" href=\"javascript:void(0)\">绑定</a>\r\n                    </div>\r\n                </div>\r\n            </li>\r\n            <li class=\"slideItem slideItem_3 item_3\">\r\n                <p class=\"line\">修改绑定手机成功！</p>\r\n                <p class=\"line\">你绑定的新号码为：<span id=\"mobile_new\">1333333333</span></p>\r\n                <p class=\"line\"><a id=\"successBtn\" class=\"submitBtn\" href=\"javascript:void(0)\">确定</a></p>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 40 */
@@ -1682,8 +1704,8 @@
 					if (code == 200) {
 						_success(res);
 					} else {
-						res["msg"] = res.msg || msg;
-						fail ? fail(res) : alert(ERROR);
+						res["msg"] = msg;
+						fail ? fail(res) : alert(msg);
 					}
 				},
 				timeout: opt.timeout,
@@ -1712,8 +1734,8 @@
 					if (code == 200) {
 						_success2(res);
 					} else {
-						res["msg"] = res.msg || msg;
-						fail ? fail(res) : alert(ERROR);
+						res["msg"] = msg;
+						fail ? fail(res) : alert(msg);
 					}
 				},
 				timeout: opt.timeout,
