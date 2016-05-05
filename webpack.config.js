@@ -123,7 +123,7 @@ module.exports = {
 	output : output,
 	module : {
 		loaders: [{
-			test: /\.html$/,
+			test: /\.html|tpl$/,
 			loader: "html?-minimize"
 		},{
 			test: /\.css$/,

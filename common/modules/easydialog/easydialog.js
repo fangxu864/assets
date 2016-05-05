@@ -491,10 +491,10 @@ Dialog.drag = function( target, moveElem ){
 	var up = function( e ){
 		isDown = false;
 		if( isIE ){
-			event.unbind( target, 'losecapture', arguments.callee );
+			event.unbind( target, 'losecapture', up );
 		}
 		event.unbind( newElem, 'mousemove', move );
-		event.unbind( newElem, 'mouseup', arguments.callee );		
+		event.unbind( newElem, 'mouseup', up );
 		if( isIE ){
 			target.releaseCapture();
 			// IE6如果是模拟fixed在mouseup的时候要重新设置模拟

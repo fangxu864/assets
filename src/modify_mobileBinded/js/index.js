@@ -35,7 +35,7 @@ var Main = {
 						that.onGetVCodeBtnClick($(e.target));
 					}
 				},
-				drag : false
+				drag : true
 			},function(){
 				$("#mobileInp_old").val(that.getOldMobile());
 			})
