@@ -128,11 +128,13 @@ module.exports = {
 		},{
 			test: /\.css$/,
 			loader: ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!cssnext-loader!postcss-loader")
-		},{
-			test: /\.js$/,
-			exclude: /node_modules/,
-			loader: 'babel'
-		},{
+		},
+//		{
+//			test: /\.js$/,
+//			exclude: /node_modules/,
+//			loader: 'babel'
+//		},
+		{
 			test: /\.(png|jpe?g|gif)$/,
 			loader: 'url-loader?limit=8192&name=imgs/[name]-[hash].[ext]'
 		}]
@@ -140,10 +142,10 @@ module.exports = {
 	postcss: function () {
 		return [precss, autoprefixer];
 	},
-	babel: {
-		presets: ['es2015', 'stage-0'],
-		plugins: ['transform-runtime']
-	},
+//	babel: {
+//		presets: ['es2015', 'stage-0'],
+//		plugins: ['transform-runtime']
+//	},
 	plugins : Plugins,
 	resolve : {
 		alias : {

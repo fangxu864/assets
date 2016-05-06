@@ -1,0 +1,60 @@
+/**
+ * Author: huangzhiyang
+ * Date: 16-5-6 下午3:09
+ * Description: ""
+ */
+#dialogCardWrap{ padding:20px 20px 30px 30px; overflow:hidden;}
+#dialogCardCon{ width:555px; overflow:hidden;}
+#bank_dialog_slider{ width:1665px; position:relative; overflow:hidden;}
+#bank_dialog_slider .cardCon{ width:555px; float:left;}
+#dialogCardWrap .line{ position:relative; overflow:hidden; margin-bottom:15px;}
+#dialogCardWrap .line .lt{ float:left; height:30px; line-height:30px; padding-left:65px; width:70px; overflow:hidden}
+#dialogCardWrap .line .rt{ float:left; width:420px}
+#dialogCardWrap .line .textInp{ width:180px; height:22px; line-height:22px; padding:6px 8px; border:1px solid #e5e5e5; background:#fff; box-shadow:inset 0 1px 1px rgba(0,0,0,.055);}
+#dialogCardWrap select{ width:200px; height:30px; line-height:30px;}
+#dialogCardWrap select option{ padding-left:8px;}
+#dialogCardWrap .line .btn{ display:block; width:80px; height:30px; line-height:30px; text-align:center; color:#fff; background:#008fc2; text-decoration:none}
+#dialogCardWrap .line .btn:hover{ background:#0081af; text-decoration:none}
+#dialogCardWrap .line .btn.disable,#dialogCardWrap .line .btn.disable:hover{ background:#818181; cursor:default}
+#dialogCardWrap .tip{ margin-left:5px; color:#9a9a9a}
+#dialogCardWrap .bankFilterUl{ width:320px; max-height:150px; overflow:auto; border:1px solid #e5e5e5; border-top:0 none;}
+#dialogCardWrap .bankFilterUl .bankLi{ height:34px; line-height:34px; padding-left:10px; overflow:hidden; border-top:1px solid #e5e5e5; cursor:pointer}
+#dialogCardWrap .bankFilterUl .bankLi:hover{ background:#fafafa}
+#dialogCardWrap .conHead{ position:relative; overflow:hidden; width:100%; margin-bottom:30px;}
+#dialogCardWrap .conHead .der{ position:absolute; top:30px; left:30px; right:30px; height:2px; background:#d3d3d3; font-size:0; line-height:0;}
+#dialogCardWrap .conHead .step{ position:relative; z-index:1; width:75px; float:left; text-align:center; background:#fff;}
+#dialogCardWrap .conHead .step.active .tit{ color:#0797d9}
+#dialogCardWrap .conHead .icon{ display:block; width:50px; height:50px; margin:0 auto 3px; font-size:0; background:url("../images/bind_bank_dialog_icon.png") no-repeat;}
+#dialogCardWrap .conHead .step_1{ margin-left:84px;}
+#dialogCardWrap .conHead .step_2{ margin-left:80px;}
+#dialogCardWrap .conHead .step_3{ margin-left:80px;}
+#dialogCardWrap .conHead .step_1 .icon{ background-position:0 0}
+#dialogCardWrap .conHead .step_1.active .icon{ background-position:0 -50px}
+#dialogCardWrap .conHead .step_2 .icon{ background-position:-50px 0}
+#dialogCardWrap .conHead .step_2.active .icon{ background-position:-50px -50px}
+#dialogCardWrap .conHead .step_3 .icon{ background-position:-100px 0}
+#dialogCardWrap .conHead .step_3.active .icon{ background-position:-100px -50px}
+#dialogCardWrap .bankSelect{ width:280px;}
+#dialogCardWrap .proSelect,#dialogCardWrap .citySelect{ width:159px;}
+#dialogCardWrap .serviceBox{ overflow:hidden;}
+#dialogCardWrap .serviceBox .sl{ width:180px; float:left; overflow:hidden; margin-bottom:20px}
+#dialogCardWrap .serviceBox .iconfont{ float:left; display:block; width:40px; height:40px; line-height:40px; margin-top:10px; margin-right:2px; font-size:40px; color:#9f9f9f; text-align:center;}
+#dialogCardWrap .serviceBox .tit{ color:#9f9f9f; margin-top:9px; margin-bottom:0px;}
+#dialogCardWrap .serviceBox .sl.qq .tit{  margin-top:9px;}
+#dialogCardWrap .serviceBox .serviceNum{  color:#818181}
+#dialogCardWrap .serviceBox .sl:hover .iconfont{ color:#818181}
+#dialogCardWrap .serviceBox .sl:hover .tit{ color:#818181}
+#dialogCardWrap .serviceBox .sl:hover .serviceNum{ color:#3f3f3f;}
+#dialogCardWrap .virLine{ position:absolute; top:54px; right:205px; height:400px; width:1px; font-size:0; border-left:1px dotted #d5d5d5}
+#dialogCardWrap .serviceBox .topLine{ margin-bottom:10px; margin-top:30px;}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 16-5-5.
  */
+require("../css/bind_bank_dialog.css");
 var Dialog = require("COMMON/modules/easydialog");
 var DialogCard = require("./modules/dialog.card.js");
 
