@@ -1,25 +1,33 @@
 /**
- * Created by Administrator on 16-5-5.
+ * Author: huangzhiyang
+ * Date: 16-5-9 下午2:16
+ * Description: ""
  */
 require("../css/bind_bank_dialog.css");
 var Dialog = require("COMMON/modules/easydialog");
-var DialogCard = require("./modules/dialog.card.js");
-
-var Main = {
-	init : function(){
-		this.bindEvents();
+var DialogCard = require("./view/dialog.bank.card.js");
+var DialogCardModel = require("./model/dialog.bank.card.model.js");
+var MainView = Backbone.View.extend({
+	el : "#accountWrap",
+	events : {
+		"click #addbk" : "onAddBankBtnClick"
 	},
-	bindEvents : function(){
-		DialogCard.open({
-			title : "添加银行卡",
-			dialog : Dialog
-		});
+	initialize : function(){
+		this.dialogCard = new DialogCard({
+			dialog : Dialog,
+			model : new DialogCardModel
+		})
+	},
+	onAddBankBtnClick : function(){
+		this.dialogCard.open();
 	}
-};
+});
+
+
 
 
 $(function(){
-	Main.init()
+	new MainView();
 })
 
 

@@ -6,7 +6,7 @@
         <div class="der"></div>
     </div>
     <div id="dialogCardCon" class="dialogCardCon">
-        <div style="left:-1110px" id="bank_dialog_slider" class="bank_dialog_slider">
+        <div style="left:0px" id="bank_dialog_slider" class="bank_dialog_slider">
             <div class="cardCon step_1">
                 <div class="line bank clearfix">
                     <div class="lt">银行</div>
@@ -38,7 +38,7 @@
                 <div class="line btn clearfix">
                     <div class="lt"></div>
                     <div class="rt">
-                        <a class="btn" href="javascript:void(0)">下一步</a>
+                        <a id="nextStepBtn_bankMsg" class="btn nextStep first" href="javascript:void(0)">下一步</a>
                     </div>
                 </div>
             </div>

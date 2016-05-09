@@ -45,27 +45,35 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * Created by Administrator on 16-5-5.
+	 * Author: huangzhiyang
+	 * Date: 16-5-9 下午2:16
+	 * Description: ""
 	 */
-	__webpack_require__(9);
-	var Dialog = __webpack_require__(1);
-	var DialogCard = __webpack_require__(7);
-	
-	var Main = {
-		init : function(){
-			this.bindEvents();
+	__webpack_require__(1);
+	var Dialog = __webpack_require__(6);
+	var DialogCard = __webpack_require__(10);
+	var DialogCardModel = __webpack_require__(12);
+	var MainView = Backbone.View.extend({
+		el : "#accountWrap",
+		events : {
+			"click #addbk" : "onAddBankBtnClick"
 		},
-		bindEvents : function(){
-			DialogCard.open({
-				title : "添加银行卡",
-				dialog : Dialog
-			});
+		initialize : function(){
+			this.dialogCard = new DialogCard({
+				dialog : Dialog,
+				model : new DialogCardModel
+			})
+		},
+		onAddBankBtnClick : function(){
+			this.dialogCard.open();
 		}
-	};
+	});
+	
+	
 	
 	
 	$(function(){
-		Main.init()
+		new MainView();
 	})
 	
 	
@@ -73,15 +81,25 @@
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-18.
 	 */
-	module.exports = __webpack_require__(2);
+	module.exports = __webpack_require__(7);
 
 /***/ },
-/* 2 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** 
@@ -90,7 +108,7 @@
 	 * Author : chenmnkken@gmail.com
 	 * Date : 2012-04-22
 	 */
-	__webpack_require__(3);
+	__webpack_require__(8);
 	(function( win, undefined ){
 	
 	var	doc = win.document,
@@ -929,33 +947,50 @@
 	// 2012-04-22 修复弹出层内容的尺寸大于浏览器当前屏尺寸的BUG
 
 /***/ },
-/* 3 */
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
+/* 9 */,
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * Created by Administrator on 16-5-5.
+	 * Author: huangzhiyang
+	 * Date: 16-5-9 下午2:16
+	 * Description: ""
 	 */
-	var hasInit = false;
-	var DialogCard = {
-		tpl : __webpack_require__(8),
-		init : function(opt){
-			this.dialog = opt.dialog;
+	var DialogCard = Backbone.View.extend({
+		el : "#dialogCardWrap",
+		events : {
+			"click #nextStepBtn_bankMsg" : "onNextStep"
 		},
-		open : function(opt){
-			if(!hasInit){
-				hasInit = true;
-				this.init(opt);
-			}
-			var title = opt.title || "标题";
+		initialize : function(opt){
+			this.dialog = opt.dialog;
+			this.model = opt.model;
+			this.model.on("change:targetBank",this.onModelTargetBankChange);
+			this.model.on("targetBank.ajax.loading",function(){
+				console.log("targetBank.ajax.loading")
+			})
+		},
+		tpl : __webpack_require__(11),
+		onModelTargetBankChange : function(model){
+			console.log(model.toJSON())
+		},
+		onNextStep : function(e){
+			var tarBtn = $(e.currentTarget);
+	
+		},
+		onKeywordChange : function(e){
+			var tarInp = $(e.currentTarget);
+			var keyword = $.trim(tarInp.val());
+			this.model.set({keyword:keyword});
+		},
+		open : function(){
+			var that = this;
+			var title = "添加银行卡";
 			var tpl = this.tpl;
 			this.dialog.open({
 				container : {
@@ -965,23 +1000,54 @@
 				overlay : false,
 				offsetY : -100,
 				drag : true,
-				events : {}
+				events : {
+					"click #nextStepBtn_bankMsg" : function(e){
+						that.onNextStep(e);
+					},
+					"keyup #bankKeywordInp" : function(e){
+						that.onKeywordChange(e);
+					}
+				}
 			})
 		}
-	};
+	});
 	module.exports = DialogCard;
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"dialogCardWrap\" class=\"dialogCardWrap\">\r\n    <div class=\"conHead\">\r\n        <div class=\"step step_1 active\"><i class=\"icon\"></i><p class=\"tit\">选择开户行</p></div>\r\n        <div class=\"step step_2\"><i class=\"icon\"></i><p class=\"tit\">填写卡号</p></div>\r\n        <div class=\"step step_3\"><i class=\"icon\"></i><p class=\"tit\">验证</p></div>\r\n        <div class=\"der\"></div>\r\n    </div>\r\n    <div id=\"dialogCardCon\" class=\"dialogCardCon\">\r\n        <div style=\"left:-1110px\" id=\"bank_dialog_slider\" class=\"bank_dialog_slider\">\r\n            <div class=\"cardCon step_1\">\r\n                <div class=\"line bank clearfix\">\r\n                    <div class=\"lt\">银行</div>\r\n                    <div class=\"rt\">\r\n                        <select name=\"\" id=\"bankSelect\" class=\"bankSelect\">\r\n                            <option value=\"0\">中国银行</option>\r\n                        </select>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line area clearfix\">\r\n                    <div class=\"lt\">所在地</div>\r\n                    <div class=\"rt\">\r\n                        <select name=\"\" id=\"proSelect\" class=\"proSelect\">\r\n                            <option value=\"0\">北京</option>\r\n                        </select>\r\n                        <select name=\"\" id=\"citySelect\" class=\"citySelect\">\r\n                            <option value=\"0\">北京</option>\r\n                        </select>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line keyword clearfix\">\r\n                    <div class=\"lt\">关键字</div>\r\n                    <div class=\"rt\">\r\n                        <input id=\"bankKeywordInp\" style=\"width:304px; border-bottom:0 none\" placeholder=\"银行支行：如，某某支行\" class=\"textInp\" type=\"text\" name=\"\"/>\r\n                        <ul id=\"bankFilterUl\" class=\"bankFilterUl\">\r\n                        </ul>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line btn clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <a class=\"btn\" href=\"javascript:void(0)\">下一步</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"cardCon step_2\">\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\" style=\"padding-left:21px; width:113px;\">银行卡/存折号</div>\r\n                    <div class=\"rt\">\r\n                        <input style=\"width:220px\" id=\"bankCardNumInp\" placeholder=\"银行卡/存折号\" class=\"textInp\" type=\"text\" name=\"\"/>\r\n                        <span class=\"tip\">请准确填写银行卡号</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\">开户名</div>\r\n                    <div class=\"rt\">\r\n                        <input style=\"width:220px\" class=\"textInp bankAccountName\" readonly type=\"text\" name=\"\" id=\"bankAccountName\"/>\r\n                        <span class=\"tip\">请确认该名称与上面卡号对应</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <div class=\"biezhu\" style=\"padding-left:2px;\">\r\n                            <p>注：</p>\r\n                            <p>为了用户资金安全考虑，平台资金只能提现到</p>\r\n                            <p>注册时填写的相应企业实名/个人实名。</p>\r\n                            <p>如果注册时候填写的企业名称/个人名称有误，请联系客服修改</p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div style=\"margin:26px auto 15px;\" class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt clearfix\">\r\n                        <a class=\"btn\" style=\"float:left\" href=\"javascript:void(0)\">上一步</a>\r\n                        <a style=\"float:left; margin-left:20px;\" class=\"btn\" href=\"javascript:void(0)\">下一步</a>\r\n                    </div>\r\n                </div>\r\n                <div style=\"margin-bottom:0;\" class=\"line clearfix\">\r\n                    <div class=\"lt\" style=\"padding-left:58px;\"></div>\r\n                    <div class=\"rt\">\r\n                        <div class=\"serviceBox clearfix\">\r\n                            <div class=\"sl tel clearfix\">\r\n                                <i class=\"iconfont\">&#xe689;</i>\r\n                                <p class=\"tit\">客服电话</p>\r\n                                <p class=\"serviceNum phone\">180-6514-4515</p>\r\n                            </div>\r\n                            <div class=\"sl qq clearfix\">\r\n                                <i style=\"margin-top:7px\" class=\"iconfont\">&#xe66f;</i>\r\n                                <p class=\"tit\">客服QQ</p>\r\n                                <p class=\"serviceNum phone\">2853986222</p>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"cardCon step_3\">\r\n                <div style=\"padding-left:50px\" class=\"line clearfix\">\r\n                    <div class=\"lt\">开户行</div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <p style=\"height:30px; line-height:30px;\">中国银行福州浦上支行</p>\r\n                    </div>\r\n                </div>\r\n                <div style=\"padding-left:50px\" class=\"line clearfix\">\r\n                    <div class=\"lt\" style=\"padding-left:21px; width:113px;\">银行卡/存折号</div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <p style=\"height:30px; line-height:30px;\">6222 1234 5678 901</p>\r\n                    </div>\r\n                </div>\r\n                <div style=\"padding-left:50px\" class=\"line clearfix\">\r\n                    <div class=\"lt\">开户名</div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <p style=\"height:30px; line-height:30px;\">福建票付通信息科技有限公司</p>\r\n                    </div>\r\n                </div>\r\n                <div style=\"padding-left:50px; margin-top:25px\" class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <a class=\"btn\" style=\"float:left; width:120px\" href=\"javascript:void(0)\">确认无误并验证</a>\r\n                        <a style=\"float:left; margin-left:20px;\" class=\"btn\" href=\"javascript:void(0)\">上一步</a>\r\n                    </div>\r\n                </div>\r\n                <div style=\"margin-bottom:0; margin-top:50px;\" class=\"line clearfix\">\r\n                    <div class=\"rt\" style=\"margin-left:178px\">\r\n                        <div class=\"serviceBox clearfix\">\r\n                            <div class=\"sl tel clearfix\">\r\n                                <i class=\"iconfont\">&#xe689;</i>\r\n                                <p class=\"tit\">客服电话</p>\r\n                                <p class=\"serviceNum phone\">180-6514-4515</p>\r\n                            </div>\r\n                            <div class=\"sl qq clearfix\">\r\n                                <i style=\"margin-top:7px\" class=\"iconfont\">&#xe66f;</i>\r\n                                <p class=\"tit\">客服QQ</p>\r\n                                <p class=\"serviceNum phone\">2853986222</p>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	module.exports = "<div id=\"dialogCardWrap\" class=\"dialogCardWrap\">\r\n    <div class=\"conHead\">\r\n        <div class=\"step step_1 active\"><i class=\"icon\"></i><p class=\"tit\">选择开户行</p></div>\r\n        <div class=\"step step_2\"><i class=\"icon\"></i><p class=\"tit\">填写卡号</p></div>\r\n        <div class=\"step step_3\"><i class=\"icon\"></i><p class=\"tit\">验证</p></div>\r\n        <div class=\"der\"></div>\r\n    </div>\r\n    <div id=\"dialogCardCon\" class=\"dialogCardCon\">\r\n        <div style=\"left:0px\" id=\"bank_dialog_slider\" class=\"bank_dialog_slider\">\r\n            <div class=\"cardCon step_1\">\r\n                <div class=\"line bank clearfix\">\r\n                    <div class=\"lt\">银行</div>\r\n                    <div class=\"rt\">\r\n                        <select name=\"\" id=\"bankSelect\" class=\"bankSelect\">\r\n                            <option value=\"0\">中国银行</option>\r\n                        </select>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line area clearfix\">\r\n                    <div class=\"lt\">所在地</div>\r\n                    <div class=\"rt\">\r\n                        <select name=\"\" id=\"proSelect\" class=\"proSelect\">\r\n                            <option value=\"0\">北京</option>\r\n                        </select>\r\n                        <select name=\"\" id=\"citySelect\" class=\"citySelect\">\r\n                            <option value=\"0\">北京</option>\r\n                        </select>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line keyword clearfix\">\r\n                    <div class=\"lt\">关键字</div>\r\n                    <div class=\"rt\">\r\n                        <input id=\"bankKeywordInp\" style=\"width:304px; border-bottom:0 none\" placeholder=\"银行支行：如，某某支行\" class=\"textInp\" type=\"text\" name=\"\"/>\r\n                        <ul id=\"bankFilterUl\" class=\"bankFilterUl\">\r\n                        </ul>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line btn clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <a id=\"nextStepBtn_bankMsg\" class=\"btn nextStep first\" href=\"javascript:void(0)\">下一步</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"cardCon step_2\">\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\" style=\"padding-left:21px; width:113px;\">银行卡/存折号</div>\r\n                    <div class=\"rt\">\r\n                        <input style=\"width:220px\" id=\"bankCardNumInp\" placeholder=\"银行卡/存折号\" class=\"textInp\" type=\"text\" name=\"\"/>\r\n                        <span class=\"tip\">请准确填写银行卡号</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\">开户名</div>\r\n                    <div class=\"rt\">\r\n                        <input style=\"width:220px\" class=\"textInp bankAccountName\" readonly type=\"text\" name=\"\" id=\"bankAccountName\"/>\r\n                        <span class=\"tip\">请确认该名称与上面卡号对应</span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt\">\r\n                        <div class=\"biezhu\" style=\"padding-left:2px;\">\r\n                            <p>注：</p>\r\n                            <p>为了用户资金安全考虑，平台资金只能提现到</p>\r\n                            <p>注册时填写的相应企业实名/个人实名。</p>\r\n                            <p>如果注册时候填写的企业名称/个人名称有误，请联系客服修改</p>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div style=\"margin:26px auto 15px;\" class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div class=\"rt clearfix\">\r\n                        <a class=\"btn\" style=\"float:left\" href=\"javascript:void(0)\">上一步</a>\r\n                        <a style=\"float:left; margin-left:20px;\" class=\"btn\" href=\"javascript:void(0)\">下一步</a>\r\n                    </div>\r\n                </div>\r\n                <div style=\"margin-bottom:0;\" class=\"line clearfix\">\r\n                    <div class=\"lt\" style=\"padding-left:58px;\"></div>\r\n                    <div class=\"rt\">\r\n                        <div class=\"serviceBox clearfix\">\r\n                            <div class=\"sl tel clearfix\">\r\n                                <i class=\"iconfont\">&#xe689;</i>\r\n                                <p class=\"tit\">客服电话</p>\r\n                                <p class=\"serviceNum phone\">180-6514-4515</p>\r\n                            </div>\r\n                            <div class=\"sl qq clearfix\">\r\n                                <i style=\"margin-top:7px\" class=\"iconfont\">&#xe66f;</i>\r\n                                <p class=\"tit\">客服QQ</p>\r\n                                <p class=\"serviceNum phone\">2853986222</p>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"cardCon step_3\">\r\n                <div style=\"padding-left:50px\" class=\"line clearfix\">\r\n                    <div class=\"lt\">开户行</div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <p style=\"height:30px; line-height:30px;\">中国银行福州浦上支行</p>\r\n                    </div>\r\n                </div>\r\n                <div style=\"padding-left:50px\" class=\"line clearfix\">\r\n                    <div class=\"lt\" style=\"padding-left:21px; width:113px;\">银行卡/存折号</div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <p style=\"height:30px; line-height:30px;\">6222 1234 5678 901</p>\r\n                    </div>\r\n                </div>\r\n                <div style=\"padding-left:50px\" class=\"line clearfix\">\r\n                    <div class=\"lt\">开户名</div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <p style=\"height:30px; line-height:30px;\">福建票付通信息科技有限公司</p>\r\n                    </div>\r\n                </div>\r\n                <div style=\"padding-left:50px; margin-top:25px\" class=\"line clearfix\">\r\n                    <div class=\"lt\"></div>\r\n                    <div style=\"width:320px\" class=\"rt\">\r\n                        <a class=\"btn\" style=\"float:left; width:120px\" href=\"javascript:void(0)\">确认无误并验证</a>\r\n                        <a style=\"float:left; margin-left:20px;\" class=\"btn\" href=\"javascript:void(0)\">上一步</a>\r\n                    </div>\r\n                </div>\r\n                <div style=\"margin-bottom:0; margin-top:50px;\" class=\"line clearfix\">\r\n                    <div class=\"rt\" style=\"margin-left:178px\">\r\n                        <div class=\"serviceBox clearfix\">\r\n                            <div class=\"sl tel clearfix\">\r\n                                <i class=\"iconfont\">&#xe689;</i>\r\n                                <p class=\"tit\">客服电话</p>\r\n                                <p class=\"serviceNum phone\">180-6514-4515</p>\r\n                            </div>\r\n                            <div class=\"sl qq clearfix\">\r\n                                <i style=\"margin-top:7px\" class=\"iconfont\">&#xe66f;</i>\r\n                                <p class=\"tit\">客服QQ</p>\r\n                                <p class=\"serviceNum phone\">2853986222</p>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	/**
+	 * Author: huangzhiyang
+	 * Date: 16-5-9 下午2:16
+	 * Description: ""
+	 */
+	var DialogBindCardModel = Backbone.Model.extend({
+		defaults : {
+			bank : "",
+			province : "",
+			city : "",
+			keyword : "",
+			targetBank : ""
+		},
+		initialize : function(){
+			this.on("change:bank",this.onChange);
+			this.on("change:province",this.onChange);
+			this.on("change:city",this.onChange);
+			this.on("change:keyword",this.onChange);
+		},
+		onChange : function(model){
+			this.trigger("targetBank.ajax.loading");
+			this.set({targetBank:model.toJSON().keyword})
+		}
+	});
+	module.exports = DialogBindCardModel;
 
 /***/ }
 /******/ ]);
