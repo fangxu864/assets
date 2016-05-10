@@ -1,0 +1,8 @@
+/**
+ * Author: huangzhiyang
+ * Date: 16-5-10 上午11:52
+ * Description: ""
+ */
+#ptxt.error{ color:#df0024}
+#showPwdBtn{ display:block; position:absolute; width:15px; height:10px; top:11px; right:10px; background:url("http://static.12301.cc/assets/build/images/see_pwd.png") no-repeat 0 0 }
+#submitBtn.disable{ background-color:#afafaf; cursor:default}

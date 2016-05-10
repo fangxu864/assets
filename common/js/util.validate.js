@@ -108,7 +108,7 @@ var Validate = {
 		var len = pwd.length;
 		//常用英文符号
 		var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
-		if(!pwd) return {error:"缺少pwd",level:""};
+		if(!pwd) return {error:"密码不能为空",level:""};
 		if(len<6 || len>20) return {error:"位数须在6-20间",level:""};
 		//判断密码可用性
 		//不能全为数字  不能全为字母   不能全为符号

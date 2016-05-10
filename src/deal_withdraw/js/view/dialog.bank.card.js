@@ -6,7 +6,7 @@
 var DialogCard = Backbone.View.extend({
 	el : "#dialogCardWrap",
 	events : {
-		"click #nextStepBtn_bankMsg" : "onNextStep"
+		"click #nextStepBtn_bankMsg" : "onNextStepBtnBankMsgClick"
 	},
 	initialize : function(opt){
 		this.dialog = opt.dialog;
@@ -20,7 +20,7 @@ var DialogCard = Backbone.View.extend({
 	onModelTargetBankChange : function(model){
 
 	},
-	onNextStep : function(e){
+	onNextStepBtnBankMsgClick : function(e){
 		var tarBtn = $(e.currentTarget);
 
 	},

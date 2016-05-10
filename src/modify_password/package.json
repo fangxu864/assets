@@ -1,0 +1,4 @@
+{
+	"name" : "modify_password",
+	"description" : "平台-修改密码页-添加弹窗提示：密码太弱，修改密码"
+}
