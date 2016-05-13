@@ -51,9 +51,9 @@
 	 */
 	var EaseDialog = __webpack_require__(1);
 	var Validate = __webpack_require__(7);
-	var UrlParse = __webpack_require__(11);
-	var Ajax = __webpack_require__(10);
-	__webpack_require__(8);
+	var UrlParse = __webpack_require__(8);
+	var Ajax = __webpack_require__(9);
+	__webpack_require__(10);
 	var Main = {
 		timer : null,
 		init : function(){
@@ -133,8 +133,7 @@
 			if(!pwd) return alert("请填当前密码");
 			if(!newPwd) return alert("请输入新密码");
 			if(newPwd!==rePwd) return alert("两次输入的密码不一致,请再次输入新密码");
-			Ajax({
-				url : "route/index.php?c=Member&a=resetPassword",
+			Ajax("route/index.php?c=Member&a=resetPassword",{
 				type : "post",
 				params : {
 					old:pwd,
@@ -160,7 +159,7 @@
 				container : {
 					header : "请修改密码",
 					content : (function(){
-						return '<div style="width:300px; padding:10px 20px; color:#df0024">您的账户存在安全风险，为了保障您的资金安全，请修改密码后再进行其他操作</div>'
+						return '<div style="width:300px; padding:10px 20px; color:#df0024">系统检测到您的密码为弱密码，为了保障您的资金安全，请修改密码后再进行其他操作</div>'
 					})()
 				},
 				offsetY : -100,
@@ -1152,11 +1151,40 @@
 		//验证密码(合法性及安全度)
 		//6-20数字、字母和常用符号两种以上组合
 		validatePwd : function(pwd){
+			//如果用户填写的密码在以下常用密码里，也是不能通过检测的
+			var CommonPwds = [
+				'123456','a123456','a123456789','woaini1314','qq123456','abc123456',
+				'123456a','123456789a','abc123','qq123456789','123456789.',
+				'woaini','q123456','123456abc','123456.','0123456789',
+				'asd123456','aa123456','q123456789','abcd123456','woaini520',
+				'woaini123','w123456','aini1314','abc123456789','woaini521',
+				'qwertyuiop','qwe123456','asd123','123456789abc','z123456',
+				'aaa123456','abcd1234','www123456','123456789q','123abc',
+				'qwe123','w123456789','123456qq','zxc123456','qazwsxedc',
+				'123456..','zxc123','asdfghjkl','123456q','123456aa',
+				'9876543210','qaz123456','qq5201314','as123456',
+				'z123456789','a123123','a5201314','wang123456','abcd123',
+				'123456789..','woaini1314520','123456asd','aa123456789',
+				'741852963','a12345678'
+			];
 			var len = pwd.length;
 			//常用英文符号
 			var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
 			if(!pwd) return {error:"密码不能为空",level:""};
 			if(len<6 || len>20) return {error:"位数须在6-20间",level:""};
+			var inCommonPwds = (function(pwd){
+				var result = false;
+				for(var i in CommonPwds){
+					if(pwd==CommonPwds[i]){
+						result = true;
+						break;
+					}
+				}
+				return result;
+			})(pwd);
+			if(inCommonPwds){ //如果此密码在常用密码里
+				return {error:"您输入的密码太常见，很容易被人猜出，请更换",level:""};
+			}
 			//判断密码可用性
 			//不能全为数字  不能全为字母   不能全为符号
 			//须是数字、字母、符号  三项中任意两项或三项组合
@@ -1214,11 +1242,23 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	/**
+	 * Created by Administrator on 16-4-20.
+	 */
+	module.exports = function(url){
+		if(!url) url = window.location.search.substr(1);
+		var reg = /(([^?&=]+)(?:=([^?&=]*))*)/g;
+		var result = {};
+		url.replace(reg,function(){
+			var key = arguments[2];
+			var val = arguments[3];
+			result[key] = val;
+		})
+		return result;
+	};
 
 /***/ },
-/* 9 */,
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -1266,23 +1306,10 @@
 	}
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
-	/**
-	 * Created by Administrator on 16-4-20.
-	 */
-	module.exports = function(url){
-		if(!url) url = window.location.search.substr(1);
-		var reg = /(([^?&=]+)(?:=([^?&=]*))*)/g;
-		var result = {};
-		url.replace(reg,function(){
-			var key = arguments[2];
-			var val = arguments[3];
-			result[key] = val;
-		})
-		return result;
-	};
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

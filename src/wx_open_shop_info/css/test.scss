@@ -1,0 +1,9 @@
+@import "../../../common/css/reset_style.css";
+@function px2rem($px){
+  $rem:37.5;
+  @return ($px/$rem)+rem;
+}
+.test{ width:px2rem(100)}
+.test_1{ width:px2rem(300)}
+.test_3{ width:px2rem(500)}
+.test_4{ width:px2rem(600); transform:translateX(50px)}

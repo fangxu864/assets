@@ -87,8 +87,7 @@ var Main = {
 		if(!pwd) return alert("请填当前密码");
 		if(!newPwd) return alert("请输入新密码");
 		if(newPwd!==rePwd) return alert("两次输入的密码不一致,请再次输入新密码");
-		Ajax({
-			url : "route/index.php?c=Member&a=resetPassword",
+		Ajax("route/index.php?c=Member&a=resetPassword",{
 			type : "post",
 			params : {
 				old:pwd,
@@ -114,7 +113,7 @@ var Main = {
 			container : {
 				header : "请修改密码",
 				content : (function(){
-					return '<div style="width:300px; padding:10px 20px; color:#df0024">您的账户存在安全风险，为了保障您的资金安全，请修改密码后再进行其他操作</div>'
+					return '<div style="width:300px; padding:10px 20px; color:#df0024">系统检测到您的密码为弱密码，为了保障您的资金安全，请修改密码后再进行其他操作</div>'
 				})()
 			},
 			offsetY : -100,

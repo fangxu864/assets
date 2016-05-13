@@ -105,11 +105,40 @@ var Validate = {
 	//验证密码(合法性及安全度)
 	//6-20数字、字母和常用符号两种以上组合
 	validatePwd : function(pwd){
+		//如果用户填写的密码在以下常用密码里，也是不能通过检测的
+		var CommonPwds = [
+			'123456','a123456','a123456789','woaini1314','qq123456','abc123456',
+			'123456a','123456789a','abc123','qq123456789','123456789.',
+			'woaini','q123456','123456abc','123456.','0123456789',
+			'asd123456','aa123456','q123456789','abcd123456','woaini520',
+			'woaini123','w123456','aini1314','abc123456789','woaini521',
+			'qwertyuiop','qwe123456','asd123','123456789abc','z123456',
+			'aaa123456','abcd1234','www123456','123456789q','123abc',
+			'qwe123','w123456789','123456qq','zxc123456','qazwsxedc',
+			'123456..','zxc123','asdfghjkl','123456q','123456aa',
+			'9876543210','qaz123456','qq5201314','as123456',
+			'z123456789','a123123','a5201314','wang123456','abcd123',
+			'123456789..','woaini1314520','123456asd','aa123456789',
+			'741852963','a12345678'
+		];
 		var len = pwd.length;
 		//常用英文符号
 		var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
 		if(!pwd) return {error:"密码不能为空",level:""};
 		if(len<6 || len>20) return {error:"位数须在6-20间",level:""};
+		var inCommonPwds = (function(pwd){
+			var result = false;
+			for(var i in CommonPwds){
+				if(pwd==CommonPwds[i]){
+					result = true;
+					break;
+				}
+			}
+			return result;
+		})(pwd);
+		if(inCommonPwds){ //如果此密码在常用密码里
+			return {error:"您输入的密码太常见，很容易被人猜出，请更换",level:""};
+		}
 		//判断密码可用性
 		//不能全为数字  不能全为字母   不能全为符号
 		//须是数字、字母、符号  三项中任意两项或三项组合

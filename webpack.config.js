@@ -105,7 +105,7 @@ var Plugins = (function(){
 
 	plugins.push(new ExtractTextPlugin("css/[name].all.css"));
 	//压缩js css
-	if(Params.env=="prod"){
+	if(Params.env=="prod" || Params.env=="dev"){
 		plugins.push(new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings : false
@@ -128,6 +128,9 @@ module.exports = {
 		},{
 			test: /\.css$/,
 			loader: ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!cssnext-loader!postcss-loader")
+		},{
+			test : /\.sass|scss$/,
+			loader : ExtractTextPlugin.extract("style", "css?sourceMap!cssnext!postcss!sass")
 		},
 //		{
 //			test: /\.js$/,
@@ -149,7 +152,8 @@ module.exports = {
 	plugins : Plugins,
 	resolve : {
 		alias : {
-			COMMON : path.resolve("./common")
+			COMMON : path.resolve("./common"),
+			NODE_MODULES : path.resolve("./node_modules")
 		}
 	},
 	devtool : "#source-map"
