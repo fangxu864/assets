@@ -131,6 +131,9 @@ module.exports = {
 		},{
 			test : /\.sass|scss$/,
 			loader : ExtractTextPlugin.extract("style", "css?sourceMap!cssnext!postcss!sass")
+		},{
+			test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+			loader : 'file-loader'
 		},
 //		{
 //			test: /\.js$/,
@@ -139,7 +142,7 @@ module.exports = {
 //		},
 		{
 			test: /\.(png|jpe?g|gif)$/,
-			loader: 'url-loader?limit=8192&name=imgs/[name]-[hash].[ext]'
+			loader: 'url-loader?limit=8192&name=images/[name]-[hash].[ext]'
 		}]
 	},
 	postcss: function () {

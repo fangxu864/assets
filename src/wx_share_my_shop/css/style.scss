@@ -1,0 +1,26 @@
+@import "COMMON/css/base/core";
+html,body{ background:#3aaadf}
+.topBox{ width:100%; height:px2rem(474); background:url("../images/wx_share_my_shop_top.png") no-repeat center center; background-size:cover}
+.botBox{ position:fixed; left:0; right:0; bottom:0; width:100%; height:px2rem(518); background:url("../images/wx_share_my_shop_building.png") no-repeat center center; background-size:cover}
+.mainBox{ margin-top:px2rem(33);}
+.wxNameBox{ width:100%; overflow:hidden; text-align:center}
+.wxNameBox > .con{ display:inline-block; height:px2rem(60); padding:px2rem(5) px2rem(6); border-radius:30px; background:#fff}
+.wxNameBox .photoBox{ display:inline-block; width:px2rem(60); height:100%; border-radius:50%; overflow:hidden; text-align:center;}
+.wxNameBox .photoBox img{ }
+.wxNameBox .wxName_text{ display:inline-block; height:100%; line-height:px2rem(60); vertical-align:top; padding-right:7px; font-size:px2rem(32)}
+.maBox{ width:px2rem(247); margin:px2rem(23) auto 0; padding:px2rem(10) px2rem(20) px2rem(20) px2rem(20); background:#fff}
+.maBox .desc{ font-size:px2rem(26); text-align:center;}
+.maBox .desc:last-child{ margin-bottom:px2rem(10);}
+.maBox .maBoxCon{ width:100%; height:px2rem(247); overflow:hidden; text-align:center}
+.maBox .maBoxCon img{ width:100%}
+
+
+
+
+
+
+
+
+
+
+
