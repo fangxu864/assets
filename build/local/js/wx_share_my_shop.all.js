@@ -53,6 +53,18 @@
 	var SetFontsize = __webpack_require__(5);
 	$(function(){
 		SetFontsize();
+		var hostname = window.location.hostname;
+		var memberid = $("#memberid").val();
+		var link = "http://"+hostname+"/wx/mall/index.html?parentid="+memberid;
+		var qrcode = new QRCode("maContainer", {
+			text: link,
+			width: 160,
+			height: 160,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
+		qrcode.makeCode(link);
 	})
 
 /***/ },

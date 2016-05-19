@@ -49,11 +49,11 @@
 	 * Date: 16-5-10 上午10:26
 	 * Description: ""
 	 */
-	var EaseDialog = __webpack_require__(1);
-	var Validate = __webpack_require__(7);
-	var UrlParse = __webpack_require__(8);
-	var Ajax = __webpack_require__(9);
-	__webpack_require__(10);
+	var EaseDialog = __webpack_require__(6);
+	var Validate = __webpack_require__(16);
+	var UrlParse = __webpack_require__(17);
+	var Ajax = __webpack_require__(15);
+	__webpack_require__(18);
 	var Main = {
 		timer : null,
 		init : function(){
@@ -175,16 +175,21 @@
 	$(function(){ Main.init()})
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-18.
 	 */
-	module.exports = __webpack_require__(2);
+	module.exports = __webpack_require__(7);
 
 /***/ },
-/* 2 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** 
@@ -193,7 +198,7 @@
 	 * Author : chenmnkken@gmail.com
 	 * Date : 2012-04-22
 	 */
-	__webpack_require__(3);
+	__webpack_require__(8);
 	(function( win, undefined ){
 	
 	var	doc = win.document,
@@ -1032,16 +1037,67 @@
 	// 2012-04-22 修复弹出层内容的尺寸大于浏览器当前屏尺寸的BUG
 
 /***/ },
-/* 3 */
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by Administrator on 16-4-13.
+	 */
+	module.exports = function(url,opt){
+		if(!url) return alert("ajax请求缺少url");
+		var fn = new Function;
+		var opt = opt || {};
+		var params = opt.params || {};
+		var loading = opt.loading || fn;
+		var complete = opt.complete || fn;
+		var success = opt.success || fn;
+		var timeout = opt.timeout || function(){ alert("请求超时，请稍后重试")};
+		var serverError = opt.serverError || function(xhr,txt){
+			var txt = txt || "请求出错，请稍后重试";
+			if(txt=="parsererror") txt = "请求出错，请稍后重试";
+			alert(txt);
+		};
+		var type = opt.type || "get";
+		var dataType = opt.dataType || "json";
+		var ttimeout = opt.ttimeout || 120 * 1000;
+		$.ajax({
+			url : url,
+			type : type,
+			dataType : dataType,
+			data : params,
+			timeout :ttimeout,
+			beforeSend : function(){
+				loading();
+			},
+			success : function(res){
+				complete(res);
+				success(res);
+			},
+			error : function(xhr,txt){
+				complete(xhr,txt);
+				if(txt == "timeout"){
+					timeout(xhr,txt);
+				}else{
+					serverError(xhr,txt);
+				}
+			}
+		})
+	}
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	var Validate = {
@@ -1239,7 +1295,7 @@
 
 
 /***/ },
-/* 8 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/**
@@ -1258,55 +1314,7 @@
 	};
 
 /***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	/**
-	 * Created by Administrator on 16-4-13.
-	 */
-	module.exports = function(url,opt){
-		if(!url) return alert("ajax请求缺少url");
-		var fn = new Function;
-		var opt = opt || {};
-		var params = opt.params || {};
-		var loading = opt.loading || fn;
-		var complete = opt.complete || fn;
-		var success = opt.success || fn;
-		var timeout = opt.timeout || function(){ alert("请求超时，请稍后重试")};
-		var serverError = opt.serverError || function(xhr,txt){
-			var txt = txt || "请求出错，请稍后重试";
-			if(txt=="parsererror") txt = "请求出错，请稍后重试";
-			alert(txt);
-		};
-		var type = opt.type || "get";
-		var dataType = opt.dataType || "json";
-		var ttimeout = opt.ttimeout || 120 * 1000;
-		$.ajax({
-			url : url,
-			type : type,
-			dataType : dataType,
-			data : params,
-			timeout :ttimeout,
-			beforeSend : function(){
-				loading();
-			},
-			success : function(res){
-				complete(res);
-				success(res);
-			},
-			error : function(xhr,txt){
-				complete(xhr,txt);
-				if(txt == "timeout"){
-					timeout(xhr,txt);
-				}else{
-					serverError(xhr,txt);
-				}
-			}
-		})
-	}
-
-/***/ },
-/* 10 */
+/* 18 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

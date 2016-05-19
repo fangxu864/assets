@@ -34,15 +34,14 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -50,24 +49,46 @@
 	 * Date: 16-5-11 下午5:23
 	 * Description: ""
 	 */
-	__webpack_require__(66);
-	__webpack_require__(68);
+	__webpack_require__(1);
+	var SetFontsize = __webpack_require__(5);
+	$(function(){
+		SetFontsize();
+		var hostname = window.location.hostname;
+		var memberid = $("#memberid").val();
+		var link = "http://"+hostname+"/wx/mall/index.html?parentid="+memberid;
+		var qrcode = new QRCode("maContainer", {
+			text: link,
+			width: 160,
+			height: 160,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
+		qrcode.makeCode(link);
+	})
 
 /***/ },
-
-/***/ 66:
+/* 1 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-
-/***/ 68:
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	/**
+	 * Author: huangzhiyang
+	 * Date: 16-5-16 下午5:04
+	 * Description: ""
+	 */
+	module.exports = function(){
+		document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth / 10 + "px";
+	}
 
 /***/ }
-
-/******/ });
-//# sourceMappingURL=wx_open_shop_info.all.js.map
+/******/ ]);
+//# sourceMappingURL=wx_share_my_shop.all.js.map

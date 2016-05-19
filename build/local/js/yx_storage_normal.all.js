@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local";
+/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -48,8 +48,8 @@
 	/**
 	 * Created by Administrator on 16-4-6.
 	 */
-	__webpack_require__(57);
-	var List = __webpack_require__(59);
+	__webpack_require__(91);
+	var List = __webpack_require__(93);
 	var Main = RichBase.extend({
 		init : function(){
 			this.areaSelect = $("#areaSelect");
@@ -70,21 +70,21 @@
 
 /***/ },
 
-/***/ 57:
+/***/ 91:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 59:
+/***/ 93:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-2-3.
 	 */
-	var Api = __webpack_require__(60);
-	var ListManager = __webpack_require__(61);
+	var Api = __webpack_require__(94);
+	var ListManager = __webpack_require__(95);
 	var List = RichBase.extend({
 		init : function(opt){
 			var that = this;
@@ -94,7 +94,7 @@
 			this.areaSelect = $("#areaSelect");
 			this.errorBox = $("#errorStatusBox");
 			this.switchBtn = $("#switchStorageBtn");
-			this.tpl = __webpack_require__(62);
+			this.tpl = __webpack_require__(96);
 			this.listManager = new ListManager();
 			this.getAreaList(function(res){
 				setTimeout(function(){
@@ -224,7 +224,7 @@
 
 /***/ },
 
-/***/ 60:
+/***/ 94:
 /***/ function(module, exports) {
 
 	/**
@@ -449,13 +449,13 @@
 
 /***/ },
 
-/***/ 61:
+/***/ 95:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-2-4.
 	 */
-	var Api = __webpack_require__(60);
+	var Api = __webpack_require__(94);
 	var ListManager = RichBase.extend({
 		EVENTS : {
 			"click" : {
@@ -562,7 +562,7 @@
 
 /***/ },
 
-/***/ 62:
+/***/ 96:
 /***/ function(module, exports) {
 
 	module.exports = "<tr class=\"item\" data-id=\"<%=id%>\">\r\n    <td class=\"ltTxt\">\r\n        <span></span>\r\n        <span class=\"colorGray\"><%=name%>（<%=account%>）</span>\r\n    </td>\r\n    <td>\r\n        <a class=\"iconfont countBtn minu\" href=\"javascript: void(0);\">&#xe6b5;</a>\r\n        <input data-id=\"<%=id%>\" class=\"baseInp countInp\" type=\"text\" value=\"<%=total_num%>\"/>\r\n        <a class=\"iconfont countBtn add \" href=\"javascript: void(0);\">&#xe649;</a>\r\n    </td>\r\n    <td class=\"total\" style=\"color:#c4c4c4; text-align:left; padding-left:10px;\">-1表示使用未分配库存</td>\r\n</tr>";

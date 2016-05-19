@@ -199,8 +199,8 @@ h3 {
 i {
   font-style: normal; }
 
-* {
-  box-sizing: border-box; }
+em, i, strong {
+  font-style: normal; }
 
 .clearfix::before, .clearfix::after {
   content: "";

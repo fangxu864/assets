@@ -36,29 +36,33 @@ var autoprefixer = require("autoprefixer");
 //动态获取入口文件
 var getEntry = function(project_name){
 	var root = ROOT_PATH;
-	var files = {};
-	var dirs = fs.readdirSync(root);
-	var read_project_main_file_path = function(project_name){
-		//检查是否存在指定项目目录
-		if(dirs.indexOf(project_name)<0) return "";
-		//检查指定项目目录里是否存在js目录
-		var project_iner_dirs = fs.readdirSync(root+"/"+project_name);
-		if(project_iner_dirs.indexOf("js")<0) return "";
-		var js_iner_dirs = fs.readdirSync(root+"/"+project_name+"/js");
-		//检查js目录里是否存在index.js文件
-		if(js_iner_dirs.indexOf("index.js")<0) return "";
-		return root+"/"+project_name+"/js/index.js";
-	};
-	if(project_name){ //如果指定只编译某个项目
-		var main_file_path = read_project_main_file_path(project_name);
-		if(main_file_path) files[project_name] = main_file_path;
-	}else{ //未指定编译某个项目则编译src下的所有项目
-		dirs.forEach(function(project_name){
-			var main_file_path = read_project_main_file_path(project_name);
-			if(main_file_path) files[project_name] = main_file_path;
-		});
+	var dir = project_name ? path.join(root,project_name) : root;
+	var json = {};
+	function _test(dir){
+		try{
+			var result = fs.readdirSync(dir);
+			var js_len = result.filter(function(file){
+				return file=="js";
+			}).length;
+			if(js_len>0){
+				var index_path = path.join(dir,"js/index.js");
+				var index_exits = fs.statSync(index_path).isFile();
+				if(index_exits){
+					json[dir.substr(4)] = "./"+index_path;
+				}else{
+					console.log("不存在js目录");
+				}
+			}else{
+				result.forEach(function(file){
+					_test(path.join(dir,file));
+				})
+			}
+		}catch(e){
+			console.log(e);
+		}
 	}
-	return files;
+	_test(dir);
+	return json;
 };
 //入口文件配置
 var entry = getEntry(Params.project_name);

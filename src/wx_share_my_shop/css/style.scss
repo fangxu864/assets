@@ -1,7 +1,7 @@
 @import "COMMON/css/base/core";
 html,body{ background:#3aaadf}
-.topBox{ width:100%; height:px2rem(474); background:url("../images/wx_share_my_shop_top.png") no-repeat center center; background-size:cover}
-.botBox{ position:fixed; left:0; right:0; bottom:0; width:100%; height:px2rem(518); background:url("../images/wx_share_my_shop_building.png") no-repeat center center; background-size:cover}
+.topBox{ width:100%; height:px2rem(474); background:url("http://static.12301.cc/assets/build/images/wx_share_my_shop_top.png") no-repeat center center; background-size:cover}
+.botBox{ position:fixed; left:0; right:0; bottom:0; width:100%; height:px2rem(518); background:url("http://static.12301.cc/assets/build/images/wx_share_my_shop_building.png") no-repeat center center; background-size:cover}
 .mainBox{ margin-top:px2rem(33);}
 .wxNameBox{ width:100%; overflow:hidden; text-align:center}
 .wxNameBox > .con{ display:inline-block; height:px2rem(60); padding:px2rem(5) px2rem(6); border-radius:30px; background:#fff}

@@ -1,5 +1,5 @@
 body{ background-color:#f8f9fb}
-.left_memb,.foot-new,.headerWrap{ background-color:#fff !important;}
+.left_memb, .foot-new, .headerWrap{ background-color:#fff !important;}
 .headerWrap{  padding-bottom:10px; background:#fff url("http://www.12301.cc/images/top_bg.png") top left repeat-x}
 .navmem_war{ margin-top:0;}
 
@@ -45,7 +45,7 @@ body{ background-color:#f8f9fb}
 .orderList .ticketUl{  }
 .orderList .ticketLi{ overflow:hidden; margin-bottom:12px;}
 .orderList .ticketLi:last-child{ margin-bottom:8px;}
-.orderList .ticketLi .inpCtrol,.orderList .ticketLi .trnameCol{ float:right; margin-left:5px;}
+.orderList .ticketLi .inpCtrol, .orderList .ticketLi .trnameCol{ float:right; margin-left:5px;}
 .orderList .ticketLi .inpCtrol .tinp{ float:left; width:70px; height:40px; font-size:14px; font-weight:bold; line-height:40px; text-align:center; padding:0 5px; border:1px solid #e2e2e2; background:#fff}
 .orderList .ticketLi .inpCtrol .zhang{ display:block; float:left; width:22px; height:40px; text-align:center; line-height:40px; border:1px solid #e2e2e2; border-left:0 none}
 .orderList .ticketLi .trnameCol{ text-align:right}
@@ -55,8 +55,8 @@ body{ background-color:#f8f9fb}
 .orderList .ticketLi .trnameCol .flag{ color:#fff; padding:0 3px;}
 .orderList .checkBtn{ float:right; display:inline-block; height:34px; margin-top:3px; line-height:34px; padding:0 50px; background:#ff7734; color:#fff;}
 .orderList .checkBtn:hover{ text-decoration:none; background:#ff601a}
-.orderList .checkBtn.disabled,.orderList .checkBtn.disable{ background:#cacaca; color:#7c7c7c; cursor:default}
-.orderList .checkBtn.success,.orderList .checkBtn.success:hover{ background:#3dba3f; color:#fff; cursor:default}
+.orderList .checkBtn.disabled, .orderList .checkBtn.disable{ background:#cacaca; color:#7c7c7c; cursor:default}
+.orderList .checkBtn.success, .orderList .checkBtn.success:hover{ background:#3dba3f; color:#fff; cursor:default}
 .orderList .checkBtn.success .iconfont{ position:relative; top:1px; margin-right:3px;}
 .orderList .payTypeTip{ float:right; text-align:right; clear:right; margin-top:5px; color:#cf2e2e}
 .orderList .errorTip{ float:right; margin-top:11px; margin-left:10px; color:red; margin-right:5px;}
@@ -92,7 +92,7 @@ body{ background-color:#f8f9fb}
 .tabUl .tabLi.fast{ margin-left:23px;}
 .tabUl .tabLi.active{ background:#0897d9; color:#fff; border-top-right-radius:3px; border-top-left-radius:3px;}
 
-.tabPanelCon.fast .entryTop,.tabPanelCon.overdue .entryTop{ padding-top:15px;}
+.tabPanelCon.fast .entryTop, .tabPanelCon.overdue .entryTop{ padding-top:15px;}
 #fastTermInp{ width:400px; height:24px; border:1px solid #dcdcdc; background:#fff; padding:5px 5px 5px 8px;}
 #fastTermBtn{ display:inline-block; width:90px; height:36px; line-height:36px; text-align:center; color:#fff; cursor:pointer; padding:0; margin-left:3px; border:0 none; background:#0897d9}
 #fastTermBtn:hover{ text-decoration:none}
@@ -114,7 +114,7 @@ body{ background-color:#f8f9fb}
 #productListBox .searchBox .searchInp{ display:block; width:100%; height:28px; padding:0; border:0 none;}
 #productListBox .listWrap{ position:absolute; top:48px; left:0; right:0; bottom:2px; overflow:auto; border-top:1px solid #dcdcdc}
 #productListBox .listUl li{ height:35px; line-height:35px; overflow:hidden; padding-left:8px; border-bottom:1px dotted #dcdcdc; cursor:pointer}
-#productListBox .listUl li:hover,#productListBox .listUl li.active{ background-color:#f7f7f7}
+#productListBox .listUl li:hover, #productListBox .listUl li.active{ background-color:#f7f7f7}
 
 .calendar-pop-contaienr{ display:none; position:absolute; width:360px; z-index:10001;}
 .calendar-mask{ display:none; position:fixed; top:0; right:0; left:0; bottom:0; z-index:10000;}
@@ -123,10 +123,10 @@ body{ background-color:#f8f9fb}
 .calendar-table .calendar-thead label{ position:relative; top:-1px;}
 .calendar-table .calendar-td{border:1px solid #E5E5E5;}
 .calendar-table .calendar-td .tdCon{ display:block; position:relative; height:36px; line-height:36px; text-align:center; overflow:hidden}
-.calendar-table .calendar-td.empty,.calendar-table .calendar-td.noPrice{ background:#f7f7f7; cursor:default}
+.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice{ background:#f7f7f7; cursor:default}
 .calendar-table .calendar-td.day{ background:#fff; cursor:pointer;}
 .calendar-table .calendar-td.day:hover{ background:#fcfcfc}
-.calendar-table .calendar-td.selected,.calendar-table .calendar-td.selected:hover{ background:#008fc2; color:#fff}
+.calendar-table .calendar-td.selected, .calendar-table .calendar-td.selected:hover{ background:#008fc2; color:#fff}
 .calendar-table .dayNum{ font-size:12px; font-family:arial;}
 .calendarHead{ position:relative; height:36px; line-height:36px; padding:0 50px; background:#008fc2; color:#fff; text-align:center}
 .calendarHead .con .iconfont{ font-size:16px}
