@@ -40,56 +40,30 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
 
-/***/ 0:
+	module.exports = __webpack_require__(1);
+
+
+/***/ },
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Author: huangzhiyang
-	 * Date: 16-5-11 下午5:23
+	 * Date: 2016/5/20 17:11
 	 * Description: ""
 	 */
-	__webpack_require__(66);
-	var SetFontsize = __webpack_require__(68);
-	$(function(){
-		SetFontsize();
-		var hostname = window.location.hostname;
-		var memberid = $("#memberid").val();
-		var link = "http://"+hostname+"/wx/mall/index.html?parentid="+memberid;
-		var qrcode = new QRCode("maContainer", {
-			text: link,
-			width: 160,
-			height: 160,
-			colorDark : "#000000",
-			colorLight : "#ffffff",
-			correctLevel : QRCode.CorrectLevel.H
-		});
-		qrcode.makeCode(link);
-	})
+	__webpack_require__(2);
 
 /***/ },
-
-/***/ 66:
+/* 2 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ },
-
-/***/ 68:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 16-5-16 下午5:04
-	 * Description: ""
-	 */
-	module.exports = function(){
-		document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth / 10 + "px";
-	}
-
 /***/ }
-
-/******/ });
-//# sourceMappingURL=wx_share_my_shop.all.js.map
+/******/ ]);
+//# sourceMappingURL=wx_mall_index.all.js.map

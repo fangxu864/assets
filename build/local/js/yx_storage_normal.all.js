@@ -48,8 +48,8 @@
 	/**
 	 * Created by Administrator on 16-4-6.
 	 */
-	__webpack_require__(91);
-	var List = __webpack_require__(93);
+	__webpack_require__(85);
+	var List = __webpack_require__(87);
 	var Main = RichBase.extend({
 		init : function(){
 			this.areaSelect = $("#areaSelect");
@@ -70,21 +70,21 @@
 
 /***/ },
 
-/***/ 91:
+/***/ 85:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 93:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-2-3.
 	 */
-	var Api = __webpack_require__(94);
-	var ListManager = __webpack_require__(95);
+	var Api = __webpack_require__(88);
+	var ListManager = __webpack_require__(89);
 	var List = RichBase.extend({
 		init : function(opt){
 			var that = this;
@@ -94,7 +94,7 @@
 			this.areaSelect = $("#areaSelect");
 			this.errorBox = $("#errorStatusBox");
 			this.switchBtn = $("#switchStorageBtn");
-			this.tpl = __webpack_require__(96);
+			this.tpl = __webpack_require__(90);
 			this.listManager = new ListManager();
 			this.getAreaList(function(res){
 				setTimeout(function(){
@@ -224,7 +224,7 @@
 
 /***/ },
 
-/***/ 94:
+/***/ 88:
 /***/ function(module, exports) {
 
 	/**
@@ -449,13 +449,13 @@
 
 /***/ },
 
-/***/ 95:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-2-4.
 	 */
-	var Api = __webpack_require__(94);
+	var Api = __webpack_require__(88);
 	var ListManager = RichBase.extend({
 		EVENTS : {
 			"click" : {
@@ -562,7 +562,7 @@
 
 /***/ },
 
-/***/ 96:
+/***/ 90:
 /***/ function(module, exports) {
 
 	module.exports = "<tr class=\"item\" data-id=\"<%=id%>\">\r\n    <td class=\"ltTxt\">\r\n        <span></span>\r\n        <span class=\"colorGray\"><%=name%>（<%=account%>）</span>\r\n    </td>\r\n    <td>\r\n        <a class=\"iconfont countBtn minu\" href=\"javascript: void(0);\">&#xe6b5;</a>\r\n        <input data-id=\"<%=id%>\" class=\"baseInp countInp\" type=\"text\" value=\"<%=total_num%>\"/>\r\n        <a class=\"iconfont countBtn add \" href=\"javascript: void(0);\">&#xe649;</a>\r\n    </td>\r\n    <td class=\"total\" style=\"color:#c4c4c4; text-align:left; padding-left:10px;\">-1表示使用未分配库存</td>\r\n</tr>";
