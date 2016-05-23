@@ -3,9 +3,28 @@
  * Date: 2016/5/20 17:11
  * Description: ""
  */
-require("COMMON/css/tobe/_base.scss");
-window.onload = function(){
-	var div = document.createElement('div');
-	div.innerHTML = 'my first test';
-	document.appendChild(div);
-}
+var FastClick = require("fastclick");
+var CityQuery = require("COMMON/modules/wx_mall_location_query_city");
+var Router = Backbone.Router.extend({
+	routes : {
+		"" : "home",
+		"openCityQuery" : "openCityQuery"
+	},
+	home : function(){
+
+	},
+	openCityQuery : function(){
+
+	}
+});
+var Main = Backbone.View.extend({
+	initialize : function(){
+		FastClick.attach(document.body);
+		new CityQuery();
+	}
+});
+
+
+$(function(){
+	new Main();
+})

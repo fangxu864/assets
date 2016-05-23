@@ -3,6 +3,7 @@
  * Date: 2016/5/20 17:56
  * Description: ""
  */
+var webpack = require("webpack");
 var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = function(env){

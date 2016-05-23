@@ -1,0 +1,55 @@
+/**
+ * Author: huangzhiyang
+ * Date: 2016/5/23 19:29
+ * Description: ""
+ */
+.cityQueryPage{ display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:#dae1e4; overflow:auto; -webkit-overflow-scrolling:touch}
+.cityQueryPage.current{ display:block; z-index:100;}
+#cityQueryPage .fixHead{ position:fixed; left:0; right:0; top:0; z-index:5; height:45px; overflow:hidden; background:#2a98da; color:#fff}
+#cityQueryPage .fixHead > .con{ display:block; height:100%; line-height:45px; padding:0 70px 0 50px; text-align:center; color:#fff;}
+#cityQueryPage .fixHead .fixHeadTxt{ position:relative; right:-10px; font-size:1.2rem;}
+#cityQueryPage .fixHead > .con .iconfont{ right:-10px;}
+#cityQueryPage .fixHead .topBtn{ display:block; position:absolute; top:0; bottom:0; width:50px; line-height:45px; text-align:center;}
+#cityQueryPage .fixHead .topBtn:active{ background:#1d7ab2}
+#cityQueryPage .fixHead .topBtn.goBack{ left:0;}
+#cityQueryPage .fixHead .topBtn.user{ width:60px; right:0;}
+#cityQueryPage .fixHead .topBtn.user .iconfont{ font-size:18px;}
+#cityQueryPage .fixHead .topBtn.search{ width:35px; right:35px;}
+#cityQueryPage .fixHead .topBtn.goBack .iconfont{ left:-3px;}
+#cityQueryPage .fixHead .topBtn.search .iconfont{ top:1px}
+#cityQueryPage .searchBox{ position:fixed; z-index:1; top:45px; left:0; right:0; padding:8px 0.9rem; background:#dae1e4}
+#cityQueryPage .searchBox > .con{ position:relative; width:100%;}
+#cityQueryPage .searchBox .searchInp{ box-sizing:border-box; width:100%; height:42px; line-height:22px; padding:10px 30px;}
+#cityQueryPage .searchBox .iconfont.search{ position:absolute; top:13px; left:9px; font-size:1rem;}
+#cityQueryPage .searchBox .iconfont.loading,.searchBox .iconfont.clear{ display:none; position:absolute; }
+#cityQueryPage .searchBox .iconfont.loading{ right:35px; top:11px;}
+#cityQueryPage .searchBox .iconfont.clear{ right:10px; top:12px; font-size:1.2rem;}
+#allcityUl{ margin-top:0px;}
+#allcityUl .group{ margin-bottom:8px;}
+#allcityUl .group .letter{ height:30px; line-height:30px; font-size:1.2rem; padding-left:1rem; color:#333;}
+#allcityUl .group .letter.none{ display:none}
+#allcityUl .group .cityItem{ height:50px; line-height:50px; font-size:1rem; padding:0 1rem; background:#fff; border-bottom:1px solid #dbdbdb}
+#allcityUl .group .cityItem .checkbox{ float:right; font-size:22px; color:#2a98da;}
+#allcityUl .group .cityItem .checkbox.selected{ display:none; color:#0797d9}
+#allcityUl .group .cityItem .checkbox.unselect{ color:#8a8a8a;}
+#allcityUl .group .cityItem.selected{ color:#2a98da}
+#allcityUl .group .cityItem.selected .selected{ display:inline-block}
+#allcityUl .group .cityItem.selected .unselect{ display:none}
+#allcityUl .state{ height:150px; line-height:150px; text-align:center; background:#fff; font-size:0.9rem}
+#allcityUl .state .iconfont{ margin-right:2px; vertical-align:middle}
+#allcityUl .state .t{ vertical-align:middle}
+#locateCurrentCity,.allCityBar{ height:50px; line-height:50px; overflow:hidden; margin-top:0; padding:0 1rem; background:#fff;}
+#locateCurrentCity .t,#locateCurrentCity .city{ font-size:1rem}
+.cityItem.topBar .iconfont{ margin-right:2px; }
+.cityItem.topBar .checkbox{ display:none; float:right; font-size:22px; color:#2a98da;}
+.cityItem.topBar .checkbox.selected{ color:#0797d9}
+.cityItem.topBar .checkbox.unselect{ color:#8a8a8a;}
+.cityItem.topBar.success .checkbox.selected{ display:none}
+.cityItem.topBar.success .checkbox.unselect{ display:inline-block}
+.cityItem.topBar.selected{ color:#2a98da}
+.cityItem.topBar.success.selected .checkbox.selected{ display:inline-block}
+.cityItem.topBar.success.selected .checkbox.unselect{ display:none}
+#cityQueryPage .allCityBtn{ height:50px; line-height:50px; overflow:hidden; margin-top:10px; font-size:1rem; padding:0 1rem; background:#fff;}
+#mainPageCon_city{ margin-top:104px;}
+.allCityBar{ margin-top:5px;}
+.allCityBar .t{ font-size:1rem; margin-left:3px;}
