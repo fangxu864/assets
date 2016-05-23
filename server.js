@@ -32,7 +32,9 @@ var proxy = [{
 var app = new WebpackDevServer(webpack(config),{
 	publicPath: "http://localhost:"+PORT+"/",
 	hot:true,
-	historyApiFallback: true
-	//proxy:proxy
+	historyApiFallback: true,
+	proxy:{
+		"*" : "http://localhost:8090"
+	}
 });
 app.listen(PORT);
