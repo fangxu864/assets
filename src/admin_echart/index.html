@@ -1,0 +1,39 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/5/23 14:58 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="./css/test.css"/>
+    <script src="laydate/laydate.js"></script>
+</head>
+<body>
+<div class="condition">
+    <p>查询条件</p>
+    <div>
+        <label>开始时间：</label><input type="text" placeholder="请输入日期" class="laydate-icon" onclick="laydate()"/>
+        <label>结束时间：</label><input type="text" placeholder="请输入日期" class="laydate-icon" onclick="laydate()"/>
+    </div>
+    <div>
+        <label>景区名称：</label><input type="text"/>
+        <label>供应商：</label><input type="text"/>
+    </div>
+    <div class="order_box">
+        <label>排序：</label>
+        <label class="order"><input type="radio" checked name="order"/>订单数</label>
+        <label class="order"><input type="radio"name="order"/>票数</label>
+        <label class="order"><input type="radio"name="order"/>订单总额</label>
+    </div>
+    <button type="button">搜 索</button>
+</div>
+<script>
+;!function(){
+    //laydate.skin('molv');
+    laydate({
+        elem: '#demo'
+    })
+}();
+</script>
+</body>
+</html>
