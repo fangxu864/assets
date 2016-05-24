@@ -12,7 +12,7 @@
     "dev": "webpack -w -dev",
     "prod-build": "webpack -myProduct",
     "prod": "webpack -w -myProduct",
-    "common" : "webpack --config webpack.common.build.config.js"
+    "common": "webpack --config webpack.common.build.config.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   "license": "ISC",
   "devDependencies": {
     "art-template": "^3.0.3",
+    "autoprefixer": "^6.3.6",
     "compass-mixins": "^0.12.10",
     "css-loader": "^0.23.1",
     "cssnext-loader": "^1.0.1",
@@ -34,9 +35,12 @@
     "html-webpack-plugin": "^2.15.0",
     "js-md5": "^0.4.1",
     "node-sass": "^3.7.0",
+    "postcss-loader": "^0.9.1",
+    "precss": "^1.4.0",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1"
   }
 }
