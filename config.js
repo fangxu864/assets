@@ -7,6 +7,7 @@ module.exports = function(opt){
 	var output = opt.output;
 	var plugins = opt.plugins;
 	return {
+		debug : true,
 		entry : entry,
 		output : output,
 		module : {

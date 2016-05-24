@@ -11,7 +11,8 @@
     "dev-build": "webpack -dev",
     "dev": "webpack -w -dev",
     "prod-build": "webpack -myProduct",
-    "prod": "webpack -w -myProduct"
+    "prod": "webpack -w -myProduct",
+    "common" : "webpack --config webpack.common.build.config.js"
   },
   "repository": {
     "type": "git",

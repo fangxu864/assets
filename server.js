@@ -4,7 +4,7 @@
  * Description: ""
  */
 'use strict'
-var PORT = "8090";
+var PORT = "9090";
 var ROOT_PATH = "./src";
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
@@ -30,11 +30,14 @@ var proxy = [{
 }]
 //Æô¶¯·þÎñ
 var app = new WebpackDevServer(webpack(config),{
-	publicPath: "http://localhost:"+PORT+"/",
+	contentBase: {target: 'localhost:3000/webpack-dev-server/index.html'},
+	publicPath: "/",
 	hot:true,
-	historyApiFallback: true,
-	proxy:{
-		"*" : "http://localhost:8090"
-	}
+	historyApiFallback: true
+	//,proxy:{
+	//	"*" : "http://localhost:3000"
+	//}
 });
-app.listen(PORT);
+app.listen(PORT,"localhost",function(error){
+	console.log(error);
+});

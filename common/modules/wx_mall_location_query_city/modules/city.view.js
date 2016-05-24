@@ -7,7 +7,7 @@ var CityView = Backbone.View.extend({
 	initialize : function(opt){
 		this.location = opt.location;
 		this.model.on("change",function(model){
-			
+
 		})
 	},
 	getCityData : function(){

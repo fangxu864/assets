@@ -13,9 +13,15 @@ var config = require("./config")({
 	output : output,
 	plugins : plugins
 });
-config.devServer = {
-	port : 8090,
-	contentBase : "./local/",
-	historyApiFallback : true
-};
+//config.devServer = {
+//	port : 8090,
+//	proxy: {
+//		'*': {
+//			target: 'http://localhost:8090',
+//			ws: true
+//		}
+//	},
+//	contentBase : "./local/",
+//	historyApiFallback : true
+//};
 module.exports = config;
