@@ -5,8 +5,9 @@
  */
 var api = {
 	get : function(controller,action){
-		if(!controller || !action) return "";
-		return "r/"+controller+"/"+action+"/";
+		if(!controller) return "";
+		var action = (action+"/") || "";
+		return "r/"+controller+"/"+action;
 	}
 };
 module.exports = api;
