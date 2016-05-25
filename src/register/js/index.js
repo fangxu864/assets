@@ -1,7 +1,6 @@
 /**
  * Created by Administrator on 16-4-12.
  */
-require("COMMON/css/tobe/_base.scss");
 require("../css/register.css");
 var Placeholder = require("COMMON/js/util.placeholder.js");
 var SlideManager = require("./modules/slide.manager.js");

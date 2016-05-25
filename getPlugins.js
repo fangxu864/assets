@@ -29,7 +29,7 @@ module.exports = function(env){
 	//		if(template) opt["template"] = template;
 	//		plugins.push(new HtmlWebpackPlugin(opt));
 	//	}
-	plugins.push(new ExtractTextPlugin("css/[name].all.css"));
+	plugins.push(new ExtractTextPlugin("css/[name]/all.css"));
 	//Ñ¹Ëõjs css
 	if(env=="prod" || env=="dev"){
 		plugins.push(new webpack.optimize.UglifyJsPlugin({

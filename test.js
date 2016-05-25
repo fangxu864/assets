@@ -51,19 +51,39 @@ function test(project_name){
 	return json;
 }
 
-var url = require("url");
-var http = require("http");
-//http.get("http://www.baidu.com",function(res){
-//	var body = [];
-//	res.on("data",function(chunk){
-//		body.push(chunk);
-//	})
-//	res.on("end",function(){
-//		body = Buffer.concat(body);
-//		console.log(body.toString())
-//	})
-//})
 
-console.log(url.parse('http://user:pass@host.com:8080/p/a/t/h?query=string#hash'))
+var Deferred = require('./common/js/util.promise.js');
+
+function asyncJob1(param, isOk) {
+	var defer = Deferred();
+	//setTimeout(function () {
+	var result = param + ' with job1';
+	if (isOk) {
+		defer.resolve(result);
+	} else {
+		defer.reject('job1 fail');
+	}
+	//}, 100);
+	return defer.promise;
+}
+
+function asyncJob2(param, isOk) {
+	var defer = Deferred();
+	//setTimeout(function () {
+	var result = param + ' with job2';
+	if (isOk) {
+		defer.resolve(result);
+	} else {
+		defer.reject('job2 fail');
+	}
+	//}, 100);
+	return defer.promise;
+}
+
+asyncJob1('monkey', true).then(function (job1Result) {
+	return asyncJob2(job1Result, true);
+}).then(function (job2Result) {
+	console.log('we are all done!', job2Result);
+});
 
 

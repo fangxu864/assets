@@ -1,0 +1,41 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/5/25 17:18 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+    var Promise = function () {
+        var _callback, _result;
+
+        return {
+            resolve: function (result) {
+                _result = result;
+                if (_callback) {
+                    _callback(result);
+                }
+                _callback = null;
+            },
+            then: function (callback) {
+                _callback = callback;
+            }
+        }
+    };
+    function asyncJob1(param) {
+        var promise = Promise();
+        setTimeout(function monkey() {
+            var result = param + ' with job1';
+            promise.resolve(result);
+        }, 1000);
+        return promise;
+    }
+
+    asyncJob1('monkey').then(function(result){
+        console.log('we are done', result);
+    });
+</script>
+</body>
+</html>

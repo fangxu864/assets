@@ -57,23 +57,7 @@ var VRegister = Backbone.View.extend({
 			},1000)
 		})
 
-		Dialog.open({
-			container : {
-				header : '请先填写图形验证码',
-				content : [
-					'<div style="width:300px;" class="dialogCon" style="margin-left:30px">',
-					'<div class="line" style="margin-bottom:10px;">请填写左侧图形验证码</div>',
-					'<div class="line" style="margin-bottom:5px;"><img id="vcode_img" class="vcode_img" src="'+ImgCodeUrl+'" alt=""/><input id="imgMaCodeInp" type="text" placeholder="请填写左侧图形验证码"/></div>',
-					'</div>'
-				].join("")
-			},
-			offsetY : -100,
-			events : {
-				"click .vcode_img" : function(e){
-					$(e.currentTarget).attr("src",ImgCodeUrl)
-				}
-			}
-		});
+		this.showImgVCodeDialog();
 
 
 	},
@@ -122,27 +106,6 @@ var VRegister = Backbone.View.extend({
 		if(!mobile) return alert("请先填写手机号");
 		if(!this.mobileInp.parents(".rt").hasClass("ok")) return alert("请填写正确格式手机号");
 
-
-		//Dialog.open({
-		//	container : {
-		//		header : '请先填写图形验证码',
-		//		content : [
-		//			'<div style="width:300px;" class="dialogCon" style="margin-left:20px">',
-		//			'<div class="line" style="margin-bottom:10px;">请先填写图形验证码</div>',
-		//			'<div class="line" style="margin-bottom:5px;"><img style="border:1px solid #dbdbdb" src="'+PFT.Config.Api.get("Login","getCode")+'" alt=""<input type="text" placeholder="请填写左侧图形验证码"/></div>',
-		//			'</div>'
-		//		].join("")
-		//	},
-		//	offsetY : -100,
-		//	events : {
-		//		"click .reRegBtn" : function(e){
-		//			Dialog.close();
-		//		}
-		//	}
-		//});
-		//
-		//return false;
-
 		VCode.get(mobile,{
 			loading : function(){ tarBtn.addClass("disable").text("正在获取...")},
 			complete : function(){ tarBtn.removeClass("disable").text("获取验证码")},
@@ -180,6 +143,26 @@ var VRegister = Backbone.View.extend({
 				that.submit_register();
 			})
 		})
+	},
+	//弹出图形验证码输入框
+	showImgVCodeDialog : function(){
+		Dialog.open({
+			container : {
+				header : '请先填写图形验证码',
+				content : [
+					'<div style="width:300px;" class="dialogCon" style="margin-left:30px">',
+					'<div class="line" style="margin-bottom:10px;">请填写左侧图形验证码</div>',
+					'<div class="line" style="margin-bottom:5px;"><img id="vcode_img" class="vcode_img" src="'+ImgCodeUrl+'" alt=""/><input id="imgMaCodeInp" type="text" placeholder="请填写左侧图形验证码"/></div>',
+					'</div>'
+				].join("")
+			},
+			offsetY : -100,
+			events : {
+				"click .vcode_img" : function(e){
+					$(e.currentTarget).attr("src",ImgCodeUrl)
+				}
+			}
+		});
 	},
 	//提交注册前-校验该帐号名是否被注册过
 	check_mobile_exist : function(callback){
