@@ -4,8 +4,13 @@
  * Description: ""
  */
 #easyDialogBox{ width:650px;}
-.anncounceCon .anncounce_title{ font-size:18px; font-weight:bold; margin:5px auto 10px; text-align:center}
-.anncounceCon .announceMainCon{ overflow:auto}button::-moz-focus-inner{ border:0; padding:0; margin:0; }
+.anncounceCon .anncounce_title{ font-size:18px; font-weight:bold; margin:0 auto 10px; text-align:center}
+.anncounceCon .announceMainCon{ overflow:auto}
+.anncounceCon .announceMainCon img{ max-width:100%}
+.anncounceCon .linkLine{ padding:5px 0 5px 0; text-align:right;}
+.anncounceCon .linkLine a:link{ color:#008fc2}
+.anncounceCon .linkLine a:hover{ color:#008fc2; text-decoration:underline}
+button::-moz-focus-inner{ border:0; padding:0; margin:0; }
 
 .easyDialog_wrapper{ color:#444; border:3px solid #fff; border-radius:5px; box-shadow:0 0 10px rgba(0,0,0,0.4); display:none; font-family:"Microsoft yahei", Arial; }
 

@@ -56,10 +56,10 @@
 	 * Date: 2016/5/25 18:02
 	 * Description: ""
 	 */
-	__webpack_require__(10);
-	var EasyDialog = __webpack_require__(2);
-	var Ajax = __webpack_require__(8);
-	var WinWidthHeight = __webpack_require__(9);
+	__webpack_require__(2);
+	var EasyDialog = __webpack_require__(6);
+	var Ajax = __webpack_require__(10);
+	var WinWidthHeight = __webpack_require__(11);
 	var Main = {
 		//api : "r/MsgNotify_notice/get_nts",
 		api : "route/?c=MsgNotify_notice&a=get_nts",
@@ -67,7 +67,7 @@
 			var that = this;
 			var WH = WinWidthHeight();
 			var winH = WH.height;
-			this.dialogHeight = winH*0.8-70;
+			this.dialogHeight = winH*0.8-100;
 			Ajax(this.api,{
 				type : "get",
 				dataType : "json",
@@ -81,17 +81,18 @@
 					var msg = res.msg || "请求出错，请稍后重试";
 					var data = res.data || {};
 					var title = data.title || "";
-					var content = data.content || "";
-					if(code==200 && title && content){
-						that.openDialog(title,content);
+					var content = data.details || "";
+					var id = data.an_id;
+					if(code==200 && id && title && content){
+						that.openDialog(id,title,content);
 					}else{
 	
 					}
 				}
 			})
 		},
-		openDialog : function(title,content){
-			var content = this.buildContent(title,content);
+		openDialog : function(id,title,content){
+			var content = this.buildContent(id,title,content);
 			EasyDialog.open({
 				container : {
 					header : '重要通知',
@@ -101,13 +102,14 @@
 				drag : true
 			})
 		},
-		buildContent : function(title,content){
+		buildContent : function(id,title,content){
 			var that = this;
 			var height = this.dialogHeight;
 			return [
 				'<div class="anncounceCon">',
 					'<h3 class="anncounce_title">'+title+'</h3>',
 					'<div style="height:'+height+'px" class="announceMainCon">'+content+'</div>',
+					'<div class="linkLine"><a target="_blank" href="pft_announce.html?id='+id+'&m=con">查看详情>></a></div>',
 				'</div>'
 			].join("");
 		}
@@ -118,15 +120,24 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Created by Administrator on 16-4-18.
 	 */
-	module.exports = __webpack_require__(3);
+	module.exports = __webpack_require__(7);
 
 /***/ },
-/* 3 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** 
@@ -135,7 +146,7 @@
 	 * Author : chenmnkken@gmail.com
 	 * Date : 2012-04-22
 	 */
-	__webpack_require__(4);
+	__webpack_require__(8);
 	(function( win, undefined ){
 	
 	var	doc = win.document,
@@ -910,6 +921,10 @@
 			Dialog.removeData( 'dialogElements' );
 	
 		}
+		//,setPosition : function(elem,fixed){
+		//	var $ = new Dialog();
+		//	$.setPosition(elem,fixed);
+		//}
 	};
 	
 	return extend;
@@ -974,16 +989,14 @@
 	// 2012-04-22 修复弹出层内容的尺寸大于浏览器当前屏尺寸的BUG
 
 /***/ },
-/* 4 */
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
+/* 9 */,
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -1031,7 +1044,7 @@
 	}
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -1056,12 +1069,6 @@
 		}
 		return result;
 	}
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

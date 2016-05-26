@@ -48,7 +48,7 @@
 #dialogCardWrap .virLine{ position:absolute; top:54px; right:205px; height:400px; width:1px; font-size:0; border-left:1px dotted #d5d5d5}
 #dialogCardWrap .serviceBox .topLine{ margin-bottom:10px; margin-top:30px;}
 
-
+.test{ width:100px; height:100px; background:url("../images/bind_bank_dialog_icon.png")}
 
 
 

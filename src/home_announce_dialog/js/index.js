@@ -14,7 +14,7 @@ var Main = {
 		var that = this;
 		var WH = WinWidthHeight();
 		var winH = WH.height;
-		this.dialogHeight = winH*0.8-70;
+		this.dialogHeight = winH*0.8-100;
 		Ajax(this.api,{
 			type : "get",
 			dataType : "json",
@@ -28,17 +28,18 @@ var Main = {
 				var msg = res.msg || "请求出错，请稍后重试";
 				var data = res.data || {};
 				var title = data.title || "";
-				var content = data.content || "";
-				if(code==200 && title && content){
-					that.openDialog(title,content);
+				var content = data.details || "";
+				var id = data.an_id;
+				if(code==200 && id && title && content){
+					that.openDialog(id,title,content);
 				}else{
 
 				}
 			}
 		})
 	},
-	openDialog : function(title,content){
-		var content = this.buildContent(title,content);
+	openDialog : function(id,title,content){
+		var content = this.buildContent(id,title,content);
 		EasyDialog.open({
 			container : {
 				header : '重要通知',
@@ -48,13 +49,14 @@ var Main = {
 			drag : true
 		})
 	},
-	buildContent : function(title,content){
+	buildContent : function(id,title,content){
 		var that = this;
 		var height = this.dialogHeight;
 		return [
 			'<div class="anncounceCon">',
 				'<h3 class="anncounce_title">'+title+'</h3>',
 				'<div style="height:'+height+'px" class="announceMainCon">'+content+'</div>',
+				'<div class="linkLine"><a target="_blank" href="pft_announce.html?id='+id+'&m=con">查看详情>></a></div>',
 			'</div>'
 		].join("");
 	}

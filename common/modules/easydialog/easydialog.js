@@ -779,6 +779,10 @@ var extend = {
 		Dialog.removeData( 'dialogElements' );
 
 	}
+	//,setPosition : function(elem,fixed){
+	//	var $ = new Dialog();
+	//	$.setPosition(elem,fixed);
+	//}
 };
 
 return extend;
