@@ -12,5 +12,8 @@ PFT.Util.UrlParse = require("./js/util.url.parse.query");
 PFT.Util.Validate = require("./js/util.validate");
 PFT.Util.VCode = require("./js/util.vcode");
 PFT.Util.getToken = require("./js/util.get.token");
+PFT.Util.Promise = require("./js/util.promise");
 PFT.Config.Api = require("./js/config.api");
 
+PFT.AJAX_ERROR_TEXT = "请求出错，请稍后重试";
+PFT.AJAX_TIMEOUT_TEXT = "请求超时，请稍后重试";

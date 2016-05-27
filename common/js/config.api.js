@@ -6,8 +6,10 @@
 var api = {
 	get : function(controller,action){
 		if(!controller) return "";
-		var action = (action+"/") || "";
-		return "r/"+controller+"/"+action;
+		if(action) return "r/"+controller+"/"+action;
+		return function(action){
+			return "r/"+controller+"/"+action;
+		}
 	}
 };
 module.exports = api;

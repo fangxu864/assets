@@ -1,0 +1,42 @@
+<style type="text/css">
+    .myRight{ width:1000px; margin:15px auto; background:#fff; border:1px solid #e5e5e5; padding-bottom:300px}
+    .headTop{ height:60px; line-height:60px; padding-left:15px; border-bottom:1px solid #e5e5e5}
+    .headTop .t{ font-size:20px;}
+    .mainWrap{ padding:20px 30px; overflow:hidden}
+    .mainWrap .tip{ margin-bottom:10px}
+    .mainWrap .box{ display:block; float:left; width:180px; padding:25px; border:1px solid #e5e5e5; background:#fcfcfc; cursor:pointer}
+    .mainWrap .box:hover,.mainWrap .box.active{ background:#258cc9; color:#fff; border-color:#258cc9}
+    .mainWrap .box.dtype_1{ margin-right:20px;}
+    .mainWrap .box .tit{ margin-bottom:10px;}
+    .mainWrap .box .t{ font-size:16px; vertical-align:middle;}
+    .mainWrap .box input{ position:relative; top:1px; vertical-align:middle;}
+    #nextBtn{ display:block; width:120px; height:34px; line-height:34px; margin-left:30px; margin-top:30px; background:#258cc9; color:#fff; text-align:center; border:0 none; cursor:pointer;}
+    #nextBtn:hover{ background:#008fc0}
+</style>
+<div class="myRight">
+    <div class="headTop"><span class="t">用户注册</span></div>
+    <form id="mainForm" method="get" action="register_new.html">
+        <div class="mainWrap clearfix">
+            <p class="tip">请选择要注册的类型</p>
+            <label class="box dtype_1 active" for="dtype_radio_1">
+                <p class="tit">我只有渠道，选择：</p>
+                <input checked type="radio" name="dtype" id="dtype_radio_1" value="1"/>
+                <span class="t">分销商</span>
+            </label>
+            <label class="box dtype_0" for="dtype_radio_0">
+                <p class="tit">我有资源和渠道，选择：</p>
+                <input type="radio" name="dtype" id="dtype_radio_0" value="0"/>
+                <span class="t">供应商</span>
+            </label>
+        </div>
+        <button type="submit" id="nextBtn" class="nextBtn" href="javascript:void(0)">下一步</button>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("#mainForm").on("click",".box",function(e){
+            var tarBox = $(e.currentTarget);
+            tarBox.addClass("active").siblings().removeClass("active");
+        })
+    })
+</script>

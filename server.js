@@ -10,8 +10,8 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-//npm run server :                 serverÕû¸öÏîÄ¿ÄÚµÄËùÓĞÄ£¿é(Ä£¿é¶àÊ±Æô¶¯»áºÄÊ±Ò»»á)
-//npm run server my_project_name : serverÕû¸öÏîÄ¿ÄÚµÄÖ¸¶¨Ä£¿é(my_project_nameÎªÒªserverµÄÄ£¿éÃû)
+//npm run server :                 serveræ•´ä¸ªé¡¹ç›®å†…çš„æ‰€æœ‰æ¨¡å—(æ¨¡å—å¤šæ—¶å¯åŠ¨ä¼šè€—æ—¶ä¸€ä¼š)
+//npm run server my_project_name : serveræ•´ä¸ªé¡¹ç›®å†…çš„æŒ‡å®šæ¨¡å—(my_project_nameä¸ºè¦serverçš„æ¨¡å—å)
 var project_name = (function(){
 	var argv = process.argv;
 	var env = argv[argv.length-1];
@@ -31,18 +31,23 @@ var config = require("./config")({
 	entry : entry,
 	output : {
 		path : path.join(__dirname, "./build/"),
-		filename: "build/js/[name]/all.js",
+		filename: "assets/build/js/[name]/all.js",
 		publicPath : "http://localhost:"+PORT
 	},
 	plugins : [
-		new ExtractTextPlugin("build/css/[name]/all.css"),
+		new ExtractTextPlugin("assets/build/css/[name]/all.css"),
 		new webpack.HotModuleReplacementPlugin()
 	]
 });
-//Æô¶¯·şÎñ
+//å¯åŠ¨æœåŠ¡
 var app = new WebpackDevServer(webpack(config),{
 	hot : true,
-	historyApiFallback: true
+	historyApiFallback: true,
+	proxy : [{
+		path: "/r/*",
+		target: "http://www.12301.local",
+		host: "www.12301.local"
+	}]
 });
 app.listen(PORT,"localhost",function(error){
 	console.log(error);
