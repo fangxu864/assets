@@ -13,7 +13,7 @@
     "prod-build": "webpack -myProduct",
     "prod": "webpack -w -myProduct",
     "common": "webpack --config webpack.common.build.config.js",
-    "server": "node server.js && gulp"
+    "server": "node server.js"
   },
   "repository": {
     "type": "git",
