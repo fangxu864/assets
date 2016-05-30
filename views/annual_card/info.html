@@ -1,16 +1,41 @@
 <!-- Author: huangzhiyang -->
 <!-- Date: 2016/5/30 12:07 -->
 <!-- Description: huangzhiyang -->
+<script src="http://static.12301.local/assets/build/local/css/annual_card/all.js"></script>
 <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
 <link rel="stylesheet" href="http://static.12301.local/assets/build/local/css/annual_card/all.css"/>
 <div class="card">
     <div class="info">
-        <span class="active">1.产品信息</span><span class="">2.套餐信息</span>
+        <span class="">1.产品信息</span><span class="active">2.套餐信息</span>
+    </div>
+    <div class="annual">
+        <p>三亚先行年卡</p>
+        <ul>
+            <li><input type="text" class="name" value="套餐名称"/><i class="btn-cancle">×</i></li>
+            <li><input type="text" class="name passCard" value="年卡套餐一"/></li>
+            <li><a href="javascript:;" class="btn-add">＋</a></li>
+        </ul>
+    </div>
+    <div class="line">
+        <div class="time">
+            <p class="font-gray">预定时间段</p>
+            <input type="text"class="laydate-icon" onclick="laydate()"/> -
+            <input type="text"class="laydate-icon" onclick="laydate()"/>
+        </div>
+        <div class="time">
+            <p class="font-gray">供货价</p><input type="text"/>
+        </div>
+        <div class="time">
+            <p class="font-gray">零售价</p><input type="text"/>
+        </div>
+        <div class="time">
+            <p class="font-gray">门市价</p><input type="text"/>
+        </div>
     </div>
     <form action="">
         <div class="line">
             <div class="lt">
-                <label for="">产品(卡)名称：</label>
+                <label for="">产品说明：</label>
             </div>
             <div class="rt">
                 <input type="text"/>
@@ -25,7 +50,7 @@
                     <option value="--省--">--省--</option>
                 </select>
                 <select name="" id="">
-                    <option value="--市--">--省--</option>
+                    <option value="--市--">--市--</option>
                 </select>
             </div>
         </div>
@@ -79,3 +104,14 @@
         </div>
     </form>
 </div>
+<script>
+    ;!function(){
+
+        //laydate.skin('molv');
+
+        laydate({
+            elem: '#demo'
+        })
+
+    }();
+</script>

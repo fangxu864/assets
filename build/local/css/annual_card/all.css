@@ -6,7 +6,7 @@
 /*通用UI*/
 .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
 .clearfix{*+height:1%;}
-input[type=text],select{
+input[type=text], select{
     height:32px;
     width:420px;
     border:1px solid #c9c9c9;
@@ -16,7 +16,7 @@ input[type=text],select{
 select{
     width:208px;
 }
-.btn,input[type=button]{
+.btn, input[type=button]{
     border:0 none;
     height:28px;
     line-height:28px;
@@ -105,3 +105,5 @@ select{
 .line .time input{ width:80px;}
 .line .time input.laydate-icon{ width:140px;}
 
+
+/*# sourceMappingURL=all.css.map*/
