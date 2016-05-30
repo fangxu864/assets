@@ -36,7 +36,6 @@ gulp.task("html-include",function(){
 
 gulp.task("html-watch",function(){
 	gulpWatch(["./src/**/view/*.html","./common/view/*.html"],function(e){
-		console.log(e);
 		gulp.start("html-include");
 	})
 })

@@ -1,10 +1,214 @@
-<!-- Author: huangzhiyang -->
-<!-- Date: 2016/5/24 14:46 -->
-<!-- Description: huangzhiyang -->
 @@include("../../../common/view/header.html",{
-    "title" : "我的测试aaa",
-    "style" : ""
+    "title" : "票付通旅游营销平台",
+    "style" : "http://localhost:9090/assets/build/css/register/all.css"
 })
-<script type="text/javascript" src="http://localhost:9090/build/js/deal_withdraw/all.js"></script>
-</body>
-</html>
+<div id="myRight" class="myRight">
+    <div id="myRightCon" class="myRightCon">
+        <div id="slideContainer" class="slideContainer clearfix">
+        <div data-step="1" class="slidePanel step_1 active">
+            <div class="setpTop">
+                <div data-step="1" class="stepItem step_1"><div class="stepCon"><i class="icon step_1"></i></div></div>
+                <div data-step="2" class="stepItem step_2"><div class="stepCon"><i class="icon step_2"></i></div></div>
+                <div data-step="3" class="stepItem step_3"><div class="stepCon"><i class="icon step_3"></i></div></div>
+                <div class="dir"></div>
+            </div>
+            <div style="position:relative;" class="bcon">
+                <form id="regForm" class="regForm form">
+                    <input name="dtype" id="dtypeHidInp" type="hidden" value="<?=$dtype?>"/>
+                    <div class="panelTitle">注册成为<?=$dtype==1 ? "分销商" : "供应商"?></div>
+                    <div class="line clearfix companyLine">
+                        <div class="lt"><span class="t">个人/企业实名</span></div>
+                        <?=genCsrfToken();?>
+                        <div class="rt">
+                            <input id="companyInp" data-validate="noBlank typeCN" class="textInp companyInp" name="company" type="text" placeholder="个人实名或者企业全称，中文"/>
+                            <span class="tip">*必填(纯中文)</span>
+                            <span class="tip ok"><i class="iconfont ok">&#xe63d;</i></span>
+                            <span class="tip error">请填写纯中文</span>
+                            <p class="ftip" style="margin-top:5px; color:#b3b3b3">营业执照上的注册公司，请认真填写</p>
+                        </div>
+                    </div>
+                    <div class="line clearfix mobileLine">
+                        <div class="lt"><span class="t">联系人手机</span></div>
+                        <div class="rt">
+                            <input id="mobileInp" data-validate="noBlank typePhone" class="textInp mobileInp" name="mobile" type="text" value="18305917866" placeholder="联系人手机"/>
+                            <span class="tip">*必填</span>
+                            <span class="tip ok"><i class="iconfont ok">&#xe63d;</i></span>
+                            <span class="tip error">请填写正确格式手机号</span>
+                        </div>
+                    </div>
+                    <div class="line clearfix validCodeLine">
+                        <div class="lt"><span class="t">验证码</span></div>
+                        <div class="rt">
+                            <input id="validCodeInp" data-validate="noBlank typeNum" class="textInp validCodeInp" name="vcode" type="text" placeholder="验证码"/>
+                            <a id="getValidCodeBtn" class="getValidCodeBtn validCodeBtn" href="javascript:void(0)">获取验证码</a>
+                            <span class="tip error">请填写6位数验证码</span>
+                        </div>
+                    </div>
+                    <div class="line clearfix pwdLine">
+                        <div class="lt"><span class="t">密码</span></div>
+                        <div class="rt">
+                            <div class="inpCon">
+                                <input id="pwdInp" data-validate="noBlank" class="textInp pwdInp" name="password" type="password" placeholder="6-20数字、字母和常用符号"/>
+                                <a id="showPwdBtn" class="showPwdBtn" href="javascript:void(0)"></a>
+                            </div>
+                            <span class="levelBar">
+                                <i class="level weak">弱</i><i class="level normal">中</i><i class="level strong">强</i>
+                            </span>
+                            <span class="tip error">*必填</span>
+                        </div>
+                    </div>
+                    <div class="line clearfix submitLine">
+                        <div class="lt"><span class="t"></span></div>
+                        <div class="rt">
+                            <input checked type="checkbox" name="" id="tiaokuanCheckbox" class="tiaokuanCheckbox"/>
+                            <label for="tiaokuanCheckbox" class="t">我同意《票付通服务条款》</label>
+                            <a id="regSubmitBtn" class="submitBtn reg" href="javascript:void(0)">同意协议并注册</a>
+                        </div>
+                    </div>
+                </form>
+                <div class="serviceBox">
+                    <div class="sl tel clearfix">
+                        <i class="iconfont">&#xe689;</i>
+                        <p class="tit">客服电话</p>
+                        <p class="serviceNum phone">180-6514-4515</p>
+                    </div>
+                    <div class="sl qq clearfix">
+                        <i class="iconfont">&#xe66f;</i>
+                        <p class="tit">客服QQ</p>
+                        <p class="serviceNum phone">2853986222</p>
+                    </div>
+                </div>
+                <div class="virLine"></div>
+            </div>
+        </div>
+        <div data-step="2" class="slidePanel step_2">
+            <div class="setpTop">
+                <div data-step="1" class="stepItem step_1"><div class="stepCon"><i class="icon step_1"></i></div></div>
+                <div data-step="2" class="stepItem step_2"><div class="stepCon"><i class="icon step_2"></i></div></div>
+                <div data-step="3" class="stepItem step_3"><div class="stepCon"><i class="icon step_3"></i></div></div>
+                <div class="dir"></div>
+            </div>
+            <div class="bcon">
+                <form id="infoForm" class="infoForm info form" action="">
+                    <div class="panelTitle">完善资料</div>
+                    <div class="line clearfix accountLine">
+                        <div class="lt"><span class="t">帐户名称</span></div>
+                        <div class="rt">
+                            <input id="accountInp" data-validate="noBlank" class="textInp accountInp" name="account" type="text" value="" placeholder="显示给小伙伴的名称"/>
+                        </div>
+                    </div>
+                    <div class="line clearfix companyClassLine">
+                        <div class="lt"><span class="t">公司类型</span></div>
+                        <div class="rt ctype ctype_<?=$dtype?>">
+                            <!--供应商类型-->
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_1">
+                                <input type="radio" value="景区" <?=$dtype==0? "checked" : ""?> <?=$dtype==0? "" : "disabled"?> name="ctype<?=$dtype?>" id="ctype<?=$dtype?>_1"/>
+                                <span class="t">景区</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_2">
+                                <input type="radio" value="酒店" name="ctype<?=$dtype?>" <?=$dtype==0? "" : "disabled"?> id="ctype<?=$dtype?>_2"/>
+                                <span class="t">酒店</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_3">
+                                <input type="radio" value="旅行社" name="ctype<?=$dtype?>" <?=$dtype==0? "" : "disabled"?> id="ctype<?=$dtype?>_3"/>
+                                <span class="t">旅行社</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_4">
+                                <input type="radio" value="其他" name="ctype<?=$dtype?>" <?=$dtype==0? "" : "disabled"?> id="ctype<?=$dtype?>_4"/>
+                                <span class="t">其他</span>
+                            </label>
+                            <!--分销商类型-->
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_5">
+                                <input type="radio" value="加盟门店"<?=$dtype==1? "checked" : ""?> name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_5"/>
+                                <span class="t">加盟门店</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_6">
+                                <input type="radio" value="电商" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_6"/>
+                                <span class="t">电商</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_7">
+                                <input type="radio" value="团购网" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_7"/>
+                                <span class="t">团购网</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_8">
+                                <input type="radio" value="旅行社" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_8"/>
+                                <span class="t">旅行社</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_9">
+                                <input type="radio" value="淘宝/天猫" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_9"/>
+                                <span class="t">淘宝/天猫</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_10">
+                                <input type="radio" value="其他" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_10"/>
+                                <span class="t">其他</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="line clearfix areaLine">
+                        <div class="lt"><span class="t">所在地区</span></div>
+                        <div class="rt">
+                            <select name="" class="areaSelect prov" id="provSelect"><option value="福建">福建</option></select>
+                            <select name="" class="areaSelect city" id="citySelect"><option value="福州">福州</option></select>
+                        </div>
+                    </div>
+                    <div class="line clearfix addrLine">
+                        <div class="lt"><span class="t">公司地址</span></div>
+                        <div class="rt">
+                            <input id="addrInp" data-validate="noBlank" class="textInp addrInp" name="addr" type="text" value="" placeholder="公司地址"/>
+                        </div>
+                    </div>
+                    <div class="line clearfix bizLine">
+                        <div class="lt"><span class="t">经营范围</span></div>
+                        <div class="rt">
+                            <textarea name="" class="textInp bizTextarea" id="" cols="30" rows="10" placeholder="经营范围"></textarea>
+                        </div>
+                    </div>
+                    <div class="line clearfix submitLine">
+                        <div class="lt"><span class="t"></span></div>
+                        <div class="rt">
+                            <a id="infoSubmitBtn" class="submitBtn info" data-account="128231" href="javascript:void(0)">提交</a>
+                            <a id="jumpFromInfoBtn" class="jumpStepBtn" data-account="128231" href="javascript:void(0)">以后再说</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div data-step="3" class="slidePanel step_3">
+            <div class="setpTop">
+                <div data-step="1" class="stepItem step_1"><div class="stepCon"><i class="icon step_1"></i></div></div>
+                <div data-step="2" class="stepItem step_2"><div class="stepCon"><i class="icon step_2"></i></div></div>
+                <div data-step="3" class="stepItem step_3"><div class="stepCon"><i class="icon step_3"></i></div></div>
+                <div class="dir"></div>
+            </div>
+            <div class="bcon">
+                <form action="" class="form successForm success">
+                    <div class="successTit"><i class="iconfont">&#xe63f;</i><span class="t">注册成功</span></div>
+                    <div class="desc">
+                        <p style="margin-bottom:30px" class="line">您的手机将会收到注册的相关信息。</p>
+                        <p class="line">您可以使用平台账号【<span id="accountNum" style="color:#2A98DA" class="accountNum">128231</span>】或者您注册时填写的手机进行登录。</p>
+                        <p class="line">初次使用，推荐前往<a style="margin:0 3px" href="javascript:void(0)">学习中心</a>进行平台功能的了解</p>
+                        <p class="line">您已熟悉平台功能，可直接<a style="margin:0 3px" href="dlogin_n.html">登录</a></p>
+                    </div>
+                    <div class="serviceBox clearfix">
+                        <div class="topLine">如有需要，请联系客服：</div>
+                        <div class="sl tel clearfix">
+                            <i class="iconfont">&#xe689;</i>
+                            <p class="tit">客服电话</p>
+                            <p class="serviceNum phone">180-6514-4515</p>
+                        </div>
+                        <div class="sl qq clearfix">
+                            <i class="iconfont">&#xe66f;</i>
+                            <p class="tit">客服QQ</p>
+                            <p class="serviceNum phone">2853986222</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+<script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+<script type="text/javascript" src="http://localhost:9090/assets/build/js/register/all.js"></script>
+@@include("../../../common/view/footer.html")

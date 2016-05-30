@@ -1,16 +1,24 @@
 <!-- Author: huangzhiyang -->
-<!-- Date: 2016/5/24 14:46 -->
+<!-- Date: 2016/5/27 14:36 -->
+<!-- Description: huangzhiyang -->
+    <!-- Author: huangzhiyang -->
+<!-- Date: 2016/5/27 14:36 -->
 <!-- Description: huangzhiyang -->
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 7]><html class="lt-ie10 lt-ie9 lt-ie8 lt-ie7 ie6"> <![endif]-->
+<!--[if IE 7]><html class="lt-ie10 lt-ie9 lt-ie8 ie7"> <![endif]-->
+<!--[if IE 8]><html class="lt-ie10 lt-ie9 ie8"> <![endif]-->
+<!--[if IE 9]><html class="lt-ie10 ie9"><![endif]-->
+<!--[if gt IE 9]><!--><html> <!--<![endif]-->
 <head>
-    <title>我的测试aaa</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <meta content="telephone=no" name="format-detection">
-    <meta content="email=no" name="format-detection">
-    <link rel="stylesheet" href="http://www.12301.cc/css/common/iconfont.css">
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <script type="text/javascript" src="http://www.12301.cc/js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+    <title>票付通旅游营销平台</title>
     <style type="text/css">
         /* css reset */
         body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,dl, dt, dd, ul, ol, li, pre,fieldset, lengend, button, input, textarea, th, td {  margin: 0;padding: 0;}
@@ -48,385 +56,243 @@
         input:focus,button:focus{outline:none}
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-
-        /*通用ui*/
-        .ui-page{ display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:-1}
-        .ui-page.show{ display:block; z-index:10002;}
-        .ui-container{ position:relative;}
-        .ui-radius{ border-radius:3px;}
-        .ui-shadow{ box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
-        .ui-border{ border:1px solid #dbdbdb;}
-        a.ui-btn{ color:#fff}
-        .ui-btn{ display:inline-block; height:34px; line-height:34px; padding:0 20px; background:#0797D9; color:#fff; cursor:pointer; text-decoration:none}
-        .ui-btn:hover{ text-decoration:none}
-        .ui-btn.radius{ border-radius:3px;}
-        .ui-border{ border:1px solid #e5e5e5}
-        .ui-width1000{ width:1000px;}
-        .ui-btn-orange{ background:#f07845}
-        .ui-btn-orange:hover{ background:#d87044}
-        .ui-btn-blue{ background:#0797d9}
-        .ui-btn-blue:hover{ background:#0782ba}
-        .ui-btn-disable{ cursor:default; background:#d5d5d5}
-        .ui-btn-disable:hover{ background:#d5d5d5}
-        .ui-h1{ height:65px; line-height:65px; font-size:22px; border-bottom:1px solid #E5E5E5}
-        .ui-color-blue{ color:#0797d9}
-        .ui-color-orange{ color:#f07845}
-        .ui-color-red{ color:#e12424}
-        .ui-color-green{ color:#3dba3f}
-        .ui-color-gray{ color:#92a0ab}
-        .ui-bg-blue{ color:#0797d9}
-        .ui-bg-orange{ color:#f07845}
-        .ui-bg-red{ color:#e12424}
-        .ui-bg-green{ color:#3dba3f}
-        .ui-bg-gray{ color:#f0f3f5}
-        a.ui-link:link{ color:#0797d9; text-decoration:none}
-        a.ui-link:hover{ text-decoration:underline}
-        .ui-textInp{ height:22px; line-height:22px; padding:5px 8px; background:#fff; border:1px solid #dbdbdb;}
-        .ui-textInp:focus{ outline:none; border-color:#f07845; color:#f07845}
-        .ui-textInp.radius{ border-radius:3px;}
-        .ui-textInp.shadow{  box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
-        .ui-textInp.noborder{ border:0 none;}
-        .ui-textInp.nobackground{ background:none}
-
-        .ui-select{ width:260px; overflow:hidden;}
-        .ui-select > .con{ position:relative; overflow:hidden }
-        .ui-select .ui-textInp{ width:100%}
-        .ui-select .ui-cs-toggleBtn{ display:block; position:absolute; top:0; right:0; bottom:0; width:32px; line-height:32px; text-align:center; background:#ebebeb; border-left:1px solid #d9d9d9; text-decoration:none}
-        .ui-select .ui-cs-toggleBtn .iconfont{ font-size:20px; color:#595959}
-        .ui-select .ui-cs-toggleBtn .iconfont.up{ display:none}
-        .ui-select .ui-cs-toggleBtn.active .iconfont.up{ display:inline-block}
-        .ui-select .ui-cs-toggleBtn.active .iconfont.down{ display:none}
-
-        .ui-select-trigger{ height:26px; width:300px;}
-        .ui-select-trigger:focus{ outline:none}
-        .ui-selectPopContainer{ display:none; position:absolute; top:0; right:0; bottom:0; left:0}
-        .ui-selectPopBox{ position:absolute; overflow:hidden; background-color:#fff}
-        .ui-selectPopBox .ui-selectPopBox-con{ position:relative; height:100%; overflow:hidden; border-top:0 none}
-        .ui-selectPopBox .searchBox{ padding:7px 10px; border-bottom:1px solid #dbdbdb}
-        .ui-selectPopBox .searchBox .con{ position:relative; height:32px; padding-left:30px;}
-        .ui-selectPopBox .ui-select-searchInp{ display:block; height:100%; line-height:26px; width:100%; border:0 none; background:none}
-        .ui-selectPopBox .ui-select-searchInp:focus{ color:#f37138; outline:none}
-        .ui-selectPopBox .ui-select-searchIcon{ display:block; position:absolute; top:5px; left:8px;}
-        .ui-selectPopBox .ui-select-listUl-con{ position:absolute; left:0; right:0; bottom:0; top:50px; overflow:auto;}
-        .ui-selectPopBox .ui-select-option{ height:38px; line-height:38px; padding:0 12px; overflow:hidden; border-bottom:1px solid #dbdbdb; cursor:pointer}
-        .ui-selectPopBox .ui-select-option:hover{ background-color:#fcfcfc}
-
-        .ui-page-h1{ height:60px; font-size:22px; line-height:60px; color:#2f3135; border-bottom:1px solid #edefee; background:#fff}
-        .ui-page-h2{ height:50px; font-size:16px; line-height:50px; color:#2f3135; border-bottom:1px solid #edefee; background:#fff}
-
-        /*页面整体框架*/
-        body{ background:#f8f9fb; color:#3E3E3E}
-        .pageHeader{ background:#fff}
-        .siteHeadBar{ background:url("http://www.12301.cc/images/top_bg.png") repeat-x 0 0}
-        .siteHeadBar .siteHeadCon{ margin:0 auto;}
-        .siteHeadBar .topLink{ width:100%; height:27px; line-height:27px; overflow:hidden}
-        .siteHeadBar .topLink .site_account_name{ margin-right:10px;}
-        .siteHeadBar .topLink .xiaoxi{ padding-left:18px; background:url("http://www.12301.cc/images/notice.png") no-repeat 0 -7px;}
-        .siteHeadBar .topLink .xiaoxi .orange{ font-family:arial; font-size:14px; color:#F60}
-        .siteHeadBar .topLink .logout{ margin-left:4px;}
-        .siteHeadBar .topLink .rt{ float:right}
-        .siteHeadBar .topLink .setHome:hover,.siteHeadWrap .topLink .addFav:hover{ color:#0797d9}
-        .siteHead{ padding-top:15px; margin:0 auto; overflow:hidden}
-        .siteHead .logo{ float:left}
-        .siteHead .logo img{height: 67px; width: auto;}
-        .siteHead .siteTopBanner{ float:right; cursor:pointer}
-        .siteNavBar{ width:100%; height:34px; margin-top:6px; border-bottom:2px solid #0170BC; background:#2A98DA}
-        .siteNavBar .navBarUl{ margin:0 auto;}
-        .siteNavBar .navBarUl .navLi{ float:left; width:110px; height:30px; line-height:30px; margin-top:4px; text-align:center}
-        .siteNavBar .navBarUl .navLi.home{ border:2px solid #0170BC; border-bottom:0 none; margin-left:8px; font-weight:bold}
-        .siteNavBar .navBarUl .navLi.active{ background:#fff}
-        .siteNavBar .navBarUl .navLi.active a{ color:#FF5500;}
-        .siteNavBar .navBarUl .navLi.active a:hover{ text-decoration:underline}
-
-        .bodyMain{ position:relative; min-height:1100px; overflow:hidden; margin:10px auto;}
-        .siteLocationBar{ width:943px; margin:10px auto;}
-        .siteLeftBar{ position:absolute; top:0; left:0; width:180px; background:#fff; }
-        .siteLeftBar .left_memb{ padding:8px 0 14px 23px;}
-        .siteLeftBar .left_memb dt{ font-size:14px; font-weight:bold; margin-top:12px; margin-bottom:3px; padding-left:13px; background:url("http://www.12301.cc/images/dasanj.png") no-repeat left center}
-        .siteLeftBar .left_memb dd{ padding:8px 0 8px 13px;}
-        .siteLeftBar .left_memb dd a{ color:#3E3E3E}
-        .siteLeftBar .left_memb dd a:hover{ color:#0170BC; text-decoration:underline;}
-
-        .siteMaBox{ position:fixed; bottom:50px; right:50px; display:block; width:48px; height:48px; line-height:48px; cursor:pointer; text-align:center; background:#fff;}
-        .siteMaBox .maImgBox{ display:none; position:fixed; bottom:50px; right:99px; background:#fff; font-size:0; line-height:0;}
-        .siteMaBox:hover .maImgBox{ display:block}
-        .siteGotopBtn{ display:none; position:fixed; right:20px; bottom:86px; width:48px; height:46px; line-height:46px; color:#3E3E3E; font-size:22px; font-weight:bold; text-align:center; cursor:pointer; border-bottom:0 none; background:#fff}
-        .siteGotopBtn:hover{text-decoration:none; color:#3E3E3E}
-
-        .pageRightArea{ float:right; width:807px;}
-        #gMasker{position:fixed;top:0px;left:0;right:0;bottom:0;filter:alpha(opacity=40); -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";opacity: 0.4;-moz-opacity:0.4;background-color:#000;z-index:99;left:0px;display:none; width:100%; height:100%; _height:1350px;}
-
-        .layout_2 .siteLeftBar{ width:155px;}
-        .layout_2 .siteLeftBar .left_memb{ padding-left:15px;}
-        .layout_2 .pageRightArea{ width:835px;}
-
-        .sidebar_box{position:fixed;bottom:36px;right:20px;background-color:#FFF;width:48px;height:48px;border:1px solid #E5E5E5;z-index:99999;}
-        .sidebar_box span{display:block;width:48px;height:48px;text-align:center;line-height:48px;font-size:20px;cursor:pointer;}
-        .sidebar_box .code_img{display:none;max-width:150px;border:1px solid #E5E5E5;position:absolute;bottom:-1px;right:48px;}
-
-        .foot-new{width:100%;height:150px;background-color:#fff;margin-top:40px; clear: both;}
+    </style>
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/register/all.css"/>
+</head>
+<div id="myRight" class="myRight">
+    <div id="myRightCon" class="myRightCon">
+        <div id="slideContainer" class="slideContainer clearfix">
+        <div data-step="1" class="slidePanel step_1 active">
+            <div class="setpTop">
+                <div data-step="1" class="stepItem step_1"><div class="stepCon"><i class="icon step_1"></i></div></div>
+                <div data-step="2" class="stepItem step_2"><div class="stepCon"><i class="icon step_2"></i></div></div>
+                <div data-step="3" class="stepItem step_3"><div class="stepCon"><i class="icon step_3"></i></div></div>
+                <div class="dir"></div>
+            </div>
+            <div style="position:relative;" class="bcon">
+                <form id="regForm" class="regForm form">
+                    <input name="dtype" id="dtypeHidInp" type="hidden" value="<?=$dtype?>"/>
+                    <div class="panelTitle">注册成为<?=$dtype==1 ? "分销商" : "供应商"?></div>
+                    <div class="line clearfix companyLine">
+                        <div class="lt"><span class="t">个人/企业实名</span></div>
+                        <?=genCsrfToken();?>
+                        <div class="rt">
+                            <input id="companyInp" data-validate="noBlank typeCN" class="textInp companyInp" name="company" type="text" placeholder="个人实名或者企业全称，中文"/>
+                            <span class="tip">*必填(纯中文)</span>
+                            <span class="tip ok"><i class="iconfont ok">&#xe63d;</i></span>
+                            <span class="tip error">请填写纯中文</span>
+                            <p class="ftip" style="margin-top:5px; color:#b3b3b3">营业执照上的注册公司，请认真填写</p>
+                        </div>
+                    </div>
+                    <div class="line clearfix mobileLine">
+                        <div class="lt"><span class="t">联系人手机</span></div>
+                        <div class="rt">
+                            <input id="mobileInp" data-validate="noBlank typePhone" class="textInp mobileInp" name="mobile" type="text" value="18305917866" placeholder="联系人手机"/>
+                            <span class="tip">*必填</span>
+                            <span class="tip ok"><i class="iconfont ok">&#xe63d;</i></span>
+                            <span class="tip error">请填写正确格式手机号</span>
+                        </div>
+                    </div>
+                    <div class="line clearfix validCodeLine">
+                        <div class="lt"><span class="t">验证码</span></div>
+                        <div class="rt">
+                            <input id="validCodeInp" data-validate="noBlank typeNum" class="textInp validCodeInp" name="vcode" type="text" placeholder="验证码"/>
+                            <a id="getValidCodeBtn" class="getValidCodeBtn validCodeBtn" href="javascript:void(0)">获取验证码</a>
+                            <span class="tip error">请填写6位数验证码</span>
+                        </div>
+                    </div>
+                    <div class="line clearfix pwdLine">
+                        <div class="lt"><span class="t">密码</span></div>
+                        <div class="rt">
+                            <div class="inpCon">
+                                <input id="pwdInp" data-validate="noBlank" class="textInp pwdInp" name="password" type="password" placeholder="6-20数字、字母和常用符号"/>
+                                <a id="showPwdBtn" class="showPwdBtn" href="javascript:void(0)"></a>
+                            </div>
+                            <span class="levelBar">
+                                <i class="level weak">弱</i><i class="level normal">中</i><i class="level strong">强</i>
+                            </span>
+                            <span class="tip error">*必填</span>
+                        </div>
+                    </div>
+                    <div class="line clearfix submitLine">
+                        <div class="lt"><span class="t"></span></div>
+                        <div class="rt">
+                            <input checked type="checkbox" name="" id="tiaokuanCheckbox" class="tiaokuanCheckbox"/>
+                            <label for="tiaokuanCheckbox" class="t">我同意《票付通服务条款》</label>
+                            <a id="regSubmitBtn" class="submitBtn reg" href="javascript:void(0)">同意协议并注册</a>
+                        </div>
+                    </div>
+                </form>
+                <div class="serviceBox">
+                    <div class="sl tel clearfix">
+                        <i class="iconfont">&#xe689;</i>
+                        <p class="tit">客服电话</p>
+                        <p class="serviceNum phone">180-6514-4515</p>
+                    </div>
+                    <div class="sl qq clearfix">
+                        <i class="iconfont">&#xe66f;</i>
+                        <p class="tit">客服QQ</p>
+                        <p class="serviceNum phone">2853986222</p>
+                    </div>
+                </div>
+                <div class="virLine"></div>
+            </div>
+        </div>
+        <div data-step="2" class="slidePanel step_2">
+            <div class="setpTop">
+                <div data-step="1" class="stepItem step_1"><div class="stepCon"><i class="icon step_1"></i></div></div>
+                <div data-step="2" class="stepItem step_2"><div class="stepCon"><i class="icon step_2"></i></div></div>
+                <div data-step="3" class="stepItem step_3"><div class="stepCon"><i class="icon step_3"></i></div></div>
+                <div class="dir"></div>
+            </div>
+            <div class="bcon">
+                <form id="infoForm" class="infoForm info form" action="">
+                    <div class="panelTitle">完善资料</div>
+                    <div class="line clearfix accountLine">
+                        <div class="lt"><span class="t">帐户名称</span></div>
+                        <div class="rt">
+                            <input id="accountInp" data-validate="noBlank" class="textInp accountInp" name="account" type="text" value="" placeholder="显示给小伙伴的名称"/>
+                        </div>
+                    </div>
+                    <div class="line clearfix companyClassLine">
+                        <div class="lt"><span class="t">公司类型</span></div>
+                        <div class="rt ctype ctype_<?=$dtype?>">
+                            <!--供应商类型-->
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_1">
+                                <input type="radio" value="景区" <?=$dtype==0? "checked" : ""?> <?=$dtype==0? "" : "disabled"?> name="ctype<?=$dtype?>" id="ctype<?=$dtype?>_1"/>
+                                <span class="t">景区</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_2">
+                                <input type="radio" value="酒店" name="ctype<?=$dtype?>" <?=$dtype==0? "" : "disabled"?> id="ctype<?=$dtype?>_2"/>
+                                <span class="t">酒店</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_3">
+                                <input type="radio" value="旅行社" name="ctype<?=$dtype?>" <?=$dtype==0? "" : "disabled"?> id="ctype<?=$dtype?>_3"/>
+                                <span class="t">旅行社</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_0" for="ctype<?=$dtype?>_4">
+                                <input type="radio" value="其他" name="ctype<?=$dtype?>" <?=$dtype==0? "" : "disabled"?> id="ctype<?=$dtype?>_4"/>
+                                <span class="t">其他</span>
+                            </label>
+                            <!--分销商类型-->
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_5">
+                                <input type="radio" value="加盟门店"<?=$dtype==1? "checked" : ""?> name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_5"/>
+                                <span class="t">加盟门店</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_6">
+                                <input type="radio" value="电商" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_6"/>
+                                <span class="t">电商</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_7">
+                                <input type="radio" value="团购网" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_7"/>
+                                <span class="t">团购网</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_8">
+                                <input type="radio" value="旅行社" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_8"/>
+                                <span class="t">旅行社</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_9">
+                                <input type="radio" value="淘宝/天猫" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_9"/>
+                                <span class="t">淘宝/天猫</span>
+                            </label>
+                            <label class="ctypeRadio ctypeRadio_1" for="ctype<?=$dtype?>_10">
+                                <input type="radio" value="其他" name="ctype<?=$dtype?>" <?=$dtype==1? "" : "disabled"?> id="ctype<?=$dtype?>_10"/>
+                                <span class="t">其他</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="line clearfix areaLine">
+                        <div class="lt"><span class="t">所在地区</span></div>
+                        <div class="rt">
+                            <select name="" class="areaSelect prov" id="provSelect"><option value="福建">福建</option></select>
+                            <select name="" class="areaSelect city" id="citySelect"><option value="福州">福州</option></select>
+                        </div>
+                    </div>
+                    <div class="line clearfix addrLine">
+                        <div class="lt"><span class="t">公司地址</span></div>
+                        <div class="rt">
+                            <input id="addrInp" data-validate="noBlank" class="textInp addrInp" name="addr" type="text" value="" placeholder="公司地址"/>
+                        </div>
+                    </div>
+                    <div class="line clearfix bizLine">
+                        <div class="lt"><span class="t">经营范围</span></div>
+                        <div class="rt">
+                            <textarea name="" class="textInp bizTextarea" id="" cols="30" rows="10" placeholder="经营范围"></textarea>
+                        </div>
+                    </div>
+                    <div class="line clearfix submitLine">
+                        <div class="lt"><span class="t"></span></div>
+                        <div class="rt">
+                            <a id="infoSubmitBtn" class="submitBtn info" data-account="128231" href="javascript:void(0)">提交</a>
+                            <a id="jumpFromInfoBtn" class="jumpStepBtn" data-account="128231" href="javascript:void(0)">以后再说</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div data-step="3" class="slidePanel step_3">
+            <div class="setpTop">
+                <div data-step="1" class="stepItem step_1"><div class="stepCon"><i class="icon step_1"></i></div></div>
+                <div data-step="2" class="stepItem step_2"><div class="stepCon"><i class="icon step_2"></i></div></div>
+                <div data-step="3" class="stepItem step_3"><div class="stepCon"><i class="icon step_3"></i></div></div>
+                <div class="dir"></div>
+            </div>
+            <div class="bcon">
+                <form action="" class="form successForm success">
+                    <div class="successTit"><i class="iconfont">&#xe63f;</i><span class="t">注册成功</span></div>
+                    <div class="desc">
+                        <p style="margin-bottom:30px" class="line">您的手机将会收到注册的相关信息。</p>
+                        <p class="line">您可以使用平台账号【<span id="accountNum" style="color:#2A98DA" class="accountNum">128231</span>】或者您注册时填写的手机进行登录。</p>
+                        <p class="line">初次使用，推荐前往<a style="margin:0 3px" href="javascript:void(0)">学习中心</a>进行平台功能的了解</p>
+                        <p class="line">您已熟悉平台功能，可直接<a style="margin:0 3px" href="dlogin_n.html">登录</a></p>
+                    </div>
+                    <div class="serviceBox clearfix">
+                        <div class="topLine">如有需要，请联系客服：</div>
+                        <div class="sl tel clearfix">
+                            <i class="iconfont">&#xe689;</i>
+                            <p class="tit">客服电话</p>
+                            <p class="serviceNum phone">180-6514-4515</p>
+                        </div>
+                        <div class="sl qq clearfix">
+                            <i class="iconfont">&#xe66f;</i>
+                            <p class="tit">客服QQ</p>
+                            <p class="serviceNum phone">2853986222</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+<script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+<script type="text/javascript" src="http://localhost:9090/assets/build/js/register/all.js"></script>
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/5/27 14:36 -->
+<!-- Description: huangzhiyang -->
+<div class="foot-new">
+    <style>
+        .foot-new{ position:fixed; left:0; right:0; bottom:0; z-index:1; width:100%;height:150px;background-color:#fff;margin-top:40px; clear: both;}
+        .ie6 .foot-new{ position:static; left:auto; right:auto; bottom:auto;}
         .foot-container{width:1000px;text-align:center;margin:0 auto;padding-top:50px;}
         #foot-container a{color:#A7A9AA;text-decoration:none;outline:none;padding:0 5px;font-weight:bold;}
         #foot-container a:hover{color:#FF552F;}
         .foot-container p{margin-top:13px;color:#7D7C81;cursor:pointer;}
         #foot-container span{cursor:pointer;color:#A7A9AA;font-weight:bold;}
     </style>
-    <script type="text/javascript" async="" src="http://static.mediav.com/mv.js"></script><script type="text/javascript" async="" src="http://material.mediav.com/bjjs/mba.js"></script><script type="text/javascript" async="" src="http://static.mediav.com/mvl.js"></script><script type="text/javascript" src="http://www.12301.cc/js/jquery-1.8.0.min.js"></script>
-    <script type="text/javascript" src="http://wx.12301.cc/public/js/build/common.min.js"></script>
-    <title>票付通旅游营销平台</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="renderer" content="webkit|ie-comp|ie-stand"><meta content="telephone=no" name="format-detection"><meta content="email=no" name="format-detection"><link rel="stylesheet" href="http://www.12301.cc/css/common/iconfont.css"><style type="text/css">
-    /* css reset */
-    body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,dl, dt, dd, ul, ol, li, pre,fieldset, lengend, button, input, textarea, th, td {  margin: 0;padding: 0;}
-    body,button, input, select, textarea { /* for ie */
-        /*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
-        /*font: 12px/1 Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; *//* 用 ascii 字符表示，使得在任何编码下都无问题 */
-        font: 12px/1 Microsoft Yahei, Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
-    }
-    h1 { font-size: 18px; }
-    h2 { font-size: 16px; }
-    h3 { font-size: 14px; }
-    h4, h5, h6 { font-size: 100%; }
-    address, cite, dfn, em, var { font-style: normal; }
-    code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; }
-    small { font-size: 12px; }
-    ul, ol { list-style: none; }
-    a { text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    a:link,a:visited{ text-decoration:none; color:#2A98DA}
-    a:hover{ text-decoration:underline;color:#2A98DA}
-    a:active{ text-decoration:none; color:#2A98DA}
-    abbr[title], acronym[title] { border-bottom: 1px dotted; cursor: help;}
-    q:before, q:after { content: ''; }
-    legend { color: #000; }
-    fieldset, img { border: none; }
-    button, input, select, textarea {font-size: 100%; }
-    table { border-collapse: collapse;border-spacing: 0;}
-    hr {border: none;height: 1px;}
-    textarea{ outline:0}
-    html { overflow-y: scroll; }
-    .clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
-    .clearfix {display: inline-block;}
-    * html .clearfix {height: 1%;}
-    .clearfix {display: block;}
-    input:focus,button:focus{outline:none}
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-
-    /*通用ui*/
-    .ui-page{ display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:-1}
-    .ui-page.show{ display:block; z-index:10002;}
-    .ui-container{ position:relative;}
-    .ui-radius{ border-radius:3px;}
-    .ui-shadow{ box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
-    .ui-border{ border:1px solid #dbdbdb;}
-    a.ui-btn{ color:#fff}
-    .ui-btn{ display:inline-block; height:34px; line-height:34px; padding:0 20px; background:#0797D9; color:#fff; cursor:pointer; text-decoration:none}
-    .ui-btn:hover{ text-decoration:none}
-    .ui-btn.radius{ border-radius:3px;}
-    .ui-border{ border:1px solid #e5e5e5}
-    .ui-width1000{ width:1000px;}
-    .ui-btn-orange{ background:#f07845}
-    .ui-btn-orange:hover{ background:#d87044}
-    .ui-btn-blue{ background:#0797d9}
-    .ui-btn-blue:hover{ background:#0782ba}
-    .ui-btn-disable{ cursor:default; background:#d5d5d5}
-    .ui-btn-disable:hover{ background:#d5d5d5}
-    .ui-h1{ height:65px; line-height:65px; font-size:22px; border-bottom:1px solid #E5E5E5}
-    .ui-color-blue{ color:#0797d9}
-    .ui-color-orange{ color:#f07845}
-    .ui-color-red{ color:#e12424}
-    .ui-font-red{ color:#f00}
-    .ui-color-green{ color:#3dba3f}
-    .ui-color-gray{ color:#92a0ab}
-    .ui-bg-blue{ color:#0797d9}
-    .ui-bg-orange{ color:#f07845}
-    .ui-bg-red{ color:#e12424}
-    .ui-bg-green{ color:#3dba3f}
-    .ui-bg-gray{ color:#f0f3f5}
-    a.ui-link:link{ color:#0797d9; text-decoration:none}
-    a.ui-link:hover{ text-decoration:underline}
-    .ui-textInp{ height:22px; line-height:22px; padding:5px 8px; background:#fff; border:1px solid #dbdbdb;}
-    .ui-textInp:focus{ outline:none; border-color:#f07845; color:#f07845}
-    .ui-textInp.radius{ border-radius:3px;}
-    .ui-textInp.shadow{  box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
-    .ui-textInp.noborder{ border:0 none;}
-    .ui-textInp.nobackground{ background:none}
-
-    .ui-select{ width:260px; overflow:hidden;}
-    .ui-select > .con{ position:relative; overflow:hidden }
-    .ui-select .ui-textInp{ width:100%}
-    .ui-select .ui-cs-toggleBtn{ display:block; position:absolute; top:0; right:0; bottom:0; width:32px; line-height:32px; text-align:center; background:#ebebeb; border-left:1px solid #d9d9d9; text-decoration:none}
-    .ui-select .ui-cs-toggleBtn .iconfont{ font-size:20px; color:#595959}
-    .ui-select .ui-cs-toggleBtn .iconfont.up{ display:none}
-    .ui-select .ui-cs-toggleBtn.active .iconfont.up{ display:inline-block}
-    .ui-select .ui-cs-toggleBtn.active .iconfont.down{ display:none}
-
-    .ui-select-trigger{ height:26px; width:300px;}
-    .ui-select-trigger:focus{ outline:none}
-    .ui-selectPopContainer{ display:none; position:absolute; top:0; right:0; bottom:0; left:0}
-    .ui-selectPopBox{ position:absolute; overflow:hidden; background-color:#fff}
-    .ui-selectPopBox .ui-selectPopBox-con{ position:relative; height:100%; overflow:hidden; border-top:0 none}
-    .ui-selectPopBox .searchBox{ padding:7px 10px; border-bottom:1px solid #dbdbdb}
-    .ui-selectPopBox .searchBox .con{ position:relative; height:32px; padding-left:30px;}
-    .ui-selectPopBox .ui-select-searchInp{ display:block; height:100%; line-height:26px; width:100%; border:0 none; background:none}
-    .ui-selectPopBox .ui-select-searchInp:focus{ color:#f37138; outline:none}
-    .ui-selectPopBox .ui-select-searchIcon{ display:block; position:absolute; top:5px; left:8px;}
-    .ui-selectPopBox .ui-select-listUl-con{ position:absolute; left:0; right:0; bottom:0; top:50px; overflow:auto;}
-    .ui-selectPopBox .ui-select-option{ height:38px; line-height:38px; padding:0 12px; overflow:hidden; border-bottom:1px solid #dbdbdb; cursor:pointer}
-    .ui-selectPopBox .ui-select-option:hover{ background-color:#fcfcfc}
-
-    .ui-page-h1{ height:60px; font-size:22px; line-height:60px; color:#2f3135; border-bottom:1px solid #edefee; background:#fff}
-    .ui-page-h2{ height:50px; font-size:16px; line-height:50px; color:#2f3135; border-bottom:1px solid #edefee; background:#fff}
-
-    /*页面整体框架*/
-    body{ background:#f8f9fb; color:#3E3E3E}
-    .pageHeader{ background:#fff}
-    .siteHeadBar{ background:url("http://www.12301.cc/images/top_bg.png") repeat-x 0 0}
-    .siteHeadBar .siteHeadCon{ margin:0 auto;}
-    .siteHeadBar .topLink{ width:100%; height:27px; line-height:27px; overflow:hidden}
-    .siteHeadBar .topLink .site_account_name{ margin-right:10px;}
-    .siteHeadBar .topLink .xiaoxi{ padding-left:18px; background:url("http://www.12301.cc/images/notice.png") no-repeat 0 -7px;}
-    .siteHeadBar .topLink .xiaoxi .orange{ font-family:arial; font-size:14px; color:#F60}
-    .siteHeadBar .topLink .logout{ margin-left:4px;}
-    .siteHeadBar .topLink .rt{ float:right}
-    .siteHeadBar .topLink .setHome:hover,.siteHeadWrap .topLink .addFav:hover{ color:#0797d9}
-    .siteHead{ padding-top:15px; margin:0 auto; overflow:hidden}
-    .siteHead .logo{ float:left}
-    .siteHead .logo img{height: 67px; width: auto;}
-    .siteHead .siteTopBanner{ float:right; cursor:pointer}
-    .siteNavBar{ width:100%; height:34px; margin-top:6px; border-bottom:2px solid #0170BC; background:#2A98DA}
-    .siteNavBar .navBarUl{ margin:0 auto;}
-    .siteNavBar .navBarUl .navLi{ float:left; width:110px; height:30px; line-height:30px; margin-top:4px; text-align:center}
-    .siteNavBar .navBarUl .navLi.home{ border:2px solid #0170BC; border-bottom:0 none; margin-left:8px; font-weight:bold}
-    .siteNavBar .navBarUl .navLi.active{ background:#fff}
-    .siteNavBar .navBarUl .navLi.active a{ color:#FF5500;}
-    .siteNavBar .navBarUl .navLi.active a:hover{ text-decoration:underline}
-
-    .bodyMain{ position:relative; min-height:1100px; overflow:hidden; margin:10px auto;}
-    .siteLocationBar{ width:943px; margin:10px auto;}
-    .siteLeftBar{ position:absolute; top:0; left:0; width:180px; background:#fff; }
-    .siteLeftBar .left_memb{ padding:8px 0 14px 23px;}
-    .siteLeftBar .left_memb dt{ font-size:14px; font-weight:bold; margin-top:12px; margin-bottom:3px; padding-left:13px; background:url("http://www.12301.cc/images/dasanj.png") no-repeat left center}
-    .siteLeftBar .left_memb dd{ padding:8px 0 8px 13px;}
-    .siteLeftBar .left_memb dd a{ color:#3E3E3E}
-    .siteLeftBar .left_memb dd a:hover{ color:#0170BC; text-decoration:underline;}
-
-    .siteMaBox{ position:fixed; bottom:50px; right:50px; display:block; width:48px; height:48px; line-height:48px; cursor:pointer; text-align:center; background:#fff;}
-    .siteMaBox .maImgBox{ display:none; position:fixed; bottom:50px; right:99px; background:#fff; font-size:0; line-height:0;}
-    .siteMaBox:hover .maImgBox{ display:block}
-    .siteGotopBtn{ display:none; position:fixed; right:20px; bottom:86px; width:48px; height:46px; line-height:46px; color:#3E3E3E; font-size:22px; font-weight:bold; text-align:center; cursor:pointer; border-bottom:0 none; background:#fff}
-    .siteGotopBtn:hover{text-decoration:none; color:#3E3E3E}
-
-    .pageRightArea{ float:right; width:807px;}
-    #gMasker{position:fixed;top:0px;left:0;right:0;bottom:0;filter:alpha(opacity=40); -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";opacity: 0.4;-moz-opacity:0.4;background-color:#000;z-index:99;left:0px;display:none; width:100%; height:100%; _height:1350px;}
-
-    .layout_2 .siteLeftBar{ width:155px;}
-    .layout_2 .siteLeftBar .left_memb{ padding-left:15px;}
-    .layout_2 .pageRightArea{ width:835px;}
-
-    .sidebar_box{position:fixed;bottom:36px;right:20px;background-color:#FFF;width:48px;height:48px;border:1px solid #E5E5E5;z-index:99999;}
-    .sidebar_box span{display:block;width:48px;height:48px;text-align:center;line-height:48px;font-size:20px;cursor:pointer;}
-    .sidebar_box .code_img{display:none;max-width:150px;border:1px solid #E5E5E5;position:absolute;bottom:-1px;right:48px;}
-
-</style><script type="text/javascript" src="http://www.12301.cc/js/jquery-1.8.0.min.js"></script><script type="text/javascript" src="http://wx.12301.cc/public/js/build/common.min.js"></script><title>票付通旅游营销平台</title></head>
-    <link rel="stylesheet" href=""/>
-</head>
-<body>
-<div class="pageHeader">
-    <div id="siteHeadBar" class="siteHeadBar">
-        <div class="siteHeadCon ui-width1000">
-            <div class="topLink">
-                <span class="welc">您好，<a id="site_account_name" class="site_account_name ui-link" href="account_info.html">慢慢的店铺</a></span>
-                <a href="notice.html?inbox" class="xiaoxi ui-link">消息（<span class="orange">51</span>）</a>
-                <span class="greyline">|</span>
-                <a href="javascript:void(0)" class="logout ui-link" id="logout">[退出]</a>
-                <span class="rt">
-                    <a href="#" class="setHome" id="setHome">设为首页</a>
-                    <span>|</span>
-                    <a href="#" class="addFav" id="addFav">加入收藏</a>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div id="siteHead" class="siteHead ui-width1000">
-        <div class="logo">
-            <span><a href="http://www.12301.cc"><img src="http://localhost:9090/build/local/images/logo_a.png" alt=""/></a></span>
-        </div>
-        <a class="siteTopBanner" target="_blank" href="http://www.12301.cc/pft_announce.html?id=68&amp;m=con">
-            <img src="http://images.12301.cc/prodimgs/header_top_t.gif">
-        </a>
-    </div>
-    <div id="siteNavBar" class="siteNavBar">
-        <ul class="navBarUl ui-width1000">
-            <li class="navLi home active"><a href="home.html">我的平台首页</a></li>
-        </ul>
-    </div>
-</div>
-<div id="bodyMain" class="bodyMain ui-width1000" style="min-height: 1258px;">
-    <div id="siteLeftBar" class="siteLeftBar ui-border">
-        <div class="left_memb">
-            <dl class="membdl">
-                <dt>销售管理</dt>
-                <dd><a href="terminal_chk.html" target="">票券验证</a><i></i></dd>
-                <dd><a href="plist.html" target="">产品预订</a><i></i></dd>
-                <dd><a href="dispatch_order.html" target="">计调下单<i class="ui-font-red">*新</i></a><i></i></dd>
-                <dd><a href="orderquery.html" target="">订单查询<i class="ui-font-red">*新</i></a><i></i></dd>
-                <dd><a href="terchange.html" target="">异常订单处理</a><i></i></dd>
-                <dt>直销管理</dt>
-                <dd><a href="domainConf.html" target="">B2C/微商城店铺配置</a><i></i></dd>
-                <dd><a href="qunaer.html" target="">团购配置</a><i></i></dd>
-                <dd><a href="tao_apply.html" target="">去啊/淘宝/天猫配置</a><i></i></dd>
-                <dd><a href="mart_connect.html" target="">票务系统配置</a><i></i></dd>
-                <dd><a href="module/wechat/index.html" target="_blank">微信公众号配置</a><i></i></dd>
-                <dd><a href="exportCode.html" target="">团购导码</a><i></i></dd>
-                <dt>产品管理</dt>
-                <dd><a href="prod_type.html" target="">发布新产品</a><i></i></dd>
-                <dd><a href="prodlists.html" target="">出售中产品</a><i></i></dd>
-                <dd><a href="prodlists_s.html" target="">仓库中产品</a><i></i></dd>
-                <dd><a href="channels_conf.html" target="">销售渠道配置</a><i></i></dd>
-                <dt>交易管理</dt>
-                <dd><a href="trecord.html" target="">交易记录</a><i></i></dd>
-                <dd><a href="accourtmanage.html" target="">提现/充值</a><i></i></dd>
-                <dd><a href="getbill.html" target="">应收款账单</a><i></i></dd>
-                <dd><a href="paybill.html" target="">应付款账单</a><i></i></dd>
-                <dt>合作伙伴</dt>
-                <dd><a href="partner.html" target="">合作分销商</a><i></i></dd>
-                <dd><a href="partner.html?dtype=1" target="">合作供应商</a><i></i></dd>
-                <dd><a href="distributor_add.html" target="">添加分销商</a><i></i></dd>
-                <dd><a href="union.html" target="">我的联盟</a><i></i></dd>
-                <dt>统计分析</dt>
-                <dd><a href="orderReport.html" target="_blank">销售报表</a><i></i></dd>
-                <dd><a href="orderReport_Com.html" target="_blank">数据罗盘</a><i></i></dd>
-                <dd><a href="buyOrderReport.html" target="_blank">购买报表</a><i></i></dd>
-                <dt>系统设置</dt>
-                <dd><a href="account_info.html" target="">基本信息</a><i></i></dd>
-                <dd><a href="chPs.html" target="">修改密码</a><i></i></dd>
-                <dd><a href="notice.html" target="">系统通知</a><i></i></dd>
-                <dd><a href="operlist.html" target="">员工管理</a><i></i></dd>
-                <dd><a href="soap.html" target="">对接接口</a><i></i></dd>
-                <dt>营销管理</dt>
-                <dd><a href="publish_manage.html" target="">优惠券管理</a><i></i></dd>
-                <dd><a href="marketing_share_list.html" target="">营销活动</a><i></i></dd>
-                <dd><a href="fenx.html" target="_blank">全民分销<i class="ui-font-red">*新</i></a><i></i></dd>
-            </dl>
-        </div>
-    </div>
-</div>
-<div class="foot-new">
     <div class="foot-container" id="foot-container">
         <a href="about_ab.html">关于我们</a>
         <span>|</span>
         <a href="about_lx.html">联系我们</a>
         <span>|</span>
         <a href="about_api.html">API接口</a>
-        <!-- <span>|</span>
-        <a href="##">操作手册</a> -->
+        <a href="##">操作手册</a>
         <span>|</span>
         <a href="http://www.12301.cc/helpCenter.html">帮助中心</a>
-        <p style="line-height:1.6"><span>©2015 www.12301.cc All Rights Reserved. 福建票付通信息科技有限公司 版权所有</span><br><span>经营许可证编号：闽B2-20150031</span><br></p>
+        <p style="line-height:1.6">
+            <span>?2015 www.12301.cc All Rights Reserved. 福建票付通信息科技有限公司 版权所有</span></br>
+            <span>经营许可证编号：闽B2-20150031</span>
+        </p>
     </div>
 </div>
-
-<script type="text/javascript" src="http://localhost:9090/build/js/deal_withdraw/all.js"></script>
-</body>
-</html>

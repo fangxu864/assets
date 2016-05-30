@@ -1,102 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/5/27 14:36 -->
+<!-- Description: huangzhiyang -->
+    @@include("meta.html")
     <title>@@title</title>
-    @@include("./header_meta.html")
+    <style type="text/css">
+        /* css reset */
+        body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,dl, dt, dd, ul, ol, li, pre,fieldset, lengend, button, input, textarea, th, td {  margin: 0;padding: 0;}
+        body,button, input, select, textarea { /* for ie */
+            /*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+            /*font: 12px/1 Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; *//* 用 ascii 字符表示，使得在任何编码下都无问题 */
+            font: 12px/1 Microsoft Yahei, Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+        }
+        h1 { font-size: 18px; }
+        h2 { font-size: 16px; }
+        h3 { font-size: 14px; }
+        h4, h5, h6 { font-size: 100%; }
+        address, cite, dfn, em, var { font-style: normal; }
+        code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; }
+        small { font-size: 12px; }
+        ul, ol { list-style: none; }
+        a { text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        a:link,a:visited{ text-decoration:none; color:#2A98DA}
+        a:hover{ text-decoration:underline;color:#2A98DA}
+        a:active{ text-decoration:none; color:#2A98DA}
+        abbr[title], acronym[title] { border-bottom: 1px dotted; cursor: help;}
+        q:before, q:after { content: ''; }
+        legend { color: #000; }
+        fieldset, img { border: none; }
+        button, input, select, textarea {font-size: 100%; }
+        table { border-collapse: collapse;border-spacing: 0;}
+        hr {border: none;height: 1px;}
+        textarea{ outline:0}
+        html { overflow-y: scroll; }
+        .clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+        .clearfix {display: inline-block;}
+        * html .clearfix {height: 1%;}
+        .clearfix {display: block;}
+        input:focus,button:focus{outline:none}
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
     <link rel="stylesheet" href="@@style"/>
 </head>
-<body>
-<div class="pageHeader">
-    <div id="siteHeadBar" class="siteHeadBar">
-        <div class="siteHeadCon ui-width1000">
-            <div class="topLink">
-                <span class="welc">您好，<a id="site_account_name" class="site_account_name ui-link" href="account_info.html">慢慢的店铺</a></span>
-                <a href="notice.html?inbox" class="xiaoxi ui-link">消息（<span class="orange">51</span>）</a>
-                <span class="greyline">|</span>
-                <a href="javascript:void(0)" class="logout ui-link" id="logout">[退出]</a>
-                <span class="rt">
-                    <a href="#" class="setHome" id="setHome">设为首页</a>
-                    <span>|</span>
-                    <a href="#" class="addFav" id="addFav">加入收藏</a>
-                </span>
-            </div>
-        </div>
-    </div>
-    <div id="siteHead" class="siteHead ui-width1000">
-        <div class="logo">
-            <span><a href="http://www.12301.cc"><img src="http://localhost:9090/build/local/images/logo_a.png" alt=""/></a></span>
-        </div>
-        <a class="siteTopBanner" target="_blank" href="http://www.12301.cc/pft_announce.html?id=68&amp;m=con">
-            <img src="http://images.12301.cc/prodimgs/header_top_t.gif">
-        </a>
-    </div>
-    <div id="siteNavBar" class="siteNavBar">
-        <ul class="navBarUl ui-width1000">
-            <li class="navLi home active"><a href="home.html">我的平台首页</a></li>
-        </ul>
-    </div>
-</div>
-<div id="bodyMain" class="bodyMain ui-width1000" style="min-height: 1258px;">
-    <div id="siteLeftBar" class="siteLeftBar ui-border">
-        <div class="left_memb">
-            <dl class="membdl">
-                <dt>销售管理</dt>
-                <dd><a href="terminal_chk.html" target="">票券验证</a><i></i></dd>
-                <dd><a href="plist.html" target="">产品预订</a><i></i></dd>
-                <dd><a href="dispatch_order.html" target="">计调下单<i class="ui-font-red">*新</i></a><i></i></dd>
-                <dd><a href="orderquery.html" target="">订单查询<i class="ui-font-red">*新</i></a><i></i></dd>
-                <dd><a href="terchange.html" target="">异常订单处理</a><i></i></dd>
-                <dt>直销管理</dt>
-                <dd><a href="domainConf.html" target="">B2C/微商城店铺配置</a><i></i></dd>
-                <dd><a href="qunaer.html" target="">团购配置</a><i></i></dd>
-                <dd><a href="tao_apply.html" target="">去啊/淘宝/天猫配置</a><i></i></dd>
-                <dd><a href="mart_connect.html" target="">票务系统配置</a><i></i></dd>
-                <dd><a href="module/wechat/index.html" target="_blank">微信公众号配置</a><i></i></dd>
-                <dd><a href="exportCode.html" target="">团购导码</a><i></i></dd>
-                <dt>产品管理</dt>
-                <dd><a href="prod_type.html" target="">发布新产品</a><i></i></dd>
-                <dd><a href="prodlists.html" target="">出售中产品</a><i></i></dd>
-                <dd><a href="prodlists_s.html" target="">仓库中产品</a><i></i></dd>
-                <dd><a href="channels_conf.html" target="">销售渠道配置</a><i></i></dd>
-                <dt>交易管理</dt>
-                <dd><a href="trecord.html" target="">交易记录</a><i></i></dd>
-                <dd><a href="accourtmanage.html" target="">提现/充值</a><i></i></dd>
-                <dd><a href="getbill.html" target="">应收款账单</a><i></i></dd>
-                <dd><a href="paybill.html" target="">应付款账单</a><i></i></dd>
-                <dt>合作伙伴</dt>
-                <dd><a href="partner.html" target="">合作分销商</a><i></i></dd>
-                <dd><a href="partner.html?dtype=1" target="">合作供应商</a><i></i></dd>
-                <dd><a href="distributor_add.html" target="">添加分销商</a><i></i></dd>
-                <dd><a href="union.html" target="">我的联盟</a><i></i></dd>
-                <dt>统计分析</dt>
-                <dd><a href="orderReport.html" target="_blank">销售报表</a><i></i></dd>
-                <dd><a href="orderReport_Com.html" target="_blank">数据罗盘</a><i></i></dd>
-                <dd><a href="buyOrderReport.html" target="_blank">购买报表</a><i></i></dd>
-                <dt>系统设置</dt>
-                <dd><a href="account_info.html" target="">基本信息</a><i></i></dd>
-                <dd><a href="chPs.html" target="">修改密码</a><i></i></dd>
-                <dd><a href="notice.html" target="">系统通知</a><i></i></dd>
-                <dd><a href="operlist.html" target="">员工管理</a><i></i></dd>
-                <dd><a href="soap.html" target="">对接接口</a><i></i></dd>
-                <dt>营销管理</dt>
-                <dd><a href="publish_manage.html" target="">优惠券管理</a><i></i></dd>
-                <dd><a href="marketing_share_list.html" target="">营销活动</a><i></i></dd>
-                <dd><a href="fenx.html" target="_blank">全民分销<i class="ui-font-red">*新</i></a><i></i></dd>
-            </dl>
-        </div>
-    </div>
-</div>
-<div class="foot-new">
-    <div class="foot-container" id="foot-container">
-        <a href="about_ab.html">关于我们</a>
-        <span>|</span>
-        <a href="about_lx.html">联系我们</a>
-        <span>|</span>
-        <a href="about_api.html">API接口</a>
-        <!-- <span>|</span>
-        <a href="##">操作手册</a> -->
-        <span>|</span>
-        <a href="http://www.12301.cc/helpCenter.html">帮助中心</a>
-        <p style="line-height:1.6"><span>©2015 www.12301.cc All Rights Reserved. 福建票付通信息科技有限公司 版权所有</span><br><span>经营许可证编号：闽B2-20150031</span><br></p>
-    </div>
-</div>
