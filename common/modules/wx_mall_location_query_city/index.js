@@ -3,7 +3,7 @@
  * Date: 2016/5/23 15:28
  * Description: ""
  */
-var Location = require("./modules/location");
+var Location = require("../geolocation");
 var Store = require("./modules/city.store");
 var CityView = require("./modules/city.view");
 var Main = Backbone.View.extend({

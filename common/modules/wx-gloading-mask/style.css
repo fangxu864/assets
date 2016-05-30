@@ -1,0 +1,45 @@
+/**
+ * Author: huangzhiyang
+ * Date: 2016/5/30 17:09
+ * Description: ""
+ */
+.gmaskLayer{ display:none; position:fixed; z-index:10; top:0; right:0; left:0; bottom:0; width:100%; height:100%; background:rgba(0,0,0,.8)}
+.gmaskLayer.show{ display:block; z-index:10001}
+.gLoadingBox{ position:absolute; z-index:10; top:50%; left:50%; width:8rem; height:8rem; margin:-4rem 0 0 -4rem; border-radius:5px; border:1px solid rgba(255,255,255,.1); background:rgba(0,0,0,.6);}
+.gLoading{ position:relative; -webkit-transform:translateZ(0); transform:translateZ(0); }
+.gLoading.load1{
+    width:50%; height:50%; margin:25% auto;
+    border-radius:50%;
+    border-top: 8px solid rgba(255, 255, 255, 0.2);
+    border-right: 8px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 8px solid rgba(255, 255, 255, 0.2);
+    border-left: 8px solid #ffffff;
+    -webkit-animation: load1 1.1s infinite linear;
+    animation: load1 1.1s infinite linear;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+}
+.gLoading.load1:after{
+    content:"";
+    position:absolute; top:-8px; left:-8px; bottom:0; right:0;
+    width:100%; height:100%;
+    border-radius:50%;
+    border-top: 8px solid rgba(255, 255, 255, 0.2);
+    border-right: 8px solid #ffffff;
+    border-bottom: 8px solid rgba(255, 255, 255, 0.2);
+    border-left: 8px solid rgba(255, 255, 255, 0.2);
+}
+@-webkit-keyframes load1{
+    0%{ -webkit-transform:rotate(0deg); transform:rotate(0deg)}
+    25%{ -webkit-transform:rotate(90deg); transform:rotate(90deg)}
+    50%{ -webkit-transform:rotate(180deg); transform:rotate(180deg)}
+    75%{ -webkit-transform:rotate(270deg); transform:rotate(270deg)}
+    100%{ -webkit-transform:rotate(360deg); transform:rotate(360deg)}
+}
+@keyframes load1{
+    0%{ -webkit-transform:rotate(0deg); transform:rotate(0deg)}
+    25%{ -webkit-transform:rotate(90deg); transform:rotate(90deg)}
+    50%{ -webkit-transform:rotate(180deg); transform:rotate(180deg)}
+    75%{ -webkit-transform:rotate(270deg); transform:rotate(270deg)}
+    100%{ -webkit-transform:rotate(360deg); transform:rotate(360deg)}
+}

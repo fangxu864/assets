@@ -1,0 +1,16 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/5/30 19:53 -->
+<!-- Description: huangzhiyang -->
+<div style="position:fixed" data-ptype="<?=$_GET['ptype']?>" id="filterBar" class="filterBar ui-filterBar">
+    <div class="con ui-flex">
+        <a id="switchTopicBtn" data-param="topic" data-show="" data-val="" href="#topic?active=<?=$topic?>" style="display:block; color:#fff" class="ui-filterItem ui-filterItem-tap ui-filterItem-topic ui-flex-box topic">
+            <i class="iconfont">&#xe6a7;</i><span class="t"></span>
+        </a>
+        <a id="switchPtypeBtn" href="#ptype" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype" data-param="type" data-val="" style="color:#fff">
+            <i style="top:1px" class="iconfont">&#xe6ab;</i><span class="t"></span>
+        </a>
+        <a id="switchCityBtn" href="#city" class="ui-filterItem ui-flex-box ui-filterItem-city city" data-param="area" data-val="<?=$city_id?>" data-show="<?=$city?>" style="color:#fff">
+            <i style="top:1px" class="iconfont">&#xe603;</i><span class="t"><?=$city?></span>
+        </a>
+    </div>
+</div>

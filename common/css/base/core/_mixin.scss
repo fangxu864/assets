@@ -45,8 +45,8 @@
 }
 
 %clearfix {
-    @include clearfix(false);
-}
+     @include clearfix(false);
+ }
 
 // Hide only visually, but have it available for screenreaders
 // 只隐藏于视觉，屏幕浏览器可以阅读

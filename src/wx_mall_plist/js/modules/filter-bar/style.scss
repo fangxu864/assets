@@ -1,0 +1,12 @@
+.ui-filterBar{ height:40px;}
+.ui-filterBar .ui-filterItem{ line-height:40px;}
+#filterBar{ -webkit-transition:all 0.4s; transition:all 0.4s;}
+#filterBar.hide{ bottom:-100px;}
+
+.ptypeSelector{ display:none; position:fixed; z-index:2; left:0; right:0; bottom:-260px; height:285px; background:#fff; border-top:3px solid #F07845; overflow:auto; -webkit-overflow-scrolling:touch; -webkit-transition:all 0.3s; transition:all 0.3s;}
+.ptypeSelector.show{ display:block; bottom:40px;}
+.ptypeSelector .ptypeLi{ height:44px; line-height:44px; text-align:center; font-size:16px; border-bottom:1px solid #dbdbdb}
+.ptypeSelector .ptypeLi.active{ color:#f37138}
+.ptypeSelector .closeBtn{ display:block; width:100%; height:44px; margin-top:13px; line-height:44px; font-size:16px; text-align:center; color:#333; border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb; background:#fff}
+.ptypeSelector .closeBtn:active{ background:#dbdbdb;}
+.ptypeSelector .typeUl{ }
