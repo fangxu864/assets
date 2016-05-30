@@ -13,6 +13,7 @@ PFT.Util.Validate = require("./js/util.validate");
 PFT.Util.VCode = require("./js/util.vcode");
 PFT.Util.getToken = require("./js/util.get.token");
 PFT.Util.Promise = require("./js/util.promise");
+PFT.Util.STip = require("./js/util.simple.tip");
 PFT.Config.Api = require("./js/config.api");
 
 PFT.AJAX_ERROR_TEXT = "请求出错，请稍后重试";

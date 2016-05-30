@@ -166,29 +166,35 @@ var VRegister = Backbone.View.extend({
 					if(tarBtn.hasClass("disable")) return false;
 					if(!imgVCode) return alert("请输入图形验证码");
 					tarBtn.addClass("disable");
-					that.checkMobileExist(mobile).then(function(is_register){
-						if(is_register==1) return alert("此号码已被注册，请更换");
-						return that.getVCode(mobile,imgVCode);
-					},function(error){
-						alert(error);
-					}).then(function(msg){ //获取验证码成功
-						var getBtn = that.getVCodeBtn;
-						var last_time = that.RESEND_VCODE_TIME;
-						PFT.Help.AlertTo("success",'<p style="width:400px">验证码已发送到手机'+this.mobileInp.val()+'上，'+last_time+'秒后可重新获取</p>',2000);
-						clearInterval(that.timer);
-						getBtn.text(last_time+"秒后重新获取");
-						that.timer = setInterval(function(){
-							if(last_time==0){
-								getBtn.removeClass("disable").text("获取验证码");
-								return clearInterval(that.timer);
-							}
-							last_time--;
-							getBtn.addClass("disable");
-							getBtn.text(last_time+"秒后重新获取");
-						},1000)
-					},function(error){ //获取验证码失败
-						alert(error);
-					})
+					that.checkMobileExist(mobile)
+						.then( //先验证此手机号是否已被注册
+							function(is_register){
+								if(is_register==1) return alert("此号码已被注册，请更换");
+								return that.getVCode(mobile,imgVCode);
+							},
+							function(error){ alert(error) }
+						)
+						.then( //如果手机号未被注册，传入图形验证码、手机号去获取短信验证码
+							function(msg){ //获取验证码成功
+								var getBtn = that.getVCodeBtn;
+								var last_time = that.RESEND_VCODE_TIME;
+								tarBtn.removeClass("disable");
+								Dialog.close();
+								PFT.Util.STip("success",'<p style="width:400px">验证码已发送到手机'+mobile+'上，'+last_time+'秒后可重新获取</p>',2000);
+								clearInterval(that.timer);
+								getBtn.text(last_time+"秒后重新获取");
+								that.timer = setInterval(function(){
+									if(last_time==0){
+										getBtn.removeClass("disable").text("获取验证码");
+										return clearInterval(that.timer);
+									}
+									last_time--;
+									getBtn.addClass("disable");
+									getBtn.text(last_time+"秒后重新获取");
+								},1000)
+							},
+							function(error){ alert(error)} //获取验证码失败
+						)
 				}
 			}
 		});
