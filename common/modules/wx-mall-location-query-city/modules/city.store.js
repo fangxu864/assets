@@ -17,7 +17,7 @@ var CityStore = Backbone.Model.extend({
 	fetchCity : function(){
 		var that = this;
 		var cityList = this.get("cityList");
-		if(cityList || cityList=="loading") return false; //如果已经加载过了或正在加载
+		if(cityList || cityList=="loading") return false;
 		Ajax("../api/v0.0.3/order.php",{
 			type : "get",
 			dataType : "json",

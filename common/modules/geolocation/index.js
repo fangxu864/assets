@@ -4,10 +4,6 @@
  * Description: ""
  */
 var Location = {
-	init : function(opt){
-		this.opt = opt || {};
-		this.BMap = opt.BMap;
-	},
 	DEFAULT_CITY : "福州",
 	LOCALSTORAGE_KEY : "wx-16u-local-city",
 	UNLIKE_CITY_STORAGE_KEY : "wx-16u-unlink-city",
@@ -57,23 +53,18 @@ var Location = {
 	 * 		success : function(cityname){},
 	 * 		fail : function(res){}
 	 * })
-	 * local.on("loading",function(){})
-	 * local.on("complete",function(res){})
-	 * local.on("success",function(cityname){})
-	 * local.on("fail",function(res){})
 	 */
 	local : function(opt){
 		var that = this;
+		var opt = opt || {};
 		var fn = new Function;
 		var type = opt.type || "H5";
 		var loading = opt.loading || fn;
 		var complete = opt.complete || fn;
 		var success = opt.success || fn;
 		var fail = opt.fail || fn;
-		var BMap = this.BMap;
-		if(!BMap) return console.log("ȱ��BMap����");
+		if(!BMap) return console.log("缺省BMap对象");
 		loading();
-		that.fire("loading");
 		if(type=="H5"){
 			var geolocation = new BMap.Geolocation();
 			geolocation.getCurrentPosition(function(res){
@@ -94,35 +85,27 @@ var Location = {
 					var lat = point.lat;
 					$.getJSON('http://api.map.baidu.com/geocoder/v2/?ak=485641E293ABd3523de065f7c1bbfeba&callback=?&location='+lat+','+lng+'&output=json&pois=1', function(res){
 						complete(res);
-						that.fire("complete",res);
 						if(res && res.result && res.result.addressComponent && res.result.addressComponent.city){
 							var city = res.result.addressComponent.city;
 							if(city.indexOf("市")) city = city.substring(0,city.length-1);
 							success(city);
-							that.fire("success",city);
 						}else{
 							fail(res);
-							that.fire("fail",res);
 						}
 					});
 				}else{
 					complete(res);
-					that.fire("complete",res);
 					fail(res);
-					that.fire("fail",res);
 				}
 			},{enableHighAccuracy:true});
 		}else{
 			var myCity = new BMap.LocalCity();
 			myCity.get(function(result){
 				complete(result);
-				that.fire("complete",result);
 				if(result && result.name){
 					success(result.name);
-					that.fire("success",result.name);
 				}else{
 					fail(result);
-					that.fire("fail",result);
 				}
 			});
 		}

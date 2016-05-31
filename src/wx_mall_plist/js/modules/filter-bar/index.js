@@ -5,6 +5,8 @@
  */
 require("./style.scss");
 var UrlParse = require("COMMON/js/util.url.parse.query");
+var GeoLocation = require("COMMON/modules/geolocation");
+var CityQuery = require("COMMON/modules/wx-mall-location-query-city");
 var FilterBar = Backbone.View.extend({
 	PTYPE : {
 		"A" : "景区",
@@ -26,6 +28,9 @@ var FilterBar = Backbone.View.extend({
 		var ptype = urlParams.ptype;
 		if(topic) this.topic(topic);
 		if(ptype) this.ptype(ptype);
+		this.city(GeoLocation.getStorageCity());
+		this.CityQuery = CityQuery.init({GeoLocation:GeoLocation});
+		this.CityQuery.open();
 	},
 	//getor or setor
 	topic : function(topic){
@@ -34,7 +39,7 @@ var FilterBar = Backbone.View.extend({
 			if(topic=="不限"){
 				target.attr("data-val","").find(".t").text("主题");
 			}else{
-				target.attr("data-val",topic).find(".t").text(topic);
+				target.attr("data-val",topic).find(".t").text(city);
 			}
 		}else{
 			return target.attr("data-val");
@@ -49,7 +54,16 @@ var FilterBar = Backbone.View.extend({
 		}
 	},
 	city : function(city){
-
+		var target = $("#switchCityBtn");
+		if(city){
+			if(city=="全国" || city=="不限"){
+				target.attr("data-val","").find(".t").text("不限");
+			}else{
+				target.attr("data-val",city).find(".t").text(city);
+			}
+		}else{
+			return target.attr("data-val");
+		}
 	}
 });
 module.exports = function(opt){
