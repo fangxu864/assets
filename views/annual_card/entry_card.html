@@ -15,60 +15,55 @@
         </select>
         <label for="">录入数量：</label>
         <input type="text"/>
-        <a href="javascript:;" class="btn-2x btn-blue">生成卡号</a>
+        <a href="javascript:;" class="btn-2x btn-blue" id="born">生成卡号</a>
     </div>
     <form action="" class="entry_form">
         <a href="javascript:;" class="btn-2x btn-border">关联实体卡</a>
+        <table class="table border">
+            <tr>
+                <td>虚拟卡号</td>
+                <td>实体卡卡号（卡面号码）</td>
+                <td>物理ID</td>
+                <td>操作</td>
+            </tr>
+            <tr>
+                <td>HZ1225555</td>
+                <td>4545345454556555 </td>
+                <td>4556553</td>
+                <td><a href="javascript:;">删除</a></td>
+            </tr>
+            <tr>
+                <td>HZ1225555</td>
+                <td>4545345454556555 </td>
+                <td>4556553</td>
+                <td><a href="javascript:;">删除</a></td>
+            </tr>
+        </table>
+        <p><span class="font-red">注</span>:无实体卡的会员，即通过会员号使用，计入虚拟卡库存</p>
+        <div class="btn-entry">
+            <a href="javascript:;" class="btn-2x btn-blue">确定,发卡</a>
+            <a href="javascript:;" class="btn-2x btn-border">清空重置</a>
+        </div>
     </form>
 </div>
-<div class="cardSave border">
-    <p>保存成功！</p>
-    <p>目前库存：0 ，如需添加请录入卡片。</p>
-    <div class="btn-box">
-        <a href="javascript:;" class="btn-2x btn-blue">关闭</a>
-        <a href="javascript:;" class="btn-2x btn-border">录入卡片</a>
+<div class="charge border">
+    <div class="cha border-bottom">
+        <h1 class="entry">请刷卡！</h1>
+        <h2 class="font-red">已存在</h2>
     </div>
-</div>
-<div class="proSel border">
-    <div class="proBox border-bottom">
-        <div class="lp float-left border-right">
-            <input type="text"/>
-            <ul>
-                <li>XXXXXXXXXX景区</li>
-                <li class="active">XXXXXXX景区</li>
-                <li>XXXXXXX景区</li>
-            </ul>
-        </div>
-        <div class="rp float-left">
-            <div>
-                <label for=""><input type="radio" checked name="taocan"/>年卡套餐一</label>
-            </div>
-            <div>
-                <label for=""><input type="radio" name="taocan"/>年卡套餐二</label>
-            </div>
-        </div>
-    </div>
-    <div class="btn-box">
-        <a href="javascript:;" class="btn-2x btn-blue">确定</a>
-        <a href="javascript:;" class="btn-2x btn-border">取消</a>
+    <div class="enCard">
+        <span>已关联实体卡:2/10<span class="font-gray">（不关联实体卡亦可）</span></span>
+        <a href="javascript:;" class="btn-2x btn-blue btn-finish">完成</a>
     </div>
 </div>
 <script>
-    $(".proSel,.cardSave").hide();
-    $(".btn-sel").toggle(function(){
-        $(".proSel").show();
+    $(".charge").hide();
+    $("#born").toggle(function(){
+        $(".charge").show();
     },function(){
-        $(".proSel").hide();
+        $(".charge").hide();
     })
-    $(".btn-box a").click(function(){
-        $(".proSel").hide();
-    })
-    $(".btn-save").toggle(function(){
-        $(".cardSave").show();
-    },function(){
-        $(".cardSave").hide();
-    })
-    $(".btn-box a").click(function(){
-        $(".cardSave").hide();
+    $(".btn-finish").click(function(){
+        $(".charge").hide();
     })
 </script>
