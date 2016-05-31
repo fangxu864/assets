@@ -1,0 +1,74 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/5/30 12:07 -->
+<!-- Description: huangzhiyang -->
+<script type="text/javascript" src="http://static.12301.local/assets/build/local/css/annual_card/all.js"></script>
+<link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
+<link rel="stylesheet" href="http://static.12301.local/assets/build/local/css/annual_card/all.css"/>
+<div class="card">
+    <h1 class="entry line">录入卡片</h1>
+    <div class="cardPro">
+        <label for="">卡产品：</label>
+        <select name="" id="">
+            <option value="">三亚先行年卡-套餐一</option>
+            <option value="">三亚先行年卡-套餐二</option>
+            <option value="">三亚先行年卡-套餐三</option>
+        </select>
+        <label for="">录入数量：</label>
+        <input type="text"/>
+        <a href="javascript:;" class="btn-2x btn-blue">生成卡号</a>
+    </div>
+    <form action="" class="entry_form">
+        <a href="javascript:;" class="btn-2x btn-border">关联实体卡</a>
+    </form>
+</div>
+<div class="cardSave border">
+    <p>保存成功！</p>
+    <p>目前库存：0 ，如需添加请录入卡片。</p>
+    <div class="btn-box">
+        <a href="javascript:;" class="btn-2x btn-blue">关闭</a>
+        <a href="javascript:;" class="btn-2x btn-border">录入卡片</a>
+    </div>
+</div>
+<div class="proSel border">
+    <div class="proBox border-bottom">
+        <div class="lp float-left border-right">
+            <input type="text"/>
+            <ul>
+                <li>XXXXXXXXXX景区</li>
+                <li class="active">XXXXXXX景区</li>
+                <li>XXXXXXX景区</li>
+            </ul>
+        </div>
+        <div class="rp float-left">
+            <div>
+                <label for=""><input type="radio" checked name="taocan"/>年卡套餐一</label>
+            </div>
+            <div>
+                <label for=""><input type="radio" name="taocan"/>年卡套餐二</label>
+            </div>
+        </div>
+    </div>
+    <div class="btn-box">
+        <a href="javascript:;" class="btn-2x btn-blue">确定</a>
+        <a href="javascript:;" class="btn-2x btn-border">取消</a>
+    </div>
+</div>
+<script>
+    $(".proSel,.cardSave").hide();
+    $(".btn-sel").toggle(function(){
+        $(".proSel").show();
+    },function(){
+        $(".proSel").hide();
+    })
+    $(".btn-box a").click(function(){
+        $(".proSel").hide();
+    })
+    $(".btn-save").toggle(function(){
+        $(".cardSave").show();
+    },function(){
+        $(".cardSave").hide();
+    })
+    $(".btn-box a").click(function(){
+        $(".cardSave").hide();
+    })
+</script>
