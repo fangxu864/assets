@@ -20,8 +20,8 @@ var CityStore = Backbone.Model.extend({
 			that.set("cityList","loading");
 			that.set("allCityCache","loading");
 			setTimeout(function(){
-				that.set("cityList",{a:[{"a":"d","id":1000,"hanzi":"福州","pinyin":"dongchengqu","shouzimu":"dcq"}]});
-				that.set("allCityCache",{a:[{"a":"d","id":1000,"hanzi":"福州","pinyin":"dongchengqu","shouzimu":"dcq"}]});
+				that.set("cityList",{f:[{"a":"f","id":1000,"hanzi":"福州","pinyin":"fuzhou","shouzimu":"fz"}]});
+				that.set("allCityCache",{f:[{"a":"f","id":1000,"hanzi":"福州","pinyin":"fuzhou","shouzimu":"fz"}]});
 			},1000);
 			return;
 		}
@@ -72,10 +72,10 @@ var CityStore = Backbone.Model.extend({
 		var result = {};
 		var all = this.get("allCityCache");
 		if(typeof all=="string") return result;
-		if(!val) return all;
+		if(!val) return this.set("cityList",all);
 		val = val.toLowerCase();
 		var first_letter = val.substring(0,1);
-		if(/^[a-zA-Z]+$/g.test(first_letter)){ //首字符是英文
+		if(/^[a-z]+$/g.test(first_letter)){ //首字符是英文
 			var citys = all[first_letter];
 			var arr = [];
 			if(citys){
@@ -94,8 +94,8 @@ var CityStore = Backbone.Model.extend({
 						})
 					}
 				}
-				if(arr.length) result[first_letter] = arr;
 			}
+			if(arr.length) result[first_letter] = arr;
 		}else{ //首字符是中文
 			for(var letter in all){
 				var citys = all[i];

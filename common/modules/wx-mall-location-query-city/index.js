@@ -4,32 +4,37 @@
  * Description: ""
  */
 require("./css/style.css");
+var Debug = true;
 var indexTpl = require("./tpl/index.html");
 var Model = require("./city.store.js");
 var Main = Backbone.View.extend({
 	el : $("body"),
 	events : {
-		"click #citySearchInp" : "onCitySearchInpChange"
+		"input #citySearchInp" : "onCitySearchInpChange",
+		"click #city_search_clearBtn" : "onClearSearchBtnClick",
+		"click .cityItem" : "onCityItemClick"
 	},
 	initialize : function(opt){
 		var that = this;
 		//开始定位
 		var locateCurrentCity = this.locateCurrentCity = $("#locateCurrentCity");
 		this.GeoLocation = opt.GeoLocation;
-		//this.GeoLocation.local({
-		//	loading : function(){
-		//		locateCurrentCity.addClass("disable").find(".city").text("正在定位...")
-		//	},
-		//	complete : function(){
-		//		locateCurrentCity.find(".city").text("正在完成...")
-		//	},
-		//	success : function(city){
-		//		locateCurrentCity.removeClass("disable").find(".city").text(city);
-		//	},
-		//	fail : function(res){
-		//		locateCurrentCity.find(".city").text("定位失败...")
-		//	}
-		//})
+		if(!Debug){
+			this.GeoLocation.local({
+				loading : function(){
+					locateCurrentCity.addClass("disable").find(".city").text("正在定位...")
+				},
+				complete : function(){
+					locateCurrentCity.find(".city").text("正在完成...")
+				},
+				success : function(city){
+					locateCurrentCity.removeClass("disable").find(".city").text(city);
+				},
+				fail : function(res){
+					locateCurrentCity.find(".city").text("定位失败...")
+				}
+			})
+		}
 
 		//处理model
 		this.model.on("change:cityList",function(model){
@@ -42,8 +47,37 @@ var Main = Backbone.View.extend({
 
 	},
 	onCitySearchInpChange : function(e){
-		console.log(this);
-		console.log(e.currentTarget);
+		var clearBtn = $("#city_search_clearBtn");
+		var tarInp = $(e.currentTarget);
+		var keyword = $.trim(tarInp.val());
+		var allCitys = this.model.get("allCityCache");
+		if(typeof allCitys=="string") return false;
+		keyword ? clearBtn.show() : clearBtn.hide();
+		this.model.filter(keyword);
+	},
+	onClearSearchBtnClick : function(){
+		$(e.currentTarget).hide();
+		$("#citySearchInp").val("").focus();
+		this.model.filter("");
+	},
+	onCityItemClick : function(e){
+		var tarItem = $(e.currentTarget);
+		if(tarItem.hasClass("disable") || tarItem.hasClass("active")) return false;
+		$("#cityQueryPage").find(".cityItem").removeClass("active");
+		tarItem.addClass("active");
+		var name = tarItem.attr("data-name") || tarItem.find(".t").text();
+		if(name=="所有城市" || name=="全国") name="不限";
+		var code = tarItem.attr("data-id");
+		var pin = tarItem.attr("data-pin");
+		var abb = tarItem.attr("data-abb");
+		this.GeoLocation.setStorageCity(name);
+		this.close();
+		this.trigger("city.switch",{
+			name : name,
+			code : code,
+			pin : pin,
+			abb : abb
+		})
 	},
 	render : function(type,data){
 		var html = "";

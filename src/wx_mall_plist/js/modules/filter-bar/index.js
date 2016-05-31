@@ -17,6 +17,7 @@ var FilterBar = Backbone.View.extend({
 		"I" : "年卡"
 	},
 	initialize : function(opt){
+		var that = this;
 		var opt = opt || {};
 		this.Api = opt.Api;
 		this.Api.getTopic().then(function(topics){
@@ -30,6 +31,10 @@ var FilterBar = Backbone.View.extend({
 		if(ptype) this.ptype(ptype);
 		this.city(GeoLocation.getStorageCity());
 		this.CityQuery = CityQuery.init({GeoLocation:GeoLocation});
+		this.CityQuery.on("city.switch",function(data){
+			var cityname = data.name;
+			that.city(cityname);
+		})
 		this.CityQuery.open();
 	},
 	//getor or setor

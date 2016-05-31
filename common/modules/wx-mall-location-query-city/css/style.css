@@ -23,7 +23,7 @@
 #cityQueryPage .searchBox .iconfont.search{ position:absolute; top:9px; left:9px; font-size:1rem;}
 #cityQueryPage .searchBox .iconfont.loading,.searchBox .iconfont.clear{ display:none; position:absolute; }
 #cityQueryPage .searchBox .iconfont.loading{ right:35px; top:11px;}
-#cityQueryPage .searchBox .iconfont.clear{ right:10px; top:12px; font-size:1.2rem;}
+#cityQueryPage .searchBox .iconfont.clear{ right:10px; top:5px; font-size:1.2rem;}
 #allcityUl{ margin-top:5px;}
 #allcityUl .group{ margin-bottom:8px;}
 #allcityUl .group .letter{ height:30px; line-height:30px; font-size:1.2rem; padding-left:1rem; color:#333;}
@@ -40,6 +40,12 @@
 #allcityUl .state .t{ vertical-align:middle}
 #locateCurrentCity,.allCityBar{ height:50px; line-height:50px; overflow:hidden; margin-top:0; padding:0 1rem; background:#fff;}
 #locateCurrentCity .t,#locateCurrentCity .city{ font-size:1rem}
+#locateCurrentCity .checkbox.selected{ display:none}
+#locateCurrentCity .checkbox.unselect{ display:inline-block}
+#locateCurrentCity.active .checkbox.selected{ display:inline-block}
+#locateCurrentCity.active .checkbox.unselect{ display:none}
+#locateCurrentCity.disable .checkbox.selected{ display:none}
+#locateCurrentCity.disable .checkbox.unselect{ display:none}
 .cityItem.topBar .iconfont{ margin-right:2px; }
 .cityItem.topBar .checkbox{ display:none; float:right; font-size:22px; color:#2a98da;}
 .cityItem.topBar .checkbox.selected{ color:#0797d9}
