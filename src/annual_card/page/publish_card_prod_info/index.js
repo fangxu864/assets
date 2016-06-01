@@ -6,6 +6,7 @@
 require("./style.scss");
 var AllCitys = require("COMMON/js/config.province.city.js");
 var SSelect = require("COMMON/js/component.city.select.simple.js"); //写了个简单的select控件
+var Fileupload = require("COMMON/modules/fileupload");
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
@@ -18,12 +19,19 @@ var MainView = Backbone.View.extend({
 			provId : "#provSelect",
 			cityId : "#citySelect",
 			onProvChange : function(data){
-				console.log(data);
+
 			},
 			onCityChange : function(data){
-				console.log(data);
+
 			}
 		})
+
+		this.fileupload = new Fileupload({
+			container : "#imgUploadBox",
+			id : 1,
+			action : "module/pwk/control/account_info_new.php"
+		})
+
 	},
 	onTextInpFocus : function(e){
 		var tarInp = $(e.currentTarget);
