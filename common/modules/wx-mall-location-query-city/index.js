@@ -35,7 +35,6 @@ var Main = Backbone.View.extend({
 				}
 			})
 		}
-
 		//处理model
 		this.model.on("change:cityList",function(model){
 			var cityList = model.get("cityList");
