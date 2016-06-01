@@ -10,7 +10,7 @@
     <meta name="renderer" content="webkit">
     <title>旅游年卡</title>
 </head>
-<body>
+<body style="padding-top:50px">
     <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
     <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
     <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
@@ -19,10 +19,8 @@
     <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
 
 
-
-
-    <link rel="stylesheet" href="http://static.12301.local/assets/build/local/css/annual_card/all.css"/>
-    <div class="card">
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_prod_info/all.css"/>
+    <div class="cardContainer">
         <div class="info">
             <span class="active">1.产品信息</span><span class="">2.套餐信息</span>
         </div>
@@ -32,7 +30,7 @@
                     <label for="">产品(卡)名称：</label>
                 </div>
                 <div class="rt">
-                    <input type="text" class="textInp"/>
+                    <input type="text" class="bigInp" placeholder="请输入产品（卡）名称"/>
                     <span class="tip">*必填项</span>
                 </div>
             </div>
@@ -41,20 +39,20 @@
                     <label for="">地区：</label>
                 </div>
                 <div class="rt">
-                    <select name="" id="">
+                    <select name="" id="" class="smaSel">
                         <option value="--省--">--省--</option>
                     </select>
-                    <select name="" id="">
+                    <select name="" id="" class="smaSel">
                         <option value="--市--">--省--</option>
                     </select>
+                    <span class="tip">*必填项</span>
                 </div>
             </div>
             <div class="line">
-                <div class="lt">
-                    <label for="" style="font-size:0">d</label>
-                </div>
+                <div class="lt"></div>
                 <div class="rt">
-                    <input type="text" class="textInp" placeholder="请填写详细地址"/>
+                    <input type="text"class="bigInp" placeholder="请输入详细地址"/>
+                    <span class="tip">*必填项</span>
                 </div>
             </div>
             <div class="line">
@@ -62,7 +60,8 @@
                     <label for="">联系电话：</label>
                 </div>
                 <div class="rt">
-                    <input type="text" class="textInp"/>
+                    <input type="text"class="bigInp" placeholder="请输入联系电话"/>
+                    <span class="tip">*必填项</span>
                 </div>
             </div>
             <div class="line">
@@ -71,10 +70,10 @@
                 </div>
                 <div class="rt">
                     <div>
-                        <a href="javascript:void(0);" class="file btn btn-border">选择文件
+                        <a href="javascript:;" class="file btn btn-1x btn-border">选择文件
                             <input type="file" name="" id="">
                         </a>
-                        <a href="javascript:javascript:void(0);" class="file btn btn-green" style="color:white">上传
+                        <a href="javascript:;" class="file btn btn-1x btn-green"style="color:white">上传
                             <input type="file" name="" id="">
                         </a>
                     </div>
@@ -90,19 +89,14 @@
                 </div>
                 <div class="rt">
                     <div>
-                        <textarea name="" id="" cols="90" rows="10"></textarea>
+                        <textarea name="" id="" cols="98" rows="10"></textarea>
                     </div>
                     <div>
-                        <input type="button" class="btn btn-blue" value="保存，下一步"/>
+                        <a href="javascript:;" class="btn btn-3x btn-blue" id="save">保存，下一步</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-
-
-
-
-
 </body>
 </html>
