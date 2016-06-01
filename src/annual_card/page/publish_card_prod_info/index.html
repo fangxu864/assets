@@ -20,7 +20,7 @@
 
 
     <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_prod_info/all.css"/>
-    <div class="cardContainer">
+    <div id="cardContainer" class="cardContainer">
         <div class="info">
             <span class="active">1.产品信息</span><span class="">2.套餐信息</span>
         </div>
@@ -30,7 +30,7 @@
                     <label for="">产品(卡)名称：</label>
                 </div>
                 <div class="rt">
-                    <input type="text" class="bigInp" placeholder="请输入产品（卡）名称"/>
+                    <input type="text" class="bigInp textInp" placeholder="请输入产品（卡）名称"/>
                     <span class="tip">*必填项</span>
                 </div>
             </div>
@@ -39,19 +39,18 @@
                     <label for="">地区：</label>
                 </div>
                 <div class="rt">
-                    <select name="" id="" class="smaSel">
+                    <select name="" id="provSelect" class="smaSel provSelect">
                         <option value="--省--">--省--</option>
                     </select>
-                    <select name="" id="" class="smaSel">
+                    <select name="" id="citySelect" class="smaSel citySelect">
                         <option value="--市--">--省--</option>
                     </select>
-                    <span class="tip">*必填项</span>
                 </div>
             </div>
             <div class="line">
                 <div class="lt"></div>
                 <div class="rt">
-                    <input type="text"class="bigInp" placeholder="请输入详细地址"/>
+                    <input type="text" class="bigInp textInp addrInp" placeholder="请输入详细地址"/>
                     <span class="tip">*必填项</span>
                 </div>
             </div>
@@ -60,8 +59,8 @@
                     <label for="">联系电话：</label>
                 </div>
                 <div class="rt">
-                    <input type="text"class="bigInp" placeholder="请输入联系电话"/>
-                    <span class="tip">*必填项</span>
+                    <input type="text"class="bigInp textInp mobileInp" placeholder="请输入联系电话"/>
+                    <span class="tip">*请填写正确格式手机号</span>
                 </div>
             </div>
             <div class="line">
@@ -98,5 +97,19 @@
             </div>
         </form>
     </div>
+
+
+    <input type="file" id="test"/>
+    <label for="test">点击我</label>
+    <script type="text/javascript">
+        var fileInp = $("#test");
+        fileInp.on("change",function(e){
+            alert(e.srcElement.value);
+            console.log(e)
+        })
+    </script>
+    
+    <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_prod_info/all.js"></script>
+
 </body>
 </html>
