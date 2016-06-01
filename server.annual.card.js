@@ -15,8 +15,10 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 var entry = {
-	"publish_card_prod_info" : ["./src/annual_card/page/publish_card_prod_info/index.js"]
-}
+	"publish_card_prod_info" : ["./src/annual_card/page/publish_card_prod_info/index.js"],
+	"publish_card_package_info" : ["./src/annual_card/page/publish_card_package_info/index.js"],
+	"publish_card_entry_card" : ["./src/annual_card/page/publish_card_entry_card/index.js"]
+};
 for(var i in entry){
 	var en = entry[i];
 	en.unshift('webpack-dev-server/client?http://localhost:'+PORT, "webpack/hot/dev-server");
