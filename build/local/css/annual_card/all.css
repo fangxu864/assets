@@ -189,6 +189,7 @@ h1.entry{ line-height:56px; font-size:24px;}
 .charge{width:500px; height:256px;background:white;position:fixed;left:50%; top:50%;
     z-index:5; margin-left:-250px; margin-top:-128px;}
 .cha{height:140px;text-align:center; padding-top:60px;}
+.cha p{ font-size:14px;}
 .enCard{height:45px;background:#f5f5f5;padding-top:10px;}
 .enCard>span{ margin-left:24px;}
 .enCard>a{margin-left:144px;}

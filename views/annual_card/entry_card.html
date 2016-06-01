@@ -18,7 +18,7 @@
         <a href="javascript:;" class="btn-2x btn-blue" id="born">生成卡号</a>
     </div>
     <form action="" class="entry_form">
-        <a href="javascript:;" class="btn-2x btn-border">关联实体卡</a>
+        <a href="javascript:;" class="btn-2x btn-border" id="btn-guan">关联实体卡</a>
         <table class="table border">
             <tr>
                 <td>虚拟卡号</td>
@@ -46,7 +46,7 @@
         </div>
     </form>
 </div>
-<div class="charge border">
+<div class="charge border" id="chaBox">
     <div class="cha border-bottom">
         <h1 class="entry">请刷卡！</h1>
         <h2 class="font-red">已存在</h2>
@@ -56,14 +56,29 @@
         <a href="javascript:;" class="btn-2x btn-blue btn-finish">完成</a>
     </div>
 </div>
+<div class="charge border" id="guanBox">
+    <div class="cha border-bottom">
+        <p class="font-gray">物理ID:565666</p>
+        <input type="text"/><a href="javascript:;" class="btn-2x btn-blue btn-finish">完成</a>
+    </div>
+    <div class="enCard">
+        <span>已关联实体卡:2/10<span class="font-gray">（不关联实体卡亦可）</span></span>
+        <a href="javascript:;" class="btn-2x btn-blue btn-finish">完成</a>
+    </div>
+</div>
 <script>
-    $(".charge").hide();
+    $("#chaBox,#guanBox").hide();
     $("#born").toggle(function(){
-        $(".charge").show();
+        $("#chaBox").show();
     },function(){
-        $(".charge").hide();
+        $("#chaBox").hide();
     })
     $(".btn-finish").click(function(){
         $(".charge").hide();
+    })
+    $("#btn-guan").toggle(function(){
+        $("#guanBox").show();
+    },function(){
+        $("#guanBox").hide();
     })
 </script>
