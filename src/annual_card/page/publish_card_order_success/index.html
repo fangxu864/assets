@@ -1,0 +1,153 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/6/1 14:55 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>下单成功</title>
+</head>
+<body style="padding:50px 0">
+    <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
+    <script type="text/javascript" src="http://www.12301.cc/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+
+
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_fill_order/all.css"/>
+    <div class="cardContainer border">
+        <p class="entry">三亚先行年卡</p>
+        <ul class="cardnumBox border-top">
+           <li class="border">
+               <p>虚拟卡号：445565</p>
+               <p>实体卡号：555555555</p>
+               <p>物理ID：555655</p>
+           </li>
+            <li class="border">
+                <p>虚拟卡号：445565</p>
+                <p>实体卡号：555555555</p>
+                <p>物理ID：555655</p>
+            </li>
+        </ul>
+        <table class="fillTable">
+            <tr>
+                <td>票类名称</td>
+                <td>产品库存</td>
+                <td>结算价</td>
+                <td>退票手续费</td>
+                <td>预定数量</td>
+                <td>小计</td>
+            </tr>
+            <tr>
+                <td>
+                    <p>年卡套餐1</p>
+                    <p>包含：</p>
+                    <p>XXXXXX 景区成人票 共50张 限使用2次/日</p>
+                    <p>XXXXXX 景区成人票 共50张 限使用2次/日</p>
+                </td>
+                <td>15</td>
+                <td>￥123</td>
+                <td>不可退</td>
+                <td>1</td>
+                <td class="font-red">￥123</td>
+            </tr>
+        </table>
+        <form action="" class="fillForm">
+            <div class="fillLine">
+                <div class="fl">购买人信息：</div>
+                <div class="fr"><p class="font-red">（虚拟卡购买将使用以下信息直接激活）</div>
+            </div>
+            <div class="fillLine error">
+                <div class="fl"><span class="font-red">*</span>购买人：</div>
+                <div class="fr">
+                    <input type="text" class="fillInp"/>
+                    <span class="tip">*必填项</span>
+                </div>
+            </div>
+            <div class="fillLine">
+                <div class="fl"><span class="font-red">*</span>手机号：</div>
+                <div class="fr">
+                    <input type="text" class="fillInp"/>
+                    <span class="tip">*必填项</span>
+                </div>
+            </div>
+            <div class="fillLine">
+                <div class="fl">身份证：</div>
+                <div class="fr"><input type="text" class="fillInp"/></div>
+            </div>
+            <div class="fillLine">
+                <div class="fl">订单备注：</div>
+                <div class="fr"><input type="text" class="fillInp"/></div>
+            </div>
+            <div class="fillLine" style="margin-top:40px;">
+                <div class="fl">支付方式：</div>
+            </div>
+            <div class="fillLine">
+                <div class="fl">
+                    <label for=""><input type="radio" name="payway"/>授信余额：</label>
+                </div>
+                <div class="fr">152元</div>
+            </div>
+            <div class="fillLine">
+                <div class="fl">
+                    <label for=""><input type="radio" name="payway"/>账户余额：</label>
+                </div>
+                <div class="fr">152元</div>
+            </div>
+            <div class="fillLine">
+                <div class="fl">
+                    <label><input type="radio" name="payway"/>在线支付</label>
+                </div>
+            </div>
+        </form>
+        <div class="submitBox">
+            <span class="orderPrice">共1张，<span class="font-orange">123元</span></span>
+            <a href="javascript:;" class="btn btn-orange" id="subBtn">提交订单</a>
+        </div>
+    </div>
+    <div class="cardContainer border" style="margin:10px auto 100px auto;">
+        <div class="supplierBox">
+            <span class="supplier">供应商：<span id="supplierName"></span></span>
+            <span class="contacts">联系人：<span id="contactsName"></span></span>
+        </div>
+        <div class="introduceBox border-top">
+            <p>卡介绍</p>
+        </div>
+    </div>
+    <div class="memberBox border" id="memberBox">
+        <p class="memP">会员已存在！是否替换原有卡和套餐？</p>
+        <table class="memTable border">
+            <tr class="font-gray">
+                <td>手机号</td>
+                <td>身份证</td>
+                <td>卡套餐（已用特权数）</td>
+            </tr>
+            <tr>
+                <td>145585686888 </td>
+                <td>256339747443333</td>
+                <td>三亚年卡套餐（5/20）</td>
+            </tr>
+        </table>
+        <div class="btnBox">
+            <a href="javascript:;" class="btn btn-blue" id="replaceBtn">替换</a>
+            <a href="javascript:;" class="btn btn-border" id="messageBtn">更换信息激活</a>
+        </div>
+    </div>
+    <script>
+        $("#memberBox").hide();
+        $("#subBtn").click(function(){
+            $("#memberBox").show();
+        })
+        $("#replaceBtn,#messageBtn").click(function(){
+            $("#memberBox").hide();
+        })
+    </script>
+
+
+</body>
+</html>

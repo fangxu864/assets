@@ -1,0 +1,37 @@
+/**
+ * Author: huangzhiyang
+ * Date: 2016/5/30 14:47
+ * Description: ""
+ */
+@import "../../css/style.css";
+/*架构UI*/
+.cardContainer{width:800px;margin:0 auto; background:white;}
+.entry{ line-height:56px; font-size:24px;text-indent:24px;background:white; margin-bottom:11px;}
+.proinfoBox{width:798px;height:200px;}
+.proinfoImg{width:798px;height:116px;}
+.proTable{width:100%;line-height:33px;}
+.proTable tr:first-of-type{ background:#f5f5f5;}
+.proTable tr td:first-of-type{text-indent:10px;}
+.btnBox{overflow:hidden;padding-top:10px;}
+.btnBox a{ float:right;height:28px; line-height:28px; padding:0 9px; margin-right:10px;}
+#reserveBtn{color:white;height:30px;}
+
+.buywayBox{width:798px; height:390px;background:white;position: fixed;top:50%;left:50%;margin-left:-400px; margin-top:-195px;}
+.buywayBox .boxHeader{ height:34px;background:#E5E5E5; overflow:hidden;}
+.buywayBox .boxContainer{overflow:hidden;}
+.buywayBox .boxContainer .bl{ width:599px;height:356px; float:left;}
+.buywayBox .boxContainer .bl .enBox{ width:480px; height:210px;margin:65px 0 0 60px;}
+.buywayBox .boxContainer .bl .enBox>p{ text-align:center;}
+.buywayBox .boxContainer .br{ float:left;}
+.entity{padding:20px 0 0 30px; font-size:20px; color:#0797d9;}
+.pleaseCard{ font-size:22px;line-height:54px;}
+#closeBtn{ color:#6c7882; float:right;line-height:28px;}
+.entityBox{overflow:hidden; margin-top:86px;}
+.entityBox .enCard{float:left;display:inline-block;width:390px;line-height:35px;background:#f5f5f5;text-indent:10px;}
+.entityBox .enCard .enNum{ font-size:22px; margin:0 4px;}
+#buyBtn{float:left;width:86px;height:37px; line-height:37px;}
+.kucun{ margin-left:30px;line-height:50px;}
+.btn-mar{margin-left:30px;}
+/**/
+
+

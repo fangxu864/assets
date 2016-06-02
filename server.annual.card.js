@@ -17,7 +17,10 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var entry = {
 	"publish_card_prod_info" : ["./src/annual_card/page/publish_card_prod_info/index.js"],
 	"publish_card_package_info" : ["./src/annual_card/page/publish_card_package_info/index.js"],
-	"publish_card_entry_card" : ["./src/annual_card/page/publish_card_entry_card/index.js"]
+	"publish_card_entry_card" : ["./src/annual_card/page/publish_card_entry_card/index.js"],
+	"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
+	"publish_card_fill_order" : ["./src/annual_card/page/publish_card_fill_order/index.js"],
+
 };
 for(var i in entry){
 	var en = entry[i];
