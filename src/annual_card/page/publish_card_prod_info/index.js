@@ -5,7 +5,7 @@
  */
 require("./style.scss");
 var AllCitys = require("COMMON/js/config.province.city.js");
-var SSelect = require("COMMON/js/component.city.select.simple.js"); //写了个简单的select控件
+var SSelect = require("COMMON/js/component.city.select.simple.js");
 var Fileupload = require("COMMON/modules/fileupload");
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
@@ -14,6 +14,7 @@ var MainView = Backbone.View.extend({
 		"blur .textInp" : "onTextInpBlur"
 	},
 	initialize : function(){
+		var that = this;
 		this.select = new SSelect({
 			data : AllCitys,
 			provId : "#provSelect",
@@ -29,9 +30,32 @@ var MainView = Backbone.View.extend({
 		this.fileupload = new Fileupload({
 			container : "#imgUploadBox",
 			id : 1,
-			action : "module/pwk/control/account_info_new.php"
+			action : "/upload",
+			loading : function(formControls){
+				console.log("loading");
+			},
+			complete : function(res){
+				that.onImgUploadComplete(res);
+			}
 		})
 
+	},
+	onImgUploadComplete : function(res){
+		var res = res || {};
+		var code = res.code;
+		var data = res.data || {};
+		var src = data.src;
+		var msg = res.msg || "上传失败";
+		if(code==200 && src){
+			var container = $("#uploadPhotoBox");
+			if(container.length==0){
+				container = $('<div id="uploadPhotoBox" class="uploadPhotoBox"></div>');
+				$("#imgUploadBox").parent().append(container);
+			}
+			container.html('<table><tr><td><img src="'+src+'" alt=""/></td></tr></table>');
+		}else{
+
+		}
 	},
 	onTextInpFocus : function(e){
 		var tarInp = $(e.currentTarget);

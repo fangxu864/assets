@@ -1,13 +1,12 @@
 <!-- Author: huangzhiyang -->
 <!-- Date: 2016/6/1 18:39 -->
 <!-- Description: huangzhiyang -->
-<div class="uploadWrapCon">
-    <iframe style="display:none" frameborder="0" class="fileupload_iframe" name=""></iframe>
+<div class="fileuploadWrap">
     <form class="fileuploadForm" enctype="multipart/form-data" method="post" target="">
         <input style="display:none" type="file" class="fileuploadFileInp"/>
         <input type="text" name="" class="fileuploadTextInp"/>
-        <label class="filebrowseBtn">选择</label>
-        <a class="fileuploadBtn" href="javascript:void(0)">上传</a>
-        <input type="hidden" name="callback" value=""/>
+        <label class="filebrowseBtn ctrlBtn"><i class="iconfont">&#xe692;</i><span class="t">选择</span></label>
+        <a class="fileuploadBtn ctrlBtn" href="javascript:void(0)"><i class="iconfont">&#xe659;</i><span class="t">上传</span></a>
+        <input type="hidden" class="callbackHidInp" name="callback_id" value=""/>
     </form>
 </div>

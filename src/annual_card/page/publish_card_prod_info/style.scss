@@ -7,7 +7,7 @@
 
 /*架构UI*/
 .cardContainer{width:798px;border:1px solid #e5e5e5; margin:0 auto; background:white;}
-.info{border-bottom:1px solid #e5e5e5;}
+.info{ margin-bottom:30px; border-bottom:1px solid #e5e5e5;}
 .info span{ display:inline-block;width:398px; cursor:pointer;
     height:28px;line-height:28px;text-align:center;background:#e5e5e5;color:white;}
 .info span.active{background:#3dba3f;}
@@ -20,7 +20,7 @@
 .line .rt .file{ margin:0 10px 10px 0;}
 .line .smaSel:last-of-type{ margin-left:3px;}
 .line .rt #save{margin:24px 0 108px 0;}
-.line .tip{margin-left:10px;color:gray;}
+.line .tip{margin-left:5px;color:#b3b3b3;}
 .line.error .tip{color:red;}
 .line .time{ float:left; margin-right:20px;}
 .line .time p{ line-height:32px;}
@@ -103,6 +103,11 @@ h1.entry{ line-height:56px; font-size:24px;}
 .enCard span.numChild{ font-size:24px; color:#3dba3f;}
 .enCard span.numP{ font-size:24px;}
 
-/**/
+/* 图片上传成功后，图片的显示Box */
+.uploadPhotoBox{ width:300px; height:197px; background:#fafafa; border:1px solid #dbdbdb; padding:7px; margin-top:5px; overflow:hidden}
+.uploadPhotoBox table{ width:100%; height:100%; text-align:center; vertical-align:middle}
+.uploadPhotoBox td{ vertical-align:middle}
+.uploadPhotoBox td img{ width:100%;}
+
 
 

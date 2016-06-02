@@ -67,19 +67,9 @@
                 <div class="lt">
                     <label for="">预览图：</label>
                 </div>
-                <div id="imgUploadBox" class="rt">
-                    <!--<div>-->
-                        <!--<a href="javascript:;" class="file btn btn-1x btn-border">选择文件-->
-                            <!--<input type="file" name="" id="">-->
-                        <!--</a>-->
-                        <!--<a href="javascript:;" class="file btn btn-1x btn-green"style="color:white">上传-->
-                            <!--<input type="file" name="" id="">-->
-                        <!--</a>-->
-                    <!--</div>-->
-                    <!--<div class="cardImg">-->
-                        <!--<div class="img"></div>-->
-                        <!--<div><span>上传小于1M的JPG或GIF格式的图片,建议图片尺寸：宽700像素，高460像素</span></div>-->
-                    <!--</div>-->
+                <div style="margin-top:3px;" class="rt">
+                    <div id="imgUploadBox"></div>
+                    <p style="margin-left:0; margin-top:3px;" class="tip">上传小于1M的JPG或GIF格式的图片,建议图片尺寸：宽700像素，高460像素</p>
                 </div>
             </div>
             <div class="line">
@@ -88,27 +78,16 @@
                 </div>
                 <div class="rt">
                     <div>
-                        <textarea name="" id="" cols="98" rows="10"></textarea>
+                        <textarea style="padding-top:5px" name="" id="" cols="98" rows="10"></textarea>
                     </div>
                     <div>
-                        <a href="javascript:;" class="btn btn-3x btn-blue" id="save">保存，下一步</a>
+                        <a href="javascript:;" class="btn btn-3x btn-blue" id="submitInfoBtn">保存，下一步</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 
-
-    <input type="file" id="test"/>
-    <label for="test">点击我</label>
-    <script type="text/javascript">
-        var fileInp = $("#test");
-        fileInp.on("change",function(e){
-            alert(e.srcElement.value);
-            console.log(e)
-        })
-    </script>
-    
     <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_prod_info/all.js"></script>
 
 </body>
