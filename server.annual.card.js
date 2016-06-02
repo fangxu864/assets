@@ -20,7 +20,7 @@ var entry = {
 	"publish_card_entry_card" : ["./src/annual_card/page/publish_card_entry_card/index.js"],
 	"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
 	"publish_card_fill_order" : ["./src/annual_card/page/publish_card_fill_order/index.js"],
-	"publish_card_order_sucess" : ["./src/annual_card/page/publish_card_order_sucess/index.js"]
+	"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"]
 
 };
 for(var i in entry){
