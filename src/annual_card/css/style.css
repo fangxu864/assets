@@ -50,6 +50,7 @@ textarea{line-height:24px;}
 .font-blue{color:#0797d9;}
 .font-red{ color:red;}
 .font-orange{ color:#f07845;}
+.font-14{ font-size:14px;}
 .table{width:100%;}
 .table tr{ line-height:35px; text-indent:10px;}
 .table tr:first-of-type{background:#e5e5e5;}
