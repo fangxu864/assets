@@ -14,7 +14,7 @@
     "prod": "webpack -w -myProduct",
     "common": "webpack --config webpack.common.build.config.js",
     "server": "node server.js",
-    "start" : "node server.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

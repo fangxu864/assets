@@ -50,6 +50,21 @@ var app = new WebpackDevServer(webpack(config),{
 		host: "www.12301.local"
 	}]
 });
+var Http = app.app;
+
+Http.post("/upload",function(req,res){
+	var result = JSON.stringify({
+		code : 200,
+		data : {
+			src : "https://sfault-image.b0.upaiyun.com/847/123/847123006-573551703f418_articlex"
+		},
+		msg : ""
+	});
+	setTimeout(function(){
+		res.end('<script>var FileuploadCallbacks=window.parent.FileuploadCallbacks[1];for(var i in FileuploadCallbacks) FileuploadCallbacks[i]('+result+');</script>')
+	},1000)
+})
+
 app.listen(PORT,"localhost",function(error){
 	console.log(error);
 });
