@@ -43,15 +43,26 @@ var config = require("./config")({
 //启动服务
 var app = new WebpackDevServer(webpack(config),{
 	hot : true,
-	historyApiFallback: true,
-	proxy : [{
-		path: "/r/*",
-		target: "http://www.12301.local",
-		host: "www.12301.local"
-	}]
+	historyApiFallback: true
+	//,proxy : [{
+	//	path: "/r/*",
+	//	target: "http://www.12301.local",
+	//	host: "www.12301.local"
+	//}]
 });
 var Http = app.app;
+var ceateRespones = function(code,data,msg){
+	var code = code || 0;
+	var data = data || {};
+	var msg = msg || "";
+	return JSON.stringify({
+		code : code,
+		data : data,
+		msg : msg
+	})
+}
 
+//图片上传
 Http.post("/upload",function(req,res){
 	var result = JSON.stringify({
 		code : 200,
@@ -63,7 +74,15 @@ Http.post("/upload",function(req,res){
 	setTimeout(function(){
 		res.end('<script>var FileuploadCallbacks=window.parent.FileuploadCallbacks[1];for(var i in FileuploadCallbacks) FileuploadCallbacks[i]('+result+');</script>')
 	},1000)
-})
+});
+//保存提交数据
+Http.post("/r/publish_prod_info/submit",function(req,res){
+	setTimeout(function(){
+		res.end(ceateRespones(200))
+	},1000)
+});
+
+
 
 app.listen(PORT,"localhost",function(error){
 	console.log(error);

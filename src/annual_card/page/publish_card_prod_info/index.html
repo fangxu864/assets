@@ -30,7 +30,7 @@
                     <label for="">产品(卡)名称：</label>
                 </div>
                 <div class="rt">
-                    <input type="text" class="bigInp textInp" placeholder="请输入产品（卡）名称"/>
+                    <input id="prodNameInp" type="text" class="bigInp textInp" placeholder="请输入产品（卡）名称"/>
                     <span class="tip">*必填项</span>
                 </div>
             </div>
@@ -50,7 +50,7 @@
             <div class="line">
                 <div class="lt"></div>
                 <div class="rt">
-                    <input type="text" class="bigInp textInp addrInp" placeholder="请输入详细地址"/>
+                    <input id="addrInp" type="text" class="bigInp textInp addrInp" placeholder="请输入详细地址"/>
                     <span class="tip">*必填项</span>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                     <label for="">联系电话：</label>
                 </div>
                 <div class="rt">
-                    <input type="text"class="bigInp textInp mobileInp" placeholder="请输入联系电话"/>
+                    <input id="mobileInp" type="text"class="bigInp textInp mobileInp" placeholder="请输入联系电话"/>
                     <span class="tip">*请填写正确格式手机号</span>
                 </div>
             </div>
@@ -78,10 +78,11 @@
                 </div>
                 <div class="rt">
                     <div>
-                        <textarea style="padding-top:5px" name="" id="" cols="98" rows="10"></textarea>
+                        <textarea style="padding-top:5px" name="" class="infoTextarea" id="infoTextarea" cols="98" rows="10"></textarea>
                     </div>
+                    <p class="tip">*必填项</p>
                     <div>
-                        <a href="javascript:;" class="btn btn-3x btn-blue" id="submitInfoBtn">保存，下一步</a>
+                        <a href="javascript:void(0);" class="btn btn-3x btn-blue" id="submitInfoBtn">保存，下一步</a>
                     </div>
                 </div>
             </div>

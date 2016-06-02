@@ -6,7 +6,7 @@
 @import "../../css/style.css";
 
 /*架构UI*/
-.cardContainer{width:798px;border:1px solid #e5e5e5; margin:0 auto; background:white;}
+.cardContainer{width:798px;border:1px solid #e5e5e5; margin:0 auto; background:white; padding-bottom:100px;}
 .info{ margin-bottom:30px; border-bottom:1px solid #e5e5e5;}
 .info span{ display:inline-block;width:398px; cursor:pointer;
     height:28px;line-height:28px;text-align:center;background:#e5e5e5;color:white;}
@@ -102,6 +102,9 @@ h1.entry{ line-height:56px; font-size:24px;}
 .enCard>a{margin-left:144px;}
 .enCard span.numChild{ font-size:24px; color:#3dba3f;}
 .enCard span.numP{ font-size:24px;}
+
+#submitInfoBtn{ margin-top:30px;}
+
 
 /* 图片上传成功后，图片的显示Box */
 .uploadPhotoBox{ width:300px; height:197px; background:#fafafa; border:1px solid #dbdbdb; padding:7px; margin-top:5px; overflow:hidden}
