@@ -1,7 +1,15 @@
-.annual{ height:94px;padding:0 20px; background:#bfe7f8; overflow:hidden;}
-.annual p{ font-size:14px; line-height:40px; margin-bottom:4px;}
-.annual ul li{ float:left;width:200px; position:relative; margin-right:8px;}
-.annual ul li .name{width:200px;height:22px;line-height:22px;padding:3px 0;}
-.annual ul li .passCard{ border:1px solid white; background:transparent;}
-.annual ul li i{top:9px;right:6px;}
-.annual ul li a.btn-add{line-height:26px;}
+@import "COMMON/css/base/core";
+.headContainer{ background:#bfe7f8}
+.headContainer .packageName{ padding-left:30px; font-size:22px; padding-top:15px;}
+.pckTitListUl{ padding-left:25px; background:#bfe7f8; overflow:hidden;}
+.pckTitListUl p{ font-size:14px; line-height:40px; margin-bottom:4px;}
+.pckTitListUl .pckTitListUlItem{ float:left; position:relative; width:238px; line-height:30px; margin:0 8px 8px 0;}
+.pckTitListUl .pckTitListUlItem .name{ display:block; height:30px; line-height:30px; padding:0 5px; border:1px solid #fff; overflow:hidden}
+.pckTitListUl .pckTitListUlItem input,.pckTitListUl .pckTitListUlItem .removeBtn{ display:none;}
+
+//
+//
+//.annual ul li .name{border:1px solid $colorBorder; background:white;}
+//.annual ul li .passCard{ border:1px solid white; background:transparent;}
+//.annual ul li i{top:9px;right:6px;}
+//.annual .addPckBtn{line-height:26px;}

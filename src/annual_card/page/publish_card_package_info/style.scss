@@ -4,6 +4,7 @@
  * Description: ""
  */
 @import "../../css/style.css";
+@import "COMMON/css/base/core";
 /*架构UI*/
 .cardContainer{width:798px;border:1px solid #e5e5e5; margin:0 auto; background:white;}
 .info{border-bottom:1px solid #e5e5e5;}
@@ -32,8 +33,6 @@
 .cardImg .img{width:160px; height:96px; float:left; border:1px solid #797979;}
 .cardImg span{ float:right; width:220px;color:#92a0ab;}
 .cardLim{height:33px;}
-
-
 
 .phone{ margin:2px 0 34px 0;}
 .phone>div{margin-bottom:10px;}
