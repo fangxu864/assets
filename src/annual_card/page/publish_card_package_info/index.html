@@ -27,9 +27,13 @@
         <div class="annual">
             <p>三亚先行年卡</p>
             <ul>
-                <li><input type="text" class="name" value="套餐名称"/><i class="btn-cancle">×</i></li>
-                <li><input type="text" class="name passCard" value="年卡套餐一"/></li>
-                <li><a href="javascript:;" class="btn-add">＋</a></li>
+                <li><span type="text" class="name">套餐名称<i class="btn-cancle">×</i></span></li>
+                <li><span type="text" class="passCard">年卡套餐一</span></li>
+                <li><span type="text" class="passCard">年卡套餐一</span></li>
+                <li><span type="text" class="passCard">年卡套餐一</span></li>
+                <li><span type="text" class="passCard">年卡套餐一</span></li>
+                <li><span type="text" class="passCard">年卡套餐一</span></li>
+                <li><a href="javascript:;" class="btn-add" id="addBtn">＋</a></li>
             </ul>
         </div>
         <div class="line">
@@ -64,20 +68,20 @@
                 <div class="rt">
                     <div class="cardImg">
                         <div class="cardRadio">
-                            <label for="">
-                                <input type="radio" name="period" checked/>卡片售出后
-                                <input type="text" class="smaInp"/> 个月有效
+                            <input type="radio" name="period" checked id="period"/>
+                            <label for="period">
+                                卡片售出后 <input type="text" class="smaInp"/> 个月有效
                             </label>
                         </div>
                         <div class="cardRadio">
-                            <label for="">
-                                <input type="radio" name="period"/>卡片激活后
-                                <input type="text"class="smaInp"/> 个月有效
+                            <input type="radio" name="period" id="period2"/>
+                            <label for="period2">
+                                卡片激活后 <input type="text"class="smaInp"/> 个月有效
                             </label>
                         </div>
                         <div class="cardRadio">
-                            <label for="">
-                                <input type="radio" name="period"/>
+                            <input type="radio" name="period" id="period3"/>
+                            <label for="period3">
                                 <input type="text"class="laydate-icon" onclick="laydate()"/> -
                                 <input type="text"class="laydate-icon" onclick="laydate()"/> 有效
                             </label>
@@ -94,10 +98,12 @@
                         <div class="cardRadio">
                             会员卡售出 <input type="text" class="smaInp"/> 后自动激活（仍需提供手机号后使用卡片）</div>
                         <div>
-                            <label for=""><input type="checkbox"/> 需填写身份证号</label>
+                            <input type="checkbox" id="IDnum"/>
+                            <label for="IDnum">需填写身份证号</label>
                         </div>
-                        <label for=""><input type="radio"/> 所有可用</label>
-                        <label for=""><input type="radio"/>
+                        <input type="radio" id="IDnum1" name="active" checked/><label for="IDnum1"> 所有可用</label>
+                        <input type="radio" id="IDnum2" name="active"/>
+                        <label for="IDnum2">
                             身份证号前5位，仅限 <input type="text"class="smaInp"/>
                         </label>
                         <a href="javascript:;" class="btn-add">＋</a>
@@ -110,9 +116,9 @@
                 </div>
                 <div class="rt">
                     <div class="cardLim float-left line-30">
-                        <label for=""><input type="checkbox" checked/>卡号（实体卡/虚拟卡）</label>
-                        <label for=""><input type="checkbox" disabled/>身份证</label>
-                        <label for=""><input type="checkbox" disabled/>手机号</label>
+                        <input type="checkbox" checked id="IDnum3"/><label for="IDnum3"> 卡号（实体卡/虚拟卡）</label>
+                        <input type="checkbox" id="IDnum4"/><label for="IDnum4"> 身份证</label>
+                        <input type="checkbox" id="IDnum5"/><label for="IDnum5"> 手机号</label>
                     </div>
                     <span class="font-gray">持卡会员购票</span>
                 </div>
@@ -149,10 +155,10 @@
                 </div>
                 <div class="rt phone">
                     <div>供应商手机号 <input type="text" class="laydate-icon"></div>
-                    <div><label for=""><input type="checkbox" checked/>激活成功，短信通知供应商</label></div>
-                    <div><label for=""><input type="checkbox" checked/>激活成功，短信通知持卡会员</label></div>
-                    <div><label for=""><input type="checkbox"/>预定成功，短信通知供应商</label></div>
-                    <div><label for=""><input type="checkbox"/>预定成功，短信通知购卡会员</label></div>
+                    <div><input type="checkbox" checked id="suc0"/><label for="suc0"> 激活成功，短信通知供应商</label></div>
+                    <div><input type="checkbox" checked id="suc1"/><label for="suc1"> 激活成功，短信通知持卡会员</label></div>
+                    <div><input type="checkbox" id="suc2"/><label for="suc2"> 预定成功，短信通知供应商</label></div>
+                    <div><input type="checkbox" id="suc3"/><label for="suc3"> 预定成功，短信通知购卡会员</label></div>
                 </div>
             </div>
             <div class="power border-y">
@@ -175,12 +181,12 @@
                         </div>
                         <div class="rt">
                             <div class="float-left">
-                                <label for=""><input type="radio"/> 不限总次数</label>
-                                <label for=""><input type="radio"/> 共 <input type="text"class="smaInp"/> 次</label>
+                                <input type="radio" id="times0" checked name="time"/><label for="times0"> 不限总次数</label>
+                                <input type="radio" id="times1" name="time"/><label for="times1"> 共 <input type="text" class="smaInp"> 次</label>
                             </div>
                             <div class="float-left">
-                                <label for=""><input type="radio"/> <input type="text"class="smaInp"/> 次/日</label>
-                                <label for=""><input type="radio"/> <input type="text"class="smaInp"/> 次/月</label>
+                                <input type="radio" id="times2" checked name="times"/><label for="times2"><input type="text"class="smaInp"> 次/日</label>
+                                <input type="radio" id="times3" name="times"/><label for="times3"><input type="text"class="smaInp"> 次/月</label>
                             </div>
                         </div>
                     </div>
@@ -204,12 +210,12 @@
                         </div>
                         <div class="rt">
                             <div class="float-left">
-                                <label for=""><input type="radio"/> 不限总次数</label>
-                                <label for=""><input type="radio"/> 共 <input type="text" class="smaInp"> 次</label>
+                                <input type="radio" id="times0" checked name="time"/><label for="times0"> 不限总次数</label>
+                                <input type="radio" id="times1" name="time"/><label for="times1"> 共 <input type="text" class="smaInp"> 次</label>
                             </div>
                             <div class="float-left">
-                                <label for=""><input type="radio"/> <input type="text"class="smaInp"> 次/日</label>
-                                <label for=""><input type="radio"/> <input type="text"class="smaInp"> 次/月</label>
+                                <input type="radio" id="times2" checked name="times"/><label for="times2"><input type="text"class="smaInp"> 次/日</label>
+                                <input type="radio" id="times3" name="times"/><label for="times3"><input type="text"class="smaInp"> 次/月</label>
                             </div>
                         </div>
                     </div>
@@ -218,10 +224,10 @@
             </div>
             <div class="line">
                 <div class="lt">
-                    <label for="" style="font-size:12px;"><input type="radio" checked name="fabu"/>发布</label>
+                    <label for="fa1" style="font-size:12px;"><input type="radio" checked name="fabu" id="fa1"/> 发布</label>
                 </div>
                 <div class="rt">
-                    <label for="" class="line-35"><input type="radio" name="fabu"/>放入仓库</label>
+                    <label for="fa2" class="line-35"><input type="radio" name="fabu" id="fa2"/> 放入仓库</label>
                 </div>
             </div>
             <div class="line">

@@ -4,6 +4,7 @@
  * Description: ""
  */
 @import "../../css/style.css";
+@import "COMMON/css/base/core";
 /*架构UI*/
 .cardContainer{width:798px;border:1px solid #e5e5e5; margin:0 auto; background:white;}
 .info{border-bottom:1px solid #e5e5e5;}
@@ -33,10 +34,11 @@
 .cardImg span{ float:right; width:220px;color:#92a0ab;}
 .cardLim{height:33px;}
 
-.annual{ height:94px;padding:0 20px; background:#bfe7f8; overflow:hidden;}
+.annual{padding:0 20px; background:#bfe7f8; overflow:hidden;}
 .annual p{ font-size:14px; line-height:40px; margin-bottom:4px;}
-.annual ul li{ float:left;width:200px; position:relative; margin-right:8px;}
-.annual ul li .name{width:200px;height:22px;line-height:22px;padding:3px 0;}
+.annual ul li{ float:left; position:relative; margin:0 8px 8px 0;}
+.annual ul li span{display:inline-block;width:238px;height:22px;line-height:22px;padding:3px 0 3px 4px;}
+.annual ul li .name{border:1px solid $colorBorder; background:white;}
 .annual ul li .passCard{ border:1px solid white; background:transparent;}
 .annual ul li i{top:9px;right:6px;}
 .annual ul li a.btn-add{line-height:26px;}
