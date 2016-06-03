@@ -7,24 +7,13 @@
 
 // font相关
 //-----------------------------------------------------	
-$fontSize:                       14px !default; 
+$fontSize:                       12px !default;
 $fontLineHeight:                 1.5 !default;
 $fontFamily:                     "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif !default;
 // ios华文黑体,Android 4.0之后,Android 4.0之前
 $fontCn:                         STHeiTi, Roboto, "Droid Sans Fallback", Arial !default; 
 // ios4.0+,ios4.0-,Android 4.0+,Android 4.0-
 $fontEn:                         "Helvetica Neue", Helvetica, Roboto, "Droid Sans", Arial !default; 
-
-
-// 背景色，文本色，边框色，链接色
-//-----------------------------------------------------	
-$colorText:                      #333 !default;
-$colorBg:                        #fff !default;
-$colorBorder:                    #dbdbdb !default;
-$colorLink:                      #08c !default;
-$colorPlaceholder:               #999 !default; // input placeholder color
-$colorDisabled:                  (text: #999, bg: #e3e3e3, border: #dbdbdb) !default; // textColor bgColor borderColor
-$colorOverlay:                   rgba(0,0,0,.7) !default; // 遮罩层颜色
 
 
 // 基本颜色
@@ -34,33 +23,27 @@ $colorOverlay:                   rgba(0,0,0,.7) !default; // 遮罩层颜色
 // opacity($color, $amount)
 // mix($color1, $color2[, $amount])
 //-----------------------------------------------------	
-$color3:                          #333;
-$color6:                          #666;
-$color9:                          #999;
-$colorC:                          #ccc;
-$colorF:                          #f5f5f5;
+$blue:                            #258cc9 !default;
+$orange:                          #f5530c !default;
+$red:                             #e12424 !default;
+$green:                           #3eba40 !default;
+$gay:                             #808080 !default;
+$colorBorder:                     #dbdbdb !default;
 
-$blue:                            #0074d9 !default;
-$orange:                          #fe9455 !default;
-$red:                             #ff4136 !default;
-$primary:                         #188eee !default;
+//按钮默认宽度高度
+$btnWidth:                        80 !default;
+$btnHeight:                       34 !default;
 
-
-// 元素上下间距
-//-----------------------------------------------------	
-$gap:                             20px !default;
-
-
-// header,footer等的高度
-//-----------------------------------------------------	
-$barHeight:                       44px !default;
+//form表单各元素
+$inputTextWidth:                  180 !default;
+$inputTextHeight:                 22 !default;
+$inputPadding:                    6 !default;
 
 
 // radius
 //-----------------------------------------------------	
 $radiusBase:                      5px !default;
 $radiusSmall:                     3px !default;
-
 
 // z-index
 //-----------------------------------------------------	

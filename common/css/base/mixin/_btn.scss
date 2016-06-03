@@ -1,0 +1,40 @@
+%btn-basic {
+    vertical-align: middle;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    white-space: nowrap;
+}
+
+@mixin btn($bgColor:$blue,$textColor:#fff,$radius:0){
+    background-color:$bgColor;
+    color:$textColor;
+    border-radius:$radius+px;
+    &:hover,&:active{
+        background-color:darken($bgColor,5%);
+        text-decoration:none;
+    }
+}
+
+@mixin btn-inline-block($width:$btnWidth,$height:$btnHeight,$bgColor:$blue,$textColor:#fff,$radius:0){
+    @extend %btn-basic;
+    display:inline-block;
+    width:$width+px;
+    height:$height+px;
+    line-height:$height+px;
+    @include btn($bgColor,$textColor,$radius);
+}
+@mixin btn-inline($padding,$lineheight:$btnHeight,$bgColor:$blue,$textColor:#fff,$radius:0){
+    @extend %btn-basic;
+    display:inline;
+    line-height:$lineheight+px;
+    @include btn($bgColor,$textColor,$radius);
+}
+@mixin btn-block($width:$btnWidth,$height:$btnHeight,$bgColor:$blue,$textColor:#fff,$radius:0){
+    @extend %btn-basic;
+    display:block;
+    width:$width+px;
+    height:$height+px;
+    line-height:$height+px;
+    @include btn($bgColor,$textColor,$radius);
+}
