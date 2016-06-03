@@ -11,7 +11,10 @@ var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
 		"focus .textInp" : "onTextInpFocus",
-		"blur .textInp" : "onTextInpBlur"
+		"blur .textInp" : "onTextInpBlur",
+		"focus .infoTextarea" : "onTextInpFocus",
+		"blur .infoTextarea" : "onTextInpBlur",
+		"click #submitInfoBtn" : "onSubmitBtnClick"
 	},
 	initialize : function(){
 		var that = this;
@@ -19,12 +22,8 @@ var MainView = Backbone.View.extend({
 			data : AllCitys,
 			provId : "#provSelect",
 			cityId : "#citySelect",
-			onProvChange : function(data){
-
-			},
-			onCityChange : function(data){
-
-			}
+			onProvChange : function(data){},
+			onCityChange : function(data){}
 		})
 
 		this.fileupload = new Fileupload({
@@ -52,9 +51,10 @@ var MainView = Backbone.View.extend({
 				container = $('<div id="uploadPhotoBox" class="uploadPhotoBox"></div>');
 				$("#imgUploadBox").parent().append(container);
 			}
-			container.html('<table><tr><td><img src="'+src+'" alt=""/></td></tr></table>');
+			container.html('<table><tr><td><img id="uploadPhotoImg" src="'+src+'" alt=""/></td></tr></table>');
+			PFT.Util.STip("success",'<p style="width:200px">上传成功</p>');
 		}else{
-
+			PFT.Util.STip("fail",'<p style="width:200px">'+msg+'</p>');
 		}
 	},
 	onTextInpFocus : function(e){
@@ -69,6 +69,65 @@ var MainView = Backbone.View.extend({
 		if(tarInp.hasClass("mobileInp") && !PFT.Util.Validate.typePhone(val)){
 			parent.addClass("error");
 		}
+	},
+	onSubmitBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		if(tarBtn.hasClass("disable")) return false;
+		var prodNameInp = $("#prodNameInp");
+		var addrInp = $("#addrInp");
+		var mobileInp = $("#mobileInp");
+		var infoTextarea = $("#infoTextarea");
+		var prodName = $.trim(prodNameInp.val());
+		var addr = $.trim(addrInp.val());
+		var mobile = $.trim(mobileInp.val());
+		var info = $.trim(infoTextarea.val());
+		var area = this.select.getVal();
+		var province = area.prov;
+		var city = area.city;
+		var uploadPhoto = $("#uploadPhotoImg").attr("src");
+		return this.submit({
+			name : prodName,
+			addr : addr,
+			mobile : mobile,
+			info : info,
+			province : province,
+			city : city,
+			thumb_src : uploadPhoto
+		});
+		if(!prodName) return prodNameInp.parents(".line").addClass("error");
+		if(!addr) return addrInp.parents(".line").addClass("error");
+		if(!mobile) return mobileInp.parents(".line").addClass("error");
+		if(!info) return infoTextarea.parents(".line").addClass("error");
+		if(!uploadPhoto) return alert("请上传一张预览图");
+		this.submit({
+			name : prodName,
+			addr : addr,
+			mobile : mobile,
+			info : info,
+			province : province,
+			city : city,
+			thumb_src : uploadPhoto
+		})
+	},
+	submit : function(params){
+		PFT.Util.Ajax("/r/publish_prod_info/submit",{
+			type : "post",
+			dataType : "json",
+			params : {},
+			loading : function(){},
+			complete : function(){},
+			success : function(res){
+				var res = res || {};
+				var code = res.code;
+				var data = res.data || {};
+				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				if(code==200){
+					PFT.Util.STip("success",'<p style="width:200px">保存成功</p>');
+				}else{
+					alert(msg);
+				}
+			}
+		})
 	}
 });
 

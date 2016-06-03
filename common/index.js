@@ -16,5 +16,5 @@ PFT.Util.Promise = require("./js/util.promise");
 PFT.Util.STip = require("./js/util.simple.tip");
 PFT.Config.Api = require("./js/config.api");
 
-PFT.AJAX_ERROR_TEXT = "请求出错，请稍后重试";
-PFT.AJAX_TIMEOUT_TEXT = "请求超时，请稍后重试";
+PFT.AJAX_ERROR_TEXT = "璇锋眰鍑洪敊锛岃绋嶅悗閲嶈瘯";
+PFT.AJAX_TIMEOUT_TEXT = "璇锋眰瓒呮椂锛岃绋嶅悗閲嶈瘯";
