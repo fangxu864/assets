@@ -44,7 +44,7 @@
 .btn-cancle{position:absolute;width:14px;height:14px;border-radius:7px;display:inline-block;
     line-height:14px;text-align:center;background:#f07845;color:white;font-size:14px;cursor:pointer;}
 .btn-add,.btn-del{font-size:30px;font-weight:bolder;}
-.btn-del:link{color:orange;}
+.btn-del:link{color:red;}
 .font-gray{color:#92a0ab;}
 .font-blue{color:#0797d9;}
 .font-red{ color:red;}
