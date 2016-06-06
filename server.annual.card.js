@@ -21,7 +21,9 @@ var entry = {
 	"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
 	"publish_card_fill_order" : ["./src/annual_card/page/publish_card_fill_order/index.js"],
 	"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"],
-	"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"]
+	"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"],
+	"publish_card_membercard_manage" : ["./src/annual_card/page/publish_card_membercard_manage/index.js"],
+	"publish_card_activate" : ["./src/annual_card/page/publish_card_activate/index.js"]
 };
 for(var i in entry){
 	var en = entry[i];
