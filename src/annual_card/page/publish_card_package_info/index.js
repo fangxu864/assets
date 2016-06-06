@@ -39,7 +39,7 @@ var MainView = Backbone.View.extend({
 	onSubmitBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
-		
+
 	}
 });
 
