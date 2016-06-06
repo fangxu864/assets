@@ -23,7 +23,9 @@ var entry = {
 	"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"],
 	"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"],
 	"publish_card_membercard_manage" : ["./src/annual_card/page/publish_card_membercard_manage/index.js"],
-	"publish_card_activate" : ["./src/annual_card/page/publish_card_activate/index.js"]
+	"publish_card_activate" : ["./src/annual_card/page/publish_card_activate/index.js"],
+	"publish_card_sell" : ["./src/annual_card/page/publish_card_sell/index.js"],
+	"publish_card_stock_details" : ["./src/annual_card/page/publish_card_stock_details/index.js"]
 };
 for(var i in entry){
 	var en = entry[i];
