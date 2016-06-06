@@ -14,6 +14,9 @@
 .info span:first-of-type{border-right:1px solid #e5e5e5;}
 .info span:last-of-type{border-left:1px solid #e5e5e5;}
 
+#infoManagerContainer{ width:100%; overflow:hidden}
+#infoManagerContainer .slideUl{ position:relative; overflow:hidden}
+#infoManagerContainer .slideItem{ float:left; width:798px}
 .line{ margin:20px 32px; overflow:hidden;}
 .line .lt{float:left; width:116px; height:35px;line-height:35px;font-size:14px;}
 .line .rt{float:left;}

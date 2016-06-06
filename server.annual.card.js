@@ -42,7 +42,7 @@ var config = require("./config")({
 });
 //启动服务
 var app = new WebpackDevServer(webpack(config),{
-	hot : true,
+	hot : false,
 	historyApiFallback: true
 	//,proxy : [{
 	//	path: "/r/*",
@@ -81,6 +81,26 @@ Http.post("/r/publish_prod_info/submit",function(req,res){
 		res.end(ceateRespones(200))
 	},1000)
 });
+
+//发布产品-套餐页-获取产品内的套餐列表
+Http.get("/r/publish_prod_package/fetch_list",function(req,res){
+	setTimeout(function(){
+		res.end(ceateRespones(200,{
+			"1" : {
+				"id" : "1",
+				"name" : "测试套餐名111"
+			},
+			"2" : {
+				"id" : "2",
+				"name" : "测试套餐名222"
+			},
+			"3" : {
+				"id" : "3",
+				"name" : "测试套餐名333"
+			}
+		}))
+	},1000)
+})
 
 
 

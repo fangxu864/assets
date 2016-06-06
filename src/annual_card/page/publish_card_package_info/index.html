@@ -24,276 +24,51 @@
         <div class="info">
             <span class="">1.产品信息</span><span class="active">2.套餐信息</span>
         </div>
-        <div id="headContainer" class="annual headContainer">
-            <p>三亚先行年卡</p>
-            <ul>
-                <li><span type="text" class="name">套餐名称<i class="btn-cancle">×</i></span></li>
-                <li><span type="text" class="passCard">年卡套餐一</span></li>
-                <li><span type="text" class="passCard">年卡套餐一</span></li>
-                <li><span type="text" class="passCard">年卡套餐一</span></li>
-                <li><span type="text" class="passCard">年卡套餐一</span></li>
-                <li><span type="text" class="passCard">年卡套餐一</span></li>
-                <li><a href="javascript:;" class="btn-add" id="addBtn">＋</a></li>
-            </ul>
+
+        <div id="headContainer" class="annual headContainer"></div>
+
+        <div id="infoManagerContainer" class="infoManagerContainer">
+            <ul id="slideUl" class="slideUl"></ul>
         </div>
+
         <div class="line">
-            <div class="time">
-                <p class="font-gray">预定时间段</p>
-                <input type="text"class="laydate-icon" onclick="laydate()"/> -
-                <input type="text"class="laydate-icon" onclick="laydate()"/>
-            </div>
-            <div class="time">
-                <p class="font-gray">供货价</p><input type="text" class="midInp"/>
-            </div>
-            <div class="time">
-                <p class="font-gray">零售价</p><input type="text" class="midInp"/>
-            </div>
-            <div class="time">
-                <p class="font-gray">门市价</p><input type="text" class="midInp"/>
-            </div>
-        </div>
-        <form action="">
-            <div class="line">
-                <div class="lt">
-                    <label for="">产品说明：</label>
-                </div>
-                <div class="rt">
-                    <input type="text" class="bigInp"/>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">使用有效期：</label>
-                </div>
-                <div class="rt">
-                    <div class="cardImg">
-                        <div class="cardRadio">
-                            <input type="radio" name="period" checked id="period"/>
-                            <label for="period">
-                                卡片售出后 <input type="text" class="smaInp"/> 个月有效
-                            </label>
-                        </div>
-                        <div class="cardRadio">
-                            <input type="radio" name="period" id="period2"/>
-                            <label for="period2">
-                                卡片激活后 <input type="text"class="smaInp"/> 个月有效
-                            </label>
-                        </div>
-                        <div class="cardRadio">
-                            <input type="radio" name="period" id="period3"/>
-                            <label for="period3">
-                                <input type="text"class="laydate-icon" onclick="laydate()"/> -
-                                <input type="text"class="laydate-icon" onclick="laydate()"/> 有效
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">激活限制：</label>
-                </div>
-                <div class="rt">
-                    <div class="cardImg">
-                        <div class="cardRadio">
-                            会员卡售出 <input type="text" class="smaInp"/> 后自动激活（仍需提供手机号后使用卡片）</div>
-                        <div>
-                            <input type="checkbox" id="IDnum"/>
-                            <label for="IDnum">需填写身份证号</label>
-                        </div>
-                        <input type="radio" id="IDnum1" name="active" checked/><label for="IDnum1"> 所有可用</label>
-                        <input type="radio" id="IDnum2" name="active"/>
-                        <label for="IDnum2">
-                            身份证号前5位，仅限 <input type="text"class="smaInp"/>
-                        </label>
-                        <a href="javascript:;" class="btn-add">＋</a>
-                    </div>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">购票限制：</label>
-                </div>
-                <div class="rt">
-                    <div class="cardLim float-left line-30">
-                        <input type="checkbox" checked id="IDnum3"/><label for="IDnum3"> 卡号（实体卡/虚拟卡）</label>
-                        <input type="checkbox" id="IDnum4"/><label for="IDnum4"> 身份证</label>
-                        <input type="checkbox" id="IDnum5"/><label for="IDnum5"> 手机号</label>
-                    </div>
-                    <span class="font-gray">持卡会员购票</span>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">退单限制：</label>
-                </div>
-                <div class="rt">
-                    <p style="line-height:35px;">不可退</p>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">使用说明：</label>
-                </div>
-                <div class="rt">
-                    <textarea name="" id="" rows="3" style="width:420px;"></textarea>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">会员分组：</label>
-                </div>
-                <div class="rt">
-                    <select class="bigSel">
-                        <option value="技术组"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">信息通知配置：</label>
-                </div>
-                <div class="rt phone">
-                    <div>供应商手机号 <input type="text" class="laydate-icon"></div>
-                    <div><input type="checkbox" checked id="suc0"/><label for="suc0"> 激活成功，短信通知供应商</label></div>
-                    <div><input type="checkbox" checked id="suc1"/><label for="suc1"> 激活成功，短信通知持卡会员</label></div>
-                    <div><input type="checkbox" id="suc2"/><label for="suc2"> 预定成功，短信通知供应商</label></div>
-                    <div><input type="checkbox" id="suc3"/><label for="suc3"> 预定成功，短信通知购卡会员</label></div>
-                </div>
-            </div>
-            <div class="power border-y">
-                <p class="tao">套餐特权<span class="font-gray tip">（设置免费使用的权限，现场购票不受该条件影响）</span></p>
-            </div>
-            <div class="product border-bottom">
-                <div class="float-left">
-                    <div class="line">
-                        <div class="lt">
-                            <label for="">产品：</label>
-                        </div>
-                        <div class="rt">
-                            <span>XXXXXXXXXX景区-成人票</span>
-                            <a href="javascript:;" class="btn btn-s btn-border btn-sel">选择</a>
-                        </div>
-                    </div>
-                    <div class="line">
-                        <div class="lt">
-                            <label for="">使用规则：</label>
-                        </div>
-                        <div class="rt">
-                            <div class="float-left">
-                                <input type="radio" id="times0" checked name="time"/><label for="times0"> 不限总次数</label>
-                                <input type="radio" id="times1" name="time"/><label for="times1"> 共 <input type="text" class="smaInp"> 次</label>
-                            </div>
-                            <div class="float-left">
-                                <input type="radio" id="times2" checked name="times"/><label for="times2"><input type="text"class="smaInp"> 次/日</label>
-                                <input type="radio" id="times3" name="times"/><label for="times3"><input type="text"class="smaInp"> 次/月</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="float-right border-left"><a href="javascript:;" class="btn-add">＋</a></div>
-            </div>
-            <div class="product border-bottom">
-                <div class="float-left">
-                    <div class="line">
-                        <div class="lt">
-                            <label for="">产品：</label>
-                        </div>
-                        <div class="rt">
-                            <span>XXXXXXXXXX景区-成人票</span>
-                            <a href="javascript:;" class="btn btn-s btn-border btn-sel">选择</a>
-                        </div>
-                    </div>
-                    <div class="line">
-                        <div class="lt">
-                            <label for="">使用规则：</label>
-                        </div>
-                        <div class="rt">
-                            <div class="float-left">
-                                <input type="radio" id="times0" checked name="time"/><label for="times0"> 不限总次数</label>
-                                <input type="radio" id="times1" name="time"/><label for="times1"> 共 <input type="text" class="smaInp"> 次</label>
-                            </div>
-                            <div class="float-left">
-                                <input type="radio" id="times2" checked name="times"/><label for="times2"><input type="text"class="smaInp"> 次/日</label>
-                                <input type="radio" id="times3" name="times"/><label for="times3"><input type="text"class="smaInp"> 次/月</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="float-right border-left"><a href="javascript:;" class="btn-del">×</a></div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="fa1" style="font-size:12px;"><input type="radio" checked name="fabu" id="fa1"/> 发布</label>
-                </div>
-                <div class="rt">
-                    <label for="fa2" class="line-35"><input type="radio" name="fabu" id="fa2"/> 放入仓库</label>
-                </div>
-            </div>
-            <div class="line">
-                <a href="javascript:;" class="btn btn-3x btn-blue" id="saveBtn">保存</a>
-            </div>
-        </form>
-    </div>
-    <div class="cardSave border">
-        <p>保存成功！</p>
-        <p>目前库存：0 ，如需添加请录入卡片。</p>
-        <div class="btn-box">
-            <a href="javascript:;" class="btn btn-2x btn-blue">关闭</a>
-            <a href="javascript:;" class="btn btn-2x btn-border">录入卡片</a>
+            <a href="javascript:void(0);" class="btn btn-3x btn-blue" id="saveBtn">保存</a>
         </div>
     </div>
-    <div class="proSel border">
-        <div class="proBox border-bottom">
-            <div class="lp float-left border-right">
-                <input type="text" class="midInp"/>
-                <ul>
-                    <li>XXXXXXXXXX景区</li>
-                    <li class="active">XXXXXXX景区</li>
-                    <li>XXXXXXX景区</li>
-                </ul>
-            </div>
-            <div class="rp float-left">
-                <div>
-                    <label for=""><input type="radio" checked name="taocan"/>年卡套餐一</label>
-                </div>
-                <div>
-                    <label for=""><input type="radio" name="taocan"/>年卡套餐二</label>
-                </div>
-            </div>
-        </div>
-        <div class="btn-box">
-            <a href="javascript:;" class="btn btn-2x btn-blue">确定</a>
-            <a href="javascript:;" class="btn btn-2x btn-border">取消</a>
-        </div>
-    </div>
+    <!--<div class="cardSave border">-->
+        <!--<p>保存成功！</p>-->
+        <!--<p>目前库存：0 ，如需添加请录入卡片。</p>-->
+        <!--<div class="btn-box">-->
+            <!--<a href="javascript:;" class="btn btn-2x btn-blue">关闭</a>-->
+            <!--<a href="javascript:;" class="btn btn-2x btn-border">录入卡片</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="proSel border">-->
+        <!--<div class="proBox border-bottom">-->
+            <!--<div class="lp float-left border-right">-->
+                <!--<input type="text" class="midInp"/>-->
+                <!--<ul>-->
+                    <!--<li>XXXXXXXXXX景区</li>-->
+                    <!--<li class="active">XXXXXXX景区</li>-->
+                    <!--<li>XXXXXXX景区</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="rp float-left">-->
+                <!--<div>-->
+                    <!--<label for=""><input type="radio" checked name="taocan"/>年卡套餐一</label>-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<label for=""><input type="radio" name="taocan"/>年卡套餐二</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="btn-box">-->
+            <!--<a href="javascript:;" class="btn btn-2x btn-blue">确定</a>-->
+            <!--<a href="javascript:;" class="btn btn-2x btn-border">取消</a>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_package_info/all.js"></script>
-
-    <script>
-        $(".proSel,.cardSave").hide();
-        $(".btn-sel").toggle(function(){
-            $(".proSel").show();
-        },function(){
-            $(".proSel").hide();
-        })
-        $(".btn-box a").click(function(){
-            $(".proSel").hide();
-        })
-        $("#saveBtn").toggle(function(){
-            $(".cardSave").show();
-        },function(){
-            $(".cardSave").hide();
-        })
-        $(".btn-box a").click(function(){
-            $(".cardSave").hide();
-        })
-    </script>
-
-
-
-
-
 
 
 </body>
