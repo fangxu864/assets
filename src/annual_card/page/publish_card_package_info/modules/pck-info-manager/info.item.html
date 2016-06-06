@@ -5,8 +5,8 @@
     <div class="line">
         <div class="time">
             <p class="font-gray">预定时间段</p>
-            <input type="text"class="laydate-icon"/> -
-            <input type="text"class="laydate-icon"/>
+            <input readonly type="text" class="laydate-icon datePickerInp begin"/> -
+            <input readonly type="text" class="laydate-icon datePickerInp end"/>
         </div>
         <div class="time">
             <p class="font-gray">供货价</p><input type="text" class="midInp"/>
@@ -47,8 +47,8 @@
                 <div class="cardRadio">
                     <input type="radio" name="period" id="period3"/>
                     <label for="period3">
-                        <input type="text"class="laydate-icon" onclick="laydate()"/> -
-                        <input type="text"class="laydate-icon" onclick="laydate()"/> 有效
+                        <input type="text" class="laydate-icon datePickerInp begin"/> -
+                        <input type="text" class="laydate-icon datePickerInp end"/> 有效
                     </label>
                 </div>
             </div>
@@ -130,35 +130,6 @@
         <p class="tao">套餐特权<span class="font-gray tip">（设置免费使用的权限，现场购票不受该条件影响）</span>
             <a href="javascript:;" class="btn-add">＋</a>
         </p>
-    </div>
-    <div class="product border-bottom">
-        <div class="float-left">
-            <div class="line">
-                <div class="lt">
-                    <label for="">产品：</label>
-                </div>
-                <div class="rt">
-                    <span>XXXXXXXXXX景区-成人票</span>
-                    <a href="javascript:;" class="btn btn-s btn-border btn-sel">选择</a>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">使用规则：</label>
-                </div>
-                <div class="rt">
-                    <div class="float-left">
-                        <input type="radio" id="times0" checked name="time"/><label for="times0"> 不限总次数</label>
-                        <input type="radio" id="times1" name="time"/><label for="times1"> 共 <input type="text" class="smaInp"> 次</label>
-                    </div>
-                    <div class="float-left">
-                        <input type="radio" id="times2" checked name="times"/><label for="times2"><input type="text"class="smaInp"> 次/日</label>
-                        <input type="radio" id="times3" name="times"/><label for="times3"><input type="text"class="smaInp"> 次/月</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="float-right border-left"><a href="javascript:;" class="btn-del">×</a></div>
     </div>
     <div class="product border-bottom">
         <div class="float-left">

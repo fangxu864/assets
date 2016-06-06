@@ -4,13 +4,21 @@
  * Description: ""
  */
 var infoItem_tpl = require("./info.item.html");
+var Calendar = require("COMMON/modules/calendar");
 var InfoManager = Backbone.View.extend({
 	el : $("#slideUl"),
+	events : {
+		"focus .datePickerInp" : "onDatePickerInpFocus"
+	},
 	template : _.template(infoItem_tpl),
 	initialize : function(){
 		var that = this;
 		this.itemWidth = $("#infoManagerContainer").width();
 		this.model.on("ready",this.initList,this);
+
+		this.Calendar = new Calendar();
+
+
 	},
 	//获取套餐列表，初始化slide item
 	initList : function(res){
@@ -28,6 +36,15 @@ var InfoManager = Backbone.View.extend({
 		}
 		this.$el.html(html).css({position:"relative"});
 		this.refreshSlide()
+	},
+	onDatePickerInpFocus : function(e){
+		var calendar = this.Calendar;
+		var tarInp = $(e.currentTarget);
+		var date = tarInp.val() || "2016-06-03";
+		calendar.show(date,{
+			picker : tarInp,
+			top : 1
+		})
 	},
 	//新增一个套餐详情
 	createItem : function(id){
@@ -47,13 +64,6 @@ var InfoManager = Backbone.View.extend({
 		this.$el.animate({left : -1 * tarItem.index() * width},300,function(){
 			callback && callback();
 		})
-	},
-	renderInfoItem : function(data){
-
-	},
-	//获取某个套餐的详细字段信息
-	getInfoParams : function(pckId){
-
 	},
 	refreshSlide : function(callback){
 		var items = this.$el.children();
