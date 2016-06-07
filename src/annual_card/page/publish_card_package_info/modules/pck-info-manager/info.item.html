@@ -1,7 +1,8 @@
 <!-- Author: huangzhiyang -->
 <!-- Date: 2016/6/6 14:21 -->
 <!-- Description: huangzhiyang -->
-<li id="slideItem_<%=id%>" class="slideItem">
+<li id="slideItem_<%=data.id%>" class="slideItem">
+    <% var itemId = data.id %>
     <div class="line">
         <div class="time">
             <p class="font-gray">预定时间段</p>
@@ -61,17 +62,19 @@
         <div class="rt">
             <div class="cardImg">
                 <div class="cardRadio">
-                    会员卡售出 <input type="text" class="smaInp"/> 后自动激活（仍需提供手机号后使用卡片）</div>
+                    会员卡售出 <input type="text" class="smaInp"/> 天后自动激活（仍需提供手机号后使用卡片）</div>
                 <div>
                     <input type="checkbox" id="IDnum"/>
                     <label for="IDnum">需填写身份证号</label>
                 </div>
-                <input type="radio" id="IDnum1" name="active" checked/><label for="IDnum1"> 所有可用</label>
-                <input type="radio" id="IDnum2" name="active"/>
-                <label for="IDnum2">
-                    身份证号前5位，仅限 <input type="text"class="smaInp"/>
-                </label>
-                <a href="javascript:;" class="btn-add">＋</a>
+                <div style="display:none">
+                    <input type="radio" id="IDnum1" name="active" checked/><label for="IDnum1"> 所有可用</label>
+                    <input type="radio" id="IDnum2" name="active"/>
+                    <label for="IDnum2">
+                        身份证号前5位，仅限 <input type="text"class="smaInp"/>
+                    </label>
+                    <a href="javascript:;" class="btn-add">＋</a>
+                </div>
             </div>
         </div>
     </div>
@@ -81,11 +84,11 @@
         </div>
         <div class="rt">
             <div class="cardLim float-left line-30">
-                <input type="checkbox" checked id="IDnum3"/><label for="IDnum3"> 卡号（实体卡/虚拟卡）</label>
-                <input type="checkbox" id="IDnum4"/><label for="IDnum4"> 身份证</label>
+                <input type="checkbox" checked id="IDnum3"/><label style="margin-right:10px" for="IDnum3"> 卡号（实体卡/虚拟卡）</label>
+                <input type="checkbox" id="IDnum4"/><label style="margin-right:10px" for="IDnum4"> 身份证</label>
                 <input type="checkbox" id="IDnum5"/><label for="IDnum5"> 手机号</label>
             </div>
-            <span class="font-gray">持卡会员购票</span>
+            <span style="position:relative; top:10px;" class="font-gray">持卡会员购票</span>
         </div>
     </div>
     <div class="line">
@@ -106,16 +109,6 @@
     </div>
     <div class="line">
         <div class="lt">
-            <label for="">会员分组：</label>
-        </div>
-        <div class="rt">
-            <select class="bigSel">
-                <option value="技术组"></option>
-            </select>
-        </div>
-    </div>
-    <div class="line">
-        <div class="lt">
             <label for="">信息通知配置：</label>
         </div>
         <div class="rt phone">
@@ -126,39 +119,56 @@
             <div><input type="checkbox" id="suc3"/><label for="suc3"> 预定成功，短信通知购卡会员</label></div>
         </div>
     </div>
-    <div class="power border-y">
-        <p class="tao">套餐特权<span class="font-gray tip">（设置免费使用的权限，现场购票不受该条件影响）</span>
-            <a href="javascript:;" class="btn-add">＋</a>
-        </p>
-    </div>
-    <div class="product border-bottom">
-        <div class="float-left">
-            <div class="line">
-                <div class="lt">
-                    <label for="">产品：</label>
-                </div>
-                <div class="rt">
-                    <span>XXXXXXXXXX景区-成人票</span>
-                    <a href="javascript:;" class="btn btn-s btn-border btn-sel">选择</a>
-                </div>
-            </div>
-            <div class="line">
-                <div class="lt">
-                    <label for="">使用规则：</label>
-                </div>
-                <div class="rt">
-                    <div class="float-left">
-                        <input type="radio" id="times0" checked name="time"/><label for="times0"> 不限总次数</label>
-                        <input type="radio" id="times1" name="time"/><label for="times1"> 共 <input type="text" class="smaInp"> 次</label>
-                    </div>
-                    <div class="float-left">
-                        <input type="radio" id="times2" checked name="times"/><label for="times2"><input type="text"class="smaInp"> 次/日</label>
-                        <input type="radio" id="times3" name="times"/><label for="times3"><input type="text"class="smaInp"> 次/月</label>
-                    </div>
-                </div>
-            </div>
+    <div id="pckRightContainer_<%=data.id%>" class="pckRightContainer">
+        <div class="power border-y">
+            <p class="tao">套餐特权<span class="font-gray tip">（设置免费使用的权限，现场购票不受该条件影响）</span>
+                <a id="addPckRightBtn_<%=data.id%>"class="btn-add addPckRightBtn" href="javascript:void(0);" >＋</a>
+            </p>
         </div>
-        <div class="float-right border-left"><a href="javascript:;" class="btn-del">×</a></div>
+        <ul id="pckRightListUl_<%=data.id%>" class="pckRightListUl">
+            <% _.each(data.privilege,function(priv){ %>
+                <% var product=priv.product; %>
+                <% var ticket=priv.ticket; %>
+                <% var product_id=product.id; %>
+                <% var ticket_id=ticket.id; %>
+                <% var rule=priv.rule; %>
+                <li id="pckRightItem_<%=product_id%>" data-productid="<%=product_id%>" data-ticketid="<%=ticket_id%>" class="product border-bottom pckRightItem pckRightItem_<%=product.id%>">
+                    <div class="float-left">
+                        <div class="line">
+                            <div class="lt">
+                                <label for="">产品：</label>
+                            </div>
+                            <div class="rt">
+                                <span><%=product.name%>-<%=ticket.name%></span>
+                                <a href="javascript:;" class="btn btn-s btn-border btn-sel selectProd_picker">选择</a>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="lt">
+                                <label for="">使用规则：</label>
+                            </div>
+                            <div class="rt">
+                                <div class="float-left">
+                                    <input type="radio" id="useTimeRadio_total_<%=itemId%>_<%=product_id%>_<%=ticket_id%>" checked name="useTimeRadio_<%=itemId%>_<%=product_id%>_<%=ticket_id%>"/>
+                                    <label for="useTimeRadio_total_<%=itemId%>_<%=product_id%>_<%=ticket_id%>">不限总次数</label>
+                                </div>
+                                <div class="float-left">
+                                    <input type="radio" id="useTimeRadio_day_<%=itemId%>_<%=product_id%>_<%=ticket_id%>" name="useTimeRadio_<%=itemId%>_<%=product_id%>_<%=ticket_id%>"/>
+                                    <label for="useTimeRadio_day_<%=itemId%>_<%=product_id%>_<%=ticket_id%>"><input type="text"class="smaInp"> 次/日</label>
+                                </div>
+                                <div class="float-left">
+                                    <input type="radio" id="useTimeRadio_month_<%=itemId%>_<%=product_id%>_<%=ticket_id%>" name="useTimeRadio_<%=itemId%>_<%=product_id%>_<%=ticket_id%>"/>
+                                    <label for="useTimeRadio_month_<%=itemId%>_<%=product_id%>_<%=ticket_id%>"><input type="text"class="smaInp"> 次/月</label>
+                                </div>
+                                <input type="checkbox" id="useTimeCheckbox_total_<%=itemId%>_<%=product_id%>_<%=ticket_id%>" name="time"/>
+                                <label for="useTimeCheckbox_total_<%=itemId%>_<%=product_id%>_<%=ticket_id%>"> 共 <input type="text" class="smaInp"> 次</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="float-right border-left"><a href="javascript:;" class="btn-del deleteProdBtn">×</a></div>
+                </li>
+            <% }) %>
+        </ul>
     </div>
     <div class="line">
         <div class="lt">

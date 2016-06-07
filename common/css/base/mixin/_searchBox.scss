@@ -1,0 +1,48 @@
+%boxShadow{
+  box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -o-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+}
+@mixin searchBox($width:200,$padding:(top:7,bottom:7,left:30,right:30)){
+    $pl : map-get($padding,left);
+    $pr : map-get($padding,right);
+    $pt : map-get($padding,top);
+    $pb : map-get($padding,bottom);
+    position:relative;
+    width:$width+$pl+$pr+px;
+    border:1px solid #dbdbdb;
+    @extend %boxShadow;
+    input[type=text]{
+        display:block;
+        width:$width+px;
+        height:22px;
+        line-height:22px;
+        text-indent:0;
+        padding : $pt+px $pr+px $pb+px $pl+px;
+        border:0 none;
+    }
+    input[type=text]:focus{
+        color:$orange;
+    }
+    .iconfont.search{
+        position:absolute;
+        left:8px;
+        top:9px;
+        font-size:16px;
+        color:#bfbfbf;
+        line-height:1;
+    }
+    .clearSearchBtn{
+        display:none;
+        position:absolute;
+        right:8px;
+        top:3px;
+        cursor:pointer;
+    }
+    .clearSearchBtn .iconfont{
+        font-size:17px;
+        color:#bfbfbf;
+    }
+}
