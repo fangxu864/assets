@@ -21,6 +21,9 @@ var ProdSelect = Backbone.View.extend({
 	ticketCache : {},
 	ticketTemplate : _.template(ticket_item_tpl),
 	prodTemplate : _.template(prod_item_tpl),
+	pckId : "",
+	prodId : "",
+	ticId : "",
 	initialize : function(){
 		var that = this;
 		this.mask = $("#prodSelectMask");
@@ -66,10 +69,25 @@ var ProdSelect = Backbone.View.extend({
 	onBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("yes")){
-			this.trigger("")
-		}else{
-			this.close();
+			var prod = this.prodListUl.children(".active");
+			var ticRadio = this.ticketListUl.find("input[type=radio][name=prodSelect_ticketRadio]:checked");
+			var prodId = prod.attr("data-prodid");
+			var prodName = prod.find(".t").text();
+			var ticId = ticRadio.attr("data-ticid");
+			var ticName = ticRadio.parent().find(".t").text();
+			if(prodId && ticId){
+				this.trigger("select",{
+					pckId : this.pckId,
+					prodId_old : this.prodId,
+					ticId_old : this.ticId,
+					prodId_new : prodId,
+					prodName_new : prodName,
+					ticId_new : ticId,
+					ticName_new : ticName
+				},this);
+			}
 		}
+		this.close();
 	},
 	onSearchInpChange : function(e){
 		var tarInp = $(e.currentTarget);
@@ -108,7 +126,7 @@ var ProdSelect = Backbone.View.extend({
 	//点击产品item，请求该产品对应的票类 (引入缓存)
 	onProdItemClick : function(e){
 		var tarItem = $(e.currentTarget);
-		var prod_id = tarItem.attr("data-id");
+		var prod_id = tarItem.attr("data-prodid");
 		if(prod_id){
 			var cache = this.ticketCache[prod_id];
 			if(cache){ //如果已经请求过并缓存起来了
@@ -171,7 +189,10 @@ var ProdSelect = Backbone.View.extend({
 		}
 		this.ticketListUl.html(html);
 	},
-	open : function(prodId,ticketId){
+	open : function(pckId,prodId,ticId){
+		this.pckId = pckId;
+		this.prodId = prodId;
+		this.ticId = ticId;
 		this.mask.show();
 		this.$el.show();
 		if(this.prodCache) return false;

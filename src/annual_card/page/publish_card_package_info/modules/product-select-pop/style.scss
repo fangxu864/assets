@@ -22,4 +22,5 @@
 .prodListUl .prodItem.active{background:#258cc9; color:white;}
 .ticketListUl{ margin:60px 0 0 26px;}
 .ticketListUl .ticketItem{ line-height:30px;}
-.prodSelectPopBox .loading,.prodSelectPopBox.empty{ height:150px; line-height:150px; text-align:center;}
+.prodSelectPopBox .status.loading,.prodSelectPopBox .status.empty{ height:150px; line-height:150px; text-align:center;}
+.prodSelectPopBox .ticketListUl .status.loading,.prodSelectPopBox .ticketListUl .status.empty{ height:50px; line-height:50px; text-align:left;}

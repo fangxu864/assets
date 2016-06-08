@@ -4,6 +4,7 @@
  * Description: ""
  */
 var infoItem_tpl = require("./info.item.html");
+var rightsItem_tpl = require("./pck.right.item.tpl");
 var Calendar = require("COMMON/modules/calendar");
 var ProdSelectPop = require("../product-select-pop");
 var InfoManager = Backbone.View.extend({
@@ -15,6 +16,7 @@ var InfoManager = Backbone.View.extend({
 		"click .addPckRightBtn" : "onAddPckRightBtnClick"
 	},
 	template : _.template(infoItem_tpl),
+	rightsTemplate : _.template(rightsItem_tpl),
 	initialize : function(){
 		var that = this;
 		this.itemWidth = $("#infoManagerContainer").width();
@@ -23,6 +25,47 @@ var InfoManager = Backbone.View.extend({
 		this.Calendar = new Calendar();
 
 		this.ProdSelectPop = new ProdSelectPop({model:this.model});
+		this.ProdSelectPop.on("select",function(data){
+			console.log(data);
+			var pckId = data.pckId;
+			var prodId_old = data.prodId_old;
+			var ticId_old = data.ticId_old;
+			var prodId_new = data.prodId_new;
+			var ticId_new = data.ticId_new;
+			var prodName_new = data.prodName_new;
+			var ticName_new = data.ticName_new;
+			if(!prodId_old && !ticId_old){//新建
+				var prodItem = $("#pckRightItem_"+pckId+"_"+prodId_new+"_"+ticId_new);
+				if(prodItem.length>0) return alert("此产品已存在");
+				var html = that.renderPckRightList(pckId,[{
+					product : {
+						id : prodId_new,
+						name : prodName_new
+					},
+					ticket : {
+						id : ticId_new,
+						name : ticName_new
+					},
+					rule : {}
+				}]);
+				$("#pckRightListUl_"+pckId).append(html);
+			}else{//修改
+				var prodItem = $("#pckRightItem_"+pckId+"_"+prodId_old+"_"+ticId_old);
+				if(prodId_new==prodId_old && ticId_new==ticId_old) return false;
+				var html = that.renderPckRightList(pckId,[{
+					product : {
+						id : prodId_new,
+						name : prodName_new
+					},
+					ticket : {
+						id : ticId_new,
+						name : ticName_new
+					},
+					rule : {}
+				}]);
+
+			}
+		})
 
 	},
 	//获取套餐列表，初始化slide item
@@ -37,10 +80,13 @@ var InfoManager = Backbone.View.extend({
 		var itemCount = 0;
 		for(var i in data){
 			itemCount++;
-			html += template({data:data[i]});
+			var d = data[i];
+			var privilege = d.privilege;
+			d["privilege"] = this.renderPckRightList(i,privilege);
+			html += template({data:d});
 		}
 		this.$el.html(html).css({position:"relative"});
-		this.refreshSlide()
+		this.refreshSlide();
 	},
 	onDatePickerInpFocus : function(e){
 		var calendar = this.Calendar;
@@ -54,7 +100,11 @@ var InfoManager = Backbone.View.extend({
 	//套餐特权-点击选择产品
 	onSelectProdBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
-		this.ProdSelectPop.open();
+		var pckId = tarBtn.attr("data-pckid");
+		var parent = tarBtn.parents(".pckRightItem");
+		var prodId = parent.attr("data-prodid");
+		var ticId = parent.attr("data-ticid");
+		this.ProdSelectPop.open(pckId,prodId,ticId);
 	},
 	//套餐特权-点击删除产品
 	onDelectProdBtnClick : function(e){
@@ -64,7 +114,8 @@ var InfoManager = Backbone.View.extend({
 	//套餐特权-点击新增一个产品
 	onAddPckRightBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
-		console.log(tarBtn);
+		var pckId = tarBtn.attr("data-pckid");
+		this.ProdSelectPop.open(pckId,"","");
 	},
 	//新增一个套餐详情
 	createItem : function(id){
@@ -91,6 +142,13 @@ var InfoManager = Backbone.View.extend({
 		var count = items.length;
 		this.$el.width(width*count);
 		callback && callback(items,width,count);
+	},
+	/**
+	 * 渲染某个套餐的特权模块
+	 * @param rights []
+	 */
+	renderPckRightList : function(pckId,rights){
+		return this.rightsTemplate({pckId:pckId,privilege:rights});
 	}
 });
 module.exports = InfoManager;
