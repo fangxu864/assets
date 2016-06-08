@@ -35,27 +35,40 @@
         </div>
         <form action="" class="entry_form">
             <a href="javascript:;" class="btn btn-5x btn-border" id="btn-guan">关联实体卡</a>
-            <table class="table border" style="margin:16px 0">
-                <tr>
-                    <td>虚拟卡号</td>
-                    <td>实体卡卡号（卡面号码）</td>
-                    <td>物理ID</td>
-                    <td>操作</td>
-                </tr>
-                <tr>
-                    <td>HZ1225555</td>
-                    <td>4545345454556555 </td>
-                    <td>4556553</td>
-                    <td><a href="javascript:;">删除</a></td>
-                </tr>
-                <tr>
-                    <td>HZ1225555</td>
-                    <td>4545345454556555 </td>
-                    <td>4556553</td>
-                    <td><a href="javascript:;">删除</a></td>
-                </tr>
+            <table class="enTable border">
+                <thead>
+                    <tr>
+                        <th>虚拟卡号</th>
+                        <th>实体卡卡号（卡面号码）</th>
+                        <th>物理ID</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
+                </tbody>
             </table>
-            <p><span class="font-red">注</span>:无实体卡的会员，即通过会员号使用，计入虚拟卡库存</p>
+            <div class="pageBox">
+                <a class="btn preBtn" href="javascript:void(0);" id="pre">
+                    <i class="iconfont">&#xe60c;</i>
+                </a>
+                <span style="margin:0 10px;">1/2</span>
+                <a class="btn nextBtn" href="javascript:void(0);" id="next">
+                    <i class="iconfont">&#xe60d;</i>
+                </a>
+            </div>
+            <p class="tip"><span class="font-red">注</span>:无实体卡的会员，即通过会员号使用，计入虚拟卡库存</p>
             <div class="btn-entry">
                 <a href="javascript:;" class="btn btn-5x btn-blue" id="delCard">确定,发卡</a>
                 <a href="javascript:;" class="btn btn-5x btn-border">清空重置</a>
@@ -68,7 +81,8 @@
             <h2 class="font-red">已存在</h2>
         </div>
         <div class="enCard">
-            <span>已关联实体卡:<span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>
+            <span>已关联实体卡:
+                <span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>
             <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
         </div>
     </div>

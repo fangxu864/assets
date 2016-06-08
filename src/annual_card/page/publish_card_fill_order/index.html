@@ -23,7 +23,7 @@
     <div class="cardContainer border">
         <p class="entry">三亚先行年卡</p>
         <ul class="cardnumBox border-top">
-           <li class="border">
+            <li class="border">
                <p>虚拟卡号：445565</p>
                <p>实体卡号：555555555</p>
                <p>物理ID：555655</p>
@@ -35,27 +35,31 @@
             </li>
         </ul>
         <table class="fillTable">
-            <tr>
-                <td>票类名称</td>
-                <td>产品库存</td>
-                <td>结算价</td>
-                <td>退票手续费</td>
-                <td>预定数量</td>
-                <td>小计</td>
-            </tr>
-            <tr>
-                <td>
-                    <p>年卡套餐1</p>
-                    <p>包含：</p>
-                    <p>XXXXXX 景区成人票 共50张 限使用2次/日</p>
-                    <p>XXXXXX 景区成人票 共50张 限使用2次/日</p>
-                </td>
-                <td>15</td>
-                <td>￥123</td>
-                <td>不可退</td>
-                <td>1</td>
-                <td class="font-red">￥123</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>票类名称</th>
+                    <th>产品库存</th>
+                    <th>结算价</th>
+                    <th>退票手续费</th>
+                    <th>预定数量</th>
+                    <th>小计</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>年卡套餐1</p>
+                        <p>包含：</p>
+                        <p>XXXXXX 景区成人票 共50张 限使用2次/日</p>
+                        <p>XXXXXX 景区成人票 共50张 限使用2次/日</p>
+                    </td>
+                    <td>15</td>
+                    <td>￥123</td>
+                    <td>不可退</td>
+                    <td>1</td>
+                    <td class="font-red">￥123</td>
+                </tr>
+            </tbody>
         </table>
         <form action="" class="fillForm">
             <div class="fillLine">
@@ -88,21 +92,13 @@
                 <div class="fl">支付方式：</div>
             </div>
             <div class="fillLine">
-                <div class="fl">
-                    <label for="pay1"><input type="radio" name="payway" id="pay1"/>授信余额：</label>
-                </div>
-                <div class="fr">152元</div>
+                <label for="pay1"><input type="radio" name="payway" id="pay1" checked/>授信余额：<span class="balance">152元</span></label>
             </div>
             <div class="fillLine">
-                <div class="fl">
-                    <label for="pay2"><input type="radio" name="payway" id="pay2"/>账户余额：</label>
-                </div>
-                <div class="fr">152元</div>
+                <label for="pay2"><input type="radio" name="payway" id="pay2"/>账户余额：<span class="balance">152元</span></label>
             </div>
             <div class="fillLine">
-                <div class="fl">
-                    <label for="pay3"><input type="radio" name="payway" id="pay3"/>在线支付</label>
-                </div>
+                <label for="pay3"><input type="radio" name="payway" id="pay3"/>在线支付</label>
             </div>
         </form>
         <div class="submitBox">

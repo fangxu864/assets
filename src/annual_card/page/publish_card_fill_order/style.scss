@@ -4,23 +4,25 @@
  * Description: ""
  */
 @import "../../css/style.css";
+@import "COMMON/css/base/core";
 /*架构UI*/
-input[type=radio],input[type=checkbox]{vertical-align:middle;}
-input[type=text]{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text-indent:10px;}
 .cardContainer{width:998px;margin:0 auto; background:white;}
 .entry{ line-height:56px; font-size:22px;text-indent:24px;background:white;}
-.cardnumBox{ height:120px;overflow:hidden;}
-.cardnumBox li{ float:left;margin:18px 0 0 14px;width:180px; height:70px;
+.cardnumBox{overflow:hidden; padding:10px;}
+.cardnumBox li{ float:left;margin:6px;width:173px; height:70px;
                 padding:10px 0 0 6px;background:#f5f5f5;border-radius:8px;}
 .fillTable{ width:100%;background:#bfe7f8;}
-.fillTable tr:first-of-type{background:#0797d9;line-height:35px;color:white;}
-.fillTable tr td:first-of-type{ text-indent:22px;}
-.fillTable tr:last-of-type{ padding-top:10px;height:86px;}
+.fillTable thead{background:#0797d9;line-height:35px;color:white;}
+.fillTable tr td:first-of-type,.fillTable tr th:first-of-type{ text-indent:22px;}
+.fillTable tbody{ padding-top:10px;}
+.fillTable tbody tr{height:86px;}
 .fillForm{padding:22px 0 0 22px;}
 .fillLine{overflow:hidden;margin-bottom:10px;}
-.fillLine .fl{ float:left;width:96px;height:30px;}
+.fillLine .fl{ float:left;width:96px;height:30px; line-height:30px;}
+.fillLine input[type=radio]{vertical-align:middle;}
 .fillLine .fr{ float:left;}
-.fillLine .fr .fillInp{width:248px;height:22px; line-height:22px;padding:4px 0;}
+.fillLine .fr .fillInp{@include textInp(248,4)}
+.fillLine .balance{ margin-left:22px;}
 .fillLine.error .tip{color:red;}
 .submitBox{width:998px; height:44px; background:#e5e5e5;}
 .orderPrice{display:inline-block;float:left; line-height:44px;margin-left:760px;}
@@ -32,7 +34,7 @@ input[type=text]{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,
 .memberBox{width:466px;height:304px;position:fixed;top:50%;left:50%;padding:0 26px;
            margin:-152px 0 0 -259px; background:white;}
 .memP{line-height:106px; font-size:14px;}
-.memTable{ width:464px; height:64px; background:#f5f5f5;}
+.memTable{ width:464px; background:#f5f5f5;}
 .memTable tr td:first-of-type{ text-indent:10px;}
 .memberBox .btnBox{ overflow:hidden;}
 .memberBox .btnBox a{ float:right; margin:70px 0 0 10px; height:30px;line-height:30px; padding:0 32px;}

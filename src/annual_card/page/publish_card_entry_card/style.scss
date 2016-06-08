@@ -5,89 +5,18 @@
  */
 @import "../../css/style.css";
 /*架构UI*/
-input[type=text],select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text-indent:10px;}
+input[type=text],select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); padding-left:6px;}
 .cardContainer{width:798px;border:1px solid #e5e5e5; margin:0 auto; background:white;}
-.info{border-bottom:1px solid #e5e5e5;}
-.info span{ display:inline-block;width:398px; cursor:pointer;
-    height:28px;line-height:28px;text-align:center;background:#e5e5e5;color:white;}
-.info span.active{background:#3dba3f;}
-.info span:first-of-type{border-right:1px solid #e5e5e5;}
-.info span:last-of-type{border-left:1px solid #e5e5e5;}
-
-.line{ margin:20px 32px; overflow:hidden;}
-.line .lt{float:left; width:116px; height:35px;line-height:35px;font-size:14px;}
-.line .rt{float:left;}
-.line .rt .file{ margin:0 10px 10px 0;}
-.line .smaSel:last-of-type{ margin-left:3px;}
-.line .tip{margin-left:10px;color:gray;}
-.line.error .tip{color:red;}
-.line .time{ float:left; margin-right:20px;}
-.line .time p{ line-height:32px;}
-.line .cardImg label{ margin-right:10px;}
-.line .cardImg a.btn-add{ vertical-align:sub;}
-.uesArea{ width:420px; text-indent:10px;}
-.cardRadio{margin-bottom:10px;}
-#save{margin:24px 0 108px 0;}
-#saveBtn{ margin:0 0 23px 295px;}
-.cardImg,.cardLim{width:400px;height:100px; background:#f5f5f5; padding:10px; overflow:hidden; margin-right:10px;}
-.cardImg .img{width:160px; height:96px; float:left; border:1px solid #797979;}
-.cardImg span{ float:right; width:220px;color:#92a0ab;}
-.cardLim{height:33px;}
-
-.annual{ height:94px;padding:0 20px; background:#bfe7f8; overflow:hidden;}
-.annual p{ font-size:14px; line-height:40px; margin-bottom:4px;}
-.annual ul li{ float:left;width:200px; position:relative; margin-right:8px;}
-.annual ul li .name{width:200px;height:28px;}
-.annual ul li .passCard{ border:1px solid white; background:transparent;}
-.annual ul li i{top:9px;right:6px;}
-.annual ul li a.btn-add{line-height:26px;}
-
-.phone{ margin:2px 0 34px 0;}
-.phone>div{margin-bottom:10px;}
-
-.power .tao{ font-size:16px; padding-left:32px; line-height:50px;background:#f5f5f5;}
-.power .tao .tip{ font-size:12px;}
-
-.product{overflow:hidden; height:88px;}
-.product .line{ margin:0 32px;}
-.product .line:first-of-type{ margin-top:8px;}
-.product .btn-s{ margin-left:20px;}
-.product .rt .float-left label{ margin-right:20px;}
-.product .line .float-left{ background:#f5f5f5; margin-right:20px; padding:4px 10px;}
-.product>div.float-right{ padding-top:20px; height:70px; width:30px;}
-.product .btn-del{margin-left:4px;}
-
-.proSel{ width:598px;height:338px;background:white;
-    position:fixed;left:50%; top:50%; z-index:5; margin-left:-300px; margin-top:-169px;}
-.proBox{overflow:hidden;height:292px;}
-.proBox .lp{width:299px;height:260px; padding:16px 0;}
-.proBox input[type=text]{ width:260px; margin-left:16px;}
-.proBox ul li{ text-indent:16px; line-height:32px;}
-.proBox ul li.active{ color:white; background:#0797d9;}
-.proBox .rp{width:200px; padding:50px 0 0 26px;}
-.proBox .rp>div{ margin-bottom:10px;}
-.proBox .rp i.btn-cancle{ top:10px; right:10px;}
-.proSel .btn-box{width:598px; height:45px; background:#f5f5f5;}
-.btn-box{ overflow:hidden;}
-.btn-box a{ float:right; margin:5px;}
-.btn-box a:first-of-type:link{ color:white;}
-.cardSave{width:500px; height:200px;background:white;position:fixed;left:50%; top:50%;
-    z-index:5; margin-left:-250px; margin-top:-100px;}
-.cardSave p{text-align:center; font-size:14px; line-height:40px;}
-.cardSave p:first-of-type{ color:#3dba3f; margin-top:30px;}
-.cardSave .btn-box a{ margin-top:46px;}
-
 .entry{ line-height:56px; font-size:24px; margin-left:24px;}
 .cardPro{ background:#bfe7f8; height:50px;padding:14px 0 0 24px;}
 .cardPro select{ margin-right:30px;}
 .cardPro a:link{ color:white;}
 .cardPro a.btn-blue{border:0 none; margin-left:30px;}
-
 .entry_form{padding:12px 24px;}
 .btn-entry{ margin:20px 0 20px 235px;}
 .btn-entry a:first-of-type:link,.enCard a:link{ color:white;}
 .btn-entry a{ margin-right:20px;}
-
+.smaSel{ width:302px;}
 .charge{width:500px; height:256px;background:white;position:fixed;left:50%; top:50%;
     z-index:5; margin-left:-250px; margin-top:-128px;}
 .cha{height:140px;text-align:center; padding-top:60px;}
@@ -101,12 +30,21 @@ input[type=text],select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba
 .enCard>a{margin-left:84px;}
 .enCard span.numChild{ font-size:24px; color:#3dba3f;}
 .enCard span.numP{ font-size:24px;}
-
-.clearList{width:300px;height:160px;background:white;position:fixed;
-           left:50%;top:50%;margin-left:-150px; margin-top:-80px;}
+.clearList{width:300px;height:160px;background:white;position:fixed; left:50%;top:50%;margin-left:-150px; margin-top:-80px;}
 .clearList .clearP{ line-height:112px; text-align:center;}
 .clearList .yesNo{margin-left:130px;}
 .clearList .yesNo a{ width:74px;height:32px; line-height:32px;}
+
+.enTable{ width:100%; line-height:34px; margin-top:16px;}
+.enTable thead{ background:#e5e5e5;}
+.enTable tr td:first-of-type,.enTable tr th:first-of-type{ text-indent:24px;}
+.pageBox{ height:28px; padding:9px 10px; font-size:14px;border:1px #e5e5e5 solid;
+  border-top:none;}
+.pageBox a{ width:78px; height:28px; line-height:28px; border-radius:14px; font-weight:bolder; font-size:larger;}
+.pageBox a:link{ color:#92a0ab;}
+.preBtn{background:#bfe7f8; margin-left:520px;}
+.nextBtn{ background:#e5e5e5;}
+.tip{ line-height:28px;}
 /**/
 
 
