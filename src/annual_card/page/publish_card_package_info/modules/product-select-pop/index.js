@@ -108,6 +108,7 @@ var ProdSelect = Backbone.View.extend({
 	//点击产品item，请求该产品对应的票类 (引入缓存)
 	onProdItemClick : function(e){
 		var tarItem = $(e.currentTarget);
+		tarItem.addClass("active").siblings("li").removeClass("active");
 		var prod_id = tarItem.attr("data-id");
 		if(prod_id){
 			var cache = this.ticketCache[prod_id];

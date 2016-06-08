@@ -18,3 +18,8 @@
 .prodSelectPopContainer .pop-btn.yes{ background:$blue; color:#fff}
 .prodSelectPopContainer .pop-btn.yes:hover{ background:darken($blue,5%); border-color:darken($blue,5%);}
 .prodSelectPopContainer .pop-btn.no{ background:none; color:$blue}
+.prodListUl .prodItem{ height:32px; line-height:32px; font-size:14px; padding-left:14px; }
+.prodListUl .prodItem.active{background:#258cc9; color:white;}
+.ticketListUl{ margin:60px 0 0 26px;}
+.ticketListUl .ticketItem{ line-height:30px;}
+.loading,.empty{text-align:center;}
