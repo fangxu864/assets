@@ -5,10 +5,14 @@
  */
 var infoItem_tpl = require("./info.item.html");
 var Calendar = require("COMMON/modules/calendar");
+var ProdSelectPop = require("../product-select-pop");
 var InfoManager = Backbone.View.extend({
 	el : $("#slideUl"),
 	events : {
-		"focus .datePickerInp" : "onDatePickerInpFocus"
+		"focus .datePickerInp" : "onDatePickerInpFocus",
+		"click .selectProd_picker" : "onSelectProdBtnClick",
+		"click .deleteProdBtn" : "onDelectProdBtnClick",
+		"click .addPckRightBtn" : "onAddPckRightBtnClick"
 	},
 	template : _.template(infoItem_tpl),
 	initialize : function(){
@@ -18,6 +22,7 @@ var InfoManager = Backbone.View.extend({
 
 		this.Calendar = new Calendar();
 
+		this.ProdSelectPop = new ProdSelectPop({model:this.model});
 
 	},
 	//获取套餐列表，初始化slide item
@@ -32,7 +37,7 @@ var InfoManager = Backbone.View.extend({
 		var itemCount = 0;
 		for(var i in data){
 			itemCount++;
-			html += template(data[i]);
+			html += template({data:data[i]});
 		}
 		this.$el.html(html).css({position:"relative"});
 		this.refreshSlide()
@@ -46,9 +51,24 @@ var InfoManager = Backbone.View.extend({
 			top : 1
 		})
 	},
+	//套餐特权-点击选择产品
+	onSelectProdBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		this.ProdSelectPop.open();
+	},
+	//套餐特权-点击删除产品
+	onDelectProdBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		console.log(tarBtn);
+	},
+	//套餐特权-点击新增一个产品
+	onAddPckRightBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		console.log(tarBtn);
+	},
 	//新增一个套餐详情
 	createItem : function(id){
-		var html = this.template({id:id});
+		var html = this.template({data:{id:id}});
 		this.$el.append(html);
 		this.refreshSlide();
 	},

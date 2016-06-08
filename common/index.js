@@ -6,6 +6,7 @@
 var PFT = window["PFT"] || (window["PFT"]={});
 PFT.Util = PFT.Util || {};
 PFT.Config = PFT.Config || {};
+PFT.Util.PubSub = require("./js/util.pubsub");
 PFT.Util.Ajax = require("./js/util.ajax");
 PFT.Util.Placeholder = require("./js/util.placeholder");
 PFT.Util.UrlParse = require("./js/util.url.parse.query");

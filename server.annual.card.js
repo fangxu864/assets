@@ -10,9 +10,6 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-//npm run server :                 server整个项目内的所有模块(模块多时启动会耗时一会)
-//npm run server my_project_name : server整个项目内的指定模块(my_project_name为要server的模块名)
-
 
 var entry = {
 	"publish_card_prod_info" : ["./src/annual_card/page/publish_card_prod_info/index.js"],
@@ -44,70 +41,18 @@ var config = require("./config")({
 		new webpack.HotModuleReplacementPlugin()
 	]
 });
+
 //启动服务
 var app = new WebpackDevServer(webpack(config),{
 	hot : false,
 	historyApiFallback: true
-	//,proxy : [{
-	//	path: "/r/*",
-	//	target: "http://www.12301.local",
-	//	host: "www.12301.local"
-	//}]
-});
-var Http = app.app;
-var ceateRespones = function(code,data,msg){
-	var code = code || 0;
-	var data = data || {};
-	var msg = msg || "";
-	return JSON.stringify({
-		code : code,
-		data : data,
-		msg : msg
-	})
-}
-
-//图片上传
-Http.post("/upload",function(req,res){
-	var result = JSON.stringify({
-		code : 200,
-		data : {
-			src : "https://sfault-image.b0.upaiyun.com/847/123/847123006-573551703f418_articlex"
-		},
-		msg : ""
-	});
-	setTimeout(function(){
-		res.end('<script>var FileuploadCallbacks=window.parent.FileuploadCallbacks[1];for(var i in FileuploadCallbacks) FileuploadCallbacks[i]('+result+');</script>')
-	},1000)
-});
-//保存提交数据
-Http.post("/r/publish_prod_info/submit",function(req,res){
-	setTimeout(function(){
-		res.end(ceateRespones(200))
-	},1000)
 });
 
-//发布产品-套餐页-获取产品内的套餐列表
-Http.get("/r/publish_prod_package/fetch_list",function(req,res){
-	setTimeout(function(){
-		res.end(ceateRespones(200,{
-			"1" : {
-				"id" : "1",
-				"name" : "测试套餐名111"
-			},
-			"2" : {
-				"id" : "2",
-				"name" : "测试套餐名222"
-			},
-			"3" : {
-				"id" : "3",
-				"name" : "测试套餐名333"
-			}
-		}))
-	},1000)
-})
+//模拟后端数据
+require("./src/annual_card/server_api")(app.app);
 
-
-
+//监听端口
 app.listen(PORT,"localhost",function(error){
 	console.log(error);
 });
+

@@ -53,7 +53,7 @@ var Header = Backbone.View.extend({
 	},
 	onRemoveBtnClick : function(e){
 		e.stopPropagation();
-		if(!confirm("确定要删除此套餐吗？")) return false;
+		if(!confirm("删除该卡种，关联的会员特权也一并删除，是否确定删除？")) return false;
 		var tarBtn = $(e.currentTarget);
 		var parent = tarBtn.parents(".pckTitListUlItem");
 		var id = parent.attr("data-id");
