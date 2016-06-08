@@ -26,7 +26,7 @@ var entry = {
 };
 for(var i in entry){
 	var en = entry[i];
-	en.unshift('webpack-dev-server/client?http://localhost:'+PORT, "webpack/hot/only-dev-server");
+	en.unshift('webpack-dev-server/client?http://localhost:'+PORT, "webpack/hot/dev-server");
 }
 
 var config = require("./config")({

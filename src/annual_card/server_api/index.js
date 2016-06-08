@@ -21,4 +21,7 @@ module.exports = function(Http){
 	//发布年卡产品-套餐信息页-获取产品列表
 	Http.get("/r/publish_prod_package/fetch_prod_list",require("./get.prod.list"));
 
+	//发布年卡产品-套餐信息页-获取某个产品下的票类列表
+	Http.get("/r/publish_prod_package/fetch_ticket",require("./get.ticket.list"));
+
 }
