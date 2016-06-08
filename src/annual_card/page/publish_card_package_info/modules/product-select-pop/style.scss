@@ -18,8 +18,9 @@
 .prodSelectPopContainer .pop-btn.yes{ background:$blue; color:#fff}
 .prodSelectPopContainer .pop-btn.yes:hover{ background:darken($blue,5%); border-color:darken($blue,5%);}
 .prodSelectPopContainer .pop-btn.no{ background:none; color:$blue}
+.prodListUl,.ticketListUl{height:306px; overflow:auto;}
 .prodListUl .prodItem{ height:34px; line-height:34px; font-size:14px; padding-left:17px; cursor:pointer}
 .prodListUl .prodItem.active{background:#258cc9; color:white;}
-.ticketListUl{ margin:60px 0 0 26px;}
+.ticketListUl{ margin:63px 0 0 26px;}
 .ticketListUl .ticketItem{ line-height:30px;}
-.prodSelectPopBox .loading,.prodSelectPopBox.empty{ height:150px; line-height:150px; text-align:center;}
+.prodSelectPopBox .loading,.prodSelectPopBox .empty{ height:150px; line-height:150px; text-align:center;}
