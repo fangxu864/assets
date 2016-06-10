@@ -1,0 +1,37 @@
+/**
+ * Author: huangzhiyang
+ * Date: 2016/5/30 14:47
+ * Description: ""
+ */
+@import "../../css/style.css";
+@import "COMMON/css/base/core";
+/*架构UI*/
+select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text-indent:10px;}
+.cardContainer{width:798px; border:1px solid #e5e5e5; margin:0 auto; background:white;}
+.entry{line-height:58px; font-size:22px; padding-left:24px;}
+.stockBox{ height:48px; line-height:48px; padding-left:24px; font-size:14px; overflow:hidden; background:#bfe7f8;}
+.stockBox div{ float:left;}
+.stockBox div>span{ margin-right:20px;}
+.stockBox .cardBtn{float:right; @include btn-inline-block(96,28);font-size:14px; margin:10px 24px 0 0;}
+.stockBox .cardBtn:link{ color:white;}
+.memTable{ width:100%;}
+.memTable thead{line-height:36px; background:#e5e5e5;}
+.memTable tbody tr{line-height:46px;}
+.memTable tr td:first-of-type,.memTable tr th:first-of-type{ text-indent:24px;}
+.pageBox{ height:28px; padding:9px 10px; font-size:14px;}
+.pageBox a{ width:78px; height:28px; line-height:28px; border-radius:14px; font-weight:bolder; font-size:larger;}
+.pageBox a:link{ color:#92a0ab;}
+.pageBox .bg-gray{margin-left:560px;}
+.delBox{ width:298px; height:158px; position:fixed; left:50%; top:50%; margin-left:-150px; margin-top:-80px;
+ background:white;}
+.delBox p{ font-size:14px; line-height:110px; margin-left:80px;}
+.btnBox a{ width:74px; height:33px; line-height:33px;}
+#yesBtn{ color:white;}
+.btnBox a:first-of-type{ margin-left:126px;}
+/**/
+
+//#test{
+//  @include textInp();
+//}
+
+

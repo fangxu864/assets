@@ -6,6 +6,7 @@
 var PFT = window["PFT"] || (window["PFT"]={});
 PFT.Util = PFT.Util || {};
 PFT.Config = PFT.Config || {};
+PFT.Util.PubSub = require("./js/util.pubsub");
 PFT.Util.Ajax = require("./js/util.ajax");
 PFT.Util.Placeholder = require("./js/util.placeholder");
 PFT.Util.UrlParse = require("./js/util.url.parse.query");
@@ -16,5 +17,5 @@ PFT.Util.Promise = require("./js/util.promise");
 PFT.Util.STip = require("./js/util.simple.tip");
 PFT.Config.Api = require("./js/config.api");
 
-PFT.AJAX_ERROR_TEXT = "请求出错，请稍后重试";
-PFT.AJAX_TIMEOUT_TEXT = "请求超时，请稍后重试";
+PFT.AJAX_ERROR_TEXT = "璇锋眰鍑洪敊锛岃绋嶅悗閲嶈瘯";
+PFT.AJAX_TIMEOUT_TEXT = "璇锋眰瓒呮椂锛岃绋嶅悗閲嶈瘯";

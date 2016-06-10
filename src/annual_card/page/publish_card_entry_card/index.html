@@ -1,0 +1,141 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/6/1 14:55 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>录入卡片</title>
+</head>
+<body style="padding:50px 0">
+    <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
+    <script type="text/javascript" src="http://www.12301.cc/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+
+
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_entry_card/all.css"/>
+    <div class="cardContainer">
+        <h1 class="entry">录入卡片</h1>
+        <div class="cardPro">
+            <label for="">卡产品：</label>
+            <select name="" id="" class="smaSel">
+                <option value="">三亚先行年卡-套餐一</option>
+                <option value="">三亚先行年卡-套餐二</option>
+                <option value="">三亚先行年卡-套餐三</option>
+            </select>
+            <label for="">录入数量：</label>
+            <input type="text" class="larInp"/>
+            <a href="javascript:;" class="btn btn-5x btn-blue" id="born">生成卡号</a>
+        </div>
+        <form action="" class="entry_form">
+            <a href="javascript:;" class="btn btn-5x btn-border" id="btn-guan">关联实体卡</a>
+            <table class="enTable border">
+                <thead>
+                    <tr>
+                        <th>虚拟卡号</th>
+                        <th>实体卡卡号（卡面号码）</th>
+                        <th>物理ID</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pageBox">
+                <a class="btn preBtn" href="javascript:void(0);" id="pre">
+                    <i class="iconfont">&#xe60c;</i>
+                </a>
+                <span style="margin:0 10px;">1/2</span>
+                <a class="btn nextBtn" href="javascript:void(0);" id="next">
+                    <i class="iconfont">&#xe60d;</i>
+                </a>
+            </div>
+            <p class="tip"><span class="font-red">注</span>:无实体卡的会员，即通过会员号使用，计入虚拟卡库存</p>
+            <div class="btn-entry">
+                <a href="javascript:;" class="btn btn-5x btn-blue" id="delCard">确定,发卡</a>
+                <a href="javascript:;" class="btn btn-5x btn-border">清空重置</a>
+            </div>
+        </form>
+    </div>
+    <div class="charge border" id="chaBox">
+        <div class="cha border-bottom">
+            <h1 class="entry">请刷卡！</h1>
+            <h2 class="font-red">已存在</h2>
+        </div>
+        <div class="enCard">
+            <span>已关联实体卡:
+                <span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>
+            <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
+        </div>
+    </div>
+    <div class="charge border" id="guanBox">
+        <div class="cha border-bottom">
+            <p class="font-gray line-40">物理ID:565666</p>
+            <div class="relaBox">
+                <input type="text" placeholder="请输入实体卡号（卡面号码）"class="guanInp"/>
+                <a href="javascript:;" class="btn btn-orange">关联</a>
+            </div>
+        </div>
+        <div class="enCard">
+        <span>已关联实体卡:<span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>
+        <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
+        </div>
+    </div>
+    <div class="clearList border" id="clearList">
+        <p class="clearP">确定清除会员卡列表？</p>
+        <div class="yesNo">
+            <a href="javascript:;" class="btn btn-blue" id="yesBtn">是</a>
+            <a href="javascript:;" class="btn btn-border" id="noBtn">否</a>
+        </div>
+    </div>
+    <script>
+        $("#chaBox,#guanBox,#clearList").hide();
+        $("#born").toggle(function(){
+            $("#chaBox").show();
+        },function(){
+            $("#chaBox").hide();
+        })
+        $(".btn-finish").click(function(){
+            $(".charge").hide();
+        })
+        $("#btn-guan").toggle(function(){
+            $("#guanBox").show();
+        },function(){
+            $("#guanBox").hide();
+        })
+        $("#delCard").toggle(function(){
+            $("#clearList").show();
+        },function(){
+            $("#clearList").hide();
+        })
+        $("#yesBtn,#noBtn").click(function(){
+            $("#clearList").hide();
+        })
+    </script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/6/1 14:55 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>会员卡管理</title>
+</head>
+<body style="padding:50px 0">
+    <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
+    <script type="text/javascript" src="http://www.12301.cc/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+
+
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_membercard_manage/all.css"/>
+    <div class="cardContainer">
+        <div class="manageTitle border-bottom">
+            <span class="entry">会员详情</span>
+            <a href="javascript:void(0);" class="activaCard" id="activaCard">激活卡片</a>
+        </div>
+        <div class="manageState bg-lightblue">
+            <div class="stateBox">
+                <a href="javascript:void(0);" class="cardType active" id="normal">正常(10)</a>
+                <a href="javascript:void(0);" class="cardType" id="noactiva">未激活(5)</a>
+                <a href="javascript:void(0);" class="cardType" id="report">挂失(1)</a>
+                <a href="javascript:void(0);" class="cardType" id="expired">过期(1)</a>
+                <a href="javascript:void(0);" class="cardType" id="disable">禁用(2)</a>
+            </div>
+            <div class="cardBox">
+                <select name="" id="">
+                    <option value="">发卡商户</option>
+                </select>
+                <input type="text" placeholder="虚拟卡号/实体卡号/手机号"/>
+                <a href="javascript:void(0);" class="query" id="query">查询</a>
+            </div>
+        </div>
+        <table class="memTable">
+            <thead>
+                <tr>
+                    <th>会员号</th>
+                    <th>会员手机号</th>
+                    <th>账户余额</th>
+                    <th>虚拟卡号/实体卡号</th>
+                    <th>所购套餐( 已用特权数)</th>
+                    <th>发卡商户</th>
+                    <th>激活情况</th>
+                    <th>可用优惠券</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>M55555</td>
+                    <td>15665455633</td>
+                    <td class="font-orange">56</td>
+                    <td class="dash">HZ5566/53355435353533</td>
+                    <td class="dash">三亚先行年卡套餐</td>
+                    <td class="dash">三亚先行</td>
+                    <td class="dash">终端激活</td>
+                    <td class="dash">5</td>
+                    <td class="font-blue dash">
+                        <a href="javascript:void(0);">查看</a>
+                        <a href="javascript:void(0);">充值</a>
+                        <a href="javascript:void(0);">挂失</a>
+                        <a href="javascript:void(0);">禁用</a>
+                    </td>
+                </tr>
+                <tr class="border-bottom">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>HZ5566/53355435353533</td>
+                    <td>三亚先行年卡套餐</td>
+                    <td>三亚先行</td>
+                    <td>终端激活</td>
+                    <td>5</td>
+                    <td class="font-blue">
+                        <a href="javascript:void(0);">查看</a>
+                        <a href="javascript:void(0);">充值</a>
+                        <a href="javascript:void(0);">挂失</a>
+                        <a href="javascript:void(0);">禁用</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pageBox">
+            <a class="bg-gray btn" href="javascript:void(0);">
+                <i class="iconfont">&#xe60c;</i>
+            </a>
+            <span style="margin:0 10px;">1/2</span>
+            <a class="bg-lightblue btn" href="javascript:void(0);">
+                <i class="iconfont">&#xe60d;</i>
+            </a>
+        </div>
+    </div>
+    <script>
+        $(".stateBox a").click(function(){
+            $(this).addClass("active").siblings("a").removeClass("active");
+        })
+    </script>
+
+
+
+</body>
+</html>

@@ -8,9 +8,9 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
-    <title>旅游年卡</title>
+    <title>产品信息</title>
 </head>
-<body>
+<body style="padding-top:50px">
     <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
     <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
     <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
@@ -19,10 +19,8 @@
     <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
 
 
-
-
-    <link rel="stylesheet" href="http://static.12301.local/assets/build/local/css/annual_card/all.css"/>
-    <div class="card">
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_prod_info/all.css"/>
+    <div id="cardContainer" class="cardContainer">
         <div class="info">
             <span class="active">1.产品信息</span><span class="">2.套餐信息</span>
         </div>
@@ -32,7 +30,7 @@
                     <label for="">产品(卡)名称：</label>
                 </div>
                 <div class="rt">
-                    <input type="text" class="textInp"/>
+                    <input id="prodNameInp" type="text" class="bigInp textInp" placeholder="请输入产品（卡）名称"/>
                     <span class="tip">*必填项</span>
                 </div>
             </div>
@@ -41,20 +39,19 @@
                     <label for="">地区：</label>
                 </div>
                 <div class="rt">
-                    <select name="" id="">
+                    <select name="" id="provSelect" class="smaSel provSelect">
                         <option value="--省--">--省--</option>
                     </select>
-                    <select name="" id="">
+                    <select name="" id="citySelect" class="smaSel citySelect">
                         <option value="--市--">--省--</option>
                     </select>
                 </div>
             </div>
             <div class="line">
-                <div class="lt">
-                    <label for="" style="font-size:0">d</label>
-                </div>
+                <div class="lt"></div>
                 <div class="rt">
-                    <input type="text" class="textInp" placeholder="请填写详细地址"/>
+                    <input id="addrInp" type="text" class="bigInp textInp addrInp" placeholder="请输入详细地址"/>
+                    <span class="tip">*必填项</span>
                 </div>
             </div>
             <div class="line">
@@ -62,26 +59,17 @@
                     <label for="">联系电话：</label>
                 </div>
                 <div class="rt">
-                    <input type="text" class="textInp"/>
+                    <input id="mobileInp" type="text"class="bigInp textInp mobileInp" placeholder="请输入联系电话"/>
+                    <span class="tip">*请填写正确格式手机号</span>
                 </div>
             </div>
             <div class="line">
                 <div class="lt">
                     <label for="">预览图：</label>
                 </div>
-                <div class="rt">
-                    <div>
-                        <a href="javascript:void(0);" class="file btn btn-border">选择文件
-                            <input type="file" name="" id="">
-                        </a>
-                        <a href="javascript:javascript:void(0);" class="file btn btn-green" style="color:white">上传
-                            <input type="file" name="" id="">
-                        </a>
-                    </div>
-                    <div class="cardImg">
-                        <div class="img"></div>
-                        <div><span>上传小于1M的JPG或GIF格式的图片,建议图片尺寸：宽700像素，高460像素</span></div>
-                    </div>
+                <div style="margin-top:3px;" class="rt">
+                    <div id="imgUploadBox"></div>
+                    <p style="margin-left:0; margin-top:3px;" class="tip">上传小于1M的JPG或GIF格式的图片,建议图片尺寸：宽700像素，高460像素</p>
                 </div>
             </div>
             <div class="line">
@@ -90,19 +78,18 @@
                 </div>
                 <div class="rt">
                     <div>
-                        <textarea name="" id="" cols="90" rows="10"></textarea>
+                        <textarea style="padding-top:5px" name="" class="infoTextarea" id="infoTextarea" cols="98" rows="10"></textarea>
                     </div>
+                    <p class="tip">*必填项</p>
                     <div>
-                        <input type="button" class="btn btn-blue" value="保存，下一步"/>
+                        <a href="javascript:void(0);" class="btn btn-3x btn-blue" id="submitInfoBtn">保存，下一步</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 
-
-
-
+    <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_prod_info/all.js"></script>
 
 </body>
 </html>

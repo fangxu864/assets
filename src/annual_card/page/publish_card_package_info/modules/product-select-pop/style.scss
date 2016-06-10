@@ -1,0 +1,26 @@
+@import "COMMON/css/base/core/variables";
+@import "COMMON/css/base/mixin/opacity";
+@import "COMMON/css/base/mixin/searchBox";
+#prodSelectMask{ display:none; position:fixed; z-index:100; top:0; right:0; bottom:0; left:0; width:100%; background:#000;
+    @include opacity(0.8);
+}
+.prodSelectPopContainer{ display:none; position:fixed; z-index:101; width:700px; height:420px; left:50%; top:50%; margin-left:-350px; margin-top:-250px; overflow:hidden; background:#fff;}
+.prodSelectPopContainer .searchBox{
+    @include searchBox(256);
+    margin:15px 15px 10px;
+}
+.prodSelectPopBox{ width:100%; height:370px; overflow:hidden}
+.prodSelectPopBox .pBox{ width:50%; height:100%; float:left;}
+.prodSelectPopBox .pBox.rig{ border-left:1px solid $colorBorder; margin-left:-1px}
+.prodSelectPopContainer .btn-group{ width:100%; height:50px; background:#f5f5f5; border-top:1px solid #e5e5e5}
+.prodSelectPopContainer .pop-btn{ display:block; float:right; width:100px; height:32px; border:1px solid $blue; margin-top:8px; line-height:32px; text-align:center; margin-right:10px;}
+.prodSelectPopContainer .pop-btn:hover{ text-decoration:none}
+.prodSelectPopContainer .pop-btn.yes{ background:$blue; color:#fff}
+.prodSelectPopContainer .pop-btn.yes:hover{ background:darken($blue,5%); border-color:darken($blue,5%);}
+.prodSelectPopContainer .pop-btn.no{ background:none; color:$blue}
+.prodListUl,.ticketListUl{height:306px; overflow:auto;}
+.prodListUl .prodItem{ height:34px; line-height:34px; font-size:14px; padding-left:17px; cursor:pointer}
+.prodListUl .prodItem.active{background:#258cc9; color:white;}
+.ticketListUl{ margin:63px 0 0 26px;}
+.ticketListUl .ticketItem{ line-height:30px;}
+.prodSelectPopBox .loading,.prodSelectPopBox .empty{ height:150px; line-height:150px; text-align:center;}

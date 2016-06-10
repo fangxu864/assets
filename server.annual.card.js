@@ -10,13 +10,20 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-//npm run server :                 server整个项目内的所有模块(模块多时启动会耗时一会)
-//npm run server my_project_name : server整个项目内的指定模块(my_project_name为要server的模块名)
-
 
 var entry = {
-	"publish_card_prod_info" : ["./src/annual_card/page/publish_card_prod_info/index.js"]
-}
+	"publish_card_prod_info" : ["./src/annual_card/page/publish_card_prod_info/index.js"],
+	"publish_card_package_info" : ["./src/annual_card/page/publish_card_package_info/index.js"],
+	"publish_card_entry_card" : ["./src/annual_card/page/publish_card_entry_card/index.js"],
+	"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
+	"publish_card_fill_order" : ["./src/annual_card/page/publish_card_fill_order/index.js"],
+	"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"],
+	"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"],
+	"publish_card_membercard_manage" : ["./src/annual_card/page/publish_card_membercard_manage/index.js"],
+	"publish_card_activate" : ["./src/annual_card/page/publish_card_activate/index.js"],
+	"publish_card_sell" : ["./src/annual_card/page/publish_card_sell/index.js"],
+	"publish_card_stock_details" : ["./src/annual_card/page/publish_card_stock_details/index.js"]
+};
 for(var i in entry){
 	var en = entry[i];
 	en.unshift('webpack-dev-server/client?http://localhost:'+PORT, "webpack/hot/dev-server");
@@ -34,16 +41,18 @@ var config = require("./config")({
 		new webpack.HotModuleReplacementPlugin()
 	]
 });
+
 //启动服务
 var app = new WebpackDevServer(webpack(config),{
-	hot : true,
-	historyApiFallback: true,
-	proxy : [{
-		path: "/r/*",
-		target: "http://www.12301.local",
-		host: "www.12301.local"
-	}]
+	hot : false,
+	historyApiFallback: true
 });
+
+//模拟后端数据
+require("./src/annual_card/server_api")(app.app);
+
+//监听端口
 app.listen(PORT,"localhost",function(error){
 	console.log(error);
 });
+

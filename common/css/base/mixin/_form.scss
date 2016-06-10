@@ -1,0 +1,22 @@
+//表单元素的内阴影
+%boxShadow{
+    box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+    -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+    -o-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+    -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+//表单元素input[type=text]
+@mixin textInp($width:$inputTextWidth,$pt:$inputPadding){
+    @extend %boxShadow;
+    width:$width+px;
+    height:$inputTextHeight+px;
+    line-height:$inputTextHeight+px;
+    border:1px solid $colorBorder;
+    padding-left:$inputPadding+px;
+    padding-right:$inputPadding+px;
+    padding-top:$pt+px;
+    padding-bottom:$pt+px;
+    text-indent:0;
+}
