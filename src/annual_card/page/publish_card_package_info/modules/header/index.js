@@ -30,7 +30,7 @@ var Header = Backbone.View.extend({
 			if(code==200){
 				for(var i in data){
 					var item = data[i];
-					html += that.renderItem(item.id,item.name);
+					html += that.renderItem(item.tid,item.ttitle);
 				}
 				that.$addBtn.before(html);
 				that.listUl.children().first().trigger("click");
@@ -79,8 +79,8 @@ var Header = Backbone.View.extend({
 		this.$addBtn.before(html);
 		this.listUl.children(".pckTitListUlItem").last().trigger("click");
 	},
-	renderItem : function(id,name){
-		return this.template({id:id,name:name});
+	renderItem : function(tid,ttitle){
+		return this.template({tid:tid,ttitle:ttitle});
 	}
 });
 module.exports = Header;

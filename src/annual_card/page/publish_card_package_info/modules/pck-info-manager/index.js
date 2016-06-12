@@ -25,46 +25,38 @@ var InfoManager = Backbone.View.extend({
 		this.Calendar = new Calendar();
 
 		this.ProdSelectPop = new ProdSelectPop({model:this.model});
-		this.ProdSelectPop.on("select",function(data){
-			console.log(data);
+		//切换特权产品
+		this.ProdSelectPop.on("switch.prod",function(data){
+			var before = data.before;
+			var after = data.after;
 			var pckId = data.pckId;
-			var prodId_old = data.prodId_old;
-			var ticId_old = data.ticId_old;
-			var prodId_new = data.prodId_new;
-			var ticId_new = data.ticId_new;
-			var prodName_new = data.prodName_new;
-			var ticName_new = data.ticName_new;
-			if(!prodId_old && !ticId_old){//新建
-				var prodItem = $("#pckRightItem_"+pckId+"_"+prodId_new+"_"+ticId_new);
-				if(prodItem.length>0) return alert("此产品已存在");
-				var html = that.renderPckRightList(pckId,[{
-					product : {
-						id : prodId_new,
-						name : prodName_new
-					},
-					ticket : {
-						id : ticId_new,
-						name : ticName_new
-					},
-					rule : {}
-				}]);
-				$("#pckRightListUl_"+pckId).append(html);
-			}else{//修改
-				var prodItem = $("#pckRightItem_"+pckId+"_"+prodId_old+"_"+ticId_old);
-				if(prodId_new==prodId_old && ticId_new==ticId_old) return false;
-				var html = that.renderPckRightList(pckId,[{
-					product : {
-						id : prodId_new,
-						name : prodName_new
-					},
-					ticket : {
-						id : ticId_new,
-						name : ticName_new
-					},
-					rule : {}
-				}]);
-
-			}
+			var item = $("#privItem_"+pckId+"_"+before.prodId+"_"+before.ticId);
+			if(item.length==0) return false;
+			item.attr("data-prodId",after.prodId).attr("data-ticId",after.ticId).attr("data-aid",after.aid)
+				.attr("id","privItem_"+pckId+"_"+after.prodId+"_"+after.ticId)
+				.find(".name").text(after.prodName+" - "+after.ticName);
+		});
+		//新增一个特权产品
+		this.ProdSelectPop.on("add.prod",function(data){
+			var pckId = data.pckId;
+			var index = that.getPckRightListIndexMax(pckId)+1;
+			var prodId = data.prodId;
+			var ticId = data.ticId;
+			if($("#privItem_"+pckId+"_"+prodId+"_"+ticId).length) return alert("该产品已存在，请勿重得添加");
+			var html = that.renderPckRightList(pckId,[{
+				index : index,
+				product : {
+					id : data.prodId,
+					name : data.prodName
+				},
+				ticket : {
+					id : data.ticId,
+					name : data.ticName,
+					aid : data.aid
+				},
+				rule : {}
+			}]);
+			$("#pckRightListUl_"+pckId).append(html);
 		})
 
 	},
@@ -81,8 +73,8 @@ var InfoManager = Backbone.View.extend({
 		for(var i in data){
 			itemCount++;
 			var d = data[i];
-			var privilege = d.privilege;
-			d["privilege"] = this.renderPckRightList(i,privilege);
+			var priv = d.priv;
+			d["priv"] = this.renderPckRightList(i,priv);
 			html += template({data:d});
 		}
 		this.$el.html(html).css({position:"relative"});
@@ -104,18 +96,25 @@ var InfoManager = Backbone.View.extend({
 		var parent = tarBtn.parents(".pckRightItem");
 		var prodId = parent.attr("data-prodid");
 		var ticId = parent.attr("data-ticid");
-		this.ProdSelectPop.open(pckId,prodId,ticId);
+		this.ProdSelectPop.open({
+			pckId : pckId,
+			prodId : prodId,
+			ticId : ticId
+		});
 	},
 	//套餐特权-点击删除产品
 	onDelectProdBtnClick : function(e){
+		if(!confirm("确定删除此特权产品吗？")) return false;
 		var tarBtn = $(e.currentTarget);
-		console.log(tarBtn);
+		tarBtn.parents(".pckRightItem").remove();
 	},
-	//套餐特权-点击新增一个产品
+	//套餐特权-点击新增一个产品-打开产品选择弹窗
 	onAddPckRightBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
 		var pckId = tarBtn.attr("data-pckid");
-		this.ProdSelectPop.open(pckId,"","");
+		this.ProdSelectPop.open({
+			pckId : pckId
+		});
 	},
 	//新增一个套餐详情
 	createItem : function(id){
@@ -149,6 +148,15 @@ var InfoManager = Backbone.View.extend({
 	 */
 	renderPckRightList : function(pckId,rights){
 		return this.rightsTemplate({pckId:pckId,privilege:rights});
+	},
+	//获取套权商品列表里最大的index值
+	getPckRightListIndexMax : function(pckId){
+		var max = 0;
+		$("#pckRightListUl_"+pckId).children().each(function(){
+			var index = $(this).attr("data-index") * 1;
+			if(index>max) max=index;
+		})
+		return max;
 	}
 });
 module.exports = InfoManager;
