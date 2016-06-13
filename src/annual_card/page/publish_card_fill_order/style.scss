@@ -34,8 +34,8 @@
 .memberBox{width:466px;height:304px;position:fixed;top:50%;left:50%;padding:0 26px;
            margin:-152px 0 0 -259px; background:white;}
 .memP{line-height:106px; font-size:14px;}
-.memTable{ width:464px; background:#f5f5f5;}
-.memTable tr td:first-of-type{ text-indent:10px;}
+.memTable{ width:464px; background:#f5f5f5; line-height:30px;}
+.memTable tr td:first-of-type,.memTable tr th:first-of-type{ text-indent:10px;}
 .memberBox .btnBox{ overflow:hidden;}
 .memberBox .btnBox a{ float:right; margin:70px 0 0 10px; height:30px;line-height:30px; padding:0 32px;}
 
