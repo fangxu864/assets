@@ -24,20 +24,26 @@
                 <label>使用规则：</label>
             </div>
             <div class="rt">
-                <div class="float-left">
+                <div class="nolimit">
                     <input type="radio" checked id="useTimeRadio_total_<%=nameFlag%>" name="useTimeRadio_<%=nameFlag%>"/>
-                    <label for="useTimeRadio_total_<%=nameFlag%>">不限总次数</label>
+                    <label for="useTimeRadio_total_<%=nameFlag%>">不限</label>
                 </div>
-                <div class="float-left">
-                    <input type="radio" id="useTimeRadio_day_<%=nameFlag%>" name="useTimeRadio_<%=nameFlag%>"/>
-                    <label for="useTimeRadio_day_<%=nameFlag%>"><input type="text" class="smaInp"> 次/日</label>
+                <div class="limit">
+                    <!--<div name="useTimeRadio_<%=nameFlag%>">-->
+                        <input type="radio" id="useTimeCheckbox_total_<%=nameFlag%>" name="useTimeRadio_<%=nameFlag%>"/>
+                        <label for="useTimeCheckbox_total_<%=nameFlag%>">
+                            共 <input type="text" class="smaInp"> 次
+                            <input type="text" class="smaInp"> 次/日
+                            <input type="text" class="smaInp"> 次/月
+                        </label>
+
+                    <!--<div class="float-left">-->
+                        <!--<input type="text" class="smaInp"> 次/日-->
+                    <!--</div>-->
+                    <!--<div class="float-left">-->
+                        <!--<input type="text" class="smaInp"> 次/月-->
+                    <!--</div>-->
                 </div>
-                <div class="float-left">
-                    <input type="radio" id="useTimeRadio_month_<%=nameFlag%>" name="useTimeRadio_<%=nameFlag%>"/>
-                    <label for="useTimeRadio_month_<%=nameFlag%>"><input type="text" class="smaInp"> 次/月</label>
-                </div>
-                <input type="checkbox" id="useTimeCheckbox_total_<%=nameFlag%>" name="time"/>
-                <label for="useTimeCheckbox_total_<%=nameFlag%>"> 共 <input type="text" class="smaInp"> 次</label>
             </div>
         </div>
     </div>
