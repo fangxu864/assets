@@ -66,16 +66,75 @@ var Submit = Backbone.View.extend({
 		}else{
 			data["cert_limit"] = 1;
 		}
-		
 
+
+		//购票限制
+		data["search_limit"] = (function(){
+			var result = [];
+			container.find("input[type=checkbox][name=search_limit]:checked").each(function(){
+				var val = $(this).val();
+				result.push(val);
+			});
+			return result.join(",");
+		})();
+
+
+
+		//使用说明
+		data["getaddr"] = $("#getaddrTextArea_"+pckId).val();
+
+		//供应商手机号
+		var fax = $.trim(container.find("input[type=text][name=fax]").val());
+		if(fax=="") return this.errorHander(pckId,"供应商手机号不能为空");
+		if(!PFT.Util.Validate.typePhone(fax)) return this.errorHander(pckId,"供应商手机号，请填写正确格式手机号");
+		data["fax"] = fax;
+
+
+		//消息通知
+		//年卡激活时是否通知供应商
+		var nts_sup_input = container.find("input[type=checkbox][name=nts_sup]");
+		data["nts_sup"] = nts_sup_input.is(":checked") ? 1 : 0;
+
+		//年卡激活时是否通知游客
+		var nts_tour_input = container.find("input[type=checkbox][name=nts_tour]");
+		data["nts_tour"] = nts_tour_input.is(":checked") ? 1 : 0;
+
+		//年卡激活时是否通到微信
+		var confirm_wx_input = container.find("input[type=checkbox][name=confirm_wx]");
+		data["confirm_wx"] = confirm_wx_input.is(":checked") ? 1 : 0;
+
+
+		//特权套餐
+		data["priv"] = (function(){
+
+			var result = {};
+			//result = {
+			//	1 : {
+			//		aid : 1,
+			//		use_limit : "",
+			//		limit_count : ""
+			//	}
+			//}
+			$("#pckRightListUl_"+pckId).children().each(function(){
+				var item = $(this);
+				var tid = item.attr("data-ticid");
+				var aid = item.attr("data-aid");
+
+			})
+
+
+			return result;
+
+		})();
+
+
+
+		return data;
 
 	},
 	errorHander : function(pckId,errorTxt){
 		this.trigger("submit.error",{packId:pckId,error:errorTxt});
 		return null;
-	},
-	validate_js_ls_tprice : function(price){
-		if(price=="") return
 	}
 });
 module.exports = Submit;

@@ -86,9 +86,9 @@
         </div>
         <div class="rt">
             <div class="cardLim float-left line-30">
-                <input type="checkbox" checked id="IDnum3"/><label style="margin-right:10px" for="IDnum3"> 卡号（实体卡/虚拟卡）</label>
-                <input type="checkbox" id="IDnum4"/><label style="margin-right:10px" for="IDnum4"> 身份证</label>
-                <input type="checkbox" id="IDnum5"/><label for="IDnum5"> 手机号</label>
+                <input type="checkbox" name="search_limit" value="1" checked id="search_limit_1_<%=pckId%>"/><label style="margin-right:10px" for="search_limit_1_<%=pckId%>"> 卡号（实体卡/虚拟卡）</label>
+                <input type="checkbox" name="search_limit" value="2" id="search_limit_2_<%=pckId%>"/><label style="margin-right:10px" for="search_limit_2_<%=pckId%>"> 身份证</label>
+                <input type="checkbox" name="search_limit" value="4" id="search_limit_4_<%=pckId%>"/><label for="search_limit_4_<%=pckId%>"> 手机号</label>
             </div>
             <span style="position:relative; top:10px;" class="font-gray">持卡会员购票</span>
         </div>
@@ -106,7 +106,7 @@
             <label for="">使用说明：</label>
         </div>
         <div class="rt">
-            <textarea name="" id="" rows="3" style="width:420px;"></textarea>
+            <textarea name="getaddr" id="getaddrTextArea_<%=pckId%>" rows="3" style="width:420px;"></textarea>
         </div>
     </div>
     <div class="line">
@@ -114,10 +114,10 @@
             <label for="">信息通知配置：</label>
         </div>
         <div class="rt phone">
-            <div>供应商手机号 <input type="text" class="laydate-icon"></div>
-            <div><input type="checkbox" checked id="suc0"/><label for="suc0"> 短信通知供应商</label></div>
-            <div><input type="checkbox" checked id="suc1"/><label for="suc1"> 短信通知联系人</label></div>
-            <div><input type="checkbox"/><lable> 会员消费信息通知到微信</lable></div>
+            <div>供应商手机号 <input type="text" name="fax" class="laydate-icon"></div>
+            <div><input type="checkbox" name="nts_sup" checked id="nts_sup_checkbox_<%=pckId%>"/><label for="nts_sup_checkbox_<%=pckId%>"> 短信通知供应商</label></div>
+            <div><input type="checkbox" name="nts_tour" checked id="nts_tour_checkbox_<%=pckId%>"/><label for="nts_tour_checkbox_<%=pckId%>"> 短信通知联系人</label></div>
+            <div><input type="checkbox" name="confirm_wx" id="confirm_wx_checkbox_<%=pckId%>"/><lable for="confirm_wx_checkbox_<%=pckId%>"> 会员消费信息通知到微信</lable></div>
         </div>
     </div>
     <div id="pckRightContainer_<%=data.id%>" class="pckRightContainer">
