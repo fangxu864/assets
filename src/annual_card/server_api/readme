@@ -1,0 +1,117 @@
+会员年卡接口
+1. 增加年卡产品（类同于创建景区）
+    * 输入：
+    ````
+        'c'            => 'scenic',       # 控制器 - 固定为scenic
+        'a'            => 'save',         # 操作 - 固定为save
+        'product_name' => '年卡测试产品', # 产品名称
+        'product_type' => 'I',            # 产品类型：I-年卡
+        'province'     => 12,             # 所在省份代码
+        'city'         => 381,            # 所在城市代码
+        'address'      => '金牛山',       # 地址
+        'tel'          => '13960974018',  # 联系电话
+        'jqts'         => '没有说明',     # 产品说明
+    ````
+    * 输出：
+    ````
+	{
+	  "code": 200,                        # 成功
+	  "data": {
+		"lastid": "13659"                 # 年卡产品id（类同于景区id）
+	  },
+	  "msg": null
+	}
+	````
+2. 增加年卡卡类（类同于创建票类）
+    * 输入：
+    ````
+    [m][tid]                        # 即m 门票id 新建时传负值(-1,-2,-3...)
+    [m][getaddr]                    # 使用说明
+    [m][notes]                      # 产品说明
+    [m][ddays]                      # 提前下单间隔时间 默认0,
+    [m][delaytype]                  # 订单有效期类型 0按游玩时间 1按下单时间 2期票模式,
+    [m][order_start]                # 期票有效期开始时间
+    [m][order_end]                  # 期票有效期结束时间
+    [m][price_section][n1][id]      # n1 从0开始
+    [m][price_section][n1][weekdays]# 价格(周时间区段) 默认为 0,1,2,3,4,5,6,
+    [m][price_section][n1][sdate]   # 价格开始时间date(Y-m-d),
+    [m][price_section][n1][edate]   # 价格开始时间 2016-12-31,
+    [m][price_section][n1][storage] # 库存 -1,
+    [m][price_section][n1][js]      # 供货价 单位分
+    [m][price_section][n1][ls]      # 零售价 单位分
+    [m][ttitle]                     # 卡片名称
+    [m][ltitle]                     # 年卡产品名称
+    [m][v_time_limit]               # 限制验证时间 默认为0
+    [m][order_limit]                # 允许下单时间 以一星期为周期，默认为“1,2,3,4,5,6,7”
+    [m][refund_audit]               # 是否需要退票审核 默认为0
+    [m][refund_rule]                # 退票规则  默认为0
+    [m][cancel_notify_supplier]     # 取消通知共供应商 默认为0
+    [m][p_type]                     # 产品类型 年卡产品类型为"I"
+    [m][apply_limit]                # 发布/放入仓库 1-发布 2-放入仓库
+    [m][lid]                        # 景区id 取上一步获得的lastid
+    [m][confirm_sms]                # 新订单是否短信通知供应商进行确认 0不要 1要
+    [m][sendVoucher]                # 是否发送凭证码（短信）到取票人手机  0 发送 1 不发送
+    [m][auto_active_days]           # 自动激活天数 (<0: 不自动激活; 0:售出即激活; >0:n天后激活)
+
+
+
+    [m][nts_tour]                   # 年卡激活时是否通知游客   0 不通知 1 通知
+    [m][nts_sup]                    # 年卡激活时是否通知供应商  0 不通知 1 通知
+    [m][confirm_wx]                 # 会员消费信息通知到微信    0-不通知 1-通知
+
+
+    [m][priv][n2][tid]              # 年卡特权景区-门票id
+    [m][priv][n2][aid]              # 年卡特权景区-供应商id
+    [m][priv][n2][use_limit]        # 年卡特权景区-使用限制类型 0：不限次数 1：限制总次数 2：按天限制 3：按月限制
+    [m][priv][n2][limit_count]      # 年卡特权景区-使用次数  
+
+
+    [m][tprice]                     # 门市价 单位元
+    [m][pid]0,                      # 产品id 创建时传0
+    [m][reb_type]                   # 取消费用类型 0 百分比，1 实际指定具体值 默认传1
+    [m][buy_limit_low]              # 购买下限 默认传1
+    [m][buy_limit_up]               # 购买下限 默认传0
+    [m][apply_did]                  # 供应商id
+    ````
+    * 输出：
+    ````
+    {
+      "code": 200,
+      "data": [
+        {
+          "code": 200,
+          "data": {
+            "lid": 13655,            # 景区id
+            "tid": "28980",          # 票类id
+            "pid": "25972",          # 产品id
+            "ttitle": "测试年卡",    # 票类名称
+            "saveCardResult": true,  # 年卡特权与激活配置保存结果
+            "price": {               #
+              "code": 200,           # 价格保存结果
+              "msg": "success"       #
+            }
+          }
+        }
+      ],
+      "msg": "ok"
+    }
+
+
+
+    delaytype 0-激活后有效 1-售出后有效 2-固定时段有效
+
+
+       [m][order_start]                # 期票有效期开始时间
+        [m][order_end]                  # 期票有效期结束时间 就是这个
+
+
+
+    [m]delaydays 这个是延长天数
+
+
+
+     [m][cert_limit] #身份证激活限制 0-无需填写身份证号 1-需要填写身份证号
+     [m][confirm_wx] #会员消费信息通知到微信 0-不通知 1-通知
+
+
+    购票限制 [m][search_limit] # 购买搜索限制 0-不限制 1-卡号（实体卡/虚拟卡）  2-身份证号 4-手机号 [多选时传总和]

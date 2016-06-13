@@ -24,6 +24,7 @@ var ProdSelect = Backbone.View.extend({
 	pckId : "",
 	prodId : "",
 	ticId : "",
+	aid : "",
 	initialize : function(){
 		var that = this;
 		this.mask = $("#prodSelectMask");
@@ -75,16 +76,33 @@ var ProdSelect = Backbone.View.extend({
 			var prodName = prod.find(".t").text();
 			var ticId = ticRadio.attr("data-ticid");
 			var ticName = ticRadio.parent().find(".t").text();
-			if(prodId && ticId){
-				this.trigger("select",{
+			var aid = ticRadio.parent().find(".aidSelect").val();
+			if(this.prodId && this.ticId){ //切换特权商品
+				if(this.prodId==prodId && this.ticId==ticId) return false;
+				this.trigger("switch.prod",{
 					pckId : this.pckId,
-					prodId_old : this.prodId,
-					ticId_old : this.ticId,
-					prodId_new : prodId,
-					prodName_new : prodName,
-					ticId_new : ticId,
-					ticName_new : ticName
-				},this);
+					before : {
+						prodId : this.prodId,
+						ticId : this.ticId,
+						aid : this.aid
+					},
+					after : {
+						prodId : prodId,
+						prodName : prodName,
+						ticId : ticId,
+						ticName : ticName,
+						aid : aid
+					}
+				},this)
+			}else{ //新增一个特权商品
+				this.trigger("add.prod",{
+					pckId : this.pckId,
+					prodId : prodId,
+					prodName : prodName,
+					ticId : ticId,
+					ticName : ticName,
+					aid : aid
+				},this)
 			}
 		}
 		this.close();
@@ -189,10 +207,11 @@ var ProdSelect = Backbone.View.extend({
 		}
 		this.ticketListUl.html(html);
 	},
-	open : function(pckId,prodId,ticId){
-		this.pckId = pckId;
-		this.prodId = prodId;
-		this.ticId = ticId;
+	open : function(data){
+		this.pckId = data.pckId;
+		this.prodId = data.prodId;
+		this.ticId = data.ticId;
+		this.aid = data.aid;
 		this.mask.show();
 		this.$el.show();
 		if(this.prodCache) return false;
