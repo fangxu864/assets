@@ -29,9 +29,12 @@
             <div class="rt">
                 <div>
                     <input type="text" class="textInp" id="cardNum"/><a href="javascript:void(0);" class="btn btn-border cardBtn" id="cardBtn">刷卡</a>
-                    <span></span>
                 </div>
-                <p><span class="font-orange">已激活！</span>会员号：H45522 物理ID：54665566</p>
+                <p class="actip">
+                    <i class="acSpan">已激活！</i>
+                    <i>会员号：H45522</i>
+                    <i>物理ID：54665566</i>
+                </p>
             </div>
         </div>
         <div class="line">
@@ -40,7 +43,6 @@
             </div>
             <div class="rt">
                 <input type="text" class="textInp" id="phoneNum"/><a href="javascript:void(0);" class="btn btn-border cardBtn" id="codeBtn">获取验证码</a>
-                <span></span>
             </div>
         </div>
         <div class="line">
@@ -49,7 +51,6 @@
             </div>
             <div class="rt">
                 <input type="text" class="textInp" id="codeNum"/>
-                <!--<span>请填写验证码</span>-->
             </div>
         </div>
         <div class="line">
@@ -76,10 +77,41 @@
                 <input type="text" class="textInp"/>
             </div>
         </div>
-        <a href="javascript:void(0);" class="activateBtn" id="activateBtn">激活</a>
+        <a href="javascript:void(0);" class="activate" id="activateBtn">激活</a>
+    </div>
+    <div class="memberBox border" id="memberBox" style="display:none;">
+        <p class="memP">会员已存在！是否替换原有卡和套餐？</p>
+        <table class="memTable border">
+            <thead>
+            <tr class="font-gray">
+                <th>手机号</th>
+                <th>身份证</th>
+                <th>卡套餐（已用特权数）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>145585686888 </td>
+                <td>256339747443333</td>
+                <td>三亚年卡套餐（5/20）</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="btnBox">
+            <a href="javascript:;" class="btn btn-blue" id="replaceBtn">替换</a>
+            <a href="javascript:;" class="btn btn-border" id="messageBtn">更换信息激活</a>
+        </div>
+    </div>
+    <div class="payCard border" id="payCard" style="display:none;">
+        <a href="javascript:void(0);" class="btn-del">×</a>
+        <p>请刷卡</p>
     </div>
     <script type="text/javascript">
         $(function(){
+            $("input").each(function(){
+                var $tip = $("<span></span>");
+                $(this).parent().append($tip);
+            });
             // 验证实体卡卡号
             $('#cardNum').blur(function(){
                 if($(this).val().length ==10){
@@ -91,9 +123,77 @@
                     $(this).siblings('span').text('请输入实体卡卡号');
                 }
             });
+            // 验证手机号
+            $('#phoneNum').blur(function(){
+                if($(this).val().length ==11){
+                    $(this).siblings('span').text('');
+                    ok2=true;
+                }else if($(this).val().length !=11 && $(this).val()!=''){
+                    $(this).siblings('span').text('手机号有误');
+                }else{
+                    $(this).siblings('span').text('请输入手机号');
+                }
+            });
+            // 验证短信验证码
+            $('#codeNum').blur(function(){
+                if($(this).val().length ==6){
+                    $(this).siblings('span').text('');
+                    ok3=true;
+                }else if($(this).val().length !=6 && $(this).val()!=''){
+                    $(this).siblings('span').text('验证码有误');
+                }else{
+                    $(this).siblings('span').text('请输入短信验证码');
+                }
+            });
+            // 验证身份证号
+            $('#idNum').blur(function(){
+                if($(this).val().length ==18){
+                    $(this).siblings('span').text('');
+                    ok4=true;
+                }else if($(this).val().length !=18 && $(this).val()!=''){
+                    $(this).siblings('span').text('身份证号格式有误');
+                }else{
+                    $(this).siblings('span').text('请输入身份证号');
+                }
+            });
+            // 验证会员名称
+            $('#memName').blur(function(){
+                if($(this).val().length ==6){
+                    $(this).siblings('span').text('');
+                    ok5=true;
+                }else if($(this).val().length !=6 && $(this).val()!=''){
+                    $(this).siblings('span').text('会员名称有误');
+                }else{
+                    $(this).siblings('span').text('请输入会员名称');
+                }
+            });
+//            $('#phoneNum,#memName').blur(function(){
+//                if(ok2&&ok5){
+//                    $('#activateBtn').removeClass("disable").addClass("activate");
+//                }else{
+//                    $('#activateBtn').addClass("disable").removeClass("activate");
+//                }
+//            })
+            //激活弹出
+            $('#activateBtn').click(function(){
+                $("input").trigger('blur');
+                if(ok1&&ok2&&ok3&&ok4&&ok5){
+                    $("#memberBox").show();
+                }else{
+                    return false;
+                }
+            });
+            $("#replaceBtn,#messageBtn").click(function(){
+                $("#memberBox").hide();
+            })
+            $("#cardBtn").click(function(){
+                $("#payCard").show();
+            })
+            $(".btn-del").click(function(){
+                $("#payCard").hide();
+            })
         })
     </script>
-
 
 
 
