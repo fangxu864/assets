@@ -9,8 +9,8 @@ var ManagerStore = Backbone.Model.extend({
 	},
 	api : {
 		fetch_list : "/r/publish_prod_package/fetch_list",
-		fetch_prod_list : "/r/publish_prod_package/fetch_prod_list",
-		fetch_ticket : "/r/publish_prod_package/fetch_ticket"
+		fetch_prod_list : "/r/product_annualCard/getLands/",
+		fetch_ticket : "/r/product_annualCard/getTickets/"
 	},
 	initialize : function(){
 		this.fetchPackageList(this.getCardID());
@@ -58,10 +58,15 @@ var ManagerStore = Backbone.Model.extend({
 	 * 获取某个产品下的票类
 	 * @param prod_id
 	 */
-	fetchTicket : function(prod_id){
-		if(!prod_id) return false;
+	fetchTicket : function(prod_id,aid){
+		if(!prod_id || !aid) return false;
 		var that = this;
 		PFT.Util.Ajax(this.api.fetch_ticket,{
+			type : "get",
+			params : {
+				lid : prod_id,
+				aid : aid
+			},
 			loading : function(){
 				that.trigger("fetchTicket.loading");
 			},
@@ -72,7 +77,7 @@ var ManagerStore = Backbone.Model.extend({
 				res = res || {};
 				var code = res.code;
 				if(code==200){
-					that.trigger("fetchTicket.success",{prodId:prod_id,data:res});
+					that.trigger("fetchTicket.success",{prodId:prod_id,aid:aid,data:res});
 				}else{
 					that.trigger("fetchTicket.fail",res);
 				}

@@ -6,25 +6,7 @@
 var createResponse = require("./__createResponse");
 module.exports = function(req,res){
 	setTimeout(function(){
-		res.end(createResponse(200,[{
-			"id" : "123123",     //票id
-			"name" : "票名称111", //票名称
-			"aid" : [{           //该票的供应商列表
-				id : "2342", //供应商id
-				name : "供应商名称"
-			},{
-				id : "234342", //供应商id
-				name : "供应商名称121"
-			},{
-				id : "23412", //供应商id
-				name : "供应商名称123"
-			}]
-		},{
-			"id" : "123423423",
-			"name" : "票名称222"
-		},{
-			"id" : "13423",
-			"name" : "票名称333"
-		}],"请求成功"))
+		var data = '{"code":200,"data":[{"id":"17536","title":"成人票and可乐赠饮","pid":"14624","apply_did":"3385"},{"id":"17537","title":"老人票","pid":"14625","apply_did":"3385"},{"id":"21335","title":"教师票","pid":"18423","apply_did":"3385"},{"id":"22906","title":"测试新票2","pid":"19994","apply_did":"3385"},{"id":"22907","title":"测试新票1","pid":"19995","apply_did":"3385"},{"id":"24568","title":"优惠票","pid":"21656","apply_did":"3385"}],"msg":""}';
+		res.end(data)
 	},1000)
 }

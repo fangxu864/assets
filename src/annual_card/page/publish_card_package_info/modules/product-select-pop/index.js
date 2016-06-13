@@ -7,6 +7,7 @@ require("./style.scss");
 var index_tpl = require("./index.html");
 var ticket_item_tpl = require("./ticket.item.tpl");
 var prod_item_tpl = require("./product.item.tpl");
+var getWinWidthHeight = require("COMMON/js/util.window.width.height");
 var ProdSelect = Backbone.View.extend({
 	events : {
 		"click .btn-group .pop-btn" : "onBtnClick",
@@ -17,6 +18,7 @@ var ProdSelect = Backbone.View.extend({
 		"click #prodListUl li" : "onProdItemClick"
 	},
 	el : $("#prodSelectPopContainer"),
+	keyupTimer : null,
 	prodCache : null,
 	ticketCache : {},
 	ticketTemplate : _.template(ticket_item_tpl),
@@ -53,10 +55,11 @@ var ProdSelect = Backbone.View.extend({
 		});
 		this.model.on("fetchTicket.success",function(data){
 			var prodId = data.prodId;
+			var aid = data.aid;
 			var res = data.data;
 			var ticketData = res.data;
-			if(prodId && ticketData){
-				that.ticketCache[prodId] = ticketData;
+			if(prodId && aid && ticketData){
+				that.ticketCache[prodId+"_"+aid] = ticketData;
 				that.renderTicketList("success",ticketData);
 			}else{
 				that.renderTicketList("fail");
@@ -76,7 +79,8 @@ var ProdSelect = Backbone.View.extend({
 			var prodName = prod.find(".t").text();
 			var ticId = ticRadio.attr("data-ticid");
 			var ticName = ticRadio.parent().find(".t").text();
-			var aid = ticRadio.parent().find(".aidSelect").val();
+			//var aid = ticRadio.parent().find(".aidSelect").val();
+			var aid = prod.attr("data-applyid");
 			if(this.prodId && this.ticId){ //切换特权商品
 				if(this.prodId==prodId && this.ticId==ticId) return false;
 				this.trigger("switch.prod",{
@@ -108,15 +112,19 @@ var ProdSelect = Backbone.View.extend({
 		this.close();
 	},
 	onSearchInpChange : function(e){
-		var tarInp = $(e.currentTarget);
-		var val = $.trim(tarInp.val());
-		if(val){
-			this.clearBtn.show();
-		}else{
-			this.clearBtn.hide();
-		}
-		//filter
-		this.renderProductList("success",this.filter(val));
+		var that = this;
+		clearTimeout(this.keyupTimer);
+		this.keyupTimer = setTimeout(function(){
+			var tarInp = $(e.currentTarget);
+			var val = $.trim(tarInp.val());
+			if(val){
+				that.clearBtn.show();
+			}else{
+				that.clearBtn.hide();
+			}
+			//filter
+			that.renderProductList("success",that.filter(val));
+		},200)
 	},
 	onSearchInpFocus : function(e){
 		var tarInp = $(e.currentTarget);
@@ -145,12 +153,13 @@ var ProdSelect = Backbone.View.extend({
 	onProdItemClick : function(e){
 		var tarItem = $(e.currentTarget);
 		var prod_id = tarItem.attr("data-prodid");
-		if(prod_id){
-			var cache = this.ticketCache[prod_id];
+		var aid = tarItem.attr("data-applyid");
+		if(prod_id && aid){
+			var cache = this.ticketCache[prod_id+"_"+aid];
 			if(cache){ //如果已经请求过并缓存起来了
 				this.renderTicketList("success",cache);
 			}else{
-				this.model.fetchTicket(prod_id);
+				this.model.fetchTicket(prod_id,aid);
 			}
 			tarItem.addClass("active").siblings().removeClass("active");
 		}else{
@@ -165,7 +174,7 @@ var ProdSelect = Backbone.View.extend({
 		var result = [];
 		for(var i in prodCache){
 			var prod = prodCache[i];
-			var name = prod["name"];
+			var name = prod["title"];
 			if(name.indexOf(keyword)>-1){
 				result.push(prod);
 			}
@@ -208,18 +217,26 @@ var ProdSelect = Backbone.View.extend({
 		this.ticketListUl.html(html);
 	},
 	open : function(data){
+		var wh = getWinWidthHeight();
+		var containerH = this.$el.height();
+		var top = (wh.height-containerH) / 2;
+		var offsetTop = top*0.3;
+		this.$el.css({top:-this.$el.height()});
 		this.pckId = data.pckId;
 		this.prodId = data.prodId;
 		this.ticId = data.ticId;
 		this.aid = data.aid;
-		this.mask.show();
-		this.$el.show();
+		this.mask.fadeIn();
+		this.$el.show().animate({top:top-offsetTop},100);
 		if(this.prodCache) return false;
 		this.model.fetchProdList();
 	},
 	close : function(){
-		this.mask.hide();
-		this.$el.hide();
+		var $el = this.$el;
+		this.mask.fadeOut();
+		$el.animate({top:-this.$el.height()-10},100,function(){
+			$el.hide();
+		});
 	}
 });
 module.exports = ProdSelect;
