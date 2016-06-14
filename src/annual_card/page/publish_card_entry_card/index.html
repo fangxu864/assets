@@ -35,7 +35,7 @@
         </div>
         <form action="" class="entry_form">
             <a href="javascript:;" class="btn btn-5x btn-border" id="btn-guan">关联实体卡</a>
-            <table class="enTable border">
+            <table class="enTable">
                 <thead>
                     <tr>
                         <th>虚拟卡号</th>
@@ -57,25 +57,42 @@
                         <td>4556553</td>
                         <td><a href="javascript:;">删除</a></td>
                     </tr>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
+                    <tr>
+                        <td>HZ1225555</td>
+                        <td>4545345454556555 </td>
+                        <td>4556553</td>
+                        <td><a href="javascript:;">删除</a></td>
+                    </tr>
                 </tbody>
             </table>
-            <div class="pageBox">
-                <a class="btn preBtn" href="javascript:void(0);" id="pre">
-                    <i class="iconfont">&#xe60c;</i>
-                </a>
-                <span style="margin:0 10px;">1/2</span>
-                <a class="btn nextBtn" href="javascript:void(0);" id="next">
-                    <i class="iconfont">&#xe60d;</i>
-                </a>
-            </div>
+
             <p class="tip"><span class="font-red">注</span>:无实体卡的会员，即通过会员号使用，计入虚拟卡库存</p>
             <div class="btn-entry">
-                <a href="javascript:;" class="btn btn-5x btn-blue" id="delCard">确定,发卡</a>
-                <a href="javascript:;" class="btn btn-5x btn-border">清空重置</a>
+                <a href="javascript:void(0);" class="btn btn-5x btn-blue" id="delCard">确定,发卡</a>
+                <a href="javascript:void(0);" class="btn btn-5x btn-border">清空重置</a>
             </div>
         </form>
     </div>
     <div class="charge border" id="chaBox">
+        <a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>
         <div class="cha border-bottom">
             <h1 class="entry">请刷卡！</h1>
             <h2 class="font-red">已存在</h2>
@@ -87,6 +104,7 @@
         </div>
     </div>
     <div class="charge border" id="guanBox">
+        <a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>
         <div class="cha border-bottom">
             <p class="font-gray line-40">物理ID:565666</p>
             <div class="relaBox">
@@ -100,34 +118,40 @@
         </div>
     </div>
     <div class="clearList border" id="clearList">
+        <a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>
         <p class="clearP">确定清除会员卡列表？</p>
         <div class="yesNo">
             <a href="javascript:;" class="btn btn-blue" id="yesBtn">是</a>
             <a href="javascript:;" class="btn btn-border" id="noBtn">否</a>
         </div>
     </div>
-    <script>
-        $("#chaBox,#guanBox,#clearList").hide();
-        $("#born").toggle(function(){
-            $("#chaBox").show();
-        },function(){
-            $("#chaBox").hide();
-        })
-        $(".btn-finish").click(function(){
-            $(".charge").hide();
-        })
-        $("#btn-guan").toggle(function(){
-            $("#guanBox").show();
-        },function(){
-            $("#guanBox").hide();
-        })
-        $("#delCard").toggle(function(){
-            $("#clearList").show();
-        },function(){
-            $("#clearList").hide();
-        })
-        $("#yesBtn,#noBtn").click(function(){
-            $("#clearList").hide();
+    <script type="text/javascript">
+        $(function(){
+            $("#chaBox,#guanBox,#clearList").hide();
+            $("#born").toggle(function(){
+                $("#chaBox").show();
+            },function(){
+                $("#chaBox").hide();
+            })
+            $(".btn-finish").click(function(){
+                $(".charge").hide();
+            })
+            $("#btn-guan").toggle(function(){
+                $("#guanBox").show();
+            },function(){
+                $("#guanBox").hide();
+            })
+            $("#delCard").toggle(function(){
+                $("#clearList").show();
+            },function(){
+                $("#clearList").hide();
+            })
+            $("#yesBtn,#noBtn").click(function(){
+                $("#clearList").hide();
+            })
+            $(".btn-del").click(function(){
+                $(this).parent().hide();
+            })
         })
     </script>
 
