@@ -7,13 +7,15 @@ var infoItem_tpl = require("./info.item.html");
 var rightsItem_tpl = require("./pck.right.item.tpl");
 var Calendar = require("COMMON/modules/calendar");
 var ProdSelectPop = require("../product-select-pop");
+var Submit = require("../submit.js");
 var InfoManager = Backbone.View.extend({
 	el : $("#slideUl"),
 	events : {
 		"focus .datePickerInp" : "onDatePickerInpFocus",
 		"click .selectProd_picker" : "onSelectProdBtnClick",
 		"click .deleteProdBtn" : "onDelectProdBtnClick",
-		"click .addPckRightBtn" : "onAddPckRightBtnClick"
+		"click .addPckRightBtn" : "onAddPckRightBtnClick",
+		"click .submitBtn" : "onSubmitBtnClick"
 	},
 	template : _.template(infoItem_tpl),
 	rightsTemplate : _.template(rightsItem_tpl),
@@ -25,6 +27,17 @@ var InfoManager = Backbone.View.extend({
 		this.Calendar = new Calendar();
 
 		this.ProdSelectPop = new ProdSelectPop({model:this.model});
+
+		this.submit = new Submit();
+		//如果提交保存时验证表单内有错误
+		this.submit.on("submit.error",function(data){
+			var pckId = data.pckId;
+			var error = data.error;
+			that.switchItem(pckId,function(){
+				alert(error);
+			});
+		});
+
 		//切换特权产品
 		this.ProdSelectPop.on("switch.prod",function(data){
 			var before = data.before;
@@ -41,20 +54,18 @@ var InfoManager = Backbone.View.extend({
 			var pckId = data.pckId;
 			var index = that.getPckRightListIndexMax(pckId)+1;
 			var prodId = data.prodId;
+			var prodName = data.prodName;
 			var ticId = data.ticId;
+			var ticName = data.ticName;
+			var aid = data.aid;
 			if($("#privItem_"+pckId+"_"+prodId+"_"+ticId).length) return alert("该产品已存在，请勿重得添加");
 			var html = that.renderPckRightList(pckId,[{
 				index : index,
-				product : {
-					id : data.prodId,
-					name : data.prodName
-				},
-				ticket : {
-					id : data.ticId,
-					name : data.ticName,
-					aid : data.aid
-				},
-				rule : {}
+				tid : ticId,
+				ttitle : ticName,
+				lid : prodId,
+				ltitle : prodName,
+				aid : aid
 			}]);
 			$("#pckRightListUl_"+pckId).append(html);
 		})
@@ -96,10 +107,12 @@ var InfoManager = Backbone.View.extend({
 		var parent = tarBtn.parents(".pckRightItem");
 		var prodId = parent.attr("data-prodid");
 		var ticId = parent.attr("data-ticid");
+		var aid = parent.attr("data-aid");
 		this.ProdSelectPop.open({
 			pckId : pckId,
 			prodId : prodId,
-			ticId : ticId
+			ticId : ticId,
+			aid : aid
 		});
 	},
 	//套餐特权-点击删除产品
@@ -116,9 +129,42 @@ var InfoManager = Backbone.View.extend({
 			pckId : pckId
 		});
 	},
+	//点击保存
+	onSubmitBtnClick : function(e){
+		var that = this;
+		var can_submit = true;
+		var tarBtn = $(e.currentTarget);
+		if(tarBtn.hasClass("disable")) return false;
+		var pckIds = (function(){
+			var ids = [];
+			$("#pckTitListUl").children(".pckTitListUlItem").each(function(){
+				ids.push($(this).attr("data-id"));
+			})
+			return ids;
+		})();
+		var data = (function(pckIds){
+			var result = {};
+			for(var i in pckIds){
+				var pckId = pckIds[i];
+				result[pckId] = that.submit.serialize(pckId)
+			}
+			return result;
+		})(pckIds);
+		for(var i in data){
+			if(data[i]==null){
+				can_submit = false;
+				break;
+			}
+		}
+		if(can_submit) this.submitForm(data);
+	},
+	//提交保存数据
+	submitForm : function(data){
+		console.log(data);
+	},
 	//新增一个套餐详情
 	createItem : function(id){
-		var html = this.template({data:{id:id}});
+		var html = this.template({data:{tid:id}});
 		this.$el.append(html);
 		this.refreshSlide();
 	},

@@ -46,6 +46,11 @@ var config = require("./config")({
 var app = new WebpackDevServer(webpack(config),{
 	hot : false,
 	historyApiFallback: true
+	//,proxy : [{
+	//	path: "/r/*",
+	//	target: "http://www.12301.local",
+	//	host: "www.12301.local"
+	//}]
 });
 
 //模拟后端数据

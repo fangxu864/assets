@@ -2,11 +2,19 @@
     <%
         var index = typeof item.index=="undefined" ? index : item.index;
         var nameFlag = pckId+"_"+index;
-        var prod=item.product,tic=item.ticket,rule=item.rule;
-        var prodId = prod.id,prodName=prod.name;
-        var ticId = tic.id,ticName=tic.name,aid=tic.aid;
+        var prodId = item.lid, prodName = item.ltitle;
+        var ticId = item.tid,ticName=item.ttitle;
+        var aid = item.aid;
         var id = pckId+"_"+prodId+"_"+ticId;
         var attr = 'data-prodId="'+prodId+'" data-ticId="'+ticId+'" data-aid="'+aid+'" data-index="'+index+'"';
+        var uselimit = typeof item.uselimit!="undefined" ? item.uselimit : "-1";
+        var uselimitArr = ["","",""];
+        if(uselimit!=-1 && (typeof uselimit!=="undefined")){
+            uselimitArr = uselimit.split(",");
+            if(uselimitArr[0]==-1) uselimitArr[0] = "";
+            if(uselimitArr[1]==-1) uselimitArr[1] = "";
+            if(uselimitArr[2]==-1) uselimitArr[2] = "";
+        }
     %>
 <li <%=attr%> id="privItem_<%=id%>" class="product border-bottom pckRightItem">
     <div class="float-left">
@@ -25,24 +33,16 @@
             </div>
             <div class="rt">
                 <div class="nolimit">
-                    <input type="radio" checked id="useTimeRadio_total_<%=nameFlag%>" name="useTimeRadio_<%=nameFlag%>"/>
-                    <label for="useTimeRadio_total_<%=nameFlag%>">不限</label>
+                    <input type="radio" value="-1" id="uselimit_no_<%=nameFlag%>" <%=uselimit==-1?"checked":""%> name="uselimit"/>
+                    <label for="uselimit_no_<%=nameFlag%>">不限</label>
                 </div>
                 <div class="limit">
-                    <!--<div name="useTimeRadio_<%=nameFlag%>">-->
-                        <input type="radio" id="useTimeCheckbox_total_<%=nameFlag%>" name="useTimeRadio_<%=nameFlag%>"/>
-                        <label for="useTimeCheckbox_total_<%=nameFlag%>">
-                            共 <input type="text" class="smaInp"> 次
-                            <input type="text" class="smaInp"> 次/日
-                            <input type="text" class="smaInp"> 次/月
-                        </label>
-
-                    <!--<div class="float-left">-->
-                        <!--<input type="text" class="smaInp"> 次/日-->
-                    <!--</div>-->
-                    <!--<div class="float-left">-->
-                        <!--<input type="text" class="smaInp"> 次/月-->
-                    <!--</div>-->
+                    <input type="radio" value="1" id="uselimited_<%=nameFlag%>" <%=uselimit!=-1?"checked":""%> name="uselimit"/>
+                    <label for="uselimited_<%=nameFlag%>">
+                        共 <input type="text" name="limit_count" value="<%=uselimitArr[0]%>" class="smaInp limitCountInp limitCountInp_total total"> 次
+                        <input type="text" name="limit_count" value="<%=uselimitArr[1]%>" class="smaInp limitCountInp limitCountInp_daily daily"> 次/日
+                        <input type="text" name="limit_count" value="<%=uselimitArr[2]%>" class="smaInp limitCountInp limitCountInp_month month"> 次/月
+                    </label>
                 </div>
             </div>
         </div>

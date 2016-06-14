@@ -7,6 +7,7 @@ var Submit = Backbone.View.extend({
 	serialize : function(pckId){
 		var data = {};
 		var container = $("#slideItem_"+pckId);
+
 		//套餐id及套餐名称
 		data["tid"] = $("#pckTitListUlItem_"+pckId).attr("data-id");
 		var ttitle = $("#pckTitListUlItem_"+pckId).find(".editNameInp").val();
@@ -31,7 +32,7 @@ var Submit = Backbone.View.extend({
 		price_section["js"] = js;
 		price_section["ls"] = ls;
 		data["price_section"] = price_section;
-		data["tprice"] = price;
+		data["tprice"] = tprice;
 
 		//产品说明
 		var notes = $.trim(container.find("input[name=notes]").val());
@@ -105,7 +106,7 @@ var Submit = Backbone.View.extend({
 
 
 		//特权套餐
-		data["priv"] = (function(){
+		var priv = (function(){
 
 			var result = {};
 			//result = {
@@ -119,21 +120,44 @@ var Submit = Backbone.View.extend({
 				var item = $(this);
 				var tid = item.attr("data-ticid");
 				var aid = item.attr("data-aid");
-
-			})
-
-
+				var use_limit = item.find("input[type=radio][name=uselimit]:checked").val();
+				result[tid] = {
+					aid : aid
+				};
+				if(use_limit==-1){ //使用限制为不限
+					result[tid]["use_limit"] = use_limit;
+				}else{
+					var daily_limit = $.trim(item.find(".limitCountInp_daily").val());
+					var month_limit = $.trim(item.find(".limitCountInp_month").val());
+					var total_limit = $.trim(item.find(".limitCountInp_total").val());
+					if(!PFT.Util.Validate.typeInit(daily_limit) && !PFT.Util.Validate.typeInit(month_limit) && !PFT.Util.Validate.typeInit(total_limit)){
+						result["error"] = "限制次数至少填写一个且须为正整数";
+						return false;
+					}else{
+						if(!PFT.Util.Validate.typeInit(daily_limit)) daily_limit = -1;
+						if(!PFT.Util.Validate.typeInit(month_limit)) month_limit = -1;
+						if(!PFT.Util.Validate.typeInit(total_limit)) total_limit = -1;
+						result[tid]["use_limit"] = [daily_limit,month_limit,total_limit].join(",");
+					}
+				}
+			});
 			return result;
 
 		})();
 
+		if(priv.error) return this.errorHander(pckId,priv.error);
+		data["priv"] = priv;
+
+
+		//是否发布
+		data["apply_limit"] = container.find(".apply_limit_input").is(":checked").val();
 
 
 		return data;
 
 	},
 	errorHander : function(pckId,errorTxt){
-		this.trigger("submit.error",{packId:pckId,error:errorTxt});
+		this.trigger("submit.error",{pckId:pckId,error:errorTxt});
 		return null;
 	}
 });

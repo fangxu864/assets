@@ -4,7 +4,7 @@
 #prodSelectMask{ display:none; position:fixed; z-index:100; top:0; right:0; bottom:0; left:0; width:100%; background:#000;
     @include opacity(0.8);
 }
-.prodSelectPopContainer{ display:none; position:fixed; z-index:101; width:700px; height:420px; left:50%; top:50%; margin-left:-350px; margin-top:-250px; overflow:hidden; background:#fff;}
+.prodSelectPopContainer{ display:none; position:fixed; z-index:101; width:700px; height:420px; left:50%; margin-left:-350px; overflow:hidden; background:#fff;}
 .prodSelectPopContainer .searchBox{
     @include searchBox(256);
     margin:15px 15px 10px;
@@ -19,8 +19,8 @@
 .prodSelectPopContainer .pop-btn.yes:hover{ background:darken($blue,5%); border-color:darken($blue,5%);}
 .prodSelectPopContainer .pop-btn.no{ background:none; color:$blue}
 .prodListUl,.ticketListUl{height:306px; overflow:auto;}
-.prodListUl .prodItem{ height:34px; line-height:34px; font-size:14px; padding-left:17px; cursor:pointer}
+.prodListUl .prodItem{ height:34px; line-height:34px; font-size:14px; padding-left:25px; padding-right:25px; cursor:pointer}
 .prodListUl .prodItem.active{background:#258cc9; color:white;}
 .ticketListUl{ margin:63px 0 0 15px;}
 .ticketListUl .ticketItem{ line-height:30px;}
-.prodSelectPopBox .loading,.prodSelectPopBox .empty{ height:150px; line-height:150px; text-align:center;}
+.prodSelectPopBox .loading,.prodSelectPopBox .empty,.prodSelectPopBox .error{ height:150px; line-height:150px; text-align:center;}

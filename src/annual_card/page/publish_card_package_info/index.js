@@ -9,9 +9,6 @@ var Header = require("./modules/header");
 var PckInfoManager = require("./modules/pck-info-manager");
 var MainView = Backbone.View.extend({
 	el : $("body"),
-	events : {
-		"click #saveBtn" : "onSubmitBtnClick"
-	},
 	initialize : function(){
 		var that = this;
 		this.model = new Model();
@@ -34,11 +31,6 @@ var MainView = Backbone.View.extend({
 				that.infoManager.switchItem(id);
 			}
 		});
-
-	},
-	onSubmitBtnClick : function(e){
-		var tarBtn = $(e.currentTarget);
-		if(tarBtn.hasClass("disable")) return false;
 
 	}
 });
