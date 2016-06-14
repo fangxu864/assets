@@ -24,11 +24,9 @@
         <h1 class="entry">录入卡片</h1>
         <div class="cardPro">
             <label for="">卡产品：</label>
-            <select name="" id="" class="smaSel">
-                <option value="">三亚先行年卡-套餐一</option>
-                <option value="">三亚先行年卡-套餐二</option>
-                <option value="">三亚先行年卡-套餐三</option>
-            </select>
+            <input name="" readonly id="" type="text" class="packInp"/>
+            <i class="arrowdown iconfont">&#xe673;</i>
+            <i class="arrowup iconfont">&#xe695;</i>
             <label for="">录入数量：</label>
             <input type="text" class="larInp"/>
             <a href="javascript:;" class="btn btn-5x btn-blue" id="born">生成卡号</a>
@@ -127,7 +125,7 @@
     </div>
     <script type="text/javascript">
         $(function(){
-            $("#chaBox,#guanBox,#clearList").hide();
+            $("#chaBox,#guanBox,#clearList,.arrowup").hide();
             $("#born").toggle(function(){
                 $("#chaBox").show();
             },function(){
@@ -151,6 +149,14 @@
             })
             $(".btn-del").click(function(){
                 $(this).parent().hide();
+            })
+
+            $(".packInp").toggle(function(){
+                $(".arrowdown").hide();
+                $(".arrowup").show();
+            },function(){
+                $(".arrowdown").show();
+                $(".arrowup").hide();
             })
         })
     </script>

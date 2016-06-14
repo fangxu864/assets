@@ -107,64 +107,63 @@
         <p>请刷卡</p>
     </div>
     <script type="text/javascript">
+
         $(function(){
             $("input").each(function(){
-                var $tip = $("<span></span>");
+                var $tip = $("<span class='errorTip'></span>");
                 $(this).parent().append($tip);
             });
             // 验证实体卡卡号
             $('#cardNum').blur(function(){
                 if($(this).val().length ==10){
-                    $(this).siblings('span').text('');
+                    $(this).siblings('.errorTip').text('');
                     ok1=true;
-                }else if($(this).val().length !=10 && $(this).val()!=''){
-                    $(this).siblings('span').text('卡号格式有误');
-                }else{
-                    $(this).siblings('span').text('请输入实体卡卡号');
+                }else if( $(this).val()==''){
+                    $(this).siblings('.errorTip').text('请输入实体卡卡号');
                 }
             });
             // 验证手机号
             $('#phoneNum').blur(function(){
                 if($(this).val().length ==11){
-                    $(this).siblings('span').text('');
+                    $(this).siblings('.errorTip').text('');
                     ok2=true;
                 }else if($(this).val().length !=11 && $(this).val()!=''){
-                    $(this).siblings('span').text('手机号有误');
+                    $(this).siblings('.errorTip').text('手机号有误');
                 }else{
-                    $(this).siblings('span').text('请输入手机号');
+                    $(this).siblings('.errorTip').text('请输入手机号');
                 }
             });
             // 验证短信验证码
             $('#codeNum').blur(function(){
                 if($(this).val().length ==6){
-                    $(this).siblings('span').text('');
+                    $(this).siblings('.errorTip').text('');
                     ok3=true;
                 }else if($(this).val().length !=6 && $(this).val()!=''){
-                    $(this).siblings('span').text('验证码有误');
+                    $(this).siblings('.errorTip').text('验证码有误');
                 }else{
-                    $(this).siblings('span').text('请输入短信验证码');
+                    $(this).siblings('.errorTip').text('请输入短信验证码');
                 }
             });
             // 验证身份证号
             $('#idNum').blur(function(){
                 if($(this).val().length ==18){
-                    $(this).siblings('span').text('');
+                    $(this).siblings('.errorTip').text('');
                     ok4=true;
                 }else if($(this).val().length !=18 && $(this).val()!=''){
-                    $(this).siblings('span').text('身份证号格式有误');
+                    $(this).siblings('.errorTip').text('身份证号格式有误');
                 }else{
-                    $(this).siblings('span').text('请输入身份证号');
+                    $(this).siblings('.errorTip').text('请输入身份证号');
                 }
             });
             // 验证会员名称
             $('#memName').blur(function(){
                 if($(this).val().length ==6){
-                    $(this).siblings('span').text('');
+                    $(this).siblings('.errorTip').text('');
                     ok5=true;
                 }else if($(this).val().length !=6 && $(this).val()!=''){
-                    $(this).siblings('span').text('会员名称有误');
+                    $(this).siblings('.errorTip').text('会员名称有误');
                 }else{
-                    $(this).siblings('span').text('请输入会员名称');
+                    $(this).siblings('.errorTip').text('请输入会员名称');
                 }
             });
 //            $('#phoneNum,#memName').blur(function(){
@@ -193,7 +192,43 @@
                 $("#payCard").hide();
             })
         })
+
+//        $btn.click(function(){
+//            if($btn.hasClass("disable")) return false;
+//            $btn.addClass("disable").text("loading...");
+//            $.ajax({
+//                url : "http://www.12301.local/r/c/a/",
+//                type : "post",
+//                dataType : "json",
+//                data : {
+//                    "card_number" : $("#cardNum").val()
+//                },
+//                success : function(res){
+//                    $btn.removeClass("disable").text("");
+//                    res = {
+//                        code : 200,
+//                        data : {},
+//                        msg : ""
+//                    }
+//                    if(res.code==200){
+//                        alert("save success");
+//                    }else{
+//                        alert(msg);
+//                    }
+//                },
+//                error : function(){
+//                    alert("请求出凑");
+//                }
+//            })
+//        })
+
+
+
+
+
     </script>
+
+
 
 
 
