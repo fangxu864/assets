@@ -1,0 +1,28 @@
+<div class="dialogBoxContainerCon">
+    <div class="charge border" id="chaBox">
+        <a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>
+        <div class="cha border-bottom">
+            <h1 class="entry">请刷卡！</h1>
+            <h2 class="font-red">已存在</h2>
+        </div>
+        <div class="enCard">
+            <span>已关联实体卡:
+                <span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>
+            <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
+        </div>
+    </div>
+    <!--<div style="display:none;" class="charge border" id="guanBox">-->
+        <!--<a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>-->
+        <!--<div class="cha border-bottom">-->
+            <!--<p class="font-gray line-40">物理ID:565666</p>-->
+            <!--<div class="relaBox">-->
+                <!--<input type="text" placeholder="请输入实体卡号（卡面号码）"class="guanInp"/>-->
+                <!--<a href="javascript:;" class="btn btn-orange">关联</a>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="enCard">-->
+            <!--<span>已关联实体卡:<span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>-->
+            <!--<a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>

@@ -24,7 +24,12 @@ var Header = Backbone.View.extend({
 		for(var i=0; i<count; i++){
 			result.push(that.createCardNumber());
 		}
-		console.log(result)
+		this.trigger("create.card",{cards:result});
+	},
+	//点击关联实体卡
+	onRelateSHCardBtnClick : function(e){
+		console.log("click");
+		this.trigger("onRelateSHCardBtnClick");
 	},
 	createCardNumber : function(){
 		var result = [];
@@ -56,7 +61,7 @@ var Header = Backbone.View.extend({
 	},
 	/**
 	 *  生成随机字母与数字组合
-	 *  参考了 https://gist.github.com/xuanfeng/b23ab28ab412254e1594
+	 *  参考 https://gist.github.com/xuanfeng/b23ab28ab412254e1594
 	 *  type : letter生成随机字母   number生成随机数字  both生成随机数字与字母组合
 	 *  randomFlag-是否任意长度 min-任意长度最小位[固定位数] max-任意长度最大位
 	 */

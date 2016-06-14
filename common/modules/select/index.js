@@ -28,7 +28,12 @@ var Defaults = {
 
 	//适配器，用于适配从后端请求回来的数据为如下格式
 	//[{key1:value1,key2:value2}]
-	adaptor : function(data){ return data; },
+	adaptor : function(res){
+		res = res || {};
+		var code = res.code;
+		var data = res.data || [];
+		return data;
+	},
 
 	//若需要传入自定义的静态data数据,
 	//格式需为:[{key1:value1,key2:value2}] 此时将忽略source,adaptor,field参数
@@ -40,6 +45,7 @@ function Select(opt){
 }
 Select.prototype = {
 	__cacheData : null,
+	keyupTimer : null,
 	init : function(opt){
 		var trigger = this.trigger = typeof opt.trigger==="string" ? $("#"+opt.trigger.substr(opt.trigger.indexOf("#")+1)) : opt.trigger;
 		var source = this.source = opt.source;
@@ -53,7 +59,7 @@ Select.prototype = {
 		this.listUl = this.selectBox.find(".selectOptionUl");
 		if(opt.data){
 			this.__cacheData = opt.data;
-			this.listUl.html(this.renderSelectListUl(opt.data))
+			this.listUl.html(this.renderSelectListUl("success",opt.data));
 		}
 	},
 	bindEvents : function(){
@@ -67,7 +73,6 @@ Select.prototype = {
 			}
 		})
 		this.mask.on("click",function(){
-			console.log("click");
 			that.close();
 		})
 		this.searchInp.on("keyup",function(e){
@@ -75,7 +80,33 @@ Select.prototype = {
 		})
 	},
 	onSearchInpChange : function(e){
-
+		var that = this;
+		clearTimeout(this.keyupTimer);
+		this.keyupTimer = setTimeout(function(){
+			var keyword = $.trim($(e.currentTarget).val());
+			var result = that.filter(keyword);
+			if(result=="loading" || result=="error" || result==null || result=="empty"){
+				that.renderSelectListUl("empty");
+			}else{
+				that.renderSelectListUl("success",result);
+			}
+		},200)
+	},
+	//过滤
+	filter : function(keyword){
+		var result = [];
+		var cache = this.__cacheData;
+		var field = this.opt.field;
+		var id_field = field.id;
+		var name_field = field.name;
+		if(!keyword || keyword=="") return cache;
+		if(cache=="loading" || cache=="error" || cache==null || cache=="empty") return result;
+		for(var i in cache){
+			var data = cache[i];
+			var name = data[name_field];
+			if(name.indexOf(keyword)>-1) result.push(data);
+		}
+		return result;
 	},
 	//创建主体下拉框
 	createSelectBox : function(){
@@ -95,18 +126,25 @@ Select.prototype = {
 		$("body").append(this.mask);
 		return this.mask;
 	},
-	renderSelectListUl : function(data){ //data必须为如下格式：[{key1:value1,key2:value2}]
+	renderSelectListUl : function(type,data){ //data必须为如下格式：[{key1:value1,key2:value2}]
 		var html = "";
-		if(Object.prototype.toString.call([],data)!=="[object Array]") return html;
-		var field = this.opt.field;
-		var id_field = field.id;
-		var name_field = field.name;
-		for(var i in data){
-			var d = data[i];
-			var id = d[id_field];
-			var name = d[name_field];
-			html += '<li data-'+id_field+'="'+id+'" class="gSelectOptionItem">'+name+'</li>';
+		if(type=="success"){
+			if(Object.prototype.toString.call([],data)!=="[object Array]") return html;
+			var field = this.opt.field;
+			var id_field = field.id;
+			var name_field = field.name;
+			for(var i in data){
+				var d = data[i];
+				var id = d[id_field];
+				var name = d[name_field];
+				html += '<li data-'+id_field+'="'+id+'" class="gSelectOptionItem">'+name+'</li>';
+			}
+		}else if(type=="empty"){
+			html += '<li class="status empty">无匹配选项</li>';
+		}else if(type=="error"){
+			html += '<li class="status error">出错</li>';
 		}
+
 		return html;
 	},
 	//定位
@@ -121,10 +159,33 @@ Select.prototype = {
 			top : of.top + trigger_h + offset.top
 		})
 	},
+	fetchData : function(source){
+		var that = this;
+		PFT.Util.Ajax(source,{
+			type : "get",
+			dataType : "json",
+			loading : function(){
+				that.opt.__cacheData = "loading";
+			},
+			complete : function(){
+				that.opt.__cacheData = "";
+			},
+			success : function(res){
+				var data = that.opt.adaptor(res);
+				that.renderSelectListUl("success",data);
+			},
+			error : function(){
+				that.opt.__cacheData = "error";
+			}
+		})
+	},
 	open : function(callback){
 		this.createMask().show();
 		this.createSelectBox().show();
 		this.trigger.addClass("on");
+		if(this.opt.source && !this.opt.data && this.__cacheData==null){
+			this.fetchData(this.opt.source);
+		}
 		callback && callback();
 	},
 	close : function(callback){
