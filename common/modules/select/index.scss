@@ -1,0 +1,6 @@
+@import "COMMON/css/base/core/variables";
+@import "COMMON/css/base/mixin/searchBox";
+.gSelectDownBox{ position:relative; }
+.gSelectDownBox{ position:absolute; z-index:1001;}
+.gSelectDownBox .searchBox{ @include searchBox();}
+.gSelectMask{ position:fixed; z-index:1000; top:0; left:0; right:0; bottom:0;}

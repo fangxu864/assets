@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_entry_card/all.css"/>
     <div class="cardContainer">
         <h1 class="entry">录入卡片</h1>
-        <div class="cardPro">
+        <div id="card_headerContaienr" class="cardPro">
             <label for="">卡产品：</label>
             <select name="" id="" class="smaSel">
                 <option value="">三亚先行年卡-套餐一</option>
@@ -30,8 +30,8 @@
                 <option value="">三亚先行年卡-套餐三</option>
             </select>
             <label for="">录入数量：</label>
-            <input type="text" class="larInp"/>
-            <a href="javascript:;" class="btn btn-5x btn-blue" id="born">生成卡号</a>
+            <input type="text" placeholder="请输入正整数" id="cardCountInp" class="larInp"/>
+            <a href="javascript:;" class="btn btn-5x btn-blue" id="createCardListBtn">生成卡号</a>
         </div>
         <form action="" class="entry_form">
             <a href="javascript:;" class="btn btn-5x btn-border" id="btn-guan">关联实体卡</a>
@@ -44,7 +44,7 @@
                         <th>操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="cardList">
                     <tr>
                         <td>HZ1225555</td>
                         <td>4545345454556555 </td>
@@ -75,7 +75,7 @@
             </div>
         </form>
     </div>
-    <div class="charge border" id="chaBox">
+    <div style="display:none" class="charge border" id="chaBox">
         <div class="cha border-bottom">
             <h1 class="entry">请刷卡！</h1>
             <h2 class="font-red">已存在</h2>
@@ -86,7 +86,7 @@
             <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
         </div>
     </div>
-    <div class="charge border" id="guanBox">
+    <div style="display:none" class="charge border" id="guanBox">
         <div class="cha border-bottom">
             <p class="font-gray line-40">物理ID:565666</p>
             <div class="relaBox">
@@ -99,41 +99,44 @@
         <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
         </div>
     </div>
-    <div class="clearList border" id="clearList">
+    <div style="display:none" class="clearList border" id="clearList">
         <p class="clearP">确定清除会员卡列表？</p>
         <div class="yesNo">
             <a href="javascript:;" class="btn btn-blue" id="yesBtn">是</a>
             <a href="javascript:;" class="btn btn-border" id="noBtn">否</a>
         </div>
     </div>
-    <script>
-        $("#chaBox,#guanBox,#clearList").hide();
-        $("#born").toggle(function(){
-            $("#chaBox").show();
-        },function(){
-            $("#chaBox").hide();
-        })
-        $(".btn-finish").click(function(){
-            $(".charge").hide();
-        })
-        $("#btn-guan").toggle(function(){
-            $("#guanBox").show();
-        },function(){
-            $("#guanBox").hide();
-        })
-        $("#delCard").toggle(function(){
-            $("#clearList").show();
-        },function(){
-            $("#clearList").hide();
-        })
-        $("#yesBtn,#noBtn").click(function(){
-            $("#clearList").hide();
-        })
-    </script>
 
 
 
+    <!--<script>-->
+        <!--$("#chaBox,#guanBox,#clearList").hide();-->
+        <!--$("#born").toggle(function(){-->
+            <!--$("#chaBox").show();-->
+        <!--},function(){-->
+            <!--$("#chaBox").hide();-->
+        <!--})-->
+        <!--$(".btn-finish").click(function(){-->
+            <!--$(".charge").hide();-->
+        <!--})-->
+        <!--$("#btn-guan").toggle(function(){-->
+            <!--$("#guanBox").show();-->
+        <!--},function(){-->
+            <!--$("#guanBox").hide();-->
+        <!--})-->
+        <!--$("#delCard").toggle(function(){-->
+            <!--$("#clearList").show();-->
+        <!--},function(){-->
+            <!--$("#clearList").hide();-->
+        <!--})-->
+        <!--$("#yesBtn,#noBtn").click(function(){-->
+            <!--$("#clearList").hide();-->
+        <!--})-->
+    <!--</script>-->
 
+
+
+    <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_entry_card/all.js"></script>
 
 
 

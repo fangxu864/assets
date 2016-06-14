@@ -4,3 +4,13 @@
  * Description: ""
  */
 require("./style.scss");
+var Header = require("./header.js");
+var MainView = Backbone.View.extend({
+	initialize : function(){
+		this.Header = new Header();
+	}
+});
+
+$(function(){
+	new MainView();
+})
