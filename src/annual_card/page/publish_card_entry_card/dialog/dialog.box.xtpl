@@ -8,13 +8,13 @@
                 <!--</div>-->
                 <div class="cha slideItem">
                     <object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
-                    <p style="margin-bottom:5px" class="font-gray line-40">
+                    <p style="margin-bottom:10px" class="font-gray line-40">
                         物理ID：<input readonly="" type="text" name="" id="physic_no_Inp"/>
                         <a href="javascript:void(0)" style="color:#008EC1" id="readCardBtn">读卡</a>
                     </p>
                     <div class="relaBox">
-                        <input type="text" placeholder="请输入实体卡号（卡面号码）" class="guanInp"/>
-                        <a href="javascript:void(0);" class="btn btn-orange">关联</a>
+                        <input id="cardNumberInput" type="text" placeholder="请输入实体卡号（卡面号码）" class="guanInp"/>
+                        <a id="relateCardBtn" href="javascript:void(0);" class="btn btn-orange">关联</a>
                     </div>
                     <p style="color:red; margin-top:3px;">请确保填写的卡号确认无误！</p>
                 </div>

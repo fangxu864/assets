@@ -28,6 +28,40 @@ var Dialog = Backbone.View.extend({
 		$("#dialogCloseBtn").on("click",function(e){
 			that.close();
 		})
+		$("#relateCardBtn").on("click",function(e){
+			that.relateCard(e);
+		})
+	},
+	//关联卡
+	relateCard : function(e){
+		var physicInp = $("#physic_no_Inp");
+		var cardNumInp = $("#cardNumberInput");
+		var physic_number = physicInp.val();
+		var card_number = $.trim(cardNumInp.val());
+		if(!physic_number) return alert("请先把卡放在读卡器上，然后点击读卡按钮");
+		if(!card_number) return alert("实体卡号不能为空");
+		this.addCardToList(physic_number,card_number);
+		physicInp.val("");
+		cardNumInp.val("");
+	},
+	addCardToList : function(physic_number,card_number){
+		if(!physic_number) return false;
+		var hasExist = false;
+		var cardList = $("#cardList");
+		var unRelate_first = null;
+		cardList.children().each(function(){
+			var item = $(this);
+			var physics = item.find(".physics").text();
+			if(physics=="--") physics = "";
+			if(physics=="" && !unRelate_first) unRelate_first = item;
+			if(physics==physic_number && physics!=""){
+				hasExist = true;
+				return false;
+			}
+		})
+		if(hasExist) return alert("此卡已关联过");
+		unRelate_first.find(".physics").text(physic_number);
+		unRelate_first.find(".card").text(card_number);
 	},
 	readwuKa : function(e){
 		var readCardObj = this.readCardObj;

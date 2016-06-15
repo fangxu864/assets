@@ -1,8 +1,8 @@
 @import "COMMON/css/base/mixin/opacity";
 .dialogMask{position:fixed; top:0; right:0; left:0; bottom:0; background:#000; @include opacity(0.5)}
-#dialog-slideStage{ height:130px; margin-top:50px; margin-bottom:20px; overflow:hidden}
+#dialog-slideStage{ height:140px; margin-top:40px; margin-bottom:20px; overflow:hidden}
 #dialog-slideStage .slideCon{ position:relative}
 #dialog-slideStage .slideItem{ height:130px; padding-top:0}
-.dialogBoxContainerCon .closeBtn{ position:relative; top:-3px; margin-left:80px;}
+.dialogBoxContainerCon .closeBtn{ position:relative; top:-3px; margin-left:74px;}
 #readCardBtn:hover{ text-decoration:underline}
-#physic_no_Inp{ width:100px; height:22px; line-height:22px; padding:4px 10px;}
+#physic_no_Inp{ width:120px; height:22px; line-height:22px; padding:2px 8px;}
