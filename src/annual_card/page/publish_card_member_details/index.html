@@ -47,9 +47,16 @@
                 </li>
                 <li>
                     <p><span class="memL">卡套餐：</span><span class="memR">厦门先行年卡套餐</span></p>
-                    <p><span class="memL">有效期：</span><span class="memR">2016/05/06至2017/05/06 <span class="font-blue">续费</span></span></p>
-                    <p><span class="memL">已用特权：</span><span class="memR">5/50</span></p>
-                    <p><span class="memL">激活情况：</span><span class="memR font-orange">未激活</span></p>
+                    <p><span class="memL">有效期：</span><span class="memR">2016/05/06至2017/05/06 <a class="font-blue" href="javascript:void(0);">续费</a></span></p>
+                    <div class="memLine">
+                        <span class="memL">已用特权：</span>
+                        <div class="memR">
+                            <p>XXXXXX景区-XX票 1/20（限2次/日）</p>
+                            <p>XXXXX景区-XX票 1/不限（限2次/月）</p>
+                            <a class="more" href="javascript:void(0);">......</a>
+                        </div>
+                    </div>
+                    <p><span class="memL">激活情况：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate">未激活</a></span></p>
                     <p><span class="memL">备注：</span></p>
                 </li>
             </ul>
@@ -65,9 +72,16 @@
                 </li>
                 <li>
                     <p><span class="memL">卡套餐：</span><span class="memR">厦门先行年卡套餐</span></p>
-                    <p><span class="memL">有效期：</span><span class="memR">2016/05/06至2017/05/06 <span class="font-blue">续费</span></span></p>
-                    <p><span class="memL">已用特权：</span><span class="memR">5/50</span></p>
-                    <p><span class="memL">激活情况：</span><span class="memR font-orange">未激活</span></p>
+                    <p><span class="memL">有效期：</span><span class="memR">2016/05/06至2017/05/06 <a class="font-blue" href="javascript:void(0);">续费</a></span></p>
+                    <div class="memLine">
+                        <span class="memL">已用特权：</span>
+                        <div class="memR">
+                            <p>XXXXXX景区-XX票 1/20（限2次/日）</p>
+                            <p>XXXXX景区-XX票 1/不限（限2次/月）</p>
+                            <a class="more" href="javascript:void(0);">......</a>
+                        </div>
+                    </div>
+                    <p><span class="memL">激活情况：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate">未激活</a></span></p>
                     <p><span class="memL">备注：</span></p>
                 </li>
             </ul>
@@ -110,18 +124,51 @@
             </tbody>
         </table>
         <div class="pageBox">
-            <span class="bg-gray btn">
+            <a href="javascript:void(0);" class="btn preBtn">
                 <i class="iconfont">&#xe60c;</i>
-            </span>
+            </a>
             <span style="margin:0 10px;">1/2</span>
-            <span class="bg-lightblue btn">
+            <a href="javascript:void(0);" class="bg-lightblue btn nextBtn">
                 <i class="iconfont">&#xe60d;</i>
-            </span>
+            </a>
         </div>
     </div>
+    <div class="moreBox border">
+        <div class="moreHead"><a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a></div>
+        <table class="morePro">
+            <thead>
+                <tr>
+                    <th>产品</th>
+                    <th>已用特权</th>
+                    <th>限制</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>XXXXXX景区-XX票</td>
+                    <td>1/20 </td>
+                    <td>2次/日</td>
+                </tr>
+                <tr>
+                    <td>XXXXXX景区-XX票</td>
+                    <td>1/20 </td>
+                    <td>2次/日</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-
-
+    <script type="text/javascript">
+        $(function(){
+            $(".moreBox").hide();
+            $(".more").click(function(){
+                $(".moreBox").show();
+            })
+            $(".btn-del").click(function(){
+                $(".moreBox").hide();
+            })
+        })
+    </script>
 
 </body>
 </html>
