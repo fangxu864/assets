@@ -36,11 +36,16 @@ var MainView = Backbone.View.extend({
 				name : "title"
 			}
 		});
+		$(".arrowup").hide();
 		this.Select.on("open",function(){
 			$("#card_headerContaienr").addClass("select-on");
+			$(".arrowdown").hide();
+			$(".arrowup").show();
 		})
 		this.Select.on("close",function(){
 			$("#card_headerContaienr").removeClass("select-on");
+			$(".arrowdown").show();
+			$(".arrowup").hide();
 		})
 
 
