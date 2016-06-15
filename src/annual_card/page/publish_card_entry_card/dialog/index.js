@@ -9,9 +9,13 @@ require("./index.scss");
 var Dialog = Backbone.View.extend({
 	state : 0,
 	initialize : function(opt){
+		var that = this;
 		this.List = opt.List;
 		this.dialogBox = this.createDialog();
 		this.mask = this.createMask();
+		$("#dialogCloseBtn").on("click",function(e){
+			that.close();
+		})
 	},
 	createDialog : function(){
 		if(this.dialogBox) return this.dialogBox;
@@ -36,12 +40,24 @@ var Dialog = Backbone.View.extend({
 			top : (win.height-h)/2-(win.height-h)*0.1
 		})
 	},
+	slide : function(callback){
+		var slideStage = $("#dialog-slideStage");
+		var step = slideStage.height();
+		var slideCon = slideStage.children(".slideCon");
+		var top = slideCon.css("top");
+		top = top.substr(0,top.length-2)*1;
+		var dir = top==0 ? -1 : 0;
+		slideCon.animate({top:dir*step},100,function(){
+			callback && callback()
+		});
+	},
 	open : function(callback){
 		if(this.state==1) return false;
 		this.state = 1;
 		this.dialogBox.show().css({zIndex:100});
 		this.mask.show().css({zIndex:99});
 		this.position(this.dialogBox);
+		$("#dialog-slideStage").children(".slideCon").css({top:0});
 		callback && callback();
 	},
 	close : function(callback){

@@ -24,4 +24,7 @@ module.exports = function(Http){
 	//发布年卡产品-套餐信息页-获取某个产品下的票类列表
 	Http.get("/r/product_annualCard/getTickets/",require("./get.ticket.list"));
 
+	//录入卡片
+	Http.get("/r/product_annualCard/getAnnualCardProducts",require("./get.prod.list"))
+
 }

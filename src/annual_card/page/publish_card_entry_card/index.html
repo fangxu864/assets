@@ -23,16 +23,16 @@
     <div class="cardContainer">
         <h1 class="entry">录入卡片</h1>
         <div id="card_headerContaienr" class="cardPro">
-            <label for="">卡产品：</label>
-            <input name="" readonly id="" type="text" class="packInp"/>
+            <label>卡产品：</label>
+            <input name="" readonly id="cardProdTriggerInput" value="正在请求产品数据..." type="text" class="packInp"/>
             <i class="arrowdown iconfont">&#xe673;</i>
             <i class="arrowup iconfont">&#xe695;</i>
-            <label for="">录入数量：</label>
+            <label>录入数量：</label>
             <input id="cardCountInp" type="text" class="larInp"/>
-            <a href="javascript:;" class="btn btn-5x btn-blue" id="createCardListBtn">生成卡号</a>
+            <a href="javascript:void(0);" class="btn btn-5x btn-blue" id="createCardListBtn">生成卡号</a>
         </div>
         <form action="" class="entry_form">
-            <a href="javascript:;" class="btn btn-5x btn-border" id="relateSHCardBtn">关联实体卡</a>
+            <a href="javascript:void(0);" class="btn btn-5x btn-border" id="relateSHCardBtn">关联实体卡</a>
             <table class="enTable">
                 <thead>
                     <tr>
@@ -46,85 +46,12 @@
             </table>
             <p class="tip"><span class="font-red">注</span>:无实体卡的会员，即通过会员号使用，计入虚拟卡库存</p>
             <div class="btn-entry">
-                <a style="color:#0797d9" href="javascript:void(0);" class="btn btn-5x btn-border">清空重置</a>
-                <a href="javascript:void(0);" class="btn btn-5x btn-blue" id="delCard">确定发卡</a>
+                <a id="clearAllListBtn" style="color:#0797d9" href="javascript:void(0);" class="btn btn-5x btn-border">清空重置</a>
+                <a id="submitBtn" href="javascript:void(0);" class="btn btn-5x btn-blue">确定发卡</a>
             </div>
         </form>
     </div>
-    <div style="display:none;" class="charge border" id="chaBox">
-        <a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>
-        <div class="cha border-bottom">
-            <h1 class="entry">请刷卡！</h1>
-            <h2 class="font-red">已存在</h2>
-        </div>
-        <div class="enCard">
-            <span>已关联实体卡:
-                <span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>
-            <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
-        </div>
-    </div>
-    <div style="display:none;" class="charge border" id="guanBox">
-        <a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>
-        <div class="cha border-bottom">
-            <p class="font-gray line-40">物理ID:565666</p>
-            <div class="relaBox">
-                <input type="text" placeholder="请输入实体卡号（卡面号码）"class="guanInp"/>
-                <a href="javascript:;" class="btn btn-orange">关联</a>
-            </div>
-        </div>
-        <div class="enCard">
-        <span>已关联实体卡:<span class="numChild">2</span><span class="numP">/10</span><span class="font-gray">（不关联实体卡亦可）</span></span>
-        <a href="javascript:;" class="btn btn-5x btn-blue btn-finish">完成</a>
-        </div>
-    </div>
-    <div style="display:none;" class="clearList border" id="clearList">
-        <a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a>
-        <p class="clearP">确定清除会员卡列表？</p>
-        <div class="yesNo">
-            <a href="javascript:;" class="btn btn-blue" id="yesBtn">是</a>
-            <a href="javascript:;" class="btn btn-border" id="noBtn">否</a>
-        </div>
-    </div>
-    <!--<script type="text/javascript">-->
-        <!--$(function(){-->
-            <!--$("#chaBox,#guanBox,#clearList,.arrowup").hide();-->
-            <!--$("#born").toggle(function(){-->
-                <!--$("#chaBox").show();-->
-            <!--},function(){-->
-                <!--$("#chaBox").hide();-->
-            <!--})-->
-            <!--$(".btn-finish").click(function(){-->
-                <!--$(".charge").hide();-->
-            <!--})-->
-            <!--$("#btn-guan").toggle(function(){-->
-                <!--$("#guanBox").show();-->
-            <!--},function(){-->
-                <!--$("#guanBox").hide();-->
-            <!--})-->
-            <!--$("#delCard").toggle(function(){-->
-                <!--$("#clearList").show();-->
-            <!--},function(){-->
-                <!--$("#clearList").hide();-->
-            <!--})-->
-            <!--$("#yesBtn,#noBtn").click(function(){-->
-                <!--$("#clearList").hide();-->
-            <!--})-->
-            <!--$(".btn-del").click(function(){-->
-                <!--$(this).parent().hide();-->
-            <!--})-->
 
-            <!--$(".packInp").toggle(function(){-->
-                <!--$(".arrowdown").hide();-->
-                <!--$(".arrowup").show();-->
-            <!--},function(){-->
-                <!--$(".arrowdown").show();-->
-                <!--$(".arrowup").hide();-->
-            <!--})-->
-        <!--})-->
-    <!--</script>-->
-
-
-    <input type="text" name="" readonly style="margin-left:20px; width:200px; height:34px;" id="test"/>
 
     <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_entry_card/all.js"></script>
 

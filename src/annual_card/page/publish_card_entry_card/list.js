@@ -18,12 +18,9 @@ var List = Backbone.View.extend({
 		var html = "";
 		for(var i in data){
 			var card = data[i];
-			html += '<tr class="cardItem"><td>'+card+'</td><td> --</td><td> --</td><td><a class="deleteBtn" href="javascript:void(0);">删除</a></td></tr>'
+			html += '<tr class="cardItem"><td class="virtual">'+card+'</td><td class="card">--</td><td class="physics">--</td><td><a class="deleteBtn" href="javascript:void(0);">删除</a></td></tr>'
 		}
 		this.$el.html(html);
-	},
-	openDialog : function(){
-
 	}
 });
 module.exports = List;

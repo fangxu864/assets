@@ -30,8 +30,8 @@ var E = {
 			fn.call(scope,argus);
 		}
 	},
-	trigger : function(type){
-		this.fire(type);
+	trigger : function(){
+		this.fire.apply(this,arguments);
 	}
 };
 module.exports = E;

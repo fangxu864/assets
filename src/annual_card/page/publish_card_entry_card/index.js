@@ -4,14 +4,18 @@
  * Description: ""
  */
 require("./style.scss");
+var PubSub = require("COMMON/js/util.pubsub.js");
 var Header = require("./header.js");
 var List = require("./list.js");
 var Dialog = require("./dialog");
 var Select = require("COMMON/modules/select");
+var Api = require("../../common/api.js");
 var MainView = Backbone.View.extend({
 	el : $("body"),
 	events : {
-		"click #relateSHCardBtn" : "onRelateSHCardBtnClick"
+		"click #relateSHCardBtn" : "onRelateSHCardBtnClick",
+		"click #clearAllListBtn" : "onClearAllListClick",
+		"click #submitBtn" : "onSubmit"
 	},
 	initialize : function(){
 		var that = this;
@@ -22,48 +26,82 @@ var MainView = Backbone.View.extend({
 			var cards = data.cards;
 			that.List.render(cards);
 		})
-
-
-		new Select({
-			trigger : $("#test"),
-			width : 180,
+		this.cardList = $("#cardList");
+		this.Select = new Select({
+			trigger : $("#cardProdTriggerInput"),
+			source : Api.Url.EntryCard.getProdList + "?page=1&page_size=1000",
+			height : 400,
 			field : {
-				id : "pid",
+				id : "id",
 				name : "title"
-			},
-			data : [{
-				pid : "11",
-				title : "测试名"
-			},{
-				pid : "11",
-				title : "测试名"
-			},{
-				pid : "11",
-				title : "测试名"
-			},{
-				pid : "11",
-				title : "测试名"
-			},{
-				pid : "11",
-				title : "测试名"
-			},{
-				pid : "11",
-				title : "测试名"
-			},{
-				pid : "11",
-				title : "测试名"
-			}]
+			}
+		});
+		this.Select.on("open",function(){
+			$("#card_headerContaienr").addClass("select-on");
 		})
-
-
+		this.Select.on("close",function(){
+			$("#card_headerContaienr").removeClass("select-on");
+		})
 
 
 
 
 	},
 	onRelateSHCardBtnClick : function(e){
-		//if($("#cardList").children(".cardItem").length==0) return false;
-		this.Dialog.open();
+		var cardList = this.cardList;
+		if(cardList.children(".cardItem").length==0) return alert("请先生成卡号");
+		this.Dialog.open(function(){
+			var total = 0;
+			var hasRelated = 0;
+			cardList.children().each(function(){
+				var tarItem = $(this);
+				var physics_id = tarItem.attr("data-physicsid");
+				var virtual_id = tarItem.attr("data-virtualid");
+				total+=1;
+				if(physics_id && virtual_id) hasRelated+=1;
+			});
+			$("#hasRelatedCount").text(hasRelated);
+			$("#totalRelatedCount").text(total);
+		});
+	},
+	//清空重置
+	onClearAllListClick : function(e){
+		if(this.cardList.children().length==0) return false;
+		if(!confirm("确定要清空卡片列表吗？")) return false;
+		this.cardList.html("");
+	},
+	//确定发卡
+	onSubmit : function(e){
+		var submitBtn = $(e.currentTarget);
+		if(submitBtn.hasClass("disable")) return false;
+		var pid = this.Select.getValue().id;
+		if(!pid) return alert("缺少年卡产品id");
+		var list = [];
+		this.cardList.children().each(function(){
+			var item = $(this);
+			var virtual = item.find(".virtual").text();
+			var card = item.find(".card").text();
+			var physics = item.find(".physics").text();
+			if(card=="--") card = "";
+			if(physics=="--") physics = "";
+			list.push({
+				virtual : virtual,
+				card : card,
+				physics : physics
+			})
+		})
+		if(list.length==0) return false;
+		PFT.Util.Ajax(Api.Url.EntryCard.createAnnualCard,{
+			type : "post",
+			params : {
+				pid : pid,
+				list : list
+			},
+			loading : function(){},
+			complete : function(){}
+		},function(res){
+
+		})
 	}
 });
 
