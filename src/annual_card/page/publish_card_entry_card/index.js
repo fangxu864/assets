@@ -42,10 +42,6 @@ var MainView = Backbone.View.extend({
 		this.Select.on("close",function(){
 			$("#card_headerContaienr").removeClass("select-on");
 		})
-
-
-
-
 	},
 	onRelateSHCardBtnClick : function(e){
 		var cardList = this.cardList;
@@ -97,10 +93,16 @@ var MainView = Backbone.View.extend({
 				pid : pid,
 				list : list
 			},
-			loading : function(){},
-			complete : function(){}
+			loading : function(){ submitBtn.addClass("disable")},
+			complete : function(){ submitBtn.removeClass("disable")}
 		},function(res){
-
+			res = res || {};
+			var code = res.code;
+			if(code==200){
+				PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
+			}else{
+				alert(res.msg || PFT.AJAX_ERROR_TEXT);
+			}
 		})
 	}
 });

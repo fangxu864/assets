@@ -13,9 +13,35 @@ var Dialog = Backbone.View.extend({
 		this.List = opt.List;
 		this.dialogBox = this.createDialog();
 		this.mask = this.createMask();
+		this.readCardObj = document.getElementById("readCardObj");
+		this.readCardObj.OnReadEvent = function(args){
+			alert("读卡事件");
+			alert(args);
+		}
+		this.readCardObj.OnErrorEvent = function(args){
+			alert("读卡错误事件");
+			alert(args)
+		}
+		$("#readCardBtn").on("click",function(e){
+			that.readwuKa(e);
+		})
 		$("#dialogCloseBtn").on("click",function(e){
 			that.close();
 		})
+	},
+	readwuKa : function(e){
+		var readCardObj = this.readCardObj;
+		if(!readCardObj){
+			alert("请使用IE浏览器读物理卡号");
+			return false;
+		}
+		if(typeof readCardObj.open!="number" && typeof readCardObj.ICReaderRequest!="string"){
+			alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
+			return false;
+		}
+		readCardObj.open();
+		var val = readCardObj.ICReaderRequest();
+		$("#physic_no_Inp").val(val);
 	},
 	createDialog : function(){
 		if(this.dialogBox) return this.dialogBox;

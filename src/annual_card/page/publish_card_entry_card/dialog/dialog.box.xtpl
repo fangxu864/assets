@@ -2,12 +2,16 @@
     <div class="charge border" id="chaBox">
         <div id="dialog-slideStage" class="slideStage">
             <div style="top:0px" class="slideCon">
-                <div style="margin-top:18px" class="cha slideItem">
-                    <h1 class="entry">请刷卡！</h1>
-                    <h2 style="display:none" id="cardExitTip" class="font-red">已存在</h2>
-                </div>
+                <!--<div style="margin-top:18px" class="cha slideItem">-->
+                    <!--<h1 class="entry">请刷卡！</h1>-->
+                    <!--<h2 style="display:none" id="cardExitTip" class="font-red">已存在</h2>-->
+                <!--</div>-->
                 <div class="cha slideItem">
-                    <p style="margin-bottom:5px" class="font-gray line-40">物理ID:565666</p>
+                    <object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
+                    <p style="margin-bottom:5px" class="font-gray line-40">
+                        物理ID：<input readonly="" type="text" name="" id="physic_no_Inp"/>
+                        <a href="javascript:void(0)" style="color:#008EC1" id="readCardBtn">读卡</a>
+                    </p>
                     <div class="relaBox">
                         <input type="text" placeholder="请输入实体卡号（卡面号码）" class="guanInp"/>
                         <a href="javascript:void(0);" class="btn btn-orange">关联</a>
