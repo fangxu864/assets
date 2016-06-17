@@ -20,12 +20,12 @@
 
 
     <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_stock_details/all.css"/>
-    <div class="cardContainer">
+    <div id="cardContainer" class="cardContainer">
         <p class="entry border-bottom">三亚先行年卡套餐-库存明细</p>
         <div class="stockBox">
             <div>
-                <span>实体卡库存：<span style="font-size:20px;">5</span></span>
-                <span>虚拟卡库存：<span style="font-size:20px;">10</span></span>
+                <span>实体卡库存：<span id="cardStorage_num" style="font-size:20px;">5</span></span>
+                <span>虚拟卡库存：<span id="virtualStorage_num" style="font-size:20px;">10</span></span>
             </div>
             <a href="javascript:void(0);" class="cardBtn" id="cardBtn">录入卡片</a>
         </div>
@@ -41,175 +41,10 @@
             </thead>
             <tbody id="tbody"></tbody>
         </table>
-        <div class="pageBox">
-            <a class="bg-gray btn" href="javascript:void(0);">
-                <i class="iconfont">&#xe60c;</i>
-            </a>
-            <span style="margin:0 10px;">1/2</span>
-            <a class="bg-lightblue btn" href="javascript:void(0);">
-                <i class="iconfont">&#xe60d;</i>
-            </a>
-        </div>
     </div>
-    <div class="delBox border" id="delBox" style="display:none">
-        <p>确定删除该卡？</p>
-        <div class="btnBox">
-            <a class="btn-border btn" href="javascript:void(0);" id="noBtn">否</a>
-            <a class="btn-blue btn" href="javascript:void(0);" id="yesBtn">是</a>
-        </div>
-    </div>
+    <div style="width:798px; overflow:hidden; margin:10px auto;" id="paginationContainer"></div>
 
-    <script type="text/javascript">
-        $(function(){
-            var getList=function(callback){
-                setTimeout(function(){
-                    callback([
-                        {
-                            id:"01",
-                            ka_x:"HZ1225555",
-                            ka_s:"4545345454556555",
-                            id_w:"4556553",
-                            time:"2016/05/06 12:12"
-                        },{
-                            id:"02",
-                            ka_x:"HZ1225555",
-                            ka_s:"4545345454556555",
-                            id_w:"4556553",
-                            time:"2016/05/06 12:13"
-                        },{
-                            id:"03",
-                            ka_x:"HZ1225555",
-                            ka_s:"4545345454556555",
-                            id_w:"4556553",
-                            time:"2016/05/06 12:14"
-                        }])
-                },1000)
-            }
-
-            var bindEvent=function(){
-                $("#tbody").on("click",".delete",function(e){
-                    var tarBtn= $(e.currentTarget);
-                    var tr=tarBtn.parents(".border-bottom");
-                    $(".delBox").show();
-                    $("#yesBtn").click(function(){
-                        $(".delBox").hide();
-                        tr.remove();
-                    });
-                    $("#noBtn").click(function(){
-                        $(".delBox").hide();
-                    })
-                })
-            }
-            bindEvent();
-            getList(function(data){
-                var html="";
-                for(var i in data){
-                    var d=data[i];
-                    var ka_x=d["ka_x"];
-                    var ka_s=d["ka_s"];
-                    var id_w=d["id_w"];
-                    var time=d["time"];
-                    html+='<tr class="border-bottom">';
-                    html+='<td>'+ka_x+'</td>';
-                    html+='<td>'+ka_s+'</td>';
-                    html+='<td>'+id_w+'</td>';
-                    html+='<td>'+time+'</td>';
-                    html+='<td><a href="javascript:void(0);" class="delete">删除</a></td>';
-                    html+='</tr>';
-                }
-                $("#tbody").html(html);
-            });
-        })
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-    <!--<script type="text/javascript">-->
-
-        <!--$(function(){-->
-
-            <!--var getList = function(callback){-->
-
-                <!--$.ajax({-->
-                    <!--url : "",-->
-                    <!--type : "get",-->
-                    <!--dataType : "json",-->
-                    <!--beforeSend : function(){},-->
-                    <!--success : function(data){-->
-                        <!--callback(data);-->
-                    <!--},-->
-                    <!--error : function(){-->
-
-                    <!--}-->
-                <!--});-->
-
-                <!--setTimeout(function(){-->
-                    <!--callback([{-->
-                        <!--id : "1213",-->
-                        <!--ka_y : "HZ1225555",-->
-                        <!--ka_s : "4545345454556555",-->
-                        <!--id_w : "4556553",-->
-                        <!--time : "2016/05/06 12:13"-->
-                    <!--},{-->
-                        <!--id : "1213",-->
-                        <!--ka_y : "HZ1225555",-->
-                        <!--ka_s : "4545345454556555",-->
-                        <!--id_w : "4556553",-->
-                        <!--time : "2016/05/06 12:14"-->
-                    <!--},{-->
-                        <!--id : "1213",-->
-                        <!--ka_y : "HZ1225555",-->
-                        <!--ka_s : "4545345454556555",-->
-                        <!--id_w : "4556553",-->
-                        <!--time : "2016/05/06 12:15"-->
-                    <!--}])-->
-                <!--},1000)-->
-            <!--};-->
-
-
-            <!--var bindEvent = function(){-->
-                <!--$("#tbody").on("click",".delete",function(e){-->
-                    <!--var tarBtn = $(e.currentTarget);-->
-                    <!--var tr = tarBtn.parents(".border-bottom");-->
-                    <!--tr.remove();-->
-                <!--})-->
-            <!--};-->
-
-            <!--bindEvent();-->
-            <!--getList(function(data){-->
-                <!--var html = "";-->
-                <!--for(var i in data){-->
-                    <!--var d = data[i];-->
-                    <!--var ka_y =d["ka_y"];-->
-                    <!--var ka_s =d["ka_s"];-->
-                    <!--var id_w =d["id_w"];-->
-                    <!--var time =d["time"];-->
-                    <!--html += '<tr class="border-bottom">';-->
-                    <!--html += '    <td>'+ka_y+'</td>';-->
-                    <!--html += '    <td>'+ka_s+' </td>';-->
-                    <!--html += '    <td>'+id_w+'</td>';-->
-                    <!--html += '    <td>'+time+' </td>';-->
-                    <!--html += '    <td><a href="javascript:void(0);" class="delete">删除</a></td>';-->
-                    <!--html += '</tr>';-->
-                <!--}-->
-                <!--$("#tbody").html(html);-->
-            <!--});-->
-
-
-        <!--})-->
-
-
-
-    <!--</script>-->
-
+    <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_stock_details/all.js"></script>
 
 </body>
 </html>

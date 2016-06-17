@@ -1,0 +1,524 @@
+@charset "UTF-8";
+/**
+ * Author: huangzhiyang
+ * Date: 2016/5/30 14:47
+ * Description: ""
+ */
+/**
+ * Author: huangzhiyang
+ * Date: 2016/5/30 14:47
+ * Description: ""
+ */
+/*通用UI*/
+body{
+  background: #f8f9fb; }
+.cardContainer a:hover, .border a:hover{
+  text-decoration: none; }
+.clearfix:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+.lt-ie8 .clearfix{
+  height: 1%; }
+.float-left{
+  float: left; }
+.float-right{
+  float: right; }
+.border{
+  border: 1px solid #e5e5e5; }
+.border-y{
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5; }
+.border-top{
+  border-top: 1px solid #e5e5e5; }
+.border-bottom{
+  border-bottom: 1px solid #e5e5e5; }
+.border-left{
+  border-left: 1px solid #e5e5e5; }
+.border-right{
+  border-right: 1px solid #e5e5e5; }
+.bigInp{
+  height: 22px;
+  line-height: 22px;
+  padding: 6px 0;
+  width: 420px; }
+.smaInp{
+  height: 22px;
+  line-height: 22px;
+  padding: 1px 0;
+  width: 48px; }
+.midInp{
+  height: 22px;
+  line-height: 22px;
+  padding: 3px 0;
+  width: 78px; }
+.larInp{
+  height: 22px;
+  line-height: 22px;
+  padding: 5px 0;
+  width: 130px; }
+.laydate-icon{
+  width: 138px;
+  height: 22px;
+  line-height: 22px;
+  padding: 3px 0; }
+.smaSel{
+  height: 33px;
+  width: 208px; }
+.bigSel{
+  height: 33px;
+  width: 420px; }
+.btn{
+  display: inline-block;
+  border: 0 none;
+  font-size: 14px;
+  text-align: center; }
+.btn-s{
+  width: 44px;
+  height: 24px;
+  line-height: 24px; }
+.btn-1x{
+  width: 74px;
+  height: 28px;
+  line-height: 28px; }
+.btn-2x{
+  width: 94px;
+  height: 34px;
+  line-height: 34px; }
+.btn-3x{
+  width: 142px;
+  height: 34px;
+  line-height: 34px; }
+.btn-4x{
+  width: 200px;
+  height: 34px;
+  line-height: 34px; }
+.btn-5x{
+  width: 130px;
+  height: 34px;
+  line-height: 34px; }
+.btn-border{
+  border: 1px solid #0797d9;
+  color: #0797d9; }
+.btn-green{
+  background: #3dba3f;
+  border: 1px solid #3dba3f; }
+.btn-blue{
+  background: #0797d9;
+  border: 1px solid #0797d9; }
+.btn-blue:hover{
+  background: #0685bf; }
+.btn-blue:link{
+  color: white; }
+.btn-orange{
+  background: #f07845; }
+.btn-orange:hover{
+  background: #d66c3e; }
+.bg-blue{
+  background: #0797d9; }
+.bg-gray{
+  background: #f5f5f5; }
+.bg-lightblue{
+  background: #e2f6fe; }
+.file{
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  text-indent: 0; }
+.file input{
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0; }
+.btn-cancle{
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  display: inline-block;
+  line-height: 14px;
+  text-align: center;
+  background: #f07845;
+  color: white;
+  font-size: 14px;
+  cursor: pointer; }
+.btn-add, .btn-del{
+  font-size: 30px;
+  font-weight: bolder; }
+.btn-del:link{
+  color: red; }
+.font-gray{
+  color: #92a0ab; }
+.font-blue{
+  color: #0797d9; }
+.font-red{
+  color: red; }
+.font-orange{
+  color: #f07845; }
+.font-14{
+  font-size: 14px; }
+.table{
+  width: 100%; }
+.table tr{
+  line-height: 35px;
+  text-indent: 10px; }
+.table tr:first-of-type{
+  background: #e5e5e5; }
+/*架构UI*/
+input[type=text] {
+  border: 1px solid #dbdbdb;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  padding-left: 6px; }
+
+.cardContainer {
+  width: 798px;
+  border: 1px solid #e5e5e5;
+  margin: 0 auto;
+  background: white; }
+
+.entry {
+  line-height: 56px;
+  font-size: 24px;
+  margin-left: 24px; }
+
+.cardPro {
+  background: #bfe7f8;
+  height: 50px;
+  padding: 14px 0 0 24px;
+  position: relative; }
+
+.cardPro a:link {
+  color: white; }
+
+.cardPro a.btn-blue {
+  border: 0 none;
+  margin-left: 30px; }
+
+.cardPro i {
+  position: absolute;
+  left: 353px;
+  top: 19px;
+  cursor: default; }
+
+.entry_form {
+  padding: 12px 0px; }
+
+.entry_form #relateSHCardBtn {
+  margin-left: 646px; }
+
+.btn-entry {
+  margin: 20px 0 20px 235px; }
+
+.btn-entry a:first-of-type:link, .enCard a:link {
+  color: white; }
+
+.btn-entry a {
+  margin-right: 20px; }
+
+.packInp {
+  width: 290px;
+  height: 22px;
+  line-height: 22px;
+  padding: 6px 6px;
+  margin-right: 28px;
+  cursor: default; }
+
+.charge {
+  width: 500px;
+  background: white; }
+
+.cha {
+  height: 140px;
+  text-align: center;
+  padding-top: 60px; }
+
+.cha p {
+  font-size: 14px;
+  text-align: left;
+  text-indent: 50px; }
+
+.relaBox {
+  overflow: hidden;
+  margin-left: 50px; }
+
+.relaBox input {
+  float: left;
+  width: 300px;
+  text-align: left;
+  height: 22px;
+  line-height: 22px;
+  padding: 5px 6px; }
+
+.relaBox a {
+  float: left;
+  width: 84px;
+  height: 34px;
+  line-height: 34px; }
+
+.cha a:link {
+  color: white; }
+
+.enCard {
+  height: 45px;
+  background: #f5f5f5;
+  padding-top: 10px;
+  border-top: 1px solid #dbdbdb; }
+
+.enCard > span {
+  margin-left: 24px; }
+
+.enCard > a {
+  margin-left: 84px; }
+
+.enCard span.numChild {
+  font-size: 24px;
+  color: #3dba3f; }
+
+.enCard span.numP {
+  font-size: 24px; }
+
+.clearList {
+  width: 300px;
+  height: 160px;
+  background: white;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -150px;
+  margin-top: -80px; }
+
+.clearList .clearP {
+  line-height: 112px;
+  text-align: center; }
+
+.clearList .yesNo {
+  margin-left: 130px; }
+
+.clearList .yesNo a {
+  width: 74px;
+  height: 32px;
+  line-height: 32px; }
+
+.enTable {
+  width: 100%;
+  line-height: 40px;
+  margin-top: 16px; }
+
+.enTable thead {
+  background: #f4f4f4;
+  line-height: 46px; }
+
+.enTable thead tr {
+  border-top: 1px solid #E5E5E5; }
+
+.enTable tbody tr:nth-child(even) {
+  background: #fcfcfc; }
+
+.enTable tbody tr:nth-child(even):hover {
+  background: white; }
+
+.enTable tr {
+  border-bottom: 1px solid #E5E5E5; }
+
+.enTable tr td:first-of-type, .enTable tr th:first-of-type {
+  text-indent: 24px; }
+
+.pageBox {
+  height: 28px;
+  padding: 9px 10px;
+  font-size: 14px;
+  border: 1px #e5e5e5 solid;
+  border-top: none; }
+
+.pageBox a {
+  width: 78px;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 14px;
+  font-weight: bolder;
+  font-size: larger; }
+
+.pageBox a:link {
+  color: #92a0ab; }
+
+.preBtn {
+  background: #bfe7f8;
+  margin-left: 520px; }
+
+.nextBtn {
+  background: #e5e5e5; }
+
+.tip {
+  line-height: 28px;
+  margin-left: 24px; }
+
+.btn-del {
+  position: absolute;
+  right: 16px;
+  top: 0; }
+
+.letr {
+  margin: 0 5px;
+  font-size: 20px;
+  vertical-align: top; }
+
+/**/
+.dialogMask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  -moz-opacity: 0.5; }
+
+#dialog-slideStage {
+  height: 140px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  overflow: hidden; }
+
+#dialog-slideStage .slideCon {
+  position: relative; }
+
+#dialog-slideStage .slideItem {
+  height: 130px;
+  padding-top: 0; }
+
+.dialogBoxContainerCon .closeBtn {
+  position: relative;
+  top: -3px;
+  margin-left: 74px; }
+
+#readCardBtn:hover {
+  text-decoration: underline; }
+
+#physic_no_Inp {
+  width: 120px;
+  height: 22px;
+  line-height: 22px;
+  padding: 2px 8px; }
+.gSelectDownBox .searchBox {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+
+.gSelectDownBox {
+  position: absolute;
+  z-index: 1001;
+  overflow: hidden;
+  border-bottom: 1px solid #dbdbdb;
+  background: #fff; }
+
+.gSelectDownBox .selectTopCon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 34px;
+  padding: 10px;
+  border-bottom: 1px solid #dbdbdb; }
+
+.gSelectDownBox .searchBox {
+  position: relative;
+  width: 260px;
+  border: 1px solid #dbdbdb;
+  width: 100%; }
+  .gSelectDownBox .searchBox input[type=text] {
+    display: block;
+    width: 200px;
+    height: 22px;
+    line-height: 22px;
+    text-indent: 0;
+    padding: 7px 30px 7px 30px;
+    border: 0 none; }
+  .gSelectDownBox .searchBox input[type=text]:focus {
+    color: #f5530c; }
+  .gSelectDownBox .searchBox .iconfont.search {
+    position: absolute;
+    left: 8px;
+    top: 9px;
+    font-size: 16px;
+    color: #bfbfbf;
+    line-height: 1; }
+  .gSelectDownBox .searchBox .clearSearchBtn {
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: 3px;
+    cursor: pointer; }
+  .gSelectDownBox .searchBox .clearSearchBtn .iconfont {
+    font-size: 17px;
+    color: #bfbfbf; }
+
+.gSelectDownBox .searchBox .searchBoxCon {
+  position: relative;
+  height: 100%;
+  padding: 0 30px;
+  overflow: hidden; }
+
+.gSelectDownBox .searchBox .searchBoxCon .gSelectSearchInp {
+  width: 100%;
+  height: 22px;
+  line-height: 22px;
+  padding: 6px 0;
+  background: none;
+  box-shadow: inset 0 0px 0px transparent; }
+
+.gSelectMask {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.gSelectDownBoxCon {
+  position: relative;
+  height: 100%;
+  border-left: 1px solid #dbdbdb;
+  border-right: 1px solid #dbdbdb; }
+
+.gSelectDownBox .selectOptionUl {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto; }
+
+.gSelectDownBox.no-search .selectTopCon {
+  display: none; }
+
+.gSelectDownBox.no-search .selectOptionUl {
+  position: static;
+  height: 100%; }
+
+.gSelectDownBox .selectOptionUl .gSelectOptionItem {
+  padding-left: 10px;
+  height: 34px;
+  line-height: 34px;
+  overflow: hidden;
+  cursor: pointer;
+  border-bottom: 1px solid #dbdbdb; }
+
+.gSelectDownBox .selectOptionUl .gSelectOptionItem:last-child {
+  border-bottom: 0 none; }
+
+.gSelectDownBox .selectOptionUl .gSelectOptionItem:hover {
+  background: #fcfcfc; }
+
+.gSelectDownBox .selectOptionUl .status {
+  height: 150px;
+  line-height: 150px;
+  text-align: center; }
+
+/*# sourceMappingURL=all.css.map*/

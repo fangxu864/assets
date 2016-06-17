@@ -11,7 +11,18 @@ var Api = {
 			//获取供应商的年卡产品列表
 			getProdList : "/r/product_annualCard/getAnnualCardProducts/",
 			//录入卡片
-			createAnnualCard : "/r/product_annualCard/createAnnualCard/"
+			createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+			//获取相关产品已生成好的卡片
+			getAnnualCards : "/r/product_annualCard/getAnnualCards/",
+			//删除生成好的卡片
+			deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+		},
+		//下单页面
+		makeOrder : {
+			//预定页面请求卡片信息接口
+			getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+			//预定页面请求订单信息接口
+			getOrderInfo : "/r/product_annualCard/getOrderInfo/"
 		}
 	},
 	defaults : {

@@ -21,3 +21,12 @@ http://www.12301.local/route/index.php?c=product_annualCard&a=***（统一请求
 5.绑定物理卡
     a=bindAnnualCard
     参数 card_no(卡号),physics_no(物理卡号),virtual_no(虚拟卡号)
+
+6.提交生成的卡
+    a=createAnnualCard
+    参数:  pid(产品id) , 3026
+          list(卡片列表),
+          [
+              {virtual_no : '111111', 'physics_no' : '', 'card_no' : ''},
+              {virtual_no : '222222', 'physics_no' : 'asdasda', 'card_no' : '415145'},
+          ]

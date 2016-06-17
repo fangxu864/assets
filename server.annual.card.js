@@ -12,11 +12,11 @@ var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var entry = {
-	"publish_card_prod_info" : ["./src/annual_card/page/publish_card_prod_info/index.js"],
-	"publish_card_package_info" : ["./src/annual_card/page/publish_card_package_info/index.js"],
-	"publish_card_entry_card" : ["./src/annual_card/page/publish_card_entry_card/index.js"],
+	"publish_card_prod_info" : ["./src/annual_card/page/publish_prod_info/index.js"],
+	"publish_card_package_info" : ["./src/annual_card/page/publish_package_info/index.js"],
+	"publish_card_entry_card" : ["./src/annual_card/page/entry_card/index.js"],
+	"publish_card_fill_order" : ["./src/annual_card/page/makeorder/index.js"],
 	"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
-	"publish_card_fill_order" : ["./src/annual_card/page/publish_card_fill_order/index.js"],
 	"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"],
 	"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"],
 	"publish_card_membercard_manage" : ["./src/annual_card/page/publish_card_membercard_manage/index.js"],
@@ -33,7 +33,7 @@ var config = require("./config")({
 	entry : entry,
 	output : {
 		path : path.join(__dirname, "./build/"),
-		filename: "assets/build/js/[name]/all.js",
+		filename: "assets/build/js/annual_card_[name]/all.js",
 		publicPath : "http://localhost:"+PORT
 	},
 	plugins : [

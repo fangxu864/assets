@@ -80,10 +80,19 @@ function asyncJob2(param, isOk) {
 	return defer.promise;
 }
 
-asyncJob1('monkey', true).then(function (job1Result) {
-	return asyncJob2(job1Result, true);
-}).then(function (job2Result) {
-	console.log('we are all done!', job2Result);
-});
+
+
+var readableStream = fs.createReadStream("./package.json");
+readableStream.on("readable",function(data){
+	//console.log('有数据进来！数据：' + readableStream.read());
+})
+console.log(require("util"));
+//readableStream.on("data",function(data){
+//	console.log(data);
+//})
+//readableStream.on("end",function(data){
+//	console.log("读取完毕");
+//	console.log(data);
+//})
 
 
