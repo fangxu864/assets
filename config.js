@@ -12,7 +12,7 @@ module.exports = function(opt){
 		output : output,
 		module : {
 			loaders : [{
-				test : /\.html|tpl$/,loader : "html?-minimize"
+				test : /\.html|tpl|xtpl$/,loader : "html?-minimize"
 			},{
 				test : /\.css$/,
 				loader : ExtractTextPlugin.extract("style","css?sourceMap!cssnext!postcss")

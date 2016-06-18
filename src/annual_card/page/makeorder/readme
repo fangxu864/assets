@@ -1,0 +1,93 @@
+1.预定页面请求卡片信息接口
+
+url : http://www.12301.local/route/index.php?c=product_annualCard&a=getCardsForOrder
+
+参数: pid=3026(产品id)
+      physics=1111,2222,33333(物理卡号),当这个参数为空的时候表示购买虚拟卡
+
+返回:
+{
+    "code": 200,
+    "data": [
+        {
+            "virtual_no": "111655",
+            "sid": "3385",
+            "physics_no": "",
+            "card_no": ""
+        }
+    ],
+    "msg": ""
+}
+
+2.预定页面请求订单信息接口
+
+url : http://www.12301.local/route/index.php?c=product_annualCard&a=getOrderInfo
+
+参数 : pid=3026(产品id)
+       aid=3385(上级供应商id)
+       type=virtual|physics(购买的是虚拟卡还是物理卡)
+
+返回:
+
+{
+    "code": 200,
+    "data": {
+        "product": {
+            "ltitle" : ""mm--测试景点",
+            "title": "优惠票",
+            "price": 1, //价格
+            "storage": "1" //库存
+        },
+        "privileges": [ //特权产品
+            {
+                "tid": "25786",
+                "limit_count": "1,2,3",
+                "title": "三人票",
+                "pid": "22874",
+                "ltitle": "九顶塔"
+            },
+            {
+                "tid": "28274",
+                "limit_count": "2,3,4",
+                "title": "成人票",
+                "pid": "25271",
+                "ltitle": "测试景区0308003"
+            }
+        ],
+         "pay": {
+            "is_self": 0,   //是否自供应
+            "remain": 49.63,
+            "credit": "6.61"
+        },
+        "supplier": {   //供应商系想你
+            "name": "慢慢的店铺",
+            "linkman": "18750178296",
+            'intro' : ""
+        }
+    },
+    "msg": ""
+}
+
+3.如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+
+url : http://www.12301.local/route/index.php?c=product_annualCard&a=isNeedToReplace
+
+参数: mobile=13123196340(手机号)
+      name=翁彬(联系人姓名)
+      id_card=350181191062332(身份证)
+      sid=3385(年卡供应商)
+
+返回:
+
+{
+    "code": 200,
+    "data": {
+        "exist": 1,
+        "name": "来自汪星人的神秘年卡",
+        "left": "1/20"
+    },
+    "msg": ""
+}
+
+
+

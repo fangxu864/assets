@@ -4,6 +4,7 @@
  * Description: ""
  */
 /*通用UI*/
+body{ background:#f8f9fb}
 .cardContainer a:hover,.border a:hover{text-decoration:none;}
 .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
 .lt-ie8 .clearfix{height:1%;}

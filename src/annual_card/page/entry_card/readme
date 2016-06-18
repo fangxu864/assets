@@ -1,0 +1,32 @@
+卡片录入相关接口
+
+http://www.12301.local/route/index.php?c=product_annualCard&a=***（统一请求地址）
+
+1.获取供应商的年卡产品列表
+    a=getAnnualCardProducts
+    page(页数),page_size(每页条数)
+
+2.生成卡号
+    a=createAnnualCard
+    参数 pid(产品id),num(需要生成的卡号数量)
+
+3.获取相关产品已生成好的卡片
+    a=getAnnualCards
+    参数 pid(产品id),page(页数),page_size(每页条数)
+
+4.删除生成好的卡片
+    a=deleteAnnualCard
+    参数 virtual_no(虚拟卡号),如果不传虚拟卡号参数代表全部清空
+
+5.绑定物理卡
+    a=bindAnnualCard
+    参数 card_no(卡号),physics_no(物理卡号),virtual_no(虚拟卡号)
+
+6.提交生成的卡
+    a=createAnnualCard
+    参数:  pid(产品id) , 3026
+          list(卡片列表),
+          [
+              {virtual_no : '111111', 'physics_no' : '', 'card_no' : ''},
+              {virtual_no : '222222', 'physics_no' : 'asdasda', 'card_no' : '415145'},
+          ]

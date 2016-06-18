@@ -28,9 +28,13 @@
             </div>
             <div class="rt">
                 <div>
-                    <input type="text" class="textInp"/><a href="javascript:void(0);" class="btn btn-border cardBtn" id="cardBtn">刷卡</a>
+                    <input type="text" class="textInp" id="cardNum"/><a href="javascript:void(0);" class="btn btn-border cardBtn" id="cardBtn">刷卡</a>
                 </div>
-                <p><span class="font-orange">已激活！</span>会员号：H45522 物理ID：54665566</p>
+                <p class="actip">
+                    <i class="acSpan">已激活！</i>
+                    <i>会员号：H45522</i>
+                    <i>物理ID：54665566</i>
+                </p>
             </div>
         </div>
         <div class="line">
@@ -38,7 +42,7 @@
                 <span class="font-red">*</span>手机号：
             </div>
             <div class="rt">
-                <input type="text" class="textInp"/><a href="javascript:void(0);" class="btn btn-border cardBtn" id="codeBtn">获取验证码</a>
+                <input type="text" class="textInp" id="phoneNum"/><a href="javascript:void(0);" class="btn btn-border cardBtn" id="codeBtn">获取验证码</a>
             </div>
         </div>
         <div class="line">
@@ -46,7 +50,7 @@
                 <span class="font-red">*</span>短信验证码：
             </div>
             <div class="rt">
-                <input type="text" class="textInp"/>
+                <input type="text" class="textInp" id="codeNum"/>
             </div>
         </div>
         <div class="line">
@@ -54,7 +58,7 @@
                 <span class="font-red">*</span>身份证号：
             </div>
             <div class="rt">
-                <input type="text" class="textInp"/>
+                <input type="text" class="textInp" id="idNum"/>
             </div>
         </div>
         <div class="line">
@@ -62,7 +66,7 @@
                 <span class="font-red">*</span>会员名称：
             </div>
             <div class="rt">
-                <input type="text" class="textInp"/>
+                <input type="text" class="textInp" id="memName"/>
             </div>
         </div>
         <div class="line">
@@ -73,12 +77,35 @@
                 <input type="text" class="textInp"/>
             </div>
         </div>
-        <a href="javascript:void(0);" class="activateBtn" id="activateBtn">激活</a>
+        <a href="javascript:void(0);" class="activate" id="activateBtn">激活</a>
     </div>
-
-
-
-
-
+    <div class="memberBox border" id="memberBox" style="display:none;">
+        <p class="memP">会员已存在！是否替换原有卡和套餐？</p>
+        <table class="memTable border">
+            <thead>
+            <tr class="font-gray">
+                <th>手机号</th>
+                <th>身份证</th>
+                <th>卡套餐（已用特权数）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>145585686888 </td>
+                <td>256339747443333</td>
+                <td>三亚年卡套餐（5/20）</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="btnBox">
+            <a href="javascript:;" class="btn btn-blue" id="replaceBtn">替换</a>
+            <a href="javascript:;" class="btn btn-border" id="messageBtn">更换信息激活</a>
+        </div>
+    </div>
+    <div class="payCard border" id="payCard" style="display:none;">
+        <a href="javascript:void(0);" class="btn-del">×</a>
+        <p>请刷卡</p>
+    </div>
+    <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_activate/all.js"></script>
 </body>
 </html>

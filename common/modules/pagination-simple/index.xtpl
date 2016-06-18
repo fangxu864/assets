@@ -1,0 +1,12 @@
+<div class="navigationBar">
+    <div class="navCon">
+        <a href="javascript:void(0)" class="navBtn next nextPageBtn disable"><span class="iconfont">&#xe60d;</span></a>
+        <a href="javascript:void(0)" class="prevPageBtn navBtn prev disable"><span class="iconfont">&#xe60c;</span></a>
+        <div class="which">
+            <span class="whichPageInp pagenum">1</span>
+            <span class="var"> / </span>
+            <span class="totalPageInp pagenum">1</span>
+        </div>
+    </div>
+    <p style="display:none" class="tip keyupTip">亲，可以使用键盘前后方向键来翻页哟</p>
+</div>
