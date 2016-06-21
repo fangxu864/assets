@@ -411,7 +411,7 @@
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 17:11 -->\r\n<!-- Description: huangzhiyang -->\r\n<p id=\"packageName\" class=\"packageName\">三亚先行年卡</p>\r\n<ul id=\"pckTitListUl\" class=\"pckTitListUl\">\r\n    <li id=\"addPckBtn\" class=\"addPckBtn\">＋</li>\r\n</ul>\r\n";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 17:11 -->\r\n<!-- Description: huangzhiyang -->\r\n<p id=\"packageName\" class=\"packageName\">产品名：三亚先行年卡</p>\r\n<ul id=\"pckTitListUl\" class=\"pckTitListUl\">\r\n    <li id=\"addPckBtn\" class=\"addPckBtn\">＋</li>\r\n</ul>\r\n";
 
 /***/ },
 /* 33 */
