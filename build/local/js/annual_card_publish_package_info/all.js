@@ -242,9 +242,9 @@
 			tid = tid || "";
 			var that = this;
 			PFT.Util.Ajax(this.api.fetch_package_list,{
-				type : "get",
+				type : "post",
 				params : {
-					prod_id : tid
+					tid : tid
 				},
 				loading : function(){ that.trigger("loading")},
 				complete : function(){ that.trigger("complete")},
@@ -417,7 +417,7 @@
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 18:41 -->\r\n<!-- Description: huangzhiyang -->\r\n<li data-id=\"<%=tid%>\" id=\"pckTitListUlItem_<%=tid%>\" class=\"pckTitListUlItem edit\">\r\n    <span class=\"name passCard\"><%=ttitle%></span>\r\n    <input type=\"text\" class=\"editNameInp\" placeholder=\"请填写套餐名称\" value=\"<%=ttitle%>\"/><i class=\"removeBtn btn-cancle\">×</i>\r\n</li>";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 18:41 -->\r\n<!-- Description: huangzhiyang -->\r\n<li data-id=\"<%=tid%>\" id=\"pckTitListUlItem_<%=tid%>\" class=\"pckTitListUlItem edit\">\r\n    <span class=\"name passCard\"><%=ttitle%></span>\r\n    <input type=\"text\" class=\"editNameInp\" placeholder=\"请填写套餐名称\" value=\"<%=ttitle%>\"/><i class=\"removeBtn iconfont\">&#xe627;\r\n</i>\r\n</li>";
 
 /***/ },
 /* 34 */

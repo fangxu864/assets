@@ -24,9 +24,9 @@ var ManagerStore = Backbone.Model.extend({
 		tid = tid || "";
 		var that = this;
 		PFT.Util.Ajax(this.api.fetch_package_list,{
-			type : "get",
+			type : "post",
 			params : {
-				prod_id : tid
+				tid : tid
 			},
 			loading : function(){ that.trigger("loading")},
 			complete : function(){ that.trigger("complete")},
