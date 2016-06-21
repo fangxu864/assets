@@ -216,9 +216,10 @@
 		el : $("body"),
 		initialize : function(){
 			var that = this;
-			this.tid = PFT.Util.UrlParse()["prod_id"] || "";
 			this.model = new Model();
-			this.model.fetchTicketInfoByTid(this.tid,{
+			this.tid = this.model.getTid();
+			this.lid = this.model.getLid();
+			this.model.fetchTicketInfo({
 				loading : function(){
 					var html = Loading("努力加载中，请稍后...",{
 						id : "fetchTicketInfoLoading",
@@ -237,36 +238,26 @@
 				},
 				complete : function(){ $("#fetchTicketInfoLoading").remove();},
 				success : function(res){
-					res = res || {};
-					if(res.code==200){
+					that.infoManager = new PckInfoManager({model:that.model,initData:res});
 	
-						that.infoManager = new PckInfoManager({model:that.model});
+					that.header = new Header({model:that.model,initData:res});
 	
-						that.header = new Header({model:that.model});
-	
-						//点击删除一个套餐
-						that.header.on("item.delete",function(data){
-							that.infoManager.removeItem(data.id);
-						});
-						//点击切换套餐
-						that.header.on("item.switch",function(data){
-							var id = data.id;
-							if(id>=0){
-								that.infoManager.switchItem(id);
-							}else{
-								that.infoManager.createItem(id);
-								that.infoManager.switchItem(id);
-							}
-						});
-	
-					}else{
-						alert(res.msg || PFT.AJAX_ERROR_TEXT);
-					}
+					//点击删除一个套餐
+					that.header.on("item.delete",function(data){
+						that.infoManager.removeItem(data.id);
+					});
+					//点击切换套餐
+					that.header.on("item.switch",function(data){
+						var id = data.id;
+						if(id>=0){
+							that.infoManager.switchItem(id);
+						}else{
+							that.infoManager.createItem(id);
+							that.infoManager.switchItem(id);
+						}
+					});
 				}
 			});
-	
-	
-	
 		}
 	});
 	
@@ -303,30 +294,36 @@
 	
 		},
 		getTid : function(){
-			return PFT.Util.UrlParse()["tid"] || "";
+			return typeof this.tid=="undefined" ? (this.tid=PFT.Util.UrlParse()["prod_id"] || "") : this.tid;
+		},
+		getLid : function(){
+			return typeof this.lid=="undefined" ? (this.lid=PFT.Util.UrlParse()["sid"] || "") : this.lid;
+		},
+		getCache : function(tid){
+			if(!tid) return null;
+			return this.__Cache[tid] || null
 		},
 		/**
 		* 获取指定年卡产品内的套餐信息
 		*/
-		fetchTicketInfoByTid : function(tid,opt){
-			tid = tid || this.getTid();
-			if(!tid) return false;
+		fetchTicketInfo : function(opt){
+			var lid = this.getLid();
+			var tid = this.getTid();
+			if(!lid && !tid) throw new Error("lid与tid不能同时为空");
 			var opt = opt || {};
 			var loading = opt.loading || fn;
 			var complete = opt.complete || fn;
 			var success = opt.success || fn;
-			var that = this;
-			if(this.__Cache[tid]){
-				loading();
-				complete();
-				success(this.__Cache[tid]);
-				return false;
+			var params = {};
+			if(tid){
+				params["tid"] = tid;
+			}else if(lid){
+				params["lid"] = lid;
 			}
+			var that = this;
 			PFT.Util.Ajax(this.api.fetch_package_list,{
 				type : "post",
-				params : {
-					tid : tid
-				},
+				params : params,
 				loading : function(){
 					loading();
 					that.trigger("fetchTicketInfo.loading");
@@ -336,7 +333,9 @@
 					that.trigger("fetchTicketInfo.complete");
 				},
 				success : function(res){
-					that.__Cache[tid] = res;
+					tid && (that.__Cache[tid] = true);
+					res = res || {};
+					if(res.code!=200) return alert(res.msg || PFT.AJAX_ERROR_TEXT);
 					success(res);
 					that.trigger("fetchTicketInfo.ready",res);
 				}
@@ -419,29 +418,33 @@
 			"click .removeBtn" : "onRemoveBtnClick"
 		},
 		_uid : 0,
-		initialize : function(){
+		initialize : function(opt){
 			var that = this;
 			this.$el.html(indexTpl);
 			this.$addBtn = $("#addPckBtn");
 			this.listUl = $("#pckTitListUl");
-			//从服务器取回套餐信息后
-			this.model.on("fetchTicketInfo.ready",function(res){
-				var html = "";
-				res = res || "";
-				var code = res.code;
-				var data = res.data;
-				var msg = res.msg;
-				if(code==200){
-					for(var i in data){
-						var item = data[i];
-						html += that.renderItem(item.tid,item.ttitle);
-					}
-					that.$addBtn.before(html);
-					that.listUl.children().first().trigger("click");
-				}else{
-					alert(msg);
+			this.tid = this.model.getTid(); //票id
+			this.lid = this.model.getLid(); //景区id
+			var initData = opt.initData;
+			var html = "";
+			if(this.tid){ //址地栏传入tid进来
+				var data = initData.data.otherTicket || [];
+				for(var i in data){
+					var item = data[i];
+					var tid = item.tid;
+					var ttitle = item.title;
+					html += that.renderItem(tid,ttitle);
 				}
-			})
+				that.$addBtn.before(html);
+				that.listUl.children(".pckTitListUlItem").filter(function(){
+					return $(this).attr("data-id")==that.id;
+				}).trigger("click");
+			}else{//地址栏没传入tid 说明是新建一个景区
+				html += that.renderItem(that.getUID(),"");
+				that.$addBtn.before(html);
+				that.listUl.children().first().trigger("click");
+			}
+			$("#packageName").text(initData.data.attribute.ltitle);
 		},
 		//点击切换
 		onItemClick : function(e){
@@ -500,13 +503,13 @@
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 17:11 -->\r\n<!-- Description: huangzhiyang -->\r\n<p id=\"packageName\" class=\"packageName\">三亚先行年卡</p>\r\n<ul id=\"pckTitListUl\" class=\"pckTitListUl\">\r\n    <li id=\"addPckBtn\" class=\"addPckBtn\">＋</li>\r\n</ul>\r\n";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 17:11 -->\r\n<!-- Description: huangzhiyang -->\r\n<p id=\"packageName\" class=\"packageName\"></p>\r\n<ul id=\"pckTitListUl\" class=\"pckTitListUl\">\r\n    <li id=\"addPckBtn\" class=\"addPckBtn\">＋</li>\r\n</ul>\r\n";
 
 /***/ },
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 18:41 -->\r\n<!-- Description: huangzhiyang -->\r\n<li data-id=\"<%=tid%>\" id=\"pckTitListUlItem_<%=tid%>\" class=\"pckTitListUlItem edit\">\r\n    <span class=\"name passCard\"><%=ttitle%></span>\r\n    <input type=\"text\" class=\"editNameInp\" placeholder=\"请填写套餐名称\" value=\"<%=ttitle%>\"/><i class=\"removeBtn btn-cancle\">×</i>\r\n</li>";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 18:41 -->\r\n<!-- Description: huangzhiyang -->\r\n<li data-id=\"<%=tid%>\" id=\"pckTitListUlItem_<%=tid%>\" class=\"pckTitListUlItem edit\">\r\n    <span class=\"name passCard\"><%=ttitle%></span>\r\n    <input type=\"text\" class=\"editNameInp\" placeholder=\"请填写套餐名称\" value=\"<%=ttitle%>\"/><i class=\"removeBtn iconfont\">&#xe627;</i>\r\n</li>";
 
 /***/ },
 /* 34 */

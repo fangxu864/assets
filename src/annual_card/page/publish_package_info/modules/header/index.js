@@ -15,29 +15,33 @@ var Header = Backbone.View.extend({
 		"click .removeBtn" : "onRemoveBtnClick"
 	},
 	_uid : 0,
-	initialize : function(){
+	initialize : function(opt){
 		var that = this;
 		this.$el.html(indexTpl);
 		this.$addBtn = $("#addPckBtn");
 		this.listUl = $("#pckTitListUl");
-		//从服务器取回套餐信息后
-		this.model.on("fetchTicketInfo.ready",function(res){
-			var html = "";
-			res = res || "";
-			var code = res.code;
-			var data = res.data;
-			var msg = res.msg;
-			if(code==200){
-				for(var i in data){
-					var item = data[i];
-					html += that.renderItem(item.tid,item.ttitle);
-				}
-				that.$addBtn.before(html);
-				that.listUl.children().first().trigger("click");
-			}else{
-				alert(msg);
+		this.tid = this.model.getTid(); //票id
+		this.lid = this.model.getLid(); //景区id
+		var initData = opt.initData;
+		var html = "";
+		if(this.tid){ //址地栏传入tid进来
+			var data = initData.data.otherTicket || [];
+			for(var i in data){
+				var item = data[i];
+				var tid = item.tid;
+				var ttitle = item.title;
+				html += that.renderItem(tid,ttitle);
 			}
-		})
+			that.$addBtn.before(html);
+			that.listUl.children(".pckTitListUlItem").filter(function(){
+				return $(this).attr("data-id")==that.id;
+			}).trigger("click");
+		}else{//地址栏没传入tid 说明是新建一个景区
+			html += that.renderItem(that.getUID(),"");
+			that.$addBtn.before(html);
+			that.listUl.children().first().trigger("click");
+		}
+		$("#packageName").text(initData.data.attribute.ltitle);
 	},
 	//点击切换
 	onItemClick : function(e){

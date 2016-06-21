@@ -16,30 +16,36 @@ var ManagerStore = Backbone.Model.extend({
 
 	},
 	getTid : function(){
-		return PFT.Util.UrlParse()["tid"] || "";
+		return typeof this.tid=="undefined" ? (this.tid=PFT.Util.UrlParse()["prod_id"] || "") : this.tid;
+	},
+	getLid : function(){
+		return typeof this.lid=="undefined" ? (this.lid=PFT.Util.UrlParse()["sid"] || "") : this.lid;
+	},
+	getCache : function(tid){
+		if(!tid) return null;
+		return this.__Cache[tid] || null
 	},
 	/**
 	* 获取指定年卡产品内的套餐信息
 	*/
-	fetchTicketInfoByTid : function(tid,opt){
-		tid = tid || this.getTid();
-		if(!tid) return false;
+	fetchTicketInfo : function(opt){
+		var lid = this.getLid();
+		var tid = this.getTid();
+		if(!lid && !tid) throw new Error("lid与tid不能同时为空");
 		var opt = opt || {};
 		var loading = opt.loading || fn;
 		var complete = opt.complete || fn;
 		var success = opt.success || fn;
-		var that = this;
-		if(this.__Cache[tid]){
-			loading();
-			complete();
-			success(this.__Cache[tid]);
-			return false;
+		var params = {};
+		if(tid){
+			params["tid"] = tid;
+		}else if(lid){
+			params["lid"] = lid;
 		}
+		var that = this;
 		PFT.Util.Ajax(this.api.fetch_package_list,{
 			type : "post",
-			params : {
-				tid : tid
-			},
+			params : params,
 			loading : function(){
 				loading();
 				that.trigger("fetchTicketInfo.loading");
@@ -49,7 +55,9 @@ var ManagerStore = Backbone.Model.extend({
 				that.trigger("fetchTicketInfo.complete");
 			},
 			success : function(res){
-				that.__Cache[tid] = res;
+				tid && (that.__Cache[tid] = true);
+				res = res || {};
+				if(res.code!=200) return alert(res.msg || PFT.AJAX_ERROR_TEXT);
 				success(res);
 				that.trigger("fetchTicketInfo.ready",res);
 			}
