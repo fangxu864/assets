@@ -3,35 +3,55 @@
  * Date: 2016/6/3 16:27
  * Description: ""
  */
+var fn = new Function();
 var Api = require("../../common/api.js");
 var ManagerStore = Backbone.Model.extend({
+	__Cache : {},
 	api : {
 		fetch_package_list : Api.Url.PackageInfo.getPackageInfoList,
 		fetch_prod_list : Api.Url.PackageInfo.getLands,
 		fetch_ticket : Api.Url.PackageInfo.getTickets
 	},
 	initialize : function(){
-		this.tid = PFT.Util.UrlParse()["prod_id"] || "";
-		this.fetchTicketInfoByTid(this.tid);
+
 	},
-	getCardID : function(){
-		return PFT.Util.UrlParse()["lid"];
+	getTid : function(){
+		return PFT.Util.UrlParse()["tid"] || "";
 	},
 	/**
 	* 获取指定年卡产品内的套餐信息
 	*/
-	fetchTicketInfoByTid : function(tid){
-		tid = tid || "";
+	fetchTicketInfoByTid : function(tid,opt){
+		tid = tid || this.getTid();
+		if(!tid) return false;
+		var opt = opt || {};
+		var loading = opt.loading || fn;
+		var complete = opt.complete || fn;
+		var success = opt.success || fn;
 		var that = this;
+		if(this.__Cache[tid]){
+			loading();
+			complete();
+			success(this.__Cache[tid]);
+			return false;
+		}
 		PFT.Util.Ajax(this.api.fetch_package_list,{
-			type : "get",
+			type : "post",
 			params : {
-				prod_id : tid
+				tid : tid
 			},
-			loading : function(){ that.trigger("loading")},
-			complete : function(){ that.trigger("complete")},
+			loading : function(){
+				loading();
+				that.trigger("fetchTicketInfo.loading");
+			},
+			complete : function(){
+				complete();
+				that.trigger("fetchTicketInfo.complete");
+			},
 			success : function(res){
-				that.trigger("ready",res);
+				that.__Cache[tid] = res;
+				success(res);
+				that.trigger("fetchTicketInfo.ready",res);
 			}
 		})
 	},

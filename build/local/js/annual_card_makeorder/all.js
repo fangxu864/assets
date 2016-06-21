@@ -328,8 +328,11 @@
 		var className = opt.className || "";
 		var id = opt.id || "";
 		var html = "";
+		var css = opt.css || {};
+		var style = "";
+		for(var i in css) style += i+":"+css[i]+"; ";
 		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
-		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center" class="'+className+'">';
+		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
 		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 		html +=     '<span class="t">'+text+'</span>';
 		html += '</'+tag+'>';

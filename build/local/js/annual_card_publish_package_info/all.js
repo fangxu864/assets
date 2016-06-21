@@ -160,7 +160,45 @@
 /* 21 */,
 /* 22 */,
 /* 23 */,
-/* 24 */,
+/* 24 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/17 15:24
+	 * Description: ""
+	 */
+	/**
+	 * pc端全局loading效果
+	 * @param text loading时显示的文字
+	 * @param opt  附加选项
+	 * @constructor
+	 */
+	var Loading = function(text,opt){
+		text = text || "请稍后...";
+		opt = opt || {}
+		var tag = opt.tag || "div";
+		var width = opt.width+"px" || "100%";
+		var height = opt.height || 150;
+		var loadingImg = opt.loadingImg || {};
+		var imgWidth = loadingImg.width || 24;
+		var top = loadingImg.top || 0;
+		var className = opt.className || "";
+		var id = opt.id || "";
+		var html = "";
+		var css = opt.css || {};
+		var style = "";
+		for(var i in css) style += i+":"+css[i]+"; ";
+		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
+		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
+		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
+		html +=     '<span class="t">'+text+'</span>';
+		html += '</'+tag+'>';
+		return html;
+	};
+	module.exports = Loading;
+
+/***/ },
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -173,30 +211,61 @@
 	var Model = __webpack_require__(28);
 	var Header = __webpack_require__(29);
 	var PckInfoManager = __webpack_require__(34);
+	var Loading = __webpack_require__(24);
 	var MainView = Backbone.View.extend({
 		el : $("body"),
 		initialize : function(){
 			var that = this;
+			this.tid = PFT.Util.UrlParse()["prod_id"] || "";
 			this.model = new Model();
+			this.model.fetchTicketInfoByTid(this.tid,{
+				loading : function(){
+					var html = Loading("努力加载中，请稍后...",{
+						id : "fetchTicketInfoLoading",
+						width : 798,
+						height : 600,
+						css : {
+							position : "absolute",
+							zIndex : 1000,
+							top : "28px",
+							left : 0,
+							right : 0,
+							background : "#fff"
+						}
+					});
+					$("#cardContainer").append(html);
+				},
+				complete : function(){ $("#fetchTicketInfoLoading").remove();},
+				success : function(res){
+					res = res || {};
+					if(res.code==200){
 	
-			this.infoManager = new PckInfoManager({model:this.model});
+						that.infoManager = new PckInfoManager({model:that.model});
 	
-			this.header = new Header({model:this.model});
+						that.header = new Header({model:that.model});
 	
-			//点击删除一个套餐
-			this.header.on("item.delete",function(data){
-				that.infoManager.removeItem(data.id);
-			});
-			//点击切换套餐
-			this.header.on("item.switch",function(data){
-				var id = data.id;
-				if(id>=0){
-					that.infoManager.switchItem(id);
-				}else{
-					that.infoManager.createItem(id);
-					that.infoManager.switchItem(id);
+						//点击删除一个套餐
+						that.header.on("item.delete",function(data){
+							that.infoManager.removeItem(data.id);
+						});
+						//点击切换套餐
+						that.header.on("item.switch",function(data){
+							var id = data.id;
+							if(id>=0){
+								that.infoManager.switchItem(id);
+							}else{
+								that.infoManager.createItem(id);
+								that.infoManager.switchItem(id);
+							}
+						});
+	
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
 				}
 			});
+	
+	
 	
 		}
 	});
@@ -221,35 +290,55 @@
 	 * Date: 2016/6/3 16:27
 	 * Description: ""
 	 */
+	var fn = new Function();
 	var Api = __webpack_require__(18);
 	var ManagerStore = Backbone.Model.extend({
+		__Cache : {},
 		api : {
 			fetch_package_list : Api.Url.PackageInfo.getPackageInfoList,
 			fetch_prod_list : Api.Url.PackageInfo.getLands,
 			fetch_ticket : Api.Url.PackageInfo.getTickets
 		},
 		initialize : function(){
-			this.tid = PFT.Util.UrlParse()["prod_id"] || "";
-			this.fetchTicketInfoByTid(this.tid);
+	
 		},
-		getCardID : function(){
-			return PFT.Util.UrlParse()["lid"];
+		getTid : function(){
+			return PFT.Util.UrlParse()["tid"] || "";
 		},
 		/**
 		* 获取指定年卡产品内的套餐信息
 		*/
-		fetchTicketInfoByTid : function(tid){
-			tid = tid || "";
+		fetchTicketInfoByTid : function(tid,opt){
+			tid = tid || this.getTid();
+			if(!tid) return false;
+			var opt = opt || {};
+			var loading = opt.loading || fn;
+			var complete = opt.complete || fn;
+			var success = opt.success || fn;
 			var that = this;
+			if(this.__Cache[tid]){
+				loading();
+				complete();
+				success(this.__Cache[tid]);
+				return false;
+			}
 			PFT.Util.Ajax(this.api.fetch_package_list,{
-				type : "get",
+				type : "post",
 				params : {
-					prod_id : tid
+					tid : tid
 				},
-				loading : function(){ that.trigger("loading")},
-				complete : function(){ that.trigger("complete")},
+				loading : function(){
+					loading();
+					that.trigger("fetchTicketInfo.loading");
+				},
+				complete : function(){
+					complete();
+					that.trigger("fetchTicketInfo.complete");
+				},
 				success : function(res){
-					that.trigger("ready",res);
+					that.__Cache[tid] = res;
+					success(res);
+					that.trigger("fetchTicketInfo.ready",res);
 				}
 			})
 		},
@@ -336,7 +425,7 @@
 			this.$addBtn = $("#addPckBtn");
 			this.listUl = $("#pckTitListUl");
 			//从服务器取回套餐信息后
-			this.model.on("ready",function(res){
+			this.model.on("fetchTicketInfo.ready",function(res){
 				var html = "";
 				res = res || "";
 				var code = res.code;

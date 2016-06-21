@@ -21,7 +21,7 @@ var Header = Backbone.View.extend({
 		this.$addBtn = $("#addPckBtn");
 		this.listUl = $("#pckTitListUl");
 		//从服务器取回套餐信息后
-		this.model.on("ready",function(res){
+		this.model.on("fetchTicketInfo.ready",function(res){
 			var html = "";
 			res = res || "";
 			var code = res.code;
