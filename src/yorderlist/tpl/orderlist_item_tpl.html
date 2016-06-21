@@ -1,0 +1,123 @@
+<script type="text/template" id="orderlist_item_tpl">
+    <% _.each(data,function(item){ %>
+        <li class="orderItem">
+            <div class="oMsgBox">
+                <div class="photoBox"><div class="con"><img onerror="javascript:this.src='images/defaultThum.jpg';this.onerror=null;" src="<%=item.imgpath%>"/></div></div>
+                <div class="detailBox">
+                    <p class="line">
+                        <span class="pname">
+                            <a target="_blank" href="scenicDetail.html?lid=<%=item.lid%>&did="><%=item.title%></a>
+                        </span>
+                        <span class="city">【<%=item.city ? item.city : ""%>】</span>
+                    </p>
+                    <p class="line gongying">
+                        <span class="shang">供应商：<%=item.dname%></span>
+                        <a class="qqTalk" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=<%=item.qq%>&amp;site=qq&amp;menu=yes"><img onerror="this.parentNode.removeChild(this)" border="0" src="http://wpa.qq.com/pa?p=2:<%=item.qq%>:52" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
+                    </p>
+                    <p class="line addr">
+                        <%=item.address!=''?'地址<span class="vHidden">隐</span>'+item.address:''%>
+                        <!--地址<span class="vHidden">隐</span>：<%=item.address%>-->
+                    </p>
+                </div>
+                <div class="rigBox">
+                    <span class="priceBox orange bold"><i class="yen">&yen;</i><em class="num" style="font-size:22px; top:2px;"><%=item.minprice%></em><i class="t">起</i></span>
+                    <a target="_blank" href="dcode.html?lid=<%=item.lid%>&aid=<%=item.aid%>" class="ma"><img src="http://www.12301.cc/images/dcode.jpg" alt=""/><span class="t">二维码</span></a>
+                </div>
+            </div>
+            <div class="ticketBox">
+                <ul class="ticketHead">
+                    <li class="col_1 col">产品ID</li>
+                    <li class="col_2 col">门票名称</li>
+                    <li class="col_3 col">门市价</li>
+                    <li class="col_4 col">建议零售价</li>
+                    <li class="col_5 col">结算价</li>
+                    <li class="col_6 col">支付方式</li>
+                    <li class="col_7 col">操作</li>
+                </ul>
+                <div class="ticketUl">
+                    <% _.each(item.ticket,function(tic){ %>
+                        <ul class="line" data-pid="<%=tic.pid%>">
+                            <li class="col_1 col">
+                                <sapn title="供应商aid|景区lid|门票tid">
+                                    <%=tic.aid%>|<%=tic.lid%>|<%=tic.tid%>
+                                </sapn>
+                            </li>
+                            <li class="col_2 col">
+                                <a title="<%=tic.ttitle%>" href="javascript:void(0);" class="ticTypeToggleBtn">
+                                    <span class="t"><%=tic.ttitle%></span>
+                                    <i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i>
+                                </a>
+                            </li>
+                            <li class="col_3 col">
+                                <span class="priceBox lineThrought">
+                                    <i class="yen">&yen;</i><em class="num"><%=tic.ms%></em>
+                                </span>
+                            </li>
+                            <li class="col_4 col">
+                                <span class="priceBox">
+                                    <i class="yen">&yen;</i><em class="num"><%=tic.ls%></em>
+                                </span>
+                            </li>
+                            <li class="col_5 col">
+                                <span class="priceBox bold orange">
+                                    <i class="yen">&yen;</i><em class="num jsprice" style="font-size:20px;"><%=tic.js%></em>
+                                    </span>
+                            </li>
+                            <li class="col_6 col">
+                                <%= tic.pay==0 ? '<span class="payTxt xianchang">现玚支付</span>' : '<span class="payTxt online">在线支付</span>'%>
+                            </li>
+                            <li class="col_7 col">
+                                <%
+                                    var fsid=item.fsid ? ("&fsid="+item.fsid) : "";
+                                    var fsaccount=item.fsaccount ? ("&fsaccount="+item.fsaccount) : "";
+                                    var fsname=item.fsname ? ("&fsname="+item.fsname) : "";
+                                %>
+                                <a target="_blank" class="buyBtn <%= tic.pay==0 ? 'xianchang' : 'online' %>" href="productOrder.html?pid=<%=tic.pid%>&aid=<%=tic.aid%><%=fsid%><%=fsaccount%><%=fsname%>">预订</a>
+                                <a class="refBtn buyBtn" data-pid="<%=tic.pid%>" data-aid="<%=tic.aid%>" data-tid="<%=tic.tid%>" data-fsid="<%=item.fsid%>" data-fsaccount="<%=item.fsaccount%>"  href="javascript:void(0)">实时价格</a>
+                            </li>
+                            <li class="ticketTypeMsgBox">
+                                <div class="con">
+                                    <p style="margin-bottom:3px" class="ticketShouming pp">
+                                       <%=tic.explain ? ' 产品说明：'+tic.explain : "&nbsp;"%>
+                                        </p>
+                                    <p class="apt pp">
+                                        <span class="sp">门票类型：电子票</span>
+                                        <span class="sp">有效期限：<%=tic.usetime%></span>
+                                        <span class="sp">
+                                        <%=tic.getaddr?
+                                                (tic.p_type!='B'?"取票信息：":"集合地点：")
+                                            +tic.getaddr:''%>
+                                        </span>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    <% }) %>
+
+                </div>
+                <div class="slideTicketUlBtn disable">
+                    <div class="con"><i class="iconfont btnIcon down">&#xe60b;</i><i class="iconfont btnIcon up">&#xe610;</i><span class="t down">查看更多</span><span class="t up">隐藏部分</span></div>
+                </div>
+            </div>
+        </li>
+    <% }) %>
+</script>
+<script type="text/template">
+    <ul class="line">
+        <li class="col_1 col">3385|12183|25728</li>
+        <li class="col_2 col">
+            <a href="javascript:void(0);" class="ticTypeToggleBtn">
+                <span class="t">成人票</span>
+                <i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i>
+            </a>
+        </li>
+        <li class="col_3 col"><span class="priceBox lineThrought"><i class="yen">&yen;</i><em class="num">5</em></span></li>
+        <li class="col_4 col"><span class="priceBox"><i class="yen">&yen;</i><em class="num">3</em></li>
+        <li class="col_5 col"><span class="priceBox bold orange"><i class="yen">&yen;</i><em class="num" style="font-size:20px;">5</em></li>
+        <li class="col_6 col">在线支付</li>
+        <li class="col_7 col"><a class="buyBtn orange" href="###">预订</a></li>
+        <li class="ticketTypeMsgBox">
+            <div class="con"></div>
+        </li>
+    </ul>
+</script>

@@ -1,0 +1,22 @@
+<style type="text/css">
+.package_box{width: 88%;  margin-bottom: 10px; padding: 4px 0;}
+.package_box li{width:200px; float: left; border:1px solid #0066CC; margin: 2px; padding-left:4px; line-height:15px; background-color: #ffffcc;}
+</style>
+<?
+if(count($package_data)>0) {
+	$package_li = '<ul class="package_box"><h3>您选择的套票产品：</h3>';
+	$package_content = '';
+	$delaydays_L = array();
+	foreach($package_data as $package) {
+		$delaydays_L[] = $package['delaydays'];
+		$package_content .= $package['title'].'<br/><br/>';
+		$package_li .= "<li><p>产品名:{$package['ltitle']}</p>"
+			."<p>票名称:{$package['ttitle']}</p>"
+			."<p>数量:{$package['num']}</p></li>";
+	}
+    sort($delaydays_L);
+	$delaydays = array_shift($delaydays_L);
+	$package_li .= '</ul>';
+	echo $package_li;
+}
+?>

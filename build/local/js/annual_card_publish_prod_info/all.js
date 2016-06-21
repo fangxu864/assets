@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/";
+/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -235,6 +235,17 @@
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
 			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_annualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_annualCard/getTickets/"
+			},
 			//卡片录入相关接口
 			EntryCard : {
 				//获取供应商的年卡产品列表
@@ -362,7 +373,8 @@
 		setVal : function(prov,city){
 			if(arguments.length==0) return false;
 			this.provSelect.val(prov);
-			if(city) this.citySelect.val(city);
+			if(city) this.defaults.city = city;
+			this.provSelect.trigger("change");
 		},
 		getVal : function(){
 			return{
@@ -444,7 +456,6 @@
 			if(!window.FileuploadCallbacks) window["FileuploadCallbacks"] = {};
 			window["FileuploadCallbacks"][id] = window["FileuploadCallbacks"][id] || [];
 			window["FileuploadCallbacks"][id].push(function(){
-				console.log('complete');
 				$("#fileuploadBtn_upload"+id).removeClass("disable");
 			});
 			window["FileuploadCallbacks"][id].push(complete);

@@ -3,27 +3,30 @@
  * Date: 2016/6/3 16:27
  * Description: ""
  */
+var Api = require("../../common/api.js");
 var ManagerStore = Backbone.Model.extend({
-	defaults : {
-		data : {}
-	},
 	api : {
-		fetch_list : "/r/publish_prod_package/fetch_list",
-		fetch_prod_list : "/r/product_annualCard/getLands/",
-		fetch_ticket : "/r/product_annualCard/getTickets/"
+		fetch_package_list : Api.Url.PackageInfo.getPackageInfoList,
+		fetch_prod_list : Api.Url.PackageInfo.getLands,
+		fetch_ticket : Api.Url.PackageInfo.getTickets
 	},
 	initialize : function(){
 		this.fetchPackageList(this.getCardID());
 	},
 	getCardID : function(){
-		return "234234";
+		return PFT.Util.UrlParse()["lid"];
 	},
 	/**
 	* 获取指定年卡产品内的套餐信息
 	*/
 	fetchPackageList : function(cardID){
+		cardID = cardID || "";
 		var that = this;
-		PFT.Util.Ajax(this.api.fetch_list,{
+		PFT.Util.Ajax(this.api.fetch_package_list,{
+			type : "get",
+			params : {
+				lid : cardID
+			},
 			loading : function(){},
 			complate : function(){},
 			success : function(res){
