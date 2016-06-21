@@ -15,7 +15,8 @@ var Header = Backbone.View.extend({
 		"click .removeBtn" : "onRemoveBtnClick"
 	},
 	_uid : 0,
-	initialize : function(opt){
+	initialize : function(opt){},
+	init : function(opt){
 		var that = this;
 		this.$el.html(indexTpl);
 		this.$addBtn = $("#addPckBtn");
@@ -33,13 +34,11 @@ var Header = Backbone.View.extend({
 				html += that.renderItem(tid,ttitle);
 			}
 			that.$addBtn.before(html);
-			that.listUl.children(".pckTitListUlItem").filter(function(){
-				return $(this).attr("data-id")==that.id;
-			}).trigger("click");
+			that.listUl.children(".pckTitListUlItem").filter("[data-id="+this.tid+"]").trigger("click");
 		}else{//地址栏没传入tid 说明是新建一个景区
 			html += that.renderItem(that.getUID(),"");
 			that.$addBtn.before(html);
-			that.listUl.children().first().trigger("click");
+			that.listUl.children(".pckTitListUlItem").first().trigger("click");
 		}
 		$("#packageName").text(initData.data.attribute.ltitle);
 	},

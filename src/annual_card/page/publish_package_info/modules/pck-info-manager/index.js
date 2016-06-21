@@ -19,10 +19,12 @@ var InfoManager = Backbone.View.extend({
 	},
 	template : _.template(infoItem_tpl),
 	rightsTemplate : _.template(rightsItem_tpl),
-	initialize : function(){
+	initialize : function(){},
+	init : function(opt){
 		var that = this;
+		var initData = this.initData = opt.initData;
 		this.itemWidth = $("#infoManagerContainer").width();
-		this.model.on("ready",this.initList,this);
+		this.initList(initData);
 
 		this.Calendar = new Calendar();
 
@@ -72,24 +74,39 @@ var InfoManager = Backbone.View.extend({
 
 	},
 	//获取套餐列表，初始化slide item
-	initList : function(res){
+	initList : function(initData){
+		var that = this;
 		var template = this.template;
 		var html = "";
-		res = res || {};
-		var code = res.code;
-		var data = res.data;
-		var msg = res.msg;
-		if(code!=200) return false;
-		var itemCount = 0;
-		for(var i in data){
-			itemCount++;
-			var d = data[i];
-			var priv = d.priv;
-			d["priv"] = this.renderPckRightList(i,priv);
+		var data = initData.data.attribute;
+		var items = initData.data.otherTicket;
+		for(var i in items){
+			var d = null;
+			var tid = items[i]["tid"];
+			if(tid==that.model.getTid()){
+				d = data;
+				var priv = d.priv;
+				d["priv"] = that.renderPckRightList(i,priv);
+			}else{
+				d = that.createOData();
+			}
 			html += template({data:d});
 		}
 		this.$el.html(html).css({position:"relative"});
 		this.refreshSlide();
+	},
+	createOData : function(){
+		var oData = this.initData.data.attribute;
+		var result = {};
+		for(var i in oData){
+			if(i=="price_section"){
+				result[i] = {};
+			}else{
+				result[i] = "";
+			}
+			result["priv"] = "";
+		}
+		return result;
 	},
 	onDatePickerInpFocus : function(e){
 		var calendar = this.Calendar;

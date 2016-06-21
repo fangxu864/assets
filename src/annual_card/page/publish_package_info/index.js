@@ -34,10 +34,8 @@ var MainView = Backbone.View.extend({
 			},
 			complete : function(){ $("#fetchTicketInfoLoading").remove();},
 			success : function(res){
-				that.infoManager = new PckInfoManager({model:that.model,initData:res});
-
-				that.header = new Header({model:that.model,initData:res});
-
+				that.infoManager = new PckInfoManager({model:that.model});
+				that.header = new Header({model:that.model});
 				//点击删除一个套餐
 				that.header.on("item.delete",function(data){
 					that.infoManager.removeItem(data.id);
@@ -52,6 +50,8 @@ var MainView = Backbone.View.extend({
 						that.infoManager.switchItem(id);
 					}
 				});
+				that.header.init({model:that.model,initData:res});
+				that.infoManager.init({model:that.model,initData:res});
 			}
 		});
 	}
