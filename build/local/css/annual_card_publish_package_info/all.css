@@ -482,7 +482,8 @@ h1.entry {
 
 .headContainer .packageName {
   padding-left: 26px;
-  font-size: 22px; }
+  font-size: 16px;
+  line-height: 40px; }
 
 .pckTitListUl {
   float: left;
@@ -499,7 +500,7 @@ h1.entry {
 .pckTitListUl .pckTitListUlItem {
   float: left;
   position: relative;
-  width: 238px;
+  width: 338px;
   margin: 0 8px 8px 0;
   cursor: pointer; }
 
@@ -524,7 +525,7 @@ h1.entry {
   padding-top: 5px;
   padding-bottom: 5px;
   text-indent: 0;
-  width: 220px;
+  width: 320px;
   padding-left: 8px;
   padding-right: 8px;
   border-color: #0797D9; }
@@ -550,15 +551,18 @@ h1.entry {
 
 .headContainer .addPckBtn {
   float: left;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   line-height: 30px;
   font-size: 30px;
-  text-indent: -7px;
-  font-weight: bold;
-  color: #258cc9; }
+  color: #258cc9;
+  background: #e2f6fe;
+  border: 1px solid #e2f6fe; }
+
+.headContainer .addPckBtn:hover {
+  border-color: #0797D9; }
 .calendar-pop-contaienr{ display:none; position:absolute; width:360px; z-index:10001;}
 .calendar-mask{ display:none; position:fixed; top:0; right:0; left:0; bottom:0; z-index:10000;}
 .calendar-table{ width:100%;}
