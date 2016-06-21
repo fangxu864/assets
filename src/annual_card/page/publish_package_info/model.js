@@ -11,7 +11,8 @@ var ManagerStore = Backbone.Model.extend({
 		fetch_ticket : Api.Url.PackageInfo.getTickets
 	},
 	initialize : function(){
-		this.fetchPackageList(this.getCardID());
+		this.tid = PFT.Util.UrlParse()["prod_id"] || "";
+		this.fetchTicketInfoByTid(this.tid);
 	},
 	getCardID : function(){
 		return PFT.Util.UrlParse()["lid"];
@@ -19,16 +20,16 @@ var ManagerStore = Backbone.Model.extend({
 	/**
 	* 获取指定年卡产品内的套餐信息
 	*/
-	fetchPackageList : function(cardID){
-		cardID = cardID || "";
+	fetchTicketInfoByTid : function(tid){
+		tid = tid || "";
 		var that = this;
 		PFT.Util.Ajax(this.api.fetch_package_list,{
 			type : "get",
 			params : {
-				lid : cardID
+				prod_id : tid
 			},
-			loading : function(){},
-			complate : function(){},
+			loading : function(){ that.trigger("loading")},
+			complete : function(){ that.trigger("complete")},
 			success : function(res){
 				that.trigger("ready",res);
 			}
