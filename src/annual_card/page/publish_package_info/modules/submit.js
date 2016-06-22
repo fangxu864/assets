@@ -17,7 +17,7 @@ var Submit = Backbone.View.extend({
 		data["ttitle"] = ttitle;
 
 		//预定时间段
-		var price_section = {};
+		var price_section = [];
 		var price_section_result = { is_ok:true, error:"" };
 		container.find(".priceSectionLine").each(function(){
 			var json = {};
@@ -28,9 +28,9 @@ var Submit = Backbone.View.extend({
 			json["edate"] = tarItem.find("input[name=edate]").val();
 			json["js"] = $.trim(tarItem.find("input[name=js]").val()*100);         //供货价
 			json["ls"] = $.trim(tarItem.find("input[name=ls]").val()*100);         //零售价
-			price_section["storage"] = -1;
-			price_section["weekdays"] = "1,2,3,4,5,6,7";
-			price_section[id] = json;
+			json["storage"] = -1;
+			json["weekdays"] = "1,2,3,4,5,6,7";
+			price_section.push(json);
 
 			//校验
 			if(!json["sdate"]){
