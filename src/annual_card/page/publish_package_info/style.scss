@@ -28,9 +28,10 @@ textarea{line-height:24px;}
 .line .tip{margin-left:10px;color:gray;}
 .line.error .tip{color:red;}
 .line .time{ float:left; margin-right:20px;}
-.line .time p{ line-height:32px;}
+.line .time p{ line-height:20px; padding-bottom:3px;}
 .line .cardImg label{ margin-right:10px;}
 .line .cardImg a.btn-add{ vertical-align:sub;}
+.line.priceSectionLine{ margin-bottom:10px; margin-top:10px;}
 .uesArea{ width:420px; text-indent:10px;}
 .cardRadio{margin-bottom:10px;}
 #save{margin:24px 0 108px 0;}

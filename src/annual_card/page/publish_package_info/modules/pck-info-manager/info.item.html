@@ -13,7 +13,7 @@
 %>
 <li id="slideItem_<%=pckId%>" class="slideItem">
     <% _.each(price_section,function(priceObj,index){ %>
-    <div class="line priceSectionLine">
+    <div data-pricesectionid="<%=priceObj.id%>" class="line priceSectionLine">
         <div class="time">
             <p class="font-gray">预定时间段</p>
             <input readonly type="text" value="<%=priceObj.sdate%>" name="sdate" class="laydate-icon datePickerInp begin"/> -
