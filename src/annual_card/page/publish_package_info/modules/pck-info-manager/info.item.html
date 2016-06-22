@@ -8,6 +8,9 @@
     var edate = price_section.edate || "";
     var delaytype = typeof data.delaytype!="undefined" ? data.delaytype : 1;
     var search_limit = data.search_limit || "1";
+    var search_limit_type_1 = search_limit.indexOf("1")>-1 ? "checked" : "";
+    var search_limit_type_2 = search_limit.indexOf("2")>-1 ? "checked" : "";
+    var search_limit_type_4 = search_limit.indexOf("4")>-1 ? "checked" : "";
     var nts_sup = typeof data.nts_sup!="undefined" ? data.nts_sup : "1";
     var nts_tour = typeof data.nts_tour!="undefined" ? data.nts_tour : "1";
 %>
@@ -95,9 +98,9 @@
         </div>
         <div class="rt">
             <div class="cardLim float-left line-30">
-                <input type="checkbox" name="search_limit" id="search_limit_1_<%=pckId%>" value="1" <%=search_limit==1?"checked":""%> /><label style="margin-right:10px" for="search_limit_1_<%=pckId%>"> 卡号（实体卡/虚拟卡）</label>
-                <input type="checkbox" name="search_limit" id="search_limit_2_<%=pckId%>" value="2" <%=search_limit==2?"checked":""%> /><label style="margin-right:10px" for="search_limit_2_<%=pckId%>"> 身份证</label>
-                <input type="checkbox" name="search_limit" id="search_limit_4_<%=pckId%>" value="4" <%=search_limit==4?"checked":""%> /><label for="search_limit_4_<%=pckId%>"> 手机号</label>
+                <input type="checkbox" name="search_limit" id="search_limit_1_<%=pckId%>" value="1" <%=search_limit_type_1%> /><label style="margin-right:10px" for="search_limit_1_<%=pckId%>"> 卡号（实体卡/虚拟卡）</label>
+                <input type="checkbox" name="search_limit" id="search_limit_2_<%=pckId%>" value="2" <%=search_limit_type_2%> /><label style="margin-right:10px" for="search_limit_2_<%=pckId%>"> 身份证</label>
+                <input type="checkbox" name="search_limit" id="search_limit_4_<%=pckId%>" value="4" <%=search_limit_type_4%> /><label for="search_limit_4_<%=pckId%>"> 手机号</label>
             </div>
             <span style="position:relative; top:10px;" class="font-gray">持卡会员购票</span>
         </div>

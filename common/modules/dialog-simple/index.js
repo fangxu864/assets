@@ -3,6 +3,8 @@
  * Date: 2016/6/21 10:04
  * Description: ""
  */
+var EventEmitter = require("COMMON/js/util.pubsub.js");
+var Extend = require("COMMON/js/util.extend.js");
 var Defaults = {
 	width : 500,
 	height : 500,

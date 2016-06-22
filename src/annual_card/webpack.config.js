@@ -9,9 +9,10 @@ var plugins = require("../../getPlugins")(env);
 var config = require("../../config")({
 	entry : {
 		"annual_card_publish_prod_info" : "./src/annual_card/page/publish_prod_info/index.js",
-		"annual_card_publish_package_info" : ["./src/annual_card/page/publish_package_info/index.js"],
-		"annual_card_entry_card" : ["./src/annual_card/page/entry_card/index.js"],
-		"annual_card_makeorder" : ["./src/annual_card/page/makeorder/index.js"]
+		"annual_card_publish_package_info" : "./src/annual_card/page/publish_package_info/index.js",
+		"annual_card_entry_card" : "./src/annual_card/page/entry_card/index.js",
+		"annual_card_makeorder" : "./src/annual_card/page/makeorder/index.js",
+		"annaul.card.buy.dialog" : "./src/annual_card/page/yorderlist/buy.dialog.js"
 	},
 	output : {
 		path : path.join(__dirname, "../../build/"+env+"/"),
