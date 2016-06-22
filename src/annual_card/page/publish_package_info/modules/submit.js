@@ -19,6 +19,9 @@ var Submit = Backbone.View.extend({
 		var price_section = {};
 		price_section["sdate"] = container.find("input[name=sdate]").val();
 		price_section["edate"] = container.find("input[name=edate]").val();
+		price_section["storage"] = -1;
+		price_section["weekdays"] = "1,2,3,4,5,6,7";
+
 		if(!price_section.sdate) return this.errorHander(pckId,"预字时间段开始时间不能为空");
 		if(!price_section.edate) return this.errorHander(pckId,"预字时间段结束时间不能为空");
 
@@ -29,10 +32,10 @@ var Submit = Backbone.View.extend({
 		if(isNaN(js) || js=="" || js<0) return this.errorHander(pckId,"供货价请填写不小于0的数值（可以精确到分）");
 		if(isNaN(ls) || ls=="" || ls<0) return this.errorHander(pckId,"零售价请填写不小于0的数值（可以精确到分）");
 		if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
-		price_section["js"] = js;
-		price_section["ls"] = ls;
+		price_section["js"] = js*100;
+		price_section["ls"] = ls*100;
 		data["price_section"] = [price_section];
-		data["tprice"] = tprice;
+		data["tprice"] = tprice*100;
 
 		//产品说明
 		var notes = $.trim(container.find("input[name=notes]").val());

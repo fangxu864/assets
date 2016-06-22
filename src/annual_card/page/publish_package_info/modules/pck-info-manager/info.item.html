@@ -127,7 +127,7 @@
             <div><input type="checkbox" name="confirm_wx" id="confirm_wx_checkbox_<%=pckId%>" <%=data.confirm_wx==1?"checked":""%> /><lable for="confirm_wx_checkbox_<%=pckId%>"> 会员消费信息通知到微信</lable></div>
         </div>
     </div>
-    <div id="pckRightContainer_<%=data.id%>" class="pckRightContainer">
+    <div id="pckRightContainer_<%=pckId%>" class="pckRightContainer">
         <div class="power border-y">
             <p class="tao">套餐特权<span class="font-gray tip">（设置免费使用的权限，现场购票不受该条件影响）</span>
                 <a data-pckid="<%=pckId%>" id="addPckRightBtn_<%=data.id%>" class="btn-add addPckRightBtn" href="javascript:void(0);" >＋</a>

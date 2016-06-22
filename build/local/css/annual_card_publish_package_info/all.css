@@ -218,7 +218,8 @@ textarea {
 #infoManagerContainer .slideItem {
   position: relative;
   float: left;
-  width: 798px; }
+  width: 798px;
+  min-height: 1000px; }
 
 .line {
   margin: 20px 32px;

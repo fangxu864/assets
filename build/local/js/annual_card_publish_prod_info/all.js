@@ -244,7 +244,9 @@
 				//获取产品列表
 				getLands : "/r/product_annualCard/getLands/",
 				//获取票类列表
-				getTickets : "/r/product_annualCard/getTickets/"
+				getTickets : "/r/product_annualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
