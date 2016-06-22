@@ -12,22 +12,24 @@
     var nts_tour = typeof data.nts_tour!="undefined" ? data.nts_tour : "1";
 %>
 <li id="slideItem_<%=pckId%>" class="slideItem">
-    <div class="line">
+    <% _.each(price_section,function(priceObj,index){ %>
+    <div class="line priceSectionLine">
         <div class="time">
             <p class="font-gray">预定时间段</p>
-            <input readonly type="text" value="<%=sdate%>" name="sdate" class="laydate-icon datePickerInp begin"/> -
-            <input readonly type="text" value="<%=edate%>" name="edate" class="laydate-icon datePickerInp end"/>
+            <input readonly type="text" value="<%=priceObj.sdate%>" name="sdate" class="laydate-icon datePickerInp begin"/> -
+            <input readonly type="text" value="<%=priceObj.edate%>" name="edate" class="laydate-icon datePickerInp end"/>
         </div>
         <div class="time">
-            <p class="font-gray">供货价</p><input value="<%=price_section.js%>" type="text" name="js" class="midInp"/>
+            <p class="font-gray">供货价</p><input value="<%=priceObj.js/100%>" type="text" name="js" class="midInp"/>
         </div>
         <div class="time">
-            <p class="font-gray">零售价</p><input value="<%=price_section.ls%>" type="text" name="ls" class="midInp"/>
+            <p class="font-gray">零售价</p><input value="<%=priceObj.ls/100%>" type="text" name="ls" class="midInp"/>
         </div>
         <div class="time">
-            <p class="font-gray">门市价</p><input value="<%=data.tprice%>" type="text" name="tprice" class="midInp"/>
+            <p class="font-gray">门市价</p><input value="<%=data.tprice/100%>" type="text" name="tprice" class="midInp"/>
         </div>
     </div>
+    <% }) %>
     <div class="line">
         <div class="lt">
             <label>产品说明：</label>
