@@ -5,11 +5,12 @@
  */
 var Submit = Backbone.View.extend({
 	serialize : function(pckId){
+		var result = {};
 		var data = {};
 		var container = $("#slideItem_"+pckId);
-
+		var tid = $("#pckTitListUlItem_"+pckId).attr("data-id");
 		//套餐id及套餐名称
-		data["tid"] = $("#pckTitListUlItem_"+pckId).attr("data-id");
+		data["tid"] = tid;
 		var ttitle = $("#pckTitListUlItem_"+pckId).find(".editNameInp").val();
 		ttitle = $.trim(ttitle);
 		if(!ttitle) return this.errorHander(pckId,"套餐名称不能为空");
@@ -162,7 +163,9 @@ var Submit = Backbone.View.extend({
 
 		data["lid"] = PFT.Util.UrlParse()["sid"] || "";
 
-		return data;
+		result[tid] = data;
+
+		return result;
 
 	},
 	errorHander : function(pckId,errorTxt){

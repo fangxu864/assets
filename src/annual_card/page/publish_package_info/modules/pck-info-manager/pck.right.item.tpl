@@ -33,11 +33,11 @@
             </div>
             <div class="rt">
                 <div class="nolimit">
-                    <input type="radio" value="-1" id="uselimit_no_<%=nameFlag%>" <%=uselimit==-1?"checked":""%> name="uselimit"/>
+                    <input type="radio" value="-1" id="uselimit_no_<%=nameFlag%>" name="uselimit_<%=nameFlag%>" <%=uselimit==-1?"checked":""%> />
                     <label for="uselimit_no_<%=nameFlag%>">不限</label>
                 </div>
                 <div class="limit">
-                    <input type="radio" value="1" id="uselimited_<%=nameFlag%>" <%=uselimit!=-1?"checked":""%> name="uselimit"/>
+                    <input type="radio" value="1" id="uselimited_<%=nameFlag%>" name="uselimit_<%=nameFlag%>" <%=uselimit!=-1?"checked":""%> />
                     <label for="uselimited_<%=nameFlag%>">
                         共 <input type="text" name="limit_count" value="<%=uselimitArr[0]%>" class="smaInp limitCountInp limitCountInp_total total"> 次
                         <input type="text" name="limit_count" value="<%=uselimitArr[1]%>" class="smaInp limitCountInp limitCountInp_daily daily"> 次/日

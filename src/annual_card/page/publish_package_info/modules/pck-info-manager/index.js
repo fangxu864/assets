@@ -26,6 +26,7 @@ var InfoManager = Backbone.View.extend({
 		var that = this;
 		var initData = this.initData = opt.initData;
 		this.itemWidth = $("#infoManagerContainer").width();
+
 		this.initList(initData);
 
 		this.Calendar = new Calendar();
@@ -159,7 +160,7 @@ var InfoManager = Backbone.View.extend({
 		if(tarBtn.hasClass("disable")) return false;
 		var data = this.submit.serialize(pckId);
 		if(data==null) return false;
-		this.submitForm({pckId:data},tarBtn);
+		this.submitForm(data,tarBtn);
 	},
 	//提交保存数据
 	submitForm : function(data,tarBtn){
@@ -170,14 +171,23 @@ var InfoManager = Backbone.View.extend({
 			complete : function(){ tarBtn.removeClass("disable")},
 			success : function(res){
 				res = res || {};
+				var d = res.data || {};
+				var tid = d.tid;
 				if(res.code==200){
 					PFT.Util.STip("success",'<div style="width:200px">保存成功</div>');
+					var tarNavItem = $("#pckTitListUl").children(".pckTitListUlItem").filter(".edit");
+					var id = tarNavItem.attr("id").split("-");
+					var urlParams = PFT.Util.UrlParse();
+					tarNavItem.attr("id",id[0]+"_"+tid);
+					if(!urlParams.prod_id && tid){
+						var _href = location.origin+location.pathname+"?sid="+urlParams.sid+"&prod_id="+tid;
+						location.href = _href;
+					}
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);
 				}
 			}
 		})
-
 	},
 	//删除套餐
 	deletePackage : function(tid){

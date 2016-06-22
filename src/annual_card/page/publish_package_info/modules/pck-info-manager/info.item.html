@@ -140,6 +140,7 @@
             是否发布：
         </div>
         <div class="rt">
+            <% if(data.apply_limit!=1 && data.apply_limit!=2) data.apply_limit=1;%>
             <label for="apply_limit_1_<%=pckId%>" style="margin-right:20px"><input type="radio" class="apply_limit_input" name="apply_limit_<%=pckId%>" value="1" id="apply_limit_1_<%=pckId%>" <%=data.apply_limit==1?"checked":""%> /> 发布</label>
             <label for="apply_limit_2_<%=pckId%>" class="line-35"><input type="radio" class="apply_limit_input" name="apply_limit_<%=pckId%>" value="2" id="apply_limit_2_<%=pckId%>" <%=data.apply_limit==2?"checked":""%> /> 放入仓库</label>
         </div>

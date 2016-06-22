@@ -47,7 +47,7 @@ var MainView = Backbone.View.extend({
 					if(id>=0){
 						that.infoManager.switchItem(id);
 					}else{
-						that.infoManager.createItem(id);
+						if($("#slideItem_"+id).length==0) that.infoManager.createItem(id);
 						that.infoManager.switchItem(id);
 					}
 				});
