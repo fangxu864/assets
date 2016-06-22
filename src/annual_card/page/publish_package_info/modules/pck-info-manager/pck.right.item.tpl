@@ -7,7 +7,7 @@
         var aid = item.aid;
         var id = pckId+"_"+prodId+"_"+ticId;
         var attr = 'data-prodId="'+prodId+'" data-ticId="'+ticId+'" data-aid="'+aid+'" data-index="'+index+'"';
-        var uselimit = typeof item.uselimit!="undefined" ? item.uselimit : "-1";
+        var uselimit = typeof item.use_limit!="undefined" ? item.use_limit : "-1";
         var uselimitArr = ["","",""];
         if(uselimit!=-1 && (typeof uselimit!=="undefined")){
             uselimitArr = uselimit.split(",");
