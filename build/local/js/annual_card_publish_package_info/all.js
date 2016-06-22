@@ -519,6 +519,7 @@
 	 * Date: 2016/6/6 11:30
 	 * Description: ""
 	 */
+	var Api = __webpack_require__(18);
 	var infoItem_tpl = __webpack_require__(35);
 	var rightsItem_tpl = __webpack_require__(36);
 	var Calendar = __webpack_require__(37);
@@ -666,43 +667,30 @@
 		},
 		//点击保存
 		onSubmitBtnClick : function(e){
-			var that = this;
-			var can_submit = true;
 			var tarBtn = $(e.currentTarget);
 			var pckId = tarBtn.attr("data-tid");
 			if(tarBtn.hasClass("disable")) return false;
 			var data = this.submit.serialize(pckId);
-			return console.log(data);
-	
-	
-	
-	
-			var pckIds = (function(){
-				var ids = [];
-				$("#pckTitListUl").children(".pckTitListUlItem").each(function(){
-					ids.push($(this).attr("data-id"));
-				})
-				return ids;
-			})();
-			var data = (function(pckIds){
-				var result = {};
-				for(var i in pckIds){
-					var pckId = pckIds[i];
-					result[pckId] = that.submit.serialize(pckId)
-				}
-				return result;
-			})(pckIds);
-			for(var i in data){
-				if(data[i]==null){
-					can_submit = false;
-					break;
-				}
-			}
-			if(can_submit) this.submitForm(data);
+			if(data==null) return false;
+			this.submitForm(data,tarBtn);
 		},
 		//提交保存数据
-		submitForm : function(data){
-			console.log(data);
+		submitForm : function(data,tarBtn){
+			PFT.Util.Ajax(Api.Url.PackageInfo.updateTicket,{
+				type : "post",
+				params : data,
+				loading : function(){ tarBtn.addClass("disable")},
+				complete : function(){ tarBtn.removeClass("disable")},
+				success : function(res){
+					res = res || {};
+					if(res.code==200){
+						PFT.Util.STip("success",'<div style="width:200px">保存成功</div>');
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
+	
 		},
 		//新增一个套餐详情
 		createItem : function(id){
@@ -1554,7 +1542,7 @@
 			if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
 			price_section["js"] = js;
 			price_section["ls"] = ls;
-			data["price_section"] = price_section;
+			data["price_section"] = [price_section];
 			data["tprice"] = tprice;
 	
 			//产品说明

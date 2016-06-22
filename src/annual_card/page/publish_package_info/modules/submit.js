@@ -31,7 +31,7 @@ var Submit = Backbone.View.extend({
 		if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
 		price_section["js"] = js;
 		price_section["ls"] = ls;
-		data["price_section"] = price_section;
+		data["price_section"] = [price_section];
 		data["tprice"] = tprice;
 
 		//产品说明
