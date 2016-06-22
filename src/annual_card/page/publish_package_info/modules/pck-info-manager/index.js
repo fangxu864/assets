@@ -143,7 +143,6 @@ var InfoManager = Backbone.View.extend({
 		var tid = tarBtn.attr("data-id");
 		tarBtn.parents(".pckRightItem").remove();
 		if(!tid || tid<0) return false;
-		this.deletePackage(tid);
 	},
 	//套餐特权-点击新增一个产品-打开产品选择弹窗
 	onAddPckRightBtnClick : function(e){
@@ -189,9 +188,17 @@ var InfoManager = Backbone.View.extend({
 			}
 		})
 	},
-	//删除套餐
-	deletePackage : function(tid){
+	//新增一个套餐详情
+	createItem : function(id){
+		var html = this.template({data:{tid:id}});
+		this.$el.append(html);
+		this.refreshSlide();
+	},
+	//删除一个套餐详情
+	removeItem : function(tid){
 		if(!tid) return false;
+		$("#slideItem_"+tid).remove();
+		this.refreshSlide();
 		PFT.Util.Ajax(Api.Url.PackageInfo.deleteTicket,{
 			type : "post",
 			params : {
@@ -209,17 +216,6 @@ var InfoManager = Backbone.View.extend({
 				}
 			}
 		})
-	},
-	//新增一个套餐详情
-	createItem : function(id){
-		var html = this.template({data:{tid:id}});
-		this.$el.append(html);
-		this.refreshSlide();
-	},
-	//删除一个套餐详情
-	removeItem : function(id){
-		$("#slideItem_"+id).remove();
-		this.refreshSlide();
 	},
 	//切换到指定某个套餐
 	switchItem : function(id,callback){
