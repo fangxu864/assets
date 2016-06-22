@@ -57,7 +57,7 @@ var Submit = Backbone.View.extend({
 		})
 
 		if(!price_section_result.is_ok) return this.errorHander(pckId,price_section_result.error);
-		data["price_section"] = [price_section];
+		data["price_section"] = price_section;
 
 		var tprice = $.trim(container.find(".priceSectionLine").first().find("input[name=tprice]").val()); //门市价
 		if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");

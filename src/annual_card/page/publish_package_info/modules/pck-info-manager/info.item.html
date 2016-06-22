@@ -73,7 +73,7 @@
         <div class="rt">
             <div class="cardImg">
                 <div class="cardRadio">
-                    会员卡售出 <input type="text" name="auto_active_days" value="<%=data.auto_active_days%>" class="smaInp" style="text-align:center; text-indent:0"/> 天后自动激活（仍需提供手机号后使用卡片）</div>
+                    会员卡售出 <input type="text" name="auto_active_days" value="<%=data.auto_active_days || 10%>" class="smaInp" style="text-align:center; text-indent:0"/> 天后自动激活（仍需提供手机号后使用卡片）</div>
                 <div>
                     <input type="checkbox" name="cert_limit" id="cert_limit_<%=pckId%>" <%=data.cert_limit==0 ? "" : "checked"%>/>
                     <label for="cert_limit_<%=pckId%>">需填写身份证号</label>
