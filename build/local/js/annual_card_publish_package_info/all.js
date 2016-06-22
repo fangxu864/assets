@@ -1669,6 +1669,7 @@
 			//是否发布
 			data["apply_limit"] = container.find(".apply_limit_input:checked").val();
 	
+			data["lid"] = PFT.Util.UrlParse()["sid"] || "";
 	
 			return data;
 	

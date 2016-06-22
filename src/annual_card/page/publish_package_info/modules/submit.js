@@ -157,6 +157,7 @@ var Submit = Backbone.View.extend({
 		//是否发布
 		data["apply_limit"] = container.find(".apply_limit_input:checked").val();
 
+		data["lid"] = PFT.Util.UrlParse()["sid"] || "";
 
 		return data;
 
