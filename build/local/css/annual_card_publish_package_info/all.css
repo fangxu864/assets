@@ -216,6 +216,7 @@ textarea {
   overflow: hidden; }
 
 #infoManagerContainer .slideItem {
+  position: relative;
   float: left;
   width: 798px; }
 
@@ -532,7 +533,7 @@ h1.entry {
 
 .pckTitListUl .pckTitListUlItem .removeBtn {
   position: absolute;
-  top: 10px;
+  top: 9px;
   right: 10px;
   color: #0797D9;
   cursor: pointer; }

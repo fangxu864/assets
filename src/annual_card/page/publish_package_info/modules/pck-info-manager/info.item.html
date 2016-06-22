@@ -33,7 +33,7 @@
             <label>产品说明：</label>
         </div>
         <div class="rt">
-            <input type="text" class="bigInp" value="<%=data.notes%>" placeholder="请填写简要说明"/>
+            <input type="text" class="bigInp" name="notes" value="<%=data.notes%>" placeholder="请填写简要说明"/>
         </div>
     </div>
     <div class="line">
@@ -146,6 +146,6 @@
     </div>
     <div style="margin-top:50px; margin-bottom:70px" class="line">
         <div class="lt"></div>
-        <div class="rt"><a href="javascript:void(0);" class="btn btn-3x btn-blue submitBtn">保存</a></div>
+        <div class="rt"><a id="submitBtn_<%=pckId%>" data-tid="<%=pckId%>" href="javascript:void(0);" class="btn btn-3x btn-blue submitBtn">保存</a></div>
     </div>
 </li>

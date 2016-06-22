@@ -29,10 +29,10 @@ var ManagerStore = Backbone.Model.extend({
 	* 获取指定年卡产品内的套餐信息
 	*/
 	fetchTicketInfo : function(opt){
-		var lid = this.getLid();
-		var tid = this.getTid();
-		if(!lid && !tid) throw new Error("lid与tid不能同时为空");
 		var opt = opt || {};
+		var tid = opt.tid || this.getTid();
+		var lid = this.getLid();
+		if(!lid && !tid) throw new Error("lid与tid不能同时为空");
 		var loading = opt.loading || fn;
 		var complete = opt.complete || fn;
 		var success = opt.success || fn;

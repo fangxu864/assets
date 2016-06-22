@@ -81,7 +81,7 @@
 				}
 			})
 	
-			this.lid = PFT.Util.UrlParse()["lid"];
+			this.lid = PFT.Util.UrlParse()["sid"];
 			if(this.lid) this.getInfo(this.lid);
 	
 		},

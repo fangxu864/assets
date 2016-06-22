@@ -36,8 +36,13 @@ var Submit = Backbone.View.extend({
 
 		//产品说明
 		var notes = $.trim(container.find("input[name=notes]").val());
-		if(notes=="") return this.errorHander(pckId,"产品请明不能为空");
+		if(notes=="") return this.errorHander(pckId,"产品说明不能为空");
 		data["notes"] =notes;
+
+		//使用说明
+		var getaddr = $.trim(container.find("textarea[name=getaddr]").val());
+		if(getaddr=="") return this.errorHander(pckId,"使用说明不能为空");
+		data["getaddr"] =getaddr;
 
 		//使用有效期
 		var delaytypeRadio = container.find("input[type=radio][name=delaytype_"+pckId+"]:checked");
@@ -150,7 +155,7 @@ var Submit = Backbone.View.extend({
 
 
 		//是否发布
-		data["apply_limit"] = container.find(".apply_limit_input").is(":checked").val();
+		data["apply_limit"] = container.find(".apply_limit_input:checked").val();
 
 
 		return data;

@@ -8,6 +8,7 @@ var rightsItem_tpl = require("./pck.right.item.tpl");
 var Calendar = require("COMMON/modules/calendar");
 var ProdSelectPop = require("../product-select-pop");
 var Submit = require("../submit.js");
+var Loading = require("COMMON/js/util.loading.pc.js");
 var InfoManager = Backbone.View.extend({
 	el : $("#slideUl"),
 	events : {
@@ -89,6 +90,7 @@ var InfoManager = Backbone.View.extend({
 				d["priv"] = that.renderPckRightList(i,priv);
 			}else{
 				d = that.createOData();
+				d["tid"] = tid;
 			}
 			html += template({data:d});
 		}
@@ -151,7 +153,14 @@ var InfoManager = Backbone.View.extend({
 		var that = this;
 		var can_submit = true;
 		var tarBtn = $(e.currentTarget);
+		var pckId = tarBtn.attr("data-tid");
 		if(tarBtn.hasClass("disable")) return false;
+		var data = this.submit.serialize(pckId);
+		return console.log(data);
+
+
+
+
 		var pckIds = (function(){
 			var ids = [];
 			$("#pckTitListUl").children(".pckTitListUlItem").each(function(){
@@ -192,9 +201,39 @@ var InfoManager = Backbone.View.extend({
 	},
 	//切换到指定某个套餐
 	switchItem : function(id,callback){
+		var that = this;
 		var tarItem = $("#slideItem_"+id);
 		var width = this.itemWidth;
+		var Cache = this.model.__Cache[id];
 		this.$el.animate({left : -1 * tarItem.index() * width},300,function(){
+			if(!Cache){
+				that.model.fetchTicketInfo({
+					tid : id,
+					loading : function(){
+						var item = $("#slideItem_"+id);
+						var height = item.height();
+						var width = item.width();
+						var loadingHtml = Loading("努力加载中，请稍后..",{
+							height : height,
+							width : width,
+							style : {
+								id : "loading_1111",
+								position : "absolute",
+								top : 0,
+								right : 0,
+								left : 0,
+								bottom : 0,
+								background : "#fff"
+							}
+						})
+						item.append(loadingHtml);
+					},
+					complete : function(){},
+					success : function(res){
+
+					}
+				})
+			}
 			callback && callback();
 		})
 	},
