@@ -8,7 +8,7 @@ var Api = {
 	Url : {
 		//发布年卡产品
 		PublishCardProd : {
-			submit : "/r/scenic/save/",
+			submit : "/r/product_scenic/save/",
 			//图片上传
 			uploadFile : "/r/product_annualCard/uploadImg/",
 			//编辑状态，获取年卡产品详细信息

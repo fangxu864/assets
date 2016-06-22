@@ -156,10 +156,11 @@ var InfoManager = Backbone.View.extend({
 		if(tarBtn.hasClass("disable")) return false;
 		var data = this.submit.serialize(pckId);
 		if(data==null) return false;
-		this.submitForm(data,tarBtn);
+		this.submitForm({pckId:data},tarBtn);
 	},
 	//提交保存数据
 	submitForm : function(data,tarBtn){
+		console.log(data);
 		PFT.Util.Ajax(Api.Url.PackageInfo.updateTicket,{
 			type : "post",
 			params : data,
@@ -194,7 +195,7 @@ var InfoManager = Backbone.View.extend({
 		var width = this.itemWidth;
 		var Cache = this.model.__Cache[id];
 		this.$el.animate({left : -1 * tarItem.index() * width},300,function(){
-			if(!Cache){
+			if(!Cache && id>=0){
 				that.model.fetchTicketInfo({
 					tid : id,
 					loading : function(){
