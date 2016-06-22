@@ -1641,6 +1641,7 @@
 					var val = $(this).val();
 					result.push(val);
 				});
+				if(result.length==0) result = ["1"];
 				return result.join(",");
 			})();
 	
