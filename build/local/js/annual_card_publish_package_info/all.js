@@ -1641,10 +1641,9 @@
 					var val = $(this).val();
 					result.push(val);
 				});
-				if(result.length==0) result = ["1"];
 				return result.join(",");
 			})();
-	
+			if(data["search_limit"]=="") return this.errorHander(pckId,"购票限制必须选择至少一种");
 	
 	
 			//使用说明
