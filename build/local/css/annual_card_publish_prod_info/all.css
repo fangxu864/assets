@@ -528,7 +528,8 @@ h1.entry {
 
 #submitInfoBtn.disable {
   background: #c9c9c9;
-  cursor: default; }
+  cursor: default;
+  border-color: #c9c9c9; }
 
 /* 图片上传成功后，图片的显示Box */
 .uploadPhotoBox {
