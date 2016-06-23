@@ -44,25 +44,18 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
-
-
-/***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/**
 	 * Author: huangzhiyang
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(2);
-	var PubSub = __webpack_require__(6);
-	var Header = __webpack_require__(7);
-	var List = __webpack_require__(8);
-	var Dialog = __webpack_require__(9);
-	var Select = __webpack_require__(14);
-	var Api = __webpack_require__(18);
+	__webpack_require__(8);
+	var PubSub = __webpack_require__(10);
+	var Header = __webpack_require__(11);
+	var List = __webpack_require__(12);
+	var Dialog = __webpack_require__(13);
+	var Select = __webpack_require__(18);
+	var Api = __webpack_require__(22);
 	var MainView = Backbone.View.extend({
 		el : $("body"),
 		events : {
@@ -170,16 +163,21 @@
 	})
 
 /***/ },
-/* 2 */
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */
+/* 9 */,
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -221,7 +219,7 @@
 	module.exports = E;
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -317,7 +315,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 8 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -348,7 +346,7 @@
 	module.exports = List;
 
 /***/ },
-/* 9 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -356,9 +354,9 @@
 	 * Date: 2016/6/14 18:19
 	 * Description: ""
 	 */
-	var box_tpl = __webpack_require__(10);
-	var winWidthHeight = __webpack_require__(11);
-	__webpack_require__(12);
+	var box_tpl = __webpack_require__(14);
+	var winWidthHeight = __webpack_require__(15);
+	__webpack_require__(16);
 	var Dialog = Backbone.View.extend({
 		state : 0,
 		initialize : function(opt){
@@ -484,13 +482,13 @@
 
 
 /***/ },
-/* 10 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"dialogBoxContainerCon\">\r\n    <div class=\"charge border\" id=\"chaBox\">\r\n        <div id=\"dialog-slideStage\" class=\"slideStage\">\r\n            <div style=\"top:0px\" class=\"slideCon\">\r\n                <!--<div style=\"margin-top:18px\" class=\"cha slideItem\">-->\r\n                    <!--<h1 class=\"entry\">请刷卡！</h1>-->\r\n                    <!--<h2 style=\"display:none\" id=\"cardExitTip\" class=\"font-red\">已存在</h2>-->\r\n                <!--</div>-->\r\n                <div class=\"cha slideItem\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <p style=\"margin-bottom:10px\" class=\"font-gray line-40\">\r\n                        物理ID：<input readonly=\"\" type=\"text\" name=\"\" id=\"physic_no_Inp\"/>\r\n                        <a href=\"javascript:void(0)\" style=\"color:#008EC1\" id=\"readCardBtn\">读卡</a>\r\n                    </p>\r\n                    <div class=\"relaBox\">\r\n                        <input id=\"cardNumberInput\" type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\" class=\"guanInp\"/>\r\n                        <a id=\"relateCardBtn\" href=\"javascript:void(0);\" class=\"btn btn-orange\">关联</a>\r\n                    </div>\r\n                    <p style=\"color:red; margin-top:3px;\">请确保填写的卡号确认无误！</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"enCard\">\r\n            <span>已关联实体卡:\r\n                <span id=\"hasRelatedCount\" class=\"numChild\">2</span><i class=\"letr\">/</i><span id=\"totalRelatedCount\" class=\"numP\">10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>\r\n            <a id=\"dialogCloseBtn\" href=\"javascript:void(0);\" class=\"btn btn-5x btn-blue btn-finish closeBtn\">关闭</a>\r\n        </div>\r\n    </div>\r\n    <!--<div style=\"display:none;\" class=\"charge border\" id=\"guanBox\">-->\r\n        <!--<a href=\"javascript:void(0);\" class=\"btn-del\" style=\"color:#ccc\">×</a>-->\r\n        <!--<div class=\"cha border-bottom\">-->\r\n            <!--<p class=\"font-gray line-40\">物理ID:565666</p>-->\r\n            <!--<div class=\"relaBox\">-->\r\n                <!--<input type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\"class=\"guanInp\"/>-->\r\n                <!--<a href=\"javascript:;\" class=\"btn btn-orange\">关联</a>-->\r\n            <!--</div>-->\r\n        <!--</div>-->\r\n        <!--<div class=\"enCard\">-->\r\n            <!--<span>已关联实体卡:<span class=\"numChild\">2</span><span class=\"numP\">/10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>-->\r\n            <!--<a href=\"javascript:;\" class=\"btn btn-5x btn-blue btn-finish\">完成</a>-->\r\n        <!--</div>-->\r\n    <!--</div>-->\r\n</div>";
 
 /***/ },
-/* 11 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -517,14 +515,14 @@
 	}
 
 /***/ },
-/* 12 */
+/* 16 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 13 */,
-/* 14 */
+/* 17 */,
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -532,7 +530,7 @@
 	 * Date: 2016/6/14 11:14
 	 * Description: 项目时间紧迫，主体功能先实现，更多功能后续会慢慢增加
 	 */
-	__webpack_require__(15);
+	__webpack_require__(19);
 	var Defaults = {
 		trigger : null,
 	
@@ -557,7 +555,7 @@
 		},
 	
 		tpl : function(){
-			return __webpack_require__(17);
+			return __webpack_require__(21);
 		},
 	
 		//适配器，用于适配从后端请求回来的数据为如下格式
@@ -820,20 +818,20 @@
 
 
 /***/ },
-/* 15 */
+/* 19 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 16 */,
-/* 17 */
+/* 20 */,
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"gSelectDownBoxCon\">\r\n    <div class=\"selectTopCon\">\r\n        <div class=\"searchBox\">\r\n            <div class=\"searchBoxCon\">\r\n                <input type=\"text\" name=\"\" class=\"gSelectSearchInp\"/>\r\n                <i class=\"iconfont search\">&#xe60a;</i>\r\n                <span class=\"clearSearchBtn\"><i class=\"iconfont\">&#xe674;</i></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ul class=\"selectOptionUl\"></ul>\r\n</div>\r\n\r\n";
 
 /***/ },
-/* 18 */
+/* 22 */
 /***/ function(module, exports) {
 
 	/**

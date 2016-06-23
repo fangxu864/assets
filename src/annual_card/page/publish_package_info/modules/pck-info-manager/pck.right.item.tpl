@@ -39,9 +39,9 @@
                 <div class="limit">
                     <input type="radio" value="1" id="uselimited_<%=nameFlag%>" name="uselimit_<%=nameFlag%>" <%=uselimit!=-1?"checked":""%> />
                     <label for="uselimited_<%=nameFlag%>">
-                        共 <input type="text" name="limit_count" value="<%=uselimitArr[0]%>" class="smaInp limitCountInp limitCountInp_total total"> 次
-                        <input type="text" name="limit_count" value="<%=uselimitArr[1]%>" class="smaInp limitCountInp limitCountInp_daily daily"> 次/日
-                        <input type="text" name="limit_count" value="<%=uselimitArr[2]%>" class="smaInp limitCountInp limitCountInp_month month"> 次/月
+                        共 <input type="text" name="limit_count" value="<%=uselimitArr[2]%>" class="smaInp limitCountInp limitCountInp_total total"> 次
+                        <input type="text" name="limit_count" value="<%=uselimitArr[0]%>" class="smaInp limitCountInp limitCountInp_daily daily"> 次/日
+                        <input type="text" name="limit_count" value="<%=uselimitArr[1]%>" class="smaInp limitCountInp limitCountInp_month month"> 次/月
                     </label>
                 </div>
             </div>
