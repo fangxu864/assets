@@ -174,6 +174,7 @@ var Submit = Backbone.View.extend({
 		})();
 
 		if(priv.error) return this.errorHander(pckId,priv.error);
+		if(_.isEmpty(priv)) return this.errorHander(pckId,"每个套餐须保留至少一个特权产品");
 		data["priv"] = priv;
 
 

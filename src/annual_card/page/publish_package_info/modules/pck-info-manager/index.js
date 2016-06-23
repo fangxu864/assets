@@ -168,20 +168,24 @@ var InfoManager = Backbone.View.extend({
 			complete : function(){ tarBtn.removeClass("disable")},
 			success : function(res){
 				res = res || {};
-				var d = res.data || {};
-				var tid = d.tid;
-				if(res.code==200){
+				var d = res.data || [];
+				var data = d[0] || {};
+				var code = data.code;
+				var dd = data.data || {};
+				var msg = dd.msg || PFT.AJAX_ERROR_TEXT;
+				var tid = dd.tid;
+				if(code==200){
 					PFT.Util.STip("success",'<div style="width:200px">保存成功</div>');
 					var tarNavItem = $("#pckTitListUl").children(".pckTitListUlItem").filter(".edit");
 					var id = tarNavItem.attr("id").split("_");
 					var urlParams = PFT.Util.UrlParse();
-					tarNavItem.attr("id",id[0]+"_"+tid);
+					tid && tarNavItem.attr("id",id[0]+"_"+tid);
 					if(!urlParams.prod_id && tid){
 						var _href = location.origin+location.pathname+"?sid="+urlParams.sid+"&prod_id="+tid;
 						location.href = _href;
 					}
 				}else{
-					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					alert(msg);
 				}
 			}
 		})
