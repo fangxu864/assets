@@ -158,7 +158,7 @@ Select.prototype = {
 		if(this.selectBox) return this.selectBox;
 		var tpl = this.opt.tpl();
 		var opt = this.opt;
-		var width = opt.trigger.outerWidth()+opt.offset.width;
+		var width = opt.trigger.outerWidth()+(opt.offset.width || 0);
 		var height = opt.height;
 		var selectBox = this.selectBox = $('<div style="display:none;width:'+width+'px;height:'+height+'px" class="gSelectDownBox"></div>');
 		selectBox.append(tpl);
@@ -220,8 +220,8 @@ Select.prototype = {
 		var offset = this.opt.offset;
 		var trigger_h = trigger.outerHeight(true);
 		selectBox.css({
-			left : of.left + offset.left,
-			top : of.top + trigger_h + offset.top
+			left : of.left + (offset.left || 0),
+			top : of.top + trigger_h + (offset.top || 0)
 		})
 	},
 	fetchData : function(source){

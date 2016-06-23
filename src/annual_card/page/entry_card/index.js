@@ -34,6 +34,12 @@ var MainView = Backbone.View.extend({
 			field : {
 				id : "id",
 				name : "title"
+			},
+			adaptor : function(res){
+				res = res || {};
+				var data = res.data || {};
+				var list = data.list || [];
+				return list;
 			}
 		});
 		$(".arrowup").hide();
