@@ -7,6 +7,10 @@ require("./style.scss");
 var Api = require("../../common/api.js");
 var Select = require("COMMON/js/component.city.select.js");
 var Fileupload = require("COMMON/modules/fileupload");
+
+
+
+
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
@@ -16,8 +20,10 @@ var MainView = Backbone.View.extend({
 		"blur .infoTextarea" : "onTextInpBlur",
 		"click #submitInfoBtn" : "onSubmitBtnClick"
 	},
+
 	initialize : function(){
 		var that = this;
+
 		this.select = new Select({
 			provId : "#provSelect",
 			cityId : "#citySelect",
@@ -32,12 +38,13 @@ var MainView = Backbone.View.extend({
 			complete : function(res){
 				that.onImgUploadComplete(res);
 			}
-		})
+		});
 
 		this.lid = PFT.Util.UrlParse()["sid"];
 		if(this.lid) this.getInfo(this.lid);
 
 	},
+
 	onImgUploadComplete : function(res){
 		var res = res || {};
 		var code = res.code;
@@ -163,5 +170,5 @@ var MainView = Backbone.View.extend({
 });
 
 $(function(){
-	new MainView();
+	var view = new MainView();
 })
