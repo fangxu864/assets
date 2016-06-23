@@ -678,8 +678,8 @@
 			PFT.Util.Ajax(Api.Url.PackageInfo.updateTicket,{
 				type : "post",
 				params : data,
-				loading : function(){ tarBtn.addClass("disable")},
-				complete : function(){ tarBtn.removeClass("disable")},
+				loading : function(){ tarBtn.addClass("disable").text("请稍后...")},
+				complete : function(){ tarBtn.removeClass("disable").text("保存")},
 				success : function(res){
 					res = res || {};
 					var d = res.data || [];
@@ -739,7 +739,6 @@
 			var tarItem = $("#slideItem_"+id);
 			var width = this.itemWidth;
 			var Cache = this.model.__Cache[id];
-			var index = tarItem.index();
 			if(!Cache && id>=0){
 				that.model.fetchTicketInfo({
 					tid : id,
