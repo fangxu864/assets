@@ -1657,7 +1657,7 @@
 				var result = {};
 				$("#pckRightListUl_"+pckId).children().each(function(){
 					var item = $(this);
-					var tid = item.attr("data-ticid");
+					var tid = item.attr("data-ticketid");
 					var aid = item.attr("data-aid");
 					var use_limit = item.find("input[type=radio][name=uselimit]:checked").val();
 					result[tid] = {

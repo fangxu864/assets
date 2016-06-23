@@ -131,7 +131,7 @@
 			if(!mobile) return mobileInp.parents(".line").addClass("error");
 			if(!info) return infoTextarea.parents(".line").addClass("error");
 			if(!uploadPhoto) return alert("请上传一张预览图");
-			this.submit({
+			var data = {
 				product_name : prodName,
 				product_type : "I",
 				address : addr,
@@ -140,7 +140,9 @@
 				province : province,
 				city : city,
 				img_path : uploadPhoto
-			})
+			};
+			if(this.lid) data["lid"] = this.lid;
+			this.submit(data)
 		},
 		renderThumbList : function(src){
 			var container = $("#uploadPhotoBox");
@@ -188,6 +190,7 @@
 			if(img_path) this.renderThumbList(img_path);
 		},
 		submit : function(params){
+			var that = this;
 			var submitBtn = $("#submitInfoBtn");
 			PFT.Util.Ajax(Api.Url.PublishCardProd.submit,{
 				type : "post",
@@ -199,8 +202,13 @@
 					var res = res || {};
 					var code = res.code;
 					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+					var lastid = res.data.lastid;
 					if(code==200){
-						PFT.Util.STip("success",'<p style="width:200px">保存成功</p>');
+						PFT.Util.STip("success",'<p style="width:200px">保存成功</p>',1000,function(){
+							//只有当创建新产品时，才往一下页跳
+							//如果在编辑状态，保存成功后还是停留在本页
+							if(!that.lid && lastid) window.location.href = "/new/annual_package.html?sid="+lastid;
+						});
 					}else{
 						alert(msg);
 					}
