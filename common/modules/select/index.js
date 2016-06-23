@@ -94,7 +94,8 @@ Select.prototype = {
 		this.clearSearchBtn.on("click",function(e){
 			$(e.currentTarget).hide();
 			that.searchInp.val("").focus();
-			that.updateListUl(that.__cacheData);
+			var html = that.renderListHtml(that.__cacheData);
+			that.listUl.html(html);
 		})
 		this.listUl.on("click",".gSelectOptionItem",function(e){
 			that.onOptionItemClick(e);
@@ -121,6 +122,7 @@ Select.prototype = {
 			that.trigger.text(name);
 		}
 		that.close();
+		tarItem.addClass("active").siblings().removeClass("active");
 		PFT.Util.PubSub.trigger("option.click",data);
 	},
 	onSearchInpChange : function(e){
@@ -130,11 +132,8 @@ Select.prototype = {
 			var keyword = $.trim($(e.currentTarget).val());
 			var result = that.filter(keyword);
 			keyword=="" ? that.clearSearchBtn.hide() : that.clearSearchBtn.show();
-			if(result=="loading" || result=="error" || result==null || result=="empty"){
-				that.updateListUl("empty");
-			}else{
-				that.updateListUl(result);
-			}
+			var html = that.renderListHtml(result);
+			that.listUl.html(html);
 		},200)
 	},
 	//过滤
@@ -268,6 +267,7 @@ Select.prototype = {
 		callback && callback();
 	},
 	close : function(callback){
+		console.log("close")
 		this.mask.hide();
 		this.selectBox.hide();
 		this.trigger.removeClass("select-on");

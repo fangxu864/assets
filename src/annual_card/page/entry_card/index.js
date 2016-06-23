@@ -33,7 +33,7 @@ var MainView = Backbone.View.extend({
 			height : 400,
 			field : {
 				id : "id",
-				name : "title"
+				name : "p_name"
 			},
 			adaptor : function(res){
 				res = res || {};

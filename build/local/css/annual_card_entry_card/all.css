@@ -201,7 +201,7 @@ input[type=text] {
 .cardPro i {
   position: absolute;
   left: 353px;
-  top: 19px;
+  top: 24px;
   cursor: default; }
 
 .entry_form {
@@ -460,6 +460,9 @@ input[type=text] {
     font-size: 17px;
     color: #bfbfbf; }
 
+.gSelectDownBox .searchBox .clearSearchBtn {
+  top: 7px; }
+
 .gSelectDownBox .searchBox .searchBoxCon {
   position: relative;
   height: 100%;
@@ -504,7 +507,7 @@ input[type=text] {
   height: 100%; }
 
 .gSelectDownBox .selectOptionUl .gSelectOptionItem {
-  padding-left: 10px;
+  padding-left: 15px;
   height: 34px;
   line-height: 34px;
   overflow: hidden;
@@ -514,7 +517,7 @@ input[type=text] {
 .gSelectDownBox .selectOptionUl .gSelectOptionItem:last-child {
   border-bottom: 0 none; }
 
-.gSelectDownBox .selectOptionUl .gSelectOptionItem:hover {
+.gSelectDownBox .selectOptionUl .gSelectOptionItem:hover, .gSelectDownBox .selectOptionUl .gSelectOptionItem.active {
   background: #fcfcfc; }
 
 .gSelectDownBox .selectOptionUl .status {
