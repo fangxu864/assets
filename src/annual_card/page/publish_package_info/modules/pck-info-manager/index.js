@@ -173,7 +173,7 @@ var InfoManager = Backbone.View.extend({
 				if(res.code==200){
 					PFT.Util.STip("success",'<div style="width:200px">保存成功</div>');
 					var tarNavItem = $("#pckTitListUl").children(".pckTitListUlItem").filter(".edit");
-					var id = tarNavItem.attr("id").split("-");
+					var id = tarNavItem.attr("id").split("_");
 					var urlParams = PFT.Util.UrlParse();
 					tarNavItem.attr("id",id[0]+"_"+tid);
 					if(!urlParams.prod_id && tid){

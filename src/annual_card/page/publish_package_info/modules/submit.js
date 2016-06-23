@@ -148,7 +148,7 @@ var Submit = Backbone.View.extend({
 				var item = $(this);
 				var tid = item.attr("data-ticketid");
 				var aid = item.attr("data-aid");
-				var use_limit = item.find("input[type=radio][name=uselimit]:checked").val();
+				var use_limit = item.find("input[type=radio]:checked").val();
 				result[tid] = {
 					aid : aid
 				};

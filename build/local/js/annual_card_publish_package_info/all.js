@@ -687,7 +687,7 @@
 					if(res.code==200){
 						PFT.Util.STip("success",'<div style="width:200px">保存成功</div>');
 						var tarNavItem = $("#pckTitListUl").children(".pckTitListUlItem").filter(".edit");
-						var id = tarNavItem.attr("id").split("-");
+						var id = tarNavItem.attr("id").split("_");
 						var urlParams = PFT.Util.UrlParse();
 						tarNavItem.attr("id",id[0]+"_"+tid);
 						if(!urlParams.prod_id && tid){
@@ -1659,7 +1659,7 @@
 					var item = $(this);
 					var tid = item.attr("data-ticketid");
 					var aid = item.attr("data-aid");
-					var use_limit = item.find("input[type=radio][name=uselimit]:checked").val();
+					var use_limit = item.find("input[type=radio]:checked").val();
 					result[tid] = {
 						aid : aid
 					};
