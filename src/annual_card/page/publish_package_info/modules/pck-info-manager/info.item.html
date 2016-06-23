@@ -3,7 +3,7 @@
 <!-- Description: huangzhiyang -->
 <%
     var pckId=data.tid;
-    var price_section = data.price_section || {};
+    var price_section = data.price_section || [{}];
     var sdate = price_section.sdate || "";
     var edate = price_section.edate || "";
     var delaytype = typeof data.delaytype!="undefined" ? data.delaytype : 1;
@@ -23,13 +23,13 @@
             <input readonly type="text" value="<%=priceObj.edate%>" name="edate" class="laydate-icon datePickerInp end"/>
         </div>
         <div class="time">
-            <p class="font-gray">供货价</p><input value="<%=priceObj.js/100%>" type="text" name="js" class="midInp"/>
+            <p class="font-gray">供货价</p><input value="<%=priceObj.js ? priceObj.js/100 : ''%>" type="text" name="js" class="midInp"/>
         </div>
         <div class="time">
-            <p class="font-gray">零售价</p><input value="<%=priceObj.ls/100%>" type="text" name="ls" class="midInp"/>
+            <p class="font-gray">零售价</p><input value="<%=priceObj.ls ? priceObj.ls/100 : ''%>" type="text" name="ls" class="midInp"/>
         </div>
         <div class="time">
-            <p class="font-gray">门市价</p><input value="<%=data.tprice/100%>" type="text" name="tprice" class="midInp"/>
+            <p class="font-gray">门市价</p><input value="<%=data.tprice ? data.tprice/100 : ''%>" type="text" name="tprice" class="midInp"/>
         </div>
     </div>
     <% }) %>

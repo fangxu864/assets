@@ -74,6 +74,7 @@ Dialog.prototype = Extend({
 
 
 
+
 	},
 	close : function(opt){}
 },EventEmitter);
