@@ -253,13 +253,18 @@ textarea {
   margin-right: 20px; }
 
 .line .time p {
-  line-height: 32px; }
+  line-height: 20px;
+  padding-bottom: 3px; }
 
 .line .cardImg label {
   margin-right: 10px; }
 
 .line .cardImg a.btn-add {
   vertical-align: sub; }
+
+.line.priceSectionLine {
+  margin-bottom: 10px;
+  margin-top: 10px; }
 
 .uesArea {
   width: 420px;
@@ -472,6 +477,10 @@ h1.entry {
 
 .enCard span.numP {
   font-size: 24px; }
+
+.submitBtn.disable {
+  background: #c9c9c9;
+  cursor: default; }
 
 /**/
 .pckTitListUl .pckTitListUlItem .editNameInp {

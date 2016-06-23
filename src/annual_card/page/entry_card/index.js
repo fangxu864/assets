@@ -4,7 +4,7 @@
  * Description: ""
  */
 require("./style.scss");
-var PubSub = require("COMMON/js/util.pubsub.js");
+var PubSub = PFT.Util.PubSub;
 var Header = require("./header.js");
 var List = require("./list.js");
 var Dialog = require("./dialog");

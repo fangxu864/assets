@@ -45,34 +45,39 @@ var InfoManager = Backbone.View.extend({
 
 		//切换特权产品
 		this.ProdSelectPop.on("switch.prod",function(data){
-			var before = data.before;
-			var after = data.after;
-			var pckId = data.pckId;
-			var item = $("#privItem_"+pckId+"_"+before.prodId+"_"+before.ticId);
-			if(item.length==0) return false;
-			item.attr("data-prodId",after.prodId).attr("data-ticId",after.ticId).attr("data-aid",after.aid)
-				.attr("id","privItem_"+pckId+"_"+after.prodId+"_"+after.ticId)
-				.find(".name").text(after.prodName+" - "+after.ticName);
+			var tid = data.tid;
+			var ticketid = data.ticketid;
+			var aid = data.aid;
+			var prodName = data.prodName;
+			var ticName = data.ticName;
+			var tarItem = data.triggerItem;
+			if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return false;
+			var html = that.renderPckRightList(tid,[{
+				tid : ticketid,
+				aid : aid,
+				ltitle : prodName,
+				title : ticName,
+				use_limit : "-1"
+			}]);
+			tarItem.after(html);
+			tarItem.remove();
 		});
 		//新增一个特权产品
 		this.ProdSelectPop.on("add.prod",function(data){
-			var pckId = data.pckId;
-			var index = that.getPckRightListIndexMax(pckId)+1;
-			var prodId = data.prodId;
+			var tid = data.tid;
 			var prodName = data.prodName;
-			var ticId = data.ticId;
+			var ticketid = data.ticketid;
 			var ticName = data.ticName;
 			var aid = data.aid;
-			if($("#privItem_"+pckId+"_"+prodId+"_"+ticId).length) return alert("该产品已存在，请勿重得添加");
-			var html = that.renderPckRightList(pckId,[{
-				index : index,
-				tid : ticId,
+			if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return alert("该产品已存在，请勿重得添加");
+			var html = that.renderPckRightList(tid,[{
+				tid : ticketid,
 				ttitle : ticName,
-				lid : prodId,
 				ltitle : prodName,
-				aid : aid
+				aid : aid,
+				use_limit : "-1"
 			}]);
-			$("#pckRightListUl_"+pckId).append(html);
+			$("#pckRightListUl_"+tid).append(html);
 		})
 
 	},
@@ -89,7 +94,7 @@ var InfoManager = Backbone.View.extend({
 			if(tid==that.model.getTid()){
 				d = data;
 				var priv = d.priv;
-				d["priv"] = that.renderPckRightList(i,priv);
+				d["priv"] = that.renderPckRightList(tid,priv);
 				html += template({data:d});
 			}else{
 				html += '<li id="slideItem_'+tid+'" class="slideItem">';
@@ -124,17 +129,9 @@ var InfoManager = Backbone.View.extend({
 	//套餐特权-点击选择产品
 	onSelectProdBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
-		var pckId = tarBtn.attr("data-pckid");
 		var parent = tarBtn.parents(".pckRightItem");
-		var prodId = parent.attr("data-prodid");
-		var ticId = parent.attr("data-ticid");
-		var aid = parent.attr("data-aid");
-		this.ProdSelectPop.open({
-			pckId : pckId,
-			prodId : prodId,
-			ticId : ticId,
-			aid : aid
-		});
+		var tid = tarBtn.attr("data-tid");
+		this.ProdSelectPop.open({tid:tid,triggerItem:parent,type:"switch"});
 	},
 	//套餐特权-点击删除产品
 	onDelectProdBtnClick : function(e){
@@ -143,14 +140,14 @@ var InfoManager = Backbone.View.extend({
 		var tid = tarBtn.attr("data-id");
 		tarBtn.parents(".pckRightItem").remove();
 		if(!tid || tid<0) return false;
-		this.deletePackage(tid);
 	},
 	//套餐特权-点击新增一个产品-打开产品选择弹窗
 	onAddPckRightBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
 		var pckId = tarBtn.attr("data-pckid");
 		this.ProdSelectPop.open({
-			pckId : pckId
+			tid : pckId,
+			type : "add"
 		});
 	},
 	//点击保存
@@ -171,27 +168,39 @@ var InfoManager = Backbone.View.extend({
 			complete : function(){ tarBtn.removeClass("disable")},
 			success : function(res){
 				res = res || {};
-				var d = res.data || {};
-				var tid = d.tid;
-				if(res.code==200){
+				var d = res.data || [];
+				var data = d[0] || {};
+				var code = data.code;
+				var dd = data.data || {};
+				var msg = dd.msg || PFT.AJAX_ERROR_TEXT;
+				var tid = dd.tid;
+				if(code==200){
 					PFT.Util.STip("success",'<div style="width:200px">保存成功</div>');
 					var tarNavItem = $("#pckTitListUl").children(".pckTitListUlItem").filter(".edit");
-					var id = tarNavItem.attr("id").split("-");
+					var id = tarNavItem.attr("id").split("_");
 					var urlParams = PFT.Util.UrlParse();
-					tarNavItem.attr("id",id[0]+"_"+tid);
+					tid && tarNavItem.attr("id",id[0]+"_"+tid);
 					if(!urlParams.prod_id && tid){
 						var _href = location.origin+location.pathname+"?sid="+urlParams.sid+"&prod_id="+tid;
 						location.href = _href;
 					}
 				}else{
-					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					alert(msg);
 				}
 			}
 		})
 	},
-	//删除套餐
-	deletePackage : function(tid){
+	//新增一个套餐详情
+	createItem : function(id){
+		var html = this.template({data:{tid:id}});
+		this.$el.append(html);
+		this.refreshSlide();
+	},
+	//删除一个套餐详情
+	removeItem : function(tid){
 		if(!tid) return false;
+		$("#slideItem_"+tid).remove();
+		this.refreshSlide();
 		PFT.Util.Ajax(Api.Url.PackageInfo.deleteTicket,{
 			type : "post",
 			params : {
@@ -210,17 +219,6 @@ var InfoManager = Backbone.View.extend({
 			}
 		})
 	},
-	//新增一个套餐详情
-	createItem : function(id){
-		var html = this.template({data:{tid:id}});
-		this.$el.append(html);
-		this.refreshSlide();
-	},
-	//删除一个套餐详情
-	removeItem : function(id){
-		$("#slideItem_"+id).remove();
-		this.refreshSlide();
-	},
 	//切换到指定某个套餐
 	switchItem : function(id,callback){
 		var that = this;
@@ -236,7 +234,7 @@ var InfoManager = Backbone.View.extend({
 				success : function(res){
 					var d = res.data.attribute;
 					var priv = d.priv;
-					d["priv"] = that.renderPckRightList(index,priv);
+					d["priv"] = that.renderPckRightList(id,priv);
 					var html = that.template({data:d});
 					$("#slideItem_"+id).html(html);
 				}
@@ -257,8 +255,8 @@ var InfoManager = Backbone.View.extend({
 	 * 渲染某个套餐的特权模块
 	 * @param rights []
 	 */
-	renderPckRightList : function(pckId,rights){
-		return this.rightsTemplate({pckId:pckId,privilege:rights});
+	renderPckRightList : function(tid,rights){
+		return this.rightsTemplate({tid:tid,privilege:rights});
 	},
 	//获取套权商品列表里最大的index值
 	getPckRightListIndexMax : function(pckId){

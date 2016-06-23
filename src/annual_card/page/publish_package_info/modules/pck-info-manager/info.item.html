@@ -3,31 +3,36 @@
 <!-- Description: huangzhiyang -->
 <%
     var pckId=data.tid;
-    var price_section = data.price_section || {};
+    var price_section = data.price_section || [{}];
     var sdate = price_section.sdate || "";
     var edate = price_section.edate || "";
     var delaytype = typeof data.delaytype!="undefined" ? data.delaytype : 1;
     var search_limit = data.search_limit || "1";
+    var search_limit_type_1 = search_limit.indexOf("1")>-1 ? "checked" : "";
+    var search_limit_type_2 = search_limit.indexOf("2")>-1 ? "checked" : "";
+    var search_limit_type_4 = search_limit.indexOf("4")>-1 ? "checked" : "";
     var nts_sup = typeof data.nts_sup!="undefined" ? data.nts_sup : "1";
     var nts_tour = typeof data.nts_tour!="undefined" ? data.nts_tour : "1";
 %>
 <li id="slideItem_<%=pckId%>" class="slideItem">
-    <div class="line">
+    <% _.each(price_section,function(priceObj,index){ %>
+    <div data-pricesectionid="<%=priceObj.id%>" class="line priceSectionLine">
         <div class="time">
             <p class="font-gray">预定时间段</p>
-            <input readonly type="text" value="<%=sdate%>" name="sdate" class="laydate-icon datePickerInp begin"/> -
-            <input readonly type="text" value="<%=edate%>" name="edate" class="laydate-icon datePickerInp end"/>
+            <input readonly type="text" value="<%=priceObj.sdate%>" name="sdate" class="laydate-icon datePickerInp begin"/> -
+            <input readonly type="text" value="<%=priceObj.edate%>" name="edate" class="laydate-icon datePickerInp end"/>
         </div>
         <div class="time">
-            <p class="font-gray">供货价</p><input value="<%=price_section.js%>" type="text" name="js" class="midInp"/>
+            <p class="font-gray">供货价</p><input value="<%=priceObj.js ? priceObj.js/100 : ''%>" type="text" name="js" class="midInp"/>
         </div>
         <div class="time">
-            <p class="font-gray">零售价</p><input value="<%=price_section.ls%>" type="text" name="ls" class="midInp"/>
+            <p class="font-gray">零售价</p><input value="<%=priceObj.ls ? priceObj.ls/100 : ''%>" type="text" name="ls" class="midInp"/>
         </div>
         <div class="time">
-            <p class="font-gray">门市价</p><input value="<%=data.tprice%>" type="text" name="tprice" class="midInp"/>
+            <p class="font-gray">门市价</p><input value="<%=data.tprice ? data.tprice/100 : ''%>" type="text" name="tprice" class="midInp"/>
         </div>
     </div>
+    <% }) %>
     <div class="line">
         <div class="lt">
             <label>产品说明：</label>
@@ -71,7 +76,7 @@
         <div class="rt">
             <div class="cardImg">
                 <div class="cardRadio">
-                    会员卡售出 <input type="text" name="auto_active_days" value="<%=data.auto_active_days%>" class="smaInp" style="text-align:center; text-indent:0"/> 天后自动激活（仍需提供手机号后使用卡片）</div>
+                    会员卡售出 <input type="text" name="auto_active_days" value="<%=data.auto_active_days || 10%>" class="smaInp" style="text-align:center; text-indent:0"/> 天后自动激活（仍需提供手机号后使用卡片）</div>
                 <div>
                     <input type="checkbox" name="cert_limit" id="cert_limit_<%=pckId%>" <%=data.cert_limit==0 ? "" : "checked"%>/>
                     <label for="cert_limit_<%=pckId%>">需填写身份证号</label>
@@ -93,9 +98,9 @@
         </div>
         <div class="rt">
             <div class="cardLim float-left line-30">
-                <input type="checkbox" name="search_limit" id="search_limit_1_<%=pckId%>" value="1" <%=search_limit==1?"checked":""%> /><label style="margin-right:10px" for="search_limit_1_<%=pckId%>"> 卡号（实体卡/虚拟卡）</label>
-                <input type="checkbox" name="search_limit" id="search_limit_2_<%=pckId%>" value="2" <%=search_limit==2?"checked":""%> /><label style="margin-right:10px" for="search_limit_2_<%=pckId%>"> 身份证</label>
-                <input type="checkbox" name="search_limit" id="search_limit_4_<%=pckId%>" value="4" <%=search_limit==4?"checked":""%> /><label for="search_limit_4_<%=pckId%>"> 手机号</label>
+                <input type="checkbox" name="search_limit" id="search_limit_1_<%=pckId%>" value="1" <%=search_limit_type_1%> /><label style="margin-right:10px" for="search_limit_1_<%=pckId%>"> 卡号（实体卡/虚拟卡）</label>
+                <input type="checkbox" name="search_limit" id="search_limit_2_<%=pckId%>" value="2" <%=search_limit_type_2%> /><label style="margin-right:10px" for="search_limit_2_<%=pckId%>"> 身份证</label>
+                <input type="checkbox" name="search_limit" id="search_limit_4_<%=pckId%>" value="4" <%=search_limit_type_4%> /><label for="search_limit_4_<%=pckId%>"> 手机号</label>
             </div>
             <span style="position:relative; top:10px;" class="font-gray">持卡会员购票</span>
         </div>
@@ -124,13 +129,13 @@
             <div>供应商手机号 <input type="text" placeholder="请填写供应商手机号" name="fax" value="<%=data.fax%>" class="laydate-icon"></div>
             <div><input type="checkbox" name="nts_sup" id="nts_sup_checkbox_<%=pckId%>" <%=nts_sup==1?"checked":""%> /><label for="nts_sup_checkbox_<%=pckId%>"> 短信通知供应商</label></div>
             <div><input type="checkbox" name="nts_tour" id="nts_tour_checkbox_<%=pckId%>"  <%=nts_tour==1?"checked":""%> /><label for="nts_tour_checkbox_<%=pckId%>"> 短信通知联系人</label></div>
-            <div><input type="checkbox" name="confirm_wx" id="confirm_wx_checkbox_<%=pckId%>" <%=data.confirm_wx==1?"checked":""%> /><lable for="confirm_wx_checkbox_<%=pckId%>"> 会员消费信息通知到微信</lable></div>
+            <div><input type="checkbox" name="confirm_wx" id="confirm_wx_checkbox_<%=pckId%>" <%=data.confirm_wx==1?"checked":""%> /><label for="confirm_wx_checkbox_<%=pckId%>"> 会员消费信息通知到微信</label></div>
         </div>
     </div>
     <div id="pckRightContainer_<%=pckId%>" class="pckRightContainer">
         <div class="power border-y">
             <p class="tao">套餐特权<span class="font-gray tip">（设置免费使用的权限，现场购票不受该条件影响）</span>
-                <a data-pckid="<%=pckId%>" id="addPckRightBtn_<%=data.id%>" class="btn-add addPckRightBtn" href="javascript:void(0);" >＋</a>
+                <a data-pckid="<%=pckId%>" id="addPckRightBtn_<%=pckId%>" class="btn-add addPckRightBtn" href="javascript:void(0);" >＋</a>
             </p>
         </div>
         <ul id="pckRightListUl_<%=pckId%>" class="pckRightListUl"><%=data.priv%></ul>

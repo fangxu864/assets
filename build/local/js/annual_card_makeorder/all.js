@@ -40,32 +40,35 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(19);
-
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/1 14:50
+	 * Description: ""
+	 */
+	__webpack_require__(22);
+	var UserInfo = __webpack_require__(24);
+	var CardList = __webpack_require__(25);
+	var MainView = Backbone.View.extend({
+		el : $("#cardContainer"),
+		events : {},
+		initialize : function(){
+			this.UserInfo = new UserInfo();
+			this.CardList = new CardList();
+		}
+	});
+	
+	$(function(){
+		new MainView();
+	})
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */
+
+/***/ 21:
 /***/ function(module, exports) {
 
 	/**
@@ -95,7 +98,7 @@
 				//获取票类列表
 				getTickets : "/r/product_annualCard/getTickets/",
 				//删除票类
-				deleteTicket : "/r/product_ticket/set_status"
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
@@ -131,39 +134,15 @@
 
 
 /***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/1 14:50
-	 * Description: ""
-	 */
-	__webpack_require__(20);
-	var UserInfo = __webpack_require__(22);
-	var CardList = __webpack_require__(23);
-	var MainView = Backbone.View.extend({
-		el : $("#cardContainer"),
-		events : {},
-		initialize : function(){
-			this.UserInfo = new UserInfo();
-			this.CardList = new CardList();
-		}
-	});
-	
-	$(function(){
-		new MainView();
-	})
-
-/***/ },
-/* 20 */
+/***/ 22:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 21 */,
-/* 22 */
+
+/***/ 24:
 /***/ function(module, exports) {
 
 	/**
@@ -238,7 +217,8 @@
 	module.exports = UserInfoView;
 
 /***/ },
-/* 23 */
+
+/***/ 25:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -246,8 +226,8 @@
 	 * Date: 2016/6/17 15:17
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(18);
-	var Loading_Pc = __webpack_require__(24);
+	var Api = __webpack_require__(21);
+	var Loading_Pc = __webpack_require__(26);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -304,7 +284,8 @@
 	module.exports = List;
 
 /***/ },
-/* 24 */
+
+/***/ 26:
 /***/ function(module, exports) {
 
 	/**
@@ -343,5 +324,6 @@
 	module.exports = Loading;
 
 /***/ }
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=all.js.map

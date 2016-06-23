@@ -50,10 +50,14 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(49);
-	var Api = __webpack_require__(18);
-	var Select = __webpack_require__(51);
-	var Fileupload = __webpack_require__(53);
+	__webpack_require__(50);
+	var Api = __webpack_require__(21);
+	var Select = __webpack_require__(52);
+	var Fileupload = __webpack_require__(54);
+	
+	
+	
+	
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -63,8 +67,10 @@
 			"blur .infoTextarea" : "onTextInpBlur",
 			"click #submitInfoBtn" : "onSubmitBtnClick"
 		},
+	
 		initialize : function(){
 			var that = this;
+	
 			this.select = new Select({
 				provId : "#provSelect",
 				cityId : "#citySelect",
@@ -79,12 +85,13 @@
 				complete : function(res){
 					that.onImgUploadComplete(res);
 				}
-			})
+			});
 	
 			this.lid = PFT.Util.UrlParse()["sid"];
 			if(this.lid) this.getInfo(this.lid);
 	
 		},
+	
 		onImgUploadComplete : function(res){
 			var res = res || {};
 			var code = res.code;
@@ -210,13 +217,13 @@
 	});
 	
 	$(function(){
-		new MainView();
+		var view = new MainView();
 	})
 
 
 /***/ },
 
-/***/ 18:
+/***/ 21:
 /***/ function(module, exports) {
 
 	/**
@@ -246,7 +253,7 @@
 				//获取票类列表
 				getTickets : "/r/product_annualCard/getTickets/",
 				//删除票类
-				deleteTicket : "/r/product_ticket/set_status"
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
@@ -283,14 +290,14 @@
 
 /***/ },
 
-/***/ 49:
+/***/ 50:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 51:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -299,7 +306,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(52);
+		this.data = __webpack_require__(53);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -389,7 +396,7 @@
 
 /***/ },
 
-/***/ 52:
+/***/ 53:
 /***/ function(module, exports) {
 
 	/**
@@ -402,7 +409,7 @@
 
 /***/ },
 
-/***/ 53:
+/***/ 54:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -410,8 +417,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(54);
-	var tpl = __webpack_require__(56);
+	__webpack_require__(55);
+	var tpl = __webpack_require__(57);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -514,14 +521,14 @@
 
 /***/ },
 
-/***/ 54:
+/***/ 55:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 56:
+/***/ 57:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";

@@ -25,7 +25,7 @@ var Api = {
 			//获取票类列表
 			getTickets : "/r/product_annualCard/getTickets/",
 			//删除票类
-			deleteTicket : "/r/product_ticket/set_status"
+			deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 		},
 		//卡片录入相关接口
 		EntryCard : {

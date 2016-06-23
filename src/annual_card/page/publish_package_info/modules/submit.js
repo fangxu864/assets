@@ -17,26 +17,52 @@ var Submit = Backbone.View.extend({
 		data["ttitle"] = ttitle;
 
 		//预定时间段
-		var price_section = {};
-		price_section["sdate"] = container.find("input[name=sdate]").val();
-		price_section["edate"] = container.find("input[name=edate]").val();
-		price_section["storage"] = -1;
-		price_section["weekdays"] = "1,2,3,4,5,6,7";
+		var price_section = [];
+		var price_section_result = { is_ok:true, error:"" };
+		container.find(".priceSectionLine").each(function(){
+			var json = {};
+			var tarItem = $(this);
+			var id = tarItem.attr("data-pricesectionid");
+			json["id"] = id;
+			json["sdate"] = tarItem.find("input[name=sdate]").val();
+			json["edate"] = tarItem.find("input[name=edate]").val();
+			json["js"] = $.trim(tarItem.find("input[name=js]").val()*100);         //供货价
+			json["ls"] = $.trim(tarItem.find("input[name=ls]").val()*100);         //零售价
+			json["storage"] = -1;
+			json["weekdays"] = "0,1,2,3,4,5,6";
+			price_section.push(json);
 
-		if(!price_section.sdate) return this.errorHander(pckId,"预字时间段开始时间不能为空");
-		if(!price_section.edate) return this.errorHander(pckId,"预字时间段结束时间不能为空");
+			//校验
+			if(!json["sdate"]){
+				price_section_result.is_ok = false;
+				price_section_result.error = "预字时间段开始时间不能为空";
+				return false;
+			}
+			if(!json["edate"]){
+				price_section_result.is_ok = false;
+				price_section_result.error = "预字时间段结束时间不能为空";
+				return false;
+			}
+			//供货价、零售价
+			if(isNaN(json["js"]) || json["js"]=="" || json["js"]<0){
+				price_section_result.is_ok = false;
+				price_section_result.error = "供货价请填写不小于0的数值（可以精确到分）";
+				return false;
+			}
+			if(isNaN(json["ls"]) || json["ls"]=="" || json["ls"]<0){
+				price_section_result.is_ok = false;
+				price_section_result.error = "零售价请填写不小于0的数值（可以精确到分）";
+				return false;
+			}
+		})
 
-		//供货价、零售价、门市价
-		var js = $.trim(container.find("input[name=js]").val());         //供货价
-		var ls = $.trim(container.find("input[name=ls]").val());         //零售价
-		var tprice = $.trim(container.find("input[name=tprice]").val()); //门市价
-		if(isNaN(js) || js=="" || js<0) return this.errorHander(pckId,"供货价请填写不小于0的数值（可以精确到分）");
-		if(isNaN(ls) || ls=="" || ls<0) return this.errorHander(pckId,"零售价请填写不小于0的数值（可以精确到分）");
+		if(!price_section_result.is_ok) return this.errorHander(pckId,price_section_result.error);
+		data["price_section"] = price_section;
+
+		var tprice = $.trim(container.find(".priceSectionLine").first().find("input[name=tprice]").val()); //门市价
 		if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
-		price_section["js"] = js*100;
-		price_section["ls"] = ls*100;
-		data["price_section"] = [price_section];
 		data["tprice"] = tprice*100;
+
 
 		//产品说明
 		var notes = $.trim(container.find("input[name=notes]").val());
@@ -87,7 +113,7 @@ var Submit = Backbone.View.extend({
 			});
 			return result.join(",");
 		})();
-
+		if(data["search_limit"]=="") return this.errorHander(pckId,"购票限制必须选择至少一种");
 
 
 		//使用说明
@@ -118,18 +144,11 @@ var Submit = Backbone.View.extend({
 		var priv = (function(){
 
 			var result = {};
-			//result = {
-			//	1 : {
-			//		aid : 1,
-			//		use_limit : "",
-			//		limit_count : ""
-			//	}
-			//}
 			$("#pckRightListUl_"+pckId).children().each(function(){
 				var item = $(this);
-				var tid = item.attr("data-ticid");
+				var tid = item.attr("data-ticketid");
 				var aid = item.attr("data-aid");
-				var use_limit = item.find("input[type=radio][name=uselimit]:checked").val();
+				var use_limit = item.find("input[type=radio]:checked").val();
 				result[tid] = {
 					aid : aid
 				};
@@ -155,6 +174,7 @@ var Submit = Backbone.View.extend({
 		})();
 
 		if(priv.error) return this.errorHander(pckId,priv.error);
+		if(_.isEmpty(priv)) return this.errorHander(pckId,"每个套餐须保留至少一个特权产品");
 		data["priv"] = priv;
 
 
