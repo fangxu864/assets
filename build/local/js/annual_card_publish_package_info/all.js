@@ -559,34 +559,39 @@
 	
 			//切换特权产品
 			this.ProdSelectPop.on("switch.prod",function(data){
-				var before = data.before;
-				var after = data.after;
-				var pckId = data.pckId;
-				var item = $("#privItem_"+pckId+"_"+before.prodId+"_"+before.ticId);
-				if(item.length==0) return false;
-				item.attr("data-prodId",after.prodId).attr("data-ticId",after.ticId).attr("data-aid",after.aid)
-					.attr("id","privItem_"+pckId+"_"+after.prodId+"_"+after.ticId)
-					.find(".name").text(after.prodName+" - "+after.ticName);
+				var tid = data.tid;
+				var ticketid = data.ticketid;
+				var aid = data.aid;
+				var prodName = data.prodName;
+				var ticName = data.ticName;
+				var tarItem = data.triggerItem;
+				if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return false;
+				var html = that.renderPckRightList(tid,[{
+					tid : ticketid,
+					aid : aid,
+					ltitle : prodName,
+					title : ticName,
+					use_limit : "-1"
+				}]);
+				tarItem.after(html);
+				tarItem.remove();
 			});
 			//新增一个特权产品
 			this.ProdSelectPop.on("add.prod",function(data){
-				var pckId = data.pckId;
-				var index = that.getPckRightListIndexMax(pckId)+1;
-				var prodId = data.prodId;
+				var tid = data.tid;
 				var prodName = data.prodName;
-				var ticId = data.ticId;
+				var ticketid = data.ticketid;
 				var ticName = data.ticName;
 				var aid = data.aid;
-				if($("#privItem_"+pckId+"_"+prodId+"_"+ticId).length) return alert("该产品已存在，请勿重得添加");
-				var html = that.renderPckRightList(pckId,[{
-					index : index,
-					tid : ticId,
+				if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return alert("该产品已存在，请勿重得添加");
+				var html = that.renderPckRightList(tid,[{
+					tid : ticketid,
 					ttitle : ticName,
-					lid : prodId,
 					ltitle : prodName,
-					aid : aid
+					aid : aid,
+					use_limit : "-1"
 				}]);
-				$("#pckRightListUl_"+pckId).append(html);
+				$("#pckRightListUl_"+tid).append(html);
 			})
 	
 		},
@@ -603,7 +608,7 @@
 				if(tid==that.model.getTid()){
 					d = data;
 					var priv = d.priv;
-					d["priv"] = that.renderPckRightList(i,priv);
+					d["priv"] = that.renderPckRightList(tid,priv);
 					html += template({data:d});
 				}else{
 					html += '<li id="slideItem_'+tid+'" class="slideItem">';
@@ -638,17 +643,9 @@
 		//套餐特权-点击选择产品
 		onSelectProdBtnClick : function(e){
 			var tarBtn = $(e.currentTarget);
-			var pckId = tarBtn.attr("data-pckid");
 			var parent = tarBtn.parents(".pckRightItem");
-			var prodId = parent.attr("data-prodid");
-			var ticId = parent.attr("data-ticid");
-			var aid = parent.attr("data-aid");
-			this.ProdSelectPop.open({
-				pckId : pckId,
-				prodId : prodId,
-				ticId : ticId,
-				aid : aid
-			});
+			var tid = tarBtn.attr("data-tid");
+			this.ProdSelectPop.open({tid:tid,triggerItem:parent,type:"switch"});
 		},
 		//套餐特权-点击删除产品
 		onDelectProdBtnClick : function(e){
@@ -663,7 +660,8 @@
 			var tarBtn = $(e.currentTarget);
 			var pckId = tarBtn.attr("data-pckid");
 			this.ProdSelectPop.open({
-				pckId : pckId
+				tid : pckId,
+				type : "add"
 			});
 		},
 		//点击保存
@@ -746,7 +744,7 @@
 					success : function(res){
 						var d = res.data.attribute;
 						var priv = d.priv;
-						d["priv"] = that.renderPckRightList(index,priv);
+						d["priv"] = that.renderPckRightList(id,priv);
 						var html = that.template({data:d});
 						$("#slideItem_"+id).html(html);
 					}
@@ -767,8 +765,8 @@
 		 * 渲染某个套餐的特权模块
 		 * @param rights []
 		 */
-		renderPckRightList : function(pckId,rights){
-			return this.rightsTemplate({pckId:pckId,privilege:rights});
+		renderPckRightList : function(tid,rights){
+			return this.rightsTemplate({tid:tid,privilege:rights});
 		},
 		//获取套权商品列表里最大的index值
 		getPckRightListIndexMax : function(pckId){
@@ -787,13 +785,13 @@
 /* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/6 14:21 -->\r\n<!-- Description: huangzhiyang -->\r\n<%\r\n    var pckId=data.tid;\r\n    var price_section = data.price_section || {};\r\n    var sdate = price_section.sdate || \"\";\r\n    var edate = price_section.edate || \"\";\r\n    var delaytype = typeof data.delaytype!=\"undefined\" ? data.delaytype : 1;\r\n    var search_limit = data.search_limit || \"1\";\r\n    var search_limit_type_1 = search_limit.indexOf(\"1\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_2 = search_limit.indexOf(\"2\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_4 = search_limit.indexOf(\"4\")>-1 ? \"checked\" : \"\";\r\n    var nts_sup = typeof data.nts_sup!=\"undefined\" ? data.nts_sup : \"1\";\r\n    var nts_tour = typeof data.nts_tour!=\"undefined\" ? data.nts_tour : \"1\";\r\n%>\r\n<li id=\"slideItem_<%=pckId%>\" class=\"slideItem\">\r\n    <% _.each(price_section,function(priceObj,index){ %>\r\n    <div data-pricesectionid=\"<%=priceObj.id%>\" class=\"line priceSectionLine\">\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">预定时间段</p>\r\n            <input readonly type=\"text\" value=\"<%=priceObj.sdate%>\" name=\"sdate\" class=\"laydate-icon datePickerInp begin\"/> -\r\n            <input readonly type=\"text\" value=\"<%=priceObj.edate%>\" name=\"edate\" class=\"laydate-icon datePickerInp end\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">供货价</p><input value=\"<%=priceObj.js/100%>\" type=\"text\" name=\"js\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">零售价</p><input value=\"<%=priceObj.ls/100%>\" type=\"text\" name=\"ls\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">门市价</p><input value=\"<%=data.tprice/100%>\" type=\"text\" name=\"tprice\" class=\"midInp\"/>\r\n        </div>\r\n    </div>\r\n    <% }) %>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>产品说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <input type=\"text\" class=\"bigInp\" name=\"notes\" value=\"<%=data.notes%>\" placeholder=\"请填写简要说明\"/>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用有效期：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" name=\"delaytype_<%=pckId%>\" value=\"1\" id=\"delaytype_1_<%=pckId%>\" <%=delaytype==1 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_1_<%=pckId%>\">\r\n                        卡片售出后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==1 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_0_<%=pckId%>\" value=\"0\" name=\"delaytype_<%=pckId%>\" <%=delaytype==0 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_0_<%=pckId%>\">\r\n                        卡片激活后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==0 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_2_<%=pckId%>\" value=\"2\" name=\"delaytype_<%=pckId%>\" <%=delaytype==2 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_2_<%=pckId%>\">\r\n                        <input type=\"text\" readonly name=\"order_start\" value=\"<%=data.order_start%>\" class=\"laydate-icon datePickerInp begin\"/> -\r\n                        <input type=\"text\" readonly name=\"order_end\" value=\"<%=data.order_end%>\" class=\"laydate-icon datePickerInp end\"/> 有效\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>激活限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    会员卡售出 <input type=\"text\" name=\"auto_active_days\" value=\"<%=data.auto_active_days || 10%>\" class=\"smaInp\" style=\"text-align:center; text-indent:0\"/> 天后自动激活（仍需提供手机号后使用卡片）</div>\r\n                <div>\r\n                    <input type=\"checkbox\" name=\"cert_limit\" id=\"cert_limit_<%=pckId%>\" <%=data.cert_limit==0 ? \"\" : \"checked\"%>/>\r\n                    <label for=\"cert_limit_<%=pckId%>\">需填写身份证号</label>\r\n                </div>\r\n                <div style=\"display:none\">\r\n                    <input type=\"radio\" id=\"IDnum1\" name=\"active\"/><label for=\"IDnum1\"> 所有可用</label>\r\n                    <input type=\"radio\" id=\"IDnum2\" name=\"active\"/>\r\n                    <label for=\"IDnum2\">\r\n                        身份证号前5位，仅限 <input type=\"text\"class=\"smaInp\"/>\r\n                    </label>\r\n                    <a href=\"javascript:;\" class=\"btn-add\">＋</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>购票限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardLim float-left line-30\">\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_1_<%=pckId%>\" value=\"1\" <%=search_limit_type_1%> /><label style=\"margin-right:10px\" for=\"search_limit_1_<%=pckId%>\"> 卡号（实体卡/虚拟卡）</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_2_<%=pckId%>\" value=\"2\" <%=search_limit_type_2%> /><label style=\"margin-right:10px\" for=\"search_limit_2_<%=pckId%>\"> 身份证</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_4_<%=pckId%>\" value=\"4\" <%=search_limit_type_4%> /><label for=\"search_limit_4_<%=pckId%>\"> 手机号</label>\r\n            </div>\r\n            <span style=\"position:relative; top:10px;\" class=\"font-gray\">持卡会员购票</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>退单限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <p style=\"line-height:35px;\">不可退</p>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <textarea name=\"getaddr\" placeholder=\"请填写使用说明\" id=\"getaddrTextArea_<%=pckId%>\" rows=\"3\" style=\"width:420px;\"><%=data.getaddr%></textarea>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>信息通知配置：</label>\r\n        </div>\r\n        <div class=\"rt phone\">\r\n            <div>供应商手机号 <input type=\"text\" placeholder=\"请填写供应商手机号\" name=\"fax\" value=\"<%=data.fax%>\" class=\"laydate-icon\"></div>\r\n            <div><input type=\"checkbox\" name=\"nts_sup\" id=\"nts_sup_checkbox_<%=pckId%>\" <%=nts_sup==1?\"checked\":\"\"%> /><label for=\"nts_sup_checkbox_<%=pckId%>\"> 短信通知供应商</label></div>\r\n            <div><input type=\"checkbox\" name=\"nts_tour\" id=\"nts_tour_checkbox_<%=pckId%>\"  <%=nts_tour==1?\"checked\":\"\"%> /><label for=\"nts_tour_checkbox_<%=pckId%>\"> 短信通知联系人</label></div>\r\n            <div><input type=\"checkbox\" name=\"confirm_wx\" id=\"confirm_wx_checkbox_<%=pckId%>\" <%=data.confirm_wx==1?\"checked\":\"\"%> /><label for=\"confirm_wx_checkbox_<%=pckId%>\"> 会员消费信息通知到微信</label></div>\r\n        </div>\r\n    </div>\r\n    <div id=\"pckRightContainer_<%=pckId%>\" class=\"pckRightContainer\">\r\n        <div class=\"power border-y\">\r\n            <p class=\"tao\">套餐特权<span class=\"font-gray tip\">（设置免费使用的权限，现场购票不受该条件影响）</span>\r\n                <a data-pckid=\"<%=pckId%>\" id=\"addPckRightBtn_<%=data.id%>\" class=\"btn-add addPckRightBtn\" href=\"javascript:void(0);\" >＋</a>\r\n            </p>\r\n        </div>\r\n        <ul id=\"pckRightListUl_<%=pckId%>\" class=\"pckRightListUl\"><%=data.priv%></ul>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            是否发布：\r\n        </div>\r\n        <div class=\"rt\">\r\n            <% if(data.apply_limit!=1 && data.apply_limit!=2) data.apply_limit=1;%>\r\n            <label for=\"apply_limit_1_<%=pckId%>\" style=\"margin-right:20px\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"1\" id=\"apply_limit_1_<%=pckId%>\" <%=data.apply_limit==1?\"checked\":\"\"%> /> 发布</label>\r\n            <label for=\"apply_limit_2_<%=pckId%>\" class=\"line-35\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"2\" id=\"apply_limit_2_<%=pckId%>\" <%=data.apply_limit==2?\"checked\":\"\"%> /> 放入仓库</label>\r\n        </div>\r\n    </div>\r\n    <div style=\"margin-top:50px; margin-bottom:70px\" class=\"line\">\r\n        <div class=\"lt\"></div>\r\n        <div class=\"rt\"><a id=\"submitBtn_<%=pckId%>\" data-tid=\"<%=pckId%>\" href=\"javascript:void(0);\" class=\"btn btn-3x btn-blue submitBtn\">保存</a></div>\r\n    </div>\r\n</li>\r\n";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/6 14:21 -->\r\n<!-- Description: huangzhiyang -->\r\n<%\r\n    var pckId=data.tid;\r\n    var price_section = data.price_section || {};\r\n    var sdate = price_section.sdate || \"\";\r\n    var edate = price_section.edate || \"\";\r\n    var delaytype = typeof data.delaytype!=\"undefined\" ? data.delaytype : 1;\r\n    var search_limit = data.search_limit || \"1\";\r\n    var search_limit_type_1 = search_limit.indexOf(\"1\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_2 = search_limit.indexOf(\"2\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_4 = search_limit.indexOf(\"4\")>-1 ? \"checked\" : \"\";\r\n    var nts_sup = typeof data.nts_sup!=\"undefined\" ? data.nts_sup : \"1\";\r\n    var nts_tour = typeof data.nts_tour!=\"undefined\" ? data.nts_tour : \"1\";\r\n%>\r\n<li id=\"slideItem_<%=pckId%>\" class=\"slideItem\">\r\n    <% _.each(price_section,function(priceObj,index){ %>\r\n    <div data-pricesectionid=\"<%=priceObj.id%>\" class=\"line priceSectionLine\">\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">预定时间段</p>\r\n            <input readonly type=\"text\" value=\"<%=priceObj.sdate%>\" name=\"sdate\" class=\"laydate-icon datePickerInp begin\"/> -\r\n            <input readonly type=\"text\" value=\"<%=priceObj.edate%>\" name=\"edate\" class=\"laydate-icon datePickerInp end\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">供货价</p><input value=\"<%=priceObj.js/100%>\" type=\"text\" name=\"js\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">零售价</p><input value=\"<%=priceObj.ls/100%>\" type=\"text\" name=\"ls\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">门市价</p><input value=\"<%=data.tprice/100%>\" type=\"text\" name=\"tprice\" class=\"midInp\"/>\r\n        </div>\r\n    </div>\r\n    <% }) %>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>产品说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <input type=\"text\" class=\"bigInp\" name=\"notes\" value=\"<%=data.notes%>\" placeholder=\"请填写简要说明\"/>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用有效期：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" name=\"delaytype_<%=pckId%>\" value=\"1\" id=\"delaytype_1_<%=pckId%>\" <%=delaytype==1 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_1_<%=pckId%>\">\r\n                        卡片售出后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==1 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_0_<%=pckId%>\" value=\"0\" name=\"delaytype_<%=pckId%>\" <%=delaytype==0 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_0_<%=pckId%>\">\r\n                        卡片激活后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==0 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_2_<%=pckId%>\" value=\"2\" name=\"delaytype_<%=pckId%>\" <%=delaytype==2 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_2_<%=pckId%>\">\r\n                        <input type=\"text\" readonly name=\"order_start\" value=\"<%=data.order_start%>\" class=\"laydate-icon datePickerInp begin\"/> -\r\n                        <input type=\"text\" readonly name=\"order_end\" value=\"<%=data.order_end%>\" class=\"laydate-icon datePickerInp end\"/> 有效\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>激活限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    会员卡售出 <input type=\"text\" name=\"auto_active_days\" value=\"<%=data.auto_active_days || 10%>\" class=\"smaInp\" style=\"text-align:center; text-indent:0\"/> 天后自动激活（仍需提供手机号后使用卡片）</div>\r\n                <div>\r\n                    <input type=\"checkbox\" name=\"cert_limit\" id=\"cert_limit_<%=pckId%>\" <%=data.cert_limit==0 ? \"\" : \"checked\"%>/>\r\n                    <label for=\"cert_limit_<%=pckId%>\">需填写身份证号</label>\r\n                </div>\r\n                <div style=\"display:none\">\r\n                    <input type=\"radio\" id=\"IDnum1\" name=\"active\"/><label for=\"IDnum1\"> 所有可用</label>\r\n                    <input type=\"radio\" id=\"IDnum2\" name=\"active\"/>\r\n                    <label for=\"IDnum2\">\r\n                        身份证号前5位，仅限 <input type=\"text\"class=\"smaInp\"/>\r\n                    </label>\r\n                    <a href=\"javascript:;\" class=\"btn-add\">＋</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>购票限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardLim float-left line-30\">\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_1_<%=pckId%>\" value=\"1\" <%=search_limit_type_1%> /><label style=\"margin-right:10px\" for=\"search_limit_1_<%=pckId%>\"> 卡号（实体卡/虚拟卡）</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_2_<%=pckId%>\" value=\"2\" <%=search_limit_type_2%> /><label style=\"margin-right:10px\" for=\"search_limit_2_<%=pckId%>\"> 身份证</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_4_<%=pckId%>\" value=\"4\" <%=search_limit_type_4%> /><label for=\"search_limit_4_<%=pckId%>\"> 手机号</label>\r\n            </div>\r\n            <span style=\"position:relative; top:10px;\" class=\"font-gray\">持卡会员购票</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>退单限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <p style=\"line-height:35px;\">不可退</p>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <textarea name=\"getaddr\" placeholder=\"请填写使用说明\" id=\"getaddrTextArea_<%=pckId%>\" rows=\"3\" style=\"width:420px;\"><%=data.getaddr%></textarea>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>信息通知配置：</label>\r\n        </div>\r\n        <div class=\"rt phone\">\r\n            <div>供应商手机号 <input type=\"text\" placeholder=\"请填写供应商手机号\" name=\"fax\" value=\"<%=data.fax%>\" class=\"laydate-icon\"></div>\r\n            <div><input type=\"checkbox\" name=\"nts_sup\" id=\"nts_sup_checkbox_<%=pckId%>\" <%=nts_sup==1?\"checked\":\"\"%> /><label for=\"nts_sup_checkbox_<%=pckId%>\"> 短信通知供应商</label></div>\r\n            <div><input type=\"checkbox\" name=\"nts_tour\" id=\"nts_tour_checkbox_<%=pckId%>\"  <%=nts_tour==1?\"checked\":\"\"%> /><label for=\"nts_tour_checkbox_<%=pckId%>\"> 短信通知联系人</label></div>\r\n            <div><input type=\"checkbox\" name=\"confirm_wx\" id=\"confirm_wx_checkbox_<%=pckId%>\" <%=data.confirm_wx==1?\"checked\":\"\"%> /><label for=\"confirm_wx_checkbox_<%=pckId%>\"> 会员消费信息通知到微信</label></div>\r\n        </div>\r\n    </div>\r\n    <div id=\"pckRightContainer_<%=pckId%>\" class=\"pckRightContainer\">\r\n        <div class=\"power border-y\">\r\n            <p class=\"tao\">套餐特权<span class=\"font-gray tip\">（设置免费使用的权限，现场购票不受该条件影响）</span>\r\n                <a data-pckid=\"<%=pckId%>\" id=\"addPckRightBtn_<%=pckId%>\" class=\"btn-add addPckRightBtn\" href=\"javascript:void(0);\" >＋</a>\r\n            </p>\r\n        </div>\r\n        <ul id=\"pckRightListUl_<%=pckId%>\" class=\"pckRightListUl\"><%=data.priv%></ul>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            是否发布：\r\n        </div>\r\n        <div class=\"rt\">\r\n            <% if(data.apply_limit!=1 && data.apply_limit!=2) data.apply_limit=1;%>\r\n            <label for=\"apply_limit_1_<%=pckId%>\" style=\"margin-right:20px\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"1\" id=\"apply_limit_1_<%=pckId%>\" <%=data.apply_limit==1?\"checked\":\"\"%> /> 发布</label>\r\n            <label for=\"apply_limit_2_<%=pckId%>\" class=\"line-35\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"2\" id=\"apply_limit_2_<%=pckId%>\" <%=data.apply_limit==2?\"checked\":\"\"%> /> 放入仓库</label>\r\n        </div>\r\n    </div>\r\n    <div style=\"margin-top:50px; margin-bottom:70px\" class=\"line\">\r\n        <div class=\"lt\"></div>\r\n        <div class=\"rt\"><a id=\"submitBtn_<%=pckId%>\" data-tid=\"<%=pckId%>\" href=\"javascript:void(0);\" class=\"btn btn-3x btn-blue submitBtn\">保存</a></div>\r\n    </div>\r\n</li>\r\n";
 
 /***/ },
 /* 38 */
 /***/ function(module, exports) {
 
-	module.exports = "<% _.each(privilege,function(item,index,privilege){ %>\r\n    <%\r\n        var index = typeof item.index==\"undefined\" ? index : item.index;\r\n        var nameFlag = pckId+\"_\"+index;\r\n        var prodId = item.lid, prodName = item.ltitle;\r\n        var ticId = item.tid,ticName=item.ttitle;\r\n        var aid = item.aid;\r\n        var id = pckId+\"_\"+prodId+\"_\"+ticId;\r\n        var attr = 'data-prodId=\"'+prodId+'\" data-ticId=\"'+ticId+'\" data-aid=\"'+aid+'\" data-index=\"'+index+'\"';\r\n        var uselimit = typeof item.use_limit!=\"undefined\" ? item.use_limit : \"-1\";\r\n        var uselimitArr = [\"\",\"\",\"\"];\r\n        if(uselimit!=-1 && (typeof uselimit!==\"undefined\")){\r\n            uselimitArr = uselimit.split(\",\");\r\n            if(uselimitArr[0]==-1) uselimitArr[0] = \"\";\r\n            if(uselimitArr[1]==-1) uselimitArr[1] = \"\";\r\n            if(uselimitArr[2]==-1) uselimitArr[2] = \"\";\r\n        }\r\n    %>\r\n<li <%=attr%> id=\"privItem_<%=id%>\" class=\"product border-bottom pckRightItem\">\r\n    <div class=\"float-left\">\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>产品：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <span class=\"name\"><%=prodName%>-<%=ticName%></span>\r\n                <a data-pckid=\"<%=pckId%>\" href=\"javascript:void(0);\" <%=attr%> class=\"btn btn-s btn-border btn-sel selectProd_picker\">选择</a>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>使用规则：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <div class=\"nolimit\">\r\n                    <input type=\"radio\" value=\"-1\" id=\"uselimit_no_<%=nameFlag%>\" name=\"uselimit_<%=nameFlag%>\" <%=uselimit==-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimit_no_<%=nameFlag%>\">不限</label>\r\n                </div>\r\n                <div class=\"limit\">\r\n                    <input type=\"radio\" value=\"1\" id=\"uselimited_<%=nameFlag%>\" name=\"uselimit_<%=nameFlag%>\" <%=uselimit!=-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimited_<%=nameFlag%>\">\r\n                        共 <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[2]%>\" class=\"smaInp limitCountInp limitCountInp_total total\"> 次\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[0]%>\" class=\"smaInp limitCountInp limitCountInp_daily daily\"> 次/日\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[1]%>\" class=\"smaInp limitCountInp limitCountInp_month month\"> 次/月\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"float-right border-left\"><a href=\"javascript:void(0);\" class=\"btn-del deleteProdBtn\">×</a></div>\r\n</li>\r\n<% }) %>";
+	module.exports = "<% _.each(privilege,function(item,index,privilege){ %>\r\n    <%\r\n        var ticketid = item.tid;\r\n        var aid = item.aid;\r\n        var id = tid+\"_\"+ticketid+\"_\"+aid;\r\n        var attrFlag = 'data-tid=\"'+tid+'\" data-ticketid=\"'+ticketid+'\" data-aid=\"'+aid+'\"';\r\n        var prodName = item.ltitle;\r\n        var ticName = item.title;\r\n        var uselimit = typeof item.use_limit!=\"undefined\" ? item.use_limit : \"-1\";\r\n        var uselimitArr = [\"\",\"\",\"\"];\r\n        if(uselimit!=-1 && (typeof uselimit!==\"undefined\")){\r\n            uselimitArr = uselimit.split(\",\");\r\n            if(uselimitArr[0]==-1) uselimitArr[0] = \"\";\r\n            if(uselimitArr[1]==-1) uselimitArr[1] = \"\";\r\n            if(uselimitArr[2]==-1) uselimitArr[2] = \"\";\r\n        }\r\n    %>\r\n<li <%=attrFlag%> id=\"privItem_<%=id%>\" class=\"product border-bottom pckRightItem\">\r\n    <div class=\"float-left\">\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>产品：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <span class=\"name\"><%=prodName%>-<%=ticName%></span>\r\n                <a href=\"javascript:void(0);\" <%=attrFlag%> class=\"btn btn-s btn-border btn-sel selectProd_picker\">选择</a>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>使用规则：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <div class=\"nolimit\">\r\n                    <input type=\"radio\" value=\"-1\" id=\"uselimit_no_<%=id%>\" name=\"uselimit_<%=id%>\" <%=uselimit==-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimit_no_<%=id%>\">不限</label>\r\n                </div>\r\n                <div class=\"limit\">\r\n                    <input type=\"radio\" value=\"1\" id=\"uselimited_<%=id%>\" name=\"uselimit_<%=id%>\" <%=uselimit!=-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimited_<%=id%>\">\r\n                        共 <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[2]%>\" class=\"smaInp limitCountInp limitCountInp_total total\"> 次\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[0]%>\" class=\"smaInp limitCountInp limitCountInp_daily daily\"> 次/日\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[1]%>\" class=\"smaInp limitCountInp limitCountInp_month month\"> 次/月\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"float-right border-left\"><a href=\"javascript:void(0);\" class=\"btn-del deleteProdBtn\">×</a></div>\r\n</li>\r\n<% }) %>";
 
 /***/ },
 /* 39 */
@@ -1274,12 +1272,10 @@
 		keyupTimer : null,
 		prodCache : null,
 		ticketCache : {},
+		type : "",
+		tid : "",
 		ticketTemplate : _.template(ticket_item_tpl),
 		prodTemplate : _.template(prod_item_tpl),
-		pckId : "",
-		prodId : "",
-		ticId : "",
-		aid : "",
 		initialize : function(){
 			var that = this;
 			this.mask = $("#prodSelectMask");
@@ -1324,39 +1320,29 @@
 	
 		},
 		onBtnClick : function(e){
+			var that = this;
 			var tarBtn = $(e.currentTarget);
 			if(tarBtn.hasClass("yes")){
 				var prod = this.prodListUl.children(".active");
 				var ticRadio = this.ticketListUl.find("input[type=radio][name=prodSelect_ticketRadio]:checked");
-				var prodId = prod.attr("data-prodid");
 				var prodName = prod.find(".t").text();
 				var ticId = ticRadio.attr("data-ticid");
 				var ticName = ticRadio.parent().find(".t").text();
-				//var aid = ticRadio.parent().find(".aidSelect").val();
 				var aid = prod.attr("data-applyid");
-				if(this.prodId && this.ticId){ //切换特权商品
-					if(this.prodId==prodId && this.ticId==ticId) return false;
+				if(this.type=="switch"){ //切换特权商品
 					this.trigger("switch.prod",{
-						pckId : this.pckId,
-						before : {
-							prodId : this.prodId,
-							ticId : this.ticId,
-							aid : this.aid
-						},
-						after : {
-							prodId : prodId,
-							prodName : prodName,
-							ticId : ticId,
-							ticName : ticName,
-							aid : aid
-						}
-					},this)
-				}else{ //新增一个特权商品
-					this.trigger("add.prod",{
-						pckId : this.pckId,
-						prodId : prodId,
+						tid : that.tid,
+						ticketid : ticId,
+						aid : aid,
 						prodName : prodName,
-						ticId : ticId,
+						ticName : ticName,
+						triggerItem : this.triggerItem
+					},this)
+				}else if(this.type=="add"){ //新增一个特权商品
+					this.trigger("add.prod",{
+						tid : that.tid,
+						prodName : prodName,
+						ticketid : ticId,
 						ticName : ticName,
 						aid : aid
 					},this)
@@ -1475,10 +1461,9 @@
 			var top = (wh.height-containerH) / 2;
 			var offsetTop = top*0.3;
 			this.$el.css({top:-this.$el.height()});
-			this.pckId = data.pckId;
-			this.prodId = data.prodId;
-			this.ticId = data.ticId;
-			this.aid = data.aid;
+			this.type = data.type;
+			this.tid = data.tid;
+			this.triggerItem = data.triggerItem;
 			this.mask.fadeIn();
 			this.$el.show().animate({top:top-offsetTop},100);
 			if(this.prodCache) return false;
@@ -1555,7 +1540,7 @@
 				json["js"] = $.trim(tarItem.find("input[name=js]").val()*100);         //供货价
 				json["ls"] = $.trim(tarItem.find("input[name=ls]").val()*100);         //零售价
 				json["storage"] = -1;
-				json["weekdays"] = "1,2,3,4,5,6,7";
+				json["weekdays"] = "0,1,2,3,4,5,6";
 				price_section.push(json);
 	
 				//校验
@@ -1670,13 +1655,6 @@
 			var priv = (function(){
 	
 				var result = {};
-				//result = {
-				//	1 : {
-				//		aid : 1,
-				//		use_limit : "",
-				//		limit_count : ""
-				//	}
-				//}
 				$("#pckRightListUl_"+pckId).children().each(function(){
 					var item = $(this);
 					var tid = item.attr("data-ticid");

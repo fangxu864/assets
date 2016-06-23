@@ -29,7 +29,7 @@ var Submit = Backbone.View.extend({
 			json["js"] = $.trim(tarItem.find("input[name=js]").val()*100);         //供货价
 			json["ls"] = $.trim(tarItem.find("input[name=ls]").val()*100);         //零售价
 			json["storage"] = -1;
-			json["weekdays"] = "1,2,3,4,5,6,7";
+			json["weekdays"] = "0,1,2,3,4,5,6";
 			price_section.push(json);
 
 			//校验
@@ -144,13 +144,6 @@ var Submit = Backbone.View.extend({
 		var priv = (function(){
 
 			var result = {};
-			//result = {
-			//	1 : {
-			//		aid : 1,
-			//		use_limit : "",
-			//		limit_count : ""
-			//	}
-			//}
 			$("#pckRightListUl_"+pckId).children().each(function(){
 				var item = $(this);
 				var tid = item.attr("data-ticid");

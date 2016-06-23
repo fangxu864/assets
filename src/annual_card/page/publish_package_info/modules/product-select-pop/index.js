@@ -21,12 +21,10 @@ var ProdSelect = Backbone.View.extend({
 	keyupTimer : null,
 	prodCache : null,
 	ticketCache : {},
+	type : "",
+	tid : "",
 	ticketTemplate : _.template(ticket_item_tpl),
 	prodTemplate : _.template(prod_item_tpl),
-	pckId : "",
-	prodId : "",
-	ticId : "",
-	aid : "",
 	initialize : function(){
 		var that = this;
 		this.mask = $("#prodSelectMask");
@@ -71,39 +69,29 @@ var ProdSelect = Backbone.View.extend({
 
 	},
 	onBtnClick : function(e){
+		var that = this;
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("yes")){
 			var prod = this.prodListUl.children(".active");
 			var ticRadio = this.ticketListUl.find("input[type=radio][name=prodSelect_ticketRadio]:checked");
-			var prodId = prod.attr("data-prodid");
 			var prodName = prod.find(".t").text();
 			var ticId = ticRadio.attr("data-ticid");
 			var ticName = ticRadio.parent().find(".t").text();
-			//var aid = ticRadio.parent().find(".aidSelect").val();
 			var aid = prod.attr("data-applyid");
-			if(this.prodId && this.ticId){ //切换特权商品
-				if(this.prodId==prodId && this.ticId==ticId) return false;
+			if(this.type=="switch"){ //切换特权商品
 				this.trigger("switch.prod",{
-					pckId : this.pckId,
-					before : {
-						prodId : this.prodId,
-						ticId : this.ticId,
-						aid : this.aid
-					},
-					after : {
-						prodId : prodId,
-						prodName : prodName,
-						ticId : ticId,
-						ticName : ticName,
-						aid : aid
-					}
-				},this)
-			}else{ //新增一个特权商品
-				this.trigger("add.prod",{
-					pckId : this.pckId,
-					prodId : prodId,
+					tid : that.tid,
+					ticketid : ticId,
+					aid : aid,
 					prodName : prodName,
-					ticId : ticId,
+					ticName : ticName,
+					triggerItem : this.triggerItem
+				},this)
+			}else if(this.type=="add"){ //新增一个特权商品
+				this.trigger("add.prod",{
+					tid : that.tid,
+					prodName : prodName,
+					ticketid : ticId,
 					ticName : ticName,
 					aid : aid
 				},this)
@@ -222,10 +210,9 @@ var ProdSelect = Backbone.View.extend({
 		var top = (wh.height-containerH) / 2;
 		var offsetTop = top*0.3;
 		this.$el.css({top:-this.$el.height()});
-		this.pckId = data.pckId;
-		this.prodId = data.prodId;
-		this.ticId = data.ticId;
-		this.aid = data.aid;
+		this.type = data.type;
+		this.tid = data.tid;
+		this.triggerItem = data.triggerItem;
 		this.mask.fadeIn();
 		this.$el.show().animate({top:top-offsetTop},100);
 		if(this.prodCache) return false;
