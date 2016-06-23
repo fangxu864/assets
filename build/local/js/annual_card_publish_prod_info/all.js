@@ -50,10 +50,14 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(51);
-	var Api = __webpack_require__(22);
-	var Select = __webpack_require__(53);
-	var Fileupload = __webpack_require__(55);
+	__webpack_require__(50);
+	var Api = __webpack_require__(21);
+	var Select = __webpack_require__(52);
+	var Fileupload = __webpack_require__(54);
+	
+	
+	
+	
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -63,8 +67,10 @@
 			"blur .infoTextarea" : "onTextInpBlur",
 			"click #submitInfoBtn" : "onSubmitBtnClick"
 		},
+	
 		initialize : function(){
 			var that = this;
+	
 			this.select = new Select({
 				provId : "#provSelect",
 				cityId : "#citySelect",
@@ -79,12 +85,13 @@
 				complete : function(res){
 					that.onImgUploadComplete(res);
 				}
-			})
+			});
 	
 			this.lid = PFT.Util.UrlParse()["sid"];
 			if(this.lid) this.getInfo(this.lid);
 	
 		},
+	
 		onImgUploadComplete : function(res){
 			var res = res || {};
 			var code = res.code;
@@ -131,7 +138,7 @@
 			if(!mobile) return mobileInp.parents(".line").addClass("error");
 			if(!info) return infoTextarea.parents(".line").addClass("error");
 			if(!uploadPhoto) return alert("请上传一张预览图");
-			var data = {
+			this.submit({
 				product_name : prodName,
 				product_type : "I",
 				address : addr,
@@ -140,9 +147,7 @@
 				province : province,
 				city : city,
 				img_path : uploadPhoto
-			};
-			if(this.lid) data["lid"] = this.lid;
-			this.submit(data)
+			})
 		},
 		renderThumbList : function(src){
 			var container = $("#uploadPhotoBox");
@@ -190,7 +195,6 @@
 			if(img_path) this.renderThumbList(img_path);
 		},
 		submit : function(params){
-			var that = this;
 			var submitBtn = $("#submitInfoBtn");
 			PFT.Util.Ajax(Api.Url.PublishCardProd.submit,{
 				type : "post",
@@ -202,13 +206,8 @@
 					var res = res || {};
 					var code = res.code;
 					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-					var lastid = res.data.lastid;
 					if(code==200){
-						PFT.Util.STip("success",'<p style="width:200px">保存成功</p>',1000,function(){
-							//只有当创建新产品时，才往一下页跳
-							//如果在编辑状态，保存成功后还是停留在本页
-							if(!that.lid && lastid) window.location.href = "/new/annual_package.html?sid="+lastid;
-						});
+						PFT.Util.STip("success",'<p style="width:200px">保存成功</p>');
 					}else{
 						alert(msg);
 					}
@@ -218,13 +217,13 @@
 	});
 	
 	$(function(){
-		new MainView();
+		var view = new MainView();
 	})
 
 
 /***/ },
 
-/***/ 22:
+/***/ 21:
 /***/ function(module, exports) {
 
 	/**
@@ -291,14 +290,14 @@
 
 /***/ },
 
-/***/ 51:
+/***/ 50:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 53:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -307,7 +306,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(54);
+		this.data = __webpack_require__(53);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -397,7 +396,7 @@
 
 /***/ },
 
-/***/ 54:
+/***/ 53:
 /***/ function(module, exports) {
 
 	/**
@@ -410,7 +409,7 @@
 
 /***/ },
 
-/***/ 55:
+/***/ 54:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -418,8 +417,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(56);
-	var tpl = __webpack_require__(58);
+	__webpack_require__(55);
+	var tpl = __webpack_require__(57);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -522,14 +521,14 @@
 
 /***/ },
 
-/***/ 56:
+/***/ 55:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 58:
+/***/ 57:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";

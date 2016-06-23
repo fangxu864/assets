@@ -7,6 +7,10 @@ require("./style.scss");
 var Api = require("../../common/api.js");
 var Select = require("COMMON/js/component.city.select.js");
 var Fileupload = require("COMMON/modules/fileupload");
+
+
+
+
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
@@ -16,8 +20,10 @@ var MainView = Backbone.View.extend({
 		"blur .infoTextarea" : "onTextInpBlur",
 		"click #submitInfoBtn" : "onSubmitBtnClick"
 	},
+
 	initialize : function(){
 		var that = this;
+
 		this.select = new Select({
 			provId : "#provSelect",
 			cityId : "#citySelect",
@@ -32,12 +38,13 @@ var MainView = Backbone.View.extend({
 			complete : function(res){
 				that.onImgUploadComplete(res);
 			}
-		})
+		});
 
 		this.lid = PFT.Util.UrlParse()["sid"];
 		if(this.lid) this.getInfo(this.lid);
 
 	},
+
 	onImgUploadComplete : function(res){
 		var res = res || {};
 		var code = res.code;
@@ -84,7 +91,7 @@ var MainView = Backbone.View.extend({
 		if(!mobile) return mobileInp.parents(".line").addClass("error");
 		if(!info) return infoTextarea.parents(".line").addClass("error");
 		if(!uploadPhoto) return alert("请上传一张预览图");
-		var data = {
+		this.submit({
 			product_name : prodName,
 			product_type : "I",
 			address : addr,
@@ -93,9 +100,7 @@ var MainView = Backbone.View.extend({
 			province : province,
 			city : city,
 			img_path : uploadPhoto
-		};
-		if(this.lid) data["lid"] = this.lid;
-		this.submit(data)
+		})
 	},
 	renderThumbList : function(src){
 		var container = $("#uploadPhotoBox");
@@ -143,7 +148,6 @@ var MainView = Backbone.View.extend({
 		if(img_path) this.renderThumbList(img_path);
 	},
 	submit : function(params){
-		var that = this;
 		var submitBtn = $("#submitInfoBtn");
 		PFT.Util.Ajax(Api.Url.PublishCardProd.submit,{
 			type : "post",
@@ -155,13 +159,8 @@ var MainView = Backbone.View.extend({
 				var res = res || {};
 				var code = res.code;
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-				var lastid = res.data.lastid;
 				if(code==200){
-					PFT.Util.STip("success",'<p style="width:200px">保存成功</p>',1000,function(){
-						//只有当创建新产品时，才往一下页跳
-						//如果在编辑状态，保存成功后还是停留在本页
-						if(!that.lid && lastid) window.location.href = "/new/annual_package.html?sid="+lastid;
-					});
+					PFT.Util.STip("success",'<p style="width:200px">保存成功</p>');
 				}else{
 					alert(msg);
 				}
@@ -171,5 +170,5 @@ var MainView = Backbone.View.extend({
 });
 
 $(function(){
-	new MainView();
+	var view = new MainView();
 })
