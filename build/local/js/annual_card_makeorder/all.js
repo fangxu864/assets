@@ -50,9 +50,9 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(22);
-	var UserInfo = __webpack_require__(24);
-	var CardList = __webpack_require__(25);
+	__webpack_require__(20);
+	var UserInfo = __webpack_require__(22);
+	var CardList = __webpack_require__(23);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {},
@@ -68,7 +68,7 @@
 
 /***/ },
 
-/***/ 21:
+/***/ 19:
 /***/ function(module, exports) {
 
 	/**
@@ -135,14 +135,14 @@
 
 /***/ },
 
-/***/ 22:
+/***/ 20:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 24:
+/***/ 22:
 /***/ function(module, exports) {
 
 	/**
@@ -218,7 +218,7 @@
 
 /***/ },
 
-/***/ 25:
+/***/ 23:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -226,8 +226,8 @@
 	 * Date: 2016/6/17 15:17
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(21);
-	var Loading_Pc = __webpack_require__(26);
+	var Api = __webpack_require__(19);
+	var Loading_Pc = __webpack_require__(24);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -285,7 +285,7 @@
 
 /***/ },
 
-/***/ 26:
+/***/ 24:
 /***/ function(module, exports) {
 
 	/**

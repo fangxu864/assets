@@ -40,9 +40,8 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -50,8 +49,8 @@
 	 * Date: 2016/6/21 10:22
 	 * Description: ""
 	 */
-	__webpack_require__(58);
-	var dialogTpl = __webpack_require__(7);
+	__webpack_require__(1);
+	var dialogTpl = __webpack_require__(5);
 	var AnnualCardBuyDialog = function(){};
 	AnnualCardBuyDialog.prototype = {
 		open : function(){
@@ -61,20 +60,20 @@
 	module.exports = AnnualCardBuyDialog;
 
 /***/ },
-
-/***/ 7:
-/***/ function(module, exports) {
-
-	module.exports = "";
-
-/***/ },
-
-/***/ 58:
+/* 1 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
-/***/ }
+/***/ },
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
+/***/ function(module, exports) {
 
-/******/ });
+	module.exports = "";
+
+/***/ }
+/******/ ]);
 //# sourceMappingURL=all.js.map

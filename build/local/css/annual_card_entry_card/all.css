@@ -12,6 +12,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
+a{
+  text-decoration: none; }
+a:hover{
+  text-decoration: underline; }
+a:link{
+  text-decoration: none;
+  outline: none; }
+a:visited{
+  text-decoration: none;
+  outline: none;
+  color: #fff; }
+a:active{
+  text-decoration: none;
+  outline: none; }
 .cardContainer a:hover, .border a:hover{
   text-decoration: none; }
 .clearfix:after{
@@ -366,6 +380,9 @@ input[type=text] {
   font-size: 20px;
   vertical-align: top; }
 
+.enTable th, .enTable td {
+  text-align: left; }
+
 /**/
 .dialogMask {
   position: fixed;
@@ -394,7 +411,7 @@ input[type=text] {
 
 .dialogBoxContainerCon .closeBtn {
   position: relative;
-  top: -3px;
+  top: 0;
   margin-left: 74px; }
 
 #readCardBtn:hover {
