@@ -44,7 +44,9 @@ var Api = {
 			getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
 			//预定页面请求订单信息接口
 			getOrderInfo : "/r/product_annualCard/getOrderInfo/"
-		}
+		},
+		//获取某个产品的虚拟卡的库存
+		getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
 	},
 	defaults : {
 		type : "get",

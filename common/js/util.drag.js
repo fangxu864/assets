@@ -66,7 +66,8 @@ var Drag = function(opt){
 		event = Drag.event,
 		isDown = false,
 		newElem = isIE ? target : doc,
-		fixed = moveElem.style.position === 'fixed',
+		//fixed = moveElem.style.position === 'fixed',
+		fixed = true,
 		_fixed = true;
 
 	// mousedown

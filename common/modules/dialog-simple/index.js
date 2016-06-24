@@ -3,6 +3,7 @@
  * Date: 2016/6/21 10:04
  * Description: ""
  */
+require("./index.scss");
 var WinWidthHeight = require("COMMON/js/util.window.width.height.js");
 var Drag = require("COMMON/js/util.drag.js");
 var fn = new Function();
@@ -10,15 +11,13 @@ var Defaults = {
 	width : "",
 	height : "",
 	closeBtn : true,
-	header : "",
 	content : "",
-	footer : "",
 	drag : false,
 	speed : 200,
 	offsetX : 0,
 	offsetY : 0,
 	overlay : true,
-	headerHeightMin : 40,
+	headerHeightMin : 46,
 	events : {},
 	onOpenBefore : fn,
 	onOpenAfter : fn,
@@ -40,40 +39,36 @@ var Dialog = function(opt){
 	var container = this.container = $('<div></div>');
 	$("body").append(container);
 	container.attr({
-		id : this.id + "container",
-		className : this.flag + "container " + this.id+"container"
-	});
+		id : this.id + "container"
+	}).addClass(this.flag + "container").addClass(this.id+"container");
 	if(typeof opt.width=="number") container.width(opt.width);
 	if(typeof opt.height=="number") container.height(opt.height);
 
 	var header = this.header = $('<div></div>');
-	header.attr({
-		id : this.id+"header",
-		className : this.flag + "header "+ this.id+"header"
-	}).css({minHeight:opt.headerHeightMin}).appendTo(container);
+	header.attr({id : this.id+"header"})
+		  .addClass(this.flag + "header").addClass(this.id+"header")
+		  .css({minHeight:opt.headerHeightMin}).appendTo(container);
 	if(opt.header){
 		var header_tpl = typeof opt.header=="function" ? opt.header() : opt.header;
 		header.prepend(header_tpl);
 	}
+	var content = this.content = $('<div></div>');
+	content.attr({id : this.id + "content"})
+		   .addClass(this.flag + "content")
+		   .addClass(this.id + "content")
+		   .appendTo(container)
+	       .html(typeof opt.content=="function" ? opt.content() : opt.content);
 	var closeBtn = this.closeBtn = $('<div>×</div>');
-	closeBtn.attr({
-		id : this.id+"closeBtn",
-		className : this.flag + "closeBtn " + this.id + "closeBtn"
-	}).appendTo(header);
+	closeBtn.attr({id : this.id+"closeBtn"})
+		.addClass(this.flag + "closeBtn")
+		.addClass(this.id + "closeBtn")
+		.appendTo(container);
 	var hh = header.height();
-	closeBtn.css({width:hh,height:hh,lineHeight:hh+"px"});
+	closeBtn.css({width:hh+6,height:hh,lineHeight:hh-4+"px"});
 	if(!opt.closeBtn) closeBtn.addClass("hidden");
 	closeBtn.on("click",function(){
 		that.close();
 	})
-
-	var content = this.content = $('<div></div>');
-	content.attr({
-		id : this.id + "content",
-		className : this.flag + "content " + this.id + "content"
-	}).appendTo(container);
-	content.html(typeof opt.content=="function" ? opt.content() : opt.content);
-
 	this.init(opt);
 };
 Dialog.prototype = {
@@ -88,18 +83,20 @@ Dialog.prototype = {
 			var handler = events[i];
 			container.on(eventType,selector,function(e){
 				if(typeof handler=="function"){
-					handler.call(that,e);
+					handler(e);
 				}else if(typeof handler=="string"){
-					that[handler].call(that,e);
+					that[handler](e);
 				}
 			})
 		}
-		if(opt.drag){
-			Drag({
-				trigger : this.header[0],
-				target : this.container[0]
-			})
-		}
+		setTimeout(function(){
+			if(opt.drag){
+				Drag({
+					trigger : that.header[0],
+					target : that.container[0]
+				})
+			}
+		},10)
 		this.position();
 	},
 	position : function(){
@@ -114,12 +111,12 @@ Dialog.prototype = {
 		}).hide();
 	},
 	getMask : function(){
-		var mask = $("#"+this.flag+"-mask");
+		var mask = $("#"+this.flag+"mask");
 		if(mask.length) return mask;
 		mask = $('<div></div>');
 		mask.attr({
-			id : this.flag + "-mask",
-			className : this.flag + "-mask"
+			id : this.flag + "mask",
+			class : this.flag + "mask"
 		}).appendTo($("body"));
 		return mask;
 	},
@@ -132,6 +129,7 @@ Dialog.prototype = {
 		var onAfter = this.opt.onOpenAfter;
 		var winH = WinWidthHeight().height;
 		var containerH = this.container.height();
+		this.position();
 		this.container.show().css({zIndex:9999});
 		onBefore();
 		this.container.animate({
@@ -142,6 +140,7 @@ Dialog.prototype = {
 		if(overlay) this.getMask().fadeIn();
 	},
 	close : function(opt){
+		opt = opt || {};
 		var container = this.container;
 		var speed = opt.speed || this.opt.speed;
 		var onBefore = this.opt.onCloseBefore;
@@ -154,7 +153,7 @@ Dialog.prototype = {
 			onAfter();
 			container.hide().css({zIndex:-1});
 		})
-		$("#"+this.flag+"-mask").fadeOut();
+		$("#"+this.flag+"mask").fadeOut();
 	}
 };
 module.exports = Dialog;

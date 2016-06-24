@@ -1,37 +1,33 @@
-.annualDialogContainer {
-  width: 798px;
-  height: 390px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-left: -400px;
-  margin-top: -195px;
-  z-index: 99;
-  background: #fff; }
-
 .buywayBox .boxContainer {
   overflow: hidden; }
 
+.buywayBox .boxContainer .bl, .buywayBox .boxContainer .br {
+  padding-top: 30px; }
+
 .buywayBox .boxContainer .bl {
-  width: 599px;
-  height: 356px;
-  float: left; }
+  width: 520px;
+  height: 300px;
+  float: left;
+  margin-left: 35px; }
 
 .buywayBox .boxContainer .bl .enBox {
   width: 480px;
   height: 210px;
-  margin: 65px 0 0 60px; }
+  margin: 35px 0 0 0; }
 
 .buywayBox .boxContainer .bl .enBox > p {
   text-align: center; }
 
 .buywayBox .boxContainer .br {
-  float: left; }
+  width: 180px;
+  float: left;
+  margin-left: 30px; }
 
 .entity {
-  padding: 40px 0 0 30px;
-  font-size: 20px;
-  color: #0797d9; }
+  padding: 34px 0 0 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #707070; }
 
 .readCardNumber {
   width: 480px;
@@ -50,11 +46,11 @@
   line-height: 50px; }
 
 .carded {
+  height: 64px;
   line-height: 64px; }
 
 .entityBox {
-  overflow: hidden;
-  margin-top: 20px; }
+  overflow: hidden; }
 
 .entityBox .enCard {
   float: left;
@@ -75,10 +71,50 @@
   line-height: 37px; }
 
 .kucun {
-  margin-left: 30px;
   line-height: 50px; }
+.gSimpleDialog-container {
+  position: fixed;
+  overflow: hidden;
+  background: #fff;
+  -ms-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); }
 
-.btn-mar {
-  margin-left: 30px; }
+.gSimpleDialog-header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 9998; }
+
+.gSimpleDialog-closeBtn {
+  display: block;
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  color: #919191;
+  font-size: 26px;
+  cursor: pointer; }
+
+.gSimpleDialog-closeBtn.hidden {
+  display: none; }
+
+.gSimpleDialog-closeBtn:hover {
+  background: #e12424;
+  color: #fff; }
+
+.gSimpleDialog-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  -moz-opacity: 0.6; }
 
 /*# sourceMappingURL=all.css.map*/

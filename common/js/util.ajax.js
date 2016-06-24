@@ -18,7 +18,7 @@ module.exports = function(url,opt){
 	var type = opt.type || "get";
 	var dataType = opt.dataType || "json";
 	var ttimeout = opt.ttimeout || 120 * 1000;
-	$.ajax({
+	var xhr = $.ajax({
 		url : url,
 		type : type,
 		dataType : dataType,
@@ -40,4 +40,5 @@ module.exports = function(url,opt){
 			}
 		}
 	})
+	return xhr;
 }

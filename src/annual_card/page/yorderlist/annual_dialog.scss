@@ -1,22 +1,18 @@
-//.annualDialogContainer{ height:500px; width:500px; position:fixed; top:50%; left:50%; margin:-250px 0 0 -250px;
-//  z-index:99; background:#fff;}
-.annualDialogContainer{width:798px; height:390px; position:fixed; top:50%;left:50%;margin-left:-400px; margin-top:-195px;
-  z-index:99; background:#fff;}
-//.buywayBox{width:798px; height:390px;background:white;position: fixed;top:50%;left:50%;margin-left:-400px; margin-top:-195px;}
-.buywayBox .boxContainer{overflow:hidden;}
-.buywayBox .boxContainer .bl{ width:599px;height:356px; float:left;}
-.buywayBox .boxContainer .bl .enBox{ width:480px; height:210px;margin:65px 0 0 60px;}
+.annualDialogContainer{}
+.buywayBox .boxContainer{ overflow:hidden;}
+.buywayBox .boxContainer .bl,.buywayBox .boxContainer .br{ padding-top:30px;}
+.buywayBox .boxContainer .bl{ width:520px; height:300px; float:left; margin-left:35px;}
+.buywayBox .boxContainer .bl .enBox{ width:480px; height:210px;margin:35px 0 0 0;}
 .buywayBox .boxContainer .bl .enBox>p{ text-align:center;}
-.buywayBox .boxContainer .br{ float:left;}
+.buywayBox .boxContainer .br{ width:180px; float:left; margin-left:30px;}
 
-.entity{padding:40px 0 0 30px; font-size:20px; color:#0797d9;}
+.entity{padding:34px 0 0 0; font-size:16px; font-weight:bold; color:#707070;}
 .readCardNumber{ width:480px; height:52px; font-size:14px;}
 .readCardNumber .CardNumberInp{width:336px; line-height:22px; height:22px; padding:14px 0 14px 0px;}
 .readCardNumber .CardNumberBtn{width:140px; height:50px;line-height:50px;}
-.carded{ line-height:64px;}
-.entityBox{overflow:hidden; margin-top:20px;}
+.carded{ height:64px; line-height:64px;}
+.entityBox{overflow:hidden;}
 .entityBox .enCard{float:left;display:inline-block;width:390px; height:29px;background:#f5f5f5;text-indent:10px;}
 .entityBox .enCard .enNum{ font-size:22px; margin:0 4px;}
 #buyBtn{float:left;width:86px;height:37px; line-height:37px;}
-.kucun{ margin-left:30px;line-height:50px;}
-.btn-mar{margin-left:30px;}
+.kucun{ line-height:50px;}
