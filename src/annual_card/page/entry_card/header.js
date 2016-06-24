@@ -6,7 +6,8 @@
 var Header = Backbone.View.extend({
 	el : $("#card_headerContaienr"),
 	events : {
-		"click #createCardListBtn" : "onCreateCardListBtnClick"
+		"click #createCardListBtn" : "onCreateCardListBtnClick",
+		"keyup #cardCountInp" : "onCardCountInpKeyup"
 	},
 	MAX_COUNT : 50, //单次生成新卡的最大数量
 	initialize : function(){
@@ -26,9 +27,14 @@ var Header = Backbone.View.extend({
 		}
 		this.trigger("create.card",{cards:result});
 	},
+	//回车直接生成卡号
+	onCardCountInpKeyup : function(e){
+		if(e.keyCode==13){ //回车
+			$("#createCardListBtn").trigger("click");
+		}
+	},
 	//点击关联实体卡
 	onRelateSHCardBtnClick : function(e){
-		console.log("click");
 		this.trigger("onRelateSHCardBtnClick");
 	},
 	createCardNumber : function(){

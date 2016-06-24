@@ -16,7 +16,7 @@
                         <input id="cardNumberInput" type="text" placeholder="请输入实体卡号（卡面号码）" class="guanInp"/>
                         <a id="relateCardBtn" href="javascript:void(0);" class="btn btn-orange">关联</a>
                     </div>
-                    <p style="color:red; margin-top:3px;">请确保填写的卡号确认无误！</p>
+                    <p style="color:#bfbfbf; margin-top:5px;">请确保填写的卡号确认无误！</p>
                 </div>
             </div>
         </div>

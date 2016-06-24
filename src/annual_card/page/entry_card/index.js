@@ -62,10 +62,12 @@ var MainView = Backbone.View.extend({
 			var hasRelated = 0;
 			cardList.children().each(function(){
 				var tarItem = $(this);
-				var physics_id = tarItem.attr("data-physicsid");
-				var virtual_id = tarItem.attr("data-virtualid");
+				var card_no = tarItem.find(".card").text();
+				var physics_no = tarItem.find(".physics").text();
+				if(card_no=="--") card_no = "";
+				if(physics_no=="--") physics_no = "";
 				total+=1;
-				if(physics_id && virtual_id) hasRelated+=1;
+				if(card_no && card_no) hasRelated+=1;
 			});
 			$("#hasRelatedCount").text(hasRelated);
 			$("#totalRelatedCount").text(total);
@@ -105,14 +107,15 @@ var MainView = Backbone.View.extend({
 				list : list
 			},
 			loading : function(){ submitBtn.addClass("disable")},
-			complete : function(){ submitBtn.removeClass("disable")}
-		},function(res){
-			res = res || {};
-			var code = res.code;
-			if(code==200){
-				PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
-			}else{
-				alert(res.msg || PFT.AJAX_ERROR_TEXT);
+			complete : function(){ submitBtn.removeClass("disable")},
+			success : function(res){
+				res = res || {};
+				var code = res.code;
+				if(code==200){
+					PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
+				}else{
+					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				}
 			}
 		})
 	}

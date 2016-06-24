@@ -62,6 +62,8 @@ var Dialog = Backbone.View.extend({
 		if(hasExist) return alert("此卡已关联过");
 		unRelate_first.find(".physics").text(physic_number);
 		unRelate_first.find(".card").text(card_number);
+		var hasRelatedCount = $("#hasRelatedCount");
+		hasRelatedCount.text(hasRelatedCount.text()*1+1);
 	},
 	readwuKa : function(e){
 		var readCardObj = this.readCardObj;
