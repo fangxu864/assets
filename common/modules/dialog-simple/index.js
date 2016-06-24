@@ -23,7 +23,7 @@ Dialog.prototype = Extend({
 		var container = this.container = $("#gSimpleDialogContainer");
 		var header = this.header = $("#gSimpleDialogContainer-header");
 		var content = this.content = $("#gSimpleDialogContainer-content");
-		var closeBtn = this.coloseBtn = $("#gSimpleDialogContainer-closeBtn");
+		var closeBtn = this.closeBtn = $("#gSimpleDialogContainer-closeBtn");
 		if(!container.length){
 			container = this.container = $('<div style="display:none" id="gSimpleDialogContainer" class="gSimpleDialogContainer"></div>');
 			$("body").append(container);
