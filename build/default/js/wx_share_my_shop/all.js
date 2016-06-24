@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
+/******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -45,34 +45,57 @@
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(97);
+
+
+/***/ },
+
+/***/ 97:
+/***/ function(module, exports, __webpack_require__) {
+
 	/**
 	 * Author: huangzhiyang
-	 * Date: 2016/6/21 10:22
+	 * Date: 16-5-11 下午5:23
 	 * Description: ""
 	 */
-	__webpack_require__(58);
-	var dialogTpl = __webpack_require__(7);
-	var AnnualCardBuyDialog = function(){};
-	AnnualCardBuyDialog.prototype = {
-		open : function(){
-	
-		}
-	};
-	module.exports = AnnualCardBuyDialog;
+	__webpack_require__(98);
+	var SetFontsize = __webpack_require__(100);
+	$(function(){
+		SetFontsize();
+		var hostname = window.location.hostname;
+		var memberid = $("#memberid").val();
+		var link = "http://"+hostname+"/wx/mall/index.html?parentid="+memberid;
+		var qrcode = new QRCode("maContainer", {
+			text: link,
+			width: 160,
+			height: 160,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
+		qrcode.makeCode(link);
+	})
 
 /***/ },
 
-/***/ 7:
-/***/ function(module, exports) {
-
-	module.exports = "";
-
-/***/ },
-
-/***/ 58:
+/***/ 98:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 100:
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 16-5-16 下午5:04
+	 * Description: ""
+	 */
+	module.exports = function(){
+		document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth / 10 + "px";
+	}
 
 /***/ }
 
