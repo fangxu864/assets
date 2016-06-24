@@ -267,7 +267,6 @@ Select.prototype = {
 		callback && callback();
 	},
 	close : function(callback){
-		console.log("close")
 		this.mask.hide();
 		this.selectBox.hide();
 		this.trigger.removeClass("select-on");

@@ -94,9 +94,9 @@ var MainView = Backbone.View.extend({
 			if(card=="--") card = "";
 			if(physics=="--") physics = "";
 			list.push({
-				virtual : virtual,
-				card : card,
-				physics : physics
+				virtual_no : virtual,
+				card_no : card,
+				physics_no : physics
 			})
 		})
 		if(list.length==0) return false;
