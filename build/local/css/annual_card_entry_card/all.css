@@ -233,6 +233,11 @@ input[type=text] {
 .btn-entry a {
   margin-right: 20px; }
 
+#submitBtn.disable {
+  background: #c9c9c9;
+  border-color: #c9c9c9;
+  cursor: default; }
+
 .packInp {
   width: 290px;
   height: 22px;
@@ -294,6 +299,13 @@ input[type=text] {
 
 .enCard span.numP {
   font-size: 24px; }
+
+.enCard span.numChild, .enCard span.numP, .letr {
+  position: relative;
+  top: 4px; }
+
+.letr {
+  top: 6px; }
 
 .clearList {
   width: 300px;
@@ -411,7 +423,6 @@ input[type=text] {
 
 .dialogBoxContainerCon .closeBtn {
   position: relative;
-  top: 0;
   margin-left: 74px; }
 
 #readCardBtn:hover {
