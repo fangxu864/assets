@@ -18,7 +18,7 @@
             <div class="br">
                 <p class="entity">虚拟卡购买</p>
                 <p class="kucun">库存：<span id="virtualStorageNum" style="font-size:16px;">15</span></p>
-                <a href="javascript:;" class="btn btn-blue btn-mar buyBtn" id="buyBtn_virtual">购买</a>
+                <a href="javascript:;" class="btn btn-blue btn-mar buyBtn disable" id="buyBtn_virtual">购买</a>
             </div>
         </div>
     </div>
