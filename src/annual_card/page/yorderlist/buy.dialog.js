@@ -15,6 +15,11 @@ AnnualCardBuyDialog.prototype = {
 	hasReadCards : {},
 	init : function(){
 		var that = this;
+		this.buyBtn_card = null;
+		this.buyBtn_virtual = null;
+		this.virtualStorage = null;
+		this.cardNumberInp = null;
+		this.hasReadCount = null;
 		this.dialog = new SDialog({
 			content : dialogTpl,
 			drag : true,
@@ -24,16 +29,20 @@ AnnualCardBuyDialog.prototype = {
 				}
 			},
 			onOpenBefore : function(){
-				console.log("onOpenBefore")
+
 			},
 			onOpenAfter : function(){
-				console.log("onOpenAfter")
+				that.buyBtn_card = $("#buyBtn_card");
+				that.buyBtn_virtual = $("#buyBtn_virtual");
+				that.virtualStorage = $("#virtualStorageNum");
+				that.cardNumberInp = $("#cardNumberInp");
+				that.hasReadCount = $("#hasReadCount");
 			},
 			onCloseBefore : function(){
-				console.log("onCloseBefore")
+
 			},
 			onCloseAfter : function(){
-				console.log("onCloseAfter")
+
 			}
 		})
 		setTimeout(function(){

@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/test/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -64,8 +64,6 @@
 			this.buyBtn_card = null;
 			this.buyBtn_virtual = null;
 			this.virtualStorage = null;
-			this.cardNumberInp = null;
-			this.hasReadCount = null;
 			this.dialog = new SDialog({
 				content : dialogTpl,
 				drag : true,
@@ -81,8 +79,6 @@
 					that.buyBtn_card = $("#buyBtn_card");
 					that.buyBtn_virtual = $("#buyBtn_virtual");
 					that.virtualStorage = $("#virtualStorageNum");
-					that.cardNumberInp = $("#cardNumberInp");
-					that.hasReadCount = $("#hasReadCount");
 				},
 				onCloseBefore : function(){
 	

@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/test/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -50,10 +50,14 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(49);
-	var Api = __webpack_require__(18);
-	var Select = __webpack_require__(51);
-	var Fileupload = __webpack_require__(53);
+	__webpack_require__(53);
+	var Api = __webpack_require__(12);
+	var Select = __webpack_require__(55);
+	var Fileupload = __webpack_require__(57);
+	
+	
+	
+	
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -63,8 +67,10 @@
 			"blur .infoTextarea" : "onTextInpBlur",
 			"click #submitInfoBtn" : "onSubmitBtnClick"
 		},
+	
 		initialize : function(){
 			var that = this;
+	
 			this.select = new Select({
 				provId : "#provSelect",
 				cityId : "#citySelect",
@@ -79,12 +85,13 @@
 				complete : function(res){
 					that.onImgUploadComplete(res);
 				}
-			})
+			});
 	
-			this.lid = PFT.Util.UrlParse()["lid"];
+			this.lid = PFT.Util.UrlParse()["sid"];
 			if(this.lid) this.getInfo(this.lid);
 	
 		},
+	
 		onImgUploadComplete : function(res){
 			var res = res || {};
 			var code = res.code;
@@ -188,6 +195,7 @@
 			if(img_path) this.renderThumbList(img_path);
 		},
 		submit : function(params){
+			var that = this;
 			var submitBtn = $("#submitInfoBtn");
 			PFT.Util.Ajax(Api.Url.PublishCardProd.submit,{
 				type : "post",
@@ -199,8 +207,13 @@
 					var res = res || {};
 					var code = res.code;
 					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+					var data = res.data || {};
+					var lastid = data.lastid;
 					if(code==200){
 						PFT.Util.STip("success",'<p style="width:200px">保存成功</p>');
+						if(!that.lid && lastid){
+							window.location.href = "annual_package.html?sid="+lastid;
+						}
 					}else{
 						alert(msg);
 					}
@@ -210,13 +223,13 @@
 	});
 	
 	$(function(){
-		new MainView();
+		var view = new MainView();
 	})
 
 
 /***/ },
 
-/***/ 18:
+/***/ 12:
 /***/ function(module, exports) {
 
 	/**
@@ -229,11 +242,24 @@
 		Url : {
 			//发布年卡产品
 			PublishCardProd : {
-				submit : "/r/scenic/save/",
+				submit : "/r/product_scenic/save/",
 				//图片上传
 				uploadFile : "/r/product_annualCard/uploadImg/",
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
+			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_annualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_annualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
@@ -252,7 +278,9 @@
 				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
 				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
-			}
+			},
+			//获取某个产品的虚拟卡的库存
+			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
 		},
 		defaults : {
 			type : "get",
@@ -270,14 +298,14 @@
 
 /***/ },
 
-/***/ 49:
+/***/ 53:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 51:
+/***/ 55:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -286,7 +314,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(52);
+		this.data = __webpack_require__(56);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -362,7 +390,8 @@
 		setVal : function(prov,city){
 			if(arguments.length==0) return false;
 			this.provSelect.val(prov);
-			if(city) this.citySelect.val(city);
+			if(city) this.defaults.city = city;
+			this.provSelect.trigger("change");
 		},
 		getVal : function(){
 			return{
@@ -375,7 +404,7 @@
 
 /***/ },
 
-/***/ 52:
+/***/ 56:
 /***/ function(module, exports) {
 
 	/**
@@ -388,7 +417,7 @@
 
 /***/ },
 
-/***/ 53:
+/***/ 57:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -396,8 +425,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(54);
-	var tpl = __webpack_require__(56);
+	__webpack_require__(58);
+	var tpl = __webpack_require__(60);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -444,7 +473,6 @@
 			if(!window.FileuploadCallbacks) window["FileuploadCallbacks"] = {};
 			window["FileuploadCallbacks"][id] = window["FileuploadCallbacks"][id] || [];
 			window["FileuploadCallbacks"][id].push(function(){
-				console.log('complete');
 				$("#fileuploadBtn_upload"+id).removeClass("disable");
 			});
 			window["FileuploadCallbacks"][id].push(complete);
@@ -501,14 +529,14 @@
 
 /***/ },
 
-/***/ 54:
+/***/ 58:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 56:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";

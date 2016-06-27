@@ -12,6 +12,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
+a{
+  text-decoration: none; }
+a:hover{
+  text-decoration: underline; }
+a:link{
+  text-decoration: none;
+  outline: none; }
+a:visited{
+  text-decoration: none;
+  outline: none;
+  color: #fff; }
+a:active{
+  text-decoration: none;
+  outline: none; }
 .cardContainer a:hover, .border a:hover{
   text-decoration: none; }
 .clearfix:after{
@@ -181,8 +195,9 @@ input[type=text] {
 
 .entry {
   line-height: 56px;
-  font-size: 24px;
-  margin-left: 24px; }
+  font-size: 20px;
+  margin-left: 24px;
+  font-weight: normal; }
 
 .cardPro {
   background: #bfe7f8;
@@ -200,7 +215,7 @@ input[type=text] {
 .cardPro i {
   position: absolute;
   left: 353px;
-  top: 19px;
+  top: 24px;
   cursor: default; }
 
 .entry_form {
@@ -217,6 +232,11 @@ input[type=text] {
 
 .btn-entry a {
   margin-right: 20px; }
+
+#submitBtn.disable {
+  background: #c9c9c9;
+  border-color: #c9c9c9;
+  cursor: default; }
 
 .packInp {
   width: 290px;
@@ -279,6 +299,13 @@ input[type=text] {
 
 .enCard span.numP {
   font-size: 24px; }
+
+.enCard span.numChild, .enCard span.numP, .letr {
+  position: relative;
+  top: 4px; }
+
+.letr {
+  top: 6px; }
 
 .clearList {
   width: 300px;
@@ -365,6 +392,9 @@ input[type=text] {
   font-size: 20px;
   vertical-align: top; }
 
+.enTable th, .enTable td {
+  text-align: left; }
+
 /**/
 .dialogMask {
   position: fixed;
@@ -393,7 +423,6 @@ input[type=text] {
 
 .dialogBoxContainerCon .closeBtn {
   position: relative;
-  top: -3px;
   margin-left: 74px; }
 
 #readCardBtn:hover {
@@ -459,6 +488,9 @@ input[type=text] {
     font-size: 17px;
     color: #bfbfbf; }
 
+.gSelectDownBox .searchBox .clearSearchBtn {
+  top: 7px; }
+
 .gSelectDownBox .searchBox .searchBoxCon {
   position: relative;
   height: 100%;
@@ -503,7 +535,7 @@ input[type=text] {
   height: 100%; }
 
 .gSelectDownBox .selectOptionUl .gSelectOptionItem {
-  padding-left: 10px;
+  padding-left: 15px;
   height: 34px;
   line-height: 34px;
   overflow: hidden;
@@ -513,7 +545,7 @@ input[type=text] {
 .gSelectDownBox .selectOptionUl .gSelectOptionItem:last-child {
   border-bottom: 0 none; }
 
-.gSelectDownBox .selectOptionUl .gSelectOptionItem:hover {
+.gSelectDownBox .selectOptionUl .gSelectOptionItem:hover, .gSelectDownBox .selectOptionUl .gSelectOptionItem.active {
   background: #fcfcfc; }
 
 .gSelectDownBox .selectOptionUl .status {

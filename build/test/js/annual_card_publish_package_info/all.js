@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/test/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -44,8 +44,68 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(25);
-
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/1 14:50
+	 * Description: ""
+	 */
+	__webpack_require__(30);
+	var Model = __webpack_require__(32);
+	var Header = __webpack_require__(33);
+	var PckInfoManager = __webpack_require__(38);
+	var Loading = __webpack_require__(29);
+	var MainView = Backbone.View.extend({
+		el : $("body"),
+		initialize : function(){
+			var that = this;
+			this.model = new Model();
+			this.tid = this.model.getTid();
+			this.lid = this.model.getLid();
+			this.model.fetchTicketInfo({
+				loading : function(){
+					var html = Loading("努力加载中，请稍后...",{
+						id : "fetchTicketInfoLoading",
+						width : 798,
+						height : 600,
+						css : {
+							position : "absolute",
+							zIndex : 1000,
+							top : "28px",
+							left : 0,
+							right : 0,
+							background : "#fff"
+						}
+					});
+					$("#cardContainer").append(html);
+				},
+				complete : function(){ $("#fetchTicketInfoLoading").remove();},
+				success : function(res){
+					that.infoManager = new PckInfoManager({model:that.model});
+					that.infoManager.init({model:that.model,initData:res});
+					that.header = new Header({model:that.model});
+					//点击删除一个套餐
+					that.header.on("item.delete",function(data){
+						that.infoManager.removeItem(data.id);
+					});
+					//点击切换套餐
+					that.header.on("item.switch",function(data){
+						var id = data.id;
+						if(id>=0){
+							that.infoManager.switchItem(id);
+						}else{
+							if($("#slideItem_"+id).length==0) that.infoManager.createItem(id);
+							that.infoManager.switchItem(id);
+						}
+					});
+					that.header.init({model:that.model,initData:res});
+				}
+			});
+		}
+	});
+	
+	$(function(){
+		new MainView();
+	})
 
 /***/ },
 /* 1 */,
@@ -55,10 +115,7 @@
 /* 5 */,
 /* 6 */,
 /* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -85,7 +142,77 @@
 	}
 
 /***/ },
-/* 12 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/15 15:36
+	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
+	 */
+	var fn = function(){};
+	var Api = {
+		Url : {
+			//发布年卡产品
+			PublishCardProd : {
+				submit : "/r/product_scenic/save/",
+				//图片上传
+				uploadFile : "/r/product_annualCard/uploadImg/",
+				//编辑状态，获取年卡产品详细信息
+				getInfo : "/r/product_scenic/get/"
+			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_annualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_annualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
+			},
+			//卡片录入相关接口
+			EntryCard : {
+				//获取供应商的年卡产品列表
+				getProdList : "/r/product_annualCard/getAnnualCardProducts/",
+				//录入卡片
+				createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+				//获取相关产品已生成好的卡片
+				getAnnualCards : "/r/product_annualCard/getAnnualCards/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+			},
+			//下单页面
+			makeOrder : {
+				//预定页面请求卡片信息接口
+				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+				//预定页面请求订单信息接口
+				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
+			},
+			//获取某个产品的虚拟卡的库存
+			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
+		},
+		defaults : {
+			type : "get",
+			ttimout : 60 * 1000,
+			loading : fn,
+			complete : fn,
+			success : fn,
+			fail : fn,
+			timeout : fn,
+			serverError : fn
+		}
+	};
+	module.exports = Api;
+
+
+/***/ },
 /* 13 */,
 /* 14 */,
 /* 15 */,
@@ -98,91 +225,121 @@
 /* 22 */,
 /* 23 */,
 /* 24 */,
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */
+/***/ function(module, exports) {
 
 	/**
 	 * Author: huangzhiyang
-	 * Date: 2016/6/1 14:50
+	 * Date: 2016/6/17 15:24
 	 * Description: ""
 	 */
-	__webpack_require__(26);
-	var Model = __webpack_require__(28);
-	var Header = __webpack_require__(29);
-	var PckInfoManager = __webpack_require__(34);
-	var MainView = Backbone.View.extend({
-		el : $("body"),
-		initialize : function(){
-			var that = this;
-			this.model = new Model();
-	
-			this.infoManager = new PckInfoManager({model:this.model});
-	
-			this.header = new Header({model:this.model});
-	
-			//点击删除一个套餐
-			this.header.on("item.delete",function(data){
-				that.infoManager.removeItem(data.id);
-			});
-			//点击切换套餐
-			this.header.on("item.switch",function(data){
-				var id = data.id;
-				if(id>=0){
-					that.infoManager.switchItem(id);
-				}else{
-					that.infoManager.createItem(id);
-					that.infoManager.switchItem(id);
-				}
-			});
-	
-		}
-	});
-	
-	$(function(){
-		new MainView();
-	})
+	/**
+	 * pc端全局loading效果
+	 * @param text loading时显示的文字
+	 * @param opt  附加选项
+	 * @constructor
+	 */
+	var Loading = function(text,opt){
+		text = text || "请稍后...";
+		opt = opt || {}
+		var tag = opt.tag || "div";
+		var width = opt.width+"px" || "100%";
+		var height = opt.height || 150;
+		var loadingImg = opt.loadingImg || {};
+		var imgWidth = loadingImg.width || 24;
+		var top = loadingImg.top || 0;
+		var className = opt.className || "";
+		var id = opt.id || "";
+		var html = "";
+		var css = opt.css || {};
+		var style = "";
+		for(var i in css) style += i+":"+css[i]+"; ";
+		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
+		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
+		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
+		html +=     '<span class="t">'+text+'</span>';
+		html += '</'+tag+'>';
+		return html;
+	};
+	module.exports = Loading;
 
 /***/ },
-/* 26 */
+/* 30 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 27 */,
-/* 28 */
-/***/ function(module, exports) {
+/* 31 */,
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Author: huangzhiyang
 	 * Date: 2016/6/3 16:27
 	 * Description: ""
 	 */
+	var fn = new Function();
+	var Api = __webpack_require__(12);
 	var ManagerStore = Backbone.Model.extend({
-		defaults : {
-			data : {}
-		},
+		__Cache : {},
 		api : {
-			fetch_list : "/r/publish_prod_package/fetch_list",
-			fetch_prod_list : "/r/product_annualCard/getLands/",
-			fetch_ticket : "/r/product_annualCard/getTickets/"
+			fetch_package_list : Api.Url.PackageInfo.getPackageInfoList,
+			fetch_prod_list : Api.Url.PackageInfo.getLands,
+			fetch_ticket : Api.Url.PackageInfo.getTickets
 		},
 		initialize : function(){
-			this.fetchPackageList(this.getCardID());
+	
 		},
-		getCardID : function(){
-			return "234234";
+		getTid : function(){
+			return typeof this.tid=="undefined" ? (this.tid=PFT.Util.UrlParse()["prod_id"] || "") : this.tid;
+		},
+		getLid : function(){
+			return typeof this.lid=="undefined" ? (this.lid=PFT.Util.UrlParse()["sid"] || "") : this.lid;
+		},
+		getCache : function(tid){
+			if(!tid) return null;
+			return this.__Cache[tid] || null
 		},
 		/**
 		* 获取指定年卡产品内的套餐信息
 		*/
-		fetchPackageList : function(cardID){
+		fetchTicketInfo : function(opt){
+			var opt = opt || {};
+			var tid = opt.tid || this.getTid();
+			var lid = this.getLid();
+			if(!lid && !tid) throw new Error("lid与tid不能同时为空");
+			var loading = opt.loading || fn;
+			var complete = opt.complete || fn;
+			var success = opt.success || fn;
+			var params = {};
+			if(tid){
+				params["tid"] = tid;
+			}else if(lid){
+				params["lid"] = lid;
+			}
 			var that = this;
-			PFT.Util.Ajax(this.api.fetch_list,{
-				loading : function(){},
-				complate : function(){},
+			PFT.Util.Ajax(this.api.fetch_package_list,{
+				type : "post",
+				params : params,
+				loading : function(){
+					loading();
+					that.trigger("fetchTicketInfo.loading");
+				},
+				complete : function(){
+					complete();
+					that.trigger("fetchTicketInfo.complete");
+				},
 				success : function(res){
-					that.trigger("ready",res);
+					tid && (that.__Cache[tid] = true);
+					res = res || {};
+					if(res.code!=200) return alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					success(res);
+					that.trigger("fetchTicketInfo.ready",res);
 				}
 			})
 		},
@@ -243,7 +400,7 @@
 	module.exports = ManagerStore;
 
 /***/ },
-/* 29 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -251,9 +408,9 @@
 	 * Date: 2016/6/3 16:56
 	 * Description: ""
 	 */
-	__webpack_require__(30);
-	var indexTpl = __webpack_require__(32);
-	var itemTpl = __webpack_require__(33);
+	__webpack_require__(34);
+	var indexTpl = __webpack_require__(36);
+	var itemTpl = __webpack_require__(37);
 	var Header = Backbone.View.extend({
 		el : $("#headContainer"),
 		template : _.template(itemTpl),
@@ -263,29 +420,32 @@
 			"click .removeBtn" : "onRemoveBtnClick"
 		},
 		_uid : 0,
-		initialize : function(){
+		initialize : function(opt){},
+		init : function(opt){
 			var that = this;
 			this.$el.html(indexTpl);
 			this.$addBtn = $("#addPckBtn");
 			this.listUl = $("#pckTitListUl");
-			//从服务器取回套餐信息后
-			this.model.on("ready",function(res){
-				var html = "";
-				res = res || "";
-				var code = res.code;
-				var data = res.data;
-				var msg = res.msg;
-				if(code==200){
-					for(var i in data){
-						var item = data[i];
-						html += that.renderItem(item.tid,item.ttitle);
-					}
-					that.$addBtn.before(html);
-					that.listUl.children().first().trigger("click");
-				}else{
-					alert(msg);
+			this.tid = this.model.getTid(); //票id
+			this.lid = this.model.getLid(); //景区id
+			var initData = opt.initData;
+			var html = "";
+			if(this.tid){ //址地栏传入tid进来
+				var data = initData.data.otherTicket || [];
+				for(var i in data){
+					var item = data[i];
+					var tid = item.tid;
+					var ttitle = item.title;
+					html += that.renderItem(tid,ttitle);
 				}
-			})
+				that.$addBtn.before(html);
+				that.listUl.children(".pckTitListUlItem").filter("[data-id="+this.tid+"]").trigger("click");
+			}else{//地址栏没传入tid 说明是新建一个景区
+				html += that.renderItem(that.getUID(),"");
+				that.$addBtn.before(html);
+				that.listUl.children(".pckTitListUlItem").first().trigger("click");
+			}
+			$("#packageName").text(initData.data.attribute.ltitle);
 		},
 		//点击切换
 		onItemClick : function(e){
@@ -334,26 +494,26 @@
 	module.exports = Header;
 
 /***/ },
-/* 30 */
+/* 34 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 31 */,
-/* 32 */
+/* 35 */,
+/* 36 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 17:11 -->\r\n<!-- Description: huangzhiyang -->\r\n<p id=\"packageName\" class=\"packageName\">三亚先行年卡</p>\r\n<ul id=\"pckTitListUl\" class=\"pckTitListUl\">\r\n    <li id=\"addPckBtn\" class=\"addPckBtn\">＋</li>\r\n</ul>\r\n";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 17:11 -->\r\n<!-- Description: huangzhiyang -->\r\n<p id=\"packageName\" class=\"packageName\"></p>\r\n<ul id=\"pckTitListUl\" class=\"pckTitListUl\">\r\n    <li id=\"addPckBtn\" class=\"addPckBtn\">＋</li>\r\n</ul>\r\n";
 
 /***/ },
-/* 33 */
+/* 37 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 18:41 -->\r\n<!-- Description: huangzhiyang -->\r\n<li data-id=\"<%=tid%>\" id=\"pckTitListUlItem_<%=tid%>\" class=\"pckTitListUlItem edit\">\r\n    <span class=\"name passCard\"><%=ttitle%></span>\r\n    <input type=\"text\" class=\"editNameInp\" placeholder=\"请填写套餐名称\" value=\"<%=ttitle%>\"/><i class=\"removeBtn btn-cancle\">×</i>\r\n</li>";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 18:41 -->\r\n<!-- Description: huangzhiyang -->\r\n<li data-id=\"<%=tid%>\" id=\"pckTitListUlItem_<%=tid%>\" class=\"pckTitListUlItem edit\">\r\n    <span class=\"name passCard\"><%=ttitle%></span>\r\n    <input type=\"text\" class=\"editNameInp\" placeholder=\"请填写套餐名称\" value=\"<%=ttitle%>\"/><i class=\"removeBtn iconfont\">&#xe627;</i>\r\n</li>";
 
 /***/ },
-/* 34 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -361,11 +521,13 @@
 	 * Date: 2016/6/6 11:30
 	 * Description: ""
 	 */
-	var infoItem_tpl = __webpack_require__(35);
-	var rightsItem_tpl = __webpack_require__(36);
-	var Calendar = __webpack_require__(37);
-	var ProdSelectPop = __webpack_require__(42);
-	var Submit = __webpack_require__(48);
+	var Api = __webpack_require__(12);
+	var infoItem_tpl = __webpack_require__(39);
+	var rightsItem_tpl = __webpack_require__(40);
+	var Calendar = __webpack_require__(41);
+	var ProdSelectPop = __webpack_require__(46);
+	var Submit = __webpack_require__(52);
+	var Loading = __webpack_require__(29);
 	var InfoManager = Backbone.View.extend({
 		el : $("#slideUl"),
 		events : {
@@ -377,10 +539,13 @@
 		},
 		template : _.template(infoItem_tpl),
 		rightsTemplate : _.template(rightsItem_tpl),
-		initialize : function(){
+		initialize : function(){},
+		init : function(opt){
 			var that = this;
+			var initData = this.initData = opt.initData;
 			this.itemWidth = $("#infoManagerContainer").width();
-			this.model.on("ready",this.initList,this);
+	
+			this.initList(initData);
 	
 			this.Calendar = new Calendar();
 	
@@ -398,53 +563,74 @@
 	
 			//切换特权产品
 			this.ProdSelectPop.on("switch.prod",function(data){
-				var before = data.before;
-				var after = data.after;
-				var pckId = data.pckId;
-				var item = $("#privItem_"+pckId+"_"+before.prodId+"_"+before.ticId);
-				if(item.length==0) return false;
-				item.attr("data-prodId",after.prodId).attr("data-ticId",after.ticId).attr("data-aid",after.aid)
-					.attr("id","privItem_"+pckId+"_"+after.prodId+"_"+after.ticId)
-					.find(".name").text(after.prodName+" - "+after.ticName);
+				var tid = data.tid;
+				var ticketid = data.ticketid;
+				var aid = data.aid;
+				var prodName = data.prodName;
+				var ticName = data.ticName;
+				var tarItem = data.triggerItem;
+				if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return false;
+				var html = that.renderPckRightList(tid,[{
+					tid : ticketid,
+					aid : aid,
+					ltitle : prodName,
+					title : ticName,
+					use_limit : "-1"
+				}]);
+				tarItem.after(html);
+				tarItem.remove();
 			});
 			//新增一个特权产品
 			this.ProdSelectPop.on("add.prod",function(data){
-				var pckId = data.pckId;
-				var index = that.getPckRightListIndexMax(pckId)+1;
-				var prodId = data.prodId;
+				var tid = data.tid;
 				var prodName = data.prodName;
-				var ticId = data.ticId;
+				var ticketid = data.ticketid;
 				var ticName = data.ticName;
 				var aid = data.aid;
-				if($("#privItem_"+pckId+"_"+prodId+"_"+ticId).length) return alert("该产品已存在，请勿重得添加");
-				var html = that.renderPckRightList(pckId,[{
-					index : index,
-					tid : ticId,
+				if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return alert("该产品已存在，请勿重得添加");
+				var html = that.renderPckRightList(tid,[{
+					tid : ticketid,
 					ttitle : ticName,
-					lid : prodId,
 					ltitle : prodName,
-					aid : aid
+					aid : aid,
+					use_limit : "-1"
 				}]);
-				$("#pckRightListUl_"+pckId).append(html);
+				$("#pckRightListUl_"+tid).append(html);
 			})
 	
 		},
 		//获取套餐列表，初始化slide item
-		initList : function(res){
+		initList : function(initData){
+			var that = this;
 			var template = this.template;
 			var html = "";
-			res = res || {};
-			var code = res.code;
-			var data = res.data;
-			var msg = res.msg;
-			if(code!=200) return false;
-			var itemCount = 0;
-			for(var i in data){
-				itemCount++;
-				var d = data[i];
-				var priv = d.priv;
-				d["priv"] = this.renderPckRightList(i,priv);
-				html += template({data:d});
+			var data = initData.data.attribute;
+			var items = initData.data.otherTicket;
+			for(var i in items){
+				var d = null;
+				var tid = items[i]["tid"];
+				if(tid==that.model.getTid()){
+					d = data;
+					var priv = d.priv;
+					d["priv"] = that.renderPckRightList(tid,priv);
+					html += template({data:d});
+				}else{
+					html += '<li id="slideItem_'+tid+'" class="slideItem">';
+					html += Loading("努力加载中..",{
+						height : 1040,
+						width : 798,
+						id : "switchItemLoading_"+tid,
+						css : {
+							position : "absolute",
+							top : 0,
+							right : 0,
+							left : 0,
+							bottom : 0,
+							background : "#fff"
+						}
+					})
+					html += '</li>';
+				}
 			}
 			this.$el.html(html).css({position:"relative"});
 			this.refreshSlide();
@@ -461,64 +647,66 @@
 		//套餐特权-点击选择产品
 		onSelectProdBtnClick : function(e){
 			var tarBtn = $(e.currentTarget);
-			var pckId = tarBtn.attr("data-pckid");
 			var parent = tarBtn.parents(".pckRightItem");
-			var prodId = parent.attr("data-prodid");
-			var ticId = parent.attr("data-ticid");
-			var aid = parent.attr("data-aid");
-			this.ProdSelectPop.open({
-				pckId : pckId,
-				prodId : prodId,
-				ticId : ticId,
-				aid : aid
-			});
+			var tid = tarBtn.attr("data-tid");
+			this.ProdSelectPop.open({tid:tid,triggerItem:parent,type:"switch"});
 		},
 		//套餐特权-点击删除产品
 		onDelectProdBtnClick : function(e){
 			if(!confirm("确定删除此特权产品吗？")) return false;
 			var tarBtn = $(e.currentTarget);
+			var tid = tarBtn.attr("data-id");
 			tarBtn.parents(".pckRightItem").remove();
+			if(!tid || tid<0) return false;
 		},
 		//套餐特权-点击新增一个产品-打开产品选择弹窗
 		onAddPckRightBtnClick : function(e){
 			var tarBtn = $(e.currentTarget);
 			var pckId = tarBtn.attr("data-pckid");
 			this.ProdSelectPop.open({
-				pckId : pckId
+				tid : pckId,
+				type : "add"
 			});
 		},
 		//点击保存
 		onSubmitBtnClick : function(e){
-			var that = this;
-			var can_submit = true;
 			var tarBtn = $(e.currentTarget);
+			var pckId = tarBtn.attr("data-tid");
 			if(tarBtn.hasClass("disable")) return false;
-			var pckIds = (function(){
-				var ids = [];
-				$("#pckTitListUl").children(".pckTitListUlItem").each(function(){
-					ids.push($(this).attr("data-id"));
-				})
-				return ids;
-			})();
-			var data = (function(pckIds){
-				var result = {};
-				for(var i in pckIds){
-					var pckId = pckIds[i];
-					result[pckId] = that.submit.serialize(pckId)
-				}
-				return result;
-			})(pckIds);
-			for(var i in data){
-				if(data[i]==null){
-					can_submit = false;
-					break;
-				}
-			}
-			if(can_submit) this.submitForm(data);
+			var data = this.submit.serialize(pckId);
+			if(data==null) return false;
+			this.submitForm(data,tarBtn);
 		},
 		//提交保存数据
-		submitForm : function(data){
-			console.log(data);
+		submitForm : function(data,tarBtn){
+			PFT.Util.Ajax(Api.Url.PackageInfo.updateTicket,{
+				type : "post",
+				params : data,
+				loading : function(){ tarBtn.addClass("disable").text("请稍后...")},
+				complete : function(){ tarBtn.removeClass("disable").text("保存")},
+				success : function(res){
+					res = res || {};
+					var d = res.data || [];
+					var data = d[0] || {};
+					var code = data.code;
+					var dd = data.data || {};
+					var msg = dd.msg || PFT.AJAX_ERROR_TEXT;
+					var tid = dd.tid;
+					if(code==200){
+						PFT.Util.STip("success",'<div style="width:200px">保存成功</div>');
+						var tarNavItem = $("#pckTitListUl").children(".pckTitListUlItem").filter(".edit");
+						var id = tarNavItem.attr("id").split("_");
+						var urlParams = PFT.Util.UrlParse();
+						tid && tarNavItem.attr("id",id[0]+"_"+tid);
+						if(!urlParams.prod_id && tid){
+							var _href = location.origin+location.pathname+"?sid="+urlParams.sid+"&prod_id="+tid;
+							location.href = _href;
+						}
+					}else{
+						alert(msg);
+					}
+				}
+			})
 		},
 		//新增一个套餐详情
 		createItem : function(id){
@@ -527,14 +715,48 @@
 			this.refreshSlide();
 		},
 		//删除一个套餐详情
-		removeItem : function(id){
-			$("#slideItem_"+id).remove();
+		removeItem : function(tid){
+			if(!tid) return false;
+			$("#slideItem_"+tid).remove();
 			this.refreshSlide();
+			PFT.Util.Ajax(Api.Url.PackageInfo.deleteTicket,{
+				type : "post",
+				params : {
+					tid : tid,
+					status : 6
+				},
+				loading : function(){},
+				complete : function(){},
+				success : function(res){
+					res = res || {};
+					if(res.code==200){
+						PFT.Util.STip("success",'<div style="width:200px">删除成功</div>');
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
 		},
 		//切换到指定某个套餐
 		switchItem : function(id,callback){
+			var that = this;
 			var tarItem = $("#slideItem_"+id);
 			var width = this.itemWidth;
+			var Cache = this.model.__Cache[id];
+			if(!Cache && id>=0){
+				that.model.fetchTicketInfo({
+					tid : id,
+					loading : function(){},
+					complete : function(){ $("#switchItemLoading_"+id).remove()},
+					success : function(res){
+						var d = res.data.attribute;
+						var priv = d.priv;
+						d["priv"] = that.renderPckRightList(id,priv);
+						var html = that.template({data:d});
+						$("#slideItem_"+id).html(html);
+					}
+				})
+			}
 			this.$el.animate({left : -1 * tarItem.index() * width},300,function(){
 				callback && callback();
 			})
@@ -550,8 +772,8 @@
 		 * 渲染某个套餐的特权模块
 		 * @param rights []
 		 */
-		renderPckRightList : function(pckId,rights){
-			return this.rightsTemplate({pckId:pckId,privilege:rights});
+		renderPckRightList : function(tid,rights){
+			return this.rightsTemplate({tid:tid,privilege:rights});
 		},
 		//获取套权商品列表里最大的index值
 		getPckRightListIndexMax : function(pckId){
@@ -567,19 +789,19 @@
 
 
 /***/ },
-/* 35 */
+/* 39 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/6 14:21 -->\r\n<!-- Description: huangzhiyang -->\r\n<%\r\n    var pckId=data.tid;\r\n    var price_section = data.price_section || {};\r\n    var sdate = price_section.sdate || \"\";\r\n    var edate = price_section.edate || \"\";\r\n    var delaytype = typeof data.delaytype!=\"undefined\" ? data.delaytype : 1;\r\n    var search_limit = data.search_limit || \"1\";\r\n    var nts_sup = typeof data.nts_sup!=\"undefined\" ? data.nts_sup : \"1\";\r\n    var nts_tour = typeof data.nts_tour!=\"undefined\" ? data.nts_tour : \"1\";\r\n%>\r\n<li id=\"slideItem_<%=pckId%>\" class=\"slideItem\">\r\n    <div class=\"line\">\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">预定时间段</p>\r\n            <input readonly type=\"text\" value=\"<%=sdate%>\" name=\"sdate\" class=\"laydate-icon datePickerInp begin\"/> -\r\n            <input readonly type=\"text\" value=\"<%=edate%>\" name=\"edate\" class=\"laydate-icon datePickerInp end\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">供货价</p><input value=\"<%=price_section.js%>\" type=\"text\" name=\"js\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">零售价</p><input value=\"<%=price_section.ls%>\" type=\"text\" name=\"ls\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">门市价</p><input value=\"<%=data.tprice%>\" type=\"text\" name=\"tprice\" class=\"midInp\"/>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>产品说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <input type=\"text\" class=\"bigInp\" value=\"<%=data.notes%>\" placeholder=\"请填写简要说明\"/>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用有效期：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" name=\"delaytype_<%=pckId%>\" value=\"1\" id=\"delaytype_1_<%=pckId%>\" <%=delaytype==1 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_1_<%=pckId%>\">\r\n                        卡片售出后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==1 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_0_<%=pckId%>\" value=\"0\" name=\"delaytype_<%=pckId%>\" <%=delaytype==0 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_0_<%=pckId%>\">\r\n                        卡片激活后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==0 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_2_<%=pckId%>\" value=\"2\" name=\"delaytype_<%=pckId%>\" <%=delaytype==2 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_2_<%=pckId%>\">\r\n                        <input type=\"text\" readonly name=\"order_start\" value=\"<%=data.order_start%>\" class=\"laydate-icon datePickerInp begin\"/> -\r\n                        <input type=\"text\" readonly name=\"order_end\" value=\"<%=data.order_end%>\" class=\"laydate-icon datePickerInp end\"/> 有效\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>激活限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    会员卡售出 <input type=\"text\" name=\"auto_active_days\" value=\"<%=data.auto_active_days%>\" class=\"smaInp\" style=\"text-align:center; text-indent:0\"/> 天后自动激活（仍需提供手机号后使用卡片）</div>\r\n                <div>\r\n                    <input type=\"checkbox\" name=\"cert_limit\" id=\"cert_limit_<%=pckId%>\" <%=data.cert_limit==0 ? \"\" : \"checked\"%>/>\r\n                    <label for=\"cert_limit_<%=pckId%>\">需填写身份证号</label>\r\n                </div>\r\n                <div style=\"display:none\">\r\n                    <input type=\"radio\" id=\"IDnum1\" name=\"active\"/><label for=\"IDnum1\"> 所有可用</label>\r\n                    <input type=\"radio\" id=\"IDnum2\" name=\"active\"/>\r\n                    <label for=\"IDnum2\">\r\n                        身份证号前5位，仅限 <input type=\"text\"class=\"smaInp\"/>\r\n                    </label>\r\n                    <a href=\"javascript:;\" class=\"btn-add\">＋</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>购票限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardLim float-left line-30\">\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_1_<%=pckId%>\" value=\"1\" <%=search_limit==1?\"checked\":\"\"%> /><label style=\"margin-right:10px\" for=\"search_limit_1_<%=pckId%>\"> 卡号（实体卡/虚拟卡）</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_2_<%=pckId%>\" value=\"2\" <%=search_limit==2?\"checked\":\"\"%> /><label style=\"margin-right:10px\" for=\"search_limit_2_<%=pckId%>\"> 身份证</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_4_<%=pckId%>\" value=\"4\" <%=search_limit==4?\"checked\":\"\"%> /><label for=\"search_limit_4_<%=pckId%>\"> 手机号</label>\r\n            </div>\r\n            <span style=\"position:relative; top:10px;\" class=\"font-gray\">持卡会员购票</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>退单限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <p style=\"line-height:35px;\">不可退</p>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <textarea name=\"getaddr\" placeholder=\"请填写使用说明\" id=\"getaddrTextArea_<%=pckId%>\" rows=\"3\" style=\"width:420px;\"><%=data.getaddr%></textarea>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>信息通知配置：</label>\r\n        </div>\r\n        <div class=\"rt phone\">\r\n            <div>供应商手机号 <input type=\"text\" placeholder=\"请填写供应商手机号\" name=\"fax\" value=\"<%=data.fax%>\" class=\"laydate-icon\"></div>\r\n            <div><input type=\"checkbox\" name=\"nts_sup\" id=\"nts_sup_checkbox_<%=pckId%>\" <%=nts_sup==1?\"checked\":\"\"%> /><label for=\"nts_sup_checkbox_<%=pckId%>\"> 短信通知供应商</label></div>\r\n            <div><input type=\"checkbox\" name=\"nts_tour\" id=\"nts_tour_checkbox_<%=pckId%>\"  <%=nts_tour==1?\"checked\":\"\"%> /><label for=\"nts_tour_checkbox_<%=pckId%>\"> 短信通知联系人</label></div>\r\n            <div><input type=\"checkbox\" name=\"confirm_wx\" id=\"confirm_wx_checkbox_<%=pckId%>\" <%=data.confirm_wx==1?\"checked\":\"\"%> /><lable for=\"confirm_wx_checkbox_<%=pckId%>\"> 会员消费信息通知到微信</lable></div>\r\n        </div>\r\n    </div>\r\n    <div id=\"pckRightContainer_<%=data.id%>\" class=\"pckRightContainer\">\r\n        <div class=\"power border-y\">\r\n            <p class=\"tao\">套餐特权<span class=\"font-gray tip\">（设置免费使用的权限，现场购票不受该条件影响）</span>\r\n                <a data-pckid=\"<%=pckId%>\" id=\"addPckRightBtn_<%=data.id%>\" class=\"btn-add addPckRightBtn\" href=\"javascript:void(0);\" >＋</a>\r\n            </p>\r\n        </div>\r\n        <ul id=\"pckRightListUl_<%=pckId%>\" class=\"pckRightListUl\"><%=data.priv%></ul>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            是否发布：\r\n        </div>\r\n        <div class=\"rt\">\r\n            <label for=\"apply_limit_1_<%=pckId%>\" style=\"margin-right:20px\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"1\" id=\"apply_limit_1_<%=pckId%>\" <%=data.apply_limit==1?\"checked\":\"\"%> /> 发布</label>\r\n            <label for=\"apply_limit_2_<%=pckId%>\" class=\"line-35\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"2\" id=\"apply_limit_2_<%=pckId%>\" <%=data.apply_limit==2?\"checked\":\"\"%> /> 放入仓库</label>\r\n        </div>\r\n    </div>\r\n    <div style=\"margin-top:50px; margin-bottom:70px\" class=\"line\">\r\n        <div class=\"lt\"></div>\r\n        <div class=\"rt\"><a href=\"javascript:void(0);\" class=\"btn btn-3x btn-blue submitBtn\">保存</a></div>\r\n    </div>\r\n</li>\r\n";
+	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/6 14:21 -->\r\n<!-- Description: huangzhiyang -->\r\n<%\r\n    var pckId=data.tid;\r\n    var price_section = data.price_section || [{}];\r\n    var sdate = price_section.sdate || \"\";\r\n    var edate = price_section.edate || \"\";\r\n    var delaytype = typeof data.delaytype!=\"undefined\" ? data.delaytype : 1;\r\n    var search_limit = data.search_limit || \"1\";\r\n    var search_limit_type_1 = search_limit.indexOf(\"1\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_2 = search_limit.indexOf(\"2\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_4 = search_limit.indexOf(\"4\")>-1 ? \"checked\" : \"\";\r\n    var nts_sup = typeof data.nts_sup!=\"undefined\" ? data.nts_sup : \"1\";\r\n    var nts_tour = typeof data.nts_tour!=\"undefined\" ? data.nts_tour : \"1\";\r\n%>\r\n<li id=\"slideItem_<%=pckId%>\" class=\"slideItem\">\r\n    <% _.each(price_section,function(priceObj,index){ %>\r\n    <div data-pricesectionid=\"<%=priceObj.id%>\" class=\"line priceSectionLine\">\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">预定时间段</p>\r\n            <input readonly type=\"text\" value=\"<%=priceObj.sdate%>\" name=\"sdate\" class=\"laydate-icon datePickerInp begin\"/> -\r\n            <input readonly type=\"text\" value=\"<%=priceObj.edate%>\" name=\"edate\" class=\"laydate-icon datePickerInp end\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">供货价</p><input value=\"<%=priceObj.js ? priceObj.js/100 : ''%>\" type=\"text\" name=\"js\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">零售价</p><input value=\"<%=priceObj.ls ? priceObj.ls/100 : ''%>\" type=\"text\" name=\"ls\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">门市价</p><input value=\"<%=data.tprice ? data.tprice/100 : ''%>\" type=\"text\" name=\"tprice\" class=\"midInp\"/>\r\n        </div>\r\n    </div>\r\n    <% }) %>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>产品说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <input type=\"text\" class=\"bigInp\" name=\"notes\" value=\"<%=data.notes%>\" placeholder=\"请填写简要说明\"/>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用有效期：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" name=\"delaytype_<%=pckId%>\" value=\"1\" id=\"delaytype_1_<%=pckId%>\" <%=delaytype==1 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_1_<%=pckId%>\">\r\n                        卡片售出后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==1 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_0_<%=pckId%>\" value=\"0\" name=\"delaytype_<%=pckId%>\" <%=delaytype==0 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_0_<%=pckId%>\">\r\n                        卡片激活后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==0 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_2_<%=pckId%>\" value=\"2\" name=\"delaytype_<%=pckId%>\" <%=delaytype==2 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_2_<%=pckId%>\">\r\n                        <input type=\"text\" readonly name=\"order_start\" value=\"<%=data.order_start%>\" class=\"laydate-icon datePickerInp begin\"/> -\r\n                        <input type=\"text\" readonly name=\"order_end\" value=\"<%=data.order_end%>\" class=\"laydate-icon datePickerInp end\"/> 有效\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>激活限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    会员卡售出 <input type=\"text\" name=\"auto_active_days\" value=\"<%=data.auto_active_days || 10%>\" class=\"smaInp\" style=\"text-align:center; text-indent:0\"/> 天后自动激活（仍需提供手机号后使用卡片）</div>\r\n                <div>\r\n                    <input type=\"checkbox\" name=\"cert_limit\" id=\"cert_limit_<%=pckId%>\" <%=data.cert_limit==0 ? \"\" : \"checked\"%>/>\r\n                    <label for=\"cert_limit_<%=pckId%>\">需填写身份证号</label>\r\n                </div>\r\n                <div style=\"display:none\">\r\n                    <input type=\"radio\" id=\"IDnum1\" name=\"active\"/><label for=\"IDnum1\"> 所有可用</label>\r\n                    <input type=\"radio\" id=\"IDnum2\" name=\"active\"/>\r\n                    <label for=\"IDnum2\">\r\n                        身份证号前5位，仅限 <input type=\"text\"class=\"smaInp\"/>\r\n                    </label>\r\n                    <a href=\"javascript:;\" class=\"btn-add\">＋</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>购票限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardLim float-left line-30\">\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_1_<%=pckId%>\" value=\"1\" <%=search_limit_type_1%> /><label style=\"margin-right:10px\" for=\"search_limit_1_<%=pckId%>\"> 卡号（实体卡/虚拟卡）</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_2_<%=pckId%>\" value=\"2\" <%=search_limit_type_2%> /><label style=\"margin-right:10px\" for=\"search_limit_2_<%=pckId%>\"> 身份证</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_4_<%=pckId%>\" value=\"4\" <%=search_limit_type_4%> /><label for=\"search_limit_4_<%=pckId%>\"> 手机号</label>\r\n            </div>\r\n            <span style=\"position:relative; top:10px;\" class=\"font-gray\">持卡会员购票</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>退单限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <p style=\"line-height:35px;\">不可退</p>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <textarea name=\"getaddr\" placeholder=\"请填写使用说明\" id=\"getaddrTextArea_<%=pckId%>\" rows=\"3\" style=\"width:420px;\"><%=data.getaddr%></textarea>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>信息通知配置：</label>\r\n        </div>\r\n        <div class=\"rt phone\">\r\n            <div>供应商手机号 <input type=\"text\" placeholder=\"请填写供应商手机号\" name=\"fax\" value=\"<%=data.fax%>\" class=\"laydate-icon\"></div>\r\n            <div><input type=\"checkbox\" name=\"nts_sup\" id=\"nts_sup_checkbox_<%=pckId%>\" <%=nts_sup==1?\"checked\":\"\"%> /><label for=\"nts_sup_checkbox_<%=pckId%>\"> 短信通知供应商</label></div>\r\n            <div><input type=\"checkbox\" name=\"nts_tour\" id=\"nts_tour_checkbox_<%=pckId%>\"  <%=nts_tour==1?\"checked\":\"\"%> /><label for=\"nts_tour_checkbox_<%=pckId%>\"> 短信通知联系人</label></div>\r\n            <div><input type=\"checkbox\" name=\"confirm_wx\" id=\"confirm_wx_checkbox_<%=pckId%>\" <%=data.confirm_wx==1?\"checked\":\"\"%> /><label for=\"confirm_wx_checkbox_<%=pckId%>\"> 会员消费信息通知到微信</label></div>\r\n        </div>\r\n    </div>\r\n    <div id=\"pckRightContainer_<%=pckId%>\" class=\"pckRightContainer\">\r\n        <div class=\"power border-y\">\r\n            <p class=\"tao\">套餐特权<span class=\"font-gray tip\">（设置免费使用的权限，现场购票不受该条件影响）</span>\r\n                <a data-pckid=\"<%=pckId%>\" id=\"addPckRightBtn_<%=pckId%>\" class=\"btn-add addPckRightBtn\" href=\"javascript:void(0);\" >＋</a>\r\n            </p>\r\n        </div>\r\n        <ul id=\"pckRightListUl_<%=pckId%>\" class=\"pckRightListUl\"><%=data.priv%></ul>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            是否发布：\r\n        </div>\r\n        <div class=\"rt\">\r\n            <% if(data.apply_limit!=1 && data.apply_limit!=2) data.apply_limit=1;%>\r\n            <label for=\"apply_limit_1_<%=pckId%>\" style=\"margin-right:20px\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"1\" id=\"apply_limit_1_<%=pckId%>\" <%=data.apply_limit==1?\"checked\":\"\"%> /> 发布</label>\r\n            <label for=\"apply_limit_2_<%=pckId%>\" class=\"line-35\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"2\" id=\"apply_limit_2_<%=pckId%>\" <%=data.apply_limit==2?\"checked\":\"\"%> /> 放入仓库</label>\r\n        </div>\r\n    </div>\r\n    <div style=\"margin-top:50px; margin-bottom:70px\" class=\"line\">\r\n        <div class=\"lt\"></div>\r\n        <div class=\"rt\"><a id=\"submitBtn_<%=pckId%>\" data-tid=\"<%=pckId%>\" href=\"javascript:void(0);\" class=\"btn btn-3x btn-blue submitBtn\">保存</a></div>\r\n    </div>\r\n</li>\r\n";
 
 /***/ },
-/* 36 */
+/* 40 */
 /***/ function(module, exports) {
 
-	module.exports = "<% _.each(privilege,function(item,index,privilege){ %>\r\n    <%\r\n        var index = typeof item.index==\"undefined\" ? index : item.index;\r\n        var nameFlag = pckId+\"_\"+index;\r\n        var prodId = item.lid, prodName = item.ltitle;\r\n        var ticId = item.tid,ticName=item.ttitle;\r\n        var aid = item.aid;\r\n        var id = pckId+\"_\"+prodId+\"_\"+ticId;\r\n        var attr = 'data-prodId=\"'+prodId+'\" data-ticId=\"'+ticId+'\" data-aid=\"'+aid+'\" data-index=\"'+index+'\"';\r\n        var uselimit = typeof item.uselimit!=\"undefined\" ? item.uselimit : \"-1\";\r\n        var uselimitArr = [\"\",\"\",\"\"];\r\n        if(uselimit!=-1 && (typeof uselimit!==\"undefined\")){\r\n            uselimitArr = uselimit.split(\",\");\r\n            if(uselimitArr[0]==-1) uselimitArr[0] = \"\";\r\n            if(uselimitArr[1]==-1) uselimitArr[1] = \"\";\r\n            if(uselimitArr[2]==-1) uselimitArr[2] = \"\";\r\n        }\r\n    %>\r\n<li <%=attr%> id=\"privItem_<%=id%>\" class=\"product border-bottom pckRightItem\">\r\n    <div class=\"float-left\">\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>产品：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <span class=\"name\"><%=prodName%>-<%=ticName%></span>\r\n                <a data-pckid=\"<%=pckId%>\" href=\"javascript:void(0);\" <%=attr%> class=\"btn btn-s btn-border btn-sel selectProd_picker\">选择</a>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>使用规则：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <div class=\"nolimit\">\r\n                    <input type=\"radio\" value=\"-1\" id=\"uselimit_no_<%=nameFlag%>\" <%=uselimit==-1?\"checked\":\"\"%> name=\"uselimit\"/>\r\n                    <label for=\"uselimit_no_<%=nameFlag%>\">不限</label>\r\n                </div>\r\n                <div class=\"limit\">\r\n                    <input type=\"radio\" value=\"1\" id=\"uselimited_<%=nameFlag%>\" <%=uselimit!=-1?\"checked\":\"\"%> name=\"uselimit\"/>\r\n                    <label for=\"uselimited_<%=nameFlag%>\">\r\n                        共 <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[0]%>\" class=\"smaInp limitCountInp limitCountInp_total total\"> 次\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[1]%>\" class=\"smaInp limitCountInp limitCountInp_daily daily\"> 次/日\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[2]%>\" class=\"smaInp limitCountInp limitCountInp_month month\"> 次/月\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"float-right border-left\"><a href=\"javascript:void(0);\" class=\"btn-del deleteProdBtn\">×</a></div>\r\n</li>\r\n<% }) %>";
+	module.exports = "<% _.each(privilege,function(item,index,privilege){ %>\r\n    <%\r\n        var ticketid = item.tid;\r\n        var aid = item.aid;\r\n        var id = tid+\"_\"+ticketid+\"_\"+aid;\r\n        var attrFlag = 'data-tid=\"'+tid+'\" data-ticketid=\"'+ticketid+'\" data-aid=\"'+aid+'\"';\r\n        var prodName = item.ltitle;\r\n        var ticName = item.title;\r\n        var uselimit = typeof item.use_limit!=\"undefined\" ? item.use_limit : \"-1\";\r\n        var uselimitArr = [\"\",\"\",\"\"];\r\n        if(uselimit!=-1 && (typeof uselimit!==\"undefined\")){\r\n            uselimitArr = uselimit.split(\",\");\r\n            if(uselimitArr[0]==-1) uselimitArr[0] = \"\";\r\n            if(uselimitArr[1]==-1) uselimitArr[1] = \"\";\r\n            if(uselimitArr[2]==-1) uselimitArr[2] = \"\";\r\n        }\r\n    %>\r\n<li <%=attrFlag%> id=\"privItem_<%=id%>\" class=\"product border-bottom pckRightItem\">\r\n    <div class=\"float-left\">\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>产品：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <span class=\"name\"><%=prodName%>-<%=ticName%></span>\r\n                <a href=\"javascript:void(0);\" <%=attrFlag%> class=\"btn btn-s btn-border btn-sel selectProd_picker\">选择</a>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>使用规则：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <div class=\"nolimit\">\r\n                    <input type=\"radio\" value=\"-1\" id=\"uselimit_no_<%=id%>\" name=\"uselimit_<%=id%>\" <%=uselimit==-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimit_no_<%=id%>\">不限</label>\r\n                </div>\r\n                <div class=\"limit\">\r\n                    <input type=\"radio\" value=\"1\" id=\"uselimited_<%=id%>\" name=\"uselimit_<%=id%>\" <%=uselimit!=-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimited_<%=id%>\">\r\n                        共 <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[2]%>\" class=\"smaInp limitCountInp limitCountInp_total total\"> 次\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[0]%>\" class=\"smaInp limitCountInp limitCountInp_daily daily\"> 次/日\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[1]%>\" class=\"smaInp limitCountInp limitCountInp_month month\"> 次/月\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"float-right border-left\"><a href=\"javascript:void(0);\" class=\"btn-del deleteProdBtn\">×</a></div>\r\n</li>\r\n<% }) %>";
 
 /***/ },
-/* 37 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -587,8 +809,8 @@
 	 * Date: 2016/6/6 18:34
 	 * Description: ""
 	 */
-	__webpack_require__(38);
-	var CalendarCore = __webpack_require__(40);
+	__webpack_require__(42);
+	var CalendarCore = __webpack_require__(44);
 	var fn = new Function();
 	var Calendar = function(opt){
 		this.selected = {};
@@ -607,7 +829,7 @@
 			//是否支持多选日期 默认不支持
 			this.mult = typeof opt.mult=="boolean" ? opt.mult : false;
 			//模板
-			this.tpl = opt.tpl || __webpack_require__(41);
+			this.tpl = opt.tpl || __webpack_require__(45);
 	
 			this.template = _.template(this.tpl);
 	
@@ -784,14 +1006,14 @@
 	module.exports = Calendar;
 
 /***/ },
-/* 38 */
+/* 42 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 39 */,
-/* 40 */
+/* 43 */,
+/* 44 */
 /***/ function(module, exports) {
 
 	/**
@@ -1025,13 +1247,13 @@
 	module.exports = CalendarCore;
 
 /***/ },
-/* 41 */
+/* 45 */
 /***/ function(module, exports) {
 
 	module.exports = "<%\r\n    var yearmonth=data.yearmonth,dates=data.dates;\r\n    var containerID = data.containerID;\r\n    var ym = yearmonth.split(\"-\");\r\n    var year = ym[0];\r\n    var month = ym[1];\r\n%>\r\n<div id=\"<%=containerID%>-topCalendar\" class=\"calendarHead\">\r\n    <div class=\"con\"><span id=\"<%=containerID%>-top-calendar-date\" class=\"top-calendar-date\"></span></div>\r\n    <a id=\"<%=containerID%>-monthNavBtnNext\" class=\"monthNavBtn next\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe60d;</i></a>\r\n    <a id=\"<%=containerID%>-monthNavBtnPrev\" class=\"monthNavBtn prev\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe60c;</i></a>\r\n</div>\r\n<div id=\"<%=containerID%>-calendar-panel-<%=yearmonth%>\" class=\"calendar-panel\">\r\n    <table id=\"calendar-table-<%=yearmonth%>\"  class=\"calendar-table\">\r\n        <thead id=\"<%=containerID%>-calendar-thead-<%=yearmonth%>\" class=\"calendar-thead\">\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"0\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-0\">日</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"1\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-1\">一</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"2\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-2\">二</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"3\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-3\">三</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"4\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-4\">四</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"5\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-5\">五</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"6\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-6\">六</label>\r\n        </th>\r\n        </thead>\r\n        <tbody id=\"<%=containerID%>-calendar-tbody-<%=yearmonth%>\" class=\"calendar-tbody\">\r\n            <%_.each(dates,function(tr){%>\r\n                <tr>\r\n                    <%_.each(tr,function(td){%>\r\n                        <%\r\n                            var date = td.date;\r\n                            var day = td.day;\r\n                            var weeken = td.weeken;\r\n                            var yearmonth = td.yearmonth;\r\n                        %>\r\n                        <%if(day){%>\r\n                            <td class=\"calendar-td day\" data-day=\"<%=day%>\" data-date=\"<%=date%>\" data-yearmonth=\"<%=yearmonth%>\" data-week=\"<%=weeken%>\" id=\"<%=containerID%>-calendar-td-<%=date%>\">\r\n                                <div class=\"tdCon\">\r\n                                    <span class=\"dayNum\"><%=day%></span>\r\n                                </div>\r\n                            </td>\r\n                        <%}else{%>\r\n                            <td class=\"calendar-td empty\"></td>\r\n                        <%}%>\r\n                    <% }) %>\r\n                </tr>\r\n             <% }) %>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n";
 
 /***/ },
-/* 42 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1039,11 +1261,11 @@
 	 * Date: 2016/6/7 15:40
 	 * Description: ""
 	 */
-	__webpack_require__(43);
-	var index_tpl = __webpack_require__(45);
-	var ticket_item_tpl = __webpack_require__(46);
-	var prod_item_tpl = __webpack_require__(47);
-	var getWinWidthHeight = __webpack_require__(11);
+	__webpack_require__(47);
+	var index_tpl = __webpack_require__(49);
+	var ticket_item_tpl = __webpack_require__(50);
+	var prod_item_tpl = __webpack_require__(51);
+	var getWinWidthHeight = __webpack_require__(8);
 	var ProdSelect = Backbone.View.extend({
 		events : {
 			"click .btn-group .pop-btn" : "onBtnClick",
@@ -1057,12 +1279,10 @@
 		keyupTimer : null,
 		prodCache : null,
 		ticketCache : {},
+		type : "",
+		tid : "",
 		ticketTemplate : _.template(ticket_item_tpl),
 		prodTemplate : _.template(prod_item_tpl),
-		pckId : "",
-		prodId : "",
-		ticId : "",
-		aid : "",
 		initialize : function(){
 			var that = this;
 			this.mask = $("#prodSelectMask");
@@ -1107,39 +1327,29 @@
 	
 		},
 		onBtnClick : function(e){
+			var that = this;
 			var tarBtn = $(e.currentTarget);
 			if(tarBtn.hasClass("yes")){
 				var prod = this.prodListUl.children(".active");
 				var ticRadio = this.ticketListUl.find("input[type=radio][name=prodSelect_ticketRadio]:checked");
-				var prodId = prod.attr("data-prodid");
 				var prodName = prod.find(".t").text();
 				var ticId = ticRadio.attr("data-ticid");
 				var ticName = ticRadio.parent().find(".t").text();
-				//var aid = ticRadio.parent().find(".aidSelect").val();
 				var aid = prod.attr("data-applyid");
-				if(this.prodId && this.ticId){ //切换特权商品
-					if(this.prodId==prodId && this.ticId==ticId) return false;
+				if(this.type=="switch"){ //切换特权商品
 					this.trigger("switch.prod",{
-						pckId : this.pckId,
-						before : {
-							prodId : this.prodId,
-							ticId : this.ticId,
-							aid : this.aid
-						},
-						after : {
-							prodId : prodId,
-							prodName : prodName,
-							ticId : ticId,
-							ticName : ticName,
-							aid : aid
-						}
-					},this)
-				}else{ //新增一个特权商品
-					this.trigger("add.prod",{
-						pckId : this.pckId,
-						prodId : prodId,
+						tid : that.tid,
+						ticketid : ticId,
+						aid : aid,
 						prodName : prodName,
-						ticId : ticId,
+						ticName : ticName,
+						triggerItem : this.triggerItem
+					},this)
+				}else if(this.type=="add"){ //新增一个特权商品
+					this.trigger("add.prod",{
+						tid : that.tid,
+						prodName : prodName,
+						ticketid : ticId,
 						ticName : ticName,
 						aid : aid
 					},this)
@@ -1258,10 +1468,9 @@
 			var top = (wh.height-containerH) / 2;
 			var offsetTop = top*0.3;
 			this.$el.css({top:-this.$el.height()});
-			this.pckId = data.pckId;
-			this.prodId = data.prodId;
-			this.ticId = data.ticId;
-			this.aid = data.aid;
+			this.type = data.type;
+			this.tid = data.tid;
+			this.triggerItem = data.triggerItem;
 			this.mask.fadeIn();
 			this.$el.show().animate({top:top-offsetTop},100);
 			if(this.prodCache) return false;
@@ -1279,32 +1488,32 @@
 
 
 /***/ },
-/* 43 */
+/* 47 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 44 */,
-/* 45 */
+/* 48 */,
+/* 49 */
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/7 16:25 -->\r\n<!-- Description: huangzhiyang -->\r\n<div id=\"prodSelectPopBox\" class=\"proSel prodSelectPopBox\">\r\n    <div class=\"pBox left\">\r\n        <div class=\"searchBox\">\r\n            <input type=\"text\" name=\"\" class=\"prodSelectSearchInp\" id=\"prodSelectSearchInp\"/>\r\n            <i class=\"iconfont search\">&#xe633;</i>\r\n            <span href=\"javascript:void(0)\" class=\"clearSearchBtn\"><i class=\"iconfont\">&#xe674;</i></span>\r\n        </div>\r\n        <ul id=\"prodListUl\" class=\"prodListUl\"></ul>\r\n    </div>\r\n    <div class=\"pBox rig\">\r\n        <ul id=\"ticketListUl\" class=\"ticketListUl\"></ul>\r\n    </div>\r\n</div>\r\n<div class=\"btn-group\">\r\n    <a href=\"javascript:void(0);\" class=\"pop-btn yes\">确定</a>\r\n    <a href=\"javascript:void(0);\" class=\"pop-btn no\">取消</a>\r\n</div>\r\n";
 
 /***/ },
-/* 46 */
+/* 50 */
 /***/ function(module, exports) {
 
 	module.exports = "<% _.each(tickets,function(item,index){ %>\r\n<% var aid = item.apply_did; %>\r\n<li data-id=\"<%=item.id%>\" class=\"ticketItem\">\r\n    <% var checked = index==0 ? \"checked\" : \"\"; %>\r\n    <input data-ticid=\"<%=item.id%>\" class=\"prodSelect_ticketRadio\" type=\"radio\" name=\"prodSelect_ticketRadio\" id=\"ticketRadio_<%=item.id%>\"  <%=checked%> />\r\n    <label  for=\"ticketRadio_<%=item.id%>\" class=\"t\"><%=item.title%></label>\r\n</li>\r\n<% }) %>\r\n";
 
 /***/ },
-/* 47 */
+/* 51 */
 /***/ function(module, exports) {
 
 	module.exports = "<% _.each(products,function(item){ %>\r\n<li data-prodid=\"<%=item.id%>\" data-applyid=\"<%=item.apply_did%>\" class=\"prodItem\">\r\n    <span class=\"t\"><%=item.title%></span>\r\n</li>\r\n<% }) %>";
 
 /***/ },
-/* 48 */
+/* 52 */
 /***/ function(module, exports) {
 
 	/**
@@ -1314,39 +1523,74 @@
 	 */
 	var Submit = Backbone.View.extend({
 		serialize : function(pckId){
+			var result = {};
 			var data = {};
 			var container = $("#slideItem_"+pckId);
-	
+			var tid = $("#pckTitListUlItem_"+pckId).attr("data-id");
 			//套餐id及套餐名称
-			data["tid"] = $("#pckTitListUlItem_"+pckId).attr("data-id");
+			data["tid"] = tid;
 			var ttitle = $("#pckTitListUlItem_"+pckId).find(".editNameInp").val();
 			ttitle = $.trim(ttitle);
 			if(!ttitle) return this.errorHander(pckId,"套餐名称不能为空");
 			data["ttitle"] = ttitle;
 	
 			//预定时间段
-			var price_section = {};
-			price_section["sdate"] = container.find("input[name=sdate]").val();
-			price_section["edate"] = container.find("input[name=edate]").val();
-			if(!price_section.sdate) return this.errorHander(pckId,"预字时间段开始时间不能为空");
-			if(!price_section.edate) return this.errorHander(pckId,"预字时间段结束时间不能为空");
+			var price_section = [];
+			var price_section_result = { is_ok:true, error:"" };
+			container.find(".priceSectionLine").each(function(){
+				var json = {};
+				var tarItem = $(this);
+				var id = tarItem.attr("data-pricesectionid");
+				json["id"] = id;
+				json["sdate"] = tarItem.find("input[name=sdate]").val();
+				json["edate"] = tarItem.find("input[name=edate]").val();
+				json["js"] = $.trim(tarItem.find("input[name=js]").val()*100);         //供货价
+				json["ls"] = $.trim(tarItem.find("input[name=ls]").val()*100);         //零售价
+				json["storage"] = -1;
+				json["weekdays"] = "0,1,2,3,4,5,6";
+				price_section.push(json);
 	
-			//供货价、零售价、门市价
-			var js = $.trim(container.find("input[name=js]").val());         //供货价
-			var ls = $.trim(container.find("input[name=ls]").val());         //零售价
-			var tprice = $.trim(container.find("input[name=tprice]").val()); //门市价
-			if(isNaN(js) || js=="" || js<0) return this.errorHander(pckId,"供货价请填写不小于0的数值（可以精确到分）");
-			if(isNaN(ls) || ls=="" || ls<0) return this.errorHander(pckId,"零售价请填写不小于0的数值（可以精确到分）");
-			if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
-			price_section["js"] = js;
-			price_section["ls"] = ls;
+				//校验
+				if(!json["sdate"]){
+					price_section_result.is_ok = false;
+					price_section_result.error = "预字时间段开始时间不能为空";
+					return false;
+				}
+				if(!json["edate"]){
+					price_section_result.is_ok = false;
+					price_section_result.error = "预字时间段结束时间不能为空";
+					return false;
+				}
+				//供货价、零售价
+				if(isNaN(json["js"]) || json["js"]=="" || json["js"]<0){
+					price_section_result.is_ok = false;
+					price_section_result.error = "供货价请填写不小于0的数值（可以精确到分）";
+					return false;
+				}
+				if(isNaN(json["ls"]) || json["ls"]=="" || json["ls"]<0){
+					price_section_result.is_ok = false;
+					price_section_result.error = "零售价请填写不小于0的数值（可以精确到分）";
+					return false;
+				}
+			})
+	
+			if(!price_section_result.is_ok) return this.errorHander(pckId,price_section_result.error);
 			data["price_section"] = price_section;
-			data["tprice"] = tprice;
+	
+			var tprice = $.trim(container.find(".priceSectionLine").first().find("input[name=tprice]").val()); //门市价
+			if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
+			data["tprice"] = tprice*100;
+	
 	
 			//产品说明
 			var notes = $.trim(container.find("input[name=notes]").val());
-			if(notes=="") return this.errorHander(pckId,"产品请明不能为空");
+			if(notes=="") return this.errorHander(pckId,"产品说明不能为空");
 			data["notes"] =notes;
+	
+			//使用说明
+			var getaddr = $.trim(container.find("textarea[name=getaddr]").val());
+			if(getaddr=="") return this.errorHander(pckId,"使用说明不能为空");
+			data["getaddr"] =getaddr;
 	
 			//使用有效期
 			var delaytypeRadio = container.find("input[type=radio][name=delaytype_"+pckId+"]:checked");
@@ -1387,7 +1631,7 @@
 				});
 				return result.join(",");
 			})();
-	
+			if(data["search_limit"]=="") return this.errorHander(pckId,"购票限制必须选择至少一种");
 	
 	
 			//使用说明
@@ -1418,18 +1662,11 @@
 			var priv = (function(){
 	
 				var result = {};
-				//result = {
-				//	1 : {
-				//		aid : 1,
-				//		use_limit : "",
-				//		limit_count : ""
-				//	}
-				//}
 				$("#pckRightListUl_"+pckId).children().each(function(){
 					var item = $(this);
-					var tid = item.attr("data-ticid");
+					var tid = item.attr("data-ticketid");
 					var aid = item.attr("data-aid");
-					var use_limit = item.find("input[type=radio][name=uselimit]:checked").val();
+					var use_limit = item.find("input[type=radio]:checked").val();
 					result[tid] = {
 						aid : aid
 					};
@@ -1455,14 +1692,18 @@
 			})();
 	
 			if(priv.error) return this.errorHander(pckId,priv.error);
+			if(_.isEmpty(priv)) return this.errorHander(pckId,"每个套餐须保留至少一个特权产品");
 			data["priv"] = priv;
 	
 	
 			//是否发布
-			data["apply_limit"] = container.find(".apply_limit_input").is(":checked").val();
+			data["apply_limit"] = container.find(".apply_limit_input:checked").val();
 	
+			data["lid"] = PFT.Util.UrlParse()["sid"] || "";
 	
-			return data;
+			result[tid] = data;
+	
+			return result;
 	
 		},
 		errorHander : function(pckId,errorTxt){

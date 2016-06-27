@@ -34,38 +34,41 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/test/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(19);
-
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/1 14:50
+	 * Description: ""
+	 */
+	__webpack_require__(25);
+	var UserInfo = __webpack_require__(27);
+	var CardList = __webpack_require__(28);
+	var MainView = Backbone.View.extend({
+		el : $("#cardContainer"),
+		events : {},
+		initialize : function(){
+			this.UserInfo = new UserInfo();
+			this.CardList = new CardList();
+		}
+	});
+	
+	$(function(){
+		new MainView();
+	})
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */
+
+/***/ 12:
 /***/ function(module, exports) {
 
 	/**
@@ -78,11 +81,24 @@
 		Url : {
 			//发布年卡产品
 			PublishCardProd : {
-				submit : "/r/scenic/save/",
+				submit : "/r/product_scenic/save/",
 				//图片上传
 				uploadFile : "/r/product_annualCard/uploadImg/",
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
+			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_annualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_annualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
@@ -101,7 +117,9 @@
 				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
 				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
-			}
+			},
+			//获取某个产品的虚拟卡的库存
+			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
 		},
 		defaults : {
 			type : "get",
@@ -118,39 +136,15 @@
 
 
 /***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/1 14:50
-	 * Description: ""
-	 */
-	__webpack_require__(20);
-	var UserInfo = __webpack_require__(22);
-	var CardList = __webpack_require__(23);
-	var MainView = Backbone.View.extend({
-		el : $("#cardContainer"),
-		events : {},
-		initialize : function(){
-			this.UserInfo = new UserInfo();
-			this.CardList = new CardList();
-		}
-	});
-	
-	$(function(){
-		new MainView();
-	})
-
-/***/ },
-/* 20 */
+/***/ 25:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 21 */,
-/* 22 */
+
+/***/ 27:
 /***/ function(module, exports) {
 
 	/**
@@ -225,7 +219,8 @@
 	module.exports = UserInfoView;
 
 /***/ },
-/* 23 */
+
+/***/ 28:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -233,8 +228,8 @@
 	 * Date: 2016/6/17 15:17
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(18);
-	var Loading_Pc = __webpack_require__(24);
+	var Api = __webpack_require__(12);
+	var Loading_Pc = __webpack_require__(29);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -291,7 +286,8 @@
 	module.exports = List;
 
 /***/ },
-/* 24 */
+
+/***/ 29:
 /***/ function(module, exports) {
 
 	/**
@@ -317,8 +313,11 @@
 		var className = opt.className || "";
 		var id = opt.id || "";
 		var html = "";
+		var css = opt.css || {};
+		var style = "";
+		for(var i in css) style += i+":"+css[i]+"; ";
 		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
-		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center" class="'+className+'">';
+		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
 		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 		html +=     '<span class="t">'+text+'</span>';
 		html += '</'+tag+'>';
@@ -327,5 +326,6 @@
 	module.exports = Loading;
 
 /***/ }
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=all.js.map

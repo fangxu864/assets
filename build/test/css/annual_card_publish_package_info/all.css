@@ -12,6 +12,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
+a{
+  text-decoration: none; }
+a:hover{
+  text-decoration: underline; }
+a:link{
+  text-decoration: none;
+  outline: none; }
+a:visited{
+  text-decoration: none;
+  outline: none;
+  color: #fff; }
+a:active{
+  text-decoration: none;
+  outline: none; }
 .cardContainer a:hover, .border a:hover{
   text-decoration: none; }
 .clearfix:after{
@@ -216,8 +230,10 @@ textarea {
   overflow: hidden; }
 
 #infoManagerContainer .slideItem {
+  position: relative;
   float: left;
-  width: 798px; }
+  width: 798px;
+  min-height: 1000px; }
 
 .line {
   margin: 20px 32px;
@@ -251,13 +267,18 @@ textarea {
   margin-right: 20px; }
 
 .line .time p {
-  line-height: 32px; }
+  line-height: 20px;
+  padding-bottom: 3px; }
 
 .line .cardImg label {
   margin-right: 10px; }
 
 .line .cardImg a.btn-add {
   vertical-align: sub; }
+
+.line.priceSectionLine {
+  margin-bottom: 10px;
+  margin-top: 10px; }
 
 .uesArea {
   width: 420px;
@@ -328,7 +349,7 @@ textarea {
 .product .rt .nolimit {
   background: #f5f5f5;
   margin-right: 20px;
-  padding: 8px 10px; }
+  padding: 10px; }
 
 .product .rt .limit {
   background: #f5f5f5;
@@ -342,13 +363,15 @@ textarea {
 .product .rt .limit label input:first-of-type {
   margin-left: 0; }
 
-.product .btn-del {
-  margin-left: 4px; }
-
 .product > div.float-right {
-  padding-top: 20px;
+  padding-top: 27px;
   height: 70px;
-  width: 30px; }
+  width: 45px; }
+
+.power .tao a.btn-add, .deleteProdBtn {
+  display: inline-block;
+  width: 45px;
+  text-align: center; }
 
 .btn-box {
   overflow: hidden; }
@@ -469,6 +492,11 @@ h1.entry {
 .enCard span.numP {
   font-size: 24px; }
 
+.submitBtn.disable {
+  background: #c9c9c9;
+  cursor: default;
+  border-color: #c9c9c9; }
+
 /**/
 .pckTitListUl .pckTitListUlItem .editNameInp {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -485,7 +513,8 @@ h1.entry {
 
 .headContainer .packageName {
   padding-left: 26px;
-  font-size: 22px; }
+  font-size: 16px;
+  line-height: 40px; }
 
 .pckTitListUl {
   float: left;
@@ -502,7 +531,7 @@ h1.entry {
 .pckTitListUl .pckTitListUlItem {
   float: left;
   position: relative;
-  width: 238px;
+  width: 338px;
   margin: 0 8px 8px 0;
   cursor: pointer; }
 
@@ -513,8 +542,8 @@ h1.entry {
   display: block;
   height: 32px;
   line-height: 32px;
-  padding: 0 5px;
-  border: 1px solid #fff;
+  padding: 1px 5px;
+  background: #e2f6fe;
   overflow: hidden; }
 
 .pckTitListUl .pckTitListUlItem .editNameInp {
@@ -527,17 +556,23 @@ h1.entry {
   padding-top: 5px;
   padding-bottom: 5px;
   text-indent: 0;
-  width: 220px;
+  width: 320px;
   padding-left: 8px;
-  padding-right: 8px; }
+  padding-right: 8px;
+  border-color: #0797D9; }
 
 .pckTitListUl .pckTitListUlItem .removeBtn {
   position: absolute;
-  top: 10px;
-  right: 10px; }
+  top: 9px;
+  right: 10px;
+  color: #0797D9;
+  cursor: pointer; }
 
 .pckTitListUl .pckTitListUlItem .editNameInp, .pckTitListUl .pckTitListUlItem .removeBtn {
   display: none; }
+
+.pckTitListUl .pckTitListUlItem .removeBtn:hover {
+  color: #f5530c; }
 
 .pckTitListUl .pckTitListUlItem.edit .name {
   display: none; }
@@ -547,15 +582,18 @@ h1.entry {
 
 .headContainer .addPckBtn {
   float: left;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   line-height: 30px;
   font-size: 30px;
-  text-indent: -7px;
-  font-weight: bold;
-  color: #258cc9; }
+  color: #258cc9;
+  background: #e2f6fe;
+  border: 1px solid #e2f6fe; }
+
+.headContainer .addPckBtn:hover {
+  border-color: #0797D9; }
 .calendar-pop-contaienr{ display:none; position:absolute; width:360px; z-index:10001;}
 .calendar-mask{ display:none; position:fixed; top:0; right:0; left:0; bottom:0; z-index:10000;}
 .calendar-table{ width:100%;}

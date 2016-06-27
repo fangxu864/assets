@@ -12,6 +12,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
+a{
+  text-decoration: none; }
+a:hover{
+  text-decoration: underline; }
+a:link{
+  text-decoration: none;
+  outline: none; }
+a:visited{
+  text-decoration: none;
+  outline: none;
+  color: #fff; }
+a:active{
+  text-decoration: none;
+  outline: none; }
 .cardContainer a:hover, .border a:hover{
   text-decoration: none; }
 .clearfix:after{

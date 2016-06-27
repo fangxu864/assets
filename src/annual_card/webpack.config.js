@@ -3,7 +3,7 @@
  * Date: 2016/6/17 16:42
  * Description: ""
  */
-var env = "local";
+var env = require("../../getNodeENV.js");
 var path = require("path");
 var plugins = require("../../getPlugins")(env);
 var config = require("../../config")({
@@ -18,10 +18,10 @@ var config = require("../../config")({
 		path : path.join(__dirname, "../../build/"+env+"/"),
 		filename: "js/[name]/all.js",
 		publicPath : {
-			local : "http://static.12301.local/assets/build/local/",
-			test  : "http://static.12301.test/assets/build/",
-			dev   : "http://static.12301dev.com/assets/build/",
-			prod  : "http://static.12301.cc/assets/build/"
+			local : "http://static.12301.local/assets/build/"+env+"/",
+			test  : "http://static.12301.test/assets/build/"+env+"/",
+			dev   : "http://static.12301dev.com/assets/build/"+env+"/",
+			prod  : "http://static.12301.cc/assets/build/"+env+"/"
 		}[env]
 	},
 	plugins : plugins,

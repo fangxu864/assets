@@ -148,6 +148,7 @@ var MainView = Backbone.View.extend({
 		if(img_path) this.renderThumbList(img_path);
 	},
 	submit : function(params){
+		var that = this;
 		var submitBtn = $("#submitInfoBtn");
 		PFT.Util.Ajax(Api.Url.PublishCardProd.submit,{
 			type : "post",
@@ -159,8 +160,13 @@ var MainView = Backbone.View.extend({
 				var res = res || {};
 				var code = res.code;
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				var data = res.data || {};
+				var lastid = data.lastid;
 				if(code==200){
 					PFT.Util.STip("success",'<p style="width:200px">保存成功</p>');
+					if(!that.lid && lastid){
+						window.location.href = "annual_package.html?sid="+lastid;
+					}
 				}else{
 					alert(msg);
 				}
