@@ -268,7 +268,7 @@ a:active{
   color: red; }
 
 .submitBox {
-  width: 998px;
+  width: 798px;
   height: 44px;
   background: #e5e5e5; }
 
@@ -276,7 +276,7 @@ a:active{
   display: inline-block;
   float: left;
   line-height: 44px;
-  margin-left: 760px; }
+  margin-left: 560px; }
 
 #subBtn {
   float: right;
