@@ -53,12 +53,14 @@
 	__webpack_require__(25);
 	var UserInfo = __webpack_require__(27);
 	var CardList = __webpack_require__(28);
+	var OrderInfo = __webpack_require__(30);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {},
 		initialize : function(){
 			this.UserInfo = new UserInfo();
 			this.CardList = new CardList();
+			this.OrderInfo = new OrderInfo();
 		}
 	});
 	
@@ -238,12 +240,12 @@
 			var pid = this.pid = urlParam["pid"];
 			var physics = this.physics = urlParam["physics"];
 			if(!pid) return alert("缺少pid");
-			if(!physics) return alert("缺少physics");
 			this.getList(pid,physics);
 			this.$el.html(this.loading_str);
 		},
 		getList : function(pid,physics){
 			var that = this;
+			physics = physics || "";
 			PFT.Util.Ajax(Api.Url.makeOrder.getCardsForOrder,{
 				params : {
 					pid : pid,
@@ -311,6 +313,7 @@
 		var imgWidth = loadingImg.width || 24;
 		var top = loadingImg.top || 0;
 		var className = opt.className || "";
+		var td_colspan = opt.colspan || 1;
 		var id = opt.id || "";
 		var html = "";
 		var css = opt.css || {};
@@ -318,12 +321,86 @@
 		for(var i in css) style += i+":"+css[i]+"; ";
 		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
 		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
+		if(tag=="tr"||tag=="td") html += '<td colspan="'+td_colspan+'">';
 		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 		html +=     '<span class="t">'+text+'</span>';
+		if(tag=="tr"||tag=="td") html += '</td>';
 		html += '</'+tag+'>';
 		return html;
 	};
 	module.exports = Loading;
+
+/***/ },
+
+/***/ 30:
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/17 16:27
+	 * Description: ""
+	 */
+	var Api = __webpack_require__(12);
+	var Loading_Pc = __webpack_require__(29);
+	var tpl = __webpack_require__(31);
+	var OrderIno = Backbone.View.extend({
+		initialize : function(){
+			this.listUl = $("#orderInfoList");
+			//return this.listUl.html(this.renderInfo("loading"));
+	
+			this.urlParams = PFT.Util.UrlParse();
+			this.pid = this.urlParams["pid"];
+			this.aid = this.urlParams["aid"];
+			this.physics = this.urlParams["physics"]; //如果有physics参数 说明购买的是实体卡  反之，则购买的是虚拟卡
+			this.type = this.physics ? "physics" : "virtual";
+			if(!this.pid || !this.aid || !this.type) return false;
+			this.getInfo(this.pid,this.aid,this.type);
+		},
+		template : _.template(tpl),
+		getInfo : function(pid,aid,type){
+			PFT.Util.Ajax(Api.Url.makeOrder.getOrderInfo,{
+				loading : function(){
+	
+				},
+				complete : function(){},
+				success : function(res){
+					res = res || {};
+					var data = res.data;
+					var product = data.product;
+					if(res.code==200){
+						$("#ltitle_text").text(product.ltitle);
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
+		},
+		renderInfo : function(data){
+			var html = "";
+			if(data=="loading"){
+				html = Loading_Pc("请稍后...",{
+					tag : "tr",
+					colspan : 6,
+					height : 100
+				});
+			}else if(data=="complete"){
+				html = "";
+			}else if(data=="fail" || data=="error"){
+				html = arguments[1] || PFT.AJAX_ERROR_TEXT;
+			}else{
+				html = this.template({data:data});
+			}
+			return html;
+		}
+	});
+	module.exports = OrderIno;
+
+/***/ },
+
+/***/ 31:
+/***/ function(module, exports) {
+
+	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <p>XXXXXX 景区成人票 共50张 限使用2次/日</p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
 
 /***/ }
 

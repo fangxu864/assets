@@ -160,7 +160,7 @@
 			PublishCardProd : {
 				submit : "/r/product_scenic/save/",
 				//图片上传
-				uploadFile : "/r/product_annualCard/uploadImg/",
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
 			},
@@ -171,32 +171,32 @@
 				//拉取已存在的票类
 				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
 				//获取产品列表
-				getLands : "/r/product_annualCard/getLands/",
+				getLands : "/r/product_AnnualCard/getLands/",
 				//获取票类列表
-				getTickets : "/r/product_annualCard/getTickets/",
+				getTickets : "/r/product_AnnualCard/getTickets/",
 				//删除票类
 				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
 				//获取供应商的年卡产品列表
-				getProdList : "/r/product_annualCard/getAnnualCardProducts/",
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
 				//录入卡片
-				createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_annualCard/getAnnualCards/",
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/",
 				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
 			//下单页面
 			makeOrder : {
 				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/"
 			},
 			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
 		},
 		defaults : {
 			type : "get",
@@ -253,6 +253,7 @@
 		var imgWidth = loadingImg.width || 24;
 		var top = loadingImg.top || 0;
 		var className = opt.className || "";
+		var td_colspan = opt.colspan || 1;
 		var id = opt.id || "";
 		var html = "";
 		var css = opt.css || {};
@@ -260,8 +261,10 @@
 		for(var i in css) style += i+":"+css[i]+"; ";
 		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
 		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
+		if(tag=="tr"||tag=="td") html += '<td colspan="'+td_colspan+'">';
 		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 		html +=     '<span class="t">'+text+'</span>';
+		if(tag=="tr"||tag=="td") html += '</td>';
 		html += '</'+tag+'>';
 		return html;
 	};

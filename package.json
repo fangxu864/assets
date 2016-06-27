@@ -15,7 +15,10 @@
     "common": "webpack --config webpack.common.build.config.js",
     "server": "node server.js",
     "start": "node server.js",
-    "annaul_start" : "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w"
+    "annaul_start" : "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
+    "annaul_test" : "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
+    "annaul_release" : "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
+    "annaul_production" : "set NODE_ENV=production && webpack --config ./src/annual_card/webpack.config.js"
   },
   "repository": {
     "type": "git",

@@ -53,12 +53,14 @@
 	__webpack_require__(25);
 	var UserInfo = __webpack_require__(27);
 	var CardList = __webpack_require__(28);
+	var OrderInfo = __webpack_require__(61);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {},
 		initialize : function(){
 			this.UserInfo = new UserInfo();
 			this.CardList = new CardList();
+			this.OrderInfo = new OrderInfo();
 		}
 	});
 	
@@ -83,7 +85,7 @@
 			PublishCardProd : {
 				submit : "/r/product_scenic/save/",
 				//图片上传
-				uploadFile : "/r/product_annualCard/uploadImg/",
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
 			},
@@ -94,32 +96,32 @@
 				//拉取已存在的票类
 				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
 				//获取产品列表
-				getLands : "/r/product_annualCard/getLands/",
+				getLands : "/r/product_AnnualCard/getLands/",
 				//获取票类列表
-				getTickets : "/r/product_annualCard/getTickets/",
+				getTickets : "/r/product_AnnualCard/getTickets/",
 				//删除票类
 				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
 				//获取供应商的年卡产品列表
-				getProdList : "/r/product_annualCard/getAnnualCardProducts/",
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
 				//录入卡片
-				createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_annualCard/getAnnualCards/",
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/",
 				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
 			//下单页面
 			makeOrder : {
 				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/"
 			},
 			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
 		},
 		defaults : {
 			type : "get",
@@ -170,7 +172,7 @@
 		onTextInpFocus : function(e){
 			var tarInp = $(e.currentTarget);
 			var tip = tarInp.parent().find(".tip");
-			tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "(可选项)" : "(必填项)");
+			tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "可选项" : "必填项");
 		},
 		onTextInpBlur : function(e){
 			var tarInp = $(e.currentTarget);
@@ -192,7 +194,7 @@
 		},
 		validateMobile : function(mobile){
 			if(mobile==""){
-				return "(必填项)";
+				return "必填项";
 			}else if(!PFT.Util.Validate.typePhone(mobile)){
 				return "请输入正确格式手机号";
 			}
@@ -238,12 +240,12 @@
 			var pid = this.pid = urlParam["pid"];
 			var physics = this.physics = urlParam["physics"];
 			if(!pid) return alert("缺少pid");
-			if(!physics) return alert("缺少physics");
 			this.getList(pid,physics);
 			this.$el.html(this.loading_str);
 		},
 		getList : function(pid,physics){
 			var that = this;
+			physics = physics || "";
 			PFT.Util.Ajax(Api.Url.makeOrder.getCardsForOrder,{
 				params : {
 					pid : pid,
@@ -311,6 +313,7 @@
 		var imgWidth = loadingImg.width || 24;
 		var top = loadingImg.top || 0;
 		var className = opt.className || "";
+		var td_colspan = opt.colspan || 1;
 		var id = opt.id || "";
 		var html = "";
 		var css = opt.css || {};
@@ -318,12 +321,89 @@
 		for(var i in css) style += i+":"+css[i]+"; ";
 		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
 		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
+		if(tag=="tr"||tag=="td") html += '<td colspan="'+td_colspan+'">';
 		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 		html +=     '<span class="t">'+text+'</span>';
+		if(tag=="tr"||tag=="td") html += '</td>';
 		html += '</'+tag+'>';
 		return html;
 	};
 	module.exports = Loading;
+
+/***/ },
+
+/***/ 61:
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/17 16:27
+	 * Description: ""
+	 */
+	var Api = __webpack_require__(12);
+	var Loading_Pc = __webpack_require__(29);
+	var tpl = __webpack_require__(62);
+	var OrderIno = Backbone.View.extend({
+		initialize : function(){
+			this.listUl = $("#orderInfoList");
+			this.urlParams = PFT.Util.UrlParse();
+	
+			return this.getInfo();
+	
+			this.pid = this.urlParams["pid"];
+			this.aid = this.urlParams["aid"];
+			this.physics = this.urlParams["physics"]; //如果有physics参数 说明购买的是实体卡  反之，则购买的是虚拟卡
+			this.type = this.physics ? "physics" : "virtual";
+			if(!this.pid || !this.aid || !this.type) return false;
+			this.getInfo(this.pid,this.aid,this.type);
+		},
+		template : _.template(tpl),
+		getInfo : function(pid,aid,type){
+			var that = this;
+			var listUl = this.listUl;
+	
+			PFT.Util.Ajax(Api.Url.makeOrder.getOrderInfo,{
+				loading : function(){
+					listUl.html(that.renderInfo("loading"));
+				},
+				complete : function(){
+					listUl.html("");
+				},
+				success : function(res){
+					res = res || {};
+					var data = res.data;
+					var product = data.product;
+					if(res.code==200){
+						$("#ltitle_text").text(product.ltitle);
+						listUl.html(that.renderInfo(data));
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
+		},
+		renderInfo : function(data){
+			var html = "";
+			if(data=="loading"){
+				html = Loading_Pc("请稍后...",{
+					tag : "tr",
+					colspan : 6,
+					height : 100
+				});
+			}else{
+				html = this.template({data:data});
+			}
+			return html;
+		}
+	});
+	module.exports = OrderIno;
+
+/***/ },
+
+/***/ 62:
+/***/ function(module, exports) {
+
+	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var limit_count = item.limit_count;\r\n                    var limit_str = \"\";\r\n                    if(limit_count==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        limit_count = limit_count.split(\",\");\r\n                        var daily = limit_count[0];\r\n                        var month = limit_count[1];\r\n                        var total = limit_count[1];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
 
 /***/ }
 

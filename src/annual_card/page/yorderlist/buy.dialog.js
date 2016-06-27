@@ -14,6 +14,7 @@ var AnnualCardBuyDialog = function(){
 AnnualCardBuyDialog.prototype = {
 	hasReadCards : {},
 	xhr : null,
+	orderPage : "/new/annual_order.html",
 	init : function(){
 		var that = this;
 		this.buyBtn_card = null;
@@ -27,10 +28,24 @@ AnnualCardBuyDialog.prototype = {
 			events : {
 				"click #readCardBtn" : function(e){
 					that.onReadCardBtnClick(e);
+				},
+				"click #buyBtn_card" : function(e){
+					var tarBtn = $(e.currentTarget);
+					if(tarBtn.hasClass("disable")) return false;
+					var physics = [];
+					var hasReadCards = that.hasReadCards;
+					for(var i in hasReadCards) physics.push(i);
+					window.location.href = that.orderPage + "?pid="+that.pid + "&physics="+physics.join(",");
+				},
+				"click #buyBtn_virtual" : function(e){
+					var tarBtn = $(e.currentTarget);
+					if(tarBtn.hasClass("disable")) return false;
+					window.location.href = that.orderPage + "?pid="+that.pid + "&physics=";
 				}
 			},
 			onOpenBefore : function(){
-
+				//每一次打开dialog都要先清空之前已读取到的卡号
+				that.hasReadCards = [];
 			},
 			onOpenAfter : function(){
 				that.buyBtn_card = $("#buyBtn_card");
@@ -39,7 +54,8 @@ AnnualCardBuyDialog.prototype = {
 				that.cardNumberInp = $("#cardNumberInp");
 				that.hasReadCount = $("#hasReadCount");
 				that.cardNumberInp.val("");
-				that.hasReadCount.text("");
+				that.hasReadCount.text(0);
+				that.getVirtualStorage(that.pid);
 			},
 			onCloseBefore : function(){
 
@@ -68,7 +84,9 @@ AnnualCardBuyDialog.prototype = {
 			alert("读卡失败");
 		}
 	},
-	open : function(){
+	open : function(opt){
+		opt = opt || {};
+		this.pid = opt.pid;
 		this.dialog.open();
 	},
 	/**
@@ -84,7 +102,7 @@ AnnualCardBuyDialog.prototype = {
 			},
 			loading : function(){
 				that.virtualStorage.text("正在获取库存，请稍后..");
-				that.buyBtn_virtual.addClass("disable");
+				//that.buyBtn_virtual.addClass("disable");
 			},
 			complete : function(){
 				that.virtualStorage.text("");
@@ -108,6 +126,6 @@ AnnualCardBuyDialog.prototype = {
 $(function(){
 	var annual = new AnnualCardBuyDialog();
 	setTimeout(function(){
-		annual.open();
+		annual.open({pid:"13692"});
 	},500)
 })

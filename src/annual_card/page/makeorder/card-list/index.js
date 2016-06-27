@@ -13,12 +13,12 @@ var List = Backbone.View.extend({
 		var pid = this.pid = urlParam["pid"];
 		var physics = this.physics = urlParam["physics"];
 		if(!pid) return alert("缺少pid");
-		if(!physics) return alert("缺少physics");
 		this.getList(pid,physics);
 		this.$el.html(this.loading_str);
 	},
 	getList : function(pid,physics){
 		var that = this;
+		physics = physics || "";
 		PFT.Util.Ajax(Api.Url.makeOrder.getCardsForOrder,{
 			params : {
 				pid : pid,

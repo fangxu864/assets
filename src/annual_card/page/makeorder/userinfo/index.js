@@ -21,7 +21,7 @@ var UserInfoView = Backbone.View.extend({
 	onTextInpFocus : function(e){
 		var tarInp = $(e.currentTarget);
 		var tip = tarInp.parent().find(".tip");
-		tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "(可选项)" : "(必填项)");
+		tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "可选项" : "必填项");
 	},
 	onTextInpBlur : function(e){
 		var tarInp = $(e.currentTarget);
@@ -43,7 +43,7 @@ var UserInfoView = Backbone.View.extend({
 	},
 	validateMobile : function(mobile){
 		if(mobile==""){
-			return "(必填项)";
+			return "必填项";
 		}else if(!PFT.Util.Validate.typePhone(mobile)){
 			return "请输入正确格式手机号";
 		}

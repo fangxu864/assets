@@ -60,6 +60,7 @@
 	AnnualCardBuyDialog.prototype = {
 		hasReadCards : {},
 		xhr : null,
+		orderPage : "/new/annual_order.html",
 		init : function(){
 			var that = this;
 			this.buyBtn_card = null;
@@ -73,10 +74,24 @@
 				events : {
 					"click #readCardBtn" : function(e){
 						that.onReadCardBtnClick(e);
+					},
+					"click #buyBtn_card" : function(e){
+						var tarBtn = $(e.currentTarget);
+						if(tarBtn.hasClass("disable")) return false;
+						var physics = [];
+						var hasReadCards = that.hasReadCards;
+						for(var i in hasReadCards) physics.push(i);
+						window.location.href = that.orderPage + "?pid="+that.pid + "&physics="+physics.join(",");
+					},
+					"click #buyBtn_virtual" : function(e){
+						var tarBtn = $(e.currentTarget);
+						if(tarBtn.hasClass("disable")) return false;
+						window.location.href = that.orderPage + "?pid="+that.pid + "&physics=";
 					}
 				},
 				onOpenBefore : function(){
-	
+					//每一次打开dialog都要先清空之前已读取到的卡号
+					that.hasReadCards = [];
 				},
 				onOpenAfter : function(){
 					that.buyBtn_card = $("#buyBtn_card");
@@ -85,7 +100,8 @@
 					that.cardNumberInp = $("#cardNumberInp");
 					that.hasReadCount = $("#hasReadCount");
 					that.cardNumberInp.val("");
-					that.hasReadCount.text("");
+					that.hasReadCount.text(0);
+					that.getVirtualStorage(that.pid);
 				},
 				onCloseBefore : function(){
 	
@@ -114,7 +130,9 @@
 				alert("读卡失败");
 			}
 		},
-		open : function(){
+		open : function(opt){
+			opt = opt || {};
+			this.pid = opt.pid;
 			this.dialog.open();
 		},
 		/**
@@ -130,7 +148,7 @@
 				},
 				loading : function(){
 					that.virtualStorage.text("正在获取库存，请稍后..");
-					that.buyBtn_virtual.addClass("disable");
+					//that.buyBtn_virtual.addClass("disable");
 				},
 				complete : function(){
 					that.virtualStorage.text("");
@@ -154,7 +172,7 @@
 	$(function(){
 		var annual = new AnnualCardBuyDialog();
 		setTimeout(function(){
-			annual.open();
+			annual.open({pid:"13692"});
 		},500)
 	})
 
@@ -697,7 +715,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:;\" class=\"btn btn-blue buyBtn\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">15</span></p>\r\n                <a href=\"javascript:;\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 11 */
@@ -748,7 +766,7 @@
 			PublishCardProd : {
 				submit : "/r/product_scenic/save/",
 				//图片上传
-				uploadFile : "/r/product_annualCard/uploadImg/",
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
 			},
@@ -759,32 +777,32 @@
 				//拉取已存在的票类
 				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
 				//获取产品列表
-				getLands : "/r/product_annualCard/getLands/",
+				getLands : "/r/product_AnnualCard/getLands/",
 				//获取票类列表
-				getTickets : "/r/product_annualCard/getTickets/",
+				getTickets : "/r/product_AnnualCard/getTickets/",
 				//删除票类
 				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
 				//获取供应商的年卡产品列表
-				getProdList : "/r/product_annualCard/getAnnualCardProducts/",
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
 				//录入卡片
-				createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_annualCard/getAnnualCards/",
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/",
 				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
 			//下单页面
 			makeOrder : {
 				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/"
 			},
 			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
 		},
 		defaults : {
 			type : "get",

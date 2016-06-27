@@ -11,14 +11,14 @@
                     <p class="font-red carded"></p>
                     <div class="entityBox">
                         <span class="enCard">已刷<span id="hasReadCount" class="enNum">0</span>张</span>
-                        <a href="javascript:;" class="btn btn-blue buyBtn" id="buyBtn_card">购买</a>
+                        <a href="javascript:void(0);" class="btn btn-blue buyBtn disable" id="buyBtn_card">购买</a>
                     </div>
                 </div>
             </div>
             <div class="br">
                 <p class="entity">虚拟卡购买</p>
-                <p class="kucun">库存：<span id="virtualStorageNum" style="font-size:16px;">15</span></p>
-                <a href="javascript:;" class="btn btn-blue btn-mar buyBtn" id="buyBtn_virtual">购买</a>
+                <p class="kucun">库存：<span id="virtualStorageNum" style="font-size:16px;">0</span></p>
+                <a href="javascript:void(0);" class="btn btn-blue btn-mar buyBtn" id="buyBtn_virtual">购买</a>
             </div>
         </div>
     </div>

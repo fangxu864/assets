@@ -59,26 +59,49 @@
 	};
 	AnnualCardBuyDialog.prototype = {
 		hasReadCards : {},
+		xhr : null,
+		orderPage : "/new/annual_order.html",
 		init : function(){
 			var that = this;
 			this.buyBtn_card = null;
 			this.buyBtn_virtual = null;
 			this.virtualStorage = null;
+			this.cardNumberInp = null;
+			this.hasReadCount = null;
 			this.dialog = new SDialog({
 				content : dialogTpl,
 				drag : true,
 				events : {
 					"click #readCardBtn" : function(e){
 						that.onReadCardBtnClick(e);
+					},
+					"click #buyBtn_card" : function(e){
+						var tarBtn = $(e.currentTarget);
+						if(tarBtn.hasClass("disable")) return false;
+						var physics = [];
+						var hasReadCards = that.hasReadCards;
+						for(var i in hasReadCards) physics.push(i);
+						window.location.href = that.orderPage + "?pid="+that.pid + "&physics="+physics.join(",");
+					},
+					"click #buyBtn_virtual" : function(e){
+						var tarBtn = $(e.currentTarget);
+						if(tarBtn.hasClass("disable")) return false;
+						window.location.href = that.orderPage + "?pid="+that.pid + "&physics=";
 					}
 				},
 				onOpenBefore : function(){
-	
+					//每一次打开dialog都要先清空之前已读取到的卡号
+					that.hasReadCards = [];
 				},
 				onOpenAfter : function(){
 					that.buyBtn_card = $("#buyBtn_card");
 					that.buyBtn_virtual = $("#buyBtn_virtual");
 					that.virtualStorage = $("#virtualStorageNum");
+					that.cardNumberInp = $("#cardNumberInp");
+					that.hasReadCount = $("#hasReadCount");
+					that.cardNumberInp.val("");
+					that.hasReadCount.text(0);
+					that.getVirtualStorage(that.pid);
 				},
 				onCloseBefore : function(){
 	
@@ -99,6 +122,7 @@
 					var hasReadCount = $("#hasReadCount");
 					hasReadCount.text(hasReadCount.text()*1+1);
 					this.hasReadCards[card_number] = 1;
+					this.buyBtn_card.removeClass("disable");
 				}else{
 					alert("此卡已刷过，请换另一张卡");
 				}
@@ -106,7 +130,9 @@
 				alert("读卡失败");
 			}
 		},
-		open : function(){
+		open : function(opt){
+			opt = opt || {};
+			this.pid = opt.pid;
 			this.dialog.open();
 		},
 		/**
@@ -114,14 +140,39 @@
 		 * @param pid  产品id
 		 */
 		getVirtualStorage : function(pid){
-	
+			var that = this;
+			if(that.xhr && that.xhr.abort) that.xhr.abort();
+			that.xhr = PFT.Util.Ajax(Api.Url.getVirtualStorage,{
+				params : {
+					pid : pid
+				},
+				loading : function(){
+					that.virtualStorage.text("正在获取库存，请稍后..");
+					//that.buyBtn_virtual.addClass("disable");
+				},
+				complete : function(){
+					that.virtualStorage.text("");
+				},
+				success : function(res){
+					res = res || {};
+					var code = res.code;
+					var data = res.data || {};
+					var storage = data.storage;
+					if(code==200){
+						that.virtualStorage.text(storage);
+						that.buyBtn_virtual.removeClass("disable");
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
 		}
 	};
 	
 	$(function(){
 		var annual = new AnnualCardBuyDialog();
 		setTimeout(function(){
-			annual.open();
+			annual.open({pid:"13692"});
 		},500)
 	})
 
@@ -664,7 +715,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:;\" class=\"btn btn-blue buyBtn\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">15</span></p>\r\n                <a href=\"javascript:;\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 11 */

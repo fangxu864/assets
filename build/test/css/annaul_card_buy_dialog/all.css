@@ -70,6 +70,11 @@
   height: 37px;
   line-height: 37px; }
 
+.buyBtn.disable {
+  background: #c9c9c9;
+  cursor: default;
+  border-color: #c9c9c9; }
+
 .kucun {
   line-height: 50px; }
 .gSimpleDialog-container {

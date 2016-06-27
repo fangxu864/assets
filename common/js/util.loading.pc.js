@@ -19,6 +19,7 @@ var Loading = function(text,opt){
 	var imgWidth = loadingImg.width || 24;
 	var top = loadingImg.top || 0;
 	var className = opt.className || "";
+	var td_colspan = opt.colspan || 1;
 	var id = opt.id || "";
 	var html = "";
 	var css = opt.css || {};
@@ -26,8 +27,10 @@ var Loading = function(text,opt){
 	for(var i in css) style += i+":"+css[i]+"; ";
 	var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
 	html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
+	if(tag=="tr"||tag=="td") html += '<td colspan="'+td_colspan+'">';
 	html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 	html +=     '<span class="t">'+text+'</span>';
+	if(tag=="tr"||tag=="td") html += '</td>';
 	html += '</'+tag+'>';
 	return html;
 };

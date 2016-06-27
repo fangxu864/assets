@@ -6,12 +6,14 @@
 require("./style.scss");
 var UserInfo = require("./userinfo");
 var CardList = require("./card-list");
+var OrderInfo = require("./orderinfo");
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {},
 	initialize : function(){
 		this.UserInfo = new UserInfo();
 		this.CardList = new CardList();
+		this.OrderInfo = new OrderInfo();
 	}
 });
 
