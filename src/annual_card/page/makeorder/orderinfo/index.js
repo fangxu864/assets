@@ -10,9 +10,6 @@ var OrderIno = Backbone.View.extend({
 	initialize : function(){
 		this.listUl = $("#orderInfoList");
 		this.urlParams = PFT.Util.UrlParse();
-
-		return this.getInfo();
-
 		this.pid = this.urlParams["pid"];
 		this.aid = this.urlParams["aid"];
 		this.physics = this.urlParams["physics"]; //如果有physics参数 说明购买的是实体卡  反之，则购买的是虚拟卡
@@ -38,6 +35,13 @@ var OrderIno = Backbone.View.extend({
 				var product = data.product;
 				if(res.code==200){
 					$("#ltitle_text").text(product.ltitle);
+					var pay = data.pay;
+					if(pay.is_self==1){//自供应
+						$("#payLine_no").show();
+						$("#payLine_credit").hide();
+						$("#payLine_remain").hide();
+						$("#payLine_online").hide();
+					}
 					listUl.html(that.renderInfo(data));
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);
