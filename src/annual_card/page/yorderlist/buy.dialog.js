@@ -13,6 +13,7 @@ var AnnualCardBuyDialog = function(){
 };
 AnnualCardBuyDialog.prototype = {
 	hasReadCards : {},
+	xhr : null,
 	init : function(){
 		var that = this;
 		this.buyBtn_card = null;
@@ -37,6 +38,8 @@ AnnualCardBuyDialog.prototype = {
 				that.virtualStorage = $("#virtualStorageNum");
 				that.cardNumberInp = $("#cardNumberInp");
 				that.hasReadCount = $("#hasReadCount");
+				that.cardNumberInp.val("");
+				that.hasReadCount.text("");
 			},
 			onCloseBefore : function(){
 
@@ -57,6 +60,7 @@ AnnualCardBuyDialog.prototype = {
 				var hasReadCount = $("#hasReadCount");
 				hasReadCount.text(hasReadCount.text()*1+1);
 				this.hasReadCards[card_number] = 1;
+				this.buyBtn_card.removeClass("disable");
 			}else{
 				alert("此卡已刷过，请换另一张卡");
 			}
@@ -72,7 +76,32 @@ AnnualCardBuyDialog.prototype = {
 	 * @param pid  产品id
 	 */
 	getVirtualStorage : function(pid){
-
+		var that = this;
+		if(that.xhr && that.xhr.abort) that.xhr.abort();
+		that.xhr = PFT.Util.Ajax(Api.Url.getVirtualStorage,{
+			params : {
+				pid : pid
+			},
+			loading : function(){
+				that.virtualStorage.text("正在获取库存，请稍后..");
+				that.buyBtn_virtual.addClass("disable");
+			},
+			complete : function(){
+				that.virtualStorage.text("");
+			},
+			success : function(res){
+				res = res || {};
+				var code = res.code;
+				var data = res.data || {};
+				var storage = data.storage;
+				if(code==200){
+					that.virtualStorage.text(storage);
+					that.buyBtn_virtual.removeClass("disable");
+				}else{
+					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				}
+			}
+		})
 	}
 };
 
