@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
+/******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -50,10 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(48);
-	var Api = __webpack_require__(19);
-	var Select = __webpack_require__(50);
-	var Fileupload = __webpack_require__(52);
+	__webpack_require__(53);
+	var Api = __webpack_require__(12);
+	var Select = __webpack_require__(55);
+	var Fileupload = __webpack_require__(57);
 	
 	
 	
@@ -229,7 +229,7 @@
 
 /***/ },
 
-/***/ 19:
+/***/ 12:
 /***/ function(module, exports) {
 
 	/**
@@ -298,14 +298,14 @@
 
 /***/ },
 
-/***/ 48:
+/***/ 53:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 50:
+/***/ 55:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -314,7 +314,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(51);
+		this.data = __webpack_require__(56);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -404,7 +404,7 @@
 
 /***/ },
 
-/***/ 51:
+/***/ 56:
 /***/ function(module, exports) {
 
 	/**
@@ -417,7 +417,7 @@
 
 /***/ },
 
-/***/ 52:
+/***/ 57:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -425,8 +425,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(53);
-	var tpl = __webpack_require__(55);
+	__webpack_require__(58);
+	var tpl = __webpack_require__(60);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -529,14 +529,14 @@
 
 /***/ },
 
-/***/ 53:
+/***/ 58:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 55:
+/***/ 60:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";
