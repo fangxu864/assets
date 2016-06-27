@@ -14,7 +14,8 @@
     "prod": "webpack -w -myProduct",
     "common": "webpack --config webpack.common.build.config.js",
     "server": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "annaul_start" : "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w"
   },
   "repository": {
     "type": "git",
