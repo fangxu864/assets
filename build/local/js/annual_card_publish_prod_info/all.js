@@ -50,10 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(55);
-	var Api = __webpack_require__(12);
-	var Select = __webpack_require__(57);
-	var Fileupload = __webpack_require__(59);
+	__webpack_require__(59);
+	var Api = __webpack_require__(14);
+	var Select = __webpack_require__(61);
+	var Fileupload = __webpack_require__(63);
 	
 	
 	
@@ -229,7 +229,7 @@
 
 /***/ },
 
-/***/ 12:
+/***/ 14:
 /***/ function(module, exports) {
 
 	/**
@@ -277,7 +277,9 @@
 				//预定页面请求卡片信息接口
 				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/"
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/"
 			},
 			//获取某个产品的虚拟卡的库存
 			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
@@ -298,14 +300,14 @@
 
 /***/ },
 
-/***/ 55:
+/***/ 59:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 57:
+/***/ 61:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -314,7 +316,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(58);
+		this.data = __webpack_require__(62);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -404,7 +406,7 @@
 
 /***/ },
 
-/***/ 58:
+/***/ 62:
 /***/ function(module, exports) {
 
 	/**
@@ -417,7 +419,7 @@
 
 /***/ },
 
-/***/ 59:
+/***/ 63:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -425,8 +427,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(60);
-	var tpl = __webpack_require__(62);
+	__webpack_require__(64);
+	var tpl = __webpack_require__(66);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -529,14 +531,14 @@
 
 /***/ },
 
-/***/ 60:
+/***/ 64:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 62:
+/***/ 66:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";

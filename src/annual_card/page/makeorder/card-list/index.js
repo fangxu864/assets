@@ -29,6 +29,8 @@ var List = Backbone.View.extend({
 			success : function(res){
 				res = res || {};
 				if(res.code==200){
+					var d = res.data[0] || {};
+					that.sid = d["sid"] || "";
 					that.renderList(res.data);
 				}else{
 					that.renderList(res.msg || PFT.AJAX_ERROR_TEXT);
@@ -56,6 +58,9 @@ var List = Backbone.View.extend({
 			html = '<li class="status fail" style="height:100px; line-height:100px; text-align:center">'+data+'</li>';
 		}
 		this.$el.html(html);
+	},
+	getSid : function(){
+		return this.sid;
 	}
 });
 module.exports = List;

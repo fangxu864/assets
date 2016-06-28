@@ -1,0 +1,5 @@
+@mixin btn-disable($background:#ccc,$color:#999){
+    background:$background;
+    color:$color;
+    cursor:default;
+}

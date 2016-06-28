@@ -8,6 +8,8 @@ var SDialog = require("COMMON/modules/dialog-simple");
 var dialogTpl = require("./dialog.xtpl");
 var ReadCardObj = require("../../common/readPhysicsCard.js");
 var Api = require("../../common/api.js");
+var Ajax = require("COMMON/js/util.ajax.js");
+var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 var AnnualCardBuyDialog = function(){
 	this.init();
 };
@@ -35,12 +37,12 @@ AnnualCardBuyDialog.prototype = {
 					var physics = [];
 					var hasReadCards = that.hasReadCards;
 					for(var i in hasReadCards) physics.push(i);
-					window.location.href = that.orderPage + "?pid="+that.pid + "&physics="+physics.join(",");
+					window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics="+physics.join(",");
 				},
 				"click #buyBtn_virtual" : function(e){
 					var tarBtn = $(e.currentTarget);
 					if(tarBtn.hasClass("disable")) return false;
-					window.location.href = that.orderPage + "?pid="+that.pid + "&physics=";
+					window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics=";
 				}
 			},
 			onOpenBefore : function(){
@@ -61,7 +63,8 @@ AnnualCardBuyDialog.prototype = {
 
 			},
 			onCloseAfter : function(){
-
+				that.pid = "";
+				that.aid = "";
 			}
 		})
 		setTimeout(function(){
@@ -87,6 +90,7 @@ AnnualCardBuyDialog.prototype = {
 	open : function(opt){
 		opt = opt || {};
 		this.pid = opt.pid;
+		this.aid = opt.aid;
 		this.dialog.open();
 	},
 	/**
@@ -96,7 +100,7 @@ AnnualCardBuyDialog.prototype = {
 	getVirtualStorage : function(pid){
 		var that = this;
 		if(that.xhr && that.xhr.abort) that.xhr.abort();
-		that.xhr = PFT.Util.Ajax(Api.Url.getVirtualStorage,{
+		that.xhr = Ajax(Api.Url.getVirtualStorage,{
 			params : {
 				pid : pid
 			},
@@ -116,16 +120,10 @@ AnnualCardBuyDialog.prototype = {
 					that.virtualStorage.text(storage);
 					that.buyBtn_virtual.removeClass("disable");
 				}else{
-					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					alert(res.msg || AJAX_ERROR_TEXT);
 				}
 			}
 		})
 	}
 };
-
-$(function(){
-	var annual = new AnnualCardBuyDialog();
-	setTimeout(function(){
-		annual.open({pid:"13692"});
-	},500)
-})
+window["AnnualCardBuyDialog"] = AnnualCardBuyDialog;

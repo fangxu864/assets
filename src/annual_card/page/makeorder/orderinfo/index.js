@@ -10,9 +10,6 @@ var OrderIno = Backbone.View.extend({
 	initialize : function(){
 		this.listUl = $("#orderInfoList");
 		this.urlParams = PFT.Util.UrlParse();
-
-		return this.getInfo();
-
 		this.pid = this.urlParams["pid"];
 		this.aid = this.urlParams["aid"];
 		this.physics = this.urlParams["physics"]; //如果有physics参数 说明购买的是实体卡  反之，则购买的是虚拟卡
@@ -24,8 +21,12 @@ var OrderIno = Backbone.View.extend({
 	getInfo : function(pid,aid,type){
 		var that = this;
 		var listUl = this.listUl;
-
 		PFT.Util.Ajax(Api.Url.makeOrder.getOrderInfo,{
+			params : {
+				pid : pid,
+				aid : aid,
+				type : type
+			},
 			loading : function(){
 				listUl.html(that.renderInfo("loading"));
 			},
@@ -38,6 +39,16 @@ var OrderIno = Backbone.View.extend({
 				var product = data.product;
 				if(res.code==200){
 					$("#ltitle_text").text(product.ltitle);
+					var pay = data.pay;
+					if(pay.is_self==1){//自供应
+						$("#payLine_no").show().find("input[type=checkbox]").prop("checked","checked");
+						$("#payLine_credit").remove();
+						$("#payLine_remain").remove();
+						$("#payLine_online").remove();
+					}
+					$("#creditNum").text(pay.credit);
+					$("#remainNum").text(pay.remain);
+					$("#totalMoney").text(product.price);
 					listUl.html(that.renderInfo(data));
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);
