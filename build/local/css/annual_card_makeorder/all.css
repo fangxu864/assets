@@ -266,6 +266,9 @@ a:active{
   background: #f5f5f5;
   border-radius: 8px; }
 
+.cardnumBox .cardItem p {
+  line-height: 18px; }
+
 .fillTable {
   width: 100%;
   background: #bfe7f8; }
@@ -283,6 +286,9 @@ a:active{
 
 .fillTable tbody tr {
   height: 86px; }
+
+.fillTable tr td {
+  line-height: 18px; }
 
 .fillForm {
   padding: 22px 0 0 22px; }
@@ -323,7 +329,8 @@ a:active{
 .submitBox {
   width: 798px;
   height: 44px;
-  background: #e5e5e5; }
+  background: #e5e5e5;
+  margin-top: 30px; }
 
 .orderPrice {
   display: inline-block;
@@ -351,7 +358,8 @@ a:active{
   margin-right: 100px; }
 
 .introduceBox {
-  height: 186px; }
+  height: 166px;
+  padding-top: 20px; }
 
 .introduceBox p {
   text-indent: 24px;

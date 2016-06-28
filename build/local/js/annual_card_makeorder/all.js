@@ -936,7 +936,7 @@
 		onTextInpFocus : function(e){
 			var tarInp = $(e.currentTarget);
 			var tip = tarInp.parent().find(".tip");
-			tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "可选项" : "必填项");
+			tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "" : "必填项");
 		},
 		onTextInpBlur : function(e){
 			var tarInp = $(e.currentTarget);
