@@ -49,11 +49,11 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(27);
-	var UserInfo = __webpack_require__(29);
-	var CardList = __webpack_require__(30);
-	var OrderInfo = __webpack_require__(32);
-	var CheckExistDialog = __webpack_require__(34);
+	__webpack_require__(28);
+	var UserInfo = __webpack_require__(30);
+	var CardList = __webpack_require__(31);
+	var OrderInfo = __webpack_require__(33);
+	var CheckExistDialog = __webpack_require__(35);
 	var Api = __webpack_require__(14);
 	var Format = function (date,fmt) { //author: meizz
 		var o = {
@@ -69,7 +69,7 @@
 		for (var k in o)
 			if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 		return fmt;
-	}
+	};
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -182,6 +182,8 @@
 				pids : opt.pids
 			};
 			data["begintime"] = Format(new Date,"yyyy-MM-dd");
+			data["card_type"] = this.type;
+			data["virtual_no"] = this.CardList.getVirtualCards();
 			PFT.Util.Ajax(Api.Url.makeOrder.submit,{
 				type : "post",
 				params : data,
@@ -850,9 +852,8 @@
 				//录入卡片
 				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/",
-				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+	
 			},
 			//下单页面
 			makeOrder : {
@@ -865,7 +866,14 @@
 				submit : "/formSubmit_v01.php"
 			},
 			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+			//库存明细页
+			storage : {
+				//获取库存列表
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			}
 		},
 		defaults : {
 			type : "get",
@@ -894,14 +902,15 @@
 /* 24 */,
 /* 25 */,
 /* 26 */,
-/* 27 */
+/* 27 */,
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 28 */,
-/* 29 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports) {
 
 	/**
@@ -976,7 +985,7 @@
 	module.exports = UserInfoView;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -985,7 +994,7 @@
 	 * Description: ""
 	 */
 	var Api = __webpack_require__(14);
-	var Loading_Pc = __webpack_require__(31);
+	var Loading_Pc = __webpack_require__(32);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -997,6 +1006,7 @@
 			this.getList(pid,physics);
 			this.$el.html(this.loading_str);
 		},
+		cacheData : [],
 		getList : function(pid,physics){
 			var that = this;
 			physics = physics || "";
@@ -1010,6 +1020,7 @@
 				success : function(res){
 					res = res || {};
 					if(res.code==200){
+						that.cacheData = res.data;
 						var d = res.data[0] || {};
 						that.sid = d["sid"] || "";
 						that.renderList(res.data);
@@ -1042,12 +1053,22 @@
 		},
 		getSid : function(){
 			return this.sid;
+		},
+		getVirtualCards : function(){
+			var data = this.cacheData;
+			var result = [];
+			for(var i in data){
+				var d = data[i];
+				var virtual_no = d["virtual_no"];
+				result.push(virtual_no);
+			}
+			return result.join(",");
 		}
 	});
 	module.exports = List;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	/**
@@ -1089,7 +1110,7 @@
 	module.exports = Loading;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1098,8 +1119,8 @@
 	 * Description: ""
 	 */
 	var Api = __webpack_require__(14);
-	var Loading_Pc = __webpack_require__(31);
-	var tpl = __webpack_require__(33);
+	var Loading_Pc = __webpack_require__(32);
+	var tpl = __webpack_require__(34);
 	var OrderIno = Backbone.View.extend({
 		initialize : function(){
 			this.listUl = $("#orderInfoList");
@@ -1174,13 +1195,13 @@
 	module.exports = OrderIno;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var use_limit = item.use_limit;\r\n                    var limit_str = \"\";\r\n                    if(use_limit==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        use_limit = use_limit.split(\",\");\r\n                        var daily = use_limit[0];\r\n                        var month = use_limit[1];\r\n                        var total = use_limit[1];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage==\"-1\" ? \"-\" : data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1189,7 +1210,7 @@
 	 * Description: ""
 	 */
 	var SDialog = __webpack_require__(5);
-	var tpl = __webpack_require__(35);
+	var tpl = __webpack_require__(36);
 	var Dialog = function(){
 		var that = this;
 		this.submitData = {};
@@ -1242,7 +1263,7 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";

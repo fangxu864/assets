@@ -34,9 +34,8 @@ var Api = {
 			//录入卡片
 			createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 			//获取相关产品已生成好的卡片
-			getAnnualCards : "/r/product_AnnualCard/getAnnualCards/",
-			//删除生成好的卡片
-			deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+
 		},
 		//下单页面
 		makeOrder : {
@@ -49,7 +48,14 @@ var Api = {
 			submit : "/formSubmit_v01.php"
 		},
 		//获取某个产品的虚拟卡的库存
-		getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
+		getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+		//库存明细页
+		storage : {
+			//获取库存列表
+			getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+			//删除生成好的卡片
+			deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+		}
 	},
 	defaults : {
 		type : "get",

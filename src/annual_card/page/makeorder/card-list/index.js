@@ -16,6 +16,7 @@ var List = Backbone.View.extend({
 		this.getList(pid,physics);
 		this.$el.html(this.loading_str);
 	},
+	cacheData : [],
 	getList : function(pid,physics){
 		var that = this;
 		physics = physics || "";
@@ -29,6 +30,7 @@ var List = Backbone.View.extend({
 			success : function(res){
 				res = res || {};
 				if(res.code==200){
+					that.cacheData = res.data;
 					var d = res.data[0] || {};
 					that.sid = d["sid"] || "";
 					that.renderList(res.data);
@@ -61,6 +63,16 @@ var List = Backbone.View.extend({
 	},
 	getSid : function(){
 		return this.sid;
+	},
+	getVirtualCards : function(){
+		var data = this.cacheData;
+		var result = [];
+		for(var i in data){
+			var d = data[i];
+			var virtual_no = d["virtual_no"];
+			result.push(virtual_no);
+		}
+		return result.join(",");
 	}
 });
 module.exports = List;

@@ -23,7 +23,7 @@ var Format = function (date,fmt) { //author: meizz
 	for (var k in o)
 		if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 	return fmt;
-}
+};
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
@@ -136,6 +136,8 @@ var MainView = Backbone.View.extend({
 			pids : opt.pids
 		};
 		data["begintime"] = Format(new Date,"yyyy-MM-dd");
+		data["card_type"] = this.type;
+		data["virtual_no"] = this.CardList.getVirtualCards();
 		PFT.Util.Ajax(Api.Url.makeOrder.submit,{
 			type : "post",
 			params : data,
