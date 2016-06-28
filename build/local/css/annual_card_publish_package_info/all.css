@@ -195,6 +195,9 @@ input[type=text], select, textarea {
 textarea {
   line-height: 24px; }
 
+input:focus {
+  border-color: #0797d9; }
+
 .cardContainer {
   width: 798px;
   border: 1px solid #e5e5e5;
@@ -238,7 +241,7 @@ textarea {
   min-height: 1000px; }
 
 .line {
-  margin: 20px 32px;
+  margin: 10px 32px;
   overflow: hidden; }
 
 .line .lt {
@@ -499,6 +502,9 @@ h1.entry {
   cursor: default;
   border-color: #c9c9c9; }
 
+#calendar-pop-container {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2); }
+
 /**/
 .pckTitListUl .pckTitListUlItem .editNameInp {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -534,7 +540,7 @@ h1.entry {
   float: left;
   position: relative;
   width: 338px;
-  margin: 0 8px 8px 0;
+  margin: 0 10px 10px 0;
   cursor: pointer; }
 
 .pckTitListUl .pckTitListUlItem.edit {
