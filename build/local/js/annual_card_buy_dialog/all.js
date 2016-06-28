@@ -52,9 +52,11 @@
 	 */
 	__webpack_require__(1);
 	var SDialog = __webpack_require__(5);
-	var dialogTpl = __webpack_require__(10);
-	var ReadCardObj = __webpack_require__(11);
-	var Api = __webpack_require__(12);
+	var dialogTpl = __webpack_require__(12);
+	var ReadCardObj = __webpack_require__(13);
+	var Api = __webpack_require__(14);
+	var Ajax = __webpack_require__(67);
+	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 	var AnnualCardBuyDialog = function(){
 		this.init();
 	};
@@ -143,7 +145,7 @@
 		getVirtualStorage : function(pid){
 			var that = this;
 			if(that.xhr && that.xhr.abort) that.xhr.abort();
-			that.xhr = PFT.Util.Ajax(Api.Url.getVirtualStorage,{
+			that.xhr = Ajax(Api.Url.getVirtualStorage,{
 				params : {
 					pid : pid
 				},
@@ -163,19 +165,19 @@
 						that.virtualStorage.text(storage);
 						that.buyBtn_virtual.removeClass("disable");
 					}else{
-						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+						alert(res.msg || AJAX_ERROR_TEXT);
 					}
 				}
 			})
 		}
 	};
-	
-	$(function(){
-		var annual = new AnnualCardBuyDialog();
-		setTimeout(function(){
-			annual.open({pid:"13692"});
-		},500)
-	})
+	window["AnnualCardBuyDialog"] = AnnualCardBuyDialog;
+	//$(function(){
+	//	var annual = new AnnualCardBuyDialog();
+	//	setTimeout(function(){
+	//		annual.open({pid:"13692"});
+	//	},500)
+	//})
 
 
 /***/ },
@@ -198,8 +200,8 @@
 	__webpack_require__(6);
 	var WinWidthHeight = __webpack_require__(8);
 	var Drag = __webpack_require__(9);
-	var PubSub = __webpack_require__(65);
-	var Extend = __webpack_require__(66);
+	var PubSub = __webpack_require__(10);
+	var Extend = __webpack_require__(11);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -321,6 +323,7 @@
 		},
 		open : function(opt){
 			opt = opt || {};
+			var that = this;
 			var overlay = typeof opt.overlay=="undefined" ? this.opt.overlay : !!opt.overlay;
 			var speed = opt.speed || this.opt.speed;
 			var offsetY = opt.offsetY || this.opt.offsetY;
@@ -336,7 +339,9 @@
 			},speed,function(){
 				onAfter();
 			})
-			if(overlay) this.getMask().fadeIn();
+			if(overlay) this.getMask().fadeIn(function(){
+				that.getMask().css("zIndex",9998);
+			});
 		},
 		close : function(opt){
 			opt = opt || {};
@@ -352,7 +357,10 @@
 				onAfter();
 				container.hide().css({zIndex:-1});
 			})
-			$("#"+this.flag+"mask").fadeOut();
+			var mask = $("#"+this.flag+"mask");
+			mask.fadeOut(function(){
+				mask.css("zIndex",0)
+			});
 		}
 	},PubSub);
 	module.exports = Dialog;
@@ -725,11 +733,73 @@
 /***/ 10:
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/7 10:09
+	 * Description: 订阅发布模型
+	 */
+	var E = {
+		fn : {},
+		on : function(type,fn){
+			var fns = this.fn[type] || (this.fn[type]=[]);
+			fns.push(fn);
+		},
+		fire : function(type){
+			var fns = this.fn[type];
+			if(!fns) return false;
+			var args = arguments;
+			var len = args.length;
+			var argus,scope;
+			if(len==1){
+				argus = "";
+				scope = this;
+			}else if(len==2){
+				argus = args[len-1];
+				scope = this;
+			}else if(len==3){
+				argus = args[len-2];
+				scope = args[len-1];
+			}
+			for(var i in fns){
+				var fn = fns[i];
+				fn.call(scope,argus);
+			}
+		},
+		trigger : function(){
+			this.fire.apply(this,arguments);
+		}
+	};
+	module.exports = E;
 
 /***/ },
 
 /***/ 11:
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/22 18:43
+	 * Description: ""
+	 */
+	module.exports = function(destination,source){
+		for(var n in source){
+			if(source.hasOwnProperty(n)){
+				destination[n]=source[n];
+			}
+		}
+		return destination;
+	}
+
+/***/ },
+
+/***/ 12:
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+
+/***/ },
+
+/***/ 13:
 /***/ function(module, exports) {
 
 	/**
@@ -763,7 +833,7 @@
 
 /***/ },
 
-/***/ 12:
+/***/ 14:
 /***/ function(module, exports) {
 
 	/**
@@ -834,64 +904,52 @@
 
 /***/ },
 
-/***/ 65:
+/***/ 67:
 /***/ function(module, exports) {
 
 	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/7 10:09
-	 * Description: 订阅发布模型
+	 * Created by Administrator on 16-4-13.
 	 */
-	var E = {
-		fn : {},
-		on : function(type,fn){
-			var fns = this.fn[type] || (this.fn[type]=[]);
-			fns.push(fn);
-		},
-		fire : function(type){
-			var fns = this.fn[type];
-			if(!fns) return false;
-			var args = arguments;
-			var len = args.length;
-			var argus,scope;
-			if(len==1){
-				argus = "";
-				scope = this;
-			}else if(len==2){
-				argus = args[len-1];
-				scope = this;
-			}else if(len==3){
-				argus = args[len-2];
-				scope = args[len-1];
+	module.exports = function(url,opt){
+		if(!url) return alert("ajax请求缺少url");
+		var fn = new Function;
+		var opt = opt || {};
+		var params = opt.params || {};
+		var loading = opt.loading || fn;
+		var complete = opt.complete || fn;
+		var success = opt.success || fn;
+		var timeout = opt.timeout || function(){ alert("请求超时，请稍后重试")};
+		var serverError = opt.serverError || function(xhr,txt){
+			var txt = txt || "请求出错，请稍后重试";
+			if(txt=="parsererror") txt = "请求出错，请稍后重试";
+			alert(txt);
+		};
+		var type = opt.type || "get";
+		var dataType = opt.dataType || "json";
+		var ttimeout = opt.ttimeout || 120 * 1000;
+		var xhr = $.ajax({
+			url : url,
+			type : type,
+			dataType : dataType,
+			data : params,
+			timeout :ttimeout,
+			beforeSend : function(){
+				loading();
+			},
+			success : function(res){
+				complete(res);
+				success(res);
+			},
+			error : function(xhr,txt){
+				complete(xhr,txt);
+				if(txt == "timeout"){
+					timeout(xhr,txt);
+				}else{
+					serverError(xhr,txt);
+				}
 			}
-			for(var i in fns){
-				var fn = fns[i];
-				fn.call(scope,argus);
-			}
-		},
-		trigger : function(){
-			this.fire.apply(this,arguments);
-		}
-	};
-	module.exports = E;
-
-/***/ },
-
-/***/ 66:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/22 18:43
-	 * Description: ""
-	 */
-	module.exports = function(destination,source){
-		for(var n in source){
-			if(source.hasOwnProperty(n)){
-				destination[n]=source[n];
-			}
-		}
-		return destination;
+		})
+		return xhr;
 	}
 
 /***/ }

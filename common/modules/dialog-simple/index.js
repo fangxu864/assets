@@ -129,6 +129,7 @@ Dialog.prototype = Extend({
 	},
 	open : function(opt){
 		opt = opt || {};
+		var that = this;
 		var overlay = typeof opt.overlay=="undefined" ? this.opt.overlay : !!opt.overlay;
 		var speed = opt.speed || this.opt.speed;
 		var offsetY = opt.offsetY || this.opt.offsetY;
@@ -144,7 +145,9 @@ Dialog.prototype = Extend({
 		},speed,function(){
 			onAfter();
 		})
-		if(overlay) this.getMask().fadeIn();
+		if(overlay) this.getMask().fadeIn(function(){
+			that.getMask().css("zIndex",9998);
+		});
 	},
 	close : function(opt){
 		opt = opt || {};
@@ -160,7 +163,10 @@ Dialog.prototype = Extend({
 			onAfter();
 			container.hide().css({zIndex:-1});
 		})
-		$("#"+this.flag+"mask").fadeOut();
+		var mask = $("#"+this.flag+"mask");
+		mask.fadeOut(function(){
+			mask.css("zIndex",0)
+		});
 	}
 },PubSub);
 module.exports = Dialog;

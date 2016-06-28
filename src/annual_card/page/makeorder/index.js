@@ -113,4 +113,8 @@ var MainView = Backbone.View.extend({
 
 $(function(){
 	new MainView();
+
+	var d = new AnnualCardBuyDialog();
+	d.open({pid:1,aid:2})
+
 })

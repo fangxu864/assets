@@ -201,6 +201,7 @@ var InfoManager = Backbone.View.extend({
 		if(!tid) return false;
 		$("#slideItem_"+tid).remove();
 		this.refreshSlide();
+		if(tid<0) return false;
 		PFT.Util.Ajax(Api.Url.PackageInfo.deleteTicket,{
 			type : "post",
 			params : {

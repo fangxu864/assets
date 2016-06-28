@@ -8,6 +8,8 @@ var SDialog = require("COMMON/modules/dialog-simple");
 var dialogTpl = require("./dialog.xtpl");
 var ReadCardObj = require("../../common/readPhysicsCard.js");
 var Api = require("../../common/api.js");
+var Ajax = require("COMMON/js/util.ajax.js");
+var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 var AnnualCardBuyDialog = function(){
 	this.init();
 };
@@ -96,7 +98,7 @@ AnnualCardBuyDialog.prototype = {
 	getVirtualStorage : function(pid){
 		var that = this;
 		if(that.xhr && that.xhr.abort) that.xhr.abort();
-		that.xhr = PFT.Util.Ajax(Api.Url.getVirtualStorage,{
+		that.xhr = Ajax(Api.Url.getVirtualStorage,{
 			params : {
 				pid : pid
 			},
@@ -116,16 +118,16 @@ AnnualCardBuyDialog.prototype = {
 					that.virtualStorage.text(storage);
 					that.buyBtn_virtual.removeClass("disable");
 				}else{
-					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					alert(res.msg || AJAX_ERROR_TEXT);
 				}
 			}
 		})
 	}
 };
-
-$(function(){
-	var annual = new AnnualCardBuyDialog();
-	setTimeout(function(){
-		annual.open({pid:"13692"});
-	},500)
-})
+window["AnnualCardBuyDialog"] = AnnualCardBuyDialog;
+//$(function(){
+//	var annual = new AnnualCardBuyDialog();
+//	setTimeout(function(){
+//		annual.open({pid:"13692"});
+//	},500)
+//})

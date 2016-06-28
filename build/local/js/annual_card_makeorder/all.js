@@ -40,9 +40,8 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -50,12 +49,12 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(25);
-	var UserInfo = __webpack_require__(27);
-	var CardList = __webpack_require__(28);
-	var OrderInfo = __webpack_require__(30);
-	var CheckExistDialog = __webpack_require__(63);
-	var Api = __webpack_require__(12);
+	__webpack_require__(27);
+	var UserInfo = __webpack_require__(29);
+	var CardList = __webpack_require__(30);
+	var OrderInfo = __webpack_require__(32);
+	var CheckExistDialog = __webpack_require__(34);
+	var Api = __webpack_require__(14);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -160,12 +159,19 @@
 	
 	$(function(){
 		new MainView();
+	
+		var d = new AnnualCardBuyDialog();
+		d.open({pid:1,aid:2})
+	
 	})
 
 
 /***/ },
-
-/***/ 5:
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -176,8 +182,8 @@
 	__webpack_require__(6);
 	var WinWidthHeight = __webpack_require__(8);
 	var Drag = __webpack_require__(9);
-	var PubSub = __webpack_require__(65);
-	var Extend = __webpack_require__(66);
+	var PubSub = __webpack_require__(10);
+	var Extend = __webpack_require__(11);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -299,6 +305,7 @@
 		},
 		open : function(opt){
 			opt = opt || {};
+			var that = this;
 			var overlay = typeof opt.overlay=="undefined" ? this.opt.overlay : !!opt.overlay;
 			var speed = opt.speed || this.opt.speed;
 			var offsetY = opt.offsetY || this.opt.offsetY;
@@ -314,7 +321,9 @@
 			},speed,function(){
 				onAfter();
 			})
-			if(overlay) this.getMask().fadeIn();
+			if(overlay) this.getMask().fadeIn(function(){
+				that.getMask().css("zIndex",9998);
+			});
 		},
 		close : function(opt){
 			opt = opt || {};
@@ -330,21 +339,23 @@
 				onAfter();
 				container.hide().css({zIndex:-1});
 			})
-			$("#"+this.flag+"mask").fadeOut();
+			var mask = $("#"+this.flag+"mask");
+			mask.fadeOut(function(){
+				mask.css("zIndex",0)
+			});
 		}
 	},PubSub);
 	module.exports = Dialog;
 
 /***/ },
-
-/***/ 6:
+/* 6 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-
-/***/ 8:
+/* 7 */,
+/* 8 */
 /***/ function(module, exports) {
 
 	/**
@@ -371,8 +382,7 @@
 	}
 
 /***/ },
-
-/***/ 9:
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -699,8 +709,69 @@
 	module.exports = Drag;
 
 /***/ },
+/* 10 */
+/***/ function(module, exports) {
 
-/***/ 12:
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/7 10:09
+	 * Description: 订阅发布模型
+	 */
+	var E = {
+		fn : {},
+		on : function(type,fn){
+			var fns = this.fn[type] || (this.fn[type]=[]);
+			fns.push(fn);
+		},
+		fire : function(type){
+			var fns = this.fn[type];
+			if(!fns) return false;
+			var args = arguments;
+			var len = args.length;
+			var argus,scope;
+			if(len==1){
+				argus = "";
+				scope = this;
+			}else if(len==2){
+				argus = args[len-1];
+				scope = this;
+			}else if(len==3){
+				argus = args[len-2];
+				scope = args[len-1];
+			}
+			for(var i in fns){
+				var fn = fns[i];
+				fn.call(scope,argus);
+			}
+		},
+		trigger : function(){
+			this.fire.apply(this,arguments);
+		}
+	};
+	module.exports = E;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/22 18:43
+	 * Description: ""
+	 */
+	module.exports = function(destination,source){
+		for(var n in source){
+			if(source.hasOwnProperty(n)){
+				destination[n]=source[n];
+			}
+		}
+		return destination;
+	}
+
+/***/ },
+/* 12 */,
+/* 13 */,
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -770,15 +841,26 @@
 
 
 /***/ },
-
-/***/ 25:
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-
-/***/ 27:
+/* 28 */,
+/* 29 */
 /***/ function(module, exports) {
 
 	/**
@@ -853,8 +935,7 @@
 	module.exports = UserInfoView;
 
 /***/ },
-
-/***/ 28:
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -862,8 +943,8 @@
 	 * Date: 2016/6/17 15:17
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(12);
-	var Loading_Pc = __webpack_require__(29);
+	var Api = __webpack_require__(14);
+	var Loading_Pc = __webpack_require__(31);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -924,8 +1005,7 @@
 	module.exports = List;
 
 /***/ },
-
-/***/ 29:
+/* 31 */
 /***/ function(module, exports) {
 
 	/**
@@ -967,8 +1047,7 @@
 	module.exports = Loading;
 
 /***/ },
-
-/***/ 30:
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -976,9 +1055,9 @@
 	 * Date: 2016/6/17 16:27
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(12);
-	var Loading_Pc = __webpack_require__(29);
-	var tpl = __webpack_require__(31);
+	var Api = __webpack_require__(14);
+	var Loading_Pc = __webpack_require__(31);
+	var tpl = __webpack_require__(33);
 	var OrderIno = Backbone.View.extend({
 		initialize : function(){
 			this.listUl = $("#orderInfoList");
@@ -1046,15 +1125,13 @@
 	module.exports = OrderIno;
 
 /***/ },
-
-/***/ 31:
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var limit_count = item.limit_count;\r\n                    var limit_str = \"\";\r\n                    if(limit_count==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        limit_count = limit_count.split(\",\");\r\n                        var daily = limit_count[0];\r\n                        var month = limit_count[1];\r\n                        var total = limit_count[1];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
 
 /***/ },
-
-/***/ 63:
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1063,7 +1140,7 @@
 	 * Description: ""
 	 */
 	var SDialog = __webpack_require__(5);
-	var tpl = __webpack_require__(64);
+	var tpl = __webpack_require__(35);
 	var Dialog = function(){
 		var that = this;
 		this.submitData = {};
@@ -1116,75 +1193,11 @@
 	module.exports = Dialog;
 
 /***/ },
-
-/***/ 64:
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
 
-/***/ },
-
-/***/ 65:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/7 10:09
-	 * Description: 订阅发布模型
-	 */
-	var E = {
-		fn : {},
-		on : function(type,fn){
-			var fns = this.fn[type] || (this.fn[type]=[]);
-			fns.push(fn);
-		},
-		fire : function(type){
-			var fns = this.fn[type];
-			if(!fns) return false;
-			var args = arguments;
-			var len = args.length;
-			var argus,scope;
-			if(len==1){
-				argus = "";
-				scope = this;
-			}else if(len==2){
-				argus = args[len-1];
-				scope = this;
-			}else if(len==3){
-				argus = args[len-2];
-				scope = args[len-1];
-			}
-			for(var i in fns){
-				var fn = fns[i];
-				fn.call(scope,argus);
-			}
-		},
-		trigger : function(){
-			this.fire.apply(this,arguments);
-		}
-	};
-	module.exports = E;
-
-/***/ },
-
-/***/ 66:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/22 18:43
-	 * Description: ""
-	 */
-	module.exports = function(destination,source){
-		for(var n in source){
-			if(source.hasOwnProperty(n)){
-				destination[n]=source[n];
-			}
-		}
-		return destination;
-	}
-
 /***/ }
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=all.js.map
