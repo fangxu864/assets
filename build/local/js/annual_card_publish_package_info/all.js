@@ -49,11 +49,11 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(36);
-	var Model = __webpack_require__(38);
-	var Header = __webpack_require__(39);
-	var PckInfoManager = __webpack_require__(44);
-	var Loading = __webpack_require__(31);
+	__webpack_require__(37);
+	var Model = __webpack_require__(39);
+	var Header = __webpack_require__(40);
+	var PckInfoManager = __webpack_require__(45);
+	var Loading = __webpack_require__(32);
 	var MainView = Backbone.View.extend({
 		el : $("body"),
 		initialize : function(){
@@ -233,7 +233,8 @@
 /* 28 */,
 /* 29 */,
 /* 30 */,
-/* 31 */
+/* 31 */,
+/* 32 */
 /***/ function(module, exports) {
 
 	/**
@@ -275,18 +276,18 @@
 	module.exports = Loading;
 
 /***/ },
-/* 32 */,
 /* 33 */,
 /* 34 */,
 /* 35 */,
-/* 36 */
+/* 36 */,
+/* 37 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 37 */,
-/* 38 */
+/* 38 */,
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -411,7 +412,7 @@
 	module.exports = ManagerStore;
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -419,9 +420,9 @@
 	 * Date: 2016/6/3 16:56
 	 * Description: ""
 	 */
-	__webpack_require__(40);
-	var indexTpl = __webpack_require__(42);
-	var itemTpl = __webpack_require__(43);
+	__webpack_require__(41);
+	var indexTpl = __webpack_require__(43);
+	var itemTpl = __webpack_require__(44);
 	var Header = Backbone.View.extend({
 		el : $("#headContainer"),
 		template : _.template(itemTpl),
@@ -505,26 +506,26 @@
 	module.exports = Header;
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 41 */,
-/* 42 */
+/* 42 */,
+/* 43 */
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 17:11 -->\r\n<!-- Description: huangzhiyang -->\r\n<p id=\"packageName\" class=\"packageName\"></p>\r\n<ul id=\"pckTitListUl\" class=\"pckTitListUl\">\r\n    <li id=\"addPckBtn\" class=\"addPckBtn\">＋</li>\r\n</ul>\r\n";
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/3 18:41 -->\r\n<!-- Description: huangzhiyang -->\r\n<li data-id=\"<%=tid%>\" id=\"pckTitListUlItem_<%=tid%>\" class=\"pckTitListUlItem edit\">\r\n    <span class=\"name passCard\"><%=ttitle%></span>\r\n    <input type=\"text\" class=\"editNameInp\" placeholder=\"请填写套餐名称\" value=\"<%=ttitle%>\"/><i class=\"removeBtn iconfont\">&#xe627;</i>\r\n</li>";
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -533,12 +534,12 @@
 	 * Description: ""
 	 */
 	var Api = __webpack_require__(14);
-	var infoItem_tpl = __webpack_require__(45);
-	var rightsItem_tpl = __webpack_require__(46);
-	var Calendar = __webpack_require__(47);
-	var ProdSelectPop = __webpack_require__(52);
-	var Submit = __webpack_require__(58);
-	var Loading = __webpack_require__(31);
+	var infoItem_tpl = __webpack_require__(46);
+	var rightsItem_tpl = __webpack_require__(47);
+	var Calendar = __webpack_require__(48);
+	var ProdSelectPop = __webpack_require__(53);
+	var Submit = __webpack_require__(59);
+	var Loading = __webpack_require__(32);
 	var InfoManager = Backbone.View.extend({
 		el : $("#slideUl"),
 		events : {
@@ -801,19 +802,19 @@
 
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/6 14:21 -->\r\n<!-- Description: huangzhiyang -->\r\n<%\r\n    var pckId=data.tid;\r\n    var price_section = data.price_section || [{}];\r\n    var sdate = price_section.sdate || \"\";\r\n    var edate = price_section.edate || \"\";\r\n    var delaytype = typeof data.delaytype!=\"undefined\" ? data.delaytype : 1;\r\n    var search_limit = data.search_limit || \"1\";\r\n    var search_limit_type_1 = search_limit.indexOf(\"1\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_2 = search_limit.indexOf(\"2\")>-1 ? \"checked\" : \"\";\r\n    var search_limit_type_4 = search_limit.indexOf(\"4\")>-1 ? \"checked\" : \"\";\r\n    var nts_sup = typeof data.nts_sup!=\"undefined\" ? data.nts_sup : \"1\";\r\n    var nts_tour = typeof data.nts_tour!=\"undefined\" ? data.nts_tour : \"1\";\r\n%>\r\n<li id=\"slideItem_<%=pckId%>\" class=\"slideItem\">\r\n    <% _.each(price_section,function(priceObj,index){ %>\r\n    <div data-pricesectionid=\"<%=priceObj.id%>\" class=\"line priceSectionLine\">\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">预定时间段</p>\r\n            <input readonly type=\"text\" value=\"<%=priceObj.sdate%>\" name=\"sdate\" class=\"laydate-icon datePickerInp begin\"/> -\r\n            <input readonly type=\"text\" value=\"<%=priceObj.edate%>\" name=\"edate\" class=\"laydate-icon datePickerInp end\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">供货价</p><input value=\"<%=priceObj.js ? priceObj.js/100 : ''%>\" type=\"text\" name=\"js\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">零售价</p><input value=\"<%=priceObj.ls ? priceObj.ls/100 : ''%>\" type=\"text\" name=\"ls\" class=\"midInp\"/>\r\n        </div>\r\n        <div class=\"time\">\r\n            <p class=\"font-gray\">门市价</p><input value=\"<%=data.tprice ? data.tprice/100 : ''%>\" type=\"text\" name=\"tprice\" class=\"midInp\"/>\r\n        </div>\r\n    </div>\r\n    <% }) %>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>产品说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <input type=\"text\" class=\"bigInp\" name=\"notes\" value=\"<%=data.notes%>\" placeholder=\"请填写简要说明\"/>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用有效期：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" name=\"delaytype_<%=pckId%>\" value=\"1\" id=\"delaytype_1_<%=pckId%>\" <%=delaytype==1 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_1_<%=pckId%>\">\r\n                        卡片售出后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==1 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_0_<%=pckId%>\" value=\"0\" name=\"delaytype_<%=pckId%>\" <%=delaytype==0 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_0_<%=pckId%>\">\r\n                        卡片激活后 <input type=\"text\" name=\"delaydays\" value=\"<%=data.delaytype==0 ? data.delaydays : \"\"%>\" class=\"smaInp delaydayInp\" style=\"text-indent:0; text-align:center\"/> 天有效\r\n                    </label>\r\n                </div>\r\n                <div class=\"cardRadio\">\r\n                    <input type=\"radio\" id=\"delaytype_2_<%=pckId%>\" value=\"2\" name=\"delaytype_<%=pckId%>\" <%=delaytype==2 ? \"checked\" : \"\"%>/>\r\n                    <label for=\"delaytype_2_<%=pckId%>\">\r\n                        <input type=\"text\" readonly name=\"order_start\" value=\"<%=data.order_start%>\" class=\"laydate-icon datePickerInp begin\"/> -\r\n                        <input type=\"text\" readonly name=\"order_end\" value=\"<%=data.order_end%>\" class=\"laydate-icon datePickerInp end\"/> 有效\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>激活限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardImg\">\r\n                <div class=\"cardRadio\">\r\n                    会员卡售出 <input type=\"text\" name=\"auto_active_days\" value=\"<%=data.auto_active_days || 10%>\" class=\"smaInp\" style=\"text-align:center; text-indent:0\"/> 天后自动激活（仍需提供手机号后使用卡片）</div>\r\n                <div>\r\n                    <input type=\"checkbox\" name=\"cert_limit\" id=\"cert_limit_<%=pckId%>\" <%=data.cert_limit==0 ? \"\" : \"checked\"%>/>\r\n                    <label for=\"cert_limit_<%=pckId%>\">需填写身份证号</label>\r\n                </div>\r\n                <div style=\"display:none\">\r\n                    <input type=\"radio\" id=\"IDnum1\" name=\"active\"/><label for=\"IDnum1\"> 所有可用</label>\r\n                    <input type=\"radio\" id=\"IDnum2\" name=\"active\"/>\r\n                    <label for=\"IDnum2\">\r\n                        身份证号前5位，仅限 <input type=\"text\"class=\"smaInp\"/>\r\n                    </label>\r\n                    <a href=\"javascript:;\" class=\"btn-add\">＋</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>购票限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <div class=\"cardLim float-left line-30\">\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_1_<%=pckId%>\" value=\"1\" <%=search_limit_type_1%> /><label style=\"margin-right:10px\" for=\"search_limit_1_<%=pckId%>\"> 卡号（实体卡/虚拟卡）</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_2_<%=pckId%>\" value=\"2\" <%=search_limit_type_2%> /><label style=\"margin-right:10px\" for=\"search_limit_2_<%=pckId%>\"> 身份证</label>\r\n                <input type=\"checkbox\" name=\"search_limit\" id=\"search_limit_4_<%=pckId%>\" value=\"4\" <%=search_limit_type_4%> /><label for=\"search_limit_4_<%=pckId%>\"> 手机号</label>\r\n            </div>\r\n            <span style=\"position:relative; top:10px;\" class=\"font-gray\">持卡会员购票</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>退单限制：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <p style=\"line-height:35px;\">不可退</p>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>使用说明：</label>\r\n        </div>\r\n        <div class=\"rt\">\r\n            <textarea name=\"getaddr\" placeholder=\"请填写使用说明\" id=\"getaddrTextArea_<%=pckId%>\" rows=\"3\" style=\"width:420px;\"><%=data.getaddr%></textarea>\r\n        </div>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            <label>信息通知配置：</label>\r\n        </div>\r\n        <div class=\"rt phone\">\r\n            <div>供应商手机号 <input type=\"text\" placeholder=\"请填写供应商手机号\" name=\"fax\" value=\"<%=data.fax%>\" class=\"laydate-icon\"></div>\r\n            <div><input type=\"checkbox\" name=\"nts_sup\" id=\"nts_sup_checkbox_<%=pckId%>\" <%=nts_sup==1?\"checked\":\"\"%> /><label for=\"nts_sup_checkbox_<%=pckId%>\"> 短信通知供应商</label></div>\r\n            <div><input type=\"checkbox\" name=\"nts_tour\" id=\"nts_tour_checkbox_<%=pckId%>\"  <%=nts_tour==1?\"checked\":\"\"%> /><label for=\"nts_tour_checkbox_<%=pckId%>\"> 短信通知联系人</label></div>\r\n            <div><input type=\"checkbox\" name=\"confirm_wx\" id=\"confirm_wx_checkbox_<%=pckId%>\" <%=data.confirm_wx==1?\"checked\":\"\"%> /><label for=\"confirm_wx_checkbox_<%=pckId%>\"> 会员消费信息通知到微信</label></div>\r\n        </div>\r\n    </div>\r\n    <div id=\"pckRightContainer_<%=pckId%>\" class=\"pckRightContainer\">\r\n        <div class=\"power border-y\">\r\n            <p class=\"tao\">套餐特权<span class=\"font-gray tip\">（设置免费使用的权限，现场购票不受该条件影响）</span>\r\n                <a data-pckid=\"<%=pckId%>\" id=\"addPckRightBtn_<%=pckId%>\" class=\"btn-add addPckRightBtn\" href=\"javascript:void(0);\" >＋</a>\r\n            </p>\r\n        </div>\r\n        <ul id=\"pckRightListUl_<%=pckId%>\" class=\"pckRightListUl\"><%=data.priv%></ul>\r\n    </div>\r\n    <div class=\"line\">\r\n        <div class=\"lt\">\r\n            是否发布：\r\n        </div>\r\n        <div class=\"rt\">\r\n            <% if(data.apply_limit!=1 && data.apply_limit!=2) data.apply_limit=1;%>\r\n            <label for=\"apply_limit_1_<%=pckId%>\" style=\"margin-right:20px\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"1\" id=\"apply_limit_1_<%=pckId%>\" <%=data.apply_limit==1?\"checked\":\"\"%> /> 发布</label>\r\n            <label for=\"apply_limit_2_<%=pckId%>\" class=\"line-35\"><input type=\"radio\" class=\"apply_limit_input\" name=\"apply_limit_<%=pckId%>\" value=\"2\" id=\"apply_limit_2_<%=pckId%>\" <%=data.apply_limit==2?\"checked\":\"\"%> /> 放入仓库</label>\r\n        </div>\r\n    </div>\r\n    <div style=\"margin-top:50px; margin-bottom:70px\" class=\"line\">\r\n        <div class=\"lt\"></div>\r\n        <div class=\"rt\"><a id=\"submitBtn_<%=pckId%>\" data-tid=\"<%=pckId%>\" href=\"javascript:void(0);\" class=\"btn btn-3x btn-blue submitBtn\">保存</a></div>\r\n    </div>\r\n</li>\r\n";
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports) {
 
 	module.exports = "<% _.each(privilege,function(item,index,privilege){ %>\r\n    <%\r\n        var ticketid = item.tid;\r\n        var aid = item.aid;\r\n        var id = tid+\"_\"+ticketid+\"_\"+aid;\r\n        var attrFlag = 'data-tid=\"'+tid+'\" data-ticketid=\"'+ticketid+'\" data-aid=\"'+aid+'\"';\r\n        var prodName = item.ltitle;\r\n        var ticName = item.title;\r\n        var uselimit = typeof item.use_limit!=\"undefined\" ? item.use_limit : \"-1\";\r\n        var uselimitArr = [\"\",\"\",\"\"];\r\n        if(uselimit!=-1 && (typeof uselimit!==\"undefined\")){\r\n            uselimitArr = uselimit.split(\",\");\r\n            if(uselimitArr[0]==-1) uselimitArr[0] = \"\";\r\n            if(uselimitArr[1]==-1) uselimitArr[1] = \"\";\r\n            if(uselimitArr[2]==-1) uselimitArr[2] = \"\";\r\n        }\r\n    %>\r\n<li <%=attrFlag%> id=\"privItem_<%=id%>\" class=\"product border-bottom pckRightItem\">\r\n    <div class=\"float-left\">\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>产品：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <span class=\"name\"><%=prodName%>-<%=ticName%></span>\r\n                <a href=\"javascript:void(0);\" <%=attrFlag%> class=\"btn btn-s btn-border btn-sel selectProd_picker\">选择</a>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lt\">\r\n                <label>使用规则：</label>\r\n            </div>\r\n            <div class=\"rt\">\r\n                <div class=\"nolimit\">\r\n                    <input type=\"radio\" value=\"-1\" id=\"uselimit_no_<%=id%>\" name=\"uselimit_<%=id%>\" <%=uselimit==-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimit_no_<%=id%>\">不限</label>\r\n                </div>\r\n                <div class=\"limit\">\r\n                    <input type=\"radio\" value=\"1\" id=\"uselimited_<%=id%>\" name=\"uselimit_<%=id%>\" <%=uselimit!=-1?\"checked\":\"\"%> />\r\n                    <label for=\"uselimited_<%=id%>\">\r\n                        共 <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[2]%>\" class=\"smaInp limitCountInp limitCountInp_total total\"> 次\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[0]%>\" class=\"smaInp limitCountInp limitCountInp_daily daily\"> 次/日\r\n                        <input type=\"text\" name=\"limit_count\" value=\"<%=uselimitArr[1]%>\" class=\"smaInp limitCountInp limitCountInp_month month\"> 次/月\r\n                    </label>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"float-right border-left\"><a href=\"javascript:void(0);\" class=\"btn-del deleteProdBtn\">×</a></div>\r\n</li>\r\n<% }) %>";
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -821,8 +822,8 @@
 	 * Date: 2016/6/6 18:34
 	 * Description: ""
 	 */
-	__webpack_require__(48);
-	var CalendarCore = __webpack_require__(50);
+	__webpack_require__(49);
+	var CalendarCore = __webpack_require__(51);
 	var fn = new Function();
 	var Calendar = function(opt){
 		this.selected = {};
@@ -841,7 +842,7 @@
 			//是否支持多选日期 默认不支持
 			this.mult = typeof opt.mult=="boolean" ? opt.mult : false;
 			//模板
-			this.tpl = opt.tpl || __webpack_require__(51);
+			this.tpl = opt.tpl || __webpack_require__(52);
 	
 			this.template = _.template(this.tpl);
 	
@@ -1018,14 +1019,14 @@
 	module.exports = Calendar;
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 49 */,
-/* 50 */
+/* 50 */,
+/* 51 */
 /***/ function(module, exports) {
 
 	/**
@@ -1259,13 +1260,13 @@
 	module.exports = CalendarCore;
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports) {
 
 	module.exports = "<%\r\n    var yearmonth=data.yearmonth,dates=data.dates;\r\n    var containerID = data.containerID;\r\n    var ym = yearmonth.split(\"-\");\r\n    var year = ym[0];\r\n    var month = ym[1];\r\n%>\r\n<div id=\"<%=containerID%>-topCalendar\" class=\"calendarHead\">\r\n    <div class=\"con\"><span id=\"<%=containerID%>-top-calendar-date\" class=\"top-calendar-date\"></span></div>\r\n    <a id=\"<%=containerID%>-monthNavBtnNext\" class=\"monthNavBtn next\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe60d;</i></a>\r\n    <a id=\"<%=containerID%>-monthNavBtnPrev\" class=\"monthNavBtn prev\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe60c;</i></a>\r\n</div>\r\n<div id=\"<%=containerID%>-calendar-panel-<%=yearmonth%>\" class=\"calendar-panel\">\r\n    <table id=\"calendar-table-<%=yearmonth%>\"  class=\"calendar-table\">\r\n        <thead id=\"<%=containerID%>-calendar-thead-<%=yearmonth%>\" class=\"calendar-thead\">\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"0\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-0\">日</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"1\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-1\">一</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"2\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-2\">二</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"3\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-3\">三</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"4\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-4\">四</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"5\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-5\">五</label>\r\n        </th>\r\n        <th data-yearmonth=\"<%=yearmonth%>\" data-week=\"6\">\r\n            <label for=\"calendar-weeken-checkbox-<%=yearmonth%>-6\">六</label>\r\n        </th>\r\n        </thead>\r\n        <tbody id=\"<%=containerID%>-calendar-tbody-<%=yearmonth%>\" class=\"calendar-tbody\">\r\n            <%_.each(dates,function(tr){%>\r\n                <tr>\r\n                    <%_.each(tr,function(td){%>\r\n                        <%\r\n                            var date = td.date;\r\n                            var day = td.day;\r\n                            var weeken = td.weeken;\r\n                            var yearmonth = td.yearmonth;\r\n                        %>\r\n                        <%if(day){%>\r\n                            <td class=\"calendar-td day\" data-day=\"<%=day%>\" data-date=\"<%=date%>\" data-yearmonth=\"<%=yearmonth%>\" data-week=\"<%=weeken%>\" id=\"<%=containerID%>-calendar-td-<%=date%>\">\r\n                                <div class=\"tdCon\">\r\n                                    <span class=\"dayNum\"><%=day%></span>\r\n                                </div>\r\n                            </td>\r\n                        <%}else{%>\r\n                            <td class=\"calendar-td empty\"></td>\r\n                        <%}%>\r\n                    <% }) %>\r\n                </tr>\r\n             <% }) %>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n";
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1273,10 +1274,10 @@
 	 * Date: 2016/6/7 15:40
 	 * Description: ""
 	 */
-	__webpack_require__(53);
-	var index_tpl = __webpack_require__(55);
-	var ticket_item_tpl = __webpack_require__(56);
-	var prod_item_tpl = __webpack_require__(57);
+	__webpack_require__(54);
+	var index_tpl = __webpack_require__(56);
+	var ticket_item_tpl = __webpack_require__(57);
+	var prod_item_tpl = __webpack_require__(58);
 	var getWinWidthHeight = __webpack_require__(8);
 	var ProdSelect = Backbone.View.extend({
 		events : {
@@ -1500,32 +1501,32 @@
 
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 54 */,
-/* 55 */
+/* 55 */,
+/* 56 */
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/7 16:25 -->\r\n<!-- Description: huangzhiyang -->\r\n<div id=\"prodSelectPopBox\" class=\"proSel prodSelectPopBox\">\r\n    <div class=\"pBox left\">\r\n        <div class=\"searchBox\">\r\n            <input type=\"text\" name=\"\" class=\"prodSelectSearchInp\" id=\"prodSelectSearchInp\"/>\r\n            <i class=\"iconfont search\">&#xe633;</i>\r\n            <span href=\"javascript:void(0)\" class=\"clearSearchBtn\"><i class=\"iconfont\">&#xe674;</i></span>\r\n        </div>\r\n        <ul id=\"prodListUl\" class=\"prodListUl\"></ul>\r\n    </div>\r\n    <div class=\"pBox rig\">\r\n        <ul id=\"ticketListUl\" class=\"ticketListUl\"></ul>\r\n    </div>\r\n</div>\r\n<div class=\"btn-group\">\r\n    <a href=\"javascript:void(0);\" class=\"pop-btn yes\">确定</a>\r\n    <a href=\"javascript:void(0);\" class=\"pop-btn no\">取消</a>\r\n</div>\r\n";
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports) {
 
 	module.exports = "<% _.each(tickets,function(item,index){ %>\r\n<% var aid = item.apply_did; %>\r\n<li data-id=\"<%=item.id%>\" class=\"ticketItem\">\r\n    <% var checked = index==0 ? \"checked\" : \"\"; %>\r\n    <input data-ticid=\"<%=item.id%>\" class=\"prodSelect_ticketRadio\" type=\"radio\" name=\"prodSelect_ticketRadio\" id=\"ticketRadio_<%=item.id%>\"  <%=checked%> />\r\n    <label  for=\"ticketRadio_<%=item.id%>\" class=\"t\"><%=item.title%></label>\r\n</li>\r\n<% }) %>\r\n";
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports) {
 
 	module.exports = "<% _.each(products,function(item){ %>\r\n<li data-prodid=\"<%=item.id%>\" data-applyid=\"<%=item.apply_did%>\" class=\"prodItem\">\r\n    <span class=\"t\"><%=item.title%></span>\r\n</li>\r\n<% }) %>";
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports) {
 
 	/**

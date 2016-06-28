@@ -23,59 +23,80 @@
   float: left;
   margin-left: 30px; }
 
-.entity {
+.annualDialogContainer .entity {
   padding: 34px 0 0 0;
   font-size: 16px;
   font-weight: bold;
   color: #707070; }
 
-.readCardNumber {
+.annualDialogContainer .readCardNumber {
+  overflow: hidden;
   width: 480px;
-  height: 52px;
   font-size: 14px; }
 
-.readCardNumber .CardNumberInp {
-  width: 336px;
+.annualDialogContainer .readCardNumber .CardNumberInp {
+  display: block;
+  float: left;
+  width: 310px;
   line-height: 22px;
   height: 22px;
-  padding: 14px 0 14px 0px; }
+  padding: 14px 0 14px 7px;
+  border: 1px solid #e5e5e5;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
-.readCardNumber .CardNumberBtn {
+.annualDialogContainer .readCardNumber .CardNumberBtn {
+  display: block;
+  float: left;
   width: 140px;
   height: 50px;
-  line-height: 50px; }
+  line-height: 50px;
+  border: 1px solid #0797d9;
+  color: #0797d9;
+  text-align: center; }
 
-.carded {
+.annualDialogContainer .carded {
   height: 64px;
   line-height: 64px; }
 
-.entityBox {
+.annualDialogContainer .entityBox {
   overflow: hidden; }
 
-.entityBox .enCard {
+.annualDialogContainer .entityBox .enCard {
   float: left;
   display: inline-block;
   width: 390px;
-  height: 29px;
+  height: 37px;
+  line-height: 37px;
   background: #f5f5f5;
   text-indent: 10px; }
 
-.entityBox .enCard .enNum {
+.annualDialogContainer .entityBox .enCard .enNum {
   font-size: 22px;
   margin: 0 4px; }
 
-.buyBtn {
+.annualDialogContainer .buyBtn {
   float: left;
   width: 86px;
   height: 37px;
-  line-height: 37px; }
+  line-height: 37px;
+  text-align: center;
+  background: #0797d9;
+  color: #fff; }
 
-.buyBtn.disable {
+.annualDialogContainer .buyBtn:hover {
+  background: #0685bf;
+  text-decoration: none; }
+
+.annualDialogContainer .buyBtn.disable, .annualDialogContainer .buyBtn.disable:hover {
   background: #c9c9c9;
   cursor: default;
   border-color: #c9c9c9; }
 
-.kucun {
+.annualDialogContainer .kucun {
   line-height: 50px; }
 .gSimpleDialog-container {
   position: fixed;
