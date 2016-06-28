@@ -9,6 +9,21 @@ var CardList = require("./card-list");
 var OrderInfo = require("./orderinfo");
 var CheckExistDialog = require("./check-exist-dialog");
 var Api = require("../../common/api.js");
+var Format = function (date,fmt) { //author: meizz
+	var o = {
+		"M+": date.getMonth() + 1, //月份
+		"d+": date.getDate(), //日
+		"h+": date.getHours(), //小时
+		"m+": date.getMinutes(), //分
+		"s+": date.getSeconds(), //秒
+		"q+": Math.floor((date.getMonth() + 3) / 3), //季度
+		"S": date.getMilliseconds() //毫秒
+	};
+	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o)
+		if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	return fmt;
+}
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
@@ -48,6 +63,8 @@ var MainView = Backbone.View.extend({
 		var paymode = pay.length ? pay.val() : "3";
 		var sid = this.CardList.getSid();
 		if(!sid) throw new Error("缺少sid");
+		var pids = {};
+		pids[pid] = 1;
 		this.checkHasBand({
 			pid : this.pid,
 			aid : this.aid,
@@ -58,7 +75,8 @@ var MainView = Backbone.View.extend({
 			ordername : name,
 			id_card : id_card,
 			idCard : id_card,
-			sid : sid
+			sid : sid,
+			pids : pids
 		})
 	},
 	//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
@@ -107,7 +125,33 @@ var MainView = Backbone.View.extend({
 		})
 	},
 	submit : function(opt){
-		console.log(opt);
+		var submitBtn = this.submitBtn;
+		var data = {
+			pid : opt.pid,
+			aid : opt.aid,
+			idCard : opt.idCard,
+			paymode : opt.paymode,
+			ordertel : opt.ordertel,
+			ordername : opt.ordername,
+			pids : opt.pids
+		};
+		data["begintime"] = Format(new Date,"yyyy-MM-dd");
+		PFT.Util.Ajax(Api.Url.makeOrder.submit,{
+			type : "post",
+			params : data,
+			loading : function(){ submitBtn.addClass("disable")},
+			complete : function(){ submitBtn.removeClass("disable")},
+			success : function(res){
+				res = res || {};
+				var status = res.status || "";
+				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				if(status=="success"){
+					alert("下单成功");
+				}else if(status=="fail"){
+					alert(msg)
+				}
+			}
+		})
 	}
 });
 

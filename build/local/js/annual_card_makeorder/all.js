@@ -55,6 +55,21 @@
 	var OrderInfo = __webpack_require__(32);
 	var CheckExistDialog = __webpack_require__(34);
 	var Api = __webpack_require__(14);
+	var Format = function (date,fmt) { //author: meizz
+		var o = {
+			"M+": date.getMonth() + 1, //月份
+			"d+": date.getDate(), //日
+			"h+": date.getHours(), //小时
+			"m+": date.getMinutes(), //分
+			"s+": date.getSeconds(), //秒
+			"q+": Math.floor((date.getMonth() + 3) / 3), //季度
+			"S": date.getMilliseconds() //毫秒
+		};
+		if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+		for (var k in o)
+			if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+		return fmt;
+	}
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -94,6 +109,8 @@
 			var paymode = pay.length ? pay.val() : "3";
 			var sid = this.CardList.getSid();
 			if(!sid) throw new Error("缺少sid");
+			var pids = {};
+			pids[pid] = 1;
 			this.checkHasBand({
 				pid : this.pid,
 				aid : this.aid,
@@ -104,7 +121,8 @@
 				ordername : name,
 				id_card : id_card,
 				idCard : id_card,
-				sid : sid
+				sid : sid,
+				pids : pids
 			})
 		},
 		//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
@@ -153,7 +171,33 @@
 			})
 		},
 		submit : function(opt){
-			console.log(opt);
+			var submitBtn = this.submitBtn;
+			var data = {
+				pid : opt.pid,
+				aid : opt.aid,
+				idCard : opt.idCard,
+				paymode : opt.paymode,
+				ordertel : opt.ordertel,
+				ordername : opt.ordername,
+				pids : opt.pids
+			};
+			data["begintime"] = Format(new Date,"yyyy-MM-dd");
+			PFT.Util.Ajax(Api.Url.makeOrder.submit,{
+				type : "post",
+				params : data,
+				loading : function(){ submitBtn.addClass("disable")},
+				complete : function(){ submitBtn.removeClass("disable")},
+				success : function(res){
+					res = res || {};
+					var status = res.status || "";
+					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+					if(status=="success"){
+						alert("下单成功");
+					}else if(status=="fail"){
+						alert(msg)
+					}
+				}
+			})
 		}
 	});
 	
@@ -817,7 +861,8 @@
 				//预定页面请求订单信息接口
 				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
 				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
-				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/"
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
 			},
 			//获取某个产品的虚拟卡的库存
 			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
@@ -1098,6 +1143,13 @@
 						$("#creditNum").text(pay.credit);
 						$("#remainNum").text(pay.remain);
 						$("#totalMoney").text(product.price);
+						var supplier = data.supplier;
+						var supplier_name = supplier.name; //供应商生名
+						var supplier_link = supplier.linkman; //联系人
+						var intro = supplier.intro; //产品介
+						$("#supplierName").text(supplier_name);
+						$("#contactsName").html(supplier_link);
+						$("#introduceBoxCon").html(intro);
 						listUl.html(that.renderInfo(data));
 					}else{
 						alert(res.msg || PFT.AJAX_ERROR_TEXT);
@@ -1125,7 +1177,7 @@
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var use_limit = item.use_limit;\r\n                    var limit_str = \"\";\r\n                    if(use_limit==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        use_limit = use_limit.split(\",\");\r\n                        var daily = use_limit[0];\r\n                        var month = use_limit[1];\r\n                        var total = use_limit[1];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
+	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var use_limit = item.use_limit;\r\n                    var limit_str = \"\";\r\n                    if(use_limit==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        use_limit = use_limit.split(\",\");\r\n                        var daily = use_limit[0];\r\n                        var month = use_limit[1];\r\n                        var total = use_limit[1];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage==\"-1\" ? \"-\" : data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
 
 /***/ },
 /* 34 */
