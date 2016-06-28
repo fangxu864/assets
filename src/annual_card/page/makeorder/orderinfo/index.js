@@ -49,6 +49,13 @@ var OrderIno = Backbone.View.extend({
 					$("#creditNum").text(pay.credit);
 					$("#remainNum").text(pay.remain);
 					$("#totalMoney").text(product.price);
+					var supplier = data.supplier;
+					var supplier_name = supplier.name; //供应商生名
+					var supplier_link = supplier.linkman; //联系人
+					var intro = supplier.intro; //产品介
+					$("#supplierName").text(supplier_name);
+					$("#contactsName").html(supplier_link);
+					$("#introduceBoxCon").html(intro);
 					listUl.html(that.renderInfo(data));
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);

@@ -872,7 +872,8 @@
 				//预定页面请求订单信息接口
 				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
 				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
-				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/"
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
 			},
 			//获取某个产品的虚拟卡的库存
 			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"

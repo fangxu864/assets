@@ -31,7 +31,7 @@
             <% }) %>
         <% } %>
     </td>
-    <td><%=data.product.storage%></td>
+    <td><%=data.product.storage=="-1" ? "-" : data.product.storage%></td>
     <td><i class="yen">&yen;</i><em class="price"><%=data.product.price%></em></td>
     <td>不可退</td>
     <td>1</td>
