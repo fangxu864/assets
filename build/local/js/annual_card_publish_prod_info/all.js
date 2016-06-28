@@ -223,7 +223,7 @@
 	});
 	
 	$(function(){
-		var view = new MainView();
+		new MainView();
 	})
 
 

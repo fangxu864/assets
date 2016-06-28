@@ -176,5 +176,5 @@ var MainView = Backbone.View.extend({
 });
 
 $(function(){
-	var view = new MainView();
+	new MainView();
 })
