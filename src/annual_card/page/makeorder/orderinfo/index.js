@@ -38,7 +38,7 @@ var OrderIno = Backbone.View.extend({
 				var data = res.data;
 				var product = data.product;
 				if(res.code==200){
-					$("#ltitle_text").text(product.ltitle);
+					$("#ltitle_text").text(product.ltitle+"-"+product.title);
 					var pay = data.pay;
 					if(pay.is_self==1){//自供应
 						$("#payLine_no").show().find("input[type=checkbox]").prop("checked","checked");
@@ -55,7 +55,7 @@ var OrderIno = Backbone.View.extend({
 					var intro = supplier.intro; //产品介
 					$("#supplierName").text(supplier_name);
 					$("#contactsName").html(supplier_link);
-					$("#introduceBoxCon").html(intro);
+					$("#introduceBoxCon").html(intro || "暂无产品介绍");
 					listUl.html(that.renderInfo(data));
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);

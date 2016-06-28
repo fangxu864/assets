@@ -42,6 +42,7 @@ var MainView = Backbone.View.extend({
 		this.OrderInfo = new OrderInfo();
 		this.CheckExistDialog = new CheckExistDialog();
 		this.CheckExistDialog.on("replaceAndSubmit",function(submitData){
+			submitData["update"] = 1;
 			that.submit(submitData);
 			this.close();
 		})
@@ -138,6 +139,7 @@ var MainView = Backbone.View.extend({
 		data["begintime"] = Format(new Date,"yyyy-MM-dd");
 		data["card_type"] = this.type;
 		data["virtual_no"] = this.CardList.getVirtualCards();
+		if(opt.update) data["update"] = 1;
 		PFT.Util.Ajax(Api.Url.makeOrder.submit,{
 			type : "post",
 			params : data,
@@ -150,7 +152,7 @@ var MainView = Backbone.View.extend({
 				if(status=="success"){
 					alert("下单成功");
 				}else if(status=="fail"){
-					alert(msg)
+					alert(msg);
 				}
 			}
 		})

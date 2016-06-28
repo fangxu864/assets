@@ -361,6 +361,9 @@ a:active{
   height: 166px;
   padding-top: 20px; }
 
+.introduceBox .introduceBoxCon {
+  margin: 0 24px; }
+
 .introduceBox p {
   text-indent: 24px;
   line-height: 24px; }
