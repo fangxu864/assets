@@ -29,7 +29,8 @@ var List = Backbone.View.extend({
 			success : function(res){
 				res = res || {};
 				if(res.code==200){
-					that.sid = res.data[0]["sid"];
+					var d = res.data[0] || {};
+					that.sid = d["sid"] || "";
 					that.renderList(res.data);
 				}else{
 					that.renderList(res.msg || PFT.AJAX_ERROR_TEXT);

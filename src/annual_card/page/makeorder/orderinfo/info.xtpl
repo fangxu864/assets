@@ -5,16 +5,16 @@
             <p>包含：</p>
             <%_.each(data.privileges,function(item,index){%>
                 <%
-                    var limit_count = item.limit_count;
+                    var use_limit = item.use_limit;
                     var limit_str = "";
-                    if(limit_count=="-1"){
+                    if(use_limit=="-1"){
                         limit_str = "不限使用次数";
                     }else{
                         limit_str = "限制使用：";
-                        limit_count = limit_count.split(",");
-                        var daily = limit_count[0];
-                        var month = limit_count[1];
-                        var total = limit_count[1];
+                        use_limit = use_limit.split(",");
+                        var daily = use_limit[0];
+                        var month = use_limit[1];
+                        var total = use_limit[1];
                         if(daily!="-1") limit_str += daily + "次/日 ";
                         if(month!="-1") limit_str += month + "次/月 ";
                         if(total!="-1") limit_str += " 共"+total+"次";

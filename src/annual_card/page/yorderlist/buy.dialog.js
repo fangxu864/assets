@@ -37,12 +37,12 @@ AnnualCardBuyDialog.prototype = {
 					var physics = [];
 					var hasReadCards = that.hasReadCards;
 					for(var i in hasReadCards) physics.push(i);
-					window.location.href = that.orderPage + "?pid="+that.pid + "&physics="+physics.join(",");
+					window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics="+physics.join(",");
 				},
 				"click #buyBtn_virtual" : function(e){
 					var tarBtn = $(e.currentTarget);
 					if(tarBtn.hasClass("disable")) return false;
-					window.location.href = that.orderPage + "?pid="+that.pid + "&physics=";
+					window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics=";
 				}
 			},
 			onOpenBefore : function(){
@@ -63,7 +63,8 @@ AnnualCardBuyDialog.prototype = {
 
 			},
 			onCloseAfter : function(){
-
+				that.pid = "";
+				that.aid = "";
 			}
 		})
 		setTimeout(function(){
@@ -89,6 +90,7 @@ AnnualCardBuyDialog.prototype = {
 	open : function(opt){
 		opt = opt || {};
 		this.pid = opt.pid;
+		this.aid = opt.aid;
 		this.dialog.open();
 	},
 	/**
@@ -125,9 +127,3 @@ AnnualCardBuyDialog.prototype = {
 	}
 };
 window["AnnualCardBuyDialog"] = AnnualCardBuyDialog;
-//$(function(){
-//	var annual = new AnnualCardBuyDialog();
-//	setTimeout(function(){
-//		annual.open({pid:"13692"});
-//	},500)
-//})
