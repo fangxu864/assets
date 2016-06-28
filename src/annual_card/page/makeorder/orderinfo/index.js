@@ -21,8 +21,12 @@ var OrderIno = Backbone.View.extend({
 	getInfo : function(pid,aid,type){
 		var that = this;
 		var listUl = this.listUl;
-
 		PFT.Util.Ajax(Api.Url.makeOrder.getOrderInfo,{
+			params : {
+				pid : pid,
+				aid : aid,
+				type : type
+			},
 			loading : function(){
 				listUl.html(that.renderInfo("loading"));
 			},

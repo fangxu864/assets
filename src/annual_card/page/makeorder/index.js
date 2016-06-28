@@ -7,6 +7,7 @@ require("./style.scss");
 var UserInfo = require("./userinfo");
 var CardList = require("./card-list");
 var OrderInfo = require("./orderinfo");
+var CheckExistDialog = require("./check-exist-dialog");
 var Api = require("../../common/api.js");
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
@@ -14,6 +15,7 @@ var MainView = Backbone.View.extend({
 		"click #submitBtn" : "onSubmitBtnClick"
 	},
 	initialize : function(){
+		var that = this;
 		this.submitBtn = $("#submitBtn");
 		this.urlParams = PFT.Util.UrlParse();
 		this.pid = this.urlParams["pid"];
@@ -23,7 +25,11 @@ var MainView = Backbone.View.extend({
 		this.UserInfo = new UserInfo();
 		this.CardList = new CardList();
 		this.OrderInfo = new OrderInfo();
-
+		this.CheckExistDialog = new CheckExistDialog();
+		this.CheckExistDialog.on("replaceAndSubmit",function(submitData){
+			that.submit(submitData);
+			this.close();
+		})
 	},
 	onSubmitBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
@@ -81,8 +87,16 @@ var MainView = Backbone.View.extend({
 				var data = res.data || {};
 				if(res.code==200){
 					var exist = data.exist;
+					var name = data.name;
+					var left = data.left;
 					if(exist==1){ //已存在
-
+						that.CheckExistDialog.open({
+							mobile : mobile,
+							idCard : id_card,
+							name : name,
+							left : left,
+							submitData : opt
+						});
 					}else{
 						that.submit(opt);
 					}
@@ -93,7 +107,7 @@ var MainView = Backbone.View.extend({
 		})
 	},
 	submit : function(opt){
-
+		console.log(opt);
 	}
 });
 

@@ -40,8 +40,9 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -178,16 +179,15 @@
 
 
 /***/ },
-/* 1 */
+
+/***/ 1:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */
+
+/***/ 5:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -198,6 +198,8 @@
 	__webpack_require__(6);
 	var WinWidthHeight = __webpack_require__(8);
 	var Drag = __webpack_require__(9);
+	var PubSub = __webpack_require__(65);
+	var Extend = __webpack_require__(66);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -263,23 +265,28 @@
 		})
 		this.init(opt);
 	};
-	Dialog.prototype = {
+	Dialog.prototype = Extend({
 		init : function(opt){
 			var that = this;
 			var events = this.events = opt.events;
 			var container = this.container;
 			for(var i in events){
-				var _key = i.split(" ");
-				var eventType = _key[0];
-				var selector = _key[1];
-				var handler = events[i];
-				container.on(eventType,selector,function(e){
-					if(typeof handler=="function"){
-						handler(e);
-					}else if(typeof handler=="string"){
-						that[handler](e);
-					}
-				})
+				//"click .parent .children" => "click:.parent .children"
+				var _key = i.replace(/(\w*)\s(.*)/,function(str,p1,p2){
+					return p1+":"+p2;
+				}).split(":");
+				(function(_key){
+					var eventType = _key[0];
+					var selector = _key[1];
+					var handler = events[i];
+					container.on(eventType,selector,function(e){
+						if(typeof handler=="function"){
+							handler(e);
+						}else if(typeof handler=="string"){
+							that.prototype[handler](e);
+						}
+					})
+				})(_key);
 			}
 			setTimeout(function(){
 				if(opt.drag){
@@ -317,8 +324,8 @@
 			var overlay = typeof opt.overlay=="undefined" ? this.opt.overlay : !!opt.overlay;
 			var speed = opt.speed || this.opt.speed;
 			var offsetY = opt.offsetY || this.opt.offsetY;
-			var onBefore = this.opt.onOpenBefore;
-			var onAfter = this.opt.onOpenAfter;
+			var onBefore = opt.onBefore || this.opt.onOpenBefore;
+			var onAfter = opt.onAfter || this.opt.onOpenAfter;
 			var winH = WinWidthHeight().height;
 			var containerH = this.container.height();
 			this.position();
@@ -335,8 +342,8 @@
 			opt = opt || {};
 			var container = this.container;
 			var speed = opt.speed || this.opt.speed;
-			var onBefore = this.opt.onCloseBefore;
-			var onAfter = this.opt.onCloseAfter;
+			var onBefore = opt.onBefore || this.opt.onCloseBefore;
+			var onAfter = opt.onAfter || this.opt.onCloseAfter;
 			var containerH = container.height();
 			onBefore();
 			container.animate({
@@ -347,18 +354,19 @@
 			})
 			$("#"+this.flag+"mask").fadeOut();
 		}
-	};
+	},PubSub);
 	module.exports = Dialog;
 
 /***/ },
-/* 6 */
+
+/***/ 6:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 7 */,
-/* 8 */
+
+/***/ 8:
 /***/ function(module, exports) {
 
 	/**
@@ -385,7 +393,8 @@
 	}
 
 /***/ },
-/* 9 */
+
+/***/ 9:
 /***/ function(module, exports) {
 
 	/**
@@ -712,13 +721,15 @@
 	module.exports = Drag;
 
 /***/ },
-/* 10 */
+
+/***/ 10:
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 11 */
+
+/***/ 11:
 /***/ function(module, exports) {
 
 	/**
@@ -751,7 +762,8 @@
 	module.exports = readPhysicsCard;
 
 /***/ },
-/* 12 */
+
+/***/ 12:
 /***/ function(module, exports) {
 
 	/**
@@ -820,6 +832,69 @@
 	module.exports = Api;
 
 
+/***/ },
+
+/***/ 65:
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/7 10:09
+	 * Description: 订阅发布模型
+	 */
+	var E = {
+		fn : {},
+		on : function(type,fn){
+			var fns = this.fn[type] || (this.fn[type]=[]);
+			fns.push(fn);
+		},
+		fire : function(type){
+			var fns = this.fn[type];
+			if(!fns) return false;
+			var args = arguments;
+			var len = args.length;
+			var argus,scope;
+			if(len==1){
+				argus = "";
+				scope = this;
+			}else if(len==2){
+				argus = args[len-1];
+				scope = this;
+			}else if(len==3){
+				argus = args[len-2];
+				scope = args[len-1];
+			}
+			for(var i in fns){
+				var fn = fns[i];
+				fn.call(scope,argus);
+			}
+		},
+		trigger : function(){
+			this.fire.apply(this,arguments);
+		}
+	};
+	module.exports = E;
+
+/***/ },
+
+/***/ 66:
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/22 18:43
+	 * Description: ""
+	 */
+	module.exports = function(destination,source){
+		for(var n in source){
+			if(source.hasOwnProperty(n)){
+				destination[n]=source[n];
+			}
+		}
+		return destination;
+	}
+
 /***/ }
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=all.js.map
