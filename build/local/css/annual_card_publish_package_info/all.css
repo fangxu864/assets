@@ -12,6 +12,8 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
+i{
+  font-style: normal; }
 a{
   text-decoration: none; }
 a:hover{

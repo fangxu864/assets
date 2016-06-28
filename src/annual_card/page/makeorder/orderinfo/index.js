@@ -37,11 +37,14 @@ var OrderIno = Backbone.View.extend({
 					$("#ltitle_text").text(product.ltitle);
 					var pay = data.pay;
 					if(pay.is_self==1){//自供应
-						$("#payLine_no").show();
-						$("#payLine_credit").hide();
-						$("#payLine_remain").hide();
-						$("#payLine_online").hide();
+						$("#payLine_no").show().find("input[type=checkbox]").prop("checked","checked");
+						$("#payLine_credit").remove();
+						$("#payLine_remain").remove();
+						$("#payLine_online").remove();
 					}
+					$("#creditNum").text(pay.credit);
+					$("#remainNum").text(pay.remain);
+					$("#totalMoney").text(product.price);
 					listUl.html(that.renderInfo(data));
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);

@@ -54,13 +54,93 @@
 	var UserInfo = __webpack_require__(27);
 	var CardList = __webpack_require__(28);
 	var OrderInfo = __webpack_require__(30);
+	var Api = __webpack_require__(12);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
-		events : {},
+		events : {
+			"click #submitBtn" : "onSubmitBtnClick"
+		},
 		initialize : function(){
+			this.submitBtn = $("#submitBtn");
+			this.urlParams = PFT.Util.UrlParse();
+			this.pid = this.urlParams["pid"];
+			this.aid = this.urlParams["aid"];
+			this.physics = this.urlParams["physics"]; //如果有physics参数 说明购买的是实体卡  反之，则购买的是虚拟卡
+			this.type = this.physics ? "physics" : "virtual";
 			this.UserInfo = new UserInfo();
 			this.CardList = new CardList();
 			this.OrderInfo = new OrderInfo();
+	
+		},
+		onSubmitBtnClick : function(e){
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("disable")) return false;
+			var pid = this.pid;
+			var aid = this.aid;
+			var userinfo = this.UserInfo.getUserInfo();
+			var name = userinfo.name;
+			var mobile = userinfo.mobile;
+			var id_card = userinfo.id_card;
+			var note = userinfo.note;
+			if(!pid || !aid) return false;
+			if(name=="error" || mobile=="error" || id_card=="error") return false;
+			var pay = $("#paytypeContainer").find("input[type=checkbox]:checked");
+			//授信支付=2  帐户余额=0  在线支付=1  自供应=3
+			var paymode = pay.length ? pay.val() : "3";
+			var sid = this.CardList.getSid();
+			if(!sid) throw new Error("缺少sid");
+			this.checkHasBand({
+				pid : this.pid,
+				aid : this.aid,
+				paymode : paymode,
+				ordertel : mobile,
+				mobile : mobile,
+				name : name,
+				ordername : name,
+				id_card : id_card,
+				idCard : id_card,
+				sid : sid
+			})
+		},
+		//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+		checkHasBand : function(opt){
+			opt = opt || {};
+			var that = this;
+			var submitBtn = this.submitBtn;
+			var mobile = opt.mobile;
+			var name = opt.name;
+			var id_card = opt.id_card || "";
+			var sid = opt.sid;
+			if(this.type=="physics") return this.submit(opt);
+			if(!mobile || !name || !sid) throw new Error("缺少mobile或name或sid");
+			PFT.Util.Ajax(Api.Url.makeOrder.isNeedToReplace,{
+				type : "post",
+				params : {
+					mobile : mobile,
+					name : name,
+					id_card : id_card,
+					sid : sid
+				},
+				loading : function(){ submitBtn.addClass("disable")},
+				complete : function(){ submitBtn.removeClass("disable")},
+				success : function(res){
+					res = res || {};
+					var data = res.data || {};
+					if(res.code==200){
+						var exist = data.exist;
+						if(exist==1){ //已存在
+	
+						}else{
+							that.submit(opt);
+						}
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
+		},
+		submit : function(opt){
+	
 		}
 	});
 	
@@ -118,7 +198,9 @@
 				//预定页面请求卡片信息接口
 				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/"
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/"
 			},
 			//获取某个产品的虚拟卡的库存
 			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/"
@@ -256,6 +338,7 @@
 				success : function(res){
 					res = res || {};
 					if(res.code==200){
+						that.sid = res.data[0]["sid"];
 						that.renderList(res.data);
 					}else{
 						that.renderList(res.msg || PFT.AJAX_ERROR_TEXT);
@@ -283,6 +366,9 @@
 				html = '<li class="status fail" style="height:100px; line-height:100px; text-align:center">'+data+'</li>';
 			}
 			this.$el.html(html);
+		},
+		getSid : function(){
+			return this.sid;
 		}
 	});
 	module.exports = List;
@@ -374,11 +460,14 @@
 						$("#ltitle_text").text(product.ltitle);
 						var pay = data.pay;
 						if(pay.is_self==1){//自供应
-							$("#payLine_no").show();
-							$("#payLine_credit").hide();
-							$("#payLine_remain").hide();
-							$("#payLine_online").hide();
+							$("#payLine_no").show().find("input[type=checkbox]").prop("checked","checked");
+							$("#payLine_credit").remove();
+							$("#payLine_remain").remove();
+							$("#payLine_online").remove();
 						}
+						$("#creditNum").text(pay.credit);
+						$("#remainNum").text(pay.remain);
+						$("#totalMoney").text(product.price);
 						listUl.html(that.renderInfo(data));
 					}else{
 						alert(res.msg || PFT.AJAX_ERROR_TEXT);

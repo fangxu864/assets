@@ -7,13 +7,93 @@ require("./style.scss");
 var UserInfo = require("./userinfo");
 var CardList = require("./card-list");
 var OrderInfo = require("./orderinfo");
+var Api = require("../../common/api.js");
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
-	events : {},
+	events : {
+		"click #submitBtn" : "onSubmitBtnClick"
+	},
 	initialize : function(){
+		this.submitBtn = $("#submitBtn");
+		this.urlParams = PFT.Util.UrlParse();
+		this.pid = this.urlParams["pid"];
+		this.aid = this.urlParams["aid"];
+		this.physics = this.urlParams["physics"]; //如果有physics参数 说明购买的是实体卡  反之，则购买的是虚拟卡
+		this.type = this.physics ? "physics" : "virtual";
 		this.UserInfo = new UserInfo();
 		this.CardList = new CardList();
 		this.OrderInfo = new OrderInfo();
+
+	},
+	onSubmitBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		if(tarBtn.hasClass("disable")) return false;
+		var pid = this.pid;
+		var aid = this.aid;
+		var userinfo = this.UserInfo.getUserInfo();
+		var name = userinfo.name;
+		var mobile = userinfo.mobile;
+		var id_card = userinfo.id_card;
+		var note = userinfo.note;
+		if(!pid || !aid) return false;
+		if(name=="error" || mobile=="error" || id_card=="error") return false;
+		var pay = $("#paytypeContainer").find("input[type=checkbox]:checked");
+		//授信支付=2  帐户余额=0  在线支付=1  自供应=3
+		var paymode = pay.length ? pay.val() : "3";
+		var sid = this.CardList.getSid();
+		if(!sid) throw new Error("缺少sid");
+		this.checkHasBand({
+			pid : this.pid,
+			aid : this.aid,
+			paymode : paymode,
+			ordertel : mobile,
+			mobile : mobile,
+			name : name,
+			ordername : name,
+			id_card : id_card,
+			idCard : id_card,
+			sid : sid
+		})
+	},
+	//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+	checkHasBand : function(opt){
+		opt = opt || {};
+		var that = this;
+		var submitBtn = this.submitBtn;
+		var mobile = opt.mobile;
+		var name = opt.name;
+		var id_card = opt.id_card || "";
+		var sid = opt.sid;
+		if(this.type=="physics") return this.submit(opt);
+		if(!mobile || !name || !sid) throw new Error("缺少mobile或name或sid");
+		PFT.Util.Ajax(Api.Url.makeOrder.isNeedToReplace,{
+			type : "post",
+			params : {
+				mobile : mobile,
+				name : name,
+				id_card : id_card,
+				sid : sid
+			},
+			loading : function(){ submitBtn.addClass("disable")},
+			complete : function(){ submitBtn.removeClass("disable")},
+			success : function(res){
+				res = res || {};
+				var data = res.data || {};
+				if(res.code==200){
+					var exist = data.exist;
+					if(exist==1){ //已存在
+
+					}else{
+						that.submit(opt);
+					}
+				}else{
+					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				}
+			}
+		})
+	},
+	submit : function(opt){
+
 	}
 });
 
