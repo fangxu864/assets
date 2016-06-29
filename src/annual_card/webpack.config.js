@@ -13,7 +13,8 @@ var config = require("../../config")({
 		"annual_card_entry_card" : "./src/annual_card/page/entry_card/index.js",
 		"annual_card_makeorder" : "./src/annual_card/page/makeorder/index.js",
 		"annual_card_buy_dialog" : "./src/annual_card/page/yorderlist/buy.dialog.js",
-		"annual_card_storage" : "./src/annual_card/page/storage/index.js"
+		"annual_card_storage" : "./src/annual_card/page/storage/index.js",
+		"annual_card_ordersuccess" : "./src/annual_card/page/ordersuccess/index.js"
 	},
 	output : {
 		path : path.join(__dirname, "../../build/"+env+"/"),
