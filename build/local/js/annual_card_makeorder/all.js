@@ -195,8 +195,13 @@
 					res = res || {};
 					var status = res.status || "";
 					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+					var ordernum = res.ordernum;
 					if(status=="success"){
-						alert("下单成功");
+						if(ordernum){
+							window.location.href = "annual_ordersuccess.html?ordernum="+ordernum;
+						}else{
+							alert("下单成功，但服务端没有返回订单号");
+						}
 					}else if(status=="fail"){
 						alert(msg);
 					}
