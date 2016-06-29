@@ -56,20 +56,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
-i{
+.cardContainer i{
   font-style: normal; }
-a{
+.cardContainer a{
   text-decoration: none; }
-a:hover{
+.cardContainer a:hover{
   text-decoration: underline; }
-a:link{
+.cardContainer a:link{
   text-decoration: none;
   outline: none; }
-a:visited{
+.cardContainer a:visited{
   text-decoration: none;
   outline: none;
   color: #fff; }
-a:active{
+.cardContainer a:active{
   text-decoration: none;
   outline: none; }
 .cardContainer a:hover, .border a:hover{
@@ -227,6 +227,12 @@ a:active{
   text-indent: 10px; }
 .table tr:first-of-type{
   background: #e5e5e5; }
+.entry{
+  line-height: 65px;
+  font-size: 16px;
+  text-indent: 24px;
+  background: white;
+  font-weight: bold; }
 .fillLine .fr .fillInp {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -245,12 +251,6 @@ a:active{
 .cardContainer {
   width: 798px;
   margin: 0 auto;
-  background: white; }
-
-.entry {
-  line-height: 56px;
-  font-size: 22px;
-  text-indent: 24px;
   background: white; }
 
 .cardnumBox {

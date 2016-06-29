@@ -12,20 +12,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
-i{
+.cardContainer i{
   font-style: normal; }
-a{
+.cardContainer a{
   text-decoration: none; }
-a:hover{
+.cardContainer a:hover{
   text-decoration: underline; }
-a:link{
+.cardContainer a:link{
   text-decoration: none;
   outline: none; }
-a:visited{
+.cardContainer a:visited{
   text-decoration: none;
   outline: none;
   color: #fff; }
-a:active{
+.cardContainer a:active{
   text-decoration: none;
   outline: none; }
 .cardContainer a:hover, .border a:hover{
@@ -183,6 +183,12 @@ a:active{
   text-indent: 10px; }
 .table tr:first-of-type{
   background: #e5e5e5; }
+.entry{
+  line-height: 65px;
+  font-size: 16px;
+  text-indent: 24px;
+  background: white;
+  font-weight: bold; }
 .stockBox .cardBtn {
   vertical-align: middle;
   cursor: pointer;
