@@ -59,11 +59,14 @@ var MainView = Backbone.View.extend({
 		var note = userinfo.note;
 		if(!pid || !aid) return false;
 		if(name=="error" || mobile=="error" || id_card=="error") return false;
-		var pay = $("#paytypeContainer").find("input[type=checkbox]:checked");
+		var pay = $("#paytypeContainer").find("input[type=radio]:checked");
 		//授信支付=2  帐户余额=0  在线支付=1  自供应=3
 		var paymode = pay.length ? pay.val() : "3";
 		var sid = this.CardList.getSid();
-		if(!sid) throw new Error("缺少sid");
+		if(!sid){
+			var error = this.CardList.getCardsForOrder_ErrorText();
+			return alert(error);
+		}
 		var pids = {};
 		pids[pid] = 1;
 		this.checkHasBand({
@@ -73,6 +76,7 @@ var MainView = Backbone.View.extend({
 			ordertel : mobile,
 			mobile : mobile,
 			name : name,
+			memo : note,
 			ordername : name,
 			id_card : id_card,
 			idCard : id_card,
@@ -134,6 +138,7 @@ var MainView = Backbone.View.extend({
 			paymode : opt.paymode,
 			ordertel : opt.ordertel,
 			ordername : opt.ordername,
+			memo : opt.note,
 			pids : opt.pids
 		};
 		data["begintime"] = Format(new Date,"yyyy-MM-dd");

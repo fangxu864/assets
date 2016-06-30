@@ -50,14 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(62);
+	__webpack_require__(68);
 	var Api = __webpack_require__(14);
-	var Select = __webpack_require__(64);
-	var Fileupload = __webpack_require__(66);
-	
-	
-	
-	
+	var Select = __webpack_require__(70);
+	var Fileupload = __webpack_require__(72);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -138,7 +134,7 @@
 			if(!mobile) return mobileInp.parents(".line").addClass("error");
 			if(!info) return infoTextarea.parents(".line").addClass("error");
 			if(!uploadPhoto) return alert("请上传一张预览图");
-			this.submit({
+			var data = {
 				product_name : prodName,
 				product_type : "I",
 				address : addr,
@@ -147,7 +143,10 @@
 				province : province,
 				city : city,
 				img_path : uploadPhoto
-			})
+			};
+			var lid = PFT.Util.UrlParse()["sid"];
+			if(lid) data["lid"] = lid;
+			this.submit(data);
 		},
 		renderThumbList : function(src){
 			var container = $("#uploadPhotoBox");
@@ -289,6 +288,10 @@
 				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
 			}
 		},
 		defaults : {
@@ -307,14 +310,14 @@
 
 /***/ },
 
-/***/ 62:
+/***/ 68:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 64:
+/***/ 70:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -323,7 +326,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(65);
+		this.data = __webpack_require__(71);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -413,7 +416,7 @@
 
 /***/ },
 
-/***/ 65:
+/***/ 71:
 /***/ function(module, exports) {
 
 	/**
@@ -426,7 +429,7 @@
 
 /***/ },
 
-/***/ 66:
+/***/ 72:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -434,8 +437,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(67);
-	var tpl = __webpack_require__(69);
+	__webpack_require__(73);
+	var tpl = __webpack_require__(75);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -538,14 +541,14 @@
 
 /***/ },
 
-/***/ 67:
+/***/ 73:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 69:
+/***/ 75:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";

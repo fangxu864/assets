@@ -7,10 +7,6 @@ require("./style.scss");
 var Api = require("../../common/api.js");
 var Select = require("COMMON/js/component.city.select.js");
 var Fileupload = require("COMMON/modules/fileupload");
-
-
-
-
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
@@ -91,7 +87,7 @@ var MainView = Backbone.View.extend({
 		if(!mobile) return mobileInp.parents(".line").addClass("error");
 		if(!info) return infoTextarea.parents(".line").addClass("error");
 		if(!uploadPhoto) return alert("请上传一张预览图");
-		this.submit({
+		var data = {
 			product_name : prodName,
 			product_type : "I",
 			address : addr,
@@ -100,7 +96,10 @@ var MainView = Backbone.View.extend({
 			province : province,
 			city : city,
 			img_path : uploadPhoto
-		})
+		};
+		var lid = PFT.Util.UrlParse()["sid"];
+		if(lid) data["lid"] = lid;
+		this.submit(data);
 	},
 	renderThumbList : function(src){
 		var container = $("#uploadPhotoBox");

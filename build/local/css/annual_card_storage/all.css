@@ -189,6 +189,8 @@ body{
   text-indent: 24px;
   background: white;
   font-weight: bold; }
+.cardContainer table th, .cardContainer table td{
+  text-align: left; }
 .stockBox .cardBtn {
   vertical-align: middle;
   cursor: pointer;

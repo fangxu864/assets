@@ -14,7 +14,7 @@
                         use_limit = use_limit.split(",");
                         var daily = use_limit[0];
                         var month = use_limit[1];
-                        var total = use_limit[1];
+                        var total = use_limit[2];
                         if(daily!="-1") limit_str += daily + "次/日 ";
                         if(month!="-1") limit_str += month + "次/月 ";
                         if(total!="-1") limit_str += " 共"+total+"次";

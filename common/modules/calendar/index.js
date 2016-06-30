@@ -62,7 +62,7 @@ Calendar.prototype = {
 		var onAfter = opt.onAfter || fn;
 		that.fire("showDate.before",yearmonth);
 		onBefore();
-		var html = this.render(new_yearmonth);
+		var html = this.render(new_yearmonth,opt);
 		container.html(html);
 		that.fire("showDate.after",yearmonth);
 		onAfter();
@@ -75,7 +75,7 @@ Calendar.prototype = {
 	onTdClick : function(that,e){
 		var mult = that.mult;
 		var tarTd = $(e.currentTarget);
-		if(tarTd.hasClass("empty")) return false;
+		if(tarTd.hasClass("empty") || tarTd.hasClass("disable")) return false;
 		var day = tarTd.attr("data-day");
 		var date = tarTd.attr("data-date");
 		var week = tarTd.attr("data-week");
@@ -111,31 +111,37 @@ Calendar.prototype = {
 			}
 		}
 		that.setCurYearmonth(yearmonth+"-"+day);
-		if(that.picker){
-			that.picker.val(params.date);
+		var picker = that.__onShowOptions.picker;
+		if(picker){
+			picker.val(params.date);
 			that.close()
 		}
-		that.fire("click",params)
+		that.fire("click",params);
+		that.fire("select",params);
 	},
 	onMonthBtnClick : function(that,e){
 		var tarBtn = $(e.currentTarget);
 		var curYearMonth = that.getCurYearmonth();
 		var toYearMonth = tarBtn.hasClass("next") ? CalendarCore.nextMonth(curYearMonth) : CalendarCore.prevMonth(curYearMonth);
-		that.showDate(toYearMonth);
+		that.showDate(toYearMonth,that.__onShowOptions);
 	},
 	getYearMonth : function(date){
 		var date = date ||  CalendarCore.gettoday();
 		var yearmonth = date.length==10 ? date.substring(0,7) : date;
 		return yearmonth;
 	},
-	render : function(yearmonth){
+	render : function(yearmonth,opt){
 		if(!yearmonth) return "";
 		var containerID = this.containerID;
 		var date = CalendarCore.outputDate(yearmonth);
+		var min = opt.min; //最小日期
+		var max = opt.max;
 		var html = this.template({data:{
 			containerID : containerID,
 			yearmonth : yearmonth,
-			dates : date
+			dates : date,
+			min : min,
+			max : max
 		}});
 		return html;
 	},
@@ -160,7 +166,7 @@ Calendar.prototype = {
 		var picker = opt.picker;
 		var left = opt.left || 0;
 		var top = opt.top || 0;
-		this.picker = picker;
+		this.__onShowOptions = opt;
 		if(picker){
 			var offset = picker.offset();
 			var height = picker.outerHeight(true);
@@ -176,11 +182,12 @@ Calendar.prototype = {
 	close : function(){
 		this.container.hide();
 		this.mask.hide();
+		this.__onShowOptions = {};
 	},
 	on : function(type,callback){
-		if(typeof type==="string") return false;
+		if(typeof type!=="string") return false;
 		var __callback = this.__callback;
-		var cak = __callback[type] || (__callback[type]=[]);
+		var cak = __callback[type] || (this.__callback[type]=[]);
 		if(typeof callback==="function"){
 			cak.push(callback);
 		}
@@ -195,6 +202,9 @@ Calendar.prototype = {
 			var callback = arr[i];
 			callback.apply(that,args);
 		}
+	},
+	trigger : function(type){
+		this.fire(type);
 	}
 };
 module.exports = Calendar;

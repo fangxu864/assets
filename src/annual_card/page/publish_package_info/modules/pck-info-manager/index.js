@@ -30,6 +30,10 @@ var InfoManager = Backbone.View.extend({
 		this.initList(initData);
 
 		this.Calendar = new Calendar();
+		this.Calendar.on("select",function(data){
+			//点击日历，选中某一日期时
+			//业务逻辑可写在这里
+		});
 
 		this.ProdSelectPop = new ProdSelectPop({model:this.model});
 
@@ -51,7 +55,7 @@ var InfoManager = Backbone.View.extend({
 			var prodName = data.prodName;
 			var ticName = data.ticName;
 			var tarItem = data.triggerItem;
-			if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return false;
+			if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return alert("该产品已存在，无法更换");
 			var html = that.renderPckRightList(tid,[{
 				tid : ticketid,
 				aid : aid,
@@ -69,10 +73,10 @@ var InfoManager = Backbone.View.extend({
 			var ticketid = data.ticketid;
 			var ticName = data.ticName;
 			var aid = data.aid;
-			if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return alert("该产品已存在，请勿重得添加");
+			if($("#privItem_"+tid+"_"+ticketid+"_"+aid).length) return alert("该产品已存在，请勿重复添加");
 			var html = that.renderPckRightList(tid,[{
 				tid : ticketid,
-				ttitle : ticName,
+				title : ticName,
 				ltitle : prodName,
 				aid : aid,
 				use_limit : "-1"
@@ -120,11 +124,19 @@ var InfoManager = Backbone.View.extend({
 	onDatePickerInpFocus : function(e){
 		var calendar = this.Calendar;
 		var tarInp = $(e.currentTarget);
-		var date = tarInp.val() || "2016-06-03";
-		calendar.show(date,{
+		var date = tarInp.val();
+		var siblingInp = tarInp.siblings(".datePickerInp");
+		var siblingDate = siblingInp.val();
+		var opt = {
 			picker : tarInp,
 			top : 1
-		})
+		};
+		if(tarInp.hasClass("begin") && siblingDate){
+			opt["max"] = siblingDate;
+		}else if(tarInp.hasClass("end")){
+			opt["min"] = siblingDate;
+		}
+		calendar.show(date,opt);
 	},
 	//套餐特权-点击选择产品
 	onSelectProdBtnClick : function(e){

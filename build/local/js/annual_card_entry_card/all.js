@@ -65,6 +65,7 @@
 		},
 		initialize : function(){
 			var that = this;
+			this.pid = PFT.Util.UrlParse()["pid"] || "";
 			this.Header = new Header();
 			this.List = new List();
 			this.Dialog = new Dialog({List:this.List});
@@ -76,6 +77,7 @@
 			this.Select = new Select({
 				trigger : $("#cardProdTriggerInput"),
 				source : Api.Url.EntryCard.getProdList + "?page=1&page_size=1000",
+				defaultVal : this.pid,
 				height : 400,
 				field : {
 					id : "id",
@@ -159,6 +161,7 @@
 					var code = res.code;
 					if(code==200){
 						PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
+						$("#cardList").html("");
 					}else{
 						alert(res.msg || PFT.AJAX_ERROR_TEXT);
 					}
@@ -271,6 +274,10 @@
 				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
 			}
 		},
 		defaults : {
@@ -612,6 +619,8 @@
 			width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
 		},
 	
+		defaultVal : "",  //初始化时默认选中的值
+	
 		tpl : function(){
 			return __webpack_require__(27);
 		},
@@ -639,6 +648,7 @@
 		current_id : "",
 		current_name : "",
 		init : function(opt){
+			var that = this;
 			var trigger = this.trigger = typeof opt.trigger==="string" ? $("#"+opt.trigger.substr(opt.trigger.indexOf("#")+1)) : opt.trigger;
 			var source = this.source = opt.source;
 			if(!trigger.length) return false;
@@ -759,7 +769,18 @@
 		updateListUl : function(data){
 			var html = this.renderListHtml(data);
 			this.listUl.html(html);
-			this.listUl.children().first().trigger("click");
+			var defaultVal = this.opt.defaultVal;
+			if(defaultVal){
+				this.selectDefaultVal();
+			}else{
+				this.listUl.children().first().trigger("click");
+			}
+		},
+		//初始化时选中默认值
+		selectDefaultVal : function(){
+			var defaultVal = this.opt.defaultVal;
+			if(!defaultVal && defaultVal!=0) return false;
+			this.listUl.children().filter("[data-"+this.opt.field.id+"]").trigger("click");
 		},
 		renderListHtml : function(data,errorMsg){ //data必须为如下格式：[{key1:value1,key2:value2}]
 			var html = "";

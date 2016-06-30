@@ -3,7 +3,8 @@
 <!-- Description: huangzhiyang -->
 <%
     var pckId=data.tid;
-    var price_section = data.price_section || [{}];
+    var price_section = data.price_section || [];
+    if(price_section.length<1) price_section = [{}];
     var sdate = price_section.sdate || "";
     var edate = price_section.edate || "";
     var delaytype = typeof data.delaytype!="undefined" ? data.delaytype : 1;
@@ -29,7 +30,7 @@
             <p class="font-gray">零售价</p><input value="<%=priceObj.ls ? priceObj.ls/100 : ''%>" type="text" name="ls" class="midInp"/>
         </div>
         <div class="time">
-            <p class="font-gray">门市价</p><input value="<%=data.tprice ? data.tprice/100 : ''%>" type="text" name="tprice" class="midInp"/>
+            <p class="font-gray">门市价</p><input value="<%=data.tprice ? data.tprice : ''%>" type="text" name="tprice" class="midInp"/>
         </div>
     </div>
     <% }) %>
@@ -90,19 +91,6 @@
                     <a href="javascript:;" class="btn-add">＋</a>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="line">
-        <div class="lt">
-            <label>购票限制：</label>
-        </div>
-        <div class="rt">
-            <div class="cardLim float-left line-30">
-                <input type="checkbox" name="search_limit" id="search_limit_1_<%=pckId%>" value="1" <%=search_limit_type_1%> /><label style="margin-right:10px" for="search_limit_1_<%=pckId%>"> 卡号（实体卡/虚拟卡）</label>
-                <input type="checkbox" name="search_limit" id="search_limit_2_<%=pckId%>" value="2" <%=search_limit_type_2%> /><label style="margin-right:10px" for="search_limit_2_<%=pckId%>"> 身份证</label>
-                <input type="checkbox" name="search_limit" id="search_limit_4_<%=pckId%>" value="4" <%=search_limit_type_4%> /><label for="search_limit_4_<%=pckId%>"> 手机号</label>
-            </div>
-            <span style="position:relative; top:10px;" class="font-gray">持卡会员购票</span>
         </div>
     </div>
     <div class="line">

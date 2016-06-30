@@ -57,7 +57,7 @@ AnnualCardBuyDialog.prototype = {
 				that.hasReadCount = $("#hasReadCount");
 				that.cardNumberInp.val("");
 				that.hasReadCount.text(0);
-				that.getVirtualStorage(that.pid);
+				that.getVirtualStorage(that.pid,that.sid);
 			},
 			onCloseBefore : function(){
 
@@ -65,6 +65,7 @@ AnnualCardBuyDialog.prototype = {
 			onCloseAfter : function(){
 				that.pid = "";
 				that.aid = "";
+				that.sid = "";
 			}
 		})
 		setTimeout(function(){
@@ -91,18 +92,20 @@ AnnualCardBuyDialog.prototype = {
 		opt = opt || {};
 		this.pid = opt.pid;
 		this.aid = opt.aid;
+		this.sid = opt.sid;
 		this.dialog.open();
 	},
 	/**
 	 * 获取某个产品的虚拟卡的库存
 	 * @param pid  产品id
 	 */
-	getVirtualStorage : function(pid){
+	getVirtualStorage : function(pid,sid){
 		var that = this;
 		if(that.xhr && that.xhr.abort) that.xhr.abort();
 		that.xhr = Ajax(Api.Url.getVirtualStorage,{
 			params : {
-				pid : pid
+				pid : pid,
+				sid : sid
 			},
 			loading : function(){
 				that.virtualStorage.text("正在获取库存，请稍后..");

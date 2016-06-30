@@ -56,7 +56,6 @@ var MainView = Backbone.View.extend({
 		});
 	}
 });
-
 $(function(){
 	new MainView();
 })

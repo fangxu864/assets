@@ -27,6 +27,8 @@ var Defaults = {
 		width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
 	},
 
+	defaultVal : "",  //初始化时默认选中的值
+
 	tpl : function(){
 		return require("./index.xtpl");
 	},
@@ -54,6 +56,7 @@ Select.prototype = {
 	current_id : "",
 	current_name : "",
 	init : function(opt){
+		var that = this;
 		var trigger = this.trigger = typeof opt.trigger==="string" ? $("#"+opt.trigger.substr(opt.trigger.indexOf("#")+1)) : opt.trigger;
 		var source = this.source = opt.source;
 		if(!trigger.length) return false;
@@ -174,7 +177,18 @@ Select.prototype = {
 	updateListUl : function(data){
 		var html = this.renderListHtml(data);
 		this.listUl.html(html);
-		this.listUl.children().first().trigger("click");
+		var defaultVal = this.opt.defaultVal;
+		if(defaultVal){
+			this.selectDefaultVal();
+		}else{
+			this.listUl.children().first().trigger("click");
+		}
+	},
+	//初始化时选中默认值
+	selectDefaultVal : function(){
+		var defaultVal = this.opt.defaultVal;
+		if(!defaultVal && defaultVal!=0) return false;
+		this.listUl.children().filter("[data-"+this.opt.field.id+"]").trigger("click");
 	},
 	renderListHtml : function(data,errorMsg){ //data必须为如下格式：[{key1:value1,key2:value2}]
 		var html = "";

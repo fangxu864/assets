@@ -35,6 +35,7 @@ var List = Backbone.View.extend({
 					that.sid = d["sid"] || "";
 					that.renderList(res.data);
 				}else{
+					that._getCardsForOrder_ErrorText = res.msg || "获取卡列表信息出错";
 					that.renderList(res.msg || PFT.AJAX_ERROR_TEXT);
 				}
 			}
@@ -73,6 +74,9 @@ var List = Backbone.View.extend({
 			result.push(virtual_no);
 		}
 		return result.join(",");
+	},
+	getCardsForOrder_ErrorText : function(){
+		return this._getCardsForOrder_ErrorText;
 	}
 });
 module.exports = List;

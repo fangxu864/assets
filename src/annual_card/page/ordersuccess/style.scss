@@ -6,19 +6,23 @@
 @import "COMMON/css/base/core";
 @import "../../css/style.css";
 /*架构UI*/
-.cardContainer{width:798px;margin:0 auto; background:white;}
-.sucBox{ margin:52px 0 84px 44px;}
+.cardContainer{width:800px;}
+.sucBox{ padding:52px 0 84px 54px; background:#fff;}
+.orderDetailContainer{ background:#fff;}
 .success{font-size:28px; color:#3dba3f;}
-.success i{ font-size:50px; font-weight:bolder; margin-right:20px;}
-.firstAct,.sucBox .btnBox{ margin-left:74px;}
-.sucP{line-height:36px; font-size:14px; margin-left:44px;}
+.success i{ position:relative; top:4px; font-size:50px; font-weight:bolder; margin-right:10px;}
+.firstAct,.sucBox .btnBox{ margin-left:65px;}
+.cardContainer .sucP{line-height:60px; font-size:14px; font-weight:bold; padding-left:30px; border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5}
 .sucTable{ width:100%; margin-bottom:46px;}
 .sucTable thead{background:#f5f5f5; line-height:33px;}
+.sucTable thead th{ padding-left:10px;}
+.sucTable tbody td{ padding:20px 0 20px 12px;}
 .sucTable tbody tr td p{ line-height:18px;}
 .sucTable tbody tr td p:first-of-type{ margin-top:10px;}
 .sucTable tbody tr td p:last-of-type{ margin-bottom:10px;}
 .sucTable tr td:first-of-type,.sucTable tr th:first-of-type{ text-indent:10px;}
-.sucBox .btnBox a{ height:30px;line-height:30px; padding:0 32px; margin:20px 20px 0 0;}
+.sucBox .btnBox a{ height:30px;line-height:30px; padding:0 32px; margin:20px 20px 0 0; color:#fff}
+#backBtn{ color:#2A98DA}
 .activeBtn.disable{@include btn-disable()}
 /**/
 

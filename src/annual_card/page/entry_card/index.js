@@ -19,6 +19,7 @@ var MainView = Backbone.View.extend({
 	},
 	initialize : function(){
 		var that = this;
+		this.pid = PFT.Util.UrlParse()["pid"] || "";
 		this.Header = new Header();
 		this.List = new List();
 		this.Dialog = new Dialog({List:this.List});
@@ -30,6 +31,7 @@ var MainView = Backbone.View.extend({
 		this.Select = new Select({
 			trigger : $("#cardProdTriggerInput"),
 			source : Api.Url.EntryCard.getProdList + "?page=1&page_size=1000",
+			defaultVal : this.pid,
 			height : 400,
 			field : {
 				id : "id",
@@ -113,6 +115,7 @@ var MainView = Backbone.View.extend({
 				var code = res.code;
 				if(code==200){
 					PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
+					$("#cardList").html("");
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);
 				}

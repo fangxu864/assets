@@ -189,6 +189,8 @@ body{
   text-indent: 24px;
   background: white;
   font-weight: bold; }
+.cardContainer table th, .cardContainer table td{
+  text-align: left; }
 /*架构UI*/
 input[type=radio], input[type=checkbox] {
   vertical-align: middle; }

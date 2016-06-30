@@ -50,10 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(70);
-	var item_tpl = __webpack_require__(72);
+	__webpack_require__(76);
+	var item_tpl = __webpack_require__(78);
 	var Api = __webpack_require__(14);
-	var PaginationSimple = __webpack_require__(73);
+	var PaginationSimple = __webpack_require__(79);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		__cache : {},
@@ -69,10 +69,12 @@
 				keyup : false
 			})
 			this.pagination.on("next",function(data){
-	
+				var toPage = data.toPage;
+				that.getAnnualCardList(toPage);
 			})
 			this.pagination.on("prev",function(data){
-	
+				var toPage = data.toPage;
+				that.getAnnualCardList(toPage);
 			})
 			this.pid = PFT.Util.UrlParse()["pid"] || "";
 			this.getAnnualCardList(1);
@@ -91,10 +93,10 @@
 			if(!pid) return alert("缺少产品id");
 			page = page || 1;
 			pagesize = pagesize || 20;
-			var cache = this.__cache[pid];
+			var cache = this.__cache[page];
 			//如果已有缓存，则直接走缓存
 			if(cache){
-				that.updateListUl(cache.list);
+				that.updateListUl(cache.cards);
 				this.pagination.render({current:cache.page,total:cache.total_page});
 			}else{
 				PFT.Util.Ajax(Api.Url.storage.getList,{
@@ -117,7 +119,7 @@
 							that.updateListUl(list);
 							that.pagination.render({current:current_page,total:total_page});
 							//存入缓存
-							that.__cache[pid] = data;
+							that.__cache[page] = data;
 							if(page==1){
 								$("#cardStorage_num").text(data.physics);
 								$("#virtualStorage_num").text(data.virtual);
@@ -134,7 +136,8 @@
 		deleteAnnualCard : function(virtual_no,tarBtn){
 			var that = this;
 			if(!virtual_no) return false;
-			PFT.Ajax(Api.Url.storage.deleteAnnualCard,{
+			if(!confirm("确定要删除此卡片吗？")) return false;
+			PFT.Util.Ajax(Api.Url.storage.deleteAnnualCard,{
 				params : {
 					virtual_no : virtual_no
 				},
@@ -162,12 +165,12 @@
 			if(!cache) return false;
 			cache = cache[page];
 			if(!cache) return false;
-			var list = cache.list;
+			var list = cache.cards;
 			for(var i in list){
 				var d = list[i];
 				var virtual = d["virtual_no"];
 				if(virtual==itemId){
-					that.__cache[page]["list"].splice(i,1);
+					that.__cache[page]["cards"].splice(i,1);
 				}
 			}
 		},
@@ -246,6 +249,10 @@
 				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
 			}
 		},
 		defaults : {
@@ -264,21 +271,21 @@
 
 /***/ },
 
-/***/ 70:
+/***/ 76:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 72:
+/***/ 78:
 /***/ function(module, exports) {
 
 	module.exports = "<% if(Object.prototype.toString.call(data)==\"[object Array]\"){ %>\r\n    <% if(data.length){ %>\r\n        <% _.each(data,function(item,index){ %>\r\n            <%\r\n                var create_time = new Date(item.create_time*1000);\r\n                var result = [];\r\n                var month = (create_time.getMonth()+1) * 1;\r\n                if(month<10) month = \"0\" + month;\r\n                result.push(create_time.getFullYear());\r\n                result.push(month);\r\n                result.push(create_time.getDate());\r\n                result = result.join(\"-\");\r\n            %>\r\n            <tr data-id=\"<%=item.id%>\" class=\"border-bottom listItem\">\r\n                <td class=\"virtual\"><%=item.virtual_no%></td>\r\n                <td class=\"card\"><%=item.card_no%></td>\r\n                <td class=\"physics\"><%=item.physics_no%></td>\r\n                <td class=\"createtime\"><%=result%></td>\r\n                <td><a data-virtual=\"<%=item.virtual_no%>\" href=\"javascript:void(0);\" class=\"deleteBtn\">删除</a></td>\r\n            </tr>\r\n        <% }) %>\r\n    <% }else{ %>\r\n        <tr class=\"status empty\"><td style=\"height:150px; text-align:center\" colspan=\"5\">暂无卡片...</td></tr>\r\n    <% } %>\r\n<% }else if(data==\"loading\"){ %>\r\n    <tr class=\"status loading\"><td style=\"height:150px; text-align:center\" colspan=\"5\">努力加载中...</td></tr>\r\n<% }else if(data==\"timeout\"){ %>\r\n    <tr class=\"status timeout\"><td style=\"height:150px; text-align:center\" colspan=\"5\">请求超时，请稍后重试...</td></tr>\r\n<% }else if(data==\"error\"){ %>\r\n    <tr class=\"status error\"><td style=\"height:150px; text-align:center\" colspan=\"5\">请求出错，请稍后重试...</td></tr>\r\n<% }else{ %>\r\n    <tr class=\"status fail\"><td style=\"height:150px; text-align:center\" colspan=\"5\"><%=data%></td></tr>\r\n<% } %>\r\n";
 
 /***/ },
 
-/***/ 73:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -286,7 +293,7 @@
 	 * Date: 2016/6/16 10:18
 	 * Description: ""
 	 */
-	__webpack_require__(74);
+	__webpack_require__(80);
 	var Defaults = {
 		container : "",               //组件要渲染到的容器
 		onNext : function(){},        //要到下一页时触发回调
@@ -318,7 +325,7 @@
 	Pagination.prototype = {
 		init : function(opt){
 			var that = this;
-			this.tpl = __webpack_require__(76);
+			this.tpl = __webpack_require__(82);
 			this.container = typeof opt.container=="string" ? $("#"+opt.container.replace(/#/,"")) : opt.container;
 			this.container.hide().html(this.tpl);
 			this.currentPage = this.container.find(".whichPageInp");
@@ -399,8 +406,8 @@
 		},
 		getValue : function(){ //获取当前的页数值
 			return{
-				current : this.current.text(),
-				total : this.total.text()
+				current : this.currentPage.text(),
+				total : this.totalPage.text()
 			}
 		},
 		render : function(data){ // data={current:1,total:1} data=null
@@ -447,14 +454,14 @@
 
 /***/ },
 
-/***/ 74:
+/***/ 80:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 76:
+/***/ 82:
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigationBar\">\r\n    <div class=\"navCon\">\r\n        <a href=\"javascript:void(0)\" class=\"navBtn next nextPageBtn disable\"><span class=\"iconfont\">&#xe60d;</span></a>\r\n        <a href=\"javascript:void(0)\" class=\"prevPageBtn navBtn prev disable\"><span class=\"iconfont\">&#xe60c;</span></a>\r\n        <div class=\"which\">\r\n            <span class=\"whichPageInp pagenum\">1</span>\r\n            <span class=\"var\"> / </span>\r\n            <span class=\"totalPageInp pagenum\">1</span>\r\n        </div>\r\n    </div>\r\n    <p style=\"display:none\" class=\"tip keyupTip\">亲，可以使用键盘前后方向键来翻页哟</p>\r\n</div>";

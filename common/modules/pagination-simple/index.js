@@ -116,8 +116,8 @@ Pagination.prototype = {
 	},
 	getValue : function(){ //获取当前的页数值
 		return{
-			current : this.current.text(),
-			total : this.total.text()
+			current : this.currentPage.text(),
+			total : this.totalPage.text()
 		}
 	},
 	render : function(data){ // data={current:1,total:1} data=null

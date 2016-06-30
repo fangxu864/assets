@@ -55,6 +55,10 @@ var Api = {
 			getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 			//删除生成好的卡片
 			deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+		},
+		//下单成功页
+		ordersuccess : {
+			getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
 		}
 	},
 	defaults : {

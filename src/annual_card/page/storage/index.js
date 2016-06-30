@@ -22,10 +22,12 @@ var MainView = Backbone.View.extend({
 			keyup : false
 		})
 		this.pagination.on("next",function(data){
-
+			var toPage = data.toPage;
+			that.getAnnualCardList(toPage);
 		})
 		this.pagination.on("prev",function(data){
-
+			var toPage = data.toPage;
+			that.getAnnualCardList(toPage);
 		})
 		this.pid = PFT.Util.UrlParse()["pid"] || "";
 		this.getAnnualCardList(1);
@@ -44,10 +46,10 @@ var MainView = Backbone.View.extend({
 		if(!pid) return alert("缺少产品id");
 		page = page || 1;
 		pagesize = pagesize || 20;
-		var cache = this.__cache[pid];
+		var cache = this.__cache[page];
 		//如果已有缓存，则直接走缓存
 		if(cache){
-			that.updateListUl(cache.list);
+			that.updateListUl(cache.cards);
 			this.pagination.render({current:cache.page,total:cache.total_page});
 		}else{
 			PFT.Util.Ajax(Api.Url.storage.getList,{
@@ -70,7 +72,7 @@ var MainView = Backbone.View.extend({
 						that.updateListUl(list);
 						that.pagination.render({current:current_page,total:total_page});
 						//存入缓存
-						that.__cache[pid] = data;
+						that.__cache[page] = data;
 						if(page==1){
 							$("#cardStorage_num").text(data.physics);
 							$("#virtualStorage_num").text(data.virtual);
@@ -87,7 +89,8 @@ var MainView = Backbone.View.extend({
 	deleteAnnualCard : function(virtual_no,tarBtn){
 		var that = this;
 		if(!virtual_no) return false;
-		PFT.Ajax(Api.Url.storage.deleteAnnualCard,{
+		if(!confirm("确定要删除此卡片吗？")) return false;
+		PFT.Util.Ajax(Api.Url.storage.deleteAnnualCard,{
 			params : {
 				virtual_no : virtual_no
 			},
@@ -115,12 +118,12 @@ var MainView = Backbone.View.extend({
 		if(!cache) return false;
 		cache = cache[page];
 		if(!cache) return false;
-		var list = cache.list;
+		var list = cache.cards;
 		for(var i in list){
 			var d = list[i];
 			var virtual = d["virtual_no"];
 			if(virtual==itemId){
-				that.__cache[page]["list"].splice(i,1);
+				that.__cache[page]["cards"].splice(i,1);
 			}
 		}
 	},

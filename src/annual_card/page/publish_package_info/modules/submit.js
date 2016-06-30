@@ -61,7 +61,7 @@ var Submit = Backbone.View.extend({
 
 		var tprice = $.trim(container.find(".priceSectionLine").first().find("input[name=tprice]").val()); //门市价
 		if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
-		data["tprice"] = tprice*100;
+		data["tprice"] = tprice;
 
 
 		//产品说明
@@ -87,33 +87,22 @@ var Submit = Backbone.View.extend({
 		}else{ //delaytype==0 || 1
 			var delaydays = $.trim(delaytypeRadio.parent().find("input[type=text][name=delaydays]").val());
 			if(delaydays=="") return this.errorHander(pckId,"使用有效期，请填写有效天数");
-			if(!PFT.Util.Validate.typeInit0(delaydays)) return this.errorHander(pckId,"使用有效期，天数请填写正整数");
+			//不可为0
+			if(!PFT.Util.Validate.typeInit(delaydays)) return this.errorHander(pckId,"使用有效期，天数请填写正整数");
 			data["delaydays"] = delaydays;
 		}
 
-		//自动激活
+		//自动激活(可以为0)
 		var auto_active_days = $.trim(container.find("input[type=text][name=auto_active_days]").val());
 		if(!PFT.Util.Validate.typeInit0(auto_active_days)) return this.errorHander(pckId,"激活限制，请填写正整数");
 		data["auto_active_days"] = auto_active_days;
 		//是否需要身份证
 		var certLimitInput = $("#cert_limit_"+pckId);
 		if(certLimitInput.is(":checked")){
-			data["cert_limit"] = 0;
-		}else{
 			data["cert_limit"] = 1;
+		}else{
+			data["cert_limit"] = 0;
 		}
-
-
-		//购票限制
-		data["search_limit"] = (function(){
-			var result = [];
-			container.find("input[type=checkbox][name=search_limit]:checked").each(function(){
-				var val = $(this).val();
-				result.push(val);
-			});
-			return result.join(",");
-		})();
-		if(data["search_limit"]=="") return this.errorHander(pckId,"购票限制必须选择至少一种");
 
 
 		//使用说明
