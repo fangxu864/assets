@@ -1,47 +1,3 @@
-.gSimpleDialog-container {
-  position: fixed;
-  overflow: hidden;
-  background: #fff;
-  -ms-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-  -o-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); }
-
-.gSimpleDialog-header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 9998; }
-
-.gSimpleDialog-closeBtn {
-  display: block;
-  position: absolute;
-  z-index: 9999;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  text-align: center;
-  color: #919191;
-  font-size: 26px;
-  cursor: pointer; }
-
-.gSimpleDialog-closeBtn.hidden {
-  display: none; }
-
-.gSimpleDialog-closeBtn:hover {
-  background: #e12424;
-  color: #fff; }
-
-.gSimpleDialog-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #000;
-  opacity: 0.6;
-  filter: alpha(opacity=60);
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-  -moz-opacity: 0.6; }
 @charset "UTF-8";
 /**
  * Author: huangzhiyang
@@ -235,14 +191,24 @@ body{
   font-weight: bold; }
 .cardContainer table th, .cardContainer table td{
   text-align: left; }
-.fillLine .fr .fillInp {
+.activaCard, .cardType, .active, .query {
+  vertical-align: middle;
+  cursor: pointer;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  white-space: nowrap; }
+
+.cardBox input {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
-.fillLine .fr .fillInp {
+.cardBox input {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -250,151 +216,149 @@ body{
   -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
 /*架构UI*/
+select {
+  border: 1px solid #dbdbdb;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  text-indent: 10px; }
+
 .cardContainer {
-  width: 798px;
+  width: 998px;
+  border: 1px solid #e5e5e5;
   margin: 0 auto;
   background: white; }
 
-.cardnumBox {
-  overflow: hidden;
-  padding: 10px; }
+.manageTitle {
+  height: 58px;
+  overflow: hidden; }
 
-.cardnumBox .cardItem {
+.manageTitle .entry {
   float: left;
-  margin: 6px;
-  width: 173px;
-  height: 70px;
-  padding: 10px 0 0 6px;
-  background: #f5f5f5;
-  border-radius: 8px; }
+  line-height: 58px;
+  font-size: 24px;
+  margin-left: 24px; }
 
-.cardnumBox .cardItem p {
-  line-height: 18px; }
+.activaCard {
+  display: inline-block;
+  width: 135px;
+  height: 34px;
+  line-height: 34px;
+  background-color: #3eba40;
+  color: #fff;
+  border-radius: 0px;
+  font-size: 14px;
+  float: right;
+  margin: 12px 13px 0 0; }
+  .activaCard:hover, .activaCard:active {
+    background-color: #38a739;
+    text-decoration: none; }
 
-.fillTable {
-  width: 100%;
-  background: #bfe7f8; }
-
-.fillTable thead {
-  background: #0797d9;
-  line-height: 35px;
+.activaCard:link, .query:link, .active:link {
   color: white; }
 
-.fillTable tr td:first-of-type, .fillTable tr th:first-of-type {
-  text-indent: 22px; }
+.manageState {
+  height: 115px;
+  padding-left: 24px; }
 
-.fillTable tbody {
-  padding-top: 10px; }
+.cardType {
+  display: inline-block;
+  width: 131px;
+  height: 28px;
+  line-height: 28px;
+  background-color: transparent;
+  color: #fff;
+  border-radius: 0px;
+  font-size: 14px;
+  margin-top: 13px; }
+  .cardType:hover, .cardType:active {
+    background-color: transparent;
+    text-decoration: none; }
 
-.fillTable tbody tr {
-  height: 86px; }
+.active {
+  display: inline-block;
+  width: 131px;
+  height: 28px;
+  line-height: 28px;
+  background-color: #258cc9;
+  color: #fff;
+  border-radius: 0px;
+  font-size: 14px; }
+  .active:hover, .active:active {
+    background-color: #217db3;
+    text-decoration: none; }
 
-.fillTable tr td {
-  line-height: 18px; }
+.cardBox {
+  margin-top: 22px; }
 
-.fillForm {
-  padding: 22px 0 0 22px; }
+.cardBox select {
+  width: 198px;
+  height: 30px; }
 
-.fillLine {
-  overflow: hidden;
-  margin-bottom: 10px; }
-
-.fillLine .fl {
-  float: left;
-  width: 96px;
-  height: 30px;
-  line-height: 30px; }
-
-.fillLine input[type=radio] {
-  vertical-align: middle; }
-
-.fillLine .fr {
-  float: left; }
-
-.fillLine .fr .fillInp {
-  width: 248px;
+.cardBox input {
+  width: 237px;
   height: 22px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
   padding-left: 5px;
   padding-right: 5px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   text-indent: 0; }
 
-.fillLine .balance {
-  margin-left: 22px; }
-
-.fillLine .tip.error {
-  color: red; }
-
-.submitBox {
-  width: 798px;
-  height: 44px;
-  background: #e5e5e5;
-  margin-top: 30px; }
-
-.orderPrice {
+.query {
   display: inline-block;
-  float: left;
-  line-height: 44px;
-  margin-left: 560px; }
+  width: 87px;
+  height: 28px;
+  line-height: 28px;
+  background-color: #f5530c;
+  color: #fff;
+  border-radius: 0px;
+  font-size: 14px;
+  margin-top: -4px; }
+  .query:hover, .query:active {
+    background-color: #de4a09;
+    text-decoration: none; }
 
-#submitBtn {
-  float: right;
-  width: 114px;
-  height: 44px;
-  line-height: 44px;
-  color: white; }
+.dash {
+  border-bottom: 1px dashed #e5e5e5; }
 
-#submitBtn.disable {
-  background: #ccc;
-  color: #999;
-  cursor: default; }
+.listItemTable {
+  width: 100%; }
 
-.supplierBox {
-  line-height: 33px;
-  padding-left: 24px; }
+.listItemTable thead tr {
+  line-height: 36px;
+  background: #e5e5e5; }
 
-.supplierBox > span {
-  margin-right: 100px; }
+.listItemTable tbody tr {
+  line-height: 46px; }
 
-.introduceBox {
-  height: 166px;
-  padding-top: 20px; }
+.listItemTable tr td:first-of-type, .listItemTable tr th:first-of-type {
+  text-indent: 24px; }
 
-.introduceBox .introduceBoxCon {
-  margin: 0 24px; }
-
-.introduceBox p {
-  text-indent: 24px;
-  line-height: 24px; }
-
-.memberBox {
-  padding: 0 26px; }
-
-.memP {
-  line-height: 106px;
+.pageBox {
+  height: 28px;
+  padding: 9px 10px;
   font-size: 14px; }
 
-.memTable {
-  width: 464px;
-  background: #f5f5f5;
-  line-height: 30px; }
+.pageBox a {
+  width: 78px;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 14px;
+  font-weight: bolder;
+  font-size: larger; }
 
-.memTable tr td:first-of-type, .memTable tr th:first-of-type {
-  text-indent: 10px; }
+.pageBox a:link {
+  color: #92a0ab; }
 
-.memberBox .btnBox {
-  overflow: hidden; }
+.pageBox .bg-gray {
+  margin-left: 760px; }
 
-.memberBox .btnBox a {
-  float: right;
-  margin: 50px 0 0 10px;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 32px; }
+.listSlideContainer .slideUl {
+  position: relative;
+  overflow: hidden;
+  zoom: 1; }
 
-/**/
+.listSlideContainer .listItemLi {
+  float: left; }
 
 /*# sourceMappingURL=all.css.map*/

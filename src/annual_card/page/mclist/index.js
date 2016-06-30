@@ -6,6 +6,7 @@
 require("./style.scss");
 var TabHeader = require("./tab-header");
 var ListManager = require("./list-manager");
+var State = require("./state.js");
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
@@ -13,12 +14,12 @@ var MainView = Backbone.View.extend({
 	},
 	initialize : function(){
 		var that = this;
-		this.TabHeader = new TabHeader();
+		this.TabHeader = new TabHeader({state:State});
 		this.TabHeader.on("switch",function(data){
 			var status = data.status;
 			that.ListManager.active(status);
 		})
-		this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus()});
+		this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
 		this.TabHeader.active(1);
 	}
 });

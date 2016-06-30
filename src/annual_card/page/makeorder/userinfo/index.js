@@ -49,7 +49,17 @@ var UserInfoView = Backbone.View.extend({
 		}
 	},
 	validateIDCard : function(idCard){
-		if(idCard && !PFT.Util.Validate.idcard(idCard)) return "请输入正确身份证号";
+		var idCardInp = this.idCardInp;
+		var isRequire = idCardInp.attr("data-needid");
+		if(isRequire==1){ //要求必填
+			if(!idCard){
+				return "请输入身份证号";
+			}else if(!PFT.Util.Validate.idcard(idCard)){
+				return "请输入正确身份证号";
+			}
+		}else{ //不要求必填，可选项，但如果填写了，格式要求正确
+			if(idCard && !PFT.Util.Validate.idcard(idCard)) return "请输入正确身份证号";
+		}
 	},
 	getUserInfo : function(){
 		var name = $.trim(this.nameInp.val());

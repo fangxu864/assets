@@ -5,6 +5,7 @@
  */
 var itemContainerTpl = require("./item-container-tpl.xtpl");
 var LoadingPc = require("COMMON/js/util.loading.pc.js");
+var Api = require("../../../common/api.js");
 var Manager = Backbone.View.extend({
 	el : $("#listSlideContainer"),
 	tableTh : {
@@ -19,6 +20,7 @@ var Manager = Backbone.View.extend({
 	},
 	initialize : function(opt){
 		opt = opt || {};
+		this.state = opt.state;
 		this.itemWidth = this.$el.width();
 		this.statusArr = opt.statusArr;
 		this.slideUl = this.$el.find(".slideUl");
@@ -29,10 +31,6 @@ var Manager = Backbone.View.extend({
 		var that = this;
 		var template = _.template(itemContainerTpl);
 		var tableTh = this.tableTh;
-		var loading = LoadingPc("努力加载中，请稍后..",{
-			tag : "span",
-			height : 400
-		});
 		var html = "";
 		for(var i=0; i<status.length; i++){
 			var _stus = status[i];
@@ -41,16 +39,57 @@ var Manager = Backbone.View.extend({
 				width : that.itemWidth,
 				status : _stus,
 				ths : ths,
-				loading : loading
+				loading : ""
 			}});
 		}
 		this.slideUl.html(html);
+	},
+	getSupplySelectVal : function(){
+		return $("#supplySelect").val();
 	},
 	//要切换(激活哪个slide item)
 	active : function(status){
 		var tarItem = $("#listItemLi_"+status);
 		var index = tarItem.index();
+		var state = this.state[status] || (this.state[status]={});
+		var supply = this.getSupplySelectVal();
+		var keyword = $("#searchInp").val();
+		var listData = state.listData;
+		//切换之前，先把当前pannel里的状态保存到state里
+		state["supply"] = supply;
+		state["keyword"] = keyword;
+		$("#searchInp").val("");
+		if(!listData) this.getList(status);
 		this.slideUl.animate({left:-1*this.itemWidth*index},400);
+	},
+	getList : function(status,page,keyword){
+		var that = this;
+		var container = $("#listItemLi_"+status).find(".tbody");
+		PFT.Util.Ajax(Api.Url.storage.getList,{
+			params : {
+				status : status,
+				page : page,
+				page_size : 20,
+				identify : keyword
+			},
+			loading : function(){
+				var loading = LoadingPc("努力加载中，请稍后..",{
+					tag : "tr",
+					height : 300,
+					colspan : that.tableTh[status].length,
+					css : {
+						"text-align" : "center"
+					}
+				});
+				container.html(loading);
+			},
+			complete : function(){
+
+			},
+			success : function(res){
+
+			}
+		})
 	}
 });
 module .exports = Manager;

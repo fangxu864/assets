@@ -35,9 +35,18 @@ var OrderIno = Backbone.View.extend({
 			},
 			success : function(res){
 				res = res || {};
-				var data = res.data;
+				var data = res.data || {};
 				var product = data.product;
 				if(res.code==200){
+
+					var needID = data.need_ID;
+					var idCardInp = $("#userinfo_idCardInp");
+					var tip = idCardInp.siblings(".tip");
+					idCardInp.attr("data-needid",needID);
+					if(needID==1){ //限制身份证必填
+						tip.text("必填项");
+					}
+
 					$("#ltitle_text").text(product.ltitle+"-"+product.title);
 					var pay = data.pay;
 					if(pay.is_self==1){//自供应

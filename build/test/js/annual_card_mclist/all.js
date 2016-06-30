@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/test/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -50,10 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(39);
-	var TabHeader = __webpack_require__(41);
-	var ListManager = __webpack_require__(42);
-	var State = __webpack_require__(44);
+	__webpack_require__(37);
+	var TabHeader = __webpack_require__(39);
+	var ListManager = __webpack_require__(40);
+	var State = __webpack_require__(42);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -79,7 +79,7 @@
 
 /***/ },
 
-/***/ 12:
+/***/ 10:
 /***/ function(module, exports) {
 
 	/**
@@ -122,7 +122,7 @@
 
 /***/ },
 
-/***/ 13:
+/***/ 11:
 /***/ function(module, exports) {
 
 	/**
@@ -141,7 +141,7 @@
 
 /***/ },
 
-/***/ 16:
+/***/ 14:
 /***/ function(module, exports) {
 
 	/**
@@ -223,7 +223,7 @@
 
 /***/ },
 
-/***/ 34:
+/***/ 32:
 /***/ function(module, exports) {
 
 	/**
@@ -267,14 +267,14 @@
 
 /***/ },
 
-/***/ 39:
+/***/ 37:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 41:
+/***/ 39:
 /***/ function(module, exports) {
 
 	/**
@@ -319,7 +319,7 @@
 
 /***/ },
 
-/***/ 42:
+/***/ 40:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -327,9 +327,9 @@
 	 * Date: 2016/6/29 16:29
 	 * Description: ""
 	 */
-	var itemContainerTpl = __webpack_require__(43);
-	var LoadingPc = __webpack_require__(34);
-	var Api = __webpack_require__(16);
+	var itemContainerTpl = __webpack_require__(41);
+	var LoadingPc = __webpack_require__(32);
+	var Api = __webpack_require__(14);
 	var Manager = Backbone.View.extend({
 		el : $("#listSlideContainer"),
 		tableTh : {
@@ -420,14 +420,14 @@
 
 /***/ },
 
-/***/ 43:
+/***/ 41:
 /***/ function(module, exports) {
 
 	module.exports = "<li style=\"width:<%=data.width%>px\" id=\"listItemLi_<%=data.status%>\" class=\"listItemLi listItemLi_<%=data.status%>\">\r\n    <table id=\"listItemTable_<%=data.status%>\" class=\"listItemTable listItemTable_<%=data.status%>\">\r\n        <thead>\r\n        <tr>\r\n            <%_.each(data.ths,function(item,index){%>\r\n            <th><%=item%></th>\r\n            <% }) %>\r\n        </tr>\r\n        </thead>\r\n        <tbody id=\"tbody_<%=data.status%>\" class=\"tbody tbody_<%=data.status%>\">\r\n            <tr style=\"text-align:center\">\r\n                <td colspan=\"<%=data.ths.length%>\" style=\"text-align:center\"><%=data.loading%></td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</li>\r\n";
 
 /***/ },
 
-/***/ 44:
+/***/ 42:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -435,8 +435,8 @@
 	 * Date: 2016/6/30 17:11
 	 * Description: ""
 	 */
-	var Extend = __webpack_require__(13);
-	var PubSub = __webpack_require__(12);
+	var Extend = __webpack_require__(11);
+	var PubSub = __webpack_require__(10);
 	var State = Extend({},PubSub);
 	module.exports = State;
 

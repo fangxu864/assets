@@ -50,14 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(55);
-	var Api = __webpack_require__(12);
-	var Select = __webpack_require__(57);
-	var Fileupload = __webpack_require__(59);
-	
-	
-	
-	
+	__webpack_require__(69);
+	var Api = __webpack_require__(14);
+	var Select = __webpack_require__(71);
+	var Fileupload = __webpack_require__(73);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -138,7 +134,7 @@
 			if(!mobile) return mobileInp.parents(".line").addClass("error");
 			if(!info) return infoTextarea.parents(".line").addClass("error");
 			if(!uploadPhoto) return alert("请上传一张预览图");
-			this.submit({
+			var data = {
 				product_name : prodName,
 				product_type : "I",
 				address : addr,
@@ -147,7 +143,10 @@
 				province : province,
 				city : city,
 				img_path : uploadPhoto
-			})
+			};
+			var lid = PFT.Util.UrlParse()["sid"];
+			if(lid) data["lid"] = lid;
+			this.submit(data);
 		},
 		renderThumbList : function(src){
 			var container = $("#uploadPhotoBox");
@@ -223,13 +222,13 @@
 	});
 	
 	$(function(){
-		var view = new MainView();
+		new MainView();
 	})
 
 
 /***/ },
 
-/***/ 12:
+/***/ 14:
 /***/ function(module, exports) {
 
 	/**
@@ -244,7 +243,7 @@
 			PublishCardProd : {
 				submit : "/r/product_scenic/save/",
 				//图片上传
-				uploadFile : "/r/product_annualCard/uploadImg/",
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
 			},
@@ -255,32 +254,45 @@
 				//拉取已存在的票类
 				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
 				//获取产品列表
-				getLands : "/r/product_annualCard/getLands/",
+				getLands : "/r/product_AnnualCard/getLands/",
 				//获取票类列表
-				getTickets : "/r/product_annualCard/getTickets/",
+				getTickets : "/r/product_AnnualCard/getTickets/",
 				//删除票类
 				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
 				//获取供应商的年卡产品列表
-				getProdList : "/r/product_annualCard/getAnnualCardProducts/",
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
 				//录入卡片
-				createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_annualCard/getAnnualCards/",
-				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+	
 			},
 			//下单页面
 			makeOrder : {
 				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
 			},
 			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+			//库存明细页
+			storage : {
+				//获取库存列表
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			}
 		},
 		defaults : {
 			type : "get",
@@ -298,14 +310,14 @@
 
 /***/ },
 
-/***/ 55:
+/***/ 69:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 57:
+/***/ 71:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -314,7 +326,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(58);
+		this.data = __webpack_require__(72);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -404,7 +416,7 @@
 
 /***/ },
 
-/***/ 58:
+/***/ 72:
 /***/ function(module, exports) {
 
 	/**
@@ -417,7 +429,7 @@
 
 /***/ },
 
-/***/ 59:
+/***/ 73:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -425,8 +437,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(60);
-	var tpl = __webpack_require__(62);
+	__webpack_require__(74);
+	var tpl = __webpack_require__(76);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -529,14 +541,14 @@
 
 /***/ },
 
-/***/ 60:
+/***/ 74:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 62:
+/***/ 76:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";

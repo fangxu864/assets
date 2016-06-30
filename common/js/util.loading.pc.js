@@ -13,6 +13,7 @@ var Loading = function(text,opt){
 	text = text || "请稍后...";
 	opt = opt || {}
 	var tag = opt.tag || "div";
+	if(tag=="td") tag = "tr";
 	var width = opt.width+"px" || "100%";
 	var height = opt.height || 150;
 	var loadingImg = opt.loadingImg || {};
@@ -27,7 +28,7 @@ var Loading = function(text,opt){
 	for(var i in css) style += i+":"+css[i]+"; ";
 	var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
 	html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
-	if(tag=="tr"||tag=="td") html += '<td colspan="'+td_colspan+'">';
+	if(tag=="tr"||tag=="td") html += '<td style="text-align:center" colspan="'+td_colspan+'">';
 	html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 	html +=     '<span class="t">'+text+'</span>';
 	if(tag=="tr"||tag=="td") html += '</td>';

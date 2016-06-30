@@ -178,7 +178,9 @@ Select.prototype = {
 		var html = this.renderListHtml(data);
 		this.listUl.html(html);
 		var defaultVal = this.opt.defaultVal;
+		if(data=="loading" || data=="error" || data==null) return false;
 		if(defaultVal){
+
 			this.selectDefaultVal();
 		}else{
 			this.listUl.children().first().trigger("click");
@@ -187,8 +189,8 @@ Select.prototype = {
 	//初始化时选中默认值
 	selectDefaultVal : function(){
 		var defaultVal = this.opt.defaultVal;
-		if(!defaultVal && defaultVal!=0) return false;
-		this.listUl.children().filter("[data-"+this.opt.field.id+"]").trigger("click");
+		if(!defaultVal) return false;
+		this.listUl.children().filter("[data-"+this.opt.field.id+"="+defaultVal+"]").trigger("click");
 	},
 	renderListHtml : function(data,errorMsg){ //data必须为如下格式：[{key1:value1,key2:value2}]
 		var html = "";

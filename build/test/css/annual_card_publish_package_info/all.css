@@ -12,18 +12,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
-a{
+.cardContainer i{
+  font-style: normal; }
+.cardContainer a{
   text-decoration: none; }
-a:hover{
+.cardContainer a:hover{
   text-decoration: underline; }
-a:link{
+.cardContainer a:link{
   text-decoration: none;
   outline: none; }
-a:visited{
+.cardContainer a:visited{
   text-decoration: none;
   outline: none;
   color: #fff; }
-a:active{
+.cardContainer a:active{
   text-decoration: none;
   outline: none; }
 .cardContainer a:hover, .border a:hover{
@@ -181,6 +183,14 @@ a:active{
   text-indent: 10px; }
 .table tr:first-of-type{
   background: #e5e5e5; }
+.entry{
+  line-height: 65px;
+  font-size: 16px;
+  text-indent: 24px;
+  background: white;
+  font-weight: bold; }
+.cardContainer table th, .cardContainer table td{
+  text-align: left; }
 /*架构UI*/
 input[type=radio], input[type=checkbox] {
   vertical-align: middle; }
@@ -192,6 +202,9 @@ input[type=text], select, textarea {
 
 textarea {
   line-height: 24px; }
+
+input:focus {
+  border-color: #0797d9; }
 
 .cardContainer {
   width: 798px;
@@ -236,7 +249,7 @@ textarea {
   min-height: 1000px; }
 
 .line {
-  margin: 20px 32px;
+  margin: 10px 32px;
   overflow: hidden; }
 
 .line .lt {
@@ -497,7 +510,17 @@ h1.entry {
   cursor: default;
   border-color: #c9c9c9; }
 
+#calendar-pop-container {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2); }
+
 /**/
+.pckTitListUl .pckTitListUlItem .editNameInp {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+
 .pckTitListUl .pckTitListUlItem .editNameInp {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -532,7 +555,7 @@ h1.entry {
   float: left;
   position: relative;
   width: 338px;
-  margin: 0 8px 8px 0;
+  margin: 0 10px 10px 0;
   cursor: pointer; }
 
 .pckTitListUl .pckTitListUlItem.edit {
@@ -601,7 +624,7 @@ h1.entry {
 .calendar-table .calendar-thead label{ position:relative; top:-1px;}
 .calendar-table .calendar-td{border:1px solid #E5E5E5;}
 .calendar-table .calendar-td .tdCon{ display:block; position:relative; height:36px; line-height:36px; text-align:center; overflow:hidden}
-.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice{ background:#f7f7f7; cursor:default}
+.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{ background:#f7f7f7; cursor:default}
 .calendar-table .calendar-td.day{ background:#fff; cursor:pointer;}
 .calendar-table .calendar-td.day:hover{ background:#fcfcfc}
 .calendar-table .calendar-td.selected, .calendar-table .calendar-td.selected:hover{ background:#008fc2; color:#fff}

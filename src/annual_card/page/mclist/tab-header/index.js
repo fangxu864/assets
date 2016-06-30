@@ -8,8 +8,9 @@ var Header = Backbone.View.extend({
 	events : {
 		"click .cardType" : "onCardTypeClick"
 	},
-	initialize : function(){
-
+	initialize : function(opt){
+		this.state = opt.state;
+		console.log(this.state);
 	},
 	onCardTypeClick : function(e){
 		var tarBtn = $(e.currentTarget);
@@ -29,6 +30,10 @@ var Header = Backbone.View.extend({
 			status.push(s);
 		})
 		return status;
+	},
+	setCount : function(status,count){
+		if(arguments.length!=2) return false;
+		$("#cardTypeTab_"+status).find(".num").css("display","inline").text(count);
 	}
 });
 module.exports = Header;

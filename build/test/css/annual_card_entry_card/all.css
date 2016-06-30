@@ -12,18 +12,20 @@
 /*通用UI*/
 body{
   background: #f8f9fb; }
-a{
+.cardContainer i{
+  font-style: normal; }
+.cardContainer a{
   text-decoration: none; }
-a:hover{
+.cardContainer a:hover{
   text-decoration: underline; }
-a:link{
+.cardContainer a:link{
   text-decoration: none;
   outline: none; }
-a:visited{
+.cardContainer a:visited{
   text-decoration: none;
   outline: none;
   color: #fff; }
-a:active{
+.cardContainer a:active{
   text-decoration: none;
   outline: none; }
 .cardContainer a:hover, .border a:hover{
@@ -181,6 +183,14 @@ a:active{
   text-indent: 10px; }
 .table tr:first-of-type{
   background: #e5e5e5; }
+.entry{
+  line-height: 65px;
+  font-size: 16px;
+  text-indent: 24px;
+  background: white;
+  font-weight: bold; }
+.cardContainer table th, .cardContainer table td{
+  text-align: left; }
 /*架构UI*/
 input[type=text] {
   border: 1px solid #dbdbdb;
@@ -192,12 +202,6 @@ input[type=text] {
   border: 1px solid #e5e5e5;
   margin: 0 auto;
   background: white; }
-
-.entry {
-  line-height: 56px;
-  font-size: 20px;
-  margin-left: 24px;
-  font-weight: normal; }
 
 .cardPro {
   background: #bfe7f8;

@@ -49,12 +49,12 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(28);
-	var UserInfo = __webpack_require__(30);
-	var CardList = __webpack_require__(31);
-	var OrderInfo = __webpack_require__(33);
-	var CheckExistDialog = __webpack_require__(35);
-	var Api = __webpack_require__(14);
+	__webpack_require__(30);
+	var UserInfo = __webpack_require__(32);
+	var CardList = __webpack_require__(33);
+	var OrderInfo = __webpack_require__(35);
+	var CheckExistDialog = __webpack_require__(37);
+	var Api = __webpack_require__(16);
 	var Format = function (date,fmt) { //author: meizz
 		var o = {
 			"M+": date.getMonth() + 1, //月份
@@ -225,7 +225,9 @@
 /* 2 */,
 /* 3 */,
 /* 4 */,
-/* 5 */
+/* 5 */,
+/* 6 */,
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -233,11 +235,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(6);
-	var WinWidthHeight = __webpack_require__(8);
-	var Drag = __webpack_require__(9);
-	var PubSub = __webpack_require__(10);
-	var Extend = __webpack_require__(11);
+	__webpack_require__(8);
+	var WinWidthHeight = __webpack_require__(10);
+	var Drag = __webpack_require__(11);
+	var PubSub = __webpack_require__(12);
+	var Extend = __webpack_require__(13);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -402,14 +404,14 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 7 */,
-/* 8 */
+/* 9 */,
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -436,7 +438,7 @@
 	}
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -763,7 +765,7 @@
 	module.exports = Drag;
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -805,7 +807,7 @@
 	module.exports = E;
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -823,9 +825,9 @@
 	}
 
 /***/ },
-/* 12 */,
-/* 13 */,
-/* 14 */
+/* 14 */,
+/* 15 */,
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -906,8 +908,6 @@
 
 
 /***/ },
-/* 15 */,
-/* 16 */,
 /* 17 */,
 /* 18 */,
 /* 19 */,
@@ -919,14 +919,16 @@
 /* 25 */,
 /* 26 */,
 /* 27 */,
-/* 28 */
+/* 28 */,
+/* 29 */,
+/* 30 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 29 */,
-/* 30 */
+/* 31 */,
+/* 32 */
 /***/ function(module, exports) {
 
 	/**
@@ -980,7 +982,17 @@
 			}
 		},
 		validateIDCard : function(idCard){
-			if(idCard && !PFT.Util.Validate.idcard(idCard)) return "请输入正确身份证号";
+			var idCardInp = this.idCardInp;
+			var isRequire = idCardInp.attr("data-needid");
+			if(isRequire==1){ //要求必填
+				if(!idCard){
+					return "请输入身份证号";
+				}else if(!PFT.Util.Validate.idcard(idCard)){
+					return "请输入正确身份证号";
+				}
+			}else{ //不要求必填，可选项，但如果填写了，格式要求正确
+				if(idCard && !PFT.Util.Validate.idcard(idCard)) return "请输入正确身份证号";
+			}
 		},
 		getUserInfo : function(){
 			var name = $.trim(this.nameInp.val());
@@ -1001,7 +1013,7 @@
 	module.exports = UserInfoView;
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1009,8 +1021,8 @@
 	 * Date: 2016/6/17 15:17
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(14);
-	var Loading_Pc = __webpack_require__(32);
+	var Api = __webpack_require__(16);
+	var Loading_Pc = __webpack_require__(34);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -1088,7 +1100,7 @@
 	module.exports = List;
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports) {
 
 	/**
@@ -1106,6 +1118,7 @@
 		text = text || "请稍后...";
 		opt = opt || {}
 		var tag = opt.tag || "div";
+		if(tag=="td") tag = "tr";
 		var width = opt.width+"px" || "100%";
 		var height = opt.height || 150;
 		var loadingImg = opt.loadingImg || {};
@@ -1120,7 +1133,7 @@
 		for(var i in css) style += i+":"+css[i]+"; ";
 		var imgSrc = 'http://static.12301.cc/assets/build/images/gloading.gif';
 		html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
-		if(tag=="tr"||tag=="td") html += '<td colspan="'+td_colspan+'">';
+		if(tag=="tr"||tag=="td") html += '<td style="text-align:center" colspan="'+td_colspan+'">';
 		html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
 		html +=     '<span class="t">'+text+'</span>';
 		if(tag=="tr"||tag=="td") html += '</td>';
@@ -1130,7 +1143,7 @@
 	module.exports = Loading;
 
 /***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1138,9 +1151,9 @@
 	 * Date: 2016/6/17 16:27
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(14);
-	var Loading_Pc = __webpack_require__(32);
-	var tpl = __webpack_require__(34);
+	var Api = __webpack_require__(16);
+	var Loading_Pc = __webpack_require__(34);
+	var tpl = __webpack_require__(36);
 	var OrderIno = Backbone.View.extend({
 		initialize : function(){
 			this.listUl = $("#orderInfoList");
@@ -1170,9 +1183,18 @@
 				},
 				success : function(res){
 					res = res || {};
-					var data = res.data;
+					var data = res.data || {};
 					var product = data.product;
 					if(res.code==200){
+	
+						var needID = data.need_ID;
+						var idCardInp = $("#userinfo_idCardInp");
+						var tip = idCardInp.siblings(".tip");
+						idCardInp.attr("data-needid",needID);
+						if(needID==1){ //限制身份证必填
+							tip.text("必填项");
+						}
+	
 						$("#ltitle_text").text(product.ltitle+"-"+product.title);
 						var pay = data.pay;
 						if(pay.is_self==1){//自供应
@@ -1215,13 +1237,13 @@
 	module.exports = OrderIno;
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var use_limit = item.use_limit;\r\n                    var limit_str = \"\";\r\n                    if(use_limit==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        use_limit = use_limit.split(\",\");\r\n                        var daily = use_limit[0];\r\n                        var month = use_limit[1];\r\n                        var total = use_limit[2];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage==\"-1\" ? \"-\" : data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1229,8 +1251,8 @@
 	 * Date: 2016/6/27 18:55
 	 * Description: ""
 	 */
-	var SDialog = __webpack_require__(5);
-	var tpl = __webpack_require__(36);
+	var SDialog = __webpack_require__(7);
+	var tpl = __webpack_require__(38);
 	var Dialog = function(){
 		var that = this;
 		this.submitData = {};
@@ -1283,7 +1305,7 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 36 */
+/* 38 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";

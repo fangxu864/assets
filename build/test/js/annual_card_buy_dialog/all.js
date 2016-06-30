@@ -51,9 +51,11 @@
 	 */
 	__webpack_require__(1);
 	var SDialog = __webpack_require__(5);
-	var dialogTpl = __webpack_require__(10);
-	var ReadCardObj = __webpack_require__(11);
-	var Api = __webpack_require__(12);
+	var dialogTpl = __webpack_require__(12);
+	var ReadCardObj = __webpack_require__(13);
+	var Api = __webpack_require__(14);
+	var Ajax = __webpack_require__(15);
+	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 	var AnnualCardBuyDialog = function(){
 		this.init();
 	};
@@ -81,12 +83,12 @@
 						var physics = [];
 						var hasReadCards = that.hasReadCards;
 						for(var i in hasReadCards) physics.push(i);
-						window.location.href = that.orderPage + "?pid="+that.pid + "&physics="+physics.join(",");
+						window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics="+physics.join(",");
 					},
 					"click #buyBtn_virtual" : function(e){
 						var tarBtn = $(e.currentTarget);
 						if(tarBtn.hasClass("disable")) return false;
-						window.location.href = that.orderPage + "?pid="+that.pid + "&physics=";
+						window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics=";
 					}
 				},
 				onOpenBefore : function(){
@@ -101,13 +103,15 @@
 					that.hasReadCount = $("#hasReadCount");
 					that.cardNumberInp.val("");
 					that.hasReadCount.text(0);
-					that.getVirtualStorage(that.pid);
+					that.getVirtualStorage(that.pid,that.sid);
 				},
 				onCloseBefore : function(){
 	
 				},
 				onCloseAfter : function(){
-	
+					that.pid = "";
+					that.aid = "";
+					that.sid = "";
 				}
 			})
 			setTimeout(function(){
@@ -133,18 +137,21 @@
 		open : function(opt){
 			opt = opt || {};
 			this.pid = opt.pid;
+			this.aid = opt.aid;
+			this.sid = opt.sid;
 			this.dialog.open();
 		},
 		/**
 		 * 获取某个产品的虚拟卡的库存
 		 * @param pid  产品id
 		 */
-		getVirtualStorage : function(pid){
+		getVirtualStorage : function(pid,sid){
 			var that = this;
 			if(that.xhr && that.xhr.abort) that.xhr.abort();
-			that.xhr = PFT.Util.Ajax(Api.Url.getVirtualStorage,{
+			that.xhr = Ajax(Api.Url.getVirtualStorage,{
 				params : {
-					pid : pid
+					pid : pid,
+					sid : sid
 				},
 				loading : function(){
 					that.virtualStorage.text("正在获取库存，请稍后..");
@@ -162,19 +169,13 @@
 						that.virtualStorage.text(storage);
 						that.buyBtn_virtual.removeClass("disable");
 					}else{
-						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+						alert(res.msg || AJAX_ERROR_TEXT);
 					}
 				}
 			})
 		}
 	};
-	
-	$(function(){
-		var annual = new AnnualCardBuyDialog();
-		setTimeout(function(){
-			annual.open({pid:"13692"});
-		},500)
-	})
+	window["AnnualCardBuyDialog"] = AnnualCardBuyDialog;
 
 
 /***/ },
@@ -198,6 +199,8 @@
 	__webpack_require__(6);
 	var WinWidthHeight = __webpack_require__(8);
 	var Drag = __webpack_require__(9);
+	var PubSub = __webpack_require__(10);
+	var Extend = __webpack_require__(11);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -263,23 +266,28 @@
 		})
 		this.init(opt);
 	};
-	Dialog.prototype = {
+	Dialog.prototype = Extend({
 		init : function(opt){
 			var that = this;
 			var events = this.events = opt.events;
 			var container = this.container;
 			for(var i in events){
-				var _key = i.split(" ");
-				var eventType = _key[0];
-				var selector = _key[1];
-				var handler = events[i];
-				container.on(eventType,selector,function(e){
-					if(typeof handler=="function"){
-						handler(e);
-					}else if(typeof handler=="string"){
-						that[handler](e);
-					}
-				})
+				//"click .parent .children" => "click:.parent .children"
+				var _key = i.replace(/(\w*)\s(.*)/,function(str,p1,p2){
+					return p1+":"+p2;
+				}).split(":");
+				(function(_key){
+					var eventType = _key[0];
+					var selector = _key[1];
+					var handler = events[i];
+					container.on(eventType,selector,function(e){
+						if(typeof handler=="function"){
+							handler(e);
+						}else if(typeof handler=="string"){
+							that.prototype[handler](e);
+						}
+					})
+				})(_key);
 			}
 			setTimeout(function(){
 				if(opt.drag){
@@ -314,11 +322,12 @@
 		},
 		open : function(opt){
 			opt = opt || {};
+			var that = this;
 			var overlay = typeof opt.overlay=="undefined" ? this.opt.overlay : !!opt.overlay;
 			var speed = opt.speed || this.opt.speed;
 			var offsetY = opt.offsetY || this.opt.offsetY;
-			var onBefore = this.opt.onOpenBefore;
-			var onAfter = this.opt.onOpenAfter;
+			var onBefore = opt.onBefore || this.opt.onOpenBefore;
+			var onAfter = opt.onAfter || this.opt.onOpenAfter;
 			var winH = WinWidthHeight().height;
 			var containerH = this.container.height();
 			this.position();
@@ -329,14 +338,16 @@
 			},speed,function(){
 				onAfter();
 			})
-			if(overlay) this.getMask().fadeIn();
+			if(overlay) this.getMask().fadeIn(function(){
+				that.getMask().css("zIndex",9998);
+			});
 		},
 		close : function(opt){
 			opt = opt || {};
 			var container = this.container;
 			var speed = opt.speed || this.opt.speed;
-			var onBefore = this.opt.onCloseBefore;
-			var onAfter = this.opt.onCloseAfter;
+			var onBefore = opt.onBefore || this.opt.onCloseBefore;
+			var onAfter = opt.onAfter || this.opt.onCloseAfter;
 			var containerH = container.height();
 			onBefore();
 			container.animate({
@@ -345,9 +356,12 @@
 				onAfter();
 				container.hide().css({zIndex:-1});
 			})
-			$("#"+this.flag+"mask").fadeOut();
+			var mask = $("#"+this.flag+"mask");
+			mask.fadeOut(function(){
+				mask.css("zIndex",0)
+			});
 		}
-	};
+	},PubSub);
 	module.exports = Dialog;
 
 /***/ },
@@ -715,10 +729,70 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/7 10:09
+	 * Description: 订阅发布模型
+	 */
+	var E = {
+		fn : {},
+		on : function(type,fn){
+			var fns = this.fn[type] || (this.fn[type]=[]);
+			fns.push(fn);
+		},
+		fire : function(type){
+			var fns = this.fn[type];
+			if(!fns) return false;
+			var args = arguments;
+			var len = args.length;
+			var argus,scope;
+			if(len==1){
+				argus = "";
+				scope = this;
+			}else if(len==2){
+				argus = args[len-1];
+				scope = this;
+			}else if(len==3){
+				argus = args[len-2];
+				scope = args[len-1];
+			}
+			for(var i in fns){
+				var fn = fns[i];
+				fn.call(scope,argus);
+			}
+		},
+		trigger : function(){
+			this.fire.apply(this,arguments);
+		}
+	};
+	module.exports = E;
 
 /***/ },
 /* 11 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/22 18:43
+	 * Description: ""
+	 */
+	module.exports = function(destination,source){
+		for(var n in source){
+			if(source.hasOwnProperty(n)){
+				destination[n]=source[n];
+			}
+		}
+		return destination;
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+
+/***/ },
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -751,7 +825,7 @@
 	module.exports = readPhysicsCard;
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -766,7 +840,7 @@
 			PublishCardProd : {
 				submit : "/r/product_scenic/save/",
 				//图片上传
-				uploadFile : "/r/product_annualCard/uploadImg/",
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
 				//编辑状态，获取年卡产品详细信息
 				getInfo : "/r/product_scenic/get/"
 			},
@@ -777,32 +851,45 @@
 				//拉取已存在的票类
 				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
 				//获取产品列表
-				getLands : "/r/product_annualCard/getLands/",
+				getLands : "/r/product_AnnualCard/getLands/",
 				//获取票类列表
-				getTickets : "/r/product_annualCard/getTickets/",
+				getTickets : "/r/product_AnnualCard/getTickets/",
 				//删除票类
 				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
 			},
 			//卡片录入相关接口
 			EntryCard : {
 				//获取供应商的年卡产品列表
-				getProdList : "/r/product_annualCard/getAnnualCardProducts/",
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
 				//录入卡片
-				createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_annualCard/getAnnualCards/",
-				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+	
 			},
 			//下单页面
 			makeOrder : {
 				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
 			},
 			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_annualCard/getVirtualStorage/"
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+			//库存明细页
+			storage : {
+				//获取库存列表
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			}
 		},
 		defaults : {
 			type : "get",
@@ -817,6 +904,55 @@
 	};
 	module.exports = Api;
 
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	/**
+	 * Created by Administrator on 16-4-13.
+	 */
+	module.exports = function(url,opt){
+		if(!url) return alert("ajax请求缺少url");
+		var fn = new Function;
+		var opt = opt || {};
+		var params = opt.params || {};
+		var loading = opt.loading || fn;
+		var complete = opt.complete || fn;
+		var success = opt.success || fn;
+		var timeout = opt.timeout || function(){ alert("请求超时，请稍后重试")};
+		var serverError = opt.serverError || function(xhr,txt){
+			var txt = txt || "请求出错，请稍后重试";
+			if(txt=="parsererror") txt = "请求出错，请稍后重试";
+			alert(txt);
+		};
+		var type = opt.type || "get";
+		var dataType = opt.dataType || "json";
+		var ttimeout = opt.ttimeout || 120 * 1000;
+		var xhr = $.ajax({
+			url : url,
+			type : type,
+			dataType : dataType,
+			data : params,
+			timeout :ttimeout,
+			beforeSend : function(){
+				loading();
+			},
+			success : function(res){
+				complete(res);
+				success(res);
+			},
+			error : function(xhr,txt){
+				complete(xhr,txt);
+				if(txt == "timeout"){
+					timeout(xhr,txt);
+				}else{
+					serverError(xhr,txt);
+				}
+			}
+		})
+		return xhr;
+	}
 
 /***/ }
 /******/ ]);
