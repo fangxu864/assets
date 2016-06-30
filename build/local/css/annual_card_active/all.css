@@ -186,7 +186,7 @@ body{
 .entry{
   line-height: 65px;
   font-size: 16px;
-  text-indent: 24px;
+  padding-left: 24px;
   background: white;
   font-weight: bold; }
 .cardContainer table th, .cardContainer table td{
@@ -221,12 +221,6 @@ body{
   border: 1px solid #e5e5e5;
   margin: 0 auto;
   background: white; }
-
-.entry {
-  line-height: 58px;
-  font-size: 24px;
-  padding-left: 24px;
-  margin-bottom: 20px; }
 
 .line {
   overflow: hidden;
