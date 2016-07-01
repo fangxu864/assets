@@ -222,6 +222,9 @@ body{
   margin: 0 auto;
   background: white; }
 
+.formBox {
+  margin-top: 30px; }
+
 .line {
   overflow: hidden;
   margin: 10px 0  10px 15px; }
@@ -245,7 +248,7 @@ body{
 .line .rt .actip .acSpan {
   color: #f5530c; }
 
-.line .rt .textInp, .line .rt .textArea {
+.line .rt .textInp {
   width: 300px;
   height: 22px;
   line-height: 22px;
@@ -256,6 +259,11 @@ body{
   padding-bottom: 5px;
   text-indent: 0;
   margin-right: 6px; }
+
+.line .rt .textArea {
+  border: 1px solid #e5e5e5;
+  padding: 6px;
+  line-height: 18px; }
 
 .line .rt .cardBtn {
   width: 90px;
@@ -275,7 +283,7 @@ body{
   color: #fff;
   border-radius: 0px;
   font-size: 14px;
-  margin: 26px 0 48px 242px; }
+  margin: 26px 0 48px 148px; }
   .activate:hover, .activate:active {
     background-color: #217db3;
     text-decoration: none; }
