@@ -40,8 +40,9 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -53,7 +54,7 @@
 	var UserInfo = __webpack_require__(32);
 	var CardList = __webpack_require__(33);
 	var OrderInfo = __webpack_require__(35);
-	var CheckExistDialog = __webpack_require__(37);
+	var CheckExistDialog = __webpack_require__(88);
 	var Api = __webpack_require__(16);
 	var Format = function (date,fmt) { //author: meizz
 		var o = {
@@ -221,14 +222,8 @@
 
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
+
+/***/ 8:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -405,14 +400,15 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 9 */
+
+/***/ 9:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 10 */,
-/* 11 */
+
+/***/ 11:
 /***/ function(module, exports) {
 
 	/**
@@ -439,7 +435,8 @@
 	}
 
 /***/ },
-/* 12 */
+
+/***/ 12:
 /***/ function(module, exports) {
 
 	/**
@@ -766,7 +763,8 @@
 	module.exports = Drag;
 
 /***/ },
-/* 13 */
+
+/***/ 13:
 /***/ function(module, exports) {
 
 	/**
@@ -808,7 +806,8 @@
 	module.exports = E;
 
 /***/ },
-/* 14 */
+
+/***/ 14:
 /***/ function(module, exports) {
 
 	/**
@@ -826,8 +825,8 @@
 	}
 
 /***/ },
-/* 15 */,
-/* 16 */
+
+/***/ 16:
 /***/ function(module, exports) {
 
 	/**
@@ -895,7 +894,8 @@
 			//激活页面
 			active : {
 				checkCard : "/r/product_AnnualCard/activeCheck/",
-				getVCode : "/r/product_AnnualCard/sendVcode/"
+				getVCode : "/r/product_AnnualCard/sendVcode/",
+				activateForPc : "r/product_AnnualCard/activateForPc/"
 			}
 		},
 		defaults : {
@@ -913,27 +913,15 @@
 
 
 /***/ },
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
+
+/***/ 30:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 31 */,
-/* 32 */
+
+/***/ 32:
 /***/ function(module, exports) {
 
 	/**
@@ -1018,7 +1006,8 @@
 	module.exports = UserInfoView;
 
 /***/ },
-/* 33 */
+
+/***/ 33:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1105,7 +1094,8 @@
 	module.exports = List;
 
 /***/ },
-/* 34 */
+
+/***/ 34:
 /***/ function(module, exports) {
 
 	/**
@@ -1148,7 +1138,8 @@
 	module.exports = Loading;
 
 /***/ },
-/* 35 */
+
+/***/ 35:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1242,13 +1233,15 @@
 	module.exports = OrderIno;
 
 /***/ },
-/* 36 */
+
+/***/ 36:
 /***/ function(module, exports) {
 
 	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var use_limit = item.use_limit;\r\n                    var limit_str = \"\";\r\n                    if(use_limit==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        use_limit = use_limit.split(\",\");\r\n                        var daily = use_limit[0];\r\n                        var month = use_limit[1];\r\n                        var total = use_limit[2];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage==\"-1\" ? \"-\" : data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
 
 /***/ },
-/* 37 */
+
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1256,8 +1249,9 @@
 	 * Date: 2016/6/27 18:55
 	 * Description: ""
 	 */
+	__webpack_require__(89);
 	var SDialog = __webpack_require__(8);
-	var tpl = __webpack_require__(38);
+	var tpl = __webpack_require__(91);
 	var Dialog = function(){
 		var that = this;
 		this.submitData = {};
@@ -1310,11 +1304,20 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 38 */
+
+/***/ 89:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 91:
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
 
 /***/ }
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=all.js.map

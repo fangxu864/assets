@@ -7,7 +7,7 @@ require("./style.scss");
 var UserInfo = require("./userinfo");
 var CardList = require("./card-list");
 var OrderInfo = require("./orderinfo");
-var CheckExistDialog = require("./check-exist-dialog");
+var CheckExistDialog = require("../../common/check-exist-dialog");
 var Api = require("../../common/api.js");
 var Format = function (date,fmt) { //author: meizz
 	var o = {

@@ -63,7 +63,8 @@ var Api = {
 		//激活页面
 		active : {
 			checkCard : "/r/product_AnnualCard/activeCheck/",
-			getVCode : "/r/product_AnnualCard/sendVcode/"
+			getVCode : "/r/product_AnnualCard/sendVcode/",
+			activateForPc : "r/product_AnnualCard/activateForPc/"
 		}
 	},
 	defaults : {

@@ -1,3 +1,27 @@
+.memberBox {
+  padding: 0 26px; }
+
+.memP {
+  line-height: 106px;
+  font-size: 14px; }
+
+.memTable {
+  width: 464px;
+  background: #f5f5f5;
+  line-height: 30px; }
+
+.memTable tr td:first-of-type, .memTable tr th:first-of-type {
+  text-indent: 10px; }
+
+.memberBox .btnBox {
+  overflow: hidden; }
+
+.memberBox .btnBox a {
+  float: right;
+  margin: 50px 0 0 10px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 32px; }
 .gSimpleDialog-container {
   position: fixed;
   overflow: hidden;
@@ -376,31 +400,6 @@ body{
 .introduceBox p {
   text-indent: 24px;
   line-height: 24px; }
-
-.memberBox {
-  padding: 0 26px; }
-
-.memP {
-  line-height: 106px;
-  font-size: 14px; }
-
-.memTable {
-  width: 464px;
-  background: #f5f5f5;
-  line-height: 30px; }
-
-.memTable tr td:first-of-type, .memTable tr th:first-of-type {
-  text-indent: 10px; }
-
-.memberBox .btnBox {
-  overflow: hidden; }
-
-.memberBox .btnBox a {
-  float: right;
-  margin: 50px 0 0 10px;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 32px; }
 
 /**/
 
