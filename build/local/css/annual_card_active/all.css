@@ -237,7 +237,8 @@ body{
   line-height: 36px; }
 
 .line .rt {
-  float: left; }
+  float: left;
+  position: relative; }
 
 .line .rt p {
   margin-top: 8px; }
@@ -273,6 +274,13 @@ body{
 .line .rt span {
   color: #e12424;
   margin-left: 0; }
+
+.line .rt .loadingIcon {
+  position: absolute;
+  z-index: 5;
+  top: 8px;
+  left: 284px;
+  display: none; }
 
 .activate {
   display: inline-block;
