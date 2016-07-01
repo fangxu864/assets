@@ -10,7 +10,8 @@ var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
 		"click #readCardBtn" : "onReadCardBtnClick",
-		"blur .textInp" : "onTextInpBlur"
+		"blur .textInp" : "onTextInpBlur",
+		"focus .textInp" : "onTextInpFocus"
 	},
 	initialize : function(){
 		this.cardInp = $("#cardInp");
@@ -39,6 +40,13 @@ var MainView = Backbone.View.extend({
 			var handler = that.validator[rule];
 			if(handler) handler.apply(that,args);
 		}
+	},
+	onTextInpFocus : function(e){
+		var that = this;
+		var tarInp = $(e.currentTarget);
+		var validate = tarInp.attr("validator");
+		if(!validate) return false;
+		
 	},
 	validator : {
 		card : function(){
@@ -75,10 +83,9 @@ var MainView = Backbone.View.extend({
 			},
 			complete : function(){
 				tarBtn.removeClass("disable");
-				//$("#loadingIcon").hide();
+				$("#loadingIcon").hide();
 			},
 			success : function(res){
-				return false;
 				res = res || {};
 				var data= res.data;
 				if(res.code==200){
