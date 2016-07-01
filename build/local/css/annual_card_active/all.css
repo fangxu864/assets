@@ -296,10 +296,11 @@ body{
     background-color: #217db3;
     text-decoration: none; }
 
-.activate.disable {
+.activate.disable, #readCardBtn.disable, #codeBtn.disable {
   background: #ccc;
   color: #999;
-  cursor: default; }
+  cursor: default;
+  border-color: #cccccc; }
 
 .activate:link, .disable:link {
   color: white; }
