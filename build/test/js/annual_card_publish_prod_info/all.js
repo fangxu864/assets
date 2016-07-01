@@ -50,10 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(69);
-	var Api = __webpack_require__(14);
-	var Select = __webpack_require__(71);
-	var Fileupload = __webpack_require__(73);
+	__webpack_require__(73);
+	var Api = __webpack_require__(5);
+	var Select = __webpack_require__(75);
+	var Fileupload = __webpack_require__(77);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -228,7 +228,7 @@
 
 /***/ },
 
-/***/ 14:
+/***/ 5:
 /***/ function(module, exports) {
 
 	/**
@@ -292,6 +292,12 @@
 			//下单成功页
 			ordersuccess : {
 				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			},
+			//激活页面
+			active : {
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/",
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
 			}
 		},
 		defaults : {
@@ -310,14 +316,14 @@
 
 /***/ },
 
-/***/ 69:
+/***/ 73:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 71:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -326,7 +332,7 @@
 	var fn = new Function();
 	var Select = function(opt){
 		var opt = opt || {};
-		this.data = __webpack_require__(72);
+		this.data = __webpack_require__(76);
 		this.provId = opt.provId;
 		this.cityId = opt.cityId;
 		if(!this.provId || !this.cityId) return false;
@@ -416,7 +422,7 @@
 
 /***/ },
 
-/***/ 72:
+/***/ 76:
 /***/ function(module, exports) {
 
 	/**
@@ -429,7 +435,7 @@
 
 /***/ },
 
-/***/ 73:
+/***/ 77:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -437,8 +443,8 @@
 	 * Date: 2016/6/1 18:09
 	 * Description: ""
 	 */
-	__webpack_require__(74);
-	var tpl = __webpack_require__(76);
+	__webpack_require__(78);
+	var tpl = __webpack_require__(80);
 	/**
 	 * 文件(图片)上传组件
 	 * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -541,14 +547,14 @@
 
 /***/ },
 
-/***/ 74:
+/***/ 78:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 76:
+/***/ 80:
 /***/ function(module, exports) {
 
 	module.exports = "<!-- Author: huangzhiyang -->\r\n<!-- Date: 2016/6/1 18:39 -->\r\n<!-- Description: huangzhiyang -->\r\n<div class=\"fileuploadWrap\">\r\n    <form class=\"fileuploadForm\" enctype=\"multipart/form-data\" method=\"post\" target=\"\">\r\n        <input style=\"display:none\" type=\"file\" class=\"fileuploadFileInp\"/>\r\n        <input type=\"text\" name=\"\" class=\"fileuploadTextInp\"/>\r\n        <label class=\"filebrowseBtn ctrlBtn\"><i class=\"iconfont\">&#xe692;</i><span class=\"t\">选择</span></label>\r\n        <a class=\"fileuploadBtn ctrlBtn\" href=\"javascript:void(0)\"><i class=\"iconfont\">&#xe659;</i><span class=\"t\">上传</span></a>\r\n        <input type=\"hidden\" class=\"callbackHidInp\" name=\"callback_id\" value=\"\"/>\r\n    </form>\r\n</div>";

@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.local/assets/build/local/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/test/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -46,144 +46,365 @@
 
 	/**
 	 * Author: huangzhiyang
-	 * Date: 2016/6/21 10:22
+	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(6);
-	var SDialog = __webpack_require__(8);
-	var dialogTpl = __webpack_require__(15);
-	var ReadCardObj = __webpack_require__(5);
-	var Api = __webpack_require__(16);
-	var Ajax = __webpack_require__(17);
-	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
-	var AnnualCardBuyDialog = function(){
-		this.init();
-	};
-	AnnualCardBuyDialog.prototype = {
-		hasReadCards : {},
-		xhr : null,
-		orderPage : "/new/annual_order.html",
-		init : function(){
-			var that = this;
-			this.buyBtn_card = null;
-			this.buyBtn_virtual = null;
-			this.virtualStorage = null;
-			this.cardNumberInp = null;
-			this.hasReadCount = null;
-			this.dialog = new SDialog({
-				content : dialogTpl,
-				drag : true,
-				events : {
-					"click #readCardBtn" : function(e){
-						that.onReadCardBtnClick(e);
-					},
-					"click #buyBtn_card" : function(e){
-						var tarBtn = $(e.currentTarget);
-						if(tarBtn.hasClass("disable")) return false;
-						var physics = [];
-						var hasReadCards = that.hasReadCards;
-						for(var i in hasReadCards) physics.push(i);
-						window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics="+physics.join(",");
-					},
-					"click #buyBtn_virtual" : function(e){
-						var tarBtn = $(e.currentTarget);
-						if(tarBtn.hasClass("disable")) return false;
-						window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics=";
-					}
-				},
-				onOpenBefore : function(){
-					//每一次打开dialog都要先清空之前已读取到的卡号
-					that.hasReadCards = [];
-				},
-				onOpenAfter : function(){
-					that.buyBtn_card = $("#buyBtn_card");
-					that.buyBtn_virtual = $("#buyBtn_virtual");
-					that.virtualStorage = $("#virtualStorageNum");
-					that.cardNumberInp = $("#cardNumberInp");
-					that.hasReadCount = $("#hasReadCount");
-					that.cardNumberInp.val("");
-					that.hasReadCount.text(0);
-					that.getVirtualStorage(that.pid,that.sid);
-				},
-				onCloseBefore : function(){
-	
-				},
-				onCloseAfter : function(){
-					that.pid = "";
-					that.aid = "";
-					that.sid = "";
-				}
-			})
-			setTimeout(function(){
-				that.readCardObj = new ReadCardObj({id:"readCardObj"});
-			},100)
+	__webpack_require__(1);
+	var Api = __webpack_require__(5);
+	var ReadPhysicsCard = __webpack_require__(6);
+	var CheckExistDialog = __webpack_require__(7);
+	var MainView = Backbone.View.extend({
+		time : 60,  //获取验证码的间隔时间 60s
+		timer : null,
+		cardHasReaded : {},
+		el : $("#cardContainer"),
+		events : {
+			"click #readCardBtn" : "onReadCardBtnClick",
+			"click #getVCodeBtn" : "onGetVCodeBtnClick",
+			"click #activateBtn" : "onActiveBtnClick",
+			"blur .textInp" : "onTextInpBlur",
+			"focus .textInp" : "onTextInpFocus"
 		},
+		initialize : function(){
+			var that = this;
+			this.cardInp = $("#cardInp");
+			this.readCardBtn = $("#readCardBtn");
+			this.getVCodeBtn = $("#getVCodeBtn");
+			this.idCardInp = $("#idCardInp");
+			this.cardInfoBar = $("#cardInfoBar").hide();
+			this.mobileInp = $("#mobileInp");
+			this.vcodeInp = $("#vcodeInp");
+			this.memnameInp = $("#memnameInp");
+			this.submitBtn = $("#activateBtn");
+			this.ReadPhysicsCard = new ReadPhysicsCard({id:"readCardObj"});
+			this.CheckExistDialog = new CheckExistDialog();
+			this.CheckExistDialog.on("replaceAndSubmit",function(submitData){
+				that.submit("replace");
+				this.close();
+			})
+		},
+		//点击读卡
 		onReadCardBtnClick : function(e){
-			var card_number = this.readCardObj.read();
-			if(card_number){
-				if(!this.hasReadCards[card_number]){
-					$("#cardNumberInp").val(card_number);
-					var hasReadCount = $("#hasReadCount");
-					hasReadCount.text(hasReadCount.text()*1+1);
-					this.hasReadCards[card_number] = 1;
-					this.buyBtn_card.removeClass("disable");
-				}else{
-					alert("此卡已刷过，请换另一张卡");
-				}
-			}else{
-				alert("读卡失败");
+			if($(e.currentTarget).hasClass("disable")) return false;
+			var cardval = this.ReadPhysicsCard.read();
+			this.cardInp.val(cardval);
+			if(!cardval) return alert("读卡失败");
+			this.cardHasReaded[cardval] = 1;
+			this.getCardInfo(cardval,"physics")
+		},
+		//点击获取验证码
+		onGetVCodeBtnClick : function(e){
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("unable")) return false;
+			var mobile = $.trim(this.mobileInp.val());
+			if(!PFT.Util.Validate.typePhone(mobile)) return alert("请填写正确格式手机号");
+			this.getVCode(mobile);
+		},
+		//点击提交激活
+		onActiveBtnClick : function(e){
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("disable")) return false;
+			if(this.cardInfoBar.hasClass("error")) return false;
+			if(!this.cardInp.val()){
+				this.cardInp.blur();
+				return false;
+			}
+			this.mobileInp.blur();
+			if(this.mobileInp.siblings(".tip").hasClass("error")) return false;
+			this.vcodeInp.blur();
+			if(this.vcodeInp.siblings(".tip").hasClass("error")) return false;
+			this.idCardInp.blur();
+			if(this.idCardInp.siblings(".tip").hasClass("error")) return false;
+			this.submit();
+		},
+		onTextInpBlur : function(e){
+			var that = this;
+			var tarInp = $(e.currentTarget);
+			var validate = tarInp.attr("validator");
+			if(!validate) return false;
+			validate = validate.split("|");
+			for(var i in validate){
+				var valid = validate[i].split(":");
+				var rule = valid[0];
+				var args = valid[1] ? valid[1].split(",") : [];
+				var handler = that.validator[rule];
+				if(handler) handler.apply(that,args);
 			}
 		},
-		open : function(opt){
-			opt = opt || {};
-			this.pid = opt.pid;
-			this.aid = opt.aid;
-			this.sid = opt.sid;
-			this.dialog.open();
-		},
-		/**
-		 * 获取某个产品的虚拟卡的库存
-		 * @param pid  产品id
-		 */
-		getVirtualStorage : function(pid,sid){
+		onTextInpFocus : function(e){
 			var that = this;
-			if(that.xhr && that.xhr.abort) that.xhr.abort();
-			that.xhr = Ajax(Api.Url.getVirtualStorage,{
+			var tarInp = $(e.currentTarget);
+			var validate = tarInp.attr("validator");
+			if(!validate) return false;
+			if(tarInp.attr("id")=="cardInp"){
+				$("#cardInfoBar").removeClass("error").hide();
+			}else{
+				tarInp.siblings(".tip").removeClass("error").hide();
+			}
+		},
+		validator : {
+			card : function(){
+				var tarInp = this.cardInp;
+				var val = $.trim(tarInp.val());
+				var cardInfoBar = this.cardInfoBar;
+				if(!val){
+					cardInfoBar.show().addClass("error").html("请输入卡号或直接用读卡器读取卡号");
+				}else{
+					cardInfoBar.hide().removeClass("error");
+					this.getCardInfo(val,"other");
+				}
+			},
+			mobile : function(){
+				var mobileInp = this.mobileInp;
+				var mobile = $.trim(mobileInp.val());
+				var tip = mobileInp.siblings(".tip");
+				if(!PFT.Util.Validate.typePhone(mobile)){
+					tip.show().addClass("error").text("请填写正确格式手机号");
+					return false;
+				}else{
+					tip.hide().removeClass("error");
+					return true;
+				}
+			},
+			vcode : function(){
+				var vcodeInp = this.vcodeInp;
+				var vcode = $.trim(vcodeInp.val());
+				var tip = vcodeInp.siblings(".tip");
+				if(!vcode){
+					tip.show().addClass("error").text("请填写验证码");
+					return false;
+				}else{
+					tip.hide().removeClass("error");
+					return true;
+				}
+			},
+			idCard : function(need){
+				var idCardInp = this.idCardInp;
+				var idCard = $.trim(idCardInp.val());
+				var tip = idCardInp.siblings(".tip");
+				if((idCard && !PFT.Util.Validate.idCard(idCard)) || ((need==1) && !idCard)){
+					tip.show().addClass("error").text("请填写正确格式身份证");
+					return false;
+				}else{
+					tip.removeClass("error").hide();
+					return true;
+				}
+			}
+		},
+		getCardInfo : function(card_no,type){
+			var that = this;
+			var tarBtn = this.readCardBtn;
+			if(!card_no || !type) return false;
+			PFT.Util.Ajax(Api.Url.active.checkCard,{
 				params : {
-					pid : pid,
-					sid : sid
+					identify : card_no,
+					type : type
 				},
 				loading : function(){
-					that.virtualStorage.text("正在获取库存，请稍后..");
-					//that.buyBtn_virtual.addClass("disable");
+					tarBtn.addClass("disable");
+					$("#loadingIcon").show();
 				},
 				complete : function(){
-					that.virtualStorage.text("");
+					tarBtn.removeClass("disable");
+					$("#loadingIcon").hide();
 				},
 				success : function(res){
 					res = res || {};
-					var code = res.code;
-					var data = res.data || {};
-					var storage = data.storage;
-					if(code==200){
-						that.virtualStorage.text(storage);
-						that.buyBtn_virtual.removeClass("disable");
+					var data= res.data;
+					if(res.code==200){
+						var idCardInp = that.idCardInp;
+						var needID = data.need_ID || "";
+						var virtual_no = data.virtual_no;
+						var physics_no = data.physics_no;
+						idCardInp.attr("validate","idCard:"+needID);
+						if(needID==1){
+							$("#idCard-fontRed").show();
+						}else{
+							$("#idCard-fontRed").hide();
+						}
+						that.cardInfoBar.show().removeClass("error").html("虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
 					}else{
-						alert(res.msg || AJAX_ERROR_TEXT);
+						that.cardInfoBar.show().html(res.msg || PFT.AJAX_ERROR_TEXT).addClass("error");
+					}
+				}
+			})
+		},
+		getVCode : function(mobile){
+			var that = this;
+			var getVCodeBtn = this.getVCodeBtn;
+			PFT.Util.Ajax(Api.Url.active.getVCode,{
+				params : {
+					mobile : mobile
+				},
+				loading : function(){
+					getVCodeBtn.addClass("unable").text("请稍后..");
+				},
+				success : function(res){
+					res = res || {};
+					if(res.code==200){
+						var last = that.time-1;
+						that.timer = setInterval(function(){
+							last = last-1;
+							if(last<=0){
+								getVCodeBtn.text("获取验证码").removeClass("unable");
+								clearInterval(that.timer);
+							}else{
+								getVCodeBtn.text(last+"秒后可重新获取");
+							}
+						},1000)
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
+		},
+		submit : function(replace){
+			var that = this;
+			var submitBtn = this.submitBtn;
+			var cardVal = this.cardInp.val();
+			var type = this.cardHasReaded[cardVal] ? "physics" : "other";
+			var mobile = this.mobileInp.val();
+			var name = this.memnameInp.val();
+			var id_card = this.idCardInp.val();
+			var vcode = this.vcodeInp.val();
+			var data = {
+				identify : cardVal,
+				type : type,
+				mobile : mobile,
+				name : name,
+				id_card : id_card,
+				vcode : vcode
+			};
+			if(replace=="replace") data["replace"] = 1;
+			PFT.Util.Ajax(Api.Url.active.activateForPc,{
+				type : "post",
+				params : data,
+				loading : function(){
+					submitBtn.addClass("disable");
+				},
+				complete : function(){
+					submitBtn.removeClass("disable");
+				},
+				success : function(res){
+					res = res || {};
+					var data = res.data || {};
+					if(res.code==200){
+						if(data.exist==1){
+							that.CheckExistDialog.open(data);
+						}else{
+							PFT.Util.STip("success",'<div style="width:200px">激活成功</div>')
+						}
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT)
 					}
 				}
 			})
 		}
-	};
-	window["AnnualCardBuyDialog"] = AnnualCardBuyDialog;
+	});
+	
+	$(function(){
+		new MainView();
+	})
 
 
 /***/ },
-/* 1 */,
+/* 1 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
 /* 2 */,
 /* 3 */,
 /* 4 */,
 /* 5 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/15 15:36
+	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
+	 */
+	var fn = function(){};
+	var Api = {
+		Url : {
+			//发布年卡产品
+			PublishCardProd : {
+				submit : "/r/product_scenic/save/",
+				//图片上传
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
+				//编辑状态，获取年卡产品详细信息
+				getInfo : "/r/product_scenic/get/"
+			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_AnnualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_AnnualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
+			},
+			//卡片录入相关接口
+			EntryCard : {
+				//获取供应商的年卡产品列表
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
+				//录入卡片
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
+				//获取相关产品已生成好的卡片
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+	
+			},
+			//下单页面
+			makeOrder : {
+				//预定页面请求卡片信息接口
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
+				//预定页面请求订单信息接口
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
+			},
+			//获取某个产品的虚拟卡的库存
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+			//库存明细页
+			storage : {
+				//获取库存列表
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			},
+			//激活页面
+			active : {
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/",
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			}
+		},
+		defaults : {
+			type : "get",
+			ttimout : 60 * 1000,
+			loading : fn,
+			complete : fn,
+			success : fn,
+			fail : fn,
+			timeout : fn,
+			serverError : fn
+		}
+	};
+	module.exports = Api;
+
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -217,14 +438,77 @@
 	module.exports = readPhysicsCard;
 
 /***/ },
-/* 6 */
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/27 18:55
+	 * Description: ""
+	 */
+	__webpack_require__(8);
+	var SDialog = __webpack_require__(10);
+	var tpl = __webpack_require__(17);
+	var Dialog = function(){
+		var that = this;
+		this.submitData = {};
+		this.SDialog = new SDialog({
+			width : 520,
+			height : 280,
+			content : tpl,
+			drag : true,
+			events : {
+				"click #replaceBtn" : function(e){
+					that.onReplaceBtnClick(e);
+				},
+				"click #messageBtn" : function(e){
+					that.onMessageBtnClick(e);
+				}
+			}
+		});
+	};
+	Dialog.prototype = {
+		open : function(opt){
+			opt = opt || {};
+			var mobile = opt.mobile;
+			var idCard = opt.idCard;
+			var name = opt.name;
+			var left = opt.left;
+			this.submitData = opt.submitData;
+			this.SDialog.open({
+				onBefore : function(){
+					$("#existDialog_mobile").text(mobile);
+					$("#existDialog_idCard").text(idCard);
+					$("#existDialog_name").text(name+"（"+left+"）");
+				}
+			});
+		},
+		close : function(){
+			this.SDialog.close();
+		},
+		on : function(type,handler){
+			this.SDialog.on(type,handler);
+		},
+		//替换并且直接下单
+		onReplaceBtnClick : function(e){
+			this.SDialog.trigger("replaceAndSubmit",this.submitData,this);
+		},
+		//取消
+		onMessageBtnClick : function(e){
+			this.close();
+		}
+	};
+	module.exports = Dialog;
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 7 */,
-/* 8 */
+/* 9 */,
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -232,11 +516,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(9);
-	var WinWidthHeight = __webpack_require__(11);
-	var Drag = __webpack_require__(12);
-	var PubSub = __webpack_require__(13);
-	var Extend = __webpack_require__(14);
+	__webpack_require__(11);
+	var WinWidthHeight = __webpack_require__(13);
+	var Drag = __webpack_require__(14);
+	var PubSub = __webpack_require__(15);
+	var Extend = __webpack_require__(16);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -401,14 +685,14 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 10 */,
-/* 11 */
+/* 12 */,
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -435,7 +719,7 @@
 	}
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -762,7 +1046,7 @@
 	module.exports = Drag;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -804,7 +1088,7 @@
 	module.exports = E;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -822,146 +1106,10 @@
 	}
 
 /***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/15 15:36
-	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
-	 */
-	var fn = function(){};
-	var Api = {
-		Url : {
-			//发布年卡产品
-			PublishCardProd : {
-				submit : "/r/product_scenic/save/",
-				//图片上传
-				uploadFile : "/r/product_AnnualCard/uploadImg/",
-				//编辑状态，获取年卡产品详细信息
-				getInfo : "/r/product_scenic/get/"
-			},
-			//年卡套餐-即票类编辑
-			PackageInfo : {
-				//添加&修改票类
-				updateTicket : "/r/product_ticket/UpdateTicket/",
-				//拉取已存在的票类
-				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
-				//获取产品列表
-				getLands : "/r/product_AnnualCard/getLands/",
-				//获取票类列表
-				getTickets : "/r/product_AnnualCard/getTickets/",
-				//删除票类
-				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
-			},
-			//卡片录入相关接口
-			EntryCard : {
-				//获取供应商的年卡产品列表
-				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
-				//录入卡片
-				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
-				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
-	
-			},
-			//下单页面
-			makeOrder : {
-				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
-				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
-				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
-				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
-				submit : "/formSubmit_v01.php"
-			},
-			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
-			//库存明细页
-			storage : {
-				//获取库存列表
-				getList : "/r/product_AnnualCard/getMemberList/",
-				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
-			},
-			//下单成功页
-			ordersuccess : {
-				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
-			},
-			//激活页面
-			active : {
-				checkCard : "/r/product_AnnualCard/activeCheck/",
-				getVCode : "/r/product_AnnualCard/sendVcode/",
-				activateForPc : "/r/product_AnnualCard/activateForPc/"
-			}
-		},
-		defaults : {
-			type : "get",
-			ttimout : 60 * 1000,
-			loading : fn,
-			complete : fn,
-			success : fn,
-			fail : fn,
-			timeout : fn,
-			serverError : fn
-		}
-	};
-	module.exports = Api;
-
-
-/***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	/**
-	 * Created by Administrator on 16-4-13.
-	 */
-	module.exports = function(url,opt){
-		if(!url) return alert("ajax请求缺少url");
-		var fn = new Function;
-		var opt = opt || {};
-		var params = opt.params || {};
-		var loading = opt.loading || fn;
-		var complete = opt.complete || fn;
-		var success = opt.success || fn;
-		var timeout = opt.timeout || function(){ alert("请求超时，请稍后重试")};
-		var serverError = opt.serverError || function(xhr,txt){
-			var txt = txt || "请求出错，请稍后重试";
-			if(txt=="parsererror") txt = "请求出错，请稍后重试";
-			alert(txt);
-		};
-		var type = opt.type || "get";
-		var dataType = opt.dataType || "json";
-		var ttimeout = opt.ttimeout || 120 * 1000;
-		var xhr = $.ajax({
-			url : url,
-			type : type,
-			dataType : dataType,
-			data : params,
-			timeout :ttimeout,
-			beforeSend : function(){
-				loading();
-			},
-			success : function(res){
-				complete(res);
-				success(res);
-			},
-			error : function(xhr,txt){
-				complete(xhr,txt);
-				if(txt == "timeout"){
-					timeout(xhr,txt);
-				}else{
-					serverError(xhr,txt);
-				}
-			}
-		})
-		return xhr;
-	}
+	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
 
 /***/ }
 /******/ ]);

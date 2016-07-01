@@ -6,7 +6,7 @@
     <% } %>
     <div class="btnBox">
         <% if(data.type!="virtual"){ %>
-        <a href="javascript:;" class="btn btn-blue" id="activeBtn">立即激活</a>
+        <a href="annual_active.html" class="btn btn-blue" id="activeBtn">立即激活</a>
         <% } %>
         <a href="/plist.html" class="btn btn-border" id="backBtn">返回预定列表</a>
     </div>

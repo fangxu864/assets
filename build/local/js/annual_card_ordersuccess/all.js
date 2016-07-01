@@ -168,7 +168,7 @@
 			//库存明细页
 			storage : {
 				//获取库存列表
-				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				getList : "/r/product_AnnualCard/getMemberList/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
@@ -180,7 +180,7 @@
 			active : {
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
-				activateForPc : "r/product_AnnualCard/activateForPc/"
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
 			}
 		},
 		defaults : {
@@ -253,7 +253,7 @@
 /***/ 47:
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"sucBox border\">\r\n    <% var successTit = data.type==\"virtual\" ? \"售卡成功！已激活\" : \"售卡成功！需要激活后使用\" %>\r\n    <h1 class=\"success\"><i class=\"iconfont\">&#xe6b6;</i><%=successTit%></h1>\r\n    <% if(data.type!=\"virtual\"){ %>\r\n        <p class=\"font-14 firstAct\">可在第一次使用时激活</p>\r\n    <% } %>\r\n    <div class=\"btnBox\">\r\n        <% if(data.type!=\"virtual\"){ %>\r\n        <a href=\"javascript:;\" class=\"btn btn-blue\" id=\"activeBtn\">立即激活</a>\r\n        <% } %>\r\n        <a href=\"/plist.html\" class=\"btn btn-border\" id=\"backBtn\">返回预定列表</a>\r\n    </div>\r\n</div>\r\n<div class=\"orderDetailContainer\">\r\n    <% if(data.title){ %>\r\n    <p class=\"sucP\"><%=data.title%></p>\r\n    <% } %>\r\n    <table class=\"sucTable border\">\r\n        <thead class=\"border-bottom\">\r\n        <tr>\r\n            <th>订单号</th>\r\n            <th>卡类型</th>\r\n            <th>虚拟卡号/实体卡号 </th>\r\n            <th>结算价</th>\r\n            <th>日期</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td><%=data.ordernum%></td>\r\n            <td><%=data.type==\"virtual\" ? \"虚拟卡\" : \"实体卡\"%></td>\r\n            <td>\r\n                <% _.each(data.list,function(item,index){ %>\r\n                    <p><%=item.virtual_no%> / <%=item.physics_no ? item.physics_no : \"无\"%></p>\r\n                <% }) %>\r\n            </td>\r\n            <td><i style=\"font-style:normal\" class=\"yen\">&yen;</i><em class=\"moneyNum\"><%=data.price%></em></td>\r\n            <td><%=data.date%></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n</div>";
+	module.exports = "<div class=\"sucBox border\">\r\n    <% var successTit = data.type==\"virtual\" ? \"售卡成功！已激活\" : \"售卡成功！需要激活后使用\" %>\r\n    <h1 class=\"success\"><i class=\"iconfont\">&#xe6b6;</i><%=successTit%></h1>\r\n    <% if(data.type!=\"virtual\"){ %>\r\n        <p class=\"font-14 firstAct\">可在第一次使用时激活</p>\r\n    <% } %>\r\n    <div class=\"btnBox\">\r\n        <% if(data.type!=\"virtual\"){ %>\r\n        <a href=\"annual_active.html\" class=\"btn btn-blue\" id=\"activeBtn\">立即激活</a>\r\n        <% } %>\r\n        <a href=\"/plist.html\" class=\"btn btn-border\" id=\"backBtn\">返回预定列表</a>\r\n    </div>\r\n</div>\r\n<div class=\"orderDetailContainer\">\r\n    <% if(data.title){ %>\r\n    <p class=\"sucP\"><%=data.title%></p>\r\n    <% } %>\r\n    <table class=\"sucTable border\">\r\n        <thead class=\"border-bottom\">\r\n        <tr>\r\n            <th>订单号</th>\r\n            <th>卡类型</th>\r\n            <th>虚拟卡号/实体卡号 </th>\r\n            <th>结算价</th>\r\n            <th>日期</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td><%=data.ordernum%></td>\r\n            <td><%=data.type==\"virtual\" ? \"虚拟卡\" : \"实体卡\"%></td>\r\n            <td>\r\n                <% _.each(data.list,function(item,index){ %>\r\n                    <p><%=item.virtual_no%> / <%=item.physics_no ? item.physics_no : \"无\"%></p>\r\n                <% }) %>\r\n            </td>\r\n            <td><i style=\"font-style:normal\" class=\"yen\">&yen;</i><em class=\"moneyNum\"><%=data.price%></em></td>\r\n            <td><%=data.date%></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n</div>";
 
 /***/ }
 

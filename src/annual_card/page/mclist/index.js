@@ -16,10 +16,11 @@ var MainView = Backbone.View.extend({
 		var that = this;
 		this.TabHeader = new TabHeader({state:State});
 		this.TabHeader.on("switch",function(data){
-			var status = data.status;
-			that.ListManager.active(status);
+			var fromStatus = data.fromStatus;
+			var toStatus = data.toStatus;
+			that.ListManager.active(fromStatus,toStatus);
 		})
-		 this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
+		this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
 		this.TabHeader.active(1);
 	}
 });

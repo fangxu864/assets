@@ -49,12 +49,12 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(28);
-	var UserInfo = __webpack_require__(30);
-	var CardList = __webpack_require__(31);
-	var OrderInfo = __webpack_require__(33);
-	var CheckExistDialog = __webpack_require__(35);
-	var Api = __webpack_require__(14);
+	__webpack_require__(34);
+	var UserInfo = __webpack_require__(36);
+	var CardList = __webpack_require__(37);
+	var OrderInfo = __webpack_require__(39);
+	var CheckExistDialog = __webpack_require__(7);
+	var Api = __webpack_require__(5);
 	var Format = function (date,fmt) { //author: meizz
 		var o = {
 			"M+": date.getMonth() + 1, //月份
@@ -226,6 +226,164 @@
 /* 3 */,
 /* 4 */,
 /* 5 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/15 15:36
+	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
+	 */
+	var fn = function(){};
+	var Api = {
+		Url : {
+			//发布年卡产品
+			PublishCardProd : {
+				submit : "/r/product_scenic/save/",
+				//图片上传
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
+				//编辑状态，获取年卡产品详细信息
+				getInfo : "/r/product_scenic/get/"
+			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_AnnualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_AnnualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
+			},
+			//卡片录入相关接口
+			EntryCard : {
+				//获取供应商的年卡产品列表
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
+				//录入卡片
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
+				//获取相关产品已生成好的卡片
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+	
+			},
+			//下单页面
+			makeOrder : {
+				//预定页面请求卡片信息接口
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
+				//预定页面请求订单信息接口
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
+			},
+			//获取某个产品的虚拟卡的库存
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+			//库存明细页
+			storage : {
+				//获取库存列表
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			},
+			//激活页面
+			active : {
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/",
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			}
+		},
+		defaults : {
+			type : "get",
+			ttimout : 60 * 1000,
+			loading : fn,
+			complete : fn,
+			success : fn,
+			fail : fn,
+			timeout : fn,
+			serverError : fn
+		}
+	};
+	module.exports = Api;
+
+
+/***/ },
+/* 6 */,
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/27 18:55
+	 * Description: ""
+	 */
+	__webpack_require__(8);
+	var SDialog = __webpack_require__(10);
+	var tpl = __webpack_require__(17);
+	var Dialog = function(){
+		var that = this;
+		this.submitData = {};
+		this.SDialog = new SDialog({
+			width : 520,
+			height : 280,
+			content : tpl,
+			drag : true,
+			events : {
+				"click #replaceBtn" : function(e){
+					that.onReplaceBtnClick(e);
+				},
+				"click #messageBtn" : function(e){
+					that.onMessageBtnClick(e);
+				}
+			}
+		});
+	};
+	Dialog.prototype = {
+		open : function(opt){
+			opt = opt || {};
+			var mobile = opt.mobile;
+			var idCard = opt.idCard;
+			var name = opt.name;
+			var left = opt.left;
+			this.submitData = opt.submitData;
+			this.SDialog.open({
+				onBefore : function(){
+					$("#existDialog_mobile").text(mobile);
+					$("#existDialog_idCard").text(idCard);
+					$("#existDialog_name").text(name+"（"+left+"）");
+				}
+			});
+		},
+		close : function(){
+			this.SDialog.close();
+		},
+		on : function(type,handler){
+			this.SDialog.on(type,handler);
+		},
+		//替换并且直接下单
+		onReplaceBtnClick : function(e){
+			this.SDialog.trigger("replaceAndSubmit",this.submitData,this);
+		},
+		//取消
+		onMessageBtnClick : function(e){
+			this.close();
+		}
+	};
+	module.exports = Dialog;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 9 */,
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -233,11 +391,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(6);
-	var WinWidthHeight = __webpack_require__(8);
-	var Drag = __webpack_require__(9);
-	var PubSub = __webpack_require__(10);
-	var Extend = __webpack_require__(11);
+	__webpack_require__(11);
+	var WinWidthHeight = __webpack_require__(13);
+	var Drag = __webpack_require__(14);
+	var PubSub = __webpack_require__(15);
+	var Extend = __webpack_require__(16);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -402,14 +560,14 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 6 */
+/* 11 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 7 */,
-/* 8 */
+/* 12 */,
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -436,7 +594,7 @@
 	}
 
 /***/ },
-/* 9 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -763,7 +921,7 @@
 	module.exports = Drag;
 
 /***/ },
-/* 10 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -805,7 +963,7 @@
 	module.exports = E;
 
 /***/ },
-/* 11 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -823,92 +981,12 @@
 	}
 
 /***/ },
-/* 12 */,
-/* 13 */,
-/* 14 */
+/* 17 */
 /***/ function(module, exports) {
 
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/15 15:36
-	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
-	 */
-	var fn = function(){};
-	var Api = {
-		Url : {
-			//发布年卡产品
-			PublishCardProd : {
-				submit : "/r/product_scenic/save/",
-				//图片上传
-				uploadFile : "/r/product_AnnualCard/uploadImg/",
-				//编辑状态，获取年卡产品详细信息
-				getInfo : "/r/product_scenic/get/"
-			},
-			//年卡套餐-即票类编辑
-			PackageInfo : {
-				//添加&修改票类
-				updateTicket : "/r/product_ticket/UpdateTicket/",
-				//拉取已存在的票类
-				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
-				//获取产品列表
-				getLands : "/r/product_AnnualCard/getLands/",
-				//获取票类列表
-				getTickets : "/r/product_AnnualCard/getTickets/",
-				//删除票类
-				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
-			},
-			//卡片录入相关接口
-			EntryCard : {
-				//获取供应商的年卡产品列表
-				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
-				//录入卡片
-				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
-				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
-	
-			},
-			//下单页面
-			makeOrder : {
-				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
-				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
-				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
-				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
-				submit : "/formSubmit_v01.php"
-			},
-			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
-			//库存明细页
-			storage : {
-				//获取库存列表
-				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
-				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
-			},
-			//下单成功页
-			ordersuccess : {
-				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
-			}
-		},
-		defaults : {
-			type : "get",
-			ttimout : 60 * 1000,
-			loading : fn,
-			complete : fn,
-			success : fn,
-			fail : fn,
-			timeout : fn,
-			serverError : fn
-		}
-	};
-	module.exports = Api;
-
+	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 15 */,
-/* 16 */,
-/* 17 */,
 /* 18 */,
 /* 19 */,
 /* 20 */,
@@ -919,14 +997,20 @@
 /* 25 */,
 /* 26 */,
 /* 27 */,
-/* 28 */
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 29 */,
-/* 30 */
+/* 35 */,
+/* 36 */
 /***/ function(module, exports) {
 
 	/**
@@ -1011,7 +1095,7 @@
 	module.exports = UserInfoView;
 
 /***/ },
-/* 31 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1019,8 +1103,8 @@
 	 * Date: 2016/6/17 15:17
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(14);
-	var Loading_Pc = __webpack_require__(32);
+	var Api = __webpack_require__(5);
+	var Loading_Pc = __webpack_require__(38);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -1098,7 +1182,7 @@
 	module.exports = List;
 
 /***/ },
-/* 32 */
+/* 38 */
 /***/ function(module, exports) {
 
 	/**
@@ -1141,7 +1225,7 @@
 	module.exports = Loading;
 
 /***/ },
-/* 33 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1149,9 +1233,9 @@
 	 * Date: 2016/6/17 16:27
 	 * Description: ""
 	 */
-	var Api = __webpack_require__(14);
-	var Loading_Pc = __webpack_require__(32);
-	var tpl = __webpack_require__(34);
+	var Api = __webpack_require__(5);
+	var Loading_Pc = __webpack_require__(38);
+	var tpl = __webpack_require__(40);
 	var OrderIno = Backbone.View.extend({
 		initialize : function(){
 			this.listUl = $("#orderInfoList");
@@ -1235,78 +1319,10 @@
 	module.exports = OrderIno;
 
 /***/ },
-/* 34 */
+/* 40 */
 /***/ function(module, exports) {
 
 	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var use_limit = item.use_limit;\r\n                    var limit_str = \"\";\r\n                    if(use_limit==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        use_limit = use_limit.split(\",\");\r\n                        var daily = use_limit[0];\r\n                        var month = use_limit[1];\r\n                        var total = use_limit[2];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage==\"-1\" ? \"-\" : data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/27 18:55
-	 * Description: ""
-	 */
-	var SDialog = __webpack_require__(5);
-	var tpl = __webpack_require__(36);
-	var Dialog = function(){
-		var that = this;
-		this.submitData = {};
-		this.SDialog = new SDialog({
-			width : 520,
-			height : 280,
-			content : tpl,
-			drag : true,
-			events : {
-				"click #replaceBtn" : function(e){
-					that.onReplaceBtnClick(e);
-				},
-				"click #messageBtn" : function(e){
-					that.onMessageBtnClick(e);
-				}
-			}
-		});
-	};
-	Dialog.prototype = {
-		open : function(opt){
-			opt = opt || {};
-			var mobile = opt.mobile;
-			var idCard = opt.idCard;
-			var name = opt.name;
-			var left = opt.left;
-			this.submitData = opt.submitData;
-			this.SDialog.open({
-				onBefore : function(){
-					$("#existDialog_mobile").text(mobile);
-					$("#existDialog_idCard").text(idCard);
-					$("#existDialog_name").text(name+"（"+left+"）");
-				}
-			});
-		},
-		close : function(){
-			this.SDialog.close();
-		},
-		on : function(type,handler){
-			this.SDialog.on(type,handler);
-		},
-		//替换并且直接下单
-		onReplaceBtnClick : function(e){
-			this.SDialog.trigger("replaceAndSubmit",this.submitData,this);
-		},
-		//取消
-		onMessageBtnClick : function(e){
-			this.close();
-		}
-	};
-	module.exports = Dialog;
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
 
 /***/ }
 /******/ ]);

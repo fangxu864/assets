@@ -9,7 +9,7 @@
         </thead>
         <tbody id="tbody_<%=data.status%>" class="tbody tbody_<%=data.status%>">
             <tr style="text-align:center">
-                <td colspan="<%=data.ths.length%>" style="text-align:center"><%=data.loading%></td>
+                <td colspan="<%=data.ths.length%>" style="text-align:center; border-bottom:0 none"><%=data.loading%></td>
             </tr>
         </tbody>
     </table>

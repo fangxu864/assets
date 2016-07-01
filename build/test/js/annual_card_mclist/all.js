@@ -50,10 +50,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(37);
-	var TabHeader = __webpack_require__(39);
-	var ListManager = __webpack_require__(40);
-	var State = __webpack_require__(42);
+	__webpack_require__(41);
+	var TabHeader = __webpack_require__(43);
+	var ListManager = __webpack_require__(44);
+	var State = __webpack_require__(46);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -66,7 +66,7 @@
 				var status = data.status;
 				that.ListManager.active(status);
 			})
-			this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
+			 this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
 			this.TabHeader.active(1);
 		}
 	});
@@ -79,69 +79,7 @@
 
 /***/ },
 
-/***/ 10:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/7 10:09
-	 * Description: 订阅发布模型
-	 */
-	var E = {
-		fn : {},
-		on : function(type,fn){
-			var fns = this.fn[type] || (this.fn[type]=[]);
-			fns.push(fn);
-		},
-		fire : function(type){
-			var fns = this.fn[type];
-			if(!fns) return false;
-			var args = arguments;
-			var len = args.length;
-			var argus,scope;
-			if(len==1){
-				argus = "";
-				scope = this;
-			}else if(len==2){
-				argus = args[len-1];
-				scope = this;
-			}else if(len==3){
-				argus = args[len-2];
-				scope = args[len-1];
-			}
-			for(var i in fns){
-				var fn = fns[i];
-				fn.call(scope,argus);
-			}
-		},
-		trigger : function(){
-			this.fire.apply(this,arguments);
-		}
-	};
-	module.exports = E;
-
-/***/ },
-
-/***/ 11:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/22 18:43
-	 * Description: ""
-	 */
-	module.exports = function(destination,source){
-		for(var n in source){
-			if(source.hasOwnProperty(n)){
-				destination[n]=source[n];
-			}
-		}
-		return destination;
-	}
-
-/***/ },
-
-/***/ 14:
+/***/ 5:
 /***/ function(module, exports) {
 
 	/**
@@ -205,6 +143,12 @@
 			//下单成功页
 			ordersuccess : {
 				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			},
+			//激活页面
+			active : {
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/",
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
 			}
 		},
 		defaults : {
@@ -223,7 +167,69 @@
 
 /***/ },
 
-/***/ 32:
+/***/ 15:
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/7 10:09
+	 * Description: 订阅发布模型
+	 */
+	var E = {
+		fn : {},
+		on : function(type,fn){
+			var fns = this.fn[type] || (this.fn[type]=[]);
+			fns.push(fn);
+		},
+		fire : function(type){
+			var fns = this.fn[type];
+			if(!fns) return false;
+			var args = arguments;
+			var len = args.length;
+			var argus,scope;
+			if(len==1){
+				argus = "";
+				scope = this;
+			}else if(len==2){
+				argus = args[len-1];
+				scope = this;
+			}else if(len==3){
+				argus = args[len-2];
+				scope = args[len-1];
+			}
+			for(var i in fns){
+				var fn = fns[i];
+				fn.call(scope,argus);
+			}
+		},
+		trigger : function(){
+			this.fire.apply(this,arguments);
+		}
+	};
+	module.exports = E;
+
+/***/ },
+
+/***/ 16:
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/22 18:43
+	 * Description: ""
+	 */
+	module.exports = function(destination,source){
+		for(var n in source){
+			if(source.hasOwnProperty(n)){
+				destination[n]=source[n];
+			}
+		}
+		return destination;
+	}
+
+/***/ },
+
+/***/ 38:
 /***/ function(module, exports) {
 
 	/**
@@ -267,14 +273,14 @@
 
 /***/ },
 
-/***/ 37:
+/***/ 41:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 39:
+/***/ 43:
 /***/ function(module, exports) {
 
 	/**
@@ -319,7 +325,7 @@
 
 /***/ },
 
-/***/ 40:
+/***/ 44:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -327,9 +333,9 @@
 	 * Date: 2016/6/29 16:29
 	 * Description: ""
 	 */
-	var itemContainerTpl = __webpack_require__(41);
-	var LoadingPc = __webpack_require__(32);
-	var Api = __webpack_require__(14);
+	var itemContainerTpl = __webpack_require__(45);
+	var LoadingPc = __webpack_require__(38);
+	var Api = __webpack_require__(5);
 	var Manager = Backbone.View.extend({
 		el : $("#listSlideContainer"),
 		tableTh : {
@@ -420,14 +426,14 @@
 
 /***/ },
 
-/***/ 41:
+/***/ 45:
 /***/ function(module, exports) {
 
 	module.exports = "<li style=\"width:<%=data.width%>px\" id=\"listItemLi_<%=data.status%>\" class=\"listItemLi listItemLi_<%=data.status%>\">\r\n    <table id=\"listItemTable_<%=data.status%>\" class=\"listItemTable listItemTable_<%=data.status%>\">\r\n        <thead>\r\n        <tr>\r\n            <%_.each(data.ths,function(item,index){%>\r\n            <th><%=item%></th>\r\n            <% }) %>\r\n        </tr>\r\n        </thead>\r\n        <tbody id=\"tbody_<%=data.status%>\" class=\"tbody tbody_<%=data.status%>\">\r\n            <tr style=\"text-align:center\">\r\n                <td colspan=\"<%=data.ths.length%>\" style=\"text-align:center\"><%=data.loading%></td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</li>\r\n";
 
 /***/ },
 
-/***/ 42:
+/***/ 46:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -435,8 +441,8 @@
 	 * Date: 2016/6/30 17:11
 	 * Description: ""
 	 */
-	var Extend = __webpack_require__(11);
-	var PubSub = __webpack_require__(10);
+	var Extend = __webpack_require__(16);
+	var PubSub = __webpack_require__(15);
 	var State = Extend({},PubSub);
 	module.exports = State;
 

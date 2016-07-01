@@ -63,10 +63,11 @@
 			var that = this;
 			this.TabHeader = new TabHeader({state:State});
 			this.TabHeader.on("switch",function(data){
-				var status = data.status;
-				that.ListManager.active(status);
+				var fromStatus = data.fromStatus;
+				var toStatus = data.toStatus;
+				that.ListManager.active(fromStatus,toStatus);
 			})
-			 this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
+			this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
 			this.TabHeader.active(1);
 		}
 	});
@@ -198,7 +199,7 @@
 			//库存明细页
 			storage : {
 				//获取库存列表
-				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				getList : "/r/product_AnnualCard/getMemberList/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
@@ -210,7 +211,7 @@
 			active : {
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
-				activateForPc : "r/product_AnnualCard/activateForPc/"
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
 			}
 		},
 		defaults : {
@@ -295,14 +296,15 @@
 		},
 		initialize : function(opt){
 			this.state = opt.state;
-			console.log(this.state);
 		},
 		onCardTypeClick : function(e){
 			var tarBtn = $(e.currentTarget);
 			if(tarBtn.hasClass("active")) return false;
+			var cur_active = this.$el.find(".cardType").filter(".active");
+			var from_active_status = cur_active.length ? cur_active.attr("data-status") : -1;
 			var status = tarBtn.attr("data-status");
 			tarBtn.addClass("active").siblings().removeClass("active");
-			this.trigger("switch",{status:status});
+			this.trigger("switch",{fromStatus:from_active_status,toStatus:status});
 		},
 		active : function(status){
 			this.$el.find(".cardType[data-status="+status+"]").trigger("click");
@@ -336,17 +338,18 @@
 	var itemContainerTpl = __webpack_require__(43);
 	var LoadingPc = __webpack_require__(34);
 	var Api = __webpack_require__(16);
+	var itemTpl = __webpack_require__(92);
 	var Manager = Backbone.View.extend({
 		el : $("#listSlideContainer"),
 		tableTh : {
 			//激活状态
-			1 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况"],
+			1 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
 			//未激活状态
-			0 : ["售出时间","虚拟卡号/实体卡号 ","发卡商户","激活情况"],
+			0 : ["售出时间","虚拟卡号/实体卡号 ","发卡商户","激活情况","操作"],
 			//禁用状态
-			2 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况"],
+			2 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
 			//挂失状态
-			4 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况"]
+			4 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"]
 		},
 		initialize : function(opt){
 			opt = opt || {};
@@ -357,6 +360,7 @@
 			this.slideUl.width(this.itemWidth*this.statusArr.length);
 			this.buildSlideItem(this.statusArr);
 		},
+		template : _.template(itemTpl),
 		buildSlideItem : function(status){
 			var that = this;
 			var template = _.template(itemContainerTpl);
@@ -377,19 +381,26 @@
 		getSupplySelectVal : function(){
 			return $("#supplySelect").val();
 		},
+		setSupplySelectVal : function(val){
+			$("#supplySelect").val(val);
+		},
 		//要切换(激活哪个slide item)
-		active : function(status){
-			var tarItem = $("#listItemLi_"+status);
+		active : function(fromStatus,toStatus){
+			var tarItem = $("#listItemLi_"+toStatus);
 			var index = tarItem.index();
-			var state = this.state[status] || (this.state[status]={});
+			var fromState = this.state[fromStatus];
+			var toState = this.state[toStatus] || (this.state[toStatus]={});
 			var supply = this.getSupplySelectVal();
 			var keyword = $("#searchInp").val();
-			var listData = state.listData;
+			var listData = toState.listData;
 			//切换之前，先把当前pannel里的状态保存到state里
-			state["supply"] = supply;
-			state["keyword"] = keyword;
-			$("#searchInp").val("");
-			if(!listData) this.getList(status);
+			if(fromState) fromState["supply"] = supply;
+			if(fromState) fromState["keyword"] = keyword;
+			var new_supply = toState.supply;
+			var new_keyword = toState.keyword || "";
+			$("#searchInp").val(new_keyword);
+			this.setSupplySelectVal(new_supply);
+			if(!listData) this.getList(toStatus,1);
 			this.slideUl.animate({left:-1*this.itemWidth*index},400);
 		},
 		getList : function(status,page,keyword){
@@ -399,7 +410,7 @@
 				params : {
 					status : status,
 					page : page,
-					page_size : 20,
+					page_size : 10,
 					identify : keyword
 				},
 				loading : function(){
@@ -413,11 +424,26 @@
 					});
 					container.html(loading);
 				},
-				complete : function(){
-	
-				},
+				complete : function(){},
 				success : function(res){
-	
+					res = res || {};
+					var data = res.data || {};
+					if(res.code==200){
+						var list = data.list;
+						if(list){
+							that.state[status]["listData"] = 1; //标识已请求过
+							var html = that.template({data:{
+								status : status,
+								list : list,
+								colspan : that.tableTh[status].length
+							}});
+							$("#tbody_"+status).html(html);
+						}else{
+							alert("请求出错，缺少list对象");
+						}
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
 				}
 			})
 		}
@@ -429,7 +455,7 @@
 /***/ 43:
 /***/ function(module, exports) {
 
-	module.exports = "<li style=\"width:<%=data.width%>px\" id=\"listItemLi_<%=data.status%>\" class=\"listItemLi listItemLi_<%=data.status%>\">\r\n    <table id=\"listItemTable_<%=data.status%>\" class=\"listItemTable listItemTable_<%=data.status%>\">\r\n        <thead>\r\n        <tr>\r\n            <%_.each(data.ths,function(item,index){%>\r\n            <th><%=item%></th>\r\n            <% }) %>\r\n        </tr>\r\n        </thead>\r\n        <tbody id=\"tbody_<%=data.status%>\" class=\"tbody tbody_<%=data.status%>\">\r\n            <tr style=\"text-align:center\">\r\n                <td colspan=\"<%=data.ths.length%>\" style=\"text-align:center\"><%=data.loading%></td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</li>\r\n";
+	module.exports = "<li style=\"width:<%=data.width%>px\" id=\"listItemLi_<%=data.status%>\" class=\"listItemLi listItemLi_<%=data.status%>\">\r\n    <table id=\"listItemTable_<%=data.status%>\" class=\"listItemTable listItemTable_<%=data.status%>\">\r\n        <thead>\r\n        <tr>\r\n            <%_.each(data.ths,function(item,index){%>\r\n            <th><%=item%></th>\r\n            <% }) %>\r\n        </tr>\r\n        </thead>\r\n        <tbody id=\"tbody_<%=data.status%>\" class=\"tbody tbody_<%=data.status%>\">\r\n            <tr style=\"text-align:center\">\r\n                <td colspan=\"<%=data.ths.length%>\" style=\"text-align:center; border-bottom:0 none\"><%=data.loading%></td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</li>\r\n";
 
 /***/ },
 
@@ -445,6 +471,13 @@
 	var PubSub = __webpack_require__(13);
 	var State = Extend({},PubSub);
 	module.exports = State;
+
+/***/ },
+
+/***/ 92:
+/***/ function(module, exports) {
+
+	module.exports = "<%\r\n   var status = data.status;\r\n   var list = data.list;\r\n   var colspan = data.colspan;\r\n%>\r\n<% if(list.length){ %>\r\n    <% _.each(list,function(item,index){ %>\r\n        <tr>\r\n            <% if(status==0){ %>\r\n                <td><%=item.sale_time%></td>\r\n            <% }else{ %>\r\n                <td><%=item.account%></td>\r\n                <td><%=item.mobile%></td>\r\n            <% } %>\r\n            <td><%=item.virtual_no%> / <%=item.card_no%></td>\r\n            <td><%=item.supply%></td>\r\n            <td><%=item.status%></td>\r\n            <td class=\"font-blue doAction\">\r\n                <a href=\"javascript:void(0);\">查看</a>\r\n                <a href=\"javascript:void(0);\">挂失</a>\r\n                <a href=\"javascript:void(0);\">禁用</a>\r\n            </td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n    <tr>\r\n        <td colspan=\"<%=colspan%>\" style=\"height:300px; text-align:center\">查无匹配内容...</td>\r\n    </tr>\r\n<% } %>";
 
 /***/ }
 

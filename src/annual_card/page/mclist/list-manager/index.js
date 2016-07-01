@@ -6,17 +6,18 @@
 var itemContainerTpl = require("./item-container-tpl.xtpl");
 var LoadingPc = require("COMMON/js/util.loading.pc.js");
 var Api = require("../../../common/api.js");
+var itemTpl = require("./list-item-tpl.xtpl");
 var Manager = Backbone.View.extend({
 	el : $("#listSlideContainer"),
 	tableTh : {
 		//激活状态
-		1 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况"],
+		1 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
 		//未激活状态
-		0 : ["售出时间","虚拟卡号/实体卡号 ","发卡商户","激活情况"],
+		0 : ["售出时间","虚拟卡号/实体卡号 ","发卡商户","激活情况","操作"],
 		//禁用状态
-		2 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况"],
+		2 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
 		//挂失状态
-		4 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况"]
+		4 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"]
 	},
 	initialize : function(opt){
 		opt = opt || {};
@@ -27,6 +28,7 @@ var Manager = Backbone.View.extend({
 		this.slideUl.width(this.itemWidth*this.statusArr.length);
 		this.buildSlideItem(this.statusArr);
 	},
+	template : _.template(itemTpl),
 	buildSlideItem : function(status){
 		var that = this;
 		var template = _.template(itemContainerTpl);
@@ -47,19 +49,26 @@ var Manager = Backbone.View.extend({
 	getSupplySelectVal : function(){
 		return $("#supplySelect").val();
 	},
+	setSupplySelectVal : function(val){
+		$("#supplySelect").val(val);
+	},
 	//要切换(激活哪个slide item)
-	active : function(status){
-		var tarItem = $("#listItemLi_"+status);
+	active : function(fromStatus,toStatus){
+		var tarItem = $("#listItemLi_"+toStatus);
 		var index = tarItem.index();
-		var state = this.state[status] || (this.state[status]={});
+		var fromState = this.state[fromStatus];
+		var toState = this.state[toStatus] || (this.state[toStatus]={});
 		var supply = this.getSupplySelectVal();
 		var keyword = $("#searchInp").val();
-		var listData = state.listData;
+		var listData = toState.listData;
 		//切换之前，先把当前pannel里的状态保存到state里
-		state["supply"] = supply;
-		state["keyword"] = keyword;
-		$("#searchInp").val("");
-		if(!listData) this.getList(status);
+		if(fromState) fromState["supply"] = supply;
+		if(fromState) fromState["keyword"] = keyword;
+		var new_supply = toState.supply;
+		var new_keyword = toState.keyword || "";
+		$("#searchInp").val(new_keyword);
+		this.setSupplySelectVal(new_supply);
+		if(!listData) this.getList(toStatus,1);
 		this.slideUl.animate({left:-1*this.itemWidth*index},400);
 	},
 	getList : function(status,page,keyword){
@@ -69,7 +78,7 @@ var Manager = Backbone.View.extend({
 			params : {
 				status : status,
 				page : page,
-				page_size : 20,
+				page_size : 10,
 				identify : keyword
 			},
 			loading : function(){
@@ -83,11 +92,26 @@ var Manager = Backbone.View.extend({
 				});
 				container.html(loading);
 			},
-			complete : function(){
-
-			},
+			complete : function(){},
 			success : function(res){
-
+				res = res || {};
+				var data = res.data || {};
+				if(res.code==200){
+					var list = data.list;
+					if(list){
+						that.state[status]["listData"] = 1; //标识已请求过
+						var html = that.template({data:{
+							status : status,
+							list : list,
+							colspan : that.tableTh[status].length
+						}});
+						$("#tbody_"+status).html(html);
+					}else{
+						alert("请求出错，缺少list对象");
+					}
+				}else{
+					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				}
 			}
 		})
 	}

@@ -10,14 +10,15 @@ var Header = Backbone.View.extend({
 	},
 	initialize : function(opt){
 		this.state = opt.state;
-		console.log(this.state);
 	},
 	onCardTypeClick : function(e){
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("active")) return false;
+		var cur_active = this.$el.find(".cardType").filter(".active");
+		var from_active_status = cur_active.length ? cur_active.attr("data-status") : -1;
 		var status = tarBtn.attr("data-status");
 		tarBtn.addClass("active").siblings().removeClass("active");
-		this.trigger("switch",{status:status});
+		this.trigger("switch",{fromStatus:from_active_status,toStatus:status});
 	},
 	active : function(status){
 		this.$el.find(".cardType[data-status="+status+"]").trigger("click");

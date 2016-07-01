@@ -191,7 +191,7 @@ body{
   font-weight: bold; }
 .cardContainer table th, .cardContainer table td{
   text-align: left; }
-.stockBox .cardBtn {
+.activate {
   vertical-align: middle;
   cursor: pointer;
   text-align: center;
@@ -201,176 +201,200 @@ body{
           user-select: none;
   white-space: nowrap; }
 
-/*架构UI*/
-select {
-  border: 1px solid #dbdbdb;
+.line .rt .textInp, .line .rt .textArea {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  text-indent: 10px; }
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
+.line .rt .textInp, .line .rt .textArea {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+
+/*架构UI*/
 .cardContainer {
   width: 798px;
   border: 1px solid #e5e5e5;
   margin: 0 auto;
   background: white; }
 
-.stockBox {
-  height: 48px;
-  line-height: 48px;
-  padding-left: 24px;
-  font-size: 14px;
+.cardContainer .btn {
+  cursor: pointer; }
+
+.formBox {
+  margin-top: 30px; }
+
+.line {
   overflow: hidden;
-  background: #bfe7f8; }
+  margin: 10px 0 10px 15px; }
 
-.stockBox div {
-  float: left; }
+.line .lt {
+  float: left;
+  width: 108px;
+  margin-left: 24px;
+  font-size: 14px;
+  line-height: 36px; }
 
-.stockBox div > span {
+.line .rt {
+  float: left;
+  position: relative; }
+
+.line .rt p {
+  margin-top: 8px; }
+
+.line .rt .actip i {
   margin-right: 20px; }
 
-.stockBox .cardBtn {
-  float: right;
+.line .rt .actip .acSpan {
+  color: #f5530c; }
+
+.line .rt .textInp {
+  width: 300px;
+  height: 22px;
+  line-height: 22px;
+  border: 1px solid #e5e5e5;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-indent: 0;
+  margin-right: 6px; }
+
+.line .rt .textArea {
+  border: 1px solid #e5e5e5;
+  padding: 6px;
+  line-height: 18px; }
+
+.line .rt .cardBtn {
+  width: 90px;
+  height: 34px;
+  line-height: 34px; }
+
+.line .rt .loadingIcon {
+  position: absolute;
+  z-index: 5;
+  top: 8px;
+  left: 284px;
+  display: none; }
+
+.activate {
   display: inline-block;
-  width: 96px;
-  height: 28px;
-  line-height: 28px;
+  width: 86px;
+  height: 34px;
+  line-height: 34px;
   background-color: #258cc9;
   color: #fff;
   border-radius: 0px;
   font-size: 14px;
-  margin: 10px 24px 0 0; }
-  .stockBox .cardBtn:hover, .stockBox .cardBtn:active {
+  margin: 26px 0 48px 148px; }
+  .activate:hover, .activate:active {
     background-color: #217db3;
     text-decoration: none; }
 
-.stockBox .cardBtn:link {
-  color: white; }
-
-.stockBox .cardBtn.disable {
+.activate.disable, #readCardBtn.disable, #codeBtn.disable {
   background: #ccc;
   color: #999;
-  cursor: default; }
+  cursor: default;
+  border-color: #cccccc; }
 
-.memTable {
-  width: 100%; }
-
-.memTable thead {
-  line-height: 36px;
-  background: #e5e5e5; }
-
-.memTable tbody tr {
-  line-height: 46px; }
-
-.memTable tr td:first-of-type, .memTable tr th:first-of-type {
-  text-indent: 24px; }
-
-.pageBox {
-  height: 28px;
-  padding: 9px 10px;
-  font-size: 14px; }
-
-.pageBox a {
-  width: 78px;
-  height: 28px;
-  line-height: 28px;
-  border-radius: 14px;
-  font-weight: bolder;
-  font-size: larger; }
-
-.pageBox a:link {
-  color: #92a0ab; }
-
-.pageBox .bg-gray {
-  margin-left: 560px; }
-
-.delBox {
-  width: 298px;
-  height: 158px;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  margin-left: -150px;
-  margin-top: -80px;
-  background: white; }
-
-.delBox p {
-  font-size: 14px;
-  line-height: 110px;
-  margin-left: 80px; }
-
-.btnBox a {
-  width: 74px;
-  height: 33px;
-  line-height: 33px; }
-
-#yesBtn {
+.activate:link, .disable:link {
   color: white; }
 
-.btnBox a:first-of-type {
-  margin-left: 126px; }
+.payCard {
+  width: 428px;
+  height: 198px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -215px;
+  background: white; }
 
-/**/
-.navigationBar {
-  width: 100%;
-  margin-top: 10px;
-  clear: both; }
+.payCard p {
+  text-align: center;
+  line-height: 198px;
+  font-size: 24px; }
 
-.navigationBar .navCon {
+.payCard .btn-del {
+  position: absolute;
+  right: 6px;
+  top: -6px; }
+
+#cardInfoBar.error {
+  color: red; }
+
+.cardContainer .tip.error {
+  color: red; }
+.memberBox {
+  padding: 0 26px; }
+
+.memP {
+  line-height: 106px;
+  font-size: 14px; }
+
+.memTable {
+  width: 464px;
+  background: #f5f5f5;
+  line-height: 30px; }
+
+.memTable tr td:first-of-type, .memTable tr th:first-of-type {
+  text-indent: 10px; }
+
+.memberBox .btnBox {
+  overflow: hidden; }
+
+.memberBox .btnBox a {
   float: right;
-  position: relative;
-  padding: 0 120px;
+  margin: 50px 0 0 10px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 32px; }
+.gSimpleDialog-container {
+  position: fixed;
+  overflow: hidden;
   background: #fff;
-  border-bottom: 1px solid #dbdbdb; }
+  -ms-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); }
 
-.navigationBar .navCon .navBtn {
+.gSimpleDialog-header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 9998; }
+
+.gSimpleDialog-closeBtn {
   display: block;
   position: absolute;
+  z-index: 9999;
   top: 0;
+  right: 0;
   bottom: 0;
-  right: 0;
-  width: 75px;
-  line-height: 49px;
   text-align: center;
-  cursor: pointer;
-  background: #fff;
-  color: #333; }
+  color: #919191;
+  font-size: 26px;
+  cursor: pointer; }
 
-.navigationBar .navCon .navBtn.next {
-  right: 0;
-  border-left: 1px solid #dbdbdb; }
+.gSimpleDialog-closeBtn.hidden {
+  display: none; }
 
-.navigationBar .navCon .navBtn.prev {
+.gSimpleDialog-closeBtn:hover {
+  background: #e12424;
+  color: #fff; }
+
+.gSimpleDialog-mask {
+  position: fixed;
+  top: 0;
   left: 0;
-  border-right: 1px solid #dbdbdb; }
-
-.navigationBar .navCon .navBtn:hover {
-  text-decoration: none;
-  color: #0797d9; }
-
-.navigationBar .navCon .navBtn.disable, #navigationBar .navCon .navBtn.disable:hover {
-  color: #989898;
-  background: #f2f2f2;
-  cursor: default; }
-
-.navigationBar .which {
-  height: 50px;
-  line-height: 50px; }
-
-.navigationBar .pagenum {
-  position: relative;
-  top: 2px;
-  font-family: arial;
-  font-size: 16px;
-  font-weight: bold; }
-
-.navigationBar .var {
-  position: relative;
-  top: -1px; }
-
-.navigationBar .tip {
-  clear: both;
-  text-align: right;
-  margin-right: 2px;
-  padding-top: 8px;
-  color: #A7A9AA; }
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  -moz-opacity: 0.6; }
 
 /*# sourceMappingURL=all.css.map*/

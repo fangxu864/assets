@@ -205,7 +205,7 @@
 			//库存明细页
 			storage : {
 				//获取库存列表
-				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				getList : "/r/product_AnnualCard/getMemberList/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
@@ -217,7 +217,7 @@
 			active : {
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
-				activateForPc : "r/product_AnnualCard/activateForPc/"
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
 			}
 		},
 		defaults : {
