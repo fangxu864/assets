@@ -807,6 +807,7 @@
 		this.id = opt.id;
 		if(!this.id) throw Error("缺少id");
 		this.readObj = document.getElementById(this.id);
+		//<object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
 	}
 	readPhysicsCard.prototype = {
 		read : function(){
@@ -821,7 +822,7 @@
 			}
 			readCardObj.open();
 			var val = readCardObj.ICReaderRequest();
-			return val;
+			return val || "";
 		}
 	};
 	module.exports = readPhysicsCard;
