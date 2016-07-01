@@ -186,7 +186,7 @@ body{
 .entry{
   line-height: 65px;
   font-size: 16px;
-  text-indent: 24px;
+  padding-left: 24px;
   background: white;
   font-weight: bold; }
 .cardContainer table th, .cardContainer table td{
@@ -231,11 +231,8 @@ select {
   height: 58px;
   overflow: hidden; }
 
-.manageTitle .entry {
-  float: left;
-  line-height: 58px;
-  font-size: 24px;
-  margin-left: 24px; }
+.entry {
+  padding-left: 24px; }
 
 .activaCard {
   display: inline-block;

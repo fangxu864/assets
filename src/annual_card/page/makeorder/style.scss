@@ -25,8 +25,10 @@
 
 .fillLine .balance{ margin-left:22px;}
 .fillLine .tip.error{color:red;}
-.submitBox{width:798px; height:44px; background:#e5e5e5; margin-top:30px;}
-.orderPrice{display:inline-block;float:left; line-height:44px;margin-left:560px;}
+.submitBox{width:798px; height:44px; background:#e5e5e5; margin-top:30px; overflow:hidden;}
+.submitBox .orderPrice{display:inline-block;float:right; line-height:44px;margin-right:26px;}
+.submitBox .yen{ font-size:16px;}
+.submitBox #totalMoney{ font-size:24px;}
 #submitBtn{ float:right;width:114px;height:44px;line-height:44px;color:white;}
 #submitBtn.disable{ @include btn-disable()}
 .supplierBox{line-height:33px;padding-left:24px;}

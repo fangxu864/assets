@@ -230,7 +230,7 @@ body{
 .entry{
   line-height: 65px;
   font-size: 16px;
-  text-indent: 24px;
+  padding-left: 24px;
   background: white;
   font-weight: bold; }
 .cardContainer table th, .cardContainer table td{
@@ -332,13 +332,20 @@ body{
   width: 798px;
   height: 44px;
   background: #e5e5e5;
-  margin-top: 30px; }
+  margin-top: 30px;
+  overflow: hidden; }
 
-.orderPrice {
+.submitBox .orderPrice {
   display: inline-block;
-  float: left;
+  float: right;
   line-height: 44px;
-  margin-left: 560px; }
+  margin-right: 26px; }
+
+.submitBox .yen {
+  font-size: 16px; }
+
+.submitBox #totalMoney {
+  font-size: 24px; }
 
 #submitBtn {
   float: right;
