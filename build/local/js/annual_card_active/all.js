@@ -40,9 +40,8 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -51,7 +50,7 @@
 	 * Description: ""
 	 */
 	__webpack_require__(1);
-	var ReadPhysicsCard = __webpack_require__(15);
+	var ReadPhysicsCard = __webpack_require__(5);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -91,15 +90,16 @@
 
 
 /***/ },
-
-/***/ 1:
+/* 1 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-
-/***/ 15:
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -133,6 +133,5 @@
 	module.exports = readPhysicsCard;
 
 /***/ }
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=all.js.map

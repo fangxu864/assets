@@ -224,7 +224,7 @@ body{
 
 .line {
   overflow: hidden;
-  margin: 10px 0  10px 110px; }
+  margin: 10px 0  10px 15px; }
 
 .line .lt {
   float: left;

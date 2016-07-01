@@ -79,7 +79,7 @@
 
 /***/ },
 
-/***/ 12:
+/***/ 13:
 /***/ function(module, exports) {
 
 	/**
@@ -122,7 +122,7 @@
 
 /***/ },
 
-/***/ 13:
+/***/ 14:
 /***/ function(module, exports) {
 
 	/**
@@ -435,8 +435,8 @@
 	 * Date: 2016/6/30 17:11
 	 * Description: ""
 	 */
-	var Extend = __webpack_require__(13);
-	var PubSub = __webpack_require__(12);
+	var Extend = __webpack_require__(14);
+	var PubSub = __webpack_require__(13);
 	var State = Extend({},PubSub);
 	module.exports = State;
 

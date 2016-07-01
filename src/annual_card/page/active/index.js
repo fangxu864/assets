@@ -8,8 +8,7 @@ var ReadPhysicsCard = require("../../common/readPhysicsCard.js");
 var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
-		"click #readCardBtn" : "onReadCardBtnClick",
-		"blur "
+		"click #readCardBtn" : "onReadCardBtnClick"
 	},
 	initialize : function(){
 		this.cardInp = $("#cardNum");
