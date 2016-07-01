@@ -15,11 +15,11 @@ readPhysicsCard.prototype = {
 		var readCardObj = this.readObj;
 		if(!readCardObj){
 			alert("请使用IE浏览器读物理卡号");
-			return false;
+			return "";
 		}
 		if(typeof readCardObj.open!="number" && typeof readCardObj.ICReaderRequest!="string"){
 			alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
-			return false;
+			return "";
 		}
 		readCardObj.open();
 		var val = readCardObj.ICReaderRequest();

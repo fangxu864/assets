@@ -364,4 +364,7 @@ body{
   right: 6px;
   top: -6px; }
 
+#cardInfoBar.error {
+  color: red; }
+
 /*# sourceMappingURL=all.css.map*/

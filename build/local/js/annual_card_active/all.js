@@ -52,7 +52,7 @@
 	 */
 	__webpack_require__(1);
 	var Api = __webpack_require__(16);
-	var ReadPhysicsCard = __webpack_require__(15);
+	var ReadPhysicsCard = __webpack_require__(5);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -60,29 +60,39 @@
 			"blur .textInp" : "onTextInpBlur"
 		},
 		initialize : function(){
-			this.cardInp = $("#cardNum");
+			this.cardInp = $("#cardInp");
 			this.readCardBtn = $("#readCardBtn");
 			this.idCardInp = $("#idCardInp");
 			this.cardInfoBar = $("#cardInfoBar");
 			this.ReadPhysicsCard = new ReadPhysicsCard({id:"readCardObj"});
 		},
 		onReadCardBtnClick : function(e){
+			if($(e.currentTarget).hasClass("disable")) return false;
 			var cardval = this.ReadPhysicsCard.read();
 			this.cardInp.val(cardval);
 			if(!cardval) return alert("读卡失败");
 			this.getCardInfo(cardval,"physics")
 		},
 		onTextInpBlur : function(e){
+			var that = this;
 			var tarInp = $(e.currentTarget);
-			var validate = tarInp.attr("validate");
+			var validate = tarInp.attr("validator");
+			if(!validate) return false;
 			validate = validate.split("|");
 			for(var i in validate){
-	
+				var valid = validate[i].split(":");
+				var rule = valid[0];
+				var args = valid[1] ? valid[1].split(",") : [];
+				var handler = that.validator[rule];
+				if(handler) handler.apply(that,args);
 			}
 		},
 		validator : {
 			card : function(){
-	
+				var tarInp = this.cardInp;
+				var val = $.trim(tarInp.val());
+				if(!PFT.Util.Validate.typeInit0(val)) return alert("请输入数字卡号或直接用读卡器读取卡号");
+				this.getCardInfo(val,"other");
 			},
 			mobile : function(){
 	
@@ -108,11 +118,14 @@
 				},
 				loading : function(){
 					tarBtn.addClass("disable");
+					$("#loadingIcon").show();
 				},
 				complete : function(){
 					tarBtn.removeClass("disable");
+					//$("#loadingIcon").hide();
 				},
 				success : function(res){
+					return false;
 					res = res || {};
 					var data= res.data;
 					if(res.code==200){
@@ -121,10 +134,9 @@
 						var virtual_no = data.virtual_no;
 						var physics_no = data.physics_no;
 						idCardInp.attr("validate","idCard:"+needID);
-						that.cardInfoBar.show().html("虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
+						that.cardInfoBar.show().removeClass("error").html("虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
 					}else{
-						that.cardInfoBar.hide().html();
-						alert(res.msg || PFT.AJAX_ERROR_TEXT)
+						that.cardInfoBar.show().html(res.msg || PFT.AJAX_ERROR_TEXT).addClass("error");
 					}
 				}
 			})
@@ -145,7 +157,7 @@
 
 /***/ },
 
-/***/ 15:
+/***/ 5:
 /***/ function(module, exports) {
 
 	/**
@@ -165,11 +177,11 @@
 			var readCardObj = this.readObj;
 			if(!readCardObj){
 				alert("请使用IE浏览器读物理卡号");
-				return false;
+				return "";
 			}
 			if(typeof readCardObj.open!="number" && typeof readCardObj.ICReaderRequest!="string"){
 				alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
-				return false;
+				return "";
 			}
 			readCardObj.open();
 			var val = readCardObj.ICReaderRequest();
