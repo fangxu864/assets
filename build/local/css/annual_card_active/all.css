@@ -201,14 +201,14 @@ body{
           user-select: none;
   white-space: nowrap; }
 
-.line .rt .textInp {
+.line .rt .textInp, .line .rt .textArea {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
-.line .rt .textInp {
+.line .rt .textInp, .line .rt .textArea {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -221,6 +221,9 @@ body{
   border: 1px solid #e5e5e5;
   margin: 0 auto;
   background: white; }
+
+.formBox {
+  margin-top: 30px; }
 
 .line {
   overflow: hidden;
@@ -257,6 +260,11 @@ body{
   text-indent: 0;
   margin-right: 6px; }
 
+.line .rt .textArea {
+  border: 1px solid #e5e5e5;
+  padding: 6px;
+  line-height: 18px; }
+
 .line .rt .cardBtn {
   width: 90px;
   height: 34px;
@@ -275,7 +283,7 @@ body{
   color: #fff;
   border-radius: 0px;
   font-size: 14px;
-  margin: 26px 0 48px 242px; }
+  margin: 26px 0 48px 148px; }
   .activate:hover, .activate:active {
     background-color: #217db3;
     text-decoration: none; }
