@@ -54,7 +54,8 @@
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
-			"click #readCardBtn" : "onReadCardBtnClick"
+			"click #readCardBtn" : "onReadCardBtnClick",
+			"blur .textInp" : "onTextInpBlur"
 		},
 		initialize : function(){
 			this.cardInp = $("#cardNum");
@@ -64,6 +65,14 @@
 			var cardval = this.ReadPhysicsCard.read();
 			this.cardInp.val(cardval);
 			if(!cardval) alert("读卡失败");
+		},
+		onTextInpBlur : function(e){
+			var tarInp = $(e.currentTarget);
+			var validate = tarInp.attr("validate");
+			validate = validate.split("|");
+			for(var i in validate){
+				
+			}
 		},
 		validator : {
 			card : function(){
