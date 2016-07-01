@@ -175,6 +175,10 @@
 			//下单成功页
 			ordersuccess : {
 				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			},
+			//激活页面
+			active : {
+				checkCard : "/r/product_AnnualCard/activeCheck/"
 			}
 		},
 		defaults : {
