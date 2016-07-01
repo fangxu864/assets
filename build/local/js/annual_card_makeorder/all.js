@@ -227,8 +227,7 @@
 /* 4 */,
 /* 5 */,
 /* 6 */,
-/* 7 */,
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -236,11 +235,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(9);
-	var WinWidthHeight = __webpack_require__(11);
-	var Drag = __webpack_require__(12);
-	var PubSub = __webpack_require__(13);
-	var Extend = __webpack_require__(14);
+	__webpack_require__(8);
+	var WinWidthHeight = __webpack_require__(10);
+	var Drag = __webpack_require__(11);
+	var PubSub = __webpack_require__(12);
+	var Extend = __webpack_require__(13);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -405,14 +404,14 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 10 */,
-/* 11 */
+/* 9 */,
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -439,7 +438,7 @@
 	}
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -766,7 +765,7 @@
 	module.exports = Drag;
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -808,7 +807,7 @@
 	module.exports = E;
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -826,6 +825,7 @@
 	}
 
 /***/ },
+/* 14 */,
 /* 15 */,
 /* 16 */
 /***/ function(module, exports) {
@@ -1255,7 +1255,7 @@
 	 * Date: 2016/6/27 18:55
 	 * Description: ""
 	 */
-	var SDialog = __webpack_require__(8);
+	var SDialog = __webpack_require__(7);
 	var tpl = __webpack_require__(38);
 	var Dialog = function(){
 		var that = this;
