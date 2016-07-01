@@ -184,7 +184,8 @@
 /* 7 */,
 /* 8 */,
 /* 9 */,
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -211,7 +212,6 @@
 	}
 
 /***/ },
-/* 11 */,
 /* 12 */,
 /* 13 */,
 /* 14 */,
@@ -283,7 +283,8 @@
 			},
 			//激活页面
 			active : {
-				checkCard : "/r/product_AnnualCard/activeCheck/"
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/"
 			}
 		},
 		defaults : {
@@ -451,7 +452,7 @@
 	 * Description: ""
 	 */
 	var box_tpl = __webpack_require__(23);
-	var winWidthHeight = __webpack_require__(10);
+	var winWidthHeight = __webpack_require__(11);
 	__webpack_require__(24);
 	var Dialog = Backbone.View.extend({
 		state : 0,

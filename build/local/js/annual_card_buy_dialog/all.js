@@ -49,10 +49,10 @@
 	 * Date: 2016/6/21 10:22
 	 * Description: ""
 	 */
-	__webpack_require__(5);
-	var SDialog = __webpack_require__(7);
-	var dialogTpl = __webpack_require__(14);
-	var ReadCardObj = __webpack_require__(15);
+	__webpack_require__(6);
+	var SDialog = __webpack_require__(8);
+	var dialogTpl = __webpack_require__(15);
+	var ReadCardObj = __webpack_require__(5);
 	var Api = __webpack_require__(16);
 	var Ajax = __webpack_require__(17);
 	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
@@ -186,11 +186,45 @@
 /* 5 */
 /***/ function(module, exports) {
 
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/24 17:28
+	 * Description: ""
+	 */
+	function readPhysicsCard(opt){
+		opt = opt || {};
+		this.id = opt.id;
+		if(!this.id) throw Error("缺少id");
+		this.readObj = document.getElementById(this.id);
+		//<object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
+	}
+	readPhysicsCard.prototype = {
+		read : function(){
+			var readCardObj = this.readObj;
+			if(!readCardObj){
+				alert("请使用IE浏览器读物理卡号");
+				return "";
+			}
+			if(typeof readCardObj.open!="number" && typeof readCardObj.ICReaderRequest!="string"){
+				alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
+				return "";
+			}
+			readCardObj.open();
+			var val = readCardObj.ICReaderRequest();
+			return val || "";
+		}
+	};
+	module.exports = readPhysicsCard;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 6 */,
-/* 7 */
+/* 7 */,
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -198,11 +232,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(8);
-	var WinWidthHeight = __webpack_require__(10);
-	var Drag = __webpack_require__(11);
-	var PubSub = __webpack_require__(12);
-	var Extend = __webpack_require__(13);
+	__webpack_require__(9);
+	var WinWidthHeight = __webpack_require__(11);
+	var Drag = __webpack_require__(12);
+	var PubSub = __webpack_require__(13);
+	var Extend = __webpack_require__(14);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -367,14 +401,14 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 9 */,
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -401,7 +435,7 @@
 	}
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -728,7 +762,7 @@
 	module.exports = Drag;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -770,7 +804,7 @@
 	module.exports = E;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -788,44 +822,10 @@
 	}
 
 /***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
-
-/***/ },
 /* 15 */
 /***/ function(module, exports) {
 
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/24 17:28
-	 * Description: ""
-	 */
-	function readPhysicsCard(opt){
-		opt = opt || {};
-		this.id = opt.id;
-		if(!this.id) throw Error("缺少id");
-		this.readObj = document.getElementById(this.id);
-		//<object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
-	}
-	readPhysicsCard.prototype = {
-		read : function(){
-			var readCardObj = this.readObj;
-			if(!readCardObj){
-				alert("请使用IE浏览器读物理卡号");
-				return "";
-			}
-			if(typeof readCardObj.open!="number" && typeof readCardObj.ICReaderRequest!="string"){
-				alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
-				return "";
-			}
-			readCardObj.open();
-			var val = readCardObj.ICReaderRequest();
-			return val || "";
-		}
-	};
-	module.exports = readPhysicsCard;
+	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 16 */
@@ -895,7 +895,8 @@
 			},
 			//激活页面
 			active : {
-				checkCard : "/r/product_AnnualCard/activeCheck/"
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/"
 			}
 		},
 		defaults : {

@@ -116,7 +116,8 @@
 /* 7 */,
 /* 8 */,
 /* 9 */,
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -143,7 +144,6 @@
 	}
 
 /***/ },
-/* 11 */,
 /* 12 */,
 /* 13 */,
 /* 14 */,
@@ -215,7 +215,8 @@
 			},
 			//激活页面
 			active : {
-				checkCard : "/r/product_AnnualCard/activeCheck/"
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/"
 			}
 		},
 		defaults : {
@@ -1326,7 +1327,7 @@
 	var index_tpl = __webpack_require__(67);
 	var ticket_item_tpl = __webpack_require__(68);
 	var prod_item_tpl = __webpack_require__(69);
-	var getWinWidthHeight = __webpack_require__(10);
+	var getWinWidthHeight = __webpack_require__(11);
 	var ProdSelect = Backbone.View.extend({
 		events : {
 			"click .btn-group .pop-btn" : "onBtnClick",

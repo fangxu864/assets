@@ -52,11 +52,12 @@
 	 */
 	__webpack_require__(1);
 	var Api = __webpack_require__(16);
-	var ReadPhysicsCard = __webpack_require__(15);
+	var ReadPhysicsCard = __webpack_require__(5);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
 			"click #readCardBtn" : "onReadCardBtnClick",
+			"click #getVCodeBtn" : "onGetVCodeBtnClick",
 			"blur .textInp" : "onTextInpBlur",
 			"focus .textInp" : "onTextInpFocus"
 		},
@@ -65,6 +66,7 @@
 			this.readCardBtn = $("#readCardBtn");
 			this.idCardInp = $("#idCardInp");
 			this.cardInfoBar = $("#cardInfoBar");
+			this.mobileInp = $("#mobileInp");
 			this.ReadPhysicsCard = new ReadPhysicsCard({id:"readCardObj"});
 		},
 		onReadCardBtnClick : function(e){
@@ -73,6 +75,11 @@
 			this.cardInp.val(cardval);
 			if(!cardval) return alert("读卡失败");
 			this.getCardInfo(cardval,"physics")
+		},
+		onGetVCodeBtnClick : function(e){
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("disable")) return false;
+	
 		},
 		onTextInpBlur : function(e){
 			var that = this;
@@ -93,7 +100,9 @@
 			var tarInp = $(e.currentTarget);
 			var validate = tarInp.attr("validator");
 			if(!validate) return false;
-			
+			if(tarInp.attr("id")=="cardInp"){
+				$("#cardInfoBar").removeClass("error").hide();
+			}
 		},
 		validator : {
 			card : function(){
@@ -147,6 +156,9 @@
 					}
 				}
 			})
+		},
+		getVCode : function(){
+	
 		}
 	});
 	
@@ -164,7 +176,7 @@
 
 /***/ },
 
-/***/ 15:
+/***/ 5:
 /***/ function(module, exports) {
 
 	/**
@@ -266,7 +278,8 @@
 			},
 			//激活页面
 			active : {
-				checkCard : "/r/product_AnnualCard/activeCheck/"
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/"
 			}
 		},
 		defaults : {

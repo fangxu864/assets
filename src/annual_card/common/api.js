@@ -62,7 +62,8 @@ var Api = {
 		},
 		//激活页面
 		active : {
-			checkCard : "/r/product_AnnualCard/activeCheck/"
+			checkCard : "/r/product_AnnualCard/activeCheck/",
+			getVCode : "/r/product_AnnualCard/sendVcode/"
 		}
 	},
 	defaults : {

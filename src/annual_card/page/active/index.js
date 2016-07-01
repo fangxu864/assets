@@ -10,6 +10,7 @@ var MainView = Backbone.View.extend({
 	el : $("#cardContainer"),
 	events : {
 		"click #readCardBtn" : "onReadCardBtnClick",
+		"click #getVCodeBtn" : "onGetVCodeBtnClick",
 		"blur .textInp" : "onTextInpBlur",
 		"focus .textInp" : "onTextInpFocus"
 	},
@@ -18,6 +19,7 @@ var MainView = Backbone.View.extend({
 		this.readCardBtn = $("#readCardBtn");
 		this.idCardInp = $("#idCardInp");
 		this.cardInfoBar = $("#cardInfoBar");
+		this.mobileInp = $("#mobileInp");
 		this.ReadPhysicsCard = new ReadPhysicsCard({id:"readCardObj"});
 	},
 	onReadCardBtnClick : function(e){
@@ -26,6 +28,11 @@ var MainView = Backbone.View.extend({
 		this.cardInp.val(cardval);
 		if(!cardval) return alert("读卡失败");
 		this.getCardInfo(cardval,"physics")
+	},
+	onGetVCodeBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		if(tarBtn.hasClass("disable")) return false;
+
 	},
 	onTextInpBlur : function(e){
 		var that = this;
@@ -46,7 +53,9 @@ var MainView = Backbone.View.extend({
 		var tarInp = $(e.currentTarget);
 		var validate = tarInp.attr("validator");
 		if(!validate) return false;
-		
+		if(tarInp.attr("id")=="cardInp"){
+			$("#cardInfoBar").removeClass("error").hide();
+		}
 	},
 	validator : {
 		card : function(){
@@ -100,6 +109,9 @@ var MainView = Backbone.View.extend({
 				}
 			}
 		})
+	},
+	getVCode : function(){
+
 	}
 });
 
