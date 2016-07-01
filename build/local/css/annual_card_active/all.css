@@ -224,7 +224,7 @@ body{
 
 .line {
   overflow: hidden;
-  margin: 10px 0; }
+  margin: 10px 0  10px 110px; }
 
 .line .lt {
   float: left;
@@ -275,7 +275,7 @@ body{
   color: #fff;
   border-radius: 0px;
   font-size: 14px;
-  margin: 26px 0 48px 358px; }
+  margin: 26px 0 48px 242px; }
   .activate:hover, .activate:active {
     background-color: #217db3;
     text-decoration: none; }
