@@ -191,7 +191,7 @@ body{
   font-weight: bold; }
 .cardContainer table th, .cardContainer table td{
   text-align: left; }
-.activate, .disable {
+.activate {
   vertical-align: middle;
   cursor: pointer;
   text-align: center;
@@ -296,19 +296,10 @@ body{
     background-color: #217db3;
     text-decoration: none; }
 
-.disable {
-  display: inline-block;
-  width: 86px;
-  height: 34px;
-  line-height: 34px;
-  background-color: #808080;
-  color: #fff;
-  border-radius: 0px;
-  font-size: 14px;
-  margin: 26px 0 48px 358px; }
-  .disable:hover, .disable:active {
-    background-color: #737373;
-    text-decoration: none; }
+.activate.disable {
+  background: #ccc;
+  color: #999;
+  cursor: default; }
 
 .activate:link, .disable:link {
   color: white; }
