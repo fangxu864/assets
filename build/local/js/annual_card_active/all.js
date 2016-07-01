@@ -52,7 +52,7 @@
 	 */
 	__webpack_require__(1);
 	var Api = __webpack_require__(16);
-	var ReadPhysicsCard = __webpack_require__(5);
+	var ReadPhysicsCard = __webpack_require__(15);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -164,7 +164,7 @@
 
 /***/ },
 
-/***/ 5:
+/***/ 15:
 /***/ function(module, exports) {
 
 	/**

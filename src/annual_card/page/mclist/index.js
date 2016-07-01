@@ -19,7 +19,7 @@ var MainView = Backbone.View.extend({
 			var status = data.status;
 			that.ListManager.active(status);
 		})
-		this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
+		 this.ListManager = new ListManager({statusArr:this.TabHeader.getStatus(),state:State});
 		this.TabHeader.active(1);
 	}
 });
