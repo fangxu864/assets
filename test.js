@@ -86,7 +86,7 @@ var readableStream = fs.createReadStream("./package.json");
 readableStream.on("readable",function(data){
 	//console.log('有数据进来！数据：' + readableStream.read());
 })
-console.log(require("util"));
+// console.log(require("util"));
 //readableStream.on("data",function(data){
 //	console.log(data);
 //})
@@ -95,4 +95,15 @@ console.log(require("util"));
 //	console.log(data);
 //})
 
+
+var stream = require("stream");
+var Stream = stream.Stream;
+var ws = new Stream;
+ws.write = function(data){
+	console.log("input="+data);
+}
+ws.end = function(data){
+	console.log("bey");
+}
+process.stdin.pipe(ws);
 

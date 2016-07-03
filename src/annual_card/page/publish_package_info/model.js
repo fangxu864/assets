@@ -40,7 +40,7 @@ var ManagerStore = Backbone.Model.extend({
 			loading : function(){
 				that.trigger("fetchProdList.loading");
 			},
-			complate : function(){
+			complete : function(){
 				that.trigger("fetchProdList.complete");
 			},
 			success : function(res){
@@ -70,7 +70,7 @@ var ManagerStore = Backbone.Model.extend({
 			loading : function(){
 				that.trigger("fetchTicket.loading");
 			},
-			complate : function(){
+			complete : function(){
 				that.trigger("fetchTicket.complete");
 			},
 			success : function(res){
