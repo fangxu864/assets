@@ -357,5 +357,68 @@ select {
 
 .listSlideContainer td {
   border-bottom: 1px solid #e5e5e5; }
+.navigationBar {
+  width: 100%;
+  margin-top: 10px;
+  clear: both; }
+
+.navigationBar .navCon {
+  float: right;
+  position: relative;
+  padding: 0 120px;
+  background: #fff;
+  border-bottom: 1px solid #dbdbdb; }
+
+.navigationBar .navCon .navBtn {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 75px;
+  line-height: 49px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  color: #333; }
+
+.navigationBar .navCon .navBtn.next {
+  right: 0;
+  border-left: 1px solid #dbdbdb; }
+
+.navigationBar .navCon .navBtn.prev {
+  left: 0;
+  border-right: 1px solid #dbdbdb; }
+
+.navigationBar .navCon .navBtn:hover {
+  text-decoration: none;
+  color: #0797d9; }
+
+.navigationBar .navCon .navBtn.disable, #navigationBar .navCon .navBtn.disable:hover {
+  color: #989898;
+  background: #f2f2f2;
+  cursor: default; }
+
+.navigationBar .which {
+  height: 50px;
+  line-height: 50px; }
+
+.navigationBar .pagenum {
+  position: relative;
+  top: 2px;
+  font-family: arial;
+  font-size: 16px;
+  font-weight: bold; }
+
+.navigationBar .var {
+  position: relative;
+  top: -1px; }
+
+.navigationBar .tip {
+  clear: both;
+  text-align: right;
+  margin-right: 2px;
+  padding-top: 8px;
+  color: #A7A9AA; }
 
 /*# sourceMappingURL=all.css.map*/

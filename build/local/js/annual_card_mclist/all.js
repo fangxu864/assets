@@ -40,9 +40,8 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -50,10 +49,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(39);
-	var TabHeader = __webpack_require__(41);
-	var ListManager = __webpack_require__(42);
-	var State = __webpack_require__(44);
+	__webpack_require__(41);
+	var TabHeader = __webpack_require__(43);
+	var ListManager = __webpack_require__(44);
+	var State = __webpack_require__(51);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		events : {
@@ -79,70 +78,11 @@
 
 
 /***/ },
-
-/***/ 13:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/7 10:09
-	 * Description: 订阅发布模型
-	 */
-	var E = {
-		fn : {},
-		on : function(type,fn){
-			var fns = this.fn[type] || (this.fn[type]=[]);
-			fns.push(fn);
-		},
-		fire : function(type){
-			var fns = this.fn[type];
-			if(!fns) return false;
-			var args = arguments;
-			var len = args.length;
-			var argus,scope;
-			if(len==1){
-				argus = "";
-				scope = this;
-			}else if(len==2){
-				argus = args[len-1];
-				scope = this;
-			}else if(len==3){
-				argus = args[len-2];
-				scope = args[len-1];
-			}
-			for(var i in fns){
-				var fn = fns[i];
-				fn.call(scope,argus);
-			}
-		},
-		trigger : function(){
-			this.fire.apply(this,arguments);
-		}
-	};
-	module.exports = E;
-
-/***/ },
-
-/***/ 14:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/22 18:43
-	 * Description: ""
-	 */
-	module.exports = function(destination,source){
-		for(var n in source){
-			if(source.hasOwnProperty(n)){
-				destination[n]=source[n];
-			}
-		}
-		return destination;
-	}
-
-/***/ },
-
-/***/ 16:
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -229,8 +169,97 @@
 
 
 /***/ },
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */
+/***/ function(module, exports) {
 
-/***/ 34:
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/7 10:09
+	 * Description: 订阅发布模型
+	 */
+	var E = {
+		fn : {},
+		on : function(type,fn){
+			var fns = this.fn[type] || (this.fn[type]=[]);
+			fns.push(fn);
+		},
+		fire : function(type){
+			var fns = this.fn[type];
+			if(!fns) return false;
+			var args = arguments;
+			var len = args.length;
+			var argus,scope;
+			if(len==1){
+				argus = "";
+				scope = this;
+			}else if(len==2){
+				argus = args[len-1];
+				scope = this;
+			}else if(len==3){
+				argus = args[len-2];
+				scope = args[len-1];
+			}
+			for(var i in fns){
+				var fn = fns[i];
+				fn.call(scope,argus);
+			}
+		},
+		trigger : function(){
+			this.fire.apply(this,arguments);
+		}
+	};
+	module.exports = E;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/22 18:43
+	 * Description: ""
+	 */
+	module.exports = function(destination,source){
+		for(var n in source){
+			if(source.hasOwnProperty(n)){
+				destination[n]=source[n];
+			}
+		}
+		return destination;
+	}
+
+/***/ },
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */
 /***/ function(module, exports) {
 
 	/**
@@ -273,15 +302,16 @@
 	module.exports = Loading;
 
 /***/ },
-
-/***/ 39:
+/* 39 */,
+/* 40 */,
+/* 41 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-
-/***/ 41:
+/* 42 */,
+/* 43 */
 /***/ function(module, exports) {
 
 	/**
@@ -326,8 +356,7 @@
 	module.exports = Header;
 
 /***/ },
-
-/***/ 42:
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -335,12 +364,14 @@
 	 * Date: 2016/6/29 16:29
 	 * Description: ""
 	 */
-	var itemContainerTpl = __webpack_require__(43);
-	var LoadingPc = __webpack_require__(34);
-	var Api = __webpack_require__(16);
-	var itemTpl = __webpack_require__(92);
+	var itemContainerTpl = __webpack_require__(45);
+	var LoadingPc = __webpack_require__(38);
+	var Api = __webpack_require__(5);
+	var itemTpl = __webpack_require__(46);
+	var Pagination = __webpack_require__(47);
 	var Manager = Backbone.View.extend({
 		el : $("#listSlideContainer"),
+		paginations : {},
 		tableTh : {
 			//激活状态
 			1 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
@@ -361,6 +392,21 @@
 			this.buildSlideItem(this.statusArr);
 		},
 		template : _.template(itemTpl),
+		//初始化各个pannel的pagination
+		initPagination : function(status){
+			var that = this;
+			this.paginations[status] = new Pagination({
+				container : "#paginationContainer_"+status,
+				keyup : false,
+				onNavigation : function(data){
+					var dir = data.dir;
+					var fromPage = data.fromPage;
+					var toPage = data.toPage;
+					var keyword = that.getKeyword();
+					that.getList(status,toPage,keyword);
+				}
+			});
+		},
 		buildSlideItem : function(status){
 			var that = this;
 			var template = _.template(itemContainerTpl);
@@ -377,6 +423,15 @@
 				}});
 			}
 			this.slideUl.html(html);
+			setTimeout(function(){
+				that.initPagination(status);
+			},10)
+		},
+		getKeyword :function(){
+			return "";
+		},
+		setKeyword : function(keyword){
+	
 		},
 		getSupplySelectVal : function(){
 			return $("#supplySelect").val();
@@ -414,9 +469,11 @@
 					identify : keyword
 				},
 				loading : function(){
+					var height = 300;
+					if(page!=1) height = container.height() || 300;
 					var loading = LoadingPc("努力加载中，请稍后..",{
 						tag : "tr",
-						height : 300,
+						height : height,
 						colspan : that.tableTh[status].length,
 						css : {
 							"text-align" : "center"
@@ -448,18 +505,203 @@
 			})
 		}
 	});
-	module .exports = Manager;
+	module.exports = Manager;
 
 /***/ },
-
-/***/ 43:
+/* 45 */
 /***/ function(module, exports) {
 
-	module.exports = "<li style=\"width:<%=data.width%>px\" id=\"listItemLi_<%=data.status%>\" class=\"listItemLi listItemLi_<%=data.status%>\">\r\n    <table id=\"listItemTable_<%=data.status%>\" class=\"listItemTable listItemTable_<%=data.status%>\">\r\n        <thead>\r\n        <tr>\r\n            <%_.each(data.ths,function(item,index){%>\r\n            <th><%=item%></th>\r\n            <% }) %>\r\n        </tr>\r\n        </thead>\r\n        <tbody id=\"tbody_<%=data.status%>\" class=\"tbody tbody_<%=data.status%>\">\r\n            <tr style=\"text-align:center\">\r\n                <td colspan=\"<%=data.ths.length%>\" style=\"text-align:center; border-bottom:0 none\"><%=data.loading%></td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</li>\r\n";
+	module.exports = "<li style=\"width:<%=data.width%>px\" id=\"listItemLi_<%=data.status%>\" class=\"listItemLi listItemLi_<%=data.status%>\">\r\n    <table id=\"listItemTable_<%=data.status%>\" class=\"listItemTable listItemTable_<%=data.status%>\">\r\n        <thead>\r\n        <tr>\r\n            <%_.each(data.ths,function(item,index){%>\r\n            <th><%=item%></th>\r\n            <% }) %>\r\n        </tr>\r\n        </thead>\r\n        <tbody id=\"tbody_<%=data.status%>\" class=\"tbody tbody_<%=data.status%>\">\r\n            <tr style=\"text-align:center\">\r\n                <td colspan=\"<%=data.ths.length%>\" style=\"text-align:center; border-bottom:0 none\"><%=data.loading%></td>\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n    <div id=\"paginationContainer_<%=data.status%>\" class=\"paginationContainer\"></div>\r\n</li>\r\n";
 
 /***/ },
+/* 46 */
+/***/ function(module, exports) {
 
-/***/ 44:
+	module.exports = "<%\r\n   var status = data.status;\r\n   var list = data.list;\r\n   var colspan = data.colspan;\r\n%>\r\n<% if(list.length){ %>\r\n    <% _.each(list,function(item,index){ %>\r\n        <tr>\r\n            <% if(status==0){ %>\r\n                <td><%=item.sale_time%></td>\r\n            <% }else{ %>\r\n                <td><%=item.account%></td>\r\n                <td><%=item.mobile%></td>\r\n            <% } %>\r\n            <td><%=item.virtual_no%> / <%=item.card_no%></td>\r\n            <td><%=item.supply%></td>\r\n            <td><%=item.status%></td>\r\n            <td class=\"font-blue doAction\">\r\n                <a href=\"javascript:void(0);\">查看</a>\r\n                <a href=\"javascript:void(0);\">挂失</a>\r\n                <a href=\"javascript:void(0);\">禁用</a>\r\n            </td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n    <tr>\r\n        <td colspan=\"<%=colspan%>\" style=\"height:300px; text-align:center\">查无匹配内容...</td>\r\n    </tr>\r\n<% } %>";
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/16 10:18
+	 * Description: ""
+	 */
+	__webpack_require__(48);
+	var Defaults = {
+		container : "",               //组件要渲染到的容器
+		onNext : function(){},        //要到下一页时触发回调
+		onPrev : function(){},        //要到上一页时触发回调
+		onNavigation : function(){},  //不论上一页或下一页都触发回调
+		keyup : false                 //是否支持键盘左右键触发事件
+	};
+	/**
+	 * 简单的分页组件
+	 * @param opt
+	 * @constructor
+	 * eg:
+	 *  var p = new Pagination({
+	 * 		container : $("#container"),
+	 * 		keyup : false,
+	 * 		onNext : function(data){},
+	 * 		onPrev : function(data){},
+	 * 		onNavigation : function(data){}
+	 *  })
+	 *  p.on("next",function(data){})
+	 *  p.on("prev",function(data){})
+	 *  p.on("navigation",function(data){})
+	 *  p.render({current:1,total:10})
+	 */
+	function Pagination(opt){
+		this.opt = $.extend(Defaults,opt || {});
+		this.init(this.opt);
+	}
+	Pagination.prototype = {
+		init : function(opt){
+			var that = this;
+			this.tpl = __webpack_require__(50);
+			this.container = typeof opt.container=="string" ? $("#"+opt.container.replace(/#/,"")) : opt.container;
+			this.container.hide().html(this.tpl);
+			this.currentPage = this.container.find(".whichPageInp");
+			this.totalPage = this.container.find(".totalPageInp");
+			this.nextBtn = this.container.find(".nextPageBtn");
+			this.prevBtn = this.container.find(".prevPageBtn");
+			if(opt.keyup){
+				$(document).on("keyup",function(e){
+					that.onKeyupToNav(e);
+				});
+				this.container.find(".keyupTip").show();
+			}
+			this.container.on("click",".navBtn",function(e){
+				that.onNavBtnClick(e);
+			})
+		},
+		onNavBtnClick : function(e){
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("disable")) return false;
+			var current_page = this.currentPage.text() * 1;
+			var dir = tarBtn.hasClass("next") ? "next" : "prev";
+			var toPage = tarBtn.hasClass("next") ? (current_page+1) : (current_page-1);
+			var data = {
+				dir : dir,
+				fromPage : current_page,
+				toPage : toPage
+			};
+			if(dir=="next"){
+				this.opt.onNavigation(data);
+				this.opt.onNext(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("next",data);
+			}else{
+				this.opt.onNavigation(data);
+				this.opt.onPrev(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("prev",data);
+			}
+		},
+		onKeyupToNav : function(e){
+			var keyCode = e.keyCode;
+			var nextBtn = this.nextBtn;
+			var prevBtn = this.prevBtn;
+			var current = this.currentPage.text() * 1;
+			var data = null;
+			if(keyCode==39 && !nextBtn.hasClass("disable")){ //next
+				data = {
+					dir : "next",
+					fromPage : current,
+					toPage : current+1
+				};
+				this.opt.onNavigation(data);
+				this.opt.onNext(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("next",data);
+			}else if(keyCode==37 && !prevBtn.hasClass("disable")){ //prev
+				data = {
+					dir : "next",
+					fromPage : current,
+					toPage : current-1
+				};
+				this.opt.onNavigation(data);
+				this.opt.onPrev(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("prev",data);
+			}
+		},
+		on : function(type,callback){
+			if(!type) return false;
+			callback = typeof callback=="function" ? callback : function(){};
+			PFT.Util.PubSub.on(type,callback);
+		},
+		show : function(){
+			this.container.show();
+		},
+		hide : function(){
+			this.container.hide();
+		},
+		getValue : function(){ //获取当前的页数值
+			return{
+				current : this.currentPage.text(),
+				total : this.totalPage.text()
+			}
+		},
+		render : function(data){ // data={current:1,total:1} data=null
+			if(!data){
+				this.nextBtn.addClass("disable");
+				this.prevBtn.addClass("disable");
+				this.hide();
+				return;
+			}
+			var total = 1 * data.total;
+			var current = 1 * data.current;
+			var totalInp = this.totalPage;
+			var currentInp = this.currentPage;
+			var nextBtn = this.nextBtn;
+			var prevBtn = this.prevBtn;
+			if(total==0){
+				this.nextBtn.addClass("disable");
+				this.prevBtn.addClass("disable");
+				this.hide();
+				return;
+			}
+			this.show();
+			totalInp.text(total);
+			currentInp.text(current);
+			if(current<total){
+				if(current!=1){
+					prevBtn.removeClass("disable");
+				}else{
+					prevBtn.addClass("disable");
+				}
+				nextBtn.removeClass("disable");
+			}else{
+				if(current!=1){
+					prevBtn.removeClass("disable");
+				}else{
+					prevBtn.addClass("disable");
+				}
+				nextBtn.addClass("disable");
+			}
+		}
+	};
+	module.exports = Pagination;
+
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 49 */,
+/* 50 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"navigationBar\">\r\n    <div class=\"navCon\">\r\n        <a href=\"javascript:void(0)\" class=\"navBtn next nextPageBtn disable\"><span class=\"iconfont\">&#xe60d;</span></a>\r\n        <a href=\"javascript:void(0)\" class=\"prevPageBtn navBtn prev disable\"><span class=\"iconfont\">&#xe60c;</span></a>\r\n        <div class=\"which\">\r\n            <span class=\"whichPageInp pagenum\">1</span>\r\n            <span class=\"var\"> / </span>\r\n            <span class=\"totalPageInp pagenum\">1</span>\r\n        </div>\r\n    </div>\r\n    <p style=\"display:none\" class=\"tip keyupTip\">亲，可以使用键盘前后方向键来翻页哟</p>\r\n</div>";
+
+/***/ },
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -467,19 +709,11 @@
 	 * Date: 2016/6/30 17:11
 	 * Description: ""
 	 */
-	var Extend = __webpack_require__(14);
-	var PubSub = __webpack_require__(13);
+	var Extend = __webpack_require__(16);
+	var PubSub = __webpack_require__(15);
 	var State = Extend({},PubSub);
 	module.exports = State;
 
-/***/ },
-
-/***/ 92:
-/***/ function(module, exports) {
-
-	module.exports = "<%\r\n   var status = data.status;\r\n   var list = data.list;\r\n   var colspan = data.colspan;\r\n%>\r\n<% if(list.length){ %>\r\n    <% _.each(list,function(item,index){ %>\r\n        <tr>\r\n            <% if(status==0){ %>\r\n                <td><%=item.sale_time%></td>\r\n            <% }else{ %>\r\n                <td><%=item.account%></td>\r\n                <td><%=item.mobile%></td>\r\n            <% } %>\r\n            <td><%=item.virtual_no%> / <%=item.card_no%></td>\r\n            <td><%=item.supply%></td>\r\n            <td><%=item.status%></td>\r\n            <td class=\"font-blue doAction\">\r\n                <a href=\"javascript:void(0);\">查看</a>\r\n                <a href=\"javascript:void(0);\">挂失</a>\r\n                <a href=\"javascript:void(0);\">禁用</a>\r\n            </td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n    <tr>\r\n        <td colspan=\"<%=colspan%>\" style=\"height:300px; text-align:center\">查无匹配内容...</td>\r\n    </tr>\r\n<% } %>";
-
 /***/ }
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=all.js.map

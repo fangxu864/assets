@@ -40,9 +40,8 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -51,9 +50,9 @@
 	 * Description: ""
 	 */
 	__webpack_require__(1);
-	var Api = __webpack_require__(16);
-	var ReadPhysicsCard = __webpack_require__(5);
-	var CheckExistDialog = __webpack_require__(88);
+	var Api = __webpack_require__(5);
+	var ReadPhysicsCard = __webpack_require__(6);
+	var CheckExistDialog = __webpack_require__(7);
 	var MainView = Backbone.View.extend({
 		time : 60,  //获取验证码的间隔时间 60s
 		timer : null,
@@ -309,15 +308,103 @@
 
 
 /***/ },
-
-/***/ 1:
+/* 1 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
+/***/ function(module, exports) {
 
-/***/ 5:
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/15 15:36
+	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
+	 */
+	var fn = function(){};
+	var Api = {
+		Url : {
+			//发布年卡产品
+			PublishCardProd : {
+				submit : "/r/product_scenic/save/",
+				//图片上传
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
+				//编辑状态，获取年卡产品详细信息
+				getInfo : "/r/product_scenic/get/"
+			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_AnnualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_AnnualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
+			},
+			//卡片录入相关接口
+			EntryCard : {
+				//获取供应商的年卡产品列表
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
+				//录入卡片
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
+				//获取相关产品已生成好的卡片
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+	
+			},
+			//下单页面
+			makeOrder : {
+				//预定页面请求卡片信息接口
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
+				//预定页面请求订单信息接口
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
+			},
+			//获取某个产品的虚拟卡的库存
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+			//库存明细页
+			storage : {
+				//获取库存列表
+				getList : "/r/product_AnnualCard/getMemberList/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			},
+			//激活页面
+			active : {
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/",
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			}
+		},
+		defaults : {
+			type : "get",
+			ttimout : 60 * 1000,
+			loading : fn,
+			complete : fn,
+			success : fn,
+			fail : fn,
+			timeout : fn,
+			serverError : fn
+		}
+	};
+	module.exports = Api;
+
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	/**
@@ -351,8 +438,77 @@
 	module.exports = readPhysicsCard;
 
 /***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
 
-/***/ 8:
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/27 18:55
+	 * Description: ""
+	 */
+	__webpack_require__(8);
+	var SDialog = __webpack_require__(10);
+	var tpl = __webpack_require__(17);
+	var Dialog = function(){
+		var that = this;
+		this.submitData = {};
+		this.SDialog = new SDialog({
+			width : 520,
+			height : 280,
+			content : tpl,
+			drag : true,
+			events : {
+				"click #replaceBtn" : function(e){
+					that.onReplaceBtnClick(e);
+				},
+				"click #messageBtn" : function(e){
+					that.onMessageBtnClick(e);
+				}
+			}
+		});
+	};
+	Dialog.prototype = {
+		open : function(opt){
+			opt = opt || {};
+			var mobile = opt.mobile;
+			var idCard = opt.idCard;
+			var name = opt.name;
+			var left = opt.left;
+			this.submitData = opt.submitData;
+			this.SDialog.open({
+				onBefore : function(){
+					$("#existDialog_mobile").text(mobile);
+					$("#existDialog_idCard").text(idCard);
+					$("#existDialog_name").text(name+"（"+left+"）");
+				}
+			});
+		},
+		close : function(){
+			this.SDialog.close();
+		},
+		on : function(type,handler){
+			this.SDialog.on(type,handler);
+		},
+		//替换并且直接下单
+		onReplaceBtnClick : function(e){
+			this.SDialog.trigger("replaceAndSubmit",this.submitData,this);
+		},
+		//取消
+		onMessageBtnClick : function(e){
+			this.close();
+		}
+	};
+	module.exports = Dialog;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 9 */,
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -360,11 +516,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(9);
-	var WinWidthHeight = __webpack_require__(11);
-	var Drag = __webpack_require__(12);
-	var PubSub = __webpack_require__(13);
-	var Extend = __webpack_require__(14);
+	__webpack_require__(11);
+	var WinWidthHeight = __webpack_require__(13);
+	var Drag = __webpack_require__(14);
+	var PubSub = __webpack_require__(15);
+	var Extend = __webpack_require__(16);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -529,15 +685,14 @@
 	module.exports = Dialog;
 
 /***/ },
-
-/***/ 9:
+/* 11 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-
-/***/ 11:
+/* 12 */,
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -564,8 +719,7 @@
 	}
 
 /***/ },
-
-/***/ 12:
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -892,8 +1046,7 @@
 	module.exports = Drag;
 
 /***/ },
-
-/***/ 13:
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -935,8 +1088,7 @@
 	module.exports = E;
 
 /***/ },
-
-/***/ 14:
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -954,172 +1106,11 @@
 	}
 
 /***/ },
-
-/***/ 16:
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/15 15:36
-	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
-	 */
-	var fn = function(){};
-	var Api = {
-		Url : {
-			//发布年卡产品
-			PublishCardProd : {
-				submit : "/r/product_scenic/save/",
-				//图片上传
-				uploadFile : "/r/product_AnnualCard/uploadImg/",
-				//编辑状态，获取年卡产品详细信息
-				getInfo : "/r/product_scenic/get/"
-			},
-			//年卡套餐-即票类编辑
-			PackageInfo : {
-				//添加&修改票类
-				updateTicket : "/r/product_ticket/UpdateTicket/",
-				//拉取已存在的票类
-				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
-				//获取产品列表
-				getLands : "/r/product_AnnualCard/getLands/",
-				//获取票类列表
-				getTickets : "/r/product_AnnualCard/getTickets/",
-				//删除票类
-				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
-			},
-			//卡片录入相关接口
-			EntryCard : {
-				//获取供应商的年卡产品列表
-				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
-				//录入卡片
-				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
-				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
-	
-			},
-			//下单页面
-			makeOrder : {
-				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
-				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
-				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
-				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
-				submit : "/formSubmit_v01.php"
-			},
-			//获取某个产品的虚拟卡的库存
-			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
-			//库存明细页
-			storage : {
-				//获取库存列表
-				getList : "/r/product_AnnualCard/getMemberList/",
-				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
-			},
-			//下单成功页
-			ordersuccess : {
-				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
-			},
-			//激活页面
-			active : {
-				checkCard : "/r/product_AnnualCard/activeCheck/",
-				getVCode : "/r/product_AnnualCard/sendVcode/",
-				activateForPc : "/r/product_AnnualCard/activateForPc/"
-			}
-		},
-		defaults : {
-			type : "get",
-			ttimout : 60 * 1000,
-			loading : fn,
-			complete : fn,
-			success : fn,
-			fail : fn,
-			timeout : fn,
-			serverError : fn
-		}
-	};
-	module.exports = Api;
-
-
-/***/ },
-
-/***/ 88:
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/27 18:55
-	 * Description: ""
-	 */
-	__webpack_require__(89);
-	var SDialog = __webpack_require__(8);
-	var tpl = __webpack_require__(91);
-	var Dialog = function(){
-		var that = this;
-		this.submitData = {};
-		this.SDialog = new SDialog({
-			width : 520,
-			height : 280,
-			content : tpl,
-			drag : true,
-			events : {
-				"click #replaceBtn" : function(e){
-					that.onReplaceBtnClick(e);
-				},
-				"click #messageBtn" : function(e){
-					that.onMessageBtnClick(e);
-				}
-			}
-		});
-	};
-	Dialog.prototype = {
-		open : function(opt){
-			opt = opt || {};
-			var mobile = opt.mobile;
-			var idCard = opt.idCard;
-			var name = opt.name;
-			var left = opt.left;
-			this.submitData = opt.submitData;
-			this.SDialog.open({
-				onBefore : function(){
-					$("#existDialog_mobile").text(mobile);
-					$("#existDialog_idCard").text(idCard);
-					$("#existDialog_name").text(name+"（"+left+"）");
-				}
-			});
-		},
-		close : function(){
-			this.SDialog.close();
-		},
-		on : function(type,handler){
-			this.SDialog.on(type,handler);
-		},
-		//替换并且直接下单
-		onReplaceBtnClick : function(e){
-			this.SDialog.trigger("replaceAndSubmit",this.submitData,this);
-		},
-		//取消
-		onMessageBtnClick : function(e){
-			this.close();
-		}
-	};
-	module.exports = Dialog;
-
-/***/ },
-
-/***/ 89:
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-
-/***/ 91:
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
 
 /***/ }
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=all.js.map

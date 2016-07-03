@@ -7,8 +7,10 @@ var itemContainerTpl = require("./item-container-tpl.xtpl");
 var LoadingPc = require("COMMON/js/util.loading.pc.js");
 var Api = require("../../../common/api.js");
 var itemTpl = require("./list-item-tpl.xtpl");
+var Pagination = require("COMMON/modules/pagination-simple");
 var Manager = Backbone.View.extend({
 	el : $("#listSlideContainer"),
+	paginations : {},
 	tableTh : {
 		//激活状态
 		1 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
@@ -29,6 +31,21 @@ var Manager = Backbone.View.extend({
 		this.buildSlideItem(this.statusArr);
 	},
 	template : _.template(itemTpl),
+	//初始化各个pannel的pagination
+	initPagination : function(status){
+		var that = this;
+		this.paginations[status] = new Pagination({
+			container : "#paginationContainer_"+status,
+			keyup : false,
+			onNavigation : function(data){
+				var dir = data.dir;
+				var fromPage = data.fromPage;
+				var toPage = data.toPage;
+				var keyword = that.getKeyword();
+				that.getList(status,toPage,keyword);
+			}
+		});
+	},
 	buildSlideItem : function(status){
 		var that = this;
 		var template = _.template(itemContainerTpl);
@@ -45,6 +62,15 @@ var Manager = Backbone.View.extend({
 			}});
 		}
 		this.slideUl.html(html);
+		setTimeout(function(){
+			that.initPagination(status);
+		},10)
+	},
+	getKeyword :function(){
+		return "";
+	},
+	setKeyword : function(keyword){
+
 	},
 	getSupplySelectVal : function(){
 		return $("#supplySelect").val();
@@ -82,9 +108,11 @@ var Manager = Backbone.View.extend({
 				identify : keyword
 			},
 			loading : function(){
+				var height = 300;
+				if(page!=1) height = container.height() || 300;
 				var loading = LoadingPc("努力加载中，请稍后..",{
 					tag : "tr",
-					height : 300,
+					height : height,
 					colspan : that.tableTh[status].length,
 					css : {
 						"text-align" : "center"
@@ -116,4 +144,4 @@ var Manager = Backbone.View.extend({
 		})
 	}
 });
-module .exports = Manager;
+module.exports = Manager;

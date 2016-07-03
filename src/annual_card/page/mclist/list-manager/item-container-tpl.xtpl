@@ -13,4 +13,5 @@
             </tr>
         </tbody>
     </table>
+    <div id="paginationContainer_<%=data.status%>" class="paginationContainer"></div>
 </li>
