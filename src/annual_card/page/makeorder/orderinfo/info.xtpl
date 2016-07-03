@@ -1,0 +1,39 @@
+<tr>
+    <td>
+        <p><%=data.product.title%></p>
+        <% if(data.privileges.length){ %>
+            <p>包含：</p>
+            <%_.each(data.privileges,function(item,index){%>
+                <%
+                    var use_limit = item.use_limit;
+                    var limit_str = "";
+                    if(use_limit=="-1"){
+                        limit_str = "不限使用次数";
+                    }else{
+                        limit_str = "限制使用：";
+                        use_limit = use_limit.split(",");
+                        var daily = use_limit[0];
+                        var month = use_limit[1];
+                        var total = use_limit[2];
+                        if(daily!="-1") limit_str += daily + "次/日 ";
+                        if(month!="-1") limit_str += month + "次/月 ";
+                        if(total!="-1") limit_str += " 共"+total+"次";
+                    }
+                %>
+                <p class="privItem" data-tid="<%=item.tid%>" data-pid="<%=item.pid%>">
+                    <span class="title">
+                        <span class="ltitle"><%=item.ltitle%></span>
+                        -
+                        <span class="ttitle"><%=item.title%></span>
+                    </span>
+                    <span class="limit"><%=limit_str%></span>
+                </p>
+            <% }) %>
+        <% } %>
+    </td>
+    <td><%=data.product.storage=="-1" ? "-" : data.product.storage%></td>
+    <td><i class="yen">&yen;</i><em class="price"><%=data.product.price%></em></td>
+    <td>不可退</td>
+    <td>1</td>
+    <td class="font-red"><i class="yen">&yen;</i><em class="total_price"><%=data.product.price%></em></td>
+</tr>

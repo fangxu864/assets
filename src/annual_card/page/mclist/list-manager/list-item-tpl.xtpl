@@ -1,0 +1,29 @@
+<%
+   var status = data.status;
+   var list = data.list;
+   var colspan = data.colspan;
+%>
+<% if(list.length){ %>
+    <% _.each(list,function(item,index){ %>
+        <tr>
+            <% if(status==0){ %>
+                <td><%=item.sale_time%></td>
+            <% }else{ %>
+                <td><%=item.account%></td>
+                <td><%=item.mobile%></td>
+            <% } %>
+            <td><%=item.virtual_no%> / <%=item.card_no%></td>
+            <td><%=item.supply%></td>
+            <td><%=item.status%></td>
+            <td class="font-blue doAction">
+                <a href="javascript:void(0);">查看</a>
+                <a href="javascript:void(0);">挂失</a>
+                <a href="javascript:void(0);">禁用</a>
+            </td>
+        </tr>
+    <% }) %>
+<% }else{ %>
+    <tr>
+        <td colspan="<%=colspan%>" style="height:300px; text-align:center">查无匹配内容...</td>
+    </tr>
+<% } %>

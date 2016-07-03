@@ -27,6 +27,8 @@ var Defaults = {
 		width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
 	},
 
+	defaultVal : "",  //初始化时默认选中的值
+
 	tpl : function(){
 		return require("./index.xtpl");
 	},
@@ -54,6 +56,7 @@ Select.prototype = {
 	current_id : "",
 	current_name : "",
 	init : function(opt){
+		var that = this;
 		var trigger = this.trigger = typeof opt.trigger==="string" ? $("#"+opt.trigger.substr(opt.trigger.indexOf("#")+1)) : opt.trigger;
 		var source = this.source = opt.source;
 		if(!trigger.length) return false;
@@ -94,7 +97,8 @@ Select.prototype = {
 		this.clearSearchBtn.on("click",function(e){
 			$(e.currentTarget).hide();
 			that.searchInp.val("").focus();
-			that.updateListUl(that.__cacheData);
+			var html = that.renderListHtml(that.__cacheData);
+			that.listUl.html(html);
 		})
 		this.listUl.on("click",".gSelectOptionItem",function(e){
 			that.onOptionItemClick(e);
@@ -121,6 +125,7 @@ Select.prototype = {
 			that.trigger.text(name);
 		}
 		that.close();
+		tarItem.addClass("active").siblings().removeClass("active");
 		PFT.Util.PubSub.trigger("option.click",data);
 	},
 	onSearchInpChange : function(e){
@@ -130,11 +135,8 @@ Select.prototype = {
 			var keyword = $.trim($(e.currentTarget).val());
 			var result = that.filter(keyword);
 			keyword=="" ? that.clearSearchBtn.hide() : that.clearSearchBtn.show();
-			if(result=="loading" || result=="error" || result==null || result=="empty"){
-				that.updateListUl("empty");
-			}else{
-				that.updateListUl(result);
-			}
+			var html = that.renderListHtml(result);
+			that.listUl.html(html);
 		},200)
 	},
 	//过滤
@@ -158,7 +160,7 @@ Select.prototype = {
 		if(this.selectBox) return this.selectBox;
 		var tpl = this.opt.tpl();
 		var opt = this.opt;
-		var width = opt.trigger.outerWidth()+opt.offset.width;
+		var width = opt.trigger.outerWidth()+(opt.offset.width || 0);
 		var height = opt.height;
 		var selectBox = this.selectBox = $('<div style="display:none;width:'+width+'px;height:'+height+'px" class="gSelectDownBox"></div>');
 		selectBox.append(tpl);
@@ -175,7 +177,20 @@ Select.prototype = {
 	updateListUl : function(data){
 		var html = this.renderListHtml(data);
 		this.listUl.html(html);
-		this.listUl.children().first().trigger("click");
+		var defaultVal = this.opt.defaultVal;
+		if(data=="loading" || data=="error" || data==null) return false;
+		if(defaultVal){
+
+			this.selectDefaultVal();
+		}else{
+			this.listUl.children().first().trigger("click");
+		}
+	},
+	//初始化时选中默认值
+	selectDefaultVal : function(){
+		var defaultVal = this.opt.defaultVal;
+		if(!defaultVal) return false;
+		this.listUl.children().filter("[data-"+this.opt.field.id+"="+defaultVal+"]").trigger("click");
 	},
 	renderListHtml : function(data,errorMsg){ //data必须为如下格式：[{key1:value1,key2:value2}]
 		var html = "";
@@ -220,8 +235,8 @@ Select.prototype = {
 		var offset = this.opt.offset;
 		var trigger_h = trigger.outerHeight(true);
 		selectBox.css({
-			left : of.left + offset.left,
-			top : of.top + trigger_h + offset.top
+			left : of.left + (offset.left || 0),
+			top : of.top + trigger_h + (offset.top || 0)
 		})
 	},
 	fetchData : function(source){

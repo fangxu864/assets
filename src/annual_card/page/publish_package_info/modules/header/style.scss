@@ -1,20 +1,23 @@
 @import "COMMON/css/base/core";
 .headContainer{ width:100%; overflow:hidden; background:#bfe7f8; padding:10px 0;}
-.headContainer .packageName{ padding-left:26px; font-size:22px;}
+.headContainer .packageName{ padding-left:26px; font-size:16px; line-height:40px;}
 .pckTitListUl{ float:left; padding-left:27px; margin-top:6px; background:#bfe7f8; overflow:hidden;}
 .pckTitListUl p{ font-size:14px; line-height:40px; margin-bottom:4px;}
-.pckTitListUl .pckTitListUlItem{ float:left; position:relative; width:238px; margin:0 8px 8px 0; cursor:pointer}
+.pckTitListUl .pckTitListUlItem{ float:left; position:relative; width:338px; margin:0 10px 10px 0; cursor:pointer}
 .pckTitListUl .pckTitListUlItem.edit{ cursor:default}
-.pckTitListUl .pckTitListUlItem .name{ display:block; height:32px; line-height:32px; padding:0 5px; border:1px solid #fff; overflow:hidden}
+.pckTitListUl .pckTitListUlItem .name{ display:block; height:32px; line-height:32px; padding:1px 5px; background:#e2f6fe; overflow:hidden}
 .pckTitListUl .pckTitListUlItem .editNameInp{
     @include textInp();
-    width:220px;
+    width:320px;
     padding-left:8px;
     padding-right:8px;
-
+    border-color:#0797D9;
 }
-.pckTitListUl .pckTitListUlItem .removeBtn{ position:absolute; top:10px; right:10px;}
+.pckTitListUl .pckTitListUlItem .removeBtn{ position:absolute; top:9px; right:10px;color:#0797D9; cursor: pointer;}
 .pckTitListUl .pckTitListUlItem .editNameInp,.pckTitListUl .pckTitListUlItem .removeBtn{ display:none;}
+.pckTitListUl .pckTitListUlItem .removeBtn:hover{ color:$orange;}
 .pckTitListUl .pckTitListUlItem.edit .name{ display:none}
 .pckTitListUl .pckTitListUlItem.edit .editNameInp,.pckTitListUl .pckTitListUlItem.edit .removeBtn{ display:block}
-.headContainer .addPckBtn{ float:left; width:30px; height:30px; cursor:pointer; text-align:left; line-height:30px; font-size:30px; text-indent:-7px; font-weight:bold; color:$blue}
+.headContainer .addPckBtn{ float:left; width:32px; height:32px; cursor:pointer; text-align:center; line-height:30px;
+    font-size:30px; color:$blue; background:#e2f6fe;  border:1px solid #e2f6fe;}
+.headContainer .addPckBtn:hover{ border-color:#0797D9;}

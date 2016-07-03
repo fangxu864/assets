@@ -3,40 +3,40 @@
  * Date: 2016/5/30 14:47
  * Description: ""
  */
-@import "../../css/style.css";
 @import "COMMON/css/base/core";
+@import "../../css/style.css";
 /*架构UI*/
-.cardContainer{width:998px;margin:0 auto; background:white;}
-.entry{ line-height:56px; font-size:22px;text-indent:24px;background:white;}
+.cardContainer{width:798px;margin:0 auto; background:white;}
 .cardnumBox{overflow:hidden; padding:10px;}
 .cardnumBox .cardItem{ float:left;margin:6px;width:173px; height:70px; padding:10px 0 0 6px;background:#f5f5f5;border-radius:8px;}
+.cardnumBox .cardItem p{ line-height:18px;}
 .fillTable{ width:100%;background:#bfe7f8;}
 .fillTable thead{background:#0797d9;line-height:35px;color:white;}
 .fillTable tr td:first-of-type,.fillTable tr th:first-of-type{ text-indent:22px;}
 .fillTable tbody{ padding-top:10px;}
 .fillTable tbody tr{height:86px;}
+.fillTable tr td { line-height:18px;}
 .fillForm{padding:22px 0 0 22px;}
 .fillLine{overflow:hidden;margin-bottom:10px;}
 .fillLine .fl{ float:left;width:96px;height:30px; line-height:30px;}
 .fillLine input[type=radio]{vertical-align:middle;}
 .fillLine .fr{ float:left;}
 .fillLine .fr .fillInp{@include textInp(248,4)}
+
 .fillLine .balance{ margin-left:22px;}
 .fillLine .tip.error{color:red;}
-.submitBox{width:998px; height:44px; background:#e5e5e5;}
-.orderPrice{display:inline-block;float:left; line-height:44px;margin-left:760px;}
-#subBtn{ float:right;width:114px;height:44px;line-height:44px;color:white;}
+.submitBox{width:798px; height:44px; background:#e5e5e5; margin-top:30px; overflow:hidden;}
+.submitBox .orderPrice{display:inline-block;float:right; line-height:44px;margin-right:26px;}
+.submitBox .yen{ font-size:16px;}
+.submitBox #totalMoney{ font-size:24px;}
+#submitBtn{ float:right;width:114px;height:44px;line-height:44px;color:white;}
+#submitBtn.disable{ @include btn-disable()}
 .supplierBox{line-height:33px;padding-left:24px;}
 .supplierBox>span{margin-right:100px;}
-.introduceBox{ height:186px;}
+.introduceBox{ height:166px; padding-top:20px;}
+.introduceBox .introduceBoxCon{ margin:0 24px}
 .introduceBox p{text-indent:24px; line-height:24px;}
-.memberBox{width:466px;height:304px;position:fixed;top:50%;left:50%;padding:0 26px;
-           margin:-152px 0 0 -259px; background:white;}
-.memP{line-height:106px; font-size:14px;}
-.memTable{ width:464px; background:#f5f5f5; line-height:30px;}
-.memTable tr td:first-of-type,.memTable tr th:first-of-type{ text-indent:10px;}
-.memberBox .btnBox{ overflow:hidden;}
-.memberBox .btnBox a{ float:right; margin:70px 0 0 10px; height:30px;line-height:30px; padding:0 32px;}
+
 
 /**/
 

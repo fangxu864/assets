@@ -12,10 +12,10 @@ var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var entry = {
-	"publish_card_prod_info" : ["./src/annual_card/page/publish_prod_info/index.js"],
-	"publish_card_package_info" : ["./src/annual_card/page/publish_package_info/index.js"],
-	"publish_card_entry_card" : ["./src/annual_card/page/entry_card/index.js"],
-	"publish_card_fill_order" : ["./src/annual_card/page/makeorder/index.js"],
+	"publish_prod_info" : ["./src/annual_card/page/publish_prod_info/index.js"],
+	"publish_package_info" : ["./src/annual_card/page/publish_package_info/index.js"],
+	"entry_card" : ["./src/annual_card/page/entry_card/index.js"],
+	"makeorder" : ["./src/annual_card/page/makeorder/index.js"],
 	"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
 	"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"],
 	"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"],
@@ -37,7 +37,7 @@ var config = require("./config")({
 		publicPath : "http://localhost:"+PORT
 	},
 	plugins : [
-		new ExtractTextPlugin("assets/build/css/[name]/all.css"),
+		new ExtractTextPlugin("assets/build/css/annual_card_[name]/all.css"),
 		new webpack.HotModuleReplacementPlugin()
 	]
 });

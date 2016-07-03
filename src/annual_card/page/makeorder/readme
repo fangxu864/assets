@@ -41,7 +41,7 @@ url : http://www.12301.local/route/index.php?c=product_annualCard&a=getOrderInfo
         "privileges": [ //特权产品
             {
                 "tid": "25786",
-                "limit_count": "1,2,3",
+                "use_limit": "1,2,3",
                 "title": "三人票",
                 "pid": "22874",
                 "ltitle": "九顶塔"

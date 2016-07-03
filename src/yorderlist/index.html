@@ -1,0 +1,92 @@
+<script type="text/javascript">document.title="票付通旅游营销平台"</script>
+<input name="" id="debugInp" type="hidden" value="<?=$_GET["debug"]?>"/>
+<link rel="stylesheet" href="http://www.12301.cc/tpl/ui/common/ui_common.css"/>
+<link rel="stylesheet" href="tpl/yorderlist/yorderlist.css"/>
+<div id="pageRightContainer" class="pageRightContainer" style="position:relative; float:right; width:810px;">
+    <?if($_GET["fsid"] && $_GET["fsaccount"] && $_GET["fsname"]):?>
+        <style type="text/css">
+            .fixDisSwitchor{ padding:10px 20px; overflow:hidden; background:#fff; margin-bottom:8px; border-bottom:1px solid #dbdbdb}
+            .fixDisSwitchor .con{ width:100%; overflow:hidden;}
+            .fixDisSwitchor .lt{ float:left; line-height:30px;}
+            .fixDisSwitchor .disDname_text{ font-weight:bold; margin:0 5px;}
+            .fixDisSwitchor .switchDisBtn{ float:right; line-height:30px; padding:0 24px; background:#2a98da; color:#fff}
+            .fixDisSwitchor .switchDisBtn:hover{ background:#2189c4; text-decoration:none;}
+            .fixDisSwitchor.fixed{ position:fixed; z-index:99; top:0; width:770px}
+            .fixDisSwitchor_backup{ display:none; height:50px; background:#fff; border-bottom:1px solid #dbdbdb}
+        </style>
+        <div id="fixDisSwitchor" class="fixDisSwitchor">
+            <div class="con">
+                <span class="lt">您正以<em id="disDname_text" data-id="<?=$_GET["fsid"]?>"  data-account="<?=$_GET["fsaccount"]?>" class="disDname_text"><?=$_GET["fsname"]?></em>的身份下单</span>
+                <a id="switchDisBtn" class="switchDisBtn" href="javascript:void(0)">切换分销商</a>
+            </div>
+        </div>
+        <div id="fixDisSwitchor_backup" class="fixDisSwitchor_backup"></div>
+    <?endif;?>
+    <div id="searchWrap" class="searchWrap">
+        <div class="searchTitleBox">
+            <div class="lt">产品名称</div>
+            <div class="searchBox">
+                <input id="searchInp" type="text" name="" class="ui-textInp ui-radius ui-shadow searchInp" placeholder="产品名称" onfocus="this.placeholder=''" onblur="this.placeholder='产品名称'">
+                <span class="tip">(请输入产品名称)</span>
+                <span class="searchIcon"><i class="iconfont">&#xe60a;</i></span>
+            </div>
+        </div>
+<!--            <a id="searchBtn" class="searchBtn ctrlBtn" href="javascript:;">搜索</a>-->
+<!--            <a id="recoverSearchBtn" class="recoverSearchBtn ctrlBtn" href="javascript:;"><i class="iconfont">&#xe6af;</i><span class="t">还原</span></a>-->
+<!--            <a id="moreSearchTrigger" class="moreSearchTrigger" href="javascript:;">-->
+<!--                <span class="t">高级搜索</span><i class="iconfont down">&#xe673;</i>-->
+<!--            </a>-->
+        <div id="advanceSearchBox" class="advanceSearchBox">
+            <div class="con">
+                <div class="line">
+                    <div class="inCon">
+                        <div class="lt">产品类别</div>
+                        <ul id="ptypeParmUl" class="listUl ptypeParmUl">
+                            <li class="item first active" data-ptype=""><a href="javascript:;">全部</a></li>
+                            <li class="item" data-ptype="A"><a href="javascript:;">景点门票</a></li>
+                            <li class="item" data-ptype="B"><a href="javascript:;">旅游线路</a></li>
+                            <li class="item" data-ptype="C"><a href="javascript:;">酒店客房</a></li>
+                            <li class="item" data-ptype="F"><a href="javascript:;">套票产品</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="selectLine" class="line selectLine">
+                    <div class="inCon">
+                        <div class="lt">所在地区</div>
+                        <div class="listUl">
+                            <div class="select ps">
+                                <input type="text" readonly class="ui-textInp ui-radius ui-shadow selectTrigger" name="" id="pSelectTrigger"/>
+                                <span id="pSelectTriggerIcon" class="selectTriggerIcon pSelectTriggerIcon">
+                                    <i class="iconfont up">&#xe695;</i>
+                                    <i class="iconfont down">&#xe673;</i>
+                                </span>
+                            </div>
+                            <div class="select cs">
+                                <input type="text" readonly class="ui-textInp ui-radius ui-shadow selectTrigger" name="" id="cSelectTrigger"/>
+                                <span id="cSelectTriggerIcon" class="selectTriggerIcon cSelectTriggerIcon">
+                                    <i class="iconfont up">&#xe695;</i>
+                                    <i class="iconfont down">&#xe673;</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btnGroup">
+            <a id="searchBtn" class="searchBtn ctrlBtn" href="javascript:;">搜索</a>
+            <a id="recoverSearchBtn" class="recoverSearchBtn ctrlBtn" href="javascript:;"><i class="iconfont">&#xe6af;</i><span class="t">还原</span></a>
+        </div>
+        <div class="lborder"></div>
+    </div>
+    <ul id="orderListUl" class="orderListUl"></ul>
+    <? include_once ROOT_PATH . 'tpl/yorderlist/tpl/orderlist_item_tpl.html'; ?>
+</div>
+<div id="gotopBtn" style="overflow:hidden" class="gotopBtn" ><a><i></i></a></div>
+<?php
+    if($_GET["fsid"] && $_GET["fsaccount"] && $_GET["fsname"]) include ROOT_PATH . 'tpl/yorderlist/dis_selector.html';
+?>
+<script type="text/javascript" src="http://wx.12301.cc/public/js/common/listManager.js?v=1"></script>
+<script type="text/javascript" src="http://wx.12301.cc/public/js/plugins/underscore-min.js"></script>
+<script type="text/javascript" src="http://www.12301.cc/tpl/prov_city_select/build/v0.1/pft.ui.select.js"></script>
+<script type="text/javascript" src="tpl/yorderlist/js/build/yorderlist.all.6.0.2.js"></script>

@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/";
+/******/ 	__webpack_require__.p = "http://static.12301.test/assets/build/test/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -44,25 +44,18 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
-
-
-/***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/**
 	 * Author: huangzhiyang
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(2);
-	var PubSub = __webpack_require__(6);
-	var Header = __webpack_require__(7);
-	var List = __webpack_require__(8);
-	var Dialog = __webpack_require__(9);
-	var Select = __webpack_require__(14);
-	var Api = __webpack_require__(18);
+	__webpack_require__(22);
+	var PubSub = PFT.Util.PubSub;
+	var Header = __webpack_require__(24);
+	var List = __webpack_require__(25);
+	var Dialog = __webpack_require__(26);
+	var Select = __webpack_require__(30);
+	var Api = __webpack_require__(5);
 	var MainView = Backbone.View.extend({
 		el : $("body"),
 		events : {
@@ -72,6 +65,7 @@
 		},
 		initialize : function(){
 			var that = this;
+			this.pid = PFT.Util.UrlParse()["pid"] || "";
 			this.Header = new Header();
 			this.List = new List();
 			this.Dialog = new Dialog({List:this.List});
@@ -83,10 +77,17 @@
 			this.Select = new Select({
 				trigger : $("#cardProdTriggerInput"),
 				source : Api.Url.EntryCard.getProdList + "?page=1&page_size=1000",
+				defaultVal : this.pid,
 				height : 400,
 				field : {
 					id : "id",
-					name : "title"
+					name : "p_name"
+				},
+				adaptor : function(res){
+					res = res || {};
+					var data = res.data || {};
+					var list = data.list || [];
+					return list;
 				}
 			});
 			$(".arrowup").hide();
@@ -109,10 +110,12 @@
 				var hasRelated = 0;
 				cardList.children().each(function(){
 					var tarItem = $(this);
-					var physics_id = tarItem.attr("data-physicsid");
-					var virtual_id = tarItem.attr("data-virtualid");
+					var card_no = tarItem.find(".card").text();
+					var physics_no = tarItem.find(".physics").text();
+					if(card_no=="--") card_no = "";
+					if(physics_no=="--") physics_no = "";
 					total+=1;
-					if(physics_id && virtual_id) hasRelated+=1;
+					if(card_no && card_no) hasRelated+=1;
 				});
 				$("#hasRelatedCount").text(hasRelated);
 				$("#totalRelatedCount").text(total);
@@ -139,9 +142,9 @@
 				if(card=="--") card = "";
 				if(physics=="--") physics = "";
 				list.push({
-					virtual : virtual,
-					card : card,
-					physics : physics
+					virtual_no : virtual,
+					card_no : card,
+					physics_no : physics
 				})
 			})
 			if(list.length==0) return false;
@@ -152,14 +155,16 @@
 					list : list
 				},
 				loading : function(){ submitBtn.addClass("disable")},
-				complete : function(){ submitBtn.removeClass("disable")}
-			},function(res){
-				res = res || {};
-				var code = res.code;
-				if(code==200){
-					PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
-				}else{
-					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				complete : function(){ submitBtn.removeClass("disable")},
+				success : function(res){
+					res = res || {};
+					var code = res.code;
+					if(code==200){
+						PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
+						$("#cardList").html("");
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
 				}
 			})
 		}
@@ -170,58 +175,147 @@
 	})
 
 /***/ },
-/* 2 */
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/15 15:36
+	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
+	 */
+	var fn = function(){};
+	var Api = {
+		Url : {
+			//发布年卡产品
+			PublishCardProd : {
+				submit : "/r/product_scenic/save/",
+				//图片上传
+				uploadFile : "/r/product_AnnualCard/uploadImg/",
+				//编辑状态，获取年卡产品详细信息
+				getInfo : "/r/product_scenic/get/"
+			},
+			//年卡套餐-即票类编辑
+			PackageInfo : {
+				//添加&修改票类
+				updateTicket : "/r/product_ticket/UpdateTicket/",
+				//拉取已存在的票类
+				getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+				//获取产品列表
+				getLands : "/r/product_AnnualCard/getLands/",
+				//获取票类列表
+				getTickets : "/r/product_AnnualCard/getTickets/",
+				//删除票类
+				deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
+			},
+			//卡片录入相关接口
+			EntryCard : {
+				//获取供应商的年卡产品列表
+				getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
+				//录入卡片
+				createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
+				//获取相关产品已生成好的卡片
+				getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+	
+			},
+			//下单页面
+			makeOrder : {
+				//预定页面请求卡片信息接口
+				getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
+				//预定页面请求订单信息接口
+				getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+				//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+				isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+				submit : "/formSubmit_v01.php"
+			},
+			//获取某个产品的虚拟卡的库存
+			getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+			//库存明细页
+			storage : {
+				//获取库存列表
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
+				//删除生成好的卡片
+				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+			},
+			//下单成功页
+			ordersuccess : {
+				getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+			},
+			//激活页面
+			active : {
+				checkCard : "/r/product_AnnualCard/activeCheck/",
+				getVCode : "/r/product_AnnualCard/sendVcode/",
+				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			}
+		},
+		defaults : {
+			type : "get",
+			ttimout : 60 * 1000,
+			loading : fn,
+			complete : fn,
+			success : fn,
+			fail : fn,
+			timeout : fn,
+			serverError : fn
+		}
+	};
+	module.exports = Api;
+
+
+/***/ },
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */
+/***/ function(module, exports) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/5/25 18:20
+	 * Description: ""
+	 */
+	module.exports = function(){
+		var result = {
+			width : 0,
+			height : 0
+		};
+		if(window.innerWidth){
+			result.width = window.innerWidth;
+			result.height = window.innerHeight;
+		}else if(document.documentElement && document.documentElement.clientWidth){
+			result.width = document.documentElement.clientWidth;
+			result.height = document.documentElement.clientHeight;
+		}else{
+			result.width = document.body.clientWidth;
+			result.height = document.body.clientHeight;
+		}
+		return result;
+	}
+
+/***/ },
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/7 10:09
-	 * Description: 订阅发布模型
-	 */
-	var E = {
-		fn : {},
-		on : function(type,fn){
-			var fns = this.fn[type] || (this.fn[type]=[]);
-			fns.push(fn);
-		},
-		fire : function(type){
-			var fns = this.fn[type];
-			if(!fns) return false;
-			var args = arguments;
-			var len = args.length;
-			var argus,scope;
-			if(len==1){
-				argus = "";
-				scope = this;
-			}else if(len==2){
-				argus = args[len-1];
-				scope = this;
-			}else if(len==3){
-				argus = args[len-2];
-				scope = args[len-1];
-			}
-			for(var i in fns){
-				var fn = fns[i];
-				fn.call(scope,argus);
-			}
-		},
-		trigger : function(){
-			this.fire.apply(this,arguments);
-		}
-	};
-	module.exports = E;
-
-/***/ },
-/* 7 */
+/* 23 */,
+/* 24 */
 /***/ function(module, exports) {
 
 	/**
@@ -232,7 +326,8 @@
 	var Header = Backbone.View.extend({
 		el : $("#card_headerContaienr"),
 		events : {
-			"click #createCardListBtn" : "onCreateCardListBtnClick"
+			"click #createCardListBtn" : "onCreateCardListBtnClick",
+			"keyup #cardCountInp" : "onCardCountInpKeyup"
 		},
 		MAX_COUNT : 50, //单次生成新卡的最大数量
 		initialize : function(){
@@ -252,9 +347,14 @@
 			}
 			this.trigger("create.card",{cards:result});
 		},
+		//回车直接生成卡号
+		onCardCountInpKeyup : function(e){
+			if(e.keyCode==13){ //回车
+				$("#createCardListBtn").trigger("click");
+			}
+		},
 		//点击关联实体卡
 		onRelateSHCardBtnClick : function(e){
-			console.log("click");
 			this.trigger("onRelateSHCardBtnClick");
 		},
 		createCardNumber : function(){
@@ -317,7 +417,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 8 */
+/* 25 */
 /***/ function(module, exports) {
 
 	/**
@@ -348,7 +448,7 @@
 	module.exports = List;
 
 /***/ },
-/* 9 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -356,9 +456,9 @@
 	 * Date: 2016/6/14 18:19
 	 * Description: ""
 	 */
-	var box_tpl = __webpack_require__(10);
-	var winWidthHeight = __webpack_require__(11);
-	__webpack_require__(12);
+	var box_tpl = __webpack_require__(27);
+	var winWidthHeight = __webpack_require__(13);
+	__webpack_require__(28);
 	var Dialog = Backbone.View.extend({
 		state : 0,
 		initialize : function(opt){
@@ -415,6 +515,8 @@
 			if(hasExist) return alert("此卡已关联过");
 			unRelate_first.find(".physics").text(physic_number);
 			unRelate_first.find(".card").text(card_number);
+			var hasRelatedCount = $("#hasRelatedCount");
+			hasRelatedCount.text(hasRelatedCount.text()*1+1);
 		},
 		readwuKa : function(e){
 			var readCardObj = this.readCardObj;
@@ -484,47 +586,20 @@
 
 
 /***/ },
-/* 10 */
+/* 27 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"dialogBoxContainerCon\">\r\n    <div class=\"charge border\" id=\"chaBox\">\r\n        <div id=\"dialog-slideStage\" class=\"slideStage\">\r\n            <div style=\"top:0px\" class=\"slideCon\">\r\n                <!--<div style=\"margin-top:18px\" class=\"cha slideItem\">-->\r\n                    <!--<h1 class=\"entry\">请刷卡！</h1>-->\r\n                    <!--<h2 style=\"display:none\" id=\"cardExitTip\" class=\"font-red\">已存在</h2>-->\r\n                <!--</div>-->\r\n                <div class=\"cha slideItem\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <p style=\"margin-bottom:10px\" class=\"font-gray line-40\">\r\n                        物理ID：<input readonly=\"\" type=\"text\" name=\"\" id=\"physic_no_Inp\"/>\r\n                        <a href=\"javascript:void(0)\" style=\"color:#008EC1\" id=\"readCardBtn\">读卡</a>\r\n                    </p>\r\n                    <div class=\"relaBox\">\r\n                        <input id=\"cardNumberInput\" type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\" class=\"guanInp\"/>\r\n                        <a id=\"relateCardBtn\" href=\"javascript:void(0);\" class=\"btn btn-orange\">关联</a>\r\n                    </div>\r\n                    <p style=\"color:red; margin-top:3px;\">请确保填写的卡号确认无误！</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"enCard\">\r\n            <span>已关联实体卡:\r\n                <span id=\"hasRelatedCount\" class=\"numChild\">2</span><i class=\"letr\">/</i><span id=\"totalRelatedCount\" class=\"numP\">10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>\r\n            <a id=\"dialogCloseBtn\" href=\"javascript:void(0);\" class=\"btn btn-5x btn-blue btn-finish closeBtn\">关闭</a>\r\n        </div>\r\n    </div>\r\n    <!--<div style=\"display:none;\" class=\"charge border\" id=\"guanBox\">-->\r\n        <!--<a href=\"javascript:void(0);\" class=\"btn-del\" style=\"color:#ccc\">×</a>-->\r\n        <!--<div class=\"cha border-bottom\">-->\r\n            <!--<p class=\"font-gray line-40\">物理ID:565666</p>-->\r\n            <!--<div class=\"relaBox\">-->\r\n                <!--<input type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\"class=\"guanInp\"/>-->\r\n                <!--<a href=\"javascript:;\" class=\"btn btn-orange\">关联</a>-->\r\n            <!--</div>-->\r\n        <!--</div>-->\r\n        <!--<div class=\"enCard\">-->\r\n            <!--<span>已关联实体卡:<span class=\"numChild\">2</span><span class=\"numP\">/10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>-->\r\n            <!--<a href=\"javascript:;\" class=\"btn btn-5x btn-blue btn-finish\">完成</a>-->\r\n        <!--</div>-->\r\n    <!--</div>-->\r\n</div>";
+	module.exports = "<div class=\"dialogBoxContainerCon\">\r\n    <div class=\"charge border\" id=\"chaBox\">\r\n        <div id=\"dialog-slideStage\" class=\"slideStage\">\r\n            <div style=\"top:0px\" class=\"slideCon\">\r\n                <!--<div style=\"margin-top:18px\" class=\"cha slideItem\">-->\r\n                    <!--<h1 class=\"entry\">请刷卡！</h1>-->\r\n                    <!--<h2 style=\"display:none\" id=\"cardExitTip\" class=\"font-red\">已存在</h2>-->\r\n                <!--</div>-->\r\n                <div class=\"cha slideItem\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <p style=\"margin-bottom:10px\" class=\"font-gray line-40\">\r\n                        物理ID：<input readonly=\"\" type=\"text\" name=\"\" id=\"physic_no_Inp\"/>\r\n                        <a href=\"javascript:void(0)\" style=\"color:#008EC1\" id=\"readCardBtn\">读卡</a>\r\n                    </p>\r\n                    <div class=\"relaBox\">\r\n                        <input id=\"cardNumberInput\" type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\" class=\"guanInp\"/>\r\n                        <a id=\"relateCardBtn\" href=\"javascript:void(0);\" class=\"btn btn-orange\">关联</a>\r\n                    </div>\r\n                    <p style=\"color:#bfbfbf; margin-top:5px;\">请确保填写的卡号确认无误！</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"enCard\">\r\n            <span>已关联实体卡:\r\n                <span id=\"hasRelatedCount\" class=\"numChild\">2</span><i class=\"letr\">/</i><span id=\"totalRelatedCount\" class=\"numP\">10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>\r\n            <a id=\"dialogCloseBtn\" href=\"javascript:void(0);\" class=\"btn btn-5x btn-blue btn-finish closeBtn\">关闭</a>\r\n        </div>\r\n    </div>\r\n    <!--<div style=\"display:none;\" class=\"charge border\" id=\"guanBox\">-->\r\n        <!--<a href=\"javascript:void(0);\" class=\"btn-del\" style=\"color:#ccc\">×</a>-->\r\n        <!--<div class=\"cha border-bottom\">-->\r\n            <!--<p class=\"font-gray line-40\">物理ID:565666</p>-->\r\n            <!--<div class=\"relaBox\">-->\r\n                <!--<input type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\"class=\"guanInp\"/>-->\r\n                <!--<a href=\"javascript:;\" class=\"btn btn-orange\">关联</a>-->\r\n            <!--</div>-->\r\n        <!--</div>-->\r\n        <!--<div class=\"enCard\">-->\r\n            <!--<span>已关联实体卡:<span class=\"numChild\">2</span><span class=\"numP\">/10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>-->\r\n            <!--<a href=\"javascript:;\" class=\"btn btn-5x btn-blue btn-finish\">完成</a>-->\r\n        <!--</div>-->\r\n    <!--</div>-->\r\n</div>";
 
 /***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/5/25 18:20
-	 * Description: ""
-	 */
-	module.exports = function(){
-		var result = {
-			width : 0,
-			height : 0
-		};
-		if(window.innerWidth){
-			result.width = window.innerWidth;
-			result.height = window.innerHeight;
-		}else if(document.documentElement && document.documentElement.clientWidth){
-			result.width = document.documentElement.clientWidth;
-			result.height = document.documentElement.clientHeight;
-		}else{
-			result.width = document.body.clientWidth;
-			result.height = document.body.clientHeight;
-		}
-		return result;
-	}
-
-/***/ },
-/* 12 */
+/* 28 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 13 */,
-/* 14 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -532,7 +607,7 @@
 	 * Date: 2016/6/14 11:14
 	 * Description: 项目时间紧迫，主体功能先实现，更多功能后续会慢慢增加
 	 */
-	__webpack_require__(15);
+	__webpack_require__(31);
 	var Defaults = {
 		trigger : null,
 	
@@ -556,8 +631,10 @@
 			width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
 		},
 	
+		defaultVal : "",  //初始化时默认选中的值
+	
 		tpl : function(){
-			return __webpack_require__(17);
+			return __webpack_require__(33);
 		},
 	
 		//适配器，用于适配从后端请求回来的数据为如下格式
@@ -583,6 +660,7 @@
 		current_id : "",
 		current_name : "",
 		init : function(opt){
+			var that = this;
 			var trigger = this.trigger = typeof opt.trigger==="string" ? $("#"+opt.trigger.substr(opt.trigger.indexOf("#")+1)) : opt.trigger;
 			var source = this.source = opt.source;
 			if(!trigger.length) return false;
@@ -623,7 +701,8 @@
 			this.clearSearchBtn.on("click",function(e){
 				$(e.currentTarget).hide();
 				that.searchInp.val("").focus();
-				that.updateListUl(that.__cacheData);
+				var html = that.renderListHtml(that.__cacheData);
+				that.listUl.html(html);
 			})
 			this.listUl.on("click",".gSelectOptionItem",function(e){
 				that.onOptionItemClick(e);
@@ -650,6 +729,7 @@
 				that.trigger.text(name);
 			}
 			that.close();
+			tarItem.addClass("active").siblings().removeClass("active");
 			PFT.Util.PubSub.trigger("option.click",data);
 		},
 		onSearchInpChange : function(e){
@@ -659,11 +739,8 @@
 				var keyword = $.trim($(e.currentTarget).val());
 				var result = that.filter(keyword);
 				keyword=="" ? that.clearSearchBtn.hide() : that.clearSearchBtn.show();
-				if(result=="loading" || result=="error" || result==null || result=="empty"){
-					that.updateListUl("empty");
-				}else{
-					that.updateListUl(result);
-				}
+				var html = that.renderListHtml(result);
+				that.listUl.html(html);
 			},200)
 		},
 		//过滤
@@ -687,7 +764,7 @@
 			if(this.selectBox) return this.selectBox;
 			var tpl = this.opt.tpl();
 			var opt = this.opt;
-			var width = opt.trigger.outerWidth()+opt.offset.width;
+			var width = opt.trigger.outerWidth()+(opt.offset.width || 0);
 			var height = opt.height;
 			var selectBox = this.selectBox = $('<div style="display:none;width:'+width+'px;height:'+height+'px" class="gSelectDownBox"></div>');
 			selectBox.append(tpl);
@@ -704,7 +781,20 @@
 		updateListUl : function(data){
 			var html = this.renderListHtml(data);
 			this.listUl.html(html);
-			this.listUl.children().first().trigger("click");
+			var defaultVal = this.opt.defaultVal;
+			if(data=="loading" || data=="error" || data==null) return false;
+			if(defaultVal){
+	
+				this.selectDefaultVal();
+			}else{
+				this.listUl.children().first().trigger("click");
+			}
+		},
+		//初始化时选中默认值
+		selectDefaultVal : function(){
+			var defaultVal = this.opt.defaultVal;
+			if(!defaultVal) return false;
+			this.listUl.children().filter("[data-"+this.opt.field.id+"="+defaultVal+"]").trigger("click");
 		},
 		renderListHtml : function(data,errorMsg){ //data必须为如下格式：[{key1:value1,key2:value2}]
 			var html = "";
@@ -749,8 +839,8 @@
 			var offset = this.opt.offset;
 			var trigger_h = trigger.outerHeight(true);
 			selectBox.css({
-				left : of.left + offset.left,
-				top : of.top + trigger_h + offset.top
+				left : of.left + (offset.left || 0),
+				top : of.top + trigger_h + (offset.top || 0)
 			})
 		},
 		fetchData : function(source){
@@ -820,90 +910,17 @@
 
 
 /***/ },
-/* 15 */
+/* 31 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 16 */,
-/* 17 */
+/* 32 */,
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"gSelectDownBoxCon\">\r\n    <div class=\"selectTopCon\">\r\n        <div class=\"searchBox\">\r\n            <div class=\"searchBoxCon\">\r\n                <input type=\"text\" name=\"\" class=\"gSelectSearchInp\"/>\r\n                <i class=\"iconfont search\">&#xe60a;</i>\r\n                <span class=\"clearSearchBtn\"><i class=\"iconfont\">&#xe674;</i></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ul class=\"selectOptionUl\"></ul>\r\n</div>\r\n\r\n";
-
-/***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/15 15:36
-	 * Description: 此项目所有与后端交互数据的接口都汇总到这里
-	 */
-	var fn = function(){};
-	var Api = {
-		Url : {
-			//卡片录入相关接口
-			EntryCard : {
-				//获取供应商的年卡产品列表
-				getProdList : "/r/product_annualCard/getAnnualCardProducts/",
-				//录入卡片
-				createAnnualCard : "/r/product_annualCard/createAnnualCard/",
-				//获取相关产品已生成好的卡片
-				getAnnualCards : "/r/product_annualCard/getAnnualCards/",
-				//删除生成好的卡片
-				deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
-			},
-			//下单页面
-			makeOrder : {
-				//预定页面请求卡片信息接口
-				getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
-				//预定页面请求订单信息接口
-				getOrderInfo : "/r/product_annualCard/getOrderInfo/"
-			}
-		},
-		defaults : {
-			type : "get",
-			ttimout : 60 * 1000,
-			loading : fn,
-			complete : fn,
-			success : fn,
-			fail : fn,
-			timeout : fn,
-			serverError : fn
-		}
-		///**
-		// * 获取供应商的年卡产品列表 (分页)
-		// * @param page      获取第几页
-		// * @param pagesize  每页显示多少条
-		// */
-		//getCardProdList : function(opt){
-		//	opt = $.extend(Defaults,opt||{});
-		//	var page = opt.page || 1;
-		//	var pagesize = opt.pagesize || 1000;
-		//	PFT.Util.Ajax(Url.EntryCard.getProdList,{
-		//		type : opt.type,
-		//		params : {
-		//			page : page,
-		//			page_size : pagesize
-		//		},
-		//		ttimeout : opt.ttimeout,
-		//		loading : function(){ opt.loading()},
-		//		complete : function(){ opt.complete()}
-		//	},function(res){
-		//		res = res || {};
-		//		var code = res.code;
-		//		if(code==200){
-		//			opt.success(res);
-		//		}else{
-		//			opt.fail(res);
-		//		}
-		//	})
-		//}
-	};
-	module.exports = Api;
-
 
 /***/ }
 /******/ ]);

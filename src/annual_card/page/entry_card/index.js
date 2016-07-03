@@ -4,7 +4,7 @@
  * Description: ""
  */
 require("./style.scss");
-var PubSub = require("COMMON/js/util.pubsub.js");
+var PubSub = PFT.Util.PubSub;
 var Header = require("./header.js");
 var List = require("./list.js");
 var Dialog = require("./dialog");
@@ -19,6 +19,7 @@ var MainView = Backbone.View.extend({
 	},
 	initialize : function(){
 		var that = this;
+		this.pid = PFT.Util.UrlParse()["pid"] || "";
 		this.Header = new Header();
 		this.List = new List();
 		this.Dialog = new Dialog({List:this.List});
@@ -30,10 +31,17 @@ var MainView = Backbone.View.extend({
 		this.Select = new Select({
 			trigger : $("#cardProdTriggerInput"),
 			source : Api.Url.EntryCard.getProdList + "?page=1&page_size=1000",
+			defaultVal : this.pid,
 			height : 400,
 			field : {
 				id : "id",
-				name : "title"
+				name : "p_name"
+			},
+			adaptor : function(res){
+				res = res || {};
+				var data = res.data || {};
+				var list = data.list || [];
+				return list;
 			}
 		});
 		$(".arrowup").hide();
@@ -56,10 +64,12 @@ var MainView = Backbone.View.extend({
 			var hasRelated = 0;
 			cardList.children().each(function(){
 				var tarItem = $(this);
-				var physics_id = tarItem.attr("data-physicsid");
-				var virtual_id = tarItem.attr("data-virtualid");
+				var card_no = tarItem.find(".card").text();
+				var physics_no = tarItem.find(".physics").text();
+				if(card_no=="--") card_no = "";
+				if(physics_no=="--") physics_no = "";
 				total+=1;
-				if(physics_id && virtual_id) hasRelated+=1;
+				if(card_no && card_no) hasRelated+=1;
 			});
 			$("#hasRelatedCount").text(hasRelated);
 			$("#totalRelatedCount").text(total);
@@ -86,9 +96,9 @@ var MainView = Backbone.View.extend({
 			if(card=="--") card = "";
 			if(physics=="--") physics = "";
 			list.push({
-				virtual : virtual,
-				card : card,
-				physics : physics
+				virtual_no : virtual,
+				card_no : card,
+				physics_no : physics
 			})
 		})
 		if(list.length==0) return false;
@@ -99,14 +109,16 @@ var MainView = Backbone.View.extend({
 				list : list
 			},
 			loading : function(){ submitBtn.addClass("disable")},
-			complete : function(){ submitBtn.removeClass("disable")}
-		},function(res){
-			res = res || {};
-			var code = res.code;
-			if(code==200){
-				PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
-			}else{
-				alert(res.msg || PFT.AJAX_ERROR_TEXT);
+			complete : function(){ submitBtn.removeClass("disable")},
+			success : function(res){
+				res = res || {};
+				var code = res.code;
+				if(code==200){
+					PFT.Util.STip("success",'<p style="width:200px">发卡成功</p>');
+					$("#cardList").html("");
+				}else{
+					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				}
 			}
 		})
 	}

@@ -1,5 +1,7 @@
 <%
     var yearmonth=data.yearmonth,dates=data.dates;
+    var min = data.min ? new Date(data.min).getTime() : "";
+    var max = data.max ? new Date(data.max).getTime() : "";
     var containerID = data.containerID;
     var ym = yearmonth.split("-");
     var year = ym[0];
@@ -44,9 +46,14 @@
                             var day = td.day;
                             var weeken = td.weeken;
                             var yearmonth = td.yearmonth;
+                            var now_date_str = date ? new Date(date).getTime() : "";
+                            var minCls = "";
+                            var maxCls = "";
+                            if(min && now_date_str && now_date_str<=min) minCls="disable";
+                            if(max && now_date_str && now_date_str>=max) maxCls="disable";
                         %>
                         <%if(day){%>
-                            <td class="calendar-td day" data-day="<%=day%>" data-date="<%=date%>" data-yearmonth="<%=yearmonth%>" data-week="<%=weeken%>" id="<%=containerID%>-calendar-td-<%=date%>">
+                            <td class="calendar-td day <%=minCls%> <%=maxCls%>" data-day="<%=day%>" data-date="<%=date%>" data-yearmonth="<%=yearmonth%>" data-week="<%=weeken%>" id="<%=containerID%>-calendar-td-<%=date%>">
                                 <div class="tdCon">
                                     <span class="dayNum"><%=day%></span>
                                 </div>

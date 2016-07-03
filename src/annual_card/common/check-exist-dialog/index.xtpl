@@ -1,0 +1,23 @@
+<div class="memberBox" id="memberBox">
+    <p class="memP">会员已存在！是否替换原有卡和套餐？</p>
+    <table class="memTable border">
+        <thead>
+        <tr class="font-gray">
+            <th>手机号</th>
+            <th>身份证</th>
+            <th>卡套餐（已用特权数）</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td id="existDialog_mobile"></td>
+            <td id="existDialog_idCard"></td>
+            <td id="existDialog_name"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="btnBox">
+        <a href="javascript:void(0);" class="btn btn-blue" id="replaceBtn">替换并提交订单</a>
+        <a href="javascript:void(0);" class="btn btn-border" id="messageBtn">更换信息</a>
+    </div>
+</div>

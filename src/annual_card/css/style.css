@@ -4,7 +4,13 @@
  * Description: ""
  */
 /*通用UI*/
-body{ background:#f8f9fb}
+body{ background:#f8f9fb; }
+.cardContainer i{ font-style:normal}
+.cardContainer a { text-decoration: none; }
+.cardContainer a:hover { text-decoration: underline; }
+.cardContainer a:link{ text-decoration:none;outline:none;}
+.cardContainer a:visited{ text-decoration:none;outline:none; color:#fff}
+.cardContainer a:active{ text-decoration:none;outline:none}
 .cardContainer a:hover,.border a:hover{text-decoration:none;}
 .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
 .lt-ie8 .clearfix{height:1%;}
@@ -54,5 +60,5 @@ body{ background:#f8f9fb}
 .table{width:100%;}
 .table tr{ line-height:35px; text-indent:10px;}
 .table tr:first-of-type{background:#e5e5e5;}
-
-
+.entry{ line-height:65px; font-size:16px; padding-left:24px;background:white; font-weight:bold;}
+.cardContainer table th,.cardContainer table td{ text-align:left}

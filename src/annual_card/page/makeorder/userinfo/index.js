@@ -21,7 +21,7 @@ var UserInfoView = Backbone.View.extend({
 	onTextInpFocus : function(e){
 		var tarInp = $(e.currentTarget);
 		var tip = tarInp.parent().find(".tip");
-		tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "(可选项)" : "(必填项)");
+		tip.removeClass("error").text(tarInp.attr("id")=="userinfo_idCardInp" ? "" : "必填项");
 	},
 	onTextInpBlur : function(e){
 		var tarInp = $(e.currentTarget);
@@ -43,13 +43,23 @@ var UserInfoView = Backbone.View.extend({
 	},
 	validateMobile : function(mobile){
 		if(mobile==""){
-			return "(必填项)";
+			return "必填项";
 		}else if(!PFT.Util.Validate.typePhone(mobile)){
 			return "请输入正确格式手机号";
 		}
 	},
 	validateIDCard : function(idCard){
-		if(idCard && !PFT.Util.Validate.idcard(idCard)) return "请输入正确身份证号";
+		var idCardInp = this.idCardInp;
+		var isRequire = idCardInp.attr("data-needid");
+		if(isRequire==1){ //要求必填
+			if(!idCard){
+				return "请输入身份证号";
+			}else if(!PFT.Util.Validate.idcard(idCard)){
+				return "请输入正确身份证号";
+			}
+		}else{ //不要求必填，可选项，但如果填写了，格式要求正确
+			if(idCard && !PFT.Util.Validate.idcard(idCard)) return "请输入正确身份证号";
+		}
 	},
 	getUserInfo : function(){
 		var name = $.trim(this.nameInp.val());

@@ -1,0 +1,25 @@
+<div id="annualDialogContainer" class="annualDialogContainer">
+    <div class="buywayBox" id="buywayBox">
+        <div class="boxContainer">
+            <div class="bl border-right">
+                <p class="entity">实体卡购买</p>
+                <div class="enBox">
+                    <object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
+                    <div class="readCardNumber">
+                        <input id="cardNumberInp" readonly="" type="text" class="CardNumberInp" placeholder="将卡片放于刷卡器上，点击“读取卡号”"/><span style="cursor:pointer" class="btn btn-border CardNumberBtn" id="readCardBtn">读取卡号</span>
+                    </div>
+                    <p class="font-red carded"></p>
+                    <div class="entityBox">
+                        <span class="enCard">已刷<span id="hasReadCount" class="enNum">0</span>张</span>
+                        <a href="javascript:void(0);" class="btn btn-blue buyBtn disable" id="buyBtn_card">购买</a>
+                    </div>
+                </div>
+            </div>
+            <div class="br">
+                <p class="entity">虚拟卡购买</p>
+                <p class="kucun">库存：<span id="virtualStorageNum" style="font-size:16px;">0</span></p>
+                <a href="javascript:void(0);" class="btn btn-blue btn-mar buyBtn" id="buyBtn_virtual">购买</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,31 +3,63 @@
  * Date: 2016/6/3 16:27
  * Description: ""
  */
+var fn = new Function();
+var Api = require("../../common/api.js");
 var ManagerStore = Backbone.Model.extend({
-	defaults : {
-		data : {}
-	},
+	__Cache : {},
 	api : {
-		fetch_list : "/r/publish_prod_package/fetch_list",
-		fetch_prod_list : "/r/product_annualCard/getLands/",
-		fetch_ticket : "/r/product_annualCard/getTickets/"
+		fetch_package_list : Api.Url.PackageInfo.getPackageInfoList,
+		fetch_prod_list : Api.Url.PackageInfo.getLands,
+		fetch_ticket : Api.Url.PackageInfo.getTickets
 	},
 	initialize : function(){
-		this.fetchPackageList(this.getCardID());
+
 	},
-	getCardID : function(){
-		return "234234";
+	getTid : function(){
+		return typeof this.tid=="undefined" ? (this.tid=PFT.Util.UrlParse()["prod_id"] || "") : this.tid;
+	},
+	getLid : function(){
+		return typeof this.lid=="undefined" ? (this.lid=PFT.Util.UrlParse()["sid"] || "") : this.lid;
+	},
+	getCache : function(tid){
+		if(!tid) return null;
+		return this.__Cache[tid] || null
 	},
 	/**
 	* 获取指定年卡产品内的套餐信息
 	*/
-	fetchPackageList : function(cardID){
+	fetchTicketInfo : function(opt){
+		var opt = opt || {};
+		var tid = opt.tid || this.getTid();
+		var lid = this.getLid();
+		if(!lid && !tid) throw new Error("lid与tid不能同时为空");
+		var loading = opt.loading || fn;
+		var complete = opt.complete || fn;
+		var success = opt.success || fn;
+		var params = {};
+		if(tid){
+			params["tid"] = tid;
+		}else if(lid){
+			params["lid"] = lid;
+		}
 		var that = this;
-		PFT.Util.Ajax(this.api.fetch_list,{
-			loading : function(){},
-			complate : function(){},
+		PFT.Util.Ajax(this.api.fetch_package_list,{
+			type : "post",
+			params : params,
+			loading : function(){
+				loading();
+				that.trigger("fetchTicketInfo.loading");
+			},
+			complete : function(){
+				complete();
+				that.trigger("fetchTicketInfo.complete");
+			},
 			success : function(res){
-				that.trigger("ready",res);
+				tid && (that.__Cache[tid] = true);
+				res = res || {};
+				if(res.code!=200) return alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				success(res);
+				that.trigger("fetchTicketInfo.ready",res);
 			}
 		})
 	},

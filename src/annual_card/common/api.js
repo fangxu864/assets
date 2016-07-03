@@ -6,23 +6,65 @@
 var fn = function(){};
 var Api = {
 	Url : {
+		//发布年卡产品
+		PublishCardProd : {
+			submit : "/r/product_scenic/save/",
+			//图片上传
+			uploadFile : "/r/product_AnnualCard/uploadImg/",
+			//编辑状态，获取年卡产品详细信息
+			getInfo : "/r/product_scenic/get/"
+		},
+		//年卡套餐-即票类编辑
+		PackageInfo : {
+			//添加&修改票类
+			updateTicket : "/r/product_ticket/UpdateTicket/",
+			//拉取已存在的票类
+			getPackageInfoList : "/r/product_ticket/ticket_attribute/",
+			//获取产品列表
+			getLands : "/r/product_AnnualCard/getLands/",
+			//获取票类列表
+			getTickets : "/r/product_AnnualCard/getTickets/",
+			//删除票类
+			deleteTicket : "/route/index.php?c=product_ticket&a=set_status"//"/r/product_ticket/set_status"
+		},
 		//卡片录入相关接口
 		EntryCard : {
 			//获取供应商的年卡产品列表
-			getProdList : "/r/product_annualCard/getAnnualCardProducts/",
+			getProdList : "/r/product_AnnualCard/getAnnualCardProducts/",
 			//录入卡片
-			createAnnualCard : "/r/product_annualCard/createAnnualCard/",
+			createAnnualCard : "/r/product_AnnualCard/createAnnualCard/",
 			//获取相关产品已生成好的卡片
-			getAnnualCards : "/r/product_annualCard/getAnnualCards/",
-			//删除生成好的卡片
-			deleteAnnualCard : "/r/product_annualCard/deleteAnnualCard/"
+			getAnnualCards : "/r/product_AnnualCard/getAnnualCards/"
+
 		},
 		//下单页面
 		makeOrder : {
 			//预定页面请求卡片信息接口
-			getCardsForOrder : "/r/product_annualCard/getCardsForOrder/",
+			getCardsForOrder : "/r/product_AnnualCard/getCardsForOrder/",
 			//预定页面请求订单信息接口
-			getOrderInfo : "/r/product_annualCard/getOrderInfo/"
+			getOrderInfo : "/r/product_AnnualCard/getOrderInfo/",
+			//如果购买虚拟卡，订单提交之前需要先请你去这个接口，判断会员是否已经绑定过其他年卡
+			isNeedToReplace : "/r/product_AnnualCard/isNeedToReplace/",
+			submit : "/formSubmit_v01.php"
+		},
+		//获取某个产品的虚拟卡的库存
+		getVirtualStorage : "/r/product_AnnualCard/getVirtualStorage/",
+		//库存明细页
+		storage : {
+			//获取库存列表
+			getList : "/r/product_AnnualCard/getMemberList/",
+			//删除生成好的卡片
+			deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
+		},
+		//下单成功页
+		ordersuccess : {
+			getOrderDetail : "/r/product_AnnualCard/orderSuccess/"
+		},
+		//激活页面
+		active : {
+			checkCard : "/r/product_AnnualCard/activeCheck/",
+			getVCode : "/r/product_AnnualCard/sendVcode/",
+			activateForPc : "/r/product_AnnualCard/activateForPc/"
 		}
 	},
 	defaults : {
@@ -35,33 +77,5 @@ var Api = {
 		timeout : fn,
 		serverError : fn
 	}
-	///**
-	// * 获取供应商的年卡产品列表 (分页)
-	// * @param page      获取第几页
-	// * @param pagesize  每页显示多少条
-	// */
-	//getCardProdList : function(opt){
-	//	opt = $.extend(Defaults,opt||{});
-	//	var page = opt.page || 1;
-	//	var pagesize = opt.pagesize || 1000;
-	//	PFT.Util.Ajax(Url.EntryCard.getProdList,{
-	//		type : opt.type,
-	//		params : {
-	//			page : page,
-	//			page_size : pagesize
-	//		},
-	//		ttimeout : opt.ttimeout,
-	//		loading : function(){ opt.loading()},
-	//		complete : function(){ opt.complete()}
-	//	},function(res){
-	//		res = res || {};
-	//		var code = res.code;
-	//		if(code==200){
-	//			opt.success(res);
-	//		}else{
-	//			opt.fail(res);
-	//		}
-	//	})
-	//}
 };
 module.exports = Api;

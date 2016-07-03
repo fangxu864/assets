@@ -13,12 +13,13 @@ var List = Backbone.View.extend({
 		var pid = this.pid = urlParam["pid"];
 		var physics = this.physics = urlParam["physics"];
 		if(!pid) return alert("缺少pid");
-		if(!physics) return alert("缺少physics");
 		this.getList(pid,physics);
 		this.$el.html(this.loading_str);
 	},
+	cacheData : [],
 	getList : function(pid,physics){
 		var that = this;
+		physics = physics || "";
 		PFT.Util.Ajax(Api.Url.makeOrder.getCardsForOrder,{
 			params : {
 				pid : pid,
@@ -29,8 +30,12 @@ var List = Backbone.View.extend({
 			success : function(res){
 				res = res || {};
 				if(res.code==200){
+					that.cacheData = res.data;
+					var d = res.data[0] || {};
+					that.sid = d["sid"] || "";
 					that.renderList(res.data);
 				}else{
+					that._getCardsForOrder_ErrorText = res.msg || "获取卡列表信息出错";
 					that.renderList(res.msg || PFT.AJAX_ERROR_TEXT);
 				}
 			}
@@ -56,6 +61,22 @@ var List = Backbone.View.extend({
 			html = '<li class="status fail" style="height:100px; line-height:100px; text-align:center">'+data+'</li>';
 		}
 		this.$el.html(html);
+	},
+	getSid : function(){
+		return this.sid;
+	},
+	getVirtualCards : function(){
+		var data = this.cacheData;
+		var result = [];
+		for(var i in data){
+			var d = data[i];
+			var virtual_no = d["virtual_no"];
+			result.push(virtual_no);
+		}
+		return result.join(",");
+	},
+	getCardsForOrder_ErrorText : function(){
+		return this._getCardsForOrder_ErrorText;
 	}
 });
 module.exports = List;
