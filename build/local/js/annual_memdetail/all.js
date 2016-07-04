@@ -50,64 +50,53 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(52);
+	__webpack_require__(89);
 	var Api = __webpack_require__(5);
-	var tpl = __webpack_require__(54);
 	var LoadingPc = __webpack_require__(38);
+	var detailTpl = __webpack_require__(91);
 	var MainView = Backbone.View.extend({
-		el : $("#cardContainer"),
-		template : _.template(tpl),
+		el : $("#detailContainer"),
 		initialize : function(){
-			this.ordernum = PFT.Util.UrlParse()["ordernum"] || "";
-			if(!this.ordernum) return alert("缺少ordernum");
-			this.getOrderDetail(this.ordernum);
+			this.memberid = PFT.Util.UrlParse()["id"];
+			this.getDetail(this.memberid);
 		},
-		getOrderDetail : function(ordernum){
-			if(!ordernum) return false;
+		template : _.template(detailTpl),
+		getDetail : function(memberid){
 			var that = this;
-			PFT.Util.Ajax(Api.Url.ordersuccess.getOrderDetail,{
+			if(!memberid) return false;
+			PFT.Util.Ajax(Api.Url.memdetail.detail,{
 				params : {
-					ordernum : ordernum
+					memberid : memberid
 				},
-				loading : function(){ that.render("loading")},
-				complete : function(){ that.render("complete")},
+				loading : function(){
+					var loading = LoadingPc("加载中，请稍后..",{
+						tag : "div",
+						height : 500,
+						css : {
+							"background" : "#fff"
+						}
+					});
+					that.$el.html(loading);
+				},
+				complete : function(){
+					that.$el.html("");
+				},
 				success : function(res){
 					res = res || {};
 					var data = res.data || {};
 					if(res.code==200){
-						that.render(data);
+						that.$el.html(that.template({data:data}));
 					}else{
-						that.render("fail",res.msg || PFT.AJAX_ERROR_TEXT);
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
 					}
 				}
 			})
-		},
-		render : function(data){
-			var html = "";
-			var template = this.template;
-			if(data=="loading"){
-				html = LoadingPc("努力加载中，请稍后..",{
-					width : this.$el.width(),
-					height : 300,
-					css : {
-						"background" : "#fff"
-					}
-				});
-			}else if(data=="complete"){
-				html = "";
-			}else if(data=="fail"){
-				html = '<div style="width:100%; height:300px; line-height:300px; text-align:center">'+arguments[1]+'</div>';
-			}else{
-				html = template({data:data});
-			}
-			this.$el.html(html);
 		}
 	});
 	
 	$(function(){
-		new MainView();
+		new MainView;
 	})
-
 
 /***/ },
 
@@ -247,17 +236,17 @@
 
 /***/ },
 
-/***/ 52:
+/***/ 89:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 54:
+/***/ 91:
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"sucBox border\">\r\n    <% var successTit = data.type==\"virtual\" ? \"售卡成功！已激活\" : \"售卡成功！需要激活后使用\" %>\r\n    <h1 class=\"success\"><i class=\"iconfont\">&#xe6b6;</i><%=successTit%></h1>\r\n    <% if(data.type!=\"virtual\"){ %>\r\n        <p class=\"font-14 firstAct\">可在第一次使用时激活</p>\r\n    <% } %>\r\n    <div class=\"btnBox\">\r\n        <% if(data.type!=\"virtual\"){ %>\r\n        <a href=\"annual_active.html\" class=\"btn btn-blue\" id=\"activeBtn\">立即激活</a>\r\n        <% } %>\r\n        <a href=\"/plist.html\" class=\"btn btn-border\" id=\"backBtn\">返回预定列表</a>\r\n    </div>\r\n</div>\r\n<div class=\"orderDetailContainer\">\r\n    <% if(data.title){ %>\r\n    <p class=\"sucP\"><%=data.title%></p>\r\n    <% } %>\r\n    <table class=\"sucTable border\">\r\n        <thead class=\"border-bottom\">\r\n        <tr>\r\n            <th>订单号</th>\r\n            <th>卡类型</th>\r\n            <th>虚拟卡号/实体卡号 </th>\r\n            <th>结算价</th>\r\n            <th>日期</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td><%=data.ordernum%></td>\r\n            <td><%=data.type==\"virtual\" ? \"虚拟卡\" : \"实体卡\"%></td>\r\n            <td>\r\n                <% _.each(data.list,function(item,index){ %>\r\n                    <p><%=item.virtual_no%> / <%=item.physics_no ? item.physics_no : \"无\"%></p>\r\n                <% }) %>\r\n            </td>\r\n            <td><i style=\"font-style:normal\" class=\"yen\">&yen;</i><em class=\"moneyNum\"><%=data.price%></em></td>\r\n            <td><%=data.date%></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n</div>";
+	module.exports = "<% var member=data.member, list=data.list || [], history=data.history; %>\r\n<% var statusTxt = {\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"挂失\",\"4\":\"禁用\"}; %>\r\n<div class=\"memberBox\" style=\"background:#e2f6fe\">\r\n    <span class=\"memberH\">H</span>\r\n    <ul class=\"memUl\">\r\n        <li>\r\n            <p><span class=\"memL\">会员名称：</span><span class=\"memR\"><%=member.account%></span></p>\r\n        </li>\r\n        <li>\r\n            <p><span class=\"memL\">手机号：</span><span class=\"memR\"><%=member.mobile%></span></p>\r\n        </li>\r\n    </ul>\r\n</div>\r\n<div style=\"background:#fff\" class=\"memberBox\">\r\n    <ul class=\"memUl marL-70\">\r\n        <%_.each(list,function(item){%>\r\n            <li>\r\n                <p><span class=\"memL\">虚拟卡号：</span><span class=\"memR\"><%=item.virtual_no%></span></p>\r\n                <p><span class=\"memL\">实体卡号：</span><span class=\"memR\"><%=item.card_no%></span></p>\r\n                <p><span class=\"memL\">物理ID：</span><span class=\"memR\"><%=item.physics_no%></span></p>\r\n                <!--<p><span class=\"memL\">可用优惠券：</span><span class=\"memR\">0</span></p>-->\r\n                <p><span class=\"memL\">发卡商户：</span><span class=\"memR\"><%=item.supply%></span></p>\r\n            </li>\r\n            <li>\r\n                <p><span class=\"memL\">卡套餐：</span><span class=\"memR\">厦门先行年卡套餐</span></p>\r\n                <p><span class=\"memL\">有效期：</span><span class=\"memR\"><%=item.valid_time%></span></p>\r\n                <div class=\"memLine\">\r\n                    <span class=\"memL\">已用特权：</span>\r\n                    <div class=\"memR\">\r\n                        <%_.each(item.priv,function(priv){%>\r\n                            <p><%=priv.title%> <%=priv.use%></p>\r\n                        <%})%>\r\n                    </div>\r\n                </div>\r\n                <p><span class=\"memL\">状态：</span><span class=\"memR font-orange\"><a href=\"javascript:void(0);\" class=\"unActivate\"><%=statusTxt[item.status]%></a></span></p>\r\n                <p><span class=\"memL\">备注：</span></p>\r\n            </li>\r\n        <%})%>\r\n    </ul>\r\n</div>\r\n<div class=\"historyContainer\" style=\"border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5\">\r\n    <p class=\"useHistory border-top\">使用记录</p>\r\n    <table class=\"memTable\">\r\n        <thead>\r\n            <tr class=\"border-bottom bg-gray\">\r\n                <th>订单号</th>\r\n                <th>产品</th>\r\n                <th>虚拟卡号</th>\r\n                <th>订单总额</th>\r\n                <th>套餐特权</th>\r\n                <th>优惠券</th>\r\n                <th>余额支付</th>\r\n                <th>下单时间</th>\r\n            </tr>\r\n        </thead>\r\n        <tbody style=\"background:#fff\">\r\n            <% if(history.lenght){ %>\r\n                <%_.each(history,function(hist){%>\r\n                <tr class=\"border-bottom\">\r\n                    <td class=\"font-blue\">4654546</td>\r\n                    <td>XXXXXXXXX景区-成人票-1张</td>\r\n                    <td></td>\r\n                    <td></td>\r\n                    <td class=\"font-orange\">-100</td>\r\n                    <td class=\"font-orange\">-10</td>\r\n                    <td class=\"font-orange\">123</td>\r\n                    <td>2016/05/06 12:00</td>\r\n                </tr>\r\n                <% }) %>\r\n            <% }else{ %>\r\n                <tr>\r\n                    <td style=\"text-align:center; height:300px\" colspan=\"8\">暂无使用记录...</td>\r\n                </tr>\r\n            <% } %>\r\n\r\n        </tbody>\r\n    </table>\r\n</div>\r\n\r\n";
 
 /***/ }
 

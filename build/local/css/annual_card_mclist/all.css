@@ -222,14 +222,14 @@ select {
   text-indent: 10px; }
 
 .cardContainer {
-  width: 998px;
-  border: 1px solid #e5e5e5;
-  margin: 0 auto;
-  background: white; }
+  width: 1000px;
+  margin: 0 auto; }
 
 .manageTitle {
   height: 58px;
-  overflow: hidden; }
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e5e5e5; }
 
 .entry {
   padding-left: 24px; }
@@ -254,7 +254,24 @@ select {
 
 .manageState {
   height: 115px;
-  padding-left: 24px; }
+  padding-left: 24px;
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5; }
+
+.manageState .clearSearchBtn {
+  position: absolute;
+  z-index: 1;
+  top: -1px;
+  left: 420px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: #aaa;
+  line-height: 30px;
+  text-align: center; }
+
+.manageState .clearSearchBtn .iconfont {
+  font-size: 18px; }
 
 .cardType {
   display: inline-block;
@@ -316,7 +333,10 @@ select {
     text-decoration: none; }
 
 .listItemTable {
-  width: 100%; }
+  width: 100%;
+  background: #fff;
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5; }
 
 .listItemTable thead tr {
   line-height: 36px;
@@ -327,6 +347,9 @@ select {
 
 .listItemTable tr td:first-of-type, .listItemTable tr th:first-of-type {
   text-indent: 24px; }
+
+.listItemTable .doBtn:hover {
+  text-decoration: underline; }
 
 .pageBox {
   height: 28px;
@@ -357,6 +380,9 @@ select {
 
 .listSlideContainer td {
   border-bottom: 1px solid #e5e5e5; }
+
+.listSlideContainer a:visited {
+  color: #2A98DA; }
 .navigationBar {
   width: 100%;
   margin-top: 10px;

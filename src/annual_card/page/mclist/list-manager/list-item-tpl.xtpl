@@ -14,11 +14,11 @@
             <% } %>
             <td><%=item.virtual_no%> / <%=item.card_no%></td>
             <td><%=item.supply%></td>
-            <td><%=item.status%></td>
+            <td><%={"1":"正常","0":"未激活","2":"挂失","4":"禁用"}[item.status]%></td>
             <td class="font-blue doAction">
-                <a href="javascript:void(0);">查看</a>
-                <a href="javascript:void(0);">挂失</a>
-                <a href="javascript:void(0);">禁用</a>
+                <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <a style="margin-right:8px" class="doBtn loss" href="javascript:void(0);">挂失</a>
+                <a href="javascript:void(0);" class="doBtn inavail">禁用</a>
             </td>
         </tr>
     <% }) %>

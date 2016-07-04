@@ -7,22 +7,26 @@
 @import "COMMON/css/base/core";
 /*架构UI*/
 select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text-indent:10px;}
-.cardContainer{width:998px; border:1px solid #e5e5e5; margin:0 auto; background:white;}
-.manageTitle{height:58px; overflow:hidden;}
+.cardContainer{width:1000px; margin:0 auto;}
+.manageTitle{height:58px; overflow:hidden; background:#fff; border:1px solid #e5e5e5;}
 .entry{ padding-left:24px;}
 .activaCard{@include btn-inline-block(135,$btnHeight,$green); font-size:14px; float:right; margin:12px 13px 0 0;}
 .activaCard:link,.query:link,.active:link{ color:white;}
-.manageState{ height:115px; padding-left:24px;}
+.manageState{ height:115px; padding-left:24px; border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5}
+.manageState .clearSearchBtn{ position:absolute; z-index:1; top:-1px; left:420px; width:30px; height:30px; cursor:pointer; color:#aaa; line-height:30px; text-align:center}
+.manageState .clearSearchBtn .iconfont{ font-size:18px;}
+
 .cardType{@include btn-inline-block(131,28,transparent);font-size:14px; margin-top:13px;}
 .active{@include btn-inline-block(131,28);font-size:14px;}
 .cardBox{ margin-top:22px;}
 .cardBox select{width:198px; height:30px;}
 .cardBox input{@include textInp(237,3);}
 .query{@include btn-inline-block(87,28,$orange); font-size:14px; margin-top:-4px;}
-.listItemTable{ width:100%;}
+.listItemTable{ width:100%; background:#fff;  border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5}
 .listItemTable thead tr{ line-height:36px; background:#e5e5e5;}
 .listItemTable tbody tr{ line-height:46px;}
 .listItemTable tr td:first-of-type,.listItemTable tr th:first-of-type{ text-indent:24px;}
+.listItemTable .doBtn:hover{ text-decoration:underline}
 .pageBox{ height:28px; padding:9px 10px; font-size:14px;}
 .pageBox a{ width:78px; height:28px; line-height:28px; border-radius:14px; font-weight:bolder; font-size:larger;}
 .pageBox a:link{ color:#92a0ab;}
@@ -31,5 +35,5 @@ select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text
 .listSlideContainer .slideUl{ position:relative; overflow:hidden; zoom:1}
 .listSlideContainer .listItemLi{ float:left;}
 .listSlideContainer td{border-bottom:1px solid #e5e5e5;}
-
+.listSlideContainer a:visited{ color:#2A98DA}
 

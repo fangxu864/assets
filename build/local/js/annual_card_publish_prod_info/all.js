@@ -298,6 +298,10 @@
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
 				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			},
+			//会员详情页面
+			memdetail : {
+				detail : "/r/product_AnnualCard/getMemberDetail/"
 			}
 		},
 		defaults : {

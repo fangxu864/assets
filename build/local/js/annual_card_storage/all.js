@@ -53,7 +53,7 @@
 	__webpack_require__(86);
 	var item_tpl = __webpack_require__(88);
 	var Api = __webpack_require__(5);
-	var PaginationSimple = __webpack_require__(47);
+	var PaginationSimple = __webpack_require__(46);
 	var MainView = Backbone.View.extend({
 		el : $("#cardContainer"),
 		__cache : {},
@@ -259,6 +259,10 @@
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
 				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			},
+			//会员详情页面
+			memdetail : {
+				detail : "/r/product_AnnualCard/getMemberDetail/"
 			}
 		},
 		defaults : {
@@ -277,7 +281,7 @@
 
 /***/ },
 
-/***/ 47:
+/***/ 46:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -285,7 +289,7 @@
 	 * Date: 2016/6/16 10:18
 	 * Description: ""
 	 */
-	__webpack_require__(48);
+	__webpack_require__(47);
 	var Defaults = {
 		container : "",               //组件要渲染到的容器
 		onNext : function(){},        //要到下一页时触发回调
@@ -317,7 +321,7 @@
 	Pagination.prototype = {
 		init : function(opt){
 			var that = this;
-			this.tpl = __webpack_require__(50);
+			this.tpl = __webpack_require__(49);
 			this.container = typeof opt.container=="string" ? $("#"+opt.container.replace(/#/,"")) : opt.container;
 			this.container.hide().html(this.tpl);
 			this.currentPage = this.container.find(".whichPageInp");
@@ -446,14 +450,14 @@
 
 /***/ },
 
-/***/ 48:
+/***/ 47:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 50:
+/***/ 49:
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigationBar\">\r\n    <div class=\"navCon\">\r\n        <a href=\"javascript:void(0)\" class=\"navBtn next nextPageBtn disable\"><span class=\"iconfont\">&#xe60d;</span></a>\r\n        <a href=\"javascript:void(0)\" class=\"prevPageBtn navBtn prev disable\"><span class=\"iconfont\">&#xe60c;</span></a>\r\n        <div class=\"which\">\r\n            <span class=\"whichPageInp pagenum\">1</span>\r\n            <span class=\"var\"> / </span>\r\n            <span class=\"totalPageInp pagenum\">1</span>\r\n        </div>\r\n    </div>\r\n    <p style=\"display:none\" class=\"tip keyupTip\">亲，可以使用键盘前后方向键来翻页哟</p>\r\n</div>";

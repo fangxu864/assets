@@ -1,0 +1,79 @@
+<% var member=data.member, list=data.list || [], history=data.history; %>
+<% var statusTxt = {"1":"正常","0":"未激活","2":"挂失","4":"禁用"}; %>
+<div class="memberBox" style="background:#e2f6fe">
+    <span class="memberH">H</span>
+    <ul class="memUl">
+        <li>
+            <p><span class="memL">会员名称：</span><span class="memR"><%=member.account%></span></p>
+        </li>
+        <li>
+            <p><span class="memL">手机号：</span><span class="memR"><%=member.mobile%></span></p>
+        </li>
+    </ul>
+</div>
+<div style="background:#fff" class="memberBox">
+    <ul class="memUl marL-70">
+        <%_.each(list,function(item){%>
+            <li>
+                <p><span class="memL">虚拟卡号：</span><span class="memR"><%=item.virtual_no%></span></p>
+                <p><span class="memL">实体卡号：</span><span class="memR"><%=item.card_no%></span></p>
+                <p><span class="memL">物理ID：</span><span class="memR"><%=item.physics_no%></span></p>
+                <!--<p><span class="memL">可用优惠券：</span><span class="memR">0</span></p>-->
+                <p><span class="memL">发卡商户：</span><span class="memR"><%=item.supply%></span></p>
+            </li>
+            <li>
+                <p><span class="memL">卡套餐：</span><span class="memR">厦门先行年卡套餐</span></p>
+                <p><span class="memL">有效期：</span><span class="memR"><%=item.valid_time%></span></p>
+                <div class="memLine">
+                    <span class="memL">已用特权：</span>
+                    <div class="memR">
+                        <%_.each(item.priv,function(priv){%>
+                            <p><%=priv.title%> <%=priv.use%></p>
+                        <%})%>
+                    </div>
+                </div>
+                <p><span class="memL">状态：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate"><%=statusTxt[item.status]%></a></span></p>
+                <p><span class="memL">备注：</span></p>
+            </li>
+        <%})%>
+    </ul>
+</div>
+<div class="historyContainer" style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5">
+    <p class="useHistory border-top">使用记录</p>
+    <table class="memTable">
+        <thead>
+            <tr class="border-bottom bg-gray">
+                <th>订单号</th>
+                <th>产品</th>
+                <th>虚拟卡号</th>
+                <th>订单总额</th>
+                <th>套餐特权</th>
+                <th>优惠券</th>
+                <th>余额支付</th>
+                <th>下单时间</th>
+            </tr>
+        </thead>
+        <tbody style="background:#fff">
+            <% if(history.lenght){ %>
+                <%_.each(history,function(hist){%>
+                <tr class="border-bottom">
+                    <td class="font-blue">4654546</td>
+                    <td>XXXXXXXXX景区-成人票-1张</td>
+                    <td></td>
+                    <td></td>
+                    <td class="font-orange">-100</td>
+                    <td class="font-orange">-10</td>
+                    <td class="font-orange">123</td>
+                    <td>2016/05/06 12:00</td>
+                </tr>
+                <% }) %>
+            <% }else{ %>
+                <tr>
+                    <td style="text-align:center; height:300px" colspan="8">暂无使用记录...</td>
+                </tr>
+            <% } %>
+
+        </tbody>
+    </table>
+</div>
+
