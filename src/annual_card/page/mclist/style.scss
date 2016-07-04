@@ -13,7 +13,7 @@ select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text
 .activaCard{@include btn-inline-block(135,$btnHeight,$green); font-size:14px; float:right; margin:12px 13px 0 0;}
 .activaCard:link,.query:link,.active:link{ color:white;}
 .manageState{ height:115px; padding-left:24px; border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5}
-.manageState .clearSearchBtn{ position:absolute; z-index:1; top:-1px; left:420px; width:30px; height:30px; cursor:pointer; color:#aaa; line-height:30px; text-align:center}
+.manageState .clearSearchBtn{ position:absolute; z-index:1; top:-1px; left:218px; width:30px; height:30px; cursor:pointer; color:#aaa; line-height:30px; text-align:center}
 .manageState .clearSearchBtn .iconfont{ font-size:18px;}
 
 .cardType{@include btn-inline-block(131,28,transparent);font-size:14px; margin-top:13px;}
@@ -24,7 +24,9 @@ select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text
 .query{@include btn-inline-block(87,28,$orange); font-size:14px; margin-top:-4px;}
 .listItemTable{ width:100%; background:#fff;  border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5}
 .listItemTable thead tr{ line-height:36px; background:#e5e5e5;}
-.listItemTable tbody tr{ line-height:46px;}
+.listItemTable tbody .listItem{ line-height:52px;}
+.listItemTable tbody .listItem.even{ background:#fcfcfc}
+.listItemTable tbody .listItem:hover{ background:#fcfcfc}
 .listItemTable tr td:first-of-type,.listItemTable tr th:first-of-type{ text-indent:24px;}
 .listItemTable .doBtn:hover{ text-decoration:underline}
 .pageBox{ height:28px; padding:9px 10px; font-size:14px;}

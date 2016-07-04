@@ -70,7 +70,7 @@
 			this.cardInp = $("#cardInp");
 			this.readCardBtn = $("#readCardBtn");
 			this.getVCodeBtn = $("#getVCodeBtn");
-			this.idCardInp = $("#idCardInp");
+			this.idCardInp = $("#idNum");
 			this.cardInfoBar = $("#cardInfoBar").hide();
 			this.mobileInp = $("#mobileInp");
 			this.vcodeInp = $("#vcodeInp");
@@ -90,7 +90,7 @@
 			this.cardInp.val(cardval);
 			if(!cardval) return alert("读卡失败");
 			this.cardHasReaded[cardval] = 1;
-			this.getCardInfo(cardval,"physics")
+			this.getCardInfo(cardval,"physics");
 		},
 		//点击获取验证码
 		onGetVCodeBtnClick : function(e){
@@ -374,7 +374,7 @@
 			//库存明细页
 			storage : {
 				//获取库存列表
-				getList : "/r/product_AnnualCard/getMemberList/",
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
@@ -387,6 +387,10 @@
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
 				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			},
+			//会员卡列表管理
+			mclist : {
+				getList : "/r/product_AnnualCard/getMemberList/"
 			},
 			//会员详情页面
 			memdetail : {
@@ -458,7 +462,6 @@
 		this.submitData = {};
 		this.SDialog = new SDialog({
 			width : 520,
-			height : 280,
 			content : tpl,
 			drag : true,
 			events : {
@@ -478,12 +481,25 @@
 			var idCard = opt.idCard;
 			var name = opt.name;
 			var left = opt.left;
+			var result = "";
+			if(Object.prototype.toString.call(left)=="[object Array]"){
+				result = '<p class="pname">'+name+'</p>';
+				for(var i in left){
+					var lef = left[i];
+					var ltitle = lef.ltitle;
+					var title = lef.title;
+					var left_num = lef.left;
+					result += '<p class="lname">'+ltitle+" "+title+'（'+left_num+'）</p>';
+				}
+			}else{
+				result = name+"（"+left+"）";
+			}
 			this.submitData = opt.submitData;
 			this.SDialog.open({
 				onBefore : function(){
 					$("#existDialog_mobile").text(mobile);
 					$("#existDialog_idCard").text(idCard);
-					$("#existDialog_name").text(name+"（"+left+"）");
+					$("#existDialog_name").html(result);
 				}
 			});
 		},
@@ -1113,7 +1129,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">取消</a>\r\n    </div>\r\n</div>";
 
 /***/ }
 /******/ ]);

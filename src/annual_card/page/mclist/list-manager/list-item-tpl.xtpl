@@ -5,7 +5,8 @@
 %>
 <% if(list.length){ %>
     <% _.each(list,function(item,index){ %>
-        <tr>
+        <% var cls = (index+1)%2==0 ? "even" : "odd"; %>
+        <tr class="listItem <%=cls%>">
             <% if(status==0){ %>
                 <td><%=item.sale_time%></td>
             <% }else{ %>
@@ -17,8 +18,8 @@
             <td><%={"1":"正常","0":"未激活","2":"挂失","4":"禁用"}[item.status]%></td>
             <td class="font-blue doAction">
                 <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
-                <a style="margin-right:8px" class="doBtn loss" href="javascript:void(0);">挂失</a>
-                <a href="javascript:void(0);" class="doBtn inavail">禁用</a>
+                <a style="display:none;margin-right:8px" class="doBtn loss" href="javascript:void(0);">挂失</a>
+                <a style="display:none" href="javascript:void(0);" class="doBtn inavail">禁用</a>
             </td>
         </tr>
     <% }) %>

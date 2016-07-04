@@ -11,7 +11,6 @@ var Dialog = function(){
 	this.submitData = {};
 	this.SDialog = new SDialog({
 		width : 520,
-		height : 280,
 		content : tpl,
 		drag : true,
 		events : {
@@ -31,12 +30,25 @@ Dialog.prototype = {
 		var idCard = opt.idCard;
 		var name = opt.name;
 		var left = opt.left;
+		var result = "";
+		if(Object.prototype.toString.call(left)=="[object Array]"){
+			result = '<p class="pname">'+name+'</p>';
+			for(var i in left){
+				var lef = left[i];
+				var ltitle = lef.ltitle;
+				var title = lef.title;
+				var left_num = lef.left;
+				result += '<p class="lname">'+ltitle+" "+title+'（'+left_num+'）</p>';
+			}
+		}else{
+			result = name+"（"+left+"）";
+		}
 		this.submitData = opt.submitData;
 		this.SDialog.open({
 			onBefore : function(){
 				$("#existDialog_mobile").text(mobile);
 				$("#existDialog_idCard").text(idCard);
-				$("#existDialog_name").text(name+"（"+left+"）");
+				$("#existDialog_name").html(result);
 			}
 		});
 	},

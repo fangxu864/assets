@@ -14,6 +14,7 @@ var Submit = Backbone.View.extend({
 		var ttitle = $("#pckTitListUlItem_"+pckId).find(".editNameInp").val();
 		ttitle = $.trim(ttitle);
 		if(!ttitle) return this.errorHander(pckId,"套餐名称不能为空");
+		if(ttitle.length>20) return this.errorHander(pckId,"套餐名称不能超过30个字符");
 		data["ttitle"] = ttitle;
 
 		//预定时间段
@@ -54,6 +55,21 @@ var Submit = Backbone.View.extend({
 				price_section_result.error = "零售价请填写不小于0的数值（可以精确到分）";
 				return false;
 			}
+			if(json["js"]>json["ls"]){
+				price_section_result.is_ok = false;
+				price_section_result.error = "供货价不得大于零售价";
+				return false;
+			}
+			if(String(json["js"]).indexOf(".")>-1){
+				price_section_result.is_ok = false;
+				price_section_result.error = "供货价最多只能精确到分";
+				return false;
+			}
+			if(String(json["ls"]).indexOf(".")>-1){
+				price_section_result.is_ok = false;
+				price_section_result.error = "零售价最多只能精确到分";
+				return false;
+			}
 		})
 
 		if(!price_section_result.is_ok) return this.errorHander(pckId,price_section_result.error);
@@ -61,6 +77,7 @@ var Submit = Backbone.View.extend({
 
 		var tprice = $.trim(container.find(".priceSectionLine").first().find("input[name=tprice]").val()); //门市价
 		if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
+		if(String(tprice*100).indexOf(".")>-1) return this.errorHander(pckId,"门市价最多只能精确到分");
 		data["tprice"] = tprice;
 
 

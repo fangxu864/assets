@@ -52,7 +52,7 @@ var Api = {
 		//库存明细页
 		storage : {
 			//获取库存列表
-			getList : "/r/product_AnnualCard/getMemberList/",
+			getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 			//删除生成好的卡片
 			deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 		},
@@ -65,6 +65,10 @@ var Api = {
 			checkCard : "/r/product_AnnualCard/activeCheck/",
 			getVCode : "/r/product_AnnualCard/sendVcode/",
 			activateForPc : "/r/product_AnnualCard/activateForPc/"
+		},
+		//会员卡列表管理
+		mclist : {
+			getList : "/r/product_AnnualCard/getMemberList/"
 		},
 		//会员详情页面
 		memdetail : {

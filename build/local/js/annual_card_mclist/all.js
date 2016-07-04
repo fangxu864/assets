@@ -130,7 +130,7 @@
 			//库存明细页
 			storage : {
 				//获取库存列表
-				getList : "/r/product_AnnualCard/getMemberList/",
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
@@ -143,6 +143,10 @@
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
 				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			},
+			//会员卡列表管理
+			mclist : {
+				getList : "/r/product_AnnualCard/getMemberList/"
 			},
 			//会员详情页面
 			memdetail : {
@@ -337,7 +341,7 @@
 			//挂失状态
 			4 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"]
 		},
-		PAGE_SIZE : 10,
+		PAGE_SIZE : 15,
 		initialize : function(opt){
 			opt = opt || {};
 			var that = this;
@@ -436,7 +440,7 @@
 		getList : function(status,page,keyword){
 			var that = this;
 			var container = $("#listItemLi_"+status).find(".tbody");
-			PFT.Util.Ajax(Api.Url.storage.getList,{
+			PFT.Util.Ajax(Api.Url.mclist.getList,{
 				params : {
 					status : status,
 					page : page,
@@ -472,7 +476,7 @@
 								colspan : that.tableTh[status].length
 							}});
 							$("#tbody_"+status).html(html);
-	
+							
 						}else{
 							alert("请求出错，缺少list对象");
 						}
@@ -508,7 +512,7 @@
 /* 45 */
 /***/ function(module, exports) {
 
-	module.exports = "<%\r\n   var status = data.status;\r\n   var list = data.list;\r\n   var colspan = data.colspan;\r\n%>\r\n<% if(list.length){ %>\r\n    <% _.each(list,function(item,index){ %>\r\n        <tr>\r\n            <% if(status==0){ %>\r\n                <td><%=item.sale_time%></td>\r\n            <% }else{ %>\r\n                <td><%=item.account%></td>\r\n                <td><%=item.mobile%></td>\r\n            <% } %>\r\n            <td><%=item.virtual_no%> / <%=item.card_no%></td>\r\n            <td><%=item.supply%></td>\r\n            <td><%={\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"挂失\",\"4\":\"禁用\"}[item.status]%></td>\r\n            <td class=\"font-blue doAction\">\r\n                <a style=\"margin-right:8px\" class=\"doBtn detail\" target=\"_blank\" href=\"annual_memdetail.html?id=<%=item.memberid%>\">查看</a>\r\n                <a style=\"margin-right:8px\" class=\"doBtn loss\" href=\"javascript:void(0);\">挂失</a>\r\n                <a href=\"javascript:void(0);\" class=\"doBtn inavail\">禁用</a>\r\n            </td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n    <tr>\r\n        <td colspan=\"<%=colspan%>\" style=\"height:300px; text-align:center\">查无匹配内容...</td>\r\n    </tr>\r\n<% } %>";
+	module.exports = "<%\r\n   var status = data.status;\r\n   var list = data.list;\r\n   var colspan = data.colspan;\r\n%>\r\n<% if(list.length){ %>\r\n    <% _.each(list,function(item,index){ %>\r\n        <% var cls = (index+1)%2==0 ? \"even\" : \"odd\"; %>\r\n        <tr class=\"listItem <%=cls%>\">\r\n            <% if(status==0){ %>\r\n                <td><%=item.sale_time%></td>\r\n            <% }else{ %>\r\n                <td><%=item.account%></td>\r\n                <td><%=item.mobile%></td>\r\n            <% } %>\r\n            <td><%=item.virtual_no%> / <%=item.card_no%></td>\r\n            <td><%=item.supply%></td>\r\n            <td><%={\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"挂失\",\"4\":\"禁用\"}[item.status]%></td>\r\n            <td class=\"font-blue doAction\">\r\n                <a style=\"margin-right:8px\" class=\"doBtn detail\" target=\"_blank\" href=\"annual_memdetail.html?id=<%=item.memberid%>\">查看</a>\r\n                <a style=\"display:none;margin-right:8px\" class=\"doBtn loss\" href=\"javascript:void(0);\">挂失</a>\r\n                <a style=\"display:none\" href=\"javascript:void(0);\" class=\"doBtn inavail\">禁用</a>\r\n            </td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n    <tr>\r\n        <td colspan=\"<%=colspan%>\" style=\"height:300px; text-align:center\">查无匹配内容...</td>\r\n    </tr>\r\n<% } %>";
 
 /***/ },
 /* 46 */

@@ -24,7 +24,7 @@ var MainView = Backbone.View.extend({
 		this.cardInp = $("#cardInp");
 		this.readCardBtn = $("#readCardBtn");
 		this.getVCodeBtn = $("#getVCodeBtn");
-		this.idCardInp = $("#idCardInp");
+		this.idCardInp = $("#idNum");
 		this.cardInfoBar = $("#cardInfoBar").hide();
 		this.mobileInp = $("#mobileInp");
 		this.vcodeInp = $("#vcodeInp");
@@ -44,7 +44,7 @@ var MainView = Backbone.View.extend({
 		this.cardInp.val(cardval);
 		if(!cardval) return alert("读卡失败");
 		this.cardHasReaded[cardval] = 1;
-		this.getCardInfo(cardval,"physics")
+		this.getCardInfo(cardval,"physics");
 	},
 	//点击获取验证码
 	onGetVCodeBtnClick : function(e){

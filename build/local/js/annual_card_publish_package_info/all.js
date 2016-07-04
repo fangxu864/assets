@@ -168,7 +168,7 @@
 			//库存明细页
 			storage : {
 				//获取库存列表
-				getList : "/r/product_AnnualCard/getMemberList/",
+				getList : "/r/product_AnnualCard/getAnnualCardStorage/",
 				//删除生成好的卡片
 				deleteAnnualCard : "/r/product_AnnualCard/deleteAnnualCard/"
 			},
@@ -181,6 +181,10 @@
 				checkCard : "/r/product_AnnualCard/activeCheck/",
 				getVCode : "/r/product_AnnualCard/sendVcode/",
 				activateForPc : "/r/product_AnnualCard/activateForPc/"
+			},
+			//会员卡列表管理
+			mclist : {
+				getList : "/r/product_AnnualCard/getMemberList/"
 			},
 			//会员详情页面
 			memdetail : {
@@ -1606,6 +1610,7 @@
 			var ttitle = $("#pckTitListUlItem_"+pckId).find(".editNameInp").val();
 			ttitle = $.trim(ttitle);
 			if(!ttitle) return this.errorHander(pckId,"套餐名称不能为空");
+			if(ttitle.length>20) return this.errorHander(pckId,"套餐名称不能超过30个字符");
 			data["ttitle"] = ttitle;
 	
 			//预定时间段
@@ -1646,6 +1651,21 @@
 					price_section_result.error = "零售价请填写不小于0的数值（可以精确到分）";
 					return false;
 				}
+				if(json["js"]>json["ls"]){
+					price_section_result.is_ok = false;
+					price_section_result.error = "供货价不得大于零售价";
+					return false;
+				}
+				if(String(json["js"]).indexOf(".")>-1){
+					price_section_result.is_ok = false;
+					price_section_result.error = "供货价最多只能精确到分";
+					return false;
+				}
+				if(String(json["ls"]).indexOf(".")>-1){
+					price_section_result.is_ok = false;
+					price_section_result.error = "零售价最多只能精确到分";
+					return false;
+				}
 			})
 	
 			if(!price_section_result.is_ok) return this.errorHander(pckId,price_section_result.error);
@@ -1653,6 +1673,7 @@
 	
 			var tprice = $.trim(container.find(".priceSectionLine").first().find("input[name=tprice]").val()); //门市价
 			if(isNaN(tprice) || tprice=="" || tprice<0) return this.errorHander(pckId,"门市价请填写不小于0的数值（可以精确到分）");
+			if(String(tprice*100).indexOf(".")>-1) return this.errorHander(pckId,"门市价最多只能精确到分");
 			data["tprice"] = tprice;
 	
 	

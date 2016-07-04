@@ -26,7 +26,7 @@ var Manager = Backbone.View.extend({
 		//挂失状态
 		4 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"]
 	},
-	PAGE_SIZE : 10,
+	PAGE_SIZE : 15,
 	initialize : function(opt){
 		opt = opt || {};
 		var that = this;
@@ -125,7 +125,7 @@ var Manager = Backbone.View.extend({
 	getList : function(status,page,keyword){
 		var that = this;
 		var container = $("#listItemLi_"+status).find(".tbody");
-		PFT.Util.Ajax(Api.Url.storage.getList,{
+		PFT.Util.Ajax(Api.Url.mclist.getList,{
 			params : {
 				status : status,
 				page : page,
@@ -161,7 +161,7 @@ var Manager = Backbone.View.extend({
 							colspan : that.tableTh[status].length
 						}});
 						$("#tbody_"+status).html(html);
-
+						
 					}else{
 						alert("请求出错，缺少list对象");
 					}

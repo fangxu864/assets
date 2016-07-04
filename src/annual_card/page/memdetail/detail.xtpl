@@ -11,9 +11,9 @@
         </li>
     </ul>
 </div>
-<div style="background:#fff" class="memberBox">
+<%_.each(list,function(item){%>
+<div style="background:#fff; border-top:1px solid #e5e5e5" class="memberBox">
     <ul class="memUl marL-70">
-        <%_.each(list,function(item){%>
             <li>
                 <p><span class="memL">虚拟卡号：</span><span class="memR"><%=item.virtual_no%></span></p>
                 <p><span class="memL">实体卡号：</span><span class="memR"><%=item.card_no%></span></p>
@@ -22,7 +22,7 @@
                 <p><span class="memL">发卡商户：</span><span class="memR"><%=item.supply%></span></p>
             </li>
             <li>
-                <p><span class="memL">卡套餐：</span><span class="memR">厦门先行年卡套餐</span></p>
+                <p><span class="memL">卡套餐：</span><span class="memR">无</span></p>
                 <p><span class="memL">有效期：</span><span class="memR"><%=item.valid_time%></span></p>
                 <div class="memLine">
                     <span class="memL">已用特权：</span>
@@ -35,9 +35,9 @@
                 <p><span class="memL">状态：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate"><%=statusTxt[item.status]%></a></span></p>
                 <p><span class="memL">备注：</span></p>
             </li>
-        <%})%>
     </ul>
 </div>
+<%})%>
 <div class="historyContainer" style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5">
     <p class="useHistory border-top">使用记录</p>
     <table class="memTable">
@@ -72,7 +72,6 @@
                     <td style="text-align:center; height:300px" colspan="8">暂无使用记录...</td>
                 </tr>
             <% } %>
-
         </tbody>
     </table>
 </div>
