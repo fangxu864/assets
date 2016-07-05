@@ -6,7 +6,6 @@
 require("./annual_dialog.scss");
 var SDialog = require("COMMON/modules/dialog-simple");
 var dialogTpl = require("./dialog.xtpl");
-var ReadCardObj = require("../../common/readPhysicsCard.js");
 var Api = require("../../common/api.js");
 var Ajax = require("COMMON/js/util.ajax.js");
 var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
@@ -28,9 +27,6 @@ AnnualCardBuyDialog.prototype = {
 			content : dialogTpl,
 			drag : true,
 			events : {
-				"click #readCardBtn" : function(e){
-					that.onReadCardBtnClick(e);
-				},
 				"click #buyBtn_card" : function(e){
 					var tarBtn = $(e.currentTarget);
 					if(tarBtn.hasClass("disable")) return false;
@@ -43,6 +39,17 @@ AnnualCardBuyDialog.prototype = {
 					var tarBtn = $(e.currentTarget);
 					if(tarBtn.hasClass("disable")) return false;
 					window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics=";
+				},
+				"click #clearCardInpBtn" : function(e){
+					var tarBtn = $(e.currentTarget);
+					var inp = $("#cardNumberInp");
+					inp.val("").focus();
+					tarBtn.hide();
+				},
+				"keyup #cardNumberInp" : function(e){
+					var keycode = e.keyCode;
+					if(keycode!=13) return false;
+					that.onCardNumberInpKeyup(e);
 				}
 			},
 			onOpenBefore : function(){
@@ -68,12 +75,14 @@ AnnualCardBuyDialog.prototype = {
 				that.sid = "";
 			}
 		})
-		setTimeout(function(){
-			that.readCardObj = new ReadCardObj({id:"readCardObj"});
-		},100)
+		//setTimeout(function(){
+		//	that.readCardObj = new ReadCardObj({id:"readCardObj"});
+		//},100)
 	},
-	onReadCardBtnClick : function(e){
-		var card_number = this.readCardObj.read();
+	onCardNumberInpKeyup : function(e){
+		var tarInp = $(e.currentTarget);
+		var card_number = $.trim(tarInp.val());
+		$("#clearCardInpBtn").show();
 		if(card_number){
 			if(!this.hasReadCards[card_number]){
 				$("#cardNumberInp").val(card_number);

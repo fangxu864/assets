@@ -14,22 +14,22 @@ var Dialog = Backbone.View.extend({
 		this.dialogBox = this.createDialog();
 		this.mask = this.createMask();
 		this.readCardObj = document.getElementById("readCardObj");
-		this.readCardObj.OnReadEvent = function(args){
-			alert("读卡事件");
-			alert(args);
-		}
-		this.readCardObj.OnErrorEvent = function(args){
-			alert("读卡错误事件");
-			alert(args)
-		}
-		$("#readCardBtn").on("click",function(e){
-			that.readwuKa(e);
-		})
 		$("#dialogCloseBtn").on("click",function(e){
 			that.close();
 		})
 		$("#relateCardBtn").on("click",function(e){
 			that.relateCard(e);
+		})
+		$("#clearCardInpBtn").on("click",function(e){
+			var inp = $("#physic_no_Inp");
+			inp.val("").focus();
+			$(e.currentTarget).hide();
+		})
+		$("#physic_no_Inp").on("keyup",function(e){
+			var tarInp = $(e.currentTarget);
+			var keycode = e.keyCode;
+			if(keycode!=13) return false;
+			$("#clearCardInpBtn").show();
 		})
 	},
 	//关联卡

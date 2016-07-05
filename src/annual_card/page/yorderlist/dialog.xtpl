@@ -4,9 +4,10 @@
             <div class="bl border-right">
                 <p class="entity">实体卡购买</p>
                 <div class="enBox">
-                    <object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
-                    <div class="readCardNumber">
-                        <input id="cardNumberInp" readonly="" type="text" class="CardNumberInp" placeholder="将卡片放于刷卡器上，点击“读取卡号”"/><span style="cursor:pointer" class="btn btn-border CardNumberBtn" id="readCardBtn">读取卡号</span>
+                    <!--<object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>-->
+                    <div style="position:relative" class="readCardNumber">
+                        <input id="cardNumberInp" type="text" class="CardNumberInp" placeholder="将卡片放于刷卡器上，点击“读取卡号”"/><span class="btn btn-border CardNumberBtn" id="readCardBtn">读取卡号</span>
+                        <div id="clearCardInpBtn" class="clearCardInpBtn"><i class="iconfont">&#xe674;</i></div>
                     </div>
                     <p class="font-red carded"></p>
                     <div class="entityBox">

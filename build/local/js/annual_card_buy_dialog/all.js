@@ -52,7 +52,6 @@
 	__webpack_require__(18);
 	var SDialog = __webpack_require__(10);
 	var dialogTpl = __webpack_require__(20);
-	var ReadCardObj = __webpack_require__(6);
 	var Api = __webpack_require__(5);
 	var Ajax = __webpack_require__(21);
 	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
@@ -74,9 +73,6 @@
 				content : dialogTpl,
 				drag : true,
 				events : {
-					"click #readCardBtn" : function(e){
-						that.onReadCardBtnClick(e);
-					},
 					"click #buyBtn_card" : function(e){
 						var tarBtn = $(e.currentTarget);
 						if(tarBtn.hasClass("disable")) return false;
@@ -89,6 +85,17 @@
 						var tarBtn = $(e.currentTarget);
 						if(tarBtn.hasClass("disable")) return false;
 						window.location.href = that.orderPage + "?pid="+that.pid + "&aid="+that.aid + "&physics=";
+					},
+					"click #clearCardInpBtn" : function(e){
+						var tarBtn = $(e.currentTarget);
+						var inp = $("#cardNumberInp");
+						inp.val("").focus();
+						tarBtn.hide();
+					},
+					"keyup #cardNumberInp" : function(e){
+						var keycode = e.keyCode;
+						if(keycode!=13) return false;
+						that.onCardNumberInpKeyup(e);
 					}
 				},
 				onOpenBefore : function(){
@@ -114,12 +121,14 @@
 					that.sid = "";
 				}
 			})
-			setTimeout(function(){
-				that.readCardObj = new ReadCardObj({id:"readCardObj"});
-			},100)
+			//setTimeout(function(){
+			//	that.readCardObj = new ReadCardObj({id:"readCardObj"});
+			//},100)
 		},
-		onReadCardBtnClick : function(e){
-			var card_number = this.readCardObj.read();
+		onCardNumberInpKeyup : function(e){
+			var tarInp = $(e.currentTarget);
+			var card_number = $.trim(tarInp.val());
+			$("#clearCardInpBtn").show();
 			if(card_number){
 				if(!this.hasReadCards[card_number]){
 					$("#cardNumberInp").val(card_number);
@@ -279,40 +288,7 @@
 
 
 /***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	/**
-	 * Author: huangzhiyang
-	 * Date: 2016/6/24 17:28
-	 * Description: ""
-	 */
-	function readPhysicsCard(opt){
-		opt = opt || {};
-		this.id = opt.id;
-		if(!this.id) throw Error("缺少id");
-		this.readObj = document.getElementById(this.id);
-		//<object classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="readCardObj"></object>
-	}
-	readPhysicsCard.prototype = {
-		read : function(){
-			var readCardObj = this.readObj;
-			if(!readCardObj){
-				alert("请使用IE浏览器读物理卡号");
-				return "";
-			}
-			if(typeof readCardObj.open!="number" && typeof readCardObj.ICReaderRequest!="string"){
-				alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
-				return "";
-			}
-			readCardObj.open();
-			var val = readCardObj.ICReaderRequest();
-			return val || "";
-		}
-	};
-	module.exports = readPhysicsCard;
-
-/***/ },
+/* 6 */,
 /* 7 */,
 /* 8 */,
 /* 9 */,
@@ -925,7 +901,7 @@
 /* 20 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <div class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" readonly=\"\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span style=\"cursor:pointer\" class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <!--<object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>-->\r\n                    <div style=\"position:relative\" class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上，点击“读取卡号”\"/><span class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>\r\n                        <div id=\"clearCardInpBtn\" class=\"clearCardInpBtn\"><i class=\"iconfont\">&#xe674;</i></div>\r\n                    </div>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 21 */

@@ -17,7 +17,8 @@ var MainView = Backbone.View.extend({
 		"click #activateBtn" : "onActiveBtnClick",
 		//"blur .textInp" : "onTextInpBlur",
 		"focus .textInp" : "onTextInpFocus",
-		"keyup #cardInp" : "onCardInpKeyup"
+		"keyup #cardInp" : "onCardInpKeyup",
+		"click #clearCardInpBtn" : "onClearCardInpBtnClick"
 	},
 	initialize : function(){
 		var that = this;
@@ -36,14 +37,6 @@ var MainView = Backbone.View.extend({
 			that.submit("replace");
 			this.close();
 		})
-	},
-	//点击读卡
-	onReadCardBtnClick : function(e){
-		if($(e.currentTarget).hasClass("disable")) return false;
-		var cardval = this.ReadPhysicsCard.read();
-		this.cardInp.val(cardval);
-		if(!cardval) return alert("读卡失败");
-		this.getCardInfo(cardval,"physics");
 	},
 	//点击获取验证码
 	onGetVCodeBtnClick : function(e){
@@ -93,25 +86,20 @@ var MainView = Backbone.View.extend({
 			tarInp.siblings(".tip").removeClass("error").hide();
 		}
 	},
+	onClearCardInpBtnClick : function(e){
+		this.cardInp.val("").focus();
+		$(e.currentTarget).hide();
+	},
 	onCardInpKeyup : function(e){
 		var tarInp = $(e.currentTarget);
 		var val = tarInp.val();
 		var keycode = e.keyCode;
+		var clearBtn = $("#clearCardInpBtn");
 		if(keycode!=13) return false;
-
+		val ? clearBtn.show() : clearBtn.hide();
+		this.getCardInfo(val,"physics");
 	},
 	validator : {
-		card : function(){
-			var tarInp = this.cardInp;
-			var val = $.trim(tarInp.val());
-			var cardInfoBar = this.cardInfoBar;
-			if(!val){
-				cardInfoBar.show().addClass("error").html("请输入卡号或直接用读卡器读取卡号");
-			}else{
-				cardInfoBar.hide().removeClass("error");
-				this.getCardInfo(val,"other");
-			}
-		},
 		mobile : function(){
 			var mobileInp = this.mobileInp;
 			var mobile = $.trim(mobileInp.val());

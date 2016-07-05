@@ -476,22 +476,22 @@
 			this.dialogBox = this.createDialog();
 			this.mask = this.createMask();
 			this.readCardObj = document.getElementById("readCardObj");
-			this.readCardObj.OnReadEvent = function(args){
-				alert("读卡事件");
-				alert(args);
-			}
-			this.readCardObj.OnErrorEvent = function(args){
-				alert("读卡错误事件");
-				alert(args)
-			}
-			$("#readCardBtn").on("click",function(e){
-				that.readwuKa(e);
-			})
 			$("#dialogCloseBtn").on("click",function(e){
 				that.close();
 			})
 			$("#relateCardBtn").on("click",function(e){
 				that.relateCard(e);
+			})
+			$("#clearCardInpBtn").on("click",function(e){
+				var inp = $("#physic_no_Inp");
+				inp.val("").focus();
+				$(e.currentTarget).hide();
+			})
+			$("#physic_no_Inp").on("keyup",function(e){
+				var tarInp = $(e.currentTarget);
+				var keycode = e.keyCode;
+				if(keycode!=13) return false;
+				$("#clearCardInpBtn").show();
 			})
 		},
 		//关联卡
@@ -598,7 +598,7 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"dialogBoxContainerCon\">\r\n    <div class=\"charge border\" id=\"chaBox\">\r\n        <div id=\"dialog-slideStage\" class=\"slideStage\">\r\n            <div style=\"top:0px\" class=\"slideCon\">\r\n                <!--<div style=\"margin-top:18px\" class=\"cha slideItem\">-->\r\n                    <!--<h1 class=\"entry\">请刷卡！</h1>-->\r\n                    <!--<h2 style=\"display:none\" id=\"cardExitTip\" class=\"font-red\">已存在</h2>-->\r\n                <!--</div>-->\r\n                <div class=\"cha slideItem\">\r\n                    <object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>\r\n                    <p style=\"margin-bottom:10px\" class=\"font-gray line-40\">\r\n                        物理ID：<input readonly=\"\" type=\"text\" name=\"\" id=\"physic_no_Inp\"/>\r\n                        <a href=\"javascript:void(0)\" style=\"color:#008EC1\" id=\"readCardBtn\">读卡</a>\r\n                    </p>\r\n                    <div class=\"relaBox\">\r\n                        <input id=\"cardNumberInput\" type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\" class=\"guanInp\"/>\r\n                        <a id=\"relateCardBtn\" href=\"javascript:void(0);\" class=\"btn btn-orange\">关联</a>\r\n                    </div>\r\n                    <p style=\"color:#bfbfbf; margin-top:5px;\">请确保填写的卡号确认无误！</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"enCard\">\r\n            <span>已关联实体卡:\r\n                <span id=\"hasRelatedCount\" class=\"numChild\">2</span><i class=\"letr\">/</i><span id=\"totalRelatedCount\" class=\"numP\">10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>\r\n            <a id=\"dialogCloseBtn\" href=\"javascript:void(0);\" class=\"btn btn-5x btn-blue btn-finish closeBtn\">关闭</a>\r\n        </div>\r\n    </div>\r\n    <!--<div style=\"display:none;\" class=\"charge border\" id=\"guanBox\">-->\r\n        <!--<a href=\"javascript:void(0);\" class=\"btn-del\" style=\"color:#ccc\">×</a>-->\r\n        <!--<div class=\"cha border-bottom\">-->\r\n            <!--<p class=\"font-gray line-40\">物理ID:565666</p>-->\r\n            <!--<div class=\"relaBox\">-->\r\n                <!--<input type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\"class=\"guanInp\"/>-->\r\n                <!--<a href=\"javascript:;\" class=\"btn btn-orange\">关联</a>-->\r\n            <!--</div>-->\r\n        <!--</div>-->\r\n        <!--<div class=\"enCard\">-->\r\n            <!--<span>已关联实体卡:<span class=\"numChild\">2</span><span class=\"numP\">/10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>-->\r\n            <!--<a href=\"javascript:;\" class=\"btn btn-5x btn-blue btn-finish\">完成</a>-->\r\n        <!--</div>-->\r\n    <!--</div>-->\r\n</div>";
+	module.exports = "<div class=\"dialogBoxContainerCon\">\r\n    <div class=\"charge border\" id=\"chaBox\">\r\n        <div id=\"dialog-slideStage\" class=\"slideStage\">\r\n            <div style=\"top:0px\" class=\"slideCon\">\r\n                <!--<div style=\"margin-top:18px\" class=\"cha slideItem\">-->\r\n                    <!--<h1 class=\"entry\">请刷卡！</h1>-->\r\n                    <!--<h2 style=\"display:none\" id=\"cardExitTip\" class=\"font-red\">已存在</h2>-->\r\n                <!--</div>-->\r\n                <div class=\"cha slideItem\">\r\n                    <!--<object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>-->\r\n                    <div style=\"position:relative; margin-bottom:10px\" class=\"font-gray line-40\">\r\n                        物理ID：<input style=\"padding:5px 6px;\" type=\"text\" name=\"\" id=\"physic_no_Inp\"/>\r\n                        <span class=\"readCardBtn\" id=\"\">请用读卡器读卡</span>\r\n                        <div id=\"clearCardInpBtn\" class=\"clearCardInpBtn\"><i class=\"iconfont\">&#xe674;</i></div>\r\n                    </div>\r\n                    <div class=\"relaBox\">\r\n                        <input id=\"cardNumberInput\" type=\"text\"  placeholder=\"请输入实体卡号（卡面号码）\" class=\"guanInp\"/>\r\n                        <a id=\"relateCardBtn\" href=\"javascript:void(0);\" class=\"btn btn-orange\">关联</a>\r\n                    </div>\r\n                    <p style=\"color:#bfbfbf; margin-top:5px;\">请确保填写的卡号确认无误！</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <div class=\"enCard\">\r\n            <span>已关联实体卡:\r\n                <span id=\"hasRelatedCount\" class=\"numChild\">2</span><i class=\"letr\">/</i><span id=\"totalRelatedCount\" class=\"numP\">10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>\r\n            <a id=\"dialogCloseBtn\" href=\"javascript:void(0);\" class=\"btn btn-5x btn-blue btn-finish closeBtn\">关闭</a>\r\n        </div>\r\n    </div>\r\n    <!--<div style=\"display:none;\" class=\"charge border\" id=\"guanBox\">-->\r\n        <!--<a href=\"javascript:void(0);\" class=\"btn-del\" style=\"color:#ccc\">×</a>-->\r\n        <!--<div class=\"cha border-bottom\">-->\r\n            <!--<p class=\"font-gray line-40\">物理ID:565666</p>-->\r\n            <!--<div class=\"relaBox\">-->\r\n                <!--<input type=\"text\" placeholder=\"请输入实体卡号（卡面号码）\"class=\"guanInp\"/>-->\r\n                <!--<a href=\"javascript:;\" class=\"btn btn-orange\">关联</a>-->\r\n            <!--</div>-->\r\n        <!--</div>-->\r\n        <!--<div class=\"enCard\">-->\r\n            <!--<span>已关联实体卡:<span class=\"numChild\">2</span><span class=\"numP\">/10</span><span class=\"font-gray\">（不关联实体卡亦可）</span></span>-->\r\n            <!--<a href=\"javascript:;\" class=\"btn btn-5x btn-blue btn-finish\">完成</a>-->\r\n        <!--</div>-->\r\n    <!--</div>-->\r\n</div>";
 
 /***/ },
 /* 28 */

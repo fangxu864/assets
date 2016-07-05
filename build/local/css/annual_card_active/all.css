@@ -277,7 +277,7 @@ body{
   position: absolute;
   z-index: 5;
   top: 8px;
-  left: 284px;
+  left: 320px;
   display: none; }
 
 .activate {
@@ -329,6 +329,21 @@ body{
 
 .cardContainer .tip.error {
   color: red; }
+
+#clearCardInpBtn {
+  display: none;
+  position: absolute;
+  top: 1px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer; }
+
+#clearCardInpBtn .iconfont {
+  font-size: 17px;
+  color: #8c8c8c; }
 .memberBox {
   padding: 0 26px; }
 
