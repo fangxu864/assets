@@ -5,6 +5,8 @@
  */
 var fs = require("fs");
 var path = require("path");
+var yargs = require("yargs");
+console.log(yargs.argv);
 function travel(dir, callback) {
 	try{
 		fs.readdirSync(dir).forEach(function (file) {
@@ -79,31 +81,4 @@ function asyncJob2(param, isOk) {
 	//}, 100);
 	return defer.promise;
 }
-
-
-
-var readableStream = fs.createReadStream("./package.json");
-readableStream.on("readable",function(data){
-	//console.log('有数据进来！数据：' + readableStream.read());
-})
-// console.log(require("util"));
-//readableStream.on("data",function(data){
-//	console.log(data);
-//})
-//readableStream.on("end",function(data){
-//	console.log("读取完毕");
-//	console.log(data);
-//})
-
-
-var stream = require("stream");
-var Stream = stream.Stream;
-var ws = new Stream;
-ws.write = function(data){
-	console.log("input="+data);
-}
-ws.end = function(data){
-	console.log("bey");
-}
-process.stdin.pipe(ws);
 
