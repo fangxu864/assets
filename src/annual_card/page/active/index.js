@@ -16,7 +16,8 @@ var MainView = Backbone.View.extend({
 		"click #getVCodeBtn" : "onGetVCodeBtnClick",
 		"click #activateBtn" : "onActiveBtnClick",
 		//"blur .textInp" : "onTextInpBlur",
-		"focus .textInp" : "onTextInpFocus"
+		"focus .textInp" : "onTextInpFocus",
+		"keyup #cardInp" : "onCardInpKeyup"
 	},
 	initialize : function(){
 		var that = this;
@@ -91,6 +92,13 @@ var MainView = Backbone.View.extend({
 		}else{
 			tarInp.siblings(".tip").removeClass("error").hide();
 		}
+	},
+	onCardInpKeyup : function(e){
+		var tarInp = $(e.currentTarget);
+		var val = tarInp.val();
+		var keycode = e.keyCode;
+		if(keycode!=13) return false;
+
 	},
 	validator : {
 		card : function(){

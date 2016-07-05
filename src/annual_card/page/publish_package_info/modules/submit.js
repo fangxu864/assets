@@ -27,12 +27,12 @@ var Submit = Backbone.View.extend({
 			json["id"] = id;
 			json["sdate"] = tarItem.find("input[name=sdate]").val();
 			json["edate"] = tarItem.find("input[name=edate]").val();
-			json["js"] = $.trim(tarItem.find("input[name=js]").val()*100);         //供货价
-			json["ls"] = $.trim(tarItem.find("input[name=ls]").val()*100);         //零售价
+			json["js"] = $.trim(tarItem.find("input[name=js]").val())*100;         //供货价
+			json["ls"] = $.trim(tarItem.find("input[name=ls]").val())*100;         //零售价
 			json["storage"] = -1;
 			json["weekdays"] = "0,1,2,3,4,5,6";
 			price_section.push(json);
-			var tprice = $.trim(tarItem.find("input[name=tprice]").val()*100);
+			var tprice = $.trim(tarItem.find("input[name=tprice]").val())*100;
 
 			//校验
 			if(!json["sdate"]){
@@ -61,6 +61,7 @@ var Submit = Backbone.View.extend({
 				price_section_result.error = "供货价不得大于零售价";
 				return false;
 			}
+
 			if(json["ls"]>tprice){
 				price_section_result.is_ok = false;
 				price_section_result.error = "零售价不得大于门市价";
