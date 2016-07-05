@@ -91,6 +91,11 @@
 					}
 				}
 			})
+		},
+		getHistory : function(memberid,page,page_size){
+			if(!memberid || !page) return false;
+			page_size = page_size || 20;
+	
 		}
 	});
 	
@@ -177,7 +182,8 @@
 			},
 			//会员详情页面
 			memdetail : {
-				detail : "/r/product_AnnualCard/getMemberDetail/"
+				detail : "/r/product_AnnualCard/getMemberDetail/",
+				history : ""
 			}
 		},
 		defaults : {

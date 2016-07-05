@@ -44,6 +44,11 @@ var MainView = Backbone.View.extend({
 				}
 			}
 		})
+	},
+	getHistory : function(memberid,page,page_size){
+		if(!memberid || !page) return false;
+		page_size = page_size || 20;
+
 	}
 });
 

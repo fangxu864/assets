@@ -92,13 +92,6 @@
 				that.submit(submitData);
 				this.close();
 			})
-			that.CheckExistDialog.open({
-				mobile : "18305917866",
-				idCard : "1324834583495834",
-				name : name,
-				left : "测试测试测试测试测试测试测试测试测试测试测试测试测试测试",
-				submitData : {}
-			});
 		},
 		onSubmitBtnClick : function(e){
 			var tarBtn = $(e.currentTarget);
@@ -309,7 +302,8 @@
 			},
 			//会员详情页面
 			memdetail : {
-				detail : "/r/product_AnnualCard/getMemberDetail/"
+				detail : "/r/product_AnnualCard/getMemberDetail/",
+				history : ""
 			}
 		},
 		defaults : {
