@@ -289,7 +289,9 @@ body{
   color: #fff;
   border-radius: 0px;
   font-size: 14px;
-  margin: 26px 0 48px 148px; }
+  margin: 26px 0 48px 148px;
+  color: white;
+  cursor: pointer; }
   .activate:hover, .activate:active {
     background-color: #217db3;
     text-decoration: none; }
