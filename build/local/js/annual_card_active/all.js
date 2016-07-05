@@ -56,13 +56,12 @@
 	var MainView = Backbone.View.extend({
 		time : 60,  //获取验证码的间隔时间 60s
 		timer : null,
-		cardHasReaded : {},
 		el : $("#cardContainer"),
 		events : {
 			"click #readCardBtn" : "onReadCardBtnClick",
 			"click #getVCodeBtn" : "onGetVCodeBtnClick",
 			"click #activateBtn" : "onActiveBtnClick",
-			"blur .textInp" : "onTextInpBlur",
+			//"blur .textInp" : "onTextInpBlur",
 			"focus .textInp" : "onTextInpFocus"
 		},
 		initialize : function(){
@@ -89,7 +88,6 @@
 			var cardval = this.ReadPhysicsCard.read();
 			this.cardInp.val(cardval);
 			if(!cardval) return alert("读卡失败");
-			this.cardHasReaded[cardval] = 1;
 			this.getCardInfo(cardval,"physics");
 		},
 		//点击获取验证码
@@ -105,16 +103,14 @@
 			var tarBtn = $(e.currentTarget);
 			if(tarBtn.hasClass("disable")) return false;
 			if(this.cardInfoBar.hasClass("error")) return false;
-			if(!this.cardInp.val()){
-				this.cardInp.blur();
-				return false;
-			}
-			this.mobileInp.blur();
-			if(this.mobileInp.siblings(".tip").hasClass("error")) return false;
-			this.vcodeInp.blur();
-			if(this.vcodeInp.siblings(".tip").hasClass("error")) return false;
-			this.idCardInp.blur();
-			if(this.idCardInp.siblings(".tip").hasClass("error")) return false;
+			var physics_no = this.cardInp.val();
+			if(!physics_no) return alert("物理卡号不能为空");
+			var check_mobile = this.validator.mobile.call(this);
+			if(!check_mobile) return false;
+			var check_vcode =  this.validator.vcode.call(this);
+			if(!check_vcode) return false;
+			var check_idCard = this.validator.idCard.call(this);
+			if(!check_idCard) return false;
 			this.submit();
 		},
 		onTextInpBlur : function(e){
@@ -178,11 +174,12 @@
 					return true;
 				}
 			},
-			idCard : function(need){
+			idCard : function(){
 				var idCardInp = this.idCardInp;
 				var idCard = $.trim(idCardInp.val());
 				var tip = idCardInp.siblings(".tip");
-				if((idCard && !PFT.Util.Validate.idcard(idCard)) || ((need==1) && !idCard)){
+				var is_require = idCardInp.attr("data-require");
+				if((idCard && !PFT.Util.Validate.idcard(idCard)) || ((is_require==1) && !idCard)){
 					tip.show().addClass("error").text("请填写正确格式身份证");
 					return false;
 				}else{
@@ -194,6 +191,7 @@
 		getCardInfo : function(card_no,type){
 			var that = this;
 			var tarBtn = this.readCardBtn;
+			var idCardInp = that.idCardInp;
 			if(!card_no || !type) return false;
 			PFT.Util.Ajax(Api.Url.active.checkCard,{
 				params : {
@@ -202,6 +200,7 @@
 				},
 				loading : function(){
 					tarBtn.addClass("disable");
+					idCardInp.val("");
 					$("#loadingIcon").show();
 				},
 				complete : function(){
@@ -212,12 +211,12 @@
 					res = res || {};
 					var data= res.data;
 					if(res.code==200){
-						var idCardInp = that.idCardInp;
 						var needID = data.need_ID || "";
 						var virtual_no = data.virtual_no;
 						var physics_no = data.physics_no;
 						var card_no = data.card_no;
 						idCardInp.attr("validate","idCard:"+needID);
+						idCardInp.attr("data-requrie",needID);
 						if(needID==1){
 							$("#idCard-fontRed").show();
 						}else{
@@ -264,14 +263,13 @@
 			var that = this;
 			var submitBtn = this.submitBtn;
 			var cardVal = this.cardInp.val();
-			var type = this.cardHasReaded[cardVal] ? "physics" : "other";
 			var mobile = this.mobileInp.val();
 			var name = this.memnameInp.val();
 			var id_card = this.idCardInp.val();
 			var vcode = this.vcodeInp.val();
 			var data = {
 				identify : cardVal,
-				type : type,
+				type : "physics",  //type="physics"||"other"
 				mobile : mobile,
 				name : name,
 				id_card : id_card,
