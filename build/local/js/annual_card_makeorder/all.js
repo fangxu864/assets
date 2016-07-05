@@ -92,6 +92,13 @@
 				that.submit(submitData);
 				this.close();
 			})
+			that.CheckExistDialog.open({
+				mobile : "18305917866",
+				idCard : "1324834583495834",
+				name : name,
+				left : "测试测试测试测试测试测试测试测试测试测试测试测试测试测试",
+				submitData : {}
+			});
 		},
 		onSubmitBtnClick : function(e){
 			var tarBtn = $(e.currentTarget);
@@ -336,7 +343,7 @@
 		var that = this;
 		this.submitData = {};
 		this.SDialog = new SDialog({
-			width : 520,
+			width : 680,
 			content : tpl,
 			drag : true,
 			events : {
@@ -1004,7 +1011,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">取消</a>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td><div style=\"padding-right:10px\" id=\"existDialog_mobile\"></div></td>\r\n            <td><div style=\"padding-right:10px\" id=\"existDialog_idCard\"></div></td>\r\n            <td><div id=\"existDialog_name\"></div></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">取消</a>\r\n    </div>\r\n</div>";
 
 /***/ },
 /* 18 */,

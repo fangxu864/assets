@@ -10,9 +10,9 @@
         </thead>
         <tbody>
         <tr>
-            <td id="existDialog_mobile"></td>
-            <td id="existDialog_idCard"></td>
-            <td id="existDialog_name"></td>
+            <td><div style="padding-right:10px" id="existDialog_mobile"></div></td>
+            <td><div style="padding-right:10px" id="existDialog_idCard"></div></td>
+            <td><div id="existDialog_name"></div></td>
         </tr>
         </tbody>
     </table>

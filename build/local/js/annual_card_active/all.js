@@ -182,7 +182,7 @@
 				var idCardInp = this.idCardInp;
 				var idCard = $.trim(idCardInp.val());
 				var tip = idCardInp.siblings(".tip");
-				if((idCard && !PFT.Util.Validate.idCard(idCard)) || ((need==1) && !idCard)){
+				if((idCard && !PFT.Util.Validate.idcard(idCard)) || ((need==1) && !idCard)){
 					tip.show().addClass("error").text("请填写正确格式身份证");
 					return false;
 				}else{
@@ -216,13 +216,15 @@
 						var needID = data.need_ID || "";
 						var virtual_no = data.virtual_no;
 						var physics_no = data.physics_no;
+						var card_no = data.card_no;
 						idCardInp.attr("validate","idCard:"+needID);
 						if(needID==1){
 							$("#idCard-fontRed").show();
 						}else{
 							$("#idCard-fontRed").hide();
 						}
-						that.cardInfoBar.show().removeClass("error").html("虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
+						that.cardInfoBar.show().removeClass("error").html("实体卡号："+card_no+"<i style='margin:0 10px'></i>虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
+						that.cardInp.val(card_no);
 					}else{
 						that.cardInfoBar.show().html(res.msg || PFT.AJAX_ERROR_TEXT).addClass("error");
 					}
@@ -461,7 +463,7 @@
 		var that = this;
 		this.submitData = {};
 		this.SDialog = new SDialog({
-			width : 520,
+			width : 680,
 			content : tpl,
 			drag : true,
 			events : {
@@ -1129,7 +1131,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">取消</a>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td><div style=\"padding-right:10px\" id=\"existDialog_mobile\"></div></td>\r\n            <td><div style=\"padding-right:10px\" id=\"existDialog_idCard\"></div></td>\r\n            <td><div id=\"existDialog_name\"></div></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">取消</a>\r\n    </div>\r\n</div>";
 
 /***/ }
 /******/ ]);

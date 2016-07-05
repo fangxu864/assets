@@ -136,7 +136,7 @@ var MainView = Backbone.View.extend({
 			var idCardInp = this.idCardInp;
 			var idCard = $.trim(idCardInp.val());
 			var tip = idCardInp.siblings(".tip");
-			if((idCard && !PFT.Util.Validate.idCard(idCard)) || ((need==1) && !idCard)){
+			if((idCard && !PFT.Util.Validate.idcard(idCard)) || ((need==1) && !idCard)){
 				tip.show().addClass("error").text("请填写正确格式身份证");
 				return false;
 			}else{
@@ -170,13 +170,15 @@ var MainView = Backbone.View.extend({
 					var needID = data.need_ID || "";
 					var virtual_no = data.virtual_no;
 					var physics_no = data.physics_no;
+					var card_no = data.card_no;
 					idCardInp.attr("validate","idCard:"+needID);
 					if(needID==1){
 						$("#idCard-fontRed").show();
 					}else{
 						$("#idCard-fontRed").hide();
 					}
-					that.cardInfoBar.show().removeClass("error").html("虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
+					that.cardInfoBar.show().removeClass("error").html("实体卡号："+card_no+"<i style='margin:0 10px'></i>虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
+					that.cardInp.val(card_no);
 				}else{
 					that.cardInfoBar.show().html(res.msg || PFT.AJAX_ERROR_TEXT).addClass("error");
 				}

@@ -10,7 +10,7 @@ var Dialog = function(){
 	var that = this;
 	this.submitData = {};
 	this.SDialog = new SDialog({
-		width : 520,
+		width : 680,
 		content : tpl,
 		drag : true,
 		events : {
