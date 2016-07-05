@@ -177,7 +177,6 @@ var MainView = Backbone.View.extend({
 						$("#idCard-fontRed").hide();
 					}
 					that.cardInfoBar.show().removeClass("error").html("实体卡号："+card_no+"<i style='margin:0 10px'></i>虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
-					that.cardInp.val(card_no);
 				}else{
 					that.cardInfoBar.show().html(res.msg || PFT.AJAX_ERROR_TEXT).addClass("error");
 				}

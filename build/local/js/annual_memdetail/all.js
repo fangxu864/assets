@@ -54,13 +54,28 @@
 	var Api = __webpack_require__(5);
 	var LoadingPc = __webpack_require__(38);
 	var detailTpl = __webpack_require__(91);
+	var historyTpl = __webpack_require__(92);
+	var Pagination = __webpack_require__(46);
 	var MainView = Backbone.View.extend({
-		el : $("#detailContainer"),
+		el : $("#memDetailContainer"),
 		initialize : function(){
-			this.memberid = PFT.Util.UrlParse()["id"];
-			this.getDetail(this.memberid);
+			var that = this;
+			var memberid = this.memberid = PFT.Util.UrlParse()["id"];
+			this.pagination = new Pagination({
+				container : "#paginationContainer",
+				keyup : false,
+				onNavigation : function(data){
+					var toPage = data.toPage;
+					that.getHistory(memberid,toPage);
+				}
+			});
+			this.getDetail(memberid);
+			this.getHistory(memberid);
 		},
 		template : _.template(detailTpl),
+		history_template : _.template(historyTpl),
+		cache : true,
+		historyCache : {},
 		getDetail : function(memberid){
 			var that = this;
 			if(!memberid) return false;
@@ -93,9 +108,61 @@
 			})
 		},
 		getHistory : function(memberid,page,page_size){
-			if(!memberid || !page) return false;
+			if(!memberid) return false;
+			page = page || 1;
 			page_size = page_size || 20;
-	
+			var that = this;
+			var container = $("#historyListContainer");
+			var template = this.history_template;
+			var pagination = this.pagination;
+			var Cache = this.historyCache[page];
+			if(Cache && this.cache){ //如果允许缓存并该页已请求过
+				var currentPage = Cache.page;
+				var totalPage = Cache.total_page;
+				var list = Cache.list;
+				var html = template({data:list});
+				container.html(html);
+				pagination.render({current:currentPage,total:totalPage});
+			}else{
+				PFT.Util.Ajax(Api.Url.memdetail.history,{
+					params : {
+						memberid : memberid,
+						page : page,
+						page_size : page_size
+					},
+					loading : function(){
+						var loading = LoadingPc("加载中，请稍后..",{
+							tag : "tr",
+							height : 150,
+							colspan : 8,
+							css : {
+								"background" : "#fff"
+							}
+						});
+						container.html(loading);
+						pagination.render(null)
+					},
+					complete : function(){
+						container.html("");
+					},
+					success : function(res){
+						res = res || {};
+						var data = res.data || {};
+						if(res.code==200){
+							var currentPage = data.page;
+							var totalPage = data.total_page;
+							var list = data.list || [];
+							if(list.length==0) totalPage = 0;
+							var html = template({data:list});
+							container.html(html);
+							pagination.render({current:currentPage,total:totalPage});
+							that.historyCache[page] = data;
+						}else{
+							alert(res.msg || PFT.AJAX_ERROR_TEXT);
+						}
+					}
+				})
+			}
 		}
 	});
 	
@@ -183,7 +250,7 @@
 			//会员详情页面
 			memdetail : {
 				detail : "/r/product_AnnualCard/getMemberDetail/",
-				history : ""
+				history : "/r/product_AnnualCard/getHistoryOrder/"
 			}
 		},
 		defaults : {
@@ -246,6 +313,189 @@
 
 /***/ },
 
+/***/ 46:
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Author: huangzhiyang
+	 * Date: 2016/6/16 10:18
+	 * Description: ""
+	 */
+	__webpack_require__(47);
+	var Defaults = {
+		container : "",               //组件要渲染到的容器
+		onNext : function(){},        //要到下一页时触发回调
+		onPrev : function(){},        //要到上一页时触发回调
+		onNavigation : function(){},  //不论上一页或下一页都触发回调
+		keyup : false                 //是否支持键盘左右键触发事件
+	};
+	/**
+	 * 简单的分页组件
+	 * @param opt
+	 * @constructor
+	 * eg:
+	 *  var p = new Pagination({
+	 * 		container : $("#container"),
+	 * 		keyup : false,
+	 * 		onNext : function(data){},
+	 * 		onPrev : function(data){},
+	 * 		onNavigation : function(data){}
+	 *  })
+	 *  p.on("next",function(data){})
+	 *  p.on("prev",function(data){})
+	 *  p.on("navigation",function(data){})
+	 *  p.render({current:1,total:10})
+	 */
+	function Pagination(opt){
+		this.opt = $.extend(Defaults,opt || {});
+		this.init(this.opt);
+	}
+	Pagination.prototype = {
+		init : function(opt){
+			var that = this;
+			this.tpl = __webpack_require__(49);
+			this.container = typeof opt.container=="string" ? $("#"+opt.container.replace(/#/,"")) : opt.container;
+			this.container.hide().html(this.tpl);
+			this.currentPage = this.container.find(".whichPageInp");
+			this.totalPage = this.container.find(".totalPageInp");
+			this.nextBtn = this.container.find(".nextPageBtn");
+			this.prevBtn = this.container.find(".prevPageBtn");
+			if(opt.keyup){
+				$(document).on("keyup",function(e){
+					that.onKeyupToNav(e);
+				});
+				this.container.find(".keyupTip").show();
+			}
+			this.container.on("click",".navBtn",function(e){
+				that.onNavBtnClick(e);
+			})
+		},
+		onNavBtnClick : function(e){
+			var tarBtn = $(e.currentTarget);
+			if(tarBtn.hasClass("disable")) return false;
+			var current_page = this.currentPage.text() * 1;
+			var dir = tarBtn.hasClass("next") ? "next" : "prev";
+			var toPage = tarBtn.hasClass("next") ? (current_page+1) : (current_page-1);
+			var data = {
+				dir : dir,
+				fromPage : current_page,
+				toPage : toPage
+			};
+			if(dir=="next"){
+				this.opt.onNavigation(data);
+				this.opt.onNext(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("next",data);
+			}else{
+				this.opt.onNavigation(data);
+				this.opt.onPrev(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("prev",data);
+			}
+		},
+		onKeyupToNav : function(e){
+			var keyCode = e.keyCode;
+			var nextBtn = this.nextBtn;
+			var prevBtn = this.prevBtn;
+			var current = this.currentPage.text() * 1;
+			var data = null;
+			if(keyCode==39 && !nextBtn.hasClass("disable")){ //next
+				data = {
+					dir : "next",
+					fromPage : current,
+					toPage : current+1
+				};
+				this.opt.onNavigation(data);
+				this.opt.onNext(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("next",data);
+			}else if(keyCode==37 && !prevBtn.hasClass("disable")){ //prev
+				data = {
+					dir : "next",
+					fromPage : current,
+					toPage : current-1
+				};
+				this.opt.onNavigation(data);
+				this.opt.onPrev(data);
+				PFT.Util.PubSub.fire("navigation",data);
+				PFT.Util.PubSub.fire("prev",data);
+			}
+		},
+		on : function(type,callback){
+			if(!type) return false;
+			callback = typeof callback=="function" ? callback : function(){};
+			PFT.Util.PubSub.on(type,callback);
+		},
+		show : function(){
+			this.container.show();
+		},
+		hide : function(){
+			this.container.hide();
+		},
+		getValue : function(){ //获取当前的页数值
+			return{
+				current : this.currentPage.text(),
+				total : this.totalPage.text()
+			}
+		},
+		render : function(data){ // data={current:1,total:1} data=null
+			if(!data){
+				this.nextBtn.addClass("disable");
+				this.prevBtn.addClass("disable");
+				this.hide();
+				return;
+			}
+			var total = 1 * data.total;
+			var current = 1 * data.current;
+			var totalInp = this.totalPage;
+			var currentInp = this.currentPage;
+			var nextBtn = this.nextBtn;
+			var prevBtn = this.prevBtn;
+			if(total==0){
+				this.nextBtn.addClass("disable");
+				this.prevBtn.addClass("disable");
+				this.hide();
+				return;
+			}
+			this.show();
+			totalInp.text(total);
+			currentInp.text(current);
+			if(current<total){
+				if(current!=1){
+					prevBtn.removeClass("disable");
+				}else{
+					prevBtn.addClass("disable");
+				}
+				nextBtn.removeClass("disable");
+			}else{
+				if(current!=1){
+					prevBtn.removeClass("disable");
+				}else{
+					prevBtn.addClass("disable");
+				}
+				nextBtn.addClass("disable");
+			}
+		}
+	};
+	module.exports = Pagination;
+
+
+/***/ },
+
+/***/ 47:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 49:
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"navigationBar\">\r\n    <div class=\"navCon\">\r\n        <a href=\"javascript:void(0)\" class=\"navBtn next nextPageBtn disable\"><span class=\"iconfont\">&#xe60d;</span></a>\r\n        <a href=\"javascript:void(0)\" class=\"prevPageBtn navBtn prev disable\"><span class=\"iconfont\">&#xe60c;</span></a>\r\n        <div class=\"which\">\r\n            <span class=\"whichPageInp pagenum\">1</span>\r\n            <span class=\"var\"> / </span>\r\n            <span class=\"totalPageInp pagenum\">1</span>\r\n        </div>\r\n    </div>\r\n    <p style=\"display:none\" class=\"tip keyupTip\">亲，可以使用键盘前后方向键来翻页哟</p>\r\n</div>";
+
+/***/ },
+
 /***/ 89:
 /***/ function(module, exports) {
 
@@ -256,7 +506,14 @@
 /***/ 91:
 /***/ function(module, exports) {
 
-	module.exports = "<% var member=data.member, list=data.list || [], history=data.history; %>\r\n<% var statusTxt = {\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"禁用\",\"4\":\"挂失\"}; %>\r\n<div class=\"memberBox\" style=\"background:#e2f6fe\">\r\n    <span class=\"memberH\">H</span>\r\n    <ul class=\"memUl\">\r\n        <li>\r\n            <p><span class=\"memL\">会员名称：</span><span class=\"memR\"><%=member.account%></span></p>\r\n        </li>\r\n        <li>\r\n            <p><span class=\"memL\">手机号：</span><span class=\"memR\"><%=member.mobile%></span></p>\r\n        </li>\r\n    </ul>\r\n</div>\r\n<%_.each(list,function(item){%>\r\n<div style=\"background:#fff; border-top:1px solid #e5e5e5\" class=\"memberBox\">\r\n    <ul class=\"memUl marL-70\">\r\n            <li>\r\n                <p><span class=\"memL\">虚拟卡号：</span><span class=\"memR\"><%=item.virtual_no%></span></p>\r\n                <p><span class=\"memL\">实体卡号：</span><span class=\"memR\"><%=item.card_no%></span></p>\r\n                <p><span class=\"memL\">物理ID：</span><span class=\"memR\"><%=item.physics_no%></span></p>\r\n                <!--<p><span class=\"memL\">可用优惠券：</span><span class=\"memR\">0</span></p>-->\r\n                <p><span class=\"memL\">发卡商户：</span><span class=\"memR\"><%=item.supply%></span></p>\r\n            </li>\r\n            <li>\r\n                <p><span class=\"memL\">卡套餐：</span><span class=\"memR\">无</span></p>\r\n                <p><span class=\"memL\">有效期：</span><span class=\"memR\"><%=item.valid_time%></span></p>\r\n                <div class=\"memLine\">\r\n                    <span class=\"memL\">已用特权：</span>\r\n                    <div class=\"memR\">\r\n                        <%_.each(item.priv,function(priv){%>\r\n                            <p><%=priv.title%> <%=priv.use%></p>\r\n                        <%})%>\r\n                    </div>\r\n                </div>\r\n                <p><span class=\"memL\">状态：</span><span class=\"memR font-orange\"><a href=\"javascript:void(0);\" class=\"unActivate\"><%=statusTxt[item.status]%></a></span></p>\r\n                <p><span class=\"memL\">备注：</span></p>\r\n            </li>\r\n    </ul>\r\n</div>\r\n<%})%>\r\n<div class=\"historyContainer\" style=\"border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5\">\r\n    <p class=\"useHistory border-top\">使用记录</p>\r\n    <table class=\"memTable\">\r\n        <thead>\r\n            <tr class=\"border-bottom bg-gray\">\r\n                <th>订单号</th>\r\n                <th>产品</th>\r\n                <th>虚拟卡号</th>\r\n                <th>订单总额</th>\r\n                <th>套餐特权</th>\r\n                <th>优惠券</th>\r\n                <th>余额支付</th>\r\n                <th>下单时间</th>\r\n            </tr>\r\n        </thead>\r\n        <tbody style=\"background:#fff\">\r\n            <% if(history.lenght){ %>\r\n                <%_.each(history,function(hist){%>\r\n                <tr class=\"border-bottom\">\r\n                    <td class=\"font-blue\">4654546</td>\r\n                    <td>XXXXXXXXX景区-成人票-1张</td>\r\n                    <td></td>\r\n                    <td></td>\r\n                    <td class=\"font-orange\">-100</td>\r\n                    <td class=\"font-orange\">-10</td>\r\n                    <td class=\"font-orange\">123</td>\r\n                    <td>2016/05/06 12:00</td>\r\n                </tr>\r\n                <% }) %>\r\n            <% }else{ %>\r\n                <tr>\r\n                    <td style=\"text-align:center; height:300px\" colspan=\"8\">暂无使用记录...</td>\r\n                </tr>\r\n            <% } %>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n\r\n";
+	module.exports = "<% var member=data.member, list=data.list || [], history=data.history; %>\r\n<% var statusTxt = {\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"禁用\",\"4\":\"挂失\"}; %>\r\n<div class=\"memberBox\" style=\"background:#e2f6fe\">\r\n    <span class=\"memberH\">H</span>\r\n    <ul class=\"memUl\">\r\n        <li>\r\n            <p><span class=\"memL\">会员名称：</span><span class=\"memR\"><%=member.account%></span></p>\r\n        </li>\r\n        <li>\r\n            <p><span class=\"memL\">手机号：</span><span class=\"memR\"><%=member.mobile%></span></p>\r\n        </li>\r\n    </ul>\r\n</div>\r\n<%_.each(list,function(item){%>\r\n<div style=\"background:#fff; border-top:1px solid #e5e5e5\" class=\"memberBox\">\r\n    <ul class=\"memUl marL-70\">\r\n            <li>\r\n                <p><span class=\"memL\">虚拟卡号：</span><span class=\"memR\"><%=item.virtual_no%></span></p>\r\n                <p><span class=\"memL\">实体卡号：</span><span class=\"memR\"><%=item.card_no%></span></p>\r\n                <p><span class=\"memL\">物理ID：</span><span class=\"memR\"><%=item.physics_no%></span></p>\r\n                <!--<p><span class=\"memL\">可用优惠券：</span><span class=\"memR\">0</span></p>-->\r\n                <p><span class=\"memL\">发卡商户：</span><span class=\"memR\"><%=item.supply%></span></p>\r\n            </li>\r\n            <li>\r\n                <p><span class=\"memL\">卡套餐：</span><span class=\"memR\">无</span></p>\r\n                <p><span class=\"memL\">有效期：</span><span class=\"memR\"><%=item.valid_time%></span></p>\r\n                <div class=\"memLine\">\r\n                    <span class=\"memL\">已用特权：</span>\r\n                    <div class=\"memR\">\r\n                        <%_.each(item.priv,function(priv){%>\r\n                            <p><%=priv.title%> <%=priv.use%></p>\r\n                        <%})%>\r\n                    </div>\r\n                </div>\r\n                <p><span class=\"memL\">状态：</span><span class=\"memR font-orange\"><a href=\"javascript:void(0);\" class=\"unActivate\"><%=statusTxt[item.status]%></a></span></p>\r\n                <p><span class=\"memL\">备注：</span></p>\r\n            </li>\r\n    </ul>\r\n</div>\r\n<%})%>\r\n\r\n";
+
+/***/ },
+
+/***/ 92:
+/***/ function(module, exports) {
+
+	module.exports = "<% if(data.length){ %>\r\n    <%_.each(data,function(item,index){%>\r\n        <tr class=\"<%=index!=data.length-1? 'border-bottom' : ''%>\">\r\n            <td class=\"font-blue\"><%=item.ordernum%></td>\r\n            <td><%=item.ltitle%> - <%=item.title%></td>\r\n            <td><%=item.totalmoney/100%></td>\r\n            <td class=\"font-orange\"><%=item.tnum%></td>\r\n            <td><%=item.ordertime%></td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n<tr>\r\n    <td style=\"text-align:center; height:300px\" colspan=\"8\">暂无使用记录...</td>\r\n</tr>\r\n<% } %>\r\n\r\n\r\n";
 
 /***/ }
 
