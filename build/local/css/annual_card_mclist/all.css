@@ -251,6 +251,9 @@ select {
 .activaCard:link, .query:link, .active:link {
   color: white; }
 
+.activaCard:visited, .query:visited {
+  color: white; }
+
 .manageState {
   height: 115px;
   padding-left: 24px;
