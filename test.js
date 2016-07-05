@@ -6,13 +6,6 @@
 var fs = require("fs");
 var path = require("path");
 var yargs = require("yargs");
-console.log(yargs.argv);
-console.log(yargs.argv);
-console.log(yargs.argv);
-console.log(yargs.argv);
-console.log(yargs.argv);
-console.log(yargs.argv);
-console.log(yargs.argv);
 function travel(dir, callback) {
 	try{
 		fs.readdirSync(dir).forEach(function (file) {
