@@ -23,8 +23,7 @@ body{
   outline: none; }
 .cardContainer a:visited{
   text-decoration: none;
-  outline: none;
-  color: #fff; }
+  outline: none; }
 .cardContainer a:active{
   text-decoration: none;
   outline: none; }
@@ -279,7 +278,7 @@ select {
   height: 28px;
   line-height: 28px;
   background-color: transparent;
-  color: #fff;
+  color: #0797d9;
   border-radius: 0px;
   font-size: 14px;
   margin-top: 13px; }

@@ -23,8 +23,7 @@ body{
   outline: none; }
 .cardContainer a:visited{
   text-decoration: none;
-  outline: none;
-  color: #fff; }
+  outline: none; }
 .cardContainer a:active{
   text-decoration: none;
   outline: none; }
@@ -209,13 +208,6 @@ input[type=text] {
   padding: 14px 0 0 24px;
   position: relative; }
 
-.cardPro a:link {
-  color: white; }
-
-.cardPro a.btn-blue {
-  border: 0 none;
-  margin-left: 30px; }
-
 .cardPro i {
   position: absolute;
   left: 353px;
@@ -236,6 +228,17 @@ input[type=text] {
 
 .btn-entry a {
   margin-right: 20px; }
+
+#createCardListBtn {
+  color: #fff;
+  cursor: pointer;
+  border: 0 none;
+  margin-left: 30px; }
+
+#submitBtn {
+  color: #fff;
+  cursor: pointer;
+  border: 0 none; }
 
 #submitBtn.disable {
   background: #c9c9c9;

@@ -105,7 +105,7 @@ h1.entry{ line-height:56px; font-size:24px;}
 .enCard span.numChild{ font-size:24px; color:#3dba3f;}
 .enCard span.numP{ font-size:24px;}
 
-#submitInfoBtn{ margin-top:30px;}
+#submitInfoBtn{ margin-top:30px; cursor:pointer; color:white;}
 #submitInfoBtn.disable{ background:#c9c9c9; cursor:default; border-color:#c9c9c9;}
 
 .uploadPhotoBox{ width:300px; height:197px; background:#fafafa; border:1px solid #dbdbdb; padding:7px; margin-top:5px; overflow:hidden}

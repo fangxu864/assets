@@ -9,7 +9,7 @@ body{ background:#f8f9fb; }
 .cardContainer a { text-decoration: none; }
 .cardContainer a:hover { text-decoration: underline; }
 .cardContainer a:link{ text-decoration:none;outline:none;}
-.cardContainer a:visited{ text-decoration:none;outline:none; color:#fff}
+.cardContainer a:visited{ text-decoration:none;outline:none;}
 .cardContainer a:active{ text-decoration:none;outline:none}
 .cardContainer a:hover,.border a:hover{text-decoration:none;}
 .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
