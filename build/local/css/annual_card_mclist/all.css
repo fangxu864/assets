@@ -391,6 +391,9 @@ select {
 
 .listSlideContainer a:visited {
   color: #2A98DA; }
+
+#activaCard, #activaCard:visited {
+  color: #fff; }
 .navigationBar {
   width: 100%;
   margin-top: 10px;

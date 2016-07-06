@@ -1,0 +1,49 @@
+/*页面整体框架*/
+body{ background:#f8f9fb; color:#3E3E3E}
+.pageHeader{ background:#fff}
+.siteHeadBar{ background:url("http://www.12301.cc/images/top_bg.png") repeat-x 0 0}
+.siteHeadBar .siteHeadCon{ margin:0 auto;}
+.siteHeadBar .topLink{ width:100%; height:27px; line-height:27px; overflow:hidden}
+.siteHeadBar .topLink .site_account_name{ margin-right:10px;}
+.siteHeadBar .topLink .xiaoxi{ padding-left:18px; background:url("http://www.12301.cc/images/notice.png") no-repeat 0 -7px;}
+.siteHeadBar .topLink .xiaoxi .orange{ font-family:arial; font-size:14px; color:#F60}
+.siteHeadBar .topLink .logout{ margin-left:4px;}
+.siteHeadBar .topLink .rt{ float:right}
+.siteHeadBar .topLink .setHome:hover,.siteHeadWrap .topLink .addFav:hover{ color:#0797d9}
+.siteHead{ padding-top:15px; margin:0 auto; overflow:hidden}
+.siteHead .logo{ float:left}
+.siteHead .logo img{height: 67px; width: auto;}
+.siteHead .siteTopBanner{ float:right; cursor:pointer}
+.siteNavBar{ width:100%; height:34px; margin-top:6px; border-bottom:2px solid #0170BC; background:#2A98DA}
+.siteNavBar .navBarUl{ margin:0 auto;}
+.siteNavBar .navBarUl .navLi{ float:left; width:110px; height:30px; line-height:30px; margin-top:4px; text-align:center}
+.siteNavBar .navBarUl .navLi.home{ border:2px solid #0170BC; border-bottom:0 none; margin-left:8px; font-weight:bold}
+.siteNavBar .navBarUl .navLi.active{ background:#fff}
+.siteNavBar .navBarUl .navLi.active a{ color:#FF5500;}
+.siteNavBar .navBarUl .navLi.active a:hover{ text-decoration:underline}
+
+.bodyMain{ position:relative; min-height:1100px; overflow:hidden; margin:10px auto;}
+.siteLocationBar{ width:943px; margin:10px auto;}
+.siteLeftBar{ position:absolute; top:0; left:0; width:180px; background:#fff; }
+.siteLeftBar .left_memb{ padding:8px 0 14px 23px;}
+.siteLeftBar .left_memb dt{ font-size:14px; font-weight:bold; margin-top:12px; margin-bottom:3px; padding-left:13px; background:url("http://www.12301.cc/images/dasanj.png") no-repeat left center}
+.siteLeftBar .left_memb dd{ padding:8px 0 8px 13px;}
+.siteLeftBar .left_memb dd a{ color:#3E3E3E}
+.siteLeftBar .left_memb dd a:hover{ color:#0170BC; text-decoration:underline;}
+
+.siteMaBox{ position:fixed; bottom:50px; right:50px; display:block; width:48px; height:48px; line-height:48px; cursor:pointer; text-align:center; background:#fff;}
+.siteMaBox .maImgBox{ display:none; position:fixed; bottom:50px; right:99px; background:#fff; font-size:0; line-height:0;}
+.siteMaBox:hover .maImgBox{ display:block}
+.siteGotopBtn{ display:none; position:fixed; right:20px; bottom:86px; width:48px; height:46px; line-height:46px; color:#3E3E3E; font-size:22px; font-weight:bold; text-align:center; cursor:pointer; border-bottom:0 none; background:#fff}
+.siteGotopBtn:hover{text-decoration:none; color:#3E3E3E}
+
+.pageRightArea{ float:right; width:807px;}
+#gMasker{position:fixed;top:0px;left:0;right:0;bottom:0;filter:alpha(opacity=40); -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";opacity: 0.4;-moz-opacity:0.4;background-color:#000;z-index:99;left:0px;display:none; width:100%; height:100%; _height:1350px;}
+
+.layout_2 .siteLeftBar{ width:155px;}
+.layout_2 .siteLeftBar .left_memb{ padding-left:15px;}
+.layout_2 .pageRightArea{ width:835px;}
+
+.sidebar_box{position:fixed;bottom:36px;right:20px;background-color:#FFF;width:48px;height:48px;border:1px solid #E5E5E5;z-index:99999;}
+.sidebar_box span{display:block;width:48px;height:48px;text-align:center;line-height:48px;font-size:20px;cursor:pointer;}
+.sidebar_box .code_img{display:none;max-width:150px;border:1px solid #E5E5E5;position:absolute;bottom:-1px;right:48px;}

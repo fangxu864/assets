@@ -1,0 +1,23 @@
+### 平台全局css构建
+
+## 请在命令行工具内执行如下命令：
+    gulp css-global-pc         发布时请用此命令
+    gulp css-global-pc:watch   开发时请用此命令(watch模式)
+
+    output文件会自动生成在build目录下的4个环境文件夹内:(包含压缩过和没压缩过的)
+    build/local/css/common/pft.global.pc.css, build/local/css/common/pft.global.pc.min.css
+    build/test/css/common/pft.global.pc.css, build/test/css/common/pft.global.pc.min.css
+    build/dev/css/common/pft.global.pc.css, build/dev/css/common/pft.global.pc.min.css
+    build/prod/css/common/pft.global.pc.css, build/prod/css/common/pft.global.pc.min.css
+
+
+
+## 项目结构：
+    pc-global
+        |-- layout       页面整体布局结构样式
+           |-- _index.scss       入口文件，用以引入_header.scss, _leftbar.scss, _footer.scss
+           |-- _header.scss      公共头部样式
+           |-- _leftbar.scss     公共左边栏样式
+           |-- _footer.scss      公共底部栏样式
+        |-- ui           页面公用ui组件样式
+        |-- index.scss   项目入口文件
