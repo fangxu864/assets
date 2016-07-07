@@ -49,10 +49,10 @@
 	 * Date: 2016/6/1 14:50
 	 * Description: ""
 	 */
-	__webpack_require__(34);
-	var UserInfo = __webpack_require__(36);
-	var CardList = __webpack_require__(37);
-	var OrderInfo = __webpack_require__(39);
+	__webpack_require__(40);
+	var UserInfo = __webpack_require__(42);
+	var CardList = __webpack_require__(43);
+	var OrderInfo = __webpack_require__(45);
 	var CheckExistDialog = __webpack_require__(7);
 	var Api = __webpack_require__(5);
 	var Format = function (date,fmt) { //author: meizz
@@ -1024,14 +1024,20 @@
 /* 31 */,
 /* 32 */,
 /* 33 */,
-/* 34 */
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 35 */,
-/* 36 */
+/* 41 */,
+/* 42 */
 /***/ function(module, exports) {
 
 	/**
@@ -1116,7 +1122,7 @@
 	module.exports = UserInfoView;
 
 /***/ },
-/* 37 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1125,7 +1131,7 @@
 	 * Description: ""
 	 */
 	var Api = __webpack_require__(5);
-	var Loading_Pc = __webpack_require__(38);
+	var Loading_Pc = __webpack_require__(44);
 	var List = Backbone.View.extend({
 		el : $("#cardMsgListUl"),
 		loading_str : Loading_Pc("请稍后",{tag:"li",height:100}),
@@ -1203,7 +1209,7 @@
 	module.exports = List;
 
 /***/ },
-/* 38 */
+/* 44 */
 /***/ function(module, exports) {
 
 	/**
@@ -1246,7 +1252,7 @@
 	module.exports = Loading;
 
 /***/ },
-/* 39 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1255,8 +1261,8 @@
 	 * Description: ""
 	 */
 	var Api = __webpack_require__(5);
-	var Loading_Pc = __webpack_require__(38);
-	var tpl = __webpack_require__(40);
+	var Loading_Pc = __webpack_require__(44);
+	var tpl = __webpack_require__(46);
 	var OrderIno = Backbone.View.extend({
 		initialize : function(){
 			this.listUl = $("#orderInfoList");
@@ -1340,7 +1346,7 @@
 	module.exports = OrderIno;
 
 /***/ },
-/* 40 */
+/* 46 */
 /***/ function(module, exports) {
 
 	module.exports = "<tr>\r\n    <td>\r\n        <p><%=data.product.title%></p>\r\n        <% if(data.privileges.length){ %>\r\n            <p>包含：</p>\r\n            <%_.each(data.privileges,function(item,index){%>\r\n                <%\r\n                    var use_limit = item.use_limit;\r\n                    var limit_str = \"\";\r\n                    if(use_limit==\"-1\"){\r\n                        limit_str = \"不限使用次数\";\r\n                    }else{\r\n                        limit_str = \"限制使用：\";\r\n                        use_limit = use_limit.split(\",\");\r\n                        var daily = use_limit[0];\r\n                        var month = use_limit[1];\r\n                        var total = use_limit[2];\r\n                        if(daily!=\"-1\") limit_str += daily + \"次/日 \";\r\n                        if(month!=\"-1\") limit_str += month + \"次/月 \";\r\n                        if(total!=\"-1\") limit_str += \" 共\"+total+\"次\";\r\n                    }\r\n                %>\r\n                <p class=\"privItem\" data-tid=\"<%=item.tid%>\" data-pid=\"<%=item.pid%>\">\r\n                    <span class=\"title\">\r\n                        <span class=\"ltitle\"><%=item.ltitle%></span>\r\n                        -\r\n                        <span class=\"ttitle\"><%=item.title%></span>\r\n                    </span>\r\n                    <span class=\"limit\"><%=limit_str%></span>\r\n                </p>\r\n            <% }) %>\r\n        <% } %>\r\n    </td>\r\n    <td><%=data.product.storage==\"-1\" ? \"-\" : data.product.storage%></td>\r\n    <td><i class=\"yen\">&yen;</i><em class=\"price\"><%=data.product.price%></em></td>\r\n    <td>不可退</td>\r\n    <td>1</td>\r\n    <td class=\"font-red\"><i class=\"yen\">&yen;</i><em class=\"total_price\"><%=data.product.price%></em></td>\r\n</tr>";

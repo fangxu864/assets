@@ -120,3 +120,44 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-font-smoothing: antialiased;
   -webkit-text-stroke-width: 0px;
   -moz-osx-font-smoothing: grayscale; }
+
+.PageMainBodyContainer {
+  position: relative;
+  width: 1000px;
+  overflow: hidden;
+  margin: 10px auto 30px; }
+
+.PageLeftBarContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 190px; }
+
+.PageBodyMainContainer {
+  position: relative;
+  margin-left: 200px; }
+
+.headerContainer {
+  width: 1000px;
+  height: 154px;
+  margin: 0 auto; }
+
+.topContainer {
+  overflow: hidden;
+  height: 27px;
+  line-height: 27px; }
+
+.topContainer .topLeft {
+  float: left; }
+
+.topContainer .topLeft .shopNameBox {
+  margin-right: 20px; }
+
+.topContainer .topLeft .shopNameBox .shopName {
+  color: #2A98DA; }
+
+.topContainer .topLeft .message {
+  background: url(http://www.12301.cc/images/notice.png) 0 -7px no-repeat; }
+
+.topContainer .topLeft .message .megNumber {
+  color: red; }

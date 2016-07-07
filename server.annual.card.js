@@ -12,17 +12,17 @@ var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var entry = {
-	"publish_prod_info" : ["./src/annual_card/page/publish_prod_info/index.js"],
-	"publish_package_info" : ["./src/annual_card/page/publish_package_info/index.js"],
-	"entry_card" : ["./src/annual_card/page/entry_card/index.js"],
-	"makeorder" : ["./src/annual_card/page/makeorder/index.js"],
-	"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
-	"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"],
-	"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"],
-	"publish_card_membercard_manage" : ["./src/annual_card/page/publish_card_membercard_manage/index.js"],
-	"publish_card_activate" : ["./src/annual_card/page/publish_card_activate/index.js"],
-	"publish_card_sell" : ["./src/annual_card/page/publish_card_sell/index.js"],
-	"publish_card_stock_details" : ["./src/annual_card/page/publish_card_stock_details/index.js"]
+	//"publish_prod_info" : ["./src/annual_card/page/publish_prod_info/index.js"],
+	"publish_package_info" : ["./src/annual_card/page/publish_package_info/index.js"]
+	//"entry_card" : ["./src/annual_card/page/entry_card/index.js"],
+	//"makeorder" : ["./src/annual_card/page/makeorder/index.js"],
+	//"publish_card_order_purchase" : ["./src/annual_card/page/publish_card_order_purchase/index.js"],
+	//"publish_card_order_success" : ["./src/annual_card/page/publish_card_order_success/index.js"],
+	//"publish_card_member_details" : ["./src/annual_card/page/publish_card_member_details/index.js"],
+	//"publish_card_membercard_manage" : ["./src/annual_card/page/publish_card_membercard_manage/index.js"],
+	//"publish_card_activate" : ["./src/annual_card/page/publish_card_activate/index.js"],
+	//"publish_card_sell" : ["./src/annual_card/page/publish_card_sell/index.js"],
+	//"publish_card_stock_details" : ["./src/annual_card/page/publish_card_stock_details/index.js"]
 };
 for(var i in entry){
 	var en = entry[i];

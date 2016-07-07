@@ -252,7 +252,7 @@ body{
   color: #f5530c; }
 
 .line .rt .textInp {
-  width: 300px;
+  width: 408px;
   height: 22px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -344,6 +344,35 @@ body{
 #clearCardInpBtn .iconfont {
   font-size: 17px;
   color: #8c8c8c; }
+
+.uploadPhotoBox {
+  width: 300px;
+  height: 197px;
+  background: #fafafa;
+  border: 1px solid #dbdbdb;
+  padding: 7px;
+  margin-top: 5px;
+  overflow: hidden; }
+
+.uploadPhotoBox table {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle; }
+
+.uploadPhotoBox td {
+  vertical-align: middle; }
+
+.uploadPhotoBox td img {
+  width: 100%; }
+
+.provCitySelect {
+  height: 33px;
+  width: 208px;
+  padding-left: 4px;
+  border: 1px solid #dbdbdb;
+  outline: none;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 .memberBox {
   padding: 0 26px; }
 
@@ -416,5 +445,18 @@ body{
   filter: alpha(opacity=60);
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
   -moz-opacity: 0.6; }
-
+/**
+ * Author: huangzhiyang
+ * Date: 2016/6/2 11:42
+ * Description: ""
+ */
+.fileuploadWrap{}
+.fileuploadWrap .fileuploadTextInp{ width:230px; height:22px; line-height:22px; padding:5px 8px; border:1px solid #dbdbdb; text-indent:0;
+    box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+}
+.fileuploadWrap .ctrlBtn{ position:relative; top:1px; display:inline-block; width:75px; height:32px; line-height:32px; text-align:center; background:#0797D9; color:#fff; cursor:pointer}
+.fileuploadWrap .ctrlBtn:hover{ background:#008fc2}
+.fileuploadWrap .fileuploadBtn{ background:#f5530c}
+.fileuploadWrap .fileuploadBtn:hover{ background:#ed4c06}
+.fileuploadWrap .fileuploadBtn.disable, .fileuploadWrap .fileuploadBtn.disable:hover{ background:#818181; cursor:pointer}
 /*# sourceMappingURL=all.css.map*/

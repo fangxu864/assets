@@ -1,3 +1,6 @@
+.PageMainBodyContainer{ position:relative; width:1000px; overflow:hidden; margin:10px auto 30px}
+.PageLeftBarContainer{ position:absolute; top:0; left:0; width:190px;}
+.PageBodyMainContainer{ position:relative; margin-left:200px;}
 @import "header";
 @import "leftbar";
 @import "footer";

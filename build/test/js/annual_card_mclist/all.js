@@ -150,7 +150,8 @@
 			},
 			//会员详情页面
 			memdetail : {
-				detail : "/r/product_AnnualCard/getMemberDetail/"
+				detail : "/r/product_AnnualCard/getMemberDetail/",
+				history : "/r/product_AnnualCard/getHistoryOrder/"
 			}
 		},
 		defaults : {
@@ -476,7 +477,7 @@
 								colspan : that.tableTh[status].length
 							}});
 							$("#tbody_"+status).html(html);
-	
+							
 						}else{
 							alert("请求出错，缺少list对象");
 						}
@@ -512,7 +513,7 @@
 /* 45 */
 /***/ function(module, exports) {
 
-	module.exports = "<%\r\n   var status = data.status;\r\n   var list = data.list;\r\n   var colspan = data.colspan;\r\n%>\r\n<% if(list.length){ %>\r\n    <% _.each(list,function(item,index){ %>\r\n        <% var cls = (index+1)%2==0 ? \"even\" : \"odd\"; %>\r\n        <tr class=\"listItem <%=cls%>\">\r\n            <% if(status==0){ %>\r\n                <td><%=item.sale_time%></td>\r\n            <% }else{ %>\r\n                <td><%=item.account%></td>\r\n                <td><%=item.mobile%></td>\r\n            <% } %>\r\n            <td><%=item.virtual_no%> / <%=item.card_no%></td>\r\n            <td><%=item.supply%></td>\r\n            <td><%={\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"挂失\",\"4\":\"禁用\"}[item.status]%></td>\r\n            <td class=\"font-blue doAction\">\r\n                <a style=\"margin-right:8px\" class=\"doBtn detail\" target=\"_blank\" href=\"annual_memdetail.html?id=<%=item.memberid%>\">查看</a>\r\n                <a style=\"display:none;margin-right:8px\" class=\"doBtn loss\" href=\"javascript:void(0);\">挂失</a>\r\n                <a style=\"display:none\" href=\"javascript:void(0);\" class=\"doBtn inavail\">禁用</a>\r\n            </td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n    <tr>\r\n        <td colspan=\"<%=colspan%>\" style=\"height:300px; text-align:center\">查无匹配内容...</td>\r\n    </tr>\r\n<% } %>";
+	module.exports = "<%\r\n   var status = data.status;\r\n   var list = data.list;\r\n   var colspan = data.colspan;\r\n%>\r\n<% if(list.length){ %>\r\n    <% _.each(list,function(item,index){ %>\r\n        <% var cls = (index+1)%2==0 ? \"even\" : \"odd\"; %>\r\n        <tr class=\"listItem <%=cls%>\">\r\n            <% if(status==0){ %>\r\n                <td><%=item.sale_time%></td>\r\n            <% }else{ %>\r\n                <td><%=item.account%></td>\r\n                <td><%=item.mobile%></td>\r\n            <% } %>\r\n            <td><%=item.virtual_no%> / <%=item.card_no%></td>\r\n            <td><%=item.supply%></td>\r\n            <td><%={\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"禁用\",\"4\":\"挂失\"}[item.status]%></td>\r\n            <td class=\"font-blue doAction\">\r\n                <% if(item.status==0){ %>\r\n                    <span class=\"color:#ccc\">--</span>\r\n                <% }else{ %>\r\n                    <a style=\"margin-right:8px\" class=\"doBtn detail\" target=\"_blank\" href=\"annual_memdetail.html?id=<%=item.memberid%>\">查看</a>\r\n                <% } %>\r\n                <a style=\"display:none;margin-right:8px\" class=\"doBtn loss\" href=\"javascript:void(0);\">挂失</a>\r\n                <a style=\"display:none\" href=\"javascript:void(0);\" class=\"doBtn inavail\">禁用</a>\r\n            </td>\r\n        </tr>\r\n    <% }) %>\r\n<% }else{ %>\r\n    <tr>\r\n        <td colspan=\"<%=colspan%>\" style=\"height:300px; text-align:center\">查无匹配内容...</td>\r\n    </tr>\r\n<% } %>";
 
 /***/ },
 /* 46 */

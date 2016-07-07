@@ -56,21 +56,22 @@
 	var MainView = Backbone.View.extend({
 		time : 60,  //获取验证码的间隔时间 60s
 		timer : null,
-		cardHasReaded : {},
 		el : $("#cardContainer"),
 		events : {
 			"click #readCardBtn" : "onReadCardBtnClick",
 			"click #getVCodeBtn" : "onGetVCodeBtnClick",
 			"click #activateBtn" : "onActiveBtnClick",
-			"blur .textInp" : "onTextInpBlur",
-			"focus .textInp" : "onTextInpFocus"
+			//"blur .textInp" : "onTextInpBlur",
+			"focus .textInp" : "onTextInpFocus",
+			"keyup #cardInp" : "onCardInpKeyup",
+			"click #clearCardInpBtn" : "onClearCardInpBtnClick"
 		},
 		initialize : function(){
 			var that = this;
 			this.cardInp = $("#cardInp");
 			this.readCardBtn = $("#readCardBtn");
 			this.getVCodeBtn = $("#getVCodeBtn");
-			this.idCardInp = $("#idCardInp");
+			this.idCardInp = $("#idNum");
 			this.cardInfoBar = $("#cardInfoBar").hide();
 			this.mobileInp = $("#mobileInp");
 			this.vcodeInp = $("#vcodeInp");
@@ -82,15 +83,6 @@
 				that.submit("replace");
 				this.close();
 			})
-		},
-		//点击读卡
-		onReadCardBtnClick : function(e){
-			if($(e.currentTarget).hasClass("disable")) return false;
-			var cardval = this.ReadPhysicsCard.read();
-			this.cardInp.val(cardval);
-			if(!cardval) return alert("读卡失败");
-			this.cardHasReaded[cardval] = 1;
-			this.getCardInfo(cardval,"physics")
 		},
 		//点击获取验证码
 		onGetVCodeBtnClick : function(e){
@@ -105,16 +97,14 @@
 			var tarBtn = $(e.currentTarget);
 			if(tarBtn.hasClass("disable")) return false;
 			if(this.cardInfoBar.hasClass("error")) return false;
-			if(!this.cardInp.val()){
-				this.cardInp.blur();
-				return false;
-			}
-			this.mobileInp.blur();
-			if(this.mobileInp.siblings(".tip").hasClass("error")) return false;
-			this.vcodeInp.blur();
-			if(this.vcodeInp.siblings(".tip").hasClass("error")) return false;
-			this.idCardInp.blur();
-			if(this.idCardInp.siblings(".tip").hasClass("error")) return false;
+			var physics_no = this.cardInp.val();
+			if(!physics_no) return alert("物理卡号不能为空");
+			var check_mobile = this.validator.mobile.call(this);
+			if(!check_mobile) return false;
+			var check_vcode =  this.validator.vcode.call(this);
+			if(!check_vcode) return false;
+			var check_idCard = this.validator.idCard.call(this);
+			if(!check_idCard) return false;
 			this.submit();
 		},
 		onTextInpBlur : function(e){
@@ -142,18 +132,20 @@
 				tarInp.siblings(".tip").removeClass("error").hide();
 			}
 		},
+		onClearCardInpBtnClick : function(e){
+			this.cardInp.val("").focus();
+			$(e.currentTarget).hide();
+		},
+		onCardInpKeyup : function(e){
+			var tarInp = $(e.currentTarget);
+			var val = tarInp.val();
+			var keycode = e.keyCode;
+			var clearBtn = $("#clearCardInpBtn");
+			if(keycode!=13) return false;
+			val ? clearBtn.show() : clearBtn.hide();
+			this.getCardInfo(val,"physics");
+		},
 		validator : {
-			card : function(){
-				var tarInp = this.cardInp;
-				var val = $.trim(tarInp.val());
-				var cardInfoBar = this.cardInfoBar;
-				if(!val){
-					cardInfoBar.show().addClass("error").html("请输入卡号或直接用读卡器读取卡号");
-				}else{
-					cardInfoBar.hide().removeClass("error");
-					this.getCardInfo(val,"other");
-				}
-			},
 			mobile : function(){
 				var mobileInp = this.mobileInp;
 				var mobile = $.trim(mobileInp.val());
@@ -178,11 +170,12 @@
 					return true;
 				}
 			},
-			idCard : function(need){
+			idCard : function(){
 				var idCardInp = this.idCardInp;
 				var idCard = $.trim(idCardInp.val());
 				var tip = idCardInp.siblings(".tip");
-				if((idCard && !PFT.Util.Validate.idCard(idCard)) || ((need==1) && !idCard)){
+				var is_require = idCardInp.attr("data-require");
+				if((idCard && !PFT.Util.Validate.idcard(idCard)) || ((is_require==1) && !idCard)){
 					tip.show().addClass("error").text("请填写正确格式身份证");
 					return false;
 				}else{
@@ -194,6 +187,7 @@
 		getCardInfo : function(card_no,type){
 			var that = this;
 			var tarBtn = this.readCardBtn;
+			var idCardInp = that.idCardInp;
 			if(!card_no || !type) return false;
 			PFT.Util.Ajax(Api.Url.active.checkCard,{
 				params : {
@@ -202,6 +196,7 @@
 				},
 				loading : function(){
 					tarBtn.addClass("disable");
+					idCardInp.val("");
 					$("#loadingIcon").show();
 				},
 				complete : function(){
@@ -212,17 +207,18 @@
 					res = res || {};
 					var data= res.data;
 					if(res.code==200){
-						var idCardInp = that.idCardInp;
 						var needID = data.need_ID || "";
 						var virtual_no = data.virtual_no;
 						var physics_no = data.physics_no;
+						var card_no = data.card_no;
 						idCardInp.attr("validate","idCard:"+needID);
+						idCardInp.attr("data-requrie",needID);
 						if(needID==1){
 							$("#idCard-fontRed").show();
 						}else{
 							$("#idCard-fontRed").hide();
 						}
-						that.cardInfoBar.show().removeClass("error").html("虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
+						that.cardInfoBar.show().removeClass("error").html("实体卡号："+card_no+"<i style='margin:0 10px'></i>虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
 					}else{
 						that.cardInfoBar.show().html(res.msg || PFT.AJAX_ERROR_TEXT).addClass("error");
 					}
@@ -262,14 +258,13 @@
 			var that = this;
 			var submitBtn = this.submitBtn;
 			var cardVal = this.cardInp.val();
-			var type = this.cardHasReaded[cardVal] ? "physics" : "other";
 			var mobile = this.mobileInp.val();
 			var name = this.memnameInp.val();
 			var id_card = this.idCardInp.val();
 			var vcode = this.vcodeInp.val();
 			var data = {
 				identify : cardVal,
-				type : type,
+				type : "physics",  //type="physics"||"other"
 				mobile : mobile,
 				name : name,
 				id_card : id_card,
@@ -394,7 +389,8 @@
 			},
 			//会员详情页面
 			memdetail : {
-				detail : "/r/product_AnnualCard/getMemberDetail/"
+				detail : "/r/product_AnnualCard/getMemberDetail/",
+				history : "/r/product_AnnualCard/getHistoryOrder/"
 			}
 		},
 		defaults : {
@@ -461,8 +457,7 @@
 		var that = this;
 		this.submitData = {};
 		this.SDialog = new SDialog({
-			width : 520,
-			height : 280,
+			width : 680,
 			content : tpl,
 			drag : true,
 			events : {
@@ -482,12 +477,25 @@
 			var idCard = opt.idCard;
 			var name = opt.name;
 			var left = opt.left;
+			var result = "";
+			if(Object.prototype.toString.call(left)=="[object Array]"){
+				result = '<p class="pname">'+name+'</p>';
+				for(var i in left){
+					var lef = left[i];
+					var ltitle = lef.ltitle;
+					var title = lef.title;
+					var left_num = lef.left;
+					result += '<p class="lname">'+ltitle+" "+title+'（'+left_num+'）</p>';
+				}
+			}else{
+				result = name+"（"+left+"）";
+			}
 			this.submitData = opt.submitData;
 			this.SDialog.open({
 				onBefore : function(){
 					$("#existDialog_mobile").text(mobile);
 					$("#existDialog_idCard").text(idCard);
-					$("#existDialog_name").text(name+"（"+left+"）");
+					$("#existDialog_name").html(result);
 				}
 			});
 		},
@@ -1117,7 +1125,7 @@
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td id=\"existDialog_mobile\"></td>\r\n            <td id=\"existDialog_idCard\"></td>\r\n            <td id=\"existDialog_name\"></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">更换信息</a>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"memberBox\" id=\"memberBox\">\r\n    <p class=\"memP\">会员已存在！是否替换原有卡和套餐？</p>\r\n    <table class=\"memTable border\">\r\n        <thead>\r\n        <tr class=\"font-gray\">\r\n            <th>手机号</th>\r\n            <th>身份证</th>\r\n            <th>卡套餐（已用特权数）</th>\r\n        </tr>\r\n        </thead>\r\n        <tbody>\r\n        <tr>\r\n            <td><div style=\"padding-right:10px\" id=\"existDialog_mobile\"></div></td>\r\n            <td><div style=\"padding-right:10px\" id=\"existDialog_idCard\"></div></td>\r\n            <td><div id=\"existDialog_name\"></div></td>\r\n        </tr>\r\n        </tbody>\r\n    </table>\r\n    <div class=\"btnBox\">\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-blue\" id=\"replaceBtn\">替换并提交订单</a>\r\n        <a href=\"javascript:void(0);\" class=\"btn btn-border\" id=\"messageBtn\">取消</a>\r\n    </div>\r\n</div>";
 
 /***/ }
 /******/ ]);

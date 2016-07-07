@@ -52,10 +52,10 @@
 	 */
 	__webpack_require__(89);
 	var Api = __webpack_require__(5);
-	var LoadingPc = __webpack_require__(38);
+	var LoadingPc = __webpack_require__(44);
 	var detailTpl = __webpack_require__(91);
 	var historyTpl = __webpack_require__(92);
-	var Pagination = __webpack_require__(46);
+	var Pagination = __webpack_require__(52);
 	var MainView = Backbone.View.extend({
 		el : $("#memDetailContainer"),
 		initialize : function(){
@@ -110,7 +110,7 @@
 		getHistory : function(memberid,page,page_size){
 			if(!memberid) return false;
 			page = page || 1;
-			page_size = page_size || 20;
+			page_size = page_size || 10;
 			var that = this;
 			var container = $("#historyListContainer");
 			var template = this.history_template;
@@ -269,7 +269,7 @@
 
 /***/ },
 
-/***/ 38:
+/***/ 44:
 /***/ function(module, exports) {
 
 	/**
@@ -313,7 +313,7 @@
 
 /***/ },
 
-/***/ 46:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -321,7 +321,7 @@
 	 * Date: 2016/6/16 10:18
 	 * Description: ""
 	 */
-	__webpack_require__(47);
+	__webpack_require__(53);
 	var Defaults = {
 		container : "",               //组件要渲染到的容器
 		onNext : function(){},        //要到下一页时触发回调
@@ -353,7 +353,7 @@
 	Pagination.prototype = {
 		init : function(opt){
 			var that = this;
-			this.tpl = __webpack_require__(49);
+			this.tpl = __webpack_require__(55);
 			this.container = typeof opt.container=="string" ? $("#"+opt.container.replace(/#/,"")) : opt.container;
 			this.container.hide().html(this.tpl);
 			this.currentPage = this.container.find(".whichPageInp");
@@ -482,14 +482,14 @@
 
 /***/ },
 
-/***/ 47:
+/***/ 53:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 49:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigationBar\">\r\n    <div class=\"navCon\">\r\n        <a href=\"javascript:void(0)\" class=\"navBtn next nextPageBtn disable\"><span class=\"iconfont\">&#xe60d;</span></a>\r\n        <a href=\"javascript:void(0)\" class=\"prevPageBtn navBtn prev disable\"><span class=\"iconfont\">&#xe60c;</span></a>\r\n        <div class=\"which\">\r\n            <span class=\"whichPageInp pagenum\">1</span>\r\n            <span class=\"var\"> / </span>\r\n            <span class=\"totalPageInp pagenum\">1</span>\r\n        </div>\r\n    </div>\r\n    <p style=\"display:none\" class=\"tip keyupTip\">亲，可以使用键盘前后方向键来翻页哟</p>\r\n</div>";
@@ -506,7 +506,7 @@
 /***/ 91:
 /***/ function(module, exports) {
 
-	module.exports = "<% var member=data.member, list=data.list || [], history=data.history; %>\r\n<% var statusTxt = {\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"禁用\",\"4\":\"挂失\"}; %>\r\n<div class=\"memberBox\" style=\"background:#e2f6fe\">\r\n    <span class=\"memberH\">H</span>\r\n    <ul class=\"memUl\">\r\n        <li>\r\n            <p><span class=\"memL\">会员名称：</span><span class=\"memR\"><%=member.account%></span></p>\r\n        </li>\r\n        <li>\r\n            <p><span class=\"memL\">手机号：</span><span class=\"memR\"><%=member.mobile%></span></p>\r\n        </li>\r\n    </ul>\r\n</div>\r\n<%_.each(list,function(item){%>\r\n<div style=\"background:#fff; border-top:1px solid #e5e5e5\" class=\"memberBox\">\r\n    <ul class=\"memUl marL-70\">\r\n            <li>\r\n                <p><span class=\"memL\">虚拟卡号：</span><span class=\"memR\"><%=item.virtual_no%></span></p>\r\n                <p><span class=\"memL\">实体卡号：</span><span class=\"memR\"><%=item.card_no%></span></p>\r\n                <p><span class=\"memL\">物理ID：</span><span class=\"memR\"><%=item.physics_no%></span></p>\r\n                <!--<p><span class=\"memL\">可用优惠券：</span><span class=\"memR\">0</span></p>-->\r\n                <p><span class=\"memL\">发卡商户：</span><span class=\"memR\"><%=item.supply%></span></p>\r\n            </li>\r\n            <li>\r\n                <p><span class=\"memL\">卡套餐：</span><span class=\"memR\">无</span></p>\r\n                <p><span class=\"memL\">有效期：</span><span class=\"memR\"><%=item.valid_time%></span></p>\r\n                <div class=\"memLine\">\r\n                    <span class=\"memL\">已用特权：</span>\r\n                    <div class=\"memR\">\r\n                        <%_.each(item.priv,function(priv){%>\r\n                            <p><%=priv.title%> <%=priv.use%></p>\r\n                        <%})%>\r\n                    </div>\r\n                </div>\r\n                <p><span class=\"memL\">状态：</span><span class=\"memR font-orange\"><a href=\"javascript:void(0);\" class=\"unActivate\"><%=statusTxt[item.status]%></a></span></p>\r\n                <p><span class=\"memL\">备注：</span></p>\r\n            </li>\r\n    </ul>\r\n</div>\r\n<%})%>\r\n\r\n";
+	module.exports = "<% var member=data.member, list=data.list || [], history=data.history; %>\r\n<% var statusTxt = {\"1\":\"正常\",\"0\":\"未激活\",\"2\":\"禁用\",\"4\":\"挂失\"}; %>\r\n<div class=\"memberBox\" style=\"background:#e2f6fe\">\r\n    <span class=\"memberH\">H</span>\r\n    <ul class=\"memUl\">\r\n        <li>\r\n            <p><span class=\"memL\">会员名称：</span><span class=\"memR\"><%=member.account%></span></p>\r\n        </li>\r\n        <li>\r\n            <p><span class=\"memL\">手机号：</span><span class=\"memR\"><%=member.mobile%></span></p>\r\n        </li>\r\n    </ul>\r\n</div>\r\n<%_.each(list,function(item){%>\r\n<div style=\"background:#fff; border-top:1px solid #e5e5e5\" class=\"memberBox\">\r\n    <ul class=\"memUl marL-70\">\r\n            <li>\r\n                <p><span class=\"memL\">虚拟卡号：</span><span class=\"memR\"><%=item.virtual_no%></span></p>\r\n                <p><span class=\"memL\">实体卡号：</span><span class=\"memR\"><%=item.card_no%></span></p>\r\n                <p><span class=\"memL\">物理ID：</span><span class=\"memR\"><%=item.physics_no%></span></p>\r\n                <!--<p><span class=\"memL\">可用优惠券：</span><span class=\"memR\">0</span></p>-->\r\n                <p><span class=\"memL\">发卡商户：</span><span class=\"memR\"><%=item.supply%></span></p>\r\n            </li>\r\n            <li>\r\n                <p><span class=\"memL\">卡套餐：</span><span class=\"memR\"><%=item.title%></span></p>\r\n                <p><span class=\"memL\">有效期：</span><span class=\"memR\"><%=item.valid_time%></span></p>\r\n                <div class=\"memLine\">\r\n                    <span class=\"memL\">已用特权：</span>\r\n                    <div class=\"memR\">\r\n                        <%_.each(item.priv,function(priv){%>\r\n                            <p><%=priv.title%> <%=priv.use%></p>\r\n                        <%})%>\r\n                    </div>\r\n                </div>\r\n                <p><span class=\"memL\">状态：</span><span class=\"memR font-orange\"><a href=\"javascript:void(0);\" class=\"unActivate\"><%=statusTxt[item.status]%></a></span></p>\r\n                <p><span class=\"memL\">备注：</span></p>\r\n            </li>\r\n    </ul>\r\n</div>\r\n<%})%>\r\n\r\n";
 
 /***/ },
 

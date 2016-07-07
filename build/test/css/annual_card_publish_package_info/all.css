@@ -23,8 +23,7 @@ body{
   outline: none; }
 .cardContainer a:visited{
   text-decoration: none;
-  outline: none;
-  color: #fff; }
+  outline: none; }
 .cardContainer a:active{
   text-decoration: none;
   outline: none; }
@@ -512,6 +511,10 @@ h1.entry {
 
 #calendar-pop-container {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2); }
+
+#submitInfoBtn {
+  color: white;
+  cursor: pointer; }
 
 /**/
 .pckTitListUl .pckTitListUlItem .editNameInp {

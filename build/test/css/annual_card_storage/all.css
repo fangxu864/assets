@@ -86,8 +86,7 @@ body{
   outline: none; }
 .cardContainer a:visited{
   text-decoration: none;
-  outline: none;
-  color: #fff; }
+  outline: none; }
 .cardContainer a:active{
   text-decoration: none;
   outline: none; }
