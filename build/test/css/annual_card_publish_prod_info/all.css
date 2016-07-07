@@ -23,8 +23,7 @@ body{
   outline: none; }
 .cardContainer a:visited{
   text-decoration: none;
-  outline: none;
-  color: #fff; }
+  outline: none; }
 .cardContainer a:active{
   text-decoration: none;
   outline: none; }
@@ -548,7 +547,9 @@ h1.entry {
   font-size: 24px; }
 
 #submitInfoBtn {
-  margin-top: 30px; }
+  margin-top: 30px;
+  cursor: pointer;
+  color: white; }
 
 #submitInfoBtn.disable {
   background: #c9c9c9;

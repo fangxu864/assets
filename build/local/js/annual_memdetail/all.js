@@ -52,10 +52,10 @@
 	 */
 	__webpack_require__(89);
 	var Api = __webpack_require__(5);
-	var LoadingPc = __webpack_require__(38);
+	var LoadingPc = __webpack_require__(44);
 	var detailTpl = __webpack_require__(91);
 	var historyTpl = __webpack_require__(92);
-	var Pagination = __webpack_require__(46);
+	var Pagination = __webpack_require__(52);
 	var MainView = Backbone.View.extend({
 		el : $("#memDetailContainer"),
 		initialize : function(){
@@ -269,7 +269,7 @@
 
 /***/ },
 
-/***/ 38:
+/***/ 44:
 /***/ function(module, exports) {
 
 	/**
@@ -313,7 +313,7 @@
 
 /***/ },
 
-/***/ 46:
+/***/ 52:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -321,7 +321,7 @@
 	 * Date: 2016/6/16 10:18
 	 * Description: ""
 	 */
-	__webpack_require__(47);
+	__webpack_require__(53);
 	var Defaults = {
 		container : "",               //组件要渲染到的容器
 		onNext : function(){},        //要到下一页时触发回调
@@ -353,7 +353,7 @@
 	Pagination.prototype = {
 		init : function(opt){
 			var that = this;
-			this.tpl = __webpack_require__(49);
+			this.tpl = __webpack_require__(55);
 			this.container = typeof opt.container=="string" ? $("#"+opt.container.replace(/#/,"")) : opt.container;
 			this.container.hide().html(this.tpl);
 			this.currentPage = this.container.find(".whichPageInp");
@@ -482,14 +482,14 @@
 
 /***/ },
 
-/***/ 47:
+/***/ 53:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 49:
+/***/ 55:
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"navigationBar\">\r\n    <div class=\"navCon\">\r\n        <a href=\"javascript:void(0)\" class=\"navBtn next nextPageBtn disable\"><span class=\"iconfont\">&#xe60d;</span></a>\r\n        <a href=\"javascript:void(0)\" class=\"prevPageBtn navBtn prev disable\"><span class=\"iconfont\">&#xe60c;</span></a>\r\n        <div class=\"which\">\r\n            <span class=\"whichPageInp pagenum\">1</span>\r\n            <span class=\"var\"> / </span>\r\n            <span class=\"totalPageInp pagenum\">1</span>\r\n        </div>\r\n    </div>\r\n    <p style=\"display:none\" class=\"tip keyupTip\">亲，可以使用键盘前后方向键来翻页哟</p>\r\n</div>";

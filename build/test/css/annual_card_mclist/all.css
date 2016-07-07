@@ -23,8 +23,7 @@ body{
   outline: none; }
 .cardContainer a:visited{
   text-decoration: none;
-  outline: none;
-  color: #fff; }
+  outline: none; }
 .cardContainer a:active{
   text-decoration: none;
   outline: none; }
@@ -252,6 +251,9 @@ select {
 .activaCard:link, .query:link, .active:link {
   color: white; }
 
+.activaCard:visited, .query:visited {
+  color: white; }
+
 .manageState {
   height: 115px;
   padding-left: 24px;
@@ -262,7 +264,7 @@ select {
   position: absolute;
   z-index: 1;
   top: -1px;
-  left: 420px;
+  left: 218px;
   width: 30px;
   height: 30px;
   cursor: pointer;
@@ -279,7 +281,7 @@ select {
   height: 28px;
   line-height: 28px;
   background-color: transparent;
-  color: #fff;
+  color: #0797d9;
   border-radius: 0px;
   font-size: 14px;
   margin-top: 13px; }
@@ -389,6 +391,9 @@ select {
 
 .listSlideContainer a:visited {
   color: #2A98DA; }
+
+#activaCard, #activaCard:visited {
+  color: #fff; }
 .navigationBar {
   width: 100%;
   margin-top: 10px;

@@ -266,7 +266,8 @@
 			},
 			//会员详情页面
 			memdetail : {
-				detail : "/r/product_AnnualCard/getMemberDetail/"
+				detail : "/r/product_AnnualCard/getMemberDetail/",
+				history : "/r/product_AnnualCard/getHistoryOrder/"
 			}
 		},
 		defaults : {
