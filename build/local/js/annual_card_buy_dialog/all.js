@@ -49,11 +49,11 @@
 	 * Date: 2016/6/21 10:22
 	 * Description: ""
 	 */
-	__webpack_require__(18);
+	__webpack_require__(24);
 	var SDialog = __webpack_require__(10);
-	var dialogTpl = __webpack_require__(20);
+	var dialogTpl = __webpack_require__(26);
 	var Api = __webpack_require__(5);
-	var Ajax = __webpack_require__(21);
+	var Ajax = __webpack_require__(27);
 	var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 	var AnnualCardBuyDialog = function(){
 		this.init();
@@ -891,20 +891,26 @@
 
 /***/ },
 /* 17 */,
-/* 18 */
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 19 */,
-/* 20 */
+/* 25 */,
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"annualDialogContainer\" class=\"annualDialogContainer\">\r\n    <div class=\"buywayBox\" id=\"buywayBox\">\r\n        <div class=\"boxContainer\">\r\n            <div class=\"bl border-right\">\r\n                <p class=\"entity\">实体卡购买</p>\r\n                <div class=\"enBox\">\r\n                    <!--<object classid=\"clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a\" width=\"0\" height=\"0\" id=\"readCardObj\"></object>-->\r\n                    <div style=\"position:relative\" class=\"readCardNumber\">\r\n                        <input id=\"cardNumberInp\" type=\"text\" class=\"CardNumberInp\" placeholder=\"将卡片放于刷卡器上读卡\"/>\r\n                        <!--<span class=\"btn btn-border CardNumberBtn\" id=\"readCardBtn\">读取卡号</span>-->\r\n                        <div id=\"clearCardInpBtn\" class=\"clearCardInpBtn\"><i class=\"iconfont\">&#xe674;</i></div>\r\n                    </div>\r\n                    <p style=\"padding:6px 0 0 2px; text-align:left; color:#999\" class=\"tip\">将卡片放于刷卡器上读卡</p>\r\n                    <p class=\"font-red carded\"></p>\r\n                    <div class=\"entityBox\">\r\n                        <span class=\"enCard\">已刷<span id=\"hasReadCount\" class=\"enNum\">0</span>张</span>\r\n                        <a href=\"javascript:void(0);\" class=\"btn btn-blue buyBtn disable\" id=\"buyBtn_card\">购买</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"br\">\r\n                <p class=\"entity\">虚拟卡购买</p>\r\n                <p class=\"kucun\">库存：<span id=\"virtualStorageNum\" style=\"font-size:16px;\">0</span></p>\r\n                <a href=\"javascript:void(0);\" class=\"btn btn-blue btn-mar buyBtn\" id=\"buyBtn_virtual\">购买</a>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ },
-/* 21 */
+/* 27 */
 /***/ function(module, exports) {
 
 	/**

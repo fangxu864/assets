@@ -7,6 +7,8 @@ require("./style.scss");
 var Api = require("../../common/api.js");
 var ReadPhysicsCard = require("../../common/readPhysicsCard.js");
 var CheckExistDialog = require("../../common/check-exist-dialog");
+var ProvCitySelect = require("COMMON/js/component.city.select.js");
+var Fileupload = require("COMMON/modules/fileupload");
 var MainView = Backbone.View.extend({
 	time : 60,  //获取验证码的间隔时间 60s
 	timer : null,
@@ -29,7 +31,7 @@ var MainView = Backbone.View.extend({
 		this.cardInfoBar = $("#cardInfoBar").hide();
 		this.mobileInp = $("#mobileInp");
 		this.vcodeInp = $("#vcodeInp");
-		this.memnameInp = $("#memnameInp");
+		this.memnameInp = $("#memName");
 		this.submitBtn = $("#activateBtn");
 		this.ReadPhysicsCard = new ReadPhysicsCard({id:"readCardObj"});
 		this.CheckExistDialog = new CheckExistDialog();
@@ -37,6 +39,29 @@ var MainView = Backbone.View.extend({
 			that.submit("replace");
 			this.close();
 		})
+		this.initSelect();
+		this.initFileupload();
+	},
+	initSelect : function(){
+		this.provCitySelect = new ProvCitySelect({
+			provId : "#provSelect",
+			cityId : "#citySelect",
+			onProvChange : function(data){
+
+			}
+		})
+	},
+	initFileupload : function(){
+		var that = this;
+		this.fileupload = new Fileupload({
+			container : "#imgUploadBox",
+			id : 1,
+			action : Api.Url.PublishCardProd.uploadFile,
+			loading : function(formControls){},
+			complete : function(res){
+				that.onImgUploadComplete(res);
+			}
+		});
 	},
 	//点击获取验证码
 	onGetVCodeBtnClick : function(e){
@@ -98,6 +123,27 @@ var MainView = Backbone.View.extend({
 		if(keycode!=13) return false;
 		val ? clearBtn.show() : clearBtn.hide();
 		this.getCardInfo(val,"physics");
+	},
+	onImgUploadComplete : function(res){
+		var res = res || {};
+		var code = res.code;
+		var data = res.data || {};
+		var src = data.src;
+		var msg = res.msg || "上传失败";
+		if(code==200 && src){
+			this.renderThumbList(src);
+			PFT.Util.STip("success",'<p style="width:200px">上传成功</p>');
+		}else{
+			PFT.Util.STip("fail",'<p style="width:200px">'+msg+'</p>');
+		}
+	},
+	renderThumbList : function(src){
+		var container = $("#uploadPhotoBox");
+		if(container.length==0){
+			container = $('<div id="uploadPhotoBox" class="uploadPhotoBox"></div>');
+			$("#imgUploadBox").parent().append(container);
+		}
+		container.html('<table><tr><td><img id="uploadPhotoImg" src="'+src+'" alt=""/></td></tr></table>');
 	},
 	validator : {
 		mobile : function(){
@@ -216,15 +262,28 @@ var MainView = Backbone.View.extend({
 		var name = this.memnameInp.val();
 		var id_card = this.idCardInp.val();
 		var vcode = this.vcodeInp.val();
+
+		var provCity = this.provCitySelect.getVal();
+		var province = provCity.prov;
+		var city = provCity.city;
+		var address = $("#addressInp").val();
+		var head_img = $("#uploadPhotoImg").attr("src") || "";
+
 		var data = {
 			identify : cardVal,
 			type : "physics",  //type="physics"||"other"
 			mobile : mobile,
 			name : name,
 			id_card : id_card,
-			vcode : vcode
+			vcode : vcode,
+			province : province,
+			city : city,
+			address : address,
+			head_img : head_img
 		};
+
 		if(replace=="replace") data["replace"] = 1;
+
 		PFT.Util.Ajax(Api.Url.active.activateForPc,{
 			type : "post",
 			params : data,
