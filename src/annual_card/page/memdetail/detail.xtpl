@@ -22,7 +22,7 @@
                 <p><span class="memL">发卡商户：</span><span class="memR"><%=item.supply%></span></p>
             </li>
             <li>
-                <p><span class="memL">卡套餐：</span><span class="memR">无</span></p>
+                <p><span class="memL">卡套餐：</span><span class="memR"><%=item.title%></span></p>
                 <p><span class="memL">有效期：</span><span class="memR"><%=item.valid_time%></span></p>
                 <div class="memLine">
                     <span class="memL">已用特权：</span>

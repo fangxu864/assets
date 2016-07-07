@@ -63,7 +63,7 @@ var MainView = Backbone.View.extend({
 	getHistory : function(memberid,page,page_size){
 		if(!memberid) return false;
 		page = page || 1;
-		page_size = page_size || 20;
+		page_size = page_size || 10;
 		var that = this;
 		var container = $("#historyListContainer");
 		var template = this.history_template;
