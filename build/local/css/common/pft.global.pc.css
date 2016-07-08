@@ -121,30 +121,40 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-text-stroke-width: 0px;
   -moz-osx-font-smoothing: grayscale; }
 
+body {
+  background: #f8f9fb; }
+
 .PageMainBodyContainer {
   position: relative;
   width: 1000px;
-  overflow: hidden;
   margin: 10px auto 30px; }
 
 .PageLeftBarContainer {
   position: absolute;
   top: 0;
   left: 0;
-  width: 190px; }
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  width: 178px;
+  margin-right: 10px; }
 
 .PageBodyMainContainer {
   position: relative;
   margin-left: 200px; }
 
-.headerContainer {
-  width: 1000px;
-  height: 154px;
-  margin: 0 auto; }
+.PageHeaderContainer {
+  height: 154px; }
+
+.topBox {
+  width: 100%;
+  height: 27px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #dcdcdc; }
 
 .topContainer {
+  width: 1000px;
+  margin: 0 auto;
   overflow: hidden;
-  height: 27px;
   line-height: 27px; }
 
 .topContainer .topLeft {
@@ -153,11 +163,101 @@ input[type=number]::-webkit-outer-spin-button {
 .topContainer .topLeft .shopNameBox {
   margin-right: 20px; }
 
-.topContainer .topLeft .shopNameBox .shopName {
+.topContainer .topLeft .shopNameBox .shopName, .message, .exit, .setHome, .addFavor, .webHome {
   color: #2A98DA; }
 
+.topContainer a:hover, .webHome:hover {
+  text-decoration: underline; }
+
 .topContainer .topLeft .message {
-  background: url(http://www.12301.cc/images/notice.png) 0 -7px no-repeat; }
+  background: url(http://www.12301.cc/images/notice.png) 0 -7px no-repeat;
+  padding-left: 20px; }
 
 .topContainer .topLeft .message .megNumber {
   color: red; }
+
+.topContainer .topRight {
+  float: right; }
+
+.bannerContainer {
+  height: 88px;
+  width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fff; }
+
+.bannerContainer .logo {
+  float: left; }
+
+.bannerContainer .logo img {
+  vertical-align: middle;
+  height: 67px;
+  width: auto;
+  margin-top: 10px; }
+
+.bannerContainer .bannerBox {
+  float: right;
+  padding-top: 14px; }
+
+.headerBar {
+  width: 100%;
+  background: #2A98DA;
+  height: 34px;
+  border-bottom: 2px solid #0170bc; }
+
+.headerBarBox {
+  width: 1000px;
+  margin: 0 auto; }
+
+.headerBarBox .webHome {
+  display: inline-block;
+  width: 110px;
+  height: 30px;
+  background: #fff;
+  border: 2px solid #0170bc;
+  border-bottom: 0 none;
+  margin-top: 4px;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold; }
+
+.interval {
+  color: #A7A9AA; }
+
+.leftBar {
+  line-height: 30px;
+  color: #3e3e3e;
+  padding: 14px 0 14px 23px; }
+
+.leftBar dt {
+  padding-left: 15px;
+  background: url(http://www.12301.cc/images/dasanj.png) left center no-repeat;
+  font-weight: bold; }
+
+.leftBar a {
+  color: #3e3e3e;
+  padding-left: 15px; }
+
+.leftBar a:hover {
+  text-decoration: underline; }
+
+.leftBar .newTip {
+  color: red; }
+
+.PageFooterContainer {
+  height: 148px;
+  background: #fff;
+  text-align: center;
+  color: #A7A9AA;
+  padding-top: 28px; }
+
+.PageFooterContainer a {
+  color: #A7A9AA;
+  font-weight: bold;
+  line-height: 48px; }
+
+.PageFooterContainer a:hover {
+  color: #2A98DA; }
+
+.PageFooterContainer p {
+  line-height: 22px; }

@@ -1,7 +1,19 @@
-.headerContainer{width:1000px; height:154px; margin:0 auto;}
-.topContainer{ overflow:hidden; height:27px; line-height:27px;}
+.PageHeaderContainer{height:154px;}
+.topBox{width:100%; height:27px;background:#f8f8f8; border-bottom:1px solid #dcdcdc;}
+.topContainer{width:1000px;margin:0 auto; overflow:hidden;line-height:27px; }
 .topContainer .topLeft{ float:left;}
 .topContainer .topLeft .shopNameBox{ margin-right:20px;}
-.topContainer .topLeft .shopNameBox .shopName{color:#2A98DA}
-.topContainer .topLeft .message{ background:url(http://www.12301.cc/images/notice.png) 0 -7px no-repeat;}
+.topContainer .topLeft .shopNameBox .shopName,.message,.exit,.setHome,.addFavor,.webHome{color:#2A98DA;}
+.topContainer a:hover,.webHome:hover{ text-decoration: underline;}
+.topContainer .topLeft .message{ background:url(http://www.12301.cc/images/notice.png) 0 -7px no-repeat; padding-left:20px;}
 .topContainer .topLeft .message .megNumber{ color:red;}
+.topContainer .topRight{ float:right;}
+.bannerContainer{height:88px;width:1000px;margin:0 auto;overflow:hidden; background:#fff;}
+.bannerContainer .logo{ float:left;}
+.bannerContainer .logo img{vertical-align: middle; height:67px; width:auto; margin-top:10px;}
+.bannerContainer .bannerBox{ float:right; padding-top:14px;}
+.headerBar{ width:100%; background:#2A98DA; height:34px; border-bottom:2px solid #0170bc;}
+.headerBarBox{ width:1000px; margin:0 auto;}
+.headerBarBox .webHome{ display:inline-block; width:110px; height:30px; background:#fff; border:2px solid #0170bc;
+  border-bottom:0 none; margin-top:4px; text-align:center; line-height:30px; font-weight:bold;}
+.interval{color:#A7A9AA;}
