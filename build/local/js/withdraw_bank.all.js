@@ -50,7 +50,6 @@
 	 * Description: ""
 	 */
 	var Dialog = __webpack_require__(1);
-	var Api = __webpack_require__(12);
 	var BankManager = function(){
 		this.bankListUl = $("#bankListUl");
 		this.addBankBtn = $("#addbk");
@@ -58,24 +57,11 @@
 		this.bindEvents();
 	}
 	BankManager.prototype = {
-		__bankList : null,
-		__province : null,
 		bindEvents : function(){
 			var that = this;
 			var Dialog = this.Dialog;
 			this.addBankBtn.on("click",function(e){
 				Dialog.open();
-				if(!that.__bankList && !that.__province) that.getList();
-			})
-		},
-		getList : function(){
-			Api.getList({
-				loading : function(){},
-				complete : function(){},
-				success : function(res){
-					var data = res.data;
-					
-				}
 			})
 		}
 	};
@@ -96,6 +82,7 @@
 	__webpack_require__(13);
 	var Dialog = __webpack_require__(2);
 	var dialog_content = __webpack_require__(11);
+	var Api = __webpack_require__(12);
 	var Main = function(){
 		this.dialog = new Dialog({
 			width : 680,
@@ -108,8 +95,54 @@
 		})
 	};
 	Main.prototype = {
-		open : function(opt){
-			this.dialog.open(opt);
+		__bankList : null,
+		__province : null,
+		getBankList : function(){
+			var that = this;
+			PFT.Util.Ajax(Api.url("getList"),{
+				loading : function(){},
+				complete : function(){},
+				success : function(res){
+					res = res || {};
+					var data = res.data || {};
+					var list = data.list;
+					var province = data.province;
+					if(res.code==200){
+						that.__bankList = list;
+						that.__province = province;
+						var bankHtml = "";
+						var provHtml = "";
+						for(var i in list){
+							var d = list[i];
+							var code = d["code"];
+							var name = d["name"];
+							bankHtml += '<option data-name="'+name+'" value="'+code+'">'+name+'</option>';
+						}
+						for(var p in province){
+							var d = province[p];
+							var code = d["code"];
+							var name = d["name"];
+							provHtml += '<option data-name="'+name+'" value="'+code+'">'+name+'</option>';
+						}
+						that.bankSelect.html(bankHtml);
+						that.provSelect.html(provHtml);
+					}else{
+						alert(res.msg || PFT.AJAX_ERROR_TEXT);
+					}
+				}
+			})
+		},
+		open : function(){
+			var that = this;
+			this.dialog.open({
+				onAfter : function(){
+					that.bankSelect = $("#bankName");
+					that.provSelect = $("#sss");
+					if(!that.__bankList && !that.__province){
+						that.getBankList();
+					}
+				}
+			});
 		}
 	};
 	module.exports = Main;
@@ -739,23 +772,7 @@
 		error : fn
 	};
 	var Api = {
-		url : PFT.Config.Api.get("Finance_Banks"),
-		getList : function(opt){
-			var opt = $.extend({},Defaults,opt);
-			var url = this.url("getList");
-			PFT.Util.Ajax(url,{
-				loading : opt.loading,
-				complete : opt.complete,
-				success : function(res){
-					res = res || {};
-					if(res.code==200){
-						opt.success(res);
-					}else{
-						alert(res.msg || PFT.AJAX_ERROR_TEXT)
-					}
-				}
-			})
-		}
+		url : PFT.Config.Api.get("Finance_Banks")
 	};
 	module.exports = Api;
 

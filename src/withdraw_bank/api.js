@@ -13,22 +13,6 @@ var Defaults = {
 	error : fn
 };
 var Api = {
-	url : PFT.Config.Api.get("Finance_Banks"),
-	getList : function(opt){
-		var opt = $.extend({},Defaults,opt);
-		var url = this.url("getList");
-		PFT.Util.Ajax(url,{
-			loading : opt.loading,
-			complete : opt.complete,
-			success : function(res){
-				res = res || {};
-				if(res.code==200){
-					opt.success(res);
-				}else{
-					alert(res.msg || PFT.AJAX_ERROR_TEXT)
-				}
-			}
-		})
-	}
+	url : PFT.Config.Api.get("Finance_Banks")
 };
 module.exports = Api;
