@@ -108,6 +108,24 @@
   background: #ccc;
   color: #999;
   cursor: default; }
+
+.bankDialogCxtContainer #bankForm {
+  position: relative; }
+
+.bankDialogCxtContainer #bankForm .bankCopyBox {
+  display: none;
+  position: absolute;
+  left: 160px;
+  top: 173px;
+  z-index: 9999;
+  width: 304px;
+  height: 36px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #fbf9da;
+  border: 1px solid #f07845;
+  line-height: 36px;
+  padding-left: 6px; }
 .gSimpleDialog-container {
   position: fixed;
   overflow: hidden;
