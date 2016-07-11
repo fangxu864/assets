@@ -11,3 +11,5 @@
 .bankDialogCxtContainer .line .lineright .selectAreaInp{@include selectInp(154,36)}
 .bankDialogCxtContainer .line .lineright .tip{ color:#999}
 .bankDialogCxtContainer .line .lineright.error .tip{ color:red;}
+.bankDialogCxtContainer .submitBtn{@include btn-inline-block(); margin-left:110px;}
+.bankDialogCxtContainer .submitBtn.disable{ @include btn-disable();}

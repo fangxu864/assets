@@ -61,6 +61,8 @@
                 <span class="tip"></span>
             </div>
         </div>
-        
+        <div class="line">
+            <a href="javascript:void(0)" class="submitBtn" id="submitBtn">确认提交</a>
+        </div>
     </form>
 </div>
