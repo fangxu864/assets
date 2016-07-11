@@ -95,9 +95,6 @@
 				that.bankSelect = $("#bankName");
 				that.provSelect = $("#provSelect");
 				that.citySelect = $("#citySelect");
-				//that.subBankSelect = new Select({
-				//	trigger : $("#subBranchName")
-				//});
 				that.bankSelect.on("change",function(e){
 					var bank_id = $(this).val();
 					var city_id = that.citySelect.val();
@@ -219,17 +216,6 @@
 				size : size
 			});
 			var Cache = this.__bankCache[params];
-			var renderOption = function(list){
-				var html = "";
-				for(var i in list){
-					var d = list[i];
-					var code = d["code"];
-					var name = d["name"];
-					var phone = d["phone"];
-					html += '<option data-name="'+name+'" data-phone="'+phone+'" value="'+code+'">'+name+'</option>';
-				}
-				return html;
-			};
 			if(ifCache && Cache){
 				that.subBankSelect.refresh(Cache);
 			}else{
