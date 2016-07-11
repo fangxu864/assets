@@ -11,7 +11,7 @@ var Main = function(){
 	var that = this;
 	this.dialog = new Dialog({
 		width : 680,
-		height : 350,
+		height : 370,
 		content : dialog_content,
 		drag : true,
 		onReady : function(){
