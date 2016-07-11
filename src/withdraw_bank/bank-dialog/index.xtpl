@@ -38,6 +38,7 @@
                 <span class="tip">请准确填写银行卡号</span>
             </div>
         </div>
+        <div id="bankCopyBox" class="bankCopyBox">928349238492348</div>
         <div class="line">
             <div class="lineLeft">
                 <label for=""><span class="warningTip">*</span>开户姓名:</label>
