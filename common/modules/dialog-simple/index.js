@@ -21,6 +21,7 @@ var Defaults = {
 	overlay : true,
 	headerHeightMin : 46,
 	events : {},
+	onReady : fn,
 	onOpenBefore : fn,
 	onOpenAfter : fn,
 	onCloseBefore : fn,
@@ -105,6 +106,7 @@ Dialog.prototype = Extend({
 			}
 		},10)
 		this.position();
+		opt.onReady();
 	},
 	position : function(){
 		var container = this.container;

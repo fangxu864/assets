@@ -1,12 +1,13 @@
 @import "COMMON/css/base/core";
 #bankDialogCxtContainer{ background:#fff}
 #bankForm{ padding:20px;}
-#bankForm .bankTitle{ background:f5f5f5; border-bottom:#e5e5e5;}
-.line{ overflow:hidden; margin-top:14px;}
-.line .lineLeft{ float:left; width:120px; line-height:32px; text-align:right; padding-right:10px;}
-.line .lineright{ float:left;}
-.line .warningTip{ color:red;}
-.line .lineright .selectInp{ @include selectInp(196,30)}
-.line .lineright .textInp{ @include textInp(184,2)}
-.line .lineright .selectAreaInp{@include selectInp(96,30)}
-.line .lineright.error .tip{ color:red;}
+#bankForm .bankTitle{ font-size:18px; font-weight:bold; padding-left:30px}
+.bankDialogCxtContainer .line{ overflow:hidden; margin-top:14px; padding-left:30px;}
+.bankDialogCxtContainer .line .lineLeft{ float:left; width:100px; line-height:32px; text-align:left; padding-right:10px;}
+.bankDialogCxtContainer .line .lineright{ float:left;}
+.bankDialogCxtContainer .line .warningTip{ color:red;}
+.bankDialogCxtContainer .line .lineright .selectInp{ @include selectInp(196,30)}
+.bankDialogCxtContainer .line .lineright .textInp{ @include textInp(184,2)}
+.bankDialogCxtContainer .line .lineright .selectAreaInp{@include selectInp(96,30)}
+.bankDialogCxtContainer .line .lineright .tip{ color:#999}
+.bankDialogCxtContainer .line .lineright.error .tip{ color:red;}

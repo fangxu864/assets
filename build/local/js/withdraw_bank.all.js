@@ -79,18 +79,23 @@
 	 * Date: 2016/7/11 11:48
 	 * Description: ""
 	 */
-	__webpack_require__(13);
-	var Dialog = __webpack_require__(2);
-	var dialog_content = __webpack_require__(11);
-	var Api = __webpack_require__(12);
+	__webpack_require__(2);
+	var Dialog = __webpack_require__(6);
+	var dialog_content = __webpack_require__(13);
+	var Api = __webpack_require__(14);
 	var Main = function(){
+		var that = this;
 		this.dialog = new Dialog({
 			width : 680,
 			height : 350,
 			content : dialog_content,
 			drag : true,
-			events : {
-	
+			onReady : function(){
+				that.bankSelect = $("#bankName");
+				that.provSelect = $("#provSeect");
+				that.provSelect.on("change",function(e){
+					console.log(e)
+				})
 			}
 		})
 	};
@@ -136,8 +141,7 @@
 			var that = this;
 			this.dialog.open({
 				onAfter : function(){
-					that.bankSelect = $("#bankName");
-					that.provSelect = $("#sss");
+	
 					if(!that.__bankList && !that.__province){
 						that.getBankList();
 					}
@@ -149,6 +153,15 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -156,11 +169,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(3);
-	var WinWidthHeight = __webpack_require__(7);
-	var Drag = __webpack_require__(8);
-	var PubSub = __webpack_require__(9);
-	var Extend = __webpack_require__(10);
+	__webpack_require__(7);
+	var WinWidthHeight = __webpack_require__(9);
+	var Drag = __webpack_require__(10);
+	var PubSub = __webpack_require__(11);
+	var Extend = __webpack_require__(12);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -174,6 +187,7 @@
 		overlay : true,
 		headerHeightMin : 46,
 		events : {},
+		onReady : fn,
 		onOpenBefore : fn,
 		onOpenAfter : fn,
 		onCloseBefore : fn,
@@ -258,6 +272,7 @@
 				}
 			},10)
 			this.position();
+			opt.onReady();
 		},
 		position : function(){
 			var container = this.container;
@@ -325,16 +340,14 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 3 */
+/* 7 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
+/* 8 */,
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -361,7 +374,7 @@
 	}
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/**
@@ -688,7 +701,7 @@
 	module.exports = Drag;
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -730,7 +743,7 @@
 	module.exports = E;
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -748,13 +761,13 @@
 	}
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"bankDialogCxtContainer\" class=\"bankDialogCxtContainer\">\r\n    <form id=\"bankForm\">\r\n        <div class=\"bankTitle\">添加配置银行卡</div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankName\" class=\"bankName selectInp\"></select>\r\n                <span class=\"tip\">请填写开户行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户支行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"subBranchName\" class=\"subBranchName selectInp\"></select>\r\n                <span class=\"tip\">请填写开户支行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>选择地区:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <selcet id=\"selectPro\" class=\"selectPro selectInp\"></selcet>\r\n                <selcet id=\"selectCity\" class=\"selectCity selectInp\"></selcet>\r\n                <span class=\"tip\"></span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>现代化支付系统行号:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"subBranchName\" class=\"subBranchName textInp\"/>\r\n                <span class=\"tip\"><a href=\"\">现代化支付系统行号</a>无法打开请更换浏览器</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡/存折号:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写银行卡号</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户姓名:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡类别</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankCard\" class=\"bankCard selectInp\">\r\n                    <option value=\"\">存折</option>\r\n                    <option value=\"\">贷记卡(信用卡)</option>\r\n                    <option value=\"\">公司账号</option>\r\n                </select>\r\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>";
+	module.exports = "<div id=\"bankDialogCxtContainer\" class=\"bankDialogCxtContainer\">\r\n    <form id=\"bankForm\">\r\n        <div class=\"bankTitle\">添加配置银行卡</div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankName\" class=\"bankName selectInp\"></select>\r\n                <span class=\"tip\">请填写开户行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>选择地区:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"provSelect\" class=\"selectPro selectAreaInp\"></select>\r\n                <select id=\"citySelect\" class=\"selectCity selectAreaInp\"></select>\r\n                <span class=\"tip\">请选择地区</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户支行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"subBranchName\" class=\"subBranchName selectInp\"></select>\r\n                <span class=\"tip\">请填写开户支行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡/存折号:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写银行卡号</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户姓名:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡类别</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankCard\" class=\"bankCard selectInp\">\r\n                    <option value=\"\">存折</option>\r\n                    <option value=\"\">贷记卡(信用卡)</option>\r\n                    <option value=\"\">公司账号</option>\r\n                </select>\r\n                <span class=\"tip\"></span>\r\n            </div>\r\n        </div>\r\n    </form>\r\n</div>";
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -775,12 +788,6 @@
 		url : PFT.Config.Api.get("Finance_Banks")
 	};
 	module.exports = Api;
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);

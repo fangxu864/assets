@@ -8,13 +8,18 @@ var Dialog = require("COMMON/modules/dialog-simple");
 var dialog_content = require("./index.xtpl");
 var Api = require("../api.js");
 var Main = function(){
+	var that = this;
 	this.dialog = new Dialog({
 		width : 680,
 		height : 350,
 		content : dialog_content,
 		drag : true,
-		events : {
-
+		onReady : function(){
+			that.bankSelect = $("#bankName");
+			that.provSelect = $("#provSeect");
+			that.provSelect.on("change",function(e){
+				console.log(e)
+			})
 		}
 	})
 };
@@ -60,8 +65,7 @@ Main.prototype = {
 		var that = this;
 		this.dialog.open({
 			onAfter : function(){
-				that.bankSelect = $("#bankName");
-				that.provSelect = $("#sss");
+
 				if(!that.__bankList && !that.__province){
 					that.getBankList();
 				}
