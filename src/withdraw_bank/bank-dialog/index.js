@@ -12,7 +12,7 @@ var Main = function(){
 		content : dialog_content,
 		drag : true,
 		events : {
-			
+
 		}
 	})
 };
