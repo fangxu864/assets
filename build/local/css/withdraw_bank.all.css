@@ -42,7 +42,7 @@
   color: red; }
 
 .bankDialogCxtContainer .line .lineright .selectInp {
-  width: 196px;
+  width: 312px;
   height: 30px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -53,7 +53,7 @@
   text-indent: 0; }
 
 .bankDialogCxtContainer .line .lineright .textInp {
-  width: 184px;
+  width: 300px;
   height: 22px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -64,7 +64,7 @@
   text-indent: 0; }
 
 .bankDialogCxtContainer .line .lineright .selectAreaInp {
-  width: 96px;
+  width: 154px;
   height: 30px;
   line-height: 22px;
   border: 1px solid #e5e5e5;

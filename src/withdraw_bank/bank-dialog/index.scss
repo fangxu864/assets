@@ -6,8 +6,8 @@
 .bankDialogCxtContainer .line .lineLeft{ float:left; width:100px; line-height:32px; text-align:left; padding-right:10px;}
 .bankDialogCxtContainer .line .lineright{ float:left;}
 .bankDialogCxtContainer .line .warningTip{ color:red;}
-.bankDialogCxtContainer .line .lineright .selectInp{ @include selectInp(196,30)}
-.bankDialogCxtContainer .line .lineright .textInp{ @include textInp(184,2)}
-.bankDialogCxtContainer .line .lineright .selectAreaInp{@include selectInp(96,30)}
+.bankDialogCxtContainer .line .lineright .selectInp{ @include selectInp(312,30)}
+.bankDialogCxtContainer .line .lineright .textInp{ @include textInp(300,2)}
+.bankDialogCxtContainer .line .lineright .selectAreaInp{@include selectInp(154,30)}
 .bankDialogCxtContainer .line .lineright .tip{ color:#999}
 .bankDialogCxtContainer .line .lineright.error .tip{ color:red;}
