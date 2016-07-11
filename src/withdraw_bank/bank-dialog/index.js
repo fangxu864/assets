@@ -3,10 +3,10 @@
  * Date: 2016/7/11 11:48
  * Description: ""
  */
+var Select = require("COMMON/modules/select");
 require("./index.scss");
 var Dialog = require("COMMON/modules/dialog-simple");
 var dialog_content = require("./index.xtpl");
-var Select = require("COMMON/modules/select");
 var Api = require("../api.js");
 var Main = function(){
 	var that = this;
@@ -19,7 +19,9 @@ var Main = function(){
 			that.bankSelect = $("#bankName");
 			that.provSelect = $("#provSelect");
 			that.citySelect = $("#citySelect");
-			that.subBankSelect = $("#subBranchName");
+			//that.subBankSelect = new Select({
+			//	trigger : $("#subBranchName")
+			//});
 			that.bankSelect.on("change",function(e){
 				var bank_id = $(this).val();
 				var city_id = that.citySelect.val();
@@ -153,7 +155,7 @@ Main.prototype = {
 			return html;
 		};
 		if(ifCache && Cache){
-			that.subBankSelect.html(renderOption(Cache));
+			that.subBankSelect.refresh(Cache);
 		}else{
 			PFT.Util.Ajax(Api.url("subbranchList"),{
 				type : "post",
@@ -171,7 +173,11 @@ Main.prototype = {
 					var data = res.data || {};
 					var list = data.list;
 					if(res.code==200){
-						that.subBankSelect.html(renderOption(list));
+						if(!that.subBankSelect){
+							that.subBankSelect = that.initSubBankSelect(list);
+						}else{
+							that.subBankSelect.refresh(list);
+						}
 						if(ifCache) that.__bankCache[params] = list;
 					}else{
 						alert(res.msg || PFT.AJAX_ERROR_TEXT)
@@ -179,6 +185,19 @@ Main.prototype = {
 				}
 			})
 		}
+	},
+	initSubBankSelect : function(data){
+		this.subBankSelect = new Select({
+			trigger : $("#subBranchName"),
+			height : 300,
+			filter : true,
+			data : data,
+			field : {
+				id : "code",
+				name : "name"
+			}
+		})
+		return this.subBankSelect;
 	},
 	open : function(){
 		var that = this;

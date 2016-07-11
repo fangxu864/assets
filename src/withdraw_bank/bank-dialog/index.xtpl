@@ -25,8 +25,8 @@
                 <label for=""><span class="warningTip">*</span>开户支行:</label>
             </div>
             <div class="lineright">
-                <!--<input style="width:300px; height:22px; line-height:22px;" type="text" name="" id="subBranchName" class="subBranchName selectInp"/>-->
-                <select id="subBranchName" class="subBranchName selectInp"></select>
+                <input style="width:300px; height:22px; line-height:22px;" type="text" name="" id="subBranchName" class="subBranchName selectInp"/>
+                <!--<select id="subBranchName" class="subBranchName selectInp"></select>-->
                 <span class="tip">请填写开户支行</span>
             </div>
         </div>

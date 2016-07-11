@@ -13,3 +13,6 @@
 .bankDialogCxtContainer .line .lineright.error .tip{ color:red;}
 .bankDialogCxtContainer .submitBtn{@include btn-inline-block(); margin-left:110px;}
 .bankDialogCxtContainer .submitBtn.disable{ @include btn-disable();}
+
+.gSelectDownBox{ z-index:10002}
+.gSelectMask{ z-index:10001}

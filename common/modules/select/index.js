@@ -43,7 +43,7 @@ var Defaults = {
 	},
 
 	//若需要传入自定义的静态data数据,
-	//格式需为:[{key1:value1,key2:value2}] 此时将忽略source,adaptor,field参数
+	//格式需为:[{key1:value1,key2:value2}] 此时将忽略source,adaptor参数
 	data : null
 };
 function Select(opt){
