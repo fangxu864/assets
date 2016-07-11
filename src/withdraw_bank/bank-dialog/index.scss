@@ -13,6 +13,7 @@
 .bankDialogCxtContainer .line .lineright.error .tip{ color:red;}
 .bankDialogCxtContainer .submitBtn{@include btn-inline-block(); margin-left:110px;}
 .bankDialogCxtContainer .submitBtn.disable{ @include btn-disable();}
-
 .gSelectDownBox{ z-index:10002}
 .gSelectMask{ z-index:10001}
+.bankDialogCxtContainer #bankForm{ position:relative;}
+.bankDialogCxtContainer #bankForm .bankCopyBox{ display:none; position:absolute; left:160px; top:173px; z-index:9999; width:304px; height:36px; font-size:18px; font-weight:bold; background:#fbf9da; border:1px solid #f07845; line-height:36px; padding-left:6px;}
