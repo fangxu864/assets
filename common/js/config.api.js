@@ -6,9 +6,9 @@
 var api = {
 	get : function(controller,action){
 		if(!controller) return "";
-		if(action) return "r/"+controller+"/"+action;
+		if(action) return "/r/"+controller+"/"+action+"/";
 		return function(action){
-			return "r/"+controller+"/"+action;
+			return "/r/"+controller+"/"+action+"/";
 		}
 	}
 };

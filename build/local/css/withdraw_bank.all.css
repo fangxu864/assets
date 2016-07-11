@@ -1,11 +1,11 @@
-.line .lineright .selectInp, .line .lineright .textInp, .line .lineright .selectAreaInp {
+.bankDialogCxtContainer .line .lineright .selectInp, .bankDialogCxtContainer .line .lineright .textInp, .bankDialogCxtContainer .line .lineright .selectAreaInp {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
-.line .lineright .selectInp, .line .lineright .textInp, .line .lineright .selectAreaInp {
+.bankDialogCxtContainer .line .lineright .selectInp, .bankDialogCxtContainer .line .lineright .textInp, .bankDialogCxtContainer .line .lineright .selectAreaInp {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -19,28 +19,30 @@
   padding: 20px; }
 
 #bankForm .bankTitle {
-  background: f5f5f5;
-  border-bottom: #e5e5e5; }
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 30px; }
 
-.line {
+.bankDialogCxtContainer .line {
   overflow: hidden;
-  margin-top: 14px; }
+  margin-top: 14px;
+  padding-left: 30px; }
 
-.line .lineLeft {
+.bankDialogCxtContainer .line .lineLeft {
   float: left;
-  width: 120px;
+  width: 100px;
   line-height: 32px;
-  text-align: right;
+  text-align: left;
   padding-right: 10px; }
 
-.line .lineright {
+.bankDialogCxtContainer .line .lineright {
   float: left; }
 
-.line .warningTip {
+.bankDialogCxtContainer .line .warningTip {
   color: red; }
 
-.line .lineright .selectInp {
-  width: 312px;
+.bankDialogCxtContainer .line .lineright .selectInp {
+  width: 196px;
   height: 30px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -50,8 +52,8 @@
   padding-bottom: 5px;
   text-indent: 0; }
 
-.line .lineright .textInp {
-  width: 300px;
+.bankDialogCxtContainer .line .lineright .textInp {
+  width: 184px;
   height: 22px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -61,8 +63,8 @@
   padding-bottom: 2px;
   text-indent: 0; }
 
-.line .lineright .selectAreaInp {
-  width: 154px;
+.bankDialogCxtContainer .line .lineright .selectAreaInp {
+  width: 96px;
   height: 30px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -72,7 +74,10 @@
   padding-bottom: 5px;
   text-indent: 0; }
 
-.line .lineright.error .tip {
+.bankDialogCxtContainer .line .lineright .tip {
+  color: #999; }
+
+.bankDialogCxtContainer .line .lineright.error .tip {
   color: red; }
 .gSimpleDialog-container {
   position: fixed;
