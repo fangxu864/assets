@@ -53,6 +53,7 @@
             </div>
             <div class="lineright">
                 <select id="bankCard" class="bankCard selectInp">
+                    <option value="">借记卡</option>
                     <option value="">存折</option>
                     <option value="">贷记卡(信用卡)</option>
                     <option value="">公司账号</option>
