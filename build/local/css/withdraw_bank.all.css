@@ -1,3 +1,13 @@
+.bankDialogCxtContainer .submitBtn {
+  vertical-align: middle;
+  cursor: pointer;
+  text-align: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  white-space: nowrap; }
+
 .bankDialogCxtContainer .line .lineright .selectInp, .bankDialogCxtContainer .line .lineright .textInp, .bankDialogCxtContainer .line .lineright .selectAreaInp {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -80,6 +90,24 @@
 
 .bankDialogCxtContainer .line .lineright.error .tip {
   color: red; }
+
+.bankDialogCxtContainer .submitBtn {
+  display: inline-block;
+  width: 80px;
+  height: 34px;
+  line-height: 34px;
+  background-color: #258cc9;
+  color: #fff;
+  border-radius: 0px;
+  margin-left: 110px; }
+  .bankDialogCxtContainer .submitBtn:hover, .bankDialogCxtContainer .submitBtn:active {
+    background-color: #217db3;
+    text-decoration: none; }
+
+.bankDialogCxtContainer .submitBtn.disable {
+  background: #ccc;
+  color: #999;
+  cursor: default; }
 .gSimpleDialog-container {
   position: fixed;
   overflow: hidden;
