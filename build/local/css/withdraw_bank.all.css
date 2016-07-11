@@ -171,7 +171,7 @@
   color: red; }
 
 .bankDialogCxtContainer .line .lineright .selectInp {
-  width: 312px;
+  width: 377px;
   height: 36px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -182,7 +182,7 @@
   text-indent: 0; }
 
 .bankDialogCxtContainer .line .lineright .textInp {
-  width: 300px;
+  width: 365px;
   height: 22px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -193,7 +193,7 @@
   text-indent: 0; }
 
 .bankDialogCxtContainer .line .lineright .selectAreaInp {
-  width: 154px;
+  width: 187px;
   height: 36px;
   line-height: 22px;
   border: 1px solid #e5e5e5;
@@ -239,10 +239,10 @@
 .bankDialogCxtContainer #bankForm .bankCopyBox {
   display: none;
   position: absolute;
-  left: 160px;
-  top: 173px;
+  left: 170px;
+  top: 181px;
   z-index: 9999;
-  width: 304px;
+  width: 369px;
   height: 36px;
   font-size: 18px;
   font-weight: bold;
