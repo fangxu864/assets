@@ -1,3 +1,28 @@
+#bankDialogCxtContainer {
+  background: #fff; }
+
+.line {
+  overflow: hidden; }
+
+.line .lineLeft {
+  float: left;
+  width: 130px; }
+
+.line .lineright {
+  float: left; }
+
+.line .warningTip {
+  color: red; }
+
+.line .lineright .selectInp {
+  width: 196px;
+  padding: 0 4px;
+  height: 30px; }
+
+.line .lineright .textInp {
+  width: 184px;
+  padding: 4px;
+  height: 22px; }
 .gSimpleDialog-container {
   position: fixed;
   overflow: hidden;

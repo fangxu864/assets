@@ -93,6 +93,7 @@
 	 * Date: 2016/7/11 11:48
 	 * Description: ""
 	 */
+	__webpack_require__(12);
 	var Dialog = __webpack_require__(2);
 	var dialog_content = __webpack_require__(11);
 	var Main = function(){
@@ -717,7 +718,13 @@
 /* 11 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"bankDialogCxtContainer\" class=\"bankDialogCxtContainer\">\r\n    <form id=\"bankForm\">\r\n\r\n    </form>\r\n</div>";
+	module.exports = "<div id=\"bankDialogCxtContainer\" class=\"bankDialogCxtContainer\">\n    <form id=\"bankForm\">\n        <div class=\"bankTitle\">添加配置银行卡</div>\n        <div class=\"line\">\n            <div class=\"lineLeft\">\n                <label for=\"\"><span class=\"warningTip\">*</span>银行:</label>\n            </div>\n            <div class=\"lineright\">\n                <select id=\"bankName\" class=\"bankName selectInp\"></select>\n                <span class=\"tip\">请填写开户行</span>\n            </div>\n        </div>\n        <div class=\"line\">\n            <div class=\"lineLeft\">\n                <label for=\"\"><span class=\"warningTip\">*</span>开户支行:</label>\n            </div>\n            <div class=\"lineright\">\n                <select id=\"subBranchName\" class=\"subBranchName selectInp\"></select>\n                <span class=\"tip\">请填写开户支行</span>\n            </div>\n        </div>\n        <div class=\"line\">\n            <div class=\"lineLeft\">\n                <label for=\"\"><span class=\"warningTip\">*</span>选择地区:</label>\n            </div>\n            <div class=\"lineright\">\n                <selcet id=\"selectPro\" class=\"selectPro selectInp\"></selcet>\n                <selcet id=\"selectCity\" class=\"selectCity selectInp\"></selcet>\n                <span class=\"tip\"></span>\n            </div>\n        </div>\n        <div class=\"line\">\n            <div class=\"lineLeft\">\n                <label for=\"\"><span class=\"warningTip\">*</span>现代化支付系统行号:</label>\n            </div>\n            <div class=\"lineright\">\n                <input id=\"subBranchName\" class=\"subBranchName textInp\"/>\n                <span class=\"tip\"><a href=\"\">现代化支付系统行号</a>无法打开请更换浏览器</span>\n            </div>\n        </div>\n        <div class=\"line\">\n            <div class=\"lineLeft\">\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡/存折号:</label>\n            </div>\n            <div class=\"lineright\">\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\n                <span class=\"tip\">请准确填写银行卡号</span>\n            </div>\n        </div>\n        <div class=\"line\">\n            <div class=\"lineLeft\">\n                <label for=\"\"><span class=\"warningTip\">*</span>开户姓名:</label>\n            </div>\n            <div class=\"lineright\">\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\n            </div>\n        </div>\n        <div class=\"line\">\n            <div class=\"lineLeft\">\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡类别</label>\n            </div>\n            <div class=\"lineright\">\n                <select id=\"bankCard\" class=\"bankCard selectInp\">\n                    <option value=\"\">存折</option>\n                    <option value=\"\">贷记卡(信用卡)</option>\n                    <option value=\"\">公司账号</option>\n                </select>\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\n            </div>\n        </div>\n    </form>\n</div>";
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ },
 /* 12 */

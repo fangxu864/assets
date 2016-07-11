@@ -3,6 +3,7 @@
  * Date: 2016/7/11 11:48
  * Description: ""
  */
+require("./index.scss");
 var Dialog = require("COMMON/modules/dialog-simple");
 var dialog_content = require("./index.xtpl");
 var Main = function(){
