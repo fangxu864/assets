@@ -6,11 +6,12 @@
 require("./index.scss");
 var Dialog = require("COMMON/modules/dialog-simple");
 var dialog_content = require("./index.xtpl");
+var Select = require("COMMON/modules/select");
 var Api = require("../api.js");
 var Main = function(){
 	var that = this;
 	this.dialog = new Dialog({
-		width : 680,
+		width : 750,
 		content : dialog_content,
 		drag : true,
 		speed : 100,

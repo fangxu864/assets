@@ -299,6 +299,10 @@ Select.prototype = {
 		if(!type) return false;
 		callback = typeof callback=="function" ? callback : function(){};
 		PFT.Util.PubSub.on(type,callback);
+	},
+	refresh : function(data){
+		this.__cacheData = data;
+		this.listUl.html(this.updateListUl(data));
 	}
 };
 
