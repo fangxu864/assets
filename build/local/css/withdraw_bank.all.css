@@ -1,0 +1,46 @@
+.gSimpleDialog-container {
+  position: fixed;
+  overflow: hidden;
+  background: #fff;
+  -ms-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); }
+
+.gSimpleDialog-header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 9998; }
+
+.gSimpleDialog-closeBtn {
+  display: block;
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  color: #919191;
+  font-size: 26px;
+  cursor: pointer; }
+
+.gSimpleDialog-closeBtn.hidden {
+  display: none; }
+
+.gSimpleDialog-closeBtn:hover {
+  background: #e12424;
+  color: #fff; }
+
+.gSimpleDialog-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  -moz-opacity: 0.6; }
+
+/*# sourceMappingURL=withdraw_bank.all.css.map*/
