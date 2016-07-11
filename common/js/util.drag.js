@@ -51,6 +51,9 @@ var Drag = function(opt){
 	opt = opt || {};
 	var target = opt.trigger;
 	var moveElem = opt.target;
+	var opt_onMousedown = opt.onMousedown || function(){};
+	var opt_onMousemove = opt.onMousemove || function(){};
+	var opt_onMouseup = opt.onMouseup || function(){};
 	target.style.cursor = "move";
 	// 清除文本选择
 	var	clearSelect = 'getSelection' in win ? function(){
@@ -105,6 +108,8 @@ var Drag = function(opt){
 			event.bind( target, 'losecapture', up );
 		}
 
+		opt_onMousedown(e);
+
 		e.stopPropagation();
 		e.preventDefault();
 
@@ -129,6 +134,9 @@ var Drag = function(opt){
 		style.marginLeft = style.marginTop = '0px';
 		style.left = ( left <= el ? el : (left >= er ? er : left) ) + 'px';
 		style.top = ( top <= et ? et : (top >= eb ? eb : top) ) + 'px';
+
+		opt_onMousemove(e);
+
 		e.stopPropagation();
 	};
 
@@ -148,6 +156,9 @@ var Drag = function(opt){
 				moveElem.style.setExpression('top',"fuckIE6=document.documentElement.scrollTop+" + top + '+"px"');
 			}
 		}
+
+		opt_onMouseup(e);
+
 		e.stopPropagation();
 	};
 };

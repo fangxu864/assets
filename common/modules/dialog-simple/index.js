@@ -101,7 +101,16 @@ Dialog.prototype = Extend({
 			if(opt.drag){
 				Drag({
 					trigger : that.header[0],
-					target : that.container[0]
+					target : that.container[0],
+					onMousedown : function(e){
+						console.log(e);
+					},
+					onMousemove : function(e){
+						console.log(e);
+					},
+					onMouseup : function(e){
+						console.log(e);
+					}
 				})
 			}
 		},10)

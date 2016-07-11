@@ -390,7 +390,16 @@
 				if(opt.drag){
 					Drag({
 						trigger : that.header[0],
-						target : that.container[0]
+						target : that.container[0],
+						onMousedown : function(e){
+							console.log(e);
+						},
+						onMousemove : function(e){
+							console.log(e);
+						},
+						onMouseup : function(e){
+							console.log(e);
+						}
 					})
 				}
 			},10)
@@ -553,6 +562,9 @@
 		opt = opt || {};
 		var target = opt.trigger;
 		var moveElem = opt.target;
+		var opt_onMousedown = opt.onMousedown || function(){};
+		var opt_onMousemove = opt.onMousemove || function(){};
+		var opt_onMouseup = opt.onMouseup || function(){};
 		target.style.cursor = "move";
 		// 清除文本选择
 		var	clearSelect = 'getSelection' in win ? function(){
@@ -607,6 +619,8 @@
 				event.bind( target, 'losecapture', up );
 			}
 	
+			opt_onMousedown(e);
+	
 			e.stopPropagation();
 			e.preventDefault();
 	
@@ -631,6 +645,9 @@
 			style.marginLeft = style.marginTop = '0px';
 			style.left = ( left <= el ? el : (left >= er ? er : left) ) + 'px';
 			style.top = ( top <= et ? et : (top >= eb ? eb : top) ) + 'px';
+	
+			opt_onMousemove(e);
+	
 			e.stopPropagation();
 		};
 	
@@ -650,6 +667,9 @@
 					moveElem.style.setExpression('top',"fuckIE6=document.documentElement.scrollTop+" + top + '+"px"');
 				}
 			}
+	
+			opt_onMouseup(e);
+	
 			e.stopPropagation();
 		};
 	};
@@ -887,7 +907,7 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"bankDialogCxtContainer\" class=\"bankDialogCxtContainer\">\r\n    <form id=\"bankForm\">\r\n        <div class=\"bankTitle\">添加配置银行卡</div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankName\" class=\"bankName selectInp\"></select>\r\n                <span class=\"tip\">请填写开户行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>选择地区:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"provSelect\" class=\"selectPro selectAreaInp\"></select>\r\n                <select id=\"citySelect\" class=\"selectCity selectAreaInp\"></select>\r\n                <span class=\"tip\">请选择地区</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户支行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input style=\"width:300px; height:22px; line-height:22px;\" type=\"text\" name=\"\" id=\"subBranchName\" class=\"subBranchName selectInp\"/>\r\n                <!--<select id=\"subBranchName\" class=\"subBranchName selectInp\"></select>-->\r\n                <span class=\"tip\">请填写开户支行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡/存折号:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写银行卡号</span>\r\n            </div>\r\n        </div>\r\n        <div id=\"bankCopyBox\" class=\"bankCopyBox\">928349238492348</div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户姓名:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡类别</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankCard\" class=\"bankCard selectInp\">\r\n                    <option value=\"\">借记卡</option>\r\n                    <option value=\"\">存折</option>\r\n                    <option value=\"\">贷记卡(信用卡)</option>\r\n                    <option value=\"\">公司账号</option>\r\n                </select>\r\n                <span class=\"tip\"></span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\" style=\"margin-top:20px\">\r\n            <a href=\"javascript:void(0)\" class=\"submitBtn\" id=\"submitBtn\">确认提交</a>\r\n        </div>\r\n    </form>\r\n</div>";
+	module.exports = "<div id=\"bankDialogCxtContainer\" class=\"bankDialogCxtContainer\">\r\n    <form id=\"bankForm\">\r\n        <div class=\"bankTitle\">添加配置银行卡</div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankName\" class=\"bankName selectInp\"></select>\r\n                <span class=\"tip\">请填写开户行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>选择地区:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"provSelect\" class=\"selectPro selectAreaInp\"></select>\r\n                <select id=\"citySelect\" class=\"selectCity selectAreaInp\"></select>\r\n                <span class=\"tip\">请选择地区</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户支行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input style=\"width:300px; height:22px; line-height:22px;\" type=\"text\" name=\"\" id=\"subBranchName\" class=\"subBranchName selectInp\"/>\r\n                <i class=\"iconfont tri up\">&#xe695;</i>\r\n                <i class=\"iconfont tri up\">&#xe673;</i>\r\n                <!--<select id=\"subBranchName\" class=\"subBranchName selectInp\"></select>-->\r\n                <span class=\"tip\">请填写开户支行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡/存折号:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写银行卡号</span>\r\n            </div>\r\n        </div>\r\n        <div id=\"bankCopyBox\" class=\"bankCopyBox\">928349238492348</div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户姓名:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCard\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡类别</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankCard\" class=\"bankCard selectInp\">\r\n                    <option value=\"\">借记卡</option>\r\n                    <option value=\"\">存折</option>\r\n                    <option value=\"\">贷记卡(信用卡)</option>\r\n                    <option value=\"\">公司账号</option>\r\n                </select>\r\n                <span class=\"tip\"></span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\" style=\"margin-top:20px\">\r\n            <a href=\"javascript:void(0)\" class=\"submitBtn\" id=\"submitBtn\">确认提交</a>\r\n        </div>\r\n    </form>\r\n</div>";
 
 /***/ },
 /* 14 */
