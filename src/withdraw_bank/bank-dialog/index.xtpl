@@ -24,18 +24,9 @@
                 <label for=""><span class="warningTip">*</span>选择地区:</label>
             </div>
             <div class="lineright">
-                <selcet id="selectPro" class="selectPro selectInp"></selcet>
-                <selcet id="selectCity" class="selectCity selectInp"></selcet>
-                <span class="tip"></span>
-            </div>
-        </div>
-        <div class="line">
-            <div class="lineLeft">
-                <label for=""><span class="warningTip">*</span>现代化支付系统行号:</label>
-            </div>
-            <div class="lineright">
-                <input id="subBranchName" class="subBranchName textInp"/>
-                <span class="tip"><a href="">现代化支付系统行号</a>无法打开请更换浏览器</span>
+                <select id="selectPro" class="selectPro selectAreaInp"></select>
+                <select id="selectCity" class="selectCity selectAreaInp"></select>
+                <span class="tip">请选择地区</span>
             </div>
         </div>
         <div class="line">
@@ -66,7 +57,7 @@
                     <option value="">贷记卡(信用卡)</option>
                     <option value="">公司账号</option>
                 </select>
-                <span class="tip">请准确填写开户姓名用以核对</span>
+                <span class="tip"></span>
             </div>
         </div>
     </form>

@@ -28,3 +28,17 @@
     padding:6px;
     line-height:18px;
 }
+
+//表单元素select
+@mixin selectInp($width:$inputTextWidth,$height:$inputTextWidth,$pt:$inputPadding){
+    @extend %boxShadow;
+    width:$width+px;
+    height:$height+px;
+    line-height:$inputTextHeight+px;
+    border:1px solid $colorBorder;
+    padding-left:$inputPadding+px;
+    padding-right:$inputPadding+px;
+    padding-top:$pt+px;
+    padding-bottom:$pt+px;
+    text-indent:0;
+}
