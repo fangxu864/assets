@@ -16,9 +16,10 @@ var Main = function(){
 		drag : true,
 		onReady : function(){
 			that.bankSelect = $("#bankName");
-			that.provSelect = $("#provSeect");
+			that.provSelect = $("#provSelect");
 			that.provSelect.on("change",function(e){
-				console.log(e)
+				var provId = that.provSelect.val();
+				that.getCityByProvId(provId);
 			})
 		}
 	})
@@ -29,6 +30,7 @@ Main.prototype = {
 	getBankList : function(){
 		var that = this;
 		PFT.Util.Ajax(Api.url("getList"),{
+			type : "post",
 			loading : function(){},
 			complete : function(){},
 			success : function(res){
@@ -55,8 +57,29 @@ Main.prototype = {
 					}
 					that.bankSelect.html(bankHtml);
 					that.provSelect.html(provHtml);
+					that.provSelect.children().first().trigger("click")
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				}
+			}
+		})
+	},
+	getCityByProvId : function(id){
+		if(!id) return false;
+		PFT.Util.Ajax(Api.url("cityList"),{
+			type : "post",
+			params : {
+				province_id : id
+			},
+			loading : function(){},
+			complete : function(){},
+			success : function(res){
+				res = res || {};
+				var data = res.data || {};
+				if(res.code==200){
+
+				}else{
+
 				}
 			}
 		})
