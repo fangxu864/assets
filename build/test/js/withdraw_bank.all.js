@@ -68,6 +68,10 @@
 					type : type
 				});
 			})
+			this.bankListUl.on("click",".click_li",function(e){
+				var tarLi = $(e.currentTarget);
+				tarLi.addClass("checked").siblings("li").removeClass("checked");
+			})
 			//配置银行卡
 			this.bankListUl.on("click",".card_config",function(e){
 				var tarBtn = $(e.currentTarget);
@@ -105,9 +109,11 @@
 				var mode = data.mode;
 				that.submit(submitBtn,submitData,mode)
 			})
+	
 		},
 		//添加、配置银行卡
 		submit : function(submitBtn,submitData,mode){
+			var tip = mode=="create" ? "添加" : "配置";
 			PFT.Util.Ajax("call/handle.php?from=withdraw_card",{
 				type : "post",
 				params : submitData,
@@ -162,8 +168,8 @@
 	 * Date: 2016/7/11 11:48
 	 * Description: ""
 	 */
-	__webpack_require__(8);
-	var Select = __webpack_require__(2);
+	__webpack_require__(2);
+	var Select = __webpack_require__(6);
 	var Dialog = __webpack_require__(10);
 	var dialog_content = __webpack_require__(17);
 	var Api = __webpack_require__(18);
@@ -421,7 +427,6 @@
 					name : "name"
 				}
 			})
-	
 			this.subBankSelect.on("open",function(){
 				$("#subBranchBankBox").addClass("on");
 			});
@@ -464,6 +469,15 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -471,7 +485,7 @@
 	 * Date: 2016/6/14 11:14
 	 * Description: 项目时间紧迫，主体功能先实现，更多功能后续会慢慢增加
 	 */
-	__webpack_require__(3);
+	__webpack_require__(7);
 	var Defaults = {
 		trigger : null,
 	
@@ -498,7 +512,7 @@
 		defaultVal : "",  //初始化时默认选中的值
 	
 		tpl : function(){
-			return __webpack_require__(7);
+			return __webpack_require__(9);
 		},
 	
 		//适配器，用于适配从后端请求回来的数据为如下格式
@@ -797,28 +811,19 @@
 
 
 /***/ },
-/* 3 */
+/* 7 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */
+/* 8 */,
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"gSelectDownBoxCon\">\r\n    <div class=\"selectTopCon\">\r\n        <div class=\"searchBox\">\r\n            <div class=\"searchBoxCon\">\r\n                <input type=\"text\" name=\"\" class=\"gSelectSearchInp\"/>\r\n                <i class=\"iconfont search\">&#xe60a;</i>\r\n                <span class=\"clearSearchBtn\"><i class=\"iconfont\">&#xe674;</i></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ul class=\"selectOptionUl\"></ul>\r\n</div>\r\n\r\n";
 
 /***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 9 */,
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 

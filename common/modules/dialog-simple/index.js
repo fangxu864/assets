@@ -25,7 +25,10 @@ var Defaults = {
 	onOpenBefore : fn,
 	onOpenAfter : fn,
 	onCloseBefore : fn,
-	onCloseAfter : fn
+	onCloseAfter : fn,
+	onDragBefore : fn,
+	onDrag : fn,
+	onDragAfter : fn
 };
 var getUid = (function(){
 	var uid = 0;
@@ -103,13 +106,13 @@ Dialog.prototype = Extend({
 					trigger : that.header[0],
 					target : that.container[0],
 					onMousedown : function(e){
-						console.log(e);
+						opt.onDragBefore(e);
 					},
 					onMousemove : function(e){
-						console.log(e);
+						opt.onDrag(e);
 					},
 					onMouseup : function(e){
-						console.log(e);
+						opt.onDragAfter(e);
 					}
 				})
 			}
@@ -149,7 +152,7 @@ Dialog.prototype = Extend({
 		var winH = WinWidthHeight().height;
 		var containerH = this.container.height();
 		this.position();
-		this.container.show().css({zIndex:9999});
+		this.container.show().css({zIndex:501});
 		onBefore();
 		this.container.animate({
 			top : (winH-containerH)/2 + offsetY
@@ -157,7 +160,7 @@ Dialog.prototype = Extend({
 			onAfter();
 		})
 		if(overlay) this.getMask().fadeIn(function(){
-			that.getMask().css("zIndex",9998);
+			that.getMask().css("zIndex",500);
 		});
 	},
 	close : function(opt){

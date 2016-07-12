@@ -6,6 +6,7 @@
 var env = require("../../getNodeENV.js");
 var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var webpack = require("webpack");
 var plugins = (function(env){
 	var plugins = [];
 	plugins.push(new ExtractTextPlugin("css/[name].all.css"));
@@ -17,7 +18,6 @@ var plugins = (function(env){
 			sourceMap : false
 		}))
 	}
-
 	return plugins;
 })(env);
 var config = require("../../config")({

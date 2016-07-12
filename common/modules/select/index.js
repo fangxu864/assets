@@ -46,6 +46,12 @@ var Defaults = {
 	//格式需为:[{key1:value1,key2:value2}] 此时将忽略source,adaptor参数
 	data : null
 };
+var __uuid = (function(){
+	var _id = 1;
+	return function(){
+		return _id++;
+	}
+})();
 function Select(opt){
 	var opt = this.opt = $.extend({},Defaults,opt);
 	this.init(opt);
@@ -57,7 +63,9 @@ Select.prototype = {
 	current_name : "",
 	init : function(opt){
 		var that = this;
+		this.__uid = __uuid();
 		var trigger = this.trigger = typeof opt.trigger==="string" ? $("#"+opt.trigger.substr(opt.trigger.indexOf("#")+1)) : opt.trigger;
+		this.triggerId = this.trigger.attr("id");
 		var source = this.source = opt.source;
 		if(!trigger.length) return false;
 		if(!source && !opt.data) return false;
@@ -162,7 +170,8 @@ Select.prototype = {
 		var opt = this.opt;
 		var width = opt.trigger.outerWidth()+(opt.offset.width || 0);
 		var height = opt.height;
-		var selectBox = this.selectBox = $('<div style="display:none;width:'+width+'px;height:'+height+'px" class="gSelectDownBox"></div>');
+		var id = this.__uid;
+		var selectBox = this.selectBox = $('<div id="gSelectDownBox_'+id+'" style="display:none;width:'+width+'px;height:'+height+'px" class="gSelectDownBox"></div>');
 		selectBox.append(tpl);
 		$("body").append(selectBox);
 		return this.selectBox;
@@ -170,7 +179,8 @@ Select.prototype = {
 	//创建遮罩层
 	createMask : function(){
 		if(this.mask) return this.mask;
-		this.mask = $('<div style="display:none" class="gSelectMask"></div>');
+		var id = this.__uid;
+		this.mask = $('<div id="gSelectMask_'+id+'" style="display:none" class="gSelectMask"></div>');
 		$("body").append(this.mask);
 		return this.mask;
 	},
@@ -229,14 +239,15 @@ Select.prototype = {
 	},
 	//定位
 	position : function(){
-		var trigger = this.trigger;
+		var trigger = $("#"+this.triggerId);
 		var selectBox = this.createSelectBox();
 		var of = trigger.offset();
 		var offset = this.opt.offset;
+		var scrollTop = $(window).scrollTop();
 		var trigger_h = trigger.outerHeight(true);
 		selectBox.css({
 			left : of.left + (offset.left || 0),
-			top : of.top + trigger_h + (offset.top || 0)
+			top : (of.top-scrollTop) + trigger_h + (offset.top || 0)
 		})
 	},
 	fetchData : function(source){
@@ -276,8 +287,9 @@ Select.prototype = {
 	//=========================================================================
 	//=========================================================================
 	open : function(callback){
-		this.createMask().show();
-		this.createSelectBox().show();
+		this.createMask().show().css({zIndex:503});
+		this.createSelectBox().show().css({zIndex:504});
+		this.position();
 		this.trigger.addClass("select-on");
 		PFT.Util.PubSub.trigger("open");
 		callback && callback();
@@ -294,6 +306,13 @@ Select.prototype = {
 			id : this.current_id,
 			name : this.current_name
 		}
+	},
+	setValue : function(id){
+		if(!id) return false;
+		var field = this.opt.field;
+		var id_field = field.id;
+		var selectBox = this.createSelectBox();
+		selectBox.find(".gSelectOptionItem").filter("[data-"+id_field+"="+id+"]").trigger("click");
 	},
 	on : function(type,callback){
 		if(!type) return false;
