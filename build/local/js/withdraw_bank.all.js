@@ -49,8 +49,8 @@
 	 * Date: 2016/7/11 11:01
 	 * Description: ""
 	 */
-	__webpack_require__(1)
-	var Dialog = __webpack_require__(5);
+	__webpack_require__(19)
+	var Dialog = __webpack_require__(1);
 	var BankManager = function(){
 		this.bankListUl = $("#bankListUl");
 		this.addBankBtn = $("#addbk");
@@ -162,15 +162,6 @@
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -178,11 +169,11 @@
 	 * Date: 2016/7/11 11:48
 	 * Description: ""
 	 */
-	__webpack_require__(6);
-	var Select = __webpack_require__(8);
-	var Dialog = __webpack_require__(12);
-	var dialog_content = __webpack_require__(19);
-	var Api = __webpack_require__(20);
+	__webpack_require__(2);
+	var Select = __webpack_require__(6);
+	var Dialog = __webpack_require__(10);
+	var dialog_content = __webpack_require__(17);
+	var Api = __webpack_require__(18);
 	var Main = function(){
 		var that = this;
 		this.dialog = new Dialog({
@@ -478,14 +469,16 @@
 	module.exports = Main;
 
 /***/ },
-/* 6 */
+/* 2 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 7 */,
-/* 8 */
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -493,7 +486,7 @@
 	 * Date: 2016/6/14 11:14
 	 * Description: 项目时间紧迫，主体功能先实现，更多功能后续会慢慢增加
 	 */
-	__webpack_require__(9);
+	__webpack_require__(7);
 	var Defaults = {
 		trigger : null,
 	
@@ -520,7 +513,7 @@
 		defaultVal : "",  //初始化时默认选中的值
 	
 		tpl : function(){
-			return __webpack_require__(11);
+			return __webpack_require__(9);
 		},
 	
 		//适配器，用于适配从后端请求回来的数据为如下格式
@@ -819,20 +812,20 @@
 
 
 /***/ },
-/* 9 */
+/* 7 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 10 */,
-/* 11 */
+/* 8 */,
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"gSelectDownBoxCon\">\r\n    <div class=\"selectTopCon\">\r\n        <div class=\"searchBox\">\r\n            <div class=\"searchBoxCon\">\r\n                <input type=\"text\" name=\"\" class=\"gSelectSearchInp\"/>\r\n                <i class=\"iconfont search\">&#xe60a;</i>\r\n                <span class=\"clearSearchBtn\"><i class=\"iconfont\">&#xe674;</i></span>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <ul class=\"selectOptionUl\"></ul>\r\n</div>\r\n\r\n";
 
 /***/ },
-/* 12 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -840,11 +833,11 @@
 	 * Date: 2016/6/21 10:04
 	 * Description: ""
 	 */
-	__webpack_require__(13);
-	var WinWidthHeight = __webpack_require__(15);
-	var Drag = __webpack_require__(16);
-	var PubSub = __webpack_require__(17);
-	var Extend = __webpack_require__(18);
+	__webpack_require__(11);
+	var WinWidthHeight = __webpack_require__(13);
+	var Drag = __webpack_require__(14);
+	var PubSub = __webpack_require__(15);
+	var Extend = __webpack_require__(16);
 	var fn = new Function();
 	var Defaults = {
 		width : "",
@@ -1023,14 +1016,14 @@
 	module.exports = Dialog;
 
 /***/ },
-/* 13 */
+/* 11 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 14 */,
-/* 15 */
+/* 12 */,
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -1057,7 +1050,7 @@
 	}
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
@@ -1395,7 +1388,7 @@
 	module.exports = Drag;
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/**
@@ -1437,7 +1430,7 @@
 	module.exports = E;
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/**
@@ -1455,13 +1448,13 @@
 	}
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"bankDialogCxtContainer\" class=\"bankDialogCxtContainer\">\r\n    <form id=\"bankForm\">\r\n        <div class=\"bankTitle\">添加配置银行卡</div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"bankName\" class=\"bankName selectInp\"></select>\r\n                <span class=\"tip\">请选择开户行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>选择地区:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"provSelect\" class=\"selectPro selectAreaInp\"></select>\r\n                <select id=\"citySelect\" class=\"selectCity selectAreaInp\"></select>\r\n                <span class=\"tip\">请选择地区</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户支行:</label>\r\n            </div>\r\n            <div id=\"subBranchBankBox\" class=\"lineright subBranchBankBox\">\r\n                <input readonly style=\"width:365px; height:22px; line-height:22px;\" type=\"text\" name=\"\" id=\"subBranchName\" class=\"subBranchName selectInp\"/>\r\n                <i class=\"iconfont tri up\">&#xe695;</i>\r\n                <i class=\"iconfont tri down\">&#xe673;</i>\r\n                <!--<select id=\"subBranchName\" class=\"subBranchName selectInp\"></select>-->\r\n                <span class=\"tip\">请填写开户支行</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡/存折号:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCardNumInp\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写银行卡号</span>\r\n                <div id=\"bankCopyBox\" class=\"bankCopyBox\">928349238492348</div>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>开户姓名:</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <input id=\"bankCardAccount\" class=\"bankCard textInp\"/>\r\n                <span class=\"tip\">请准确填写开户姓名用以核对</span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\">\r\n            <div class=\"lineLeft\">\r\n                <label for=\"\"><span class=\"warningTip\">*</span>银行卡类别</label>\r\n            </div>\r\n            <div class=\"lineright\">\r\n                <select id=\"cardTypeSelect\" class=\"bankCard selectInp\">\r\n                    <option value=\"0\">借记卡</option>\r\n                    <option value=\"1\">存折</option>\r\n                    <option value=\"2\">贷记卡(信用卡)</option>\r\n                    <option value=\"3\">公司账号</option>\r\n                </select>\r\n                <span class=\"tip\"></span>\r\n            </div>\r\n        </div>\r\n        <div class=\"line\" style=\"margin-top:20px\">\r\n            <a href=\"javascript:void(0)\" class=\"submitBtn\" id=\"bankDialog-submitBtn\">确认提交</a>\r\n        </div>\r\n    </form>\r\n</div>";
 
 /***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/**
@@ -1482,6 +1475,12 @@
 		url : PFT.Config.Api.get("Finance_Banks")
 	};
 	module.exports = Api;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
