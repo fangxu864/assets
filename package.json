@@ -16,6 +16,7 @@
     "server": "node server.js",
     "start": "node server.js",
 
+
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
     "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
@@ -24,7 +25,13 @@
     "withdraw-bank-start" : "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js -w",
     "withdraw-bank-test" : "set NODE_ENV=test && webpack --config ./src/withdraw_bank/webpack.config.js",
     "withdraw-bank-release" : "set NODE_ENV=release && webpack --config ./src/withdraw_bank/webpack.config.js",
-    "withdraw-bank-production" : "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js"
+    "withdraw-bank-production" : "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js",
+
+    "register-start" : "set NODE_ENV=develop && webpack --config ./src/register/webpack.config.js -w",
+    "register-test" : "set NODE_ENV=test && webpack --config ./src/register/webpack.config.js -w",
+    "register-release" : "set NODE_ENV=release && webpack --config ./src/register/webpack.config.js -w",
+    "register-production" : "set NODE_ENV=production && webpack --config ./src/register/webpack.config.js -w"
+
   },
   "repository": {
     "type": "git",
