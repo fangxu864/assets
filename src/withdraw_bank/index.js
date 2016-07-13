@@ -3,6 +3,7 @@
  * Date: 2016/7/11 11:01
  * Description: ""
  */
+require("./index.scss")
 var Dialog = require("./bank-dialog");
 var BankManager = function(){
 	this.bankListUl = $("#bankListUl");
@@ -14,7 +15,7 @@ BankManager.prototype = {
 	bindEvents : function(){
 		var that = this;
 		var Dialog = this.Dialog;
-		//添加银行卡
+		//添加银行�?
 		this.addBankBtn.on("click",function(e){
 			var type = $(e.currentTarget).attr("type");
 			Dialog.open({
@@ -26,7 +27,7 @@ BankManager.prototype = {
 			var tarLi = $(e.currentTarget);
 			tarLi.addClass("checked").siblings("li").removeClass("checked");
 		})
-		//配置银行卡
+		//配置银行�?
 		this.bankListUl.on("click",".card_config",function(e){
 			var tarBtn = $(e.currentTarget);
 			var province_id = tarBtn.attr("bank_province");
@@ -49,7 +50,7 @@ BankManager.prototype = {
 				card_type : acc_type
 			})
 		})
-		//删除银行卡
+		//删除银行�?
 		this.bankListUl.on("click",".delete",function(e){
 			var tarBtn = $(e.currentTarget);
 			if(tarBtn.hasClass("disable")) return false;

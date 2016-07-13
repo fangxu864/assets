@@ -1,3 +1,13 @@
+.wid2 {
+  width: 200px;
+  display: inline-block;
+  overflow: hidden;
+  height: 16px;
+  line-height: 16px; }
+
+.rightWrap .bank_r .bank_rt ul li.checked {
+  border: 1px solid #f07845;
+  background-color: #fbf9da; }
 .bankDialogCxtContainer .submitBtn {
   vertical-align: middle;
   cursor: pointer;
