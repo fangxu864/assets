@@ -1,0 +1,160 @@
+.orderListUl .status{ height:60px; line-height:60px; width:100%; text-align:center; background:#fff;}
+.orderListUl .status .iconfont{ vertical-align:middle; font-size:18px; margin-right:2px;}
+.orderListUl .status .t{ vertical-align:middle;}
+.orderListUl .status .loadingImg{ vertical-align:middle; margin-right:5px;}
+.orderListUl .status.getMoreLoading{ height:80px; line-height:80px;}
+.orderListUl .status.initGetLoading{ height:200px; line-height:200px;}
+.searchWrap{ position:relative; overflow:hidden; padding:18px 20px 12px; background:#fff; margin-bottom:10px;}
+.searchWrap .searchBox{ position:relative; float:left;}
+.searchWrap .searchInp{ width:350px; float:left; margin-right:4px; padding-left:30px;}
+.searchWrap .ctrlBtn{ display:block; float:left; width:120px; height:32px; line-height:32px; margin-right:10px; text-align:center; border-radius:3px; margin-top:1px; background:#2a98da; color:#fff}
+.searchWrap .ctrlBtn:hover{ text-decoration:none; background:#2189c4}
+.searchWrap .searchBox .searchIcon{ position:absolute; top:6px; left:10px;}
+.searchWrap .recoverSearchBtn{ background-color:#f37138}
+.searchWrap .recoverSearchBtn:hover{ background-color:#e56730}
+.searchWrap .recoverSearchBtn .iconfont{ font-size:12px; margin-right:2px; top:-1px;}
+.searchWrap .moreSearchTrigger{ display:none; position:absolute; z-index:2; top:0; bottom:0; left:510px; width:90px; line-height:58px; text-align:center; border:1px solid #fff; border-bottom:0 none}
+.searchWrap .moreSearchTrigger .up{ display:none}
+.searchWrap .moreSearchTrigger.on{ background-color:#fff9e5; border-color:#e5e5e5}
+.searchWrap.fixed .moreSearchTrigger{ border:1px solid #fff9e5; border-bottom:0 none}
+.searchWrap.fixed .moreSearchTrigger.on{ background:#fff;  border:1px solid #e5e5e5; border-bottom:0 none}
+.searchWrap .moreSearchTrigger.on .down{ }
+.searchWrap .moreSearchTrigger.on .up{ display:inline}
+.searchWrap .moreSearchTrigger .iconfont{ top:1px;}
+.searchWrap .moreSearchTrigger:hover{ text-decoration:none}
+.searchWrap .lborder{ position:absolute; z-index:1; left:0; right:0; bottom:0; width:100%; height:1px; background-color:#e5e5e5}
+.searchWrap.fixed{ position:fixed; top:0; width:759px; z-index:5;  background:#fff9e5; }
+.advanceSearchBox{ clear:both;}
+/*.advanceSearchBox{ display:none; position:absolute; width:798px; top:57px; border:1px solid #e5e5e5; background-color:#fff9e5 }*/
+.advanceSearchBox.fixed{ position:fixed;background-color:#fff}
+.advanceSearchBox .con{ padding-top:10px; padding-left:2px;}
+.advanceSearchBox .line{ position:relative; margin-bottom:10px;}
+.advanceSearchBox .line .inCon{ height:18px; overflow:hidden; margin-left:60px; margin-right:60px;}
+.advanceSearchBox .line .inCon.on{ height:auto;}
+.advanceSearchBox .line .toggleBtn{ position:absolute; right:0; top:-3px;}
+.advanceSearchBox .line .toggleBtn .up{ display:none}
+.advanceSearchBox .line .toggleBtn.on .up{ display:inline}
+.advanceSearchBox .line .toggleBtn.on .down{ display:none}
+.advanceSearchBox .line .lt{ position:absolute; top:-1px; left:0; color:#797979; font-weight:600; margin-right:10px;}
+.advanceSearchBox .listUl{ float:left;}
+.advanceSearchBox .listUl .item{ float:left; min-width:50px; height:18px; line-height:18px; padding:0 6px; margin-right:8px; margin-bottom:10px; text-align: center;}
+.advanceSearchBox .listUl .item.active{ background-color:#f37138}
+.advanceSearchBox .listUl .item.active a,.advanceSearchBox .listUl .item.active a:hover{ color:#fff}
+.advanceSearchBox .listUl .item a{ color:#b17827; text-decoration:none}
+.advanceSearchBox .listUl .item a:hover{ text-decoration:underline; color:#f37138}
+
+.searchTitleBox{ width:100%; overflow:hidden;}
+.searchTitleBox .lt{ float:left; color:#797979; font-weight:600; margin:8px 12px 0 1px}
+.searchTitleBox .searchBox{ float:left;}
+.searchTitleBox .searchBox .searchIcon{ display:none}
+.searchTitleBox .searchBox .searchInp{ padding-left:10px;}
+.searchTitleBox .searchBox .searchInp:focus{border-color: #0797D9; color: #0797D9;}
+.searchTitleBox .searchBox .tip{ float:left; margin-top:8px; margin-left:2px; color:#acacac}
+.searchWrap .btnGroup{ clear:both; margin-top:13px; margin-bottom:5px; overflow:hidden; padding-left:63px;}
+
+
+
+
+.orderItem{ background:#fff; border:1px solid #f0eded; border-top:4px solid #ddd; margin-bottom:10px;}
+.orderItem .oMsgBox{ width:100%; overflow:hidden; padding:20px 0;}
+.orderItem .oMsgBox .photoBox{ float:left;  margin-left:20px; margin-right:15px; padding:3px; border:1px solid #ddd}
+.orderItem .oMsgBox .photoBox .con{ width:150px; height:90px; overflow:hidden; font-size:0;}
+.orderItem .oMsgBox .photoBox img{ width:100%;}
+.orderItem .oMsgBox .detailBox{ float:left; margin-top:5px;}
+.orderItem .oMsgBox .detailBox .line{ clear:both;}
+.orderItem .oMsgBox .detailBox .line.gongying{ margin-top:10px;}
+.orderItem .oMsgBox .detailBox .shang{ float:left;}
+.orderItem .oMsgBox .detailBox .qqTalk{ float:left; position:relative; top:-3px; margin-left:2px;}
+.orderItem .oMsgBox .rigBox{ float:right; margin-top:5px; padding-right:30px;}
+.orderItem .oMsgBox .rigBox .ma{ display:block; margin-top:4px;}
+.orderItem .oMsgBox .rigBox .ma img{ width:20px;}
+.orderItem .oMsgBox .rigBox .ma .t{ position:relative; top:-5px; margin-left:2px;}
+.orderItem .priceBox .yen{ font-size:12px; font-family:arial;  margin-right:1px;}
+.orderItem .priceBox .num{ position:relative; top:1px; font-size:16px; font-family:arial;}
+.orderItem .priceBox.bold .num{ font-weight:bold}
+.orderItem .priceBox.orange .num,.orderItem .priceBox.orange .yen{ color:#f37138}
+.orderItem .priceBox .t{ margin-left:2px; }
+.orderItem .priceBox.lineThrought .yen,.orderItem .priceBox.lineThrought .num{ text-decoration:line-through}
+
+.orderItem .ticketBox{ position:relative;}
+.orderItem .ticketHead{ width:100%; overflow:hidden; background:#fcfcfc; border-top:1px solid #ededed; border-bottom:1px solid #ededed}
+.orderItem .ticketBox .col{ float:left; text-align:left}
+.orderItem .ticketHead .col{ height:32px; line-height:32px;}
+.orderItem .ticketHead .col{ height:32px; line-height:32px;}
+.orderItem .ticketUl .line{ width:100%; overflow:hidden; border-bottom:1px solid #f5f4f4}
+/*.orderItem .ticketUl .line:last-child{ border-bottom:0 none}*/
+.orderItem .ticketUl .line .col{ height:42px; line-height:42px;  }
+
+.orderItem .ticketBox .col_1{ width:170px; padding-left:23px;}
+.orderItem .ticketBox .col_2{ width:170px;}
+.orderItem .ticketBox .col_3{ width:80px; text-align:center}
+.orderItem .ticketBox .col_4{ width:80px; text-align:center}
+.orderItem .ticketBox .col_5{ width:80px; text-align:center}
+.orderItem .ticketBox .col_6{ width:80px; text-align:center}
+.orderItem .ticketBox .col_7{ width:115px; text-align:center}
+.orderItem .ticketBox .ticketHead .col_6{ width:80px; text-align:center}
+
+
+.orderItem .ticketBox .ticketLi{ width:100%; overflow:hidden;}
+.orderItem .ticketBox .payTxt.xinachang{ color:#f37138}
+.orderItem .ticketBox .payTxt.online{ color:#2a98da}
+.orderItem .ticketBox .ticketHead .col_6{ color:#3E3E3E}
+.orderItem .ticketBox .buyBtn{ display:inline-block; width:44px; height:26px; line-height:26px; text-align:center; color:#fff; border-radius:3px;}
+.orderItem .ticketBox .buyBtn.refBtn{ width:56px; background:#3eba40}
+.orderItem .ticketBox .buyBtn.refBtn.disable{ cursor:default; background:#c8c8c8}
+
+.orderItem .ticketBox .buyBtn:hover{ text-decoration:none}
+.orderItem .ticketBox .buyBtn.xianchang{ background-color:#2a98da;}
+.orderItem .ticketBox .buyBtn.online{ background-color:#f37138}
+.orderItem .ticketBox .ticTypeToggleBtn:hover{ text-decoration:none}
+.orderItem .ticketBox .ticTypeToggleBtn .up{ display:none}
+.orderItem .ticketBox .ticTypeToggleBtn.on .up{ display:inline}
+.orderItem .ticketBox .ticTypeToggleBtn.on .down{ display:none}
+
+.orderItem .ticketUl{ overflow:hidden; position:relative; zoom:1;}
+
+.orderItem .slideTicketUlBtn{ width:100%; height:20px; line-height:20px; text-align:center; background:#fcfcfc;}
+.orderItem .slideTicketUlBtn .con{ width:100%; height:100%; cursor:pointer;}
+.orderItem .slideTicketUlBtn .btnIcon.up{ display:none}
+.orderItem .slideTicketUlBtn .t.up{ display:none}
+.orderItem .slideTicketUlBtn.on .btnIcon.up{ display:inline}
+.orderItem .slideTicketUlBtn.on .btnIcon.down{ display:none}
+.orderItem .slideTicketUlBtn.on .t.up{ display:inline}
+.orderItem .slideTicketUlBtn.on .t.down{ display:none}
+.orderItem .slideTicketUlBtn.disable{ display:none;}
+
+.orderItem .ticketTypeMsgBox{ clear:both; display:none; width:100%; border:1px solid #e8e8e8; background:#f5f4f4}
+.orderItem .ticketTypeMsgBox .con{ padding:15px; padding-left:25px;}
+.orderItem .ticketTypeMsgBox .con .sp{ margin-right:20px;}
+.orderItem .ticketTypeMsgBox .con .sp:last-child{ margin-right:0}
+
+.orderItem .vHidden{ visibility:hidden;}
+
+.advanceSearchBox .line.selectLine .lt{ top:7px;}
+.advanceSearchBox .line.selectLine .inCon{ height:auto; overflow:hidden;}
+.advanceSearchBox .line.selectLine .select{ position:relative; float:left; margin-right:10px;}
+.advanceSearchBox .line.selectLine .select.cs{ margin-right:0}
+.advanceSearchBox .line.selectLine .select .selectTrigger{ width:162px;}
+.advanceSearchBox .line.selectLine .select .selectTriggerIcon{ display:block; position:absolute; top:2px; right:3px; cursor:pointer}
+.advanceSearchBox .line.selectLine .select .selectTriggerIcon .iconfont{ font-size:22px;}
+.advanceSearchBox .line.selectLine .select .selectTriggerIcon .iconfont.up{ display:none}
+.advanceSearchBox .line.selectLine .select .selectTriggerIcon.on .iconfont.down{ display:none}
+.advanceSearchBox .line.selectLine .select .selectTriggerIcon.on .iconfont.up{ display:block}
+
+#getMoreBtn{ width:100%; height:80px; line-height:80px; text-align:center; color:#2a98da; cursor:pointer}
+.siteLeftBar .left_memb{ padding:0;}
+.left_memb .membdl{ padding:14px 0 14px 20px}
+.left_memb{ background:#fff}
+.left_memb.fixed{ width:183px; position:fixed; top:0; bottom:0; overflow:hidden}
+.left_memb.fixed .membdl{ width:175px; height:100%; overflow:auto; }
+.left_memb.fixed .membdl dd:last-child{ margin-bottom:50px;}
+
+/* 返回到顶部按钮 */
+.gotopBtn{opacity: 1;position: fixed;background:#FFF;border:1px solid #E5E5E5;bottom:85px;right:20px;z-index:99999;width:48px;height:48px;}
+.gotopBtn a{cursor:pointer;float:left;background-color:#FFF;margin-left:5px;}
+.gotopBtn a i{display:inline-block; width:23px; height:14px;background: url(//www.12301.cc/images/top_arrow_a.png) -29px 0px;margin:17px 7px;}
+.gotopBtn a:hover i{background-position:0 0;}
+
+.orderItem .ticketUl .line .col .loading{ width:22px; vertical-align:middle; position:relative; top:-1px;}
+
+.ui-selectPopBox .ui-select-searchIcon{ top:8px;}

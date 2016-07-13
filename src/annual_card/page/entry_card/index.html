@@ -1,0 +1,60 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/6/1 14:55 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>录入卡片</title>
+</head>
+<body style="padding:50px 0">
+    <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
+    <script type="text/javascript" src="http://www.12301.cc/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+
+
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_entry_card/all.css"/>
+    <div class="cardContainer">
+        <h1 class="entry">录入卡片</h1>
+        <div id="card_headerContaienr" class="cardPro">
+            <label>卡产品：</label>
+            <input name="" readonly id="cardProdTriggerInput" value="正在请求产品数据..." type="text" class="packInp"/>
+            <i class="arrowdown iconfont">&#xe673;</i>
+            <i class="arrowup iconfont">&#xe695;</i>
+            <label>录入数量：</label>
+            <input id="cardCountInp" type="text" class="larInp"/>
+            <a href="javascript:void(0);" class="btn btn-5x btn-blue" id="createCardListBtn">生成卡号</a>
+        </div>
+        <form action="" class="entry_form">
+            <a href="javascript:void(0);" class="btn btn-5x btn-border" id="relateSHCardBtn">关联实体卡</a>
+            <table class="enTable">
+                <thead>
+                    <tr>
+                        <th>虚拟卡号</th>
+                        <th>实体卡卡号（卡面号码）</th>
+                        <th>物理ID</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="cardList"></tbody>
+            </table>
+            <p class="tip"><span class="font-red">注</span>:无实体卡的会员，即通过会员号使用，计入虚拟卡库存</p>
+            <div class="btn-entry">
+                <a id="clearAllListBtn" style="color:#0797d9" href="javascript:void(0);" class="btn btn-5x btn-border">清空重置</a>
+                <a id="submitBtn" href="javascript:void(0);" class="btn btn-5x btn-blue">确定发卡</a>
+            </div>
+        </form>
+    </div>
+
+
+    <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_entry_card/all.js"></script>
+
+
+</body>
+</html>

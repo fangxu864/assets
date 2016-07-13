@@ -1,0 +1,165 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/6/1 14:55 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>会员详情</title>
+</head>
+<body style="padding:50px 0">
+    <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
+    <script type="text/javascript" src="http://www.12301.cc/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+
+
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_member_details/all.css"/>
+    <div class="cardContainer">
+        <h1 class="entry border-bottom">会员详情</h1>
+        <div class="memberBox" style="background:#e2f6fe">
+            <span class="memberH">H</span>
+            <ul class="memUl">
+                <li>
+                    <p><span class="memL">会员名称：</span><span class="memR"></span></p>
+                    <p><span class="memL">会员号：</span><span class="memR">H45656</span></p>
+                    <p><span class="memL">账户余额：</span><span class="memR">566元</span></p>
+                </li>
+                <li>
+                    <p><span class="memL">身份证：</span><span class="memR">1569878456</span></p>
+                    <p><span class="memL">手机号：</span><span class="memR">536845624455665</span></p>
+                </li>
+            </ul>
+        </div>
+        <div class="memberBox">
+            <ul class="memUl marL-70">
+                <li>
+                    <p><span class="memL">虚拟卡号：</span><span class="memR">H45656</span></p>
+                    <p><span class="memL">实体卡号：</span><span class="memR">602504555222254</span></p>
+                    <p><span class="memL">物理ID：</span><span class="memR">4565656</span></p>
+                    <p><span class="memL">可用优惠券：</span><span class="memR">0</span></p>
+                    <p><span class="memL">发卡商户：</span><span class="memR">三亚先行</span></p>
+                </li>
+                <li>
+                    <p><span class="memL">卡套餐：</span><span class="memR">厦门先行年卡套餐</span></p>
+                    <p><span class="memL">有效期：</span><span class="memR">2016/05/06至2017/05/06 <a class="font-blue" href="javascript:void(0);">续费</a></span></p>
+                    <div class="memLine">
+                        <span class="memL">已用特权：</span>
+                        <div class="memR">
+                            <p>XXXXXX景区-XX票 1/20（限2次/日）</p>
+                            <p>XXXXX景区-XX票 1/不限（限2次/月）</p>
+                            <a class="more" href="javascript:void(0);">......</a>
+                        </div>
+                    </div>
+                    <p><span class="memL">激活情况：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate">未激活</a></span></p>
+                    <p><span class="memL">备注：</span></p>
+                </li>
+            </ul>
+        </div>
+        <div class="memberBox border-top">
+            <ul class="memUl marL-70">
+                <li>
+                    <p><span class="memL">虚拟卡号：</span><span class="memR">H45656</span></p>
+                    <p><span class="memL">实体卡号：</span><span class="memR">602504555222254</span></p>
+                    <p><span class="memL">物理ID：</span><span class="memR">4565656</span></p>
+                    <p><span class="memL">可用优惠券：</span><span class="memR">0</span></p>
+                    <p><span class="memL">发卡商户：</span><span class="memR">三亚先行</span></p>
+                </li>
+                <li>
+                    <p><span class="memL">卡套餐：</span><span class="memR">厦门先行年卡套餐</span></p>
+                    <p><span class="memL">有效期：</span><span class="memR">2016/05/06至2017/05/06 <a class="font-blue" href="javascript:void(0);">续费</a></span></p>
+                    <div class="memLine">
+                        <span class="memL">已用特权：</span>
+                        <div class="memR">
+                            <p>XXXXXX景区-XX票 1/20（限2次/日）</p>
+                            <p>XXXXX景区-XX票 1/不限（限2次/月）</p>
+                            <a class="more" href="javascript:void(0);">......</a>
+                        </div>
+                    </div>
+                    <p><span class="memL">激活情况：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate">未激活</a></span></p>
+                    <p><span class="memL">备注：</span></p>
+                </li>
+            </ul>
+        </div>
+        <p class="useHistory border-top">使用记录</p>
+        <table class="memTable">
+            <thead>
+                <tr class="border-bottom bg-gray">
+                    <th>订单号</th>
+                    <th>产品</th>
+                    <th>虚拟卡号</th>
+                    <th>订单总额</th>
+                    <th>套餐特权</th>
+                    <th>优惠券</th>
+                    <th>余额支付</th>
+                    <th>下单时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-bottom">
+                    <td class="font-blue">4654546</td>
+                    <td>XXXXXXXXX景区-成人票-1张</td>
+                    <td></td>
+                    <td></td>
+                    <td class="font-orange">-100</td>
+                    <td class="font-orange">-10</td>
+                    <td class="font-orange">123</td>
+                    <td>2016/05/06 12:00</td>
+                </tr>
+                <tr class="border-bottom">
+                    <td class="font-blue">4654546</td>
+                    <td>XXXXXXXXX景区-成人票-1张</td>
+                    <td></td>
+                    <td></td>
+                    <td class="font-orange">-100</td>
+                    <td class="font-orange">-10</td>
+                    <td class="font-orange">123</td>
+                    <td>2016/05/06 12:00</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="moreBox border">
+        <div class="moreHead"><a href="javascript:void(0);" class="btn-del" style="color:#ccc">×</a></div>
+        <table class="morePro">
+            <thead>
+                <tr>
+                    <th>产品</th>
+                    <th>已用特权</th>
+                    <th>限制</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>XXXXXX景区-XX票</td>
+                    <td>1/20 </td>
+                    <td>2次/日</td>
+                </tr>
+                <tr>
+                    <td>XXXXXX景区-XX票</td>
+                    <td>1/20 </td>
+                    <td>2次/日</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        $(function(){
+            $(".moreBox").hide();
+            $(".more").click(function(){
+                $(".moreBox").show();
+            })
+            $(".btn-del").click(function(){
+                $(".moreBox").hide();
+            })
+        })
+    </script>
+
+</body>
+</html>

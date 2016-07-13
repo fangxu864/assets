@@ -5,6 +5,7 @@
  */
 var fs = require("fs");
 var path = require("path");
+var yargs = require("yargs");
 function travel(dir, callback) {
 	try{
 		fs.readdirSync(dir).forEach(function (file) {
@@ -80,10 +81,6 @@ function asyncJob2(param, isOk) {
 	return defer.promise;
 }
 
-asyncJob1('monkey', true).then(function (job1Result) {
-	return asyncJob2(job1Result, true);
-}).then(function (job2Result) {
-	console.log('we are all done!', job2Result);
-});
 
-
+var getEntry = require("./task-webpack/getEntry");
+console.log(getEntry("src","terminal"));

@@ -1,0 +1,17 @@
+<% if(data.length){ %>
+    <%_.each(data,function(item,index){%>
+        <tr class="<%=index!=data.length-1? 'border-bottom' : ''%>">
+            <td class="font-blue"><%=item.ordernum%></td>
+            <td><%=item.ltitle%> - <%=item.title%></td>
+            <td><%=item.totalmoney/100%></td>
+            <td class="font-orange"><%=item.tnum%></td>
+            <td><%=item.ordertime%></td>
+        </tr>
+    <% }) %>
+<% }else{ %>
+<tr>
+    <td style="text-align:center; height:300px" colspan="8">暂无使用记录...</td>
+</tr>
+<% } %>
+
+

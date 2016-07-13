@@ -1,3 +1,4 @@
 {
-    "name" : "旅游年卡项目"
+    "name" : "旅游年卡项目",
+    "script" : "node server.annual.card.js"
 }

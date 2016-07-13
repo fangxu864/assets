@@ -1,0 +1,39 @@
+/**
+ * Author: huangzhiyang
+ * Date: 2016/5/30 14:47
+ * Description: ""
+ */
+@import "../../css/style.css";
+@import "COMMON/css/base/core";
+/*架构UI*/
+.cardContainer{width:1000px; margin:0 auto;}
+.ptitle{ padding-left:24px; line-height:68px; font-size:18px; font-weight:bold; border:1px solid #e5e5e5; background:#fff}
+.memberBox{padding:14px 0 14px 24px; overflow:hidden; border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5}
+.memberBox .memberH{display:inline-block; width:70px; height:70px; float:left; line-height:70px; text-align:center;
+  background:#0797d9; font-size:38px; color:white; border-radius:6px;}
+.memberBox ul li{float:left; width:260px; padding-left:30px; line-height:20px;}
+.memberBox ul li:last-of-type{width:360px;}
+.marL-70{ margin-left:70px;}
+.memL{display:inline-block; width:90px;}
+.memR .font-blue{ margin-left:14px;}
+.memLine{ overflow:hidden;}
+.memLine .memL,.memLine .memR{ float:left;}
+.unActivate:link{ color:#f07845;}
+.useHistory{line-height:22px; padding-top:12px; padding-left:23px; background:#f5f5f5; font-size:18px;}
+.memTable{ width:100%;}
+.memTable thead tr{line-height:33px;}
+.memTable tbody tr{line-height:46px;}
+.memTable tr td:first-of-type,.memTable tr th:first-of-type{ text-indent:24px;}
+.pageBox{ height:28px; padding:9px 10px; font-size:14px;}
+.pageBox a{ width:78px; height:28px; line-height:28px; border-radius:14px;
+  color:#92a0ab; font-weight:bolder; font-size:larger;}
+.pageBox a:link{ color:#92a0ab;}
+.pageBox .preBtn{ background:#e5e5e5; margin-left:540px;}
+
+//弹出框
+.moreBox{ width:302px; height:284px; position:fixed; left:50%; top:50%; margin:-143px 0 0 -152px; background:white;}
+.moreBox .moreHead{ width:302px; height:34px; background:#e5e5e5;}
+.moreBox .btn-del{ position:absolute; top:-8px; right:6px;}
+.morePro{ width:100%;}
+.morePro tr td:first-of-type,.morePro tr th:first-of-type{ text-indent:13px;}
+.morePro thead tr{ line-height:30px;}

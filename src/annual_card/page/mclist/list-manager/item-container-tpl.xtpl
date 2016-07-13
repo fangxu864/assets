@@ -1,0 +1,17 @@
+<li style="width:<%=data.width%>px" id="listItemLi_<%=data.status%>" class="listItemLi listItemLi_<%=data.status%>">
+    <table id="listItemTable_<%=data.status%>" class="listItemTable listItemTable_<%=data.status%>">
+        <thead>
+        <tr>
+            <%_.each(data.ths,function(item,index){%>
+            <th><%=item%></th>
+            <% }) %>
+        </tr>
+        </thead>
+        <tbody id="tbody_<%=data.status%>" class="tbody tbody_<%=data.status%>">
+            <tr style="text-align:center">
+                <td colspan="<%=data.ths.length%>" style="text-align:center; border-bottom:0 none"><%=data.loading%></td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="paginationContainer_<%=data.status%>" class="paginationContainer"></div>
+</li>

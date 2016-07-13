@@ -1,0 +1,50 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/6/1 14:55 -->
+<!-- Description: huangzhiyang -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>库存明细</title>
+</head>
+<body style="padding:50px 0">
+    <link rel="stylesheet" href="http://static.12301.cc/assets/build/css/common/reset_style.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/default.css"/>
+    <link rel="stylesheet" href="http://www.12301.cc/css/common/www.12301.cc.global.css"/>
+    <script type="text/javascript" src="http://www.12301.cc/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/lib/backbone-min.js"></script>
+    <script type="text/javascript" src="http://static.12301.cc/assets/build/js/common/pft.common.all.min.js"></script>
+
+
+    <link rel="stylesheet" href="http://localhost:9090/assets/build/css/publish_card_stock_details/all.css"/>
+    <div id="cardContainer" class="cardContainer">
+        <p class="entry border-bottom">三亚先行年卡套餐-库存明细</p>
+        <div class="stockBox">
+            <div>
+                <span>实体卡库存：<span id="cardStorage_num" style="font-size:20px;">5</span></span>
+                <span>虚拟卡库存：<span id="virtualStorage_num" style="font-size:20px;">10</span></span>
+            </div>
+            <a href="javascript:void(0);" class="cardBtn" id="cardBtn">录入卡片</a>
+        </div>
+        <table class="memTable">
+            <thead>
+                <tr class="border-bottom">
+                    <th>虚拟卡号</th>
+                    <th>实体卡号（卡面号码）</th>
+                    <th>物理ID </th>
+                    <th>录入时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
+    <div style="width:798px; overflow:hidden; margin:10px auto;" id="paginationContainer"></div>
+
+    <script type="text/javascript" src="http://localhost:9090/assets/build/js/publish_card_stock_details/all.js"></script>
+
+</body>
+</html>

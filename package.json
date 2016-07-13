@@ -14,7 +14,24 @@
     "prod": "webpack -w -myProduct",
     "common": "webpack --config webpack.common.build.config.js",
     "server": "node server.js",
-    "start" : "node server.js"
+    "start": "node server.js",
+
+
+    "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
+    "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
+    "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
+    "annual-production": "set NODE_ENV=production && webpack --config ./src/annual_card/webpack.config.js",
+
+    "withdraw-bank-start" : "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js -w",
+    "withdraw-bank-test" : "set NODE_ENV=test && webpack --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-release" : "set NODE_ENV=release && webpack --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-production" : "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js",
+
+    "register-start" : "set NODE_ENV=develop && webpack --config ./src/register/webpack.config.js -w",
+    "register-test" : "set NODE_ENV=test && webpack --config ./src/register/webpack.config.js -w",
+    "register-release" : "set NODE_ENV=release && webpack --config ./src/register/webpack.config.js -w",
+    "register-production" : "set NODE_ENV=production && webpack --config ./src/register/webpack.config.js -w"
+
   },
   "repository": {
     "type": "git",
@@ -32,13 +49,20 @@
     "css-loader": "^0.23.1",
     "cssnext-loader": "^1.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "fastclick": "^1.0.6",
     "file-loader": "^0.8.5",
     "gulp": "^3.9.1",
     "gulp-file-include": "^0.13.7",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
     "gulp-watch": "^4.3.6",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.15.0",
+    "jquery": "^3.0.0",
+    "jquery.transit": "^0.9.12",
     "js-md5": "^0.4.1",
+    "moment": "^2.13.0",
     "node-sass": "^3.7.0",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
@@ -46,6 +70,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "yargs": "^4.7.1"
   }
 }

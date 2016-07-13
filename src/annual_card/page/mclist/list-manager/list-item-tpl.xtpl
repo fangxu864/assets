@@ -1,0 +1,34 @@
+<%
+   var status = data.status;
+   var list = data.list;
+   var colspan = data.colspan;
+%>
+<% if(list.length){ %>
+    <% _.each(list,function(item,index){ %>
+        <% var cls = (index+1)%2==0 ? "even" : "odd"; %>
+        <tr class="listItem <%=cls%>">
+            <% if(status==0){ %>
+                <td><%=item.sale_time%></td>
+            <% }else{ %>
+                <td><%=item.account%></td>
+                <td><%=item.mobile%></td>
+            <% } %>
+            <td><%=item.virtual_no%> / <%=item.card_no%></td>
+            <td><%=item.supply%></td>
+            <td><%={"1":"正常","0":"未激活","2":"禁用","4":"挂失"}[item.status]%></td>
+            <td class="font-blue doAction">
+                <% if(item.status==0){ %>
+                    <span class="color:#ccc">--</span>
+                <% }else{ %>
+                    <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <% } %>
+                <a style="display:none;margin-right:8px" class="doBtn loss" href="javascript:void(0);">挂失</a>
+                <a style="display:none" href="javascript:void(0);" class="doBtn inavail">禁用</a>
+            </td>
+        </tr>
+    <% }) %>
+<% }else{ %>
+    <tr>
+        <td colspan="<%=colspan%>" style="height:300px; text-align:center">查无匹配内容...</td>
+    </tr>
+<% } %>

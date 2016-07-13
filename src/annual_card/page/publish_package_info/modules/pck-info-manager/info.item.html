@@ -1,0 +1,145 @@
+<!-- Author: huangzhiyang -->
+<!-- Date: 2016/6/6 14:21 -->
+<!-- Description: huangzhiyang -->
+<%
+    var pckId=data.tid;
+    var price_section = data.price_section || [];
+    if(price_section.length<1) price_section = [{}];
+    var sdate = price_section.sdate || "";
+    var edate = price_section.edate || "";
+    var delaytype = typeof data.delaytype!="undefined" ? data.delaytype : 1;
+    var search_limit = data.search_limit || "1";
+    var search_limit_type_1 = search_limit.indexOf("1")>-1 ? "checked" : "";
+    var search_limit_type_2 = search_limit.indexOf("2")>-1 ? "checked" : "";
+    var search_limit_type_4 = search_limit.indexOf("4")>-1 ? "checked" : "";
+    var nts_sup = typeof data.nts_sup!="undefined" ? data.nts_sup : "1";
+    var nts_tour = typeof data.nts_tour!="undefined" ? data.nts_tour : "1";
+%>
+<li id="slideItem_<%=pckId%>" class="slideItem">
+    <% _.each(price_section,function(priceObj,index){ %>
+    <div data-pricesectionid="<%=priceObj.id%>" class="line priceSectionLine">
+        <div class="time">
+            <p class="font-gray">预定时间段</p>
+            <input readonly type="text" value="<%=priceObj.sdate%>" name="sdate" class="laydate-icon datePickerInp begin"/> -
+            <input readonly type="text" value="<%=priceObj.edate%>" name="edate" class="laydate-icon datePickerInp end"/>
+        </div>
+        <div class="time">
+            <p class="font-gray">供货价</p><input value="<%=priceObj.js ? priceObj.js/100 : ''%>" type="text" name="js" class="midInp"/>
+        </div>
+        <div class="time">
+            <p class="font-gray">零售价</p><input value="<%=priceObj.ls ? priceObj.ls/100 : ''%>" type="text" name="ls" class="midInp"/>
+        </div>
+        <div class="time">
+            <p class="font-gray">门市价</p><input value="<%=data.tprice ? data.tprice : ''%>" type="text" name="tprice" class="midInp"/>
+        </div>
+    </div>
+    <% }) %>
+    <div class="line">
+        <div class="lt">
+            <label>产品说明：</label>
+        </div>
+        <div class="rt">
+            <input type="text" class="bigInp" name="notes" value="<%=data.notes%>" placeholder="请填写简要说明"/>
+        </div>
+    </div>
+    <div class="line">
+        <div class="lt">
+            <label>使用有效期：</label>
+        </div>
+        <div class="rt">
+            <div class="cardImg">
+                <div class="cardRadio">
+                    <input type="radio" name="delaytype_<%=pckId%>" value="1" id="delaytype_1_<%=pckId%>" <%=delaytype==1 ? "checked" : ""%>/>
+                    <label for="delaytype_1_<%=pckId%>">
+                        卡片售出后 <input type="text" name="delaydays" value="<%=data.delaytype==1 ? data.delaydays : ""%>" class="smaInp delaydayInp" style="text-indent:0; text-align:center"/> 天有效
+                    </label>
+                </div>
+                <div class="cardRadio">
+                    <input type="radio" id="delaytype_0_<%=pckId%>" value="0" name="delaytype_<%=pckId%>" <%=delaytype==0 ? "checked" : ""%>/>
+                    <label for="delaytype_0_<%=pckId%>">
+                        卡片激活后 <input type="text" name="delaydays" value="<%=data.delaytype==0 ? data.delaydays : ""%>" class="smaInp delaydayInp" style="text-indent:0; text-align:center"/> 天有效
+                    </label>
+                </div>
+                <div class="cardRadio">
+                    <input type="radio" id="delaytype_2_<%=pckId%>" value="2" name="delaytype_<%=pckId%>" <%=delaytype==2 ? "checked" : ""%>/>
+                    <label for="delaytype_2_<%=pckId%>">
+                        <input type="text" readonly name="order_start" value="<%=data.order_start%>" class="laydate-icon datePickerInp begin"/> -
+                        <input type="text" readonly name="order_end" value="<%=data.order_end%>" class="laydate-icon datePickerInp end"/> 有效
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="line">
+        <div class="lt">
+            <label>激活限制：</label>
+        </div>
+        <div class="rt">
+            <div class="cardImg">
+                <div class="cardRadio">
+                    会员卡售出 <input type="text" name="auto_active_days" value="<%=data.auto_active_days || 10%>" class="smaInp" style="text-align:center; text-indent:0"/> 天后自动激活（仍需提供手机号后使用卡片）</div>
+                <div>
+                    <input type="checkbox" name="cert_limit" id="cert_limit_<%=pckId%>" <%=data.cert_limit==0 ? "" : "checked"%>/>
+                    <label for="cert_limit_<%=pckId%>">需填写身份证号</label>
+                </div>
+                <div style="display:none">
+                    <input type="radio" id="IDnum1" name="active"/><label for="IDnum1"> 所有可用</label>
+                    <input type="radio" id="IDnum2" name="active"/>
+                    <label for="IDnum2">
+                        身份证号前5位，仅限 <input type="text"class="smaInp"/>
+                    </label>
+                    <a href="javascript:;" class="btn-add">＋</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="line">
+        <div class="lt">
+            <label>退单限制：</label>
+        </div>
+        <div class="rt">
+            <p style="line-height:35px;">不可退</p>
+        </div>
+    </div>
+    <div class="line">
+        <div class="lt">
+            <label>使用说明：</label>
+        </div>
+        <div class="rt">
+            <textarea name="getaddr" placeholder="请填写使用说明" id="getaddrTextArea_<%=pckId%>" rows="3" style="width:420px;"><%=data.getaddr%></textarea>
+        </div>
+    </div>
+    <div class="line">
+        <div class="lt">
+            <label>信息通知配置：</label>
+        </div>
+        <div class="rt phone">
+            <div>供应商手机号 <input type="text" placeholder="请填写供应商手机号" name="fax" value="<%=data.fax%>" class="laydate-icon"></div>
+            <div><input type="checkbox" name="nts_sup" id="nts_sup_checkbox_<%=pckId%>" <%=nts_sup==1?"checked":""%> /><label for="nts_sup_checkbox_<%=pckId%>"> 短信通知供应商</label></div>
+            <div><input type="checkbox" name="nts_tour" id="nts_tour_checkbox_<%=pckId%>"  <%=nts_tour==1?"checked":""%> /><label for="nts_tour_checkbox_<%=pckId%>"> 短信通知联系人</label></div>
+            <div><input type="checkbox" name="confirm_wx" id="confirm_wx_checkbox_<%=pckId%>" <%=data.confirm_wx==1?"checked":""%> /><label for="confirm_wx_checkbox_<%=pckId%>"> 会员消费信息通知到微信</label></div>
+        </div>
+    </div>
+    <div id="pckRightContainer_<%=pckId%>" class="pckRightContainer">
+        <div class="power border-y">
+            <p class="tao">套餐特权<span class="font-gray tip">（设置套餐包含的免费使用景点产品票类，不支持现场支付票类）</span>
+                <a data-pckid="<%=pckId%>" id="addPckRightBtn_<%=pckId%>" class="btn-add addPckRightBtn" href="javascript:void(0);" >＋</a>
+            </p>
+        </div>
+        <ul id="pckRightListUl_<%=pckId%>" class="pckRightListUl"><%=data.priv%></ul>
+    </div>
+    <div class="line">
+        <div class="lt">
+            是否发布：
+        </div>
+        <div class="rt">
+            <% if(data.apply_limit!=1 && data.apply_limit!=2) data.apply_limit=1;%>
+            <label for="apply_limit_1_<%=pckId%>" style="margin-right:20px"><input type="radio" class="apply_limit_input" name="apply_limit_<%=pckId%>" value="1" id="apply_limit_1_<%=pckId%>" <%=data.apply_limit==1?"checked":""%> /> 发布</label>
+            <label for="apply_limit_2_<%=pckId%>" class="line-35"><input type="radio" class="apply_limit_input" name="apply_limit_<%=pckId%>" value="2" id="apply_limit_2_<%=pckId%>" <%=data.apply_limit==2?"checked":""%> /> 放入仓库</label>
+        </div>
+    </div>
+    <div style="margin-top:50px; margin-bottom:70px" class="line">
+        <div class="lt"></div>
+        <div class="rt"><a id="submitBtn_<%=pckId%>" data-tid="<%=pckId%>" href="javascript:void(0);" class="btn btn-3x btn-blue submitBtn">保存</a></div>
+    </div>
+</li>

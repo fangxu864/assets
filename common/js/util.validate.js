@@ -61,6 +61,14 @@ var Validate = {
 	typeEmail: function( value ){
 		return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value)
 	},
+	//验证正整数(不包括0)
+	typeInit : function(value){
+		return /^[0-9]*[1-9][0-9]*$/.test(value);
+	},
+	//验证非负整数(包括0)
+	typeInit0 : function(value){
+		return /^\d+$/.test(value);
+	},
 	//身份证号合法性验证
 	//支持15位和18位身份证号
 	//支持地址编码、出生日期、校验位验证
