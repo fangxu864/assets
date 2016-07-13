@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 16-4-12.
  */
-require("../css/register.css");
+require("../css/register.scss");
 var Placeholder = require("COMMON/js/util.placeholder.js");
 var SlideManager = require("./modules/slide.manager.js");
 var VRegister = require("./modules/view.register.js");

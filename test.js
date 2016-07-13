@@ -81,3 +81,6 @@ function asyncJob2(param, isOk) {
 	return defer.promise;
 }
 
+
+var getEntry = require("./task-webpack/getEntry");
+console.log(getEntry("src","terminal"));
