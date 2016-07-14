@@ -10,8 +10,8 @@ var minify = require("gulp-minify-css");
 var dir = {
 	local : "./build/local/css/common",
 	test : "./build/test/css/common",
-	dev : "./build/dev/css/common",
-	prod : "./build/prod/css/common"
+	dev : "./build/release/css/common",
+	prod : "./build/production/css/common"
 };
 var EXTNAME = ".css";
 var SUFFIX = ".min";
