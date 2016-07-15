@@ -6,7 +6,7 @@ var Ajax = PFT.Util.Ajax;
 var URLParseQuery = PFT.Util.UrlParse;
 var Validate = PFT.Util.Validate;
 var Dialog = require("COMMON/modules/easydialog");
-var md5 = require("js-md5"); //md5.hex(pwd)   in node_modules/
+//var md5 = require("js-md5"); //md5.hex(pwd)   in node_modules/
 var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 var ImgCodeUrl = PFT.Config.Api.get("Login","getCode");
 var VRegister = Backbone.View.extend({
@@ -14,6 +14,7 @@ var VRegister = Backbone.View.extend({
 	el : $("#regForm"),
 	RESEND_VCODE_TIME : 120,
 	timer : null,
+	__registerSuccess : false,
 	events : {
 		"click #tiaokuanCheckbox" : "onTiaoKuanCheckBoxClick",
 		"click #getValidCodeBtn" : "onGetValidCodeBtnClick",
@@ -27,16 +28,19 @@ var VRegister = Backbone.View.extend({
 	},
 	initialize : function(opt){
 		this.router = opt.router;
+		this.getDtype = opt.getDtype;
 		this.registerBtn = $("#regSubmitBtn");
 		this.mobileInp = $("#mobileInp");
 		this.pwdInp = $("#pwdInp");
 		this.pwdInpParent = this.pwdInp.parents(".rt");
 		this.pwdInpErrorTip = this.pwdInpParent.find(".error");
 		this.pwdLevelBar = this.pwdInpParent.find(".levelBar");
+		this.companyInp = $("#companyInp");
 		this.getVCodeBtn = $("#getValidCodeBtn");
 		this.vcodeInp = $("#validCodeInp");
 		this.regForm = $("#regForm");
 		this.regSubmitBtn = $("#regSubmitBtn");
+		this.token = $("#csrf_token").val();
 		this.regSubmitBtn_text = this.regSubmitBtn.text();
 		//成功获取验证码后
 		this.on("get.vcode.success",function(res){
@@ -56,10 +60,6 @@ var VRegister = Backbone.View.extend({
 				getBtn.text(last_time+"秒后重新获取");
 			},1000)
 		})
-
-		//this.showImgVCodeDialog();
-
-
 	},
 	//验证密码(合法性及安全度)
 	//6-20数字、字母和常用符号两种以上组合
@@ -107,6 +107,13 @@ var VRegister = Backbone.View.extend({
 		if(!mobile) return alert("请先填写手机号");
 		this.validateInput(mobileInp);
 		if(!mobileInp.parents(".rt").hasClass("ok")) return alert("请填写正确格式手机号");
+		that.checkMobileExist(mobile).then( //先验证此手机号是否已被注册
+			function(is_register){
+				if(is_register==1) return alert("此号码已被注册，请更换");
+				return that.showImgVCodeDialog();
+			},
+			function(error){ alert(error) }
+		);
 		this.showImgVCodeDialog();
 	},
 	onShowPwdBtnMousedown : function(e){
@@ -117,7 +124,6 @@ var VRegister = Backbone.View.extend({
 	},
 	//点击注册提交按钮
 	onRegSubmitBtnClick : function(e){
-		//return this.router.navigate("/step/2",{trigger:true});
 		var that = this;
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
@@ -131,13 +137,7 @@ var VRegister = Backbone.View.extend({
 			}
 		})
 		if(!can_submit) return false;
-		this.check_mobile_exist(function(mobile){
-			//如果手机号未被注册过
-			that.check_vcode_enable(function(vcode){
-				//如果此验证码可用
-				that.submit_register();
-			})
-		})
+		that.submit_register();
 	},
 	//弹出图形验证码输入框
 	showImgVCodeDialog : function(){
@@ -166,190 +166,113 @@ var VRegister = Backbone.View.extend({
 					if(tarBtn.hasClass("disable")) return false;
 					if(!imgVCode) return alert("请输入图形验证码");
 					tarBtn.addClass("disable");
-					that.checkMobileExist(mobile)
-						.then( //先验证此手机号是否已被注册
-							function(is_register){
-								if(is_register==1) return alert("此号码已被注册，请更换");
-								return that.getVCode(mobile,imgVCode);
-							},
-							function(error){ alert(error) }
-						)
-						.then( //如果手机号未被注册，传入图形验证码、手机号去获取短信验证码
-							function(msg){ //获取验证码成功
-								var getBtn = that.getVCodeBtn;
-								var last_time = that.RESEND_VCODE_TIME;
-								tarBtn.removeClass("disable");
-								Dialog.close();
-								PFT.Util.STip("success",'<p style="width:400px">验证码已发送到手机'+mobile+'上，'+last_time+'秒后可重新获取</p>',2000);
-								clearInterval(that.timer);
+					that.getVCode(mobile,imgVCode,tarBtn).then( //传入图形验证码、手机号去获取短信验证码
+						function(msg){ //获取验证码成功
+							var getBtn = that.getVCodeBtn;
+							var last_time = that.RESEND_VCODE_TIME;
+							tarBtn.removeClass("disable");
+							Dialog.close();
+							PFT.Util.STip("success",'<p style="width:400px">验证码已发送到手机'+mobile+'上，'+last_time+'秒后可重新获取</p>',2000);
+							clearInterval(that.timer);
+							getBtn.text(last_time+"秒后重新获取");
+							that.timer = setInterval(function(){
+								if(last_time==0){
+									getBtn.removeClass("disable").text("获取验证码");
+									return clearInterval(that.timer);
+								}
+								last_time--;
+								getBtn.addClass("disable");
 								getBtn.text(last_time+"秒后重新获取");
-								that.timer = setInterval(function(){
-									if(last_time==0){
-										getBtn.removeClass("disable").text("获取验证码");
-										return clearInterval(that.timer);
-									}
-									last_time--;
-									getBtn.addClass("disable");
-									getBtn.text(last_time+"秒后重新获取");
-								},1000)
-							},
-							function(error){ alert(error)} //获取验证码失败
-						)
+							},1000)
+						},
+						function(error){
+							tarBtn.removeClass("disable");
+							alert(error)} //获取验证码失败
+					)
 				}
 			}
 		});
 	},
 	//获取验证码
-	getVCode : function(mobile,imgVCode){
+	getVCode : function(mobile,imgVCode,tarBtn){
 		var defer = PFT.Util.Promise();
-		if(Debug){
-			setTimeout(function(){
-				defer.resolve("ok");
-			})
-		}else{
-			PFT.Util.Ajax(this.api("regVcode"),{
-				type : "post",
-				params : {
-					mobile : mobile,
-					token : PFT.Util.getToken(),
-					auth_code : imgVCode
-				},
-				loading : function(){ tarBtn.addClass("disable")},
-				complete : function(){ tarBtn.removeClass("disable")},
-				success : function(res){
-					var res = res || {};
-					var code = res.code;
-					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-					if(code==200){
-						defer.resolve(msg);
-					}else{
-						defer.reject(msg);
-					}
+		PFT.Util.Ajax(this.api("regVcode"),{
+			type : "post",
+			params : {
+				mobile : mobile,
+				token : PFT.Util.getToken(),
+				auth_code : imgVCode
+			},
+			loading : function(){ tarBtn.addClass("disable")},
+			complete : function(){ tarBtn.removeClass("disable")},
+			success : function(res){
+				var res = res || {};
+				var code = res.code;
+				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				if(code==200){
+					defer.resolve(msg);
+				}else{
+					defer.reject(msg);
 				}
-			})
-		}
+			}
+		})
 		return defer.promise;
 	},
 	//验证此手机号是否已被注册过
 	checkMobileExist : function(mobile){
 		var defer = PFT.Util.Promise();
-		if(Debug){
-			setTimeout(function(){
-				defer.resolve("0")
-			},600)
-		}else{
-			PFT.Util.Ajax(this.api("checkMobile"),{
-				type : "post",
-				params : {
-					mobile : mobile,
-					token : PFT.Util.getToken()
-				},
-				loading : function(){},
-				complete : function(){},
-				success : function(res){
-					var res = res || {};
-					var code = res.code;
-					var data = res.data || {};
-					var is_register = data.is_register;
-					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-					if(code==200 && (is_register==1 || is_register==0)){
-						defer.resolve(is_register); //is_register==1已注册   is_register==0未注册
-					}else{
-						defer.reject(msg);
-					}
-				}
-			})
-		}
-		return defer.promise;
-	},
-	//提交注册前-校验该帐号名是否被注册过
-	check_mobile_exist : function(callback){
-		var that = this;
-		var submitBtn = this.regSubmitBtn;
-		var mobile = that.mobileInp.val();
-		Ajax(this.api,{
-			params : {
-				a : "chkMobile",
-				mobile : mobile
-			},
-			loading : function(){ submitBtn.text("正在注册...").addClass("disable")},
-			complete : function(){ submitBtn.text(that.regSubmitBtn_text).removeClass("disable")},
-			success : function(res){
-				var res = res || {};
-				var code = res.code;
-				if(code==200){ //手机号未被注册过
-					callback && callback(mobile)
-				}else{ //当注册时，使用已使用过的手机号时
-					var msg = res.msg || '您的手机已被关联到已有的平台帐号';
-					Dialog.open({
-						container : {
-							header : '注册失败',
-							content : [
-								'<div style="width:300px;" class="dialogCon" style="margin-left:20px">',
-								'<div class="line" style="margin-bottom:10px;">'+msg+'</div>',
-								'<div class="line" style="margin-bottom:5px;"><a class="dbtn login" style="margin-right:10px" href="dlogin_n.html">点击登录</a>使用此手机号登录</div>',
-								'<div class="line" style="margin-bottom:5px;"><a class="dbtn reReg reRegBtn" style="margin-right:10px" href="javascript:void(0)">返回注册</a>更换其它手机号码</div>',
-								'</div>'
-							].join("")
-						},
-						offsetY : -100,
-						events : {
-							"click .reRegBtn" : function(e){
-								Dialog.close();
-							}
-						}
-					});
-				}
-			}
-		})
-	},
-	//提交注册前-校验验证码是否可用
-	check_vcode_enable : function(callback){
-		var that = this;
-		var submitBtn = this.regSubmitBtn;
-		var vcode = that.vcodeInp.val();
-		Ajax(this.api,{
-			params : {
-				a : "verifyVcode",
-				vcode : vcode
-			},
-			loading : function(){ submitBtn.text("正在注册...").addClass("disable")},
-			complete : function(){ submitBtn.text(that.regSubmitBtn_text).removeClass("disable")},
-			success : function(res){
-				var res = res || {};
-				var code = res.code;
-				if(code==200){
-					callback && callback(vcode)
-				}else{
-					alert(res.msg || AJAX_ERROR_TEXT);
-				}
-			}
-		})
-	},
-	//提交注册
-	submit_register : function(){
-		var urlQuery = URLParseQuery();
-		var dtype = urlQuery.dtype;
-		if(!dtype) return alert("缺省dtype");
-		var mobile = this.mobileInp.val();
-		var vcode = this.vcodeInp.val();
-		var password = md5.hex(this.pwdInp.val());
-		Ajax(this.api,{
+		PFT.Util.Ajax(this.api("checkMobile"),{
 			type : "post",
 			params : {
-				a : "memberRegister",
-				dtype : dtype,
 				mobile : mobile,
-				password : password,
-				vcode : vcode
+				token : PFT.Util.getToken()
 			},
 			loading : function(){},
 			complete : function(){},
 			success : function(res){
 				var res = res || {};
 				var code = res.code;
+				var data = res.data || {};
+				var is_register = data.is_register;
+				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				if(code==200 && (is_register==1 || is_register==0)){
+					defer.resolve(is_register); //is_register==1已注册   is_register==0未注册
+				}else{
+					defer.reject(msg);
+				}
+			}
+		})
+		return defer.promise;
+	},
+	//提交注册
+	submit_register : function(){
+		var regBtn = this.registerBtn;
+		var dtype = this.getDtype();
+		if(!dtype) return alert("缺省dtype");
+		var mobile = this.mobileInp.val();
+		var vcode = this.vcodeInp.val();
+		var password = this.pwdInp.val();
+		var company = $.trim(this.companyInp.val());
+		var submitData = {
+			dtype : dtype,
+			mobile : mobile,
+			pwd : password,
+			token : this.token,
+			company : company,
+			vcode : vcode
+		};
+		Ajax(this.api("memberRegister"),{
+			type : "post",
+			params : submitData,
+			loading : function(){ regBtn.addClass("disable")},
+			complete : function(){ regBtn.removeClass("disable")},
+			success : function(res){
+				var res = res || {};
+				var code = res.code;
+				var data = res.data || {};
 				if(code==200){
-
+					PFT.Util.STip("success",'<div style="width:200px">注册成功</div>');
+					$("#accountNum").text(data.account);
 				}else{
 					alert(res.msg || AJAX_ERROR_TEXT);
 				}
@@ -386,6 +309,9 @@ var VRegister = Backbone.View.extend({
 		}else{
 			this.registerBtn.addClass("disable");
 		}
+	},
+	getDtype : function(){
+		return $("#selectDtypeContainer").find("input[type=radio][name=dtype]:checked").val();
 	}
 });
 module.exports = VRegister;
