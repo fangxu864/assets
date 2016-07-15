@@ -1,0 +1,92 @@
+        <div class="filterCon">
+            <div class="line clearfix">
+                <div class="mluSelectBox">
+                    <div id="time_select_box" data-param="time_type" data-val="" class="lt name_select_box">
+                        <span class="t"></span>
+                        <span class="triBtn"><i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i></span>
+                    </div>
+                    <div class="rt time">
+                        <div id="datetimepicker_begin" class="calcadBox left date input-group">
+                            <input
+                                id="btimeInp"
+                                data-param="btime"
+                                readonly
+                                class="t form-control"
+                                type="text"
+                                autocomplete="off"
+                                name="beginDate"
+                                onclick="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss',startDate:'%y-%M-%d 00:00:00',maxDate:'#F{$dp.$D(\'etimeInp\')||\'2020-10-01\'}'})"
+                            />
+                            <span class="triBtn input-group-addon"><i class="iconfont">&#xe65b;</i></span>
+                        </div>
+                        <span class="zhi">-</span>
+                        <div id="datetimepicker_end" class="calcadBox right date input-group">
+                            <input
+                                id="etimeInp"
+                                data-param="etime"
+                                readonly
+                                class="t form-control datepickerinput"
+                                type="text"
+                                autocomplete="off"
+                                onFocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss',startDate:'%y-%M-%d 23:59:59',minDate:'#F{$dp.$D(\'btimeInp\')}',maxDate:'2020-10-01'})"
+                            />
+                            <span class="triBtn input-group-addon"><i class="iconfont">&#xe65b;</i></span>
+                        </div>
+                    </div>
+                </div>
+                <div id="timeNodeBox" class="timeNodeBox">
+                    <a class="timenode clear ui-link clear" href="javascript:void(0)">清除</a>
+                    <a class="timenode ui-link yestoday" href="javascript:void(0)">昨天</a>
+                    <a class="timenode ui-link today" href="javascript:void(0)">今天</a>
+                    <a class="timenode ui-link week" href="javascript:void(0)">本周</a>
+                    <a class="timenode ui-link prevWeek" href="javascript:void(0)">上周</a>
+                    <a class="timenode ui-link month" href="javascript:void(0)">本月</a>
+                    <a class="timenode ui-link prevMonth" href="javascript:void(0)">上月</a>
+                </div>
+            </div>
+            <div class="line clearfix">
+                <div class="mluSelectBox keyword">
+                    <div id="name_select_box" data-param="select_type" data-val="" class="lt name_select_box">
+                        <span class="t"></span>
+                        <span class="triBtn"><i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i></span>
+                    </div>
+                    <div class="rt">
+                        <a id="clearSearchBtn" class="clearSearchBtn" href="javascript:void(0)"><i class="iconfont">&#xe674;</i></a>
+                        <input class="keywordInp ui-textInp ui-shadow" value="" type="text" name="select_text" data-param="select_text" id="keywordInp"/>
+                    </div>
+                </div>
+                <div class="mluSelectBox fs">
+                    <div id="fs_select_box" data-param="amid" data-val="" class="lt">
+                        <span class="t">供应商/分销商</span>
+                    </div>
+                    <div class="rt">
+                        <input id="distorsInp" data-param="amid" data-distorid="" class="keywordInp fs ui-textInp ui-shadow" value="" type="text"/>
+                        <span class="triBtn"><i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i></span>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" id="searchBtn" class="searchBtn">搜索</a>
+            </div>
+            <div id="filter_radioGroup_line" class="line clearfix radioGroup">
+                <span class="lt">订单状态：</span>
+                <span class="radioGroup"><input data-param="pmode" data-val="" type="radio" id="pmode_00" name="pmode" checked /><label for="pmode_00">全部</label></span>
+                <span class="radioGroup"><input data-param="pmode" data-val="0" type="radio" name="pmode" id="pmode_0"/><label for="pmode_0">未支付</label></span>
+                <span class="radioGroup"><input data-param="pmode" data-val="5" type="radio" name="pmode" id="pmode_5"/><label for="pmode_5">已支付</label></span>
+                <span class="radioGroup"><input data-param="pmode" data-val="1" type="radio" name="pmode" id="pmode_1"/><label for="pmode_1">未验证</label></span>
+                <span class="radioGroup"><input data-param="pmode" data-val="2" type="radio" name="pmode" id="pmode_2"/><label for="pmode_2">已验证</label></span>
+                <span class="radioGroup"><input data-param="pmode" data-val="3" type="radio" name="pmode" id="pmode_3"/><label for="pmode_3">已过期</label></span>
+                <span class="radioGroup"><input data-param="pmode" data-val="4" type="radio" name="pmode" id="pmode_4"/><label for="pmode_4">已取消</label></span>
+                <span class="radioGroup"><input data-param="pmode" data-val="6" type="radio" name="pmode" id="pmode_6"/><label for="pmode_6">现场支付</label></span>
+            </div>
+            <div id="filter_radioGroup_gmode" class="line clearfix filter_radioGroup_gmode radioGroup">
+                <span class="lt" style="margin-right:8px">供销渠道：</span>
+                <label class="radioGroup"><input class="gRadio" data-param="gmode" data-val="0" type="radio" name="gmode" checked />全部</label>
+                <label class="radioGroup"><input class="gRadio" data-param="gmode" data-val="1" type="radio" name="gmode" />供应的产品</label>
+                <label class="radioGroup"><input class="gRadio" data-param="gmode" data-val="2" type="radio" name="gmode" />分销的产品</label>
+                <select class="sale_mode_select" name="sale_mode" id="sale_mode_select">
+                    <option value="0">全部</option>
+                    <option value="1">自己销售的产品</option>
+                    <option value="2">下级销售的产品</option>
+                </select>
+            </div>
+        </div>
+    </div>
