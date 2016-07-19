@@ -1,0 +1,10 @@
+<div style="display:none" id="gui-toast-container" class="gui-toast-container">
+    <div class="toastBox">
+        <div class="toastBoxCon">
+            <div class="con">
+                <div class="iconfontBox"><i class="iconfont">&#xe6b6;</i></div>
+                <div class="textBox"></div>
+            </div>
+        </div>
+    </div>
+</div>

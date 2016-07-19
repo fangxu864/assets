@@ -114,7 +114,6 @@ var VRegister = Backbone.View.extend({
 			},
 			function(error){ alert(error) }
 		);
-		this.showImgVCodeDialog();
 	},
 	onShowPwdBtnMousedown : function(e){
 		this.pwdInp.prop("type","text");
@@ -261,7 +260,7 @@ var VRegister = Backbone.View.extend({
 			company : company,
 			vcode : vcode
 		};
-		Ajax(this.api("memberRegister"),{
+		Ajax(this.api("account"),{
 			type : "post",
 			params : submitData,
 			loading : function(){ regBtn.addClass("disable")},

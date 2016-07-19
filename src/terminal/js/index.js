@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 15-10-20.
  */
-require("../../../common/css/reset_style.css");
+require("COMMON/css/base/reset_old_fix.scss");
 require("../css/style.css");
 var Api = require("./modules/api.js");
 var Product = require("./modules/product.js");

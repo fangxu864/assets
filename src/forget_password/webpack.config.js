@@ -9,7 +9,7 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		"withdraw_bank" : "./src/withdraw_bank/index.js"
+		"forget_password" : "./src/forget_password/index.js"
 	},
 	output : output,
 	plugins : plugins
