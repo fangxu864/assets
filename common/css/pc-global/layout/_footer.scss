@@ -1,4 +1,8 @@
-.PageFooterContainer{ height:148px; background:#fff; text-align:center; color:#A7A9AA; padding-top:28px;}
-.PageFooterContainer a{color:#A7A9AA; font-weight:bold; line-height:48px;}
-.PageFooterContainer a:hover{color:#2A98DA;}
-.PageFooterContainer p{ line-height:22px;}
+.PageFooterContainer{ height:150px; background:#fff; text-align:center; color:#A7A9AA; margin-top:40px;}
+.PageFooterContainer .footerBox{ padding-top:50px;}
+.PageFooterContainer .footerBox a{color:#A7A9AA; font-weight:bold;}
+.PageFooterContainer .footerBox a:hover{color:#f60; text-decoration:none;}
+.PageFooterContainer .footerBox p{ margin-top:13px;}
+.PageFooterContainer .footerBox p,.PageFooterContainer .footerBox span{font-weight:bold;}
+.PageFooterContainer .footerBox span{ line-height:16px; cursor:pointer;}
+.PageFooterContainer .footerBox .interval{ margin:0 10px;}
