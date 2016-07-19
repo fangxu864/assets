@@ -42,6 +42,11 @@
     "terminal-release" : "set NODE_ENV=release && webpack --config ./src/terminal/webpack.config.js",
     "terminal-production" : "set NODE_ENV=production && webpack --config ./src/terminal/webpack.config.js",
 
+    "redpacketwithdraw-start" : "set NODE_ENV=develop && webpack --config ./src/redpacketwithdraw/webpack.config.js -w",
+    "redpacketwithdraw-test" : "set NODE_ENV=test && webpack --config ./src/redpacketwithdraw/webpack.config.js",
+    "redpacketwithdraw-release" : "set NODE_ENV=release && webpack --config ./src/redpacketwithdraw/webpack.config.js",
+    "redpacketwithdraw-production" : "set NODE_ENV=production && webpack --config ./src/redpacketwithdraw/webpack.config.js",
+
     "forget-password-start" : "set NODE_ENV=develop && webpack --config ./src/forget_password/webpack.config.js -w",
     "forget-password-test" : "set NODE_ENV=test && webpack --config ./src/forget_password/webpack.config.js",
     "forget-password-release" : "set NODE_ENV=release && webpack --config ./src/forget_password/webpack.config.js",

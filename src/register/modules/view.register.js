@@ -245,6 +245,7 @@ var VRegister = Backbone.View.extend({
 	},
 	//提交注册
 	submit_register : function(){
+		var that = this;
 		var regBtn = this.registerBtn;
 		var dtype = this.getDtype();
 		if(!dtype) return alert("缺省dtype");
@@ -272,6 +273,8 @@ var VRegister = Backbone.View.extend({
 				if(code==200){
 					PFT.Util.STip("success",'<div style="width:200px">注册成功</div>');
 					$("#accountNum").text(data.account);
+					that.__registerSuccess = true;
+					that.router.navigate("/step/2",{trigger:true});
 				}else{
 					alert(res.msg || AJAX_ERROR_TEXT);
 				}
