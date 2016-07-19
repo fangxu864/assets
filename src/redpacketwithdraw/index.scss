@@ -1,0 +1,23 @@
+@import "COMMON/css/base/core";
+.PageMainRightContainer{width:800px; background:white; border:1px solid #e5e5e5;}
+.PageMainRightContainer .title{ line-height:56px; font-size:18px; font-weight:bold; border-bottom:1px solid #e5e5e5; padding-left:18px;}
+.PageMainRightContainer .redpacketForm{border-bottom:1px solid #e5e5e5; padding:0 18px 10px 18px;}
+.PageMainRightContainer .redpacketForm .line{ margin-top:8px; overflow:hidden;}
+.PageMainRightContainer .redpacketForm .line .date{@include textInp(150);}
+.PageMainRightContainer .redpacketForm .line .lineLeft{ float:left;}
+.PageMainRightContainer .redpacketForm .line .lineLeft .query{@include textInp(230);}
+.PageMainRightContainer .redpacketForm .line .lineLeft .queryBtn{@include btn-inline-block();}
+.PageMainRightContainer .redpacketForm .line .lineRight{ float:right;}
+.PageMainRightContainer .redpacketForm .line .lineRight .checkSta{ font-size:16px;}
+
+.PageMainRightContainer .recordBox{ text-align:center; height:58px; line-height:58px; font-size:16px;}
+.PageMainRightContainer .recordBox .record{ margin-right:20px;}
+.PageMainRightContainer .recordBox .recordNum{ color:green; font-size:24px; margin:0 4px;}
+.PageMainRightContainer .recordBox .sumNum{ color:#f60; font-size:24px; margin:0 4px;}
+
+.PageMainRightContainer .tableWithdraw{ width:100%; text-align:center;}
+.PageMainRightContainer .tableWithdraw thead tr{ background:#f5f5f5; line-height:36px; color:#6c7882;}
+.PageMainRightContainer .tableWithdraw thead tr th{font-weight:normal;}
+.PageMainRightContainer .tableWithdraw tbody{ line-height:40px;}
+.PageMainRightContainer .tableWithdraw tbody tr{ border-bottom:1px solid #e5e5e5;}
+.PageMainRightContainer .tableWithdraw tbody .withdrawNum{ color:#f60;}
