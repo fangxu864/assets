@@ -1,7 +1,8 @@
-body{background:#f8f9fb;}
-.PageMainBodyContainer{ position:relative; width:1000px;  margin:10px auto 30px;}
-.PageLeftBarContainer{ position:absolute; top:0; left:0; background:#fff; border:1px solid #dcdcdc; width:178px; margin-right:10px; }
-.PageBodyMainContainer{ position:relative; margin-left:200px;}
 @import "header";
 @import "leftbar";
+body{background:#f8f9fb;}
+.PageMainBodyContainer{ position:relative; width:1000px; margin:10px auto 30px;}
+.PageLeftBarContainer{ position:absolute; top:0; left:0; background:#fff; border:1px solid #dcdcdc; width:178px; }
+.PageMainRightContainer{ margin-left:200px;}
+.PageBodyMainContainer{ position:relative; margin-left:200px;}
 @import "footer";
