@@ -2,7 +2,8 @@
  * Created by Administrator on 16-4-18.
  */
 var Dialog = require("COMMON/modules/easydialog");
-var tpl = require("../modify_mobileBinded.html");
+require("./index.scss");
+var tpl = require("./modify_mobileBinded.html");
 var VCode = require("COMMON/js/util.vcode.js");
 var Validate = require("COMMON/js/util.validate.js");
 var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
