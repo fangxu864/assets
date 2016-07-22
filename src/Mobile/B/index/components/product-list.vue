@@ -1,13 +1,10 @@
 <template>
     <div id="productListContainer" class="productListContainer">
         <ul id="productListUl" class="productListUl">
-            <template v-if="status_loading">
-                <li class="status loading">努力加载中...</li>
-            </template>
             <template v-if="listSuccess">
                 <li v-for="item in list" class="prodItem itemRow">
                     <a class="con" href="pdetail.html?lid=">
-                        <div class="photoBox" v-bind:style="{ background:'url('+item.imgpath+')'}"></div>
+                        <div class="photoBox" v-bind:style="{ backgroundImage:'url('+item.imgpath+')'}"></div>
                         <div class="botBox">                 
                             <div class="col lt">                    
                                 <i class="yen">¥</i><em class="num">{{item.tprice}}</em><i class="qi">起</i>                     
@@ -31,13 +28,16 @@
 </template>
 
 <script type="es6">
+    import Toast from "COMMON/modules/Toast";
+    let toast = new Toast();
     export default {
+        props: ["area"],
         data(){
             return {
                 list : [],
                 status_loading : true,
                 status_fail : false,
-                status_empty : false,
+                status_empty : false
             }
         },
         computed : {
@@ -52,65 +52,49 @@
             }
         },
         ready(){
-            setTimeout(function(){
-                this.status_loading = false;
-                this.status_fail = false;
-                this.status_empty = false;
-                this.list = [{
-                    account : "123624",
-                    addr : "1111",
-                    area : "天津市|和平区|",
-                    areacode : "1100",
-                    id : "13474",
-                    imgpath : "http://www.12301.cc/images/defaultThum.jpg",
-                    jsprice : "2",
-                    jtype : "AAAAA",
-                    lid : "121",
-                    title : "二级店铺测试",
-                    tprice : "3",
-                    uprice : "2"
-                },{
-                    account : "123624",
-                    addr : "1111",
-                    area : "天津市|和平区|",
-                    areacode : "1100",
-                    id : "13474",
-                    imgpath : "http://www.12301.cc/images/defaultThum.jpg",
-                    jsprice : "2",
-                    jtype : "AAAAA",
-                    title : "二级店铺测试",
-                    lid : "121",
-                    tprice : "3",
-                    uprice : "2"
-                },{
-                    account : "123624",
-                    addr : "1111",
-                    area : "天津市|和平区|",
-                    areacode : "1100",
-                    id : "13474",
-                    imgpath : "http://www.12301.cc/images/defaultThum.jpg",
-                    jsprice : "2",
-                    jtype : "AAAAA",
-                    lid : "121",
-                    title : "二级店铺测试",
-                    tprice : "3",
-                    uprice : "2"
-                },{
-                    account : "123624",
-                    addr : "1111",
-                    area : "天津市|和平区|",
-                    areacode : "1100",
-                    id : "13474",
-                    imgpath : "http://www.12301.cc/images/defaultThum.jpg",
-                    jsprice : "2",
-                    jtype : "AAAAA",
-                    lid : "121",
-                    title : "二级店铺测试",
-                    tprice : "3",
-                    uprice : "2"
-                }];
-
-            }.bind(this),1500)
+            //this.request();
+        },
+        methods : {
+            getApi(){
+                return "/wx/api/v0.0.3/order.php";
+            },
+            request(){
+                let area = this.area;
+                PFT.Util.Ajax(this.getApi(),{
+                    params : {
+                        action : "hot_list",
+                        area : area
+                    },
+                    loading : function(){
+                        toast.show("loading","努力加载中");
+                        this.status_loading = true;
+                        this.list = [];
+                    }.bind(this),
+                    complete : function(){
+                        toast.hide();
+                        this.status_loading = false;
+                    }.bind(this),
+                    success : function(res){
+                        res = res || {};
+                        var list = res.list;
+                        if(list){
+                            if(list.length){
+                                this.list = list;
+                                this.status_empty = false;
+                                this.status_fail = false;
+                            }else{
+                                this.list = [];
+                                this.status_empty = true;
+                                this.status_fail = false;
+                            }
+                        }else{
+                            this.status_fail = true;
+                            this.status_empty = false;
+                            this.list = [];
+                        }
+                    }.bind(this)
+                })
+            }
         }
     }
 </script>

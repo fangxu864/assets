@@ -37,6 +37,14 @@ module.exports = function(opt){
 			},{
 				test: /\.json$/,
 				loader: 'json'
+			},{
+				test: /\.jsx$/,
+				loader: 'babel-loader',
+				query:{
+					plugins:['transform-runtime'],
+					presets:['es2015','stage-0','react']
+				},
+				exclude: /node_modules/
 			}]
 		},
 		vue : {
@@ -53,6 +61,9 @@ module.exports = function(opt){
 		resolve : {
 			alias : {
 				COMMON : path.resolve("./common"),
+				COMMON_VUE_COMPONENTS : path.resolve("./src/Mobile/Components"),
+				COMMON_VUE_COMPONENTS_B : path.resolve("./src/Mobile/B/Components"),
+				COMMON_VUE_COMPONENTS_C : path.resolve("./src/Mobile/C/Components"),
 				NODE_MODULES : path.resolve("./node_modules")
 			}
 		},
