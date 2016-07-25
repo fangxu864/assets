@@ -1,0 +1,27 @@
+#modifyDialogBox p{ margin:0; padding:0;}
+#modifyDialogBox{ width:450px; overflow:hidden; padding:20px 0 20px 50px;}
+.modifyDialogBoxCon{ width:100%; overflow:hidden; position:relative;}
+#modifyDialogBox .slideCon{ position:relative; width:1350px; overflow:hidden; list-style:none; padding:0; margin:0;}
+#modifyDialogBox .slideCon .slideItem{ width:450px; float:left; padding:0}
+#modifyDialogBox .slideItem .line{ width:100%; overflow:hidden;}
+#modifyDialogBox .line{ margin-bottom:15px;}
+#modifyDialogBox .line .lt{ float:left; width:80px; margin-top:6px;}
+#modifyDialogBox .line .rt{ float:left;}
+#modifyDialogBox .line .textInp{ width:120px; height:22px; line-height:22px; padding:6px; border:1px solid #e5e5e5; background:#fff;
+    box-shadow:inset 0 1px 1px rgba(0,0,0,.055);
+    -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);
+    -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);
+    -o-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);
+    -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,.055);
+}
+#modifyDialogBox .line .textInp:focus{ outline:none; color:#f37138}
+#modifyDialogBox .line .submitBtn{ display:block; width:80px; height:30px; line-height:30px; margin-top:20px; text-align:center; color:#fff; background:#008fc2; text-decoration:none}
+#modifyDialogBox .line .submitBtn:hover{ background:#0081af; text-decoration:none}
+#modifyDialogBox .line .submitBtn.disable,#modifyDialogBox .line .submitBtn.disable:hover{ background:#818181; cursor:default}
+#modifyDialogBox .getVCodeBtn{ position:relative; top:1px; padding:4px 6px; background:#008fc2; color:#fff; text-decoration:none}
+#modifyDialogBox .getVCodeBtn:hover{ background:#0081af; text-decoration:none}
+#modifyDialogBox .getVCodeBtn.disable,#modifyDialogBox .getVCodeBtn.disable:hover{ cursor:default; background:#a6a6a6; text-decoration:none}
+#modifyDialogBox .line .rt .tip.error{ display:none}
+#modifyDialogBox .line .rt.error .textInp{ border-color:#e12424; color:#e12424}
+#modifyDialogBox .line .rt.error .tip.error{ display:block; color:#e12424}
+#modifyDialogBox .line.mobile_new .rt.error .tip.error{ display:inline-block;}
