@@ -219,7 +219,7 @@ RedpacketWithdraw.prototype={
 			var d=list[i];
 			var create_time=d["create_time"];
 			var date=new Date(parseInt(create_time));
-			var time=that.formatDate(date);
+			var time=that.formatTime(date);
 			var supply=d["supply"];
 			var name=d["nickname"];
 			var type=d["type"];
@@ -313,8 +313,32 @@ RedpacketWithdraw.prototype={
 		var that=this;
 		var lastMonthEndDate = new Date(that.nowYear, that.lastMonth, that.getMonthDays(that.lastMonth));
 		return this.formatDate(lastMonthEndDate);
+	},
+	//格式化创建时间
+	formatTime:function(now){
+		var   year=now.getFullYear();
+		var   month=now.getMonth()+1;
+		var   date=now.getDate();
+		var   hour=now.getHours();
+		var   minute=now.getMinutes();
+		var   second=now.getSeconds();
+		if(month < 10){
+			month = "0" + month;
+		}
+		if(date < 10){
+			date = "0" + date;
+		}
+		if(hour < 10){
+			hour = "0" + hour;
+		}
+		if(minute < 10){
+			minute = "0" + minute;
+		}
+		if(second < 10){
+			second = "0" + second;
+		}
+		return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
 	}
-
 
 }
 $(function(){
