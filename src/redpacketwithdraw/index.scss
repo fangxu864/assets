@@ -1,19 +1,20 @@
 @import "COMMON/css/base/core";
 .PageMainRightContainer{width:800px; background:white; border:1px solid #e5e5e5;}
-.PageMainRightContainer .title{ line-height:56px; font-size:18px; font-weight:bold; border-bottom:1px solid #e5e5e5; padding-left:18px;}
+.PageMainRightContainer .title{ line-height:56px; font-size:18px; font-weight:600; border-bottom:1px solid #e5e5e5; padding-left:18px;}
 .PageMainRightContainer .redpacketForm{border-bottom:1px solid #e5e5e5; padding:0 18px 10px 18px;}
 .PageMainRightContainer .redpacketForm .line{ margin-top:8px; overflow:hidden;}
 .PageMainRightContainer .redpacketForm .line .date{@include textInp(150,3);}
-.PageMainRightContainer .redpacketForm .line .toDate{ margin-right:10px;}
+.PageMainRightContainer .redpacketForm .line .end{ margin-right:10px;}
 .PageMainRightContainer .redpacketForm .line .withdrawTime{ margin-right:4px;}
 .PageMainRightContainer .redpacketForm .line .lineLeft{ float:left;}
 .PageMainRightContainer .redpacketForm .line .lineLeft .query{@include textInp(230,3);}
 .PageMainRightContainer .redpacketForm .line .lineLeft .queryBtn{@include btn-inline-block(87,30,#f60); vertical-align:top; font-size:14px;}
+.PageMainRightContainer .redpacketForm .line .lineLeft .queryBtn.disable{ @include btn-disable();}
 .PageMainRightContainer .redpacketForm .line .lineRight{ float:right;}
 .PageMainRightContainer .redpacketForm .line .lineRight a.checkSta{ font-size:14px; line-height:30px;}
 
-.PageMainRightContainer .recordBox{ text-align:center; height:58px; line-height:58px; font-size:14px;}
-.PageMainRightContainer .recordBox .record{ margin-right:20px;}
+.PageMainRightContainer .recordBox{ text-align:center; height:58px; line-height:58px; font-size:14px; display:none;}
+.PageMainRightContainer .recordBox .record{ margin-right:54px;}
 .PageMainRightContainer .recordBox .recordNum{ color:green; font-size:24px; margin:0 4px;}
 .PageMainRightContainer .recordBox .sumNum{ color:#f60; font-size:24px; margin:0 4px;}
 
@@ -25,4 +26,6 @@
 .PageMainRightContainer .tableWithdraw tbody tr:nth-child(even){ background:#fcfcfc}
 .PageMainRightContainer .tableWithdraw tbody tr:hover{ background:#fcfcfc}
 .PageMainRightContainer .tableWithdraw tbody .withdrawNum{ color:#f60;}
+
+.PageMainRightContainer .noMatch{ text-align:center; line-height:100px;}
 
