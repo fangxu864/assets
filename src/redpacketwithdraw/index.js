@@ -101,6 +101,7 @@ RedpacketWithdraw.prototype={
 				that.getWithdrawRecord("today");
 			}else{
 				that.renderList(that.__cache.today.list);
+				that.getRecordAndSum();
 			}
 		})
 		this.thisWeekBtn.on("click",function(e){
@@ -110,6 +111,7 @@ RedpacketWithdraw.prototype={
 				that.getWithdrawRecord("thisweek");
 			}else{
 				that.renderList(that.__cache.thisweek.list);
+				that.getRecordAndSum();
 			}
 		})
 		this.lastWeekBtn.on("click",function(e){
@@ -119,6 +121,7 @@ RedpacketWithdraw.prototype={
 				that.getWithdrawRecord("lastweek");
 			}else{
 				that.renderList(that.__cache.lastweek.list);
+				that.getRecordAndSum();
 			}
 		})
 		this.thisMonthBtn.on("click",function(e){
@@ -128,6 +131,7 @@ RedpacketWithdraw.prototype={
 				that.getWithdrawRecord("thismonth");
 			}else{
 				that.renderList(that.__cache.thismonth.list);
+				that.getRecordAndSum();
 			}
 		})
 		this.lastMonthBtn.on("click",function(e){
@@ -137,6 +141,7 @@ RedpacketWithdraw.prototype={
 				that.getWithdrawRecord("lastmonth");
 			}else{
 				that.renderList(that.__cache.lastmonth.list);
+				that.getRecordAndSum();
 			}
 		})
 	},
