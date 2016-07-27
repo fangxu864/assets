@@ -11,7 +11,7 @@
     "orderquery-start" : "set NODE_ENV=develop && webpack --config ./src/orderquery/webpack.config.js -w",
     "orderquery-test" : "set NODE_ENV=test && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-release" : "set NODE_ENV=release && webpack --config ./src/orderquery/webpack.config.js",
-    "orderquery-production" : "set NODE_ENV=production && webpack --config ./src/orderquery/webpack.config.js"
+    "orderquery-production" : "set NODE_ENV=production && webpack --config ./src/orderquery/webpack.config.js",
     "withdraw-bank-start": "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js -w",
     "withdraw-bank-test": "set NODE_ENV=test && webpack --config ./src/withdraw_bank/webpack.config.js",
     "withdraw-bank-release": "set NODE_ENV=release && webpack --config ./src/withdraw_bank/webpack.config.js",
@@ -42,6 +42,9 @@
     "forget-password-production": "set NODE_ENV=production && webpack --config ./src/forget_password/webpack.config.js",
     "react-test": "set NODE_ENV=test && webpack --config ./src/react_test/webpack.config.js",
     "react-start": "set NODE_ENV=develop && webpack --config ./src/react_test/webpack.config.js",
+
+    "mall-index-flex-start": "set NODE_ENV=develop && webpack --config ./src_mobile/mall_index_flex/webpack.config.js -w",
+
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
