@@ -6,8 +6,8 @@
 var path = require("path");
 module.exports = function(env){
 	var output = {
-		path : path.join(__dirname, "./build/"+env+"/"),
-		filename: "js/[name]/all.js"
+		path : path.join(__dirname, "../build/"+env+"/"),
+		filename: "js/[name].all.js"
 	};
 	var host = {
 		local : "http://static.12301.local/assets/build/local/",

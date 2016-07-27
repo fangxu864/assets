@@ -28,9 +28,14 @@
     "withdraw-bank-production" : "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js",
 
     "register-start" : "set NODE_ENV=develop && webpack --config ./src/register/webpack.config.js -w",
-    "register-test" : "set NODE_ENV=test && webpack --config ./src/register/webpack.config.js -w",
-    "register-release" : "set NODE_ENV=release && webpack --config ./src/register/webpack.config.js -w",
-    "register-production" : "set NODE_ENV=production && webpack --config ./src/register/webpack.config.js -w"
+    "register-test" : "set NODE_ENV=test && webpack --config ./src/register/webpack.config.js",
+    "register-release" : "set NODE_ENV=release && webpack --config ./src/register/webpack.config.js",
+    "register-production" : "set NODE_ENV=production && webpack --config ./src/register/webpack.config.js",
+
+    "orderquery-start" : "set NODE_ENV=develop && webpack --config ./src/orderquery/webpack.config.js -w",
+    "orderquery-test" : "set NODE_ENV=test && webpack --config ./src/orderquery/webpack.config.js",
+    "orderquery-release" : "set NODE_ENV=release && webpack --config ./src/orderquery/webpack.config.js",
+    "orderquery-production" : "set NODE_ENV=production && webpack --config ./src/orderquery/webpack.config.js"
 
   },
   "repository": {

@@ -1,245 +1,323 @@
-<link rel="stylesheet" href="tpl/orderquery/css/orderquery.css?v=2"/>
-<script type="text/javascript" src="http://www.12301.cc/tpl/ui/My97DatePicker/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript">
-    document.title="票付通-订单查询";
-    $("body").addClass("layout_2");
-</script>
-<input name="" id="isAdmin" value="<?=$_SESSION['sid']==1?1:0?>" type="hidden"/>
-<div id="myRight" class="myRight">
-    <div id="filterWrap" class="filterWrap">
-        <div class="ui-h1">
-            <span>订单查询</span>
-            <div class="oldBox">
-                <a href="buyProduct.html">回到旧版</a>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  #containter{
 
-        </div>
-        <div class="filterCon">
-            <div class="line clearfix">
-                <div class="mluSelectBox">
-                    <div id="time_select_box" data-param="time_type" data-val="" class="lt name_select_box">
-                        <span class="t"></span>
-                        <span class="triBtn"><i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i></span>
-                    </div>
-                    <div class="rt time">
-                        <div id="datetimepicker_begin" class="calcadBox left date input-group">
-                            <input
-                                id="btimeInp"
-                                data-param="btime"
-                                readonly
-                                class="t form-control"
-                                type="text"
-                                autocomplete="off"
-                                name="beginDate"
-                                onclick="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss',startDate:'%y-%M-%d 00:00:00',maxDate:'#F{$dp.$D(\'etimeInp\')||\'2020-10-01\'}'})"
-                            />
-                            <span class="triBtn input-group-addon"><i class="iconfont">&#xe65b;</i></span>
-                        </div>
-                        <span class="zhi">-</span>
-                        <div id="datetimepicker_end" class="calcadBox right date input-group">
-                            <input
-                                id="etimeInp"
-                                data-param="etime"
-                                readonly
-                                class="t form-control datepickerinput"
-                                type="text"
-                                autocomplete="off"
-                                onFocus="WdatePicker({dateFmt:'yyyy-M-d H:mm:ss',startDate:'%y-%M-%d 23:59:59',minDate:'#F{$dp.$D(\'btimeInp\')}',maxDate:'2020-10-01'})"
-                            />
-                            <span class="triBtn input-group-addon"><i class="iconfont">&#xe65b;</i></span>
-                        </div>
-                    </div>
-                </div>
-                <div id="timeNodeBox" class="timeNodeBox">
-                    <a class="timenode clear ui-link clear" href="javascript:void(0)">清除</a>
-                    <a class="timenode ui-link yestoday" href="javascript:void(0)">昨天</a>
-                    <a class="timenode ui-link today" href="javascript:void(0)">今天</a>
-                    <a class="timenode ui-link week" href="javascript:void(0)">本周</a>
-                    <a class="timenode ui-link prevWeek" href="javascript:void(0)">上周</a>
-                    <a class="timenode ui-link month" href="javascript:void(0)">本月</a>
-                    <a class="timenode ui-link prevMonth" href="javascript:void(0)">上月</a>
-                </div>
-            </div>
-            <div class="line clearfix">
-                <div class="mluSelectBox keyword">
-                    <div id="name_select_box" data-param="select_type" data-val="" class="lt name_select_box">
-                        <span class="t"></span>
-                        <span class="triBtn"><i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i></span>
-                    </div>
-                    <div class="rt">
-                        <a id="clearSearchBtn" class="clearSearchBtn" href="javascript:void(0)"><i class="iconfont">&#xe674;</i></a>
-                        <input class="keywordInp ui-textInp ui-shadow" value="" type="text" name="select_text" data-param="select_text" id="keywordInp"/>
-                    </div>
-                </div>
-                <div class="mluSelectBox fs">
-                    <div id="fs_select_box" data-param="amid" data-val="" class="lt">
-                        <span class="t">供应商/分销商</span>
-                    </div>
-                    <div class="rt">
-                        <input id="distorsInp" data-param="amid" data-distorid="" class="keywordInp fs ui-textInp ui-shadow" value="" type="text"/>
-                        <span class="triBtn"><i class="iconfont down">&#xe673;</i><i class="iconfont up">&#xe695;</i></span>
-                    </div>
-                </div>
-                <a href="javascript:void(0)" id="searchBtn" class="searchBtn">搜索</a>
-            </div>
-            <div id="filter_radioGroup_line" class="line clearfix radioGroup">
-                <span class="lt">订单状态：</span>
-                <span class="radioGroup"><input data-param="pmode" data-val="" type="radio" id="pmode_00" name="pmode" checked /><label for="pmode_00">全部</label></span>
-                <span class="radioGroup"><input data-param="pmode" data-val="0" type="radio" name="pmode" id="pmode_0"/><label for="pmode_0">未支付</label></span>
-                <span class="radioGroup"><input data-param="pmode" data-val="5" type="radio" name="pmode" id="pmode_5"/><label for="pmode_5">已支付</label></span>
-                <span class="radioGroup"><input data-param="pmode" data-val="1" type="radio" name="pmode" id="pmode_1"/><label for="pmode_1">未验证</label></span>
-                <span class="radioGroup"><input data-param="pmode" data-val="2" type="radio" name="pmode" id="pmode_2"/><label for="pmode_2">已验证</label></span>
-                <span class="radioGroup"><input data-param="pmode" data-val="3" type="radio" name="pmode" id="pmode_3"/><label for="pmode_3">已过期</label></span>
-                <span class="radioGroup"><input data-param="pmode" data-val="4" type="radio" name="pmode" id="pmode_4"/><label for="pmode_4">已取消</label></span>
-                <span class="radioGroup"><input data-param="pmode" data-val="6" type="radio" name="pmode" id="pmode_6"/><label for="pmode_6">现场支付</label></span>
-            </div>
-            <div id="filter_radioGroup_gmode" class="line clearfix filter_radioGroup_gmode radioGroup">
-                <span class="lt" style="margin-right:8px">供销渠道：</span>
-                <label class="radioGroup"><input class="gRadio" data-param="gmode" data-val="0" type="radio" name="gmode" checked />全部</label>
-                <label class="radioGroup"><input class="gRadio" data-param="gmode" data-val="1" type="radio" name="gmode" />供应的产品</label>
-                <label class="radioGroup"><input class="gRadio" data-param="gmode" data-val="2" type="radio" name="gmode" />分销的产品</label>
-                <select class="sale_mode_select" name="sale_mode" id="sale_mode_select">
-                    <option value="0">全部</option>
-                    <option value="1">自己销售的产品</option>
-                    <option value="2">下级销售的产品</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div id="tongjiBar" style="display:none" class="boxfoot">
-        <ul>
-            <li class="setcolor_h">统计结果</li>
-            <li>总订单数：<em class="colorGreen" id="total_order">-</em>单</li>
-            <li>总票数：<em class="colorGreen" id="total_num">-</em>张</li>
-            <?if($_SESSION['sid']==1){?>
-                <li>总金额：<em class="colorOrange" id="total_money">-</em>元</li>
-            <?}else{?>
-                <li>买入金额：<em class="colorOrange" id="total_money_buy">-</em>元</li>
-                <li>卖出金额：<em class="colorOrange" id="total_money_sell">-</em>元</li>
-            <?}?>
-        </ul>
-    </div>
-    <ul style="display:none" id="sortBar" class="sortBar clearfix">
 
-        <li class="sortItem bookingtime" data-orderby="1" data-sort="0">
-            <span class="t">下单时间</span>
-            <i class="iconfont up">&#xe6b7</i>
-            <i class="iconfont down">&#xe6b4</i>
-        </li>
-        <!--        <li class="sortItem bookingtime" data-orderby="2" data-sort="0">-->
-        <!--            <span class="t">使用有效期</span>-->
-        <!--            <i class="iconfont up">&#xe6b7</i>-->
-        <!--            <i class="iconfont down">&#xe6b4</i>-->
-        <!--        </li>-->
-        <li class="sortItem checktime" data-orderby="3" data-sort="0">
-            <span class="t">验证时间</span>
-            <i class="iconfont up">&#xe6b7;</i>
-            <i class="iconfont down">&#xe6b4;</i>
-        </li>
-        <li class="sortItem checktime" data-orderby="4" data-sort="0">
-            <span class="t">预计游玩</span>
-            <i class="iconfont up">&#xe6b7;</i>
-            <i class="iconfont down">&#xe6b4;</i>
-        </li>
-        <li id="tongjiBtn" class="countBtn">
-            <img class="excelIcon" src="http://images.12301.cc/icon/icon_count.png" alt=""/>
-            <a href="javascript:void(0)">查看统计</a>
-        </li>
-        <li id="exportExeclBtn" class="exportExeclBtn">
-            <img class="excelIcon" src="http://www.12301.cc/tpl/orderquery/images/excel2.png" alt=""/>
-            <a href="javascript:void(0)">导出数据</a>
-        </li>
+  }
+  .filter_con{
+      padding:15px;
+      width:805px ;
+      border: 1px solid #e5e5e5;;
+  }
+  .filter_con div.row{
+     width: 805px;
+      height: 40px;
+      position:relative;
 
-    </ul>
-    <table id="orderTable" class="table orderTable">
-        <thead>
-        <th class="col col_1 alignLeft">票信息</th>
-        <th class="col col_2 alignLeft">取票人</th>
-        <th class="col col_3 alignLeft">供应商/分销商</th>
-        <th class="col col_4 alignLeft">总金额(元)/支付方式</th>
-        <th class="col col_5">状态</th>
-        <th class="col col_6">操作</th>
-        </thead>
-        <tbody id="resultListUl"></tbody>
-    </table>
-    <div style="display:none" id="navigationBar" class="navigationBar">
-        <div class="navCon">
-            <a id="nextPageBtn" href="javascript:void(0)" class="navBtn next disable"><span class="iconfont">&#xe60d;</span></a>
-            <a id="prevPageBtn" href="javascript:void(0)" class="navBtn prev disable"><span class="iconfont">&#xe60c;</span></a>
-            <div class="which">
-                <span id="whichPageInp" class="whichPageInp pagenum">1</span>
-                <span class="var"> / </span>
-                <span id="totalPageInp" class="totalPageInp pagenum">1</span>
-            </div>
-        </div>
-        <p class="tip">亲，可以使用键盘前后方向键来翻页哟</p>
-    </div>
-</div>
-<ul id="timeSelectPop" class="timeSelectPop time selectPop ui-border">
-    <li class="select-item" data-param="time_type" data-val="1">下单时间</li>
-    <li class="select-item" data-param="time_type" data-val="2">使用有效期</li>
-    <li class="select-item" data-param="time_type" data-val="3">验证时间</li>
-    <li class="select-item" data-param="time_type" data-val="4">预计游玩</li>
-    <li class="select-item" data-param="time_type" data-val="5">过期时间</li>
-</ul>
-<ul id="nameSelectPop" class="nameSelectPop name selectPop ui-border">
-    <li class="select-item" data-param="select_type" data-val="1">订单号</li>
-    <li class="select-item" data-param="select_type" data-val="6">取票人手机</li>
-    <li class="select-item" data-param="select_type" data-val="2">产品名称</li>
-    <li class="select-item" data-param="select_type" data-val="5">远程订单号</li>
-    <li class="select-item" data-param="select_type" data-val="4">取票人姓名</li>
-    <!--    <li class="select-item" data-param="select_type" data-val="3">供应商/分销商</li>-->
-    <li class="select-item" data-param="select_type" data-val="7">优惠券名称</li>
-</ul>
-<div id="distorSelectPop" class="distorSelectPop distor selectPop ui-border"></div>
-<? include "tpl/tpl.html" ?>
-<? include("tpl/dialog/dialog.html");?>
-<script id="modTicDiaTpl" type="text/template">
-    <div class="modTicketDialogCon">
-        <p class="tip" style="padding:5px 0 0 23px; color:red">* 只能在原票数基础上减少票数</p>
-        <form id="ticModForm" action="" method="post">
-            <input id="modifyTicket_ordernum_hidInp" name="ordernum" value="" type="hidden"/>
-            <ul id="ticModListUl" class="tlist"><%=ticketList%></ul>
-        </form>
-        <div class="btnGroup"><a id="dialog-yes-btn" class="btn modify modifyBtn" href="javascript:void(0)">修改</a><a class="btn cannel cannelModifyBtn" href="javascript:void(0)#">取消</a></div>
-    </div>
-</script>
-<script id="modTicDiaList" type="text/template">
-    <li class="ticketLi">
-        <span class="tname"><%=tname%></span>
-        <span class="countWrap">
-             <input class="numInp" type="text" data-tid="<%=tid%>" name="tids[<%=tid%>]" data-hasterminal="<%=has_terminal_num%>" data-lastval="<%=tnum%>" id="" data-max="<%=tnum%>" data-min="<%=tmin%>" value="<%=tnum%>"/>
-             <a href="javascript:void(0)" class="minuBtn numBtn <%=minusBtnCls%>"><i class="iconfont">&#xe67a;</i></a>
-             <a href="javascript:void(0)" class="addBtn numBtn <%=addBtnCls%>"><i class="iconfont">&#xe653;</i></a>
-        </span>
-    </li>
-</script>
-<style type="text/css">
-    #PFT_dialogWrap .dialog-con{ padding:0;}
-    #ticModListUl{ padding:5px 0 5px 0;}
-    #ticModListUl li{ position:relative; overflow:hidden; padding:12px 20px 12px 20px; border-bottom:1px solid #dbdbdb}
-    #ticModListUl li:last-child{ border-bottom:0 none}
-    #ticModListUl .tname{ display:block; float:left; width:120px; height:36px; line-height:36px; overflow:hidden;}
-    #ticModListUl .countWrap{ display:block; float:left; position:relative; width:50px; padding:0 35px; margin-top:1px}
-    #ticModListUl .countWrap .numInp{ display:block; height:32px; width:100%; padding:0; line-height:22px; border:1px solid #dbdbdb; border-radius:3px; text-align:center; background:#fff;
-        -webkit-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
-        -moz-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
-        -ms-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
-        -o-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
-        box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
-        line-height:32px\9;
-    }
-    #ticModListUl .countWrap .numBtn{ position:absolute; top:1px; display:block; width:32px; height:32px; line-height:32px; text-align:center; color:#fff; background:#2a98da; border-radius:3px;}
-    #ticModListUl .countWrap .numBtn .iconfont{ font-size:12px}
-    #ticModListUl .countWrap .numBtn:hover{ text-decoration:none}
-    #ticModListUl .countWrap .numBtn.addBtn{ right:-2px;}
-    #ticModListUl .countWrap .numBtn.minuBtn{ left:0;}
-    #ticModListUl .countWrap .numBtn.disable{ background:#dbdbdb; color#fff; cursor:default}
-    .modTicketDialogCon .btnGroup{ border-top:1px solid #dbdbdb; text-align:center; background:#fcfcfc}
-    .modTicketDialogCon .btnGroup .btn{ display:inline-block; width:50%; height:45px; line-height:45px; padding:0; border:0 none; color:#2a98da; font-size:14px; border-left:1px solid #dbdbdb}
-    .modTicketDialogCon .btnGroup .btn:hover{ text-decoration:none; background:#f7f7f7}
-    .modTicketDialogCon .btnGroup .btn:first-child{ border-left:0 none; margin-left:-1px}
+  }
+  .filter_con div.time_input_box{
+      height: 34px;
+      width: 192px;
+      position:relative;
+      float: left;
+  }
+
+  .filter_con span.down_select{
+    display:block;
+    float: left;
+    width: 120px;
+    height: 34px;
+    line-height: 34px;
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+  }
+  .filter_con input{
+      outline:none;
+      border:none;
+      background: transparent;
+      padding:0;
+  }
+  .filter_con input.input_text{
+     float: left;
+  }
+  .filter_con input.time_input_text{
+      width: 176px;
+      height: 22px;
+      position:absolute;
+      padding:6px 8px;
+  }
+  .filter_con div.time_box{
+      float: left;
+      height: 34px;
+      border: 1px solid #e5e5e5;
+      width:393px;
+      border-left: none;
+      position:relative;
+  }
+  .filter_con div.time_box:after{
+      content: "-";
+      position:absolute;
+      top:8px;
+      font-size: 16px;;
+      color: #797979;
+      transform: scale(2,8);
+      -ms-transform:  scale(2,8); 	/* IE 9 */
+      -moz-transform:  scale(3,3) translate(0,-2px); 	/* Firefox */
+      -webkit-transform: scale(2,8) ; /* Safari 和 Chrome */
+      -o-transform:  scale(2,8); 	/* Opera */
+
+  }
+  .filter_con ul.quick_select_time{
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      line-height: 36px;
+      font-size: 12px;;
+  }
+  .filter_con ul.quick_select_time li{
+      float:left;
+      margin: 0  7px;
+      color: #0797d9;
+      cursor:pointer;
+  }
+  .filter_con ul.quick_select_time li.clear{
+      color: #f07845;
+  }
+  .filter_con ul.quick_select_time li:hover{
+      text-decoration: underline;;
+  }
+  .filter_con div.input_box{
+        width:237px;
+        height: 34px;
+        float:left;
+        position:relative;
+        border: 1px solid #e5e5e5;
+        border-left: none;;
+
+  }
+  .filter_con div.input_box input{
+      width: 221px;
+      height: 22px;
+      border: none;
+      padding:6px 8px;;
+  }
+  .filter_con span.down_select_three{
+      margin-left: 10px;;
+  }
+  .filter_con button.search{
+      border:none;
+      background: #f07845;
+      outline: none;
+      display: block;
+      float: left;
+      width: 60px;
+      height: 34px;
+      line-height: 34px;
+      margin-top: 1px;
+      margin-left: 8px;
+      text-align: center;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;;
+  }
+  .filter_con button.search:hover{
+      background-color: #e06e3d;
+  }
+  .filter_con div.bottom{
+      font-size: 12px;
+      padding:0 10px;
+  }
+  .filter_con div.bottom div.row{
+      height: 35px;
+      line-height: 35px;
+      width: 600px;
+  }
+  .filter_con div.bottom div.last_row span.short_txt{
+      margin-left: 20px;;
+      color:#999999;
+  }
+  .filter_con div.bottom div.row input{
+      display:inline-block;
+      position:relative;
+      top: 3px;
+      }
+  .filter_con div.bottom div.row span.duo{
+      float: right;
+      width: 24px;
+      height:16px;
+      border:1px solid #cccccc;
+      line-height:16px;
+      margin-top:10px;
+      color: #0033CC;
+      cursor:pointer;
+  }
+  .filter_con div.tab_btn{
+      width: 92px;
+      height: 30px;
+      margin: 0 auto;
+      position:relative;
+      border: 1px solid #e5e5e5;
+      border-top: 1px solid white;
+      background-color: white;
+      top:47px;
+      margin-top: -32px;
+      cursor:pointer;
+  }
+  .filter_con div.tab_btn_down:after{
+      content: ">>";
+      position: absolute;
+      font-size: 20px;
+      left: 34px;
+      top: 3px;
+      font-weight: bold;
+      transform: scale(3,0.8) rotate(90deg);
+      -ms-transform:  scale(3,0.8) rotate(90deg); 	/* IE 9 */
+      -moz-transform:  scale(1,1) rotate(90deg) translate(-3px,-2px); 	/* Firefox */
+      -webkit-transform:  scale(3,0.8) rotate(90deg); /* Safari 和 Chrome */
+      -o-transform:  scale(3,0.8) rotate(90deg); 	/* Opera */
+      color: #797979;
+  }
+  .filter_con div.tab_btn_up:after{
+      content: ">>";
+      position: absolute;
+      font-size: 20px;
+      left: 40px;
+      top: 3px;
+      font-weight: bold;
+      transform: scale(3,0.8) rotate(-90deg);
+      -ms-transform: scale(3,0.8) rotate(-90deg); 	/* IE 9 */
+      -moz-transform: scale(1,1) rotate(-90deg) translate(-3px,-2px); 	/* Firefox */
+      -webkit-transform: scale(3,0.8) rotate(-90deg); /* Safari 和 Chrome */
+      -o-transform: scale(3,0.8) rotate(-90deg); 	/* Opera */
+      color: #797979;
+  }
+.filter_con span.pay_box{
+    width: 342px;
+    top: 35px;
+    right: -55px;
+    background-color: white;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    z-index: 1;
+    border: 1px solid #cccccc;
+    display: none;;
+}
+  .filter_con span.pay_box:before{
+      content: "";
+      position:absolute;
+      display: block;
+      border-bottom: 10px solid #cccccc;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      top: -10px;
+      left: 46px;
+
+  }
+  .filter_con span.pay_box:after{
+      position:absolute;
+      display: block;
+      border-bottom: 10px solid white;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      content: "";
+      top: -8px;
+      left: 46px;
+
+  }
 </style>
-<script type="text/javascript" src="http://wx.12301.cc/public/js/plugins/underscore-min.js"></script>
-<script type="text/javascript" src="http://www.12301.cc/tpl/orderquery/libs/moment.min.js"></script>
-<script type="text/javascript" src="tpl/orderquery/js/build/orderquery.all.2.1.js"></script>
+<body>
+<div id="containter">
+  <div class="filter_con">
+    <div class="row">
+              <span class="down_select"></span>
+              <div class="time_box">
+                  <div class="time_input_box">
+                      <input type="text" class="time_input_text"/>
+                  </div>
+
+                  <div class="time_input_box" style="float:right;">
+                      <input type="text" class="time_input_text"/>
+                  </div>
+              </div>
+              <ul class="quick_select_time">
+                  <li class="clear">清除</li>
+                  <li>昨天</li>
+                  <li>今天</li>
+                  <li>本周</li>
+                  <li>上周</li>
+                  <li>本月</li>
+                  <li>上月</li>
+             </ul>
+      </div>
+    <div class="row">
+        <span class="down_select"></span>
+        <div class="input_box">
+            <input type="text" class="input_text"/>
+        </div>
+        <span class="down_select down_select_three"></span>
+        <div class="input_box">
+            <input type="text" class="input_text"/>
+        </div>
+        <button value="搜索" class="search">搜索</button>
+    </div>
+    <div class="bottom">
+          <div class="row">
+              <span>订单状态</span>
+              <input type="radio" checked="checked">全部
+              <input type="radio">未使用
+              <input type="radio">已验证
+              <input type="radio">已过期
+              <input type="radio">已取消
+              <span class="duo">多选</span>
+          </div>
+          <div class="row">
+              <span>支付方式</span>
+              <input type="radio" checked="checked">全部
+              <input type="radio">账户余额
+              <input type="radio">授信支付
+              <input type="radio">自供自销
+              <input type="radio">在线支付
+      <span class="pay_box">
+        <input type="checkbox"/>支付宝支付
+        <input type="checkbox"/>微信支付
+        <input type="checkbox"/>银联支付
+        <input type="checkbox"/>环迅支付
+        <span>收起</span>
+      </span>
+              <span class="duo">多选</span>
+          </div>
+          <div class="row">
+              <span>支付状态</span>
+              <input type="radio" checked="checked">全部
+              <input type="radio">已支付
+              <input type="radio">未支付
+              <input type="radio">现场支付
+              <span class="duo">多选</span>
+          </div>
+          <div class="row">
+              <span>产品渠道</span>
+              <input type="radio" checked="checked">全部
+              <input type="radio">自供应产品
+              <input type="radio">转分销产品
+              <span class="duo">多选</span>
+          </div>
+          <div class="row last_row">
+              <span>销售渠道</span>
+              <input type="radio" checked="checked">全部
+              <input type="radio">直销渠道
+              <input type="radio">分销渠道
+              <span class="short_txt">直销渠道包含：产品预订、B2C店铺、微商城、云票务等</span>
+          </div>
+      </div>
+      <div class="tab_btn tab_btn_down"></div>
+  </div>
+</div>
+
+</body>
+</html>
