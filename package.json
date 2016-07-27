@@ -38,10 +38,10 @@
     "forget-password-production": "set NODE_ENV=production && webpack --config ./src/forget_password/webpack.config.js",
     "react-test": "set NODE_ENV=test && webpack --config ./src/react_test/webpack.config.js",
     "react-start": "set NODE_ENV=develop && webpack --config ./src/react_test/webpack.config.js",
-    "common-start": "set NODE_ENV=develop && webpack --config ./common/webpack.config.js -w",
-    "common-test": "set NODE_ENV=test && webpack --config ./common/webpack.config.js",
-    "common-release": "set NODE_ENV=release && webpack --config ./common/webpack.config.js",
-    "common-production": "set NODE_ENV=production && webpack --config ./common/webpack.config.js"
+    "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
+    "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
+    "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
+    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js"
   },
   "repository": {
     "type": "git",

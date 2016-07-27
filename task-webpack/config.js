@@ -58,6 +58,19 @@ module.exports = function(opt){
 			//return [autoprefixer()];
 		},
 		plugins : plugins,
+		externals: [{
+			'react': {
+				root: 'React',
+				commonjs2: 'react',
+				commonjs: 'react'
+			}
+		},{
+			'react-dom': {
+				root: 'ReactDOM',
+				commonjs2: 'react-dom',
+				commonjs: 'react-dom'
+			}
+		}],
 		resolve : {
 			alias : {
 				COMMON : path.resolve("./common"),

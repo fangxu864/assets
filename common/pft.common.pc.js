@@ -5,4 +5,8 @@
  */
 require("./css/pc-global/index.scss");
 var PFT = window["PFT"] || (window["PFT"]={});
-PFT = require("./base")(PFT);
+PFT = require("./pft.common.base")(PFT);
+PFT["Util"]["Browser"] = require("./js/util.browser");
+PFT["Util"]["STip"] = require("./js/util.simple.tip");
+
+

@@ -15,9 +15,10 @@ module.exports = function(PFT){
 	Util["VCode"] = require("./js/util.vcode");
 	Util["getToken"] = require("./js/util.get.token");
 	Util["Promise"] = require("./js/util.promise");
-	Util["STip"] = require("./js/util.simple.tip");
 	Util["Extend"] = require("./js/util.extend");
 	Util["MinixParams"] = require("./js/util.minix.params");
+	Util["Type"] = require("./js/util.type");
+	Util["Prefix"] = require("./js/util.prefix");
 
 	var Config = PFT["Config"] || (PFT["Config"] = {});
 	Config["Api"] = require("./js/config.api");
