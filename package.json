@@ -82,7 +82,7 @@
     "js-md5": "^0.4.1",
     "json-loader": "^0.5.4",
     "moment": "^2.13.0",
-    "node-sass": "^3.7.0",
+    "node-sass": "3.7.0",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
     "sass-loader": "^3.2.0",
