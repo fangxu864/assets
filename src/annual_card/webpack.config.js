@@ -3,10 +3,10 @@
  * Date: 2016/6/17 16:42
  * Description: ""
  */
-var env = require("../../getNodeENV.js");
-var path = require("path");
-var plugins = require("../../getPlugins")(env);
-var config = require("../../config")({
+var env = require("../../task-webpack/getNodeENV.js");
+var output = require("../../task-webpack/getOutput")(env,"[name]/all");
+var plugins = require("../../task-webpack/getPlugins")(env,"[name]/all");
+var config = require("../../task-webpack/config")({
 	entry : {
 		"annual_card_publish_prod_info" : "./src/annual_card/page/publish_prod_info/index.js",
 		"annual_card_publish_package_info" : "./src/annual_card/page/publish_package_info/index.js",
@@ -19,16 +19,7 @@ var config = require("../../config")({
 		"annual_memdetail" : "./src/annual_card/page/memdetail/index.js",
 		"annual_card_mclist" : "./src/annual_card/page/mclist/index.js"
 	},
-	output : {
-		path : path.join(__dirname, "../../build/"+env+"/"),
-		filename: "js/[name]/all.js",
-		publicPath : {
-			local : "http://static.12301.local/assets/build/"+env+"/",
-			test  : "http://static.12301.test/assets/build/"+env+"/",
-			dev   : "http://static.12301dev.com/assets/build/"+env+"/",
-			prod  : "http://static.12301.cc/assets/build/"+env+"/"
-		}[env]
-	},
+	output : output,
 	plugins : plugins,
 	watch : true
 });
