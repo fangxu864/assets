@@ -1,5 +1,6 @@
 @import "header";
 @import "leftbar";
+@import "locationbar";
 body{background:#f8f9fb;}
 .PageMainBodyContainer{ position:relative; width:1000px; margin:10px auto 30px; overflow:hidden;}
 .PageLeftBarContainer{ position:absolute; top:0; left:0; background:#fff; border:1px solid #dcdcdc; width:178px; }

@@ -1,5 +1,6 @@
 @import "COMMON/css/base/flex";
 @import "COMMON/css/base/core/px2rem";
+@import "COMMON/css/sheral/sandal/core/animation";
 .iconfont{ font-size:18px}
 .fixHead .topBtn.location .iconfont{ top:-1px}
 #bannerWrap .islider-dot-wrap .islider-dot{
@@ -22,6 +23,11 @@
     @include flex(1);
     text-align:center;
 }
+#flexContainer .box.A .iconBox{ background:#3dafd4}
+#flexContainer .box.B .iconBox{ background:#ff516a}
+#flexContainer .box.C .iconBox{ background:#64cd3f}
+#flexContainer .box.F .iconBox{ background:#f37777}
+#flexContainer .box.H .iconBox{ background:#e05a9f}
 #flexContainer .iconBox{
     width:px2rem(114);
     height:px2rem(114);
@@ -37,5 +43,72 @@
 #flexContainer .text{
     color:#333;
     font-size:0.35rem;
+}
+
+@mixin transform($transform...){
+    -webkit-transform:$transform;
+    -o-transform:$transform;
+    -moz-transform:$transform;
+    -ms-transform:$transform;
+    transform:$transform;
+}
+
+@include keyframes(slideDown){
+    0%{
+        @include transform(translateY(0))
+    }
+    100%{
+        @include transform(translateY(100%))
+    }
+}
+@include keyframes(slideUp){
+    0%{
+        @include transform(translateY(100%))
+    }
+    100%{
+        @include transform(translateY(0))
+    }
+}
+@include keyframes(fadeIn){
+    0%{
+        display:none;
+    }
+    100%{
+        display:block;
+    }
+}
+@include keyframes(fadeOut){
+    0%{
+        display:block;
+    }
+    100%{
+        display:none;
+    }
+}
+
+#testdemo{
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    display:none;
+    background:rgba(0,0,0,0.7);
+}
+#testdemo .slideBox{
+    background-color: #fff;
+    position: fixed;
+    height:50%;
+    bottom:0;
+    right:0;
+    left:0;
+    @include transform(translateY(-100%))
+}
+
+#testdemo.show{
+    @include animation(fadeIn 0.5s 1 forwards);
+}
+#testdemo.show .slideBox{
+    @include animation(slideUp 0.5s 1 forwards);
 }
 
