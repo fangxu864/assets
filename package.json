@@ -8,38 +8,48 @@
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
     "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
     "annual-production": "set NODE_ENV=production && webpack --config ./src/annual_card/webpack.config.js",
+
     "orderquery-start" : "set NODE_ENV=develop && webpack --config ./src/orderquery/webpack.config.js -w",
     "orderquery-test" : "set NODE_ENV=test && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-release" : "set NODE_ENV=release && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-production" : "set NODE_ENV=production && webpack --config ./src/orderquery/webpack.config.js",
+
     "withdraw-bank-start": "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js -w",
     "withdraw-bank-test": "set NODE_ENV=test && webpack --config ./src/withdraw_bank/webpack.config.js",
     "withdraw-bank-release": "set NODE_ENV=release && webpack --config ./src/withdraw_bank/webpack.config.js",
     "withdraw-bank-production": "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js",
+
     "register-start": "set NODE_ENV=develop && webpack --config ./src/register/webpack.config.js -w",
     "register-test": "set NODE_ENV=test && webpack --config ./src/register/webpack.config.js",
     "register-release": "set NODE_ENV=release && webpack --config ./src/register/webpack.config.js",
     "register-production": "set NODE_ENV=production && webpack --config ./src/register/webpack.config.js",
+
     "modify-mobileBinded-start": "set NODE_ENV=develop && webpack --config ./src/modify_mobileBinded/webpack.config.js -w",
     "modify-mobileBinded-test": "set NODE_ENV=test && webpack --config ./src/modify_mobileBinded/webpack.config.js",
     "modify-mobileBinded-release": "set NODE_ENV=release && webpack --config ./src/modify_mobileBinded/webpack.config.js",
     "modify-mobileBinded-production": "set NODE_ENV=production && webpack --config ./src/modify_mobileBinded/webpack.config.js",
+
     "terminal-start": "set NODE_ENV=develop && webpack --config ./src/terminal/webpack.config.js -w",
     "terminal-test": "set NODE_ENV=test && webpack --config ./src/terminal/webpack.config.js",
     "terminal-release": "set NODE_ENV=release && webpack --config ./src/terminal/webpack.config.js",
     "terminal-production": "set NODE_ENV=production && webpack --config ./src/terminal/webpack.config.js",
+
     "redpacketwithdraw-start": "set NODE_ENV=develop && webpack --config ./src/redpacketwithdraw/webpack.config.js -w",
     "redpacketwithdraw-test": "set NODE_ENV=test && webpack --config ./src/redpacketwithdraw/webpack.config.js",
     "redpacketwithdraw-release": "set NODE_ENV=release && webpack --config ./src/redpacketwithdraw/webpack.config.js",
     "redpacketwithdraw-production": "set NODE_ENV=production && webpack --config ./src/redpacketwithdraw/webpack.config.js",
+
+
     "mobile-start": "set NODE_ENV=develop && webpack --config ./src/Mobile/webpack.config.js -w",
     "mobile-test": "set NODE_ENV=test && webpack --config ./src/Mobile/webpack.config.js",
     "mobile-release": "set NODE_ENV=release && webpack --config ./src/Mobile/webpack.config.js",
     "mobile-production": "set NODE_ENV=production && webpack --config ./src/Mobile/webpack.config.js",
+
     "forget-password-start": "set NODE_ENV=develop && webpack --config ./src/forget_password/webpack.config.js -w",
     "forget-password-test": "set NODE_ENV=test && webpack --config ./src/forget_password/webpack.config.js",
     "forget-password-release": "set NODE_ENV=release && webpack --config ./src/forget_password/webpack.config.js",
     "forget-password-production": "set NODE_ENV=production && webpack --config ./src/forget_password/webpack.config.js",
+
     "react-test": "set NODE_ENV=test && webpack --config ./src/react_test/webpack.config.js",
     "react-start": "set NODE_ENV=develop && webpack --config ./src/react_test/webpack.config.js",
 
@@ -48,10 +58,21 @@
     "mall-index-flex-release": "set NODE_ENV=release && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
     "mall-index-flex-production": "set NODE_ENV=production && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
 
+    "membercard_list-start" : "set NODE_ENV=develop && webpack --config ./src/membercard_list/webpack.config.js ",
+    "membercard_list-test" : "set NODE_ENV=test && webpack --config ./src/membercard_list/webpack.config.js",
+    "membercard_list-release" : "set NODE_ENV=release && webpack --config ./src/membercard_list/webpack.config.js",
+    "membercard_list-production" : "set NODE_ENV=production && webpack --config ./src/membercard_list/webpack.config.js",
+
+    "memcard_reg-start" : "set NODE_ENV=develop && webpack --config ./src/memcard_reg/webpack.config.js",
+    "memcard_reg-test" : "set NODE_ENV=test && webpack --config ./src/memcard_reg/webpack.config.js",
+    "memcard_reg-release" : "set NODE_ENV=release && webpack --config ./src/memcard_reg/webpack.config.js",
+    "memcard_reg-production" : "set NODE_ENV=production && webpack --config ./src/memcard_reg/webpack.config.js",
+
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js"
+
   },
   "repository": {
     "type": "git",
@@ -100,7 +121,7 @@
     "url-loader": "^0.5.7",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.2.3",
-    "vue-loader": "^8.5.3",
+    "vue-loader": "8.5.3",
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1",

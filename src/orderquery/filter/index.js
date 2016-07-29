@@ -5,7 +5,6 @@ require("./index.scss");
 var tpl = require("./index.xtpl");
 // var Select = require("COMMON/modules/select");
 var SelectShort=require("COMMON/modules/select_short");
-var Calendar=require("COMMON/modules/calendar");
 
 
 
