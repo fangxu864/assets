@@ -19,7 +19,7 @@
 .dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%; border-bottom:1px solid #e5e5e5;text-align:center;}
 .dealsumContainer .dealSumTable thead tr{ background:#00597b; color:white; line-height:32px;}
 .dealsumContainer .dealSumTable .dealSumList{ padding:8px 0;}
-.dealsumContainer .dealSumTable .dealSumList tr{ line-height:30px;}
+.dealsumContainer .dealSumTable .dealSumList tr,.detailList tr{ line-height:30px;}
 .dealsumContainer .dealSumTable .dealSumList .income{ color:red;}
 .dealsumContainer .dealSumTable .dealSumList .expend{ color:green;}
 .dealsumContainer .dealSumTable .dealSumList .income td:first-of-type,.dealsumContainer .dealSumTable .dealSumList .expend td:first-of-type{ color:black;}
@@ -28,4 +28,7 @@
 
 .dealsumContainer .sumDetailTable thead tr{ background:#e5e5e5; color:#6c7882;line-height:32px;}
 
+.detailList .income{ color:red;}
+.detailList .expend{ color:green;border-bottom:1px solid #e5e5e5;}
+.detailList .income td:nth-of-type(1){ color:black;}
 
