@@ -19,7 +19,7 @@ module.exports = function(PFT){
 	Util["MinixParams"] = require("./js/util.minix.params");
 	Util["Type"] = require("./js/util.type");
 	Util["Prefix"] = require("./js/util.prefix");
-
+	Util["BindScope"] = require("./js/util.bindscope");
 	var Config = PFT["Config"] || (PFT["Config"] = {});
 	Config["Api"] = require("./js/config.api");
 
