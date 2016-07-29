@@ -102,6 +102,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.today.list);
 				that.getRecordAndSum();
+				$("#sumNum").text(that.__cache.today.total_money/100);
 			}
 		})
 		this.thisWeekBtn.on("click",function(e){
@@ -112,6 +113,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.thisweek.list);
 				that.getRecordAndSum();
+				$("#sumNum").text(that.__cache.thisweek.total_money/100);
 			}
 		})
 		this.lastWeekBtn.on("click",function(e){
@@ -122,6 +124,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.lastweek.list);
 				that.getRecordAndSum();
+				$("#sumNum").text(that.__cache.lastweek.total_money/100);
 			}
 		})
 		this.thisMonthBtn.on("click",function(e){
@@ -132,6 +135,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.thismonth.list);
 				that.getRecordAndSum();
+				$("#sumNum").text(that.__cache.thismonth.total_money/100);
 			}
 		})
 		this.lastMonthBtn.on("click",function(e){
@@ -142,18 +146,19 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.lastmonth.list);
 				that.getRecordAndSum();
+				$("#sumNum").text(that.__cache.lastmonth.total_money/100);
 			}
 		})
 	},
 
 	getRecordAndSum: function(){
-		var sumNum=0;
+		//var sumNum=0;
 		var recordNum=$("#withdrawList").children("tr").length;
 		$("#recordNum").text(recordNum);
-		$("#withdrawList .withdrawNum").each(function(){
-			sumNum+=parseInt($(this).text());
-		})
-		$("#sumNum").text(sumNum);
+		//$("#withdrawList .withdrawNum").each(function(){
+		//	sumNum+=parseInt($(this).text());
+		//})
+		//$("#sumNum").text(sumNum);
 	},
 	getWithdrawRecord:function(dateType,page,pagesize){
 		var that=this;
@@ -184,10 +189,12 @@ RedpacketWithdraw.prototype={
 				var list=data.list;
 				var currentPage = data.cur_page;
 				var totalPage = data.total_page;
+				var totalMoney=data.total_money/100;
 				var total = data.total;
 				if(res.code==200){
 					that.renderList(list);
 					that.getRecordAndSum();
+					$("#sumNum").text(totalMoney);
 					that.pagination.render({current:currentPage,total:totalPage});
 
 					if(dateType=="today"){
@@ -218,7 +225,7 @@ RedpacketWithdraw.prototype={
 		for(var i in list){
 			var d=list[i];
 			var create_time=d["create_time"];
-			var date=new Date(parseInt(create_time));
+			var date=new Date(parseInt(create_time)* 1000);
 			var time=that.formatTime(date);
 			var supply=d["supply"];
 			var name=d["nickname"];
