@@ -45,6 +45,8 @@
 
     "mall-index-flex-start": "set NODE_ENV=develop && webpack --config ./src_mobile/mall_index_flex/webpack.config.js -w",
     "mall-index-flex-test": "set NODE_ENV=test && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
+    "mall-index-flex-release": "set NODE_ENV=release && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
+    "mall-index-flex-production": "set NODE_ENV=production && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
 
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
