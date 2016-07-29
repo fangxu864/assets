@@ -1,9 +1,31 @@
 @import "COMMON/css/base/core";
 .dealsumContainer{ border:1px solid #e5e5e5; background:white;}
 .dealsumContainer .title{ line-height:56px; font-size:18px; font-weight:600; border-bottom:1px solid #e5e5e5; padding-left:18px;}
-.dealsumContainer .title .titleSum{ color:#0797d9;}
-.dealsumContainer .queryBtn{@include btn-inline-block(87,30,#f60); vertical-align:top; font-size:14px;}
+.dealsumContainer .title .titleSum{ color:#0797d9; margin-left:10px;}
+.dealsumContainer .dealTimeBox{padding:12px 0 12px 18px; border-bottom:1px solid #e5e5e5; }
+.dealsumContainer .dealTimeBox .datePickerInp{@include textInp(150,3);}
+
+.dealsumContainer .dealTypeBox{display:inline-block; height:30px;border:1px solid #e5e5e5;margin-left:44px; line-height:30px; padding-left:10px;}
+.dealsumContainer .dealTypeBox .dealTime{ margin-left:8px;}
+.dealsumContainer .dealTypeBox .radioBox{ margin-right:20px;}
+.dealsumContainer .dealTypeBox .radioDeal{ vertical-align:middle;}
+.dealsumContainer .queryBtn{@include btn-inline-block(87,28,#f60); font-size:14px; margin:-3px 0 0 8px;}
 .dealsumContainer .queryBtn.disable{ @include btn-disable();}
 
-.dealSumBox .totalIncome{ color:green;}
-.dealSumBox .totalExpend{ color:red;}
+.dealsumContainer .dealSumBox{ font-size:18px; padding-left:18px; line-height:66px;border-bottom:1px solid #e5e5e5;}
+.dealsumContainer .dealSumBox .totalIncome{ color:green; margin-right:32px;}
+.dealsumContainer .dealSumBox .totalExpend{ color:red;}
+
+.dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%; border-bottom:1px solid #e5e5e5;text-align:center;}
+.dealsumContainer .dealSumTable thead tr{ background:#00597b; color:white; line-height:32px;}
+.dealsumContainer .dealSumTable .dealSumList{ padding:8px 0;}
+.dealsumContainer .dealSumTable .dealSumList tr{ line-height:30px;}
+.dealsumContainer .dealSumTable .dealSumList .income{ color:red;}
+.dealsumContainer .dealSumTable .dealSumList .expend{ color:green;}
+.dealsumContainer .dealSumTable .dealSumList .income td:first-of-type,.dealsumContainer .dealSumTable .dealSumList .expend td:first-of-type{ color:black;}
+
+.dealsumContainer .summaryDetail{ font-size:14px; line-height:50px; padding-left:18px;}
+
+.dealsumContainer .sumDetailTable thead tr{ background:#e5e5e5; color:#6c7882;line-height:32px;}
+
+
