@@ -75,9 +75,9 @@ module.exports = function(opt){
 		resolve : {
 			alias : {
 				COMMON : path.resolve("./common"),
-				COMMON_VUE_COMPONENTS : path.resolve("./src/Mobile/Components"),
-				COMMON_VUE_COMPONENTS_B : path.resolve("./src/Mobile/B/Components"),
-				COMMON_VUE_COMPONENTS_C : path.resolve("./src/Mobile/C/Components"),
+				COMMON_VUE_COMPONENTS : path.resolve("./src_mobile/Components"),
+				COMMON_VUE_COMPONENTS_B : path.resolve("./src_mobile/B/Components"),
+				COMMON_VUE_COMPONENTS_C : path.resolve("./src_mobile/C/Components"),
 				NODE_MODULES : path.resolve("./node_modules")
 			}
 		},

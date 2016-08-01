@@ -10,7 +10,7 @@
             <page-footer></page-footer>
         </div>
         <login :z-index="loginZIndex" :show="loginShow"></login>
-        <city-switchor></city-switchor>
+        <city-switchor :show="citySwitchorShow"></city-switchor>
     </div>
 </template>
 
@@ -19,15 +19,16 @@
         data(){
             return {
                 area : "福州",
-                loginShow : true,
-                loginZIndex : 100
+                loginShow : false,
+                loginZIndex : 100,
+                citySwitchorShow : true
             }
         },
         components : {
-            //productList : require("./components/product-list.vue"),
-            //fixHeader : require("COMMON_VUE_COMPONENTS/fix-header.vue"),
-            //pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue"),
-            //login : require("COMMON_VUE_COMPONENTS_B/login.vue"),
+            productList : require("./components/product-list.vue"),
+            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header.vue"),
+            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue"),
+            login : require("COMMON_VUE_COMPONENTS_B/login.vue"),
             citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor.vue")
         }
     }

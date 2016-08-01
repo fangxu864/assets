@@ -11,6 +11,9 @@ var Location = Mix({
 	//百度地度ak key
 	BAIDU_MAP_KEY : "485641E293ABd3523de065f7c1bbfeba",
 
+	__getBaiMapSrc : function(){
+		return ("http://api.map.baidu.com/getscript?v=2.0&ak="+this.BAIDU_MAP_KEY+"&services=&t=20160728192322");
+	},
 	BAIDU_MAP_SCRIPT_SRC : "http://api.map.baidu.com/api?v=2.0&ak=",
 
 	__LAST_SWITCH_CITY_KEY : "PFT_WX_LAST_SWITCH_CITY",
@@ -86,6 +89,7 @@ var Location = Mix({
 	 */
 	locate : function(opt){
 		var that = this;
+		opt = opt || {};
 		var fn = new Function;
 		var type = opt.type || "H5";
 		var loading = opt.loading || fn;
@@ -148,14 +152,15 @@ var Location = Mix({
 			}
 		};
 
-		LoadScript(this.BAIDU_MAP_SCRIPT_SRC+this.BAIDU_MAP_KEY,{
+		LoadScript(this.__getBaiMapSrc(),{
+			async : false,
 			loading : function(){
 				loading();
 				that.fire("loading");
 			},
 			complete : function(){
-				if(!BMap || !BMap.GeoLocation) return alert("加载baidu map失败");
-				__locate(BMap);
+				if(!window.BMap || !window.BMap.Geolocation) return alert("加载baidu map失败");
+				__locate(window.BMap);
 			}
 		});
 
