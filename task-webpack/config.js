@@ -3,11 +3,12 @@ var autoprefixer = require("autoprefixer");
 var precss = require("precss");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require("path");
+var env = require("./getNodeENV");
 module.exports = function(opt){
 	var entry = opt.entry;
 	var output = opt.output;
 	var plugins = opt.plugins;
-	return {
+	var config = {
 		debug : true,
 		entry : entry,
 		output : output,
@@ -82,4 +83,9 @@ module.exports = function(opt){
 		},
 		devtool : "#source-map"
 	};
+
+	if(env=="local") config["watch"] = true;
+
+	return config;
+
 }

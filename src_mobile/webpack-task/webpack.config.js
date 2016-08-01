@@ -4,11 +4,11 @@
  * Description: ""
  */
 var webpack = require('webpack');
-var env = require("../../task-webpack/getNodeENV");
 var path = require("path");
+var env = require("../../task-webpack/getNodeENV");
 var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
-var ROOT_URL = "./src/Mobile";
+var ROOT_URL = "./src_mobile";
 var config = require("../../task-webpack/config")({
 	entry : {
 		"mb.index" : path.resolve(ROOT_URL,"B/index/index.es6")

@@ -41,7 +41,7 @@
     "react-test": "set NODE_ENV=test && webpack --config ./src/react_test/webpack.config.js",
     "react-start": "set NODE_ENV=develop && webpack --config ./src/react_test/webpack.config.js",
 
-    "mall-index-flex-start": "set NODE_ENV=develop && webpack --config ./src_mobile/mall_index_flex/webpack.config.js -w",
+    "mall-index-flex-start": "set NODE_ENV=develop && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
     "mall-index-flex-test": "set NODE_ENV=test && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
     "mall-index-flex-release": "set NODE_ENV=release && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
     "mall-index-flex-production": "set NODE_ENV=production && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
@@ -50,6 +50,11 @@
     "wxconfigsetmenu-test": "set NODE_ENV=test && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-release": "set NODE_ENV=release && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-production": "set NODE_ENV=production && webpack --config ./src/wx_config_setmenu/webpack.config.js",
+
+    "mobile-start": "set NODE_ENV=develop && webpack --config ./src_mobile/webpack-task/webpack.config.js",
+    "mobile-test": "set NODE_ENV=test && webpack --config ./src_mobile/webpack-task/webpack.config.js",
+    "mobile-release": "set NODE_ENV=release && webpack --config ./src_mobile/webpack-task/webpack.config.js",
+    "mobile-production": "set NODE_ENV=production && webpack --config ./src_mobile/webpack-task/webpack.config.js",
 
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
