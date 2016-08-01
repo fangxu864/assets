@@ -9,21 +9,22 @@ var Calendar = require("COMMON/modules/calendar");
 var Loading = require("COMMON/js/util.loading.pc.js");
 var DealSummary=function(){
 	this.now = new Date(); //当前日期
-	this.nowDayOfWeek = this.now.getDay(); //今天本周的第几天
+	this.nowDayOfWeek = this.now.getDay(); //今天本周第几天
 	this.nowDay = this.now.getDate(); //当前日
 	this.nowMonth =this.now.getMonth(); //当前月
 	this.nowYear = this.now.getFullYear(); //当前年
-	this.lastMonthDate = new Date(); //上月日期
-	this.lastMonthDate.setDate(1);
-	this.lastMonthDate.setMonth(this.lastMonthDate.getMonth()-1);
-	this.lastMonth = this.lastMonthDate.getMonth();
 	this.initialize();
 }
 DealSummary.prototype={
+	__cache:{
+		fromDate:null,
+		toDate:null,
+		searchType:null
+	},
 	initialize:function(){
 		var that=this;
 		this.queryBtn=$("#queryBtn");
-		this.summaryBtn=$("#summaryDetail");
+		this.summaryBtn=$("#summaryDetailBtn");
 		this.queryInp=$("#queryInp");
 		this.datePickerInp=$(".datePickerInp");
 		this.fromDateInp=$("#fromDate");
@@ -43,12 +44,13 @@ DealSummary.prototype={
 		})
 		this.pagination.on("next",function(data){
 			var toPage = data.toPage;
-			that.getAnnualCardList(toPage);
+			that.getListDetail(toPage);
 		})
 		this.pagination.on("prev",function(data){
 			var toPage = data.toPage;
-			that.getAnnualCardList(toPage);
+			that.getListDetail(toPage);
 		})
+		//this.pagination.show();
 		this.fromDateInp.val(that.getWeekStartDate());
 		this.toDateInp.val(that.getWeekEndDate());
 		this.getListForTradeRecord(0);
@@ -106,8 +108,7 @@ DealSummary.prototype={
 			params : {
 				btime : begintime,
 				etime : endtime,
-				search_type:search_type,
-				account_type:-1
+				search_type:search_type
 			},
 			loading:function(){},
 			complete:function(){},
@@ -125,19 +126,20 @@ DealSummary.prototype={
 	},
 	renderTotal:function(data){
 		var that=this;
-		for(var i in data){
-			var transTime=data[i];
-			var income=transTime["income"];
-			var expense=transTime["expense"];
+		var total=data.total;
+		for(var i in total){
+			var t=total[i];
+			var totalIncome=t["totalIncome"];
+			var totalExpense=t["totalExpense"];
 		}
-		that.totalIncome.text(income);
-		that.totalExpend.text(expense);
+		that.totalIncome.text(totalIncome);
+		that.totalExpend.text(totalExpense);
 	},
 	getListDetail:function(search_type){
 		var that=this;
 		var begintime=$.trim(that.fromDateInp.val())
 		var endtime= $.trim(that.toDateInp.val())
-		PFT.Util.Ajax("/r/Finance_TradeRecord/getListForTradeRecord/",{
+		PFT.Util.Ajax("/r/Finance_TradeRecord/getListDetail/",{
 			params : {
 				btime : begintime,
 				etime : endtime,
