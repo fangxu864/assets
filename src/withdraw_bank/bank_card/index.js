@@ -3,9 +3,8 @@
  */
 // require("bank_card.html");
 require("./index.scss");
-var tpl=require("./index.xtpl");
-var Dialogs = require("COMMON/modules/dialog-simple");
-var tpl2=require("./checkor_improve.xtpl");
+var tpl = require("./index.xtpl");
+var tpl2 = require("./checkor_improve.xtpl");
 var Checkor = {
     // 加载html文件
     checkor_click:function() {
@@ -163,5 +162,56 @@ var Checkor = {
     //
     // }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+var Mixin = require("COMMON/js/util.mix");
+var Pubsub = require("COMMON/js/util.pubsub");
+var BankCheckor = function(opt){
+    this.init(opt)
+};
+BankCheckor.prototype = Mixin({
+    init : function(opt){
+        var that = this;
+        this.dialog = opt.Dialog({
+            width : 750,
+            content : tpl,
+            drag : true,
+            speed : 100,
+            events : {
+                "click #bankDialog-submitBtn" : function(e){
+                    that.onSubmitBtnClick(e);
+                }
+            },
+            onReady : function(){
+
+            }
+        })
+    },
+    open : function(){
+        this.dialog.open({
+
+        })
+    }
+},Pubsub);
+
+
+
+
+
+
+
+
+
+
 
 module.exports = Checkor;
