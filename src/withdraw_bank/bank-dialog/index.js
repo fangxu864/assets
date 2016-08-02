@@ -5,12 +5,11 @@
  */
 require("./index.scss");
 var Select = require("COMMON/modules/select");
-var Dialog = require("COMMON/modules/dialog-simple");
 var dialog_content = require("./index.xtpl");
 var Api = require("../api.js");
-var Main = function(){
+var Main = function(opt){
 	var that = this;
-	this.dialog = new Dialog({
+	this.dialog = new opt.Dialog({
 		width : 750,
 		content : dialog_content,
 		drag : true,
