@@ -16,18 +16,19 @@
 .dealsumContainer .dealSumBox .totalIncome{ color:red; margin-right:32px;}
 .dealsumContainer .dealSumBox .totalExpend{ color:green;}
 
-.dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%; border-bottom:1px solid #e5e5e5;text-align:center;}
+.dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%;text-align:center;}
 .dealsumContainer .dealSumTable thead tr{ background:#00597b; color:white; line-height:32px; position:relative;}
 .dealsumContainer .dealSumTable td,.dealsumContainer .sumDetailTable td{ white-space:nowrap; padding:0 22px;}
 .dealsumContainer .income td{ padding-top:8px;}
 .dealsumContainer .expend td{ padding-bottom:8px;}
 
 .dealsumContainer .dealSumTable .dealSumList{ padding:8px 0;}
-.dealsumContainer .dealSumTable .dealSumList tr,.detailList tr{ line-height:30px;}
+.dealsumContainer .dealSumTable .dealSumList tr,.detailList tr{ line-height:30px; position:relative; z-index:5px;}
 .dealsumContainer .dealSumTable .dealSumList .income{ color:red; position:relative;}
 .dealsumContainer .dealSumTable .dealSumList .expend{ color:green; position:relative;}
 .dealsumContainer .dealSumTable .dealSumList .income td:first-of-type,.dealsumContainer .dealSumTable .dealSumList .expend td:first-of-type{ color:black;}
 
+.dealsumContainer .summaryDetailLine{border-top:1px solid #e5e5e5;}
 .dealsumContainer .summaryDetailBtn{ font-size:14px; line-height:50px; padding-left:18px;}
 .dealsumContainer .sumDetailTable{ width:100%; display:none;}
 .dealsumContainer .sumDetailTable thead tr{ background:#e5e5e5; color:#6c7882;line-height:32px;}
@@ -43,3 +44,5 @@
 .dealsumContainer .rightBtn{ position: absolute; z-index: 99px; top:181px; right:0px;width:20px; }
 .dealsumContainer .incomeText,.expendText{ position: absolute; top:213px; left:0; z-index:99; display: inline-block; height:32px;text-align: center;color: black; background: white; line-height: 32px;}
 .dealsumContainer .expendText{top:248px; left:0;}
+
+.dealsumContainer .bgBlue{ width:3998px; height:32px; background:#00597b; position:absolute;top:181px; left:0px; z-index:-1;}

@@ -54,6 +54,7 @@ DealSummary.prototype={
 		this.fromDateInp.val(that.getWeekStartDate());
 		this.toDateInp.val(that.getWeekEndDate());
 		this.getListForTradeRecord(0);
+		that.getListDetail(0);
 		this.bindEvent();
 	},
 	bindEvent:function(){
@@ -83,6 +84,7 @@ DealSummary.prototype={
 				search_type=1;
 			}
 			that.getListForTradeRecord(search_type);
+			that.getListDetail(search_type);
 		})
 		this.datePickerInp.on("focus",function(e){
 			var calendar = that.Calendar;
@@ -113,13 +115,6 @@ DealSummary.prototype={
 			var tarBtn=$(e.currentTarget);
 			if(tarBtn.hasClass("disable")) return false;
 			$("#sumDetailTable").toggle();
-			var search_type;
-			if($("#dealAccount:checked").length){
-				search_type=0;
-			}else{
-				search_type=1;
-			}
-			that.getListDetail(search_type);
 		})
 	},
 	getListForTradeRecord :function(search_type){
@@ -148,7 +143,7 @@ DealSummary.prototype={
 	},
 	renderTotal:function(data){
 		var that=this;
-		var htmlThead='<td style="width:24px;">dfdf</td>';
+		var htmlThead='<td style="width:24px;">kon</td>';
 		var htmlIncome='<td class="incomeText">收入</td>';
 		var htmlExpend='<td class="expendText">支出</td>';
 		var total=data.total;
@@ -157,13 +152,18 @@ DealSummary.prototype={
 		that.totalIncome.text(totalIncome);
 		that.totalExpend.text(totalExpense);
 		for( var i in data){
-			var t=data[i];
-			var income=t["income"];
-			var expend=t["expense"];
-			var name=t["name"];
-			htmlThead+='<td>'+name+'</td>';
-			htmlIncome+='<td>'+income+'</td>';
-			htmlExpend+='<td>'+expend+'</td>';
+			if(i!="total"){
+				var t=data[i];
+				var income=t["income"];
+				var expend=t["expense"];
+				if(expend>0){
+					expend=-expend;
+				}
+				var name=t["name"];
+				htmlThead+='<td>'+name+'</td>';
+				htmlIncome+='<td>'+income+'</td>';
+				htmlExpend+='<td>'+expend+'</td>';
+			}
 		}
 		$("#dealSumThead").html(htmlThead);
 		$("#income").html(htmlIncome);
@@ -202,15 +202,15 @@ DealSummary.prototype={
 		var expendHtml='';
 		for(var i in data){
 			var t=data[i];
-			console.log(t)
-			var dealIncome;
-			if(t){dealIncome=t["income"];}
-			console.log(dealIncome);
-			var dealExpend=t["expense"];
+			var dealIncome=t["income"];
+			var dealExpend=-t["expense"];
 			for( var j in t){
 				var a=t[j];
 				var income=a["income"];
 				var expense=a["expense"];
+				if(expense>0){
+					expense=-expense;
+				}
 				var name=a["name"];
 				htmlThead+='<td>'+name+'</td>';
 				incomeHtml+='<td>'+income+'</td>';
