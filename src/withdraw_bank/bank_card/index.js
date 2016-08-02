@@ -61,7 +61,7 @@ Checkor = {
     },
 //获取后端数据,大写的问号
     fetchdate:function(keyword){
-        Ajax
+    return 123;
     },
 //点击按钮关闭当前窗口
     Btnclose:function () {
@@ -99,7 +99,7 @@ Checkor = {
 
         }
     },
-    //删除银行卡
+    //删除银行卡,进行监听
     Listener:function(){
        var Delete = document.getElementsByClassName("delete")[0];
         var that = this;
