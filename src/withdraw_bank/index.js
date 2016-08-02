@@ -5,15 +5,14 @@
  */
 
 require("./index.scss")
-var s_Dialog = require("COMMON/modules/dialog-simple");
+var sDialog = require("COMMON/modules/dialog-simple");
 var Dialog = require("./bank-dialog");
 var Checkor = require("./bank_card");
 var BankManager = function(){
     this.bankListUl = $("#bankListUl");
 	this.addBankBtn = $("#addbk");
-	this.Dialog = new Dialog({Dialog:s_Dialog});
-	console.log(Checkor)
-	this.Checkor = new Checkor({Dialog:s_Dialog});
+	this.Dialog = new Dialog({Dialog:sDialog});
+	this.Checkor = new Checkor({Dialog:sDialog});
 	this.bindEvents();
 	this.Checkor.open();
 };

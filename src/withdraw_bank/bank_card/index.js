@@ -183,7 +183,7 @@ var BankCheckor = function(opt){
 BankCheckor.prototype = Mixin({
     init : function(opt){
         var that = this;
-        this.dialog = opt.Dialog({
+        this.dialog = new opt.Dialog({
             width : 750,
             content : tpl,
             drag : true,

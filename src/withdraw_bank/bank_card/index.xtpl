@@ -1,7 +1,8 @@
+<div class="bankCheckDialogContainer">
     <div class="checkor" id="checkor">
         <p class="Tx1">福建票付通信息科技有限公司给您配置的银行账号转发一笔随机金额的款项，请查询转账记录后输入金额进行校验</p>
         <p>输入验证金额：<input type="text"id="checkor_input" >元</p>
-         <p class="Tx2">为了安全起见，该验证金额输入错误将无法绑定该银行卡，请谨慎操作</p>
+        <p class="Tx2">为了安全起见，该验证金额输入错误将无法绑定该银行卡，请谨慎操作</p>
         <button id="check_Btn_test" class="check_Btn"  type="button" >验证</button>
     </div>
     <div class="checkor" id="ensure">
@@ -12,3 +13,4 @@
         <p class="Tx3">您输入的验证金额错误，平台无法绑定该银行卡！</p>
         <button id="check_Btn_sure2" class="check_Btn" type="button" >确定</button>
     </div>
+</div>
