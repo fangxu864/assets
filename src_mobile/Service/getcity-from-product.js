@@ -7,7 +7,7 @@ module.exports = function(opt){
 	opt = opt || {};
 	PFT.Util.Ajax(PFT.Api.fetchCityFromProduct(),{
 		params : {
-
+			action : "area_list"
 		},
 		loading : opt.loading,
 		complete : opt.complete,
@@ -16,7 +16,7 @@ module.exports = function(opt){
 			var code = res.code;
 			var area = res.area;
 			if(code==200){
-				success(area);
+				opt.success && opt.success(area);
 			}else{
 				if(opt.fail){
 					opt.fail(res);

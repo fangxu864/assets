@@ -31,7 +31,10 @@
                     <i class="iconfont checkbox selected">&#xe664;</i><i class="iconfont checkbox unselect">&#xe665;</i>
                 </div>
             </div>
-            <ul class="allcityUl"></ul>
+            <template v-if="cityStatus=='success'">
+                <ul class="allcityUl"></ul>
+            </template>
+            <template v-if=""></template>
         </div>
     </div>
 </template>
@@ -53,7 +56,9 @@
             return{
                 locationCity : "",
                 loationState : "",
-                keyword : ""
+                keyword : "",
+                cityStatus : "",
+                cityList : null
             }
         },
         ready(){
@@ -80,7 +85,9 @@
             },
             getCityList(){
                 FetchCityList({
-                    loading : function(){},
+                    loading : function(){
+
+                    },
                     complete : function(){},
                     success : function(res){
 
