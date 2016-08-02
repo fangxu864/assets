@@ -9,8 +9,8 @@ var plugins = require("../task-webpack/getPlugins")(env);
 var output = require("../task-webpack/getOutput")(env);
 var config = require("../task-webpack/config")({
 	entry : {
-		"pft.common.mb" : "./common/pft.common.mb.js",   //手机端使用
-		"pft.common.pc" : "./common/pft.common.pc.js"    //平台pc使用
+		"pft.common.mb" : "./common/pft.common.mb.js",   //use in mobile
+		"pft.common.pc" : "./common/pft.common.pc.js"    //use in pc
 	},
 	output : output,
 	plugins : plugins

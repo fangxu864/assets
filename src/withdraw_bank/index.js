@@ -11,17 +11,10 @@ var BankManager = function(){
     this.bankListUl = $("#bankListUl");
 	this.addBankBtn = $("#addbk");
 	this.Dialog = new Dialog();
+	this.Checkor = new Checkor();
 	this.bindEvents();
-	var checkF =function () {
-		var wid7 = document.getElementsByClassName("wid7")[0];
-		var e = document.createElement("a");
-		e.style.color = "#008EC1";
-		e.innerHTML = "| 验证";
-		e.className = "porve";
-		wid7.appendChild(e);
-	}
-	checkF();
-	}
+	this.Checkor.open();
+};
 // var addProve:function () {
 // 	var wid7 = document.getElementsByClassName("wid7")[0];
 // 	var e = document.createElement("a");

@@ -1,0 +1,59 @@
+%boxShadow{
+  box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -o-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+}
+@mixin searchBox_flex($padding:(top:7,bottom:7,left:30,right:30),$border:true,$shadow:true){
+    $pl : map-get($padding,left)+px;
+    $pr : map-get($padding,right)+px;
+    $pt : map-get($padding,top)+px;
+    $pb : map-get($padding,bottom)+px;
+    position:relative;
+    @if $border{
+        border:1px solid #dbdbdb;
+    }
+    @if $shadow{
+        @extend %boxShadow;
+    }
+    padding-left:$pl;
+    padding-right:$pr;
+    padding-top:$pt;
+    padding-bottom:$pb;
+    background:#fff;
+    input[type=text]{
+        display:block;
+        width:100%;
+        height:22px;
+        line-height:22px;
+        text-indent:0;
+        border:0 none;
+        background:#fff;
+    }
+    input[type=text]:focus{
+        color:$orange;
+    }
+    .iconfont.search{
+        position:absolute;
+        left:8px;
+        top:50%;
+        margin-top:-0.22rem;
+        font-size:0.44rem;
+        color:#bfbfbf;
+        line-height:1;
+    }
+    .clearBtn{
+        display:none;
+        position:absolute;
+        right:9px;
+        top:50%;
+        line-height:1;
+        margin-top:-0.22rem;
+    }
+    .clearBtn.show{ display:block}
+    .clearBtn .iconfont{
+        font-size:0.44rem;
+        color:#91918f;
+    }
+}

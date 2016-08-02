@@ -3,16 +3,9 @@
  */
 // require("bank_card.html");
 require("./index.scss");
-var tpl=require("./index.xtpl");
-var Dialogs = require("COMMON/modules/dialog-simple");
-var tpl2=require("./checkor_improve.xtpl");
-/**
- module.exports = Bank;/**
- * Created by Administrator on 2016/7/27.
- */
-
-var Checkor ;
-Checkor = {
+var tpl = require("./index.xtpl");
+var tpl2 = require("./checkor_improve.xtpl");
+var Checkor = {
     // 加载html文件
     checkor_click:function() {
         var checkorTpl=document.getElementById("checkorTpl");
@@ -42,7 +35,7 @@ Checkor = {
         var ensure = document.getElementById("ensure");
         var Fault = document.getElementById("Fault");
 
-        check_Btn_test.addEventListener("click", function () {
+        check_Btn_test.addEventListener("click", function() {
             var keyword = checkor_input.value;
             var callback_date = _this.fetchdate(keyword);
 
@@ -61,7 +54,7 @@ Checkor = {
     },
 //获取后端数据,大写的问号
     fetchdate:function(keyword){
-    return 123;
+
     },
 //点击按钮关闭当前窗口
     Btnclose:function () {
@@ -99,7 +92,7 @@ Checkor = {
 
         }
     },
-    //删除银行卡,进行监听
+    //删除银行卡
     Listener:function(){
        var Delete = document.getElementsByClassName("delete")[0];
         var that = this;
@@ -169,5 +162,56 @@ Checkor = {
     //
     // }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+var Mixin = require("COMMON/js/util.mix");
+var Pubsub = require("COMMON/js/util.pubsub");
+var BankCheckor = function(opt){
+    this.init(opt)
+};
+BankCheckor.prototype = Mixin({
+    init : function(opt){
+        var that = this;
+        this.dialog = opt.Dialog({
+            width : 750,
+            content : tpl,
+            drag : true,
+            speed : 100,
+            events : {
+                "click #bankDialog-submitBtn" : function(e){
+                    that.onSubmitBtnClick(e);
+                }
+            },
+            onReady : function(){
+
+            }
+        })
+    },
+    open : function(){
+        this.dialog.open({
+
+        })
+    }
+},Pubsub);
+
+
+
+
+
+
+
+
+
+
 
 module.exports = Checkor;
