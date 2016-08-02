@@ -58,6 +58,21 @@ DealSummary.prototype={
 	},
 	bindEvent:function(){
 		var that=this;
+		$("#leftBtn").css({"color":"#00597b"});
+		var count=0;
+		$("#rightBtn").on("click",function(e){
+			count+=1;
+			var marginLeftValue=count*930;
+			console.log(count)
+			$("#dealSumTable").animate({marginLeft:-marginLeftValue},"slow");
+			$("#leftBtn").css({"color":"#fff"});
+			//$("#rightBtn").css({"color":"#00597b"});
+		});
+		$("#leftBtn").on("click",function(e){
+			$("#dealSumTable").animate({marginLeft:'0px'},"slow")
+			$("#leftBtn").css({"color":"#00597b"});
+			$("#rightBtn").css({"color":"#fff"});
+		})
 		this.queryBtn.on("click",function(e){
 			var tarBtn=$(e.currentTarget);
 			if(tarBtn.hasClass("disable")) return false;
@@ -98,6 +113,13 @@ DealSummary.prototype={
 			var tarBtn=$(e.currentTarget);
 			if(tarBtn.hasClass("disable")) return false;
 			$("#sumDetailTable").toggle();
+			var search_type;
+			if($("#dealAccount:checked").length){
+				search_type=0;
+			}else{
+				search_type=1;
+			}
+			that.getListDetail(search_type);
 		})
 	},
 	getListForTradeRecord :function(search_type){
@@ -126,14 +148,26 @@ DealSummary.prototype={
 	},
 	renderTotal:function(data){
 		var that=this;
+		var htmlThead='<td style="width:24px;">dfdf</td>';
+		var htmlIncome='<td class="incomeText">收入</td>';
+		var htmlExpend='<td class="expendText">支出</td>';
 		var total=data.total;
-		for(var i in total){
-			var t=total[i];
-			var totalIncome=t["totalIncome"];
-			var totalExpense=t["totalExpense"];
-		}
+		var totalIncome=total["totalIncome"];
+		var totalExpense=total["totalExpense"];
 		that.totalIncome.text(totalIncome);
 		that.totalExpend.text(totalExpense);
+		for( var i in data){
+			var t=data[i];
+			var income=t["income"];
+			var expend=t["expense"];
+			var name=t["name"];
+			htmlThead+='<td>'+name+'</td>';
+			htmlIncome+='<td>'+income+'</td>';
+			htmlExpend+='<td>'+expend+'</td>';
+		}
+		$("#dealSumThead").html(htmlThead);
+		$("#income").html(htmlIncome);
+		$("#expend").html(htmlExpend);
 	},
 	getListDetail:function(search_type){
 		var that=this;
@@ -143,8 +177,7 @@ DealSummary.prototype={
 			params : {
 				btime : begintime,
 				etime : endtime,
-				search_type:search_type,
-				account_type:-1
+				search_type:search_type
 			},
 			loading:function(){},
 			complete:function(){},
@@ -152,13 +185,44 @@ DealSummary.prototype={
 				res=res||{};
 				var data=res.data;
 				if(res.code==200){
-					that.renderTotal(data);
+					that.renderDetail(data);
 				}
 				else{
 					alert(res.msg);
 				}
 			}
 		})
+	},
+	renderDetail:function(data){
+		var that=this;
+		var htmlThead='<td>日期</td><td>收入/支出</td>';
+		var htmlIncome='<td>2015-05-02</td>';
+		var htmlExpend='<td></td>';
+		var incomeHtml='';
+		var expendHtml='';
+		for(var i in data){
+			var t=data[i];
+			console.log(t)
+			var dealIncome;
+			if(t){dealIncome=t["income"];}
+			console.log(dealIncome);
+			var dealExpend=t["expense"];
+			for( var j in t){
+				var a=t[j];
+				var income=a["income"];
+				var expense=a["expense"];
+				var name=a["name"];
+				htmlThead+='<td>'+name+'</td>';
+				incomeHtml+='<td>'+income+'</td>';
+				expendHtml+='<td>'+expense+'</td>';
+			}
+
+			htmlIncome+='<td>'+dealIncome+'</td>'+incomeHtml;
+			htmlExpend+='<td>'+dealExpend+'</td>'+expendHtml;
+		}
+		$("#summaryThead").html(htmlThead);
+		$("#detailIncome").html(htmlIncome);
+		$("#detailExpend").html(htmlExpend);
 	},
 	formatDate:function(date) {
 		var myyear = date.getFullYear();
