@@ -63,7 +63,7 @@
     "membercard_list-release" : "set NODE_ENV=release && webpack --config ./src/membercard_list/webpack.config.js",
     "membercard_list-production" : "set NODE_ENV=production && webpack --config ./src/membercard_list/webpack.config.js",
 
-    "memcard_reg-start" : "set NODE_ENV=develop && webpack --config ./src/memcard_reg/webpack.config.js",
+    "memcard_reg-start" : "set NODE_ENV=develop && webpack --config ./src/memcard_reg/webpack.config.js -w",
     "memcard_reg-test" : "set NODE_ENV=test && webpack --config ./src/memcard_reg/webpack.config.js",
     "memcard_reg-release" : "set NODE_ENV=release && webpack --config ./src/memcard_reg/webpack.config.js",
     "memcard_reg-production" : "set NODE_ENV=production && webpack --config ./src/memcard_reg/webpack.config.js",

@@ -21,7 +21,7 @@ var p_c_a={
     province:"北京",
     city:"市辖区",
     area:"东城区",
-    province_city_area:function (id1,id2,id3) {
+    province_city_area:function (id1,id2,id3,fn) {
         var _pca=this;
         var provinceList = [
             {name:'北京', cityList:[
@@ -593,10 +593,12 @@ var p_c_a={
                             id:id3,
                             arr:areaArr,
                             callback:function (c) {
-                                var _area=c
+                                var _area=c;
                                 _pca.province=_province;
                                 _pca.city=_city;
                                 _pca.area=_area;
+                                if(fn)fn(_province,_city,_area);
+                                
                             }
                         })
 

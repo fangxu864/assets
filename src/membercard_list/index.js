@@ -4,6 +4,7 @@
 require("./index.scss")
 
 var Calendar=require("COMMON/modules/calendar");
+// var Pagination=require("COMMON/modules/pagination")
 //切换菜单
 var no_use_btn=document.getElementById("no_use_btn");//取“未使用”按钮
 var searchWrap=document.getElementById("searchWrap");
@@ -13,7 +14,6 @@ var no_use_table=document.getElementById("no_use_table");
 var nouse_tbody=no_use_table.getElementsByTagName("tbody")[0]
 var search_keyword_box=document.getElementById("search_keyword_box");
 var search_time_box=document.getElementById("search_time_box");
-
 
 
 /*日历部分*/
@@ -40,7 +40,6 @@ Date.prototype.Format = function (fmt) { //author: meizz
 }
 var today=new Date().Format("yyyy-MM-dd")
 
-
 var calendar = new Calendar();
 $("#start_time").on("click",function(e){
     calendar.show(today,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
@@ -66,67 +65,30 @@ $("#end_time").on("click",function(e){
 })
 
 
-
-
-
-
-
-
-
-// //日期表单
-// var oToday = new Date();
-// //弹出式日历
-// var oCal_6 = new Calendar({
-//     id: "#start_time",
-//     isPopup: !0,
-//     isPrevBtn: !0,
-//     isNextBtn: !0,
-//     isCloseBtn: !0,
-//     count: 1,
-//     monthStep: 1,
-//     isHoliday: 0,
-//     isHolidayTips: !0,
-//     isReadonly: !0,
-//     isDateInfo: !0,
-//     range: {mindate:  "2000-12-31", maxdate: oToday}
-// });
-// oCal_6.revise = {top:-1, left:0};
-// oCal_6.on("dateClick", function(obj) {
-//     this.selectDate = obj["data-date"];
-// });
-//
-// var oCal_7 = new Calendar({
-//     id: "#end_time",
-//     isPopup: !0,
-//     isPrevBtn: !0,
-//     isNextBtn: !0,
-//     isCloseBtn: !0,
-//     count: 1,
-//     monthStep: 1,
-//     isHoliday: 0,
-//     isHolidayTips: !0,
-//     isReadonly: !0,
-//     isDateInfo: !0,
-//     range: {mindate: "2000-12-31", maxdate: oToday}
-// });
-// oCal_7.revise = {top:-1, left:0};
-// oCal_7.on("dateClick", function(obj) {
-//     this.selectDate = obj["data-date"];
-// });
-
 //给前四个按钮添加点击事件，1.切换搜索框内容 2.改变table_four和no_use_table的display
+
 for(var i=0;i<stateLi.length;i++){
     stateLi[i].onclick=function(){
         no_use_btn.className="";
-        // searchWrap.innerHTML='<input type="text" class="formInp" name="" id="searchInp"/><a id="searchBtn" class="searchBtn" href="javascript:void(0)">搜 索</a><a id="daoBtn" style="background:#2A98DA" class="searchBtn" target="_blank" href="http://www.12301.cc/mcard_list.html?act=loadExcel">导 出</a>'+
-        //     '<i id="searchDeleteBtn" class="iconfont delete">&#xe674;</i>'
         search_keyword_box.style.display="block";
         search_time_box.style.display="none";
         table_four.style.display="table";
         no_use_table.style.display="none";
+        /*改变导出按钮的href*/
+        var data_state=this.getAttribute("data-state");
+        var href="http://www.12301.cc/mcard_list.html?act=loadExcel&status="+data_state;
+
+        $("#daoBtn").attr("href",href);
+
+        // console.log( $("#daoBtn").attr("href"));
+
+
     }
 }
 no_use_btn.onclick=function () {
+
+
+
     table_four.style.display="none";
     no_use_table.style.display="table";
     search_keyword_box.style.display="none";
@@ -178,6 +140,16 @@ no_use_btn.onclick=function () {
                 //请求出错处理
             }
         });
+
+        /*改变导出按钮的href*/
+
+        var href="http://www.12301.cc/mcard_list.html?act=loadExcel&status=4&begin="+start_time+"&end="+end_time;
+
+        $("#daoBtn1").attr("href",href);
+
+        // console.log( $("#daoBtn1").attr("href"));
+
+
     }
     search.onclick();
 
@@ -186,6 +158,22 @@ no_use_btn.onclick=function () {
 
 //ajax数据处理函数
 function dealData(req){
+    // var totalpage=req.totalpage;
+    // var page=req.page;
+    // var pageSize=req.pageSize;
+    // if(totalpage>1){
+    //     var p=new Pagination({
+    //         "id":"pagination_container",//分页器盒子的容器
+    //         "data_total_num":pageSize*totalpage,//数据总数量
+    //         "per_page_num":pageSize,//每页显示的数据条数
+    //         "present_page":page,//当前页数
+    //         "callBack":function (present_page) {
+    //             alert(present_page);
+    //         }
+    //     })
+    // }
+
+
     var con='';//定义存储内容的变量
     var arrSet=req.list;//定义返回的数组集；
 
