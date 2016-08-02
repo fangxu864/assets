@@ -10,5 +10,3 @@ PFT["Util"]["Browser"] = require("./js/util.browser");
 PFT["Util"]["STip"] = require("./js/util.simple.tip");
 var PageBase = require("./pft.common.pc.base");
 $(function(){ PageBase.init(); })
-
-

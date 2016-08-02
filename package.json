@@ -56,6 +56,11 @@
     "mobile-release": "set NODE_ENV=release && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-production": "set NODE_ENV=production && webpack --config ./src_mobile/webpack-task/webpack.config.js",
 
+    "yx-storage-normal-start": "set NODE_ENV=develop && webpack --config ./src/yx_storage_normal/webpack.config.js",
+    "yx-storage-normal-test": "set NODE_ENV=test && webpack --config ./src/yx_storage_normal/webpack.config.js",
+    "yx-storage-normal-release": "set NODE_ENV=release && webpack --config ./src/yx_storage_normal/webpack.config.js",
+    "yx-storage-normal-production": "set NODE_ENV=production && webpack --config ./src/yx_storage_normal/webpack.config.js",
+
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",

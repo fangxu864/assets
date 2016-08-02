@@ -23,6 +23,9 @@ module.exports = function(PFT){
 	var Config = PFT["Config"] || (PFT["Config"] = {});
 	Config["Api"] = require("./js/config.api");
 
+	PFT["Api"] = require("./Api/api.base");
+
+
 	PFT["AJAX_ERROR_TEXT"] = "请求出错，请稍后重试";
 	PFT["AJAX_TIMEOUT_TEXT"] = "请求超时，请稍后重试";
 

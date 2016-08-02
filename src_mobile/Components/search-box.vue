@@ -1,6 +1,10 @@
 <template>
     <div class="searchBox">
-        <input :autofocus="isFocus" autocomplete="off" class="searchInp" type="text" v-model="value" :placeholder="placeholder">
+        <input autocomplete="off" class="searchInp" type="text"
+               v-model="value"
+               :autofocus="isFocus"
+               :placeholder="placeholder"
+               :debounce="debounce" />
         <i class="iconfont search icon-search"></i>
         <i class="iconfont loading"></i>
         <div @click="onClearBtnClick" class="clearBtn" :class="{'show':clearBtnShow}"><i class="iconfont clear icon-shanchu2"></i></div>
@@ -12,6 +16,10 @@
             placeholder : {
                 type : String,
                 default : "请输入搜索关键字"
+            },
+            debounce : {
+                type : Number,
+                default : 10
             }
         },
         data(){
@@ -22,6 +30,11 @@
         methods : {
             onClearBtnClick(e){
                 this.value = "";
+            }
+        },
+        watch : {
+            value(){
+                this.$dispatch("keyword-change",this.value)
             }
         },
         computed : {

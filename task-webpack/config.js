@@ -78,6 +78,7 @@ module.exports = function(opt){
 				COMMON_VUE_COMPONENTS : path.resolve("./src_mobile/Components"),
 				COMMON_VUE_COMPONENTS_B : path.resolve("./src_mobile/B/Components"),
 				COMMON_VUE_COMPONENTS_C : path.resolve("./src_mobile/C/Components"),
+				SERVICE_M : path.resolve("./src_mobile/Service"),
 				NODE_MODULES : path.resolve("./node_modules")
 			}
 		},

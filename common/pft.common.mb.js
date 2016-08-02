@@ -10,3 +10,4 @@ PFT = require("./pft.common.base")(PFT);
 PFT["Toast"] = require("./modules/Toast");
 PFT["Util"]["SetFontSize"] = require("./js/util.wx.fontsize");
 PFT["Util"]["Platform"] = require("./js/util.platform.js");
+PFT["Api"] = require("./Api/api.mb")(PFT.Api);
