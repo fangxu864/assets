@@ -37,7 +37,7 @@
 </template>
 <script type="es6">
     let GeoLocation = require("COMMON/modules/geo-location");
-    let FetchCityList = require("SERVICE/getcity-from-product");
+    let FetchCityList = require("SERVICE_M/getcity-from-product.js");
     export default {
         props : {
             show : {

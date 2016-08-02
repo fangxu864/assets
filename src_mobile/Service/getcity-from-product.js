@@ -6,6 +6,9 @@
 module.exports = function(opt){
 	opt = opt || {};
 	PFT.Util.Ajax(PFT.Api.fetchCityFromProduct(),{
+		params : {
+
+		},
 		loading : opt.loading,
 		complete : opt.complete,
 		success : function(res){

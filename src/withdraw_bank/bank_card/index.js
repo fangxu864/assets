@@ -6,13 +6,7 @@ require("./index.scss");
 var tpl=require("./index.xtpl");
 var Dialogs = require("COMMON/modules/dialog-simple");
 var tpl2=require("./checkor_improve.xtpl");
-/**
- module.exports = Bank;/**
- * Created by Administrator on 2016/7/27.
- */
-
-var Checkor ;
-Checkor = {
+var Checkor = {
     // 加载html文件
     checkor_click:function() {
         var checkorTpl=document.getElementById("checkorTpl");
@@ -42,7 +36,7 @@ Checkor = {
         var ensure = document.getElementById("ensure");
         var Fault = document.getElementById("Fault");
 
-        check_Btn_test.addEventListener("click", function () {
+        check_Btn_test.addEventListener("click", function() {
             var keyword = checkor_input.value;
             var callback_date = _this.fetchdate(keyword);
 
@@ -61,7 +55,7 @@ Checkor = {
     },
 //获取后端数据,大写的问号
     fetchdate:function(keyword){
-        Ajax
+
     },
 //点击按钮关闭当前窗口
     Btnclose:function () {
