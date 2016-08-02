@@ -85,7 +85,7 @@ module.exports = function(opt){
 		devtool : "#source-map"
 	};
 
-	if(env=="local") config["watch"] = true;
+	// if(env=="local") config["watch"] = true;
 
 	return config;
 
