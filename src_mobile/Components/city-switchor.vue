@@ -34,7 +34,9 @@
             <template v-if="cityStatus=='success'">
                 <ul class="allcityUl"></ul>
             </template>
-            <template v-if=""></template>
+            <template v-if="cityStatus!=='success'">
+                <div class="cityStatus" v-text="cityStatusText"></div>
+            </template>
         </div>
     </div>
 </template>
@@ -58,6 +60,12 @@
                 loationState : "",
                 keyword : "",
                 cityStatus : "",
+                cityStatusText : {
+                    loading : "努力加载中...",
+                    complete : "请求完成...",
+                    empty : "暂无城市...",
+                    fail : "请求出错，请稍后重试..."
+                },
                 cityList : null
             }
         },
@@ -84,16 +92,27 @@
                 this.keyword = value;
             },
             getCityList(){
+                let that = this;
                 FetchCityList({
                     loading : function(){
-
+                        that.cityStatus = "loading";
+                        that.cityStatusText = "努力加载中...";
                     },
-                    complete : function(){},
+                    complete : function(){
+                        that.cityStatus = "complete";
+                        that.cityStatusText = "请求完成...";
+                    },
                     success : function(res){
-
+                        that.cityStatus = "success";
+                        that.cityStatusText = "请求成功...";
+                    },
+                    empty : function(res){
+                        that.cityStatus = "empty";
+                        that.cityStatusText = "暂无城市...";
                     },
                     fail : function(res){
-
+                        that.cityStatus = "fail";
+                        that.cityStatusText = res.msg || "请求出错，请稍后重试...";
                     }
                 })
             }
