@@ -196,7 +196,7 @@ DealSummary.prototype={
 	renderDetail:function(data){
 		var that=this;
 		var htmlThead='<td>日期</td><td>收入/支出</td>';
-		var htmlIncome='<td>2015-05-02</td>';
+		var htmlIncome='';
 		var htmlExpend='<td></td>';
 		var incomeHtml='';
 		var expendHtml='';
@@ -204,6 +204,7 @@ DealSummary.prototype={
 			var t=data[i];
 			var dealIncome=t["income"];
 			var dealExpend=-t["expense"];
+			var dealTime=t["time"];
 			for( var j in t){
 				var a=t[j];
 				var income=a["income"];
@@ -216,10 +217,10 @@ DealSummary.prototype={
 				incomeHtml+='<td>'+income+'</td>';
 				expendHtml+='<td>'+expense+'</td>';
 			}
-
-			htmlIncome+='<td>'+dealIncome+'</td>'+incomeHtml;
+			htmlIncome+='<td>'+dealTime+'</td><td>'+dealIncome+'</td>'+incomeHtml;
 			htmlExpend+='<td>'+dealExpend+'</td>'+expendHtml;
 		}
+
 		$("#summaryThead").html(htmlThead);
 		$("#detailIncome").html(htmlIncome);
 		$("#detailExpend").html(htmlExpend);
