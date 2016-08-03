@@ -31,7 +31,7 @@ var uploador = new Fileupload({
  	    id        : 1 ,                                       //必选 页面上可能有好几个文件上传组件同时存在，用来标显组件唯一id(数字)
  	    loading   :  function () { } ,                        //上传过程中的回调函数   可选 *
         complete  : function (data) {                         //上传结束后的回调函数   可选 建议后端返回的数据格式：{code:200,data:{src:"图片src地址"},msg:""}
-            console.log(data)
+            // console.log(data)
             var code = data.code;
             if(code==200){
                 $("#photo_src_hidden_input").val(data.data.src);

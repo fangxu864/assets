@@ -2,15 +2,16 @@
  * Created by Administrator on 2016/7/14.
  */
 /**
- var p=new Pagination({
- "id":"pagination_box",//分页器盒子的容器
- "data_total_num":10000,//数据总数量
- "per_page_num":8,//每页显示的数据条数
- "present_page":200,//当前页数
- "callBack":function (present_page) {
- alert(present_page);
- }
- })
+ * 分页器插件使用说明
+ *var p=new Pagination({
+ *"id":"pagination_box",                             //分页器盒子的容器
+ *"data_total_num":10000,                            //数据总数量
+ *"per_page_num":8,                                  //每页显示的数据条数
+ *"present_page":200,                                //当前页数
+ *"callBack":function (present_page) {               //用户点击按钮时的回调函数，参数为当前分页器的页码；
+ *alert(present_page);
+ *}
+ *})
  */
 var tpl = require("./index.xtpl");
 require("./index.scss");
@@ -63,25 +64,29 @@ Pagination.prototype={
         this.prev.onclick=function () {
             if(_this.present_page>=2){
                 _this.present_page--;
-                _this.updateYema(_this.present_page)
+                _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.next.onclick=function () {
             if(_this.present_page<_this.total_page_num){
                 _this.present_page++;
-                _this.updateYema(_this.present_page)
+                _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.first.onclick=function () {
             if(_this.present_page!=1){
                 _this.present_page=1;
                 _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.last.onclick=function () {
             if(_this.present_page!=_this.total_page_num){
                 _this.present_page=_this.total_page_num;
                 _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.go_btn.onclick=function () {
@@ -89,7 +94,8 @@ Pagination.prototype={
             if(num!=_this.present_page){
                 if(num>=1&&num<=_this.total_page_num){
                     _this.present_page=num
-                    _this.updateYema(_this.present_page)
+                    _this.updateYema(_this.present_page);
+                    _this.callBack(_this.present_page)
                 }
             }
         }
@@ -101,7 +107,8 @@ Pagination.prototype={
                     if(num!=_this.present_page){
                         if(num>=1&&num<=_this.total_page_num){
                             _this.present_page=num
-                            _this.updateYema(_this.present_page)
+                            _this.updateYema(_this.present_page);
+                            _this.callBack(_this.present_page)
                         }
                     }
                 }
@@ -182,10 +189,11 @@ Pagination.prototype={
         for(var j=0;j<arr_li.length;j++){
             arr_li[j].onclick=function () {
                 _this.present_page=parseInt(this.innerHTML);
-                _this.updateYema(_this.present_page)
+                _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
-        this.callBack(_this.present_page)
+        // _this.callBack(_this.present_page)
 
     },
 }

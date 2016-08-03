@@ -43,3 +43,29 @@
   top: 6px;
   right: -17px;
 }
+.no_use_tb_tr_fir_td_a_fade{
+  display:none;
+  font-size:14px;
+  bottom: 20px;
+  border-radius: 5px;
+  border: 2px solid #797979;
+  position:absolute;
+  background-color: black;
+  color: white;
+  width: auto;
+  padding:8px 6px;
+  word-break:keep-all;           /* 不换行 */
+  white-space:nowrap;          /* 不换行 */
+}
+.no_use_tb_tr_fir_td_a_fade:after{
+  content:"";
+  display:block;
+  position:absolute;
+  border-top:6px solid  #3c3c3c;      //
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+  bottom: -6px;
+  left:4px;
+
+
+}
