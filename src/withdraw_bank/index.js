@@ -65,7 +65,7 @@ BankManager.prototype = {
             })
 		})
 		//删除银行�?
-		this.bankListUl.on("click",".delete",function(e){
+		this.bankListUl.on("click","#ensure_bankcard_delete",function(e){
 		    that=e;
             var tarBtn = $(e.currentTarget);
 			Checkor.checkor_click();
@@ -83,34 +83,7 @@ BankManager.prototype = {
 			// // if(!confirm("确定要删除该银行卡？")) return false;
 			// var bankname = tarBtn.attr("bankname");
 			// that.deleteCard(bankname,tarBtn);
-		})
-        //验证银行卡
-		this.bankListUl.on("click",".porve",function(e){
-            // var tarBtn = $(e.currentTarget);
-            // var username = tarBtn.attr("username");
-            // var subBank_id = tarBtn.attr("code");
-            // var type = tarBtn.attr("type");
-            // var acc_type = tarBtn.attr("acc_type");
-            //     Dialog.open({
-            //         mode: "edit",
-            //         subBank_id : subBank_id,
-            //         card_number: card_number,
-            //         account_name: username,
-            //         type: type,
-            //         card_type: acc_type
-            //     })
-            Checkor.checkor_click();
-            Checkor.Open_checkor();
-            Checkor.openDialog();
-            Checkor.fetchdate();
-            Checkor.Btnclose();
-		})
-		// this.bankListUl.on("click",".prove",function(){
-		// 	Checkor.openDialog();
-		// 	Checkor.fetchdate();
-		// 	Checkor.Btnclose();
-		// }
-
+		}),
 		this.Dialog.on("submit",function(data){
 			var submitBtn = data.submitBtn;
 			var submitData = data.submitData;

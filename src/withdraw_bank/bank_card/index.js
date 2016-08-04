@@ -4,7 +4,7 @@
 // require("bank_card.html");
 require("./index.scss");
 var tpl = require("./index.xtpl");
-// var tpl2 = require("./checkor_improve.xtpl");
+var tpl2 = require("./checkor_improve.xtpl");
 // var Checkor = {
 //     // 加载html文件
 //     checkor_click:function() {
@@ -26,36 +26,56 @@ var tpl = require("./index.xtpl");
 //         // })
 //       },
 // // 判断输入金额是否相同，从而做出处理
-//     openDialog:function() {
-//         var shell = document.getElementById("shell");
-//         var _this =this;
-//         var checkor = document.getElementById("checkor");
-//         var checkor_input = document.getElementById("checkor_input");
-//         var check_Btn_test = document.getElementById("check_Btn_test");
-//         var ensure = document.getElementById("ensure");
-//         var Fault = document.getElementById("Fault");
-//
-//         check_Btn_test.addEventListener("click", function() {
-//             var keyword = checkor_input.value;
-//             var callback_date = _this.fetchdate(keyword);
-//
-//             if (callback_date==keyword)
-//             {
-//                 ensure.style.display = "block"
-//
-//             }
-//             else
-//             {
-//                 Fault.style.display = "block"
-//
-//             }
-//             checkor_input.value =""
-//         }, false)
-//     },
-// //获取后端数据,大写的问号
-//     fetchdate:function(keyword){
-//
-//     },
+    function openCheckor() {
+
+
+        var _this =this;
+        var checkor = document.getElementById("bankCheckDialogContainer");
+        var enSure = document.getElementsByClassName("bankCheckorEnsure")[0];
+        var bankP =document.getElementById("bankCheckor_input");
+        var check_Btn_test= document.getElementById("check_Btn_test");
+        var Fault = document.getElementsByClassName("bankCheckorFault")[0];
+        var bankCheckorOk =checkor.getElementsByClassName("bankCheckorOk")[0];
+
+        // var checkor_input = document.getElementById("checkor_input");
+        // var Fault = document.getElementById("Fault");
+        var keyword = bankP.value;
+        var callback_date =fetchDate(keyword);
+        check_Btn_test.onclick=function () {
+            if (callback_date==keyword)
+            {
+                enSure.style.display = "none"
+                bankCheckorOk.style.display = "block";
+
+            }
+            else
+            {
+                enSure.style.display = "none"
+                Fault.style.display = "block"
+
+
+            }
+            bankP.value =""
+        }
+
+    }
+// //获取后端数据
+    function fetchDate(keyword) {
+            return 123;
+        // $.ajax({
+        //     type:"post",
+        //     dataType:"json",
+        //     data:{val1:keyword},
+        //     url:"data.ashx",
+        //     success:function (data) {
+        //           var  callBack =data.value;
+        //             return callback;
+        //     },
+        //     error:function (msg) {
+        //         alert
+        //     }
+        // });
+    }
 // //点击按钮关闭当前窗口
 //     Btnclose:function () {
 //            //    var BTn = document.getElementsByTagName("button");
@@ -108,12 +128,14 @@ var tpl = require("./index.xtpl");
 //
 //     },
 //     //为对象增加关闭窗口的功能
-//     Hiddiv:function(e){
-//         e.addEventListener("click",function(){
-//             var Parent =Btn_delete.parentNode;
-//             Parent.style.display = "none";
-//         },false)
-//     },
+//     function hideWindows(e) {
+//         var Parent =e.parentNode;
+//         Parent.style.display = "none";
+        //   e.addEventListener("click",function(){
+        //     var Parent =e.parentNode;
+        //     Parent.style.display = "none";
+        // },false)
+    // }
 //
 // //点击验证打开验证窗口
 //     Open_checkor:function () {
@@ -122,7 +144,7 @@ var tpl = require("./index.xtpl");
 //
 //
 //     //银行卡增加遮罩层
-//     Shell : function(obj){
+//     function Shell(obj){
 //         var e=document.createElement("div");
 //         e.style.height =obj.offsetHeight+"px";
 //         e.style.width = obj.offsetWidth+"px";
@@ -162,35 +184,45 @@ var tpl = require("./index.xtpl");
 //     //
 //     // }
 // }
-
-
-
-
-
-
-
-
-
-
-
+function closeContain() {
+    var gSimpleDialog =document.getElementById("gSimpleDialog-mask");
+    var bankCheckDialogContainer = document.getElementById("bankCheckDialogContainer");
+    bankCheckDialogContainer.style.display = "none";
+    gSimpleDialog.style.display = "none";
+}
 
 var Mixin = require("COMMON/js/util.mix");
 var Pubsub = require("COMMON/js/util.pubsub");
 var BankCheckor = function(opt){
-    console.log(opt)
     this.init(opt)
 };
 BankCheckor.prototype = Mixin({
     init : function(opt){
         var that = this;
         this.dialog = new opt.Dialog({
-            width : 750,
+            width : 600,
             content : tpl,
             drag : true,
             speed : 100,
             events : {
-                "click #bankDialog-submitBtn" : function(e){
+               "click #bankDialog-submitBtn" : function(e){
                     that.onSubmitBtnClick(e);
+                },
+                "click #check_Btn_test":function(){
+                        openCheckor();
+
+                },
+                "click #check_Btn_sure1":function () {
+                    closeContain();
+                  },
+                "click #check_Btn_sure2":function () {
+                    closeContain();
+                },
+                "click #ensure_bankcard_delete":function () {
+                    closeContain();
+                },
+                "click #cancel_deBankC_Btn":function () {
+                    closeContain();
                 }
             },
             onReady : function(){
