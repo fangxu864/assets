@@ -48,6 +48,11 @@ var Validate = {
 	typeEe : function(value){
 		return /^[a-zA-Z]+$/g.test(value);
 	},
+	typeChina : function(string){
+		var reg = /[^\u0000-\u00FF]/;
+		if(!reg.test(string)) return false;
+		return true;
+	},
 	//数字
 	typeNum: function( value ){
 		return !isNaN( value );

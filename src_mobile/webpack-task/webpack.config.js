@@ -11,7 +11,7 @@ var output = require("../../task-webpack/getOutput")(env);
 var ROOT_URL = "./src_mobile";
 var config = require("../../task-webpack/config")({
 	entry : {
-		"mb.index" : path.resolve(ROOT_URL,"B/index/index.es6")
+		"mb.index.c" : path.resolve(ROOT_URL,"C/index/index.es6")
 	},
 	output : output,
 	plugins : plugins

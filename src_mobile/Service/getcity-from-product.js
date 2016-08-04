@@ -1,18 +1,12 @@
 /**
  * Author: huangzhiyang
  * Date: 2016/8/2 14:59
- * Description: ""
+ * Description: 获取这个帐号所有有产品的城市列表
  */
-var _isEmpty = function(obj){
-	var _isEmpty = true;
-	for(var i in obj){
-		_isEmpty = false;
-		break;
-	}
-	return _isEmpty;
-};
 module.exports = function(opt){
-	opt = opt || {};
+
+	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
+
 	PFT.Util.Ajax(PFT.Api.fetchCityFromProduct(),{
 		params : {
 			action : "area_list"
@@ -23,18 +17,19 @@ module.exports = function(opt){
 			res = res || {};
 			var code = res.code;
 			var areas = res.areas;
+			//areas = {
+			//	f : [{
+			//		a: "h", id: 1100, hanzi: "和平区", pinyin: "hepingqu", shouzimu: "hpq"
+			//	}]
+			//};
 			if(code==200){
-				if(!_isEmpty(areas)){
-					opt.success && opt.success(areas);
+				if(!PFT.Util.isEmptyObject(areas)){
+					opt.success(res);
 				}else{
-					opt.empty && opt.empty(areas);
+					opt.empty(res);
 				}
 			}else{
-				if(opt.fail){
-					opt.fail(res);
-				}else{
-					alert(res.msg || PFT.AJAX_ERROR_TEXT);
-				}
+				opt.fail(res);
 			}
 		}
 	})

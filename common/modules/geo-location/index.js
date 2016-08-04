@@ -3,10 +3,10 @@
  * Date: 2016/7/29 18:21
  * Description: ""
  */
-var Mix = require("COMMON/js/util.mix.js");
+var Mixin = require("COMMON/js/util.mixin.js");
 var Pubsub = require("COMMON/js/util.pubsub.js");
 var LoadScript = require("COMMON/js/util.loadScript");
-var Location = Mix({
+var Location = Mixin({
 
 	//百度地度ak key
 	BAIDU_MAP_KEY : "485641E293ABd3523de065f7c1bbfeba",
