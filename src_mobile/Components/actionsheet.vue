@@ -1,5 +1,6 @@
 <template>
-    <div class="ui-actionsheetContainer" :class="{'show':show}" :style="{zIndex:zIndex}">
+    <div class="ui-actionSheetMask" :class="{'show':show}" :style="{zIndex:zIndex}"></div>
+    <div class="ui-actionsheetContainer" :class="{'show':show}" :style="{zIndex:zIndex+1}">
         <div :style="{height:height}" class="slideBox">
             <slot name="content"></slot>
         </div>
@@ -25,8 +26,8 @@
     }
 </script>
 <style lang="sass">
+    @import "COMMON/css/base/mixin/keyframes";
     .ui-actionsheetContainer{
-        display:none;
         position:fixed;
         top:0;
         bottom:0;
@@ -42,7 +43,20 @@
         bottom:0;
         background:#fff;
     }
-    @mixin slideDown{
-
+    @include keyframes(slideDown){
+        from{
+            -webkit-transform : translateY(0)
+        }
+        to{
+            -webkit-transform : translateY(-100%)
+        }
+    }
+    @include keyframes(slideUp){
+        from{
+            -webkit-transform : translateY(-100%)
+        }
+        to{
+            -webkit-transform : translateY(0)
+        }
     }
 </style>

@@ -11,7 +11,7 @@
             </fix-header>
         </div>
         <div id="bodyMainCon" class="bodyMainCon">
-            <slider :init-height="slideInitHeight"></slider>
+            <!--<slider :init-height="slideInitHeight"></slider>-->
             <!--<ptype-list></ptype-list>-->
             <!--<product-list :area="area"></product-list>-->
             <!--<page-footer></page-footer>-->
@@ -23,6 +23,7 @@
                 <!--v-on:switch="onCitySwitch"-->
                 <!--v-on:close="citySwitchorShow=false">-->
         <!--</city-switchor>-->
+        <actionsheet></actionsheet>
     </div>
 </template>
 
@@ -56,6 +57,7 @@
             pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue"),
             login : require("COMMON_VUE_COMPONENTS_B/login.vue"),
             citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor.vue"),
+            actionsheet : require("COMMON_VUE_COMPONENTS/actionsheet.vue"),
             slider : require("COMMON_VUE_COMPONENTS/slider.vue"),
             ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list.vue")
         }

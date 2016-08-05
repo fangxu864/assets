@@ -15,7 +15,7 @@ module.exports = function(src,opt){
 
 	img.src = src;
 
-	if(img.complete) opt.success(src,img);
+	if(img.complete) return opt.success(src,img);
 
 	img.onload = function(){
 		opt.complete(src,img);

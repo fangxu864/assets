@@ -9,12 +9,12 @@
         <template v-if="state=='fail'">
             <div class="fail state">请求用户配置的banner信息出错</div>
         </template>
-        <template v-if="state==success && bannerCount>1">
+        <template v-if="state=='success' && bannerCount==1">
             <div class="bannerCon">
                 <a class="onlyOneBanner" :href="banner[0]['link']"><img :src="banner[0]['src']" alt=""/></a>
             </div>
         </template>
-        <template v-if="state==success && bannerCount==1">
+        <template v-if="state=='success' && bannerCount>1">
             <div id="bannerCon" class="bannerCon">
             </div>
         </template>
@@ -64,117 +64,52 @@
                         var iH = img.height;
                         var sW = $(window).width();
                         var sH = parseInt((sW*iH)/iW);
-                        console.log(sH)
                         $("#bannerWrap").height(sH);
                         this.state = "success";
                         this.banner = banner;
                         this.height = sH;
+                        setTimeout(()=>{
+                            if(banner.length>1) this.setupSlider(banner);
+                        },50)
                     },
                     error : (src,img) => {
                         this.state = "fail";
                     }
                 })
             },
-            initBanner : function(){
-                var that = this;
-                var container = $("#bannerCon");
-                $("#bannerCon").html('<div style="width:100%; height:100%; line-height:140px; text-align:center;">正在加载图片，请稍后...</div>');
-                this.getBannerSource(function(source){
-                    var len = source.length;
-                    if(source!=="error"){
-                        if(len>1){
-                            that.setupSlider(source);
-                        }else{
-                            var src = source[0] ? source[0]["src"] : PFT_MALL.errorImg;
-                            var link = source[0] ? source[0]["link"] : "javascript:void(0)";
-                            if(!link) link = "javascript:void(0)";
-                            PFT.Help.LoadImage(container,src,{
-                                success : function(container,src,img){
-                                    var iW = img.width;
-                                    var iH = img.height;
-                                    var sW = $(window).width();
-                                    var sH = parseInt((sW*iH)/iW);
-                                    $("#bannerWrap").height(sH);
-                                    $("#bannerCon").html('<a style="display:block; width:100%; height:100%;" href="'+link+'"><img style="width:100%" src="'+src+'" alt=""/></a>')
-                                }
-                            })
-                        }
-                    }else{ //如果请求"wx/api/index.php?c=Mall_Common&a=getMallConfig"这个接口时服务器发生错误
-                        $("#bannerCon").html('<div style="width:100%; height:100%; line-height:140px; text-align:center;">请求出错..</div>')
-                    }
-                });
-            },
             setupSlider : function(source){
-                var that = this;
-                if(!source || Object.prototype.toString.call(source)!=="[object Array]") return false;
-                source = this.filterSlideSource(source);
                 var list = [];
                 for(var i in source){
                     var link = source[i]["link"] || "javascript:void(0)";
                     var src = source[i]["src"];
                     var item = '<div class="slideItem"><a href="'+link+'"><img src="'+src+'" alt=""/></a></div>';
-                    list.push({content:item});
+                    list.push({content:item,type:"html"});
                 }
-                PFT.Help.LoadImage($("body"),source[0]["src"],{
-                    loading : function(){},
-                    removeLoading : function(){
-                        $("#bannerCon").html("");
-                        that.iSlider = new iSlider({
-                            data: list,
-                            dom: document.getElementById("bannerCon"),
-                            isAutoplay : true,
-                            isVertical : false,
-                            isLooping: true,
-                            animateType: 'default',
-                            plugins : ["dot"]
-                        });
-                        that.iSlider.on("slideChanged",function(index,item,r){})
-                    },
-                    success : function(container,src,img){
-                        var iW = img.width;
-                        var iH = img.height;
-                        var sW = $(window).width();
-                        var sH = parseInt((sW*iH)/iW);
-                        $("#bannerWrap").height(sH);
-                    },
-                    error : function(){
-                        PFT.Help.LoadImage($("body"),PFT_MALL.errorImg,{
-                            success : function(container,src,img){
-                                var iW = img.width;
-                                var iH = img.height;
-                                var sW = $(window).width();
-                                var sH = parseInt((sW*iH)/iW);
-                                $("#bannerWrap").height(sH);
-                            }
-                        })
-                    }
-                })
-            },
-            //获取用户设置好的banner图 异步
-            getBannerSource(callback){
-                var account = window.location.hostname.split(".")[0];
-                PFT_MALL.ShopConfig.getBanner(function(banners){
-                    var result = [];
-                    if(Object.prototype.toString.call(banners)=="[object Array]"){
-                        for(var i in banners){
-                            var banner = banners[i] || {};
-                            var json = {};
-                            for(var src in banner){
-                                json["src"] = src;
-                                result.push(json);
-                            }
-                        }
-                        callback(result);
-                    }else{ //banners == "error"
-                        callback("error");
-                    }
-                })
+                var slide = new iSlider({
+                    data: list,
+                    dom: document.getElementById("bannerCon"),
+                    isAutoplay : true,
+                    isVertical : false,
+                    isLooping: true,
+                    animateType: 'default',
+                    plugins : ["dot"]
+                });
+                slide.on("slideChanged",function(index,item,r){})
             }
         }
     }
 </script>
 <style lang="sass">
-    #slideContainer{ transition:height 0.2s; background:#fff;}
+    #slideContainer{ position:relative; transition:height 0.2s; background:#fff;}
     #slideContainer .state{ height:150px; line-height:150px; text-align:center; background:#fff}
     #slideContainer .state.loading .loadingIconImg{ width:0.6rem; vertical-align:middle; position:relative; top:-2px}
+    #slideContainer .bannerCon img{ width:100%}
+    #bannerCon{ width:100%; height:100%; position:relative; overflow:hidden}
+    #bannerCon .islider-outer{ height:100%; overflow:hidden}
+    #bannerCon .islider-html{ position: absolute; top:0; width:100%;height: 100%;overflow: hidden;display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;list-style: none;margin: 0;padding: 0; }
+    #bannerCon .slideItem{ display:block; width:100%; height:100%; font-size:0; overflow:hidden;}
+    #bannerCon .slideItem a{ display:block; vertical-align:middle; width:100%; height:100%; overflow:hidden; font-size:0;}
+    #bannerCon .slideItem img{ width:100%;}
+    #bannerCon .slideItem.loading img{ width:auto}
+    #slideContainer .islider-dot-wrap{ bottom:12px; z-index:2}
 </style>

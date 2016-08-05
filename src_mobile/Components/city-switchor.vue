@@ -261,15 +261,17 @@
 <style lang="sass">
     @import "COMMON/css/base/core/_px2rem.scss";
     $lineItemHeight : 1.25rem;
+    #citySwitchPage .gFixHeader{ position:absolute;}
+
     #citySwitchPage{
-        position:fixed; top:0; left:0; right:0; bottom:0; background:#dae1e4; overflow:auto;
+        position:fixed; top:0; bottom:0; left:0; right:0; background:#dae1e4; overflow:auto;
         -webkit-overflow-scrolling:touch;
         transform:translateX(100%);
         transition:transform 0.2s;
     }
     #citySwitchPage.show{ display:block; z-index:100; transform:translateX(0)}
-    #citySwitchPage .searchContainer{ position:fixed; top:px2rem(85); right:0; left:0; z-index:2; border-bottom:1px solid #dbdbdb}
-    #citySwitchPage .citySwitchMain{ margin-top:90px;}
+    #citySwitchPage .searchContainer{ position:absolute; top:px2rem(85); right:0; left:0; z-index:2; border-bottom:1px solid #dbdbdb}
+    #citySwitchPage .citySwitchMain{ position:absolute; top:90px; left:0; right:0; bottom:0; overflow:auto; -webkit-overflow-scrolling:touch}
     #citySwitchPage .lineItem{
         position:relative;
         padding:0 10px;
