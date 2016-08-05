@@ -1,6 +1,15 @@
 <template>
     <div :style="{height:height+'px'}" id="slideContainer" class="slideContainer">
         <div id="bannerCon" style="width:100%; height:100%; overflow:hidden;">
+            <template v-if="state==loading">
+                <div class="loading state">
+                    <img :src="loading_img_src" alt=""/>
+                    <span class="t">努力加载中，请稍后...</span>
+                </div>
+            </template>
+            <template v-if="state==fail">
+                <div class="fail state">请求用户配置的banner信息出错</div>
+            </template>
             <ul class="islider-outer">
                 <li class="islider-html islider-prev">
                     <div class="slideItem">
@@ -22,6 +31,7 @@
         },
         data(){
             return{
+                loading_img_src : PFT.LOADING_IMG_GIF,
                 height : this.initHeight,
                 state : "loading",
                 banner : []
@@ -38,6 +48,7 @@
             })
         },
         methods : {
+
             initBanner : function(){
                 var that = this;
                 var container = $("#bannerCon");

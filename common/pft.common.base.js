@@ -46,6 +46,7 @@ module.exports = function(PFT){
 	PFT["AJAX_TIMEOUT_TEXT"] = "请求超时，请稍后重试";
 	PFT["AJAX_LOADING_TEXT"] = "努力加载中，请稍后...";
 	PFT["AJAX_COMPLETE_TEXT"] = "请求完成";
+	PFT["LOADING_IMG_GIF"] = "http://static.12301.cc/assets/build/images/gloading.gif";
 
 	return PFT;
 
