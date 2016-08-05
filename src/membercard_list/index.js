@@ -75,7 +75,7 @@ for(var i=0;i<stateLi.length;i++){
         search_keyword_box.style.display="block";
         search_time_box.style.display="none";
         table_four.style.display="table";
-        $("#no_use_table").css("display");
+        $("#no_use_table").css("display","none");
         /*改变导出按钮的href*/
         var data_state=this.getAttribute("data-state");
 
