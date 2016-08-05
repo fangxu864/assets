@@ -1,39 +1,27 @@
 <template>
     <div :style="{height:height+'px'}" id="slideContainer" class="slideContainer">
-        <div id="bannerCon" style="width:100%; height:100%; overflow:hidden;">
-            <template v-if="state=='loading'">
-                <div class="loading state">
-                    <img class="loadingIconImg" :src="loading_img_src" alt=""/>
-                    <span class="t">努力加载中，请稍后...</span>
-                </div>
-            </template>
-            <template v-if="state=='fail'">
-                <div class="fail state">请求用户配置的banner信息出错</div>
-            </template>
-            <template v-if="state==success && bannerCount==1">
-                <li class="islider-html islider-prev">
-                    <div class="slideItem">
-                        <a :href="banner[0].link"><img v-lazyload="{src:banner[0].src}" alt=""/></a>
-                    </div>
-                </li>
-            </template>
-            <template v-if="state==success && bannerCount>1"></template>
-            <!--<ul class="islider-outer">-->
-                <!--<li class="islider-html islider-prev">-->
-                    <!--<div class="slideItem">-->
-                        <!--<a href="javascript:void(0)"><img src="http://images.12301.cc/123624/1451528585921.jpg" alt=""></a>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        </div>
+        <template v-if="state=='loading'">
+            <div class="loading state">
+                <img class="loadingIconImg" :src="loading_img_src" alt=""/>
+                <span class="t">努力加载中，请稍后...</span>
+            </div>
+        </template>
+        <template v-if="state=='fail'">
+            <div class="fail state">请求用户配置的banner信息出错</div>
+        </template>
+        <template v-if="state==success && bannerCount>1">
+            <div class="bannerCon">
+                <a class="onlyOneBanner" :href="banner[0]['link']"><img :src="banner[0]['src']" alt=""/></a>
+            </div>
+        </template>
+        <template v-if="state==success && bannerCount==1">
+            <div id="bannerCon" class="bannerCon">
+            </div>
+        </template>
     </div>
 </template>
 <script type="es6">
     let ImageLoader = require("COMMON/js/util.imageLoader");
-    import VueImageLazyload from "vue-image-lazyload";
-    Vue.use(VueImageLazyload, {
-        try: 1
-    })
     export default {
         props : {
             initHeight : {
@@ -43,10 +31,6 @@
         },
         data(){
             return{
-                lazyload : {
-                    loading : PFT.LOADING_IMG_GIF,
-                    error : PFT.DEFAULT_IMG
-                },
                 loading_img_src : PFT.LOADING_IMG_GIF,
                 height : this.initHeight,
                 state : "loading",
@@ -56,20 +40,41 @@
         ready(){
             //获取到用户自定义的店铺配置后
             PFT.CustomShopConfig.on("success",(res) => {
-                //console.log(res)
-                //this.state = "success";
-                //this.banner = res.data.banner;
+                this.loadFirstBannerImg(res.data.banner);
             })
             PFT.CustomShopConfig.on("fail",(res) => {
-                //this.state = "fail";
+                this.state = "fail";
             })
         },
         computed : {
             bannerCount(){
-                return this.banner.length
+                return this.banner.length;
             }
         },
         methods : {
+            //加载第一张banner
+            loadFirstBannerImg(banner){
+                var src = banner[0]["src"];
+                if(!src) src = PFT.DEFAULT_IMG;
+                ImageLoader(src,{
+                    loading : () => {},
+                    complete : () => {},
+                    success : (src,img) => {
+                        var iW = img.width;
+                        var iH = img.height;
+                        var sW = $(window).width();
+                        var sH = parseInt((sW*iH)/iW);
+                        console.log(sH)
+                        $("#bannerWrap").height(sH);
+                        this.state = "success";
+                        this.banner = banner;
+                        this.height = sH;
+                    },
+                    error : (src,img) => {
+                        this.state = "fail";
+                    }
+                })
+            },
             initBanner : function(){
                 var that = this;
                 var container = $("#bannerCon");
@@ -169,6 +174,7 @@
     }
 </script>
 <style lang="sass">
+    #slideContainer{ transition:height 0.2s; background:#fff;}
     #slideContainer .state{ height:150px; line-height:150px; text-align:center; background:#fff}
     #slideContainer .state.loading .loadingIconImg{ width:0.6rem; vertical-align:middle; position:relative; top:-2px}
 </style>
