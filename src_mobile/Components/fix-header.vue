@@ -22,5 +22,5 @@
     .gFixHeader .leftBtn,.gFixHeader .rightBtn{ display:block; position:absolute; top:0; bottom:0; width:50px; line-height:px2rem($height); color:#fff; text-align:center;}
     .gFixHeader .leftBtn{ left:0}
     .gFixHeader .rightBtn{ right:0}
-    .gFixHeader .fixHeaderTitle{ margin:0 50px; line-height:px2rem(85); overflow:hidden; text-align:center; color:#fff}
+    .gFixHeader .fixHeaderTitle{ margin:0 50px; line-height:px2rem(85); overflow:hidden; text-align:center; color:#fff; font-size:0.4rem; font-weight:normal}
 </style>

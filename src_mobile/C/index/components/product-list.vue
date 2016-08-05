@@ -21,7 +21,7 @@
                 <li class="status empty" style="height:150px; line-height:150px;">暂无产品...</li>
             </template>
             <template v-if="listFail">
-                <li class="status fail" style="height:150px; line-height:150px;">errorMsg</li>
+                <li class="status fail" v-text="errorMsg" style="height:150px; line-height:150px;"></li>
             </template>
         </ul>
     </div>
@@ -29,7 +29,7 @@
 
 <script type="es6">
     let GetProductHot = require("SERVICE_M/getproduct-hot-c");
-    export default {
+    export default{
         props: {
             area : {
                 type : String,

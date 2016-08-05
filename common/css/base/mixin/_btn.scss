@@ -39,3 +39,9 @@
     line-height:$height+px;
     @include btn($bgColor,$textColor,$radius);
 }
+
+@mixin btn-disable($background:#dedede,$color:#999){
+    background:$background;
+    color:$color;
+    cursor:default;
+}

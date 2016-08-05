@@ -1,0 +1,105 @@
+@import "COMMON/css/base/core/variables";
+@import "COMMON/css/base/mixin/opacity";
+@import "COMMON/css/base/mixin/btn";
+label{ font-weight:normal}
+#menuActionDialogMask{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    top:0;
+    z-index:2;
+    background:#000;
+    @include opacity(0.6)
+}
+#menuActionDialogContainer{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:50%;
+    width:720px;
+    height:100%;
+    overflow:hidden;
+    margin-left:-360px;
+    background:#fff;
+    z-index:3;
+}
+#menuActionDialogContainer .mcCon{
+    position:absolute;
+    top:90px;
+    left:0;
+    right:0;
+    bottom:90px;
+    overflow:auto;
+}
+#menuActionClaseBtn{
+    position:absolute;
+    top:18px;
+    right:25px;
+    font-size:30px;
+    color:#999;
+}
+#menuActionClaseBtn:hover{ color:#666}
+#menuActionDialogContainer .title{
+    padding:20px 30px 0 60px;
+    font-size:24px;
+    line-height:70px;
+    font-weight:normal;
+    margin:0;
+}
+#menuActionDialogContainer .line-list{
+    margin-bottom:0;
+}
+#menuActionDialogContainer .line-list .chead{
+    padding:0 30px 0 60px;
+    line-height:50px;
+    font-size:14px;
+    font-weight:bold;
+    background:#fafafa;
+    border-bottom:1px solid #e5e5e5;
+    border-top:1px solid #e5e5e5;
+}
+#menuActionDialogContainer .line-list .ccon{
+    position:relative;
+    overflow:hidden;
+    padding:0px 0px 20px 60px
+}
+#menuActionDialogContainer .line-list .actionBox{
+    display:block;
+    float:left;
+    width:140px;
+    overflow:hidden;
+    margin-right:5px;
+    margin-top:0;
+    margin-bottom:0;
+    padding:10px 0 0 0;
+}
+#menuActionDialogContainer .line-list .actionBox .radioInp{
+    position:relative;
+    top:-3px;
+    vertical-align:middle;
+}
+#menuActionDialogContainer .customSetLine{ position:relative; overflow:hidden; margin-top:10px}
+#menuActionDialogContainer .customSetLine .actionBox{ width:120px}
+#menuActionDialogContainer .customSetLine .tip{ color:#737373}
+#menuActionDialogContainer .customSetLine .customInp{ width:460px}
+#menuActionDialogContainer .footerBtnGroup{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:90px;
+    line-height:90px;
+    text-align:right;
+    border-top:1px solid #e5e5e5;
+}
+#menuActionDialogContainer .menuActionDialogBtn{
+    margin-right:50px;
+    @include btn-inline-block
+}
+#menuActionDialogContainer .menuActionDialogBtn.no{
+    @include btn-disable;
+    cursor:pointer;
+    color:#428bca;
+    margin-right:10px;
+}
