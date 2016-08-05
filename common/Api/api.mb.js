@@ -14,6 +14,10 @@ var Api_Mb = {
 	getptype : function(){
 		return Mall_Product("getTypeList");
 	},
+	//获取微商城自定义店铺配置
+	custom_shop_config : function(){
+		return Mall_Product("getCustomConfig");
+	},
 	//商微城C端接口
 	C : {
 		//获取热门推荐产品

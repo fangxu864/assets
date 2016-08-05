@@ -11,17 +11,18 @@
             </fix-header>
         </div>
         <div id="bodyMainCon" class="bodyMainCon">
-            <ptype-list></ptype-list>
-            <product-list :area="area"></product-list>
-            <page-footer></page-footer>
+            <slider :init-height="slideInitHeight"></slider>
+            <!--<ptype-list></ptype-list>-->
+            <!--<product-list :area="area"></product-list>-->
+            <!--<page-footer></page-footer>-->
         </div>
-        <login :z-index="loginZIndex" :show="loginShow"></login>
-        <city-switchor
-                :geo-location="GeoLocation"
-                :show="citySwitchorShow"
-                v-on:switch="onCitySwitch"
-                v-on:close="citySwitchorShow=false">
-        </city-switchor>
+        <!--<login :z-index="loginZIndex" :show="loginShow"></login>-->
+        <!--<city-switchor-->
+                <!--:geo-location="GeoLocation"-->
+                <!--:show="citySwitchorShow"-->
+                <!--v-on:switch="onCitySwitch"-->
+                <!--v-on:close="citySwitchorShow=false">-->
+        <!--</city-switchor>-->
     </div>
 </template>
 
@@ -31,6 +32,7 @@
         data(){
             return {
                 area : "全国",
+                slideInitHeight : 150,
                 GeoLocation : GeoLocation,
                 city : GeoLocation.getLastSwitchCity().city,
                 city_id : "",
@@ -54,6 +56,7 @@
             pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue"),
             login : require("COMMON_VUE_COMPONENTS_B/login.vue"),
             citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor.vue"),
+            slider : require("COMMON_VUE_COMPONENTS/slider.vue"),
             ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list.vue")
         }
     }

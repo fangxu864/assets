@@ -22,6 +22,7 @@ module.exports = function(PFT){
 	Util["Prefix"] = require("./js/util.prefix");
 	Util["BindScope"] = require("./js/util.bindscope");
 	Util["isEmptyObject"] = require("./js/util.isEmptyObject");
+	Util["ImgLoader"] = require("./js/util.imageLoader");
 	var Config = PFT["Config"] || (PFT["Config"] = {});
 	Config["Api"] = require("./js/config.api");
 	Config["Ajax"] = function(){
