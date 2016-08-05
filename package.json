@@ -58,12 +58,12 @@
     "mall-index-flex-release": "set NODE_ENV=release && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
     "mall-index-flex-production": "set NODE_ENV=production && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
 
-    "membercard_list-start" : "set NODE_ENV=develop && webpack --config ./src/membercard_list/webpack.config.js -w",
+    "membercard_list-start" : "set NODE_ENV=develop && webpack --config ./src/membercard_list/webpack.config.js ",
     "membercard_list-test" : "set NODE_ENV=test && webpack --config ./src/membercard_list/webpack.config.js",
     "membercard_list-release" : "set NODE_ENV=release && webpack --config ./src/membercard_list/webpack.config.js",
     "membercard_list-production" : "set NODE_ENV=production && webpack --config ./src/membercard_list/webpack.config.js",
 
-    "memcard_reg-start" : "set NODE_ENV=develop && webpack --config ./src/memcard_reg/webpack.config.js -w",
+    "memcard_reg-start" : "set NODE_ENV=develop && webpack --config ./src/memcard_reg/webpack.config.js ",
     "memcard_reg-test" : "set NODE_ENV=test && webpack --config ./src/memcard_reg/webpack.config.js",
     "memcard_reg-release" : "set NODE_ENV=release && webpack --config ./src/memcard_reg/webpack.config.js",
     "memcard_reg-production" : "set NODE_ENV=production && webpack --config ./src/memcard_reg/webpack.config.js",
@@ -71,7 +71,12 @@
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js ",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
-    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js"
+    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
+
+    "dealsummary-start" : "set NODE_ENV=develop && webpack --config ./src/deal_summary/webpack.config.js -w",
+    "dealsummary-test" : "set NODE_ENV=test && webpack --config ./src/deal_summary/webpack.config.js",
+    "dealsummary-release" : "set NODE_ENV=release && webpack --config ./src/deal_summary/webpack.config.js",
+    "dealsummary-production" : "set NODE_ENV=production && webpack --config ./src/deal_summary/webpack.config.js"
 
   },
   "repository": {
