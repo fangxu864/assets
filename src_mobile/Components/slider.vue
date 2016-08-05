@@ -1,27 +1,39 @@
 <template>
     <div :style="{height:height+'px'}" id="slideContainer" class="slideContainer">
         <div id="bannerCon" style="width:100%; height:100%; overflow:hidden;">
-            <template v-if="state==loading">
+            <template v-if="state=='loading'">
                 <div class="loading state">
-                    <img :src="loading_img_src" alt=""/>
+                    <img class="loadingIconImg" :src="loading_img_src" alt=""/>
                     <span class="t">努力加载中，请稍后...</span>
                 </div>
             </template>
-            <template v-if="state==fail">
+            <template v-if="state=='fail'">
                 <div class="fail state">请求用户配置的banner信息出错</div>
             </template>
-            <ul class="islider-outer">
+            <template v-if="state==success && bannerCount==1">
                 <li class="islider-html islider-prev">
                     <div class="slideItem">
-                        <a href="javascript:void(0)"><img src="http://images.12301.cc/123624/1451528585921.jpg" alt=""></a>
+                        <a :href="banner[0].link"><img v-lazyload="{src:banner[0].src}" alt=""/></a>
                     </div>
                 </li>
-            </ul>
+            </template>
+            <template v-if="state==success && bannerCount>1"></template>
+            <!--<ul class="islider-outer">-->
+                <!--<li class="islider-html islider-prev">-->
+                    <!--<div class="slideItem">-->
+                        <!--<a href="javascript:void(0)"><img src="http://images.12301.cc/123624/1451528585921.jpg" alt=""></a>-->
+                    <!--</div>-->
+                <!--</li>-->
+            <!--</ul>-->
         </div>
     </div>
 </template>
 <script type="es6">
     let ImageLoader = require("COMMON/js/util.imageLoader");
+    import VueImageLazyload from "vue-image-lazyload";
+    Vue.use(VueImageLazyload, {
+        try: 1
+    })
     export default {
         props : {
             initHeight : {
@@ -31,6 +43,10 @@
         },
         data(){
             return{
+                lazyload : {
+                    loading : PFT.LOADING_IMG_GIF,
+                    error : PFT.DEFAULT_IMG
+                },
                 loading_img_src : PFT.LOADING_IMG_GIF,
                 height : this.initHeight,
                 state : "loading",
@@ -40,15 +56,20 @@
         ready(){
             //获取到用户自定义的店铺配置后
             PFT.CustomShopConfig.on("success",(res) => {
-                this.state = "success";
-                this.banner = res.data.banner;
+                //console.log(res)
+                //this.state = "success";
+                //this.banner = res.data.banner;
             })
             PFT.CustomShopConfig.on("fail",(res) => {
-                this.state = "fail";
+                //this.state = "fail";
             })
         },
+        computed : {
+            bannerCount(){
+                return this.banner.length
+            }
+        },
         methods : {
-
             initBanner : function(){
                 var that = this;
                 var container = $("#bannerCon");
@@ -147,4 +168,7 @@
         }
     }
 </script>
-<style lang="sass"></style>
+<style lang="sass">
+    #slideContainer .state{ height:150px; line-height:150px; text-align:center; background:#fff}
+    #slideContainer .state.loading .loadingIconImg{ width:0.6rem; vertical-align:middle; position:relative; top:-2px}
+</style>

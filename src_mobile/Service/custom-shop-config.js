@@ -47,7 +47,20 @@ CustomShopConfig.prototype = PFT.Util.Mixin({
 				var data = res.data || {};
 				if(res.code==200){
 					that.__shopname__ = data.name;
-					that.__banner__ = data.banner;
+					//后端返回的banner格式很别扭，这边自己手动转一下
+					//[{http://images.12301.cc/123624/14514654753878.jpg:"http://123624.12301.cc/wx/mall/pdetail.html?lid=3843"}] =>
+					//[{src:"http://images.12301.cc/123624/14514654753878.jpg",link:"http://123624.12301.cc/wx/mall/pdetail.html?lid=3843"}]
+					var _banner = data.banner;
+					for(var i in _banner){
+						var b = _banner[i];
+						var bjson = {};
+						for(var s in b){
+							bjson["src"] = s;
+							bjson["link"] = b[s];
+						}
+						that.__banner__.push(bjson);
+					}
+					res.data.banner = that.__banner__;
 					opt.success(res);
 					that.fire("success",res);
 				}else{
