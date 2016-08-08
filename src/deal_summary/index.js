@@ -6,6 +6,7 @@
 require("./index.scss");
 // var PaginationSimple = require("COMMON/modules/pagination-simple");
 var Calendar = require("COMMON/modules/calendar");
+require("COMMON/modules/DragConOver")($);
 // var Loading = require("COMMON/js/util.loading.pc.js");
 // var DealSummary=function(){
 // 	this.now = new Date(); //当前日期
@@ -287,8 +288,6 @@ var DealSum={
 		this.query_btn=$("#queryBtn");
 		this.totalIncome_span=$("#totalIncome");
 		this.totalExpend_span=$("#totalExpend");
-
-
 		//日历部分
 		//扩展日期对象，新增格式化方法
 		Date.prototype.Format = function (fmt) { //author: meizz
@@ -349,6 +348,10 @@ var DealSum={
 		this.etime_inp.val(_this.today);
 		this.bind();
 		this.query_btn.click();
+		// 表格拖动部分
+		$("#tb_bottom").DragConOver({
+			direction:"x"
+		})
 	},
 	bind:function(){
 		var _this=this;
@@ -417,10 +420,12 @@ var DealSum={
 		})
 
 	},
+
 	dealData:function (req) {
 		this.totalIncome_span.text(req.data.total.totalIncome);
 		this.totalExpend_span.text(req.data.total.totalExpense);
 	}
+
 };
 
 $(function ($) {
