@@ -30,12 +30,17 @@
 <style lang="sass">
     @import "COMMON/css/base/mixin/animations/main";
     .ui-actionSheetMask{
+        display:block;
         position:fixed;
         top:0;
         bottom:0;
         left:0;
         right:0;
         background:rgba(0,0,0,0.7);
+        @include animation-name(fadeOut);
+        @include animation-duration(0.1s);
+        @include animation-fill-mode(forwards);
+        @include animation-delay(0.2s);
     }
     .ui-actionsheetContainer{
         position:fixed;
@@ -64,6 +69,22 @@
         }
         to{
             -webkit-transform : translateY(0)
+        }
+    }
+    @include keyframes(fadeIn){
+        from{
+            display:none;
+        }
+        to{
+            display:block;
+        }
+    }
+    @include keyframes(fadeOut){
+        from{
+            display:block;
+        }
+        to{
+            display:none
         }
     }
 </style>

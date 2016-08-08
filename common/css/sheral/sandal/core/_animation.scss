@@ -61,6 +61,12 @@
     -webkit-animation-play-state: $state;
     animation-play-state: $state;
 }
+@mixin animation-delay($time...){
+    -o-animation-delay: $time;
+    -moz-animation-delay: $time;
+    -webkit-animation-delay: $time;
+    animation-delay: $time;
+}
 @mixin animation($animation...) {
     -o-animation: $animation;
     -moz-animation: $animation;

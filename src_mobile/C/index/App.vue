@@ -23,12 +23,14 @@
                 <!--v-on:switch="onCitySwitch"-->
                 <!--v-on:close="citySwitchorShow=false">-->
         <!--</city-switchor>-->
+        <!--<actionsheet-core></actionsheet-core>-->
         <actionsheet></actionsheet>
     </div>
 </template>
 
 <script type="es6">
     let GeoLocation = require("COMMON/modules/geo-location");
+    import Actionsheet from "VUEX_COMPONENTS/actionsheet/index.vue";
     export default {
         data(){
             return {
@@ -39,7 +41,17 @@
                 city_id : "",
                 loginShow : false,
                 loginZIndex : 100,
-                citySwitchorShow : false
+                citySwitchorShow : false,
+                sheetVisible : true,
+                actions : [{
+                    name : "景区"
+                },{
+                    name : "酒店"
+                },{
+                    name : "线路"
+                },{
+                    name : "套票"
+                }]
             }
         },
         methods : {
@@ -57,9 +69,10 @@
             pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue"),
             login : require("COMMON_VUE_COMPONENTS_B/login.vue"),
             citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor.vue"),
-            actionsheet : require("COMMON_VUE_COMPONENTS/actionsheet.vue"),
+            actionsheetCore : require("COMMON_VUE_COMPONENTS/actionsheet-core.vue"),
             slider : require("COMMON_VUE_COMPONENTS/slider.vue"),
-            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list.vue")
+            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list.vue"),
+            actionsheet : Actionsheet
         }
     }
 </script>
