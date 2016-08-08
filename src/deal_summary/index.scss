@@ -1,12 +1,16 @@
 @import "COMMON/css/base/core";
+.dealsumContainer table{  border-collapse: collapse;border-spacing: 0;}
 .dealsumContainer{ border:1px solid #e5e5e5; background:white; overflow:hidden; position:relative;}
 .dealsumContainer .title{ line-height:56px; font-size:18px; font-weight:600; border-bottom:1px solid #e5e5e5; padding-left:18px;}
 .dealsumContainer .title .titleSum{ color:#0797d9; margin-left:10px;}
-.dealsumContainer .dealTimeBox{padding:12px 0 12px 18px; border-bottom:1px solid #e5e5e5; }
-.dealsumContainer .dealTimeBox .datePickerInp{@include textInp(200,3);}
+.dealsumContainer .dealTimeBox{    padding: 12px 0 12px 18px;  border-bottom: 1px solid #e5e5e5;  height: 34px;}
+.dealsumContainer .dealTimeBox .datePickerInp{@include textInp(200,5);}
 .dealsumContainer .dealTimeBox .dealTime{ margin-left:8px;}
+.calendar-pop-contaienr{width:212px !important;}
+.dealsumContainer .dealTimeBox .lt{float: left;}
+.dealsumContainer .dealTimeBox .rt{float: left;}
 
-.dealsumContainer .dealTypeBox{display:inline-block; height:30px;border:1px solid #e5e5e5;margin-left:44px; line-height:30px; padding-left:10px;}
+.dealsumContainer .dealTypeBox{display:inline-block; height:32px;border:1px solid #e5e5e5;margin-left:44px; line-height:30px; padding: 0 10px;}
 .dealsumContainer .dealTypeBox .radioBox{ margin-right:20px;}
 .dealsumContainer .dealTypeBox .radioDeal{ vertical-align:middle;}
 .dealsumContainer .queryBtn{@include btn-inline-block(87,28,#f60); font-size:14px; margin:-3px 0 0 8px;}
@@ -16,33 +20,56 @@
 .dealsumContainer .dealSumBox .totalIncome{ color:red; margin-right:32px;}
 .dealsumContainer .dealSumBox .totalExpend{ color:green;}
 
-.dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%;text-align:center;}
-.dealsumContainer .dealSumTable thead tr{ background:#00597b; color:white; line-height:32px; position:relative;}
-.dealsumContainer .dealSumTable td,.dealsumContainer .sumDetailTable td{ white-space:nowrap; padding:0 22px;}
-.dealsumContainer .income td{ padding-top:8px;}
-.dealsumContainer .expend td{ padding-bottom:8px;}
+.dealsumContainer .tb_top_box{width: 100%;overflow: hidden;border-bottom: 1px solid #e5e5e5;text-align: center;}
+.dealsumContainer .tb_top_box table thead {background-color:#00597b;height:32px;line-height: 32px;color: white; }
+.dealsumContainer .tb_top_box table thead th{padding: 5px 20px;}
+.dealsumContainer .tb_top_box table tbody tr.income{height: 50px;line-height: 50px; color: #ff4050;}
+.dealsumContainer .tb_top_box table tbody tr.expend{height: 50px;line-height: 50px;color: #8fc390;}
 
-.dealsumContainer .dealSumTable .dealSumList{ padding:8px 0;}
-.dealsumContainer .dealSumTable .dealSumList tr,.detailList tr{ line-height:30px; position:relative; z-index:5px;}
-.dealsumContainer .dealSumTable .dealSumList .income{ color:red; position:relative;}
-.dealsumContainer .dealSumTable .dealSumList .expend{ color:green; position:relative;}
-.dealsumContainer .dealSumTable .dealSumList .income td:first-of-type,.dealsumContainer .dealSumTable .dealSumList .expend td:first-of-type{ color:black;}
+.dealsumContainer .day_detail_box{height: 50px;width: 100%;overflow: hidden;padding-left: 18px;line-height: 50px;border-bottom: 1px solid #e5e5e5;font-size: 12px;}
+.dealsumContainer .day_detail_box .day_detail_btn{position: relative;font-size: 14px;color:#0797d9;cursor:pointer;}
+.dealsumContainer .day_detail_box .day_detail_btn:after{
+  content: "";
+  display: block;
+  position:absolute;
+  border-top: 10px solid #0797d9;
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  top: 5px;
+  right: -17px;
+}
 
-.dealsumContainer .summaryDetailLine{border-top:1px solid #e5e5e5;}
-.dealsumContainer .summaryDetailBtn{ font-size:14px; line-height:50px; padding-left:18px;}
-.dealsumContainer .sumDetailTable{ width:100%; display:none;}
-.dealsumContainer .sumDetailTable thead tr{ background:#e5e5e5; color:#6c7882;line-height:32px;}
-.dealsumContainer .detailList tr:nth-child(4n-1),.dealsumContainer .detailList tr:nth-child(4n){ background:#f5f5f5;}
-.dealsumContainer .detailList .income{ color:red;}
-.dealsumContainer .detailList .expend{ color:green;border-bottom:1px solid #e5e5e5;}
-.dealsumContainer .detailList .income td:nth-of-type(1){ color:black;}
+.dealsumContainer .tb_bottom_box{height: 200px;width: 100%;overflow: hidden;}
 
-.dealsumContainer .paginationContainer{ height:64px;}
 
-.dealsumContainer .btn{background:#00597b; display: inline-block; height: 32px;text-align: center; color: white; font-weight: bolder;text-decoration: none;cursor: pointer; line-height: 32px;}
-.dealsumContainer .leftBtn{ position: absolute; z-index: 99px; top:181px; left:0px; text-align: right; width:68px; text-align:right;}
-.dealsumContainer .rightBtn{ position: absolute; z-index: 99px; top:181px; right:0px;width:20px; }
-.dealsumContainer .incomeText,.expendText{ position: absolute; top:213px; left:0; z-index:99; display: inline-block; height:32px;text-align: center;color: black; background: white; line-height: 32px;}
-.dealsumContainer .expendText{top:248px; left:0;}
 
-.dealsumContainer .bgBlue{ width:3998px; height:32px; background:#00597b; position:absolute;top:181px; left:0px; z-index:-1;}
+//.dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%;text-align:center;}
+//.dealsumContainer .dealSumTable thead tr{ background:#00597b; color:white; line-height:32px; position:relative;}
+//.dealsumContainer .dealSumTable td,.dealsumContainer .sumDetailTable td{ white-space:nowrap; padding:0 22px;}
+//.dealsumContainer .income td{ padding-top:8px;}
+//.dealsumContainer .expend td{ padding-bottom:8px;}
+
+//.dealsumContainer .dealSumTable .dealSumList{ padding:8px 0;}
+//.dealsumContainer .dealSumTable .dealSumList tr,.detailList tr{ line-height:30px; position:relative; z-index:5px;}
+//.dealsumContainer .dealSumTable .dealSumList .income{ color:red; position:relative;}
+//.dealsumContainer .dealSumTable .dealSumList .expend{ color:green; position:relative;}
+//.dealsumContainer .dealSumTable .dealSumList .income td:first-of-type,.dealsumContainer .dealSumTable .dealSumList .expend td:first-of-type{ color:black;}
+//
+//.dealsumContainer .summaryDetailLine{border-top:1px solid #e5e5e5;}
+//.dealsumContainer .summaryDetailBtn{ font-size:14px; line-height:50px; padding-left:18px;}
+//.dealsumContainer .sumDetailTable{ width:100%; display:none;}
+//.dealsumContainer .sumDetailTable thead tr{ background:#e5e5e5; color:#6c7882;line-height:32px;}
+//.dealsumContainer .detailList tr:nth-child(4n-1),.dealsumContainer .detailList tr:nth-child(4n){ background:#f5f5f5;}
+//.dealsumContainer .detailList .income{ color:red;}
+//.dealsumContainer .detailList .expend{ color:green;border-bottom:1px solid #e5e5e5;}
+//.dealsumContainer .detailList .income td:nth-of-type(1){ color:black;}
+//
+//.dealsumContainer .paginationContainer{ height:64px;}
+//
+//.dealsumContainer .btn{background:#00597b; display: inline-block; height: 32px;text-align: center; color: white; font-weight: bolder;text-decoration: none;cursor: pointer; line-height: 32px;}
+//.dealsumContainer .leftBtn{ position: absolute; z-index: 99px; top:181px; left:0px; text-align: right; width:68px; text-align:right;}
+//.dealsumContainer .rightBtn{ position: absolute; z-index: 99px; top:181px; right:0px;width:20px; }
+//.dealsumContainer .incomeText,.expendText{ position: absolute; top:213px; left:0; z-index:99; display: inline-block; height:32px;text-align: center;color: black; background: white; line-height: 32px;}
+//.dealsumContainer .expendText{top:248px; left:0;}
+//
+//.dealsumContainer .bgBlue{ width:3998px; height:32px; background:#00597b; position:absolute;top:181px; left:0px; z-index:-1;}
