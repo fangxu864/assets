@@ -24,7 +24,7 @@
                 <!--v-on:close="citySwitchorShow=false">-->
         <!--</city-switchor>-->
         <!--<actionsheet-core></actionsheet-core>-->
-        <actionsheet></actionsheet>
+        <actionsheet :menus="actions" @on-click-menu="onActionsheetClick" :show.sync="sheetVisible" show-cancel :cancel-text="cancelText"></actionsheet>
     </div>
 </template>
 
@@ -43,15 +43,13 @@
                 loginZIndex : 100,
                 citySwitchorShow : false,
                 sheetVisible : true,
-                actions : [{
-                    name : "景区"
-                },{
-                    name : "酒店"
-                },{
-                    name : "线路"
-                },{
-                    name : "套票"
-                }]
+                actions : {
+                    "A" : "景区",
+                    "B" : "酒店",
+                    "C" : "线路",
+                    "D" : "演出"
+                },
+                cancelText : "取消"
             }
         },
         methods : {
@@ -61,6 +59,9 @@
                 this.city = city_name;
                 this.city_id = city_id;
                 this.citySwitchorShow = false;
+            },
+            onActionsheetClick : function(key){
+                console.log(key)
             }
         },
         components : {
