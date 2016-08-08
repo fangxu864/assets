@@ -1,12 +1,11 @@
 <template>
     <div class="ui-actionSheetMask" :class="{'show':show}" :style="{zIndex:zIndex}"></div>
-    <div class="ui-actionsheetContainer" :class="{'show':show}" :style="{zIndex:zIndex+1}">
-        <div :style="{height:height}" class="slideBox">
-            <slot name="content"></slot>
-        </div>
+    <div class="ui-actionsheetContainer" :class="{'show':show}" :style="{zIndex:zIndex+1,height:height}">
+        <slot name="content"></slot>
     </div>
 </template>
 <script type="es6">
+    import "COMMON/modules/AnimationInOut";
     export default{
         props : {
             zIndex : {
@@ -18,6 +17,9 @@
                 default : "50%"
             }
         },
+        ready(){
+
+        },
         data(){
             return{
                 show : false
@@ -26,8 +28,8 @@
     }
 </script>
 <style lang="sass">
-    @import "COMMON/css/base/mixin/keyframes";
-    .ui-actionsheetContainer{
+    @import "COMMON/css/base/mixin/animations/main";
+    .ui-actionSheetMask{
         position:fixed;
         top:0;
         bottom:0;
@@ -35,25 +37,30 @@
         right:0;
         background:rgba(0,0,0,0.7);
     }
-    .ui-actionsheetContainer.show{ display:block}
-    .ui-actionsheetContainer .slideBox{
+    .ui-actionsheetContainer{
         position:fixed;
         left:0;
         right:0;
         bottom:0;
         background:#fff;
+        @include animation-name(slideDown);
+        @include animation-duration(0.2s);
+        @include animation-fill-mode(forwards);
+    }
+    .ui-actionsheetContainer.show{
+        @include animation-name(slideUp);
     }
     @include keyframes(slideDown){
         from{
             -webkit-transform : translateY(0)
         }
         to{
-            -webkit-transform : translateY(-100%)
+            -webkit-transform : translateY(100%)
         }
     }
     @include keyframes(slideUp){
         from{
-            -webkit-transform : translateY(-100%)
+            -webkit-transform : translateY(100%)
         }
         to{
             -webkit-transform : translateY(0)
