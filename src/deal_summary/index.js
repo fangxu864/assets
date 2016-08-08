@@ -288,6 +288,9 @@ var DealSum={
 		this.query_btn=$("#queryBtn");
 		this.totalIncome_span=$("#totalIncome");
 		this.totalExpend_span=$("#totalExpend");
+		this.roll_left_btn=$(".roll_left");
+		this.roll_right_btn=$(".roll_right");
+		this.day_detail_btn=$("#day_detail_btn");
 		//日历部分
 		//扩展日期对象，新增格式化方法
 		Date.prototype.Format = function (fmt) { //author: meizz
@@ -349,12 +352,61 @@ var DealSum={
 		this.bind();
 		this.query_btn.click();
 		// 表格拖动部分
-		$("#tb_bottom").DragConOver({
-			direction:"x"
-		});
 		$("#tb_top").DragConOver({
-			direction:"x"
+			direction:"x",
+			callBack:function(dValue){
+				$("#tb_bottom").css("left",$("#tb_bottom").position().left+dValue.x+"px")
+			}
+		});
+		$("#tb_bottom").DragConOver({
+			direction:"x",
+			callBack:function(dValue){
+				$("#tb_top").css("left",$("#tb_top").position().left+dValue.x+"px")
+			}
+		});
+		//右侧点击滚动按钮
+		this.roll_right_btn.mousedown(function(){
+			clearTimeout(_this.timer)
+			_this.timer=setInterval(function () {
+				$("#tb_bottom").css("left",$("#tb_bottom").position().left-2+"px");
+				$("#tb_top").css("left",$("#tb_top").position().left-2+"px");
+				// _this.roll_left_btn.css("display","block");
+				//下面两个if的意思是不让表格向左移动出容器
+				if(Math.abs($("#tb_bottom").position().left)>Math.abs($("#tb_bottom").outerWidth()-$("#tb_bottom").offsetParent().innerWidth())||Math.abs($("#tb_top").position().left)>Math.abs($("#tb_top").outerWidth()-$("#tb_top").offsetParent().innerWidth())){
+					$("#tb_bottom").css("left",-Math.abs($("#tb_bottom").outerWidth()-$("#tb_bottom").offsetParent().innerWidth())+"px")
+					$("#tb_top").css("left",-Math.abs($("#tb_top").outerWidth()-$("#tb_top").offsetParent().innerWidth())+"px")
+					// _this.roll_left_btn.css("display","none");
+				}
+				if($("#tb_bottom").offsetParent().innerWidth()-$("#tb_bottom").innerWidth()>=0||$("#tb_top").offsetParent().innerWidth()-$("#tb_top").innerWidth()>=0){
+					$("#tb_bottom").css("left","0");
+					$("#tb_top").css("left","0");
+					// _this.roll_right_btn.css("display","none");
+				}
+			},1)
+		});
+		this.roll_right_btn.mouseup(function(){
+			clearTimeout(_this.timer)
+		});
+		//右侧点击滚动按钮
+		this.roll_left_btn.mousedown(function(){
+			clearTimeout(_this.timer)
+			_this.timer=setInterval(function(){
+				$("#tb_bottom").css("left",$("#tb_bottom").position().left+2+"px");
+				$("#tb_top").css("left",$("#tb_top").position().left+2+"px");
+				// _this.roll_right_btn.css("display","block");
+				//下面的if是意思是不让表格向右移动出容器、
+				if($("#tb_bottom").position().left>0||$("#tb_top").position().left>0){
+					$("#tb_bottom").css("left","0");
+					$("#tb_top").css("left","0");
+					// _this.roll_left_btn.css("display","none");
+				}
+			},1)
 		})
+		this.roll_left_btn.mouseup(function () {
+			clearTimeout(_this.timer)
+		})
+
+
 	},
 	bind:function(){
 		var _this=this;
@@ -387,7 +439,7 @@ var DealSum={
 					//请求前的处理
 				},
 				success: function(req) {
-					_this.dealData(req)
+					_this.dealDataTB1(req)
 				},
 				complete: function() {
 					//请求完成的处理
@@ -420,13 +472,38 @@ var DealSum={
 					//请求出错处理
 				}
 			});
+			
 		})
+		this.day_detail_btn.click(function () {
+			$(".tb_bottom_box").stop(true,true);
+			$(".tb_bottom_box").toggle("50");
+			$("#day_detail_btn").toggleClass("day_detail_btn2")
+			$("#day_detail_btn").toggleClass("day_detail_btn1")
+
+		})
+		
 
 	},
 
-	dealData:function (req) {
+	dealDataTB1:function (req) {
 		this.totalIncome_span.text(req.data.total.totalIncome);
 		this.totalExpend_span.text(req.data.total.totalExpense);
+
+		$("#tb_top thead tr").empty();//清空顶部表格表头
+		$("#tb_top tbody tr.income").empty();//清空顶部表格第“收入”行
+		$("#tb_top tbody tr.expend").empty();//清空顶部表格“支出”行
+		var data=req.data;
+		for(var key in data){
+			if(key!="total"){
+				var txt1=" <th>"+data[key]["name"]+"</th>"
+				$("#tb_top thead tr").append(txt1);
+				var txt2= '<td>+'+data[key].income+'</td>';
+				$("#tb_top tbody tr.income").append(txt2);
+				var txt3= '<td>-'+data[key].expense+'</td>';
+				$("#tb_top tbody tr.expend").append(txt3);
+
+			}
+		}
 	}
 
 };
