@@ -351,6 +351,9 @@ var DealSum={
 		// 表格拖动部分
 		$("#tb_bottom").DragConOver({
 			direction:"x"
+		});
+		$("#tb_top").DragConOver({
+			direction:"x"
 		})
 	},
 	bind:function(){
