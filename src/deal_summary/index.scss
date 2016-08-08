@@ -21,10 +21,14 @@
 .dealsumContainer .dealSumBox .totalExpend{ color:green;}
 
 .dealsumContainer .tb_top_box{width: 100%;overflow: hidden;border-bottom: 1px solid #e5e5e5;text-align: center;}
-.dealsumContainer .tb_top_box table thead {background-color:#00597b;height:32px;line-height: 32px;color: white; }
-.dealsumContainer .tb_top_box table thead th{padding: 5px 20px;}
-.dealsumContainer .tb_top_box table tbody tr.income{height: 40px;line-height: 40px; color: #ff4050;}
-.dealsumContainer .tb_top_box table tbody tr.expend{height: 40px;line-height:40px;color: #8fc390;}
+.dealsumContainer .tb_top_box .lt{width: 150px;height: 122px;float: left;}
+.dealsumContainer .tb_top_box .lt .th{height:42px;line-height: 42px;text-align: center;background-color:#00597b; }
+.dealsumContainer .tb_top_box .lt .tr{height:40px;line-height: 40px;text-align: center; }
+.dealsumContainer .tb_top_box .rt{width: 848px;height: 122px;float: right;position:relative;}
+.dealsumContainer .tb_top_box .rt table thead {background-color:#00597b;height:32px;line-height: 32px;color: white; }
+.dealsumContainer .tb_top_box .rt table thead th{padding: 5px 20px;}
+.dealsumContainer .tb_top_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: #ff4050;}
+.dealsumContainer .tb_top_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: #8fc390;}
 
 .dealsumContainer .day_detail_box{height: 50px;width: 100%;overflow: hidden;padding-left: 18px;line-height: 50px;border-bottom: 1px solid #e5e5e5;font-size: 12px;}
 .dealsumContainer .day_detail_box .day_detail_btn{position: relative;font-size: 14px;color:#0797d9;cursor:pointer;}
@@ -39,7 +43,18 @@
   right: -17px;
 }
 
+
+
 .dealsumContainer .tb_bottom_box{height: 200px;width: 100%;overflow: hidden;}
+.dealsumContainer .tb_bottom_box .lt{width: 150px;height: 122px;float: left;}
+.dealsumContainer .tb_bottom_box .lt .th{height:42px;line-height: 42px;text-align: center;background-color:#e5e5e5; color:white;}
+.dealsumContainer .tb_bottom_box .lt .tr{height:40px;line-height: 40px;text-align: center; }
+.dealsumContainer .tb_bottom_box .rt{width: 848px;height: 122px;float: right;position:relative;}
+.dealsumContainer .tb_bottom_box .rt table thead {background-color:#e5e5e5;height:32px;line-height: 32px;color: white; }
+.dealsumContainer .tb_bottom_box .rt table thead th{padding: 5px 20px;}
+.dealsumContainer .tb_bottom_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: #ff4050;}
+.dealsumContainer .tb_bottom_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: #8fc390;}
+
 
 
 
