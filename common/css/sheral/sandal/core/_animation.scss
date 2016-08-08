@@ -71,6 +71,7 @@
     -o-animation: $animation;
     -moz-animation: $animation;
     -webkit-animation: $animation;
+    backface-visibility: hidden;
     animation: $animation;
 }
 
