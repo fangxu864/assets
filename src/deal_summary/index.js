@@ -472,6 +472,8 @@ var DealSum={
 					//请求出错处理
 				}
 			});
+
+
 			
 		})
 		this.day_detail_btn.click(function () {
