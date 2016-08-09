@@ -14,16 +14,9 @@ var BankManager = function(){
 	this.Dialog = new Dialog({Dialog:sDialog});
 	this.Checkor = new Checkor({Dialog:sDialog});
 	this.bindEvents();
-	this.Checkor.open();
+	this.Checkor.shell("op123");
+	// this.Checkor.open();
 };
-// var addProve:function () {
-// 	var wid7 = document.getElementsByClassName("wid7")[0];
-// 	var e = document.createElement("a");
-// 	e.style.color = "blue";
-// 	e.innerHTML = "| 验证";
-// 	e.className = "porve";
-// 	wid7.appendChild(e);
-// }
 BankManager.prototype = {
 	bindEvents : function(){
 		var that = this;
@@ -65,24 +58,24 @@ BankManager.prototype = {
             })
 		})
 		//删除银行�?
-		this.bankListUl.on("click","#ensure_bankcard_delete",function(e){
-		    that=e;
+		this.bankListUl.on("click",".delete",function(e){
+            // that=e;
+            // var tarBtn = $(e.currentTarget);
+            // Checkor.checkor_click();
+            // Checkor.Listener();
+            // var ReturnN = Checkor.Listener();
+            // console.log(ReturnN);
+            // var Btn_delete = document.getElementById("Btn_delete");
+            // Btn_delete.addEventListener("click",function () {
+            //     var bankname = tarBtn.attr("bankname");
+            //     that.deleteCard(bankname,tarBtn);
+            //
+            // },false)
             var tarBtn = $(e.currentTarget);
-			Checkor.checkor_click();
-			Checkor.Listener();
-            var ReturnN = Checkor.Listener();
-            console.log(ReturnN);
-            var Btn_delete = document.getElementById("Btn_delete");
-            Btn_delete.addEventListener("click",function () {
-                var bankname = tarBtn.attr("bankname");
-                that.deleteCard(bankname,tarBtn);
-
-            },false)
-			// var tarBtn = $(e.currentTarget);
-			// // if(tarBtn.hasClass("disable")) return false;
-			// // if(!confirm("确定要删除该银行卡？")) return false;
-			// var bankname = tarBtn.attr("bankname");
-			// that.deleteCard(bankname,tarBtn);
+            if(tarBtn.hasClass("disable")) return false;
+            if(!confirm("确定要删除该银行卡？")) return false;
+            var bankname = tarBtn.attr("bankname");
+            that.deleteCard(bankname,tarBtn);
 		}),
 		this.Dialog.on("submit",function(data){
 			var submitBtn = data.submitBtn;

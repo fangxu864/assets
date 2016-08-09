@@ -144,46 +144,38 @@ var tpl2 = require("./checkor_improve.xtpl");
 //
 //
 //     //银行卡增加遮罩层
-//     function Shell(obj){
-//         var e=document.createElement("div");
-//         e.style.height =obj.offsetHeight+"px";
-//         e.style.width = obj.offsetWidth+"px";
-//         e.style.opacity ="0.5";
-//         e.style.zIndex="999";
-//         e.style.position="absolute";
-//         e.style.top="0";
-//         e.innerHTML="<button   type='button' class='btnCh'>"+"删除"+"</button>";
-//         var btnch = e.getElementsByTagName("button")[0];
-//         btnch.style.background= "yellow";
-//         btnch.style.position="absolute";
-//         btnch.style.margin ="45px auto";
-//         e.style.background="silver";
-//         obj.appendChild(e);
-//
-//     }
-//     //增加一个验证标签
-//     // addProve:function () {
-//     //     // var checkorTpl=document.getElementById("checkorTpl");
-//     //     // checkorTpl.innerHTML=tpl;
-//     //     // var that = this;
-//     //     // var wid7 = document.getElementsByClassName("wid7")[0];
-//     //     // var e = document.createElement("a");
-//     //     // e.style.color = "blue";
-//     //     // e.innerHTML = "| 验证";
-//     //     // e.className = "porve";
-//     //     // wid7.appendChild(e);
-//     //     var checkor = document.getElementById("checkor");
-//     //     var porve = document.getElementsByClassName("porve")[0];
-//     //     checkor.style.display="block";
-//     //     porve.addEventListener("click",function () {
-//     //         that.openDialog();
-//     //         that.fetchdate();
-//     //         that.Btnclose();
-//     //         },false)
-//     //
-//     //
-//     // }
-// }
+    function Shell(obj){
+        var obj = document.getElementById(obj)
+        var e=document.createElement("div");
+        e.style.height =obj.offsetHeight+"px";
+        e.style.width = obj.offsetWidth+"px";
+        e.className = "checkor_shell_div";
+        e.style.opacity ="0.90";
+        e.style.background = "red";
+        e.style.zIndex="999";
+        // e.style.position="absolute";
+        // e.style.top="0";
+        e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
+        e.innerHTML+="<input   type='button' id='bank_checkor_delete' class='checkor_shell_btn' value = '删除'/>";
+        e.innerHTML +="<input   type='button' id='bank_checkor_setting' class='checkor_shell_btn' value = '验证'/>";
+        e.innerHTML +="<input  type='button' id='bank_checkor_setting' class='checkor_shell_btn' value ='修改'/>";
+        e.style.background="#cacacf";
+        obj.appendChild(e);
+
+}
+
+//判断判断银行卡验证次数
+function judgement(){
+    var that= this;
+    var abc = that.fetchdate(12311);
+    var  aSet = document.getElementById("bank_checkor_setting");
+    var  aChange = document.getElementById("bank_checkor_change");
+    if (abc==123) {
+        aSet.style.display = "none";
+        aChange.style.display = "none";
+    }
+}
+//关闭整个背景遮罩层
 function closeContain() {
     var gSimpleDialog =document.getElementById("gSimpleDialog-mask");
     var bankCheckDialogContainer = document.getElementById("bankCheckDialogContainer");
@@ -198,7 +190,8 @@ var BankCheckor = function(opt){
 };
 BankCheckor.prototype = Mixin({
     init : function(opt){
-        var that = this;
+         var that = this;
+
         this.dialog = new opt.Dialog({
             width : 600,
             content : tpl,
@@ -207,9 +200,13 @@ BankCheckor.prototype = Mixin({
             events : {
                "click #bankDialog-submitBtn" : function(e){
                     that.onSubmitBtnClick(e);
+
                 },
                 "click #check_Btn_test":function(){
-                        openCheckor();
+                    console.log("123");
+                      openCheckor();
+                    Shell("accountItem_alipay");
+
 
                 },
                 "click #check_Btn_sure1":function () {
@@ -234,7 +231,30 @@ BankCheckor.prototype = Mixin({
         this.dialog.open({
 
         })
+    },
+    shell:function(obj){
+        var obj = document.getElementById(obj)
+        var e=document.createElement("div");
+        e.style.height =obj.offsetHeight+"px";
+        e.style.width = obj.offsetWidth+"px";
+
+        var obj_left = obj.offsetLeft;
+        var obj_top = obj.offsetTop;
+        e.className = "checkor_shell_div";
+        e.style.opacity ="0.90";
+        e.style.background = "red";
+        e.style.zIndex="999";
+        e.style.position="absolute";
+        e.style.left = obj_left+"px";
+        e.style.top =obj_top +"px";
+        e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
+        e.innerHTML+="<input   type='button' id='bank_checkor_delete' class='checkor_shell_btn' value = '删除'/>";
+        e.innerHTML +="<input   type='button' id='bank_checkor_setting' class='checkor_shell_btn' value = '验证'/>";
+        e.innerHTML +="<input  type='button' id='bank_checkor_setting' class='checkor_shell_btn' value ='修改'/>";
+        e.style.background="#cacacf";
+        obj.appendChild(e);
     }
+
 },Pubsub);
 
 
@@ -248,3 +268,27 @@ BankCheckor.prototype = Mixin({
 
 
 module.exports = BankCheckor;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
