@@ -355,7 +355,8 @@ var DealSum={
 		$("#tb_top").DragConOver({
 			direction:"x",
 			callBack:function(dValue){
-				console.log($(".tb_bottom_box").css("display"));
+
+				clearTimeout(_this.timer)
 
 				if($(".tb_bottom_box").css("display")=="block"){
 
@@ -367,6 +368,7 @@ var DealSum={
 		$("#tb_bottom").DragConOver({
 			direction:"x",
 			callBack:function(dValue){
+				clearTimeout(_this.timer)
 				$("#tb_top").css("left",$("#tb_top").position().left+dValue.x+"px")
 			}
 		});
@@ -394,12 +396,13 @@ var DealSum={
 					$("#tb_top").css("left","0");
 					// _this.roll_right_btn.css("display","none");
 				}
-			},1)
+			},1);
+			$(document).mouseup(function(){
+				clearTimeout(_this.timer);
+				$(document).unbind();
+			});
 		});
-		this.roll_right_btn.mouseup(function(){
-			clearTimeout(_this.timer)
-		});
-		//右侧点击滚动按钮
+		//左侧点击滚动按钮
 		this.roll_left_btn.mousedown(function(){
 			clearTimeout(_this.timer)
 			_this.timer=setInterval(function(){
@@ -417,11 +420,11 @@ var DealSum={
 					// _this.roll_left_btn.css("display","none");
 				}
 			},1)
+			$(document).mouseup(function(){
+				clearTimeout(_this.timer);
+				$(document).unbind();
+			});
 		})
-		this.roll_left_btn.mouseup(function () {
-			clearTimeout(_this.timer)
-		})
-
 
 	},
 	bind:function(){
@@ -441,6 +444,7 @@ var DealSum={
 			_this.dealType=1;
 		});
 		this.query_btn.click(function () {
+			//两个ajax,第一个请求汇总数据，第二个请求每日详细数据
 			$.ajax({
 				url: "/r/Finance_TradeRecord/getListForTradeRecord/",    //请求的url地址
 				dataType: "json",                        //返回格式为json
@@ -464,6 +468,7 @@ var DealSum={
 					//请求出错处理
 				}
 			});
+
 			$.ajax({
 				url: "/r/Finance_TradeRecord/getListDetail/",    //请求的url地址
 				dataType: "json",                        //返回格式为json
@@ -478,8 +483,7 @@ var DealSum={
 					//请求前的处理
 				},
 				success: function(req) {
-					console.log(req);
-
+					_this.dealDataTB2(req)
 				},
 				complete: function() {
 					//请求完成的处理
@@ -491,39 +495,121 @@ var DealSum={
 
 
 
+
 		})
 		this.day_detail_btn.click(function () {
 			$(".tb_bottom_box").stop(true,true);
-			$(".tb_bottom_box").toggle("50");
+			$(".tb_bottom_box").fadeToggle("20");
 			$("#day_detail_btn").toggleClass("day_detail_btn2");
 			$("#day_detail_btn").toggleClass("day_detail_btn1")
 			if($(".tb_bottom_box").css("display")=="block") {
 				$("#tb_bottom").css("left", $("#tb_top").position().left + "px");
 			}
 
+
 		})
 
 
 	},
-
 	dealDataTB1:function (req) {
+		//定义一个容纳表头name类型的数组
+		this.theadNametype=[];
 		this.totalIncome_span.text(req.data.total.totalIncome);
 		this.totalExpend_span.text(req.data.total.totalExpense);
 
 		$("#tb_top thead tr").empty();//清空顶部表格表头
+		$("#tb_bottom thead tr").empty();//清空底部表格表头
 		$("#tb_top tbody tr.income").empty();//清空顶部表格第“收入”行
 		$("#tb_top tbody tr.expend").empty();//清空顶部表格“支出”行
 		var data=req.data;
 		for(var key in data){
 			if(key!="total"){
-				var txt1=" <th>"+data[key]["name"]+"</th>"
+				var txt1=" <th>"+data[key]["name"]+"</th>";
+				this.theadNametype.push(key);
 				$("#tb_top thead tr").append(txt1);
-				var txt2= '<td>+'+data[key].income+'</td>';
+				$("#tb_bottom thead tr").append(txt1);
+
+				var txt2_in=data[key].income==null?0:data[key].income;
+				var txt2= '<td>+'+txt2_in+'</td>';
+				
 				$("#tb_top tbody tr.income").append(txt2);
-				var txt3= '<td>-'+data[key].expense+'</td>';
+
+				var txt3_out=data[key].expense==null?0:data[key].expense;
+				var txt3= '<td>-'+txt3_out+'</td>';
+
 				$("#tb_top tbody tr.expend").append(txt3);
 
 			}
+		}
+		console.log(this.theadNametype)
+	},
+	dealDataTB2:function (req){
+		var _this=this;
+
+		$(".tb_bottom_box .lt .lt_con").empty();//清空底部表格左边时间收入支出内容
+		$("#tb_bottom tbody ").empty();//清空底部表格tbody
+		$(".tb_bottom_box .rt_r .con").empty();
+
+
+		var data=req.data;
+
+		var theadArr=_this.theadNametype;
+
+		var isNothing=true;
+		for(var key in data){
+			if(data[key].length!=0){
+				isNothing=false;
+				$('.dealsumContainer .tb_bottom_box .nodata').css("display","none");
+				console.log(data[key]);
+				//加时间
+				var tim=data[key].time;
+				tim="20"+tim;
+				//20150808
+				tim=tim.substr(0,4)+"-"+tim.substr(4,2)+"-"+tim.substr(6,2);
+				var txt1='<div class="tr_time">'+tim+'</div>';
+				$(".tb_bottom_box .lt .lt_con").append(txt1);
+				//加每日总收入
+				var txt2='<div class="tr_income">+'+data[key].income+'</div>';
+				$(".tb_bottom_box .lt .lt_con").append(txt2);
+				//加每日总支出
+				var txt3=' <div class="tr_expend">-'+data[key].expense+'</div>';
+				$(".tb_bottom_box .lt .lt_con").append(txt3);
+
+                var incomeCon="",expendCon="";
+				console.log(theadArr.length
+				)
+				for(var i=0;i<theadArr.length;i++){
+
+					var ishere=false;
+					for(var key2 in data[key]){
+						if(theadArr[i]==[key2]){
+							ishere=true;
+							incomeCon+='<td>+'+data[key][key2].income+'</td>';
+							expendCon+='<td>-'+data[key][key2].expense+'</td>';
+						}
+					}
+					if(ishere===false){
+						incomeCon+='<td>+'+0+'</td>';
+
+						expendCon+='<td>-'+0+'</td>';
+					}
+				}
+				//加收入tr
+				$("#tb_bottom tbody").append(' <tr class="income" title="当日收入">'+incomeCon+'</tr>');
+				//加支出tr
+				$("#tb_bottom tbody").append(' <tr class="expend" title="当日支出">'+expendCon+'</tr>');
+				
+				//在右侧加空div
+
+				$(".tb_bottom_box .rt_r .con").append('<div class="tr"></div>');
+
+
+
+			}
+		}
+		if(isNothing){
+			// $("#tb_bottom tbody").html("<span class='nodata'>未查询到数据......</span>")
+			$('.dealsumContainer .tb_bottom_box .nodata').css("display","block");
 		}
 	}
 
