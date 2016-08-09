@@ -355,7 +355,13 @@ var DealSum={
 		$("#tb_top").DragConOver({
 			direction:"x",
 			callBack:function(dValue){
-				$("#tb_bottom").css("left",$("#tb_bottom").position().left+dValue.x+"px")
+				console.log($(".tb_bottom_box").css("display"));
+
+				if($(".tb_bottom_box").css("display")=="block"){
+
+					$("#tb_bottom").css("left",$("#tb_bottom").position().left+dValue.x+"px")
+				}
+
 			}
 		});
 		$("#tb_bottom").DragConOver({
@@ -368,17 +374,23 @@ var DealSum={
 		this.roll_right_btn.mousedown(function(){
 			clearTimeout(_this.timer)
 			_this.timer=setInterval(function () {
-				$("#tb_bottom").css("left",$("#tb_bottom").position().left-2+"px");
+				if($(".tb_bottom_box").css("display")=="block") {
+					$("#tb_bottom").css("left", $("#tb_bottom").position().left - 2 + "px");
+				}
 				$("#tb_top").css("left",$("#tb_top").position().left-2+"px");
 				// _this.roll_left_btn.css("display","block");
 				//下面两个if的意思是不让表格向左移动出容器
-				if(Math.abs($("#tb_bottom").position().left)>Math.abs($("#tb_bottom").outerWidth()-$("#tb_bottom").offsetParent().innerWidth())||Math.abs($("#tb_top").position().left)>Math.abs($("#tb_top").outerWidth()-$("#tb_top").offsetParent().innerWidth())){
-					$("#tb_bottom").css("left",-Math.abs($("#tb_bottom").outerWidth()-$("#tb_bottom").offsetParent().innerWidth())+"px")
+				if(Math.abs($("#tb_top").position().left)>Math.abs($("#tb_top").outerWidth()-$("#tb_top").offsetParent().innerWidth())){
+					if($(".tb_bottom_box").css("display")=="block") {
+						$("#tb_bottom").css("left", -Math.abs($("#tb_bottom").outerWidth() - $("#tb_bottom").offsetParent().innerWidth()) + "px")
+					}
 					$("#tb_top").css("left",-Math.abs($("#tb_top").outerWidth()-$("#tb_top").offsetParent().innerWidth())+"px")
 					// _this.roll_left_btn.css("display","none");
 				}
-				if($("#tb_bottom").offsetParent().innerWidth()-$("#tb_bottom").innerWidth()>=0||$("#tb_top").offsetParent().innerWidth()-$("#tb_top").innerWidth()>=0){
-					$("#tb_bottom").css("left","0");
+				if($("#tb_top").offsetParent().innerWidth()-$("#tb_top").innerWidth()>=0){
+					if($(".tb_bottom_box").css("display")=="block") {
+						$("#tb_bottom").css("left", "0");
+					}
 					$("#tb_top").css("left","0");
 					// _this.roll_right_btn.css("display","none");
 				}
@@ -391,12 +403,16 @@ var DealSum={
 		this.roll_left_btn.mousedown(function(){
 			clearTimeout(_this.timer)
 			_this.timer=setInterval(function(){
-				$("#tb_bottom").css("left",$("#tb_bottom").position().left+2+"px");
+				if($(".tb_bottom_box").css("display")=="block") {
+					$("#tb_bottom").css("left", $("#tb_bottom").position().left + 2 + "px");
+				}
 				$("#tb_top").css("left",$("#tb_top").position().left+2+"px");
 				// _this.roll_right_btn.css("display","block");
 				//下面的if是意思是不让表格向右移动出容器、
-				if($("#tb_bottom").position().left>0||$("#tb_top").position().left>0){
-					$("#tb_bottom").css("left","0");
+				if($("#tb_top").position().left>0){
+					if($(".tb_bottom_box").css("display")=="block") {
+						$("#tb_bottom").css("left", "0");
+					}
 					$("#tb_top").css("left","0");
 					// _this.roll_left_btn.css("display","none");
 				}
@@ -474,16 +490,19 @@ var DealSum={
 			});
 
 
-			
+
 		})
 		this.day_detail_btn.click(function () {
 			$(".tb_bottom_box").stop(true,true);
 			$(".tb_bottom_box").toggle("50");
-			$("#day_detail_btn").toggleClass("day_detail_btn2")
+			$("#day_detail_btn").toggleClass("day_detail_btn2");
 			$("#day_detail_btn").toggleClass("day_detail_btn1")
+			if($(".tb_bottom_box").css("display")=="block") {
+				$("#tb_bottom").css("left", $("#tb_top").position().left + "px");
+			}
 
 		})
-		
+
 
 	},
 
