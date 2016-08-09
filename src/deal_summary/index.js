@@ -6,6 +6,7 @@
 require("./index.scss");
 var tpl=require("./index.xtpl");
 var Calendar = require("COMMON/modules/calendar");
+var Pagination = require("COMMON/modules/pagination");
 require("COMMON/modules/DragConOver")($);
 
 var DealSum={
@@ -227,13 +228,46 @@ var DealSum={
 				}
 			});
 
+			_this.diffDays=_this.GetDateDiff(_this.stime_inp.val(),_this.etime_inp.val());
+			console.log(_this.diffDays)
+			var p=new Pagination({
+				"id":"pag_box",                                     //分页器盒子的容器
+				"data_total_num":_this.diffDays,                   //数据总数量
+				"per_page_num":10,                                  //每页显示的数据条数
+				"present_page":1,                                   //当前页数
+				"callBack":function (present_page) {               //用户点击按钮时的回调函数，参数为当前分页器的页码；
+					$.ajax({
+						url: "/r/Finance_TradeRecord/getListDetail/",    //请求的url地址
+						dataType: "json",                        //返回格式为json
+						async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
+						data: {                                    //参数值
+							"search_type": _this.dealType,
+							"btime":_this.stime_inp.val(),
+							"etime":_this.etime_inp.val(),
+							"page":present_page
+						},
+						type: "GET",                               //请求方式
+						beforeSend: function() {
+							//请求前的处理
+						},
+						success: function(req) {
+							_this.dealDataTB2(req)
+						},
+						complete: function() {
+							//请求完成的处理
+						},
+						error: function() {
+							//请求出错处理
+						}
+					});
+			}
+			})
 
-
-
-		})
+		});
 		this.day_detail_btn.click(function () {
 			$(".tb_bottom_box").stop(true,true);
 			$(".tb_bottom_box").fadeToggle("20");
+			$("#pag_box").fadeToggle("20");
 			$("#day_detail_btn").toggleClass("day_detail_btn2");
 			$("#day_detail_btn").toggleClass("day_detail_btn1")
 			if($(".tb_bottom_box").css("display")=="block") {
@@ -352,6 +386,12 @@ var DealSum={
 			// $("#tb_bottom tbody").html("<span class='nodata'>未查询到数据......</span>")
 			$('.dealsumContainer .tb_bottom_box .nodata').css("display","block");
 		}
+	},
+	GetDateDiff:function(startDate,endDate) {
+		var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();
+		var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
+		var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
+		return  dates;
 	}
 };
 $(function ($) {
