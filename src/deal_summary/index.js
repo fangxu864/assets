@@ -349,11 +349,14 @@ var DealSum={
 
 		var isNothing=true;
 		for(var key in data){
+			console.log(key)
+			var html = "";
 			// if(data[key].length!=0||1){
 				isNothing=false;
 				$('.dealsumContainer .tb_bottom_box .nodata').css("display","none");
 
 				//加时间
+				var leftPart = "";
 				var tim=key;
 				if(tim!=undefined){
 					tim="20"+tim;
@@ -362,23 +365,25 @@ var DealSum={
 				}else{
 					tim="日期不见了"
 				}
-				var txt1='<div class="tr_time">'+tim+'</div>';
-				$(".tb_bottom_box .lt .lt_con").append(txt1);
+				leftPart += '<div class="line"><div class="tr_time">'+tim+'</div>';
+				// $(".tb_bottom_box .lt .lt_con").append(txt1);
 				//加每日总收入
 
 				var txt2Value=data[key].income!=undefined?data[key].income:0;
-				var txt2='<div class="tr_income">+'+txt2Value+'</div>';
-				$(".tb_bottom_box .lt .lt_con").append(txt2);
+				// var txt2='<div class="tr_income">+'+txt2Value+'</div>';
+				// $(".tb_bottom_box .lt .lt_con").append(txt2);
+				leftPart += '<div class="tr_income">+'+txt2Value+'</div>';
+
 				//加每日总支出
 				var txt3Value=data[key].expense!=undefined?data[key].expense:0;
-				var txt3=' <div class="tr_expend">-'+txt3Value+'</div>';
-				
-				$(".tb_bottom_box .lt .lt_con").append(txt3);
+				var txt3=' <div class="tr_expend">-'+txt3Value+'</div></div>';
 
-                var incomeCon="",expendCon="";
+				leftPart += txt3;
 
+				$(".tb_bottom_box .lt .lt_con").prepend(leftPart);
+
+                var incomeCon="",expendCon="",in_ex_con="";
 				for(var i=0;i<theadArr.length;i++){
-
 					var ishere=false;
 					for(var key2 in data[key]){
 						if(theadArr[i]==[key2]){
@@ -393,10 +398,14 @@ var DealSum={
 						expendCon+='<td class="zero_data_td">-'+0+'</td>';
 					}
 				}
-				//加收入tr
-				$("#tb_bottom tbody").append(' <tr class="income" title="当日收入">'+incomeCon+'</tr>');
-				//加支出tr
-				$("#tb_bottom tbody").append(' <tr class="expend" title="当日支出">'+expendCon+'</tr>');
+
+			    in_ex_con=' <tr class="income" title="当日收入">'+incomeCon+'</tr>'+' <tr class="expend" title="当日支出">'+expendCon+'</tr>';
+				// //加收入tr
+				// $("#tb_bottom tbody").append(' <tr class="income" title="当日收入">'+incomeCon+'</tr>');
+				// //加支出tr
+				// $("#tb_bottom tbody").append(' <tr class="expend" title="当日支出">'+expendCon+'</tr>');
+
+			    $("#tb_bottom tbody").prepend( in_ex_con );
 				
 				//在右侧加空div
 
