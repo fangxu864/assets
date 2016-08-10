@@ -53,6 +53,7 @@
 
 .dealsumContainer .tb_bottom_box .lt{width: 135px;float: left;position:relative;z-index: 1;background-color: #ffffff;}
 .dealsumContainer .tb_bottom_box .lt .th{height:42px;line-height: 42px;background-color:#e5e5e5; color:black;padding-left: 18px;}
+.dealsumContainer .tb_bottom_box .lt .th .lt{float: left;width: 0px;}
 
 .dealsumContainer .tb_bottom_box .lt .tr_time{height:30px;line-height: 30px;padding-left: 18px;color:#0797d9;}
 .dealsumContainer .tb_bottom_box .lt .tr_income{height:25px;line-height: 25px;padding-left: 18px;color: #ff4050;}
@@ -68,7 +69,7 @@
 .dealsumContainer .tb_bottom_box .rt_r .th{height:42px;line-height: 42px;background-color:#e5e5e5; color:black;}
 .dealsumContainer .tb_bottom_box .rt_r .con .tr{height: 80px;width:28px;border-bottom:  1px solid #eceaea;}
 .dealsumContainer  .roll_right{height:42px;width: 28px;line-height: 42px;text-align:center;font-size: 20px;cursor:pointer;}
-.dealsumContainer  .roll_left{height:42px;width: 28px;line-height: 42px;text-align:center;font-size: 20px;cursor:pointer;float: right;}
+.dealsumContainer  .roll_left{height:42px;width: 20px;line-height: 42px;text-align:center;font-size: 20px;cursor:pointer;float: right;}
 
 
 .dealsumContainer  .roll_right:active , .dealsumContainer  .roll_left:active{color:red !important;}
@@ -92,7 +93,7 @@ ul.pagination{margin: 0 auto;}
 .calendar-td.selected.disable{background-color: #008fc2 !important;color:#ffffff !important;}
 .zero_data_td{color: #e0e0e0 !important;}
 
-
+.PageHeaderContainer .logoBannerBox .logoBox img{    width: 280px;  height: 66px;  }
 
 
 

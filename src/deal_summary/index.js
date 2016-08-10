@@ -204,35 +204,36 @@ var DealSum={
 				},
 				complete: function() {
 					//请求完成的处理
+					$.ajax({
+						url: "/r/Finance_TradeRecord/getListDetail/",    //请求的url地址
+						dataType: "json",                        //返回格式为json
+						async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
+						data: {                                    //参数值
+							"search_type": _this.dealType,
+							"btime":_this.stime_inp.val(),
+							"etime":_this.etime_inp.val()
+						},
+						type: "GET",                               //请求方式
+						beforeSend: function() {
+							//请求前的处理
+						},
+						success: function(req) {
+							_this.dealDataTB2(req)
+						},
+						complete: function() {
+							//请求完成的处理
+						},
+						error: function() {
+							//请求出错处理
+						}
+					});
 				},
 				error: function() {
 					//请求出错处理
 				}
 			});
 
-			$.ajax({
-				url: "/r/Finance_TradeRecord/getListDetail/",    //请求的url地址
-				dataType: "json",                        //返回格式为json
-				async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
-				data: {                                    //参数值
-					"search_type": _this.dealType,
-					"btime":_this.stime_inp.val(),
-					"etime":_this.etime_inp.val()
-				},
-				type: "GET",                               //请求方式
-				beforeSend: function() {
-					//请求前的处理
-				},
-				success: function(req) {
-					_this.dealDataTB2(req)
-				},
-				complete: function() {
-					//请求完成的处理
-				},
-				error: function() {
-					//请求出错处理
-				}
-			});
+
 
 			$("#tb_top").css("left","0");
 
@@ -285,8 +286,6 @@ var DealSum={
 
 
 		})
-
-
 	},
 	//处理上表数据
 	dealDataTB1:function (req) {
@@ -347,9 +346,9 @@ var DealSum={
 
 		var theadArr=_this.theadNametype;
 
+
 		var isNothing=true;
 		for(var key in data){
-			console.log(key)
 			var html = "";
 			// if(data[key].length!=0||1){
 				isNothing=false;
