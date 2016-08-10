@@ -3,9 +3,9 @@
     <div class="dealTimeBox">
         <div class="lt">
             <span>交易时间：</span>
-            <input type="text" class="datePickerInp begin" id="start_time"/>
+            <input type="text" class="datePickerInp begin" id="start_time" readonly="readonly"/>
             <span>至</span>
-            <input type="text" class="datePickerInp end" id="end_time"/>
+            <input type="text" class="datePickerInp end" id="end_time" readonly="readonly"/>
             <a href="javascript:void(0)" class="dealTime" id="thisWeek">近7日</a>
             <a href="javascript:void(0)" class="dealTime" id="thisMonth">近一个月</a>
         </div>

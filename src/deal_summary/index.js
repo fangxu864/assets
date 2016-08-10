@@ -10,6 +10,7 @@ var Pagination = require("COMMON/modules/pagination");
 require("COMMON/modules/DragConOver")($);
 
 var DealSum={
+	//初始化
 	init:function(){
 		var _this=this;
 		$(".dealsum_box").html(tpl);
@@ -56,7 +57,6 @@ var DealSum={
 		this.tomorrow = new Date(now.getTime() +24 * 3600 * 1000).Format("yyyy-MM-dd");
 		//获取上周的日期
 		this.lastWeek = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
-
 		//获取上月的日期
 		this.lastMonth = new Date(now.getTime() - 30 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
 		//初始化input内容
@@ -90,7 +90,6 @@ var DealSum={
 				onAfter : function(){}       //弹出日历后callback
 			})
 		});
-
 		this.bind();
 		this.query_btn.click();
 		// 表格拖动部分
@@ -167,8 +166,8 @@ var DealSum={
 				$(document).unbind();
 			});
 		})
-
 	},
+	//事件绑定
 	bind:function(){
 		var _this=this;
 		this.rweek_span.click(function () {
@@ -289,6 +288,7 @@ var DealSum={
 
 
 	},
+	//处理上表数据
 	dealDataTB1:function (req) {
 
 		//定义一个容纳表头name类型的数组
@@ -322,6 +322,7 @@ var DealSum={
 		}
 
 	},
+	//处理下表数据
 	dealDataTB2:function (req){
 
 		var _this=this;
@@ -399,6 +400,7 @@ var DealSum={
 			$('.dealsumContainer .tb_bottom_box .nodata').css("display","block");
 		}
 	},
+	//计算两个日期间的天数
 	GetDateDiff:function(startDate,endDate) {
 		var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();
 		var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
