@@ -52,38 +52,45 @@ var DealSum={
 		var now=new Date();
 		//获取今天的日期
 		this.today=now.Format("yyyy-MM-dd");
+		//获取明天的日期
+		this.tomorrow = new Date(now.getTime() +24 * 3600 * 1000).Format("yyyy-MM-dd");
 		//获取上周的日期
 		this.lastWeek = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+
 		//获取上月的日期
 		this.lastMonth = new Date(now.getTime() - 30 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+		//初始化input内容
+		this.stime_inp.val(_this.lastWeek);
+		this.etime_inp.val(_this.today);
 		//日历插件部分
 		var calendar = new Calendar();
 		this.stime_inp.on("click",function(e){
-			calendar.show(_this.today,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+			var max_day=_this.etime_inp.val();
+			calendar.show(_this.stime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
 				picker : $("#start_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
 				top : 0,                       //日历box偏移量
 				left : 0,                     //日历box偏移量
 				// min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
-				// max : "2016-07-10",          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+				max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
 				onBefore : function(){},     //弹出日历前callback
 				onAfter : function(){}       //弹出日历后callback
 			});
 			return this;
 		});
 		this.etime_inp.on("click",function(e){
-			calendar.show(_this.today,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+			var min_day=_this.stime_inp.val()
+
+			calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
 				picker : $("#end_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
 				top : 0,                       //日历box偏移量
 				left : 0,                     //日历box偏移量
-				// min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
-				// max : "2016-07-10",          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+				min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
+				max : _this.tomorrow,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
 				onBefore : function(){},     //弹出日历前callback
 				onAfter : function(){}       //弹出日历后callback
 			})
 		});
-		//初始化input内容
-		this.stime_inp.val(_this.lastWeek);
-		this.etime_inp.val(_this.today);
+
 		this.bind();
 		this.query_btn.click();
 		// 表格拖动部分
@@ -228,8 +235,11 @@ var DealSum={
 				}
 			});
 
+			$("#tb_top").css("left","0");
+
+			$("#tb_bottom").css("left","0");
+
 			_this.diffDays=_this.GetDateDiff(_this.stime_inp.val(),_this.etime_inp.val());
-			console.log(_this.diffDays)
 			var p=new Pagination({
 				"id":"pag_box",                                     //分页器盒子的容器
 				"data_total_num":_this.diffDays,                   //数据总数量
@@ -280,6 +290,7 @@ var DealSum={
 
 	},
 	dealDataTB1:function (req) {
+
 		//定义一个容纳表头name类型的数组
 		this.theadNametype=[];
 		this.totalIncome_span.text(req.data.total.totalIncome);
@@ -312,6 +323,7 @@ var DealSum={
 
 	},
 	dealDataTB2:function (req){
+
 		var _this=this;
 
 		$(".tb_bottom_box .lt .lt_con").empty();//清空底部表格左边时间收入支出内容

@@ -51,10 +51,12 @@
 .dealsumContainer .tb_bottom_box .lt .tr_income{height:25px;line-height: 25px;padding-left: 18px;color: #ff4050;}
 .dealsumContainer .tb_bottom_box .lt .tr_expend{height:25px;line-height: 25px; border-bottom: 1px solid #eceaea;padding-left: 18px;color: #8fc390;}
 
+
 .dealsumContainer .tb_bottom_box .rt{width: 835px;float: left;position:relative;}
 .dealsumContainer .tb_bottom_box .rt table{position: absolute;}
 .dealsumContainer .tb_bottom_box .rt table thead {background-color:#e5e5e5;height:32px;line-height: 32px;color: #737373;cursor:move; }
 .dealsumContainer .tb_bottom_box .rt table thead th{padding: 5px 20px;}
+.dealsumContainer .tb_bottom_box .rt table tbody tr:hover{background-color: #fff3f3}
 .dealsumContainer .tb_bottom_box .rt_r{width: 28px;background-color: #ffffff;    float: right;  position: relative;  z-index: 2;}
 .dealsumContainer .tb_bottom_box .rt_r .th{height:42px;line-height: 42px;background-color:#e5e5e5; color:black;}
 .dealsumContainer .tb_bottom_box .rt_r .con .tr{height: 80px;width:28px;border-bottom:  1px solid #eceaea;}
@@ -72,10 +74,15 @@
 .dealsumContainer .tb_bottom_box .nodata{    top: 66px;  left: 460px;    position: absolute;display: none;  }
 
 ul.pagination li.total, li.goto {  line-height: 3.5em !important;  color: #999999;  }
+
 ul.pagination{margin-left: 200px;display: block;}
+
 ul.pagination{margin: 0 auto;}
 
+.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{color: #dedede !important;}
+.calendar-table .calendar-td.day:hover{background-color: #00a0e9}
 
+.calendar-td.selected.disable{background-color: #008fc2 !important;color:#ffffff !important;}
 
 
 
