@@ -308,13 +308,24 @@ var DealSum={
 				$("#tb_top thead tr").append(txt1);
 				$("#tb_bottom thead tr").append(txt1);
 
-				var txt2_in=data[key].income==null?0:data[key].income;
-				var txt2= '<td>+'+txt2_in+'</td>';
-				
+				var txt2_in, txt2="";
+				if(data[key].income==null){
+					txt2_in=0;
+					txt2= '<td class="zero_data_td">+'+txt2_in+'</td>';
+				}else{
+					txt2_in=data[key].income;
+					txt2= '<td>+'+txt2_in+'</td>';
+				}
 				$("#tb_top tbody tr.income").append(txt2);
 
-				var txt3_out=data[key].expense==null?0:data[key].expense;
-				var txt3= '<td>-'+txt3_out+'</td>';
+				var txt3_out, txt3;
+				if(data[key].expense==null){
+					txt3_out=0;
+					txt3= '<td class="zero_data_td">-'+txt3_out+'</td>'
+				}else{
+					txt3_out=data[key].expense;
+					txt3='<td>-'+txt3_out+'</td>';
+				}
 
 				$("#tb_top tbody tr.expend").append(txt3);
 
@@ -377,9 +388,9 @@ var DealSum={
 						}
 					}
 					if(ishere===false){
-						incomeCon+='<td>+'+0+'</td>';
+						incomeCon+='<td class="zero_data_td">+'+0+'</td>';
 
-						expendCon+='<td>-'+0+'</td>';
+						expendCon+='<td class="zero_data_td">-'+0+'</td>';
 					}
 				}
 				//加收入tr
