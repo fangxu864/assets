@@ -1,4 +1,4 @@
-<div id="Delete_C" class="checkor">
+<div id="Delete_checkor" class="checkor">
         <p class="Tx3"> 确认删除银行卡</p>
         <button id="Btn_delete" class="check_Btn" type="button" >确定</button>
         <input type="button" class="Btn_delete2" value="取消">

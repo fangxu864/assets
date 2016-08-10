@@ -144,25 +144,6 @@ var tpl2 = require("./checkor_improve.xtpl");
 //
 //
 //     //银行卡增加遮罩层
-    function Shell(obj){
-        var obj = document.getElementById(obj)
-        var e=document.createElement("div");
-        e.style.height =obj.offsetHeight+"px";
-        e.style.width = obj.offsetWidth+"px";
-        e.className = "checkor_shell_div";
-        e.style.opacity ="0.90";
-        e.style.background = "red";
-        e.style.zIndex="999";
-        // e.style.position="absolute";
-        // e.style.top="0";
-        e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
-        e.innerHTML+="<input   type='button' id='bank_checkor_delete' class='checkor_shell_btn' value = '删除'/>";
-        e.innerHTML +="<input   type='button' id='bank_checkor_setting' class='checkor_shell_btn' value = '验证'/>";
-        e.innerHTML +="<input  type='button' id='bank_checkor_setting' class='checkor_shell_btn' value ='修改'/>";
-        e.style.background="#cacacf";
-        obj.appendChild(e);
-
-}
 
 //判断判断银行卡验证次数
 function judgement(){
@@ -191,7 +172,6 @@ var BankCheckor = function(opt){
 BankCheckor.prototype = Mixin({
     init : function(opt){
          var that = this;
-
         this.dialog = new opt.Dialog({
             width : 600,
             content : tpl,
@@ -205,8 +185,6 @@ BankCheckor.prototype = Mixin({
                 "click #check_Btn_test":function(){
                     console.log("123");
                       openCheckor();
-                    Shell("accountItem_alipay");
-
 
                 },
                 "click #check_Btn_sure1":function () {
@@ -232,28 +210,89 @@ BankCheckor.prototype = Mixin({
 
         })
     },
-    shell:function(obj){
-        var obj = document.getElementById(obj)
-        var e=document.createElement("div");
-        e.style.height =obj.offsetHeight+"px";
-        e.style.width = obj.offsetWidth+"px";
+    shell:function(){
+           for(var i=1;i<10;i++){
+            var checkor  ="checkor_bankCard_"+i;
+             var Ch= document.getElementById(checkor);
+                 if(!(Ch==null||Ch==undefined)){
+                       if(Ch.value==2){
+                       var e=document.createElement("div");
+                       e.style.height =Ch.offsetHeight+"px";
+                       e.style.width = Ch.offsetWidth+"px";
+                       var obj_left = Ch.offsetLeft;
+                       var obj_top = Ch.offsetTop;
+                       e.style.opacity ="0.90";
+                       // e.style.background = "red";
+                       e.style.zIndex="100";
+                       e.className = "shellDiv"
+                       e.style.position="absolute";
+                       e.style.left = obj_left+"px";
+                       e.style.top =obj_top +"px";
+                       e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
+                       e.innerHTML+="<input   type='button' class='checkor_shell_btn1' value = '删除'/>";
+                       e.innerHTML +="<input   type='button'  class='checkor_shell_btn2' value = '验证'/>";
+                       e.innerHTML +="<input  type='button'  class='checkor_shell_btn3' value ='修改'/>";
+                       e.style.background="#cacacf";
+                           var  carId = document.getElementById(Ch.id)
+                       carId.appendChild(e);
 
-        var obj_left = obj.offsetLeft;
-        var obj_top = obj.offsetTop;
-        e.className = "checkor_shell_div";
-        e.style.opacity ="0.90";
-        e.style.background = "red";
-        e.style.zIndex="999";
-        e.style.position="absolute";
-        e.style.left = obj_left+"px";
-        e.style.top =obj_top +"px";
-        e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
-        e.innerHTML+="<input   type='button' id='bank_checkor_delete' class='checkor_shell_btn' value = '删除'/>";
-        e.innerHTML +="<input   type='button' id='bank_checkor_setting' class='checkor_shell_btn' value = '验证'/>";
-        e.innerHTML +="<input  type='button' id='bank_checkor_setting' class='checkor_shell_btn' value ='修改'/>";
-        e.style.background="#cacacf";
-        obj.appendChild(e);
+                       }
+                   else{
+                       return;
+                   }
+               }
+        }
+        window.onresize =function(){
+            console.log(window.innerHeight);
+            console.log(window.innerWidth);
+        }
+
+    },
+    judge:function () {
+        var openContain = document.getElementById("bankCheckDialogContainer");
+        var that = this;
+        var oJudge = document.getElementsByClassName("checkor_shell_btn2");
+        for(var i=0;i<oJudge.length;i++){
+            oJudge[i].onclick = function () {
+                openContain.style.display = "block";
+               that.open();
+            }
+        }
+    },
+    delete:function () {
+        var that = this;
+        var Delete=document.getElementById("deleteBankCard_ensure");
+        var enSure = document.getElementsByClassName("bankCheckorEnsure")[0];
+        var deEnsure = document.getElementById("ensure_bankcard_delete");
+        var deBTn = document.getElementById("cancel_deBankC_Btn");
+        var Fault = document.getElementsByClassName("bankCheckorFault")[0];
+        var bankCheckorOk =document.getElementsByClassName("bankCheckorOk")[0];
+        var oJudge = document.getElementsByClassName("checkor_shell_btn1");
+        var delete_contain_btn = document.getElementById("gSimpleDialog-1-closeBtn");
+        for(var i=0;i<oJudge.length;i++){
+           oJudge[i].onclick = function () {
+               that.open();
+               enSure.style.display = "none"
+               Fault.style.display = "none";
+               bankCheckorOk.style.display = "none";
+               Delete.style.display = "block";
+
+            }
+        }
+          deEnsure.onclick =function(){
+            Delete.style.display = "none";
+            enSure.style.display="block"
+        }
+        deBTn.onclick =function(){
+            Delete.style.display = "none";
+            enSure.style.display="block"
+        }
+        delete_contain_btn.onclick =function(){
+            Delete.style.display = "none";
+            enSure.style.display="block"
+        }
     }
+
 
 },Pubsub);
 

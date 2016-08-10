@@ -8,13 +8,17 @@ require("./index.scss")
 var sDialog = require("COMMON/modules/dialog-simple");
 var Dialog = require("./bank-dialog");
 var Checkor = require("./bank_card");
+var that = this;
 var BankManager = function(){
     this.bankListUl = $("#bankListUl");
 	this.addBankBtn = $("#addbk");
 	this.Dialog = new Dialog({Dialog:sDialog});
 	this.Checkor = new Checkor({Dialog:sDialog});
 	this.bindEvents();
-	this.Checkor.shell("op123");
+	//银行卡遮罩层部分
+	this.Checkor.shell();
+	this.Checkor.judge();
+	this.Checkor.delete();
 	// this.Checkor.open();
 };
 BankManager.prototype = {
@@ -57,6 +61,31 @@ BankManager.prototype = {
                 card_type : acc_type
             })
 		})
+		this.bankListUl.on("click",".checkor_shell_btn3",function(e){
+			var tarBtn = $(e.currentTarget);
+			var province_id = tarBtn.attr("bank_province");
+			var city_id = tarBtn.attr("bank_city");
+			var bank_id = tarBtn.attr("bank_id");
+			var card_number = tarBtn.attr("bank_num");
+			var username = tarBtn.attr("username");
+			var subBank_id = tarBtn.attr("code");
+			var type = tarBtn.attr("type");
+			var acc_type = tarBtn.attr("acc_type");
+			Dialog.open({
+				mode : "edit",
+				bank_id : bank_id,
+				subBank_id : subBank_id,
+				province_id : province_id,
+				city_id : city_id,
+				card_number : card_number,
+				account_name : username,
+				type : type,
+				card_type : acc_type
+			})
+		})
+
+
+
 		//删除银行�?
 		this.bankListUl.on("click",".delete",function(e){
             // that=e;
@@ -127,6 +156,7 @@ BankManager.prototype = {
 			}
 		})
 	}
+
 };
 
 $(function(){
