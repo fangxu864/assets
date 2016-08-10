@@ -12,7 +12,7 @@
     "orderquery-test" : "set NODE_ENV=test && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-release" : "set NODE_ENV=release && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-production" : "set NODE_ENV=production && webpack --config ./src/orderquery/webpack.config.js",
-    "withdraw-bank-start": "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-start": "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js -w",
     "withdraw-bank-test": "set NODE_ENV=test && webpack --config ./src/withdraw_bank/webpack.config.js",
     "withdraw-bank-release": "set NODE_ENV=release && webpack --config ./src/withdraw_bank/webpack.config.js",
     "withdraw-bank-production": "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js",

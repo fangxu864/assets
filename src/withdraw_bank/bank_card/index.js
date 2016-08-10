@@ -4,7 +4,6 @@
 // require("bank_card.html");
 require("./index.scss");
 var tpl = require("./index.xtpl");
-var tpl2 = require("./checkor_improve.xtpl");
 // var Checkor = {
 //     // 加载html文件
 //     checkor_click:function() {
@@ -41,41 +40,25 @@ var tpl2 = require("./checkor_improve.xtpl");
         // var Fault = document.getElementById("Fault");
         var keyword = bankP.value;
         var callback_date =fetchDate(keyword);
-        check_Btn_test.onclick=function () {
-            if (callback_date==keyword)
-            {
-                enSure.style.display = "none"
-                bankCheckorOk.style.display = "block";
-
-            }
-            else
-            {
-                enSure.style.display = "none"
-                Fault.style.display = "block"
-
-
-            }
-            bankP.value =""
-        }
-
-    }
-// //获取后端数据
-    function fetchDate(keyword) {
-            return 123;
-        // $.ajax({
-        //     type:"post",
-        //     dataType:"json",
-        //     data:{val1:keyword},
-        //     url:"data.ashx",
-        //     success:function (data) {
-        //           var  callBack =data.value;
-        //             return callback;
-        //     },
-        //     error:function (msg) {
-        //         alert
+        // check_Btn_test.onclick=function () {
+        //     if (callback_date==keyword)
+        //     {
+        //         enSure.style.display = "none"
+        //         bankCheckorOk.style.display = "block";
+        //
         //     }
-        // });
+        //     else
+        //     {
+        //         enSure.style.display = "none"
+        //         Fault.style.display = "block"
+        //
+        //
+        //     }
+        //     bankP.value =""
+        // }
+
     }
+
 // //点击按钮关闭当前窗口
 //     Btnclose:function () {
 //            //    var BTn = document.getElementsByTagName("button");
@@ -164,13 +147,28 @@ function closeContain() {
     gSimpleDialog.style.display = "none";
 }
 
+
+
+
+
+
+
+
+
+
+
+
 var Mixin = require("COMMON/js/util.mix");
 var Pubsub = require("COMMON/js/util.pubsub");
 var BankCheckor = function(opt){
     this.init(opt)
 };
 BankCheckor.prototype = Mixin({
+    type : "",
     init : function(opt){
+
+
+
          var that = this;
         this.dialog = new opt.Dialog({
             width : 600,
@@ -178,27 +176,12 @@ BankCheckor.prototype = Mixin({
             drag : true,
             speed : 100,
             events : {
-               "click #bankDialog-submitBtn" : function(e){
-                    that.onSubmitBtnClick(e);
-
-                },
-                "click #check_Btn_test":function(){
-                    console.log("123");
-                      openCheckor();
-
-                },
-                "click #check_Btn_sure1":function () {
-                    closeContain();
-                  },
-                "click #check_Btn_sure2":function () {
-                    closeContain();
-                },
-                "click #ensure_bankcard_delete":function () {
-                    closeContain();
-                },
-                "click #cancel_deBankC_Btn":function () {
-                    closeContain();
+                "click #check_Btn_test" : function (e) {
+                    var type = $(e.currentTarget).attr("data-typenum");
+                    var money = $("#bankCheckor_input").val();
+                    that.fetchDate(money,type);
                 }
+
             },
             onReady : function(){
 
@@ -206,8 +189,12 @@ BankCheckor.prototype = Mixin({
         })
     },
     open : function(){
+        var that = this;
         this.dialog.open({
-
+            onAfter : function () {
+                var dialog_submitBtn = $("#check_Btn_test");
+                dialog_submitBtn.attr("data-typenum",that.type);
+            }
         })
     },
     shell:function(){
@@ -217,17 +204,15 @@ BankCheckor.prototype = Mixin({
                  if(!(Ch==null||Ch==undefined)){
                        if(Ch.value==2){
                        var e=document.createElement("div");
+                       Ch.style.position = "relative";
                        e.style.height =Ch.offsetHeight+"px";
                        e.style.width = Ch.offsetWidth+"px";
-                       var obj_left = Ch.offsetLeft;
-                       var obj_top = Ch.offsetTop;
                        e.style.opacity ="0.90";
-                       // e.style.background = "red";
                        e.style.zIndex="100";
                        e.className = "shellDiv"
                        e.style.position="absolute";
-                       e.style.left = obj_left+"px";
-                       e.style.top =obj_top +"px";
+                       e.style.left = 0;
+                       e.style.top =0;
                        e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
                        e.innerHTML+="<input   type='button' class='checkor_shell_btn1' value = '删除'/>";
                        e.innerHTML +="<input   type='button'  class='checkor_shell_btn2' value = '验证'/>";
@@ -238,60 +223,77 @@ BankCheckor.prototype = Mixin({
 
                        }
                    else{
-                       return;
+
                    }
                }
         }
-        window.onresize =function(){
-            console.log(window.innerHeight);
-            console.log(window.innerWidth);
-        }
-
     },
     judge:function () {
-        var openContain = document.getElementById("bankCheckDialogContainer");
-        var that = this;
-        var oJudge = document.getElementsByClassName("checkor_shell_btn2");
-        for(var i=0;i<oJudge.length;i++){
-            oJudge[i].onclick = function () {
-                openContain.style.display = "block";
-               that.open();
-            }
-        }
-    },
-    delete:function () {
-        var that = this;
-        var Delete=document.getElementById("deleteBankCard_ensure");
-        var enSure = document.getElementsByClassName("bankCheckorEnsure")[0];
-        var deEnsure = document.getElementById("ensure_bankcard_delete");
-        var deBTn = document.getElementById("cancel_deBankC_Btn");
-        var Fault = document.getElementsByClassName("bankCheckorFault")[0];
-        var bankCheckorOk =document.getElementsByClassName("bankCheckorOk")[0];
-        var oJudge = document.getElementsByClassName("checkor_shell_btn1");
-        var delete_contain_btn = document.getElementById("gSimpleDialog-1-closeBtn");
-        for(var i=0;i<oJudge.length;i++){
-           oJudge[i].onclick = function () {
-               that.open();
-               enSure.style.display = "none"
-               Fault.style.display = "none";
-               bankCheckorOk.style.display = "none";
-               Delete.style.display = "block";
 
+        $("#bankListUl").on("click",".checkor_shell_btn1",function(e){
+            var tarBtn = $(e.currentTarget);
+            var li = tarBtn.parents(".click_li");
+           var bankName =li.attr("data-id");
+            if(!confirm("确定要删除该银行卡？")) return false;
+            that.deleteCard(bankName,tarBtn);
+        })
+        var that = this;
+        $("#bankListUl").on("click",".checkor_shell_btn2",function (e) {
+            var tarCheckBtn = $(e.currentTarget);
+            var li = tarCheckBtn.parents(".click_li");
+            var type = li.attr("data-type")||10;
+            that.type = type;
+            that.open();
+        })
+
+
+
+
+    },
+    deleteCard : function(bankname,tarBtn){
+        if(!bankname) return false;
+        var url = "call/handle.php?from=withdraw_dele&bankaccount="+bankname;
+        PFT.Util.Ajax(url,{
+            loading : function(){
+                tarBtn.addClass("disable").text("正在删除...");
+            },
+            complete : function(){
+                tarBtn.removeClass("disable").text("删除");
+            },
+            success : function(res){
+                res = res || {};
+                if(res.outcome==1){
+                    window.location.reload();
+                }else{
+                    alert("删除失败");
+                }
             }
+        })
+    },
+    fetchDate : function(money,type) {
+    if(!money || !type) return false;
+    $.ajax({
+        type:"post",
+        dataType:"json",
+        data:{
+            from : "withdraw_verifyvt",
+            money : money,
+            type : type
+        },
+        url:"/call/handle.php",
+        success:function (data) {
+          if(data.outcome==2){
+            alert("验证成功")
+          }
+          else{
+              alert(data.msg);
+          }
+        },
+        error:function (xhr,msg) {
+            alert(msg)
         }
-          deEnsure.onclick =function(){
-            Delete.style.display = "none";
-            enSure.style.display="block"
-        }
-        deBTn.onclick =function(){
-            Delete.style.display = "none";
-            enSure.style.display="block"
-        }
-        delete_contain_btn.onclick =function(){
-            Delete.style.display = "none";
-            enSure.style.display="block"
-        }
-    }
+    });
+}
 
 
 },Pubsub);

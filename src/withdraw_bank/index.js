@@ -18,9 +18,7 @@ var BankManager = function(){
 	//银行卡遮罩层部分
 	this.Checkor.shell();
 	this.Checkor.judge();
-	this.Checkor.delete();
-	// this.Checkor.open();
-};
+	};
 BankManager.prototype = {
 	bindEvents : function(){
 		var that = this;
@@ -88,24 +86,22 @@ BankManager.prototype = {
 
 		//删除银行�?
 		this.bankListUl.on("click",".delete",function(e){
-            // that=e;
-            // var tarBtn = $(e.currentTarget);
-            // Checkor.checkor_click();
-            // Checkor.Listener();
-            // var ReturnN = Checkor.Listener();
-            // console.log(ReturnN);
-            // var Btn_delete = document.getElementById("Btn_delete");
-            // Btn_delete.addEventListener("click",function () {
-            //     var bankname = tarBtn.attr("bankname");
-            //     that.deleteCard(bankname,tarBtn);
-            //
-            // },false)
             var tarBtn = $(e.currentTarget);
             if(tarBtn.hasClass("disable")) return false;
             if(!confirm("确定要删除该银行卡？")) return false;
             var bankname = tarBtn.attr("bankname");
             that.deleteCard(bankname,tarBtn);
-		}),
+		})
+         // this.bankListUl.on("click",".checkor_shell_btn1",function(e){
+         //        var tarBtn = $(e.currentTarget);
+         //        var carLi= tarBtn.parent(".click_li");
+         //     alert(carLi.attr("id"));
+         //        var bankName = carLi.attr("data-id");
+         //     if(!confirm("确定要删除该银行卡？")) return false;
+         //        that.deleteCard(bankName,tarBtn);
+         //    }),
+
+
 		this.Dialog.on("submit",function(data){
 			var submitBtn = data.submitBtn;
 			var submitData = data.submitData;
