@@ -68,7 +68,7 @@ BankCheckor.prototype = Mixin({
                            }
                        else{
 
-                                    $(e).html("<span class='checkor_shell_span1'>无法验证?</span>"+"<span  class='checkor_shell_span3'>"+"可能出现的情形："+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"1.输入验证信息错误超过3次"+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"1.输入验证信息错误超过3次"+"</span>"+"</br>"+"<input   type='button' class='checkor_shell_btn1' value = '删除'/>")
+                                    $(e).html("<span class='checkor_shell_span1'>无法验证?</span>"+"<span  class='checkor_shell_span3'>"+"可能出现的情形："+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"1.输入验证信息错误超过3次；"+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"2.票付通打款到该卡失败；"+"</span>"+"</br>"+"<input   type='button' class='checkor_shell_btn1' value = '删除'/>")
 
                            }
                            var  carId =$("#"+$(checkor).attr("id"));
@@ -154,7 +154,7 @@ BankCheckor.prototype = Mixin({
         success:function (data) {
           if(data.outcome==2){
             alert("验证成功");
-             window.location.reload();
+             window.location.reload(true);
           }
           else{
               alert(data.msg);
