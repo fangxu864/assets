@@ -1,18 +1,33 @@
 <template>
-    <div id="bodyContainer" class="bodyContainer">
+    <div v-if="state=='success'" id="bodyContainer" class="bodyContainer">
         <photo :state="state" :src="info.imgpath" :title="info.title" :address="info.address"></photo>
-        <ul class="tabHeader" :class="{fix:tabFix}" @click="onTabHeaderClick">
+        <ul id="pdetailTabHeader" class="tabHeader" :class="{fix:tabFix}" @click="onTabHeaderClick">
             <li data-type="buy" class="tabHeadItem buy" :class="{active:tabActiveClass=='buy'}"><span class="text">购票</span></li>
             <li data-type="zhi" class="tabHeadItem zhi" :class="{active:tabActiveClass=='zhi'}"><span class="text">预订须知</span></li>
             <li data-type="info" class="tabHeadItem info" :class="{active:tabActiveClass=='info'}"><span class="text" v-text="ptype_text"></span></li>
         </ul>
         <div class="scrollMainContainer" :class="{isTabHeadFix:tabFix}">
-            <ticket-list :lid="lid"></ticket-list>
-            <div style="margin-top:10px">
-                <taopiao-list :lid="lid"></taopiao-list>
+            <div id="buy-boxMod" data-type="buy" class="buy boxMod">
+                <ticket-list :lid="lid"></ticket-list>
+                <div v-if="p_type!=='F'" style="margin-top:10px">
+                    <taopiao-list :lid="lid"></taopiao-list>
+                </div>
+            </div>
+            <div id="zhi-boxMod" data-type="zhi" class="zhi boxMod">
+                <div class="boxModTit"><span class="t">预订须知</span></div>
+                <div class="boxModCon" v-html="info.jqts"></div>
+            </div>
+            <div id="info-boxMod" data-type="info" class="info boxMod">
+                <div class="ptypeBox">
+                    <div class="boxModTit"><span class="t">景点简介</span></div>
+                    <div class="boxModCon" v-html="info.bhjq"></div>
+                </div>
+                <div class="ptypeBox">
+                    <div class="boxModTit"><span class="t">交通指南</span></div>
+                    <div class="boxModCon" v-html="info.bhjq"></div>
+                </div>
             </div>
         </div>
-
         <!--<actionsheet-->
                 <!--:menus="actions"-->
                 <!--:show.sync="sheetVisible"-->
@@ -39,14 +54,16 @@
                 tabActiveClass : "buy",
                 tabFix : false,
                 photoHeight : 0,
+                tabHeadHeight : 0,
                 info : {
-                    ptype : "A",
+                    p_type : "A",
                     id: "",
                     title: "",
                     area: "",
                     address: "",
                     jtzn: "",
                     jqts: "",
+                    bhjq : "",
                     imgpath: "",
                     apply_did: ""
                 }
@@ -94,16 +111,16 @@
             onTabHeaderClick(e){
                 var tarBtn = $(e.target);
                 var tarTab = tarBtn.hasClass("tabHeadItem") ? tarBtn : tarBtn.parents(".tabHeadItem");
-                var photoHeight = this.photoHeight;
-                this.tabActiveClass = tarTab.attr("data-type");
+                var type = this.tabActiveClass = tarTab.attr("data-type");
+                var body = document.body;
+                var tarBoxMod = $("#"+type+"-boxMod");
+                var offsetTop = tarBoxMod.offset().top - this.tabHeadHeight+1;
                 ScrollTopAnimation({
-                    elem : document.body,
-                    top : photoHeight,
-                    duration : 200,
+                    elem : body,
+                    top : offsetTop,
+                    duration : 300,
                     delay : 20,
-                    callback : function(){
-
-                    }
+                    callback : function(){}
                 })
             },
             getPhotoHeight(){
@@ -118,7 +135,7 @@
                     C : "酒店介绍",
                     H : "演出介绍",
                     B : "行程按排"
-                }[this.info.ptype];
+                }[this.info.p_type];
             }
         },
         watch : {
@@ -131,6 +148,7 @@
                 if(val=="success"){
                     setTimeout(()=>{
                         this.photoHeight = this.getPhotoHeight();
+                        this.tabHeadHeight = $("#pdetailTabHeader").height();
                     },500)
                 }
             }
@@ -145,8 +163,10 @@
 <style lang="sass">
     .tabHeader{ width:100%; overflow:hidden; background:#fff; border-bottom:1px solid #e5e5e5}
     .tabHeader.fix{ position:fixed; top:0; left:0; right:0; z-index:10; box-shadow:0 1px 1px rgba(0,0,0,0.1)}
-    .tabHeader .tabHeadItem{ width:33.33%; float:left; text-align:center}
-    .tabHeader .tabHeadItem .text{ display:inline-block; height:43px; line-height:43px; padding:0 25px; border-bottom:3px solid #fff}
+    .tabHeader .tabHeadItem{ width:33.33%; float:left; text-align:center; font-size:0}
+    .tabHeader .tabHeadItem .text{ display:inline-block; height:43px; font-size:0.35rem; line-height:46px; padding:0 25px; border-bottom:3px solid #fff}
     .tabHeader .tabHeadItem.active .text{ font-weight:bold; border-bottom-color:#0797D9; color:#0797D9}
     .scrollMainContainer.isTabHeadFix{ margin-top:46px;}
+    .scrollMainContainer .boxMod .boxModTit{ height:45px; line-height:45px; padding:0 10px; font-size:0.4rem; font-weight:bold; border-bottom:1px solid #e5e5e5}
+    .scrollMainContainer .boxMod.zhi,.scrollMainContainer .boxMod.info{ height:800px; background:#fff; margin-top:10px}
 </style>
