@@ -1,6 +1,15 @@
 <template>
     <div class="pdetailPhotoContainer">
-        <image-loador :src="src" :height="height" :flex="flex" v-if="state!=='loading' && state!==''"></image-loador>
+        <template v-if="state=='success'">
+            <image-loador :src="src" :height="height" :flex="flex"></image-loador>
+            <div class="infoBox" v-if="title && address">
+                <p class="landTitle" v-text="title"></p>
+                <div class="landAddr">
+                    <p class="addrText" v-text="address"></p>
+                    <i class="iconfont icon-daohang"></i>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 <script type="es6">
@@ -11,6 +20,14 @@
                 default : ""
             },
             src : {
+                type : String,
+                default : ""
+            },
+            title : {
+                type : String,
+                default : ""
+            },
+            address : {
                 type : String,
                 default : ""
             }
@@ -26,4 +43,11 @@
         }
     }
 </script>
-<style lang="sass"></style>
+<style lang="sass">
+    .pdetailPhotoContainer{ position:relative}
+    .pdetailPhotoContainer .infoBox{ position:absolute; left:0; right:0; bottom:0; padding:8px 10px; font-size:0.35rem; line-height:1.5; background:rgba(0,0,0,0.4); color:#fff}
+    .pdetailPhotoContainer .landTitle{ font-weight:bold}
+    .pdetailPhotoContainer .landAddr{ position:relative; padding-right:30px;}
+    .pdetailPhotoContainer .landAddr .iconfont{ position:absolute; top:-7px; right:0;}
+
+</style>
