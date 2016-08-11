@@ -6,7 +6,6 @@
 require("./index.scss");
 var Defaults = {
 	trigger : null,
-
 	field : {
 		id : "id",
 		name : "name"
@@ -265,11 +264,13 @@ Select.prototype = {
 			},
 			success : function(res){
 				res = res || {};
-				var code = res.code;
 				var data = that.opt.adaptor(res);
+				var code = data.code;
+				var list = data.data;
+
 				if(code==200){
-					that.__cacheData = data;
-					that.updateListUl(data);
+					that.__cacheData = list;
+					that.updateListUl(list);
 				}else{
 					that.__cacheData = "error";
 					that.updateListUl("error");

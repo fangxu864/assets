@@ -10,22 +10,27 @@
         </ul>
     </div>
     <div class="dealTimeBox">
-        <div class="lt">
-            <span>交易时间：</span>
-            <input type="text" class="datePickerInp begin" id="start_time" readonly="readonly"/>
-            <span>至</span>
-            <input type="text" class="datePickerInp end" id="end_time" readonly="readonly"/>
-            <a href="javascript:void(0)" class="dealTime" id="thisWeek">近7日</a>
-            <a href="javascript:void(0)" class="dealTime" id="thisMonth">近一个月</a>
+        <div class="line line1">
+            <div class="lt">交易商户：</div>
+            <div class="rt" id="trader_box"><input id="trader" name="trader"/></div>
         </div>
-        <div class="rt">
+        <div class="line line2">
+            <div class="lt">
+                <span>交易时间：</span>
+                <input type="text" class="datePickerInp begin" id="start_time" readonly="readonly"/>
+                <span>至</span>
+                <input type="text" class="datePickerInp end" id="end_time" readonly="readonly"/>
+                <a href="javascript:void(0)" class="dealTime" id="thisWeek">近7日</a>
+                <a href="javascript:void(0)" class="dealTime" id="thisMonth">近一个月</a>
+            </div>
+            <div class="rt">
         <span class="dealTypeBox">
            <input type="radio" name="dealType" class="radioDeal" id="deal_count"  checked="checked"/> 按账户汇总
            <input type="radio" name="dealType" class="radioDeal" id="deal_trade"/> 按交易类型
         </span>
-            <a href="javascript:void(0)" class="queryBtn" id="queryBtn">查询</a>
-        </div>
-
+                <a href="javascript:void(0)" class="queryBtn" id="queryBtn">查询</a>
+            </div>
+    </div>
     </div>
     <div class="dealSumBox">
         总收入：<span class="totalIncome"><span id="totalIncome"></span> 元</span>

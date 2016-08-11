@@ -7,6 +7,7 @@ require("./index.scss");
 var tpl=require("./index.xtpl");
 var Calendar = require("COMMON/modules/calendar");
 var Pagination = require("COMMON/modules/pagination");
+var Select = require("COMMON/modules/select");
 require("COMMON/modules/DragConOver")($);
 
 var DealSum={
@@ -90,6 +91,59 @@ var DealSum={
 				onAfter : function(){}       //弹出日历后callback
 			})
 		});
+		/*》》》》如果账户为管理员，显示交易用户搜索框*/
+
+
+
+		var select=new Select({
+
+			trigger : $(".dealsumContainer .dealTimeBox .line1 .rt input"),
+
+				field : {
+					id : "id",
+					name : "dname"
+			},
+
+			//是否支持搜索过滤 默认为true(支持)
+			//接受的值有：3种
+			//true(支持)  false(不支持)  function自定义过滤规则，如：function(data,keyword){ return[{key:value}] }
+			filter : true,
+
+			height : 200,
+
+			source : "/call/jh_mem.php?action=fuzzyGetDname_c&dname=a&dtype=1" ,//ajax请求的数据源?action=fuzzyGetDname_c&dname=sdf&dtype=1
+			offset : { //偏移量
+				top : 0,
+				left : 0,
+				width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
+		    },
+
+			defaultVal : "",  //初始化时默认选中的值
+        //
+		// 		tpl : function(){
+		// 	return require("COMMON/modules/select/index.xtpl");
+		// },
+
+			// //适配器，用于适配从后端请求回来的数据为如下格式
+			// //[{key1:value1,key2:value2}]
+			adaptor : function(res){
+				var reslut = { code:200};
+				reslut["data"] = res;
+				return reslut;
+
+
+
+			// 	res = res || {};
+			// 	var code = res.code;
+			// 	var data = res.data || [];
+			// 	return data;
+			}
+            //
+			// //若需要传入自定义的静态data数据,
+			// //格式需为:[{key1:value1,key2:value2}] 此时将忽略source,adaptor参数
+			// data : null
+		})
+		/*《《《《如果账户为管理员，显示交易用户搜索框*/
 		this.bind();
 		this.query_btn.click();
 		// 表格拖动部分
