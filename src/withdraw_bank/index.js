@@ -60,15 +60,20 @@ BankManager.prototype = {
             })
 		})
 		this.bankListUl.on("click",".checkor_shell_btn3",function(e){
-			var tarBtn = $(e.currentTarget);
+            var tarBtn = $(e.currentTarget);
+            var li = tarBtn.parents(".click_li");
+            var Span =li.children(".wid7");
+            var childS = Span.children(".card_config");
+            var type= childS.attr("type");
+
 			var province_id = tarBtn.attr("bank_province");
 			var city_id = tarBtn.attr("bank_city");
 			var bank_id = tarBtn.attr("bank_id");
 			var card_number = tarBtn.attr("bank_num");
 			var username = tarBtn.attr("username");
 			var subBank_id = tarBtn.attr("code");
-			var type = tarBtn.attr("type");
 			var acc_type = tarBtn.attr("acc_type");
+
 			Dialog.open({
 				mode : "edit",
 				bank_id : bank_id,
@@ -79,7 +84,9 @@ BankManager.prototype = {
 				account_name : username,
 				type : type,
 				card_type : acc_type
+
 			})
+
 		})
 
 

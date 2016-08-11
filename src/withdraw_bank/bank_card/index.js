@@ -202,25 +202,34 @@ BankCheckor.prototype = Mixin({
             var checkor  ="checkor_bankCard_"+i;
              var Ch= document.getElementById(checkor);
                  if(!(Ch==null||Ch==undefined)){
-                       if(Ch.value==2){
+                       if(Ch.value==2||Ch.value==3){
                        var e=document.createElement("div");
                        Ch.style.position = "relative";
                        e.style.height =Ch.offsetHeight+"px";
                        e.style.width = Ch.offsetWidth+"px";
                        e.style.opacity ="0.90";
                        e.style.zIndex="100";
-                       e.className = "shellDiv"
+                       e.className = "shellDiv";
                        e.style.position="absolute";
                        e.style.left = 0;
                        e.style.top =0;
-                       e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
-                       e.innerHTML+="<input   type='button' class='checkor_shell_btn1' value = '删除'/>";
-                       e.innerHTML +="<input   type='button'  class='checkor_shell_btn2' value = '验证'/>";
-                       e.innerHTML +="<input  type='button'  class='checkor_shell_btn3' value ='修改'/>";
-                       e.style.background="#cacacf";
-                           var  carId = document.getElementById(Ch.id)
-                       carId.appendChild(e);
+                       if(Ch.value==2){
+                               e.innerHTML="<span class='checkor_shell_span'>未验证</span>";
+                               e.innerHTML+="<input   type='button' class='checkor_shell_btn1' value = '删除'/>";
+                               e.innerHTML +="<input   type='button'  class='checkor_shell_btn2' value = '验证'/>";
+                               e.innerHTML +="<input  type='button'  class='checkor_shell_btn3' value ='修改'/>";
+                           }
+                       else{
+                                   e.innerHTML="<span class='checkor_shell_span1'>无法验证?</span>";
+                                   e.innerHTML+="<span  class='checkor_shell_span3'>"+"可能出现的情形："+"</span>"+"</br>";
+                                   e.innerHTML+="<span class='checkor_shell_span3'>"+"1.输入验证信息错误超过3次"+"</span>"+"</br>";
+                                   e.innerHTML+="<span class='checkor_shell_span3'>"+"2.票付通打款到该卡失败"+"</span>"+"</br>";
 
+                               e.innerHTML+="<input   type='button' class='checkor_shell_btn1' value = '删除'/>";
+                           }
+                         e.style.background="#cacacf";
+                        var  carId = document.getElementById(Ch.id);
+                       carId.appendChild(e);
                        }
                    else{
 
@@ -229,22 +238,43 @@ BankCheckor.prototype = Mixin({
         }
     },
     judge:function () {
-
+//删除银行卡
         $("#bankListUl").on("click",".checkor_shell_btn1",function(e){
             var tarBtn = $(e.currentTarget);
             var li = tarBtn.parents(".click_li");
-           var bankName =li.attr("data-id");
+            var Span =li.children(".wid7");
+            var childS = Span.children(".delete");
+            var bankName =childS.attr("bankname");
             if(!confirm("确定要删除该银行卡？")) return false;
-            that.deleteCard(bankName,tarBtn);
+            that.deleteCard(bankName,childS);
         })
+
+ //验证银行卡
         var that = this;
         $("#bankListUl").on("click",".checkor_shell_btn2",function (e) {
             var tarCheckBtn = $(e.currentTarget);
             var li = tarCheckBtn.parents(".click_li");
-            var type = li.attr("data-type")||10;
+            var type = li.attr("data-type");
             that.type = type;
             that.open();
+
         })
+  //修改银行卡 填充
+        $("#bankListUl").on("click",".checkor_shell_btn3",function(e){
+            var tarCheckBtn = $(e.currentTarget);
+            var li = tarCheckBtn.parents(".click_li");
+            var Span =li.children(".wid4");
+            // var Span2 = li.children(".wid3");
+            var  htmlSum = Span.html();
+            var paddleft = htmlSum.replace(/[^0-9]/ig, "");
+            $("#bankCardNumInp").val(paddleft);
+            // $("#bankCopyBox").css("display","block")
+        })
+      //判断银行卡的正确与否
+        $("#bankForm").on("click","#bankDialog-submitBtn",function (e) {
+
+        })
+
 
 
 
@@ -271,8 +301,8 @@ BankCheckor.prototype = Mixin({
         })
     },
     fetchDate : function(money,type) {
-    if(!money || !type) return false;
-    $.ajax({
+       if(!money || !type) return false;
+           $.ajax({
         type:"post",
         dataType:"json",
         data:{
@@ -290,9 +320,11 @@ BankCheckor.prototype = Mixin({
           }
         },
         error:function (xhr,msg) {
-            alert(msg)
+            alert(msg);
         }
     });
+
+
 }
 
 
