@@ -1,29 +1,31 @@
 <template>
     <div id="bodyContainer" class="bodyContainer">
         <div id="indexPageFixHeader">
-            <fix-header></fix-header>
+            <fix-header>
+                <a class="leftBtn" href="javascript:void(0)" @click="citySwitchor.show=true" slot="left">
+                    <i class="iconfont icon-sevenbabicon31"></i>
+                    <span class="t" v-text="city"></span>
+                </a>
+                <div class="centerBox" slot="center">
+                    <a href="javascript:void(0)" class="searchBox"><i class="iconfont icon-search"></i><span class="t">产品名称</span></a>
+                </div>
+                <a class="rightBtn" href="javascript:void(0)" slot="right"><i class="iconfont icon-lianxiren"></i></a>
+            </fix-header>
         </div>
         <div id="bodyMainCon" class="bodyMainCon">
             <div class="sliderModule">
                 <slider :init-height="slideInitHeight"></slider>
             </div>
             <ptype-list></ptype-list>
-            <!--<product-list :area="area"></product-list>-->
-            <!--<page-footer></page-footer>-->
+            <product-list :area="city"></product-list>
+            <page-footer></page-footer>
         </div>
-        <!--<login :z-index="loginZIndex" :show="loginShow"></login>-->
-        <!--<city-switchor-->
-                <!--:geo-location="GeoLocation"-->
-                <!--:show="citySwitchorShow"-->
-                <!--v-on:switch="onCitySwitch"-->
-                <!--v-on:close="citySwitchorShow=false">-->
-        <!--</city-switchor>-->
-        <!--<actionsheet-->
-                <!--:menus="actions"-->
-                <!--:show.sync="sheetVisible"-->
-                <!--:cancel-text="cancelText"-->
-                <!--v-on:click="onActionsheetClick">-->
-        <!--</actionsheet>-->
+        <city-switchor
+                :geo-location="citySwitchor.GeoLocation"
+                :show="citySwitchor.show"
+                v-on:switch="onCitySwitch"
+                v-on:close="citySwitchor.show=false">
+        </city-switchor>
     </div>
 </template>
 
@@ -33,6 +35,12 @@
     export default {
         data(){
             return {
+                city : GeoLocation.getLastSwitchCity().city,
+                city_id : "",
+                citySwitchor : {
+                    GeoLocation : GeoLocation,
+                    show : false
+                },
                 slideInitHeight : 150
             }
         },
@@ -40,15 +48,31 @@
 
         },
         methods : {
-
+            openCitySwitchor(){
+                  console.log("openCitySwitchor")
+            },
+            onCitySwitch(data){
+                this.city = data.cityname;
+                this.city_id = data.id;
+                this.citySwitchor.show = false;
+            }
         },
         components : {
-            fixHeader : require("./components/fix-header.vue"),
             slider : require("COMMON_VUE_COMPONENTS/slider.vue"),
+            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header.vue"),
             productList : require("./components/product-list.vue"),
+            citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor.vue"),
             ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list.vue"),
             pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue")
         }
     }
 </script>
-
+<style lang="sass">
+    @import "COMMON/css/base/core/px2rem";
+    #indexPageFixHeader .gFixHeader .leftBtn{ width:90px; padding-left:10px; text-align:left; overflow:hidden}
+    #indexPageFixHeader .gFixHeader .leftBtn .t{ font-size:0.35rem}
+    $height : 65;
+    $marginTop : 12.25;
+    #indexPageFixHeader .gFixHeader .searchBox{ display:block; width:70%; height:px2rem($height); line-height:px2rem($height); margin:px2rem($marginTop) auto 0; background:#e5f5fc; color:#92a0ab; border-radius:3px}
+    #indexPageFixHeader .gFixHeader .searchBox .iconfont{ font-size:0.48rem; margin-right:3px; top:1px;}
+</style>

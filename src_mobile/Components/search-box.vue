@@ -1,5 +1,5 @@
 <template>
-    <div class="searchBox">
+    <div class="ui-searchBox">
         <input autocomplete="off" class="searchInp" type="text"
                v-model="value"
                :autofocus="isFocus"
@@ -50,7 +50,7 @@
 <style lang="sass">
     @import "COMMON/css/base/core/variables";
     @import "COMMON/css/base/mixin/searchBox_flex";
-    .searchBox{
+    .ui-searchBox{
         @include searchBox_flex((top:10,bottom:10,left:30,right:30),false,false);
     }
 </style>

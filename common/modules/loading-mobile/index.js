@@ -1,7 +1,7 @@
 /**
  * Author: huangzhiyang
  * Date: 2016/6/16 17:34
- * Description: ""
+ * Description: 已废弃，请使用Toast组件
  */
 require("./index.scss");
 var tpl = require("./index.xtpl");

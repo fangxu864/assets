@@ -18,6 +18,8 @@ var Location = Mixin({
 
 	__LAST_SWITCH_CITY_KEY : "PFT_WX_LAST_SWITCH_CITY",
 
+	__LOCATION_CITY_TEXT_BAIDU : "LOCATION_CITY_TEXT_BAIDU",
+
 	//用户如果没有切换过城市(如第一次使用此应用，则需要设置一个默认城市)
 	//大多数情况下为全国，但有一部分客户产品较多，需要指定某个特定城市
 	getDefaultSwitchCity : function(){
@@ -73,6 +75,27 @@ var Location = Mixin({
 		return this;
 	},
 
+	//通过经纬度查询城市名称，把查询到的城市缓存在localStorage
+	setLocationCityByLngLat : function(lng,lat,cityname){
+		if(!lng || !lat || !cityname) return false;
+		var key = this.__LOCATION_CITY_TEXT_BAIDU;
+		var id = lng+"_"+lat;
+		var citys = window.localStorage.getItem(key);
+		if(!citys) citys = "{}";
+		citys = JSON.parse(citys);
+		citys[id] = cityname;
+		window.localStorage.setItem(key,JSON.stringify(citys));
+	},
+	getLocationCityByLngLat : function(lng,lat){
+		if(!lng || !lat) return "";
+		var key = this.__LOCATION_CITY_TEXT_BAIDU;
+		var id = lng+"_"+lat;
+		var citys = window.localStorage.getItem(key);
+		if(!citys) return "";
+		citys = JSON.parse(citys) || {};
+		return citys[id] ? citys[id] : "";
+	},
+
 	/**
 	 * 定位城市  可选择h5定位或IP地址定位(type参数)
 	 * @param opt
@@ -115,20 +138,29 @@ var Location = Mixin({
 						var point = res.point;
 						var lng = point.lng;
 						var lat = point.lat;
-						$.getJSON('http://api.map.baidu.com/geocoder/v2/?ak=485641E293ABd3523de065f7c1bbfeba&callback=?&location='+lat+','+lng+'&output=json&pois=1', function(res){
-							complete(res);
-							that.fire("complete",res);
-							if(res && res.result && res.result.addressComponent && res.result.addressComponent.city){
-								var city = res.result.addressComponent.city;
-								if(city.indexOf("市")) city = city.substring(0,city.length-1);
-								success(city);
-								that.setLocationCity(city);
-								that.fire("success",city);
-							}else{
-								fail(res);
-								that.fire("fail",res);
-							}
-						});
+						var cache_city = that.getLocationCityByLngLat(lng,lat);
+						if(cache_city){
+							success(cache_city);
+							that.setLocationCity(cache_city);
+							that.fire("success",cache_city);
+						}else{
+							$.getJSON('http://api.map.baidu.com/geocoder/v2/?ak=485641E293ABd3523de065f7c1bbfeba&callback=?&location='+lat+','+lng+'&output=json&pois=1', function(res){
+								complete(res);
+								that.fire("complete",res);
+								if(res && res.result && res.result.addressComponent && res.result.addressComponent.city){
+									var city = res.result.addressComponent.city;
+									if(city.indexOf("市")) city = city.substring(0,city.length-1);
+									success(city);
+									that.setLocationCity(city);
+									that.fire("success",city);
+									that.setLocationCityByLngLat(lng,lat,city);
+								}else{
+									fail(res);
+									that.fire("fail",res);
+								}
+							});
+						}
+
 					}else{
 						complete(res);
 						that.fire("complete",res);

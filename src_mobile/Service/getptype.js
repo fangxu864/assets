@@ -8,6 +8,10 @@ module.exports = function(opt){
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
 	PFT.Util.Ajax(PFT.Api.getptype(),{
+		type : "post",
+		params : {
+			token : PFT.Util.getToken()
+		},
 		loading : opt.loading,
 		complete : opt.complete,
 		success : function(res){

@@ -5,11 +5,13 @@
  */
 require("./index.scss");
 var Defaults = {
+
 	trigger : null,
 
 	field : {
 		id : "id",
-		name : "name"
+		name : "name",
+		keyword : "keyword"
 	},
 
 	//是否支持搜索过滤 默认为true(支持)
@@ -17,9 +19,13 @@ var Defaults = {
 	//true(支持)  false(不支持)  function自定义过滤规则，如：function(data,keyword){ return[{key:value}] }
 	filter : true,
 
+	filterType : "",
+
 	height : 200,
 
 	source : "", //ajax请求的数据源
+	ajaxParams : {},
+	ajaxType : "type",
 
 	offset : { //偏移量
 		top : 0,
@@ -36,10 +42,7 @@ var Defaults = {
 	//适配器，用于适配从后端请求回来的数据为如下格式
 	//[{key1:value1,key2:value2}]
 	adaptor : function(res){
-		res = res || {};
-		var code = res.code;
-		var data = res.data || [];
-		return data;
+		return res;
 	},
 
 	//若需要传入自定义的静态data数据,
@@ -54,6 +57,7 @@ var __uuid = (function(){
 })();
 function Select(opt){
 	var opt = this.opt = $.extend({},Defaults,opt);
+	this.xhr = null;
 	this.init(opt);
 }
 Select.prototype = {
@@ -85,6 +89,7 @@ Select.prototype = {
 		}
 		if(!opt.filter) this.selectBox.addClass("no-search");
 	},
+
 	bindEvents : function(){
 		var that = this;
 		this.trigger.on("click",function(e){
@@ -95,10 +100,15 @@ Select.prototype = {
 				that.close();
 			}
 		})
+
 		this.mask.on("click",function(){
 			that.close();
 		})
-		this.searchInp.on("keyup",function(e){
+		//this.searchInp.on("keyup",function(e){
+		//	if(!that.opt.filter) return false;
+		//	that.onSearchInpChange(e);
+		//})
+		this.searchInp.on("input propertychange",function(e){
 			if(!that.opt.filter) return false;
 			that.onSearchInpChange(e);
 		})
@@ -141,11 +151,19 @@ Select.prototype = {
 		clearTimeout(this.keyupTimer);
 		this.keyupTimer = setTimeout(function(){
 			var keyword = $.trim($(e.currentTarget).val());
-			var result = that.filter(keyword);
 			keyword=="" ? that.clearSearchBtn.hide() : that.clearSearchBtn.show();
-			var html = that.renderListHtml(result);
-			that.listUl.html(html);
+			if(that.opt.filterType=="ajax"){
+				that.filterByAjax(keyword);
+			}else{
+				var result = that.filter(keyword);
+				var html = that.renderListHtml(result);
+				that.listUl.html(html);
+			}
 		},200)
+	},
+	//过滤 by ajax
+	filterByAjax : function(keyword){
+		this.fetchData(this.opt.source,keyword);
 	},
 	//过滤
 	filter : function(keyword){
@@ -250,11 +268,15 @@ Select.prototype = {
 			top : (of.top-scrollTop) + trigger_h + (offset.top || 0)
 		})
 	},
-	fetchData : function(source){
+	fetchData : function(source,keyword){
 		var that = this;
-		PFT.Util.Ajax(source,{
-			type : "get",
+		var ajaxType = this.opt.ajaxType;
+		var ajaxParams = this.opt.ajaxParams;
+		if(typeof keyword!=="undefined") ajaxParams[this.opt.field.keyword] = keyword;
+		this.xhr = PFT.Util.Ajax(source,{
+			type : ajaxType,
 			dataType : "json",
+			data : ajaxParams,
 			loading : function(){
 				that.opt.__cacheData = "loading";
 				that.updateListUl("loading");
@@ -265,11 +287,12 @@ Select.prototype = {
 			},
 			success : function(res){
 				res = res || {};
-				var code = res.code;
 				var data = that.opt.adaptor(res);
+				var code = data.code;
+				var list = data.data;
 				if(code==200){
-					that.__cacheData = data;
-					that.updateListUl(data);
+					that.__cacheData = list;
+					that.updateListUl(list);
 				}else{
 					that.__cacheData = "error";
 					that.updateListUl("error");

@@ -23,6 +23,18 @@ var Api_Mb = {
 		//获取热门推荐产品
 		getProductHot : function(){
 			return Mall_Product("index");
+		},
+		//产品详情页，获取票类列表
+		getTicketList : function(){
+			return Mall_Product("getTicketList");
+		},
+		//产品详情页，获取相关套票
+		getRelatedPackage : function(){
+			return Mall_Product("getRelatedPackage");
+		},
+		//产品详情页，产品详情信息
+		getLandInfo : function(){
+			return Mall_Product("getLandInfo");
 		}
 	}
 };

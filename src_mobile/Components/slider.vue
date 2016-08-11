@@ -62,7 +62,8 @@
                     success : (src,img) => {
                         var iW = img.width;
                         var iH = img.height;
-                        var sW = $(window).width();
+                        //var sW = $(window).width();
+                        var sW = document.getElementById("slideContainer").offsetWidth;
                         var sH = parseInt((sW*iH)/iW);
                         $("#bannerWrap").height(sH);
                         this.state = "success";
