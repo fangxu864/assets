@@ -228,10 +228,9 @@ Select.prototype = {
 		var defaultVal = this.opt.defaultVal;
 		if(data=="loading" || data=="error" || data==null) return false;
 		if(defaultVal){
-
 			this.selectDefaultVal();
 		}else{
-			this.listUl.children().first().trigger("click");
+			(this.opt.filterType!=="ajax") && this.listUl.children().first().trigger("click");
 		}
 	},
 	//初始化时选中默认值
@@ -296,7 +295,7 @@ Select.prototype = {
 		this.xhr = PFT.Util.Ajax(source,{
 			type : ajaxType,
 			dataType : "json",
-			data : ajaxParams,
+			params : ajaxParams,
 			loading : function(){
 				that.opt.__cacheData = "loading";
 				that.updateListUl("loading");
