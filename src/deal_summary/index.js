@@ -28,6 +28,7 @@ var DealSum={
 		this.roll_left_btn=$(".roll_left");
 		this.roll_right_btn=$(".roll_right");
 		this.day_detail_btn=$("#day_detail_btn");
+		this.trader_inp=$("#trader");
 		//日历部分
 		//扩展日期对象，新增格式化方法
 		Date.prototype.Format = function (fmt) { //author: meizz
@@ -92,27 +93,52 @@ var DealSum={
 			})
 		});
 		/*》》》如果账户为管理员，显示交易用户搜索框*/
-		var select=new Select({
-			source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-			ajaxType : "get",
-			ajaxParams : {
-				action : "fuzzyGetDname_c",
-				dtype : "1",
-				danme : ""
-			},
-			filterType : "ajax",  //指定过滤方式为ajax
-			field : {
-				id : "lid",
-				name : "dname",
-				keyword : "dname"
-			},
-		    trigger : $(".dealsumContainer .dealTimeBox .line1 .rt input"),
+		/*查询是否为管理员*/
+		$.ajax({
+			url: "/r/Finance_TradeRecord/isMaster",    //请求的url地址
+			dataType: "json",                        //返回格式为json
+			async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
+			data: {                                    //参数值
 
-			filter : true,
-			adaptor : function(res){
-				var reslut = { code:200};
-				reslut["data"] = res;
-				return reslut;
+			},
+			type: "GET",                               //请求方式
+			beforeSend: function() {
+				//请求前的处理
+			},
+			success: function(req) {
+				console.log(req.code);
+				if(req.code==0){
+					$(".dealsumContainer .dealTimeBox .line1").css("display","block");
+					var select=new Select({
+						source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+						ajaxType : "get",
+						ajaxParams : {
+							action : "fuzzyGetDname_c",
+							dtype : "1",
+							danme : ""
+						},
+						filterType : "ajax",  //指定过滤方式为ajax
+						field : {
+							id : "lid",
+							name : "dname",
+							keyword : "dname"
+						},
+						trigger : $(".dealsumContainer .dealTimeBox .line1 .rt input"),
+
+						filter : true,
+						adaptor : function(res){
+							var reslut = { code:200};
+							reslut["data"] = res;
+							return reslut;
+						}
+					});
+				}
+			},
+			complete: function() {
+				//请求完成的处理
+			},
+			error: function() {
+				//请求出错处理
 			}
 		});
 		/*《《《如果账户为管理员，显示交易用户搜索框*/
@@ -219,7 +245,9 @@ var DealSum={
 				data: {                                    //参数值
 					"search_type": _this.dealType,
 					"btime":_this.stime_inp.val(),
-					"etime":_this.etime_inp.val()
+					"etime":_this.etime_inp.val(),
+					"page":1,
+					"searchFid":_this.trader_inp.val()
 				},
 				type: "GET",                               //请求方式
 				beforeSend: function() {
@@ -237,7 +265,9 @@ var DealSum={
 						data: {                                    //参数值
 							"search_type": _this.dealType,
 							"btime":_this.stime_inp.val(),
-							"etime":_this.etime_inp.val()
+							"etime":_this.etime_inp.val(),
+							"page":1,
+							"searchFid":_this.trader_inp.val()
 						},
 						type: "GET",                               //请求方式
 						beforeSend: function() {
@@ -280,7 +310,8 @@ var DealSum={
 							"search_type": _this.dealType,
 							"btime":_this.stime_inp.val(),
 							"etime":_this.etime_inp.val(),
-							"page":present_page
+							"page":present_page,
+							"searchFid":_this.trader_inp.val()
 						},
 						type: "GET",                               //请求方式
 						beforeSend: function() {

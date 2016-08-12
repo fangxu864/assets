@@ -12,7 +12,7 @@
     <div class="dealTimeBox">
         <div class="line line1">
             <div class="lt">交易商户：</div>
-            <div class="rt" id="trader_box"><input id="trader" name="trader"/></div>
+            <div class="rt" id="trader_box"><input id="trader" placeholder="请输入交易商户名称"/></div>
         </div>
         <div class="line line2">
             <div class="lt">
