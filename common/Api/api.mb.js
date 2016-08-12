@@ -35,6 +35,14 @@ var Api_Mb = {
 		//产品详情页，产品详情信息
 		getLandInfo : function(){
 			return Mall_Product("getLandInfo");
+		},
+		//获取日历价格
+		getCalendarPrice : function(){
+			return Mall_Product("getCalendarPrice")
+		},
+		//C端端面跳转链接
+		Page_Link : {
+
 		}
 	}
 };

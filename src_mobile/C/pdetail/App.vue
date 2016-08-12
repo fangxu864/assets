@@ -17,16 +17,17 @@
                 <div class="boxModTit"><span class="t">预订须知</span></div>
                 <div class="boxModCon" v-html="info.jqts"></div>
             </div>
-            <div id="info-boxMod" data-type="info" class="info boxMod">
+            <div id="info-boxMod" data-type="info" v-if="p_type!=='H'" class="info boxMod">
                 <div class="ptypeBox">
-                    <div class="boxModTit"><span class="t">景点简介</span></div>
+                    <div class="boxModTit"><span class="t" v-text="p_type!=='H' ? '产品简介' : '行程安排'"></span></div>
                     <div class="boxModCon" v-html="info.bhjq"></div>
                 </div>
                 <div class="ptypeBox">
-                    <div class="boxModTit"><span class="t">交通指南</span></div>
-                    <div class="boxModCon" v-html="info.bhjq"></div>
+                    <div class="boxModTit" style="border-top:10px solid #f0f4f5"><span class="t" v-text="p_type!=='H' ? '交通指南' : '费用说明'"></span></div>
+                    <div class="boxModCon" v-html="info.jtzn"></div>
                 </div>
             </div>
+            <page-footer></page-footer>
         </div>
         <!--<actionsheet-->
                 <!--:menus="actions"-->
@@ -114,7 +115,8 @@
                 var type = this.tabActiveClass = tarTab.attr("data-type");
                 var body = document.body;
                 var tarBoxMod = $("#"+type+"-boxMod");
-                var offsetTop = tarBoxMod.offset().top - this.tabHeadHeight+1;
+                var oTop = tarBoxMod.offset().top;
+                var offsetTop = type=="buy" ? (oTop - this.tabHeadHeight+1) : oTop;
                 ScrollTopAnimation({
                     elem : body,
                     top : offsetTop,
@@ -156,17 +158,19 @@
         components : {
             photo : require("COMMON_VUE_COMPONENTS/pdetail-photo"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list"),
-            taopiaoList : require("COMMON_VUE_COMPONENTS/taopiao-list")
+            taopiaoList : require("COMMON_VUE_COMPONENTS/taopiao-list"),
+            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue")
         }
     }
 </script>
 <style lang="sass">
     .tabHeader{ width:100%; overflow:hidden; background:#fff; border-bottom:1px solid #e5e5e5}
-    .tabHeader.fix{ position:fixed; top:0; left:0; right:0; z-index:10; box-shadow:0 1px 1px rgba(0,0,0,0.1)}
+    .tabHeader.fix{ position:fixed; top:0; left:0; right:0; z-index:10; box-shadow:0 1px 1px rgba(50,50,50,0.1)}
     .tabHeader .tabHeadItem{ width:33.33%; float:left; text-align:center; font-size:0}
     .tabHeader .tabHeadItem .text{ display:inline-block; height:43px; font-size:0.35rem; line-height:46px; padding:0 25px; border-bottom:3px solid #fff}
     .tabHeader .tabHeadItem.active .text{ font-weight:bold; border-bottom-color:#0797D9; color:#0797D9}
     .scrollMainContainer.isTabHeadFix{ margin-top:46px;}
-    .scrollMainContainer .boxMod .boxModTit{ height:45px; line-height:45px; padding:0 10px; font-size:0.4rem; font-weight:bold; border-bottom:1px solid #e5e5e5}
-    .scrollMainContainer .boxMod.zhi,.scrollMainContainer .boxMod.info{ height:800px; background:#fff; margin-top:10px}
+    .scrollMainContainer .boxMod .boxModTit{ height:43px; line-height:43px; padding:0 10px; font-size:0.4rem; font-weight:bold; border-bottom:1px solid #e5e5e5}
+    .scrollMainContainer .boxMod.zhi,.scrollMainContainer .boxMod.info{ background:#fff; margin-top:10px}
+    .scrollMainContainer .boxMod .boxModCon{ padding:10px; background:#fff; font-size:0.35rem; line-height:1.5; overflow:hidden}
 </style>

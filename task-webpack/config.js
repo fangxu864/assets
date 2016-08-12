@@ -79,7 +79,7 @@ module.exports = function(opt){
 				COMMON_VUE_COMPONENTS_B : path.resolve("./src_mobile/B/Components"),
 				COMMON_VUE_COMPONENTS_C : path.resolve("./src_mobile/C/Components"),
 				SERVICE_M : path.resolve("./src_mobile/Service"),
-				VUEX_COMPONENTS : path.resolve("./node_modules/vux/src/components"),
+				VUX_COMPONENTS : path.resolve("./node_modules/vux/src/components"),
 				NODE_MODULES : path.resolve("./node_modules")
 			}
 		},

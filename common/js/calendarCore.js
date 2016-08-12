@@ -167,6 +167,10 @@ var CalendarCore={
 		d = this.strpad(d);
 		return y+"-"+m+"-"+d;
 	},
+	getnowYearMonth : function(){
+		var yearmonth = this.getnowdate().split("-");
+		return yearmonth[0]+"-"+yearmonth[1];
+	},
 	nextday : function(){
 		var date = new Date();
 		var y = date.getFullYear();
