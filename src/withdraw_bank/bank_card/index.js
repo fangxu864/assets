@@ -49,10 +49,10 @@ BankCheckor.prototype = Mixin({
             var checkor  ="#checkor_bankCard_"+i;
                        if(!($(checkor)==null|$(checkor)==undefined)){
                        if($(checkor).val()==2||$(checkor).val()==3){
-                       var e=document.createElement("div");
+                       var $e=$("<div></div>");
                            $(checkor).css("position","relative");
 
-                           $(e).css({
+                           $e.css({
                                "position":"absolute",
                                "left":"0",
                                "top":"0",
@@ -63,16 +63,16 @@ BankCheckor.prototype = Mixin({
                                "width":$(checkor).outerWidth()+"px"
                            });
                            if($(checkor).val()==2){
-                          $(e).html("<span class='checkor_shell_span'>未验证</span>"+"<input   type='button' class='checkor_shell_btn1' value = '删除'/>"+"<input   type='button'  class='checkor_shell_btn2' value = '验证'/>"+"<input  type='button'  class='checkor_shell_btn3' value ='修改'/>")
+                               $e.html("<span class='checkor_shell_span'>未验证</span>"+"<input   type='button' class='checkor_shell_btn1' value = '删除'/>"+"<input   type='button'  class='checkor_shell_btn2' value = '验证'/>"+"<input  type='button'  class='checkor_shell_btn3' value ='修改'/>")
 
                            }
                        else{
 
-                                    $(e).html("<span class='checkor_shell_span1'>无法验证?</span>"+"<span  class='checkor_shell_span3'>"+"可能出现的情形："+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"1.输入验证信息错误超过3次；"+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"2.票付通打款到该卡失败；"+"</span>"+"</br>"+"<input   type='button' class='checkor_shell_btn1' value = '删除'/>")
+                               $e.html("<span class='checkor_shell_span1'>无法验证?</span>"+"<span  class='checkor_shell_span3'>"+"可能出现的情形："+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"1.输入验证信息错误超过3次；"+"</span>"+"</br>"+"<span class='checkor_shell_span3'>"+"2.票付通打款到该卡失败；"+"</span>"+"</br>"+"<input   type='button' class='checkor_shell_btn1' value = '删除'/>")
 
                            }
                            var  carId =$("#"+$(checkor).attr("id"));
-                           carId.append(e);
+                           carId.append($e);
                        }
                    else{
 
