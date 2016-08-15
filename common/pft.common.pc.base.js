@@ -49,7 +49,7 @@ function init(){
 
 	// 页面ready时，计算leftbar的高度
 	// 如果main body的height小于leftbar height则 将leftbar height 赋值给 main body
-	setLeftBarHeightToMainBody();
+	//setLeftBarHeightToMainBody();
 }
 //登出
 var logout = function(){

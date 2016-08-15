@@ -6,7 +6,7 @@
                 <div class="state error" v-if="state=='error'" v-text="errorMsg"></div>
                 <template v-if="state=='success'">
                     <div class="calTop">
-                        <div class="calTopText" v-text="yearmonth"></div>
+                        <div class="calTopText" v-text="selected_year+'-'+selected_month"></div>
                         <span @click="onPrevMonth" href="javascript:void(0)" class="navBtn prev prevBtn"><i class="iconfont icon-back"></i></span>
                         <span @click="onNextMonth" href="javascript:void(0)" class="navBtn next nextBtn"><i class="iconfont icon-right"></i></span>
                     </div>
@@ -16,14 +16,14 @@
                                 <flex-item>日</flex-item><flex-item>一</flex-item><flex-item>二</flex-item><flex-item>三</flex-item><flex-item>四</flex-item><flex-item>五</flex-item><flex-item>六</flex-item>
                             </flexbox>
                         </div>
-                        <div v-for="date in dates">
-                            <flexbox :gutter="flex_gutter">
+                        <div class="calContent-con">
+                            <flexbox :gutter="flex_gutter" v-for="date in dates">
                                 <flex-item v-for="item in date">
                                     <div @click="onCalendarBoxClick" :class="calBoxCls(item)"
-                                           data-weeken="{{item.weeken}}"
-                                           data-day="{{item.day}}"
-                                           data-price="{{item.price}}"
-                                           class="calendar-box">
+                                         data-weeken="{{item.weeken}}"
+                                         data-day="{{item.day}}"
+                                         data-price="{{item.price}}"
+                                         class="calendar-box">
                                         <span class="day" v-text="item.day"></span>
                                         <span class="price" v-if="item.price"><i class="yen">&yen;</i><em v-text="item.price"></em></span>
                                     </div>
@@ -47,10 +47,12 @@
             },
             show : {
                 type : Boolean,
-                default : true
+                default : false,
+                twoWay : true
             },
             yearmonth : {
                 type : String,
+                twoWay : true,
                 default : ""
             }
         },
@@ -61,21 +63,24 @@
                 state : "",
                 selected_month : "",
                 selected_year : "",
-                selected_day : "",
+                selected_date : "",
                 errorMsg : "",
                 dates : [],
                 flex_gutter : 0
             }
         },
         ready(){
-            this.yearmonth = CalendarCore.getnowYearMonth();
+
         },
         watch : {
-            yearmonth(val){
+            yearmonth(val,oldVal){
+                if(val.substr(0,7)==oldVal.substr(0,7)) return;
                 var arr = val.split("-");
                 this.selected_year = arr[0];
                 this.selected_month = arr[1];
-                this.switchYearmonth(this.pid,val);
+                if(arr.length==3) this.selected_date = val;
+                var _yearmonth = this.selected_year + "-" + this.selected_month;
+                this.switchYearmonth(this.pid,_yearmonth);
             }
         },
         methods : {
@@ -88,7 +93,8 @@
                      currentmonth : dateObj.month=='current',
                      todaybefore : dateObj.today=='before',
                      todayafter : dateObj.today=='after',
-                     today : dateObj.today=='today'
+                     today : dateObj.today=='today',
+                     selected : dateObj.date==this.selected_date
                  }
             },
             switchYearmonth(pid,yearmonth){
@@ -96,7 +102,6 @@
                 var cache_dates = this.Cache_Dates[yearmonth];
                 var cache_prices = this.Cache_Prices[yearmonth];
                 if(!cache_dates) cache_dates = this.Cache_Dates[yearmonth] = CalendarCore.outputDate(yearmonth);
-
                 if(!cache_prices){
                     GetCalendarPrice(pid,yearmonth,{
                         loading : ()=> {
@@ -142,15 +147,19 @@
                 var year = this.selected_year;
                 var month = this.selected_month;
                 var day = tarBox.attr("data-day");
+                var yearmonth = year + "-" + month;
+                var date = yearmonth + "-" + day;
                 var data = {
-                    day : day,
-                    weeken : tarBox.attr("data-weeken"),
-                    price : tarBox.attr("data-price"),
-                    month : month,
-                    year : year,
-                    date : year+"-"+month+"-"+day
+                    day :       day,
+                    weeken :    tarBox.attr("data-weeken"),
+                    price :     tarBox.attr("data-price"),
+                    month :     month,
+                    year :      year,
+                    date :      date,
+                    yearmonth : yearmonth
                 };
-                this.$dispatch("switchDay",data);
+                this.selected_date = date;
+                this.$dispatch("switch-day",data);
                 this.show = false;
             }
         },
@@ -171,10 +180,10 @@
     .calendarContainer .calTop .navBtn.next{ right:0}
     .calendarContainer .calContent-head{ background:rgb(240,240,240); height:36px; line-height:36px; border-top:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5;}
     .calendarContainer .calContent-head .vux-flexbox{ text-align:center}
-    .calendarContainer .calendar-box{ position:relative; text-align:center; height:40px; padding:7px 0 2px; overflow:hidden;
-        border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5
-    }
+    .calendarContainer .calendar-box{ position:relative; text-align:center; height:40px; padding:7px 0 2px; overflow:hidden; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5  }
     .calendarContainer .calendar-box.empty,.calendarContainer .calendar-box.disable{ background:rgb(252,252,252)}
+    .calendarContainer .calendar-box.selected{ background:#f37138; color:#fff}
+    .calendarContainer .calendar-box.selected .price{ color:#fff}
     .calendarContainer .calendar-box .day{ display:block; font-size:0.35rem; line-height:1.5}
     .calendarContainer .calendar-box .price{ color:#f37138}
     .calendarContainer .vux-flexbox-item:last-child .calendar-box{ border-right:0 none}

@@ -40,6 +40,10 @@ var Api_Mb = {
 		getCalendarPrice : function(){
 			return Mall_Product("getCalendarPrice")
 		},
+		//下订单页，获取票类列表
+		getTicketListBook : function(){
+			return Mall_Product("getBookList")
+		},
 		//C端端面跳转链接
 		Page_Link : {
 
