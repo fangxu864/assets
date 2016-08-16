@@ -3,8 +3,8 @@
  */
 require("./index.xtpl")
 require("./index.scss")
-// var Mixin = require("COMMON/js/util.mix");
-// var Pubsub =require("COMMON/js/util.pubsub");
+var Mixin = require("COMMON/js/util.mix");
+var Pubsub =require("COMMON/js/util.pubsub");
 var RedpaymentAlarm=function (opt) {
     this.init(opt)
 };
@@ -32,7 +32,7 @@ RedpaymentAlarm.prototype = Mixin({
 
         })
     }
-})
+},PubSub)
 
 $(function () {
     new RedpaymentAlarm();
