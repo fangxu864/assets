@@ -18,8 +18,10 @@ RedpaymentAlarm.prototype = Mixin({
             drag:true,
             speed:100,
             events:{
-
-            },
+        //         $(".repaymentAlarmBtn").click(function(){
+        //            
+        // }),
+    },
             onReady:function () {
 
             }
