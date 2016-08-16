@@ -18,9 +18,9 @@ RedpaymentAlarm.prototype = Mixin({
             drag:true,
             speed:100,
             events:{
-        //         $(".repaymentAlarmBtn").click(function(){
-        //            
-        // }),
+                "click .repaymentAlarmBtn" : function () {
+                   that.open();
+                }
     },
             onReady:function () {
 
@@ -34,8 +34,12 @@ RedpaymentAlarm.prototype = Mixin({
 
         })
     }
-},PubSub)
+},Pubsub );
 
 $(function () {
+    $(".repaymentAlarmBtn").click(function () {
+        alert("132");
+    })
     new RedpaymentAlarm();
+
 })
