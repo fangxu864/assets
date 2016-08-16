@@ -1,0 +1,20 @@
+
+
+<!--标题容器-->
+<div class="title_box">
+    <ul class="title_list">
+        <li><a href="../pft_resource.html" class="gray">资源库列表</a></li>
+        <li class="active"><a href="resourcechart.html" >资源库图表分析</a></li>
+    </ul>
+</div>
+
+<!--图表容器-->
+<div class="chart_box">
+<div id="jingqu_jibie" class="chart lt"></div>
+<div id="fenxiao_pingtai" class="chart rt"></div>
+<div id="piaowu_system" class="chart lt"></div>
+<div id="area_fenbu" class="chart rt"></div>
+
+
+<div class="clear"></div>
+</div>

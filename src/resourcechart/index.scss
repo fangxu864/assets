@@ -1,9 +1,64 @@
 
 
+
+
 .rChart_box{
-  width: 800px;
-  height: 200px;
+  width: 798px;
+
   border: 1px solid #E5E5E5;
+}
+.rChart_box{
+
+  .title_box{
+    height: 60px;
+    font-size: 22px;
+    line-height: 60px;
+    border-bottom: 1px solid #edefee;
+
+    ul.title_list{
+      padding: 0;
+      margin: 0;
+      padding-left: 20px;
+
+      li{
+        float: left;
+        margin-right: 20px;
+        a.gray{//标题列表的li里面的a
+          color: #2f3135;
+        }
+      }//标题列表的li
+      li.active{
+        height: 58px;
+        border-bottom: 2px solid #0797D9;
+      }//带下滑线的标题列表li
+    }//标题列表
+
+
+
+
+  }//顶部标题容器
+  .chart_box{
+    width: 800px;
+    padding-top:20px;
+    .clear{
+      clear:both;
+    }
+    .chart{
+      height: 390px;
+      width:390px;
+      margin-top:20px;
+      background-color:#f1f1f1;
+    }//表类样式
+    .lt{
+      float: left;
+    }//左浮动
+    .rt{
+      float:right;
+    }//右浮动
+
+  }//图表容器
+
+
 
 
 
