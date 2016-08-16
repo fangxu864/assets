@@ -8,7 +8,7 @@ var PaginationSimple = require("COMMON/modules/pagination-simple");
 var Calendar = require("COMMON/modules/calendar");
 var Loading = require("COMMON/js/util.loading.pc.js");
 var RedpacketWithdraw=function(){
-	this.now = new Date(); //当前日期
+  	this.now = new Date(); //当前日期
 	this.nowDayOfWeek = this.now.getDay(); //今天本周的第几天
 	this.nowDay = this.now.getDate(); //当前日
 	this.nowMonth =this.now.getMonth(); //当前月
@@ -18,6 +18,7 @@ var RedpacketWithdraw=function(){
 	this.lastMonthDate.setMonth(this.lastMonthDate.getMonth()-1);
 	this.lastMonth = this.lastMonthDate.getMonth();
 	this.initialize();
+    this.btnClick();
 }
 RedpacketWithdraw.prototype={
 	__cache : {
@@ -28,7 +29,7 @@ RedpacketWithdraw.prototype={
 		lastmonth : null
 	},
 	initialize:function(){
-		var that=this;
+	   	var that=this;
 		this.queryBtn=$("#queryBtn");
 		this.checkBtn=$("#checkSta");
 		this.queryInp=$("#queryInp");
@@ -92,6 +93,7 @@ RedpacketWithdraw.prototype={
 			}else if(tarInp.hasClass("end")){
 				opt["min"] = siblingDate;
 			}
+			alert("123");
 			calendar.show(date,opt);
 		})
 		this.todayBtn.on("click",function(e){
@@ -345,9 +347,20 @@ RedpacketWithdraw.prototype={
 			second = "0" + second;
 		}
 		return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
-	}
+	},
+    btnClick:function () {
+	    var that = this;
+        $("#queryBtn").click(function () {
+            alert("123");
+            that.getRecordAndSum();
+        })
+    }
+
 
 }
 $(function(){
+   $("#queryBtn").clic(function () {
+       alert("123");
+   })
 	new RedpacketWithdraw();
 })
