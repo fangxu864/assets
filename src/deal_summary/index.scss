@@ -1,4 +1,7 @@
 @import "COMMON/css/base/core";
+
+$incomeColor: #8fc390;//收入的颜色
+$expendColor:  #ff4050;//支出的颜色
 .dealsumContainer table{  border-collapse: collapse;border-spacing: 0;}
 .dealsumContainer{ border:1px solid #e5e5e5; background:white; overflow:hidden; position:relative;}
 .dealsumContainer .title{ line-height:56px; font-size:18px; font-weight:600; border-bottom:1px solid #e5e5e5; padding-left:18px;}
@@ -29,8 +32,8 @@
 .dealsumContainer .queryBtn.disable{ @include btn-disable();}
 
 .dealsumContainer .dealSumBox{ font-size:18px; padding-left:18px; line-height:66px;border-bottom:1px solid #e5e5e5;}
-.dealsumContainer .dealSumBox .totalIncome{ color:red; margin-right:32px;}
-.dealsumContainer .dealSumBox .totalExpend{ color:green;}
+.dealsumContainer .dealSumBox .totalIncome{ color:$incomeColor; margin-right:32px;}
+.dealsumContainer .dealSumBox .totalExpend{ color:$expendColor;}
 .dealsumContainer .tb_top_box{width: 100%;overflow: hidden;border-bottom: 1px solid #e5e5e5;text-align: center;white-space:nowrap;}
 .dealsumContainer .tb_top_box .lt{width: 135px;height: 122px;float: left;position:relative;z-index: 1;background-color: #ffffff;}
 .dealsumContainer .tb_top_box .lt .th{height:42px;line-height: 42px;text-align: center;background-color:#00597b; }
@@ -39,8 +42,8 @@
 .dealsumContainer .tb_top_box .rt table{position: absolute;}
 .dealsumContainer .tb_top_box .rt table thead {background-color:#00597b;height:32px;line-height: 32px;color: white;cursor: move; }
 .dealsumContainer .tb_top_box .rt table thead th{padding: 5px 20px;}
-.dealsumContainer .tb_top_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: #ff4050;}
-.dealsumContainer .tb_top_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: #8fc390;}
+.dealsumContainer .tb_top_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: $incomeColor;}
+.dealsumContainer .tb_top_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: $expendColor;}
 .dealsumContainer .tb_top_box .rt_r{width: 28px;height: 100%;float: left;background-color: #ffffff;}
 .dealsumContainer .tb_top_box .rt_r .th{height:42px;line-height: 42px;text-align: center;background-color:#00597b; }
 
@@ -61,8 +64,8 @@
 .dealsumContainer .tb_bottom_box .lt .th .lt{float: left;width: 0px;}
 
 .dealsumContainer .tb_bottom_box .lt .tr_time{height:30px;line-height: 30px;padding-left: 18px;color:#0797d9;}
-.dealsumContainer .tb_bottom_box .lt .tr_income{height:25px;line-height: 25px;padding-left: 18px;color: #ff4050;}
-.dealsumContainer .tb_bottom_box .lt .tr_expend{height:25px;line-height: 25px; border-bottom: 1px solid #eceaea;padding-left: 18px;color: #8fc390;}
+.dealsumContainer .tb_bottom_box .lt .tr_income{height:25px;line-height: 25px;padding-left: 18px;color: $incomeColor;}
+.dealsumContainer .tb_bottom_box .lt .tr_expend{height:25px;line-height: 25px; border-bottom: 1px solid #eceaea;padding-left: 18px;color:$expendColor;}
 
 
 .dealsumContainer .tb_bottom_box .rt{width: 835px;float: left;position:relative;}
@@ -81,9 +84,9 @@
 
 
 
-.dealsumContainer .tb_bottom_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: #ff4050;text-align: center;}
+.dealsumContainer .tb_bottom_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: $incomeColor;text-align: center;}
 
-.dealsumContainer .tb_bottom_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: #8fc390;text-align: center; border-bottom: 1px solid #eceaea;}
+.dealsumContainer .tb_bottom_box .rt table tbody tr.expend{height: 40px;line-height:40px;color:$expendColor;text-align: center; border-bottom: 1px solid #eceaea;}
 .dealsumContainer .tb_bottom_box .nodata{    top: 66px;  left: 460px;    position: absolute;display: none;  }
 
 ul.pagination li.total, li.goto {  line-height: 3.5em !important;  color: #999999;  }

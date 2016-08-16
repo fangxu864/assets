@@ -55,6 +55,8 @@ var DealSum={
 		var now=new Date();
 		//获取今天的日期
 		this.today=now.Format("yyyy-MM-dd");
+		//获取昨天的日期
+		this.yestoday=new Date(now.getTime() -24 * 3600 * 1000).Format("yyyy-MM-dd");
 		//获取明天的日期
 		this.tomorrow = new Date(now.getTime() +24 * 3600 * 1000).Format("yyyy-MM-dd");
 		//获取上周的日期
@@ -63,7 +65,7 @@ var DealSum={
 		this.lastMonth = new Date(now.getTime() - 30 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
 		//初始化input内容
 		this.stime_inp.val(_this.lastWeek);
-		this.etime_inp.val(_this.today);
+		this.etime_inp.val(_this.yestoday);
 		//日历插件部分
 		var calendar = new Calendar();
 		this.stime_inp.on("click",function(e){
@@ -87,7 +89,7 @@ var DealSum={
 				top : 0,                       //日历box偏移量
 				left : 0,                     //日历box偏移量
 				min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
-				max : _this.tomorrow,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+				max : _this.today,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
 				onBefore : function(){},     //弹出日历前callback
 				onAfter : function(){}       //弹出日历后callback
 			})
@@ -224,11 +226,11 @@ var DealSum={
 		var _this=this;
 		this.rweek_span.click(function () {
 			_this.stime_inp.val(_this.lastWeek);
-			_this.etime_inp.val(_this.today);
+			_this.etime_inp.val(_this.yestoday);
 		});
 		this.rmonth_span.click(function(){
 			_this.stime_inp.val(_this.lastMonth);
-			_this.etime_inp.val(_this.today);
+			_this.etime_inp.val(_this.yestoday);
 		});
 		$("#deal_count").click(function () {
 			_this.dealType=0;
@@ -281,11 +283,13 @@ var DealSum={
 						},
 						error: function() {
 							//请求出错处理
+							alert("请求出错了！")
 						}
 					});
 				},
 				error: function() {
 					//请求出错处理
+					alert("请求出错了！")
 				}
 			});
 
@@ -325,6 +329,7 @@ var DealSum={
 						},
 						error: function() {
 							//请求出错处理
+							alert("请求出错了！")
 						}
 					});
 			}
@@ -346,9 +351,13 @@ var DealSum={
 	},
 	//处理上表数据
 	dealDataTB1:function (req) {
-
+         
 		//定义一个容纳表头name类型的数组
 		this.theadNametype=[];
+		if(req.data==false){
+			alert("数据错误");
+			return false;
+		}
 		this.totalIncome_span.text(req.data.total.totalIncome);
 		this.totalExpend_span.text(req.data.total.totalExpense);
 
@@ -365,7 +374,7 @@ var DealSum={
 				$("#tb_bottom thead tr").append(txt1);
 
 				var txt2_in, txt2="";
-				if(data[key].income==null){
+				if(data[key].income==null||data[key].income==0){
 					txt2_in=0;
 					txt2= '<td class="zero_data_td">+'+txt2_in+'</td>';
 				}else{
@@ -375,9 +384,10 @@ var DealSum={
 				$("#tb_top tbody tr.income").append(txt2);
 
 				var txt3_out, txt3;
-				if(data[key].expense==null){
+				if(data[key].expense==null||data[key].expense==0){
 					txt3_out=0;
-					txt3= '<td class="zero_data_td">-'+txt3_out+'</td>'
+					txt3= '<td class="zero_data' +
+						'_td">-'+txt3_out+'</td>'
 				}else{
 					txt3_out=data[key].expense;
 					txt3='<td>-'+txt3_out+'</td>';
