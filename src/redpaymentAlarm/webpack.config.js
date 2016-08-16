@@ -5,7 +5,7 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		"repaymentAlarm" : "./src/repaymentAlarm/index.js"
+		"redpaymentAlarm" : "./src/redpaymentAlarm/index.js"
 	},
 	output : output,
 	plugins : plugins
