@@ -3,15 +3,17 @@
  */
 require("./index.scss");
 var tpl=require("./index.xtpl");
-// 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入饼状图和地图
-require('echarts/lib/chart/pie');
-require('echarts/lib/chart/map');
-// 引入提示框和标题组件
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
-require('echarts/lib/component/legend');
+
+var echarts = require('echarts');
+// // 引入 ECharts 主模块
+// var echarts = require('echarts/lib/echarts');
+// // 引入饼状图和地图
+// require('echarts/lib/chart/pie');
+// require('echarts/lib/chart/map');
+// // 引入提示框和标题组件
+// require('echarts/lib/component/tooltip');
+// require('echarts/lib/component/title');
+// require('echarts/lib/component/legend');
 //引入中国地图json数据
 var chinaJson=require("./china.json");
 
@@ -69,11 +71,11 @@ var Rchart={
                 }
             ]
         };
-
-
-
-
         this.chart1.setOption(option);
+        this.chart1.on("click",function(params){
+            console.log(params)
+            console.log(params.name);
+        })
     },
     initChart2:function(){
         // 基于准备好的dom，初始化echarts实例
@@ -208,8 +210,10 @@ var Rchart={
             ]
         });
 
+        myChart.on("click",function(params){
+            console.log(params.name);
+        })
     }
-
 };
 
 
@@ -261,12 +265,6 @@ $(function($){
                     ]
                 });
                 console.log(Rchart.wu)
-
-
-
-
-
-                
                 setTimeout(function(){
                     Rchart.wu=1300;
                     Rchart.chart1.setOption({
