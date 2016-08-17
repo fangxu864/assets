@@ -8,7 +8,6 @@ var Mixin = require("COMMON/js/util.mix");
 var Pubsub =require("COMMON/js/util.pubsub");
 var RedpaymentAlarm=function (opt) {
         this.Dialog = new Dialog();
-    alert(opt);
            this.init(opt);
 
 
@@ -18,17 +17,16 @@ var RedpaymentAlarm=function (opt) {
 RedpaymentAlarm.prototype = Mixin({
      type:"",
     init:function (opt) {
-    alert(opt);
+      
 
         var that = this;
-        this.dialog = new Dialog({
+        this.dialog = new opt.Dialog({
             width:380,
             content:tpl,
             drag:true,
             speed:100,
             events:{
                 "click .repaymentAlarmBtn" : function () {
-                    alert("123")
                     that.open();
                 }
      },
@@ -71,9 +69,6 @@ RedpaymentAlarm.prototype = Mixin({
 // };
 
 $(function () {
-    $(".repaymentAlarmBtn").click(function(){
-
-    })
-      new RedpaymentAlarm();
+      new RedpaymentAlarm(12313);
 
 })
