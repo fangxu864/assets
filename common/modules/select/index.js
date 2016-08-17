@@ -333,6 +333,7 @@ Select.prototype = {
 		this.createSelectBox().show().css({zIndex:504});
 		this.position();
 		this.trigger.addClass("select-on");
+		this.selectBox.find(".gSelectSearchInp").focus();
 		PFT.Util.PubSub.trigger("open");
 		callback && callback();
 	},

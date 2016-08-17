@@ -29,6 +29,7 @@ var DealSum={
 		this.roll_right_btn=$(".roll_right");
 		this.day_detail_btn=$("#day_detail_btn");
 		this.trader_inp=$("#trader");
+		this.clear_btn=$(".clear_trader_box");
 		//日历部分
 		//扩展日期对象，新增格式化方法
 		Date.prototype.Format = function (fmt) { //author: meizz
@@ -70,6 +71,8 @@ var DealSum={
 		var calendar = new Calendar();
 		this.stime_inp.on("click",function(e){
 			var max_day=_this.etime_inp.val();
+			max_day=new Date( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).Format("yyyy-MM-dd");
+
 			calendar.show(_this.stime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
 				picker : $("#start_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
 				top : 0,                       //日历box偏移量
@@ -82,7 +85,9 @@ var DealSum={
 			return this;
 		});
 		this.etime_inp.on("click",function(e){
-			var min_day=_this.stime_inp.val()
+			var min_day=_this.stime_inp.val();
+			// console.log(   new Date( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).Format("yyyy-MM-dd")   );
+			min_day=new Date( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).Format("yyyy-MM-dd");
 
 			calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
 				picker : $("#end_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
@@ -121,7 +126,7 @@ var DealSum={
 						},
 						filterType : "ajax",  //指定过滤方式为ajax
 						field : {
-							id : "lid",
+							id : "id",
 							name : "dname",
 							keyword : "dname"
 						},
@@ -249,7 +254,7 @@ var DealSum={
 					"btime":_this.stime_inp.val(),
 					"etime":_this.etime_inp.val(),
 					"page":1,
-					"searchFid":_this.trader_inp.val()
+					"searchFid":_this.trader_inp.attr("data-id")
 				},
 				type: "GET",                               //请求方式
 				beforeSend: function() {
@@ -269,7 +274,7 @@ var DealSum={
 							"btime":_this.stime_inp.val(),
 							"etime":_this.etime_inp.val(),
 							"page":1,
-							"searchFid":_this.trader_inp.val()
+							"searchFid":_this.trader_inp.attr("data-id")
 						},
 						type: "GET",                               //请求方式
 						beforeSend: function() {
@@ -315,7 +320,7 @@ var DealSum={
 							"btime":_this.stime_inp.val(),
 							"etime":_this.etime_inp.val(),
 							"page":present_page,
-							"searchFid":_this.trader_inp.val()
+							"searchFid":_this.trader_inp.attr("data-id")
 						},
 						type: "GET",                               //请求方式
 						beforeSend: function() {
@@ -347,6 +352,18 @@ var DealSum={
 			}
 
 
+		})
+		// this.trader_inp.on("input propertychange",function(){
+		// 	console.log("bianhuale")
+		// 	if($(this).val()!=""){
+		// 		_this.clear_btn.css("display","block");
+		// 	}else{
+		// 		_this.clear_btn.css("display","none");
+		// 	}
+		// });
+		this.clear_btn.on("click",function () {
+			_this.trader_inp.val("");
+			_this.trader_inp.attr("data-id","")
 		})
 	},
 	//处理上表数据

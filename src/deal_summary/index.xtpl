@@ -13,6 +13,7 @@
         <div class="line line1">
             <div class="lt">交易商户：</div>
             <div class="rt" id="trader_box"><input id="trader" placeholder="请输入交易商户名称"/></div>
+            <div class="rt"><a href="javascript:void (0)" class="clear_trader_box">清除</a></div>
         </div>
         <div class="line line2">
             <div class="lt">

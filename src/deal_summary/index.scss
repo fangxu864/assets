@@ -17,8 +17,9 @@ $expendColor:  #ff4050;//支出的颜色
 .dealsumContainer .dealTimeBox{      border-bottom: 1px solid #e5e5e5;  padding:0 18px;}
 .dealsumContainer .dealTimeBox .line{height: 60px;line-height: 60px;}
 .dealsumContainer .dealTimeBox .line1{display: none;}
-.dealsumContainer .dealTimeBox .line1 .rt{margin-left: 5px;}
+.dealsumContainer .dealTimeBox .line1 .rt{margin-left: 3px;}
 .dealsumContainer .dealTimeBox .line1 .rt input{@include textInp(200,5);}
+//.clear_trader_box{display: none;}
 .dealsumContainer .dealTimeBox .datePickerInp{@include textInp(200,5);}
 .dealsumContainer .dealTimeBox .dealTime{ margin-left:8px;}
 .calendar-pop-contaienr{width:212px !important;}
