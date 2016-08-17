@@ -19,6 +19,7 @@ var RedpacketWithdraw=function(){
 	this.lastMonth = this.lastMonthDate.getMonth();
 	this.initialize();
     this.btnClick();
+	this.changeColor();
 }
 RedpacketWithdraw.prototype={
 	__cache : {
@@ -52,11 +53,11 @@ RedpacketWithdraw.prototype={
 		})
 		this.pagination.on("next",function(data){
 			var toPage = data.toPage;
-			that.getAnnualCardList(toPage);
+			that.getWithdrawRecord("",toPage);
 		})
 		this.pagination.on("prev",function(data){
 			var toPage = data.toPage;
-			that.getAnnualCardList(toPage);
+			that.getWithdrawRecord("",toPage);
 		})
 		this.fromDateInp.val(that.getWeekStartDate());
 		this.toDateInp.val(that.getWeekEndDate());
@@ -93,7 +94,6 @@ RedpacketWithdraw.prototype={
 			}else if(tarInp.hasClass("end")){
 				opt["min"] = siblingDate;
 			}
-			alert("123");
 			calendar.show(date,opt);
 		})
 		this.todayBtn.on("click",function(e){
@@ -168,6 +168,18 @@ RedpacketWithdraw.prototype={
 		var endtime= $.trim(that.toDateInp.val())
 		page = page || 1;
 		pagesize = pagesize || 10;
+
+		// var d = '{"member_id":"6970","sid":"3385","create_time":"1469167544","money":"5000","type":"1","nickname":"测试","supply":"慢慢的店铺"}';
+		// d = JSON.parse(d);
+		// var data = [];
+		// for(var i=0; i<20; i++) data.push(d);
+        //
+		// that.renderList(data);
+		// that.pagination.render({current:page,total:20});
+        //
+		// return false;
+
+
 		PFT.Util.Ajax("/r/Mall_AllDis/redpackList/",{
 			params:{
 				beginTime:begintime,
@@ -351,16 +363,33 @@ RedpacketWithdraw.prototype={
     btnClick:function () {
 	    var that = this;
         $("#queryBtn").click(function () {
-            alert("123");
+
             that.getRecordAndSum();
+
         })
-    }
+    },
+	changeColor:function(){
+
+		change($("#today"));
+		change($("#thisWeek"));
+		change($("#lastWeek"));
+		change($("#thisMonth"));
+		change($("#lastMonth"));
+        function change(obj){
+			var colorC= obj.css("background")
+			obj.mouseover(function () {
+				$(this).css("background","#ccc")
+			})
+			obj.mouseout(function () {
+				$(this).css("background",colorC)
+			})
+		}
+
+
+	}
 
 
 }
 $(function(){
-   $("#queryBtn").clic(function () {
-       alert("123");
-   })
 	new RedpacketWithdraw();
 })
