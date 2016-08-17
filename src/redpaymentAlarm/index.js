@@ -7,14 +7,16 @@ var Dialog= require("COMMON/modules/dialog-simple");
 var Mixin = require("COMMON/js/util.mix");
 var Pubsub =require("COMMON/js/util.pubsub");
 var RedpaymentAlarm=function (opt) {
+
            this.init(opt);
-        Dialog = new Dialog;
+
 
 
 };
 RedpaymentAlarm.prototype = Mixin({
-    type:"",
+     type:"",
     init:function (opt) {
+         alert("123")
         var that = this;
         this.dialog = new opt.Dialog({
             width:380,
@@ -23,10 +25,11 @@ RedpaymentAlarm.prototype = Mixin({
             speed:100,
             events:{
                 "click .repaymentAlarmBtn" : function () {
-                    alert("123");
-                   that.open();
+                    that.open();
                 }
      },
+
+
             onReady:function () {
 
             }
@@ -36,6 +39,10 @@ RedpaymentAlarm.prototype = Mixin({
     open:function () {
         var that =this;
         this.dialog.open({
+            onAfter:function () {
+                var dialog_submitBtn =$(".repaymentAlarmBtn");
+                dialog_submitBtn.attr("data-typenum",that.type)
+            }
 
         })
     }
