@@ -153,8 +153,9 @@ BankManager.prototype = {
 				res = res || {};
 				if(res.outcome==1){
 					window.location.reload();
-				}else{
-					alert("删除失败");
+				}
+				else if(res.outcome==-1){
+					alert(res.msg)
 				}
 			}
 		})
