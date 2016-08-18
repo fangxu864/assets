@@ -12,6 +12,7 @@
         <div class="clear"></div>
     </div>
     <div class="btn_wrap">
+        <div class="lt">*每次仅可选择一页进行下载</div>
         <div class="ok_btn">确定下载</div>
     </div>
 
