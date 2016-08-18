@@ -12,27 +12,32 @@ var RedpaymentAlarm =function () {
 
 };
 RedpaymentAlarm.prototype = Mixin({
-     type:"ffff",
+     type:"",
     init:function () {
         var that = this;
         this.dialog = new Dialog({
-            width:300,
-            height:300,
+            width:450,
+            height:330,
             content:tpl,
             drag:true,
             speed:100,
             events:{
-                "click .repaymentAlarmBtn" : function () {
+                "click .repayAlarmSure" : function () {
+                  that.dialog.close();
+
+                },
+                "click .repayAlarmCancel":function(){
+                  that.dialog.close() ;
                 }
 
-     },
-
-
+            },
             onReady:function () {
 
             }
         })
-        this.dialog.open();
+       this.dialog.open();
+
+
 
     },
 
@@ -40,30 +45,25 @@ RedpaymentAlarm.prototype = Mixin({
 
 
 
-    open:function (opt) {
-        var that =this;
-        this.dialog.open({
-            onAfter:function () {
-                var dialog_submitBtn =$(".repaymentAlarmBtn");
-                dialog_submitBtn.attr("data-typenum",that.type)
-            }
-
-        })
-    }
+    // open:function (opt) {
+    //     var that =this;
+    //     this.dialog.open({
+    //         onAfter:function () {
+    //             var dialog_submitBtn =$("#repaymentAlarmBtn");
+    //             dialog_submitBtn.attr("data-typenum",that.type)
+    //         }
+    //
+    //     })
+    // }
 },Pubsub );
 
 
 $(function () {
-    // var obj = $(".repayAlarmContain");
+$("#repaymentAlarm").click(function(){
+       new RedpaymentAlarm()
+})
 
 
 
-
-
-
-
-
-
-    new RedpaymentAlarm()
 
 })
