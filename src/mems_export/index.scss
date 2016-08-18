@@ -1,0 +1,56 @@
+
+
+
+.select_down_pages{
+  background-color: white;
+  border-radius: 5px;
+  .title{
+    height:46px;
+    line-height: 46px;
+    text-align: center;
+    font-size: 18px;
+    //background-color: gainsboro;
+  }//标题部分
+  .pages_wrap{
+    padding:10px 10px;
+    .clear{
+      clear:both;
+    }
+    .page{
+      width:58px ;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      margin: 10px;
+      border: 1px solid grey;
+      border-radius:3px;
+      float: left;
+      cursor:pointer;
+      background: rgba(255,255,255,1);
+      transition:background 0.1s;
+    }
+    .page:hover{
+      background: rgba(240,240,240,1);
+    }
+  }//页码容器
+  .btn_wrap{
+    height:60px;
+    padding:0 20px;
+    .ok_btn{
+      height: 40px;
+      line-height: 40px;
+      //margin-top: 9px;
+      font-size: 16px;
+      text-align: center;
+      float: right;
+      padding:0 10px;
+      border: 1px solid grey;
+      border-radius: 3px;
+      cursor:pointer;
+    }
+    .ok_btn:active{
+      background-color:#00a0e9;
+      color:white;
+    }
+  }//底部按钮容器
+}

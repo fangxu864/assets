@@ -1,0 +1,19 @@
+
+
+
+<div class="select_down_pages">
+    <div class="title">请选择要下载的页码</div>
+    <div class="pages_wrap">
+        <div class="con">
+            <!--<div class="page">1</div>-->
+            <!--<div class="page">2</div>-->
+            <!--<div class="page">3</div>-->
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="btn_wrap">
+        <div class="ok_btn">确定下载</div>
+    </div>
+
+
+</div>
