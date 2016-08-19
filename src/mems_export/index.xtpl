@@ -2,7 +2,7 @@
 
 
 <div class="select_down_pages">
-    <div class="title">请选择要下载的页码</div>
+    <div class="title">数据较多，需分页下载，请选择页码</div>
     <div class="pages_wrap">
         <div class="con">
             <!--<div class="page">1</div>-->
@@ -12,7 +12,7 @@
         <div class="clear"></div>
     </div>
     <div class="btn_wrap">
-        <div class="lt">*每次仅可选择一页进行下载</div>
+        <div class="lt"></div>
         <div class="ok_btn">确定下载</div>
     </div>
 

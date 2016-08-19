@@ -207,6 +207,7 @@ $(function(){
         //$(".search_form ").submit();
 
         var totalPage = 1;
+        var size;
 
         //先获取总的页数
         $("#act").val("startloadExcel");
@@ -215,9 +216,11 @@ $(function(){
             'url'       : window.location.href,
             'method'    : 'get',
             'data'      : params,
-            //'async'     : false,
-            'success'   : function(pages) {
-                totalPage = pages;
+            // 'async'     : false,
+            'dataType':'json',
+            'success'   : function(res) {
+                totalPage = res.pages;
+                size=res.size;
                 if(totalPage == 1) {
                     //直接导出
                     $("#act").val('loadExcel');
@@ -229,33 +232,41 @@ $(function(){
                     pageCon.html("");//清空页码容器
                     var html="";
                     for(var i=1;i<=totalPage;i++){
-                        html+='<div class="page" index="'+i+'">'+i+'</div>'
+                        html+='<div class="page no_down" index="'+i+'">'+i+'</div>'
                     }
                     pageCon.html(html);
+                    $(".select_down_pages .btn_wrap .lt").text('*共计 '+totalPage+' 页，每页有 '+size+' 条数据');
+                    $(".select_down_pages .pages_wrap .con .no_down").eq(0).addClass("active");//给未下载的第一个页码添加active类
                     /*打开页码弹出层*/
                     Dial.open();
                     /*页码弹出层事件监听部分*/
-                    var cur_page=0;
-                    pageCon.on("click.click_pages",".page",function(){
-                        $(".select_down_pages .pages_wrap .con .page").css({
-                            "background":"rgba(255,255,255,1)",
-                            "color":"black"
-                        });
-                        cur_page=$(this).attr("index");
-                        $(this).css("background","#00a0e9");
-                        $(this).css("color","white");
+                    var cur_page;
+                    pageCon.on("click.click_pages",".no_down",function(){
+                        $(".select_down_pages .pages_wrap .con .no_down").removeClass("active");
+                        cur_page=$(this);
+                        $(this).addClass("active")
                     });
                     $(".select_down_pages .btn_wrap .ok_btn").on("click.ok_down",function () {
-                        if(cur_page==0){
+                        var excel_page=$(".select_down_pages .pages_wrap .con .active").attr("index");
+
+                        console.log(excel_page)
+
+                        if(!excel_page){
                             alert("请选择要下载的页码！");
                         }else{
-                            $("#excel_page").val(cur_page);
+                            // console.log(cur_page.attr("index"));
+                            cur_page=$(".select_down_pages .pages_wrap .con .active");
+                            cur_page.removeClass("no_down");
+                            cur_page.addClass("downed");
+                            cur_page.removeClass("active");
+                            $("#excel_page").val(excel_page);
                             $("#act").val('loadExcel');
                             var params = $('.search_form').serialize();
                             params += '&show_page=1';
                             var downloadUrl = window.location.href + '?' + params;
                             console.log(downloadUrl);
                             window.open(downloadUrl, "_blank");
+                            $(".select_down_pages .pages_wrap .con .no_down").eq(0).addClass("active");//给未下载的第一个页码添加active类
                         }
                     });
                 }
