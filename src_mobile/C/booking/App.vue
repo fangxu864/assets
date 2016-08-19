@@ -1,49 +1,274 @@
 <template>
-    <div id="bodyContainer" class="bodyContainer">
-        <sheet-calendar v-on:switch-day="onBeginTimeChange" :yearmonth.sync="begin_calendar.yearmonth" :show.sync="begin_calendar.show"></sheet-calendar>
-        <input-line
-                :model.sync="begin_calendar.date"
-                :type="'text'"
-                :label="'游玩时间'"
-                :click="onClick"
-                :icon="'rili'"
-                :placeholder="'请选择日期'">
-        </input-line>
-        <!--<div style="width:40%; margin-top:10px; margin-left:10px"><count :value="0" :max="100" :min="5" :can_0="true"></count></div>-->
-        <ticket-list></ticket-list>
+    <div id="bodyContainer" class="bodyContainer" v-if="orderInfoState=='success'">
+        <div class="prodTtile pad15"><span class="t" v-text="orderInfo.title"></span></div>
+        <div class="modBox">
+            <template v-if="p_type=='A'">
+                <input-line
+                        :model.sync="beginCalendar.date"
+                        :type="'text'"
+                        :label="'游玩日期'"
+                        :readonly="true"
+                        :click="onBeginTimeInputClick"
+                        :label-width="'80px'"
+                        :icon="'rili'"
+                        :placeholder="'请选择日期'">
+                </input-line>
+            </template>
+            <div class="buyDescBox pad15">
+                <span class="validTime descFlag" v-text="orderInfo.validTime"></span>
+                <span class="descFlag verifyTime" v-if="orderInfo.verifyTime!=''" v-text="orderInfo.verifyTime"></span>
+                <span class="descFlag refund_rule" v-text="orderInfo.refund_rule_text"></span>
+                <span @click="refundRuleShow=true" class="descFlag refund_ruleBtn" v-if="orderInfo.refund_rule && orderInfo.refund_rule!=2">退票规则</span>
+            </div>
+        </div>
+
+        <div class="ticketListBox" style="margin-top:5px">
+            <ticket-list :total-money.sync="totalMoney" :need-id="needID" :pid="pid" :list.sync="ticketList"></ticket-list>
+        </div>
+
+
+        <div class="modBox" style="margin-top:5px;">
+            <input-line
+                    :model.sync="submitData.ordername.value"
+                    :type="'text'"
+                    :label="'联系人'"
+                    :label-width="'80px'"
+                    :validator="'noBlank'"
+                    :validat-type="'blur'"
+                    :validat-reault.sync="submitData.ordername.validatResult"
+                    :error-msg="'！必填'"
+                    :placeholder="'联系人姓名'">
+            </input-line>
+            <input-line
+                    :model.sync="submitData.contacttel.value"
+                    :type="'number'"
+                    :label="'手机号'"
+                    :label-width="'80px'"
+                    :validator="'typePhone'"
+                    :validat-type="'blur'"
+                    :validat-reault.sync="submitData.contacttel.validatResult"
+                    :error-msg="'！手机号格式错误'"
+                    :placeholder="'用于接收订单信息'">
+            </input-line>
+            <input-line
+                    v-if="needID==1"
+                    :model.sync="submitData.sfz.value"
+                    :type="'text'"
+                    :label="'身份证'"
+                    :label-width="'80px'"
+                    :validator="'idcard'"
+                    :validat-type="'blur'"
+                    :validat-reault.sync="submitData.sfz.validatResult"
+                    :error-msg="'！格式错误'"
+                    :placeholder="'身份证号'">
+            </input-line>
+            <input-line
+                    v-if="needID==2"
+                    :model.sync="calTourIdCard_text"
+                    :type="'text'"
+                    :icon="'right'"
+                    :label="'游客信息'"
+                    :readonly="true"
+                    :click="openSheetIdCard"
+                    :label-width="'80px'">
+            </input-line>
+        </div>
+
+
+        <div class="totalMoneyFixBar">
+            <div class="con">
+                总金额：<span style="color:#f37138"><i class="yen">&yen;</i><span style="font-size:0.4rem;" v-text="totalMoney"></span></span>
+            </div>
+            <div id="submitBtn" class="submitBtn">提交订单</div>
+        </div>
+        <sheet-idcard v-if="needID==2" :show.sync="sheetIdcardShow" :list.sync="ticketList"></sheet-idcard>
+
+        <sheet-refundrule
+                :show.sync="refundRuleShow"
+                :rule-list="orderInfo.cancel_cost.length ? orderInfo.cancel_cost : orderInfo.reb"
+                v-if="orderInfoState=='success' && orderInfo.refund_rule!=2">
+        </sheet-refundrule>
+
+        <sheet-calendar
+                v-on:switch-day="onBeginTimeChange"
+                :yearmonth.sync="beginCalendar.yearmonth"
+                :show.sync="beginCalendar.show">
+        </sheet-calendar>
     </div>
 </template>
 
 <script type="es6">
     import "./index.scss";
+    let Toast = require("COMMON/modules/toast");
+    let GetStoragePrice = require("SERVICE_M/booking-storage-price");
+    let GetOrderInfo = require("SERVICE_M/booking-orderinfo");
     export default {
         data(){
             return {
-                begin_calendar : {
+                aid : PFT.Util.UrlParse()["aid"] || "",
+                pid : PFT.Util.UrlParse()["pid"] || "",
+                p_type : "",
+                needID : -1,
+                beginCalendar : {
                     date : "2016-08-15",
                     yearmonth : "",
                     show : false
-                }
+                },
+                ticketList : [],
+                totalMoney : 0,
+                submitData : {
+                    //联系人手机号
+                    contacttel : {
+                        value : "",
+                        validateResult : -1
+                    },
+                    //联系人姓名
+                    ordername : {
+                        value : "",
+                        validateResult : -1
+                    },
+                    //联系人身份证
+                    sfz : {
+                        value : "",
+                        validateResult : -1
+                    }
+                },
+                refundRuleShow : false,
+                orderInfoState : "",
+                orderInfo : {},
+                sheetIdcardShow : false
             }
         },
         ready(){
-            //setTimeout(()=>{
-            //    this.begin_calendar.show = true;
-            //    this.begin_calendar.yearmonth = "2016-08-15";
-            //},1000)
+            this.toast = new Toast();
+            GetOrderInfo(this.pid,{
+                loading : ()=> {
+                    this.orderInfoState = "loading";
+                    this.toast.show("loading","努力加载中...")
+                },
+                complete : ()=> { this.toast.hide()},
+                success : (data)=> {
+                    this.p_type = data.p_type;
+                    this.orderInfo = data;
+                    this.needID = data.needID;
+                    this.orderInfoState = "success";
+                },
+                fail : (msg)=> {
+                    this.orderInfoState = "fail";
+                    alert(msg);
+                }
+            })
+        },
+        watch : {
+            ticketList(val){
+                //console.log(val);
+                //val.forEach((ticket,index) => {
+                //    var count = ticket.count;
+                //    var tourMsg = ticket.tourMsg;
+                //    console.log(count.tourMsg);
+                //    if(count!=tourMsg.length) return false;
+                //    var newTourMsg = [];
+                //    for(var i=0; i<count; i++){
+                //        var oldTourMsgItem = tourMsg[i] || {};
+                //        newTourMsg.push({
+                //            name : oldTourMsgItem.name || "",
+                //            idcard : oldTourMsgItem.idcard || ""
+                //        })
+                //    }
+                //    console.log(newTourMsg)
+                //    //只赋值一次
+                //    val[index]["tourMsg"] = newTourMsg;
+                //})
+            }
+        },
+        computed : {
+            pids(){
+                var pids = [];
+                this.ticketList.forEach((item,index)=>{ pids.push(item.pid) });
+                return pids.join(",");
+            },
+            calTourIdCard(){
+                var total = 0;
+                var completed = 0;
+                this.ticketList.forEach((item,index) => {
+                    total += item.count;
+                    item.tourMsg.forEach((tourMsg,_index) => {
+                        let name = tourMsg.name;
+                        let idcard = tourMsg.idcard;
+                        if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
+                    })
+                })
+                return{
+                    total : total,
+                    completed : completed
+                };
+            },
+            calTourIdCard_text(){
+                var calTourIdCard = this.calTourIdCard;
+                return "已编辑"+calTourIdCard.completed+"/"+calTourIdCard.total;
+            }
         },
         methods : {
+            onBeginTimeInputClick(e){
+                this.beginCalendar.show = true;
+                this.beginCalendar.yearmonth = e.target.value;
+            },
             onBeginTimeChange(data){
+                var date = this.beginCalendar.date = data.date;
+                if(!date || !this.pids || !this.aid) return false;
+                this.queryStoragePrice({date:date});
+            },
+            //用户修改购买条件时(修改日期，酒店类产品修改入店时间，离店时间，演出类产品修改场次等)，刷新票列表属性(价格，库存等)
+            queryStoragePrice(opt){
+                var p_type = this.p_type;
+                if(p_type=="A" || p_type=="F" || p_type=="B"){ //景点||套票产品||线路
+                    GetStoragePrice(this.p_type,{
+                        pids : this.pids,
+                        aid : this.aid,
+                        date : opt.date
+                    },{
+                        loading : () => { this.toast.show("loading","努力加载中...") },
+                        complete : () => { this.toast.hide() },
+                        success : (data) => { this.updateTicketList(data) }
+                    })
+                }else if(p_type=="C"){ //酒店类产品
 
+                }else if(p_type=="H"){
+
+                }
+            },
+            updateTicketList(data){
+                var list = this.ticketList;
+                for(var i in list){
+                    var pid = list[i]["pid"];
+                    var obj = data[pid];
+                    var store,max,min;
+                    if(obj){
+                        list[i]["jsprice"] = obj.price;
+                        store = obj.store * 1;
+                        max = list[i]["max"];
+                        min = list[i]["min"];
+                        if(store!=-1){ //当有具体库存时
+                            if(max==-1 || max>store) list[i]["max"] = store;
+                            if(min!=-1 && min>store){
+                                list[i]["can_0"] = true;
+                                list[i]["min"] = 0;
+                            }
+                            list[i]["storage"] = store;
+                        }
+                    }
+                }
+            },
+            openSheetIdCard(){
+                this.sheetIdcardShow = true;
             }
         },
         components : {
             sheetCalendar : require("COMMON_VUE_COMPONENTS/sheet-calendar"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list-booking"),
-            inputLine : require("./components/input-line")
+            //sheetIdcard : require("COMMON_VUE_COMPONENTS/sheet-booking-idcard"),
+            inputLine : require("./components/input-line"),
+            sheetRefundrule : require("./components/sheet-refund-rule")
         }
     }
 </script>
-<style lang="sass">
-
-</style>

@@ -1,6 +1,8 @@
 <template>
     <div class="ui-count-container">
-        <input type="text" name="" class="countInp" v-model="value" number debounce="50"/>
+        <div class="ui-count-container-con">
+            <input type="text" name="" class="countInp" v-model="value" number debounce="50"/>
+        </div>
         <span @click="onPlus" class="countBtn plus" :class="plus_cls">+</span>
         <span @click="onMinu" class="countBtn minu" :class="minu_cls">-</span>
     </div>
@@ -44,19 +46,33 @@
                 this.value = can_0 ? 0 : min;
                 this.minu_cls = "disable";
             }
-            if(val==0 && !can_0) this.value = 1;
+            if(val==0 && !can_0){
+                this.value = 1;
+                this.minu_cls = "disable";
+            }
         },
         methods : {
             onPlus(e){
                 if(e.target.classList.contains("disable")) return false;
                 this.value += 1;
+                //setTimeout(()=>{ this.$dispatch("plus",this.value) },60);
             },
             onMinu(e){
                 if(e.target.classList.contains("disable")) return false;
                 this.value -= 1;
+                //setTimeout(()=>{ this.$dispatch("minu",this.value) },60);
             }
         },
         watch : {
+            max(val,oldVal){
+                var count = this.value;
+                if(val!=-1 && count>val) this.value = val;
+            },
+            min(val,oldVal){
+                var count = this.value;
+                var can_0 = this.can_0;
+                if(val!=-1 && count<val) this.value = can_0 ? 0 : val;
+            },
             value(val,oldVal){
                 var max = this.max;
                 var min = this.min;
@@ -69,7 +85,7 @@
                     this.value = max;
                     this.plus_cls = "disable";
                 }
-                if(val<min && min!=-1){
+                if(val<=min && min!=-1){
                     if(Math.abs(val)>Math.abs(oldVal)){ //加
                         this.value = min;
                     }else{ //减
@@ -81,19 +97,19 @@
                     this.value = oldVal;
                     this.minu_cls = "disable";
                 }
-                this.$dispatch("count-change",{
-                    val : this.value,
-                    oldVal : oldVal
-                })
+                this.$dispatch("count-change",this.value,oldVal)
             }
         }
     }
 </script>
 <style lang="sass">
-    .ui-count-container{ position:relative; margin:0 41px;  border:1px solid #258cc9;}
-    .ui-count-container .countInp{ display:block; width:100%; height:22px; line-height:22px; padding:8px 0; text-align:center; border:0 none}
-    .ui-count-container .countBtn{ display:block; position:absolute; top:-1px; bottom:-1px; width:41px; line-height:38px; text-align:center; font-size:18px; font-weight:bold; background:#258cc9; color:#fff}
-    .ui-count-container .countBtn.plus{ right:-40px}
-    .ui-count-container .countBtn.minu{ left:-40px;}
-    .ui-count-container .countBtn.disable{ background:rgb(180,180,180)}
+    $btnWidth : 36px;
+    .ui-count-container{ position:relative; padding:0 $btnWidth; border:1px solid #258cc9;}
+    .ui-count-container-con{ border-left:1px solid #258cc9; border-right:1px solid #258cc9}
+    .ui-count-container .countInp{ display:block; width:100%; height:22px; line-height:22px; padding:1px 0; color:#f37138; text-align:center; border:0 none}
+    .ui-count-container .countInp:focus{ color:#f37138}
+    .ui-count-container .countBtn{ display:block; position:absolute; top:0; bottom:0; width:$btnWidth; line-height:22px; text-align:center; font-size:18px; font-weight:bold; background:#fff; color:#258cc9}
+    .ui-count-container .countBtn.plus{ right:0}
+    .ui-count-container .countBtn.minu{ left:0;}
+    /*.ui-count-container .countBtn.disable{ background:rgb(180,180,180)}*/
 </style>

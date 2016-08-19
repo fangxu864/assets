@@ -200,6 +200,24 @@ var Validate = {
 			var level = getCheckLevel(pwd);
 			return{error:"",level:level};
 		}
+	},
+
+	//2016-08-17
+	//新的验证api
+	mobile : function(val){
+		var result = {};
+		var reg = /^1[0-9]{10}$/;
+		if(!val){
+			result["code"] = -1;
+			result["error"] = "手机号不能为空";
+		}else if(reg.test(val)){
+			result["code"] = 0;
+			result["error"] = "手机号格式错误";
+		}else{
+			result["code"] = 1;
+			result["error"] = "";
+		}
+		return result;
 	}
 };
 module.exports = Validate;

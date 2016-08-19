@@ -63,6 +63,7 @@
         transition:-webkit-transform .3s;
         backface-visibility: hidden;
     }
+    .ui-actionshet-con{ height:100%;}
     .ui-actionsheetContainer.show{
         transform:translateY(0);
     }
