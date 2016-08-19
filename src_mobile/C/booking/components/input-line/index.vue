@@ -15,7 +15,7 @@
                    :placeholder="placeholder"
                    :readonly="readonly"
                    :type="type"/>
-            <i class="iconfont" :class="'icon-'+icon" v-if="icon"></i>
+            <i class="uicon" :class="'uicon-'+icon" v-if="icon"></i>
             <span class="errorMsg" v-text="errorMsg"></span>
         </div>
     </div>
@@ -200,7 +200,7 @@
     .inputLine.px .lt{ position:absolute; top:0; bottom:0;}
     .inputLine .rt .input{ display:block; width:100%; height:22px; line-height:22px; font-size:0.35rem; padding:13px 0; border:0 none;}
     .inputLine .rt .input:focus{ color:#f37138}
-    .inputLine .rt .iconfont{ position:absolute; top:13px; right:0; color:#258cc9}
+    .inputLine .rt .uicon{ position:absolute; top:14px; right:0; color:#258cc9}
     .inputLine .errorMsg{ display:none; position:absolute; top:0; bottom:0; right:0; color:red; line-height:48px;}
     .inputLine.error .errorMsg{ display:block;}
 </style>

@@ -10,6 +10,7 @@
                     </div>
                     <div class="countBox">
                         <count :value.sync="item.count"
+                               :id="item.pid+'-'+item.tid"
                                :max="item.max"
                                :min="item.min"
                                :can_0="item.can_0"
@@ -21,7 +22,6 @@
                         </p>
                     </div>
                 </div>
-                <p v-text="tciketList"></p>
             </li>
         </ul>
     </div>
@@ -65,39 +65,19 @@
                     this.stateMsg = PFT.AJAX_LOADING_TEXT;
                 },
                 success : (list)=>{
-                    this.state = "success";
+                    this.stateMsg = "请求票类列表成功";
                     this.list = this.adaptListData(list);
+                    this.state = "success";
                 },
                 empty : ()=>{
-                    this.state = "empty";
                     this.stateMsg = "暂无可售票类";
+                    this.state = "empty";
                 },
                 fail : (msg)=>{
-                    this.state = "fail";
                     this.stateMsg = msg;
+                    this.state = "fail";
                 }
             })
-        },
-        watch : {
-            list : function(val){
-                console.log(val);
-                //val.forEach((ticket,index) => {
-                //    var count = ticket.count;
-                //    var tourMsg = ticket.tourMsg;
-                //    if(count!=tourMsg.length) return false;
-                //    var newTourMsg = [];
-                //    for(var i=0; i<count; i++){
-                //        var oldTourMsgItem = tourMsg[i] || {};
-                //        newTourMsg.push({
-                //            name : oldTourMsgItem.name || "",
-                //            idcard : oldTourMsgItem.idcard || ""
-                //        })
-                //    }
-                //    console.log(newTourMsg)
-                //    //只赋值一次
-                //    val[index]["tourMsg"] = newTourMsg;
-                //})
-            }
         },
         methods : {
             adaptListData(list){
@@ -121,8 +101,23 @@
                 })
                 return list;
             },
-            onCountChange(val,oldVal){
-                //do something
+            onCountChange(id,count,oldVal){
+                var pid = id.split("-")[0];
+                var tid = id.split("-")[1];
+                this.list.forEach((ticket,index) => {
+                    var tourMsg = ticket.tourMsg;
+                    if(pid!=ticket.pid || tid!=ticket.tid) return false;
+                    var newTourMsg = [];
+                    for(var i=0; i<count; i++){
+                        var oldTourMsgItem = tourMsg[i] || {};
+                        newTourMsg.push({
+                            name : oldTourMsgItem.name || "",
+                            idcard : oldTourMsgItem.idcard || ""
+                        })
+                    }
+                    //只赋值一次
+                    this.list[index]["tourMsg"] = newTourMsg;
+                })
             }
         },
         computed : {

@@ -4,7 +4,7 @@
  * Description: ""
  */
 require("COMMON/css/base/_reset.scss");
-require("COMMON/css/base/_iconfont.scss");
+require("COMMON/css/base/_iconfont.usually.scss");
 var PFT = window["PFT"] || (window["PFT"]={});
 PFT = require("./pft.common.base")(PFT);
 PFT["Toast"] = require("./modules/Toast");

@@ -14,6 +14,7 @@
                 type : Number,
                 default : ""
             },
+            id : {},
             max : {
                 type : Number,
                 default : -1
@@ -97,7 +98,7 @@
                     this.value = oldVal;
                     this.minu_cls = "disable";
                 }
-                this.$dispatch("count-change",this.value,oldVal)
+                this.$dispatch("count-change",this.id,this.value,oldVal)
             }
         }
     }

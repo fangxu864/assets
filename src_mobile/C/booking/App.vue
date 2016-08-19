@@ -66,20 +66,18 @@
                     v-if="needID==2"
                     :model.sync="calTourIdCard_text"
                     :type="'text'"
-                    :icon="'right'"
+                    :icon="'jiantou'"
                     :label="'游客信息'"
                     :readonly="true"
                     :click="openSheetIdCard"
                     :label-width="'80px'">
             </input-line>
         </div>
-
-
         <div class="totalMoneyFixBar">
             <div class="con">
                 总金额：<span style="color:#f37138"><i class="yen">&yen;</i><span style="font-size:0.4rem;" v-text="totalMoney"></span></span>
             </div>
-            <div id="submitBtn" class="submitBtn">提交订单</div>
+            <div id="submitBtn" @click="onSubmitBtnClick" class="submitBtn">提交订单</div>
         </div>
         <sheet-idcard v-if="needID==2" :show.sync="sheetIdcardShow" :list.sync="ticketList"></sheet-idcard>
 
@@ -160,28 +158,6 @@
                 }
             })
         },
-        watch : {
-            ticketList(val){
-                //console.log(val);
-                //val.forEach((ticket,index) => {
-                //    var count = ticket.count;
-                //    var tourMsg = ticket.tourMsg;
-                //    console.log(count.tourMsg);
-                //    if(count!=tourMsg.length) return false;
-                //    var newTourMsg = [];
-                //    for(var i=0; i<count; i++){
-                //        var oldTourMsgItem = tourMsg[i] || {};
-                //        newTourMsg.push({
-                //            name : oldTourMsgItem.name || "",
-                //            idcard : oldTourMsgItem.idcard || ""
-                //        })
-                //    }
-                //    console.log(newTourMsg)
-                //    //只赋值一次
-                //    val[index]["tourMsg"] = newTourMsg;
-                //})
-            }
-        },
         computed : {
             pids(){
                 var pids = [];
@@ -207,21 +183,7 @@
             calTourIdCard_text(){
                 var calTourIdCard = this.calTourIdCard;
                 return "已编辑"+calTourIdCard.completed+"/"+calTourIdCard.total;
-            },
-            tourMsgList : {
-                get(){
-                    var result = [];
-                    this.ticketList.forEach((item,index) => {
-                        var json = {};
-                        json["title"] = item.title;
-                        json[""]
-                    })
-                },
-                set(){
-
-                }
             }
-
         },
         methods : {
             onBeginTimeInputClick(e){
@@ -276,12 +238,16 @@
             },
             openSheetIdCard(){
                 this.sheetIdcardShow = true;
+            },
+            //提交订单
+            onSubmitBtnClick(e){
+
             }
         },
         components : {
             sheetCalendar : require("COMMON_VUE_COMPONENTS/sheet-calendar"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list-booking"),
-            //sheetIdcard : require("COMMON_VUE_COMPONENTS/sheet-booking-idcard"),
+            sheetIdcard : require("COMMON_VUE_COMPONENTS/sheet-booking-idcard"),
             inputLine : require("./components/input-line"),
             sheetRefundrule : require("./components/sheet-refund-rule")
         }

@@ -14,24 +14,24 @@ module.exports = function(pid,opt){
 				"title": "成人票and可乐赠饮",
 				"jsprice": 13,
 				"tprice": "14.00",
-				"pid": "14624",
-				"tid": "17536",
+				"pid": "1424",
+				"tid": "1753",
 				"buy_low": "2",   //最小购买张数
 				"buy_up": "5"
 			},{
 				"title": "成人票and可乐赠饮",
 				"jsprice": 13,
 				"tprice": "14.00",
-				"pid": "14625",
-				"tid": "17536",
+				"pid": "04625",
+				"tid": "07536",
 				"buy_low": "-1",   //最小购买张数
 				"buy_up": "-1"
 			},{
 				"title": "成人票and可乐赠饮",
 				"jsprice": 13,
 				"tprice": "14.00",
-				"pid": "14626",
-				"tid": "17536",
+				"pid": "54626",
+				"tid": "57536",
 				"buy_low": "-1",   //最小购买张数
 				"buy_up": "-1"
 			}])

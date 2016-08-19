@@ -4,7 +4,7 @@
             <div class="topTip">请正确填写，因信息不完整、填写不正确造成的额外损失，需由客人自行承担</div>
             <div class="listCon">
                 <ul class="listUl">
-                    <li class="ticketLi" v-for="ticket in list">
+                    <li v-if="ticket.tourMsg.length>0" class="ticketLi" v-for="ticket in list">
                         <p class="ticketname" v-text="ticket.title"></p>
                         <div class="idcardItem" v-for="tour in ticket.tourMsg">
                             <input type="text" class="nameInp" :placeholder="'游客信息'+($index*1+1)" v-model="tour.name"/>
