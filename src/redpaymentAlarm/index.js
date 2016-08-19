@@ -35,7 +35,7 @@ RedpaymentAlarm.prototype = Mixin({
 
             }
         })
-       this.dialog.open();
+           this.dialog.open();
 
 
 
@@ -53,9 +53,30 @@ RedpaymentAlarm.prototype = Mixin({
     }
 },Pubsub );
 
+var addFunction= {
+       changecolor:function () {
+           alert("123");
+            $("#AlarmChangeColorRed").click(function(){
+                if($("#AlarmChangeColorRed").css("background")=="red"||$("#AlarmChangeColorRed").css("background")=="#ccc"){
+                    $("#AlarmChangeColorRed").css("background","#ccc")
+                    $("#AlarmChangeColorBlack").css("background","#333333")
+                }
+            })
+           $("#AlarmChangeColorBlack").click(function () {
+               if($(this).css("background")=="#333333"){
+                   $("#AlarmChangeColorRed").css("background","red");
+                   $("#AlarmChangeColorBlack").css("background","#ccc");
+               }
+           })
+
+       }
+}
+
 
 $(function () {
+addFunction.changecolor();
 $("#repaymentAlarm").click(function(){
+
        new RedpaymentAlarm()
 })
 
