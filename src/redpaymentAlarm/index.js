@@ -55,8 +55,9 @@ RedpaymentAlarm.prototype = Mixin({
 
 var addFunction= {
        changecolor:function () {
-           alert("123");
+
             $("#AlarmChangeColorRed").click(function(){
+               alert($("#AlarmChangeColorRed").css("background"))
                 if($("#AlarmChangeColorRed").css("background")=="red"||$("#AlarmChangeColorRed").css("background")=="#ccc"){
                     $("#AlarmChangeColorRed").css("background","#ccc")
                     $("#AlarmChangeColorBlack").css("background","#333333")
