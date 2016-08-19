@@ -41,20 +41,16 @@ RedpaymentAlarm.prototype = Mixin({
 
     },
 
+    open:function (opt) {
+        var that =this;
+        this.dialog.open({
+            onAfter:function () {
+                var dialog_submitBtn =$("#repaymentAlarmBtn");
+                dialog_submitBtn.attr("data-typenum",that.type)
+            }
 
-
-
-
-    // open:function (opt) {
-    //     var that =this;
-    //     this.dialog.open({
-    //         onAfter:function () {
-    //             var dialog_submitBtn =$("#repaymentAlarmBtn");
-    //             dialog_submitBtn.attr("data-typenum",that.type)
-    //         }
-    //
-    //     })
-    // }
+        })
+    }
 },Pubsub );
 
 
