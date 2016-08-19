@@ -155,8 +155,8 @@ RedpacketWithdraw.prototype={
 
 	getRecordAndSum: function(){
 		//var sumNum=0;
-		var recordNum=$("#withdrawList").children("tr").length;
-		$("#recordNum").text(recordNum);
+		//var recordNum=$("#withdrawList").children("tr").length;
+		//$("#recordNum").text(recordNum);
 		//$("#withdrawList .withdrawNum").each(function(){
 		//	sumNum+=parseInt($(this).text());
 		//})
@@ -211,21 +211,22 @@ RedpacketWithdraw.prototype={
 					$("#sumNum").text(totalMoney);
 					that.pagination.render({current:currentPage,total:totalPage});
 
-					if(dateType=="today"){
-						that.__cache.today = data;
-					}
-					if(dateType=="thisweek"){
-						that.__cache.thisweek = data;
-					}
-					if(dateType=="lastweek"){
-						that.__cache.lastweek = data;
-					}
-					if(dateType=="thismonth"){
-						that.__cache.thismonth = data;
-					}
-					if(dateType=="lastmonth"){
-						that.__cache.lastmonth = data;
-					}
+					// if(dateType=="today"){
+					// 	that.__cache.today = data;
+					// }
+					// if(dateType=="thisweek"){
+					// 	that.__cache.thisweek = data;
+					// }
+					// if(dateType=="lastweek"){
+					// 	that.__cache.lastweek = data;
+					// }
+					// if(dateType=="thismonth"){
+					// 	that.__cache.thismonth = data;
+					// }
+					// if(dateType=="lastmonth"){
+					// 	that.__cache.lastmonth = data;
+					// }
+					$("#recordNum").text(total);
 				}
 				else{
 					alert(res.msg);
