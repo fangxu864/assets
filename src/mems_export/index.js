@@ -21,9 +21,12 @@ var Dial=new Dialog({
     speed : 100,
     onCloseAfter : function(){
         $(".select_down_pages .pages_wrap .con").off("click.click_pages");
-        $(".select_down_pages .btn_wrap .ok_btn").off("click.ok_down")
+        $(".select_down_pages .btn_wrap .ok_btn").off("click.ok_down");
+        $(".select_down_pages .btn_wrap .all_btn").off("click.down_all")
     }
 });
+/*定义iframe_name 的 index*/
+window.iframe_name_index=0;
 
 
 
@@ -227,7 +230,11 @@ $(function(){
                     $("#excel_page").val(1);
                     $(".search_form ").submit();
                 } else {
+
                     /*渲染页码弹出层部分*/
+                    var okBtn=$(".select_down_pages .btn_wrap .ok_btn");//下载该页按钮
+                    var down_all_btn=$(".select_down_pages .btn_wrap .all_btn");//下载全部 的按钮
+
                     var pageCon= $(".select_down_pages .pages_wrap .con");
                     pageCon.html("");//清空页码容器
                     var html="";
@@ -236,9 +243,14 @@ $(function(){
                     }
                     pageCon.html(html);
                     $(".select_down_pages .btn_wrap .lt").text('*共计 '+totalPage+' 页，每页有 '+size+' 条数据');
+                    down_all_btn.addClass("clickable");
+                    okBtn.addClass("clickable");
+                    down_all_btn.removeClass("notclick");
+                    okBtn.removeClass("notclick");
                     $(".select_down_pages .pages_wrap .con .no_down").eq(0).addClass("active");//给未下载的第一个页码添加active类
                     /*打开页码弹出层*/
                     Dial.open();
+
                     /*页码弹出层事件监听部分*/
                     var cur_page;
                     pageCon.on("click.click_pages",".no_down",function(){
@@ -246,29 +258,62 @@ $(function(){
                         cur_page=$(this);
                         $(this).addClass("active")
                     });
-                    $(".select_down_pages .btn_wrap .ok_btn").on("click.ok_down",function () {
+                    okBtn.on("click.ok_down",function () {
                         var excel_page=$(".select_down_pages .pages_wrap .con .active").attr("index");
-
-                        console.log(excel_page)
-
                         if(!excel_page){
-                            alert("请选择要下载的页码！");
+                            down_all_btn.removeClass("clickable");
+                            okBtn.removeClass("clickable");
+                            down_all_btn.addClass("notclick");
+                            okBtn.addClass("notclick");
                         }else{
                             // console.log(cur_page.attr("index"));
                             cur_page=$(".select_down_pages .pages_wrap .con .active");
                             cur_page.removeClass("no_down");
                             cur_page.addClass("downed");
                             cur_page.removeClass("active");
-                            $("#excel_page").val(excel_page);
-                            $("#act").val('loadExcel');
-                            var params = $('.search_form').serialize();
-                            params += '&show_page=1';
-                            var downloadUrl = window.location.href + '?' + params;
-                            console.log(downloadUrl);
-                            window.open(downloadUrl, "_blank");
+                            downFile(excel_page);
                             $(".select_down_pages .pages_wrap .con .no_down").eq(0).addClass("active");//给未下载的第一个页码添加active类
+
+                            excel_page=$(".select_down_pages .pages_wrap .con .active").attr("index");
+                            if(!excel_page){
+                                down_all_btn.removeClass("clickable");
+                                okBtn.removeClass("clickable");
+                                down_all_btn.addClass("notclick");
+                                okBtn.addClass("notclick");
+                            }
                         }
                     });
+                    down_all_btn.on("click.down_all",function(){
+                        var no_down=$(".select_down_pages .pages_wrap .con .no_down");
+                        no_down.removeClass("no_down");
+                        no_down.removeClass("active");
+                        no_down.addClass("downed");
+
+                        down_all_btn.removeClass("clickable");
+                        okBtn.removeClass("clickable");
+                        down_all_btn.addClass("notclick");
+                        okBtn.addClass("notclick");
+                        
+
+                        okBtn.off("click.ok_down");
+                        for(var i=0;i<no_down.length;i++){
+                            var excel_page=no_down.eq(i).attr("index");
+                            downFile(excel_page)
+                        }
+                    });
+                    function downFile(excel_page) {
+                        window.iframe_name_index++;
+                        console.log( window.iframe_name_index);
+                        var iframe_name="iframe"+ window.iframe_name_index;
+                        var iframe_html=' <iframe class="iframe_down" name="'+iframe_name+'"></iframe>';
+                        $(".select_down_pages .iframe_wrap").append(iframe_html);
+                        $("#excel_page").val(excel_page);
+                        $("#act").val('loadExcel');
+                        var params = $('.search_form').serialize();
+                        params += '&show_page=1';
+                        var downloadUrl = window.location.href + '?' + params;
+                        window.open(downloadUrl, iframe_name);
+                    }
                 }
 
             }
