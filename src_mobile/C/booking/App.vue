@@ -136,7 +136,8 @@
                 refundRuleShow : false,
                 orderInfoState : "",
                 orderInfo : {},
-                sheetIdcardShow : false
+                sheetIdcardShow : false,
+                tourMsg : []
             }
         },
         ready(){
@@ -206,7 +207,21 @@
             calTourIdCard_text(){
                 var calTourIdCard = this.calTourIdCard;
                 return "已编辑"+calTourIdCard.completed+"/"+calTourIdCard.total;
+            },
+            tourMsgList : {
+                get(){
+                    var result = [];
+                    this.ticketList.forEach((item,index) => {
+                        var json = {};
+                        json["title"] = item.title;
+                        json[""]
+                    })
+                },
+                set(){
+
+                }
             }
+
         },
         methods : {
             onBeginTimeInputClick(e){
