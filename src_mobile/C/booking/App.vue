@@ -2,18 +2,28 @@
     <div id="bodyContainer" class="bodyContainer" v-if="orderInfoState=='success'">
         <div class="prodTtile pad15"><span class="t" v-text="orderInfo.title"></span></div>
         <div class="modBox">
-            <template v-if="p_type=='A'">
-                <input-line
-                        :model.sync="beginCalendar.date"
-                        :type="'text'"
-                        :label="'游玩日期'"
-                        :readonly="true"
-                        :click="onBeginTimeInputClick"
-                        :label-width="'80px'"
-                        :icon="'rili'"
-                        :placeholder="'请选择日期'">
-                </input-line>
-            </template>
+            <input-line
+                    v-if="p_type!=='C'"
+                    :model.sync="beginCalendar.date"
+                    :type="'text'"
+                    :label="beginTimeText"
+                    :readonly="true"
+                    :click="onBeginTimeInputClick"
+                    :label-width="'80px'"
+                    :icon="'rili'"
+                    :placeholder="'请选择日期'">
+            </input-line>
+            <input-line
+                    v-if="p_type=='H'"
+                    :model.sync="beginCalendar.date"
+                    :type="'text'"
+                    :label="'场次时间'"
+                    :readonly="true"
+                    :click="onChangciInputClick"
+                    :label-width="'80px'"
+                    :icon="'jiantou-sin-right'"
+                    :placeholder="'请选择场次'">
+            </input-line>
             <div class="buyDescBox pad15">
                 <span class="validTime descFlag" v-text="orderInfo.validTime"></span>
                 <span class="descFlag verifyTime" v-if="orderInfo.verifyTime!=''" v-text="orderInfo.verifyTime"></span>
@@ -66,7 +76,7 @@
                     v-if="needID==2"
                     :model.sync="calTourIdCard_text"
                     :type="'text'"
-                    :icon="'jiantou'"
+                    :icon="'jiantou-sin-right'"
                     :label="'游客信息'"
                     :readonly="true"
                     :click="openSheetIdCard"
@@ -79,7 +89,18 @@
             </div>
             <div id="submitBtn" @click="onSubmitBtnClick" class="submitBtn">提交订单</div>
         </div>
+
+
+
         <sheet-idcard v-if="needID==2" :show.sync="sheetIdcardShow" :list.sync="ticketList"></sheet-idcard>
+
+        <sheet-changci
+                :pid="pid"
+                :aid="aid"
+                :date="beginCalendar.date"
+                :selected.sync="showPuct.selected"
+                :show.sync="showPuct.sheetShow">
+        </sheet-changci>
 
         <sheet-refundrule
                 :show.sync="refundRuleShow"
@@ -135,7 +156,14 @@
                 orderInfoState : "",
                 orderInfo : {},
                 sheetIdcardShow : false,
-                tourMsg : []
+                //以上为各个产品类型的公用数据
+
+                //演出类产品
+                showPuct : {
+                    sheetShow : false,
+                    selected : {},
+                    changciData : []
+                }
             }
         },
         ready(){
@@ -164,6 +192,14 @@
                 this.ticketList.forEach((item,index)=>{ pids.push(item.pid) });
                 return pids.join(",");
             },
+            beginTimeText(){
+                return{
+                    A : "游玩日期",
+                    F : "游玩日期",
+                    H : "演出日期",
+                    B : "集合日期"
+                }[this.p_type];
+            },
             calTourIdCard(){
                 var total = 0;
                 var completed = 0;
@@ -189,6 +225,9 @@
             onBeginTimeInputClick(e){
                 this.beginCalendar.show = true;
                 this.beginCalendar.yearmonth = e.target.value;
+            },
+            onChangciInputClick(e){
+                this.showPuct.sheetShow = true;
             },
             onBeginTimeChange(data){
                 var date = this.beginCalendar.date = data.date;
@@ -249,7 +288,8 @@
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list-booking"),
             sheetIdcard : require("COMMON_VUE_COMPONENTS/sheet-booking-idcard"),
             inputLine : require("./components/input-line"),
-            sheetRefundrule : require("./components/sheet-refund-rule")
+            sheetRefundrule : require("./components/sheet-refund-rule"),
+            sheetChangci : require("./components/sheet-changci")
         }
     }
 </script>
