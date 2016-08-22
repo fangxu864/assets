@@ -112,8 +112,30 @@ var addFunction= {
         })
     },
     judugement:function(){
-        $.ajax()
-    }
+           $.ajax({
+                type:"post",
+                dataType:"json",
+                data:{
+                    from : "",
+                   type : type
+                },
+                url:"",
+                success:function (data) {
+                    if(data.outcome==2){
+                        $("#AlarmChangeColorRed").css("background","black")
+                        window.location.reload(true);
+                    }
+                    else{
+                        alert(data.msg);
+                    }
+                },
+                error:function (xhr,msg) {
+                    alert(msg);
+                }
+            });
+
+
+        }
 
 
 
@@ -121,11 +143,8 @@ var addFunction= {
 
 
 $(function () {
-
-addFunction.changeColor();
-    $("#AlarmChangeColorRed").css("background","black")
-$("#repaymentAlarm").click(function(){
-
+ addFunction.changeColor();
+  $("#repaymentAlarm").click(function(){
        new RedpaymentAlarm()
 })
 
