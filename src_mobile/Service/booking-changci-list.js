@@ -42,7 +42,7 @@ module.exports = function(params,opt){
 					"storage": 225,
 					"area_storage": {
 						"601": 1,
-						"602": 60,
+						"602": 25,
 						"603": 45,
 						"604": 60
 					}

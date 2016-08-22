@@ -15,7 +15,7 @@
             </input-line>
             <input-line
                     v-if="p_type=='H'"
-                    :model.sync="beginCalendar.date"
+                    :model.sync="showPuct.selected_text"
                     :type="'text'"
                     :label="'场次时间'"
                     :readonly="true"
@@ -98,7 +98,7 @@
                 :pid="pid"
                 :aid="aid"
                 :date="beginCalendar.date"
-                :selected.sync="showPuct.selected"
+                v-on:changci-change="onChangeciChange"
                 :show.sync="showPuct.sheetShow">
         </sheet-changci>
 
@@ -160,9 +160,8 @@
 
                 //演出类产品
                 showPuct : {
-                    sheetShow : false,
-                    selected : {},
-                    changciData : []
+                    selected_text : "",
+                    sheetShow : false
                 }
             }
         },
@@ -229,15 +228,48 @@
             onChangciInputClick(e){
                 this.showPuct.sheetShow = true;
             },
+            //开始时间变化时
             onBeginTimeChange(data){
                 var date = this.beginCalendar.date = data.date;
+                var p_type = this.p_type;
                 if(!date || !this.pids || !this.aid) return false;
-                this.queryStoragePrice({date:date});
+                if(p_type=="A" || p_type=="F" || p_type=="B"){ //景点||套票产品||线路
+                    this.queryStoragePrice({date:date});
+                }else if(p_type=="C"){ //酒店
+
+                }else if(p_type=="H"){ //演出
+                    this.ticketList.forEach((ticket,index) => {
+                        ticket["jsprice"] = data.price;
+                    })
+                    //接下来什么事都不做，data.dete的变化会映射到beginCalendar.date
+                    //而beginCalendar.date已通过v-model绑定到子组件sheet-changci里了
+                    //此时sheet-changci里已watch date的变化去自动调用queryChangciList方法
+                }
+            },
+            //当场次变化时
+            onChangeciChange(data){
+                var round_name = data.round_name;
+                var bt = data.bt || "";
+                var et = data.et || "";
+                var area_storage = data.area_storage;
+                var ticketList = this.ticketList;
+                this.showPuct.selected_text = round_name + " " + bt + " - " + et;
+                ticketList.forEach((ticket,index) => {
+                    var result = {};
+                    var pid = ticket.pid;
+                    var zone_id = ticket.zone_id;
+                    if(!zone_id) return false;
+                    var storage = area_storage[zone_id];
+                    if(typeof storage==="undefined") return false;
+                    result[pid] = {};
+                    result[pid]["store"] = storage;
+                    this.updateTicketList(result);
+                })
             },
             //用户修改购买条件时(修改日期，酒店类产品修改入店时间，离店时间，演出类产品修改场次等)，刷新票列表属性(价格，库存等)
             queryStoragePrice(opt){
                 var p_type = this.p_type;
-                if(p_type=="A" || p_type=="F" || p_type=="B"){ //景点||套票产品||线路
+                if(p_type=="A" || p_type=="F" || p_type=="B"){
                     GetStoragePrice(this.p_type,{
                         pids : this.pids,
                         aid : this.aid,
@@ -247,30 +279,40 @@
                         complete : () => { this.toast.hide() },
                         success : (data) => { this.updateTicketList(data) }
                     })
-                }else if(p_type=="C"){ //酒店类产品
-
-                }else if(p_type=="H"){
-
                 }
             },
             updateTicketList(data){
+                //data = {
+                //    pid1 : {
+                //        price : "",
+                //        store : ""
+                //    },
+                //    pid2 : {
+                //        price : "",
+                //        store : ""
+                //    }
+                //};
                 var list = this.ticketList;
                 for(var i in list){
                     var pid = list[i]["pid"];
                     var obj = data[pid];
-                    var store,max,min;
-                    if(obj){
-                        list[i]["jsprice"] = obj.price;
-                        store = obj.store * 1;
-                        max = list[i]["max"];
-                        min = list[i]["min"];
-                        if(store!=-1){ //当有具体库存时
-                            if(max==-1 || max>store) list[i]["max"] = store;
-                            if(min!=-1 && min>store){
-                                list[i]["can_0"] = true;
-                                list[i]["min"] = 0;
-                            }
-                            list[i]["storage"] = store;
+                    if(!obj) continue;
+                    var store = obj.store * 1;
+                    var buy_up = list[i]["buy_up"];
+                    var buy_low = list[i]["buy_low"];
+                    if(typeof obj.price!=="undefined") list[i]["jsprice"] = obj.price;
+                    list[i]["storage"] = store;
+                    if(store==-1){
+                        if(buy_up!=-1){ //限制最多购买张数
+                            list[i]["max"] = buy_up;
+                        }else{
+                            list[i]["max"] = -1;
+                        }
+                    }else{
+                        if(buy_up!=-1){
+                            list[i]["max"] = Math.min(store,buy_up);
+                        }else{
+                            list[i]["max"] = store;
                         }
                     }
                 }
@@ -278,6 +320,7 @@
             openSheetIdCard(){
                 this.sheetIdcardShow = true;
             },
+
             //提交订单
             onSubmitBtnClick(e){
 

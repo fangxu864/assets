@@ -17,15 +17,15 @@ module.exports = function(p_type,params,opt){
 		setTimeout(function(){
 			opt.complete();
 			opt.success({
-				14624 : {
+				1 : {
 					price : 200,
-					store : 10
+					store : 3
 				},
-				14625 : {
+				2 : {
 					price : 100,
 					store : 0
 				},
-				14626 : {
+				3 : {
 					price : 230,
 					store : -1
 				}

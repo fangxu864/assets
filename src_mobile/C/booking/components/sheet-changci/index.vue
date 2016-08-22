@@ -3,7 +3,7 @@
         <div class="changciLiContainer" slot="content">
             <div class="stateText" v-if="state!='success'" v-text="stateText"></div>
             <ul class="changciList" v-if="state=='success'">
-                <li @click="onItemClick(item.id)" data-id="{{item.id}}" class="changciItem" v-for="item in list">
+                <li @click="onItemClick(item)" data-id="{{item.id}}" :class="{'selected':selected_id==item.id}" class="changciItem" v-for="item in list">
                     {{item.round_name+" "+item.bt+"-"+item.et}}
                 </li>
             </ul>
@@ -31,18 +31,12 @@
                 type : Boolean,
                 twoway : true,
                 default : false
-            },
-            selected : {
-                type : Object,
-                twoway : true,
-                default : function(){
-                    return {}
-                }
             }
         },
         data(){
             return{
                 state : "",
+                selected_id : "",
                 list : []
             }
         },
@@ -63,14 +57,19 @@
             }
         },
         ready(){
-            this.queryChangciList();
+            this.queryChangciList(this.date);
+        },
+        watch : {
+            date(date){
+                this.queryChangciList(date);
+            }
         },
         methods : {
-            queryChangciList(){
+            queryChangciList(date){
                 GetChangciList({
                     pid : this.pid,
                     aid : this.aid,
-                    date : this.date
+                    date : date
                 },{
                     loading : () => {
                         this.state = "loading";
@@ -78,6 +77,8 @@
                     success : (list) => {
                         this.list = list;
                         this.state = "success";
+                        this.selected_id = list[0]["id"];
+                        this.$dispatch("changci-change",list[0])
                     },
                     empty : () => {
                         this.state = "empty";
@@ -87,21 +88,10 @@
                     }
                 })
             },
-            onItemClick(id){ //id:场次id
-                var selectItem = this.list[id];
-                if(!selectItem) return false;
-                var result = {};
-                for(var i in selectItem){
-                    if(i=="area_storage"){
-                        result["area_storage"] = result["area_storage"] || {};
-                        for(var s in selectItem["area_storage"]){
-                            result["area_storage"][s] = selectItem["area_storage"][s];
-                        }
-                    }else{
-                        result[i] = selectItem[i];
-                    }
-                }
-                console.log(result)
+            onItemClick(selectItem){
+                this.selected_id = selectItem.id;
+                this.show = false;
+                this.$dispatch("changci-change",selectItem)
             }
         },
         components : {
@@ -112,5 +102,6 @@
 <style lang="sass">
     .changciLiContainer .cancelBtn{ height:43px; line-height:43px; text-align:center; border-top:1px solid #e5e5e5; color:#258cc9}
     .changciLiContainer .changciItem{ height:43px; line-height:43px; padding-left:15px; overflow:hidden; border-bottom:1px solid #e5e5e5}
+    .changciLiContainer .changciItem.selected{ color:#258cc9}
     .changciLiContainer .changciItem:last-child{ border-bottom:0 none}
 </style>

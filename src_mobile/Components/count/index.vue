@@ -67,12 +67,28 @@
         watch : {
             max(val,oldVal){
                 var count = this.value;
-                if(val!=-1 && count>val) this.value = val;
+                var min = this.min;
+                if(val==-1) return;
+                if(val<0) return this.max = oldVal;
+                if(val<min){
+                    this.can_0 = true;
+                    this.min = 0;
+                    this.max = 0;
+                    this.value = 0;
+                    return;
+                }
+                if(val<count) return this.value = val;
             },
             min(val,oldVal){
+                var max = this.max;
                 var count = this.value;
-                var can_0 = this.can_0;
-                if(val!=-1 && count<val) this.value = can_0 ? 0 : val;
+                if(val==-1) return;
+                if(val>max){
+                    this.can_0 = true;
+                    this.value = 0;
+                    return;
+                }
+                if(val>count && val<max) return this.value = val;
             },
             value(val,oldVal){
                 var max = this.max;
