@@ -6,7 +6,7 @@ require("./index.scss")
 var Dialog = require("COMMON/modules/dialog-simple");
 var Mixin = require("COMMON/js/util.mix");
 var Pubsub =require("COMMON/js/util.pubsub");
-
+//更改授信预警阀值部分
 var RedpaymentAlarm =function () {
      this.init();
 
@@ -52,7 +52,7 @@ RedpaymentAlarm.prototype = Mixin({
     //     })
     // }
 },Pubsub );
-
+//授信预警按钮部分
 var addFunction= {
     RGBtoHEX:function (str) {
         var that =  this;
@@ -111,22 +111,24 @@ var addFunction= {
             }
         })
     },
-    judugement:function(){
+    judugement:function(type,aid,fid){
            $.ajax({
                 type:"post",
                 dataType:"json",
                 data:{
-                    from : "",
-                   type : type
+                    aid:aid,
+                    fid:fid,
+                   type:type
                 },
-                url:"",
+                url:"/r/member_ThresHold/getBalance",
                 success:function (data) {
-                    if(data.outcome==2){
+                    if(data.type==2){
                         $("#AlarmChangeColorRed").css("background","black")
-                        window.location.reload(true);
+                       $("#AlarmChangeColorBlack").css("background","#cccccc")
                     }
-                    else{
-                        alert(data.msg);
+                    else if(date.type==1){
+                        $("#AlarmChangeColorBlack").css("background","red")
+                        $("#AlarmChangeColorRed").css("background","#cccccc")
                     }
                 },
                 error:function (xhr,msg) {
@@ -135,7 +137,15 @@ var addFunction= {
             });
 
 
-        }
+        },
+    getDate:function(){
+        var that = this;
+        var type=$("#type").attr("value");
+        var aid=$("#parent_id ").attr("value");
+        var fid=$("#son_id").attr("value");
+        that.judugement(type,aid,fid);
+        console.log(type+aid+fid);
+    }
 
 
 
@@ -143,7 +153,8 @@ var addFunction= {
 
 
 $(function () {
- addFunction.changeColor();
+    addFunction.getDate();
+   addFunction.changeColor();
   $("#repaymentAlarm").click(function(){
        new RedpaymentAlarm()
 })
