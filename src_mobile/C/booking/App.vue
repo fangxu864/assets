@@ -4,7 +4,7 @@
         <div class="modBox">
             <input-line
                     v-if="p_type!=='C'"
-                    :model.sync="beginCalendar.date"
+                    :model.sync="calendar.date"
                     :type="'text'"
                     :label="beginTimeText"
                     :readonly="true"
@@ -24,6 +24,14 @@
                     :icon="'jiantou-sin-right'"
                     :placeholder="'请选择场次'">
             </input-line>
+            <begintime-endtime
+                    :daycount.sync="hotel.daycount"
+                    :begintime="hotel.begintime"
+                    :endtime="hotel.endtime"
+                    v-on:begintime-click="onHotelBegintimeClick"
+                    v-on:endtime-click="onHotelEndtimeClick"
+                    v-if="p_type=='C'">
+            </begintime-endtime>
             <div class="buyDescBox pad15">
                 <span class="validTime descFlag" v-text="orderInfo.validTime"></span>
                 <span class="descFlag verifyTime" v-if="orderInfo.verifyTime!=''" v-text="orderInfo.verifyTime"></span>
@@ -35,7 +43,6 @@
         <div class="ticketListBox" style="margin-top:5px">
             <ticket-list :total-money.sync="totalMoney" :need-id="needID" :pid="pid" :list.sync="ticketList"></ticket-list>
         </div>
-
 
         <div class="modBox" style="margin-top:5px;">
             <input-line
@@ -79,7 +86,7 @@
                     :icon="'jiantou-sin-right'"
                     :label="'游客信息'"
                     :readonly="true"
-                    :click="openSheetIdCard"
+                    :click="onOpenSheetIdCard"
                     :label-width="'80px'">
             </input-line>
         </div>
@@ -89,15 +96,12 @@
             </div>
             <div id="submitBtn" @click="onSubmitBtnClick" class="submitBtn">提交订单</div>
         </div>
-
-
-
         <sheet-idcard v-if="needID==2" :show.sync="sheetIdcardShow" :list.sync="ticketList"></sheet-idcard>
 
         <sheet-changci
                 :pid="pid"
                 :aid="aid"
-                :date="beginCalendar.date"
+                :date="calendar.date"
                 v-on:changci-change="onChangeciChange"
                 :show.sync="showPuct.sheetShow">
         </sheet-changci>
@@ -109,9 +113,10 @@
         </sheet-refundrule>
 
         <sheet-calendar
-                v-on:switch-day="onBeginTimeChange"
-                :yearmonth.sync="beginCalendar.yearmonth"
-                :show.sync="beginCalendar.show">
+                v-on:switch-day="onCalendarSwitchDay"
+                :yearmonth.sync="calendar.yearmonth"
+                :disable-todaybefore="true"
+                :show.sync="calendar.show">
         </sheet-calendar>
     </div>
 </template>
@@ -128,7 +133,7 @@
                 pid : PFT.Util.UrlParse()["pid"] || "",
                 p_type : "",
                 needID : -1,
-                beginCalendar : {
+                calendar : {
                     date : "2016-08-15",
                     yearmonth : "",
                     show : false
@@ -155,31 +160,35 @@
                 refundRuleShow : false,
                 orderInfoState : "",
                 orderInfo : {},
-                sheetIdcardShow : false,
-                //以上为各个产品类型的公用数据
+                sheetIdcardShow : false,//以上为各个产品类型的公用数据
 
                 //演出类产品
                 showPuct : {
                     selected_text : "",
                     sheetShow : false
+                },//酒店类产品，
+                hotel : {
+                    switchor : "",
+                    daycount : 2,  //入住天数
+                    begintime : "2016-08-23",
+                    endtime : "2016-08-25"
                 }
             }
         },
         ready(){
             this.toast = new Toast();
             GetOrderInfo(this.pid,{
-                loading : ()=> {
+                loading : ()=>{
                     this.orderInfoState = "loading";
                     this.toast.show("loading","努力加载中...")
-                },
-                complete : ()=> { this.toast.hide()},
-                success : (data)=> {
+                },complete : ()=>{
+                    this.toast.hide()
+                },success : (data)=>{
                     this.p_type = data.p_type;
                     this.orderInfo = data;
                     this.needID = data.needID;
                     this.orderInfoState = "success";
-                },
-                fail : (msg)=> {
+                },fail : (msg)=>{
                     this.orderInfoState = "fail";
                     alert(msg);
                 }
@@ -188,31 +197,29 @@
         computed : {
             pids(){
                 var pids = [];
-                this.ticketList.forEach((item,index)=>{ pids.push(item.pid) });
+                this.ticketList.forEach((item,index)=>{
+                    pids.push(item.pid)
+                });
                 return pids.join(",");
             },
             beginTimeText(){
-                return{
-                    A : "游玩日期",
-                    F : "游玩日期",
-                    H : "演出日期",
-                    B : "集合日期"
+                return {
+                    A : "游玩日期",F : "游玩日期",H : "演出日期",B : "集合日期"
                 }[this.p_type];
             },
             calTourIdCard(){
                 var total = 0;
                 var completed = 0;
-                this.ticketList.forEach((item,index) => {
+                this.ticketList.forEach((item,index) =>{
                     total += item.count;
-                    item.tourMsg.forEach((tourMsg,_index) => {
+                    item.tourMsg.forEach((tourMsg,_index) =>{
                         let name = tourMsg.name;
                         let idcard = tourMsg.idcard;
                         if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
                     })
                 })
-                return{
-                    total : total,
-                    completed : completed
+                return {
+                    total : total,completed : completed
                 };
             },
             calTourIdCard_text(){
@@ -221,29 +228,70 @@
             }
         },
         methods : {
+            onOpenSheetIdCard(){
+                this.sheetIdcardShow = true;
+            },
             onBeginTimeInputClick(e){
-                this.beginCalendar.show = true;
-                this.beginCalendar.yearmonth = e.target.value;
+                this.calendar.show = true;
+                this.calendar.yearmonth = e.target.value;
             },
             onChangciInputClick(e){
                 this.showPuct.sheetShow = true;
             },
-            //开始时间变化时
-            onBeginTimeChange(data){
-                var date = this.beginCalendar.date = data.date;
+            onHotelBegintimeClick(e){
+                this.hotel.switchor = "begin";
+                this.calendar.yearmonth = this.hotel.begintime;
+                this.calendar.show = true;
+            },
+            onHotelEndtimeClick(e){
+                this.hotel.switchor = "end";
+                this.calendar.yearmonth = this.hotel.endtime;
+                this.calendar.show = true;
+            },
+            //当日历改变日期时
+            onCalendarSwitchDay(data){
+                var date = this.calendar.date = data.date;
                 var p_type = this.p_type;
-                if(!date || !this.pids || !this.aid) return false;
                 if(p_type=="A" || p_type=="F" || p_type=="B"){ //景点||套票产品||线路
-                    this.queryStoragePrice({date:date});
-                }else if(p_type=="C"){ //酒店
-
-                }else if(p_type=="H"){ //演出
-                    this.ticketList.forEach((ticket,index) => {
+                    if(!date || !this.pids || !this.aid) return false;
+                    this.queryStoragePrice({date : date});
+                }else if(p_type=="H"){
+                    this.ticketList.forEach((ticket,index) =>{
                         ticket["jsprice"] = data.price;
                     })
-                    //接下来什么事都不做，data.dete的变化会映射到beginCalendar.date
-                    //而beginCalendar.date已通过v-model绑定到子组件sheet-changci里了
+                    //接下来什么事都不做，data.dete的变化会映射到calendar.date
+                    //而calendar.date已通过v-model绑定到子组件sheet-changci里了
                     //此时sheet-changci里已watch date的变化去自动调用queryChangciList方法
+                }else if(p_type=="C"){ //酒店类产品
+                    var hotel = this.hotel;
+                    this.calendar.yearmonth = date;
+                    var begintime = hotel.begintime;
+                    var begintime_s = +new Date(begintime);
+                    var endtime = hotel.endtime;
+                    var endtime_s = +new Date(endtime);
+                    var date_s = +new Date(date);
+                    if(hotel.switchor=="begin"){
+                        if(date_s>=endtime_s){
+                            this.hotel.endtime = (function(){
+                                var _begintime = new Date(date);
+                                var endtime = new Date(_begintime.getTime()+24*60*60*1000);
+                                var year = endtime.getFullYear();
+                                var month = endtime.getMonth()*1+1;
+                                var day = endtime.getDate();
+                                if(month<10) month = "0"+month;
+                                if(day<10) day = "0"+day;
+                                var result = year+"-"+month+"-"+day;
+                                return result;
+                            })();
+                        }
+                        this.hotel.begintime = date;
+                    }else{ //切换的是离店时间
+                        if(date_s<=begintime_s) return alert("离店时间必须晚于入住时间");
+                        this.hotel.endtime = date;
+                    }
+                    var daycount = +new Date(hotel.endtime) - (+new Date(hotel.begintime));
+                    daycount = daycount / (24 * 60 *60 * 1000);
+                    this.hotel.daycount = daycount;
                 }
             },
             //当场次变化时
@@ -253,8 +301,8 @@
                 var et = data.et || "";
                 var area_storage = data.area_storage;
                 var ticketList = this.ticketList;
-                this.showPuct.selected_text = round_name + " " + bt + " - " + et;
-                ticketList.forEach((ticket,index) => {
+                this.showPuct.selected_text = round_name+" "+bt+" - "+et;
+                ticketList.forEach((ticket,index) =>{
                     var result = {};
                     var pid = ticket.pid;
                     var zone_id = ticket.zone_id;
@@ -271,13 +319,15 @@
                 var p_type = this.p_type;
                 if(p_type=="A" || p_type=="F" || p_type=="B"){
                     GetStoragePrice(this.p_type,{
-                        pids : this.pids,
-                        aid : this.aid,
-                        date : opt.date
+                        pids : this.pids,aid : this.aid,date : opt.date
                     },{
-                        loading : () => { this.toast.show("loading","努力加载中...") },
-                        complete : () => { this.toast.hide() },
-                        success : (data) => { this.updateTicketList(data) }
+                        loading : () =>{
+                            this.toast.show("loading","努力加载中...")
+                        },complete : () =>{
+                            this.toast.hide()
+                        },success : (data) =>{
+                            this.updateTicketList(data)
+                        }
                     })
                 }
             },
@@ -302,14 +352,14 @@
                     var buy_low = list[i]["buy_low"];
                     if(typeof obj.price!=="undefined") list[i]["jsprice"] = obj.price;
                     list[i]["storage"] = store;
-                    if(store==-1){
-                        if(buy_up!=-1){ //限制最多购买张数
+                    if(store== -1){
+                        if(buy_up!= -1){ //限制最多购买张数
                             list[i]["max"] = buy_up;
                         }else{
                             list[i]["max"] = -1;
                         }
                     }else{
-                        if(buy_up!=-1){
+                        if(buy_up!= -1){
                             list[i]["max"] = Math.min(store,buy_up);
                         }else{
                             list[i]["max"] = store;
@@ -317,9 +367,7 @@
                     }
                 }
             },
-            openSheetIdCard(){
-                this.sheetIdcardShow = true;
-            },
+
 
             //提交订单
             onSubmitBtnClick(e){
@@ -330,6 +378,7 @@
             sheetCalendar : require("COMMON_VUE_COMPONENTS/sheet-calendar"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list-booking"),
             sheetIdcard : require("COMMON_VUE_COMPONENTS/sheet-booking-idcard"),
+            begintimeEndtime : require("./components/begintime-endtime"),
             inputLine : require("./components/input-line"),
             sheetRefundrule : require("./components/sheet-refund-rule"),
             sheetChangci : require("./components/sheet-changci")

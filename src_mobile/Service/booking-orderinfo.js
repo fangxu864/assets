@@ -42,7 +42,7 @@ module.exports = function(pid,opt){
 				],
 				"needID": "2",  //是否需要填写身份证
 				"title": "【测试】联票订单测试",   //景区名称,
-				"p_type" : "H" //景区类型
+				"p_type" : "C" //景区类型
 			})
 		},1000)
 

@@ -48,6 +48,10 @@ var Api_Mb = {
 		getShowInfo : function(){
 			return Mall_Product("getShowInfo");
 		},
+		//下单页，酒店类产品获取价格库存
+		getHotelPriceAndStorage : function(){
+			return Mall_Product("getHotelPriceAndStorage")
+		},
 		//C端端面跳转链接
 		Page_Link : {
 
