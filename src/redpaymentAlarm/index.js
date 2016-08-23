@@ -166,7 +166,6 @@ var addFunction= {
                 $("#AlarmChangeColorRed").css("backgroundColor","#cccccc");
                 $("#AlarmChangeColorBlack").css("backgroundColor","red")
 
-
             }
         })
     },
