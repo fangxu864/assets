@@ -59,6 +59,7 @@
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
 
+    "new_order_view-server": "set NODE_ENV=server && webpack-dev-server --config ./src/new_order_view/webpack.config.js --inline",
     "new_order_view-start": "set NODE_ENV=develop && webpack --config ./src/new_order_view/webpack.config.js -w",
     "new_order_view-test": "set NODE_ENV=test && webpack --config ./src/new_order_view/webpack.config.js",
     "new_order_view-release": "set NODE_ENV=release && webpack --config ./src/new_order_view/webpack.config.js",

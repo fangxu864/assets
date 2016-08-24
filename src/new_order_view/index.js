@@ -12,7 +12,7 @@ suspension={
             var number = $(targetA).attr("number");
             if($(".addPart").length==0){
                 var value = $(targetA).html();
-                var returnTxt= suspension.featchData(value);
+                var returnTxt= $("."+number).html();
                 $(targetA).css("positon","relative");
                 $(".tbody").css("z-index","10");
 
@@ -51,26 +51,7 @@ suspension={
 
         })
     },
-   featchData:function(value){
-       return "退票比例0.32%";
-        // $(ajax)({
-        //     type:"post",
-        //     from:"#",
-        //     url:"#",
-        //    data:{
-        //      value:"value"
-        //    },
-        //     success:function(msg){
-        //         msg = msg||{};
-        //         return msg.text;
-        //     },
-        //     error:function(){
-        //
-        //     }
-        //
-        //
-        // })
-   }
+
 }
 
 
