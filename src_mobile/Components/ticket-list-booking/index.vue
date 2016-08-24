@@ -2,26 +2,34 @@
     <div class="ticketListContainer">
         <ul class="ticketListUl">
             <li class="item" v-for="item in list">
-                <div class="ptitle"><span class="t" v-text="item.title"></span></div>
-                <div class="bcon">
-                    <div class="bbCon">
-                        <span class="conBox price">单价：<i class="yen">&yen;</i><span class="num" v-text="item.jsprice"></span></span>
+                <div class="minBox">
+                    <div class="ptitle"><span class="t" v-text="item.title"></span></div>
+                    <div class="bcon">
+                        <div class="bbCon">
+                            <span class="conBox price">单价：<i class="yen">&yen;</i><span class="num" v-text="item.jsprice"></span></span>
                         <span style="margin-left:8px;" v-if="(item.storage!=-1 || item.storeText)" class="conBox storage">
                             库存：<span class="num" v-text="(item.storeText=='有' || item.storeText=='无') ? item.storeText : item.storage"></span>
                         </span>
+                        </div>
+                        <div class="countBox">
+                            <count :value.sync="item.count"
+                                   :id="item.pid+'-'+item.tid"
+                                   :max="item.max"
+                                   :min="item.min"
+                                   :can_0="item.can_0"
+                                   v-on:count-change="onCountChange">
+                            </count>
+                            <p class="buyLimitTip" v-if="(item.buy_low!=-1) || (item.buy_up!=-1)">
+                                <span class="buy_low" v-if="item.buy_low!=-1" v-text="item.buy_low+'张起买'"></span>
+                                <span class="buy_up" v-if="item.buy_up!=-1" v-text="'最高限买'+item.buy_up+'张'"></span>
+                            </p>
+                        </div>
                     </div>
-                    <div class="countBox">
-                        <count :value.sync="item.count"
-                               :id="item.pid+'-'+item.tid"
-                               :max="item.max"
-                               :min="item.min"
-                               :can_0="item.can_0"
-                               v-on:count-change="onCountChange">
-                        </count>
-                        <p class="buyLimitTip" v-if="(item.buy_low!=-1) || (item.buy_up!=-1)">
-                            <span class="buy_low" v-if="item.buy_low!=-1" v-text="item.buy_low+'张起买'"></span>
-                            <span class="buy_up" v-if="item.buy_up!=-1" v-text="'最高限买'+item.buy_up+'张'"></span>
-                        </p>
+                </div>
+                <div class="sonTicketBox" v-if="item.sonTickets && item.sonTickets.length>0">
+                    <div class="tit">包含子票：</div>
+                    <div class="sonTicketItem" v-for="son in item.sonTickets">
+                        <span class="t" v-text="son.title"></span><span class="star">*</span><span class="num" v-text="son.num"></span>
                     </div>
                 </div>
             </li>
@@ -117,9 +125,11 @@
     }
 </script>
 <style lang="sass">
+    @import "COMMON/css/base/core/variables";
     $countBoxWidth : 120px;
     .ticketListUl{ padding:0}
-    .ticketListUl .item{ padding:25px 15px 23px; border-bottom:1px solid #e5e5e5; overflow:hidden; background:#fff}
+    .ticketListUl .item{  border-bottom:1px solid #e5e5e5;}
+    .ticketListUl .item .minBox{ padding:25px 15px 23px; overflow:hidden; background:#fff}
     .ticketListUl .item:last-child{ border-bottom:0 none}
     .ticketListUl .item .ptitle{ font-size:0.35rem; font-weight:bold; margin-bottom:3px;  line-height:1.5}
     .ticketListUl .item .bcon{ position:relative; min-height:26px; padding-right:$countBoxWidth}
@@ -129,4 +139,5 @@
     .ticketListUl .item .conBox.price .num{ font-size:0.4rem; color:#f37138}
     .ticketListUl .item .conBox.price .yen{ color:#f37138}
     .ticketListUl .item .buyLimitTip{ color:#258cc9; font-size:0.3rem; text-align:right; padding-top:3px;}
+    .ticketListUl .sonTicketBox{ padding:10px 15px 20px; background:#fafafa; font-size:0.30rem; line-height:1.6; border-top:1px solid $gray96}
 </style>

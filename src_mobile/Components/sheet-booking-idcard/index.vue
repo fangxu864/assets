@@ -7,7 +7,7 @@
                     <li v-if="ticket.tourMsg.length>0" class="ticketLi" v-for="ticket in list">
                         <p class="ticketname" v-text="ticket.title"></p>
                         <div class="idcardItem" v-for="tour in ticket.tourMsg">
-                            <input type="text" class="nameInp" :placeholder="'游客信息'+($index*1+1)" v-model="tour.name"/>
+                            <input type="text" class="nameInp" :placeholder="'游客姓名'+($index*1+1)" v-model="tour.name"/>
                             <input type="text" class="idcardInp" placeholder="身份证" v-model="tour.idcard"/>
                         </div>
                     </li>

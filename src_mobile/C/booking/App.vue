@@ -24,6 +24,17 @@
                     :icon="'jiantou-sin-right'"
                     :placeholder="'请选择场次'">
             </input-line>
+            <input-line
+                    v-if="p_type=='B'"
+                    :model.sync="assStation.text"
+                    :type="'text'"
+                    :label="'集合地点'"
+                    :readonly="true"
+                    :click="onAssStationInpClick"
+                    :label-width="'80px'"
+                    :icon="'jiantou-sin-right'"
+                    :placeholder="'请选择集合地点'">
+            </input-line>
             <begintime-endtime
                     v-if="p_type=='C'"
                     :pid="pid"
@@ -60,8 +71,8 @@
                     :label="'联系人'"
                     :label-width="'80px'"
                     :validator="'noBlank'"
-                    :validat-type="'blur'"
-                    :validat-reault.sync="submitData.ordername.validatResult"
+                    :validate-type="'blur'"
+                    :validate-reault.sync="submitData.ordername.validateResult"
                     :error-msg="'！必填'"
                     :placeholder="'联系人姓名'">
             </input-line>
@@ -71,8 +82,8 @@
                     :label="'手机号'"
                     :label-width="'80px'"
                     :validator="'typePhone'"
-                    :validat-type="'blur'"
-                    :validat-reault.sync="submitData.contacttel.validatResult"
+                    :validate-type="'blur'"
+                    :validate-reault.sync="submitData.contacttel.validateResult"
                     :error-msg="'！手机号格式错误'"
                     :placeholder="'用于接收订单信息'">
             </input-line>
@@ -83,8 +94,8 @@
                     :label="'身份证'"
                     :label-width="'80px'"
                     :validator="'idcard'"
-                    :validat-type="'blur'"
-                    :validat-reault.sync="submitData.sfz.validatResult"
+                    :validate-type="'blur'"
+                    :validate-reault.sync="submitData.sfz.validateResult"
                     :error-msg="'！格式错误'"
                     :placeholder="'身份证号'">
             </input-line>
@@ -125,6 +136,14 @@
                 :rule-list="orderInfo.cancel_cost.length ? orderInfo.cancel_cost : orderInfo.reb"
                 v-if="orderInfo.refund_rule!=2">
         </sheet-refundrule>
+
+        <sheet-action
+                v-if="p_type=='B'"
+                v-on:click="onassStationItemClick"
+                :menus="assStation.menus"
+                :cancel-text="'确定'"
+                :show.sync="assStation.show">
+        </sheet-action>
 
         <sheet-calendar
                 v-on:switch-day="onCalendarSwitchDay"
@@ -188,6 +207,12 @@
                     daycount : 2,  //入住天数
                     begintime : "2016-08-23",
                     endtime : "2016-08-25"
+                },
+                //线路类产品 集合地点
+                assStation : {
+                    show : false,
+                    menus : {},
+                    text : ""
                 }
             }
         },
@@ -205,6 +230,11 @@
                     this.orderInfo = data;
                     this.needID = data.needID;
                     this.ticketList = this.adaptListData(data.tickets);
+                    var assStationMenus = {};
+                    data.assStation.forEach(function(item,index){
+                        assStationMenus[index] = item;
+                    })
+                    this.assStation.menus = assStationMenus;
                     this.pageReady = true;
                     if(this.p_type=='C') this.queryStoragePrice_Hotel();
                 },
@@ -223,7 +253,10 @@
             },
             beginTimeText(){
                 return {
-                    A : "游玩日期",F : "游玩日期",H : "演出日期",B : "集合日期"
+                    A : "游玩日期",
+                    F : "游玩日期",
+                    H : "演出日期",
+                    B : "集合日期"
                 }[this.p_type];
             },
             calTourIdCard(){
@@ -257,6 +290,12 @@
             },
             onChangciInputClick(e){
                 this.showPuct.sheetShow = true;
+            },
+            onAssStationInpClick(e){
+                this.assStation.show = true;
+            },
+            onassStationItemClick(key,text){
+                this.assStation.text = text;
             },
             onHotelBegintimeClick(e){
                 this.hotel.switchor = "begin";
@@ -410,11 +449,11 @@
                                         storeText : "无"
                                     }
                                 }else{ //如果选择的时间段内都有库存(包含不限库存)，库存取最小的那天
-                                    if(storeMin==-1){ //时间段内每一天库存都为不限
+                                    if(storeMin==-1){ //时间段内每一天库存都为不限(都为-1)
                                         return{
                                             daycount : daycount,
                                             storeNum : -1,
-                                            storeText : "有"
+                                            storeText : ""
                                         }
                                     }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值
                                         return{
@@ -444,7 +483,6 @@
                 })
             },
             updateTicketList(data){
-                console.log(data);
                 //data = {
                 //    pid1 : {
                 //        price : "",
@@ -514,11 +552,12 @@
 
             //提交订单
             onSubmitBtnClick(e){
-
+                console.log(this.submitData.ordername)
             }
         },
         components : {
             sheetCalendar : require("COMMON_VUE_COMPONENTS/sheet-calendar"),
+            sheetAction : require("COMMON_VUE_COMPONENTS/sheet-action"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list-booking"),
             sheetIdcard : require("COMMON_VUE_COMPONENTS/sheet-booking-idcard"),
             begintimeEndtime : require("./components/begintime-endtime"),
