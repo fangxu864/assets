@@ -1,4 +1,5 @@
 <?php
-$json='{"a":1,"b":2,"c":3}';
-echo $json;
+$start_time=$_GET["start_time"];
+$end_time=$_GET["end_time"];
+echo $start_time."---".$end_time;
 ?>
