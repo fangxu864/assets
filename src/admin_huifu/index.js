@@ -4,11 +4,12 @@
 var recoverBtn;
 recoverBtn={
     sendRrcoverBtn:function(){
-        $(".set_state").click(function () {
-         if($(this).attr("data-state")==7){
-         var data= $(this).attr("data-pid")
-
-              $.ajax({
+        $(".resumd").click(function () {
+          if($(this).attr("state")==7){
+         var data= $(this).attr("pid");
+              var  r=confirm("你确定恢复吗？");
+             if(r==true){
+                 $.ajax({
                      type:"post",
                      dataType:"json",
                      data:{
@@ -21,11 +22,12 @@ recoverBtn={
                          }
                      },
                      error:function(xrh,msg){
-                         alert(msg);
-                     }
-              })
 
-         }
+                     }
+                 })
+             }
+
+            }
 
 
 
