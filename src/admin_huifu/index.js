@@ -12,9 +12,9 @@ recoverBtn={
                             type:"post",
                             dataType:"json",
                             data:{
-                                data:data
+                                id:data
                             },
-                            url:"",
+                            url:"/r/product_ticket/resumed",
                             success:function(data){
                                 alert(data.info);
                             },
