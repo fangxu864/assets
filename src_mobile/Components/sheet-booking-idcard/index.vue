@@ -38,6 +38,9 @@
                 }
             }
         },
+        ready(){
+
+        },
         components : {
             sheetCore : require("COMMON_VUE_COMPONENTS/sheet-core")
         }

@@ -24,24 +24,86 @@
         7 : "周日",
         0 : "周日"
     };
+    //const GetStoragePriceHotel = require("SERVICE_M/booking-storage-price-hotel");
+    //const Toast = require("COMMON/modules/toast");
     export default {
         props : {
+            pid : {
+                type : String,
+                default : ""
+            },
+            aid : {
+                type : String,
+                default : ""
+            },
             begintime : {
                 type : String,
+                twoway : true,
                 default : "2016-08-10"
             },
             endtime : {
                 type : String,
+                twoway : true,
                 default : "2016-08-21"
             },
             daycount : {
                 type : Number,
                 twoway : true,
                 default : 2
+            },
+            ticketList : {
+                type : Array,
+                twoway : true,
+                detault : function(){ return[]}
+            },
+            switchor : {
+                type : String,
+                twoway : true,
+                default : ""
             }
         },
         data(){
             return{};
+        },
+        ready(){
+            //this.toast = new Toast();
+             this.$on("calendar-date-switch",(data) => {
+                 var date = data.date;
+                 var begintime = this.begintime;
+                 var begintime_s = +new Date(begintime);
+                 var endtime = this.endtime;
+                 var endtime_s = +new Date(endtime);
+                 var date_s = +new Date(date);
+                 if(this.switchor=="begin"){
+                     if(date_s>=endtime_s){
+                         this.endtime = (function(){
+                             var _begintime = new Date(date);
+                             var endtime = new Date(_begintime.getTime()+24*60*60*1000);
+                             var year = endtime.getFullYear();
+                             var month = endtime.getMonth()*1+1;
+                             var day = endtime.getDate();
+                             if(month<10) month = "0"+month;
+                             if(day<10) day = "0"+day;
+                             var result = year+"-"+month+"-"+day;
+                             return result;
+                         })();
+                     }
+                     this.begintime = date;
+                 }else{ //切换的是离店时间
+                     if(date_s<=begintime_s) return alert("离店时间必须晚于入住时间");
+                     this.endtime = date;
+                 }
+                 var daycount = +new Date(this.endtime) - (+new Date(this.begintime));
+                 daycount = daycount / (24 * 60 *60 * 1000);
+                 this.daycount = daycount;
+
+                 //修改入住时间或离店时间都会重新请求一次价格跟库存
+                 this.queryStoragePrice();
+
+             })
+
+             //this.queryStoragePrice();
+
         },
         computed : {
             beginText(){
@@ -61,6 +123,89 @@
             },
             onEndtimeClick(e){
                 this.$dispatch("endtime-click",e)
+            },
+            //修改入住时间或离店时间都会重新请求一次价格跟库存
+            queryStoragePrice(){
+                var pid = this.pid;
+                var aid = this.aid;
+                var beginDate = this.begintime;
+                var endDate = this.endtime;
+                GetStoragePriceHotel({
+                    pid : pid,
+                    aid : aid,
+                    beginDate : beginDate,
+                    endDate : endDate
+                },{
+                    loading : () => { this.toast.show("loading","努力加载中...")},
+                    success : (data) => {
+                        this.toast.hide();
+
+                        var price = data.jsprice;
+
+                        var store = (function(){
+                            var storage = data.store;
+                            var storeArray = [];
+                            for(var i in storage) storeArray.push(storage[i]);
+
+                            var getStoreMin = function(array){
+                                if(array.length==0) return null;
+                                var no_limit_arr = [];
+                                var limit_arr = [];
+                                array.forEach(function(item,index){
+                                    if(item==-1) no_limit_arr.push(item);
+                                    if(item!=-1) limit_arr.push(item);
+                                })
+                                //都为-1
+                                if(no_limit_arr.length==array.length) return -1;
+                                return Math.min.apply({},limit_arr);
+                            };
+
+                            var storeMin = getStoreMin(storeArray);
+
+                            if(daycount==1){ //预订1天
+                                return{
+                                    daycount : daycount,
+                                    storeNum : storeArray[0],
+                                    storeText : ""
+                                }
+                            }else{ //预订1天以上
+
+                                //在多天中只要有一天库存为0(没有库存)，即视为用户选择的时间段内没有库存，无法下单
+                                //有问题请 @产品-詹必魁
+                                if(storeMin==0){
+                                    return{
+                                        daycount : daycount,
+                                        storeNum : 0,
+                                        storeText : "无"
+                                    }
+                                }else{ //如果选择的时间段内都有库存(包含不限库存)，库存取最小的那天
+                                    if(storeMin==-1){ //时间段内每一天库存都为不限
+                                        return{
+                                            daycount : daycount,
+                                            storeNum : -1,
+                                            storeText : "有"
+                                        }
+                                    }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值
+                                        return{
+                                            daycount : daycount,
+                                            storeNum : storeMin,
+                                            storeText : "有"
+                                        }
+                                    }
+                                }
+                            }
+
+                            //赋值给ticketList
+
+
+
+                        })();
+                    },
+                    fail : (msg) => {
+                        this.toast.hide();
+                        alert(msg);
+                    }
+                })
             }
         }
     }

@@ -1,12 +1,14 @@
 <template>
     <div class="ticketListContainer">
-        <ul class="ticketListUl" v-if="state=='success'">
+        <ul class="ticketListUl">
             <li class="item" v-for="item in list">
                 <div class="ptitle"><span class="t" v-text="item.title"></span></div>
                 <div class="bcon">
                     <div class="bbCon">
                         <span class="conBox price">单价：<i class="yen">&yen;</i><span class="num" v-text="item.jsprice"></span></span>
-                        <span style="margin-left:8px;" v-if="item.storage!=-1" class="conBox storage">库存：<span class="num" v-text="item.storage"></span></span>
+                        <span style="margin-left:8px;" v-if="(item.storage!=-1 || item.storeText)" class="conBox storage">
+                            库存：<span class="num" v-text="(item.storeText=='有' || item.storeText=='无') ? item.storeText : item.storage"></span>
+                        </span>
                     </div>
                     <div class="countBox">
                         <count :value.sync="item.count"
@@ -27,7 +29,6 @@
     </div>
 </template>
 <script type="es6">
-    let GetTicketList = require("SERVICE_M/booking-ticket-list");
     export default {
         props : {
             pid : {
@@ -52,55 +53,7 @@
                 default : "0"
             }
         },
-        data(){
-            return{
-                state : "",
-                stateMsg : ""
-            }
-        },
-        ready(){
-            GetTicketList(this.pid,{
-                loading : ()=>{
-                    this.state = "loading";
-                    this.stateMsg = PFT.AJAX_LOADING_TEXT;
-                },
-                success : (list)=>{
-                    this.stateMsg = "请求票类列表成功";
-                    this.list = this.adaptListData(list);
-                    this.state = "success";
-                },
-                empty : ()=>{
-                    this.stateMsg = "暂无可售票类";
-                    this.state = "empty";
-                },
-                fail : (msg)=>{
-                    this.stateMsg = msg;
-                    this.state = "fail";
-                }
-            })
-        },
         methods : {
-            adaptListData(list){
-                list.forEach((item,index) => {
-                    var buy_up = item.buy_up;
-                    var buy_low = item.buy_low;
-                    item["max"] = (buy_up==-1) ? -1 : buy_up * 1;
-                    item["min"] = (buy_low==-1) ? -1 : buy_low * 1;
-                    item["can_0"] = index==0 ? false : true;
-                    item["storage"] = -1;
-                    item["count"] = index==0 ? item.min : 0;
-                    if(this.needID==2){
-                        item["tourMsg"] = [];
-                        for(var i=0; i<item["count"]; i++){
-                            item["tourMsg"].push({
-                                idcard : "",
-                                name : ""
-                            })
-                        }
-                    }
-                })
-                return list;
-            },
             onCountChange(id,count,oldVal){
                 var pid = id.split("-")[0];
                 var tid = id.split("-")[1];
@@ -118,6 +71,33 @@
                     //只赋值一次
                     this.list[index]["tourMsg"] = newTourMsg;
                 })
+            },
+            adaptListData(list){
+                var result = [];
+                list.forEach((item,index) => {
+                    var json = {};
+                    var buy_up = item.buy_up;   //限制最大购买张数(即一次最多只能购买多少张)
+                    var buy_low = item.buy_low; //限制最少购买张数(即一次最少需要购买多少张)
+                    if(buy_low==0) item["buy_low"] = -1;//后端返回0时，即表示不限 (这里要我吐槽一下坑爹的后端，一会是-1 一会是0)
+                    if(buy_up==0) item["buy_up"] = -1;
+                    json["max"] = (buy_up==-1) ? -1 : buy_up * 1;
+                    json["min"] = (buy_low==-1) ? -1 : buy_low * 1;
+                    json["can_0"] = index==0 ? false : true;
+                    json["storage"] = -1;
+                    json["count"] = index==0 ? json["min"] : 0;
+                    if(this.needID==2){
+                        json["tourMsg"] = [];
+                        for(var i=0; i<json["count"]; i++){
+                            json["tourMsg"].push({
+                                idcard : "",
+                                name : ""
+                            })
+                        }
+                    }
+                    for(var i in item) json[i] = item[i];
+                    result.push(json);
+                })
+                return result;
             }
         },
         computed : {
