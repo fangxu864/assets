@@ -10,6 +10,8 @@ var Pagination = require("COMMON/modules/pagination");
 var Select = require("COMMON/modules/select");
 require("COMMON/modules/DragConOver")($);
 
+
+
 var DealSum={
 	//初始化
 	init:function(){
@@ -30,6 +32,9 @@ var DealSum={
 		this.day_detail_btn=$("#day_detail_btn");
 		this.trader_inp=$("#trader");
 		this.clear_btn=$(".clear_trader_box");
+		this.toExcel=$("#to_excel");
+		this.iframe_index=0;//定义iframe的索引；
+		this.present_page=1;
 		//日历部分
 		//扩展日期对象，新增格式化方法
 		Date.prototype.Format = function (fmt) { //author: meizz
@@ -311,6 +316,7 @@ var DealSum={
 				"per_page_num":10,                                  //每页显示的数据条数
 				"present_page":1,                                   //当前页数
 				"callBack":function (present_page) {               //用户点击按钮时的回调函数，参数为当前分页器的页码；
+					_this.present_page=present_page;
 					$.ajax({
 						url: "/r/Finance_TradeRecord/getListDetail/",    //请求的url地址
 						dataType: "json",                        //返回格式为json
@@ -352,7 +358,7 @@ var DealSum={
 			}
 
 
-		})
+		});
 		// this.trader_inp.on("input propertychange",function(){
 		// 	console.log("bianhuale")
 		// 	if($(this).val()!=""){
@@ -364,6 +370,33 @@ var DealSum={
 		this.clear_btn.on("click",function () {
 			_this.trader_inp.val("");
 			_this.trader_inp.attr("data-id","")
+		});
+		//导出
+		this.toExcel.on("click",function () {
+
+			var paramsArr=[];
+			var params={
+				"search_type": _this.dealType,
+				"btime":_this.stime_inp.val(),
+				"etime":_this.etime_inp.val(),
+				"page":_this.present_page,
+				"searchFid":_this.trader_inp.attr("data-id")||"",
+				"flag":1
+			};
+			for(var key in params){
+				var str=key+"="+params[key];
+				paramsArr.push(str);
+			}
+			console.log(paramsArr);
+			console.log(paramsArr.join("&"));
+
+
+			var url='/r/Finance_TradeRecord/exportExcelTrade/?'+paramsArr.join("&");
+			_this.iframe_index++;
+			var name='iframe'+_this.iframe_index;
+			var html='<iframe class="iframe_downfile" name="'+name+'"></iframe>';
+			$(".iframe_wrap").append(html);
+			window.open(url,name)
 		})
 	},
 	//处理上表数据
