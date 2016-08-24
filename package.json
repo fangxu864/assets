@@ -60,6 +60,7 @@
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
 
+    "admin_huifu-server": "set NODE_ENV=server && webpack-dev-server --config ./src/admin_huifu/webpack.config.js --inline",
     "admin_huifu-start": "set NODE_ENV=develop && webpack --config ./src/admin_huifu/webpack.config.js -w",
     "admin_huifu-test": "set NODE_ENV=test && webpack --config ./src/admin_huifu/webpack.config.js",
     "admin_huifu-release": "set NODE_ENV=release && webpack --config ./src/admin_huifu/webpack.config.js",
