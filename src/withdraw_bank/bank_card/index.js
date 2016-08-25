@@ -47,7 +47,7 @@ BankCheckor.prototype = Mixin({
     shell:function(){
            for(var i=1;i<10;i++){
             var checkor  ="#checkor_bankCard_"+i;
-                       if(!($(checkor)==null|$(checkor)==undefined)){
+                       if(!($(checkor)==null||$(checkor)==undefined)){
                        if($(checkor).val()==2||$(checkor).val()==3){
                        var $e=$("<div></div>");
                            $(checkor).css("position","relative");
