@@ -11,21 +11,25 @@ suspension={
             var targetA= e.currentTarget;
             var number = $(targetA).attr("number");
             if($(".addPart").length==0){
-                var value = $(targetA).html();
                 var returnTxt= $("."+number).html();
+                if(returnTxt=={})return false;
                 $(targetA).css("positon","relative");
                 $(".tbody").css("z-index","10");
 
                 var $strr =$("<p></p>");
                 $strr.css({
-                    "width":$(targetA).css("width"),
-                    "top":$(targetA).offset().top+"px",
-                    "left":(($(targetA).offset().left +parseInt($(targetA).css("width")))+"px"),
-                    "padding-left":"14px",
-                    "background":"#ccc",
-                    "z-index":100,
-                    "border-radius":"4px",
-                    "word-break":"break-all"
+
+
+                    "position":"absolute",
+                    "left":"550px",
+                    "max-width":"450px",
+                    "height":"auto",
+                    "border":"1px solid red",
+                    "background":"white",
+                    "z-index":"999999",
+                    "margin-top":"20px",
+                    "text-align":"left",
+                    "padding":"10px"
 
 
 
