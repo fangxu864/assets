@@ -14,14 +14,14 @@ suspension={
                 var returnTxt= $("."+number).html();
                 if(returnTxt=={})return false;
                 $(targetA).css("positon","relative");
-                $(".tbody").css("z-index","10");
+                $(".tbody").css("z-index","100");
 
                 var $strr =$("<p></p>");
                 $strr.css({
 
-
+                    "font-size":"14px",
                     "position":"absolute",
-                    "left":"550px",
+                    "left":"500px",
                     "max-width":"450px",
                     "height":"auto",
                     "border":"1px solid red",
