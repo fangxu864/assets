@@ -12,33 +12,34 @@ suspension={
             var number = $(targetA).attr("number");
             if($(".addPart").length==0){
                 var returnTxt= $("."+number).html();
-                if(returnTxt==""||returnTxt=="undefine") return false;
-                $(targetA).css("positon","relative");
-                $(".tbody").css("z-index","100");
+                if(returnTxt!=""&&returnTxt!="undefined"&&returnTxt!={})
+                {
+                    $(targetA).css("positon","relative");
+                    $(".tbody").css("z-index","0");
 
-                var $strr =$("<p></p>");
-                $strr.css({
-
-                    "font-size":"14px",
-                    "position":"absolute",
-                    "left":"500px",
-                    "max-width":"450px",
-                    "height":"auto",
-                    "border":"1px solid red",
-                    "background":"white",
-                    "z-index":"999999",
-                    "margin-top":"20px",
-                    "text-align":"left",
-                    "padding":"10px"
-
-
+                    var $strr =$("<p></p>");
+                    $strr.css({
+                        "font-size":"14px",
+                        "position":"absolute",
+                        "left":"500px",
+                        "max-width":"450px",
+                        "height":"auto",
+                        "border":"1px solid red",
+                        "background":"white",
+                        "z-index":"999999",
+                        "margin-top":"20px",
+                        "text-align":"left",
+                        "padding":"10px"
 
 
-                })
-                $strr.addClass("addPart")
-                var $contain = returnTxt;
-                $strr.append($contain);
-                $(targetA).append($strr);
+
+
+                    })
+                    $strr.addClass("addPart")
+                    var $contain = returnTxt;
+                    $strr.append($contain);
+                    $(targetA).append($strr);
+                }
 
 
 
