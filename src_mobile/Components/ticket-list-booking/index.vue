@@ -1,7 +1,7 @@
 <template>
     <div class="ticketListContainer">
-        <ul class="ticketListUl">
-            <li class="item" v-for="item in list">
+        <ul id="ticketListUl" class="ticketListUl">
+            <li id="{{$index==0? 'mainTicketItem' : ''}}" data-pid="{{item.pid}}" data-zoneid="{{item.zone_id}}" class="item" v-for="item in list">
                 <div class="minBox">
                     <div class="ptitle"><span class="t" v-text="item.title"></span></div>
                     <div class="bcon">
@@ -67,6 +67,7 @@
                 var tid = id.split("-")[1];
                 this.list.forEach((ticket,index) => {
                     var tourMsg = ticket.tourMsg;
+                    if(!tourMsg) return false;
                     if(pid!=ticket.pid || tid!=ticket.tid) return false;
                     var newTourMsg = [];
                     for(var i=0; i<count; i++){

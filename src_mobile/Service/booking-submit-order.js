@@ -1,11 +1,25 @@
 /**
  * Author: huangzhiyang
  * Date: 2016/8/9 16:50
- * Description: 获取景区和订单信息 票列表也合在这个接口里（预订页面）  http://123624.12301.local/r/Mall_Product/getBookInfo/
- * pid	int	产品id
- * aid	int	产品aid
+ * Description: 提交订单 (预定页面)  http://123624.12301.local/r/Mall_Order/order/
+ *   pid	        int	14624,主票pid
+	 tnum	        int	2,主票购买张数
+	 begintime	    string	2016-08-01,游玩日期
+	 endtime	    string	2016-08-02, 结束时间,酒店类型的产品才有
+	 contacttel	    int	手机号
+	 ordername	    string	联系人
+	 sfz	        string	身份证
+	 memo	        string	备注
+	 aid	        int	3385,上级供应商id
+	 idcards	    array	身份证数组,[350181, 350182, ......]
+	 tourists	    array	游客姓名数组,[马大爷, 他二舅, .....]
+	 link	        object	联票, {"14624" : 2, "14625" : 3}
+	 roundid	    int	场馆信息, 演出类才有
+	 venusid	    int	场次信息, 演出类才有
+	 zoneid	        int	区域信息, 演出类才有
+	 parentid	    int	上级用户id, 全民营销
  */
-module.exports = function(pid,aid,opt){
+module.exports = function(submitData,opt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
@@ -93,13 +107,11 @@ module.exports = function(pid,aid,opt){
 		return false;
 	}
 
-	PFT.Util.Ajax(PFT.Api.C.getTicketListBook(),{
+	submitData["token"] = PFT.Util.getToken();
+
+	PFT.Util.Ajax(PFT.Api.C.submitOrder(),{
 		type : "post",
-		params : {
-			pid : pid,
-			aid : aid,
-			token : PFT.Util.getToken()
-		},
+		params : submitData,
 		loading : opt.loading,
 		complete : opt.complete,
 		success : function(res){
@@ -108,56 +120,9 @@ module.exports = function(pid,aid,opt){
 			var data = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
-
-				if(data.validTime==0){
-					data["validTime"] = "仅当天有效";
-				}else{
-					data["validTime"] = (data["validTime"]+"内有效");
-				}
-
-				//验证时间（全天都可验时，不显示）
-				//"verifyTime": -1  -1表示不限验证时间, [0,1,3,4,5,6]表示周一周二周四周五周六周日可验, 2016-08-01~2016-08-10表示此时间段可验
-				var verifyTime = data.verifyTime;
-				if(verifyTime==-1){
-					data["verifyTime"] = "";
-				}else if(Object.prototype.toString.call(verifyTime)=="[object Array]"){
-					for(var i in verifyTime){
-						var str = {
-							0 : "周日",
-							1 : "周一",
-							2 : "周二",
-							3 : "周三",
-							4 : "周四",
-							5 : "周五",
-							6 : "周六"
-						}[verifyTime[i]];
-						data["verifyTime"] += str;
-					}
-					data["verifyTime"] += "可验";
-				}
-
-				//2不可退，1游玩日期前可退，0有效期前可退
-				var refund_rule = data.refund_rule;
-				var refund_early_time = data.refund_early_time;
-				if(refund_rule==0){
-					data["refund_rule_text"] = "有效期前"+refund_early_time+"分钟可退";
-				}else if(refund_rule==1){
-					data["refund_rule_text"] = "游玩日期前可退";
-				}else if(refund_rule==2){
-					data["refund_rule_text"] = "不可退";
-				}
-
-				data.tickets.forEach(function(item,index){
-					var buy_up = item.buy_up;   //限制最大购买张数(即一次最多只能购买多少张)
-					var buy_low = item.buy_low; //限制最少购买张数(即一次最少需要购买多少张)
-					if(buy_low==0) item["buy_low"] = -1;//后端返回0时，即表示不限 (这里要我吐槽一下坑爹的后端，一会是-1 一会是0)
-					if(buy_up==0) item["buy_up"] = -1;
-				})
-
 				opt.success(data);
-
 			}else{
-				opt.fail(msg);
+				opt.fail(code,msg);
 			}
 		}
 	})

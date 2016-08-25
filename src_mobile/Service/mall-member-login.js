@@ -1,11 +1,10 @@
 /**
  * Author: huangzhiyang
  * Date: 2016/8/9 16:50
- * Description: 获取场次列表信息  http://123624.12301.local/r/Mall_Product/getShowInfo/
+ * Description: 账号登陆接口   http://123624.12301.local/r/Mall_Member/login/
  * params : {
- * 		pid : "",
- * 		aid : "",
- * 		date : ""
+ * 		mobile	int	手机号
+ *	    password	string	经过MD5加密后的密码
  * }
  */
 module.exports = function(params,opt){
@@ -53,14 +52,12 @@ module.exports = function(params,opt){
 		return false;
 	}
 
-	PFT.Util.Ajax(PFT.Api.C.getShowInfo(),{
+	params = params || {};
+	params["token"] = PFT.Util.getToken();
+
+	PFT.Util.Ajax(PFT.Api.C.login(),{
 		type : "post",
-		params : {
-			pid : params.pid,
-			aid : params.aid,
-			date : params.date,
-			token : PFT.Util.getToken()
-		},
+		params : params,
 		loading : opt.loading,
 		complete : opt.complete,
 		success : function(res){
@@ -69,11 +66,7 @@ module.exports = function(params,opt){
 			var data = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
-				if(data.length){
-					opt.success(data);
-				}else{
-					opt.empty(data);
-				}
+				opt.success(data);
 			}else{
 				opt.fail(msg);
 			}

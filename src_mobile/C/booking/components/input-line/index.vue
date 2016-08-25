@@ -2,7 +2,7 @@
     <div class="inputLine" :class="[layout,validatResultCls]" :style="containerStyle">
         <div class="lt" :style="labelStyle"><span class="t" v-text="label"></span></div>
         <div class="rt" :style="rtStyle">
-            <input class="input" type="text"
+            <input id="{{id}}" class="input"
                    @click="onClick"
                    @blur="onBlur"
                    @focus="onFocus"
@@ -27,6 +27,10 @@
                 type : String,
                 require : true,
                 default : "text"
+            },
+            id : {
+                type : String,
+                default : ""
             },
             placeholder : {
                 type : String,

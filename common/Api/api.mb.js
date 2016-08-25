@@ -5,6 +5,8 @@
  */
 var Get = require("COMMON/js/config.api").get;
 var Mall_Product = Get("Mall_Product");
+var Mall_Order = Get("Mall_Order");
+var Mall_Member = Get("Mall_Member");
 var Api_Mb = {
 	//微商城，城市选择， 获取城市列表
 	fetchCityFromProduct : function(){
@@ -51,6 +53,18 @@ var Api_Mb = {
 		//下单页，酒店类产品获取价格库存
 		getHotelPriceAndStorage : function(){
 			return Mall_Product("getHotelPriceAndStorage")
+		},
+		//下单页，提交订单
+		submitOrder : function(){
+			return Mall_Order("order")
+		},
+		//帐号登录
+		login : function(){
+			return Mall_Member("login");
+		},
+		//短信登录
+		smsLogin : function(){
+			return Mall_Member("smsLogin");
 		},
 		//C端端面跳转链接
 		Page_Link : {

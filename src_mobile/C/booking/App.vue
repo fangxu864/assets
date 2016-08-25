@@ -4,6 +4,7 @@
         <div class="modBox">
             <input-line
                     v-if="p_type!=='C'"
+                    :id="'beginTimeInp'"
                     :model.sync="calendar.date"
                     :type="'text'"
                     :label="beginTimeText"
@@ -66,6 +67,7 @@
 
         <div class="modBox" style="margin-top:5px;">
             <input-line
+                    :id="'ordernameInp'"
                     :model.sync="submitData.ordername.value"
                     :type="'text'"
                     :label="'联系人'"
@@ -77,6 +79,7 @@
                     :placeholder="'联系人姓名'">
             </input-line>
             <input-line
+                    :id="'mobileInp'"
                     :model.sync="submitData.contacttel.value"
                     :type="'number'"
                     :label="'手机号'"
@@ -89,6 +92,7 @@
             </input-line>
             <input-line
                     v-if="needID==1"
+                    :id="'idcardInp'"
                     :model.sync="submitData.sfz.value"
                     :type="'text'"
                     :label="'身份证'"
@@ -160,6 +164,7 @@
     let GetStoragePrice = require("SERVICE_M/booking-storage-price");
     let GetStoragePriceHotel = require("SERVICE_M/booking-storage-price-hotel");
     let GetOrderInfo = require("SERVICE_M/booking-orderinfo");
+    let SubmitOrder = require("SERVICE_M/booking-submit-order");
     export default {
         data(){
             return {
@@ -249,7 +254,7 @@
                 this.ticketList.forEach((item,index)=>{
                     pids.push(item.pid)
                 });
-                return pids.join(",");
+                return pids.join("-");
             },
             beginTimeText(){
                 return {
@@ -264,11 +269,15 @@
                 var completed = 0;
                 this.ticketList.forEach((item,index) =>{
                     total += item.count;
-                    item.tourMsg.forEach((tourMsg,_index) =>{
-                        let name = tourMsg.name;
-                        let idcard = tourMsg.idcard;
-                        if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
-                    })
+                    var tourMsg = item.tourMsg;
+                    if(tourMsg){
+                        tourMsg.forEach((tour,_index) =>{
+                            let name = tour.name;
+                            let idcard = tour.idcard;
+                            if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
+                        })
+                    }
+
                 })
                 return {
                     total : total,
@@ -523,6 +532,7 @@
             },
             adaptListData(list){
                 var result = [];
+                var totalMoney = 0;
                 list.forEach((item,index) => {
                     var json = {};
                     var buy_up = item.buy_up;   //限制最大购买张数(即一次最多只能购买多少张)
@@ -545,14 +555,140 @@
                         }
                     }
                     for(var i in item) json[i] = item[i];
+                    totalMoney += json["count"] * item.jsprice;
                     result.push(json);
                 })
+
+                //计算页面初始化时的总金额
+                this.totalMoney = totalMoney;
+
                 return result;
             },
 
             //提交订单
             onSubmitBtnClick(e){
-                console.log(this.submitData.ordername)
+                var submitBtn = e.target;
+                if(submitBtn.classList.contains("disable")) return false;
+                var p_type = this.p_type;
+                var needID = this.needID;
+                var $$ = function(selector){ return document.getElementById(selector)};
+                var ticketList = this.ticketList;
+                var ticketListUl = $$("ticketListUl");
+                var tnum = ticketList[0]["count"];
+
+                //首先判断购买数量
+                if(tnum==0) return alert("主票预订票数不能为0");
+
+                //获取开始时间 结束时间
+                var begintime = p_type!="C" ? $$("beginTimeInp").value : $$("beginTimeInp_hotel").innerHTML;
+                var endtime = p_type!="C" ? null : $$("endTimeInp_hotel").innerHTML;
+
+                //联系人，手机号，身份证
+                var ordernameInp = $$("ordernameInp");
+                var mobileInp = $$("mobileInp");
+                var idcardInp = $$("idcardInp");
+                var ordername = ordernameInp.value;
+                var mobile = mobileInp.value;
+                var sfz = idcardInp ? idcardInp.value : "";
+                if(!ordername) return alert("请填写联系人姓名");
+                if(!mobile) return alert("请填写取票人手机号");
+                if(idcardInp && !sfz) return alert("请填写取票人身份证");
+                if(!PFT.Util.Validate.typePhone(mobile)) return alert("请输入正确格式手机号");
+                if(idcardInp && !PFT.Util.Validate.idcard(sfz)) return alert("取票人身份证格式错误");
+
+                //需要多张身份证时  每张身份证都需要填写姓名跟身份证
+                if(needID==2){
+                    var tourMsgContainer = $$("tourMsgContainer");
+                    var items = tourMsgContainer.querySelectorAll(".idcardItem");
+                    var tourMsgArray = [].map.call(items,function(item,index){
+                        var name = item.querySelector(".nameInp").value;
+                        var idcard = item.querySelector(".idcardInp").value;
+                        return{
+                            name : name,
+                            idcard : idcard
+                        }
+                    });
+                    var idcards = tourMsgArray.map(function(item,index){ return item.idcard});
+                    var tourists = tourMsgArray.map(function(item,index){ return item.name});
+                    var idcards_available = idcards.every(function(item,index){
+                        return PFT.Util.Validate.idcard(item);
+                    });
+                    var tourists_available = tourists.every(function(item,index){
+                        return item!="";
+                    });
+                    if(!tourists_available) return alert("游客信息里，姓名不能为空");
+                    if(!idcards_available) return alert("游客信息里，身份证填写有误");
+
+                }
+
+                //获取联票数据
+                var link = {};
+                [].forEach.call(ticketListUl.querySelectorAll(".item"),function(item,index){
+                    if(index==0) return false;
+                    var pid = item.getAttribute("data-pid");
+                    var count = item.querySelector(".countInp").value;
+                    if(count!=0) link[pid] = count;
+                })
+
+                //演出类产品 获取场馆id 场次id 分区id
+                var selectChangciItem = [].filter.call($$("changciLiContainer").querySelectorAll(".changciItem"),function(item,index){
+                    return item.classList.contains("selected");
+                })[0];
+                var zoneid = ticketList[0]["zone_id"];  //分区id
+                var roundid = selectChangciItem.getAttribute("data-roundid"); //场馆id
+                var venusid = selectChangciItem.getAttribute("data-venusid"); //场次id
+
+                //开始提交数据
+                var submitData = {
+                    pid : this.pid,
+                    aid : this.aid,
+                    tnum : tnum,               //主票购买张数
+                    begintime : begintime,     //开始时间
+                    contacttel : mobile,       //取票人手机号
+                    ordername : ordername      //联系人姓名
+                };
+                if(needID==1) submitData["sfz"] = sfz; //需要一张身份证
+                if(needID==2){ //需要多张身份证
+                    submitData["idcards"] = idcards;
+                    submitData["tourists"] = tourists;
+                }
+                if(!PFT.Util.isEmptyObject(link)) submitData["link"] = link; //如果有下连票
+
+                if(p_type=="C") submitData["endtime"] = endtime;  //酒店产品加入结束时间
+
+                if(p_type=="H"){ //演出类产品
+                    submitData["zoneid"] = zoneid;
+                    submitData["roundid"] = roundid;
+                    submitData["venusid"] = venusid;
+                }
+
+                //console.log(submitData);
+
+                //开始提交数据
+                SubmitOrder(submitData,{
+                    loading : () => {
+                        this.toast.show("loading","正在提交订单...");
+                        submitBtn.classList.add("disable");
+                    },
+                    complete : () => {
+                        this.toast.hide();
+                    },
+                    success : (data) => {
+                        var ordernum = data.ordernum;
+                        var paymode = data.paymode;
+                        alert("下单成功，订单号："+ordernum+" 支付方式："+paymode);
+                    },
+                    fail : (code,msg) => {
+                        if(code>=400){ //重复下单  这种情况下页面不允许再提交订单，提交按钮需禁用
+                            alert(msg);
+                        }else{ //一般错误
+                            alert(msg);
+                            submitBtn.classList.remove("disable");
+                        }
+                    }
+                })
+
+
             }
         },
         components : {
