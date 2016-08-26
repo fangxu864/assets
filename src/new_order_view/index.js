@@ -12,7 +12,7 @@ suspension={
             var number = $(targetA).attr("number");
             if($(".addPart").length==0){
                 var returnTxt= $("."+number).html();
-                if(returnTxt!=""&&returnTxt!="undefined"&&returnTxt!={})
+                if(returnTxt!==""&&returnTxt!=undefined)
                 {
                     $(targetA).css("positon","relative");
                     $(".tbody").css("z-index","0");
@@ -40,12 +40,16 @@ suspension={
                     $strr.append($contain);
                     $(targetA).append($strr);
                 }
+                else{
+                    return false;
+                }
 
 
 
             }
             else{
-                return false}
+                return false;
+            }
 
         })
 
