@@ -11,7 +11,7 @@
 				<span>请先关注票付通公众号</span>
 
 			</div>
-			<img src="img/u125.png">
+			<img src="http://static.12301.cc/assets/build/images/shouxin_vcode_ma.png">
 			<div class="repayAlarmBtn">
 				<input type="button" value="确定" class="repayAlarmSure">
 				<input type="button" value="取消" class="repayAlarmCancel">
