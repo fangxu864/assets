@@ -53,7 +53,7 @@ RedpaymentAlarm.prototype = Mixin({
                             money:money
 
                         },
-                        url:"/r/Member_ThresHold/setThreshold/",
+                        url:"/r/Member_Threshold/setThreshold/",
                         success:function (data) {
                             if(data.flag==-1){
                                 alert(data.info);
@@ -179,7 +179,7 @@ var addFunction= {
                     type:type
 
                 },
-                url:"/r/Member_ThresHold/getBalance/",
+                url:"/r/Member_Threshold/getBalance/",
                 success:function (data) {
                     Pubsub.trigger("ajax.success",data.balance);
                     if(data.flag== -1){
@@ -233,7 +233,7 @@ var addFunction= {
                 type: type,
                 state:state
             },
-        url:"/r/Member_ThresHold/setState/",
+        url:"/r/Member_Threshold/setState/",
             success:function(data){
                 Pubsub.trigger("ajax.success",data.flag);
                if(data.flag==1){
