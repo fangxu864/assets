@@ -11,6 +11,7 @@ module.exports = function(env,filename){
 		filename: "js/" + _filename
 	};
 	var host = {
+		server : "build/local",
 		local : "http://static.12301.local/assets/build/local/",
 		test  : "http://static.12301.test/assets/build/",
 		release   : "http://static.12301dev.com/assets/build/",

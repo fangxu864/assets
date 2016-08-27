@@ -1,1 +1,20 @@
-.test{font-size:12px;}
+@import "COMMON/css/base/core/px2rem";
+$fontColor : 80;
+$fixBarHeight : px2rem(85);
+$bodyMarginBottom : px2rem(90);
+body{ background:rgb(245,245,245); color:rgb($fontColor,$fontColor,$fontColor)}
+input{  color:rgb($fontColor,$fontColor,$fontColor)}
+.bodyContainer{ margin-bottom:$bodyMarginBottom;}
+.bodyContainer .pad15{ padding-left:15px; padding-right:15px;}
+.bodyContainer .prodTtile{ height:45px; line-height:45px; font-size:0.4rem; font-weight:bold; background:#fff; border-bottom:1px solid #e5e5e5}
+.modBox{ background:#fff}
+.buyDescBox{ padding-top:15px; padding-bottom:10px;}
+.buyDescBox .descFlag{ display:inline-block; font-size:0.30rem; padding:2px 5px; border:1px solid #008fc2; color:#008fc2; margin-bottom:5px; margin-right:5px;}
+.totalMoneyFixBar{
+    position:fixed; left:0; right:0; bottom:0; z-index:1;
+    height:$fixBarHeight; line-height:$fixBarHeight; padding-left:15px; padding-right:95px; background:#fff;
+    box-shadow:0 -1px 1px rgba(0,0,0,0.075);
+}
+.totalMoneyFixBar .submitBtn{ position:absolute; right:0; top:0; bottom:0; line-height:$fixBarHeight; width:95px; font-size:0.35rem; background:#f37138; color:#fff; text-align:center}
+.ticketListBox{  background:#fff}
+.modBox .inputLine .rt .uicon-jiantou-sin-right{ color:#505050;}
