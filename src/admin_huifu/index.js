@@ -15,7 +15,7 @@ recoverBtn={
                      data:{
                          id:data
                      },
-                     url:"/r/product_ticket/resumed",
+                     url:"/r/product_ticket/resumed/",
                      success:function(data){
                          if(data.flag==1){
                              window.location.reload();
