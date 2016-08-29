@@ -42,7 +42,10 @@ RedpaymentAlarm.prototype = Mixin({
                     var aid=$("#parent_id ").attr("value");
                     var fid=$("#son_id").attr("value");
                     var money = $(".repayAlarmInp").val();
-                    if(money=="") return false;
+                    if(money==""){
+                        alert("请输入预警阀值！");
+                        return false;
+                    }
                     $.ajax({
                         type:"post",
                         dataType:"json",
@@ -135,6 +138,7 @@ var addFunction= {
                     if(data!=-2){
                         $("#AlarmChangeColorBlack").css("background-color","red");
                         $("#AlarmChangeColorRed").css("backgroundColor","#cccccc");
+
                     }
                 })
             }
@@ -142,12 +146,13 @@ var addFunction= {
                 var state=0;
                 that.returnDate(state);
                 $("#AlarmChangeColorBlack").css("backgroundColor","#cccccc");
-                $("#AlarmChangeColorRed").css("backgroundColor","black")
+                $("#AlarmChangeColorRed").css("backgroundColor","black");
 
 
             }
         })
         $("#AlarmChangeColorRed").click(function(){
+
 
             var color =that.RGBtoHEX($('#AlarmChangeColorRed').css("backgroundColor"));
             if(color =='#cccccc'){
@@ -156,7 +161,8 @@ var addFunction= {
                 Pubsub.on("ajax.success",function (data){
                     if(data!=-2){
                         $("#AlarmChangeColorRed").css("background-color","black");
-                        $("#AlarmChangeColorBlack").css("backgroundColor","#cccccc")
+                        $("#AlarmChangeColorBlack").css("backgroundColor","#cccccc");
+
                     }
                 })
             }
@@ -189,12 +195,14 @@ var addFunction= {
                      if(data.state== 1 ){
                            //开关为开启状态
                            $("#AlarmChangeColorBlack").css("background","red")
-                           $("#AlarmChangeColorRed").css("background","#cccccc")
+                           $("#AlarmChangeColorRed").css("background","#cccccc");
+
                        }
                        else if(data.state== 0 ){
                            //开关为关闭状态
                            $("#AlarmChangeColorRed").css("background","black");
-                           $("#AlarmChangeColorBlack").css("background","#cccccc")
+                           $("#AlarmChangeColorBlack").css("background","#cccccc");
+
                        }
                    }
 
@@ -237,7 +245,12 @@ var addFunction= {
             success:function(data){
                 Pubsub.trigger("ajax.success",data.flag);
                if(data.flag==1){
-                    alert("设置成功！")
+                    if(state==1){
+                        alert("您已经成功开启授信预警功能！")
+                    }
+                    else if(state==0){
+                        alert("您已经关闭了授信预警功能！")
+                   }
                }
                else if(data.flag== -1){
                    alert("设置失败！")
