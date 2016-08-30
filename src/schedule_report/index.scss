@@ -1,0 +1,50 @@
+#ContainOne{width: 1000px;height: 1080px;border: solid 2px black;position: relative;}
+
+.firstContain{position: relative;}
+.contain1{float: left;margin-right: 10px;margin-top: 10px;position: relative;z-index: 10}
+.contain2{width: 250px;height:36px;border: solid 1px #ccc;border-radius: 3px;line-height: 40px;padding-left: 5px;cursor: pointer;position: relative;overflow: hidden; }
+.allContain{width: 200px;height: 400px;background: #fff;display: none;}
+.Commercial{width: 250px;height: 36px;line-height: 36px;border-radius: 3px;border:solid 1px #ccc;padding-left: 4px;float: left;cursor: pointer;background: #fff}
+.Commercial:hover{background-color: #ccc}
+.checkbox-value {position:relative;height:30px;line-height:30px;padding-left:30px;overflow:hidden;}
+.checkbox-value:before {
+  transition:all 0.5s ease-in;
+  content:"";width:20px;height:20px;position:absolute;border:1px solid rgb(0,0,0);border-radius:4px;left:0;top:5px;background:#fff;overflow:hidden;cursor:pointer;
+}
+.checkbox-value:after {
+  border:none;
+  transition:all 0.2s ease-in;
+}
+.checkboxcon {height:30px;overflow:hidden;box-sizing:border-box;display:table;vertical-align:middle;position:absolute;left:270px;top:4px}
+.checkbox {display:inline-block;width:0;height:0;opacity:0;position:absolute;top:5px;}
+.checkboxcon input[type=checkbox]:checked+ .checkbox-value:before {
+  transition:all 0.5s ease-in;
+  content:"";width:20px;height:20px;position:absolute;border:1px solid rgba(0,0,0,0.5);border-radius:4px;left:0;top:5px;background:#63AD66;overflow:hidden;cursor:pointer;
+}
+.checkboxcon input[type=checkbox]:checked+ .checkbox-value:after {
+  cursor:pointer;
+  margin-top:5px;
+  margin-left:8px;
+  content:"";
+  width:4px;height:9px;border-right:1px solid #fff;border-bottom:1px solid #FFF;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position:absolute;
+  left:0;
+  top:5px;
+  transition:all 0.2s ease-out;
+}
+
+#proCommodityItem{width: 249px;height: 337px;border:1px solid #ccc;background: #fff;border-radius: 3px;}
+#searchInput{width: 220px;height:30px;line-height: 30px ;margin-left:10px;border-radius: 3px;border: solid 1px #ccc;margin-top: 4px; position: relative;padding-left: 40px}
+.trangle{width: 0;height: 0;border-left: 8px solid transparent;border-right: solid 8px transparent;border-top: 12px solid black;position: absolute;left: 224;top: 14px; }
+#search{width: 10px;height: 10px;border:4px solid #ccc;border-radius:50%;margin:20px;position:relative;display: inline-block;top: -46px;left: -1px;}
+#search:before{width:12px;height:5px;background:#ccc;transform:rotate(45deg);-webkit-transform:rotate(45deg);content: "";position: absolute;left:8px;top: 14px;}
+
+.selectDistributor{width: 72px;height: 36px}
+.searchBtn{width: 73px; height: 28px;cursor: pointer;border-radius: 3px;background: orange;position: absolute;left: 890px;top: 54px;color:#fff;text-align: center;line-height: 28px}
+.reportTable{width: 100%;margin:0px;border-bottom:1px solid #ccc;position: absolute;top: 100px;font-size: 13px}
+.reportTable th{height: 35px;line-height: 15px;background:#205C86;color: #fff ;}
+.reportTable .tL{width: 400px;height: 35px}
+.reportTable .tR{width: 150;height: 35px}
