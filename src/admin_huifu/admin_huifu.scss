@@ -1,2 +1,2 @@
-.makingTick{position: relative;width: 20px;height: 20px;background:#fff}
+.makingTick{width: 20px;height: 20px;background:#fff;z-index: 10;position: absolute;left: 980px;top:0px; }
 .makingTick:before{content:"√";position: absolute;color: #008EC1;left: 0px;top: 0px; }

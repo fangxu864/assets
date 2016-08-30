@@ -39,12 +39,8 @@ recoverBtn={
     },
     makingTick:function(){
         $(".makeingTick").parent($(".box")).css("position","relative");
-        $(".makeingTick").css({
-            "position":"absolute",
-            "left":"960px",
-            "top":"10px"
-        })
-    }
+        $(".makeingTick").parent($(".recoverBox")).css("position","relative");
+       }
 
 
 
@@ -55,6 +51,7 @@ recoverBtn={
 
 
 $(function () {
+    recoverBtn.makingTick();
     recoverBtn .sendRrcoverBtn(".resumd","/r/product_ticket/resumed/","pid");
-    recoverBtn.sendRrcoverBtn(".makeingTick","url","pid")
+    recoverBtn.sendRrcoverBtn(".makeingTick","/r/product_Product/resumed/","data-sid")
 })
