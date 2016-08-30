@@ -1,50 +1,60 @@
 /**
  * Created by Administrator on 2016/8/23.
  */
+require("./admin_huifu.scss");
 var recoverBtn;
 recoverBtn={
-    sendRrcoverBtn:function(){
-        $(".resumd").click(function () {
+    sendRrcoverBtn:function(Target,Url,judge){
+        var judge=judge;
+        var Target =Target;
+        var Url = Url;
+         $(Target).click(function () {
           if($(this).attr("state")==7){
-         var data= $(this).attr("pid");
+         var data= $(this).attr(judge);
               var  r=confirm("你确定恢复吗？");
              if(r==true){
                  $.ajax({
-                     type:"post",
-                     dataType:"json",
-                     data:{
-                         id:data
-                     },
-                     url:"/r/product_ticket/resumed/",
-                     success:function(data){
-                         if(data.flag==1){
-                             window.location.reload();
+                         type:"post",
+                         dataType:"json",
+                         data:{
+                             id:data
+                         },
+                         url:Url,
+                         success:function(data){
+                             if(data.flag==1){
+                                 window.location.reload();
+                             }
+                         },
+                         error:function(xrh,msg){
+
                          }
-                     },
-                     error:function(xrh,msg){
-
-                     }
-                 })
+                    })
              }
-
-            }
+          }
 
 
 
         })
 
-
-
-
-
-
+    },
+    makingTick:function(){
+        $(".makeingTick").parent($(".box")).css("position","relative");
+        $(".makeingTick").css({
+            "position":"absolute",
+            "left":"960px",
+            "top":"10px"
+        })
     }
 
-}
+
+
+};
+
 
 
 
 
 $(function () {
-    recoverBtn .sendRrcoverBtn();
+    recoverBtn .sendRrcoverBtn(".resumd","/r/product_ticket/resumed/","pid");
+    recoverBtn.sendRrcoverBtn(".makeingTick","url","pid")
 })
