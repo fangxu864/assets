@@ -9,10 +9,11 @@
         <input class="checkbox" type="checkbox"  checked="checked"/>
         <div class="checkbox-value">过滤测试账号</div>
     </label>
-    <div class="trecoreup">
-        <i class="uptic"></i>
-        <span class="update" id="update">导出数据</span>
-    </div>
+
+</div>
+<div class="trecoreup">
+    <i class="uptic"></i>
+    <span class="update" id="update">导出数据</span>
 </div>
 <div class="secondContain">
     <div class="selectDataFn calendarSelect " id="selectDataFn">本周</div>
@@ -114,10 +115,64 @@
         <th class="tR">优惠金额（元）</th>
 
         </thead>
+     <tr>
 
+         <td >fdsafdsaf</td>
+         <td>fdsafdsaf</td>
+         <td>fdfdsa</td>
+         <td>fda4a5</td>
+         <td class="TTR">fdsae</td>
+         <td>耳机</td>
+         <td class="TTR">进口量金额</td>
+
+     </tr>
+        <tr>
+
+            <td>fdsafdsaf</td>
+            <td>fdsafdsaf</td>
+            <td>fdfdsa</td>
+            <td>fda4a5</td>
+            <td class="TTR">fdsae</td>
+            <td>耳机</td>
+            <td class="TTR">进口量金额</td>
+
+        </tr>
+        <tr>
+
+            <td>fdsafdsaf</td>
+            <td>fdsafdsaf</td>
+            <td>fdfdsa</td>
+            <td>fda4a5</td>
+            <td class="TTR">fdsae</td>
+            <td>耳机</td>
+            <td class="TTR">进口量金额</td>
+
+        </tr>
+        <tr>
+
+            <td>fdsafdsaf</td>
+            <td>fdsafdsaf</td>
+            <td>fdfdsa</td>
+            <td>fda4a5</td>
+            <td class="TTR">fdsae</td>
+            <td>耳机</td>
+            <td class="TTR">进口量金额</td>
+
+        </tr>
 
 
     </table>
+    <div class="buttonCation">
+        <div id="pageButtonOne" class="PageButton"></div>
+        <div class="pageAttention ">
+            <span id="PageRecent">1</span>
+            <i>/</i>
+            <span id="PageTotal">2</span>
+        </div>
+          <div id="pageButtonTwo " class="PageButton"></div>
+
+    </div>
+
 
 
 

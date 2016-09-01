@@ -222,26 +222,7 @@ var report ={
             that.justForsearch(data);
         })
     },
-    //搜索框进行实时搜索
-    justForDate:function(data){
-        var data = data;
-        $.ajax({
-            dataType:"json",
-            type:"post",
-            data:{
-                data:data
-            },
-            url:"#",
-            success:function(data){
-                var data= data;
-                var html="";
-                for(var i=0;i<data.length;i++){
-                    html+="<li>"+data[i]+"</li>"
-                }
-                $("#proCommodity").html(html);
-            }
-        })
-    },
+
     //导出数据
     educeData:function(){
         var that= this;
@@ -295,9 +276,7 @@ var report ={
         var count_way     = $("#produceIterm").attr("count_way");
         var land_id     = $("#proCommodity").attr("land_id");
         var reseller_id = $("#contianDistributorF").attr("reseller_id");
-      if($(".checkbox").attr("checked")=="checked"){
-          exclude_test=1;
-      }
+        var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
         // if($("#calendarInputOne").val()==""){
         //     alert("请选择开始时间！");
         //      return false;
@@ -312,12 +291,42 @@ var report ={
         // else{
         //     end_date=$("#calendarInputtwo").val();
         // }
-        if(begin_date==end_date){
-            return false;
-        }
 
-        count_way =$("#produceIterm").attr("count_way");
 
+
+    },
+
+
+
+
+    //请求数据部分
+    //搜索框进行实时搜索
+    justForDate:function(data){
+        var data = data;
+        $.ajax({
+            dataType:"json",
+            type:"post",
+            data:{
+                data:data
+            },
+            url:"#",
+            success:function(data){
+                var data= data;
+                var html="";
+                for(var i=0;i<data.length;i++){
+                var $.e= $("<li></li>");
+                    $.e.html(data[i].name);
+                    $
+                }
+                $("#proCommodity").html(html);
+            }
+        })
+    },
+    //点击产品下拉框获取产品列表（产品内容可能很多）
+    getProduceList:function(){
+        $("#proCommodity").click(function(){
+
+        })
     }
 
 
