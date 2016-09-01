@@ -37,7 +37,39 @@ recoverBtn={
         })
 
 
-    }
+    },
+    sendRrcoverBtnTwo:function(){
+
+        $(".makingTick").click(function () {
+
+                var data= $(this).attr("data-sid");
+                var  r=confirm("你确定恢复吗?");
+                if(r==true){
+                    $.ajax({
+                        type:"post",
+                        dataType:"json",
+                        data:{
+                            id:data
+                        },
+                        url:"/r/product_Product/resumed/",
+                        success:function(data){
+                            if(data.flag==1){
+                                window.location.reload();
+                            }
+                        },
+                        error:function(xrh,msg){
+
+                        }
+                    })
+                }
+
+
+
+
+        })
+
+
+}
 
 
 
@@ -52,5 +84,5 @@ recoverBtn={
 $(function () {
     // recoverBtn.makingTick();
     recoverBtn .sendRrcoverBtn(".resumd","/r/product_ticket/resumed/","pid");
-    recoverBtn.sendRrcoverBtn(".makingTick","/r/product_Product/resumed/","data-sid")
+    recoverBtn.sendRrcoverBtnTwo();
 })
