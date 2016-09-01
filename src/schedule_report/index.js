@@ -71,6 +71,7 @@ var report ={
         that.selectContain("#proCommodity","#proCommodityItem");
         that.selectContain("#contianDistributorF","#containDistributorS");
     $("#containDistributorSelctF").on("click","li",function () {
+            $("#contianDistributorF").attr("reseller_id",$(this).attr("reseller_id"));
          $("#contianDistributorF").html($(this).html());
     })
 
@@ -125,6 +126,7 @@ var report ={
                         prevLi.addClass('hover1');
                         input.val(prevLi.html());
                         $("#proCommodity").html("产品名称："+input.val());
+
                     }
                 }
                 else
@@ -133,6 +135,7 @@ var report ={
                     last.addClass('hover1');
                     input.val(last.html());
                     $("#proCommodity").html("产品名称："+input.val());
+
                 }
             }
             else if(event.keyCode == 40){
@@ -143,6 +146,7 @@ var report ={
                         nextLi.addClass('hover1');
                         input.val(nextLi.html());
                         $("#proCommodity").html("产品名称："+input.val());
+
                     }
                 }
                 else{
@@ -150,6 +154,7 @@ var report ={
                     first.addClass('hover1');
                     input.val(first.html());
                     $("#proCommodity").html("产品名称："+input.val());
+
                 }
             }
             else if (event.keyCode==13){
@@ -178,8 +183,10 @@ var report ={
         $("#suggestKey li").click(function(){
 
             $("#proCommodity").html("产品名称："+$(this).html());
+            $("#proCommodity").attr("land_id",$(this).attr("land_id"))
 
             $("#proCommodityItem").css("display","none");
+
 
         })
 
@@ -215,6 +222,7 @@ var report ={
             that.justForsearch(data);
         })
     },
+    //搜索框进行实时搜索
     justForDate:function(data){
         var data = data;
         $.ajax({
@@ -236,20 +244,57 @@ var report ={
     },
     //导出数据
     educeData:function(){
+        var that= this;
       $(".trecoreup").on("click",function(){
-       var judge = confirm("是否导出EXCEL？");
-          if(judge==true){
+          var btime       = $("#calendarInputOne").val();
+          var etime       = $("#calendarInputtwo").val();
+          var count_way     = $("#produceIterm").attr("count_way");
+          var land_id     = $("#proCommodity").attr("land_id");
+          var reseller_id = $("#contianDistributorF").attr("reseller_id");
 
+          if(!btime || !etime) {
+              return false;
           }
+
+          var url  = '####';
+          var data = {'begin_date' : btime, 'end_date' : etime, 'count_way':count_way, size:500, land_id : land_id, reseller_id : reseller_id, export_excel : 1};
+
+
+
+          if(isSuper) {
+              url = '/r/report_statistics/adminOrderList/';
+              data['merchant_id'] = $('#merchant_id').val();
+              data['land_id']     = $('#land_id').val();
+              data['reseller_id'] = $('#reseller_id').val();
+
+              data['exclude_test'] = $('.checkbox').attr("checked") == undefined ? 0 : 1;
+          }
+
+          params = that.getQueryString(data);
+          url = url + '?' + params;
+
+
+          window.open(url);
+
+          return false;
       })
     },
+    getQueryString:function(arr) {
+    var str = '';
+    $.each(arr, function(key, val) {
+        str += key + '=' + val + '&';
+    });
+    return str;
+},
 
-    //向后端传递请求数据
+
+//向后端传递请求数据
     featchData:function(){
-      var exclude_test=0;
-        var begin_date;
-        var end_date;
-        var count_way;
+        var btime       = $("#calendarInputOne").val();
+        var etime       = $("#calendarInputtwo").val();
+        var count_way     = $("#produceIterm").attr("count_way");
+        var land_id     = $("#proCommodity").attr("land_id");
+        var reseller_id = $("#contianDistributorF").attr("reseller_id");
       if($(".checkbox").attr("checked")=="checked"){
           exclude_test=1;
       }

@@ -44,15 +44,15 @@
 <div class="choseCommodity">
     <div class="contain contain1">
         <div class="trangle"></div>
-        <div class="contain2" id="proCommodity">产品名称：</div>
+        <div class="contain2" id="proCommodity"land_id="">产品名称：</div>
         <div class="allContain" id="proCommodityItem">
             <input id="searchInput" type="text" placeholder="请输入关键词直接搜索"/>
             <div id="search"></div>
             <ul id="suggestKey">
-                <li>12312345646</li>
-                <li>1321321321321</li>
-                <li>REWQREWQVSAF</li>
-                <li>1FDSFDSAFAD</li>
+                <li land_id="fjdkl">12312345646</li>
+                <li land_id="fjdkl">1321321321321</li>
+                <li land_id="fjdkl">REWQREWQVSAF</li>
+                <li land_id="fjdkl">1FDSFDSAFAD</li>
             </ul>
 
         </div>
@@ -67,13 +67,13 @@
     <div class="contain contain1 " >
         <div>
             <div class="trangle"></div>
-            <div class="contain2" id="contianDistributorF">fjdsklfjldkj</div>
+            <div class="contain2" id="contianDistributorF" reseller_id="">fjdsklfjldkj</div>
             <div class="allContain" id="containDistributorS">
                 <ul id="containDistributorSelctF">
-                    <li>12312345646</li>
-                    <li>1321321321321</li>
-                    <li>REWQREWQVSAF</li>
-                    <li>1FDSFDSAFAD</li>
+                    <li reseller_id="fjdfjdh">12312345646</li>
+                    <li reseller_id="4646fdafda">1321321321321</li>
+                    <li reseller_id="fhdahfu">REWQREWQVSAF</li>
+                    <li reseller_id="fsdfd46546">1FDSFDSAFAD</li>
                 </ul>
             </div>
         </div>
