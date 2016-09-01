@@ -300,8 +300,8 @@ var report ={
 
 
     //请求数据部分
-    //搜索框进行实时搜索
-    justForDate:function(data){
+    //
+    justForDate:function(data,url,target){
         var data = data;
         $.ajax({
             dataType:"json",
@@ -309,25 +309,33 @@ var report ={
             data:{
                 data:data
             },
-            url:"#",
+            url:"url",
             success:function(data){
                 var data= data;
-                var html="";
                 for(var i=0;i<data.length;i++){
-                var $.e= $("<li></li>");
-                    $.e.html(data[i].name);
-                    $
+                    var $e=$("<div></div>");
+                    $e.html(data[i].name);
+                    $e.attr("LandId",data.id);
+                    $(target).append($e);
                 }
-                $("#proCommodity").html(html);
+            },
+            error:function(msg){
+                alert(msg);
             }
         })
     },
     //点击产品下拉框获取产品列表（产品内容可能很多）
-    getProduceList:function(){
+    getLandList:function(){
+        var that= this;
         $("#proCommodity").click(function(){
-
+            $("#proCommodity").html("");
+            that.justForDate("","url","#proCommodity");
         })
+        //管理员搜索框查询产品
+
+
     }
+
 
 
 
