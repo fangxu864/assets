@@ -70,6 +70,7 @@ var report ={
         that.selectContain("#produceIterm","#produceAll");
         that.selectContain("#proCommodity","#proCommodityItem");
         that.selectContain("#contianDistributorF","#containDistributorS");
+        that.selectContain()
     $("#containDistributorSelctF").on("click","li",function () {
             $("#contianDistributorF").attr("reseller_id",$(this).attr("reseller_id"));
          $("#contianDistributorF").html($(this).html());
@@ -215,11 +216,12 @@ var report ={
 
 
     },
+    //查询产品搜索框查询
     justForsearch:function(){
         var that = this;
         $("#searchInput").bind("keyup",function(){
             var data = $(this).val();
-            that.justForsearch(data);
+            that.justForDate(data,"url","#proCommodity");
         })
     },
 
