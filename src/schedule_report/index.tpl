@@ -2,7 +2,7 @@
     <div class="contain">
         <div class="trangle"></div>
         <div class="contain2" id="SearchMerchant">商户：</div>
-        <div class="allContain" >
+        <div class="allContain" id="MerchantContain" >
             <input id="searchInputSecond" type="text" placeholder="请输入关键词直接搜索"/>
             <div id="searchSecond"></div>
             <ul id="ComsuggestKey">
@@ -72,10 +72,10 @@
     <div>
         <select class="selectDistributor contain contain3">
             <option data-value="1">分销商</option>
-            <option data-value="2">供应商</option>
+            <option data-value="2" selected="selected" id="ResellerOPt">供应商</option>
         </select>
     </div>
-    <div class="contain contain1 " >
+    <div class="contain contain1 ">
         <div>
             <div class="trangle"></div>
             <div class="contain2" id="contianDistributorF" reseller_id="">fjdsklfjldkj</div>

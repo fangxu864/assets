@@ -19,7 +19,7 @@ $(function(){
     report.closeSelector("#produceIterm","#produceAll");
     // report.closeSelector("#proCommodity","#proCommodityItem");
     report.closeSelector("#contianDistributorF","#containDistributorS");
-    // report.justForsearch();
+    report.justForsearch();
     report.featchData();
     report.educeData();
 })
@@ -70,7 +70,7 @@ var report ={
         that.selectContain("#produceIterm","#produceAll");
         that.selectContain("#proCommodity","#proCommodityItem");
         that.selectContain("#contianDistributorF","#containDistributorS");
-        that.selectContain()
+        that.selectContain("#SearchMerchant","#MerchantContain")
     $("#containDistributorSelctF").on("click","li",function () {
             $("#contianDistributorF").attr("reseller_id",$(this).attr("reseller_id"));
          $("#contianDistributorF").html($(this).html());
@@ -219,10 +219,29 @@ var report ={
     //查询产品搜索框查询
     justForsearch:function(){
         var that = this;
+
         $("#searchInput").bind("keyup",function(){
             var data = $(this).val();
-            that.justForDate(data,"url","#proCommodity");
+            that.justForDate(data,"url","#suggestKey");
         })
+        $("#searchInputSecond").bind("keyup",function(){
+            var data2 =$(this).val();
+            that.justForDate(data,"url","#ComsuggestKey");
+        })
+        //获取分销商账号
+
+
+        $("#ResellerOPt").on("select",function(e){
+            e.preventDefault();
+            alert("123");
+            var ResellerJudge = $("#ResellerOPt").attr("selected")=="undefine"?1:0;
+
+            if(ResellerJudge==1){
+                alert("fdsfadjsak")
+                that.justForDate("","url","containDistributorSelctF");
+            }
+        })
+
     },
 
     //导出数据
@@ -331,7 +350,7 @@ var report ={
         var that= this;
         $("#proCommodity").click(function(){
             $("#proCommodity").html("");
-            that.justForDate("","url","#proCommodity");
+            that.justForDate("","url","#suggestKey");
         })
         //管理员搜索框查询产品
 
