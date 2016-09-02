@@ -54,8 +54,10 @@
                 var tarBtn = e.target;
                 var mobile = this.mobile;
                 if(tarBtn.classList.contains("disable")) return false;
-                if(!mobile) return alert("请填写手机号");
-                if(!PFT.Util.Validate.typePhone(mobile)) return alert("手机号格式有误");
+                if(!mobile) return Alert.show("提示","请填写手机号");
+                if(!PFT.Util.Validate.typePhone(mobile)) return Alert.show("提示","手机号格式有误");
+
+
 
             }
         }

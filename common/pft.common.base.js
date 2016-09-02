@@ -5,8 +5,11 @@
  */
 module.exports = function(PFT){
 
+	PFT["Class"] = require("./js/Class");
+	
 	var Util = PFT["Util"] || (PFT["Util"] = {});
-
+	Util["Each"] = require("./js/util.each");
+	Util["ParseTemplate"] = require("./js/util.parseTemplate");
 	Util["PubSub"] = require("./js/util.pubsub");
 	Util["Ajax"] = require("./js/util.ajax");
 	Util["Placeholder"] = require("./js/util.placeholder");

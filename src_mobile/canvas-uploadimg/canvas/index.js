@@ -11,9 +11,11 @@ function Canvas(){
 Canvas.prototype = PFT.Util.Mixin({
 	loadImage : function(src,opt) {
 		var opt = opt || {};
+		var crossOrigin = opt.crossOrigin;
 		var onload = opt.onload || function(){};
 		var onerror = opt.onerror || function(){};
 		var img = document.createElement("img");
+		if(crossOrigin) img.crossOrigin = "anonymous";
 		img.onload = function() {
 			onload(src,img);
 			img.onreadystatechange = null;
@@ -53,46 +55,45 @@ Canvas.prototype = PFT.Util.Mixin({
 		canvas.width = bgWidth;
 		canvas.height = bgHeight;
 		var cxt = canvas.getContext("2d");
-		var image = document.createElement("img");
+		//var image = document.createElement("img");
 
 		this.addLoading();
 		// Canvas为了安全性考虑，当绘制了外部图片后它会变成只可写不可读的状态，
 		// getImageData、toDataURL之类的试图读取数据的方法全都无法使用
 		// 这里设置image的crossOrigin为anonymous,非常重要
-		image.crossOrigin = "anonymous";
+		//image.crossOrigin = "anonymous";
+
+		cxt.drawImage(that.image,0,0);
+
+		cxt.drawImage(vcodeImage.image,vcodePosition.left,vcodePosition.top,vcodeImage.width,vcodeImage.height);
+
+		var dataURL = canvas.toDataURL("image/png");
 
 
-		image.onload = function(){
+		// dataURL 的格式为 “data:image/png;base64,****”,
+		// 逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
+		dataURL = dataURL.split(",")[1];
 
-			cxt.drawImage(that.image,0,0);
 
-			cxt.drawImage(image,vcodePosition.left,vcodePosition.top,vcodeImage.width,vcodeImage.height);
+		// 用 toDataURL 就可以转换成上面用到的 DataURL 。
+		// 然后取出其中 base64 信息，再用 window.atob 转换成由二进制字符串。
+		// 但 window.atob 转换后的结果仍然是字符串，直接给 Blob 还是会出错。
+		// 所以又要用 Uint8Array 转换一下
+		var imgData = window.atob(dataURL);
+		var ia = new Uint8Array(imgData.length);
+		for (var i = 0; i < imgData.length; i++) {
+			ia[i] = imgData.charCodeAt(i);
+		};
 
-			var dataURL = canvas.toDataURL("image/png");
+		// canvas.toDataURL 返回的默认格式就是 image/png
+		// 这时候裁剪后的文件就储存在 blob 里了,
+		// 可以把它当作是普通文件一样，加入到 FormData 里，并上传至服务器了
+		var blob = new Blob([ia], {type:"image/png"});
 
-			// dataURL 的格式为 “data:image/png;base64,****”,
-			// 逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
-			dataURL = dataURL.split(",")[1];
 
-			// 用 toDataURL 就可以转换成上面用到的 DataURL 。
-			// 然后取出其中 base64 信息，再用 window.atob 转换成由二进制字符串。
-			// 但 window.atob 转换后的结果仍然是字符串，直接给 Blob 还是会出错。
-			// 所以又要用 Uint8Array 转换一下
-			var imgData = window.atob(dataURL);
-			var ia = new Uint8Array(imgData.length);
-			for (var i = 0; i < imgData.length; i++) {
-				ia[i] = imgData.charCodeAt(i);
-			};
 
-			// canvas.toDataURL 返回的默认格式就是 image/png
-			// 这时候裁剪后的文件就储存在 blob 里了,
-			// 可以把它当作是普通文件一样，加入到 FormData 里，并上传至服务器了
-			var blob = new Blob([ia], {type:"image/png"});
-			that.submitImgData(blob,vcodeImage,vcodePosition);
+		that.submitImgData(blob,vcodeImage,vcodePosition);
 
-		}
-
-		image.src = vcodeImage.src;
 
 	},
 	//上传裁剪后的图片至服务器
@@ -114,6 +115,7 @@ Canvas.prototype = PFT.Util.Mixin({
 					if(code==200 && url){
 						that.savePosterInfo(url,vcodeImage,vcodePosition)
 					}else{
+						that.removeLoading();
 						alert(msg);
 					}
 				}else if(xhr.status==413){
@@ -131,6 +133,7 @@ Canvas.prototype = PFT.Util.Mixin({
 	},
 	//上传二维码坐标位置至服务器
 	savePosterInfo : function(url,vcodeImage,vcodePosition){
+		var that = this;
 		PFT.Util.Ajax("/r/Mall_Common1/savePosterInfo/",{
 			type : "post",
 			params : {
@@ -145,6 +148,7 @@ Canvas.prototype = PFT.Util.Mixin({
 				if(res.code==200){
 					window.location.href = "poster_create_success.html?url="+encodeURI(url)+"&flag=create";
 				}else{
+					that.removeLoading();
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);
 				}
 			}

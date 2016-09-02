@@ -64,6 +64,7 @@ VCode.prototype = PFT.Util.Mixin({
 	getImage : function(){
 		var image = document.getElementById("vcodeConainer").querySelector("img");
 		return{
+			image : image,
 			src : image.src,
 			width : image.width,
 			height : image.height
