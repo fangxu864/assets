@@ -230,17 +230,16 @@ var report ={
         })
         //获取分销商账号
 
-
-        $("#ResellerOPt").on("select",function(e){
-            e.preventDefault();
-            alert("123");
+        $(".selectDistributor").change(function(){
             var ResellerJudge = $("#ResellerOPt").attr("selected")=="undefine"?1:0;
-
-            if(ResellerJudge==1){
-                alert("fdsfadjsak")
-                that.justForDate("","url","containDistributorSelctF");
+             if(ResellerJudge==0){
+              // that.justForDate("","url","containDistributorSelctF");
             }
         })
+        //汇总方式调换,更改列表内容？
+        // $("#produceAll").click(function(){
+        //     alert($("#produceIterm").attr("count_way"))
+        // })
 
     },
 
@@ -274,10 +273,7 @@ var report ={
 
           params = that.getQueryString(data);
           url = url + '?' + params;
-
-
           window.open(url);
-
           return false;
       })
     },
@@ -316,6 +312,16 @@ var report ={
 
 
     },
+    //15条数据内不显示翻页
+     PageJudgement:function(){
+         if($(".reportTable tr").length<=15){
+             $(".buttonCation").css("display","none")
+         }
+         else{
+             $(".buttonCation").css("display","block")
+         }
+     },
+
 
 
 
