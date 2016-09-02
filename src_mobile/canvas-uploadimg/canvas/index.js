@@ -5,14 +5,9 @@
  */
 function Canvas(){
 	this.image = null;
+	this.toast = new PFT.Toast();
 	var imgContainer = $('<div id="imgContainer" class="imgContainer"></div>').appendTo($("body"));
-	//$("body").append('<canvas id="canvas" class="canvas" width="'+winWidth+'" height="'+winHeight+'">您的浏览器版本过底，不支持canvas</canvas>');
-	//this.stage = new Stage("#canvas");
-	//this.stage.debug = true;
-	////var bmp = new Bitmap("http://static.12301.cc/assets/build/images/dlogin_mg_cpft7.jpg");
-	//console.log(this.stage);
 }
-
 Canvas.prototype = PFT.Util.Mixin({
 	loadImage : function(src,opt) {
 		var opt = opt || {};
@@ -35,43 +30,11 @@ Canvas.prototype = PFT.Util.Mixin({
 	},
 	drawBg : function(imgDataURL){
 		var that = this;
-
 		this.image = this.loadImage(imgDataURL,{
 			onload : function(src,image){
 				$("#imgContainer").html("").width(image.width).height(image.height).append(image);
 			}
 		})
-
-		//var stage = this.stage;
-		//var bmp = new Bitmap(imgDataURL);
-		//bmp.x = 0;
-		//bmp.y = 0;
-		//bmp.scaleX = 1;
-		//bmp.scaleY = 1;
-		//bmp.width = this.winWidth;
-		//bmp.height = this.winHeight;
-		//that.bgImgs[0] && stage.remove(this.bgImgs[0]);
-		//that.bgImgs.shift();
-		//that.bgImgs.push(bmp);
-		//stage.add(bmp);
-		//stage.update();
-		//new AlloyFinger(bmp, {
-		//	multipointStart: function () {
-		//
-		//	},
-		//	rotate: function (evt) {
-		//
-		//		stage.update();
-		//	},
-		//	pinch: function (evt) {
-		//
-		//		stage.update();
-		//	},
-		//	pressMove: function (evt) {
-		//
-		//		stage.update();
-		//	}
-		//});
 	},
 	reset : function(){
 		var imgContainer = document.getElementById("imgContainer");
@@ -91,6 +54,8 @@ Canvas.prototype = PFT.Util.Mixin({
 		canvas.height = bgHeight;
 		var cxt = canvas.getContext("2d");
 		var image = document.createElement("img");
+
+		this.addLoading();
 		// Canvas为了安全性考虑，当绘制了外部图片后它会变成只可写不可读的状态，
 		// getImageData、toDataURL之类的试图读取数据的方法全都无法使用
 		// 这里设置image的crossOrigin为anonymous,非常重要
@@ -123,15 +88,77 @@ Canvas.prototype = PFT.Util.Mixin({
 			// 这时候裁剪后的文件就储存在 blob 里了,
 			// 可以把它当作是普通文件一样，加入到 FormData 里，并上传至服务器了
 			var blob = new Blob([ia], {type:"image/png"});
-			that.submitImgData(blob);
+			that.submitImgData(blob,vcodeImage,vcodePosition);
 
 		}
 
 		image.src = vcodeImage.src;
 
 	},
-	submitImgData : function(imgData){
-
+	//上传裁剪后的图片至服务器
+	submitImgData : function(imgData,vcodeImage,vcodePosition){
+		var that = this;
+		if(window.FormData){
+			var formData = new FormData();
+			formData.append("image",imgData,"image.png");
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST","/r/Mall_Common1/uploadForPoster");
+			xhr.onload = function(res){
+				if(xhr.status==200){
+					res = res.srcElement.responseText;
+					res = JSON.parse(res);
+					var code = res.code;
+					var data = res.data || {};
+					var url = data.url;
+					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+					if(code==200 && url){
+						that.savePosterInfo(url,vcodeImage,vcodePosition)
+					}else{
+						alert(msg);
+					}
+				}else if(xhr.status==413){
+					that.removeLoading();
+					alert("您上传的图片过大");
+				}else{
+					that.removeLoading();
+					alert(xhr.status);
+				}
+			}
+			xhr.send(formData);
+		}else{
+			alert("您的浏览器不支持FormData对象");
+		}
+	},
+	//上传二维码坐标位置至服务器
+	savePosterInfo : function(url,vcodeImage,vcodePosition){
+		PFT.Util.Ajax("/r/Mall_Common1/savePosterInfo/",{
+			type : "post",
+			params : {
+				qrWidth : vcodeImage.width,
+				qrHeight : vcodeImage.height,
+				xDistance : vcodePosition.left,
+				yDistance : vcodePosition.top
+			},
+			loading : function(){},
+			success : function(res){
+				res = res || {};
+				if(res.code==200){
+					window.location.href = "poster_create_success.html?url="+encodeURI(url)+"&flag=create";
+				}else{
+					alert(res.msg || PFT.AJAX_ERROR_TEXT);
+				}
+			}
+		})
+	},
+	addLoading : function(){
+		var createBtn = document.querySelector("#fixBarContainer .createBtn");
+		createBtn.classList.add("disable");
+		this.toast.show("loading","正在生成海报...");
+	},
+	removeLoading : function(){
+		var createBtn = document.querySelector("#fixBarContainer .createBtn");
+		createBtn.classList.remove("disable");
+		this.toast.hide();
 	}
 },PFT.Util.PubSub);
 

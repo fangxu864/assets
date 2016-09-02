@@ -17,6 +17,7 @@ var Main = function(){
 		vcode.setState("");
 		fileInp.show();
 	}).on("click",".createBtn" ,function(e){
+		if($(e.currentTarget).hasClass("disable")) return false;
 		var vcode_position = vcode.getPosition();
 		var vcode_image = vcode.getImage();
 		canvas.create(vcode_image,vcode_position)

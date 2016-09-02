@@ -58,7 +58,7 @@
 
     "canvas-uploadimg-start" : "set NODE_ENV=develop && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js -w",
     "canvas-uploadimg-test" : "set NODE_ENV=test && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js",
-    "canvas-uploadimg-release" : "set NODE_ENV=release && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js",
+    "canvas-uploadimg-release" : "set NODE_ENV=release && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js -w",
     "canvas-uploadimg-production" : "set NODE_ENV=production && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js",
 
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",

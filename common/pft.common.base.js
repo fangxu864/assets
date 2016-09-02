@@ -38,6 +38,13 @@ module.exports = function(PFT){
 			serverError : fn
 		}
 	};
+	Config["ptype"] = {
+		A : "景区门票",
+		B : "旅游线路",
+		C : "度假酒店",
+		F : "套票产品",
+		H : "剧场演出"
+	};
 
 	PFT["Api"] = require("./Api/api.base");
 

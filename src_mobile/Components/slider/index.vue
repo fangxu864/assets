@@ -113,4 +113,5 @@
     #bannerCon .slideItem img{ width:100%;}
     #bannerCon .slideItem.loading img{ width:auto}
     #slideContainer .islider-dot-wrap{ bottom:12px; z-index:2}
+    #slideContainer .islider-dot-wrap .islider-dot{ width:8px; height:8px}
 </style>

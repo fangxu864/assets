@@ -4,7 +4,7 @@
             <ul class="ptypeList">
                 <li class="ptypeBox" :class="item.identify" v-for="item in list" :data-ptype="item.identify">
                     <a class="ptypeBoxCon" href="javascript:void(0)">
-                        <div class="iconBox"><i class="iconfont" :class="'icon-'+icons[item.identify]"></i></div>
+                        <div class="iconBox"><i class="icon-ptype" :class="'icon-'+icons[item.identify]"></i></div>
                         <p class="text" v-text="item.name"></p>
                     </a>
                 </li>
@@ -39,9 +39,9 @@
                 complete : () => {
                     this.state = PFT.AJAX_COMPLETE_TEXT;
                 },
-                success : (res) => {
+                success : (data) => {
                     this.state = "success";
-                    this.list = res.data;
+                    this.list = data;
                 },
                 empty : (res) => {
                     this.state = "用户没有配置要显示的产品类型";
@@ -56,6 +56,7 @@
 </script>
 <style lang="sass">
     @import "COMMON/css/base/core/px2rem";
+    @import "COMMON/css/base/iconfont.ptype.scss";
     #ptypeListContainer{ padding:px2rem(40) px2rem(16); background:#fff; overflow:hidden}
     #ptypeListContainer .state{
         height:3rem;
@@ -78,8 +79,8 @@
         color:#fff;
         margin:0 auto 0.2rem;
     }
-    #ptypeListContainer .ptypeBox .iconfont{
-        font-size:0.8rem;
+    #ptypeListContainer .ptypeBox .icon-ptype{
+        font-size:0.7rem;
     }
     #ptypeListContainer .ptypeBox .text{
         color:#333;

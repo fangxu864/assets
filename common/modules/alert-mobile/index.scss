@@ -1,0 +1,97 @@
+$borderColor : #dbdbdb;
+.pftui-alert-mask{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:99;
+    background:rgba(0,0,0,0.6);
+}
+.pftui-alert-box{
+    position:fixed;
+    width:82%;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    z-index:100;
+    text-align:center;
+    background:#fff;
+}
+.pftui-alert-hd{
+    font-weight:bold;
+    height:15px; line-height:15px;
+    padding-top:15px;
+}
+.pftui-alert-bd{
+    word-wrap : break-word;
+    word-break : break-all;
+    padding:15px 20px 20px;
+    font-size:14px;
+}
+.pftui-alert-fd{
+    position:relative;
+    height:42px; line-height:42px;
+    text-align:center; font-size:15px;
+    color:#0bb20c
+}
+.pftui-alert-fd:after{
+    content : "";
+    position : absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:1px;
+    background:$borderColor;
+    transform:scaleY(0.5);
+}
+.pftui-alert-box.transition{
+    opacity: 1;
+    transition-duration: .2s;
+    transform: translate(-50%, -50%) scale(1)!important;
+    transition-property: transform, opacity!important;
+}
+.pftui-alert-box.enter{
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.2)!important;
+}
+.pftui-alert-box.leave{
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1)!important;
+}
+
+.pftui-alert-mask.transition{
+    opacity: 1;
+    transition-duration: .2s;
+    transform: scale(1)!important;
+    transition-property: transform, opacity!important;
+}
+.pftui-alert-mask.enter{
+    opacity: 0;
+    transform: scale(1.2)!important;
+}
+.pftui-alert-mask.leave{
+    opacity: 0;
+    transform: scale(1)!important;
+}
+.pftui-alert-box .pftui-confirm-btn{
+    position:relative;
+    display:inline-block;
+    height:100%;
+    width:50%;
+    line-height:42px;
+}
+.pftui-alert-box .pftui-confirm-btn.yesBtn:before{
+    content : "";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:1px;
+    font-size:0;
+    background:$borderColor;
+    transform:scaleX(0.5);
+}
+.pftui-alert-box .pftui-confirm-btn.cancelBtn{
+    color:#353535;
+}

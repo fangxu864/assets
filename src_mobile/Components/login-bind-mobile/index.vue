@@ -3,16 +3,16 @@
         <div class="mainCon">
             <div class="form-group top mobile">
                 <div class="inputBox">
-                    <input v-model="mobile" class="mobile" type="text" name="" id="mobileInp" placeholder="手机号"/>
+                    <input v-model="mobile" class="mobile" type="text" name="" autocomplete="off" id="mobileInp" placeholder="手机号"/>
                 </div>
                 <span class="icon mobile"><i class="uicon uicon-shouji"></i></span>
             </div>
             <div class="form-group bottom checkMa">
-                <div class="inputBox"><input v-model="code" class="checkMa" type="number" name="" id="checkMaInp" placeholder="验证码"/></div>
+                <div class="inputBox"><input v-model="code" class="checkMa" type="number" autocomplete="off" name="" id="checkMaInp" placeholder="验证码"/></div>
                 <span class="icon pwd"><i class="uicon uicon-key-sin"></i></span>
-                <a id="getCheckMaBtn" class="getCheckMaBtn" href="javascript:void(0)">获取验证码</a>
+                <a id="getCheckMaBtn" @click="onGetCheckMaBtnClick" class="getCheckMaBtn" href="javascript:void(0)">获取验证码</a>
             </div>
-            <a id="submitBtn_mobile" @click="" class="submitBtn submitBtn_mobile mobile" href="javascript:void(0)">绑定</a>
+            <a id="submitBtn_mobile" @click="onSubmit" class="submitBtn submitBtn_mobile mobile" href="javascript:void(0)">绑定</a>
             <p id="errorTip_mobile" class="errorTip mobile"></p>
             <div id="customLoginBox" class="customLoginBox">
                 <a class="bLoginBox wx" href="javascript:void(0)"><i class="iconfont">&#xe670;</i></a>
@@ -33,14 +33,28 @@
                 code : ""
             }
         },
-        mothods : {
+        ready(){
+            this.toast = new PFT.Toast();
+            this.Alert = new PFT.Mobile.Alert();
+        },
+        methods : {
             onSubmit(e){
                 var submitBtn = e.target;
+                var Alert = this.Alert;
                 if(submitBtn.classList.contains("disable")) return false;
                 var mobile = this.mobile;
                 var code = this.code;
+                if(!mobile) return Alert.show("提示","请填写手机号");
+                if(!PFT.Util.Validate.typePhone(mobile)) return Alert.show("提示","手机号格式有误");
+                if(!code) return Alert.show("提示","请填写验证码");
+                if(isNaN(code) || code.length!==6) return Alert.show("提示","请填写6位数数字");
+
+            },
+            onGetCheckMaBtnClick(e){
+                var tarBtn = e.target;
+                var mobile = this.mobile;
+                if(tarBtn.classList.contains("disable")) return false;
                 if(!mobile) return alert("请填写手机号");
-                if(!code) return alert("请填写验证码");
                 if(!PFT.Util.Validate.typePhone(mobile)) return alert("手机号格式有误");
 
             }

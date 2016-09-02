@@ -33,7 +33,6 @@
 
 <script type="es6">
     let GetProductHot = require("SERVICE_M/getproduct-hot-c");
-    import ImgLoador from "COMMON_VUE_COMPONENTS/image-loador.vue";
     export default{
         props: {
             imgHeight : {
@@ -75,17 +74,16 @@
                     complete : () => {
                         this.state = "complete";
                     },
-                    success : res => {
-                        res = res || {};
-                        this.list = res.data.list;
+                    success : (list) => {
+                        this.list = list;
                         this.state = "success";
                     },
-                    empty : res => {
+                    empty : (list) => {
                         this.list = [];
                         this.state = "empty";
                     },
-                    fail : res => {
-                        this.errorMsg = res.msg || PFT.AJAX_ERROR_TEXT;
+                    fail : (msg) => {
+                        this.errorMsg = msg;
                         this.list = [];
                         this.state = "fail";
 
@@ -94,7 +92,7 @@
             }
         },
         components : {
-            ImgLoador
+            ImgLoador : require("COMMON_VUE_COMPONENTS/image-loador")
         }
     }
 </script>

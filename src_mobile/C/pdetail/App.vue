@@ -29,12 +29,6 @@
             </div>
             <page-footer></page-footer>
         </div>
-        <!--<actionsheet-->
-                <!--:menus="actions"-->
-                <!--:show.sync="sheetVisible"-->
-                <!--:cancel-text="cancelText"-->
-                <!--v-on:click="onActionsheetClick">-->
-        <!--</actionsheet>-->
     </div>
 </template>
 

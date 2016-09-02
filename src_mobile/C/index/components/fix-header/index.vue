@@ -25,7 +25,7 @@
             }
         },
         components : {
-            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header.vue")
+            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header")
         }
     }
 </script>
