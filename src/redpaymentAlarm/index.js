@@ -30,7 +30,7 @@ RedpaymentAlarm.prototype = Mixin({
      type:"",
     init:function () {
         var that = this;
-        var reg =/^[0-9]\d+|\d+\.\d{1,2}$/;
+        var reg =/^[1-9]\d+|[0-9]\d+\.\d{1,2}|[0-9]$/;
         this.dialog = new Dialog({
             width:450,
             height:330,
@@ -48,7 +48,8 @@ RedpaymentAlarm.prototype = Mixin({
                         return false;
                     }
                     else if(!(reg.test(money))){
-                        alert("请输入数字!")
+                        alert("请输入数字!");
+                         return false;
                     }
                     $.ajax({
                         type:"post",
@@ -64,6 +65,7 @@ RedpaymentAlarm.prototype = Mixin({
                         success:function (data) {
                             if(data.flag==-1){
                                 alert(data.info);
+                                window.location.reload();
                             }
 
                         },
