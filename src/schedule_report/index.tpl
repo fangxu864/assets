@@ -29,10 +29,10 @@
     <div class="selectDataFn calendarSelect " id="selectDataFn">本周</div>
         <div class="trangle positioTran"></div>
         <div class="allContain" id="calendarContain">
-            <span class=" calendarContainClass" >三个月以内</span>
-            <span class=" calendarContainClass" >当月</span>
-            <span class="calendarContainClass" >本周</span>
-            <span class="calendarContainClass" >当日</span>
+            <span class=" calendarContainClass" id="threeMonthCalendar" >三个月以内</span>
+            <span class=" calendarContainClass" id="thisMonthCalendar">当月</span>
+            <span class="calendarContainClass" id="thisWeekCalendar">本周</span>
+            <span class="calendarContainClass" id="todayCalendar">当日</span>
         </div>
 
     <div id="calendarDateBe" class="calendarDateBe calendarSelect ">
