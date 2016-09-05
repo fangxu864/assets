@@ -9,21 +9,21 @@ var AddCalendar ={
     init:function(){
             var that= this;
             that.Calendar = new Calendar();
+            that.Calendar.on("selcet",function(data){});
             that.CreatCalendar("#storage_open");
 
     },
     CreatCalendar:function(id){
             var that = this;
             $(id).on("focus",function (e) {
-                alert("fdsafjlds")
                 var picker = $(e.target);
                 var date = picker.val();
                 that.Calendar.show(date,{
                     picker:$(e.target),
-                    top:100,
-                    left:200,
-                    min:"2016-06-20",
-                    max:"2016-09-30",
+                    top:0,
+                    left:-278,
+                    min:"2010-06-20",
+                    max:"2019-09-30",
                     onBefore:function(){
 
                     },
