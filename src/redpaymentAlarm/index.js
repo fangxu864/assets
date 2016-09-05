@@ -120,7 +120,7 @@ var addFunction= {
         else{
             return str;
         }
-        
+
     },
     toHex:function (N) {
         if(N==null) return "00";
@@ -131,7 +131,7 @@ var addFunction= {
         N = Math.round(N);
         return "0123456789abcdef".charAt((N-N%16)/16)+"0123456789abcdef".charAt(N%16);
         //　return "0123456789ABCDEF".charAt((N-N%16)/16) + "0123456789ABCDEF".charAt(N%16);  //大写
-        
+
     },
     changeColor:function(){
         var that =this;
