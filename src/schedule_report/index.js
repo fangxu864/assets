@@ -20,8 +20,9 @@ $(function(){
     // report.closeSelector("#proCommodity","#proCommodityItem");
     report.closeSelector("#contianDistributorF","#containDistributorS");
     report.justForsearch();
-    report.featchData();
+    // report.featchData();
     report.educeData();
+    report.PageButton();
 
 
     report.getNowadtae();
@@ -227,12 +228,13 @@ var report ={
         //本周内按键
         $("#thisWeekCalendar").on("click",function(){
             var weekday=getdate.getDay();
-            var Monday = days-weekday;
+           var Monday =days - weekday;
             var Sunday = 0;
+
             var LastMonths = getdate.getMonth();
             //在每个月的月初几天的情况
-            if(Monday<0){
-               if(months==3||months==5||months==7||months==8||months==10||months==12){
+            if(Monday<=0){
+               if(months==3||months==5||months==7||months==10||months==12){
                  var LMonday = 30+Monday;
                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+LMonday);
                    $("#calendarInputtwo").val(years+"-"+months+"-"+days);
@@ -244,11 +246,12 @@ var report ={
                         $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
                         $("#calendarInputtwo").val(years+"-"+months+"-"+days);
                     }
-                    else{
-                        Monday = 28+Monday;
-                        $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
-                        $("#calendarInputtwo").val(years+"-"+months+"-"+days);
+                    else {
+                        Monday = 28 + Monday;
+                        $("#calendarInputOne").val(years + "-" + LastMonths + "-" + Monday);
+                        $("#calendarInputtwo").val(years + "-" + months + "-" + days);
                     }
+
 
                }
                else if(months==1){
@@ -263,36 +266,10 @@ var report ={
                    $("#calendarInputtwo").val(years+"-"+months+"-"+days);
                }
             }
-            else{
-                if(months==3||months==5||months==7||months==8||months==10||months==12){
-                    var Monday = days-Monday;
-                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwo").val(years+"-"+months+"-"+days);
-                }
-                else if(months==3){
-                    if(years/4==0||years/400==0){
-                        Monday = days-Monday;
-                        $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
-                        $("#calendarInputtwo").val(years+"-"+months+"-"+days);
-                    }
-                    else{
-                        Monday = days-Monday;
-                        $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
-                        $("#calendarInputtwo").val(years+"-"+months+"-"+days);
-                    }
-
-                }
-                else if(months==1){
-                    Monday = days-Monday;
-                    years =years-1;
-                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwo").val(years+"-"+months+"-"+days);
-                }
-                else{
-                    Monday = days-Monday;
-                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwo").val(years+"-"+months+"-"+days);
-                }
+            else {
+                Monday =days-weekday+1;
+                $("#calendarInputOne").val(years+"-"+months+"-"+Monday);
+                $("#calendarInputtwo").val(years+"-"+months+"-"+days);
 
             }
 
@@ -406,20 +383,43 @@ var report ={
         var land_id     = $("#proCommodity").attr("land_id");
         var reseller_id = $("#contianDistributorF").attr("reseller_id");
         var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
-        // if($("#calendarInputOne").val()==""){
-        //     alert("请选择开始时间！");
-        //      return false;
-        // }
-        // else{
-        //     begin_date=$("#calendarInputOne").val()
-        // }
-        // if($("#calendarInputtwo").val()==""){
-        //     alert("请选择结束时间！");
-        //      return false;
-        // }
-        // else{
-        //     end_date=$("#calendarInputtwo").val();
-        // }
+        if($("#calendarInputOne").val()==""){
+            alert("请选择开始时间！");
+             return false;
+        }
+        else{
+            begin_date=$("#calendarInputOne").val()
+        }
+        if($("#calendarInputtwo").val()==""){
+            alert("请选择结束时间！");
+             return false;
+        }
+        else{
+            end_date=$("#calendarInputtwo").val();
+        }
+        $.ajax({
+            dataType:"json",
+            type:"post",
+            data:{
+                btime:btime,
+                etime:etime,
+                count_way:count_way,
+                land_id:land_id,
+                reseller_id:reseller_id,
+                exclude_test:exclude_test
+
+            },
+            url:"url",
+            success:function(data){
+                var data= data;
+               //页数
+
+            },
+            error:function(msg){
+                alert(msg);
+            }
+        })
+
 
 
 
@@ -473,6 +473,17 @@ var report ={
         //管理员搜索框查询产品
 
 
+    },
+    //翻页按钮，单页没有超过15条记录不出现翻页按钮
+    PageButton:function() {
+        $("#reportSearchBtn").click(function () {
+            if ($(".rankCon tr").length >= 15) {
+                $(".buttonCation").css("display", "block");
+            }
+            else {
+                $(".buttonCation").css("display", "none");
+            }
+        })
     }
 
 
