@@ -378,11 +378,7 @@ var report ={
 
 //向后端传递请求数据
     featchData:function(page){
-        var ContainHtml ='afdajflkdjaflj;dajfl;dljas;lfjd;a'
-        $(".reportTable .tRR").remove();
-        var  containHead =$(".reportTable .head").html();
-        alert(containHead+ContainHtml)
-         var page = page;
+        var page = page;
         var btime       = $("#calendarInputOne").val();
         var etime       = $("#calendarInputtwo").val();
         var count_way     = $("#produceIterm").attr("count_way");
@@ -453,8 +449,8 @@ var report ={
                     ContainHtml = '<td colspan="8" style="color:red;">没有数据</td>';
                 }
                 $(".reportTable .tRR").remove();
-                var  containHead =$(".reportTable").html();
-                $(".reportTable").html(ContainHtml);
+                var  containHead =$(".reportTable .headShow").html();
+               $(".reportTable").html(containHead+ContainHtml);
 
 
 
