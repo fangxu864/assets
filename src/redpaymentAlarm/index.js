@@ -137,22 +137,28 @@ var addFunction= {
         var that =this;
        $("#AlarmChangeColorBlack").click(function(){
           var color = that.RGBtoHEX($('#AlarmChangeColorBlack').css("backgroundColor"));
+
             if(color =='#cccccc'){
                 var state =1;
                 that.returnDate(state);
                 Pubsub.on("ajax.success",function (data){
-                    if(data!=-2){
+                         if(data!=-2&&data==1){
                         $("#AlarmChangeColorBlack").css("background-color","red");
                         $("#AlarmChangeColorRed").css("backgroundColor","#cccccc");
 
                     }
                 })
             }
-            else{
-                var state=0;
+            else if(color=="#ff0000"){
+                 var state=0;
                 that.returnDate(state);
-                $("#AlarmChangeColorBlack").css("backgroundColor","#cccccc");
-                $("#AlarmChangeColorRed").css("backgroundColor","black");
+                Pubsub.on("ajax.success",function (data){
+                    if(data!=-2&&data==1){
+                        $("#AlarmChangeColorBlack").css("backgroundColor","#cccccc");
+                        $("#AlarmChangeColorRed").css("backgroundColor","black");
+                    }
+                })
+
 
 
             }
@@ -165,7 +171,8 @@ var addFunction= {
                 var state=0;
                 that.returnDate(state);
                 Pubsub.on("ajax.success",function (data){
-                    if(data!=-2){
+
+                    if(data!=-2&&data==1){
                         $("#AlarmChangeColorRed").css("background-color","black");
                         $("#AlarmChangeColorBlack").css("backgroundColor","#cccccc");
 
@@ -175,8 +182,15 @@ var addFunction= {
             else{
                 var state =1;
                 that.returnDate(state);
-                $("#AlarmChangeColorRed").css("backgroundColor","#cccccc");
-                $("#AlarmChangeColorBlack").css("backgroundColor","red")
+                Pubsub.on("ajax.success",function (data){
+                    if(data!=-2&&data==1){
+                        $("#AlarmChangeColorRed").css("backgroundColor","#cccccc");
+                        $("#AlarmChangeColorBlack").css("backgroundColor","red");
+                    }
+                })
+
+
+
 
             }
         })
@@ -200,7 +214,7 @@ var addFunction= {
                    else if(data.flag ==1){
                      if(data.state== 1 ){
                            //开关为开启状态
-                           $("#AlarmChangeColorBlack").css("background","red")
+                           $("#AlarmChangeColorBlack").css("background","red");
                            $("#AlarmChangeColorRed").css("background","#cccccc");
 
                        }
