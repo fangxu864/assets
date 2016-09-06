@@ -20,12 +20,14 @@ $(function(){
     // report.closeSelector("#proCommodity","#proCommodityItem");
     report.closeSelector("#contianDistributorF","#containDistributorS");
     report.justForsearch();
-    // report.featchData();
+    report.featchData("1");
     report.educeData();
     report.PageButton();
 
 
-    report.getNowadtae();
+    report.getNowadate();
+
+    report.PageJudgement();
 
 })
 var report ={
@@ -36,7 +38,7 @@ var report ={
         that.calendarShow("#calendarInputOne");
         that.calendarShow("#calendarInputtwo");
         $("#reportSearchBtn").on("click",function(){
-          that.featchData();
+          that.featchData("1");
         });
 
 
@@ -173,8 +175,7 @@ var report ={
                     return false;
                 }
                 else{
-                    that.featchData(valText);
-                    key=valText;
+
                 }
             }
 
@@ -199,7 +200,7 @@ var report ={
     },
     //日历选项
     //获取时间
-    getNowadtae:function(){
+    getNowadate:function(){
       var getdate= new Date();
         var years =getdate.getFullYear();
         var months = getdate.getMonth()+1;
@@ -376,7 +377,11 @@ var report ={
 
 
 //向后端传递请求数据
-    featchData:function(){
+    featchData:function(page){
+        $(".reportTable").remove();
+        var  containHead =$(".reportTable .tRR").html();
+        alert(containHead);
+        var page = page;
         var btime       = $("#calendarInputOne").val();
         var etime       = $("#calendarInputtwo").val();
         var count_way     = $("#produceIterm").attr("count_way");
@@ -406,13 +411,53 @@ var report ={
                 count_way:count_way,
                 land_id:land_id,
                 reseller_id:reseller_id,
-                exclude_test:exclude_test
+                exclude_test:exclude_test,
+                page:page
 
             },
             url:"url",
             success:function(data){
                 var data= data;
                //页数
+                var total =data.total;
+                if(total<=15){
+                    $(".buttonCation").css("display","none")
+                }
+                else{
+                    $(".buttonCation").css("display","block")
+                }
+                var PageNum =Math.ceil(total/15);
+                $("#PageTotal").html(PageNum);
+                $(".reportTable tr").remove();
+                var list =data.list;
+                //将获取到的后端列表数据展示出来
+                var ContainHtml =''
+                $.each(list,function(key,val){
+                    ContainHtml += '<tr class="tRR"><td>'+ (key+1) +'</td>';
+                    ContainHtml += '<td>'+ val.title +'</td>';
+                    ContainHtml += '<td>'+ val.order_num +'</td>';
+                    ContainHtml += '<td>'+ val.ticket_num +'</td>';
+                    ContainHtml += '<td>'+ val.sale_money +'</td>';
+
+                    if(dtype != 2 && dtype != 3) {
+                        ContainHtml += '<td>'+ val.cost_money +'</td>';
+                        ContainHtml += '<td>'+ val.coupon_num +'</td>';
+                        ContainHtml += '<td onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.coupon_money +'</td>';
+                    }
+
+                    ContainHtml += '</tr>';
+                });
+
+                if(ContainHtml == '') {
+                    ContainHtml = '<td colspan="8" style="color:red;">没有数据</td>';
+                }
+                $(".reportTable").remove();
+                var  containHead =$(".reportTable").html();
+                alert(containHead);
+               $(".reportTable").html(ContainHtml);
+
+
+
 
             },
             error:function(msg){
@@ -424,21 +469,43 @@ var report ={
 
 
     },
-    //15条数据内不显示翻页
+    //点击翻页键向后端请求数据
      PageJudgement:function(){
-         if($(".reportTable tr").length<=15){
-             $(".buttonCation").css("display","none")
-         }
-         else{
-             $(".buttonCation").css("display","block")
-         }
+         var that =this;
+         var PageRecent =parseInt($("#PageRecent").html());
+         var PageTotal =parseInt($("#PageTotal").html());
+         $("#pageButtonOne").on("click",function(){
+             PageRecent =parseInt($("#PageRecent").html());
+             PageTotal =parseInt($("#PageTotal").html());
+             if((PageTotal>=2)&&(PageTotal>=PageRecent)&&(PageRecent>1)){
+                 PageRecent=PageRecent -1;
+                 $("#PageRecent").html(PageRecent);
+                 that.featchData(PageRecent)
+             }
+             else{
+                 return false;
+             }
+         })
+         $("#testButton").on("click",function(){
+             PageRecent =parseInt($("#PageRecent").html());
+             PageTotal =parseInt($("#PageTotal").html());
+             if(PageTotal>PageRecent){
+                 PageRecent=PageRecent+1;
+                 $("#PageRecent").html(PageRecent);
+                 that.featchData(PageRecent);
+             }
+             else{
+                 return false;
+             }
+         })
+
      },
 
 
 
 
 
-    //请求数据部分
+    //请求数据部分,为动态搜索
     //
     justForDate:function(data,url,target){
         var data = data;
