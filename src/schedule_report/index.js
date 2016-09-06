@@ -74,10 +74,12 @@ var report ={
     searchFunction:function(id){
         var that= this;
         $(id).on("click",function(e){
-            alert("fsafdsa")
-            that.Select.open({
-
-
+         var trigger =$(e.target).attr("id");
+         var data= trigger.attr("id")
+            that.Select.open(data,{
+                trigger:trigger,
+                top:0,
+                left:0,
 
             })
         })
