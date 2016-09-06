@@ -4,6 +4,7 @@
 require("./index.scss");
 var tpl=require("./index.tpl");
 var Calendar = require("COMMON/modules/calendar");
+var Select = require("COMMON/modules/select");
 $(function(){
    $(".ContainOne").html(tpl);
     report.init();
@@ -23,11 +24,11 @@ $(function(){
     report.featchData("1");
     report.educeData();
     report.PageButton();
-
-
     report.getNowadate();
-
     report.PageJudgement();
+
+    report.searchInit();
+
 
 })
 var report ={
@@ -64,6 +65,26 @@ var report ={
             });
         })
     },
+    //搜索框接入
+    searchInit:function(){
+        var that= this;
+        that.Select = new Select();
+        that.searchFunction("#contianDistributorF")
+    },
+    searchFunction:function(id){
+        var that= this;
+        $(id).on("click",function(e){
+            alert("fsafdsa")
+            that.Select.open({
+
+
+
+            })
+        })
+
+    },
+
+
     //下拉列表的功能实现
     selectContain:function(a,b){
         $(a).click(function(e){
