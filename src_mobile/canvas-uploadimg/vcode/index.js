@@ -10,11 +10,12 @@ function VCode(){
 }
 VCode.prototype = PFT.Util.Mixin({
 	state : "",
+	scale : 1,
 	init : function(){
 		var that = this;
 		var el = document.getElementById("vcodeConainer");
 		Transform(el);
-		var initScale = 0.5;
+		var initScale = 1;
 		var gesture = new AlloyFinger(el,{
 			multipointStart: function () {
 				//一个手指以上触摸屏幕触发
@@ -35,6 +36,7 @@ VCode.prototype = PFT.Util.Mixin({
 			pinch: function (evt) {
 				if(that.state=="moveing"){
 					el.scaleX = el.scaleY = initScale * evt.scale;
+					that.scale = evt.scale;
 				}
 			},
 			pressMove: function (evt) {
@@ -66,8 +68,8 @@ VCode.prototype = PFT.Util.Mixin({
 		return{
 			image : image,
 			src : image.src,
-			width : image.width,
-			height : image.height
+			width : image.width * this.scale,
+			height : image.height * this.scale
 		};
 	},
 	getPosition : function(){

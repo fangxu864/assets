@@ -14,7 +14,8 @@ var config = require("../../task-webpack/config")({
 		// "mb.index.c" : path.resolve(ROOT_URL,"C/index/index.es6"),
 		//"mb.pdetail.c" : path.resolve(ROOT_URL,"C/pdetail/index.es6"),
 		//"mb.booking.c" : path.resolve(ROOT_URL,"C/booking/index.es6"),
-		"mb.bindmobile.c" : path.resolve(ROOT_URL,"C/bind-mobile/index.es6")
+		//"mb.bindmobile.c" : path.resolve(ROOT_URL,"C/bind-mobile/index.es6"),
+		"mb.usercenter.c" : path.resolve(ROOT_URL,"C/usercenter/index.es6")
 	},
 	output : output,
 	plugins : plugins

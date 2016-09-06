@@ -10,7 +10,7 @@
             <div class="form-group bottom checkMa">
                 <div class="inputBox"><input v-model="code" class="checkMa" type="number" autocomplete="off" name="" id="checkMaInp" placeholder="验证码"/></div>
                 <span class="icon pwd"><i class="uicon uicon-key-sin"></i></span>
-                <a id="getCheckMaBtn" @click="onGetCheckMaBtnClick" class="getCheckMaBtn" href="javascript:void(0)">获取验证码</a>
+                <a id="getCheckMaBtn" @click="onGetCheckMaBtnClick" class="getCheckMaBtn" :class="vcodeClass" href="javascript:void(0)" v-text="vcodeBtnText"></a>
             </div>
             <a id="submitBtn_mobile" @click="onSubmit" class="submitBtn submitBtn_mobile mobile" href="javascript:void(0)">绑定</a>
             <p id="errorTip_mobile" class="errorTip mobile"></p>
@@ -26,16 +26,38 @@
 </template>
 <script type="es6">
     const Login = require("SERVICE_M/mall-member-smslogin");
+    const VCODE_INTER_TIME = 60; //验证码获取时间间隔60s
+    let timer = null;
     export default {
         data(){
             return{
                 mobile : "",
-                code : ""
+                code : "",
+                time : -1,
+                vcodeState : ""
+            }
+        },
+        props : {
+            to : {
+                type : String,
+                default : ""
             }
         },
         ready(){
-            this.toast = new PFT.Toast();
+            this.Toast = new PFT.Toast();
             this.Alert = new PFT.Mobile.Alert();
+        },
+        computed : {
+            vcodeClass(){
+                var cls = { disable : false };
+                if(this.time!=-1 || (this.time==-1 && this.vcodeState=="loading")) cls.disable = true;
+                return cls
+            },
+            vcodeBtnText(){
+                if(this.time!==-1) return this.time+" s";
+                if(this.vcodeState=="loading") return "请稍后..";
+                return "获取验证码";
+            }
         },
         methods : {
             onSubmit(e){
@@ -47,16 +69,55 @@
                 if(!mobile) return Alert.show("提示","请填写手机号");
                 if(!PFT.Util.Validate.typePhone(mobile)) return Alert.show("提示","手机号格式有误");
                 if(!code) return Alert.show("提示","请填写验证码");
-                if(isNaN(code) || code.length!==6) return Alert.show("提示","请填写6位数数字");
+                if(isNaN(code) || code.length!==6) return Alert.show("提示","请填写6位数数字验证码");
+
+                Login({mobile:mobile,code:code},{
+                    loading : () => {
+                        submitBtn.classList.add("disable");
+                        this.Toast.show("loading","努力加载中..");
+                    },
+                    complete : () => {
+                        submitBtn.classList.add("disable");
+                        this.Toast.hide();
+                    },
+                    success : () => {
+                        let to = this.to;
+                        to = to ? decodeURI(to) : "usercenter.html";
+                        window.location.href = to;
+                    },
+                    fail : (msg) => {
+                        this.Alert.show("提示",msg)
+                    }
+                })
+
+
 
             },
             onGetCheckMaBtnClick(e){
                 var tarBtn = e.target;
                 var mobile = this.mobile;
                 if(tarBtn.classList.contains("disable")) return false;
-                if(!mobile) return Alert.show("提示","请填写手机号");
-                if(!PFT.Util.Validate.typePhone(mobile)) return Alert.show("提示","手机号格式有误");
+                if(!mobile) return this.Alert.show("提示","请填写手机号");
+                if(!PFT.Util.Validate.typePhone(mobile)) return this.Alert.show("提示","手机号格式有误");
 
+                Login.getVCode(mobile,{
+                    loading : () => { this.vcodeState = "loading" },
+                    complete : () => { this.vcodeState = "" },
+                    success : () => {
+                        this.Alert.show("提示","验证码已发送到您所填写的手机，请注意查收");
+                        window.clearInterval(timer);
+                        var _time = 0;
+                        this.time = VCODE_INTER_TIME;
+                        timer = window.setInterval(()=>{
+                            _time = _time + 1;
+                            this.time = VCODE_INTER_TIME - _time;
+                            if(this.time==-1){
+                                clearInterval(timer);
+                            }
+                        },1000)
+                    },
+                    fail : (msg) => { this.Alert.show("提示",msg) }
+                })
 
 
             }

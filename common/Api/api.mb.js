@@ -66,6 +66,10 @@ var Api_Mb = {
 		smsLogin : function(){
 			return Mall_Member("smsLogin");
 		},
+		//短信登录时，获取验证码
+		smsLogin_getVCode : function(){
+			return Mall_Member("sendVcode");
+		},
 		//C端端面跳转链接
 		Page_Link : {
 

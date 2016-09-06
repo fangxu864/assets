@@ -9,8 +9,8 @@
 </template>
 <script type="es6"></script>
 <style lang="sass">
-    .gPageFooterContainer{ background:rgba(0,0,0,0.1); padding:10px 0 0;}
-    .gPageFooterContainer .rightsTipLine{ text-align:center; padding:15px 0; background:#fff;}
+    .gPageFooterContainer{ padding:10px 0 0;}
+    .gPageFooterContainer .rightsTipLine{ text-align:center; padding:15px 0;}
     .gPageFooterContainer .footlogo{ color:rgba(137,171,187,1); vertical-align:middle; position:relative; top:-1px}
     .gPageFooterContainer .companyName{ font-size:12px; color:#6C7882}
     .gPageFooterContainer .fankui{ font-size:14px; margin-left:10px; color:#008fc2}

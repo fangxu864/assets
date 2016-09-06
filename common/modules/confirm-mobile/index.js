@@ -77,7 +77,7 @@ Confirm.prototype = PFT.Util.Mixin({
 		setTimeout(function(){
 			that.alertBox.removeClass("enter");
 			that.mask.removeClass("enter");
-		},0)
+		},50)
 		this.alertBox[0].style = "";
 		this.mask[0].style = "";
 

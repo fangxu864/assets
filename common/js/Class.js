@@ -9,7 +9,7 @@ var extend = function(destination,source){
 var Class = function() {
 	var length = arguments.length;
     var option = arguments[length-1];
-    var events = option.events || {};
+    var events = option.EVENTS || {};
     var container = option.container;
     option.init = option.init || function(){};
 
@@ -55,7 +55,7 @@ var Class = function() {
         	for(var i in fns){
         		var fn = fns[i];
         		var args = Array.prototype.slice.call(arguments,1);
-        		fn.apply(this,args)
+        		fn.apply(that,args)
         	}
         }
         newClass.prototype._init.prototype = newClass.prototype;

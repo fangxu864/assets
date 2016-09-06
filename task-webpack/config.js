@@ -75,6 +75,8 @@ module.exports = function(opt){
 		resolve : {
 			alias : {
 				COMMON : path.resolve("./common"),
+				CSS_CORE : path.resolve("./common/css/base/core"),
+				CSS_MIXIN : path.resolve("./common/css/base/mixin"),
 				COMMON_VUE_COMPONENTS : path.resolve("./src_mobile/Components"),
 				COMMON_VUE_COMPONENTS_B : path.resolve("./src_mobile/B/Components"),
 				COMMON_VUE_COMPONENTS_C : path.resolve("./src_mobile/C/Components"),
@@ -87,6 +89,7 @@ module.exports = function(opt){
 	};
 
 	// if(env=="local") config["watch"] = true;
+
 
 	return config;
 
