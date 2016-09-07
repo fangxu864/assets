@@ -27,7 +27,8 @@ $(function(){
     report.getNowadate();
     report.PageJudgement();
 
-    report.searchInit();
+
+
 
 
 })
@@ -46,6 +47,10 @@ var report ={
 
     },
     calendarShow:function(id){
+        // var years =getdate.getFullYear();
+        // var months = getdate.getMonth()+1;
+        // var days = getdate.getDate();
+        // var max = years+months+days;
         var that = this;
         $(id).on("focus",function (e) {
             var picker = $(e.target);
@@ -65,26 +70,7 @@ var report ={
             });
         })
     },
-    //搜索框接入
-    searchInit:function(){
-        var that= this;
-        that.Select = new Select();
-        that.searchFunction("#contianDistributorF")
-    },
-    searchFunction:function(id){
-        var that= this;
-        $(id).on("click",function(e){
-         var trigger =$(e.target).attr("id");
-         var data= trigger.attr("id")
-            that.Select.open(data,{
-                trigger:trigger,
-                top:0,
-                left:0,
 
-            })
-        })
-
-    },
 
 
     //下拉列表的功能实现
@@ -370,7 +356,7 @@ var report ={
               return false;
           }
 
-          var url  = '####';
+          var url  = 'https://www.baidu.com/';
           var data = {'begin_date' : btime, 'end_date' : etime, 'count_way':count_way, size:500, land_id : land_id, reseller_id : reseller_id, export_excel : 1};
 
 
@@ -570,7 +556,24 @@ var report ={
                 $(".buttonCation").css("display", "none");
             }
         })
+    },
+    diffluence:function(method,delay,duration){
+        var begin = new Date();
+        var timer = null;
+        return function(){
+            var current = new Date(), args = Array.prototype.slice.call(arguments), context = this;
+            clearTimeout(timer);
+            if(current - begin >= duration){
+                method.apply(context,args);
+                begin = current;
+            }else{
+                timer = setTimeout(function(){
+                    method.apply(context,args);
+                },delay);
+            }
+        }
     }
+
 
 
 
