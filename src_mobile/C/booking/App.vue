@@ -4,6 +4,7 @@
         <div class="modBox">
             <input-line
                     v-if="p_type!=='C'"
+                    :id="'beginTimeInp'"
                     :model.sync="calendar.date"
                     :type="'text'"
                     :label="beginTimeText"
@@ -23,6 +24,17 @@
                     :label-width="'80px'"
                     :icon="'jiantou-sin-right'"
                     :placeholder="'请选择场次'">
+            </input-line>
+            <input-line
+                    v-if="p_type=='B'"
+                    :model.sync="assStation.text"
+                    :type="'text'"
+                    :label="'集合地点'"
+                    :readonly="true"
+                    :click="onAssStationInpClick"
+                    :label-width="'80px'"
+                    :icon="'jiantou-sin-right'"
+                    :placeholder="'请选择集合地点'">
             </input-line>
             <begintime-endtime
                     v-if="p_type=='C'"
@@ -55,36 +67,39 @@
 
         <div class="modBox" style="margin-top:5px;">
             <input-line
+                    :id="'ordernameInp'"
                     :model.sync="submitData.ordername.value"
                     :type="'text'"
                     :label="'联系人'"
                     :label-width="'80px'"
                     :validator="'noBlank'"
-                    :validat-type="'blur'"
-                    :validat-reault.sync="submitData.ordername.validatResult"
+                    :validate-type="'blur'"
+                    :validate-reault.sync="submitData.ordername.validateResult"
                     :error-msg="'！必填'"
                     :placeholder="'联系人姓名'">
             </input-line>
             <input-line
+                    :id="'mobileInp'"
                     :model.sync="submitData.contacttel.value"
                     :type="'number'"
                     :label="'手机号'"
                     :label-width="'80px'"
                     :validator="'typePhone'"
-                    :validat-type="'blur'"
-                    :validat-reault.sync="submitData.contacttel.validatResult"
+                    :validate-type="'blur'"
+                    :validate-reault.sync="submitData.contacttel.validateResult"
                     :error-msg="'！手机号格式错误'"
                     :placeholder="'用于接收订单信息'">
             </input-line>
             <input-line
                     v-if="needID==1"
+                    :id="'idcardInp'"
                     :model.sync="submitData.sfz.value"
                     :type="'text'"
                     :label="'身份证'"
                     :label-width="'80px'"
                     :validator="'idcard'"
-                    :validat-type="'blur'"
-                    :validat-reault.sync="submitData.sfz.validatResult"
+                    :validate-type="'blur'"
+                    :validate-reault.sync="submitData.sfz.validateResult"
                     :error-msg="'！格式错误'"
                     :placeholder="'身份证号'">
             </input-line>
@@ -126,6 +141,14 @@
                 v-if="orderInfo.refund_rule!=2">
         </sheet-refundrule>
 
+        <sheet-action
+                v-if="p_type=='B'"
+                v-on:click="onassStationItemClick"
+                :menus="assStation.menus"
+                :cancel-text="'确定'"
+                :show.sync="assStation.show">
+        </sheet-action>
+
         <sheet-calendar
                 v-on:switch-day="onCalendarSwitchDay"
                 :yearmonth.sync="calendar.yearmonth"
@@ -141,6 +164,7 @@
     let GetStoragePrice = require("SERVICE_M/booking-storage-price");
     let GetStoragePriceHotel = require("SERVICE_M/booking-storage-price-hotel");
     let GetOrderInfo = require("SERVICE_M/booking-orderinfo");
+    let SubmitOrder = require("SERVICE_M/booking-submit-order");
     export default {
         data(){
             return {
@@ -188,6 +212,12 @@
                     daycount : 2,  //入住天数
                     begintime : "2016-08-23",
                     endtime : "2016-08-25"
+                },
+                //线路类产品 集合地点
+                assStation : {
+                    show : false,
+                    menus : {},
+                    text : ""
                 }
             }
         },
@@ -205,6 +235,11 @@
                     this.orderInfo = data;
                     this.needID = data.needID;
                     this.ticketList = this.adaptListData(data.tickets);
+                    var assStationMenus = {};
+                    data.assStation.forEach(function(item,index){
+                        assStationMenus[index] = item;
+                    })
+                    this.assStation.menus = assStationMenus;
                     this.pageReady = true;
                     if(this.p_type=='C') this.queryStoragePrice_Hotel();
                 },
@@ -219,11 +254,14 @@
                 this.ticketList.forEach((item,index)=>{
                     pids.push(item.pid)
                 });
-                return pids.join(",");
+                return pids.join("-");
             },
             beginTimeText(){
                 return {
-                    A : "游玩日期",F : "游玩日期",H : "演出日期",B : "集合日期"
+                    A : "游玩日期",
+                    F : "游玩日期",
+                    H : "演出日期",
+                    B : "集合日期"
                 }[this.p_type];
             },
             calTourIdCard(){
@@ -231,11 +269,15 @@
                 var completed = 0;
                 this.ticketList.forEach((item,index) =>{
                     total += item.count;
-                    item.tourMsg.forEach((tourMsg,_index) =>{
-                        let name = tourMsg.name;
-                        let idcard = tourMsg.idcard;
-                        if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
-                    })
+                    var tourMsg = item.tourMsg;
+                    if(tourMsg){
+                        tourMsg.forEach((tour,_index) =>{
+                            let name = tour.name;
+                            let idcard = tour.idcard;
+                            if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
+                        })
+                    }
+
                 })
                 return {
                     total : total,
@@ -257,6 +299,12 @@
             },
             onChangciInputClick(e){
                 this.showPuct.sheetShow = true;
+            },
+            onAssStationInpClick(e){
+                this.assStation.show = true;
+            },
+            onassStationItemClick(key,text){
+                this.assStation.text = text;
             },
             onHotelBegintimeClick(e){
                 this.hotel.switchor = "begin";
@@ -410,11 +458,11 @@
                                         storeText : "无"
                                     }
                                 }else{ //如果选择的时间段内都有库存(包含不限库存)，库存取最小的那天
-                                    if(storeMin==-1){ //时间段内每一天库存都为不限
+                                    if(storeMin==-1){ //时间段内每一天库存都为不限(都为-1)
                                         return{
                                             daycount : daycount,
                                             storeNum : -1,
-                                            storeText : "有"
+                                            storeText : ""
                                         }
                                     }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值
                                         return{
@@ -444,7 +492,6 @@
                 })
             },
             updateTicketList(data){
-                console.log(data);
                 //data = {
                 //    pid1 : {
                 //        price : "",
@@ -485,6 +532,7 @@
             },
             adaptListData(list){
                 var result = [];
+                var totalMoney = 0;
                 list.forEach((item,index) => {
                     var json = {};
                     var buy_up = item.buy_up;   //限制最大购买张数(即一次最多只能购买多少张)
@@ -507,18 +555,145 @@
                         }
                     }
                     for(var i in item) json[i] = item[i];
+                    totalMoney += json["count"] * item.jsprice;
                     result.push(json);
                 })
+
+                //计算页面初始化时的总金额
+                this.totalMoney = totalMoney;
+
                 return result;
             },
 
             //提交订单
             onSubmitBtnClick(e){
+                var submitBtn = e.target;
+                if(submitBtn.classList.contains("disable")) return false;
+                var p_type = this.p_type;
+                var needID = this.needID;
+                var $$ = function(selector){ return document.getElementById(selector)};
+                var ticketList = this.ticketList;
+                var ticketListUl = $$("ticketListUl");
+                var tnum = ticketList[0]["count"];
+
+                //首先判断购买数量
+                if(tnum==0) return alert("主票预订票数不能为0");
+
+                //获取开始时间 结束时间
+                var begintime = p_type!="C" ? $$("beginTimeInp").value : $$("beginTimeInp_hotel").innerHTML;
+                var endtime = p_type!="C" ? null : $$("endTimeInp_hotel").innerHTML;
+
+                //联系人，手机号，身份证
+                var ordernameInp = $$("ordernameInp");
+                var mobileInp = $$("mobileInp");
+                var idcardInp = $$("idcardInp");
+                var ordername = ordernameInp.value;
+                var mobile = mobileInp.value;
+                var sfz = idcardInp ? idcardInp.value : "";
+                if(!ordername) return alert("请填写联系人姓名");
+                if(!mobile) return alert("请填写取票人手机号");
+                if(idcardInp && !sfz) return alert("请填写取票人身份证");
+                if(!PFT.Util.Validate.typePhone(mobile)) return alert("请输入正确格式手机号");
+                if(idcardInp && !PFT.Util.Validate.idcard(sfz)) return alert("取票人身份证格式错误");
+
+                //需要多张身份证时  每张身份证都需要填写姓名跟身份证
+                if(needID==2){
+                    var tourMsgContainer = $$("tourMsgContainer");
+                    var items = tourMsgContainer.querySelectorAll(".idcardItem");
+                    var tourMsgArray = [].map.call(items,function(item,index){
+                        var name = item.querySelector(".nameInp").value;
+                        var idcard = item.querySelector(".idcardInp").value;
+                        return{
+                            name : name,
+                            idcard : idcard
+                        }
+                    });
+                    var idcards = tourMsgArray.map(function(item,index){ return item.idcard});
+                    var tourists = tourMsgArray.map(function(item,index){ return item.name});
+                    var idcards_available = idcards.every(function(item,index){
+                        return PFT.Util.Validate.idcard(item);
+                    });
+                    var tourists_available = tourists.every(function(item,index){
+                        return item!="";
+                    });
+                    if(!tourists_available) return alert("游客信息里，姓名不能为空");
+                    if(!idcards_available) return alert("游客信息里，身份证填写有误");
+
+                }
+
+                //获取联票数据
+                var link = {};
+                [].forEach.call(ticketListUl.querySelectorAll(".item"),function(item,index){
+                    if(index==0) return false;
+                    var pid = item.getAttribute("data-pid");
+                    var count = item.querySelector(".countInp").value;
+                    if(count!=0) link[pid] = count;
+                })
+
+                //演出类产品 获取场馆id 场次id 分区id
+                var selectChangciItem = [].filter.call($$("changciLiContainer").querySelectorAll(".changciItem"),function(item,index){
+                    return item.classList.contains("selected");
+                })[0];
+                var zoneid = ticketList[0]["zone_id"];  //分区id
+                var roundid = selectChangciItem.getAttribute("data-roundid"); //场馆id
+                var venusid = selectChangciItem.getAttribute("data-venusid"); //场次id
+
+                //开始提交数据
+                var submitData = {
+                    pid : this.pid,
+                    aid : this.aid,
+                    tnum : tnum,               //主票购买张数
+                    begintime : begintime,     //开始时间
+                    contacttel : mobile,       //取票人手机号
+                    ordername : ordername      //联系人姓名
+                };
+                if(needID==1) submitData["sfz"] = sfz; //需要一张身份证
+                if(needID==2){ //需要多张身份证
+                    submitData["idcards"] = idcards;
+                    submitData["tourists"] = tourists;
+                }
+                if(!PFT.Util.isEmptyObject(link)) submitData["link"] = link; //如果有下连票
+
+                if(p_type=="C") submitData["endtime"] = endtime;  //酒店产品加入结束时间
+
+                if(p_type=="H"){ //演出类产品
+                    submitData["zoneid"] = zoneid;
+                    submitData["roundid"] = roundid;
+                    submitData["venusid"] = venusid;
+                }
+
+                //console.log(submitData);
+
+                //开始提交数据
+                SubmitOrder(submitData,{
+                    loading : () => {
+                        this.toast.show("loading","正在提交订单...");
+                        submitBtn.classList.add("disable");
+                    },
+                    complete : () => {
+                        this.toast.hide();
+                    },
+                    success : (data) => {
+                        var ordernum = data.ordernum;
+                        var paymode = data.paymode;
+                        alert("下单成功，订单号："+ordernum+" 支付方式："+paymode);
+                    },
+                    fail : (code,msg) => {
+                        if(code>=400){ //重复下单  这种情况下页面不允许再提交订单，提交按钮需禁用
+                            alert(msg);
+                        }else{ //一般错误
+                            alert(msg);
+                            submitBtn.classList.remove("disable");
+                        }
+                    }
+                })
+
 
             }
         },
         components : {
             sheetCalendar : require("COMMON_VUE_COMPONENTS/sheet-calendar"),
+            sheetAction : require("COMMON_VUE_COMPONENTS/sheet-action"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list-booking"),
             sheetIdcard : require("COMMON_VUE_COMPONENTS/sheet-booking-idcard"),
             begintimeEndtime : require("./components/begintime-endtime"),

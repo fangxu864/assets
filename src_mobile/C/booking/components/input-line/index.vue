@@ -2,7 +2,7 @@
     <div class="inputLine" :class="[layout,validatResultCls]" :style="containerStyle">
         <div class="lt" :style="labelStyle"><span class="t" v-text="label"></span></div>
         <div class="rt" :style="rtStyle">
-            <input class="input" type="text"
+            <input id="{{id}}" class="input"
                    @click="onClick"
                    @blur="onBlur"
                    @focus="onFocus"
@@ -27,6 +27,10 @@
                 type : String,
                 require : true,
                 default : "text"
+            },
+            id : {
+                type : String,
+                default : ""
             },
             placeholder : {
                 type : String,
@@ -58,11 +62,11 @@
                 type : String,
                 default : ""
             },
-            validatType : {
+            validateType : {
                 type : String,
                 default : "blur"
             },
-            validatResult : {
+            validateResult : {
                 type : Number,
                 twoway : true,
                 default : -1
@@ -154,38 +158,38 @@
             },
             onClick(e){
                 var val = e.target.value;
-                if(this.validatType=="click") this.validate(val);
+                if(this.validateType=="click") this.validate(val);
                 this.click(e);
             },
             onBlur(e){
                 var val = e.target.value;
-                if(this.validatType=="blur") this.validate(val);
+                if(this.validateType=="blur") this.validate(val);
                 this.blur(e);
             },
             onFocus(e){
                 var val = e.target.value;
                 this.validatResultCls = "";
-                if(this.validatType=="focus") this.validate(val);
+                if(this.validateType=="focus") this.validate(val);
                 this.focus(e);
             },
             onInput(e){
                 var val = e.target.value;
-                if(this.validatType=="input") this.validate(val);
+                if(this.validateType=="input") this.validate(val);
                 this.input(e);
             },
             onChange(e){
                 var val = e.target.value;
-                if(this.validatType=="change") this.validate(val);
+                if(this.validateType=="change") this.validate(val);
                 this.change(e);
             },
             onKeyup(e){
                 var val = e.target.value;
-                if(this.validatType=="keyup") this.validate(val);
+                if(this.validateType=="keyup") this.validate(val);
                 this.keyup(e);
             },
             onKeydown(e){
                 var val = e.target.value;
-                if(this.validatType=="keydown") this.validate(val);
+                if(this.validateType=="keydown") this.validate(val);
                 this.keydown(e);
             }
         }

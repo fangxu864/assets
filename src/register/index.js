@@ -32,6 +32,13 @@ var Router = Backbone.Router.extend({
 		this.slideManager.slide(id);
 	}
 });
+//fix chrome浏览器擅自为input自动填充值，即使设置autocomplete也没用
+window.onload = function(){
+	setTimeout(function(){
+		$("#validCodeInp").val("");
+		$("#pwdInp").val("");
+	},500)
+}
 
 //$(function(){
 //	$("#nextBtn").on("click",function(e){

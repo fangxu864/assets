@@ -3,11 +3,11 @@
         <div class="con">
             <div @click="onBegintimeClick" class="beginBox box">
                 <p class="tit">入住</p>
-                <p><span v-text="beginText"></span></p>
+                <p><span id="beginTimeInp_hotel" v-text="beginText"></span></p>
             </div>
             <div @click="onEndtimeClick" class="endBox box">
                 <p class="tit">离店</p>
-                <p><span v-text="endText"></span></p>
+                <p><span id="endTimeInp_hotel" v-text="endText"></span></p>
             </div>
             <span class="timeFlag"><span v-text="daycount"></span>晚</span>
         </div>

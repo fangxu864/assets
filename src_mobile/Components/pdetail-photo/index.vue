@@ -39,7 +39,7 @@
             }
         },
         components : {
-            ImageLoador : require("COMMON_VUE_COMPONENTS/image-loador.vue")
+            ImageLoador : require("COMMON_VUE_COMPONENTS/image-loador")
         }
     }
 </script>

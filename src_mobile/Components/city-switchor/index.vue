@@ -15,11 +15,12 @@
         <div class="citySwitchMain">
             <div class="lineItem locationCity" @click="onLocationCityClick" :class="{'selected':selectedId=='location'}">
                 <div class="con">
-                    <i class="iconfont">&#xe603;</i>
+                    <i class="uicon uicon-dizhi"></i>
                     <span class="city t" v-text="locationCity"></span>
                 </div>
                 <div class="attr">
-                    <i class="iconfont checkbox selected">&#xe664;</i><i class="iconfont checkbox unselect">&#xe665;</i>
+                    <i class="uicon uicon-gougou"></i>
+                    <!--<i class="iconfont checkbox selected">&#xe664;</i><i class="iconfont checkbox unselect">&#xe665;</i>-->
                 </div>
             </div>
             <div class="lineItem allCity" @click="onAllCityClick" :class="{'selected':selectedId=='all'}">
@@ -28,7 +29,8 @@
                     <span class="t">所有城市</span>
                 </div>
                 <div class="attr">
-                    <i class="iconfont checkbox selected">&#xe664;</i><i class="iconfont checkbox unselect">&#xe665;</i>
+                    <i class="uicon uicon-gougou"></i>
+                    <!--<i class="iconfont checkbox selected">&#xe664;</i><i class="iconfont checkbox unselect">&#xe665;</i>-->
                 </div>
             </div>
             <template v-if="cityStatus=='success'">
@@ -48,7 +50,10 @@
                                 <div class="con">
                                     <span class="t" v-text="item.hanzi"></span>
                                 </div>
-                                <div class="attr"><i class="iconfont checkbox selected">&#xe664;</i><i class="iconfont checkbox unselect">&#xe665;</i></div>
+                                <div class="attr">
+                                    <i class="uicon uicon-gougou"></i>
+                                    <!--<i class="iconfont checkbox selected">&#xe664;</i><i class="iconfont checkbox unselect">&#xe665;</i>-->
+                                </div>
                             </li>
                         </ul>
                     </li>
@@ -253,8 +258,8 @@
             }
         },
         components : {
-            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header.vue"),
-            searchBox : require("COMMON_VUE_COMPONENTS/search-box.vue")
+            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
+            searchBox : require("COMMON_VUE_COMPONENTS/search-box")
         }
     }
 </script>
@@ -302,7 +307,9 @@
     #citySwitchPage .lineItem.selected > .attr .iconfont.unselect{ display:none}
     #citySwitchPage .lineItem.selected > .attr .iconfont.selected{ display:inline-block; color:#008fc2}
     #citySwitchPage .lineItem .t{ font-size:0.4rem}
+    #citySwitchPage .lineItem .uicon-gougou{ display:none}
     #citySwitchPage .lineItem.selected .t{ color:#008fc2}
+    #citySwitchPage .lineItem.selected .uicon{ display:inline-block; color:#008fc2}
     #citySwitchPage .cityStatus{ height:3rem; line-height:3rem; text-align:center; background:#fff}
     #citySwitchPage .allcityUl{ margin-top:5px;}
     #citySwitchPage .allcityUl .cityLetter{ font-size:0.6rem; padding:10px 0 5px 10px}

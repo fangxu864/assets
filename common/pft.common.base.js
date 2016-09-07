@@ -5,8 +5,11 @@
  */
 module.exports = function(PFT){
 
+	PFT["Class"] = require("./js/Class");
+	
 	var Util = PFT["Util"] || (PFT["Util"] = {});
-
+	Util["Each"] = require("./js/util.each");
+	Util["ParseTemplate"] = require("./js/util.parseTemplate");
 	Util["PubSub"] = require("./js/util.pubsub");
 	Util["Ajax"] = require("./js/util.ajax");
 	Util["Placeholder"] = require("./js/util.placeholder");
@@ -37,6 +40,13 @@ module.exports = function(PFT){
 			timeout : fn,
 			serverError : fn
 		}
+	};
+	Config["ptype"] = {
+		A : "景区门票",
+		B : "旅游线路",
+		C : "度假酒店",
+		F : "套票产品",
+		H : "剧场演出"
 	};
 
 	PFT["Api"] = require("./Api/api.base");

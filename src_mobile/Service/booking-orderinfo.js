@@ -43,7 +43,7 @@ module.exports = function(pid,aid,opt){
 				],
 				"needID": "2",  //是否需要填写身份证
 				"title": "【测试】联票订单测试",   //景区名称,
-				"p_type" : "C", //景区类型
+				"p_type" : "H", //景区类型
 				//门票列表
 				tickets : [{
 					"title": "成人票and可乐赠饮",
@@ -53,7 +53,23 @@ module.exports = function(pid,aid,opt){
 					"pid": "1",
 					"tid": "1753",
 					"buy_low": "4",   //最小购买张数
-					"buy_up": "7"
+					"buy_up": "7",
+					"sonTickets": [ //套票才有
+						{
+							"pid": "3563",
+							"lid": "3221",
+							"title": "【测试】周五测试（勿买勿删）成人票",
+							"num": "1",
+							"p_type": "A"
+						},
+						{
+							"pid": "3565",
+							"lid": "3222",
+							"title": "【测试】没那么简单成人测试测试票",
+							"num": "2",
+							"p_type": "A"
+						}
+					]
 				},{
 					"title": "成人票and可乐赠饮",
 					"jsprice": 13,

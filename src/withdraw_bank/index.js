@@ -5,31 +5,20 @@
  */
 
 require("./index.scss")
+var sDialog = require("COMMON/modules/dialog-simple");
 var Dialog = require("./bank-dialog");
 var Checkor = require("./bank_card");
+var that = this;
 var BankManager = function(){
     this.bankListUl = $("#bankListUl");
 	this.addBankBtn = $("#addbk");
-	this.Dialog = new Dialog();
+	this.Dialog = new Dialog({Dialog:sDialog});
+	this.Checkor = new Checkor({Dialog:sDialog});
 	this.bindEvents();
-	var checkF =function () {
-		var wid7 = document.getElementsByClassName("wid7")[0];
-		var e = document.createElement("a");
-		e.style.color = "#008EC1";
-		e.innerHTML = "| 验证";
-		e.className = "porve";
-		wid7.appendChild(e);
-	}
-	checkF();
-	}
-// var addProve:function () {
-// 	var wid7 = document.getElementsByClassName("wid7")[0];
-// 	var e = document.createElement("a");
-// 	e.style.color = "blue";
-// 	e.innerHTML = "| 验证";
-// 	e.className = "porve";
-// 	wid7.appendChild(e);
-// }
+	//银行卡遮罩层部分
+	this.Checkor.shell();
+	this.Checkor.judge();
+	};
 BankManager.prototype = {
 	bindEvents : function(){
 		var that = this;
@@ -70,52 +59,55 @@ BankManager.prototype = {
                 card_type : acc_type
             })
 		})
+		this.bankListUl.on("click",".checkor_shell_btn3",function(e){
+            var tarBtn = $(e.currentTarget);
+            var li = tarBtn.parents(".click_li");
+            var Span =li.children(".wid7");
+            var childS = Span.children(".card_config");
+            var type= childS.attr("type");
+
+			var province_id = tarBtn.attr("bank_province");
+			var city_id = tarBtn.attr("bank_city");
+			var bank_id = tarBtn.attr("bank_id");
+			var card_number = tarBtn.attr("bank_num");
+			var username = tarBtn.attr("username");
+			var subBank_id = tarBtn.attr("code");
+			var acc_type = tarBtn.attr("acc_type");
+
+			Dialog.open({
+				mode : "edit",
+				bank_id : bank_id,
+				subBank_id : subBank_id,
+				province_id : province_id,
+				city_id : city_id,
+				card_number : card_number,
+				account_name : username,
+				type : type,
+				card_type : acc_type
+
+			})
+
+		})
+
+
+
 		//删除银行�?
 		this.bankListUl.on("click",".delete",function(e){
-		    that=e;
             var tarBtn = $(e.currentTarget);
-			Checkor.checkor_click();
-			Checkor.Listener();
-            var ReturnN = Checkor.Listener();
-            console.log(ReturnN);
-            var Btn_delete = document.getElementById("Btn_delete");
-            Btn_delete.addEventListener("click",function () {
-                var bankname = tarBtn.attr("bankname");
-                that.deleteCard(bankname,tarBtn);
+            if(tarBtn.hasClass("disable")) return false;
+            if(!confirm("确定要删除该银行卡？")) return false;
+            var bankname = tarBtn.attr("bankname");
+            that.deleteCard(bankname,tarBtn);
+		})
+         // this.bankListUl.on("click",".checkor_shell_btn1",function(e){
+         //        var tarBtn = $(e.currentTarget);
+         //        var carLi= tarBtn.parent(".click_li");
+         //     alert(carLi.attr("id"));
+         //        var bankName = carLi.attr("data-id");
+         //     if(!confirm("确定要删除该银行卡？")) return false;
+         //        that.deleteCard(bankName,tarBtn);
+         //    }),
 
-            },false)
-			// var tarBtn = $(e.currentTarget);
-			// // if(tarBtn.hasClass("disable")) return false;
-			// // if(!confirm("确定要删除该银行卡？")) return false;
-			// var bankname = tarBtn.attr("bankname");
-			// that.deleteCard(bankname,tarBtn);
-		})
-        //验证银行卡
-		this.bankListUl.on("click",".porve",function(e){
-            // var tarBtn = $(e.currentTarget);
-            // var username = tarBtn.attr("username");
-            // var subBank_id = tarBtn.attr("code");
-            // var type = tarBtn.attr("type");
-            // var acc_type = tarBtn.attr("acc_type");
-            //     Dialog.open({
-            //         mode: "edit",
-            //         subBank_id : subBank_id,
-            //         card_number: card_number,
-            //         account_name: username,
-            //         type: type,
-            //         card_type: acc_type
-            //     })
-            Checkor.checkor_click();
-            Checkor.Open_checkor();
-            Checkor.openDialog();
-            Checkor.fetchdate();
-            Checkor.Btnclose();
-		})
-		// this.bankListUl.on("click",".prove",function(){
-		// 	Checkor.openDialog();
-		// 	Checkor.fetchdate();
-		// 	Checkor.Btnclose();
-		// }
 
 		this.Dialog.on("submit",function(data){
 			var submitBtn = data.submitBtn;
@@ -167,6 +159,7 @@ BankManager.prototype = {
 			}
 		})
 	}
+
 };
 
 $(function(){
