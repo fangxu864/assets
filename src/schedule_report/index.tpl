@@ -1,15 +1,13 @@
 <div class="firstContain">
     <div class="contain">
         <div class="trangle"></div>
-        <div class="contain2" id="SearchMerchant">商户：</div>
+        <div class="contain2" id="SearchMerchant" merchant_id="">商户：</div>
         <div class="allContain" id="MerchantContain" >
-            <input id="searchInputSecond" type="text" placeholder="请输入关键词直接搜索"/>
-            <div id="searchSecond"></div>
-            <ul id="ComsuggestKey">
-                <li land_id="fjdkl">12312345646</li>
-                <li land_id="fjdkl">1321321321321</li>
-                <li land_id="fjdkl">REWQREWQVSAF</li>
-                <li land_id="fjdkl">1FDSFDSAFAD</li>
+            <input id="searchInputSecondL" type="text" placeholder="请输入关键词直接搜索"/>
+            <!--<div id="searchSecondL"></div>-->
+            <i class="iconfont" id="searchSecondL" >&#xe60a;</i>
+              <ul id="ComsuggestKey">
+
             </ul>
 
         </div>
@@ -58,12 +56,10 @@
         <div class="contain2" id="proCommodity"land_id="">产品名称：</div>
         <div class="allContain" id="proCommodityItem">
             <input id="searchInput" type="text" placeholder="请输入关键词直接搜索"/>
-            <div id="search"></div>
+            <!--<div id="search"></div>-->
+            <i class="iconfont" id="search" >&#xe60a;</i>
             <ul id="suggestKey">
-                <li land_id="fjdkl">12312345646</li>
-                <li land_id="fjdkl">1321321321321</li>
-                <li land_id="fjdkl">REWQREWQVSAF</li>
-                <li land_id="fjdkl">1FDSFDSAFAD</li>
+
             </ul>
 
         </div>
@@ -78,13 +74,13 @@
     <div class="contain contain1 ">
         <div>
             <div class="trangle"></div>
-            <div class="contain2" id="contianDistributorF" reseller_id="">fjdsklfjldkj</div>
+            <div class="contain2" id="contianDistributorF" reseller_id=""></div>
             <div class="allContain" id="containDistributorS">
+                <input id="searchInputSecond" type="text" placeholder="请输入关键词直接搜索"/>
+                <i class="iconfont" id="searchSecond" >&#xe60a;</i>
+                <!--<div id="searchSecond"></div>-->
                 <ul id="containDistributorSelctF">
-                    <li reseller_id="fjdfjdh">12312345646</li>
-                    <li reseller_id="4646fdafda">1321321321321</li>
-                    <li reseller_id="fhdahfu">REWQREWQVSAF</li>
-                    <li reseller_id="fsdfd46546">1FDSFDSAFAD</li>
+
                 </ul>
             </div>
         </div>
@@ -112,7 +108,7 @@
 </div>
 <div class="rankCon">
     <div class="rankConTwo">
-        <table class="reportTable" border="0" cellspacing="0" cellpadding="0">
+        <table class="reportTable" id="reportTable" border="0" cellspacing="0" cellpadding="0">
 
             <thead class='headShow'>
             <th class="tL" id="produceTl">
@@ -126,259 +122,7 @@
             <th class="tR">优惠金额（元）</th>
 
             </thead>
-            <tr class="tRR">
 
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
-            <tr class="tRR">
-
-                <td >fdsafdsaf</td>
-                <td>fdsafdsaf</td>
-                <td>fdfdsa</td>
-                <td>fda4a5</td>
-                <td class="TTR">fdsae</td>
-                <td>耳机</td>
-                <td class="TTR">进口量金额</td>
-
-            </tr>
 
 
         </table>

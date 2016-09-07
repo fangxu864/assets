@@ -19,15 +19,17 @@ $(function(){
     report.closeSelector("#selectDataFn","#calendarContain");
     report.closeSelector("#produceIterm","#produceAll");
     // report.closeSelector("#proCommodity","#proCommodityItem");
-    report.closeSelector("#contianDistributorF","#containDistributorS");
-    report.justForsearch();
-    report.featchData("1");
+    // report.closeSelector("#SearchMerchant","#MerchantContain");
+    // report.justForsearch();
+    // report.featchData("1");
     report.educeData();
-    report.PageButton();
+    // report.PageButton();
     report.getNowadate();
     report.PageJudgement();
-
-
+    report.beginJudge();
+    report.seearchFunctionTwo();
+    report.justForDate();
+    report.justdistributor();
 
 
 
@@ -207,6 +209,118 @@ var report ={
         })
 
     },
+    seearchFunctionTwo:function(){
+        var input=$("#searchInputSecondL");
+        var key = "";
+
+        $("#searchInputSecondL").keyup(function(event){
+            var suggestKey = $("#ComsuggestKey");
+            var  current = suggestKey.find("li.hover1");
+            //搜索框上下浏览选内容
+            if(event.keyCode==38){
+                if(current.length>0){
+                    var prevLi = current.removeClass('hover1').prev();
+                    if(prevLi.length>0)
+                    {
+                        prevLi.addClass('hover1');
+                        input.val(prevLi.html());
+                        $("#SearchMerchant").html("商户："+input.val());
+
+                    }
+                }
+                else
+                {
+                    var last = suggestKey.find('li:last');
+                    last.addClass('hover1');
+                    input.val(last.html());
+                    $("#SearchMerchant").html("商户："+input.val());
+
+                }
+            }
+            else if(event.keyCode == 40){
+                if(current.length>0){
+                    var nextLi = current.removeClass('hover1').next();
+                    if(nextLi.length>0)
+                    {
+                        nextLi.addClass('hover1');
+                        input.val(nextLi.html());
+                        $("#SearchMerchant").html("商户："+input.val());
+
+                    }
+                }
+                else{
+                    var first = suggestKey.find('li:first');
+                    first.addClass('hover1');
+                    input.val(first.html());
+                    $("#SearchMerchant").html("商户："+input.val());
+
+                }
+            }
+            else if (event.keyCode==13){
+                $("#MerchantContain").css("display","none")
+            }
+            //搜索框输入文字进行搜索
+            else{
+                var valText = $.trim(input.val());
+                if(valText==""||valText==key){
+                    return false;
+                }
+                else{
+
+                }
+            }
+
+
+        })
+        $("li").hover(function(){
+            if($("li").hasClass("hover1")){
+                $("li").removeClass("hover1");
+            }
+
+        })
+        $("#ComsuggestKey li").click(function(){
+
+            $("#SearchMerchant").html("商户："+$(this).html());
+            $("#SearchMerchant").attr("merchant_id",$(this).attr("data-id"))
+
+            $("#MerchantContain").css("display","none");
+
+
+        })
+        $("#searchInputSecondL").on("keyup",function(){
+            var listTxt = '',li = '', bEqual=false;
+            $.ajax({
+                "url" : "/r/report_statistics/adminSearchMerchant/",
+                "data" : {page:1, size:100, keyword:$("#searchInputSecondL").val()},
+                "dataType":"json",
+                "type": 'POST',
+                "success":function(data){
+                    // $("#suggest_ul_fid_merchant").show(0);
+                    var contents="";
+                    var li_id="";
+                    list = data.data;
+
+                    for(var i in list) {
+                        var keywords = list[i].name;
+                        var id = list[i].id;
+                        contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
+                        li_id=id;
+                    }
+                    $("#ComsuggestKey").html(contents);
+                }
+            });
+            $("#ComsuggestKey").on("click","li",function(e){
+                var target = $(e.currentTarget);
+                var merchant_id= target.attr("data-id");
+                var html =target.html();
+                $("#SearchMerchant").attr("merchant_id",merchant_id);
+                $("#SearchMerchant").html("商户："+html);
+                $("#searchInputSecondL").val(html);
+                $("#MerchantContain").css("display","none");
+            })
+        })
+
+    },
     //日历选项
     //获取时间
     getNowadate:function(){
@@ -217,9 +331,16 @@ var report ={
 
         //三个月内按键
          $("#threeMonthCalendar").on("click",function(){
+
+             if((months/10)<1){
+                 var  newdate ="";
+                 newdate.html("0"+months);
+                 alert(newdate.html());
+             }
+
              if(months==1||months==2||months==3){
                  var lastYear = years - 1;
-                 var Tmonths =months-3+12
+                 var Tmonths =months-3+12;
                  $("#calendarInputOne").val(lastYear+"-"+Tmonths+"-"+days);
                  $("#calendarInputtwo").val(years+"-"+months+"-"+days)
              }
@@ -315,32 +436,32 @@ var report ={
 
 
     },
-    //查询产品搜索框查询
-    justForsearch:function(){
-        var that = this;
-
-        $("#searchInput").bind("keyup",function(){
-            var data = $(this).val();
-            that.justForDate(data,"url","#suggestKey");
-        })
-        $("#searchInputSecond").bind("keyup",function(){
-            var data2 =$(this).val();
-            that.justForDate(data,"url","#ComsuggestKey");
-        })
-        //获取分销商账号
-
-        $(".selectDistributor").change(function(){
-            var ResellerJudge = $("#ResellerOPt").attr("selected")=="undefine"?1:0;
-             if(ResellerJudge==0){
-              // that.justForDate("","url","containDistributorSelctF");
-            }
-        })
+    // //查询产品搜索框查询
+    // justForsearch:function(){
+    //     var that = this;
+    //
+    //     $("#searchInput").bind("keyup",function(){
+    //         var data = $(this).val();
+    //         that.justForDate(data,"/r/report_statistics/adminOrderList/","#suggestKey");
+    //     })
+    //     $("#searchInputSecond").bind("keyup",function(){
+    //         var data2 =$(this).val();
+    //         that.justForDate(data,"/r/report_statistics/adminOrderList/","#ComsuggestKey");
+    //     })
+    //     //获取分销商账号
+    //
+    //     $(".selectDistributor").change(function(){
+    //         var ResellerJudge = $("#ResellerOPt").attr("selected")=="undefine"?1:0;
+    //          if(ResellerJudge==0){
+    //           // that.justForDate("","url","containDistributorSelctF");
+    //         }
+    //     })
         //汇总方式调换,更改列表内容？
         // $("#produceAll").click(function(){
         //     alert($("#produceIterm").attr("count_way"))
         // })
 
-    },
+    // },
 
     //导出数据
     educeData:function(){
@@ -351,12 +472,13 @@ var report ={
           var count_way     = $("#produceIterm").attr("count_way");
           var land_id     = $("#proCommodity").attr("land_id");
           var reseller_id = $("#contianDistributorF").attr("reseller_id");
+          var merchant_id = $("SearchMerchant").attr("merchant_id");
 
           if(!btime || !etime) {
               return false;
           }
 
-          var url  = 'https://www.baidu.com/';
+          var url  = '/r/report_statistics/adminOrderList/';
           var data = {'begin_date' : btime, 'end_date' : etime, 'count_way':count_way, size:500, land_id : land_id, reseller_id : reseller_id, export_excel : 1};
 
 
@@ -394,6 +516,8 @@ var report ={
         var land_id     = $("#proCommodity").attr("land_id");
         var reseller_id = $("#contianDistributorF").attr("reseller_id");
         var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
+        var merchant_id =$("#SearchMerchant").attr('merchant_id');
+        var export_excel=0;
         if($("#calendarInputOne").val()==""){
             alert("请选择开始时间！");
              return false;
@@ -412,20 +536,25 @@ var report ={
             dataType:"json",
             type:"post",
             data:{
-                btime:btime,
-                etime:etime,
+                begin_date:btime,
+                end_date:etime,
                 count_way:count_way,
                 land_id:land_id,
                 reseller_id:reseller_id,
                 exclude_test:exclude_test,
-                page:page
+                page:page,
+                merchant_id:merchant_id,
+                export_excel:export_excel
 
             },
-            url:"url",
+            url:"/r/report_statistics/adminOrderList/",
             success:function(data){
                 var data= data;
                //页数
-                var total =data.total;
+
+                $(".queryToday_td").remove();
+                var total =data.data.total;
+
                 if(total<=15){
                     $(".buttonCation").css("display","none")
                 }
@@ -434,8 +563,8 @@ var report ={
                 }
                 var PageNum =Math.ceil(total/15);
                 $("#PageTotal").html(PageNum);
-                $(".reportTable tr").remove();
-                var list =data.list;
+                // $(".reportTable tr").remove();
+                var list =data.data.list;
                 //将获取到的后端列表数据展示出来
                 var ContainHtml =''
                 $.each(list,function(key,val){
@@ -512,51 +641,102 @@ var report ={
 
     //请求数据部分,为动态搜索
     //
-    justForDate:function(data,url,target){
+    // 搜索产品
+    justForDate:function(){
         var data = data;
-        $.ajax({
-            dataType:"json",
-            type:"post",
-            data:{
-                data:data
-            },
-            url:"url",
-            success:function(data){
-                var data= data;
-                for(var i=0;i<data.length;i++){
-                    var $e=$("<div></div>");
-                    $e.html(data[i].name);
-                    $e.attr("LandId",data.id);
-                    $(target).append($e);
+        $("#searchInput").on("keyup",function(){
+            var listTxt = '',li = '', bEqual=false;
+            $.ajax({
+                "url" : "/r/report_statistics/adminSearchLands/",
+                "data" : {page:1, size:100, keyword:$("#searchInput").val()},
+                "dataType":"json",
+                "type": 'POST',
+                "success":function(data){
+                    // $("#suggest_ul_fid_merchant").show(0);
+                    var contents="";
+                    var li_id="";
+                    list = data.data;
+
+                    for(var i in list) {
+                        var keywords = list[i].name;
+                        var id = list[i].id;
+                        contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
+                        li_id=id;
+                    }
+                    $("#suggestKey").html(contents);
                 }
-            },
-            error:function(msg){
-                alert(msg);
-            }
+            });
+            $("#suggestKey").on("click","li",function(e){
+                var target = $(e.currentTarget);
+                var land_id= target.attr("data-id");
+                var html =target.html();
+                $("#proCommodity").attr("land_id",land_id);
+                $("#proCommodity").html("产品名称："+html);
+                $("#searchInput").val(html);
+                $("#proCommodityItem").css("display","none");
+            })
         })
     },
+    // 搜索分销商
+    justdistributor:function(){
+        var data = data;
+        $("#searchInputSecond").on("keyup",function(){
+            var listTxt = '',li = '', bEqual=false;
+            $.ajax({
+                "url" : "/r/report_statistics/adminSearchMerchant/",
+                "data" : {page:1, size:100, keyword:$("#searchInputSecond").val()},
+                "dataType":"json",
+                "type": 'POST',
+                "success":function(data){
+                    // $("#suggest_ul_fid_merchant").show(0);
+                    var contents="";
+                    var li_id="";
+                    list = data.data;
+
+                    for(var i in list) {
+                        var keywords = list[i].name;
+                        var id = list[i].id;
+                        contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
+                        li_id=id;
+                    }
+                    $("#containDistributorSelctF").html(contents);
+                }
+            });
+            $("#containDistributorSelctF").on("click","li",function(e){
+                var target = $(e.currentTarget);
+                var reseller_id= target.attr("data-id");
+                var html =target.html();
+                $("#contianDistributorF").attr("reseller_id",reseller_id);
+                $("#contianDistributorF").html(html);
+                $("#searchInputSecond").val(html);
+                $("#containDistributorS").css("display","none");
+            })
+        })
+    },
+
     //点击产品下拉框获取产品列表（产品内容可能很多）
     getLandList:function(){
         var that= this;
         $("#proCommodity").click(function(){
             $("#proCommodity").html("");
-            that.justForDate("","url","#suggestKey");
+            that.justForDate("","/r/report_statistics/adminOrderList/","#suggestKey");
         })
         //管理员搜索框查询产品
 
 
     },
     //翻页按钮，单页没有超过15条记录不出现翻页按钮
-    PageButton:function() {
-        $("#reportSearchBtn").click(function () {
-            if ($(".rankCon tr").length >= 15) {
-                $(".buttonCation").css("display", "block");
-            }
-            else {
-                $(".buttonCation").css("display", "none");
-            }
-        })
-    },
+    // PageButton:function() {
+    //     var that =this;
+    //     $("#reportSearchBtn").click(function () {
+    //         if ($(".rankCon tr").length >= 15) {
+    //             $(".buttonCation").css("display", "block");
+    //         }
+    //         else {
+    //             $(".buttonCation").css("display", "none");
+    //         }
+    //     })
+    // },
     diffluence:function(method,delay,duration){
         var begin = new Date();
         var timer = null;
@@ -572,6 +752,18 @@ var report ={
                 },delay);
             }
         }
+    },
+    beginJudge:function () {
+
+        if($("#reportTable .tRR").length==0){
+            $.ContainHtml = $("<td colspan='6' style='padding:193px 0; text-align:center; background:#fff'  class='queryToday_td'><span class='queryToday_btn_left'>请输入条件搜索 </span></td>");
+            $("#reportTable").append($.ContainHtml);
+
+        }
+        else{
+            $(".queryToday_td").remove();
+        }
+
     }
 
 
