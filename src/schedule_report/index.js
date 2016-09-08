@@ -503,7 +503,7 @@ var report ={
           var count_way     = $("#produceIterm").attr("count_way");
           var land_id     = $("#proCommodity").attr("land_id");
           var reseller_id = $("#contianDistributorF").attr("reseller_id");
-          var merchant_id = $("SearchMerchant").attr("merchant_id");
+          var merchant_id = $("#SearchMerchant").attr("merchant_id");
 
           if(!btime || !etime) {
               return false;
@@ -516,12 +516,12 @@ var report ={
 
           if(isSuper) {
               url = '/r/report_statistics/adminOrderList/';
-              data['merchant_id'] = $('#merchant_id').val();
-              data['land_id']     = $('#land_id').val();
-              data['reseller_id'] = $('#reseller_id').val();
-
+              data['merchant_id'] =$("#SearchMerchant").attr("merchant_id");
+              data['land_id']     =$("#proCommodity").attr("land_id");
+              data['reseller_id'] = $("#contianDistributorF").attr("reseller_id");
               data['exclude_test'] = $('.checkbox').attr("checked") == undefined ? 0 : 1;
-          }
+
+            }
 
           params = that.getQueryString(data);
           url = url + '?' + params;
@@ -675,11 +675,17 @@ var report ={
     // 搜索产品
     justForDate:function(){
         var data = data;
+        var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
         $("#searchInput").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
             $.ajax({
                 "url" : "/r/report_statistics/adminSearchLands/",
-                "data" : {page:1, size:100, keyword:$("#searchInput").val()},
+                "data" : {
+                    page:1,
+                    size:100,
+                    keyword:$("#searchInput").val(),
+                    exclude_test:exclude_test
+                },
                 "dataType":"json",
                 "type": 'POST',
                 "success":function(data){
