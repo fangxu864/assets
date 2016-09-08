@@ -62,8 +62,13 @@
 
     "download-excel-start": "set NODE_ENV=develop && webpack --config ./src/download_excel_demo/webpack.config.js -w",
     "download-excel-test": "set NODE_ENV=test && webpack --config ./src/download_excel_demo/webpack.config.js",
-    "download-excel-release": "set NODE_ENV=release && webpack --config ./src/download_excel_demo/webpack.config.js -w",
+    "download-excel-release": "set NODE_ENV=release && webpack --config ./src/download_excel_demo/webpack.config.js",
     "download-excel-production": "set NODE_ENV=production && webpack --config ./src/download_excel_demo/webpack.config.js",
+
+    "pftshow-seatround-start": "set NODE_ENV=develop && webpack --config ./src/pft_show_seat_round/webpack.config.js -w",
+    "pftshow-seatround-test": "set NODE_ENV=test && webpack --config ./src/pft_show_seat_round/webpack.config.js",
+    "pftshow-seatround-release": "set NODE_ENV=release && webpack --config ./src/pft_show_seat_round/webpack.config.js",
+    "pftshow-seatround-production": "set NODE_ENV=production && webpack --config ./src/pft_show_seat_round/webpack.config.js",
 
 
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",

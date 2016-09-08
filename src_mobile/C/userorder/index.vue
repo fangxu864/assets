@@ -15,13 +15,14 @@
                 :pullup-config="pullupConfig"
                 :pulldown-config="pulldownConfig"
                 v-on:pullup:loading="onPullupLoading"
+                v-on:pulldown:loading="onPulldownLoading"
                 :scrollbar-x="false">
                 <div class="scrollCon">
                     <ul v-if="tabActive=='unuse'" data-type="unuse" class="scrollInerCon unuse">
-                        <li class="item" v-for="item in unuse.list" v-text="$index"></li>
+                        <li class="item" v-link="{name:'detail',params:{id:$index}}" v-for="item in unuse.list" v-text="$index"></li>
                     </ul>
                     <ul v-if="tabActive=='history'" data-type="history" class="scrollInerCon history">
-                        <li class="item" v-for="item in history.list" v-text="$index"></li>
+                        <li class="item" v-link="{name:'detail',params:{id:$index}}" v-for="item in history.list" v-text="$index"></li>
                     </ul>
                 </div>
             </scroller>
@@ -77,11 +78,14 @@
             this.scrollerHeight = String(win.height-fixTabHeight)+"px";
         },
         route : {
-            data(){
+            data(transition){
+                console.log(transition);
                 this.lockY = false;
                 this.tabActive = sessionStorage.getItem("tabActive") || this.tabActive;
-                if(!sessionStorage.getItem(this.tabActive)){
-                    this.fetchData(this.tabActive);
+                if(transition.from.name=="detail"){ //从detail重新回到index页则直接取sessionStorage里的data list
+
+                }else{//如果是从外部页面进入到index页
+
                 }
             },
             activate(){
@@ -153,17 +157,24 @@
                     success : (data) => {
                         var totalPage = data.total_page;
                         var list = data.list;
+                        var resultList;
                         if(type=="unuse"){
                             this.$set("unuse.page",page);
                             this.$set("unuse.totalPage",totalPage);
-                            this.$set("unuse.list",this.unuse.list.concat(list));
+                            resultList = page==1 ? list : this.unuse.list.concat(list);
+                            this.$set("unuse.list",resultList);
                         }else{
                             this.$set("history.page",page);
                             this.$set("history.totalPage",totalPage);
-                            this.$set("history.list",this.history.list.concat(list));
+                            resultList = page==1 ? list : this.history.list.concat(list);
+                            this.$set("history.list",resultList);
                         }
                         this.$nextTick(()=>{
-                            this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
+                            if(page==1){
+                                this.$broadcast('pulldown:reset', this.$refs.scroller.uuid)
+                            }else{
+                                this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
+                            }
                         })
                     },
                     fail : () => {}
@@ -172,6 +183,9 @@
             onPullupLoading(uuid){
                 var page = this.tabActive=="unuse" ? (this.unuse.page+1) : (this.history.page+1);
                 this.fetchData(this.tabActive,page)
+            },
+            onPulldownLoading(uuid){
+                this.fetchData(this.tabActive,1)
             },
             onTabItemClick(type){
                 this.tabActive = type;
@@ -201,7 +215,6 @@
                 callback && callback();
             },
             resetScroll(callback){
-                console.log("resetScroll")
                 this.$refs.scroller.reset();
                 callback && callback();
             }
