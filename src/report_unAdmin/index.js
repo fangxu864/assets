@@ -47,11 +47,14 @@ var report ={
 
     },
     calendarShow:function(id){
-        // var years =getdate.getFullYear();
-        // var months = getdate.getMonth()+1;
-        // var days = getdate.getDate();
-        // var max = years+months+days;
-        var that = this;
+
+        var that =this;
+        var getdate= new Date();
+        var years =getdate.getFullYear();
+        var months = getdate.getMonth()+1;
+        var days = getdate.getDate();
+        var max =years+"-"+that.setdataType(months)+"-"+that.setdataType(days);
+
         $(id).on("focus",function (e) {
             var picker = $(e.target);
             var date = picker.val();
@@ -60,7 +63,7 @@ var report ={
                 top:0,
                 left:0,
                 min:"2016-06-20",
-                max:"2016-09-30",
+                max:max,
                 onBefore:function(){
 
                 },
