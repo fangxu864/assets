@@ -9,10 +9,3 @@ $(function(){
 	new Main();
 })
 
-
-var test = function(){
-	for(var i=0; i<10; i++){
-		if(i>=5) return i;
-	}
-}
-console.log(test());

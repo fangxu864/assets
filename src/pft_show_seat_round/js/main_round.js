@@ -213,9 +213,12 @@ var Main = RichBase.extend({
 			var state = box.attr("data-roundstate");
 			if(!state){
 				state = box.attr("data-state");
-				if(state=="4" || state=="5") state="";
+				if(state=="4" || state=="5") state="0";
 			}
 			if(areaid==-1) return true;
+
+			return console.log(Core.__CacehMergeData);
+
 			var oldState = that.getOriginState(areaid,seatid);
 
 			if(oldState==state) return true; //如果sate没有被用户改动过，则不提动以节省数据传输量
@@ -225,12 +228,12 @@ var Main = RichBase.extend({
 				area[seatid] = state;
 			}
 		})
-		return console.log(data);
 		PFT.Ajax({
 			url : mCore.url.getByRoundId,
 			type : "POST",
 			dataType : "json",
 			data : data,
+			ttimeout : 3 * 60 * 1000,
 			loading : function(){ submitBtn.text("正在保存...").addClass("loading")},
 			removeLoading : function(){submitBtn.text("保存").removeClass("loading")},
 			timeout : function(){ alert("请求超时，请稍后重试")},

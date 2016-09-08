@@ -67,6 +67,7 @@ var Core =  RichBase.extend({
 		}
 	},
 	__VenusSeatData : {},
+	__CacehMergeData : {},
 	getColArray : function(col,layout){
 		var result = [];
 		if(!col) return result;
@@ -159,13 +160,26 @@ var Core =  RichBase.extend({
 				unLogin(res);
 			}else{
 //				var res = adaptData(res);
-				that.__VenusSeatData = res.areas;
+				var areas = res.areas;
+				var __CacehMergeData = that.__CacehMergeData;
+				for(var i in areas){
+					var area = areas[i];
+					var seats = area.seats || [];
+					for(var s in seats){
+						var seat = seats[s];
+						var seatid = seat["id"];
+						var status = seat["status"];
+						if(status=="4" || status=="5") status = 0; //我也不知道这里为什么，问后端
+						__CacehMergeData[seatid] = status;
+					}
+				}
 				success(res);
 			}
 		})
 	},
 	getSeatByRoundId : function(roundId,opt){
 		if(!roundId) return false;
+		var that = this;
 		var fn = new Function;
 		var opt = opt || {};
 		var url = this.statics.url.getByRoundId;
@@ -192,6 +206,15 @@ var Core =  RichBase.extend({
 			if(code==0){
 				unLogin(res);
 			}else{
+				var collection = res.collection || [];
+				var __CacehMergeData = that.__CacehMergeData;
+				for(var i in collection){
+					var seat = collection[i];
+					var seatid = seat["seat_id"];
+					var status = seat["status"];
+					if(status=="4" || status=="5") status = 0; //我也不知道这里为什么，问后端
+					__CacehMergeData[seatid] = status;
+				}
 				success(res);
 			}
 		})

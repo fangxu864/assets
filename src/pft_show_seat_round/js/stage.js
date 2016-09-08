@@ -54,7 +54,11 @@ var Stage = RichBase.extend({
 		that.fire("stageBoxClick",tarBox);
 	},
 	onStageContextMenu : function(that,e){
+
+		if(window.location.search.indexOf("debug=1")>-1) return false;
+
 		e.preventDefault ? e.preventDefault():(e.returnValue = false);
+
 		var tarBox = $(e.currentTarget);
 		var tarSeat = tarBox.attr("data-seat");
 		tarSeat = tarSeat.split("-");
