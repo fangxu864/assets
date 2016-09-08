@@ -103,7 +103,7 @@ Canvas.prototype = PFT.Util.Mixin({
 			var formData = new FormData();
 			formData.append("image",imgData,"image.png");
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST","/r/Mall_Common1/uploadForPoster");
+			xhr.open("POST","/r/Mall_Common/uploadForPoster");
 			xhr.onload = function(res){
 				if(xhr.status==200){
 					res = res.srcElement.responseText;
@@ -134,7 +134,7 @@ Canvas.prototype = PFT.Util.Mixin({
 	//上传二维码坐标位置至服务器
 	savePosterInfo : function(url,vcodeImage,vcodePosition){
 		var that = this;
-		PFT.Util.Ajax("/r/Mall_Common1/savePosterInfo/",{
+		PFT.Util.Ajax("/r/Mall_Common/savePosterInfo/",{
 			type : "post",
 			params : {
 				qrWidth : vcodeImage.width,
