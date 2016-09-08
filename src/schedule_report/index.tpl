@@ -43,10 +43,10 @@
         <div id="ContainForCalendarTwo" ></div>
     </div>
     <P class="changeDateP">
-        <a href="javascript:changeDate('week');" class="sDate">本周</a>
-        <a href="javascript:changeDate('lastweek');" class="sDate">上周</a>
-        <a href="javascript:changeDate('month');" class="sDate">本月</a>
-        <a href="javascript:changeDate('lastmonth');" class="sDate">上月</a>
+        <a  class="sDate"id="report_thisweek">本周</a>
+        <a class="sDate" id="report_lastweek" >上周</a>
+        <a class="sDate" id="report_thismonths">本月</a>
+        <a  class="sDate" id="report_lastmonth">上月</a>
     </P>
     <div class="clear"></div>
 </div>
