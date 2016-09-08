@@ -129,118 +129,118 @@ var report ={
 
     },
 
-    seearchFunctionTwo:function(){
-        var input=$("#searchInputSecondLA");
-        var key = "";
-
-        $("#searchInputSecondLA").keyup(function(event){
-            var suggestKey = $("#ComsuggestKey");
-            var  current = suggestKey.find("li.hover1");
-            //搜索框上下浏览选内容
-            if(event.keyCode==38){
-                if(current.length>0){
-                    var prevLi = current.removeClass('hover1').prev();
-                    if(prevLi.length>0)
-                    {
-                        prevLi.addClass('hover1');
-                        input.val(prevLi.html());
-                        $("#SearchMerchant").html("商户："+input.val());
-
-                    }
-                }
-                else
-                {
-                    var last = suggestKey.find('li:last');
-                    last.addClass('hover1');
-                    input.val(last.html());
-                    $("#SearchMerchant").html("商户："+input.val());
-
-                }
-            }
-            else if(event.keyCode == 40){
-                if(current.length>0){
-                    var nextLi = current.removeClass('hover1').next();
-                    if(nextLi.length>0)
-                    {
-                        nextLi.addClass('hover1');
-                        input.val(nextLi.html());
-                        $("#SearchMerchant").html("商户："+input.val());
-
-                    }
-                }
-                else{
-                    var first = suggestKey.find('li:first');
-                    first.addClass('hover1');
-                    input.val(first.html());
-                    $("#SearchMerchant").html("商户："+input.val());
-
-                }
-            }
-            else if (event.keyCode==13){
-                $("#MerchantContainA").css("display","none")
-            }
-            //搜索框输入文字进行搜索
-            else{
-                var valText = $.trim(input.val());
-                if(valText==""||valText==key){
-                    return false;
-                }
-                else{
-
-                }
-            }
-
-
-        })
-        $("li").hover(function(){
-            if($("li").hasClass("hover1")){
-                $("li").removeClass("hover1");
-            }
-
-        })
-        $("#ComsuggestKey li").click(function(){
-
-            $("#SearchMerchant").html("商户："+$(this).html());
-            $("#SearchMerchant").attr("merchant_id",$(this).attr("data-id"))
-
-            $("#MerchantContainA").css("display","none");
-
-
-        })
-        $("#searchInputSecondLA").on("keyup",function(){
-            var listTxt = '',li = '', bEqual=false;
-            $.ajax({
-                "url" : "/r/report_statistics/adminSearchMerchant/",
-                "data" : {page:1, size:100, keyword:$("#searchInputSecondL").val()},
-                "dataType":"json",
-                "type": 'POST',
-                "success":function(data){
-                    // $("#suggest_ul_fid_merchant").show(0);
-                    var contents="";
-                    var li_id="";
-                    list = data.data;
-
-                    for(var i in list) {
-                        var keywords = list[i].name;
-                        var id = list[i].id;
-                        contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
-                        li_id=id;
-                    }
-                    $("#ComsuggestKey").html(contents);
-                }
-            });
-            $("#ComsuggestKey").on("click","li",function(e){
-                var target = $(e.currentTarget);
-                var merchant_id= target.attr("data-id");
-                var html =target.html();
-                $("#SearchMerchant").attr("merchant_id",merchant_id);
-                $("#SearchMerchant").html("商户："+html);
-                $("#searchInputSecondLA").val(html);
-                $("#MerchantContainA").css("display","none");
-            })
-        })
-
-    },
+    // seearchFunctionTwo:function(){
+    //     var input=$("#searchInputSecondLA");
+    //     var key = "";
+    //
+    //     $("#searchInputSecondLA").keyup(function(event){
+    //         var suggestKey = $("#ComsuggestKey");
+    //         var  current = suggestKey.find("li.hover1");
+    //         //搜索框上下浏览选内容
+    //         if(event.keyCode==38){
+    //             if(current.length>0){
+    //                 var prevLi = current.removeClass('hover1').prev();
+    //                 if(prevLi.length>0)
+    //                 {
+    //                     prevLi.addClass('hover1');
+    //                     input.val(prevLi.html());
+    //                     $("#SearchMerchant").html("商户："+input.val());
+    //
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 var last = suggestKey.find('li:last');
+    //                 last.addClass('hover1');
+    //                 input.val(last.html());
+    //                 $("#SearchMerchant").html("商户："+input.val());
+    //
+    //             }
+    //         }
+    //         else if(event.keyCode == 40){
+    //             if(current.length>0){
+    //                 var nextLi = current.removeClass('hover1').next();
+    //                 if(nextLi.length>0)
+    //                 {
+    //                     nextLi.addClass('hover1');
+    //                     input.val(nextLi.html());
+    //                     $("#SearchMerchant").html("商户："+input.val());
+    //
+    //                 }
+    //             }
+    //             else{
+    //                 var first = suggestKey.find('li:first');
+    //                 first.addClass('hover1');
+    //                 input.val(first.html());
+    //                 $("#SearchMerchant").html("商户："+input.val());
+    //
+    //             }
+    //         }
+    //         else if (event.keyCode==13){
+    //             $("#MerchantContainA").css("display","none")
+    //         }
+    //         //搜索框输入文字进行搜索
+    //         else{
+    //             var valText = $.trim(input.val());
+    //             if(valText==""||valText==key){
+    //                 return false;
+    //             }
+    //             else{
+    //
+    //             }
+    //         }
+    //
+    //
+    //     })
+    //     $("li").hover(function(){
+    //         if($("li").hasClass("hover1")){
+    //             $("li").removeClass("hover1");
+    //         }
+    //
+    //     })
+    //     $("#ComsuggestKey li").click(function(){
+    //
+    //         $("#SearchMerchant").html("商户："+$(this).html());
+    //         $("#SearchMerchant").attr("merchant_id",$(this).attr("data-id"))
+    //
+    //         $("#MerchantContainA").css("display","none");
+    //
+    //
+    //     })
+    //     $("#searchInputSecondLA").on("keyup",function(){
+    //         var listTxt = '',li = '', bEqual=false;
+    //         $.ajax({
+    //             "url" : "/r/report_statistics/adminSearchMerchant/",
+    //             "data" : {page:1, size:100, keyword:$("#searchInputSecondL").val()},
+    //             "dataType":"json",
+    //             "type": 'POST',
+    //             "success":function(data){
+    //                 // $("#suggest_ul_fid_merchant").show(0);
+    //                 var contents="";
+    //                 var li_id="";
+    //                 list = data.data;
+    //
+    //                 for(var i in list) {
+    //                     var keywords = list[i].name;
+    //                     var id = list[i].id;
+    //                     contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
+    //                     li_id=id;
+    //                 }
+    //                 $("#ComsuggestKey").html(contents);
+    //             }
+    //         });
+    //         $("#ComsuggestKey").on("click","li",function(e){
+    //             var target = $(e.currentTarget);
+    //             var merchant_id= target.attr("data-id");
+    //             var html =target.html();
+    //             $("#SearchMerchant").attr("merchant_id",merchant_id);
+    //             $("#SearchMerchant").html("商户："+html);
+    //             $("#searchInputSecondLA").val(html);
+    //             $("#MerchantContainA").css("display","none");
+    //         })
+    //     })
+    //
+    // },
     //日历选项
     //针对日期格式而做的改变
     setdataType:function(date){
@@ -498,6 +498,10 @@ var report ={
         }
         else{
             end_date=$("#calendarInputtwo").val();
+        }
+        if((merchant_id=="")||(land_id=="")||(reseller_id=="")) {
+            alert("请确保选择必要的搜索条件！");
+            return false;
         }
         $.ajax({
             dataType:"json",
