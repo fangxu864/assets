@@ -50,7 +50,7 @@
 #searchSecondLA{position:absolute;top: 6px;left: 20px}
 
 
-.selectDistributor{width: 72px;height: 31px;position: relative;top: 14px;border-radius: 2px;}
+.selectDistributor{width: 72px;height: 32px;position: relative;top: 14px;border-radius: 2px;}
 .searchBtn{width: 89px; height: 30px;cursor: pointer;background:  #FF6C00;position: absolute;left: 727px;top: 153px;color:#fff;text-align: center;line-height: 28px}
 .reportTable{width: 100%;margin:0px;border-bottom:1px solid #ccc;position: absolute;top: 0;font-size: 13px;overflow-x: hidden;overflow-y: auto}
 .reportTable th{height: 35px;line-height: 15px;background:#205C86;color: #fff ;}
@@ -104,3 +104,6 @@ li:hover{background: #ccc}
 .queryToday_btn{height: 30px;line-height: 30px;border-bottom: 1px solid #0797d9;text-align: center;cursor: pointer}
 .queryToday_btn:hover{background:#0797d9;color: #fff }
 //#ComsuggestKey{position: absolute;top: 0px;}
+
+#contPosition{position: absolute;top: 33px;left: 345px}
+#contPositionT{position: absolute;top: 33px;left: 540px}
