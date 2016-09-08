@@ -467,32 +467,7 @@ var report ={
 
 
     },
-    // //查询产品搜索框查询
-    // justForsearch:function(){
-    //     var that = this;
-    //
-    //     $("#searchInput").bind("keyup",function(){
-    //         var data = $(this).val();
-    //         that.justForDate(data,"/r/report_statistics/adminOrderList/","#suggestKey");
-    //     })
-    //     $("#searchInputSecond").bind("keyup",function(){
-    //         var data2 =$(this).val();
-    //         that.justForDate(data,"/r/report_statistics/adminOrderList/","#ComsuggestKey");
-    //     })
-    //     //获取分销商账号
-    //
-    //     $(".selectDistributor").change(function(){
-    //         var ResellerJudge = $("#ResellerOPt").attr("selected")=="undefine"?1:0;
-    //          if(ResellerJudge==0){
-    //           // that.justForDate("","url","containDistributorSelctF");
-    //         }
-    //     })
-        //汇总方式调换,更改列表内容？
-        // $("#produceAll").click(function(){
-        //     alert($("#produceIterm").attr("count_way"))
-        // })
 
-    // },
 
     //导出数据
     educeData:function(){
@@ -504,6 +479,7 @@ var report ={
           var land_id     = $("#proCommodity").attr("land_id");
           var reseller_id = $("#contianDistributorF").attr("reseller_id");
           var merchant_id = $("#SearchMerchant").attr("merchant_id");
+          var exclude_test =$('.checkbox').attr("checked") == undefined ? 0 : 1;
 
           if(!btime || !etime) {
               return false;
@@ -511,18 +487,6 @@ var report ={
 
           var url  = '/r/report_statistics/adminOrderList/';
           var data = {'begin_date' : btime, 'end_date' : etime, 'count_way':count_way, size:500, land_id : land_id, reseller_id : reseller_id, export_excel : 1};
-
-
-
-          if(isSuper) {
-              url = '/r/report_statistics/adminOrderList/';
-              data['merchant_id'] =$("#SearchMerchant").attr("merchant_id");
-              data['land_id']     =$("#proCommodity").attr("land_id");
-              data['reseller_id'] = $("#contianDistributorF").attr("reseller_id");
-              data['exclude_test'] = $('.checkbox').attr("checked") == undefined ? 0 : 1;
-
-            }
-
           params = that.getQueryString(data);
           url = url + '?' + params;
           window.open(url);
@@ -762,18 +726,18 @@ var report ={
 
 
     },
-    //翻页按钮，单页没有超过15条记录不出现翻页按钮
-    // PageButton:function() {
-    //     var that =this;
-    //     $("#reportSearchBtn").click(function () {
-    //         if ($(".rankCon tr").length >= 15) {
-    //             $(".buttonCation").css("display", "block");
-    //         }
-    //         else {
-    //             $(".buttonCation").css("display", "none");
-    //         }
-    //     })
-    // },
+    // 翻页按钮，单页没有超过15条记录不出现翻页按钮
+    PageButton:function() {
+        var that =this;
+        $("#reportSearchBtn").click(function () {
+            if ($(".rankCon tr").length >= 15) {
+                $(".buttonCation").css("display", "block");
+            }
+            else {
+                $(".buttonCation").css("display", "none");
+            }
+        })
+    },
     diffluence:function(method,delay,duration){
         var begin = new Date();
         var timer = null;
