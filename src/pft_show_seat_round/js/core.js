@@ -160,19 +160,19 @@ var Core =  RichBase.extend({
 				unLogin(res);
 			}else{
 //				var res = adaptData(res);
-				var areas = res.areas;
-				var __CacehMergeData = that.__CacehMergeData;
-				for(var i in areas){
-					var area = areas[i];
-					var seats = area.seats || [];
-					for(var s in seats){
-						var seat = seats[s];
-						var seatid = seat["id"];
-						var status = seat["status"];
-						if(status=="4" || status=="5") status = 0; //我也不知道这里为什么，问后端
-						__CacehMergeData[seatid] = status;
-					}
-				}
+//				var areas = res.areas;
+//				var __CacehMergeData = that.__CacehMergeData;
+//				for(var i in areas){
+//					var area = areas[i];
+//					var seats = area.seats || [];
+//					for(var s in seats){
+//						var seat = seats[s];
+//						var seatid = seat["id"];
+//						var status = seat["status"];
+//						if(status=="4") status = 0; //我也不知道这里为什么，问后端
+//						__CacehMergeData[seatid] = status;
+//					}
+//				}
 				success(res);
 			}
 		})
@@ -207,14 +207,14 @@ var Core =  RichBase.extend({
 				unLogin(res);
 			}else{
 				var collection = res.collection || [];
-				var __CacehMergeData = that.__CacehMergeData;
-				for(var i in collection){
-					var seat = collection[i];
-					var seatid = seat["seat_id"];
-					var status = seat["status"];
-					if(status=="4" || status=="5") status = 0; //我也不知道这里为什么，问后端
-					__CacehMergeData[seatid] = status;
-				}
+				//var __CacehMergeData = that.__CacehMergeData;
+				//for(var i in collection){
+				//	var seat = collection[i];
+				//	var seatid = seat["seat_id"];
+				//	var status = seat["status"];
+				//	if(status=="4") status = 0; //我也不知道这里为什么，问后端
+				//	__CacehMergeData[seatid] = status;
+				//}
 				success(res);
 			}
 		})

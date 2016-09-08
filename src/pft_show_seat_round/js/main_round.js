@@ -13,6 +13,10 @@ var RowHead = null,
 	mRowHead = require("./rowHead.js");
 var mAreaLine = require("./areaLine.js");
 var AreaLine = new mAreaLine();
+var isEmptyObject = function(obj){
+	for(var i in obj) return false;
+	return true;
+};
 var Main = RichBase.extend({
 	EVENTS : {
 		"click" : {
@@ -116,6 +120,7 @@ var Main = RichBase.extend({
 								tarBox.find(".t").text(seatNum).show();
 							}
 							tarBox.attr("data-state",status)
+								.attr("data-orignstate",status)
 								.attr("data-id",id)
 								.attr("data-areaid",areaid)
 								.attr("data-col",col_num)
@@ -186,14 +191,23 @@ var Main = RichBase.extend({
 		if(background) style.push('backgroundColor:'+background);
 		if(fontSize) style.push('fontSize:'+fontSize);
 		style = style.length ? style.join(";") : "";
+		//if(icon){
+		//	stageUl.children().filter(function(){
+		//		return ($(this).attr("data-id") == seatId);
+		//	}).attr("data-roundstate",status_val).find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
+		//}else{
+		//	stageUl.children().filter(function(){
+		//		return ($(this).attr("data-id") == seatId);
+		//	}).attr("data-roundstate",status_val).find(".state").hide();
+		//}
 		if(icon){
 			stageUl.children().filter(function(){
 				return ($(this).attr("data-id") == seatId);
-			}).attr("data-roundstate",status_val).find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
+			}).attr("data-state",status_val).attr("data-orignstate",status_val).find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
 		}else{
 			stageUl.children().filter(function(){
 				return ($(this).attr("data-id") == seatId);
-			}).attr("data-roundstate",status_val).find(".state").hide();
+			}).attr("data-state",status_val).attr("data-orignstate",status_val).find(".state").hide();
 		}
 		callback && callback();
 	},
@@ -206,6 +220,7 @@ var Main = RichBase.extend({
 		data["action"] = "ROUND_SEAT_SET";
 		data["round_id"] = round_id;
 		data["zones"] = {};
+
 		stageUl.children().each(function(){
 			var box = $(this);
 			var areaid = box.attr("data-areaid");
@@ -213,21 +228,26 @@ var Main = RichBase.extend({
 			var state = box.attr("data-roundstate");
 			if(!state){
 				state = box.attr("data-state");
-				if(state=="4" || state=="5") state="0";
 			}
+			//if(state=="4") state=0;
+			var orignState = box.attr("data-orignstate");
+			//if(orignState=="4") orignState=0;
+
 			if(areaid==-1) return true;
 
-			return console.log(Core.__CacehMergeData);
+			//var oldState = that.getOriginState(seatid);
 
-			var oldState = that.getOriginState(areaid,seatid);
+			if(orignState==state) return true; //如果sate没有被用户改动过，则不提动以节省数据传输量
 
-			if(oldState==state) return true; //如果sate没有被用户改动过，则不提动以节省数据传输量
-
-			var area = data["zones"][areaid] ? data["zones"][areaid] : (data["zones"][areaid]={});
 			if(seatid && state && state!="-1"){
+				var area = data["zones"][areaid] ? data["zones"][areaid] : (data["zones"][areaid]={});
+				if(state=="4" || state=="5") state = 0;
 				area[seatid] = state;
 			}
 		})
+
+		if(isEmptyObject(data.zones)) return alert("您尚未对座位做出修改");
+
 		PFT.Ajax({
 			url : mCore.url.getByRoundId,
 			type : "POST",
@@ -308,23 +328,12 @@ var Main = RichBase.extend({
 		Drag.refresh({container:$("#seatUlWrap")});
 	},
 
-	//通过areaid seatid  查找该座位对应的原始状态(state，页面初始化时，数据刚拉取下来时的状态)
-	getOriginState : function(areaid,seatid){
-		if(!areaid || !seatid) return null;
-		var oData = Core.__VenusSeatData;
-		var area = oData[areaid];
-		if(!area) return null;
-		var seats = area.seats || [];
-		var status = "";
-		for(var i in seats){
-			var seat = seats[i];
-			var _seatid = seat.id;
-			var _status = seat.status;
-			if(_seatid==seatid){
-				status = _status;
-				break;
-			}
-		}
+	//通过seatid  查找该座位对应的原始状态(state，页面初始化时，数据刚拉取下来时的状态)
+	getOriginState : function(seatid){
+		if(!seatid) return null;
+		var oData = Core.__CacehMergeData;
+		var status = oData[seatid];
+		if(!status) return null;
 		return status;
 	}
 });

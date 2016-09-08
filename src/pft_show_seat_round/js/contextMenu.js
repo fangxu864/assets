@@ -138,27 +138,40 @@ var ContextMenu = RichBase.extend({
 		if(background) style.push('backgroundColor:'+background);
 		if(fontSize) style.push('fontSize:'+fontSize);
 		style = style.length ? style.join(";") : "";
-		if((status_val=="4" || status_val=="5") && roundId){ //场次页面
-			if(icon){
-				that.stageUl.children(".active").filter(function(){
-					return ($(this).attr("data-areaid") != -1);
-				}).attr("data-roundstate",status_val).removeClass("active").find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
-			}else{
-				that.stageUl.children(".active").filter(function(){
-					return ($(this).attr("data-areaid") != -1);
-				}).attr("data-roundstate",status_val).removeClass("active").find(".state").hide();
-			}
-		}else{ //场馆页面
-			if(icon){
-				that.stageUl.children(".active").filter(function(){
-					return ($(this).attr("data-areaid") != -1);
-				}).attr("data-state",status_val).removeAttr("data-roundstate").removeClass("active").find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
-			}else{
-				that.stageUl.children(".active").filter(function(){
-					return ($(this).attr("data-areaid") != -1);
-				}).attr("data-state",status_val).removeAttr("data-roundstate").removeClass("active").find(".state").hide();
-			}
+		//if((status_val=="4" || status_val=="5") && roundId){ //场次页面
+		//	if(icon){
+		//		that.stageUl.children(".active").filter(function(){
+		//			return ($(this).attr("data-areaid") != -1);
+		//		}).attr("data-roundstate",status_val).removeClass("active").find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
+		//	}else{
+		//		that.stageUl.children(".active").filter(function(){
+		//			return ($(this).attr("data-areaid") != -1);
+		//		}).attr("data-roundstate",status_val).removeClass("active").find(".state").hide();
+		//	}
+		//}else{ //场馆页面
+		//	if(icon){
+		//		that.stageUl.children(".active").filter(function(){
+		//			return ($(this).attr("data-areaid") != -1);
+		//		}).attr("data-state",status_val).removeAttr("data-roundstate").removeClass("active").find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
+		//	}else{
+		//		that.stageUl.children(".active").filter(function(){
+		//			return ($(this).attr("data-areaid") != -1);
+		//		}).attr("data-state",status_val).removeAttr("data-roundstate").removeClass("active").find(".state").hide();
+		//	}
+		//}
+
+		//alert(status_val)
+
+		if(icon){
+			that.stageUl.children(".active").filter(function(){
+				return ($(this).attr("data-areaid") != -1);
+			}).attr("data-state",status_val).removeAttr("data-roundstate").removeClass("active").find(".state").show().html('<span class="sicon"><i style="'+style+'" class="iconfont">'+icon+'</i></span>');
+		}else{
+			that.stageUl.children(".active").filter(function(){
+				return ($(this).attr("data-areaid") != -1);
+			}).attr("data-state",status_val).removeAttr("data-roundstate").removeClass("active").find(".state").hide();
 		}
+
 		that.stop();
 	},
 	run : function(opt){
