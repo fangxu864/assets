@@ -257,6 +257,66 @@ var report ={
         var years =getdate.getFullYear();
         var months = getdate.getMonth()+1;
         var days = getdate.getDate();
+        $(document).one("ready",function(){
+            var weekday=getdate.getDay();
+            var Monday =days - weekday;
+            var Sunday = 0;
+
+            var LastMonths = getdate.getMonth();
+            //在每个月的月初几天的情况
+            if(Monday<=0){
+                if(months==3||months==5||months==7||months==10||months==12){
+                    var LMonday = 30+Monday;
+                    var dayS=that.setdataType(days);
+                    var monthS=that.setdataType(months);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+LMonday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                }
+                else if(months==3){
+                    //判断闰年出现的情况
+                    if(years/4==0||years/400==0){
+                        Monday = 29+Monday;
+                        var dayS=that.setdataType(days);
+                        var monthS=that.setdataType(months);
+                        $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                        $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                    }
+                    else {
+                        Monday = 28 + Monday;
+                        var dayS=that.setdataType(days);
+                        var monthS=that.setdataType(months);
+                        $("#calendarInputOne").val(years + "-" + LastMonths + "-" + Monday);
+                        $("#calendarInputtwo").val(years + "-" + monthS + "-" + dayS);
+                    }
+
+
+                }
+                else if(months==1){
+                    Monday = 31+Monday;
+                    years =years-1;
+                    var dayS=that.setdataType(days);
+                    var monthS=that.setdataType(months);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                }
+                else{
+                    Monday = 31+Monday;
+                    var dayS=that.setdataType(days);
+                    var monthS=that.setdataType(months);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                }
+            }
+            else {
+                Monday =days-weekday+1;
+                Monday =that.setdataType(Monday);
+                var dayS=that.setdataType(days);
+                var monthS=that.setdataType(months);
+                $("#calendarInputOne").val(years+"-"+monthS+"-"+Monday);
+                $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+
+            }
+        })
 
         //三个月内按键
         $("#threeMonthCalendar").on("click",function(){
