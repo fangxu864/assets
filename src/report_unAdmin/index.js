@@ -24,7 +24,7 @@ $(function(){
     report.getNowadate();
     report.PageJudgement();
     report.beginJudge();
-    report.seearchFunctionTwo();
+
     report.changeDate();
     // report.PageButton();
     report.getLandList();
@@ -499,7 +499,7 @@ var report ={
         else{
             end_date=$("#calendarInputtwo").val();
         }
-        if((merchant_id=="")||(land_id=="")||(reseller_id=="")) {
+        if((land_id=="")||(reseller_id=="")) {
             alert("请确保选择必要的搜索条件！");
             return false;
         }
