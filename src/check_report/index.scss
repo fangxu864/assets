@@ -1,0 +1,107 @@
+#check_reportContain{width:98%;}
+
+.firstContain{position: relative;z-index: 22}
+.contain1{float: left;margin-right: 10px;margin-top: 10px;position: relative;z-index: 10}
+.contain3{float: left;margin-top: 10px;position: relative;z-index: 10}
+.contain2{width: 201px;height:30px;border: solid 1px #ccc;line-height: 30px;padding-left: 5px;cursor: pointer;position: relative;overflow: hidden;top: 14px; }
+.allContain{width: 200px;background: #fff;display: none;}
+.Commercial{width: 202px;height: 36px;line-height: 36px;border:solid 1px #ccc;padding-left: 4px;float: left;cursor: pointer;background: #fff}
+.Commercial:hover{background-color: #ccc}
+.checkbox-value {position:relative;height:30px;line-height:30px;padding-left:30px;overflow:hidden;}
+.checkbox-value:before {
+  transition:all 0.5s ease-in;
+  content:"";width:20px;height:20px;position:absolute;border:1px solid rgb(0,0,0);border-radius:4px;left:0;top:5px;background:#fff;overflow:hidden;cursor:pointer;
+}
+.checkbox-value:after {
+  border:none;
+  transition:all 0.2s ease-in;
+}
+.checkboxcon {height:30px;overflow:hidden;box-sizing:border-box;display:table;vertical-align:middle;position:absolute;left:225px;top:15px}
+.checkbox {display:inline-block;width:0;height:0;opacity:0;position:absolute;top:5px;}
+.checkboxcon input[type=checkbox]:checked+ .checkbox-value:before {
+  transition:all 0.5s ease-in;
+  content:"";width:20px;height:20px;position:absolute;border:1px solid rgba(0,0,0,0.5);border-radius:4px;left:0;top:5px;background:#23AF29;overflow:hidden;cursor:pointer;
+}
+.checkboxcon input[type=checkbox]:checked+ .checkbox-value:after {
+  cursor:pointer;
+  margin-top:5px;
+  margin-left:8px;
+  content:"";
+  width:4px;height:9px;border-right:1px solid #fff;border-bottom:1px solid #FFF;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position:absolute;
+  left:0;
+  top:5px;
+  transition:all 0.2s ease-out;
+}
+
+#MerchantContainG{width: 205px;height: 337px;border:1px solid #ccc;background: #fff;position: absolute;top: 46px;z-index: 100;overflow-x:hidden;overflow-y: scroll}
+#proCommodityItemG{width: 205px;height: 337px;border:1px solid #ccc;background: #fff;position: relative;top: 14px;overflow-x:scroll;overflow-y: scroll}
+#containDistributorSG{width: 205px;height: 337px;border:1px solid #ccc;background: #fff;position: relative;top: 0;overflow-x:hidden;overflow-y: scroll}
+#searchInputSecondG,#searchInputG{width: 131px;height:30px;line-height: 30px ;margin-left:10px;border: solid 1px #ccc;margin-top: 4px; position: relative;padding-left: 40px}
+#searchInputSecondLG{width: 131px;height:30px;line-height: 30px ;margin-left:10px;border: solid 1px #ccc;margin-top: 4px; position: relative;padding-left: 40px}
+.trangle{width: 0;height: 0;border-left: 6px solid transparent;border-right: solid 6px transparent;border-top: 7px solid black;position: absolute;left: 175px;top: 27px; }
+.positioTran{position: absolute;left:135px;top: 47px;}
+
+
+#searchG,#searchSecondG{position:absolute;top: 6px;left: 20px}
+#searchSecondLG{position:absolute;top: 6px;left: 20px}
+
+.selectDistributor{width: 72px;height: 32px;position: relative;top: 14px;border-radius: 2px;}
+.searchBtn{width: 89px; height: 30px;cursor: pointer;background:  #FF6C00;position: absolute;left: 727px;top: 186px;color:#fff;text-align: center;line-height: 28px}
+.reportTable{width: 100%;margin:0px;border-bottom:1px solid #ccc;position: absolute;top: 0;font-size: 13px;overflow-x: hidden;overflow-y: auto}
+.reportTable th{height: 35px;line-height: 15px;background:#205C86;color: #fff ;}
+.reportTable .tL{width: 400px;height: 35px}
+.reportTable .tR{width: 100px;height: 35px}
+
+#containDistributorSG{border:solid 1px #ccc;}
+ul{position: absolute;top: 40px;}
+li{list-style-type: none;border-bottom: 1px solid #ccc;cursor: pointer;font-size:13px;padding-left: 10px;padding-top: 20px;text-align: left;width: 180px;}
+li.hover1{background: #ccc}
+li:hover{background: #ccc}
+#containDistributorSG,#produceAllG{position: relative;top: 14px;}
+.rankCon{height:442px;width: 98%;border: solid 1px #ccc;position: relative;top:80px;margin-bottom: 20px;}
+.rankConTwo{height:442px;width: 100%;border: solid 1px #ccc;position: absolute;}
+.uptic{position: absolute;top: 0px;left:-23px;display: block;width: 25px;height: 25px;font-size: 0;background: url(http://www.12301.cc/tpl/orderquery/images/excel2.png) no-repeat 0 0;}
+.trecoreup{position:absolute;top:192px;left: 855px;cursor: pointer}
+.trecoreup:hover{background: #c4c4c4}
+
+.calendarSelect{width:163px;height: 30px;float: left;margin-top:34px;margin-right: 27px;cursor: pointer;line-height: 30px;padding-left:6px;}
+.selectDataFn{position: relative;left: 2px;border: solid 1px #ccc;}
+.clear{clear: both;}
+
+#calendarContainG{position: absolute;top:66px;z-index:200}
+.calendarContainClass{width:200px;height: 36px;line-height: 36px;border:solid 1px #ccc;padding-left: 4px;float: left;cursor: pointer;background: #fff}
+
+.calendarContainClass:hover{background-color: #ccc}
+#ContainForCalendarG{width:200px;}
+
+.changeDateP{position:absolute;top: 44px;left:574px;}
+#reportSearchBtnG:hover{background:#F53508}
+.secondContain{position: relative;z-index: 20}
+.InputCalendar{width:159px;height: 30px;line-height: 30px;padding-left: 5px;border: 1px solid #ccc;box-shadow: 1px 1px 1px rgba(0,0,0,0.2) inset;}
+.trCalendar{position:absolute;top:43px;left: 379px; }
+.ContainForCalendar-mask{z-index: 0}
+.PageMainBodyContainer{overflow: visible}
+
+.reportTable tr{height: 35px;border-bottom: solid 1px #ccc;}
+.TTR{color:green}
+.PageButton{width:80px;height:30px;border-radius: 5px;background: #999;float:left;}
+.pageAttention{float:left;margin: 5px;}
+.buttonCation{position: relative;top: 0px;left:713px;display: none}
+#pageButtonOneG{width:80px;height:30px;border-radius: 5px;background: #999;position: relative;}
+#pageButtonOneG:before{content: "<";position: absolute;top: -4px;left: 30px;color: #fff;font-size: 25px}
+
+#testButtonG{width:80px;height:30px;border-radius: 5px;background: #999;position: relative;left: 40px;top: -23px}
+#testButtonG:before{content: ">";position: absolute;top: -4px;left: 30px;color: #fff;font-size: 25px}
+
+#pageButtonOneG:hover{background: #b7e7f8}
+#testButtonG:hover{background: #b7e7f8}
+
+.queryToday_btn{height: 30px;line-height: 30px;border-bottom: 1px solid #0797d9;text-align: center;cursor: pointer}
+.queryToday_btn:hover{background:#0797d9;color: #fff }
+//#ComsuggestKeyG{position: absolute;top: 0px;}
+#contPositionG{position: absolute;top: 33px;left: 345px}
+#contPositionTG{position: absolute;top: 33px;left: 540px}
