@@ -553,14 +553,14 @@ var report ={
                     ContainHtml += '</tr>';
                 });
 
-                if(ContainHtml == '') {
-                    ContainHtml = '<td colspan="8" style="color:red;">没有数据</td>';
+                if(ContainHtml == ''&&($(".withoutData").length==0)) {
+                    ContainHtml = '<td colspan="8" style="color:red;" class="tL withoutData">没有数据</td>';
                 }
-                $(".reportTable .tRR").remove();
-
-                $(".reportTable").append(ContainHtml);
-
-
+                if(ContainHtml!=0){
+                    $(".withoutData").remove();
+                    $(".reportTable .tRR").remove();
+                    $(".reportTable").append(ContainHtml);
+                }
 
 
             },
