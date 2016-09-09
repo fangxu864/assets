@@ -241,7 +241,7 @@ var Main = RichBase.extend({
 
 			if(seatid && state && state!="-1"){
 				var area = data["zones"][areaid] ? data["zones"][areaid] : (data["zones"][areaid]={});
-				if(state=="4" || state=="5") state = 0;
+				//if(state=="4" || state=="5") state = 0;
 				area[seatid] = state;
 			}
 		})

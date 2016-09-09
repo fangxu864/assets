@@ -4,29 +4,50 @@
     </div>
 </template>
 <script type="es6">
+    const OrderService = require("SERVICE_M/mall-member-user-order");
+    let Toast = new PFT.Mobile.Toast();
     export default{
         data(){
             return{
                 infoData : {},
-                id : "",
                 active : false
             }
         },
+        ready(){
+
+        },
         route : {
             data(transition){
-                this.$set("id",transition.to.params.id);
-                this.$set("active",true);
+                var ordernum = transition.to.params.id;
+                var cacheData = sessionStorage.getItem("orderDetail");
+                if(cacheData){
+
+                }else{
+                    OrderService.detail(ordernum,{
+                        loading : ()=>{
+                            Toast.show("loading","努力加载中..")
+                        },
+                        complete : ()=>{},
+                        success : (res)=>{},
+                        fail : (msg)=>{}
+                    })
+                }
             },
             activate(){
 
             },
             deactivate(){
-                this.$set("id","");
-                this.$set("active",false);
+
+
             }
         },
         methods : {
+            fetchData(ordernum){
+                if(!ordernum) return false;
 
+
+
+            }
         }
     }
 </script>

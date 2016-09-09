@@ -32,7 +32,16 @@
 <script type="es6">
     const OrderService = require("SERVICE_M/mall-member-user-order");
     let Toast = new PFT.Mobile.Toast();
-    let Alert = new PFT.Mobile.Alert();
+    let __TransformPre = (function(){
+        var div = document.createElement("div");
+        var transform = {
+            transform : "transform",
+            webkitTransform : "webkitTransform"
+        };
+        for(var i in transform){
+            if(div.style[i]!=="undefined") return transform[i];
+        }
+    })();
     export default{
         data(){
             return{
@@ -79,13 +88,23 @@
         },
         route : {
             data(transition){
-                console.log(transition);
                 this.lockY = false;
-                this.tabActive = sessionStorage.getItem("tabActive") || this.tabActive;
+                var type = this.tabActive = sessionStorage.getItem("tabActive") || this.tabActive;
                 if(transition.from.name=="detail"){ //从detail重新回到index页则直接取sessionStorage里的data list
+                    var data = JSON.parse(sessionStorage.getItem(type));
+                    this.$set(type+".page",data.page);
+                    this.$set(type+".totalPage",data.totalPage);
+                    this.$set(type+".list",data.list);
+                    this.$nextTick(()=>{
+                        if((this[type]["page"]>=this[type]["totalPage"]) || this[type]["totalPage"]==-1){
+                            this.disableScroll();
+                        }
+                        var translateY = sessionStorage.getItem("translateY") || 0;
+                        this.setTranslateY(translateY);
+                    })
 
                 }else{//如果是从外部页面进入到index页
-
+                    this.fetchData(this.tabActive);
                 }
             },
             activate(){
@@ -94,46 +113,32 @@
             deactivate(){
                 this.lockY = true;
                 sessionStorage.setItem("tabActive",this.tabActive);
-                sessionStorage.setItem("scrollTop",$(window).scrollTop());
+                sessionStorage.setItem("unuse",JSON.stringify(this.unuse));
+                sessionStorage.setItem("history",JSON.stringify(this.history));
+                //记录垂直滚动Y轴的距离
+                sessionStorage.setItem("translateY",this.getTranslateY());
             }
         },
         watch : {
-            unuse_scroller_disable(val){
-                if(this.tabActive=="unuse" && val=="disable"){
-                    this.disableScroll();
-                }else{
+            scrollable(val){
+                if(val==true){
                     this.enableScroll();
                     this.resetScroll();
-                }
-            },
-            history_scroller_disable(val){
-                if(this.tabActive=="history" && val=="disable"){
-                    this.disableScroll();
                 }else{
-                    this.enableScroll();
-                    this.resetScroll();
+                    this.disableScroll();
                 }
             }
         },
         computed : {
-            unuse_scroller_disable(){
-                var unuse = this.unuse;
-                var page = unuse.page;
-                var totalPage = unuse.totalPage;
-                if(page>0 && page<totalPage){
-                    return "able";
+            scrollable(){
+                var tabActive = this.tabActive;
+                var data = this[tabActive];
+                var page = data.page;
+                var totalPage = data.totalPage;
+                if(page<totalPage || page==0){
+                    return true; //可以滑动监听上拉加载更多
                 }else{
-                    return "disable";
-                }
-            },
-            history_scroller_disable(){
-                var history = this.history;
-                var page = history.page;
-                var totalPage = history.totalPage;
-                if(page>0 && page<totalPage){
-                    return "able";
-                }else{
-                    return "disable";
+                    return false; //不可上拉加载更多
                 }
             }
         },
@@ -171,7 +176,8 @@
                         }
                         this.$nextTick(()=>{
                             if(page==1){
-                                this.$broadcast('pulldown:reset', this.$refs.scroller.uuid)
+                                this.$broadcast('pulldown:reset', this.$refs.scroller.uuid);
+                                this.resetScroll();
                             }else{
                                 this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
                             }
@@ -190,22 +196,30 @@
             onTabItemClick(type){
                 this.tabActive = type;
                 sessionStorage.setItem("tabActive",type);
-                this.$nextTick(()=>{
-                    if(this.tabActive=="unuse" && this.unuse_scroller_disable=="disable"){
-                        this.disableScroll();
-                    }else if(this.tabActive=="history" && this.history_scroller_disable=="disable"){
-                        this.disableScroll();
-                    }else{
-                        this.enableScroll();
-                        this.resetScroll();
-                    }
-                })
                 if(type=="history" && this.history.page==0 && this.history.totalPage==0){
                     this.fetchData(type);
                 }
                 if(type=="unuse" && this.unuse.page==0 && this.unuse.totalPage==0){
                     this.fetchData(type);
                 }
+                this.$nextTick(()=>{
+                    this.resetScroll();
+                })
+            },
+            getTranslateY(){
+                var scroller = document.querySelector("#scrollWrap .xs-container");
+                var style = window.getComputedStyle(scroller,null);
+                var transform = style["transform"] || style["-webkit-transform"];
+                //transform属性值最终都会被转化成矩阵 matrix(a,b,c,d,e,f)
+                //详情请参考:http://www.zhangxinxu.com/wordpress/2012/06/css3-transform-matrix-%E7%9F%A9%E9%98%B5/
+                var matrix = transform.replace(/(^matrix\()(.*)(\))$/,function($0,$1,$2,$3){ return $2;})
+                matrix = matrix.split(",");
+                return matrix[matrix.length-1];
+            },
+            setTranslateY(val){
+                var scroller = document.querySelector("#scrollWrap .xs-container");
+                //transform: translate(0px, 0px) translateZ(0px)
+                scroller.style[__TransformPre] = "translate(0px, "+val+"px) translateZ(0px)";
             },
             disableScroll(){
                 this.$broadcast('pullup:disable', this.$refs.scroller.uuid);

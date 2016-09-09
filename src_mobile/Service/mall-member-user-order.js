@@ -128,6 +128,35 @@ var UserOrder = {
 				}
 			}
 		})
+	},
+
+	/**
+	 * 我的订单 _详情 http://123624.12301.local/r/Mall_Member/orderDetail/
+	 * @param ordernumstring	订单号
+	 */
+	detail : function(ordernum,opt){
+		opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
+
+		PFT.Util.Ajax(PFT.Api.C.userCenterOrderList(),{
+			type : "post",
+			params : {
+				ordernum : ordernum,
+				token : PFT.Util.getToken()
+			},
+			loading : opt.loading,
+			complete : opt.complete,
+			success : function(res){
+				res = res || {};
+				var code = res.code;
+				var data = res.data || {};
+				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				if(code==200){
+					opt.success(data);
+				}else{
+					opt.fail(msg);
+				}
+			}
+		})
 	}
 };
 

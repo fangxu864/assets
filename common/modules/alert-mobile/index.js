@@ -6,43 +6,74 @@
  * 手机端模拟alert  ios效果
  *
  *
- * var alert = new Alert();
- * var alert = new PFT.Mobile.Alert();
- *
- * alert.show("温馨提醒","您的帐号密码设置过于简单，存在被盗风险，请尽快修改密码",function(){
+ * var Alert = PFT.Mobile.Alert;
+ * Alert("温馨提醒","您的帐号密码设置过于简单，存在被盗风险，请尽快修改密码",function(){
  * 		do something after show
  * })
  *
- * alert.show("温馨提醒","您的帐号密码设置过于简单，存在被盗风险，请尽快修改密码")
+ * Alert("温馨提醒","您的帐号密码设置过于简单，存在被盗风险，请尽快修改密码")
  *
- * alert.show("您的帐号密码设置过于简单，存在被盗风险，请尽快修改密码")
+ * Alert("您的帐号密码设置过于简单，存在被盗风险，请尽快修改密码")
  *
  *
  */
 require("./index.scss");
-function Alert(){
-	var body = this.body = $("body");
-	this.container = $('<div class="pftui-alert-container"></div>');
-	this.mask = $('<div class="pftui-alert-mask transition" style="display:none"></div>');
-	this.alertBox = $('<div class="pftui-alert-box transition" style="display:none"></div>');
-	this.hd = $('<div class="pftui-alert-hd"></div>');
-	this.bd = $('<div class="pftui-alert-bd"></div>');
-	this.fd = $('<div class="pftui-alert-fd">确定</div>');
-	this.fd.on("click",this.hide.bind(this));
-	this.alertBox.append(this.hd).append(this.bd).append(this.fd);
-	this.container.append(this.mask).append(this.alertBox).appendTo(body);
-	this.eventType = this.witchEndEvent();
-}
-Alert.prototype = {
+var Alert = {
 	show : function(title,content,onAfterShow){
+		if($("#pftui-alert-container").length==0) this._create();
+		this._show(title,content,onAfterShow);
+	},
+	hide : function(e){
+		var eventType = this.eventType;
+		this.alertBox[0].addEventListener(eventType,this._onAlertBoxTransitionEnd,false);
+		this.mask[0].addEventListener(eventType,this._onMaskTransitionEnd,false);
+		this.alertBox.addClass("leave");
+		this.mask.addClass("leave");
+	},
+	_onAlertBoxTransitionEnd : function(e){
+		var alertBox = e.target;
+		alertBox.removeEventListener(this.eventType,this._onAlertBoxTransitionEnd,false);
+		alertBox.classList.remove("leave");
+		alertBox.style.display = "none";
+	},
+	_onMaskTransitionEnd : function(e){
+		var mask = e.target;
+		mask.removeEventListener(this.eventType,this._onMaskTransitionEnd,false);
+		mask.classList.remove("leave");
+		mask.style.display = "none";
+	},
+	_witchEndEvent : function(){
+		var elem = document.createElement("div");
+		var endEvent = {
+			transition : "transitionend",
+			WebkitTransition : "WebkitTransitionEnd"
+		};
+		for(var k in endEvent){
+			if(elem.style[k]!=="undefined"){
+				return endEvent[k];
+			}
+		}
+	},
+	_create : function(){
+		this.container = $('<div id="pftui-alert-container" class="pftui-alert-container"></div>');
+		this.mask = $('<div class="pftui-alert-mask transition" style="display:none"></div>');
+		this.alertBox = $('<div class="pftui-alert-box transition" style="display:none"></div>');
+		this.hd = $('<div class="pftui-alert-hd"></div>');
+		this.bd = $('<div class="pftui-alert-bd"></div>');
+		this.fd = $('<div class="pftui-alert-fd">确定</div>');
+		this.alertBox.append(this.hd).append(this.bd).append(this.fd);
+		this.container.append(this.mask).append(this.alertBox).appendTo(body);
+		this.fd.on("click",this.hide.bind(this));
+	},
+	_show : function(title,content,onAfterShow){
 		var that = this;
 		var args = arguments;
 		var args_len = arguments.length;
 		var tit = "";
 		var con = "";
 		var callback = null;
-		this.onAlertBoxTransitionEnd = this.onAlertBoxTransitionEnd.bind(this);
-		this.onMaskTransitionEnd = this.onMaskTransitionEnd.bind(this);
+		this._onAlertBoxTransitionEnd = this._onAlertBoxTransitionEnd.bind(this);
+		this._onMaskTransitionEnd = this._onMaskTransitionEnd.bind(this);
 		if(args_len==1){
 			con = args[0];
 		}else if(args_len==2){
@@ -72,39 +103,9 @@ Alert.prototype = {
 		this.mask[0].style = "";
 
 		callback && callback();
-
-	},
-	hide : function(e){
-		var eventType = this.eventType;
-		this.alertBox[0].addEventListener(eventType,this.onAlertBoxTransitionEnd,false);
-		this.mask[0].addEventListener(eventType,this.onMaskTransitionEnd,false);
-		this.alertBox.addClass("leave");
-		this.mask.addClass("leave");
-	},
-	onAlertBoxTransitionEnd : function(e){
-		var alertBox = e.target;
-		alertBox.removeEventListener(this.eventType,this.onAlertBoxTransitionEnd,false);
-		alertBox.classList.remove("leave");
-		alertBox.style.display = "none";
-	},
-	onMaskTransitionEnd : function(e){
-		var mask = e.target;
-		mask.removeEventListener(this.eventType,this.onMaskTransitionEnd,false);
-		mask.classList.remove("leave");
-		mask.style.display = "none";
-	},
-	witchEndEvent : function(){
-		var elem = document.createElement("div");
-		var endEvent = {
-			transition : "transitionend",
-			WebkitTransition : "WebkitTransitionEnd"
-		};
-		for(var k in endEvent){
-			if(elem.style[k]!=="undefined"){
-				return endEvent[k];
-			}
-		}
 	}
-}
+};
 
-module.exports = Alert;
+module.exports = function(title,content,onAfterShow){
+	Alert.show(title,content,onAfterShow)
+};
