@@ -26,7 +26,7 @@ $(function(){
     report.beginJudge();
     report.seearchFunctionTwo();
     report.changeDate();
-    report.PageButton();
+    // report.PageButton();
     report.getLandList();
 
 
@@ -557,8 +557,8 @@ var report ={
                     ContainHtml = '<td colspan="8" style="color:red;">没有数据</td>';
                 }
                 $(".reportTable .tRR").remove();
-                var  containHead =$(".reportTable .headShow").html();
-                $(".reportTable").html(containHead+ContainHtml);
+
+                $(".reportTable").append(ContainHtml);
 
 
 
@@ -666,33 +666,18 @@ var report ={
 
     },
     //翻页按钮，单页没有超过15条记录不出现翻页按钮
-    PageButton:function() {
-        var that =this;
-        $("#reportSearchBtn").click(function () {
-            if ($(".rankCon tr").length >= 15) {
-                $(".buttonCation").css("display", "block");
-            }
-            else {
-                $(".buttonCation").css("display", "none");
-            }
-        })
-    },
-    diffluence:function(method,delay,duration){
-        var begin = new Date();
-        var timer = null;
-        return function(){
-            var current = new Date(), args = Array.prototype.slice.call(arguments), context = this;
-            clearTimeout(timer);
-            if(current - begin >= duration){
-                method.apply(context,args);
-                begin = current;
-            }else{
-                timer = setTimeout(function(){
-                    method.apply(context,args);
-                },delay);
-            }
-        }
-    },
+    // PageButton:function() {
+    //     var that =this;
+    //     $("#reportSearchBtn").click(function () {
+    //         if ($(".rankCon tr").length >= 15) {
+    //             $(".buttonCation").css("display", "block");
+    //         }
+    //         else {
+    //             $(".buttonCation").css("display", "none");
+    //         }
+    //     })
+    // },
+
     beginJudge:function () {
 
         if($("#reportTable .tRR").length==0){
