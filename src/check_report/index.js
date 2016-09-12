@@ -627,17 +627,19 @@ var report_check ={
                 //将获取到的后端列表数据展示出来
                 var ContainHtml ='';
                 $.each(list,function(key,val){
-                    ContainHtml += '<tr class="tRR"><td>'+ (key+1) +'</td>';
-                    ContainHtml += '<td >'+ val.title +'</td>';
+                    ContainHtml += '<tr class="tRR"><td>'+"&nbsp;"+ val.title+'</td>';
+                    // ContainHtml += '<td >'+ val.title +'</td>';
                     ContainHtml += '<td >'+ val.order_num +'</td>';
                     ContainHtml += '<td>'+ val.ticket_num +'</td>';
                     ContainHtml += '<td >'+ val.sale_money +'</td>';
+                    ContainHtml += '<td >'+ val.profit_money +'</td>';
+              
 
-                    if(dtype != 2 && dtype != 3) {
-                        ContainHtml += '<td class="tL">'+ val.cost_money +'</td>';
-                        ContainHtml += '<td class="tL">'+ val.coupon_num +'</td>';
-                        ContainHtml += '<td onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.coupon_money +'</td>';
-                    }
+                    // if(dtype != 2 && dtype != 3) {
+                    //     ContainHtml += '<td class="tL">'+ val.cost_money +'</td>';
+                    //     ContainHtml += '<td class="tL">'+ val.coupon_num +'</td>';
+                    //     ContainHtml += '<td onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.coupon_money +'</td>';
+                    // }
 
                     ContainHtml += '</tr>';
                 });
