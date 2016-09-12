@@ -7,9 +7,9 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		"mems_export" : "./src/mems_export/index.js"
-	},
-	output : output,
+	"mems_export" : "./src/mems_export/index.js"
+},
+output : output,
 	plugins : plugins
 });
 module.exports = config;

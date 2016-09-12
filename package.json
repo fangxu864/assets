@@ -62,7 +62,12 @@
     "mems_export-start": "set NODE_ENV=develop && webpack --config ./src/mems_export/webpack.config.js -w",
     "mems_export-test": "set NODE_ENV=test && webpack --config ./src/mems_export/webpack.config.js",
     "mems_export-release": "set NODE_ENV=release && webpack --config ./src/mems_export/webpack.config.js",
-    "mems_export-production": "set NODE_ENV=production && webpack --config ./src/mems_export/webpack.config.js"
+    "mems_export-production": "set NODE_ENV=production && webpack --config ./src/mems_export/webpack.config.js",
+
+    "exceldown-start": "set NODE_ENV=develop && webpack --config ./src/exceldown/webpack.config.js -w",
+    "exceldown-test": "set NODE_ENV=test && webpack --config ./src/exceldown/webpack.config.js",
+    "exceldown-release": "set NODE_ENV=release && webpack --config ./src/exceldown/webpack.config.js",
+    "exceldown-production": "set NODE_ENV=production && webpack --config ./src/exceldown/webpack.config.js"
   },
   "repository": {
     "type": "git",
