@@ -556,11 +556,11 @@ var report ={
                 if((ContainHtml == '')&&($(".withoutData").length==0)) {
                     ContainHtml = '<td colspan="8" style="color:red;" class="tL withoutData">没有数据</td>';
                 }
-                if(ContainHtml!=0){
+                else if(ContainHtml != ''){
                     $(".withoutData").remove();
                     $(".reportTable .tRR").remove();
-                    $(".reportTable").append(ContainHtml);
                 }
+                $(".reportTable").append(ContainHtml);
 
 
             },
