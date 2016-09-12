@@ -5,7 +5,7 @@
                :autofocus="isFocus"
                :placeholder="placeholder"
                :debounce="debounce" />
-        <i class="iconfont search icon-search"></i>
+        <i class="uicon search uicon-sousuo"></i>
         <i class="iconfont loading"></i>
         <div @click="onClearBtnClick" class="clearBtn" :class="{'show':clearBtnShow}"><i class="iconfont clear icon-shanchu2"></i></div>
     </div>

@@ -1,0 +1,17 @@
+<div class="pContainer">
+    <ul class="navGroup">
+        <% for(var i=0; i<data.length; i++){ %>
+            <% var item = data[i]; %>
+            <li class="nav
+                <%=item.current ? 'current' : ''%>
+                <%=item.first ? 'first' : ''%>
+                <%=item.last ? 'last' : ''%>
+                <%=item.val=='dot' ? 'dot' : ''%>
+                ">
+                <%=item.val=="dot" ? "..." : item.val%>
+            </li>
+        <%}%>
+    </ul>
+
+
+</div>
