@@ -586,10 +586,10 @@ var report_check ={
         else{
             end_date=$("#calendarInputtwoG").val();
         }
-        if((merchant_id=="")||(land_id=="")||(reseller_id=="")) {
-            alert("请确保选择必要的搜索条件！");
-            return false;
-        }
+        // if((merchant_id=="")||(land_id=="")||(reseller_id=="")) {
+        //     alert("请确保选择必要的搜索条件！");
+        //     return false;
+        // }
 
         $.ajax({
             dataType:"json",
