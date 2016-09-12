@@ -329,6 +329,9 @@ var report_check ={
             $newdate.html("0"+date);
             return $newdate.html();
         }
+        else{
+            return date;
+        }
     },
     //获取时间
     getNowadate:function(){
