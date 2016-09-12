@@ -12,10 +12,13 @@ var Main = function(){
 	var canvas = new Canvas();
 	var vcode = new VCode();
 	var fixBar = $("#fixBarContainer");
+	var currentContainer = $("#currentContainer");
 	fixBar.on("click",".reuploadBtn",function(e){ //重新上传
 		canvas.reset();
 		vcode.setState("");
 		fileInp.show();
+		fixBar.hide();
+		currentContainer.show();
 	}).on("click",".createBtn" ,function(e){
 		if($(e.currentTarget).hasClass("disable")) return false;
 		var vcode_position = vcode.getPosition();
@@ -26,6 +29,8 @@ var Main = function(){
 		vcode.setState("moveing");
 		canvas.drawBg(url);
 		fileInp.hide();
+		fixBar.show();
+		currentContainer.hide();
 	})
 };
 window.onload = Main;

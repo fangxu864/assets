@@ -208,7 +208,6 @@ Select.prototype = {
 		var defaultVal = this.opt.defaultVal;
 		if(data=="loading" || data=="error" || data==null) return false;
 		if(defaultVal){
-
 			this.selectDefaultVal();
 		}else{
 			this.listUl.children().first().trigger("click");
