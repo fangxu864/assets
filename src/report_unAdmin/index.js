@@ -553,7 +553,7 @@ var report ={
                     ContainHtml += '</tr>';
                 });
 
-                if(ContainHtml == ''&&($(".withoutData").length==0)) {
+                if((ContainHtml == '')&&($(".withoutData").length==0)) {
                     ContainHtml = '<td colspan="8" style="color:red;" class="tL withoutData">没有数据</td>';
                 }
                 if(ContainHtml!=0){
