@@ -1027,7 +1027,7 @@ var report ={
 
 
 $(function(){
-    $("#revoke_reportContain").html(tpl);
+    $(".ContainOne").html(tpl);
     report.init();
     report.proCommodity();
     report.selectChange("#produceAllTicket","产品");
