@@ -627,7 +627,7 @@ var report ={
                 });
                 if((ContainHtml == '')&&($(".withoutData").length==0)&&($(".buttonCation").css("display")=="none")) {
                     $(".reportTable .tRR").remove();
-                    ContainHtml = '<td colspan="8" style="color:red;" class="tL withoutData">没有数据</td>';
+                    ContainHtml = '<td colspan="8" style="color:red;" class="withoutData">没有数据</td>';
                 }
                 else if(ContainHtml != ''){
                     $(".withoutData").remove();
