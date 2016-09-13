@@ -16,7 +16,7 @@ var report ={
         that.calendarShow("#calendarInputOne");
         that.calendarShow("#calendarInputtwo");
         $("#reportSearchBtn").on("click",function(){
-            $("#reportSearchBtnA").addClass("disable");
+            // $("#reportSearchBtnA").addClass("disable");
             that.featchData("1");
         });
         $('#calendarInputtwo').bind('input propertychange', function() {
@@ -601,13 +601,13 @@ var report ={
                 $(".queryToday_td").remove();
                 var total =data.data.total;
 
-                if(total<=15){
+                if(total<=20){
                     $(".buttonCation").css("display","none")
                 }
                 else{
                     $(".buttonCation").css("display","block")
                 }
-                var PageNum =Math.ceil(total/15);
+                var PageNum =Math.ceil(total/20);
                 $("#PageTotal").html(PageNum);
                 // $(".reportTable tr").remove();
                 var list =data.data.list;
@@ -626,7 +626,7 @@ var report ={
                 });
                 if((ContainHtml == '')&&($(".withoutData").length==0)) {
                     $(".reportTable .tRR").remove();
-                    ContainHtml = '<td colspan="8" style="color:red;" class="tL withoutData">没有数据</td>';
+                    ContainHtml = '<td colspan="8" style="color:red;" class="withoutData">没有数据</td>';
                 }
                 else if(ContainHtml != ''){
                     $(".withoutData").remove();
