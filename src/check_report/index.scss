@@ -57,7 +57,7 @@
 //#searchSecondL:before{width:12px;height:5px;background:#ccc;transform:rotate(45deg);-webkit-transform:rotate(45deg);content: "";position: absolute;left:8px;top: 14px;}
 
 .selectDistributor{width: 72px;height: 32px;position: relative;top: 14px;border-radius: 2px;}
-.searchBtn{width: 89px; height: 30px;cursor: pointer;background:  #FF6C00;position: absolute;left: 727px;top: 153px;color:#fff;text-align: center;line-height: 28px}
+.searchBtn{width: 89px; height: 30px;cursor: pointer;background:  #FF6C00;position: absolute;left: 727px;top: 185px;color:#fff;text-align: center;line-height: 28px}
 .reportTable{width: 100%;margin:0px;top: 0;font-size: 13px;overflow-x: hidden;overflow-y: auto}
 .reportTable th{height: 35px;line-height: 15px;background:#205C86;color: #fff ;}
 .reportTable .tL{width: 400px;height: 35px}
@@ -72,9 +72,9 @@ li:hover{background: #ccc}
 .rankCon{min-height:1000px;position: relative;top:80px;margin-bottom: 20px;}
 .rankConTwo{min-height:550px;width: 100%;position:absolute}
 .uptic{position: absolute;top: 0px;left:-23px;display: block;width: 25px;height: 25px;font-size: 0;background: url(http://www.12301.cc/tpl/orderquery/images/excel2.png) no-repeat 0 0;}
-.trecoreup{position:absolute;top:163px;left: 855px;cursor: pointer}
+.trecoreup{position:absolute;top:194px;left: 855px;cursor: pointer}
 .trecoreup:hover{background: #c4c4c4}
-
+`
 .calendarSelect{width:163px;height: 30px;float: left;margin-top:34px;margin-right: 27px;cursor: pointer;line-height: 30px;padding-left:6px;}
 .selectDataFn{position: relative;left: 2px;border: solid 1px #ccc;}
 .clear{clear: both;}
