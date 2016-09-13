@@ -1,47 +1,35 @@
 /**
- * Created by Administrator on 2016/9/9.
+ * Created by Administrator on 2016/8/26.
  */
 require("./index.scss");
 var tpl=require("./index.tpl");
 var Calendar = require("COMMON/modules/calendar");
-$(function(){
-    $("#check_reportContain").html(tpl);
-    report_check.init();
-    report_check.proCommodity();
-    report_check.selectChange("#produceAllTicketG","产品");
-    report_check.selectChange("#distributorAllG","分销商");
-    report_check.selectChange("#forOrderG","预定渠道");
-    report_check.selectChange("#forDateG","日期");
-    report_check.selectChange("#forProduceG","产品");
-    report_check.seearchFunction();
-    report_check.calendar();
-    report_check.closeSelector("#selectDataFnG","#calendarContainG");
-    report_check.closeSelector("#produceItermG","#produceAllG");
-    report_check.educeData();
-    report_check.getNowadate();
-    report_check.PageJudgement();
-    report_check.beginJudge();
-    report_check.seearchFunctionTwo();
-    report_check.justForDate();
-    report_check.justdistributor();
+var Select = require("COMMON/modules/select");
 
-    report_check.changeDate();
-
-    report_check.closeSearch();
-
-
-
-})
-var report_check ={
+var report ={
     init : function () {
+
+
         var that=this;
         that.Calendar = new Calendar();
         that.Calendar.on("selcet",function(data){});
-        that.calendarShow("#calendarInputOneG");
-        that.calendarShow("#calendarInputtwoG");
-        $("#reportSearchBtnG").on("click",function(){
+        that.calendarShow("#calendarInputOne");
+        that.calendarShow("#calendarInputtwo");
+        $("#reportSearchBtn").on("click",function(){
+            $("#reportSearchBtnA").addClass("disable");
             that.featchData("1");
         });
+        $('#calendarInputtwo').bind('input propertychange', function() {
+            var password = $("#calendarInputtwo").val();
+            alert(password)
+            if(!passwordFilter(password)){
+                return false;
+
+            }
+
+        });
+
+
 
 
 
@@ -85,13 +73,13 @@ var report_check ={
     //
     proCommodity:function(){
         var that=this;
-        that.selectContain("#produceItermG","#produceAllG");
-        that.selectContain("#proCommodityG","#proCommodityItemG");
-        that.selectContain("#contianDistributorFG","#containDistributorSG");
-        that.selectContain("#SearchMerchantG","#MerchantContainG")
-        $("#containDistributorSelctFG").on("click","li",function () {
-            $("#contianDistributorFG").attr("reseller_id",$(this).attr("reseller_id"));
-            $("#contianDistributorFG").html($(this).html());
+        that.selectContain("#produceIterm","#produceAll");
+        that.selectContain("#proCommodity","#proCommodityItem");
+        that.selectContain("#contianDistributorF","#containDistributorS");
+        that.selectContain("#SearchMerchant","#MerchantContain")
+        $("#containDistributorSelctF").on("click","li",function () {
+            $("#contianDistributorF").attr("reseller_id",$(this).attr("reseller_id"));
+            $("#contianDistributorF").html($(this).html());
         })
 
 
@@ -101,16 +89,15 @@ var report_check ={
 
         $(".Commercial").click(function(){
             var choose=$(this).html();
-            $("#produceItermG").html(choose);
+            $("#produceIterm").html(choose);
             var count_way =$(this).attr("count_way");
-            $("#produceItermG").attr("count_way",count_way);
-            $("#produceAllG").css("display","none")
+            $("#produceIterm").attr("count_way",count_way);
+            $("#produceAll").css("display","none")
         })
         //按票汇总，产品后增加票字段
         $(target).click(function(){
             if($(".addTicktItem").length<=0){
-                if(target=="#produceAllTicketG"){
-                    var $e=$("<th class='tR addTicktItem' >票</th>");
+                if(target=="#produceAllTicket"){
                     $(".reportTable .tL").after($e);
                 }
 
@@ -118,7 +105,7 @@ var report_check ={
             else{
                 $(".addTicktItem").remove();
             }
-            $("#produceTlG").html(contain)
+            $("#produceTl").html(contain)
 
         })
 
@@ -129,12 +116,12 @@ var report_check ={
     },
     seearchFunction:function(){
         var that=this;
-        var input=$("#searchInputG");
+        var input=$("#searchInput");
         var that= this;
         var key = "";
 
-        $("#searchInputG").keyup(function(event){
-            var suggestKey = $("#suggestKeyG");
+        $("#searchInput").keyup(function(event){
+            var suggestKey = $("#suggestKey");
             var  current = suggestKey.find("li.hover1");
             //搜索框上下浏览选内容
             if(event.keyCode==38){
@@ -144,7 +131,7 @@ var report_check ={
                     {
                         prevLi.addClass('hover1');
                         input.val(prevLi.html());
-                        $("#proCommodityG").html("产品名称："+input.val());
+                        $("#proCommodity").html("产品名称："+input.val());
 
                     }
                 }
@@ -153,7 +140,7 @@ var report_check ={
                     var last = suggestKey.find('li:last');
                     last.addClass('hover1');
                     input.val(last.html());
-                    $("#proCommodityG").html("产品名称："+input.val());
+                    $("#proCommodity").html("产品名称："+input.val());
 
                 }
             }
@@ -164,7 +151,7 @@ var report_check ={
                     {
                         nextLi.addClass('hover1');
                         input.val(nextLi.html());
-                        $("#proCommodityG").html("产品名称："+input.val());
+                        $("#proCommodity").html("产品名称："+input.val());
 
                     }
                 }
@@ -172,12 +159,12 @@ var report_check ={
                     var first = suggestKey.find('li:first');
                     first.addClass('hover1');
                     input.val(first.html());
-                    $("#proCommodityG").html("产品名称："+input.val());
+                    $("#proCommodity").html("产品名称："+input.val());
 
                 }
             }
             else if (event.keyCode==13){
-                $("#proCommodityItemG").css("display","none")
+                $("#proCommodityItem").css("display","none")
             }
             //搜索框输入文字进行搜索
             else{
@@ -198,23 +185,23 @@ var report_check ={
             }
 
         })
-        $("#suggestKeyG li").click(function(){
+        $("#suggestKey li").click(function(){
 
-            $("#proCommodityG").html("产品名称："+$(this).html());
-            $("#proCommodityG").attr("land_id",$(this).attr("land_id"))
+            $("#proCommodity").html("产品名称："+$(this).html());
+            $("#proCommodity").attr("land_id",$(this).attr("land_id"))
 
-            $("#proCommodityItemG").css("display","none");
+            $("#proCommodityItem").css("display","none");
 
 
         })
 
     },
     seearchFunctionTwo:function(){
-        var input=$("#searchInputSecondLG");
+        var input=$("#searchInputSecondL");
         var key = "";
 
-        $("#searchInputSecondLG").keyup(function(event){
-            var suggestKey = $("#ComsuggestKeyG");
+        $("#searchInputSecondL").keyup(function(event){
+            var suggestKey = $("#ComsuggestKey");
             var  current = suggestKey.find("li.hover1");
             //搜索框上下浏览选内容
             if(event.keyCode==38){
@@ -224,7 +211,7 @@ var report_check ={
                     {
                         prevLi.addClass('hover1');
                         input.val(prevLi.html());
-                        $("#SearchMerchantG").html("商户："+input.val());
+                        $("#SearchMerchant").html("商户："+input.val());
 
                     }
                 }
@@ -233,7 +220,7 @@ var report_check ={
                     var last = suggestKey.find('li:last');
                     last.addClass('hover1');
                     input.val(last.html());
-                    $("#SearchMerchantG").html("商户："+input.val());
+                    $("#SearchMerchant").html("商户："+input.val());
 
                 }
             }
@@ -244,7 +231,7 @@ var report_check ={
                     {
                         nextLi.addClass('hover1');
                         input.val(nextLi.html());
-                        $("#SearchMerchantG").html("商户："+input.val());
+                        $("#SearchMerchant").html("商户："+input.val());
 
                     }
                 }
@@ -252,12 +239,12 @@ var report_check ={
                     var first = suggestKey.find('li:first');
                     first.addClass('hover1');
                     input.val(first.html());
-                    $("#SearchMerchantG").html("商户："+input.val());
+                    $("#SearchMerchant").html("商户："+input.val());
 
                 }
             }
             else if (event.keyCode==13){
-                $("#MerchantContainG").css("display","none")
+                $("#MerchantContain").css("display","none")
             }
             //搜索框输入文字进行搜索
             else{
@@ -278,20 +265,20 @@ var report_check ={
             }
 
         })
-        $("#ComsuggestKeyG li").click(function(){
+        $("#ComsuggestKey li").click(function(){
 
-            $("#SearchMerchantG").html("商户："+$(this).html());
-            $("#SearchMerchantG").attr("merchant_id",$(this).attr("data-id"))
+            $("#SearchMerchant").html("商户："+$(this).html());
+            $("#SearchMerchant").attr("merchant_id",$(this).attr("data-id"))
 
-            $("#MerchantContainG").css("display","none");
+            $("#MerchantContain").css("display","none");
 
 
         })
-        $("#searchInputSecondLG").on("keyup",function(){
+        $("#searchInputSecondL").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
             $.ajax({
                 "url" : "/r/report_statistics/adminSearchMerchant/",
-                "data" : {page:1, size:100, keyword:$("#searchInputSecondLG").val()},
+                "data" : {page:1, size:100, keyword:$("#searchInputSecondL").val()},
                 "dataType":"json",
                 "type": 'POST',
                 "success":function(data){
@@ -306,17 +293,17 @@ var report_check ={
                         contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
                         li_id=id;
                     }
-                    $("#ComsuggestKeyG").html(contents);
+                    $("#ComsuggestKey").html(contents);
                 }
             });
-            $("#ComsuggestKeyG").on("click","li",function(e){
+            $("#ComsuggestKey").on("click","li",function(e){
                 var target = $(e.currentTarget);
                 var merchant_id= target.attr("data-id");
                 var html =target.html();
-                $("#SearchMerchantG").attr("merchant_id",merchant_id);
-                $("#SearchMerchantG").html("商户："+html);
-                $("#searchInputSecondLG").val(html);
-                $("#MerchantContainG").css("display","none");
+                $("#SearchMerchant").attr("merchant_id",merchant_id);
+                $("#SearchMerchant").html("商户："+html);
+                $("#searchInputSecondL").val(html);
+                $("#MerchantContain").css("display","none");
             })
         })
 
@@ -352,8 +339,8 @@ var report_check ={
                     var LMonday = 30+Monday;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+LMonday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+LMonday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                 }
                 else if(months==3){
                     //判断闰年出现的情况
@@ -361,15 +348,15 @@ var report_check ={
                         Monday = 29+Monday;
                         var dayS=that.setdataType(days);
                         var monthS=that.setdataType(months);
-                        $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                        $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                        $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                        $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                     }
                     else {
                         Monday = 28 + Monday;
                         var dayS=that.setdataType(days);
                         var monthS=that.setdataType(months);
-                        $("#calendarInputOneG").val(years + "-" + LastMonths + "-" + Monday);
-                        $("#calendarInputtwoG").val(years + "-" + monthS + "-" + dayS);
+                        $("#calendarInputOne").val(years + "-" + LastMonths + "-" + Monday);
+                        $("#calendarInputtwo").val(years + "-" + monthS + "-" + dayS);
                     }
 
 
@@ -379,15 +366,15 @@ var report_check ={
                     years =years-1;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                 }
                 else{
                     Monday = 31+Monday;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                 }
             }
             else {
@@ -395,14 +382,14 @@ var report_check ={
                 Monday =that.setdataType(Monday);
                 var dayS=that.setdataType(days);
                 var monthS=that.setdataType(months);
-                $("#calendarInputOneG").val(years+"-"+monthS+"-"+Monday);
-                $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                $("#calendarInputOne").val(years+"-"+monthS+"-"+Monday);
+                $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
 
             }
         })
 
         //三个月内按键
-        $("#threeMonthCalendarG").on("click",function(){
+        $("#threeMonthCalendar").on("click",function(){
 
 
             if(months==1||months==2||months==3){
@@ -411,28 +398,28 @@ var report_check ={
                 Tmonths=that.setdataType(Tmonths);
                 var dayS=that.setdataType(days);
                 var monthS=that.setdataType(months);
-                $("#calendarInputOneG").val(lastYear+"-"+Tmonths+"-"+dayS);
-                $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS)
+                $("#calendarInputOne").val(lastYear+"-"+Tmonths+"-"+dayS);
+                $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS)
             }
             else{
                 var Tmonths =months-3;
                 Tmonths=that.setdataType(Tmonths);
                 var dayS=that.setdataType(days);
                 var monthS=that.setdataType(months);
-                $("#calendarInputOneG").val(years+"-"+Tmonths+"-"+dayS);
-                $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS)
+                $("#calendarInputOne").val(years+"-"+Tmonths+"-"+dayS);
+                $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS)
             }
         });
         //当月内按键
-        $("#thisMonthCalendarG").on("click",function(){
+        $("#thisMonthCalendar").on("click",function(){
             var dayS=that.setdataType(days);
             var monthS=that.setdataType(months);
-            $("#calendarInputOneG").val(years+"-"+monthS+"-"+"01");
-            $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+            $("#calendarInputOne").val(years+"-"+monthS+"-"+"01");
+            $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
 
         });
         //本周内按键
-        $("#thisWeekCalendarG").on("click",function(){
+        $("#thisWeekCalendar").on("click",function(){
             var weekday=getdate.getDay();
             var Monday =days - weekday;
             var Sunday = 0;
@@ -444,8 +431,8 @@ var report_check ={
                     var LMonday = 30+Monday;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+LMonday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+LMonday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                 }
                 else if(months==3){
                     //判断闰年出现的情况
@@ -453,15 +440,15 @@ var report_check ={
                         Monday = 29+Monday;
                         var dayS=that.setdataType(days);
                         var monthS=that.setdataType(months);
-                        $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                        $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                        $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                        $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                     }
                     else {
                         Monday = 28 + Monday;
                         var dayS=that.setdataType(days);
                         var monthS=that.setdataType(months);
-                        $("#calendarInputOneG").val(years + "-" + LastMonths + "-" + Monday);
-                        $("#calendarInputtwoG").val(years + "-" + monthS + "-" + dayS);
+                        $("#calendarInputOne").val(years + "-" + LastMonths + "-" + Monday);
+                        $("#calendarInputtwo").val(years + "-" + monthS + "-" + dayS);
                     }
 
 
@@ -471,15 +458,15 @@ var report_check ={
                     years =years-1;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                 }
                 else{
                     Monday = 31+Monday;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
                 }
             }
             else {
@@ -487,18 +474,18 @@ var report_check ={
                 Monday =that.setdataType(Monday);
                 var dayS=that.setdataType(days);
                 var monthS=that.setdataType(months);
-                $("#calendarInputOneG").val(years+"-"+monthS+"-"+Monday);
-                $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                $("#calendarInputOne").val(years+"-"+monthS+"-"+Monday);
+                $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
 
             }
 
         });
         //查询本日的按钮
-        $("#todayCalendarG").on("click",function(){
+        $("#todayCalendar").on("click",function(){
             var dayS=that.setdataType(days);
             var monthS=that.setdataType(months);
-            $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
-            $("#calendarInputOneG").val(years+"-"+monthS+"-"+dayS);
+            $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+            $("#calendarInputOne").val(years+"-"+monthS+"-"+dayS);
         })
 
 
@@ -506,10 +493,10 @@ var report_check ={
     calendar:function() {
         var that = this;
         $(".selectDataFn").click(function () {
-            $("#calendarContainG").toggle();
+            $("#calendarContain").toggle();
             $(".calendarContainClass").click(function () {
                 $(".selectDataFn").html($(this).html());
-                $("#calendarContainG").css("display", "none");
+                $("#calendarContain").css("display", "none");
             })
         })
 
@@ -532,12 +519,12 @@ var report_check ={
     educeData:function(){
         var that= this;
         $(".trecoreup").on("click",function(){
-            var btime       = $("#calendarInputOneG").val();
-            var etime       = $("#calendarInputtwoG").val();
-            var count_way     = $("#produceItermG").attr("count_way");
-            var land_id     = $("#proCommodityG").attr("land_id");
-            var reseller_id = $("#contianDistributorFG").attr("reseller_id");
-            var merchant_id = $("#SearchMerchantG").attr("merchant_id");
+            var btime       = $("#calendarInputOne").val();
+            var etime       = $("#calendarInputtwo").val();
+            var count_way     = $("#produceIterm").attr("count_way");
+            var land_id     = $("#proCommodity").attr("land_id");
+            var reseller_id = $("#contianDistributorF").attr("reseller_id");
+            var merchant_id = $("#SearchMerchant").attr("merchant_id");
             var exclude_test =$('.checkbox').attr("checked") == undefined ? 0 : 1;
 
             if(!btime || !etime) {
@@ -564,33 +551,33 @@ var report_check ={
 //向后端传递请求数据
     featchData:function(page){
         var page = page;
-        var btime       = $("#calendarInputOneG").val();
-        var etime       = $("#calendarInputtwoG").val();
-        var count_way     = $("#produceItermG").attr("count_way");
-        var land_id     = $("#proCommodityG").attr("land_id");
-        var reseller_id = $("#contianDistributorFG").attr("reseller_id");
+        var btime       = $("#calendarInputOne").val();
+        var etime       = $("#calendarInputtwo").val();
+        var count_way     = $("#produceIterm").attr("count_way");
+        var land_id     = $("#proCommodity").attr("land_id");
+        var reseller_id = $("#contianDistributorF").attr("reseller_id");
         var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
-        var merchant_id =$("#SearchMerchantG").attr('merchant_id');
+        var merchant_id =$("#SearchMerchant").attr('merchant_id');
         var export_excel=0;
-        if($("#calendarInputOneG").val()==""){
+        if($("#calendarInputOne").val()==""){
             alert("请选择开始时间！");
             return false;
         }
         else{
-            begin_date=$("#calendarInputOneG").val()
+            begin_date=$("#calendarInputOne").val()
         }
-        if($("#calendarInputtwoG").val()==""){
+        if($("#calendarInputtwo").val()==""){
             alert("请选择结束时间！");
             return false;
         }
         else{
-            end_date=$("#calendarInputtwoG").val();
+            end_date=$("#calendarInputtwo").val();
         }
         // if((merchant_id=="")||(land_id=="")||(reseller_id=="")) {
         //     alert("请确保选择必要的搜索条件！");
         //     return false;
         // }
-
+        if($(".disable").length!=0) return false;
         $.ajax({
             dataType:"json",
             type:"post",
@@ -621,39 +608,31 @@ var report_check ={
                     $(".buttonCation").css("display","block")
                 }
                 var PageNum =Math.ceil(total/15);
-                $("#PageTotalG").html(PageNum);
+                $("#PageTotal").html(PageNum);
                 // $(".reportTable tr").remove();
                 var list =data.data.list;
                 //将获取到的后端列表数据展示出来
                 var ContainHtml ='';
                 $.each(list,function(key,val){
-                    ContainHtml += '<tr class="tRR"><td>'+"&nbsp;"+ val.title+'</td>';
-                    // ContainHtml += '<td >'+ val.title +'</td>';
+                    ContainHtml += '<tr class="tRR"><td>'+"&nbsp;"+val.title+'</td>';
+
                     ContainHtml += '<td >'+ val.order_num +'</td>';
                     ContainHtml += '<td>'+ val.ticket_num +'</td>';
-                    ContainHtml += '<td >'+ val.sale_money +'</td>';
-                    ContainHtml += '<td >'+ val.profit_money +'</td>';
-              
+                    ContainHtml += '<td  class="Ccolor">'+ val.sale_money +'</td>';
+                    ContainHtml += '<td onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.profit_money +'</td>';
 
-                    // if(dtype != 2 && dtype != 3) {
-                    //     ContainHtml += '<td class="tL">'+ val.cost_money +'</td>';
-                    //     ContainHtml += '<td class="tL">'+ val.coupon_num +'</td>';
-                    //     ContainHtml += '<td onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.coupon_money +'</td>';
-                    // }
 
                     ContainHtml += '</tr>';
                 });
-
                 if((ContainHtml == '')&&($(".withoutData").length==0)) {
+                    $(".reportTable .tRR").remove();
                     ContainHtml = '<td colspan="8" style="color:red;" class="tL withoutData">没有数据</td>';
                 }
                 else if(ContainHtml != ''){
                     $(".withoutData").remove();
                     $(".reportTable .tRR").remove();
                 }
-                  $(".reportTable").append(ContainHtml);
-
-
+                $(".reportTable").append(ContainHtml);
 
 
 
@@ -670,26 +649,26 @@ var report_check ={
     //点击翻页键向后端请求数据
     PageJudgement:function(){
         var that =this;
-        var PageRecent =parseInt($("#PageRecentG").html());
-        var PageTotal =parseInt($("#PageTotalG").html());
-        $("#pageButtonOneG").on("click",function(){
-            PageRecent =parseInt($("#PageRecentG").html());
-            PageTotal =parseInt($("#PageTotalG").html());
+        var PageRecent =parseInt($("#PageRecent").html());
+        var PageTotal =parseInt($("#PageTotal").html());
+        $("#pageButtonOne").on("click",function(){
+            PageRecent =parseInt($("#PageRecent").html());
+            PageTotal =parseInt($("#PageTotal").html());
             if((PageTotal>=2)&&(PageTotal>=PageRecent)&&(PageRecent>1)){
                 PageRecent=PageRecent -1;
-                $("#PageRecentG").html(PageRecent);
+                $("#PageRecent").html(PageRecent);
                 that.featchData(PageRecent)
             }
             else{
                 return false;
             }
         })
-        $("#testButtonG").on("click",function(){
-            PageRecent =parseInt($("#PageRecentG").html());
-            PageTotal =parseInt($("#PageTotalG").html());
+        $("#testButton").on("click",function(){
+            PageRecent =parseInt($("#PageRecent").html());
+            PageTotal =parseInt($("#PageTotal").html());
             if(PageTotal>PageRecent){
                 PageRecent=PageRecent+1;
-                $("#PageRecentG").html(PageRecent);
+                $("#PageRecent").html(PageRecent);
                 that.featchData(PageRecent);
             }
             else{
@@ -709,14 +688,14 @@ var report_check ={
     justForDate:function(){
         var data = data;
         var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
-        $("#searchInputG").on("keyup",function(){
+        $("#searchInput").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
             $.ajax({
                 "url" : "/r/report_statistics/adminSearchLands/",
                 "data" : {
                     page:1,
                     size:100,
-                    keyword:$("#searchInputG").val(),
+                    keyword:$("#searchInput").val(),
                     exclude_test:exclude_test
                 },
                 "dataType":"json",
@@ -733,28 +712,28 @@ var report_check ={
                         contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
                         li_id=id;
                     }
-                    $("#suggestKeyG").html(contents);
+                    $("#suggestKey").html(contents);
                 }
             });
-            $("#suggestKeyG").on("click","li",function(e){
+            $("#suggestKey").on("click","li",function(e){
                 var target = $(e.currentTarget);
                 var land_id= target.attr("data-id");
                 var html =target.html();
-                $("#proCommodityG").attr("land_id",land_id);
-                $("#proCommodityG").html("产品名称："+html);
-                $("#searchInputG").val(html);
-                $("#proCommodityItemG").css("display","none");
+                $("#proCommodity").attr("land_id",land_id);
+                $("#proCommodity").html("产品名称："+html);
+                $("#searchInput").val(html);
+                $("#proCommodityItem").css("display","none");
             })
         })
     },
     // 搜索分销商
     justdistributor:function(){
         var data = data;
-        $("#searchInputSecondG").on("keyup",function(){
+        $("#searchInputSecond").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
             $.ajax({
                 "url" : "/r/report_statistics/adminSearchMerchant/",
-                "data" : {page:1, size:100, keyword:$("#searchInputSecondG").val()},
+                "data" : {page:1, size:100, keyword:$("#searchInputSecond").val()},
                 "dataType":"json",
                 "type": 'POST',
                 "success":function(data){
@@ -769,19 +748,17 @@ var report_check ={
                         contents=contents+"<li data-id='"+id+"'>"+keywords+"</li>";
                         li_id=id;
                     }
-                    $("#containDistributorSelctFG").html(contents);
-
+                    $("#containDistributorSelctF").html(contents);
                 }
-
             });
-            $("#containDistributorSelctFG").on("click","li",function(e){
+            $("#containDistributorSelctF").on("click","li",function(e){
                 var target = $(e.currentTarget);
                 var reseller_id= target.attr("data-id");
                 var html =target.html();
-                $("#contianDistributorFG").attr("reseller_id",reseller_id);
-                $("#contianDistributorFG").html(html);
-                $("#searchInputSecondG").val(html);
-                $("#containDistributorSG").css("display","none");
+                $("#contianDistributorF").attr("reseller_id",reseller_id);
+                $("#contianDistributorF").html(html);
+                $("#searchInputSecond").val(html);
+                $("#containDistributorS").css("display","none");
             })
         })
     },
@@ -789,20 +766,31 @@ var report_check ={
     //点击产品下拉框获取产品列表（产品内容可能很多）
     getLandList:function(){
         var that= this;
-        $("#proCommodityG").click(function(){
-            $("#proCommodityG").html("");
-            that.justForDate("","/r/report_statistics/adminOrderList/","#suggestKeyG");
+        $("#proCommodity").click(function(){
+            $("#proCommodity").html("");
+            that.justForDate("","/r/report_statistics/adminOrderList/","#suggestKey");
         })
         //管理员搜索框查询产品
 
 
     },
-
+    // 翻页按钮，单页没有超过15条记录不出现翻页按钮
+    // PageButton:function() {
+    //     var that =this;
+    //     $("#reportSearchBtn").click(function () {
+    //         if ($(".rankCon tr").length >= 15) {
+    //             $(".buttonCation").css("display", "block");
+    //         }
+    //         else {
+    //             $(".buttonCation").css("display", "none");
+    //         }
+    //     })
+    // },
     beginJudge:function () {
 
-        if($("#reportTableG .tRR").length==0){
+        if($("#reportTable .tRR").length==0){
             $.ContainHtml = $("<td colspan='6' style='padding:193px 0; text-align:center; background:#fff'  class='queryToday_td'><span class='queryToday_btn_left'>请输入条件搜索 </span></td>");
-            $("#reportTableG").append($.ContainHtml);
+            $("#reportTable").append($.ContainHtml);
 
         }
         else{
@@ -829,8 +817,9 @@ var report_check ={
                     var LMonday = 30+Monday;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+LMonday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+LMonday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                    that.featchData(1);
                 }
                 else if(months==3){
                     //判断闰年出现的情况
@@ -838,8 +827,9 @@ var report_check ={
                         Monday = 29+Monday;
                         var dayS=that.setdataType(days);
                         var monthS=that.setdataType(months);
-                        $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                        $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                        $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                        $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                        that.featchData(1);
                     }
                     else {
                         Monday = 28 + Monday;
@@ -847,6 +837,7 @@ var report_check ={
                         var monthS=that.setdataType(months);
                         $("#calendarInputOne").val(years + "-" + LastMonths + "-" + Monday);
                         $("#calendarInputtwo").val(years + "-" + monthS + "-" + dayS);
+                        that.featchData(1);
                     }
 
 
@@ -856,15 +847,17 @@ var report_check ={
                     years =years-1;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                    that.featchData(1);
                 }
                 else{
                     Monday = 31+Monday;
                     var dayS=that.setdataType(days);
                     var monthS=that.setdataType(months);
-                    $("#calendarInputOneG").val(years+"-"+LastMonths+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+LastMonths+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                    that.featchData(1);
                 }
             }
             else {
@@ -872,8 +865,9 @@ var report_check ={
                 Monday =that.setdataType(Monday);
                 var dayS=that.setdataType(days);
                 var monthS=that.setdataType(months);
-                $("#calendarInputOneG").val(years+"-"+monthS+"-"+Monday);
-                $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                $("#calendarInputOne").val(years+"-"+monthS+"-"+Monday);
+                $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                that.featchData(1);
 
             }
 
@@ -893,8 +887,9 @@ var report_check ={
                     var dayS=that.setdataType(ldays);
                     var monthS=that.setdataType(months);
                     var lastMonthS =that.setdataType(LastMonths);
-                    $("#calendarInputOneG").val(years+"-"+lastMonthS+"-"+LMonday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+lastMonthS+"-"+LMonday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                    that.featchData(1);
                 }
                 else if(months==3){
                     //判断闰年出现的情况
@@ -904,8 +899,9 @@ var report_check ={
                         var dayS=that.setdataType(ldays);
                         var monthS=that.setdataType(months);
                         var lastMonthS =that.setdataType(LastMonths);
-                        $("#calendarInputOneG").val(years+"-"+lastMonthS+"-"+Monday);
-                        $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                        $("#calendarInputOne").val(years+"-"+lastMonthS+"-"+Monday);
+                        $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                        that.featchData(1);
                     }
                     else {
                         Monday = 28 + Monday;
@@ -913,8 +909,9 @@ var report_check ={
                         var dayS=that.setdataType(ldays);
                         var monthS=that.setdataType(months);
                         var lastMonthS =that.setdataType(LastMonths);
-                        $("#calendarInputOneG").val(years + "-" + lastMonthS + "-" + Monday);
-                        $("#calendarInputtwoG").val(years + "-" + monthS + "-" + dayS);
+                        $("#calendarInputOne").val(years + "-" + lastMonthS + "-" + Monday);
+                        $("#calendarInputtwo").val(years + "-" + monthS + "-" + dayS);
+                        that.featchData(1);
                     }
 
 
@@ -926,8 +923,9 @@ var report_check ={
                     var dayS=that.setdataType(ldays);
                     var monthS=that.setdataType(months);
                     var lastMonthS =that.setdataType(LastMonths);
-                    $("#calendarInputOneG").val(years+"-"+lastMonthS+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+lastMonthS+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                    that.featchData(1);
                 }
                 else{
                     Monday = 31+Monday;
@@ -935,18 +933,20 @@ var report_check ={
                     var dayS=that.setdataType(ldays);
                     var monthS=that.setdataType(months);
                     var lastMonthS =that.setdataType(LastMonths);
-                    $("#calendarInputOneG").val(years+"-"+lastMonthS+"-"+Monday);
-                    $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                    $("#calendarInputOne").val(years+"-"+lastMonthS+"-"+Monday);
+                    $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                    that.featchData(1);
                 }
             }
             else {
-                Monday =days-weekday+1;
+                Monday =days-weekday+1-7;
                 Monday =that.setdataType(Monday);
-                var ldays =days - weekday+1;
+                var ldays =days - weekday;
                 var dayS=that.setdataType(ldays);
                 var monthS=that.setdataType(months);
-                $("#calendarInputOneG").val(years+"-"+monthS+"-"+Monday);
-                $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+                $("#calendarInputOne").val(years+"-"+monthS+"-"+Monday);
+                $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+                that.featchData(1);
 
             }
 
@@ -957,39 +957,45 @@ var report_check ={
             var ldays =parseInt(days);
             var dayS=that.setdataType(ldays);
             var monthS=that.setdataType(months);
-            $("#calendarInputOneG").val(years+"-"+monthS+"-"+"01");
-            $("#calendarInputtwoG").val(years+"-"+monthS+"-"+dayS);
+            $("#calendarInputOne").val(years+"-"+monthS+"-"+"01");
+            $("#calendarInputtwo").val(years+"-"+monthS+"-"+dayS);
+            that.featchData(1);
 
         })
         $("#report_lastmonth").on("click",function(){
             var lastmonth =parseInt(months)-1;
             if(parseInt(months)==1){
                 lastmonth=12
-                $("#calendarInputOneG").val(years+"-"+lastmonth+"-"+"01");
-                $("#calendarInputtwoG").val(years+"-"+lastmonth+"-"+"31");
+                $("#calendarInputOne").val(years+"-"+lastmonth+"-"+"01");
+                $("#calendarInputtwo").val(years+"-"+lastmonth+"-"+"31");
+                that.featchData(1);
             }
             else if(lastmonth==3||lastmonth==5||lastmonth==7||lastmonth==8||lastmonth==10||lastmonth==12){
                 var Lastmonth=that.setdataType(lastmonth);
-                $("#calendarInputOneG").val(years+"-"+Lastmonth+"-"+"01");
-                $("#calendarInputtwoG").val(years+"-"+Lastmonth+"-"+"30");
+                $("#calendarInputOne").val(years+"-"+Lastmonth+"-"+"01");
+                $("#calendarInputtwo").val(years+"-"+Lastmonth+"-"+"30");
+                that.featchData(1);
             }
             else if(lastmonth==2){
                 if(years/4==0||years/400==0){
                     var Lastmonth=that.setdataType(lastmonth);
-                    $("#calendarInputOneG").val(years+"-"+Lastmonth+"-"+"01");
-                    $("#calendarInputtwoG").val(years+"-"+Lastmonth+"-"+"29");
+                    $("#calendarInputOne").val(years+"-"+Lastmonth+"-"+"01");
+                    $("#calendarInputtwo").val(years+"-"+Lastmonth+"-"+"29");
+                    that.featchData(1);
                 }
                 else {
                     var Lastmonth=that.setdataType(lastmonth);
-                    $("#calendarInputOneG").val(years+"-"+Lastmonth+"-"+"01");
-                    $("#calendarInputtwoG").val(years+"-"+Lastmonth+"-"+"28");
+                    $("#calendarInputOne").val(years+"-"+Lastmonth+"-"+"01");
+                    $("#calendarInputtwo").val(years+"-"+Lastmonth+"-"+"28");
+                    that.featchData(1);
 
                 }
             }
             else{
                 var Lastmonth=that.setdataType(lastmonth);
-                $("#calendarInputOneG").val(years+"-"+Lastmonth+"-"+"01");
-                $("#calendarInputtwoG").val(years+"-"+Lastmonth+"-"+"31");
+                $("#calendarInputOne").val(years+"-"+Lastmonth+"-"+"01");
+                $("#calendarInputtwo").val(years+"-"+Lastmonth+"-"+"31");
+                that.featchData(1);
             }
 
 
@@ -999,20 +1005,63 @@ var report_check ={
     //关闭搜索框
     closeSearch:function(){
         $(document).on("click",function(e){
-            if(($(e.target).closest("#containDistributorSG").length==0)&&($(e.target).closest("#contianDistributorFG").length==0)){
-                $("#containDistributorSG").css("display","none");
+            if(($(e.target).closest("#containDistributorS").length==0)&&($(e.target).closest("#contianDistributorF").length==0)){
+                $("#containDistributorS").css("display","none");
             }
         })
         $(document).on("click",function(e){
-            if(($(e.target).closest("#proCommodityItemG").length==0)&&($(e.target).closest("#proCommodityG").length==0)){
-                $("#proCommodityItemG").css("display","none");
+            if(($(e.target).closest("#proCommodityItem").length==0)&&($(e.target).closest("#proCommodity").length==0)){
+                $("#proCommodityItem").css("display","none");
             }
         })
         $(document).on("click",function(e){
-            if(($(e.target).closest("#SearchMerchantG").length==0)&&($(e.target).closest("#MerchantContainG").length==0)){
-                $("#MerchantContainG").css("display","none");
+            if(($(e.target).closest("#SearchMerchant").length==0)&&($(e.target).closest("#MerchantContain").length==0)){
+                $("#MerchantContain").css("display","none");
             }
         })
     }
 
 }
+
+
+$(function(){
+    $("#revoke_reportContain").html(tpl);
+    report.init();
+    report.proCommodity();
+    report.selectChange("#produceAllTicket","产品");
+    report.selectChange("#distributorAll","分销商");
+    report.selectChange("#forOrder","预定渠道");
+    report.selectChange("#forDate","日期");
+    report.selectChange("#forProduce","产品");
+    report.seearchFunction();
+    report.calendar();
+    report.closeSelector("#selectDataFn","#calendarContain");
+    report.closeSelector("#produceIterm","#produceAll");
+    report.educeData();
+    report.getNowadate();
+    report.PageJudgement();
+    report.beginJudge();
+    report.seearchFunctionTwo();
+    report.justForDate();
+    report.justdistributor();
+
+    report.changeDate();
+
+    report.closeSearch();
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
