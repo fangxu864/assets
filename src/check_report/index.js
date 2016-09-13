@@ -622,7 +622,7 @@ var report ={
                     ContainHtml += '<td >'+ val.order_num +'</td>';
                     ContainHtml += '<td>'+ val.ticket_num +'</td>';
                     ContainHtml += '<td  class="Ccolor">'+ val.sale_money +'</td>';
-                    ContainHtml += '<td  class="Ccolor" onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.profit_money +'</td>';
+                    ContainHtml += '<td  class="CcolorT" onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.profit_money +'</td>';
 
 
                     ContainHtml += '</tr>';
@@ -809,6 +809,7 @@ var report ={
         var months = getdate.getMonth()+1;
         var days = getdate.getDate();
         $("#report_thisweek").on("click",function(){
+            $("#PageRecent").html("1");
             var weekday=getdate.getDay();
             var Monday =days - weekday;
             var Sunday = 0;
@@ -877,6 +878,7 @@ var report ={
 
         })
         $("#report_lastweek").on("click",function(){
+            $("#PageRecent").html("1");
             var weekday=getdate.getDay();
             var Monday =days - weekday+1-7;
             var Sunday = 0;
@@ -957,6 +959,7 @@ var report ={
 
         })
         $("#report_thismonths").on("click",function(){
+            $("#PageRecent").html("1");
             var ldays =parseInt(days);
             var dayS=that.setdataType(ldays);
             var monthS=that.setdataType(months);
@@ -966,6 +969,7 @@ var report ={
 
         })
         $("#report_lastmonth").on("click",function(){
+            $("#PageRecent").html("1");
             var lastmonth =parseInt(months)-1;
             if(parseInt(months)==1){
                 lastmonth=12
