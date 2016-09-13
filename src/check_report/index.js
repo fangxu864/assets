@@ -39,7 +39,7 @@ var report ={
         var getdate= new Date();
         var years =getdate.getFullYear();
         var months = getdate.getMonth()+1;
-        var days = getdate.getDate();
+        var days = getdate.getDate()+1;
         var max =years+"-"+that.setdataType(months)+"-"+that.setdataType(days);
         var that = this;
         $(id).on("focus",function (e) {
