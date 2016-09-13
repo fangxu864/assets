@@ -618,7 +618,7 @@ var report ={
 
                     ContainHtml += '<td >'+ val.order_num +'</td>';
                     ContainHtml += '<td>'+ val.ticket_num +'</td>';
-                    ContainHtml += '<td  class="Ccolor">'+ val.sale_money +'</td>';
+                    ContainHtml += '<td  class="CcolorT">'+ val.sale_money +'</td>';
                     ContainHtml += '<td class="Ccolor">'+ val.cost_money +'</td>';
                     ContainHtml += '<td>'+ val.coupon_num +'</td>';
                     ContainHtml +=  '<td onclick="loadDetail(\'' + data.detail_key + '\', '+ val.id +');">'+ val.coupon_money +'</td>'
