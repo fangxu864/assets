@@ -174,4 +174,5 @@ var Pagination = UtilClass({
 	}
 });
 
+
 module.exports = Pagination;

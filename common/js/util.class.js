@@ -20,7 +20,7 @@ var Class = function() {
         newClass.prototype = option;
         newClass.prototype._init = function(arg){
         	var that = this;
-			var container = arg[0].container;
+			var container = arg[0] ? arg[0].container : null;
 			if(typeof container=="string"){
 				if(container.indexOf("#")==0){
 					container = $(container);
