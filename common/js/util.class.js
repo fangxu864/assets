@@ -10,7 +10,7 @@ var Class = function() {
 	var length = arguments.length;
     var option = arguments[length-1];
     var events = option.EVENTS || {};
-    var container = option.container;
+
     option.init = option.init || function(){};
 
 	if(length==1){
@@ -20,6 +20,14 @@ var Class = function() {
         newClass.prototype = option;
         newClass.prototype._init = function(arg){
         	var that = this;
+			var container = arg[0].container;
+			if(typeof container=="string"){
+				if(container.indexOf("#")==0){
+					container = $(container);
+				}else{
+					container = $("#"+container)
+				}
+			}
         	if(container){
         		for(var i in events){
         			(function(i){

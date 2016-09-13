@@ -1,17 +1,23 @@
-<div class="pContainer">
+<div class="paginationXContainer clearfix">
     <ul class="navGroup">
+        <li class="prevNextBtn prevBtn prev <%=current==1 ? 'disable' : ''%>"><i class="iconfont">&#xe60c;</i></li>
         <% for(var i=0; i<data.length; i++){ %>
             <% var item = data[i]; %>
-            <li class="nav
-                <%=item.current ? 'current' : ''%>
-                <%=item.first ? 'first' : ''%>
-                <%=item.last ? 'last' : ''%>
-                <%=item.val=='dot' ? 'dot' : ''%>
-                ">
-                <%=item.val=="dot" ? "..." : item.val%>
+            <li data-page="<%=item.val=='dot' ? '' : item.val%>" class="nav <%=item.val=='...' ? '' : 'page'%> <%=item.isCurrent ? 'current' : ''%> <%=item.isFirst ? 'first' : ''%> <%=item.isLast ? 'last' : ''%> <%=item.val=='...' ? 'dot' : ''%>">
+                <%=item.val%>
             </li>
         <%}%>
+        <li class="prevNextBtn nextBtn next <%=current==total ? 'disable' : ''%>"><i class="iconfont">&#xe60d;</i></li>
     </ul>
-
-
+    <div class="totalBox <%=showTotal ? '' : 'hide'%>">共<span class="totalNum"><%=total%></span>页</div>
+    <div class="jumpBox <%=jump ? '' : 'hide'%>">
+        <div class="t col">到第</div>
+        <div class="whichPageBox col">
+            <div class="whichCon">
+                <input class="whichPageInp" type="text"/>
+                <span class="toWhichBtn">确定</span>
+            </div>
+        </div>
+        <div class="t col">页</div>
+    </div>
 </div>

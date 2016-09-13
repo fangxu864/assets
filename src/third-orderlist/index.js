@@ -7,11 +7,19 @@ var PaginationX = require("COMMON/modules/pagination-x");
 
 var Main = {
 	init : function(){
-		this.pagination = new PaginationX({
-			container : "#paginationXContainer"
+
+		var pagination = this.pagination = new PaginationX({
+			container : "#paginationXContainer",
+			count : 7,
+			showTotal : true,
+			jump : true
 		});
 
-		this.pagination.render({current:1,total:10})
+		pagination.on("page.switch",function(toPage,currentPage,totalPage){
+			this.render({current:toPage,total:totalPage});
+		});
+
+		pagination.render({current:1,total:20});
 
 	}
 };
