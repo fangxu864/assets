@@ -1,24 +1,4 @@
-<!--<div class="firstContain">-->
-<!--<div class="contain">-->
-<!--<div class="trangle"></div>-->
-<!--<div class="contain2" id="SearchMerchant" merchant_id="">商户：</div>-->
-<!--<div class="allContain" id="MerchantContain" >-->
-<!--<input id="searchInputSecondL" type="text" placeholder="请输入关键词直接搜索"/>-->
-<!--&lt;!&ndash;<div id="searchSecondL"></div>&ndash;&gt;-->
-<!--<i class="iconfont" id="searchSecondL" >&#xe60a;</i>-->
-<!--<ul id="ComsuggestKey">-->
 
-<!--</ul>-->
-
-<!--</div>-->
-
-<!--</div>-->
-<!--<label class="checkboxcon">-->
-<!--<input class="checkbox" type="checkbox"  checked="checked"/>-->
-<!--<div class="checkbox-value">过滤测试账号</div>-->
-<!--</label>-->
-
-<!--</div>-->
 <div class="trecoreup">
     <i class="uptic"></i>
     <span class="update" id="update">导出数据</span>
@@ -102,7 +82,7 @@
 
     </div>
     <label>
-        <div class="searchBtn" id="reportSearchBtn">查询</div>
+        <div class="searchBtn" id="reportSearchBtn">查询fdsafdsafdsa</div>
         <input  type="button" value="查询" style="display:none">
     </label>
 

@@ -8,15 +8,13 @@ var Select = require("COMMON/modules/select");
 
 var report ={
     init : function () {
-
-
         var that=this;
         that.Calendar = new Calendar();
         that.Calendar.on("selcet",function(data){});
         that.calendarShow("#calendarInputOne");
         that.calendarShow("#calendarInputtwo");
         $("#reportSearchBtn").on("click",function(){
-            $("#reportSearchBtnA").addClass("disable");
+            // $("#reportSearchBtnA").addClass("disable");
             that.featchData("1");
         });
         $('#calendarInputtwo').bind('input propertychange', function() {
@@ -39,7 +37,7 @@ var report ={
         var getdate= new Date();
         var years =getdate.getFullYear();
         var months = getdate.getMonth()+1;
-        var days = getdate.getDate();
+        var days = getdate.getDate()+1;
         var max =years+"-"+that.setdataType(months)+"-"+that.setdataType(days);
         var that = this;
         $(id).on("focus",function (e) {
@@ -98,7 +96,7 @@ var report ={
         $(target).click(function(){
             if($(".addTicktItem").length<=0){
                 if(target=="#produceAllTicket"){
-                    $(".reportTable .tL").after($e);
+                    // $(".reportTable .tL").after($e);
                 }
 
             }
@@ -577,7 +575,7 @@ var report ={
         //     alert("请确保选择必要的搜索条件！");
         //     return false;
         // }
-        if($(".disable").length!=0) return false;
+        // if($(".disable").length!=0) return false;
         $.ajax({
             dataType:"json",
             type:"post",
@@ -601,14 +599,15 @@ var report ={
                 $(".queryToday_td").remove();
                 var total =data.data.total;
 
-                if(total<=15){
+                if(total<=20){
                     $(".buttonCation").css("display","none")
                 }
                 else{
                     $(".buttonCation").css("display","block")
                 }
-                var PageNum =Math.ceil(total/15);
+                var PageNum =Math.ceil(total/20);
                 $("#PageTotal").html(PageNum);
+                $("#PageRecent").html("1");
                 // $(".reportTable tr").remove();
                 var list =data.data.list;
                 //将获取到的后端列表数据展示出来
@@ -626,7 +625,7 @@ var report ={
 
                     ContainHtml += '</tr>';
                 });
-                if((ContainHtml == '')&&($(".withoutData").length==0)) {
+                if((ContainHtml == '')&&($(".withoutData").length==0)&&($(".buttonCation").css("display")=="none")) {
                     $(".reportTable .tRR").remove();
                     ContainHtml = '<td colspan="8" style="color:red;" class="tL withoutData">没有数据</td>';
                 }
