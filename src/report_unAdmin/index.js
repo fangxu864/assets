@@ -607,7 +607,7 @@ var report ={
                 }
                 var PageNum =Math.ceil(total/20);
                 $("#PageTotal").html(PageNum);
-                $("#PageRecent").html("1");
+               
                 // $(".reportTable tr").remove();
                 var list =data.data.list;
                 //将获取到的后端列表数据展示出来
