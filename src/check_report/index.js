@@ -734,9 +734,10 @@ var report ={
         var data = data;
         $("#searchInputSecond").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
+            var merchant_id =$("#SearchMerchant").attr('merchant_id');
             $.ajax({
                 "url" : "/r/report_statistics/getResellerList/",
-                "data" : {page:1, size:100, keyword:$("#searchInputSecond").val()},
+                "data" : {page:1, size:100, keyword:$("#searchInputSecond").val(),member_id:merchant_id},
                 "dataType":"json",
                 "type": 'POST',
                 "success":function(data){
