@@ -1,0 +1,49 @@
+
+
+<div class="trecordCount">
+    <div class="nav_title">
+        <ul>
+            <li><a href="trecordCount.html">交易记录汇总</a></li>
+            <li><a href="accountSearch.html" class="not_active">账户余额查询</a></li>
+        </ul>
+    </div>
+    <div class="filter">
+        <div class="line line1">
+            <div class="lt">
+            <span>交易时间：</span><input type="text" class="datePickerInp begin" id="start_time" readonly="readonly"/><span class="zhi">至</span><input type="text" class="datePickerInp end" id="end_time" readonly="readonly"/>
+            </div>
+            <div class="rt">
+            <ul class="time_area">
+                <li id="today_btn">今天</li>
+                <li id="yestoday_btn">昨天</li>
+                <li id="thisweek_btn">本周</li>
+                <li id="lastweek_btn">上周</li>
+                <li id="thismonth_btn">本月</li>
+                <li id="lastmonth_btn">上月</li>
+            </ul>
+            </div>
+        </div>
+        <div class="line line2">
+            <div class="fll td1">
+                <span>交易商户：</span><input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入交易商户名称"/>
+            </div>
+            <div class="fll td2">
+                <div class="box">
+                    <span class="cell selected">正式账户</span>
+                    <span class="cell not_selected">测试账户</span>
+                </div>
+            </div>
+            <div class="fll btn1">
+               <span class="query_btn">查询</span>
+            </div>
+            <div class="fll btn2">
+                <span class="excel_btn">导出数据</span>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="talbe_box"></div>
+</div>
+
