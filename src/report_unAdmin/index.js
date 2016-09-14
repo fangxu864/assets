@@ -731,7 +731,7 @@ var report ={
             })
         })
         $("#searchDeleteBtn").on("click",function(){
-            $("#proCommodity").attr("reseller_id","");
+            $("#proCommodity").attr("land_id","");
             $("#searchInput").val();
             $("#proCommodity").html("产品名称：");
         })
