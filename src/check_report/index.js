@@ -694,7 +694,7 @@ var report ={
         $("#searchInput").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
             $.ajax({
-                "url" : "/r/report_statistics/adminSearchLands/",
+                "url" : "/r/report_statistics/searchLands /",
                 "data" : {
                     page:1,
                     size:100,
@@ -735,7 +735,7 @@ var report ={
         $("#searchInputSecond").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
             $.ajax({
-                "url" : "/r/report_statistics/adminSearchMerchant/",
+                "url" : "/r/report_statistics/getResellerList/",
                 "data" : {page:1, size:100, keyword:$("#searchInputSecond").val()},
                 "dataType":"json",
                 "type": 'POST',
