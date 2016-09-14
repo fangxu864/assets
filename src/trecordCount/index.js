@@ -112,6 +112,19 @@ var TrecordCount={
                 return reslut;
             }
         });
+        //交易商户搜索框 清除按钮
+        $("i.clear_trader_inp").on("click",function () {
+            $("#trader_inp").attr({
+                "data-id":"",
+                "data-dname":"",
+                "placeholder":"请输入交易商户名称"
+            }).val("")
+        })
+        //两种账户的单选按钮
+        $(".count_dot_btn_box").on("click","span.cell",function () {
+            $(".count_dot_btn_box span.cell").toggleClass("selected").toggleClass("not_selected")
+        })
+
     }
 
 };

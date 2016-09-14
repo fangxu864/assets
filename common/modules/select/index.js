@@ -2,6 +2,26 @@
  * Author: huangzhiyang
  * Date: 2016/6/14 11:14
  * Description: 项目时间紧迫，主体功能先实现，更多功能后续会慢慢增加
+ *
+ *
+ * var select = new Select({
+ * 		source : "/call/handler.php",
+ * 		ajaxType : "post",
+ * 		ajaxParams : {
+ * 			lid : "12341",
+ * 			dtype : "d"
+ * 		},
+ * 		filterType : "ajax",  指定过滤方式为ajax
+ * 		field : {
+ * 			id : "lid",
+ * 			name : "text",
+ * 			keyword : "val"
+ * 		}
+ * })
+ *
+ *
+ *
+ *
  */
 require("./index.scss");
 var Defaults = {
@@ -210,7 +230,7 @@ Select.prototype = {
 		if(defaultVal){
 			this.selectDefaultVal();
 		}else{
-			this.listUl.children().first().trigger("click");
+			(this.opt.filterType!=="ajax") && this.listUl.children().first().trigger("click");
 		}
 	},
 	//初始化时选中默认值
@@ -313,6 +333,7 @@ Select.prototype = {
 		this.createSelectBox().show().css({zIndex:504});
 		this.position();
 		this.trigger.addClass("select-on");
+		this.selectBox.find(".gSelectSearchInp").focus();
 		PFT.Util.PubSub.trigger("open");
 		callback && callback();
 	},
