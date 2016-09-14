@@ -276,6 +276,7 @@ var report ={
         })
         $("#searchInputSecondL").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
+            $("#searchDeleteBtn").css("display","block")
             $.ajax({
                 "url" : "/r/report_statistics/adminSearchMerchant/",
                 "data" : {page:1, size:100, keyword:$("#searchInputSecondL").val()},
@@ -305,6 +306,11 @@ var report ={
                 $("#searchInputSecondL").val(html);
                 $("#MerchantContain").css("display","none");
             })
+        })
+        $("#searchDeleteBtn").on("click",function(){
+            $("#SearchMerchant").attr("merchant_id","");
+            $("#searchInputSecondL").val();
+            $("#SearchMerchant").html("商户：");
         })
 
     },
@@ -693,6 +699,7 @@ var report ={
         var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
         $("#searchInput").on("keyup",function(){
             var listTxt = '',li = '', bEqual=false;
+            $("#searchDeleteBtnA").css("display","block");
             $.ajax({
                 "url" : "/r/report_statistics/searchLands /",
                 "data" : {
@@ -728,11 +735,17 @@ var report ={
                 $("#proCommodityItem").css("display","none");
             })
         })
+        $("#searchDeleteBtnA").on("click",function(){
+            $("#proCommodity").attr("land_id","");
+            $("#searchInput").val();
+            $("#proCommodity").html("产品名称：");
+        })
     },
     // 搜索分销商
     justdistributor:function(){
         var data = data;
         $("#searchInputSecond").on("keyup",function(){
+            $("#searchDeleteBtnL").css("display","block");
             var listTxt = '',li = '', bEqual=false;
             var merchant_id =$("#SearchMerchant").attr('merchant_id');
             $.ajax({
@@ -764,6 +777,11 @@ var report ={
                 $("#searchInputSecond").val(html);
                 $("#containDistributorS").css("display","none");
             })
+        })
+        $("#searchDeleteBtnL").on("click",function(){
+            $("#contianDistributorF").attr("reseller_id","");
+            $("#searchInputSecond").val();
+            $("#contianDistributorF").html("");
         })
     },
 
