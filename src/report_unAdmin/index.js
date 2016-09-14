@@ -693,6 +693,7 @@ var report ={
         var data = data;
         var exclude_test= $('.checkbox').attr("checked") == undefined ? 0 : 1;
         $("#searchInput").on("keyup",function(){
+            $("#searchDeleteBtn").css("display","block")
             var listTxt = '',li = '', bEqual=false;
             $.ajax({
                 "url" : "/r/report_statistics/searchLands/",
@@ -729,6 +730,11 @@ var report ={
                 $("#proCommodityItem").css("display","none");
             })
         })
+        $("#searchDeleteBtn").on("click",function(){
+            $("#proCommodity").attr("reseller_id","");
+            $("#searchInput").val();
+            $("#proCommodity").html("产品名称：");
+        })
     },
     // 搜索分销商
     justdistributor:function(){
@@ -764,6 +770,11 @@ var report ={
                 $("#searchInputSecond").val(html);
                 $("#containDistributorS").css("display","none");
             })
+        })
+        $("#searchDeleteBtnL").on("click",function(){
+            $("#contianDistributorF").attr("reseller_id","");
+            $("#searchInputSecond").val();
+            $("#searchInputSecond").html("：");
         })
     },
 

@@ -40,6 +40,7 @@
             <input id="searchInput" type="text" placeholder="请输入关键词直接搜索"/>
             <!--<div id="search"></div>-->
             <i class="iconfont" id="search" >&#xe60a;</i>
+            <i class="iconfont" id="searchDeleteBtn">&#xe674;</i>
             <ul id="suggestKey">
 
             </ul>
@@ -60,6 +61,7 @@
             <div class="allContain" id="containDistributorS">
                 <input id="searchInputSecond" type="text" placeholder="请输入关键词直接搜索"/>
                 <i class="iconfont" id="searchSecond" >&#xe60a;</i>
+                <i class="iconfont" id="searchDeleteBtnL">&#xe674;</i>
                 <!--<div id="searchSecond"></div>-->
                 <ul id="containDistributorSelctF">
 
