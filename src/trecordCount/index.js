@@ -6,8 +6,11 @@ var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
 var Select = require("COMMON/modules/select");
-var Pagination = require("COMMON/modules/pagination");
+// var Pagination = require("COMMON/modules/pagination");
 var tpl=require("./index.xtpl");
+
+var Pagination = require("COMMON/modules/pagination-x");
+
 
 
 var TrecordCount={
@@ -52,15 +55,19 @@ var TrecordCount={
             })
         });
         //分页器部分
-        this.p=new Pagination({
-            "id":"pagination_wrap",                             //分页器盒子的容器
-            "data_total_num":10000,                            //数据总数量
-            "per_page_num":8,                                  //每页显示的数据条数
-            "present_page":200,                                //当前页数
-            "callBack":function (present_page) {               //用户点击按钮时的回调函数，参数为当前分页器的页码；
-            alert(present_page);
-            }
+        this.pagination = new Pagination({
+            container : "#pagination_wrap" , //必须，组件容器id
+            count : 7,                //可选  连续显示分页数 建议奇数7或9
+            showTotal : true,         //可选  是否显示总页数
+            jump : true	              //可选  是否显示跳到第几页
         });
+        this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
+            // toPage :      要switch到第几页
+            // currentPage : 当前所处第几页
+            // totalPage :   当前共有几页
+            _this.pagination.render({current:toPage,total:totalPage});
+        });
+        this.pagination.render({current:5,total:10});
 
         this.bind();
     },
@@ -137,11 +144,7 @@ var TrecordCount={
         })
         //查询按钮
         $(".query_btn").on("click",function () {
-            _this.p.refresh({
-                "data_total_num":80,                            //数据总数量
-                "per_page_num":8,                                  //每页显示的数据条数
-                "present_page":1,                                //当前页数
-            })
+            
         })
 
     }

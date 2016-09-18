@@ -2,6 +2,7 @@
 
 .trecordCount_box {
   border: 1px solid #e5e5e5;
+  background-color: #ffffff;
   .trecordCount{
     .nav_title{
       ul{
@@ -192,18 +193,9 @@
           tr:hover{
             background-color: #f9f2f3;
           }
-          //tr:last-child{border-bottom: none;}
+          tr:last-child{border-bottom: none;}
         }
 
-      }
-    }
-    #pagination_wrap{
-      height: 66px;
-      line-height: 100px;
-      width: 800px;
-      text-align: center;
-      ul.pagination{
-        display: inline-block;
       }
     }
   }
@@ -212,3 +204,13 @@
 .calendar-table .calendar-td.day:hover{background-color: #00a0e9}
 .calendar-td.selected.disable{background-color: #008fc2 !important;color:#ffffff !important;}
 .calendar-pop-contaienr{  width:220px !important;}
+
+#pagination_wrap{
+  height: 66px;
+  line-height: 100px;
+  width: 800px;
+  text-align: center;
+  .paginationXContainer {
+    display: inline-block;
+  }
+}
