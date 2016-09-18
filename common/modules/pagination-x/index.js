@@ -168,9 +168,9 @@ var Pagination = UtilClass({
 
 		var resultData = this._adapt(current,total);
 
-		var html = this.template({data:resultData,current:current,total,showTotal:showTotal,jump:jump});
+		var html = this.template({data:resultData,current:current,total:total,showTotal:showTotal,jump:jump});
 
-		this.container.html(html);
+		this.container.show().html(html);
 	}
 });
 

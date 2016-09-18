@@ -16,23 +16,27 @@ var Api = {
 		if(!params.currentPage) params["currentPage"] = 1;
 
 		if(opt.debug){
-			opt.complete();
-			var list = [];
-			for(var i=0; i<10; i++){
-				list.push({
-					pftOrder : "6668165",
-					bCode : "测试接口超时(001测试票)",
-					name : "驴妈妈",
-					cTime : "2016-09-13 14:45:59",
-					oStnum : "1",
-					handleStatus : 1
-				})
-			}
-			opt.success.call(cxt,{
-				data : list,
-				page : 1,
-				totalPage : 10
-			})
+			opt.loading.call(cxt);
+			setTimeout(function(){
+				opt.complete.call(cxt);
+				var list = [];
+				for(var i=0; i<10; i++){
+					list.push({
+						pftOrder : "6668165",
+						bCode : "测试接口超时(001测试票)",
+						name : "驴妈妈",
+						cTime : "2016-09-13 14:45:59",
+						oStnum : "1",
+						handleStatus : 1
+					})
+				}
+				opt.success.call(cxt,{
+					data : list,
+					page : params.currentPage,
+					totalPage : 10
+				});
+			},600);
+
 
 
 			return false;
@@ -47,8 +51,12 @@ var Api = {
 		PFT.Util.Ajax(__api,{
 			type : "post",
 			params : params,
-			loading : opt.loading.call(cxt) || fn,
-			complete : opt.complete.call(cxt) || fn,
+			loading : function(){
+				opt.loading.call(cxt);
+			},
+			complete : function(){
+				opt.complete.call(cxt);
+			},
 			success : function(res){
 				res = res || {};
 				if(res.code==200){
@@ -59,7 +67,7 @@ var Api = {
 					if(list && list.length){
 						opt.success.call(cxt,res.data);
 					}else{
-						opt.empty.call(cxt,res.data);
+						opt.empty(cxt,res.data);
 					}
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);

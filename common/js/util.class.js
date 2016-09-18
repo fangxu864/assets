@@ -51,11 +51,11 @@ var Class = function() {
         };
         newClass.prototype.constructor = newClass;
 
-        newClass.prototype.on = function(type,handler){
+        newClass.prototype.on = function(type,handler,cxt){
         	if(typeof type!=="string" || typeof handler!=="function") return false;
         	var callbacks = this.__CustomEventCallback__ || (this.__CustomEventCallback__={});
         	var callbackArr = callbacks[type] || (callbacks[type]=[]);
-        	callbackArr.push(handler);
+        	callbackArr.push({handler:handler,cxt:cxt || this});
         }
 
         newClass.prototype.trigger = function(type){
@@ -63,9 +63,11 @@ var Class = function() {
         	var fns = this.__CustomEventCallback__[type];
         	if(!fns) return false;
         	for(var i in fns){
-        		var fn = fns[i];
+        		var fnObj = fns[i] || {};
+				var fn = fnObj["handler"];
+				var cxt = fnObj["cxt"] || that;
         		var args = Array.prototype.slice.call(arguments,1);
-        		fn.apply(that,args)
+        		fn && fn.apply(cxt,args);
         	}
         }
         newClass.prototype._init.prototype = newClass.prototype;

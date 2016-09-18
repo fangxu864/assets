@@ -49,19 +49,21 @@ var Search = PFT.Util.Class({
 	onBaseOrderInpKeyup : function(e){
 		this.search();
 	},
-	search : function(){
-		if(this.__disable) return false;
+	getParams : function(){
 		var beginTime = this.beginTimeInp.val();
 		var endTime = this.endTimeInp.val();
 		var order = $.trim(this.orderInp.val());
 		var thirdOrder = $.trim(this.thirdOrderInp.val());
-
-		this.trigger("search",{
+		return {
 			bDate : beginTime,
 			eDate : endTime,
 			orderid : order,
 			thirdid : thirdOrder
-		})
+		}
+	},
+	search : function(){
+		if(this.__disable) return false;
+		this.trigger("search",this.getParams());
 	},
 	disable : function(){
 		this.searchBtn.addClass("disable");
