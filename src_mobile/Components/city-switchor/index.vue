@@ -1,9 +1,9 @@
 <template>
     <div id="citySwitchPage" class="citySwitchPage" :class="{'show':show}"  :style="{zIndex:zIndex}">
         <fix-header>
-            <a class="leftBtn" @click="onGoBackBtnClick" href="javascript:void(0)" slot="left"><i class="iconfont icon-back"></i></a>
+            <a class="leftBtn" @click="onGoBackBtnClick" href="javascript:void(0)" slot="left"><i class="uicon uicon-jiantou-sin-left"></i></a>
             <h3 class="fixHeaderTitle" slot="center">选择城市</h3>
-            <a class="rightBtn" href="javascript:void(0)" slot="right"><i class="iconfont icon-yonghu"></i></a>
+            <a class="rightBtn" href="javascript:void(0)" slot="right"><i class="uicon uicon-yonghu"></i></a>
         </fix-header>
         <div class="searchContainer">
             <search-box
@@ -25,7 +25,7 @@
             </div>
             <div class="lineItem allCity" @click="onAllCityClick" :class="{'selected':selectedId=='all'}">
                 <div class="con">
-                    <i class="iconfont">&#xe6a7;</i>
+                    <!--<i class="iconfont">&#xe6a7;</i>-->
                     <span class="t">所有城市</span>
                 </div>
                 <div class="attr">
