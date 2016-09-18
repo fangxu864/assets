@@ -68,14 +68,10 @@
     "pftshow-seatround-release": "set NODE_ENV=release && webpack --config ./src/pft_show_seat_round/webpack.config.js",
     "pftshow-seatround-production": "set NODE_ENV=production && webpack --config ./src/pft_show_seat_round/webpack.config.js",
     "react-dll": "webpack --config ./src/react_test/dll.config.react.js",
-
     "third-orderlist-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/third-orderlist/webpack.config.js",
     "third-orderlist-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/third-orderlist/webpack.config.js",
     "third-orderlist-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/third-orderlist/webpack.config.js",
     "third-orderlist-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/third-orderlist/webpack.config.js",
-
-
-
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
@@ -136,6 +132,7 @@
     "redux-thunk": "^2.1.0",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
+    "tooltip": "^1.6.1",
     "url-loader": "^0.5.7",
     "vue-actionsheet": "0.0.1",
     "vue-hot-reload-api": "^1.2.0",

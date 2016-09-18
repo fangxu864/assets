@@ -2,6 +2,24 @@
  * Author: huangzhiyang
  * Date: 2016/6/6 18:34
  * Description: ""
+ * #一个页面只能new一个Calendar
+ var calendar = new Calendar();
+
+ #当点击日历，选中某一日期时
+ calendar.on("select",function(data){
+    console.log(data)
+})
+
+ #主要方法
+ calendar.show("2016-06-30",{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+    picker : $input,             //页面上点击某个picker弹出日历(请使用input[type=text])
+    top : 0,                     //日历box偏移量
+    left : 0,                    //日历box偏移量
+    min : "2016-06-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
+    max : "2016-07-10",          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+    onBefore : function(){},     //弹出日历前callback
+    onAfter : function(){}       //弹出日历后callback
+})
  */
 require("./style.css");
 var CalendarCore = require("../../js/CalendarCore.js");
@@ -25,7 +43,11 @@ Calendar.prototype = {
 		//模板
 		this.tpl = opt.tpl || require("./calendar-tpl.html");
 
-		this.template = _.template(this.tpl);
+		if(PFT.Util.ParseTemplate){
+			this.template = PFT.Util.ParseTemplate(this.tpl);
+		}else if(_){
+			this.template = _.template(this.tpl);
+		}
 
 		this.maskID = this.containerID+"-mask";
 
@@ -60,6 +82,7 @@ Calendar.prototype = {
 		var container = this.container;
 		var onBefore = opt.onBefore || fn;
 		var onAfter = opt.onAfter || fn;
+		this.picker = opt.picker;
 		that.fire("showDate.before",yearmonth);
 		onBefore();
 		var html = this.render(new_yearmonth,opt);
@@ -92,6 +115,7 @@ Calendar.prototype = {
 			date : date,
 			week : week,
 			day : day,
+			picker : this.picker,
 			yearmonth : yearmonth
 		}
 		var selected = that.selected[that.containerID];

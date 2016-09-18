@@ -10,7 +10,6 @@ var Class = function() {
 	var length = arguments.length;
     var option = arguments[length-1];
     var events = option.EVENTS || {};
-
     option.init = option.init || function(){};
 
 	if(length==1){
@@ -20,7 +19,9 @@ var Class = function() {
         newClass.prototype = option;
         newClass.prototype._init = function(arg){
         	var that = this;
-			var container = arg[0] ? arg[0].container : null;
+			//var container = arg[0] ? arg[0].container : null;
+			var container = option.container;
+			if(!container) container = arg[0] ? arg[0].container : null;
 			if(typeof container=="string"){
 				if(container.indexOf("#")==0){
 					container = $(container);
@@ -45,6 +46,7 @@ var Class = function() {
         			})(i)
         		}
         	}
+			if(container) this.container = container;
             this.init.apply(this,arg);
         };
         newClass.prototype.constructor = newClass;

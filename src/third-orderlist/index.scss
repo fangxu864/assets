@@ -3,14 +3,14 @@
 .pageRightArea{ width:817px}
 
 
-.rtWrap{background: #FFFFFF; border: 1px solid #E5E5E5; padding-bottom: 30px; margin-top: -10px;}
+.rtWrap{background: #FFFFFF; border: 1px solid #E5E5E5; margin-top: -10px;}
 .rtWrap .rtNav { border-bottom: 1px solid #E5E5E5;}
 .rtWrap .rtNav li{display: inline-block; margin-left: 20px;}
 .rtWrap .rtNav .list{display: inline-block; font-size: 16px; font-weight:bold; color: #303D46; padding:20px 10px 18px 10px}
 .rtWrap .rtNav .list:hover{text-decoration: none;}
 .rtWrap .rtNav .list.active{color: #0797D9; border-bottom: 2px solid #0797D9;}
 .rtWrap .rtNav li:first-child{ margin-left:11px;}
-.tbThirdOrder .tbCon{table-layout: fixed; width: 100%;}
+.tbThirdOrder .tbCon{table-layout: fixed; width: 100%; text-align:left}
 .tbThirdOrder .tbCon th{height: 35px; line-height: 35px; color: #6C7882; background: #E5E5E5;}
 .tbThirdOrder .tbCon td{line-height: 15px; word-wrap: break-word; word-break: normal; border-bottom: 1px solid #E5E5E5; padding: 15px 0; text-align: center;}
 .tbThirdOrder .tbCon .ltTxt{text-align: left; padding-left: 20px;}
@@ -27,7 +27,7 @@
     height: 22px; line-height: 22px;
     padding: 5px 8px;
     border: 1px solid #e5e5e5;
-    box-shadow:inset 1px 1px 1px rgba(0,0,0,0.1);
+    box-shadow:inset 1px 1px 1px rgba(0,0,0,0.05);
 }
 .baseInp:focus{border-color: #0797D9; color: #0797D9;}
 .searchBox{padding: 20px;}
@@ -60,3 +60,9 @@ a.searchBtn:link, a.searchBtn:visited,a.searchBtn:hover{color: #FFFFFF; text-dec
 
 .searchBox .list .asbs{ margin-left:15px}
 .searchBox .list .zhi{ }
+
+.tbThirdOrder .tbCon .listLoadingTr td{ border-bottom:0 none}
+.tbThirdOrder .tbCon .listLoadingTr:hover{ background:#fff}
+
+#tableDom{ table-layout:fixed}
+#tableDom thead .col_1{ width:100px; padding-left:15px;}

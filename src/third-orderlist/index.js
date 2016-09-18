@@ -4,38 +4,81 @@
  * Description: ""
  */
 require('./index.scss');
+var Loading = require("COMMON/js/util.loading.pc");
+var Loading_Text = Loading("努力加载中...",{
+	tag : "tr",
+	colspan : 9,
+	height : "200",
+	className : "listLoadingTr"
+});
+var Status = require("./status");
 var PaginationX = require("COMMON/modules/pagination-x");
-var Calendar = require("COMMON/modules/calendar");
+var Search = require("./search");
+var Service = require("./api.service");
+var Tpl = require("./index.xtpl");
 var Main = PFT.Util.Class({
+	container : "#tbody",
+	EVENTS : {
+		"click .doActionBtn" : "onDoActionBtnClick"
+	},
+	template : PFT.Util.ParseTemplate(Tpl),
 	init : function(){
-		this.attr = "3";
+		var template = this.template;
+		var listUl = this.listUl = $("tbody");
 		var pagination = this.pagination = new PaginationX({
 			container : "#paginationXContainer",
 			count : 7,
 			showTotal : true,
 			jump : true
 		});
-
-
 		pagination.on("page.switch",function(toPage,currentPage,totalPage){
 			this.render({current:toPage,total:totalPage});
 		});
 
-		pagination.render({current:1,total:20});
-		//
-		//var calendar = new Calendar();
-		//calendar.on("select",function(data){
-		//
-		//})
-		//calendar.show("2016-06-30",{   //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
-		//	picker : $("#beginTimeInp"), //页面上点击某个picker弹出日历(请使用input[type=text])
-		//	top : 0,                     //日历box偏移量
-		//	left : 0,                    //日历box偏移量
-		//	min : "2016-06-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
-		//	max : "2016-07-10",          //2016-07-10往后的日期都不可选 会自动挂上disable类名
-		//	onBefore : function(){},     //弹出日历前callback
-		//	onAfter : function(){}       //弹出日历后callback
-		//})
+
+		var search = new Search();
+		search.on("search",function(params){
+			Service.fetchList(params,{
+				debug : true,
+				loading : function(){
+					listUl.html(Loading_Text);
+					search.disable();
+				},
+				complete : function(){
+					listUl.html("");
+					search.enable();
+				},
+				success : function(data){
+					var currentPage = data.page;
+					var totalPage = data.totalPage;
+					var html = template({data : data.data});
+					listUl.html(html);
+					pagination.render({current:currentPage,total:totalPage})
+				},
+				empty : function(data){
+					console.log("empty")
+					listUl.html('<tr><td style="text-align:center; height:200px" colspan="7">暂无数据...</td></tr>');
+					pagination.render(null);
+				}
+			})
+		})
+
+	},
+	onDoActionBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		if(tarBtn.hasClass("disable")) return false;
+		var action = tarBtn.attr("data-action");
+		if(action) this.action[action](tarBtn);
+	},
+	action : {
+		//退票
+		tuipiao : function(tarBtn){
+
+		},
+		//核消
+		hexiao : function(tarBtn){
+
+		}
 	}
 });
 

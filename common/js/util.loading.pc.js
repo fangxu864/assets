@@ -14,7 +14,7 @@ var Loading = function(text,opt){
 	opt = opt || {}
 	var tag = opt.tag || "div";
 	if(tag=="td") tag = "tr";
-	var width = opt.width+"px" || "100%";
+	var width = opt.width ? (opt.width+"px") : "100%";
 	var height = opt.height || 150;
 	var loadingImg = opt.loadingImg || {};
 	var imgWidth = loadingImg.width || 24;
