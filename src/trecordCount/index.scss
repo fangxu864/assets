@@ -29,6 +29,7 @@
         padding-left: 20px;
         height: 60px;
         line-height: 60px;
+        position: relative;
         .lt{
           float: left;
         }
@@ -56,6 +57,7 @@
         }
         .fll{
           float:left ;
+          position:relative;
           .trader_inp{
             @include textInp(160,5);
           }
@@ -190,9 +192,18 @@
           tr:hover{
             background-color: #f9f2f3;
           }
-          tr:last-child{border-bottom: none;}
+          //tr:last-child{border-bottom: none;}
         }
 
+      }
+    }
+    #pagination_wrap{
+      height: 66px;
+      line-height: 100px;
+      width: 800px;
+      text-align: center;
+      ul.pagination{
+        display: inline-block;
       }
     }
   }

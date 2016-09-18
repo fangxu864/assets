@@ -61,7 +61,7 @@
                 <td class="th3">4522</td>
                 <td class="th4">4522</td>
                 <td class="th5">4522</td>
-                <td class="th6">详细</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
             </tr>
             <tr>
                 <td class="th1">三亚先行</td>
@@ -69,7 +69,7 @@
                 <td class="th3">4522</td>
                 <td class="th4">4522</td>
                 <td class="th5">4522</td>
-                <td class="th6">详细</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
             </tr>
             <tr>
                 <td class="th1">三亚先行</td>
@@ -77,7 +77,7 @@
                 <td class="th3">4522</td>
                 <td class="th4">4522</td>
                 <td class="th5">4522</td>
-                <td class="th6">详细</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
             </tr>
             <tr>
                 <td class="th1">三亚先行</td>
@@ -85,7 +85,7 @@
                 <td class="th3">4522</td>
                 <td class="th4">4522</td>
                 <td class="th5">4522</td>
-                <td class="th6">详细</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
             </tr>
             <tr>
                 <td class="th1">三亚先行</td>
@@ -93,7 +93,7 @@
                 <td class="th3">4522</td>
                 <td class="th4">4522</td>
                 <td class="th5">4522</td>
-                <td class="th6">详细</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
             </tr>
             <tr>
                 <td class="th1">三亚先行</td>
@@ -101,7 +101,7 @@
                 <td class="th3">4522</td>
                 <td class="th4">4522</td>
                 <td class="th5">4522</td>
-                <td class="th6">详细</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
             </tr>
             <tr>
                 <td class="th1">三亚先行</td>
@@ -109,10 +109,35 @@
                 <td class="th3">4522</td>
                 <td class="th4">4522</td>
                 <td class="th5">4522</td>
-                <td class="th6">详细</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
+            </tr>
+            <tr>
+                <td class="th1">三亚先行</td>
+                <td class="th2">45253452</td>
+                <td class="th3">4522</td>
+                <td class="th4">4522</td>
+                <td class="th5">4522</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
+            </tr>
+            <tr>
+                <td class="th1">三亚先行</td>
+                <td class="th2">45253452</td>
+                <td class="th3">4522</td>
+                <td class="th4">4522</td>
+                <td class="th5">4522</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
+            </tr>
+            <tr>
+                <td class="th1">三亚先行</td>
+                <td class="th2">45253452</td>
+                <td class="th3">4522</td>
+                <td class="th4">4522</td>
+                <td class="th5">4522</td>
+                <td class="th6"><a href="javascript:void(0)">详细</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <div id="pagination_wrap"></div>
 </div>
 

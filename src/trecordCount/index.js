@@ -7,6 +7,7 @@ var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
 var Select = require("COMMON/modules/select");
+var Pagination = require("COMMON/modules/pagination");
 var tpl=require("./index.xtpl");
 
 
@@ -51,6 +52,17 @@ var TrecordCount={
                 onAfter : function(){}       //弹出日历后callback
             })
         });
+        //分页器部分
+        this.p=new Pagination({
+            "id":"pagination_wrap",                             //分页器盒子的容器
+            "data_total_num":10000,                            //数据总数量
+            "per_page_num":8,                                  //每页显示的数据条数
+            "present_page":200,                                //当前页数
+            "callBack":function (present_page) {               //用户点击按钮时的回调函数，参数为当前分页器的页码；
+            alert(present_page);
+            }
+        });
+
         this.bind();
     },
     bind:function(){
@@ -123,6 +135,14 @@ var TrecordCount={
         //两种账户的单选按钮
         $(".count_dot_btn_box").on("click","span.cell",function () {
             $(".count_dot_btn_box span.cell").toggleClass("selected").toggleClass("not_selected")
+        })
+        //查询按钮
+        $(".query_btn").on("click",function () {
+            _this.p.refresh({
+                "data_total_num":80,                            //数据总数量
+                "per_page_num":8,                                  //每页显示的数据条数
+                "present_page":1,                                //当前页数
+            })
         })
 
     }
