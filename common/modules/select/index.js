@@ -98,7 +98,6 @@ Select.prototype = {
 		this.searchInp = this.selectBox.find(".gSelectSearchInp");
 		this.clearSearchBtn = this.selectBox.find(".clearSearchBtn");
 		this.listUl = this.selectBox.find(".selectOptionUl");
-		this.position();
 		this.bindEvents();
 		if(opt.data){
 			this.__cacheData = opt.data;
@@ -280,11 +279,11 @@ Select.prototype = {
 		var selectBox = this.createSelectBox();
 		var of = trigger.offset();
 		var offset = this.opt.offset;
-		var scrollTop = $(window).scrollTop();
+		//var _scrollTop = $(window).scrollTop();
 		var trigger_h = trigger.outerHeight(true);
 		selectBox.css({
 			left : of.left + (offset.left || 0),
-			top : (of.top-scrollTop) + trigger_h + (offset.top || 0)
+			top : of.top + trigger_h + (offset.top || 0)
 		})
 	},
 	fetchData : function(source,keyword){
