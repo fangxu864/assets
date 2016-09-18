@@ -1,10 +1,11 @@
 <template>
     <div class="ui-image-container" :style="{height:height+'px'}">
         <template v-if="state=='loading'">
-            <div style="height:100px; line-height:100px; text-align:center">loading...</div>
+            <div :style="{height:height+px, lineHeight:height+px, textAlign:center}">loading...</div>
         </template>
         <template v-if="state=='success'">
-            <img :style="{marginTop:marginTop+'px'}" :src="src" alt=""/>
+            <img v-if="fixed" :style="{marginTop:marginTop+'px'}" :src="src" alt=""/>
+            <img v-else :src="src" :style="{top:0}" alt=""/>
         </template>
     </div>
 </template>
@@ -24,7 +25,7 @@
                 type : Number,
                 default : 100
             },
-            flex : {
+            fixed : {
                 type : Boolean,
                 default : false
             }
@@ -40,7 +41,7 @@
             img.onload = () => {
                 this.state = "success";
                 this.imgHeight = this.calImageHeight(img);
-                if(this.flex) this.height = this.imgHeight;
+                if(!this.fixed) this.height = this.imgHeight;
                 this.$dispatch("success",this.src,img,this.imgHeight);
             }
             img.onerror = () => {
@@ -54,7 +55,7 @@
             if(img.complete){
                 this.state = "success";
                 this.imgHeight = this.calImageHeight(img);
-                if(this.flex) this.height = this.imgHeight;
+                if(!this.fixed) this.height = this.imgHeight;
                 this.$dispatch("success",this.src,img,this.imgHeight);
                 return false;
             }
