@@ -43,7 +43,7 @@
 #searchInputSecond,#searchInput{width: 131px;height:30px;line-height: 30px ;margin-left:10px;border: solid 1px #ccc;margin-top: 4px; position: relative;padding-left: 40px}
 #searchInputSecondL{width: 131px;height:30px;line-height: 30px ;margin-left:10px;border: solid 1px #ccc;margin-top: 4px; position: relative;padding-left: 40px}
 .trangle{width: 0;height: 0;border-left: 6px solid transparent;border-right: solid 6px transparent;border-top: 7px solid black;position: absolute;left: 175px;top: 27px; }
-.positioTran{position: absolute;left:135px;top: 47px;}
+.positioTran{position: absolute;left:150px;top: 47px;}
 
 
 #search,#searchSecond{position:absolute;top: 6px;left: 20px}
@@ -79,7 +79,19 @@ li:hover{background: #ccc}
 .clear{clear: both;}
 
 #calendarContain{position: absolute;top:67px;z-index:200}
-.calendarContainClass{width:200px;height: 36px;line-height: 36px;border:solid 1px #ccc;padding-left: 4px;float: left;cursor: pointer;background: #fff}
+.calendarContainClass{
+  width: 165px;
+  height: 36px;
+  line-height: 36px;
+  border: solid 1px #ccc;
+  border-top: none;
+  position: relative;
+  left: 2px;
+  padding-left: 4px;
+  float: left;
+  cursor: pointer;
+  background: #fff;
+}
 
 .calendarContainClass:hover{background-color: #ccc}
 #ContainForCalendar{width:200px;}
