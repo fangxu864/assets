@@ -275,7 +275,7 @@ Select.prototype = {
 		this.xhr = PFT.Util.Ajax(source,{
 			type : ajaxType,
 			dataType : "json",
-			data : ajaxParams,
+			params : ajaxParams,
 			loading : function(){
 				that.opt.__cacheData = "loading";
 				that.updateListUl("loading");

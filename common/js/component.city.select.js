@@ -1,6 +1,25 @@
 /**
  * Created by Administrator on 16-4-15.
  */
+/**
+ * 插件使用说明
+ * 1》require本插件。
+ * var ProvCitySelector = require("COMMON/js/component.city.select.js");
+ * 2》实例化对象
+ * var selector = new ProvCitySelector({
+ *   provId : "#provSelect",                               //参数为<select></select>省标签的id
+ *  cityId : "#citySelect",                                //参数为<select></select>市标签的id
+ *  onProvChange : function (provId) {                     //当省下拉框变化时执行的回调函数，参数为 省下拉框中 所选省份对应的省份代号
+ *      // console.log(provId)
+ *      $("#province_input").val(provId)
+ *  },
+ *  onCityChange : function (cityId) {                     //当省下拉框变化时执行的回调函数，参数为 市下拉框中 所选城市对应的城市代号
+ *      // console.log(cityId)
+ *      $("#city_input").val(cityId)
+ *   }
+ *});
+ *
+ */
 var fn = new Function();
 var Select = function(opt){
 	var opt = opt || {};
