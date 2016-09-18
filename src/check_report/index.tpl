@@ -17,7 +17,7 @@
             <input id="searchInputSecondL" type="text" placeholder="请输入关键词直接搜索"/>
             <!--<div id="searchSecondL"></div>-->
             <i class="iconfont" id="searchSecondL" >&#xe60a;</i>
-            <i class="iconfont" id="searchDeleteBtn">&#xe674;</i>
+            <!--<i class="iconfont" id="searchDeleteBtn">&#xe674;</i>-->
             <ul id="ComsuggestKey">
 
             </ul>
@@ -36,13 +36,13 @@
     <span class="update" id="update">导出数据</span>
 </div>
 <div class="secondContain">
-    <div class="selectDataFn calendarSelect " id="selectDataFn">本周</div>
+    <div class="selectDataFn calendarSelect " id="selectDataFn">时间段（三个月以内）</div>
     <div class="trangle positioTran"></div>
     <div class="allContain" id="calendarContain">
-        <span class=" calendarContainClass" id="threeMonthCalendar" >三个月以内</span>
-        <span class=" calendarContainClass" id="thisMonthCalendar">当月</span>
-        <span class="calendarContainClass" id="thisWeekCalendar">本周</span>
-        <span class="calendarContainClass" id="todayCalendar">当日</span>
+        <!--<span class=" calendarContainClass" id="threeMonthCalendar" >三个月以内</span>-->
+        <!--<span class=" calendarContainClass" id="thisMonthCalendar">当月</span>-->
+        <!--<span class="calendarContainClass" id="thisWeekCalendar">本周</span>-->
+        <!--<span class="calendarContainClass" id="todayCalendar">当日</span>-->
     </div>
 
     <div id="calendarDateBe" class="calendarDateBe calendarSelect ">
@@ -72,7 +72,7 @@
             <input id="searchInput" type="text" placeholder="请输入关键词直接搜索"/>
             <!--<div id="search"></div>-->
             <i class="iconfont" id="search" >&#xe60a;</i>
-            <i class="iconfont" id="searchDeleteBtnA">&#xe674;</i>
+            <!--<i class="iconfont" id="searchDeleteBtnA">&#xe674;</i>-->
 
             <ul id="suggestKey">
 
@@ -94,7 +94,7 @@
             <div class="allContain" id="containDistributorS">
                 <input id="searchInputSecond" type="text" placeholder="请输入关键词直接搜索"/>
                 <i class="iconfont" id="searchSecond" >&#xe60a;</i>
-                <i class="iconfont" id="searchDeleteBtnL">&#xe674;</i>
+                <!--<i class="iconfont" id="searchDeleteBtnL">&#xe674;</i>-->
 
                 <!--<div id="searchSecond"></div>-->
                 <ul id="containDistributorSelctF">

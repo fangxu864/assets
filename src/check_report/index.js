@@ -476,7 +476,7 @@ var report ={
                 }
             }
             else {
-                Monday =days-weekday+1;
+                Monday =days-weekday;
                 Monday =that.setdataType(Monday);
                 var dayS=that.setdataType(days);
                 var monthS=that.setdataType(months);
@@ -884,7 +884,7 @@ var report ={
                 }
             }
             else {
-                Monday =days-weekday+1;
+                Monday =days-weekday;
                 Monday =that.setdataType(Monday);
                 var dayS=that.setdataType(days);
                 var monthS=that.setdataType(months);
