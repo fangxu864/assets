@@ -37,11 +37,14 @@ var Class = function() {
 	        			var handler = events[i];
 	        			if(typeof handler=="string") handler = that[handler] ? that[handler] : function(){};
 	        			if(!handler) return;
-	        			handler = handler.bind(that);
 	        			if(selector){
-	        				container.on(eventType,selector,handler);
+	        				container.on(eventType,selector,function(e){
+								handler.call(that,e);
+							});
 	        			}else{
-	        				container.on(eventType,handler);
+	        				container.on(eventType,function(e){
+								handler.call(that,e);
+							});
 	        			}	
         			})(i)
         		}
