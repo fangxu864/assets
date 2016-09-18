@@ -12,7 +12,8 @@
 .rtWrap .rtNav li:first-child{ margin-left:11px;}
 .tbThirdOrder .tbCon{table-layout: fixed; width: 100%; text-align:left}
 .tbThirdOrder .tbCon th{height: 35px; line-height: 35px; color: #6C7882; background: #E5E5E5;}
-.tbThirdOrder .tbCon td{line-height: 15px; word-wrap: break-word; word-break: normal; border-bottom: 1px solid #E5E5E5; padding: 15px 0; text-align: center;}
+.tbThirdOrder .tbCon td{line-height: 1.4; word-wrap: break-word; word-break: normal; border-bottom: 1px solid #E5E5E5; padding: 15px 0; text-align: left;}
+.tbThirdOrder .tbCon tr:last-child td{ border-bottom:0 none}
 .tbThirdOrder .tbCon .ltTxt{text-align: left; padding-left: 20px;}
 .tbThirdOrder .tbCon .rtTxt{text-align: right; padding-right: 20px;}
 .tbThirdOrder .tbCon tbody tr:hover{background: #FAFAFA;}
@@ -65,4 +66,4 @@ a.searchBtn:link, a.searchBtn:visited,a.searchBtn:hover{color: #FFFFFF; text-dec
 .tbThirdOrder .tbCon .listLoadingTr:hover{ background:#fff}
 
 #tableDom{ table-layout:fixed}
-#tableDom thead .col_1{ width:100px; padding-left:15px;}
+#tableDom thead .col_1,#tableDom tbody .col_1{ width:100px; padding-left:15px;}
