@@ -1,7 +1,6 @@
 /**
  * Created by Administrator on 15-11-25.
  */
-var moment = require('moment');
 var time=new Date();
 var When=function(){};
 When.prototype.today = function() {

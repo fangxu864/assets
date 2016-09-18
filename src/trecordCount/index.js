@@ -2,7 +2,6 @@
  * Created by Administrator on 2016/9/12.
  */
 require("./index.scss");
-var moment = require('moment');
 var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
