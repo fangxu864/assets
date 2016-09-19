@@ -1,6 +1,6 @@
 @import "COMMON/css/base/core/variables";
 @import "COMMON/css/base/mixin/searchBox";
-.gSelectDownBox{ position:fixed; z-index:1001; overflow:hidden; border-bottom:1px solid #dbdbdb; background:#fff}
+.gSelectDownBox{ position:absolute; z-index:1001; overflow:hidden; border-bottom:1px solid #dbdbdb; background:#fff}
 .gSelectDownBox .selectTopCon{ position:absolute; top:0; left:0; right:0; height:34px; padding:10px; border-bottom:1px solid #dbdbdb}
 .gSelectDownBox .searchBox{ @include searchBox(); width:100%}
 .gSelectDownBox .searchBox .clearSearchBtn{ top:7px}

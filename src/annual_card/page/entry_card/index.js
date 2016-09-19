@@ -15,7 +15,8 @@ var MainView = Backbone.View.extend({
 	events : {
 		"click #relateSHCardBtn" : "onRelateSHCardBtnClick",
 		"click #clearAllListBtn" : "onClearAllListClick",
-		"click #submitBtn" : "onSubmit"
+		"click #submitBtn" : "onSubmit",
+		"click #actityBtn" : "onActityBtnClick"
 	},
 	initialize : function(){
 		var that = this;
@@ -38,10 +39,12 @@ var MainView = Backbone.View.extend({
 				name : "p_name"
 			},
 			adaptor : function(res){
+				var result = {};
 				res = res || {};
-				var data = res.data || {};
-				var list = data.list || [];
-				return list;
+				result["code"] = res.code;
+				result["data"] = res.data.list;
+				result["msg"] = res.msg;
+				return result;
 			}
 		});
 		$(".arrowup").hide();
@@ -85,6 +88,15 @@ var MainView = Backbone.View.extend({
 	onSubmit : function(e){
 		var submitBtn = $(e.currentTarget);
 		if(submitBtn.hasClass("disable")) return false;
+		this.submit(submitBtn);
+	},
+	//一键激活
+	onActityBtnClick : function(e){
+		var actityBtn = $(e.target);
+		if(actityBtn.hasClass("disable")) return false;
+		this.submit(actityBtn,"actity");
+	},
+	submit : function(submitBtn,type){
 		var pid = this.Select.getValue().id;
 		if(!pid) return alert("缺少年卡产品id");
 		var list = [];
@@ -102,12 +114,15 @@ var MainView = Backbone.View.extend({
 			})
 		})
 		if(list.length==0) return false;
+		if(type=="actity" && list.length>20) return alert("一键激活时，卡数量不得超过20张");
+		var params = {
+			pid : pid,
+			list : list
+		};
+		if(type=="actity") params["active"] = 1;
 		PFT.Util.Ajax(Api.Url.EntryCard.createAnnualCard,{
 			type : "post",
-			params : {
-				pid : pid,
-				list : list
-			},
+			params : params,
 			loading : function(){ submitBtn.addClass("disable")},
 			complete : function(){ submitBtn.removeClass("disable")},
 			success : function(res){
@@ -122,6 +137,7 @@ var MainView = Backbone.View.extend({
 			}
 		})
 	}
+
 });
 
 $(function(){

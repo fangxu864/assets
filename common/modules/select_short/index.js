@@ -3,6 +3,7 @@
 // var a=new SelectShort({
 //     id:"div1",
 //     arr:["星期一","星期二","星期三","星期四","星期五","星期六","星期日"]
+//     callback:function(cur_opt){}   [可选]
 // })
 //当前选择内容可由对象的cur_opt属性获取。例如：a.cur_opt  (每次选择都会更新此属性)
 // 容器ID的样式设置例子如下：
@@ -32,6 +33,7 @@ function SelectShort(opt){
     this.id=opt.id;
     this.isFold=1;
     this.cur_opt="";
+    this.callback=opt.callback||function(){};
     this.init();
 }
 SelectShort.prototype={
@@ -52,6 +54,7 @@ SelectShort.prototype={
         //往容器里加东西
         this.cur_con.innerHTML=this.arr[0];
         this.cur_opt=this.arr[0];
+        this.callback(this.cur_opt);
         for(var i=0;i<this.arr.length;i++){
             this.opt.innerHTML+="<li>"+this.arr[i]+"</li>";
         }
@@ -66,6 +69,7 @@ SelectShort.prototype={
                 _this.options[j].onclick=function () {
                     _this.cur_con.innerHTML=this.innerHTML;
                     _this.cur_opt=this.innerHTML;
+                    _this.callback( _this.cur_opt)
                     fold();
                 }
             }

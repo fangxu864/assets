@@ -70,6 +70,14 @@ var Api_Mb = {
 		smsLogin_getVCode : function(){
 			return Mall_Member("sendVcode");
 		},
+		//个人中心页面info
+		getUserCenterInfo : function(){
+			return Mall_Member("userCenter");
+		},
+		//个人中心 订单列表页
+		userCenterOrderList : function(){
+			return Mall_Member("getOrderList");
+		},
 		//C端端面跳转链接
 		Page_Link : {
 

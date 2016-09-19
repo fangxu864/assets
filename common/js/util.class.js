@@ -10,7 +10,6 @@ var Class = function() {
 	var length = arguments.length;
     var option = arguments[length-1];
     var events = option.EVENTS || {};
-    var container = option.container;
     option.init = option.init || function(){};
 
 	if(length==1){
@@ -20,6 +19,16 @@ var Class = function() {
         newClass.prototype = option;
         newClass.prototype._init = function(arg){
         	var that = this;
+			//var container = arg[0] ? arg[0].container : null;
+			var container = option.container;
+			if(!container) container = arg[0] ? arg[0].container : null;
+			if(typeof container=="string"){
+				if(container.indexOf("#")==0){
+					container = $(container);
+				}else{
+					container = $("#"+container)
+				}
+			}
         	if(container){
         		for(var i in events){
         			(function(i){
@@ -28,24 +37,28 @@ var Class = function() {
 	        			var handler = events[i];
 	        			if(typeof handler=="string") handler = that[handler] ? that[handler] : function(){};
 	        			if(!handler) return;
-	        			handler = handler.bind(that);
 	        			if(selector){
-	        				container.on(eventType,selector,handler);
+	        				container.on(eventType,selector,function(e){
+								handler.call(that,e);
+							});
 	        			}else{
-	        				container.on(eventType,handler);
+	        				container.on(eventType,function(e){
+								handler.call(that,e);
+							});
 	        			}	
         			})(i)
         		}
         	}
+			if(container) this.container = container;
             this.init.apply(this,arg);
         };
         newClass.prototype.constructor = newClass;
 
-        newClass.prototype.on = function(type,handler){
+        newClass.prototype.on = function(type,handler,cxt){
         	if(typeof type!=="string" || typeof handler!=="function") return false;
         	var callbacks = this.__CustomEventCallback__ || (this.__CustomEventCallback__={});
         	var callbackArr = callbacks[type] || (callbacks[type]=[]);
-        	callbackArr.push(handler);
+        	callbackArr.push({handler:handler,cxt:cxt || this});
         }
 
         newClass.prototype.trigger = function(type){
@@ -53,9 +66,11 @@ var Class = function() {
         	var fns = this.__CustomEventCallback__[type];
         	if(!fns) return false;
         	for(var i in fns){
-        		var fn = fns[i];
+        		var fnObj = fns[i] || {};
+				var fn = fnObj["handler"];
+				var cxt = fnObj["cxt"] || that;
         		var args = Array.prototype.slice.call(arguments,1);
-        		fn.apply(that,args)
+        		fn && fn.apply(cxt,args);
         	}
         }
         newClass.prototype._init.prototype = newClass.prototype;

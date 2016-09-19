@@ -5,9 +5,8 @@
  */
 module.exports = function(PFT){
 
-	PFT["Class"] = require("./js/Class");
-	
 	var Util = PFT["Util"] || (PFT["Util"] = {});
+	Util["Class"] = require("./js/util.class");
 	Util["Each"] = require("./js/util.each");
 	Util["ParseTemplate"] = require("./js/util.parseTemplate");
 	Util["PubSub"] = require("./js/util.pubsub");
@@ -26,6 +25,7 @@ module.exports = function(PFT){
 	Util["BindScope"] = require("./js/util.bindscope");
 	Util["isEmptyObject"] = require("./js/util.isEmptyObject");
 	Util["ImgLoader"] = require("./js/util.imageLoader");
+	Util["winWidthHeight"] = require("./js/util.window.width.height");
 	var Config = PFT["Config"] || (PFT["Config"] = {});
 	Config["Api"] = require("./js/config.api");
 	Config["Ajax"] = function(){
