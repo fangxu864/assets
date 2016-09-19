@@ -26,11 +26,12 @@ var report ={
             }
 
         });
-
-
-
-
-
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "http://www.12301.cc/tpl/orderquery/libs/moment.min.js";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     },
     calendarShow:function(id){
         var that =this;
@@ -79,7 +80,6 @@ var report ={
             $("#contianDistributorF").attr("reseller_id",$(this).attr("reseller_id"));
             $("#contianDistributorF").html($(this).html());
         })
-
 
     },
     selectChange:function(target,contain){
