@@ -5,14 +5,7 @@
 </div>
 <div class="secondContain">
     <div class="selectDataFn calendarSelect " id="selectDataFn">时间段（3个月以内）</div>
-    <div class="trangle positioTran"></div>
-    <div class="allContainL" id="calendarContain">
-        <span class=" calendarContainClass" id="threeMonthCalendar" >3个月以内</span>
-        <span class=" calendarContainClass" id="thisMonthCalendar">当月</span>
-        <span class="calendarContainClass" id="thisWeekCalendar">本周</span>
-        <span class="calendarContainClass" id="todayCalendar">当日</span>
-    </div>
-
+    <div class=" positioTran"></div>
     <div id="calendarDateBe" class="calendarDateBe calendarSelect ">
         <input id="calendarInputOne" type="text" class="calendarInputOne InputCalendar" placeholder="开始时间" >
         <i class="iconfont" id="contPosition">&#xe65b;</i>

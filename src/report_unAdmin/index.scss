@@ -6,7 +6,7 @@
 .contain2{width: 201px;height:30px;border: solid 1px #ccc;line-height: 30px;padding-left: 5px;cursor: pointer;position: relative;overflow: hidden;top: 14px; }
 .allContain{width: 200px;background: #fff;display: none;}
 .allContainL{width: 163px;background: #fff;display: none;}
-.Commercial{width: 202px;height: 36px;line-height: 36px;border:solid 1px #ccc;padding-left: 4px;float: left;cursor: pointer;background: #fff}
+.Commercial{width: 202px;height: 36px;line-height: 36px;border:solid 1px #ccc;padding-left: 4px;float: left;cursor: pointer;background: #fff;border-top:none;}
 .Commercial:hover{background-color: #ccc}
 .checkbox-value {position:relative;height:30px;line-height:30px;padding-left:30px;overflow:hidden;}
 .checkbox-value:before {
@@ -43,8 +43,8 @@
 #containDistributorS{width: 205px;height: 337px;border:1px solid #ccc;background: #fff;position: relative;top: 0;overflow-x:hidden;overflow-y: scroll}
 #searchInputSecond,#searchInput{width: 131px;height:30px;line-height: 30px ;margin-left:10px;border: solid 1px #ccc;margin-top: 4px; position: relative;padding-left: 40px}
 #searchInputSecondL{width: 131px;height:30px;line-height: 30px ;margin-left:10px;border: solid 1px #ccc;margin-top: 4px; position: relative;padding-left: 40px}
-.trangle{width: 0;height: 0;border-left: 6px solid transparent;border-right: solid 6px transparent;border-top: 7px solid black;position: absolute;left: 175px;top: 27px; }
-.positioTran{position: absolute;left:135px;top: 47px;}
+.trangle{width: 0;height: 0;border-left: 6px solid transparent;border-right: solid 6px transparent;border-top: 7px solid black;position: absolute;left: 185px;top: 27px; }
+.positioTran{position: absolute;left:150px;top: 47px;}
 
 
 #search,#searchSecond{position:absolute;top: 6px;left: 20px}
@@ -80,7 +80,19 @@ li:hover{background: #ccc}
 .clear{clear: both;}
 
 #calendarContain{position: absolute;top:66px;z-index:200}
-.calendarContainClass{width:163px;height: 36px;line-height: 36px;border:solid 1px #ccc;padding-left: 4px;float: left;cursor: pointer;background: #fff}
+.calendarContainClass{
+  width: 165px;
+  height: 36px;
+  line-height: 36px;
+  border: solid 1px #ccc;
+  border-top: none;
+  padding-left: 4px;
+  float: left;
+  position: relative;
+  left: 2px;
+  cursor: pointer;
+  background: #fff;
+}
 
 .calendarContainClass:hover{background-color: #ccc}
 #ContainForCalendar{width:200px;}
