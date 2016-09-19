@@ -8,11 +8,23 @@ var when=new When();
 var Select = require("COMMON/modules/select");
 // var Pagination = require("COMMON/modules/pagination");
 var tpl=require("./index.xtpl");
-
+var dialogtpl=require("./dialogtpl.xtpl");
 var Pagination = require("COMMON/modules/pagination-x");
 
-
-
+var Dialog=require("COMMON/modules/dialog-simple");
+var Dial=new Dialog({
+    width : 500,
+    height:600,
+    closeBtn : true,
+    content : dialogtpl,
+    drag : true,
+    speed : 100,
+    // onCloseAfter : function(){
+    //     $(".select_down_pages .pages_wrap .con").off("click.click_pages");
+    //     $(".select_down_pages .btn_wrap .ok_btn").off("click.ok_down");
+    //     $(".select_down_pages .btn_wrap .all_btn").off("click.down_all")
+    // }
+});
 
 var TrecordCount={
     init:function () {
@@ -69,6 +81,7 @@ var TrecordCount={
             _this.pagination.render({current:toPage,total:totalPage});
         });
         this.pagination.render({current:5,total:10});
+        Dial.open();
 
         this.bind();
     },
