@@ -1,0 +1,20 @@
+
+
+
+<div class="select_down_pages">
+<div class="title">数据较多，可分页下载，请选择页码</div>
+<div class="pages_wrap">
+    <div class="con">
+        <!--<div class="page">1</div>-->
+        <!--<div class="page">2</div>-->
+        <!--<div class="page">3</div>-->
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="btn_wrap">
+    <div class="lt"></div>
+    <div class="ok_btn clickable">下载该页</div>
+    <div class="all_btn clickable">下载全部</div>
+</div>
+<div class="iframe_wrap"></div>
+</div>

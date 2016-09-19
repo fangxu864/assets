@@ -102,7 +102,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.today.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.today.total_money/100);
+				$("#sumNum").text(that.__cache.today.totalMoney);
 			}
 		})
 		this.thisWeekBtn.on("click",function(e){
@@ -113,7 +113,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.thisweek.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.thisweek.total_money/100);
+				$("#sumNum").text(that.__cache.thisweek.totalMoney);
 			}
 		})
 		this.lastWeekBtn.on("click",function(e){
@@ -124,7 +124,8 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.lastweek.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.lastweek.total_money/100);
+				console.log(that.__cache.lastweek.totalMoney)
+				$("#sumNum").text(that.__cache.lastweek.totalMoney);
 			}
 		})
 		this.thisMonthBtn.on("click",function(e){
@@ -135,7 +136,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.thismonth.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.thismonth.total_money/100);
+				$("#sumNum").text(that.__cache.thismonth.totalMoney);
 			}
 		})
 		this.lastMonthBtn.on("click",function(e){
@@ -146,16 +147,16 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.lastmonth.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.lastmonth.total_money/100);
+				$("#sumNum").text(that.__cache.lastmonth.totalMoney);
 			}
 		})
 	},
 
-	getRecordAndSum: function(){
+	getRecordAndSum: function(totalMoney){
 		//var sumNum=0;
 		var recordNum=$("#withdrawList").children("tr").length;
 		$("#recordNum").text(recordNum);
-		//$("#withdrawList .withdrawNum").each(function(){
+		//$("#withdrawList .withdrawNum").each(function(totalMoney){
 		//	sumNum+=parseInt($(this).text());
 		//})
 		//$("#sumNum").text(sumNum);
@@ -187,16 +188,17 @@ RedpacketWithdraw.prototype={
 				res=res||{};
 				var data=res.data;
 				var list=data.list;
+				var totalMoney=data.total_money/100;
 				var currentPage = data.cur_page;
 				var totalPage = data.total_page;
-				var totalMoney=data.total_money/100;
 				var total = data.total;
 				if(res.code==200){
+
 					that.renderList(list);
 					that.getRecordAndSum();
 					$("#sumNum").text(totalMoney);
 					that.pagination.render({current:currentPage,total:totalPage});
-
+					console.log(dateType)
 					if(dateType=="today"){
 						that.__cache.today = data;
 					}
@@ -204,6 +206,8 @@ RedpacketWithdraw.prototype={
 						that.__cache.thisweek = data;
 					}
 					if(dateType=="lastweek"){
+						console.log("lastweek")
+						console.log(data)
 						that.__cache.lastweek = data;
 					}
 					if(dateType=="thismonth"){
@@ -225,7 +229,7 @@ RedpacketWithdraw.prototype={
 		for(var i in list){
 			var d=list[i];
 			var create_time=d["create_time"];
-			var date=new Date(parseInt(create_time)* 1000);
+			var date=new Date(parseInt(create_time));
 			var time=that.formatTime(date);
 			var supply=d["supply"];
 			var name=d["nickname"];

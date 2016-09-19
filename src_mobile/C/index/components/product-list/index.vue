@@ -7,8 +7,8 @@
             </template>
             <template v-if="state=='success'">
                 <li v-for="item in list" class="prodItem itemRow">
-                    <a class="con" href="pdetail.html?lid=">
-                        <img-loador :src="item.imgpath" :height="imgHeight"></img-loador>
+                    <a class="con" :href="'pdetail.html?lid='+item.lid">
+                        <img-loador :src="item.imgpath" :height="imgHeight" :fixed="true"></img-loador>
                         <div class="botBox">
                             <div class="col lt">
                                 <span class="title" v-text="item.title"></span>

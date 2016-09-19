@@ -1,0 +1,14 @@
+<!--场馆坐位box模板-->
+<script id="stageBoxTpl" type="text/template">
+    <li id="stageBox_<%=row_id%>_<%=col_id%>"
+        class="stageBox box stageBox-col-<%=col_num%> stageBox-row-<%=row_num%>"
+        data-areaid="<%=area_id%>"
+        data-row="<%=row_num%>"
+        data-col="<%=col_num%>"
+        data-state="<%=state%>"
+        data-seat="<%=seat%>"
+        data-seatid="<%=seat_id%>"
+        style="width:<%=width%>px; height:<%=height%>px; line-height:<%=height%>px">
+        <i class="iconfont gou">&#xe668;</i><span class="t"></span><span class="state"></span>
+    </li>
+</script>

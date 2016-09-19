@@ -43,7 +43,7 @@
     export default {
         data(){
             return {
-                lid : "1111",
+                lid : PFT.Util.UrlParse()["lid"] || "",
                 state : "",
                 errorMsg : "",
                 tabActiveClass : "buy",
@@ -153,7 +153,7 @@
             photo : require("COMMON_VUE_COMPONENTS/pdetail-photo"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list"),
             taopiaoList : require("COMMON_VUE_COMPONENTS/taopiao-list"),
-            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue")
+            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer")
         }
     }
 </script>

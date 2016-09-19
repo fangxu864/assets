@@ -1,5 +1,25 @@
 /**
  * Created by Administrator on 16-2-18.
+ * ##how to use
+
+ #一个页面只能new一个Calendar
+ var calendar = new Calendar();
+
+ #当点击日历，选中某一日期时
+ calendar.on("select",function(data){
+    console.log(data)
+})
+
+ #主要方法
+ calendar.show("2016-06-30",{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+    picker : $input,             //页面上点击某个picker弹出日历(请使用input[type=text])
+    top : 0,                     //日历box偏移量
+    left : 0,                    //日历box偏移量
+    min : "2016-06-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
+    max : "2016-07-10",          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+    onBefore : function(){},     //弹出日历前callback
+    onAfter : function(){}       //弹出日历后callback
+})
  */
 require("./style.css");
 var CalendarCore = require("../../js/CalendarCore.js");
