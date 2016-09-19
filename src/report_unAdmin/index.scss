@@ -131,3 +131,8 @@ li:hover{background: #ccc}
 .Ccolor{color:#3DBA3F}
 .CcolorT{color:#FD0101}
 #searchDeleteBtn,#searchDeleteBtnL{position:absolute;top:6px;left:160px;display: none}
+
+.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{color: #dedede !important;}
+.calendar-table .calendar-td.day:hover{background-color: #00a0e9}
+.calendar-td.selected.disable{background-color: #008fc2 !important;color:#ffffff !important;}
+.calendar-pop-contaienr{  width:220px !important;}
