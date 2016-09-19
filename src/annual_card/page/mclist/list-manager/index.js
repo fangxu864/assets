@@ -18,15 +18,15 @@ var Manager = Backbone.View.extend({
 	paginations : {},
 	tableTh : {
 		//激活状态
-		1 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
+		1 : ["会员姓名","手机号", "虚拟卡号","实体卡号","发卡商户","激活情况","操作"],
 		//未激活状态
-		0 : ["售出时间","虚拟卡号/实体卡号 ","发卡商户","激活情况","操作"],
+		0 : ["售出时间","虚拟卡号","实体卡号","发卡商户","激活情况","操作"],
 		//禁用状态
-		2 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
+		2 : ["会员姓名","手机号","虚拟卡号","实体卡号","发卡商户","激活情况","操作"],
 		//挂失状态
-		4 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"],
+		4 : ["会员姓名","手机号","虚拟卡号","实体卡号","发卡商户","激活情况","操作"],
 		//全部
-		5 : ["会员号","会员手机号","虚拟卡号/实体卡号","发卡商户","激活情况","操作"]
+		5 : ["会员姓名","手机号","虚拟卡号","实体卡号","发卡商户","激活情况","操作"]
 	},
 	PAGE_SIZE : 15,
 	initialize : function(opt){
@@ -51,7 +51,7 @@ var Manager = Backbone.View.extend({
 		this.slideUl = this.$el.find(".slideUl");
 		this.slideUl.width(this.itemWidth*this.statusArr.length);
 		this.buildSlideItem(this.statusArr);
-		this.TabHeader.active(1);
+		this.TabHeader.active(5);
 	},
 	template : _.template(itemTpl),
 	initTabHeader : function(){

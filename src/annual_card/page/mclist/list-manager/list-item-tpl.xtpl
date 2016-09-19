@@ -13,9 +13,11 @@
                 <td><%=item.account%></td>
                 <td><%=item.mobile%></td>
             <% } %>
-            <td><%=item.virtual_no%> / <%=item.card_no%></td>
+            <!--<td><%=item.virtual_no%> / <%=item.card_no%></td>-->
+            <td><%=item.virtual_no%> </td>
+            <td><%=item.card_no%></td>
             <td><%=item.supply%></td>
-            <td><%={"1":"正常","0":"未激活","2":"禁用","4":"挂失","5":"全部"}[item.status]%></td>
+            <td><%={"5":"全部","1":"正常","0":"未激活","2":"禁用","4":"挂失","5":"全部"}[item.status]%></td>
             <td class="font-blue doAction">
                 <% if(item.status==0){ %>
                     <span class="color:#ccc">--</span>
