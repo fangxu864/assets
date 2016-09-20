@@ -9,6 +9,8 @@
 //     $("#area_input").val(_area)
 // })
 
+
+
 //车辆信息下拉框
 var SelectShort=require("COMMON/modules/select_short");
 var car_info=new SelectShort({
