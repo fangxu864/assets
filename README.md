@@ -1,8 +1,13 @@
-# 1、安装编译环境 到[nodejs官网](https://nodejs.org/) 下载nodejs并安装,推荐下载v4.x版本，
+# 1、安装编译环境
+
+到[nodejs官网](https://nodejs.org/) 下载nodejs并安装,推荐下载v4.x版本，
 比较稳定。nodejs安装完后默认已经帮你安装了npm(你可以把它看成是nodejs的内建模块)，
 这个时候你需要先手动修改npm源地址，否则npm源在国外，国内网络访问很慢，而且经常出现各种问题。
 
-# 2、修改npm镜像地址，有3种方法：(这里我们默认使用淘宝镜像，也是最常用的)
+# 2、修改npm镜像地址
+
+有3种方法：(这里我们默认使用淘宝镜像，也是最常用的)
+
 - 方法一：
 在命令行里执行： `npm config set registry https://registry.npm.taobao.org`
 // 配置后可通过下面方式来验证是否成功
@@ -18,6 +23,7 @@
 
 
 # 3、安装依赖模块
+
 nodejs环境安装好后，可以开始前端资源编译了。首页需要全局安装两个工具：`webpack,gulp`。命令行执行：
 `npm install webpack gulp -g` (如果你用cnpm，`cnpm install webpack gulp -g`)
 接下来，到clone http://git.12301.io/huangzhiyang166/assets项目到本地，
