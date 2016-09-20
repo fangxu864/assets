@@ -32,8 +32,9 @@ var Class = function() {
         	if(container){
         		for(var i in events){
         			(function(i){
-						var eventType = i.split(" ")[0];
-	        			var selector = i.split(" ")[1];
+						var matched = i.match(/([a-z]+)(\s)(.+)/);
+						var eventType = matched[1];
+	        			var selector = matched[3];
 	        			var handler = events[i];
 	        			if(typeof handler=="string") handler = that[handler] ? that[handler] : function(){};
 	        			if(!handler) return;

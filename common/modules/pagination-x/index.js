@@ -61,7 +61,7 @@ var Pagination = UtilClass({
 	},
 	onNavClick : function(e){
 		var tarNav = $(e.currentTarget);
-		if(tarNav.hasClass("dot") || tarNav.hasClass("disable")) return false;
+		if(tarNav.hasClass("dot") || tarNav.hasClass("disable") || tarNav.hasClass("current")) return false;
 		var page = tarNav.attr("data-page") * 1;
 		this.trigger("page.switch",page,this.currentPage,this.totalPage,tarNav);
 	},
@@ -117,7 +117,7 @@ var Pagination = UtilClass({
 
 		if(total<=__Count){ //小于等于__Count页全部显示
 
-			for(var i=1; i<=__Count; i++) __push(i);
+			for(var i=1; i<=total; i++) __push(i);
 
 		}else{ //大于__Count页
 
@@ -162,6 +162,7 @@ var Pagination = UtilClass({
 		var total = opt.total;
 		var showTotal = typeof opt.showTotal=="boolean" ? opt.showTotal : this.showTotal;
 		var jump = typeof opt.jump=="boolean" ? opt.jump : this.jump;
+		if(total==1) jump = false;
 		this.currentPage = current;
 		this.totalPage = total;
 		if(total==0 || current>total) return this.container.html("").hide();

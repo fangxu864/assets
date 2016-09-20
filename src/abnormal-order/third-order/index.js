@@ -17,6 +17,8 @@ var Main = PFT.Util.Class({
 			list.fetchList(params);
 		})
 
+		$("#searchBtn").trigger("click");
+
 	}
 });
 

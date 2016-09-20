@@ -47,6 +47,7 @@ var Search = PFT.Util.Class({
 		this.search();
 	},
 	onBaseOrderInpKeyup : function(e){
+		if(e.keyCode!=13) return false;
 		this.search();
 	},
 	getParams : function(){
