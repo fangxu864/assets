@@ -1,0 +1,24 @@
+@mixin tableList(){
+    table-layout:fixed;
+    width: 100%;
+    text-align:left;
+
+    thead th{
+        height: 35px; line-height: 35px; color: #6C7882; background: #E5E5E5;
+    }
+
+    tbody td{
+        line-height: 1.4; word-wrap: break-word; word-break: normal; border-bottom: 1px solid #E5E5E5; padding: 15px 0; text-align: left;
+    }
+
+    tbody tr:last-child td{
+        border-bottom:0 none
+    }
+
+    tbody tr.listItem:hover{ background:#FAFAFA}
+
+    .showTitle{ display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:#3E3E3E; cursor:default}
+    .showTitle:hover{ color:#3E3E3E; text-decoration:none}
+
+}
+

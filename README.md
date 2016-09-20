@@ -1,9 +1,9 @@
-# 1、安装编译环境 到lnodejs官网(https://nodejs.org/)下载nodejs并安装,推荐下载v4.x版本，
-比较稳定。nodejs安装完后默认已经帮你安装了npm(你可以把它看成是nodejs的内建模块)，
+## 1、安装编译环境
+到lnodejs官网(https://nodejs.org/)下载nodejs并安装,推荐下载v4.x版本，比较稳定。nodejs安装完后默认已经帮你安装了npm(你可以把它看成是nodejs的内建模块)，
 这个时候你需要先手动修改npm源地址，否则npm源在国外，国内网络访问很慢，而且经常出现各种问题。
 
-# 2、修改npm镜像地址，有3种方法：(这里我们默认使用淘宝镜像，也是最常用的)
-## 方法一：
+## 2、修改npm镜像地址 有3种方法：
+### 方法一：(这里我们默认使用淘宝镜像，也是最常用的)
 在命令行里执行： npm config set registry https://registry.npm.taobao.org
 // 配置后可通过下面方式来验证是否成功
 npm config get registry

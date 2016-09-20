@@ -64,6 +64,7 @@ var Class = function() {
 
         newClass.prototype.trigger = function(type){
         	var that = this;
+			this.__CustomEventCallback__ = this.__CustomEventCallback__ || {};
         	var fns = this.__CustomEventCallback__[type];
         	if(!fns) return false;
         	for(var i in fns){

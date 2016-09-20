@@ -172,6 +172,12 @@ var Pagination = UtilClass({
 		var html = this.template({data:resultData,current:current,total:total,showTotal:showTotal,jump:jump});
 
 		this.container.show().html(html);
+	},
+	getCurrentPage : function(){
+		return this.currentPage;
+	},
+	getTotalPage : function(){
+		return this.totalPage;
 	}
 });
 
