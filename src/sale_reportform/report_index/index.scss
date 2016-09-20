@@ -1,0 +1,191 @@
+@import "COMMON/css/base/core";
+
+//标题
+.title_box{
+  h3.mc_title{
+    height: 60px;
+    line-height: 60px;
+    padding-left: 10px;
+    font-size: 22px;
+    font-weight: 300;
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    span.noactive{
+      display: inline-block;
+    }
+    span.noactive{
+      margin: 0 10px;
+      a{
+        color: #303D46;
+      }
+    }
+    span.active{
+      border-bottom: 2px solid #0797D9 ;
+      height: 58px;
+      a{
+        color: #0797D9;
+      }
+    }
+  }
+}
+//过滤器
+.filter_box{
+  .filter{
+    border: 1px solid #E5E5E5;
+    border-top: none;
+    background-color: #ffffff;
+    .line{
+      height: 60px;
+      line-height: 60px;
+      padding-left:20px;
+      .td{
+        float: left;
+      }
+    }
+    .line1{
+      .td1{
+        position: relative;
+        width: 172px;
+        .trader_inp{
+          @include textInp(160,5);
+        }
+        i.clear_inp{
+          position: absolute;
+          font-family: "iconfont";
+          font-size: 17px;
+          right: 6px;
+          top: 14px;
+          color: #bfbfbf;
+          cursor: pointer;
+          line-height: 30px;
+        }
+        i.clear_inp:active{
+          color: orangered;
+        }
+      }
+      .td2{
+        margin-left: 10px;
+        span.checked{
+          display: inline-block;
+          height: 14px;
+          width: 14px;
+          background: url("http://images.12301.cc/icon/check.png");
+          background-position: 14px 14px;
+          position: relative;
+          top: 3px;
+          margin: 0 5px;
+          
+          cursor: pointer;
+
+        }
+        span.nocheck{
+          display: inline-block;
+          
+          height: 14px;
+          width: 14px;
+          background: url("http://images.12301.cc/icon/check.png");
+          background-position: 0px 14px;
+          position: relative;
+          top: 3px;
+
+          margin: 0 5px;
+          cursor: pointer;
+        }
+
+      }
+
+    }
+    .line2{
+      .td1{
+        .time_area{
+          @include textInp(160,5);
+        }
+      }
+      .td2{
+        margin-left: 10px;
+        .datePickerInp{
+          @include textInp(160,5);
+        }
+        span.zhi{
+          margin:0 5px;
+        }
+      }
+      .td3{
+        ul.time_area{
+          float:left;
+          color: #0797D9;
+          li{
+            float: left;
+            padding: 0 8px;
+            cursor: pointer;
+          }
+          li:active{
+            color: orangered;
+          }
+        }
+      }
+    }
+    .line3{
+      .td1{
+        position: relative;
+        width: 172px;
+        .product_name_inp{
+          @include textInp(160,5);
+        }
+        i.clear_inp{
+          position: absolute;
+          font-family: "iconfont";
+          font-size: 17px;
+          right: 6px;
+          top: 14px;
+          color: #bfbfbf;
+          cursor: pointer;
+          line-height: 30px;
+        }
+        i.clear_inp:active{
+          color: orangered;
+        }
+      }
+      .td2{
+        margin-left: 10px;
+        .select_fg{
+           margin-top:13px ;
+           height: 32px;
+           width: 70px;
+           line-height: 32px;
+           border: 1px solid #e5e5e5;
+           position: relative;
+        }
+      }
+      .td3{
+        position: relative;
+        width: 172px;
+        .fenxiaoshang_name_inp{
+          @include textInp(160,5);
+        }
+        i.clear_inp{
+          position: absolute;
+          font-family: "iconfont";
+          font-size: 17px;
+          right: 6px;
+          top: 14px;
+          color: #bfbfbf;
+          cursor: pointer;
+          line-height: 30px;
+        }
+        i.clear_inp:active{
+          color: orangered;
+        }
+      }
+    }
+  }
+}
+
+.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{color: #dedede !important;}
+.calendar-table .calendar-td.day:hover{background-color: #00a0e9}
+.calendar-td.selected.disable{background-color: #008fc2 !important;color:#ffffff !important;}
+.calendar-pop-contaienr{  width:220px !important;}
+
+.PageMainBodyContainer{
+  overflow: visible;
+}

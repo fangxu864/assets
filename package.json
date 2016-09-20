@@ -66,10 +66,17 @@
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
 
-    "report_unAdmin-start": "set NODE_ENV=develop && webpack --watch --colors --progress --config ./src/report_unAdmin/webpack.config.js ",
+    "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
     "report_unAdmin-release": "set NODE_ENV=release && webpack --config ./src/report_unAdmin/webpack.config.js",
-    "report_unAdmin-production": "set NODE_ENV=production && webpack --config ./src/report_unAdmin/webpack.config.js"
+    "report_unAdmin-production": "set NODE_ENV=production && webpack --config ./src/report_unAdmin/webpack.config.js",
+
+    "sale_reportform-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/sale_reportform/webpack.config.js ",
+    "sale_reportform-test": "set NODE_ENV=test && webpack --config ./src/sale_reportform/webpack.config.js",
+    "sale_reportform-release": "set NODE_ENV=release && webpack --config ./src/sale_reportform/webpack.config.js",
+    "sale_reportform-production": "set NODE_ENV=production && webpack --config ./src/sale_reportform/webpack.config.js"
+
+
 
   },
   "repository": {
