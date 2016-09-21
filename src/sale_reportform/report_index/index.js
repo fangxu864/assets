@@ -8,47 +8,57 @@ var SelectShort=require("COMMON/modules/select_short");
 var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
-var title_tpl=require("../tpl/title.xtpl");
+// var title_tpl=require("../tpl/title.xtpl");
 var filter_tpl=require("../tpl/filter.xtpl");
+var tablecon_tpl=require("../tpl/tablecon.xtpl");
 var Select = require("COMMON/modules/select");
+var Pagination = require("COMMON/modules/pagination-x");
 
 
 var Book_form={
     init:function () {
         var _this=this;
+        this.isAdmin=$("#is_admin").val();
+
         //获取四个容器
-        this.title_box=$(".title_box");
+        // this.title_box=$(".title_box");
         this.filter_box=$(".filter_box");
         this.tablecon_box=$(".tablecon_box");
-        this.pagination_box=$(".pagination_box");
         //往容器添加内容
-        this.title_box.html(title_tpl);
+        // this.title_box.html(title_tpl);
+
         $(".mctit_1").addClass("active");
         this.filter_box.html(filter_tpl);
-        //交易商户搜索框
-        var select1=new Select({
-            source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "ajax",  //指定过滤方式为ajax
-            field : {
-                id : "id",
-                name : "dname",
-                keyword : "dname"
-            },
-            trigger : $("#trader_inp"),
+        this.tablecon_box.html(tablecon_tpl);
 
-            filter : true,
-            adaptor : function(res){
-                var reslut = { code:200};
-                reslut["data"] = res;
-                return reslut;
-            }
-        });
+        if(_this.isAdmin==1){
+            $(".filter_box .filter .line1").show();
+
+            //交易商户搜索框
+            var select1=new Select({
+                source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+                ajaxType : "get",
+                ajaxParams : {
+                    action : "fuzzyGetDname_c",
+                    dtype : "1",
+                    danme : ""
+                },
+                filterType : "ajax",  //指定过滤方式为ajax
+                field : {
+                    id : "id",
+                    name : "dname",
+                    keyword : "dname"
+                },
+                trigger : $("#trader_inp"),
+
+                filter : true,
+                adaptor : function(res){
+                    var reslut = { code:200};
+                    reslut["data"] = res;
+                    return reslut;
+                }
+            });
+        }
         //获取元素
         this.stime_inp=$("#start_time");
         this.etime_inp=$("#end_time");
@@ -120,11 +130,76 @@ var Book_form={
         });
 
         //分销商供应商选择
-        var a=new SelectShort({
+        var select_fg=new SelectShort({
             id:"select_fg",
             arr:["分销商","供应商"],
             callback:function (cur_opt){}
         });
+        //分销商搜索框
+        var select3=new Select({
+            source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            ajaxType : "get",
+
+            ajaxParams : {
+                action : "fuzzyGetDname_c",
+                dtype : "1",
+                danme : ""
+            },
+            filterType : "",  //指定过滤方式为ajax
+            field : {
+                id : "id",
+                name : "name",
+                keyword : "name"
+            },
+            trigger : $("#fenxiaoshang_name_inp"),
+
+            filter : true,
+            adaptor : function(res){
+                var reslut = {};
+                reslut["code"]=res.code;
+                reslut["msg"]=res.msg;
+                var arr=[];
+                var data=res.data;
+                for(var i in data){
+                    arr.push(data[i]);
+                }
+                reslut["data"] =arr;
+                return reslut;
+            }
+        });
+        //产品类型选择框
+        var select_huizong_type=new SelectShort({
+            id:"huizong_type",
+            arr:["按产品汇总","按门票汇总","按分销商汇总","按预定渠道汇总"],
+            callback:function (cur_opt){
+                var data={
+                    "按产品汇总":"product",
+                    "按门票汇总":"ticket",
+                    "按分销商汇总":"reseller",
+                    "按预定渠道汇总":"channel"
+                };
+                $("#huizong_type").attr("count_way",data[cur_opt]);
+            }
+        });
+
+        //分页器部分
+        this.pagination = new Pagination({
+            container : "#pagination_wrap" , //必须，组件容器id
+            count : 7,                //可选  连续显示分页数 建议奇数7或9
+            showTotal : true,         //可选  是否显示总页数
+
+            jump : true	              //可选  是否显示跳到第几页
+        });
+        this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
+            // toPage :      要switch到第几页
+            // currentPage : 当前所处第几页
+            // totalPage :   当前共有几页
+            _this.pagination.render({current:toPage,total:totalPage});
+        });
+        this.pagination.render({current:5,total:10});
+
+
+
 
 
         this.bind();
@@ -163,7 +238,7 @@ var Book_form={
                     alert("why ???")
                 }
             }
-        })
+        });
         //清除商户搜索框按钮
         $(".clear_inp").on("click",function () {
             $(this).siblings("input").val("").attr("data-id","");
@@ -172,12 +247,66 @@ var Book_form={
         $(".filter_box .filter .line1 .td2 .option").on("click",function () {
             $(this).toggleClass("checked nocheck")
         })
+        //查询按钮
+        $(".query_btn").on("click",function () {
+            console.log(_this.getParams());
+            $.ajax({
+                url: "/r/report_statistics/orderList/",    //请求的url地址
+                dataType: "json",                        //返回格式为json
+                async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
+                data: _this.getParams(),               //参数值
 
-
+                type: "GET",                               //请求方式
+                beforeSend: function() {
+                    //请求前的处理
+                },
+                success: function(req) {
+                    console.log(req);
+                },
+                complete: function() {
+                    //请求完成的处理
+                },
+                error: function() {
+                    //请求出错处理
+                    console.log("cuo")
+                }
+            });
+        })
+    },
+    getParams:function () {
+        var _this=this;
+        var params={};
+        params["begin_date"]=_this.stime_inp.val();
+        params["end_date"]=_this.etime_inp.val();
+        params["count_way"]= $("#huizong_type").attr("count_way");
+        params["land_id"]=$("#product_name_inp").attr("data-id");
+        params["reseller_id"]=$("#fenxiaoshang_name_inp").attr("data-id");
+        if(_this.isAdmin==1){
+            params["merchant_id"]=$("#trader_inp").attr("data-id");
+            if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
+                params["exclude_test"]=1;
+            }else{
+                params["exclude_test"]=0;
+            }
+        }
+        return params;
     }
 
 };
 
 $(function () {
     Book_form.init();
+
+    var thead={
+        "title" : "名称",
+        "order_num" : "订单数",
+        "ticket_num" : "票数",
+        "sale_money" : "收入(元)",
+        "cost_money" : "支出(元)",
+        "coupon_num" : "优惠券数量",
+        "coupon_money" : "优惠金额(元)"
+    }
+
+
+
 })
