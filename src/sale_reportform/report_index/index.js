@@ -330,7 +330,7 @@ var Book_form={
             "saleMoney":"收入(元)",
             "ticketNum":"票数"
         };
-        var html="<dt>合计</dt>"
+        var html="<dt>合计</dt>";
         for(var i in data){
             html+="<dd>"+name[i]+"："+data[i]+"</dd>";
         }
@@ -341,6 +341,8 @@ var Book_form={
     dealTablecon:function (data) {
         var _this=this;
         var list=data;
+        var theadHtml="", listHtml="";
+
         var thead={
             "title" : "名称",
             "order_num" : "订单数",
