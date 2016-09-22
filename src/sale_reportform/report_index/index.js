@@ -10,7 +10,11 @@ var When=require("COMMON/js/when.js");
 var when=new When();
 // var title_tpl=require("../tpl/title.xtpl");
 var filter_tpl=require("../tpl/filter.xtpl");
+var total_tpl=require("../tpl/total.xtpl");
 var tablecon_tpl=require("../tpl/tablecon.xtpl");
+var querying_tpl=require("../tpl/querying.xtpl");
+var queryerror_tpl=require("../tpl/queryerror.xtpl");
+var querynodata_tpl=require("../tpl/querynodata.xtpl");
 var Select = require("COMMON/modules/select");
 var Pagination = require("COMMON/modules/pagination-x");
 
@@ -19,13 +23,18 @@ var Book_form={
     init:function () {
         var _this=this;
         this.isAdmin=$("#is_admin").val();
-
+        //定义一个存储查询数据的容器
+        this.queryData="";
         //获取四个容器
         // this.title_box=$(".title_box");
         this.filter_box=$(".filter_box");
         this.tablecon_box=$(".tablecon_box");
+        this.total_box=$(".total_box");
+        this.pagination_wrap=$("#pagination_wrap");
+        this.queryState_box=$(".queryState_box");
         //往容器添加内容
         // this.title_box.html(title_tpl);
+        this.total_box.html(total_tpl);
 
         $(".mctit_1").addClass("active");
         this.filter_box.html(filter_tpl);
@@ -187,7 +196,6 @@ var Book_form={
             container : "#pagination_wrap" , //必须，组件容器id
             count : 7,                //可选  连续显示分页数 建议奇数7或9
             showTotal : true,         //可选  是否显示总页数
-
             jump : true	              //可选  是否显示跳到第几页
         });
         this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
@@ -246,22 +254,38 @@ var Book_form={
         //filter line1 td2 勾选过滤测试账号
         $(".filter_box .filter .line1 .td2 .option").on("click",function () {
             $(this).toggleClass("checked nocheck")
-        })
+        });
         //查询按钮
         $(".query_btn").on("click",function () {
-            console.log(_this.getParams());
             $.ajax({
                 url: "/r/report_statistics/orderList/",    //请求的url地址
-                dataType: "json",                        //返回格式为json
-                async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
-                data: _this.getParams(),               //参数值
-
-                type: "GET",                               //请求方式
+                dataType: "json",                            //返回格式为json
+                async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
+                data: _this.getParams(),                      //参数值
+                type: "GET",                                 //请求方式
                 beforeSend: function() {
                     //请求前的处理
+                    _this.total_box.hide();
+                    _this.tablecon_box.hide();
+                    _this.pagination_wrap.hide();
+                    _this.queryState_box.show().html(querying_tpl);
                 },
                 success: function(req) {
-                    console.log(req);
+                    if(req.data.list.length==0){
+                        _this.total_box.hide();
+                        _this.tablecon_box.hide();
+                        _this.pagination_wrap.hide();
+                        _this.queryState_box.show().html(querynodata_tpl);
+                    }else{
+                        console.log(req);
+                        _this.queryState_box.hide();
+                        _this.queryData=req;
+                        var total= _this.queryData.data.sum;
+                        var list= _this.queryData.data.list;
+                        _this.dealTotal(total);
+                        _this.dealTablecon(list);
+
+                    }
                 },
                 complete: function() {
                     //请求完成的处理
@@ -269,6 +293,10 @@ var Book_form={
                 error: function() {
                     //请求出错处理
                     console.log("cuo")
+                    _this.total_box.hide();
+                    _this.tablecon_box.hide();
+                    _this.pagination_wrap.hide();
+                    _this.queryState_box.show().html(queryerror_tpl);
                 }
             });
         })
@@ -290,23 +318,63 @@ var Book_form={
             }
         }
         return params;
+    },
+    //处理合计数据
+    dealTotal:function (data) {
+        var _this=this;
+        var name={
+            "costMoney": "支出(元)",
+            "couPonMoney":"优惠金额(元)",
+            "couPonNum":"优惠券数量",
+            "orderNum":"订单数",
+            "saleMoney":"收入(元)",
+            "ticketNum":"票数"
+        };
+        var html="<dt>合计</dt>"
+        for(var i in data){
+            html+="<dd>"+name[i]+"："+data[i]+"</dd>";
+        }
+        $(".total_box .total dl").html(html);
+        _this.total_box.fadeIn(200);
+    },
+    //处理表
+    dealTablecon:function (data) {
+        var _this=this;
+        var list=data;
+        var thead={
+            "title" : "名称",
+            "order_num" : "订单数",
+            "ticket_num" : "票数",
+            "sale_money" : "收入(元)",
+            "cost_money" : "支出(元)",
+            "coupon_num" : "优惠券数量",
+            "coupon_money" : "优惠金额(元)"
+        };
+        if(list[0]["cost_money"]){    //非景区账号
+            console.log("feijingqu");
+            var theadHtml='<th class="th1">产品</th> <th class="th2">订单数</th> <th class="th3">票数</th> <th class="th4">收入(元)</th> <th class="th5">支出(元)</th> <th class="th6">优惠券数量</th> <th class="th7">优惠金额(元)</th>';
+            $(".tablecon_box .con_tb thead tr").html(theadHtml);
+            var listHtml="";
+            for(var i=0;i<list.length;i++){
+                listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
+                    '<td class="th2">'+list[i].order_num+'</td>'+
+                    '<td class="th3">'+list[i].ticket_num+'</td>'+
+                    '<td class="th4">'+list[i].sale_money+'</td>'+
+                    '<td class="th5">'+list[i].cost_money+'</td>'+
+                    '<td class="th6">'+list[i].coupon_num+'</td>'+
+                    '<td class="th7">'+list[i].coupon_money+'</td>'+
+                    '</tr>'
+            }
+            $(".tablecon_box .con_tb tbody").html(listHtml);
+        }else{
+            console.log("jingqu")
+
+        }
+        _this.tablecon_box.fadeIn(200);
     }
 
 };
 
 $(function () {
     Book_form.init();
-
-    var thead={
-        "title" : "名称",
-        "order_num" : "订单数",
-        "ticket_num" : "票数",
-        "sale_money" : "收入(元)",
-        "cost_money" : "支出(元)",
-        "coupon_num" : "优惠券数量",
-        "coupon_money" : "优惠金额(元)"
-    }
-
-
-
-})
+});

@@ -28,6 +28,28 @@
     }
   }
 }
+//合计
+.total_box{
+  .total{
+    height: 60px;
+    line-height: 60px;
+    background-color: white;
+    border: 1px solid #E5E5E5;
+    border-top:none ;
+    padding-left: 20px;
+    dl{
+      dt{
+        float: left;
+        font-size: 14px;
+      }
+      dd{
+        font-size: 14px;
+        float: left;
+        margin: 0 10px;
+      }
+    }
+  }
+}
 //过滤器
 .filter_box{
   .filter{
@@ -241,7 +263,6 @@
     width: 100%;
     .th1{
       width: 40%;
-
       text-align: left;
       padding-left: 20px;
     }
@@ -269,12 +290,34 @@
         border-bottom: 1px solid #e5e5e5;
       }
       tr:hover{
-        background-color: #f9f2f3;
+        background-color: #fafafa;
       }
       tr:last-child{border-bottom: none;}
     }
   }
 
+}
+//查询状态
+.queryState_box{
+  background-color: white;
+  border: 1px solid #E5E5E5;
+  border-top:none ;
+  display: none;
+  .querying{
+     height: 200px;
+     line-height: 200px;
+     text-align: center;
+   }
+  .queryerror{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+  }
+  .querynodata{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+  }
 }
 
 
