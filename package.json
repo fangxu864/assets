@@ -75,6 +75,11 @@
     "abnormal-order-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/abnormal-order/webpack.config.js",
     "abnormal-order-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/abnormal-order/webpack.config.js",
 
+    "vacationmode-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/vacationmode/webpack.config.js",
+    "vacationmode-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/vacationmode/webpack.config.js",
+    "vacationmode-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/vacationmode/webpack.config.js",
+    "vacationmode-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/vacationmode/webpack.config.js",
+
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",

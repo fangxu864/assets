@@ -12,15 +12,6 @@ var fn = new Function;
 exports.Query = {
 	query : function(params,opt,cxt){
 
-		var opt = {
-			debug : false,
-			laoding : function(){},
-			complete : function(){},
-			suceess : function(res){},
-			empty : function(){}
-		}
-
-
 
 		cxt = cxt || this;
 
@@ -72,10 +63,10 @@ exports.Query = {
 			type : "post",
 			params : _params,
 			loading : function(){
-				opt.loading.call(cxt);
+				opt.loading && opt.loading.call(cxt);
 			},
 			complete : function(){
-				opt.complete.call(cxt);
+				opt.complete && opt.complete.call(cxt);
 			},
 			success : function(res){
 				res = res || {};
@@ -92,9 +83,9 @@ exports.Query = {
 							list[i]["ticketName"] = ticketName[bcode];
 							list[i]["handleStatus_ext"] = Status[list[i]["handleStatus"]] || {};
 						}
-						opt.success.call(cxt,res.data);
+						opt.success && opt.success.call(cxt,res.data);
 					}else{
-						opt.empty.call(cxt,res.data);
+						opt.empty && opt.empty.call(cxt,res.data);
 					}
 				}else{
 					alert(res.msg || PFT.AJAX_ERROR_TEXT);

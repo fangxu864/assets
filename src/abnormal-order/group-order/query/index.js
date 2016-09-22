@@ -16,10 +16,6 @@ var Loading_Text = Loading("努力加载中...",{
 });
 var Tpl = require("./index.xtpl");
 var PaginationX = require("COMMON/modules/pagination-x");
-
-
-
-
 var Query = PFT.Util.Class({
 	container : "#tabPannel-query",
 	EVENTS : {
@@ -41,24 +37,34 @@ var Query = PFT.Util.Class({
 		this.offsetTop = $("#rtWrap").offset().top;
 
 		this.datepicker = new Calendar();
+
 		this.datepicker.on("select",function(data){});
 
+		var days = this.getDefaultDate();
+		this.beginTimeInp.val(days.day_7_age);
+		this.endTimeInp.val(days.today);
 
 
-
-		$('<div id="query-paginationContainer" class="query-paginationContainer"></div>').appendTo($("#rtWrap"));
-		setTimeout(function(){
-			that.pagination = new PaginationX({
-				container : "#query-paginationContainer",
-				count : 7,
-				showTotal : true,
-				jump : true
-			})
-			that.pagination.on("page.switch",function(toPage,current,total){
-				that.query(1);
-			})
-			that.searchBtn.trigger("click");
-		},100)
+		that.pagination = new PaginationX({
+			container : "#query-paginationContainer",
+			count : 7,
+			showTotal : true,
+			jump : true
+		})
+		that.pagination.on("page.switch",function(toPage,current,total){
+			that.query(1);
+		})
+		//that.searchBtn.trigger("click");
+	},
+	//页面初始化时，日期默认显示近7天
+	getDefaultDate : function(){
+		var core = Calendar.Core;
+		var today = core.gettoday();
+		var day_7_ago = core.prevDays(today,7)[6]; //7天前是哪一天
+		return{
+			today : today,
+			day_7_age : day_7_ago
+		}
 	},
 	getParmas : function(){
 		return{
@@ -148,6 +154,7 @@ var Query = PFT.Util.Class({
 		this.container.hide();
 	},
 	enable : function(){
+		console.log("enable")
 		var currentPage = this.pagination.getCurrentPage();
 		var totalPage = this.pagination.getTotalPage();
 		if(totalPage && totalPage>=1) this.pagination.render({current:currentPage,total:totalPage});

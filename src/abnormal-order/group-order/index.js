@@ -5,6 +5,7 @@
  */
 require("./index.scss");
 var Query = require("./query");
+var Terminal = require("./terminal");
 var Main = PFT.Util.Class({
 	container : "#rtContainer",
 	EVENTS : {
@@ -12,6 +13,9 @@ var Main = PFT.Util.Class({
 	},
 	init : function(){
 		this.query = new Query();
+		this.terminal = new Terminal();
+		this.container.find("#tabHead .tabItem").first().trigger("click");
+
 	},
 	onTabItemClick : function(e){
 		var tarItem = $(e.currentTarget);
@@ -20,6 +24,7 @@ var Main = PFT.Util.Class({
 		tarItem.addClass("active").siblings().removeClass("active");
 
 		pannel=="query" ? this.query.enable() : this.query.disable();
+		pannel=="terminal" ? this.terminal.enable() : this.terminal.disable();
 
 	}
 });

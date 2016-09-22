@@ -1,10 +1,7 @@
 @import "COMMON/css/base/main";
-@import "../../common/style/table_list.scss";
-@import "../../common/style/tooltip.scss";
-.tabPannel.query .searchBox{ padding:30px; padding-left:25px; padding-bottom:10px;}
-.tabPannel.query .searchBox .lt{ margin-right:10px;}
-.tabPannel.query .searchBox .line{ margin-bottom:10px;}
-.tabPannel.query .searchBox .orderInp{ width:397px;}
+@import "../../common/style/table_list";
+@import "../../common/style/tooltip";
+@import "../../common/style/search_module";
 
 .tabPannel.query table{ @include tableList();}
 .tabPannel.query table thead{ background:$gray95}

@@ -26,7 +26,7 @@ var Class = function() {
 				if(container.indexOf("#")==0){
 					container = $(container);
 				}else{
-					container = $("#"+container)
+					container = $("#"+container);
 				}
 			}
         	if(container){
@@ -47,7 +47,7 @@ var Class = function() {
 								handler.call(that,e);
 							});
 	        			}	
-        			})(i)
+        			})(i);
         		}
         	}
 			if(container) this.container = container;
