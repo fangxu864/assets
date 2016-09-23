@@ -63,7 +63,8 @@ var Header = Backbone.View.extend({
 	},
 	onOutExcelClick:function () {
 		var status=$(".stateBox .active").attr("data-status");
-		console.log(status)
+		var downUrl="/r/product_AnnualCard/getUploadMember/?status="+status;
+		this.outExcel(downUrl);
 	},
 	active : function(status){
 		this.$el.find(".cardType[data-status="+status+"]").trigger("click");
@@ -95,6 +96,12 @@ var Header = Backbone.View.extend({
 	},
 	getCurrentState : function(){
 		return this.$el.find(".cardType").filter(".active").attr("data-status");
-	}
+	},
+	//导出excel
+	outExcel:function (downloadUrl) {
+		var iframeName="iframe"+new Date().getTime();
+		$("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+		window.open(downloadUrl, iframeName);
+	},
 });
 module.exports = Header;
