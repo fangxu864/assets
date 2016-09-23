@@ -1,5 +1,5 @@
 @import "COMMON/css/base/iconfont";
-body{ background:#f8f9fb; padding-bottom:150px;}
+body{ background:#f8f9fb;}
 .myRight{ width:1000px; margin:15px auto; overflow:hidden; background:#fff}
 .myRightCon{ width:870px; margin:20px 0 0 90px; overflow:hidden; background:#fff;}
 .pageRightArea{ padding-top:10px; padding-bottom:100px; background:#fff;  border:1px solid #e5e5e5;}
@@ -117,9 +117,17 @@ body{ background:#f8f9fb; padding-bottom:150px;}
 #vcode_img{ vertical-align:middle; border:1px solid #dbdbdb; padding:4px 0; margin-right:5px; cursor:pointer}
 #imgMaCodeInp{ width:130px; vertical-align:middle}
 
-
-
-
-
+#myRightCon{ position:relative;}
+#backtoSelectDtypeBtn{ position:absolute; top:10px; right:6px; z-index:100}
+//
+//#validCodeInp:-webkit-autofill,
+//#validCodeInp:-webkit-autofill:hover,
+//#validCodeInp:-webkit-autofill:focus,
+//#pwdInp:-webkit-autofill,
+//#pwdInp:-webkit-autofill:hover,
+//#pwdInp:-webkit-autofill:focus{
+//    box-shadow:0 0 0 50px white inset;
+//    -webkit-text-fill-color: #333;
+//}
 
 

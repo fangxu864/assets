@@ -1,0 +1,10 @@
+@import "header";
+@import "leftbar";
+@import "locationbar";
+body{background:#f8f9fb;}
+.PageMainBodyContainer{ position:relative; width:1000px; margin:10px auto 30px; overflow:hidden;}
+//.PageLeftBarContainer{ position:absolute; top:0; left:0; background:#fff; border:1px solid #dcdcdc; width:178px; }
+.PageLeftBarContainer{ width:178px; float:left; margin-right:10px; background:#fff; border:1px solid #dcdcdc; }
+//.PageMainRightContainer{ margin-left:200px;}
+.PageMainRightContainer{ position:relative; float:left; width:810px;}
+@import "footer";

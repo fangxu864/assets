@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div id="div1"></div>
+<script>
+  ajax("./ceshi.php", callBack,function () {
+    alert("没返回数据")
+  })
+  var div1=document.getElementById("div1");
+  function callBack(json) {
+    var ojson=JSON.parse(json);
+    for(var key in ojson){
+      div1.innerHTML+=key+"=>"+ojson[key]+"<br/>";
+    }
+  }
+  function ajax(url,fnsucc,fnfail) {
+    var ajax=new XMLHttpRequest();
+    ajax.open("get",url,true);
+    ajax.send();
+    ajax.onreadystatechange=function () {
+      if(ajax.readyState==4){
+        if(ajax.status==200){
+          fnsucc(ajax.responseText);
+        }
+        else{
+          if(fnfail){
+            fnfail();
+          }
+        }
+      }
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<div class="dealsumContainer">
+    <div class="trecordTitle">
+        <ul>
+            <li class=""><a href="../accourtmanage.html">账户管理</a></li>
+            <li class=""><a href="../trecordNew.html">交易记录</a></li>
+            <li class="acct"><a href="dealsum.html">交易汇总</a></li>
+            <li class=""><a href="../recharge.html">充值</a></li>
+            <li class=""><a href="../withdraw.html">提现</a></li>
+            <li class=""><a href="../transfer.html">转账</a></li>
+        </ul>
+    </div>
+    <div class="dealTimeBox">
+        <div class="line line1">
+            <div class="lt">交易商户：</div>
+            <div class="rt" id="trader_box"><input id="trader" placeholder="请输入交易商户名称"/></div>
+            <div class="rt"><a href="javascript:void (0)" class="clear_trader_box">清除</a></div>
+        </div>
+        <div class="line line2">
+            <div class="lt">
+                <span>交易时间：</span>
+                <input type="text" class="datePickerInp begin" id="start_time" readonly="readonly"/>
+                <span>至</span>
+                <input type="text" class="datePickerInp end" id="end_time" readonly="readonly"/>
+                <a href="javascript:void(0)" class="dealTime" id="thisWeek">近7日</a>
+                <a href="javascript:void(0)" class="dealTime" id="thisMonth">近一个月</a>
+            </div>
+            <div class="rt">
+        <span class="dealTypeBox">
+           <input type="radio" name="dealType" class="radioDeal" id="deal_count"  checked="checked"/> 按账户汇总
+           <input type="radio" name="dealType" class="radioDeal" id="deal_trade"/> 按交易类型
+        </span>
+                <a href="javascript:void(0)" class="queryBtn" id="queryBtn">查询</a>
+                <a href="javascript:void(0)" class="queryBtn" id="to_excel">导出</a>
+            </div>
+    </div>
+    </div>
+    <div class="dealSumBox">
+        总收入：<span class="totalIncome"><span id="totalIncome"></span> 元</span>
+        总支出：<span class="totalExpend"><span id="totalExpend"></span> 元</span>
+    </div>
+    <div class="tb_top_box">
+        <div class="lt">
+            <div class="th"><div class="roll_left" style="color: white;"><</div></div>
+            <div class="tr">收入</div>
+            <div class="tr">支出</div>
+        </div>
+        <div class="rt">
+            <table id="tb_top" >
+                <thead>
+                <tr></tr>
+                </thead>
+                <tbody>
+                <tr class="income"></tr>
+                <tr class="expend"></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="rt_r">
+            <div class="th"><div class="roll_right" style="color: white;">></div></div>
+        </div>
+
+    </div>
+    <div class="day_detail_box">
+        <span class="day_detail_btn1" id="day_detail_btn">日汇总明细</span>
+    </div>
+    <div class="tb_bottom_box" style="display:none;">
+        <div class="lt">
+            <div class="th"><div class="lt">日期/收入/支出</div><div class="roll_left"><</div></div>
+            <div class="lt_con">
+                <div class="tr_time">2016-08-08</div>
+                <div class="tr_income">+50000</div>
+                <div class="tr_expend">-2000</div>
+            </div>
+        </div>
+        <div class="rt">
+            <table id="tb_bottom" >
+                <thead>
+                <tr></tr>
+                </thead>
+                <tbody>
+                <tr class="income" title="当日收入"></tr>
+                <tr class="expend" title="当日支出"></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="rt_r">
+            <div class="th"><div class="roll_right">></div></div>
+            <div class="con"></div>
+        </div>
+        <div class="nodata">未查询到任何数据...</div>
+    </div>
+    <div class="iframe_wrap"></div>
+</div>

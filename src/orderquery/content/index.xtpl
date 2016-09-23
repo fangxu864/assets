@@ -1,0 +1,986 @@
+<!--统计结果框-->
+<div id="tongjiBar" style="" class="boxfoot">
+    <ul>
+        <li class="setcolor_h">统计结果</li>
+        <li>总订单数：<em class="colorGreen" id="total_order">132</em>单</li>
+        <li>总票数：<em class="colorGreen" id="total_num">147</em>张</li>
+        <li>买入金额：<em class="colorOrange" id="total_money_buy">4,722.31</em>元</li>
+        <li>卖出金额：<em class="colorOrange" id="total_money_sell">5,144.48</em>元</li>
+        <li>利润：<em class="colorOrange" id="total_money_profit">333.48</em>元</li>
+    </ul>
+</div>
+<!--排序功能框-->
+<ul style="display:block" id="sortBar" class="sortBar clearfix">
+
+<li class="sortItem bookingtime" data-orderby="1" data-sort="0">
+    <span class="t">下单时间</span>
+    <i class="iconfont up">&#xe6b7</i>
+    <i class="iconfont down">&#xe6b4</i>
+</li>
+<!--        <li class="sortItem bookingtime" data-orderby="2" data-sort="0">-->
+<!--            <span class="t">使用有效期</span>-->
+<!--            <i class="iconfont up">&#xe6b7</i>-->
+<!--            <i class="iconfont down">&#xe6b4</i>-->
+<!--        </li>-->
+<li class="sortItem checktime" data-orderby="3" data-sort="0">
+    <span class="t">验证时间</span>
+    <i class="iconfont up">&#xe6b7;</i>
+    <i class="iconfont down">&#xe6b4;</i>
+</li>
+<li class="sortItem checktime" data-orderby="4" data-sort="0">
+    <span class="t">预计游玩</span>
+    <i class="iconfont up">&#xe6b7;</i>
+    <i class="iconfont down">&#xe6b4;</i>
+</li>
+<li id="tongjiBtn" class="countBtn">
+    <img class="excelIcon" src="http://images.12301.cc/icon/icon_count.png" alt=""/>
+    <a href="javascript:void(0)">查看统计</a>
+</li>
+<li id="exportExeclBtn" class="exportExeclBtn">
+    <img class="excelIcon" src="http://www.12301.cc/tpl/orderquery/images/excel2.png" alt=""/>
+    <a href="javascript:void(0)">导出数据</a>
+</li>
+
+</ul>
+<!--数据表格-->
+<table id="orderTable" class="table orderTable">
+<thead id="thead">
+<tr><th class="col col_1 alignLeft">票信息</th>
+    <th class="col col_5">支付状态</th>
+    <th class="col col_2 alignLeft">取票人</th>
+    <th class="col col_3 alignLeft">供应商/分销商</th>
+    <th class="col col_4 alignLeft">总金额(元)/支付方式</th>
+    <th class="col col_6">操作</th>
+</tr></thead>
+<tbody id="resultListUl">
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead><tr><th class="col_1"><th class="col_5"></th></th><th class="col_2"></th><th class="col_3"></th><th class="col_4"></th><th class="col_6"></th></tr></thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">什么</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead>
+            <tr>
+                <th class="col_1">
+                    <th class="col_5"></th>
+                </th>
+                <th class="col_2"></th>
+                <th class="col_3"></th>
+                <th class="col_4"></th>
+                <th class="col_6"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead><tr><th class="col_1"><th class="col_5"></th></th><th class="col_2"></th><th class="col_3"></th><th class="col_4"></th><th class="col_6"></th></tr></thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead>
+            <tr>
+                <th class="col_1">
+                    <th class="col_5"></th>
+                </th>
+                <th class="col_2"></th>
+                <th class="col_3"></th>
+                <th class="col_4"></th>
+                <th class="col_6"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead><tr><th class="col_1"><th class="col_5"></th></th><th class="col_2"></th><th class="col_3"></th><th class="col_4"></th><th class="col_6"></th></tr></thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead>
+            <tr>
+                <th class="col_1">
+                    <th class="col_5"></th>
+                </th>
+                <th class="col_2"></th>
+                <th class="col_3"></th>
+                <th class="col_4"></th>
+                <th class="col_6"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead><tr><th class="col_1"><th class="col_5"></th></th><th class="col_2"></th><th class="col_3"></th><th class="col_4"></th><th class="col_6"></th></tr></thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+<tr id="listItem_5264561" class="listItem">
+    <td colspan="6">
+        <table class="colUl">
+            <thead>
+            <tr>
+                <th class="col_1">
+                    <th class="col_5"></th>
+                </th>
+                <th class="col_2"></th>
+                <th class="col_3"></th>
+                <th class="col_4"></th>
+                <th class="col_6"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="ltop" colspan="6">
+                    <div class="lt">
+                        <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=5264561">5264561</a></span></span>
+                        <a class="landTit" id="landTit_5264561" target="_blank" href="scenicDetail.html?lid=13352">【测试】景区3A级-热门度10000</a>
+
+                    </div>
+                    <div class="rt hover-cursor" data-offsetx="5">
+                        <div class="tooltipContentTpl" style="display:none">
+                            <div class="tooltipCon timeTip">
+                                <p class="line">下单时间：2016/07/20 14:45:59</p>
+                                <p class="line">验证时间：</p>
+                                <p class="line">预计游玩：2016/07/20</p>
+                                <p class="line">有效期：<span style="visibility:hidden">至</span>2016/07/20至2016/07/20</p>
+                            </div>
+                        </div>
+                        <!--
+                         <span class="pretext">下单时间:</span>
+                         <span class="timenum">2016/07/20 14:45:59</span>
+                         -->
+                        <span class="pretext">下单时间:</span>
+                        <span class="timenum">2016/07/20 14:45:59</span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="listItemCon">
+                <td class="col col_1 alignLeft">
+                    <div class="tdCon">
+                        <ul class="ticketUl">
+                            <li class="ticLi hover-cursor" data-offsetx="5" data-id="5264561">
+                                <span class="ticname">【成人票】</span>
+                                <span class="star">*</span>
+                                <span class="tnum">1</span>
+                                <span class="zhang">张</span>
+                                                <span class="prices">
+                                                    1<span class="ver">|</span>2
+                                                </span>
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon price">
+                                        <p class="priceTit">单价</p>
+
+                                        <p class="buy priceLine">买入：<i class="yen">¥</i><em class="num">1</em></p>
+
+
+                                        <p class="sell priceLine">卖出：<i class="yen">¥</i><em class="num">2</em></p>
+
+                                    </div>
+                                </div>
+
+
+                                <span style="margin-left:5px"><em style="color: #f07845">未使用</em></span>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </td>
+                <td class="col col_5">
+                    <div class="tdCon">
+                        <span class="status" style="color:#3dba31">已支付</span><br>
+
+                    </div>
+                </td>
+                <td class="col col_2 alignLeft">
+                    <div class="tdCon">
+                        <p style="margin-bottom:6px;">丹丹</p>
+                        <p>18259158223</p>
+                    </div>
+                </td>
+                <td class="col col_3 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line aidLine">供：test公司</p>
+                        <p class="line aidLine">销：慢慢的店铺</p>
+
+                    </div>
+
+                </td>
+                <td class="col col_4 alignLeft">
+
+                    <div class="tdCon">
+                        <p class="line totalMoneyLine">买入：<span class="num"><i class="yen">¥</i>1</span>(授信支付)</p>
+                        <p class="line totalMoneyLine">卖出：<span class="num"><i class="yen">¥</i>2</span></p>
+                    </div>
+
+                </td>
+                <td class="col col_6">
+                    <div class="tdCon">
+                        <a target="_blank" href="new_order_view.html?orderid=5264561" class="doBtn detail">查看</a>
+                        <a target="_blank" href="productOrder.html?pid=25332&amp;aid=28949" class="doBtn buy_again">购买</a>
+
+                        <a href="javascript:void(0)" class="doBtn orderResend" data-action="orderResend" data-ordernum="5264561">重发</a>
+                        <a href="javascript:void(0)" class="doBtn orderCancel" data-action="orderCancel" data-ordernum="5264561">取消</a>
+
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+</tbody>
+</table>

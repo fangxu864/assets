@@ -167,6 +167,10 @@ var CalendarCore={
 		d = this.strpad(d);
 		return y+"-"+m+"-"+d;
 	},
+	getnowYearMonth : function(){
+		var yearmonth = this.getnowdate().split("-");
+		return yearmonth[0]+"-"+yearmonth[1];
+	},
 	nextday : function(){
 		var date = new Date();
 		var y = date.getFullYear();
@@ -186,6 +190,102 @@ var CalendarCore={
 		nextday = this.strpad(nextday);
 		m = this.strpad(m);
 		return y+"-"+m+"-"+nextday;
+	},
+	//获取前一天
+	prevDay : function(date){
+		date = date ? (+new Date(date)) : (+new Date());
+		var yestoday = date-(24*60*60*1000);
+		yestoday = new Date(yestoday);
+		return[
+			yestoday.getFullYear(),
+			yestoday.getMonth()+1,
+			yestoday.getDate()
+		].join("-")
+	},
+	/**
+	 * 获取指定日期的前几天
+	 * 从beginDate往前推几天(days)
+	 * 如果beginDate缺省，则默认从今天算起
+	 * containBeginDate : 是否包含beginDate
+	 */
+	prevDays : function(beginDate,dayCount,containBeginDate){
+		var that = this;
+		var result = [];
+		var args = arguments;
+		var len = args.length;
+		var _beginDate = len>1 ? args[0] : this.gettoday();
+		var _dayCount = len>1 ? args[1] : args[0];
+		if(!_beginDate || !_dayCount) return result;
+		if(len<3){
+			containBeginDate = false;
+		}else{
+			containBeginDate = !!containBeginDate;
+		}
+
+		var _getPrev = function(date){
+			var prev = that.prevDay(date);
+			result.push(prev);
+			_dayCount--;
+			if(_dayCount>0) _getPrev(prev);
+		};
+
+		_getPrev(_beginDate);
+
+		if(containBeginDate){
+			result.unshift(beginDate);
+			return result;
+		}
+
+		return result;
+
+	},
+	//获取后一天
+	nextDay : function(date){
+		date = date ? (+new Date(date)) : (+new Date());
+		var nextDay = date+(24*60*60*1000);
+		nextDay = new Date(nextDay);
+		return[
+			nextDay.getFullYear(),
+			nextDay.getMonth()+1,
+			nextDay.getDate()
+		].join("-")
+	},
+	/**
+	 * 获取指定日期的后几天
+	 * 从beginDate往后推几天(days)
+	 * 如果beginDate缺省，则默认从今天算起
+	 * containBeginDate : 是否包含beginDate
+	 */
+	nextDays : function(beginDate,dayCount,containBeginDate){
+		var that = this;
+		var result = [];
+		var args = arguments;
+		var len = args.length;
+		var _beginDate = len>1 ? args[0] : this.gettoday();
+		var _dayCount = len>1 ? args[1] : args[0];
+		if(!_beginDate || !_dayCount) return result;
+		if(len<3){
+			containBeginDate = false;
+		}else{
+			containBeginDate = !!containBeginDate;
+		}
+
+		var _getNext = function(date){
+			var prev = that.nextDay(date);
+			result.push(prev);
+			_dayCount--;
+			if(_dayCount>0) _getNext(prev);
+		};
+
+		_getNext(_beginDate);
+
+		if(containBeginDate){
+			result.unshift(beginDate);
+			return result;
+		}
+
+		return result;
+
 	},
 	nextMonth : function(yearmonth){
 		return this._siblingMonth(yearmonth,"next");
@@ -223,7 +323,7 @@ var CalendarCore={
 		return y+"-"+m+"-"+d;
 	},
 	getCurYearmonth : function(){
-		return $("#calendarHead").attr("data-date")
+		return $("#calendarHead").attr("data-date");
 	}
 };
 module.exports = CalendarCore;

@@ -4,5 +4,13 @@
  * Description: ""
  */
 module.exports = function(){
-	document.getElementsByTagName("html")[0].style.fontSize = window.innerWidth / 10 + "px";
+	var _setFontSize = function(){
+		document.getElementsByTagName('html')[0].style.fontSize = window.innerWidth / 10 + 'px';
+	};
+	document.addEventListener('DOMContentLoaded', function(e) {
+		_setFontSize();
+	}, false);
+	document.addEventListener("resize",function(e){
+		_setFontSize();
+	},false)
 }

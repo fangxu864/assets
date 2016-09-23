@@ -1,0 +1,71 @@
+<template>
+    <actionsheet-core :show.sync="show" :height="height">
+        <div slot="content">
+            <ul class="actionUl">
+                <li class="actionItem" :class="{selected:selected_key==key}" v-for="(key,value) in menus" v-html="value" @click="onActionItemClick(key,value)"></li>
+            </ul>
+            <div class="cancelBtn" @click="show=false" v-if="cancelText!==''" v-html="cancelText"></div>
+        </div>
+    </actionsheet-core>
+</template>
+<script type="es6">
+    export default {
+        props : {
+            show : {
+                type : Boolean,
+                require : true,
+                default : true,
+                twoWay : true
+            },
+            height : {
+                type : String,
+                default : ""
+            },
+            cancelText : {
+                type : String,
+                default : ""
+            },
+            menus : {
+                type : Object,
+                require : true,
+                default : {}
+            }
+        },
+        data(){
+            return{
+                selected_key : ""
+            }
+        },
+        ready(){
+            var index = 0;
+            var menus = this.menus;
+            var first_key = "";
+            var first_text = "";
+            for(var i in menus){
+                if(index==0){
+                    first_key = i;
+                    first_text = menus[i];
+                }
+                index += 1;
+            }
+            this.selected_key = first_key;
+            this.$dispatch("click",first_key,first_text);
+        },
+        methods : {
+            onActionItemClick(key,text){
+                this.selected_key = key;
+                this.$dispatch("click",key,text);
+                this.show = false;
+            }
+        },
+        components : {
+            ActionsheetCore : require("COMMON_VUE_COMPONENTS/sheet-core")
+        }
+    }
+</script>
+<style lang="sass">
+    .ui-actionsheetContainer .actionItem{ height:43px; line-height:43px; text-align:center; border-bottom:1px solid #e5e5e5; overflow:hidden}
+    .ui-actionsheetContainer .cancelBtn{ height:43px; line-height:43px; text-align:center; color:#008fc2}
+    .ui-actionsheetContainer .actionItem:active,.ui-actionsheetContainer .cancelBtn:active{ background:rgba(0,0,0,0.02)}
+    .ui-actionsheetContainer .actionItem.selected{ color:#008fc2}
+</style>

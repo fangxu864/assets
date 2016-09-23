@@ -14,27 +14,27 @@
 <%_.each(list,function(item){%>
 <div style="background:#fff; border-top:1px solid #e5e5e5" class="memberBox">
     <ul class="memUl marL-70">
-            <li>
-                <p><span class="memL">虚拟卡号：</span><span class="memR"><%=item.virtual_no%></span></p>
-                <p><span class="memL">实体卡号：</span><span class="memR"><%=item.card_no%></span></p>
-                <p><span class="memL">物理ID：</span><span class="memR"><%=item.physics_no%></span></p>
-                <!--<p><span class="memL">可用优惠券：</span><span class="memR">0</span></p>-->
-                <p><span class="memL">发卡商户：</span><span class="memR"><%=item.supply%></span></p>
-            </li>
-            <li>
-                <p><span class="memL">卡套餐：</span><span class="memR"><%=item.title%></span></p>
-                <p><span class="memL">有效期：</span><span class="memR"><%=item.valid_time%></span></p>
-                <div class="memLine">
-                    <span class="memL">已用特权：</span>
-                    <div class="memR">
-                        <%_.each(item.priv,function(priv){%>
-                            <p><%=priv.title%> <%=priv.use%></p>
-                        <%})%>
-                    </div>
+        <li>
+            <p><span class="memL">虚拟卡号：</span><span class="memR"><%=item.virtual_no%></span></p>
+            <p><span class="memL">实体卡号：</span><span class="memR"><%=item.card_no%></span></p>
+            <p><span class="memL">物理ID：</span><span class="memR"><%=item.physics_no%></span></p>
+            <!--<p><span class="memL">可用优惠券：</span><span class="memR">0</span></p>-->
+            <p><span class="memL">发卡商户：</span><span class="memR"><%=item.supply%></span></p>
+        </li>
+        <li>
+            <p><span class="memL">卡套餐：</span><span class="memR"><%=item.title%></span></p>
+            <p><span class="memL">有效期：</span><span class="memR"><%=item.valid_time%></span></p>
+            <div class="memLine">
+                <span class="memL">已用特权：</span>
+                <div class="memR">
+                    <%_.each(item.priv,function(priv){%>
+                        <p><%=priv.title%> <%=priv.use%></p>
+                    <%})%>
                 </div>
-                <p><span class="memL">状态：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate"><%=statusTxt[item.status]%></a></span></p>
-                <p><span class="memL">备注：</span></p>
-            </li>
+            </div>
+            <p><span class="memL">状态：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate"><%=statusTxt[item.status]%></a></span></p>
+            <p><span class="memL">备注：</span></p>
+        </li>
     </ul>
 </div>
 <%})%>

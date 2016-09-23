@@ -7,7 +7,7 @@ module.exports = function(url){
 	var result = {};
 	url.replace(reg,function(){
 		var key = arguments[2];
-		var val = arguments[3];
+		var val = arguments[3] || "";
 		result[key] = val;
 	})
 	return result;

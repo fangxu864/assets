@@ -1,3 +1,4 @@
+
 %btn-basic {
     vertical-align: middle;
     cursor: pointer;
@@ -24,9 +25,10 @@
     line-height:$height+px;
     @include btn($bgColor,$textColor,$radius);
 }
-@mixin btn-inline($padding,$lineheight:$btnHeight,$bgColor:$blue,$textColor:#fff,$radius:0){
+@mixin btn-inline($padding:5,$lineheight:$btnHeight,$bgColor:$blue,$textColor:#fff,$radius:0){
     @extend %btn-basic;
     display:inline;
+    padding : $padding+px;
     line-height:$lineheight+px;
     @include btn($bgColor,$textColor,$radius);
 }
@@ -37,4 +39,10 @@
     height:$height+px;
     line-height:$height+px;
     @include btn($bgColor,$textColor,$radius);
+}
+
+@mixin btn-disable($background:#dedede,$color:#999){
+    background:$background;
+    color:$color;
+    cursor:default;
 }
