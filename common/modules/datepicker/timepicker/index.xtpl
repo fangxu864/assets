@@ -1,0 +1,66 @@
+<div class="pftui-timepicker-containerCon">
+    <div class="hourLine line hour timeLine">
+        <div class="showBox"><span class="num">20</span><span class="pre">时</span></div>
+        <div class="listCon hourList hour">
+            <span class="navBtn prev"><i class="iconfont">&#xe60c;</i></span>
+            <div class="slideStage">
+                <span class="slideBox">
+                    <span class="timeSpan">01</span>
+                    <span class="timeSpan">02</span>
+                    <span class="timeSpan">03</span>
+                    <span class="timeSpan">04</span>
+                    <span class="timeSpan">05</span>
+                    <span class="timeSpan">06</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                    <span class="timeSpan">07</span>
+                </span>
+            </div>
+            <span class="navBtn next"><i class="iconfont">&#xe60d;</i></span>
+        </div>
+    </div>
+    <div class="minuLine line minu timeLine">
+        <div class="showBox"><span class="num">20</span><span class="pre">分</span></div>
+        <div class="listCon hourList hour">
+            <span class="navBtn prev"><i class="iconfont">&#xe60c;</i></span>
+            <div class="slideStage">
+                <div class="slideBox">
+                    <span class="timeSpan">1</span>
+                    <span class="timeSpan">2</span>
+                    <span class="timeSpan">3</span>
+                    <span class="timeSpan">4</span>
+                    <span class="timeSpan">5</span>
+                    <span class="timeSpan">6</span>
+                    <span class="timeSpan">7</span>
+                </div>
+            </div>
+            <span class="navBtn next"><i class="iconfont">&#xe60d;</i></span>
+        </div>
+    </div>
+    <div class="secondLine line second timeLine">
+        <div class="showBox"><span class="num">26</span><span class="pre">秒</span></div>
+        <div class="listCon hourList hour">
+            <span class="navBtn prev"><i class="iconfont">&#xe60c;</i></span>
+            <div class="slideStage">
+                <div class="slideBox">
+                    <span class="timeSpan">1</span>
+                    <span class="timeSpan">2</span>
+                    <span class="timeSpan">3</span>
+                    <span class="timeSpan">4</span>
+                    <span class="timeSpan">5</span>
+                    <span class="timeSpan">6</span>
+                    <span class="timeSpan">7</span>
+                </div>
+            </div>
+            <span class="navBtn next"><i class="iconfont">&#xe60d;</i></span>
+        </div>
+    </div>
+</div>

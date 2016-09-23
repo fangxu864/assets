@@ -1,0 +1,47 @@
+@import "COMMON/css/base/main";
+.pftui-datepicker-bdCon{
+    position:relative;
+
+    .dateBodyContainer{
+        padding:0 5px 5px 10px;
+    }
+    .box{
+        float:left;
+        width:35px;
+        height:35px;
+        line-height:35px;
+        text-align:center;
+        margin:0 5px 5px 0;
+        font-size:12px;
+        &.disable{
+            color:$gray70;
+        }
+    }
+    .box.active{
+        background:$blue;
+        color:#fff;
+    }
+
+    .calendar-td.day:hover{
+        cursor:pointer;
+        background:$blue;
+        color:#fff;
+    }
+    .calendar-td.day.disable:hover{
+        cursor:default;
+        background:#fff;
+        color:$gray70;
+    }
+
+    .weekHead{
+        position:relative;
+        overflow:hidden;
+        background:$gray98;
+        padding:0 10px;
+        .weekItem{
+            float:left;
+        }
+        .box{ height:35px; line-height:35px}
+    }
+
+}

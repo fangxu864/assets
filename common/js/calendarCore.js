@@ -293,6 +293,25 @@ var CalendarCore={
 	prevMonth : function(yearmonth){
 		return this._siblingMonth(yearmonth,"prev");
 	},
+
+	nextYear : function(year){
+
+		year = year ? (year+"") : this.getnowdate();
+
+		return year.replace(/(\d{4})(.*)/,function($1,$2,$3){
+			return ($2*1+1) + $3;
+		})
+
+	},
+	prevYear : function(year){
+		year = year ? (year+"") : this.getnowdate();
+
+		return year.replace(/(\d{4})(.*)/,function($1,$2,$3){
+			return ($2*1-1) + $3;
+		})
+	},
+
+
 	_siblingMonth : function(yearmonth,nextOrPrev){ //2015-06
 		yearmonth = yearmonth || "";
 		if(yearmonth.length==7){

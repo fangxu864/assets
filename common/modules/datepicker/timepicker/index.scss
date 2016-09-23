@@ -1,0 +1,80 @@
+@import "COMMON/css/base/main";
+.pftui-timepicker-containerCon{
+    position:relative;
+    width:100%;
+    overflow:hidden;
+    $height:34px;
+    $width:55px;
+    $borderLeft:1px;
+    .timeLine{
+        width:100%;
+        overflow:hidden;
+        position:relative;
+        border-top:1px solid $gray90;
+    }
+
+    .showBox{
+        float:left;
+        width:$width - $borderLeft;
+        height:$height;
+        line-height:$height;
+        border-right:1px solid $gray90;
+        .num{ font-weight:bold; margin-right:3px; margin-left:10px}
+    }
+
+    .listCon{
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:$width;
+        overflow:hidden;
+
+        .navBtn{
+            position:absolute;
+            top:0;
+            bottom:0;
+            display:block;
+            width:24px;
+            height:$height;
+            line-height:$height;
+            text-align:center;
+            cursor:pointer;
+            background:$gray99;
+            &.next{ right:0; border-left:1px solid $gray90}
+            &.prev{ left:0; border-right:1px solid $gray90}
+            .iconfont{
+                color:$gray50;
+                font-size:14px;
+            }
+            &:hover .iconfont{ color:$blue}
+        }
+
+        .slideStage{ height:100%; margin:0 25px; overflow:hidden}
+
+        .slideBox{
+            position:relative;
+            font-size:0;
+            white-space:nowrap;
+            height:$height;
+            line-height:$height;
+            .timeSpan{
+                margin:0 5px;
+                padding:2px 5px;
+                text-align:center;
+                font-size:12px;
+                cursor:pointer;
+                &:hover{
+                    background:$blue;
+                    color:#fff;
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+}

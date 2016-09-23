@@ -10,6 +10,9 @@ var Loading_Text = require("COMMON/js/util.loading.pc")("努力加载中...",{
 	height : 400,
 	tag : "li"
 });
+
+var Datepicker = require("COMMON/modules/datepicker");
+
 var Main = PFT.Util.Class({
 	controler : PFT.Config.Api.get("Member_VacationMode"),
 	container : "#vmContainer",
@@ -40,9 +43,29 @@ var Main = PFT.Util.Class({
 
 		this.datepicker = new Calendar();
 
-		this.getGlobalRule();
+		var _datepicker = new Datepicker();
 
-		this.getRuleList();
+
+		_datepicker.open("2016-09-15",{
+			min : "2016-09-10",
+			max : "2016-09-20"
+		});
+		//_datepicker.open("2016-09",{
+		//	min : "2016-09-10"
+		//});
+		//_datepicker.open("2016-09",{
+		//	max : "2016-09-20"
+		//});
+		//_datepicker.open("2016-09",{
+		//	todayBeforeDisable : true
+		//});
+		//_datepicker.open("2016-09",{
+		//	todayAfterDisable : true
+		//});
+
+		//this.getGlobalRule();
+
+		//this.getRuleList();
 
 	},
 	onSwitchBoxClick : function(e){
