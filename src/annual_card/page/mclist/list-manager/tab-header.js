@@ -9,6 +9,7 @@ var Header = Backbone.View.extend({
 	events : {
 		"click .cardType" : "onCardTypeClick",
 		"click #searchBtn" : "onSearchBtnClick",
+		"click #outExcel" : "onOutExcelClick",
 		"click #clearSearchBtn" : "onClearSearchBtnClick",
 		"keyup #searchInp" : "onSearchInpKeyup",
 		"focus #searchInp" : "onSearchInpFocus"
@@ -59,6 +60,10 @@ var Header = Backbone.View.extend({
 		searchInp.val("");
 		this.trigger("searchBtnClick",{searchBtn:this.searchBtn});
 		tarBtn.hide();
+	},
+	onOutExcelClick:function () {
+		var status=$(".stateBox .active").attr("data-status");
+		console.log(status)
 	},
 	active : function(status){
 		this.$el.find(".cardType[data-status="+status+"]").trigger("click");
