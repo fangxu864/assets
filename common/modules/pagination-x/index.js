@@ -117,7 +117,7 @@ var Pagination = UtilClass({
 
 		if(total<=__Count){ //小于等于__Count页全部显示
 
-			for(var i=1; i<=__Count; i++) __push(i);
+			for(var i=1; i<=total; i++) __push(i);
 
 		}else{ //大于__Count页
 

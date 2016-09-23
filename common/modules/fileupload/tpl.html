@@ -3,9 +3,12 @@
 <!-- Description: huangzhiyang -->
 <div class="fileuploadWrap">
     <form class="fileuploadForm" enctype="multipart/form-data" method="post" target="">
-        <input style="display:none" type="file" class="fileuploadFileInp"/>
+
         <input type="text" name="" class="fileuploadTextInp"/>
-        <label class="filebrowseBtn ctrlBtn"><i class="iconfont">&#xe692;</i><span class="t">选择</span></label>
+        <label class="filebrowseBtn ctrlBtn">
+            <input type="file" class="fileuploadFileInp"/>
+            <i class="iconfont">&#xe692;</i><span class="t">选择</span>
+        </label>
         <a class="fileuploadBtn ctrlBtn" href="javascript:void(0)"><i class="iconfont">&#xe659;</i><span class="t">上传</span></a>
         <input type="hidden" class="callbackHidInp" name="callback_id" value=""/>
     </form>

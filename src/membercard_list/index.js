@@ -8,10 +8,13 @@ var Pagination=require("COMMON/modules/pagination")
 //切换菜单
 var no_use_btn=document.getElementById("no_use_btn");//取“未使用”按钮
 var searchWrap=document.getElementById("searchWrap");
-var stateLi=document.getElementsByClassName("stateLi");
+var stateLi=$(".stateLi");
+
+
+
 var table_four=document.getElementById("table_four");
-var no_use_table=document.getElementById("no_use_table");
-var nouse_tbody=no_use_table.getElementsByTagName("tbody")[0];
+var no_use_table=$("#no_use_table");
+var nouse_tbody=no_use_table.children("tbody").eq(0);
 var search_keyword_box=document.getElementById("search_keyword_box");
 var search_time_box=document.getElementById("search_time_box");
 
@@ -67,12 +70,12 @@ $("#end_time").on("click",function(e){
 //给前四个按钮添加点击事件，1.切换搜索框内容 2.改变table_four和no_use_table的display
 
 for(var i=0;i<stateLi.length;i++){
-    stateLi[i].onclick=function(){
+    stateLi.eq(i).click(function(){
         no_use_btn.className="";
         search_keyword_box.style.display="block";
         search_time_box.style.display="none";
         table_four.style.display="table";
-        no_use_table.style.display="none";
+        $("#no_use_table").css("display","none");
         /*改变导出按钮的href*/
         var data_state=this.getAttribute("data-state");
 
@@ -86,14 +89,14 @@ for(var i=0;i<stateLi.length;i++){
             var newhref=href+"&keyword="+$("#searchInp").val()
             $("#daoBtn").attr("href",newhref);
         })
-    }
+    })
 }
 no_use_btn.onclick=function () {
 
 
 
     table_four.style.display="none";
-    no_use_table.style.display="table";
+    no_use_table.css("display","table");
     search_keyword_box.style.display="none";
     search_time_box.style.display="block";
 
@@ -237,7 +240,7 @@ function dealData(req){
             con+=""
         }
     }
-    nouse_tbody.innerHTML=con;
+    nouse_tbody.html(con);
 
     /*给表格第一列添加淡出联系人和电话效果*/
     $(".no_use_tb_tr_fir_td_a").one("mouseover",function(){

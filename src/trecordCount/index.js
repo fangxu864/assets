@@ -82,7 +82,6 @@ var TrecordCount={
         });
         this.pagination.render({current:5,total:10});
         Dial.open();
-
         this.bind();
     },
     bind:function(){
