@@ -36,7 +36,7 @@
             <div class="select_fg" id="select_fg"></div>
         </div>
         <div class="td td3">
-            <input type="text" class="fenxiaoshang_name_inp" id="fenxiaoshang_name_inp" readonly="readonly"  placeholder="请输入产品名称"/>
+            <input type="text" class="fenxiaoshang_name_inp" id="fenxiaoshang_name_inp" readonly="readonly"  placeholder="请输入分销商名称"/>
             <i class="clear_inp">&#xe674;</i>
         </div>
         <div class="td td4">

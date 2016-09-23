@@ -35,7 +35,7 @@ var Book_form={
         // this.title_box.html(title_tpl);
         // this.total_box.html(total_tpl);
 
-        $(".mctit_1").addClass("active");
+        $(".mctit_3").addClass("active");
         this.filter_box.html(filter_tpl);
         this.tablecon_box.html(tablecon_tpl);
 
@@ -199,6 +199,7 @@ var Book_form={
             }
         });
 
+
         //分页器部分
         this.pagination = new Pagination({
             container : "#pagination_wrap" , //必须，组件容器id
@@ -287,9 +288,9 @@ var Book_form={
         })
         //导出按钮
         $(".excel_btn").on("click",function () {
-            var api="/r/report_statistics/orderList/";
+            var api="/r/report_statistics/cancelList/";
             if(_this.isAdmin=="1"){
-                api="/r/report_statistics/adminOrderList /";
+                api="/r/report_statistics/adminCancelList/";
             }
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
@@ -365,41 +366,43 @@ var Book_form={
             "resellerAndTicket":"分销商/票类"
         };
         var kindsTitle=titleName[_this.filterParamsBox.count_way];
-        if(list[0]["cost_money"]!==undefined){    //非景区账号
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th> <th class="th4">收入(元)</th> <th class="th5">支出(元)</th> <th class="th6">优惠券数量</th> <th class="th7">优惠金额(元)</th>';
+        if(list[0]["service_money_out"]!==undefined){    //非景区账号
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">撤改撤销票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
                 '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.saleMoney+'</td>'+
-                '<td class="th5">'+sum.costMoney+'</td>'+
-                '<td class="th6">'+sum.couPonNum+'</td>'+
-                '<td class="th7">'+sum.couPonMoney+'</td>'+
+                '<td class="th4">'+sum.costMoney+'</td>'+
+                '<td class="th5">'+sum.cancelMoney+'</td>'+
+                '<td class="th6">'+sum.serviceMoneyIn+'</td>'+
+                '<td class="th7">'+sum.serviceMoneyOut+'</td>'+
                 '</tr>';
             for(var i=0;i<list.length;i++){
                 listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
                     '<td class="th2">'+list[i].order_num+'</td>'+
                     '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].sale_money+'</td>'+
-                    '<td class="th5">'+list[i].cost_money+'</td>'+
-                    '<td class="th6">'+list[i].coupon_num+'</td>'+
-                    '<td class="th7">'+list[i].coupon_money+'</td>'+
+                    '<td class="th4">'+list[i].cost_money+'</td>'+
+                    '<td class="th5">'+list[i].cancel_money+'</td>'+
+                    '<td class="th6">'+list[i].service_money_in+'</td>'+
+                    '<td class="th7">'+list[i].service_money_out+'</td>'+
                     '</tr>'
             }
             $(".tablecon_box .con_tb tbody").html(listHtml);
         }else{
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th> <th class="th4">收入(元)</th>';
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">撤改撤销票数</th> <th class="th4">退票收入(元)</th><th class="th5">退票手续费收入(元)</th> ';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
                 '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.saleMoney+'</td>'+
+                '<td class="th4">'+sum.costMoney+'</td>'+
+                '<td class="th5">'+sum.serviceMoneyIn+'</td>'+
                 '</tr>';
             for(var i=0;i<list.length;i++){
                 listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
                     '<td class="th2">'+list[i].order_num+'</td>'+
                     '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].sale_money+'</td>'+
+                    '<td class="th4">'+list[i].cost_money+'</td>'+
+                    '<td class="th5">'+list[i].service_money_in+'</td>'+
                     '</tr>'
             }
             $(".tablecon_box .con_tb tbody").html(listHtml);
@@ -418,9 +421,9 @@ var Book_form={
     //ajax获取数据
     ajaxGetData:function (data) {
         var _this=this;
-        var api="/r/report_statistics/orderList/";
+        var api="/r/report_statistics/cancelList/";
         if(_this.isAdmin=="1"){
-            api="/r/report_statistics/adminOrderList /";
+            api="/r/report_statistics/adminCancelList/";
         }
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
@@ -484,9 +487,9 @@ var Book_form={
     },
     //导出excel
     outExcel:function (downloadUrl) {
-            var iframeName="iframe"+new Date().getTime();
-            $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
-            window.open(downloadUrl, iframeName);
+        var iframeName="iframe"+new Date().getTime();
+        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+        window.open(downloadUrl, iframeName);
     },
     //定义一个filter参数暂存容器，只有当查询按钮点击时才会更新此容器
     filterParamsBox:{},
