@@ -25,7 +25,6 @@
       }
     }
     .filter{
-      border-bottom: 1px solid #e5e5e5;
       .line{
         padding-left: 20px;
         height: 60px;
@@ -275,5 +274,9 @@
   line-height: 200px;
   text-align: center;
   border: 1px solid #e5e5e5;
+  border-top: none;
+
+
+
   background: white;
 }

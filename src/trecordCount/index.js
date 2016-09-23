@@ -86,7 +86,7 @@ var TrecordCount={
             _this.pagination.render({current:toPage,total:totalPage});
         });
         this.pagination.render({current:5,total:10});
-        Dial.open();
+        // Dial.open();
         this.bind();
     },
     bind:function(){
@@ -164,7 +164,7 @@ var TrecordCount={
         $(".query_btn").on("click",function () {
             console.log(_this.getFilterParams());
             _this.ajaxGetData({
-                "api":"/r/Finance_TradeRecord/getRecordCountInfo",
+                "api":"/r/Finance_TradeRecord/getRecordCountInfo/",
                 "params":_this.getFilterParams()
             })
         })
