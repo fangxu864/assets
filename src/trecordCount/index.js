@@ -29,7 +29,12 @@ var Dial=new Dialog({
 var TrecordCount={
     init:function () {
         var _this=this;
-        $(".trecordCount_box").html(tpl)
+        //获取三个容器
+        this.trecordCount_box= $(".trecordCount_box");
+        this.pagination_wrap=$("#pagination_wrap");
+        this.queryState_box=$(".queryState_box");
+        this.trecordCount_box.html(tpl);
+        this.table_box=$(".table_box");
         /*查询部分*/
         //获取元素
         this.stime_inp=$("#start_time");
@@ -157,9 +162,14 @@ var TrecordCount={
         });
         //查询按钮
         $(".query_btn").on("click",function () {
-            console.log(_this.getFilterParams())
+            console.log(_this.getFilterParams());
+            _this.ajaxGetData({
+                "api":"/r/Finance_TradeRecord/getRecordCountInfo",
+                "params":_this.getFilterParams()
+            })
         })
     },
+    //获取filter参数
     getFilterParams:function () {
         var _this=this;
         var params={};
@@ -173,9 +183,38 @@ var TrecordCount={
         return params
 
     },
-    ajaxGetData:function () {
-        
-    }
+    //ajax获取数据
+    ajaxGetData:function (data) {
+        var _this=this;
+        $.ajax({
+            url: data.api,                                //请求的url地址"/r/report_statistics/orderList/"
+            dataType: "json",                            //返回格式为json
+            async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
+            data: data.params,                            //参数值
+            type: "GET",                                  //请求方式
+            beforeSend: function() {
+                //请求前的处理
+                // _this.total_box.hide();
+                _this.table_box.hide();
+                _this.pagination_wrap.hide();
+                _this.queryState_box.show(200).text("查询中，请稍后...");
+            },
+            success: function(req) {
+                
+
+            },
+            complete: function() {
+                //请求完成的处理
+            },
+            error: function() {
+                //请求出错处理
+                // _this.total_box.hide();
+                _this.table_box.hide();
+                _this.pagination_wrap.hide();
+                _this.queryState_box.show(200).text("查询出错，请重试...");
+            }
+        });
+    },
 
 };
 

@@ -74,7 +74,12 @@
     "sale_reportform-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/sale_reportform/webpack.config.js ",
     "sale_reportform-test": "set NODE_ENV=test && webpack --config ./src/sale_reportform/webpack.config.js",
     "sale_reportform-release": "set NODE_ENV=release && webpack --config ./src/sale_reportform/webpack.config.js",
-    "sale_reportform-production": "set NODE_ENV=production && webpack --config ./src/sale_reportform/webpack.config.js"
+    "sale_reportform-production": "set NODE_ENV=production && webpack --config ./src/sale_reportform/webpack.config.js",
+
+    "trecordCount-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/trecordCount/webpack.config.js ",
+    "trecordCount-test": "set NODE_ENV=test && webpack --config ./src/trecordCount/webpack.config.js",
+    "trecordCount-release": "set NODE_ENV=release && webpack --config ./src/trecordCount/webpack.config.js",
+    "trecordCount-production": "set NODE_ENV=production && webpack --config ./src/trecordCount/webpack.config.js"
 
 
 
