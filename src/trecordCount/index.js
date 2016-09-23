@@ -119,7 +119,7 @@ var TrecordCount={
                     alert("why ???")
                 }
             }
-        })
+        });
         //交易商户搜索框
         var select=new Select({
             source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
@@ -151,16 +151,31 @@ var TrecordCount={
                 "data-dname":"",
                 "placeholder":"请输入交易商户名称"
             }).val("")
-        })
+        });
         //两种账户的单选按钮
         $(".count_dot_btn_box").on("click","span.cell",function () {
             $(".count_dot_btn_box span.cell").toggleClass("selected").toggleClass("not_selected")
-        })
+        });
         //查询按钮
         $(".query_btn").on("click",function () {
-            
+            console.log(_this.getFilterParams())
         })
+    },
+    getFilterParams:function () {
+        var _this=this;
+        var params={};
+        params["bTime"]=_this.stime_inp.val();
+        params["eTime"]=_this.etime_inp.val();
+        var reseller_id=$("#trader_inp").attr("data-id");
+        if(reseller_id!=undefined){
+            params["reseller_id"]=reseller_id;
+        }
+        params["ignoreType"]=$(".count_dot_btn_box .not_selected").attr("data_type");
+        return params
 
+    },
+    ajaxGetData:function () {
+        
     }
 
 };

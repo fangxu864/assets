@@ -30,8 +30,8 @@
             </div>
             <div class="fll td2">
                 <div class="box count_dot_btn_box">
-                    <span class="cell selected">正式账户</span>
-                    <span class="cell not_selected">测试账户</span>
+                    <span class="cell selected" data_type="1">正式账户</span>
+                    <span class="cell not_selected" data_type="2">测试账户</span>
                 </div>
             </div>
             <div class="fll btn1">

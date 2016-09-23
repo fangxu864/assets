@@ -106,7 +106,7 @@
               left: 12px;
               width: 14px;
               height: 14px;
-              background: url("http://images.12301.cc/icon/check.png");
+              background: url("http://images.12301.cc/icon/check.png") scroll -14px 0px;
             }
             .not_selected:before{
               content:'' ;
@@ -116,7 +116,7 @@
               left: 12px;
               width: 14px;
               height: 14px;
-              background: url("http://images.12301.cc/icon/check.png") scroll -14px 0px;
+              background: url("http://images.12301.cc/icon/check.png") scroll 0px 0px;
             }
         }
 
