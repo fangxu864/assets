@@ -79,7 +79,13 @@
     "trecordCount-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/trecordCount/webpack.config.js ",
     "trecordCount-test": "set NODE_ENV=test && webpack --config ./src/trecordCount/webpack.config.js",
     "trecordCount-release": "set NODE_ENV=release && webpack --config ./src/trecordCount/webpack.config.js",
-    "trecordCount-production": "set NODE_ENV=production && webpack --config ./src/trecordCount/webpack.config.js"
+    "trecordCount-production": "set NODE_ENV=production && webpack --config ./src/trecordCount/webpack.config.js",
+
+    "accountSearch-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/accountSearch/webpack.config.js ",
+    "accountSearch-test": "set NODE_ENV=test && webpack --config ./src/accountSearch/webpack.config.js",
+    "accountSearch-release": "set NODE_ENV=release && webpack --config ./src/accountSearch/webpack.config.js",
+    "accountSearch-production": "set NODE_ENV=production && webpack --config ./src/accountSearch/webpack.config.js"
+
 
 
 
