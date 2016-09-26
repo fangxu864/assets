@@ -1,0 +1,290 @@
+<script type="text/template" id="order-list-item-tpl">
+    <% _.each(data.list,function(item){ %>
+    <tr id="listItem_<%=item.ordernum[0]%>" class="listItem">
+        <td colspan="6">
+            <table class="colUl">
+                <thead><th class="col_1"></th><th class="col_2"></th><th class="col_3"></th><th class="col_4"></th><th class="col_5"></th><th class="col_6"></th></thead>
+                <tbody>
+                    <tr>
+                        <td class="ltop" colspan="6">
+                            <div class="lt">
+                                <span class="od">订单号:<span class="ordernum"> <a target="_blank" href="new_order_view.html?orderid=<%=item.ordernum[0]%>"><%=item.ordernum[0]%></a></span></span>
+                                <a class="landTit" id="landTit_<%=item.ordernum[0]%>" target="_blank" href="scenicDetail.html?lid=<%=item.lid%>"><%=item.ltitle%></a>
+                                
+                            </div>
+                            <div class="rt hover-cursor" data-offsetx="5">
+                                <div class="tooltipContentTpl" style="display:none">
+                                    <div class="tooltipCon timeTip">
+                                        <p class="line">下单时间：<%=item.ordertime%></p>
+                                        <p class="line">验证时间：<%=item.dtime%></p>
+                                        <p class="line">预计游玩：<%=item.playtime%></p>
+                                        <p class="line">有效期：<span style="visibility:hidden">至</span><%=item.begin_to_end%></p>
+                                    </div>
+                                </div>
+                               <!--
+                                <span class="pretext"><%=data.orderby==3 ? "验证时间" : data.time_type==3 ? "验证时间" : "下单时间"%>:</span>
+                                <span class="timenum"><%=data.orderby==3 ? item.dtime :data.time_type==3 ? item.dtime : item.ordertime%></span>
+                                -->
+                                <span class="pretext"><%=
+                                data.orderby ?
+                                    data.orderby == 3 ? "验证时间"
+                                        : data.orderby == 4 ? "预计游玩"
+                                          : data.orderby == 2 ? "使用有效期": '下单时间'
+                                    :data.time_type == 3 ? '验证时间':
+                                        data.time_type == 4 ? '预计游玩': '下单时间'
+                                %>:</span>
+                                <span class="timenum"><%=
+                                data.orderby ?
+                                     data.orderby == 3 ? item.dtime
+                                       : data.orderby == 4 ? item.playtime
+                                          : data.orderby == 2 ? item.begin_to_end: item.ordertime
+                                    :data.time_type == 3 ? item.dtime :
+                                        data.time_type == 4 ? item.playtime:item.ordertime
+                                %></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="listItemCon">
+                        <td class="col col_1 alignLeft">
+                            <div class="tdCon">
+                                <ul class="ticketUl">
+                                <% _.each(item.data_ticket.split("&"),function(ticket,index){ %>
+                                    <% if(ticket){ %>
+                                        <% var tic = ticket.split("|"); %>
+                                        <li class="ticLi hover-cursor" data-offsetx="5" data-id="<%=tic[2]%>">
+                                            <span class="ticname"><%=tic[0]%></span>
+                                            <span class="star">*</span>
+                                            <span class="tnum"><%=tic[1]%></span>
+                                            <span class="zhang">张</span>
+                                            <% if(!item.admin){ %>
+                                                <span class="prices">
+                                                <% var buy_price="",sell_price="",zhi=""; %>
+                                                <% if(item.buy_price && item.sell_price){ %>
+                                                    <% item.buy_price[index] ? (buy_price=item.buy_price[index]) : (buy_price="-")%>
+                                                    <% zhi='<span class="ver">|</span>' %>
+                                                    <% item.sell_price[index] ? (sell_price=item.sell_price[index]) : (sell_price="-")%>
+                                                <% }else if(Object.prototype.toString.call(item.buy_price)=="[object Array]" && item.buy_price[index]){ %>
+                                                    <% buy_price = item.buy_price[index]%>
+                                                    <% zhi = "(入)"%>
+                                                    <% sell_price = ""%>
+                                                <% }else if(Object.prototype.toString.call(item.sell_price)=="[object Array]" && item.sell_price[index]){ %>
+                                                    <% sell_price=item.sell_price[index]%>
+                                                    <% zhi = "(出)"%>
+                                                    <% buy_price = ""%>
+                                                <% } %>
+                                                <% if(item.buy_price && item.sell_price){ %>
+                                                    <%= buy_price+zhi+sell_price%>
+                                                <% }else{ %>
+                                                    <%= buy_price+sell_price+zhi%>
+                                                <% } %>
+                                                </span>
+                                                <div class="tooltipContentTpl" style="display:none">
+                                                    <div class="tooltipCon price">
+                                                        <p class="priceTit">单价</p>
+                                                        <% if(buy_price){ %>
+                                                            <p class="buy priceLine">买入：<i class="yen">&yen;</i><em class="num"><%=buy_price%></em></p>
+                                                        <% }else{ %>
+                                                            <p class="buy priceLine">买入：-</p>
+                                                        <% } %>
+                                                        <% if(sell_price){ %>
+                                                            <p class="sell priceLine">卖出：<i class="yen">&yen;</i><em class="num"><%=sell_price%></em></p>
+                                                        <% }else{ %>
+                                                            <p class="sell priceLine">卖出：-</p>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            <% }else{ %>
+                                                <span class="prices">
+                                                    <% var admin=item.admin,price=admin.price[index],aids=admin.aids,price_begin="",ver="",price_end=""; %>
+                                                    <% if(price.length<=1){ %>
+                                                        <% price_begin = price[0]; %>
+                                                        <% ver = ""; %>
+                                                        <% price_end = ""; %>
+                                                    <% }else{ %>
+                                                        <% price_begin = price[0]; %>
+                                                        <% ver = '<span class="ver">|</span>'; %>
+                                                        <% price_end = price[price.length-1]; %>
+                                                    <% } %>
+                                                    <%= price_begin+ver+price_end%>
+                                                </span>
+                                                <div class="tooltipContentTpl" style="display:none">
+                                                    <div class="tooltipCon buy price admin">
+                                                        <p class="priceTit">单价</p>
+                                                        <% _.each(aids,function(aid,ind){ %>
+                                                            <p class="priceLine"><%=aid%>：<%=price[ind] ? ('<em class="num"><i class="yen">&yen;</i>'+price[ind]+'</em>') : "-"%></p>
+                                                        <% }) %>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+                                            <% var has_terminal_num=item.has_terminal_num[index];%>
+                                            <span style="margin-left:5px"><%=has_terminal_num%></span>
+                                        </li>
+                                    <% } %>
+                                <% }) %>
+                                </ul>
+                            </div>
+                        </td>
+                        <td class="col col_2 alignLeft">
+                            <div class="tdCon">
+                                <p style="margin-bottom:6px;"><%=item.ordername%></p>
+                                <p><%=item.ordertel%></p>
+                            </div>
+                        </td>
+                        <td class="col col_3 alignLeft">
+                            <% if(!item.admin){ %>
+                                <div class="tdCon">
+                                    <p class="line aidLine">供：<%= item.buy_id ? item.buy_id : "-"%></p>
+                                    <p class="line aidLine">销：<%= item.sell_id ? item.sell_id : "-"%></p>
+                                    <% if(item.ordermode){ %>
+                                        <p class="line aidLine">(<%=item.ordermode%>)</p>
+                                    <% } %>
+                                </div>
+                            <% }else{ %>
+                                <div class="tdCon hover-cursor" data-offsety="13">
+                                    <% var admin=item.admin,aids=admin.aids,money=admin.money,pmode=admin.pmode; %>
+                                    <% if(aids.length<=1){ %>
+                                        <p class="line aidLine">1. <%= aids[0]%></p>
+                                    <% }else{ %>
+                                        <p class="line aidLine">1. <%= aids[0]%></p>
+                                        <p class="line aidLine"><%= aids.length%>. <%= aids[aids.length-1]%></p>
+                                    <% } %>
+                                    <% if(item.ordermode){ %>
+                                        <p class="line aidLine">(<%=item.ordermode%>)</p>
+                                    <% } %>
+                                    <div class="tooltipContentTpl" style="display:none">
+                                        <div class="tooltipCon buy price admin">
+                                            <% _.each(aids,function(aid,idx){ %>
+                                                <p class="line aidLine priceLine">
+                                                    <%=idx+1%>. <%=aid%>
+                                                    <%= money[idx] ? '<span class="num"><i class="yen">&yen;</i>'+money[idx]+'</span>' : ""%>
+                                                    <%=pmode[idx] ? "("+pmode[idx]+")" : ""%>
+                                                </p>
+                                            <% }) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </td>
+                        <td class="col col_4 alignLeft">
+                            <% if(!item.admin){ %>
+                                <div class="tdCon">
+                                    <p class="line totalMoneyLine">买入：<%= item.buy_money ? '<span class="num"><i class="yen">&yen;</i>'+item.buy_money+'</span>' : "-"%><%=item.buy_pmode ? '('+item.buy_pmode+')' : ""%></p>
+                                    <p class="line totalMoneyLine">卖出：<%= item.sell_money ? '<span class="num"><i class="yen">&yen;</i>'+item.sell_money+'</span>' : "-"%><%=item.sell_pmode ? '('+item.sell_pmode+')' : ""%></p>
+                                </div>
+                            <% }else{ %>
+                                <div class="tdCon hover-cursor" data-offsety="13">
+                                    <% var admin=item.admin,aids=admin.aids,money=admin.money,pmode=admin.pmode; %>
+                                    <% if(aids.length<=1){ %>
+                                        <p class="line aidLine">
+                                            1. <%= money[0] ? '<span class="num"><i class="yen">&yen;</i>'+money[0]+'</span>' : ""%>
+                                            <%=pmode[0] ? "("+pmode[0]+")" : ""%>
+                                        </p>
+                                    <% }else{ %>
+                                        <p class="line aidLine">1. <%= money[0] ? '<span class="num"><i class="yen">&yen;</i>'+money[0]+'</span>' : ""%> <%=pmode[0] ? "("+pmode[0]+")" : ""%></p>
+                                        <p class="line aidLine"><%= aids.length%>
+                                            . <%= money[aids.length] ? '<span class="num"><i class="yen">&yen;</i>'+money[aids.length]+'</span>' : "-"%> <%=pmode[aids.length] ? "("+pmode[aids.length]+")" : ""%>
+                                        </p>
+                                    <% } %>
+                                    <div class="tooltipContentTpl" style="display:none">
+                                        <div class="tooltipCon buy price admin">
+                                            <% _.each(aids,function(aid,idx){ %>
+                                                <p class="line aidLine priceLine">
+                                                    <%=idx+1%>. <%=aid%>
+                                                    <%= money[idx] ? '<span class="num"><i class="yen">&yen;</i>'+money[idx]+'</span>' : ""%>
+                                                    <%=pmode[idx] ? "("+pmode[idx]+")" : ""%>
+                                                </p>
+                                            <% }) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </td>
+                        <td class="col col_5">
+                            <div class="tdCon">
+                                <span class="status" style="color:#<%= {"已支付":"3dba31","未支付":"df3838","现场支付":"f07845"}[item.paystatus]%>"><%=item.paystatus%></span></br>
+                                <%if(item.is_audit){%>
+                                <span class="status" style="color: #f07845" >退票中</span>
+                                <%}%>
+                            </div>
+                        </td>
+                        <td class="col col_6">
+                            <div class="tdCon">
+                                 <% var text = {
+                                        orderAlipay: "支付",
+                                        orderAlter: "修改",
+                                        orderCancel: "取消",
+                                        orderCheck: "验证",
+                                        orderResend: "重发"};
+                                    var ordernum = item.ordernum[0];
+                                    var output = '<a target="_blank" href="new_order_view.html?orderid='+ordernum+'" class="doBtn detail">查看</a>';
+                                    for(var i in text){
+                                        if(item[i]==1 || (i=="orderCancel" && item[i]==0)){
+
+                                            if(i!=="orderCheck" && i!=="orderAlipay"){
+                                                var tickets = (i=="orderAlter") ? ('data-ticket="'+item.data_ticket+'"') : "";
+                                                output += '<a href="javascript:void(0)" class="doBtn '+i+'" data-action="'+i+'" '+tickets+' data-ordernum="'+item.ordernum[0]+'">'+text[i]+'</a>';
+                                            }else if(i=="orderAlipay"){
+                                                output += '<a target="_blank" href="alipayOrder.html?ordernum='+ordernum+'" class="doBtn '+i+'">'+text[i]+'</a>';
+                                            }else{
+                                                output += '<a target="_blank" href="terminal_chk.html?sid='+item.lid+'&chk='+item.code+'" class="doBtn '+i+'">'+text[i]+'</a>';
+                                            }
+                                        }
+                                    }
+                                    if(item.can_buy_again){
+                                        output += '<a target="_blank" href="productOrder.html?'+item.can_buy_again+'" class="doBtn buy_again">购买</a>'
+                                    }
+                                %>
+                                <%=output%>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <% }) %>
+</script>
+<script type="text/template">
+    <!--explame-->
+    <tr class="listItem">
+        <td colspan="6">
+            <table class="colUl">
+                <thead><th class="col_1"></th><th class="col_2"></th><th class="col_3"></th><th class="col_4"></th><th class="col_5"></th><th class="col_6"></th></thead>
+                <tbody>
+                    <tr>
+                        <td class="ltop" colspan="6">
+                            <div class="lt">
+                                <a class="landTit" href="#">XXXXXX景区</a>
+                                <span class="od">订单号:<span class="ordernum">34515414</span></span>
+                            </div>
+                            <div class="rt">
+                                <span class="pretext">下单时间:</span>
+                                <span class="timenum">2015-11-19 08:06:20</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="listItemCon">
+                        <td class="col col_1 alignLeft">
+                            <div class="tdCon">票信息</div>
+                        </td>
+                        <td class="col col_2 alignLeft">
+                            <div class="tdCon">取票人</div>
+                        </td>
+                        <td class="col col_3 alignLeft">
+                            <div class="tdCon">供应商/分销商</div>
+                        </td>
+                        <td class="col col_4 alignLeft">
+                            <div class="tdCon">总金额(元)/支付方式</div>
+                        </td>
+                        <td class="col col_5">
+                            <div class="tdCon">状态</div>
+                        </td>
+                        <td class="col col_6">
+                            <div class="tdCon">操作</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</script>

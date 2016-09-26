@@ -310,7 +310,21 @@ var CalendarCore={
 			return ($2*1-1) + $3;
 		})
 	},
-
+	getNowDateTime : function(){
+		var date = new Date();
+		var y = date.getFullYear();
+		var m = date.getMonth()+1;
+		var d = date.getDate();
+		var hour = date.getHours();
+		var minu = date.getMinutes();
+		var second = date.getSeconds();
+		m = this.strpad(m);
+		d = this.strpad(d);
+		hour = this.strpad(hour);
+		minu = this.strpad(minu);
+		second = this.strpad(second);
+		return y+"-"+m+"-"+d + " "+hour+":"+minu+":"+second;
+	},
 
 	_siblingMonth : function(yearmonth,nextOrPrev){ //2015-06
 		yearmonth = yearmonth || "";

@@ -47,9 +47,11 @@ var Main = PFT.Util.Class({
 
 
 		_datepicker.open("2016-09-15",{
-			min : "2016-09-10",
-			max : "2016-09-20"
+			picker : $("#beginTimeInp")
 		});
+		//_datepicker.on("switch",function(data){
+		//	console.log(data);
+		//})
 		//_datepicker.open("2016-09",{
 		//	min : "2016-09-10"
 		//});
@@ -64,7 +66,7 @@ var Main = PFT.Util.Class({
 		//});
 
 		//this.getGlobalRule();
-
+		//
 		//this.getRuleList();
 
 	},

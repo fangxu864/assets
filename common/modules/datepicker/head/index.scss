@@ -2,8 +2,8 @@
 .pftui-datepicker-headCon{
     position:relative;
     text-align:center;
-    height:50px;
-    line-height:50px;
+    height:44px;
+    line-height:45px;
     background:#57a8d8;
     color:#fff;
     .resultText{ font-size:14px; font-weight:bold; padding:0 70px;}
@@ -17,7 +17,7 @@
         line-height:18px;
         color:#fff;
         cursor:pointer;
-
+        .iconfont{ font-size:16px}
         &.prevMonth{ left:35px;}
         &.prevYear{ left:10px;}
         &.nextMonth{ right:35px}
