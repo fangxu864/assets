@@ -1,0 +1,560 @@
+/**
+ * Created by Administrator on 2016/9/26.
+ */
+
+require("./index.scss");
+$(function(){
+    var init = function (){
+        var quTsf = "供应商通信标识：";
+        var quTss = "交互密钥：";
+        var baiTsp = "服务商编号：";
+        var baiTss = "店铺编号|密钥：";
+        var quTsp = "（由去哪儿提供）";
+        var meiTsp = "（由美团提供：partnerId）";
+        var meiTsb = "（由美团提供：clientID|clientsecret，注：以竖线隔开）";
+        var baiTs = "（由百度直达号提供：prodiver_no）";
+        var baiTsa = "（由百度直达号提供：sp_no|secret_key，注：以竖线隔开）";
+        var saveURL = "call/jh_tuan.php?action=auth_information";
+        var getURL = "route/index.php?c=qunaer_getQunaer&a=getlis";
+        var getInfo = "route/index.php?c=qunaer_getQunaer&a=getlis";
+        getInfoTab("1");
+        $(".profit").live("click",function(e){
+            var target = $(e.currentTarget);  //1去哪儿0  2  美团v1 1c0 3 美团V2 1c1 4 百度直达号 2
+            var type = target.attr("type");
+            $(".profit").removeClass("active");
+            target.addClass("active");
+            $(".serspan").html("请搜索或选择产品");
+            getInfoTab(type);
+
+        })
+
+        $(".qtip").live("click",function(e){
+            $(".prodList").hide();
+            $(".group_2").hide();
+            $(".onBlurInput").hide();
+            $(".serspan").html("请搜索或选择产品");
+            $(".searchIcon").removeClass("sinco");
+            $(".sinco").hide();
+            var target = $(e.currentTarget);  //0全部 1已绑定 2 未绑定
+            var type = target.attr("type");
+            $(".qtip").removeClass("active");
+            target.addClass("active");
+            var qtip = $(this).attr("type");
+            $(".conf_type").attr("qtip",qtip);
+        })
+
+        $(".sei").live("click",function(e){
+            $(".prodList").hide();
+            $(".onBlurInput").show();
+            $(".onBlurInput").focus();
+            var title = $(".serspan").html();
+            if(title=="请搜索或选择产品"){
+                $(".onBlurInput").val(null);
+            }else{
+                $(".onBlurInput").val(title);
+            }
+            $(".searchIcon").addClass("sinco");
+
+            $(".sinco").show();
+            $(".group_2").hide();
+            getAllinfo();
+            $(".prodList").show();
+        })
+
+        $(".serspan").live("click",function(){
+            $(".prodList").hide();
+            $(".onBlurInput").show();
+            $(".onBlurInput").focus();
+            var title = $(".serspan").html();
+            if(title=="请搜索或选择产品"){
+                $(".onBlurInput").val(null);
+            }else{
+                $(".onBlurInput").val(title);
+            }
+            $(".sinco").show();
+            $(".group_2").hide();
+            getAllinfo();
+            $(".prodList").show();
+        })
+
+        $(".onBlurInput").blur(function(e){
+            $(this).hide();
+            $(".searchIcon").removeClass("sinco");
+            $(".sinco").hide();
+        })
+
+        $(".closeR").live("click",function(){
+            $(".prodList").hide();
+            $(".group_2").hide();
+            $(".serspan").html("请搜索或选择产品");
+        });
+
+        $(".onBlurInput").live("keyup",function(){
+            $(".prodList").hide();
+            $(".group_2").hide();
+            var sth=$('.onBlurInput').val();
+            var i=0;
+            $("#prodList li").each(function(){
+                var n=$(this).text().indexOf(sth);
+                if(n==-1){
+                    $(this).css("display","none");
+                }else{
+                    i+=1
+                    $(this).css("display","block");
+                }
+            });
+            if(i==0){
+                $(".prodList").css("display","none");
+            }else{
+                $(".prodList").css("display","block");
+            }
+        });
+
+        $("#prodList li").live("click",function(){
+            var id = $(this).attr("data");
+            var title = $(this).html();
+            $(".serspan").html(title);
+            $("#prodList").hide();
+            search(id);
+        });
+
+        $(".removeC").live("click",function(e){          //解除绑定
+            var id = Number($(this).attr("remove"));
+            var removeUrl = "call/jh_tuan.php?action=remove";
+            var params ={
+                "api" : removeUrl,
+                "type" : "2",
+                "id" : id
+            }
+            ajax.getList(params,{
+                success : function(res){
+                    var rid = params.id;
+                    $(".remove_"+rid).parent().parent().remove();
+                },
+                fail : function(mgs){
+                    alert(mgs);
+                }
+            })
+
+        });
+
+        $(".addC").live("click",function(){    //绑定的 还未加入地址
+            var ti={};
+            var ids = {};
+            var conf_type = $(".conf_type").val();
+            var Identity = $(".Identity").val();
+            var sign = $(".sign").val();
+            var cooperation_way = $("#conSelect").val();
+            var meiL = $(".meiL").hasClass("active");
+            var meiSelect = $(".meiSelect").val();
+            var tid = $(this).parent().parent().find(".idNum").attr("tid");
+            var aid = $(this).parent().parent().find(".idNum").attr("aid");
+            var lid = $(this).parent().parent().find(".idNum").attr("lid");
+
+            ti.conf_type = conf_type;
+            ti.Identity = Identity;
+            ti.sign = sign;
+            ti.cooperation_way = cooperation_way;
+            if(meiL){
+                ti.cooperation_way = "1";
+                if(meiSelect==0){
+                    ti.hand_on_single = 0;
+                }else if(meiSelect==1){
+                    ti.hand_on_single = 1;
+                }
+            }else{
+                ti.cooperation_way = cooperation_way;
+            }
+            if(conf_type!=0){
+                ids[tid] = aid+'|'+lid+'|'+tid;
+            }else{
+                ids[tid] = tid+'_'+aid;
+            }
+            ti.ids = ids;
+            var tids = tid;
+            $.ajax({
+                type:'POST',url: 'call/jh_tuan.php?action=set_conf',data: ti, dataType:'json',
+            }).done(function(res) {
+                if(res.status=="success"){
+                    alert("绑定成功");
+                    $(".add_"+tids).parent().parent().remove();
+                }
+                else{
+                    alert(res.msg);
+                }
+            })
+
+        });
+
+        $(".changeM").live("click",function(e){ //解除通知
+            var tarBtn = $(e.currentTarget);
+            var surl = tarBtn.attr("tyurl");
+            var typeData;
+            $.ajax({
+                type:'POST',url: surl,data: typeData, dataType:'json',
+            }).done(function(res) {
+                if(res.code==200){
+                    alert("修改通知成功");
+                    //PFT_GLOBAL.U.Alert("success",'<p style="width:120px">修改通知成功</p>');
+                }
+                else{
+                    alert(res.describe);
+                    //PFT_GLOBAL.U.Alert("fail",'<p style="width:450px">'+res.describe+'</p>');
+                }
+            })
+
+        })
+
+        function getAllinfo(){
+            var qtip = $(".conf_type").attr("qtip");     // 0全部 1已绑定 2 未绑定
+            var type = $(".conf_type").val();     // 0去哪儿 1美团 2 百度
+            var conSelect= Number($("#conSelect").val());
+            if(qtip==0){
+                var url = "getAllInfo";
+            }else if(qtip==1){
+                var url = "getUseInfo";
+            }else{
+                var url = "getUnuseInfo";
+            }
+            var params ={
+                "api" : "route/index.php?c=qunaer_getQunaer&a="+url,
+                "type" : "1",
+                "thp" : "s",
+                "DockingMode" : type,
+                "cooperation_way" : conSelect
+            }
+            ajax.getList(params,{
+                success : function(res){
+                    list(res.data);
+                    $("#qunaer_select").show();
+                },
+                fail : function(mgs){
+                    alert(mgs);
+                }
+            })
+
+
+        }
+
+        function list(res){
+            $("#prodList").html("");
+            var list = res.list;
+            for(var i=0;i<list.length;i++){
+                $("#prodList").append("<li data="+list[i].id+">"+list[i].title+"</li>");
+            }
+        }
+
+
+
+        function search(id){
+            var conf_type= Number($(".conf_type").val());
+            if(conf_type==1){
+                var conSelect = "1";
+                var hand_on_single = $(".meiSelect").val();
+            }else{
+                var conSelect= Number($("#conSelect").val());
+            }
+            var params ={
+                //"api" : "route/index.php?c=qunaer_getQunaer&a=getSearch",
+                "api" : "qunaerNew.php",
+                "type" : "3",
+                "lid" : id,
+                "conf_type" : conf_type,
+                "hand_on_single" : hand_on_single,
+                "conSelect" : conSelect
+            }
+            ajax.getList(params,{
+                success : function(res){
+                    fillSearch(res);
+                },
+                fail : function(mgs){
+                    alert(mgs);
+                }
+            })
+        }
+
+        function fillSearch(res){
+            var title = $(".serspan").html();
+            var str="";
+            var list = res.lists;
+            str+='<tr class="searchTip">';
+            str+='  <td colspan="4">';
+            str+='      <div class="searchInput">';
+            str+='          <span class="sei"></span>';
+            str+='          <img class="searchIcon" src="http://static.12301.cc/images/icons/searchIcon.png">';
+            str+='          <span class="scloseIcon closeR" style="display:none"></span>';
+            str+='          <span class="serspan">请搜索或选择产品</span>';
+            str+='          <input type="text" class="onBlurInput inBin" value="" />';
+            str+='      </div>';
+            str+='  </td>';
+            str+='</tr> ';
+            if(list && list.length > 0){
+                for(var i in list){
+                    str+='<tr class="group_2">';
+                    str+='  <td class="ww100">';
+                    str+='      <a target="_blank" href="javascript:void(0);" tid="'+list[i]['tid']+'" aid="'+list[i]['aid']+'" lid="'+list[i]['lid']+'" class="colorBlue idNum add_'+list[i]['tid']+'"></a>';
+                    str+='  </td>';
+                    str+='  <td class="ww260">';
+                    str+='      <span>'+title+'</span>';
+                    str+='  </td>';
+                    str+='  <td class="ww260" title="">'+list[i]['ttitle']+'</td>';
+                    str+='  <td class="ww160">';
+                    str+='      <a class="aList statusIdc" href="javascript:void(0)" bid_a="'+list[i]['bid_a']+'" bid_b="'+list[i]['bid_b']+'" bid_c="'+list[i]['bid_c']+'" bind_a="'+list[i]['bind_a']+'" bind_b="'+list[i]['bind_b']+'" bind_c="'+list[i]['bind_c']+'"></a>';
+                    str+='      <a class="aList changeM" style="display:none"  bid_b="'+list[i]['bid_b']+'" bind_b="'+list[i]['bind_b']+'" href="javascript:void(0);">修改通知</a>';
+                    str+='  </td>';
+                    str+='</tr>';
+                }
+            }else{
+                str+='<tr class="group_2">';
+                str+='  <td colspan="4" style="text-align:center;">抱歉暂无分销价格';
+                str+='  </td>';
+                str+='</tr> ';
+            }
+
+            $(".groupItem").html(str);
+            $(".serspan").html(title);
+            statusInfo();
+        }
+
+        function statusInfo(){
+            var hasClass = $(".conf_type").val();  //去哪儿:0 ;美团v1 v2:1 ; 百度:2
+            var qtip = $(".conf_type").attr("qtip");  //全部:0 ;已绑定:1 ; 未绑定:2
+            if(hasClass==0){
+                $(".idNum").each(function(){
+                    var tid = $(this).attr("tid");
+                    var aid = $(this).attr("aid");
+                    $(this).html(tid+'_'+aid);
+                })
+            }else if(hasClass==1){
+                $(".idNum").each(function(){
+                    var tid = $(this).attr("tid");
+                    var aid = $(this).attr("aid");
+                    var lid = $(this).attr("lid");
+                    $(this).html(aid+'|'+lid+'|'+tid);
+                })
+            }else{
+                $(".idNum").each(function(){
+                    var tid = $(this).attr("tid");
+                    var aid = $(this).attr("aid");
+                    var lid = $(this).attr("lid");
+                    $(this).html(aid+'|'+lid+'|'+tid);
+                })
+            }
+            if(hasClass==0){
+                var t = "a";
+            }else if(hasClass==1){
+                var t = "b";
+            }else{
+                var t = "c";
+            }
+            $(".statusIdc").each(function(){
+                var bind = $(this).attr("bind_"+t);
+                var bid = $(this).attr("bid_"+t);
+                if(qtip==0){
+                    if(bind==1){
+                        $(this).html("解除绑定");
+                        $(this).attr("remove",bid);
+                        $(this).addClass("remove_"+bid);
+                        $(this).addClass("removeC");
+                        if(t=="b"){
+                            $(this).parent().find(".changeM").show();
+                            var idNum = $(this).parent().parent().find(".idNum").html();
+                            var url1 = "module/api/api_product_changenotice/Product_change_notification.php?action=CreateNewTicket&status=2&ids=";
+                            var url2 = hex_md5("CreateNewTicket"+idNum);
+                            var url = url1+idNum+"&sign="+url2;
+                            $(this).parent().find(".changeM").attr("tyurl",url);
+                        }
+                    }else{
+                        $(this).html("绑定");
+                        $(this).addClass("addC");
+                    }
+                }else if(qtip==1){
+                    if(bind==1){
+                        $(this).html("解除绑定");
+                        $(this).attr("remove",bid);
+                        $(this).addClass("remove_"+bid);
+                        $(this).addClass("removeC");
+                        if(t=="b"){
+                            $(this).parent().find(".changeM").show();
+                            var idNum = $(this).parent().parent().find(".idNum").html();
+                            var url1 = "module/api/api_product_changenotice/Product_change_notification.php?action=CreateNewTicket&status=2&ids=";
+                            var url2 = hex_md5("CreateNewTicket"+idNum);
+                            var url = url1+idNum+"&sign="+url2;
+                            $(this).parent().find(".changeM").attr("tyurl",url);
+                        }
+                    }else{
+                        $(this).parent().parent().remove();
+                    }
+                }else{
+                    if(bind==1){
+                        $(this).parent().parent().remove();
+                    }else{
+                        $(this).html("绑定");
+                        $(this).addClass("addC");
+                    }
+
+                }
+            })
+        }
+
+        function getInfoTab(type){
+            var set,con;
+            var conf = $(".conf_type");
+            $(".Identity").val(null);
+            $(".sign").val(null);
+            switch(type)
+            {
+                case "1":
+                    set = "0";
+                    conf.val("0");
+                    fillSuperInfo(quTsf,quTss,quTsp,quTsp)
+                    $(".mei_supplir").show();
+                    $(".supplemeiS").hide();
+                    break;
+                case "3":
+                    set = "1";
+                    con = "1";
+                    conf.val("1");
+                    fillSuperInfo(quTsf,quTss,meiTsp,meiTsb)
+                    $(".mei_supplir").hide();
+                    $(".supplemeiS").show();
+                    break;
+                default:
+                    set = "2";
+                    conf.val("2");
+                    fillSuperInfo(baiTsp,baiTss,baiTs,baiTsa)
+                    $(".mei_supplir").hide();
+                    $(".supplemeiS").hide();
+            }
+            var params ={
+                "api" : saveURL,
+                "set_conf" : set,
+                "type" : "0",
+                "conSelect" : con
+            }
+            ajax.getList(params,{
+                success : function(res){
+                    fillInfo(res);
+                    setTimeout(function () {
+                        $(".group_2").hide();
+                        $("#qunaer_select").hide();
+                    },500);
+                },
+                fail : function(mgs){
+                    alert(mgs);
+                }
+            })
+        }
+        function fillInfo(res){
+            $(".Identity").val(res.supplierIdentity);
+            $(".sign").val(res.signkey);
+            var typeo = res.signkey;
+            if(!typeo){
+                $(".supplir_tod").removeClass("free");
+                $(".supplir_tod").attr("readOnly",null);
+            }else{
+                $(".supplir_tod").addClass("free");
+                $(".supplir_tod").attr("readOnly","readonly");
+            }
+        }
+        function fillSuperInfo(a,b,c,d){
+            $(".first").text(a);
+            $(".secend").text(b);
+            $(".qu_supplia").text(c);
+            $(".qu_supplib").text(d);
+        }
+    };
+    var ajax = {
+        fn : new Function,
+        AJAX_TIMEOUT : "请求超时，请稍后重试",
+        AJAX_XMLERROR : "传输格式有误，请稍后重试",
+        AJAX_SERVERERROR : "请求出错，请稍后重试",
+        getList : function(params,callbacks){
+            var that = this;
+            var api = params.api;
+            var fn = new Function;
+            var type = params.type;
+            var conf = $(".conf_type").val();
+            if(type==0){
+                var params = {
+                    "set_conf" : params.set_conf ,
+                    "conSelect" : params.conSelect
+                }
+            }else if(type==1){
+                if(conf!=1){
+                    var params = {
+                        "DockingMode" : params.DockingMode,
+                        "cooperation_way" : params.cooperation_way
+                    };
+                }else{
+                    var params = {
+                        "DockingMode" : params.DockingMode,
+                        "cooperation_way" : "1"
+                    };
+                }
+            }else if(type==2){
+                var params = {
+                    "id" : params.id
+                }
+            }else{
+                if(params.conf_type==1){
+                    var params = {
+                        "lid" : params.lid,
+                        "conf_type" : params.conf_type,
+                        "conSelect" : params.conSelect,
+                        "hand_on_single" : params.hand_on_single,
+                        "act" : "ticket"
+                    }
+
+                }else{
+                    var params = {
+                        "lid" : params.lid,
+                        "conf_type" : params.conf_type,
+                        "conSelect" : params.conSelect,
+                        "act" : "ticket"
+                    }
+                }
+            }
+
+            var success = callbacks.success || fn;
+            var fail = callbacks.fail || fn;
+            $("#qunaer_select").hide();
+            $("#mask").show();
+            $(".gloading_gif").show();
+            $.ajax({
+                url :api,
+                type : "POST",
+                dataType : "json",
+                data : params,
+                timeout : 6000,
+                beforeSend:function(){},
+                success : function(res){
+                    var status = res.status;
+                    if(status==200 || "success"){
+                        success(res);
+                        $("#mask").hide();
+                        $(".gloading_gif").hide();
+                        //$("#qunaer_select").show();
+                    }else{
+                        fail(res.msg)
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown){
+                    switch(textStatus){
+                        case "timeout":
+                            alert(that.AJAX_TIMEOUT);
+                            break;
+                        case "error":
+                            alert(that.AJAX_SERVERERROR);
+                            break;
+                        //default:
+                        //alert(that.AJAX_XMLERROR);
+                    }
+                }
+            })
+
+        }
+    }
+    init();
+
+})

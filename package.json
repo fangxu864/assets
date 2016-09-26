@@ -89,7 +89,14 @@
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
-    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js"
+    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
+
+
+    "meituanNotice-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/meituanNotice/webpack.config.js",
+    "meituanNotice-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/meituanNotice/webpack.config.js",
+    "meituanNotice-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/meituanNotice/webpack.config.js",
+    "meituanNotice-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/meituanNotice/webpack.config.js"
+
   },
   "repository": {
     "type": "git",
