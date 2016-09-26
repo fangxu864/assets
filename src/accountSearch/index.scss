@@ -1,3 +1,4 @@
+
 @import "COMMON/css/base/core";
 
 //导航标题
@@ -123,6 +124,12 @@
   table.tableCon{
     width:100%;
     background-color: white;
+    .th2{
+      text-align: right;
+    }
+    td{
+      padding:0 20px;
+    }
     thead{
       tr{
         th{
@@ -144,13 +151,6 @@
         td:last-child{
           padding-right: 20px;
         }
-        td.heji{
-          text-align: right;
-          padding-right: 20px;
-        }
-        .th4,.th7{
-          color: #3DBA3F;
-        }
         .th5{
           color: #F07845;
         }
@@ -163,6 +163,5 @@
       }
       tr:last-child{border-bottom: none;}
     }
-
   }
 }
