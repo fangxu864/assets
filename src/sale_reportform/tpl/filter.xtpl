@@ -17,7 +17,7 @@
         </div>
         <div class="td td3">
             <ul class="time_area">
-                <li id="today_btn">今天</li>
+                <!--<li id="today_btn">今天</li>-->
                 <li id="yestoday_btn">昨天</li>
                 <li id="thisweek_btn">本周</li>
                 <li id="lastweek_btn">上周</li>

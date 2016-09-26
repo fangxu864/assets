@@ -54,7 +54,7 @@ var Pagination = UtilClass({
 	EVENTS : {
 		"click .nav" : "onNavClick",
 		"click .prevNextBtn" : "onPrevNextBtnClick",
-		"click .toWhichBtn" : "onWhichPageClick",
+		"mousedown .toWhichBtn" : "onWhichPageClick",
 		"focus .whichPageInp" : "onWhichInpFocus",
 		"blur .whichPageInp" : "onWhichInpBlur",
 		"keyup .whichPageInp" : "onWhichPageEnter"

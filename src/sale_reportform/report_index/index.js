@@ -108,6 +108,31 @@ var Book_form={
                 onAfter : function(){}       //弹出日历后callback
             })
         });
+        calendar.on("select",function(data){
+            var inputId=data.picker[0].id;
+            var startDate=_this.stime_inp.val();
+            var endDate=_this.etime_inp.val();
+            var dateDiff=GetDateDiff(startDate,endDate);
+            var curDate;
+            if(dateDiff>90){
+                if(inputId==="start_time"){
+                    curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    _this.etime_inp.val(curDate);
+                }else if(inputId==="end_time"){
+                    curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    _this.stime_inp.val(curDate);
+                }
+            }
+
+
+            //计算两个日期间的天数
+            function GetDateDiff(startDate,endDate) {
+                var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();
+                var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
+                var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
+                return  dates;
+            }
+        });
 
         //产品名称搜索框
         var select2=new Select({

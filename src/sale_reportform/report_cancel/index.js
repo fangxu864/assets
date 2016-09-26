@@ -108,6 +108,32 @@ var Book_form={
                 onAfter : function(){}       //弹出日历后callback
             })
         });
+        calendar.on("select",function(data){
+            var inputId=data.picker[0].id;
+            var startDate=_this.stime_inp.val();
+            var endDate=_this.etime_inp.val();
+            var dateDiff=GetDateDiff(startDate,endDate);
+            var curDate;
+            if(dateDiff>90){
+                if(inputId==="start_time"){
+                    curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    _this.etime_inp.val(curDate);
+                }else if(inputId==="end_time"){
+                    curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    _this.stime_inp.val(curDate);
+                }
+            }
+
+
+            //计算两个日期间的天数
+            function GetDateDiff(startDate,endDate) {
+                var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();
+                var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
+                var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
+                return  dates;
+            }
+        });
+
 
         //产品名称搜索框
         var select2=new Select({
@@ -367,7 +393,7 @@ var Book_form={
         };
         var kindsTitle=titleName[_this.filterParamsBox.count_way];
         if(list[0]["service_money_out"]!==undefined){    //非景区账号
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">撤改撤销票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
@@ -389,7 +415,7 @@ var Book_form={
             }
             $(".tablecon_box .con_tb tbody").html(listHtml);
         }else{
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">撤改撤销票数</th> <th class="th4">退票收入(元)</th><th class="th5">退票手续费收入(元)</th> ';
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th> <th class="th4">退票收入(元)</th><th class="th5">退票手续费收入(元)</th> ';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
