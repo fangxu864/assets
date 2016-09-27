@@ -61,6 +61,7 @@ var Api = {
 					var count = res.data.count*1 || 0;
 					res.data["page"] = params.currentPage;
 					res.data["totalPage"] = Math.ceil(count/params.pageSize);
+					var ifAdmin = res.data.ifAdmin;
 					var list = res.data.data;
 					var len = list.length;
 					var ticketName = res.data.ticketName;
@@ -68,10 +69,11 @@ var Api = {
 						for(var i=0; i<len; i++){
 							var bcode = list[i]["bCode"];
 							list[i]["ticketName"] = ticketName[bcode];
-							list[i]["handleStatus_ext"] = Status[list[i]["handleStatus"]] || {};
 							if(list[i]["handleStatus"]==0){
 								list[i]["handleStatus"] = list[i]["oStatus"];
 							}
+							list[i]["handleStatus_ext"] = Status[list[i]["handleStatus"]] || {};
+							list[i]["ifAdmin"] = ifAdmin;
 						}
 						opt.success.call(cxt,res.data);
 					}else{

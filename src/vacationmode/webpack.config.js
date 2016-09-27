@@ -9,7 +9,8 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		"vacationmode" : "./src/vacationmode/index.js"
+		"vacationmode" : "./src/vacationmode/setting/index.js",
+		"vacationmode.trecordnew.tooltip.msg" : "./src/vacationmode/trecordnew-tooltip-msg/index.js"
 	},
 	output : output,
 	plugins : plugins

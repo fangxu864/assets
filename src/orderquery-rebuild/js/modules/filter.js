@@ -9,6 +9,9 @@ var SortBar = require("./sortbar.js");
 var Api = require("./api.js");
 var api = new Api();
 var Distors = require("./distors.js");
+//引入./src/vacationmode/tooltip-msg模块
+var VacationMode = require("../../../vacationmode/tooltip-msg");
+var DatePicker = require("COMMON/modules/datepicker");
 var Filter = RichBase.extend({
 	statics : {
 
@@ -107,6 +110,9 @@ var Filter = RichBase.extend({
 //			ignoreReadonly : true
 //		})
 
+
+
+
 		//导出数据
 		$("#exportExeclBtn").on("click",function(e){
 			that.onExportBtnClick(that,e);
@@ -116,6 +122,75 @@ var Filter = RichBase.extend({
 			that.onTongjiBtnClick(that,e)
 		})
 
+		//2016-09-27  志阳新增 替换新的日历组件
+		this.initDatepicker();
+
+		//2016-09-27  志阳新增 假日模式
+		VacationMode.init({
+			beginTimeHoverTrigger : $("#datetimepicker_begin"),
+			endTimeHoverTrigger : $("#datetimepicker_end"),
+			reportHoverTrigger : $("#exportExeclBtn")
+		});
+
+
+	},
+	initDatepicker : function(){
+		var that = this;
+		var datepicker = this.datepicker = new DatePicker();
+		$("#datetimepicker_begin").on("click",function(e){
+			var tarInp = $("#btimeInp");
+			var endInp = $("#etimeInp");
+			var endtime = endInp.val();
+			var date = tarInp.val();
+			if(!date) date = DatePicker.CalendarCore.gettoday() + " 00:00:00";
+			var max = endtime ? endtime.substr(0,10) : "";
+			datepicker.open(date,{
+				picker : tarInp,
+				todayAfterDisable : true,
+				max : max,
+				onAfter : function(val,oldVal){
+					var beginDate = val.substr(0,10);
+					var endDate = endtime.substr(0,10);
+					var queryLimit = $("#queryLimitHidInp").val();
+					var queryLimitTip = $("#queryLimitTipHidInp").val();
+					if(endDate && beginDate && queryLimit){
+						var begin_str = +new Date(beginDate);
+						var end_str = +new Date(endDate);
+						if(end_str-begin_str >= (30*24*60*60*1000)){
+							alert(queryLimitTip || "最多只能查询30天以内数据");
+							tarInp.val(oldVal);
+						}
+					}
+				}
+			});
+		})
+		$("#datetimepicker_end").on("click",function(e){
+			var tarInp = $("#etimeInp");
+			var beginInp = $("#btimeInp");
+			var beingTime = beginInp.val();
+			var beginDate = beingTime.substr(0,10);
+			var date = tarInp.val();
+			if(!date) date = DatePicker.CalendarCore.gettoday() + " 23:59:59";
+			var min = beingTime ? beingTime.substr(0,10) : "";
+			datepicker.open(date,{
+				picker : tarInp,
+				todayAfterDisable : true,
+				min : min,
+				onAfter : function(val,oldVal){
+					var endDate = val.substr(0,10);
+					var queryLimit = $("#queryLimitHidInp").val();
+					if(endDate && beginDate && queryLimit){
+						var begin_str = +new Date(beginDate);
+						var end_str = +new Date(endDate);
+						var queryLimitTip = $("#queryLimitTipHidInp").val();
+						if(end_str-begin_str >= (30*24*60*60*1000)){
+							alert(queryLimitTip || "最多只能查询30天以内数据");
+							tarInp.val(oldVal);
+						}
+					}
+				}
+			});
+		})
 	},
 	getFilterParam : function(){
 		var result = {};
