@@ -2,9 +2,11 @@
  * Created by Administrator on 2016/9/26.
  */
 
-require("./index.scss");
+
 $(function(){
     var init = function (){
+        $("body").append("<ul class='meituan_notice_box'></ul>");
+        $("body").append('<link rel="stylesheet" href="http://static.12301.cc/css/new/qunaer.css"/>');
         var quTsf = "供应商通信标识：";
         var quTss = "交互密钥：";
         var baiTsp = "服务商编号：";
@@ -189,20 +191,68 @@ $(function(){
         $(".changeM").live("click",function(e){ //解除通知
             var tarBtn = $(e.currentTarget);
             var surl = tarBtn.attr("tyurl");
+            var surl0=surl;
+            surl0=surl0.replace("status=2","status=0");
+            var surl2=surl;
+            var surl5=surl;
+            surl5=surl5.replace("status=2","status=5");
             var typeData;
-            $.ajax({
-                type:'POST',url: surl,data: typeData, dataType:'json',
-            }).done(function(res) {
-                if(res.code==200){
-                    alert("修改通知成功");
-                    //PFT_GLOBAL.U.Alert("success",'<p style="width:120px">修改通知成功</p>');
-                }
-                else{
-                    alert(res.describe);
-                    //PFT_GLOBAL.U.Alert("fail",'<p style="width:450px">'+res.describe+'</p>');
-                }
-            })
+            var meituan_notice_box= $(".meituan_notice_box");
 
+            meituan_notice_box.html("<li surl='"+surl0+"'>产品上架通知</li><li surl='"+surl2+"'>产品信息变动</li><li surl='"+surl5+"'>日历价格变动</li>");
+            var _this=$(this);
+            meituan_notice_box.css({
+                "top":_this.offset().top+22,
+                "left":_this.offset().left-22
+            }).show(100);
+            // $.ajax(
+            //     type:'POST',url: surl,data: typeData, dataType:'json',
+            // }).done(function(res) {
+            //     if(res.code==200){
+            //         alert("修改通知成功");
+            //         //PFT_GLOBAL.U.Alert("success",'<p style="width:120px">修改通知成功</p>');
+            //     }
+            //     else{
+            //         alert(res.describe);
+            //         //PFT_GLOBAL.U.Alert("fail",'<p style="width:450px">'+res.describe+'</p>');
+            //     }
+            // })
+            return false;
+
+        })
+        $(".meituan_notice_box li").live("click",function () {
+            var turl=$(this).attr("surl");
+            console.log(turl);
+            $.ajax({
+                url: turl,    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: { },    //参数值
+                type: "post",   //请求方式
+                beforeSend: function() {
+                    //请求前的处理
+                },
+                success: function(res) {
+                    //请求成功时处理
+                        if(res.code==200){
+                            alert("修改通知成功");
+                            //PFT_GLOBAL.U.Alert("success",'<p style="width:120px">修改通知成功</p>');
+                        }
+                        else{
+                            alert(res.describe);
+                            //PFT_GLOBAL.U.Alert("fail",'<p style="width:450px">'+res.describe+'</p>');
+                        }
+                },
+                complete: function() {
+                    //请求完成的处理
+                },
+                error: function() {
+                    //请求出错处理
+                }
+            });
+        })
+        $(document).live("click",function () {
+            $(".meituan_notice_box").hide()
         })
 
         function getAllinfo(){
