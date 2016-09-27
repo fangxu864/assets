@@ -2,6 +2,7 @@
  * Created by Administrator on 15-11-19.
  */
 require("../css/orderquery.css");
+var VacationMode = require("./modules/vacationmode.js");
 var Query = require("./modules/query");
 var queryor = null;
 var Main = RichBase.extend({
@@ -50,3 +51,9 @@ $(function ($) {
 		}
 	})
 });
+
+
+//2016-09-26  志阳新增 假日模式
+$(function(){
+	VacationMode.init();
+})

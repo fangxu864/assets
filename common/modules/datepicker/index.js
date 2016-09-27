@@ -33,11 +33,14 @@ var Datepicker = PFT.Util.Class({
 
 		this.on("switch",function(data){
 			var picker = this.__cacheOpt.picker;
+			var orignVal = picker.val();
 			if(picker[0].tagName.toLocaleLowerCase()=="input"){
 				picker.val(data.result);
 			}else{
 				picker.text(data.result);
 			}
+			var onAfter = this.__cacheOpt.onAfter;
+			onAfter && onAfter(data.result,orignVal);
 			this.__cacheOpt = {};
 		},this)
 	},
@@ -194,6 +197,8 @@ var Datepicker = PFT.Util.Class({
 		date = $.trim(date);
 		opt = opt || {};
 		opt["default_day"] = date.substr(8,2) ? date.substr(0,10) : "";
+		var before = opt.onBefore || function(){};
+		var after = opt.onAfter || function(){};
 		var picker = opt.picker;
 		var hour = date.substr(11,2);
 		var minu = date.substr(14,2);
@@ -206,17 +211,26 @@ var Datepicker = PFT.Util.Class({
 			this.timepicker.setTime(hour,minu,second);
 			this.ft.show();
 		}
+		before();
 		this.mask.show();
 		this.__cacheOpt = opt;
 		this.container.show();
 		this.position(picker);
 		this.renderDate(date,opt);
 	},
+	show : function(date,opt){
+		this.open(date,opt);
+	},
 	close : function(){
 		this.container.hide();
 		this.mask.hide();
+	},
+	hide : function(){
+		this.close();
 	}
 });
+
+Datepicker.CalendarCore = CalendarCore;
 
 module.exports = Datepicker;
 

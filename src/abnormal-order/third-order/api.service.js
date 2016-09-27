@@ -69,6 +69,9 @@ var Api = {
 							var bcode = list[i]["bCode"];
 							list[i]["ticketName"] = ticketName[bcode];
 							list[i]["handleStatus_ext"] = Status[list[i]["handleStatus"]] || {};
+							if(list[i]["handleStatus"]==0){
+								list[i]["handleStatus"] = list[i]["oStatus"];
+							}
 						}
 						opt.success.call(cxt,res.data);
 					}else{

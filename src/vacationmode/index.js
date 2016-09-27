@@ -4,15 +4,13 @@
  * Description: ""
  */
 require("./index.scss");
-var Calendar = require("COMMON/modules/calendar");
+//var Calendar = require("COMMON/modules/calendar");
 var Tpl = require("./rule.item.xtpl");
 var Loading_Text = require("COMMON/js/util.loading.pc")("努力加载中...",{
 	height : 400,
 	tag : "li"
 });
-
 var Datepicker = require("COMMON/modules/datepicker");
-
 var Main = PFT.Util.Class({
 	controler : PFT.Config.Api.get("Member_VacationMode"),
 	container : "#vmContainer",
@@ -41,14 +39,14 @@ var Main = PFT.Util.Class({
 		this.switchBox = $("#switchBox");
 		this.ruleContainer = $("#ruleContainer");
 
-		this.datepicker = new Calendar();
+		//this.datepicker = new Calendar();
 
-		var _datepicker = new Datepicker();
+		this.datepicker = new Datepicker();
 
-
-		_datepicker.open("2016-09-15",{
-			picker : $("#beginTimeInp")
-		});
+		//var _datepicker = new Datepicker();
+		//_datepicker.open("2016-09-15",{
+		//	picker : $("#beginTimeInp")
+		//});
 		//_datepicker.on("switch",function(data){
 		//	console.log(data);
 		//})

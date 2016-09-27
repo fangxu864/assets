@@ -98,31 +98,31 @@ var Timepicker = PFT.Util.Class({
 		this.setSecond(second);
 	},
 	setHour : function(hour){
-		if(!hour) return this.container.hide();
+		if(typeof hour=="undefined") return this.container.hide();
 		var slideBoxHour = this.container.find('.slideBoxHour');
-		hour = +hour;
+		hour = String(hour);
 		if(hour.length<2) hour = "0"+hour;
-		slideBoxHour.find('.timeSpan_'+hour+'').trigger("click");
+		slideBoxHour.find('.timeSpan_'+hour).trigger("click");
 	},
 	setMinu : function(minu){
 		var slideBoxMinu = this.container.find('.slideBoxMinu');
-		if(!minu){
+		if(typeof minu=="undefined"){
 			slideBoxMinu.hide();
 			return false;
 		}
-		minu = +minu;
+		minu = String(minu);
 		if(minu.length<2) minu = "0"+minu;
-		slideBoxMinu.find('.timeSpan_'+minu+'').trigger("click");
+		slideBoxMinu.find('.timeSpan_'+minu).trigger("click");
 	},
 	setSecond : function(second){
 		var slideBoxSecond = this.container.find('.slideBoxSecond');
-		if(!second){
+		if(typeof second=="undefined"){
 			slideBoxSecond.hide();
 			return false;
 		}
-		second = +second;
+		second = String(second);
 		if(second.length<2) second = "0"+second;
-		slideBoxSecond.find('.timeSpan_'+second+'').trigger("click");
+		slideBoxSecond.find('.timeSpan_'+second).trigger("click");
 	},
 	getTime : function(){
 		return (this.getHour() + ":" + this.getMinu() + ":" + this.getSecond());
