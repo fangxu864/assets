@@ -2,9 +2,32 @@
  * Author: huangzhiyang
  * Date: 2016/6/14 11:14
  * Description: 项目时间紧迫，主体功能先实现，更多功能后续会慢慢增加
+ *
+ *
+ * var select = new Select({
+ * 		source : "/call/handler.php",
+ * 		ajaxType : "post",
+ * 		ajaxParams : {
+ * 			lid : "12341",
+ * 			dtype : "d"
+ * 		},
+ * 		filterType : "ajax",  指定过滤方式为ajax
+ * 		field : {
+ * 			id : "lid",
+ * 			name : "text",
+ * 			keyword : "val"
+ * 		}
+ * })
+ *
+ *
+ *
+ *
  */
 require("./index.scss");
 var Defaults = {
+
+	isFillContent:true,  //初始化时是否在input中填入内容，
+
 
 	trigger : null,
 
@@ -78,7 +101,6 @@ Select.prototype = {
 		this.searchInp = this.selectBox.find(".gSelectSearchInp");
 		this.clearSearchBtn = this.selectBox.find(".clearSearchBtn");
 		this.listUl = this.selectBox.find(".selectOptionUl");
-		this.position();
 		this.bindEvents();
 		if(opt.data){
 			this.__cacheData = opt.data;
@@ -208,9 +230,14 @@ Select.prototype = {
 		var defaultVal = this.opt.defaultVal;
 		if(data=="loading" || data=="error" || data==null) return false;
 		if(defaultVal){
+
+
 			this.selectDefaultVal();
-		}else{
-			this.listUl.children().first().trigger("click");
+		}
+		else{
+			if(this.isFillContent){
+				(this.opt.filterType!=="ajax") && this.listUl.children().first().trigger("click");
+			}
 		}
 	},
 	//初始化时选中默认值
@@ -260,11 +287,11 @@ Select.prototype = {
 		var selectBox = this.createSelectBox();
 		var of = trigger.offset();
 		var offset = this.opt.offset;
-		var scrollTop = $(window).scrollTop();
+		//var _scrollTop = $(window).scrollTop();
 		var trigger_h = trigger.outerHeight(true);
 		selectBox.css({
 			left : of.left + (offset.left || 0),
-			top : (of.top-scrollTop) + trigger_h + (offset.top || 0)
+			top : of.top + trigger_h + (offset.top || 0)
 		})
 	},
 	fetchData : function(source,keyword){
@@ -313,6 +340,7 @@ Select.prototype = {
 		this.createSelectBox().show().css({zIndex:504});
 		this.position();
 		this.trigger.addClass("select-on");
+		this.selectBox.find(".gSelectSearchInp").focus();
 		PFT.Util.PubSub.trigger("open");
 		callback && callback();
 	},
