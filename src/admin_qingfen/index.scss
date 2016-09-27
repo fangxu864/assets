@@ -19,5 +19,52 @@ body {
     font-size: 22px;
     border: 1px solid #e5e5e5;
   }
-  .
+  //表格
+  .tableCon_box{
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-top: none;
+    table.con_tb{
+      width: 100%;
+      .th1{
+        text-align: left;
+        padding-left: 20px;
+      }
+      .th2,.th3,.th4,.th5{
+        padding-right: 20px;
+      }
+      thead{
+        tr{
+          white-space: nowrap;
+          th{
+            font-weight: normal;
+          }
+          height: 36px;
+          line-height: 36px;
+          background-color: #f0f0f0;
+        }
+        th:last-child{
+          padding-right: 20px;
+        }
+      }
+      tbody{
+        tr{
+          height: 45px;
+          line-height: 45px;
+          border-bottom: 1px solid #e5e5e5;
+          td:last-child{
+            padding-right: 20px;
+          }
+        }
+        tr.gray{
+          background-color: #fcfcfc;
+        }
+        tr:hover{
+          background-color: #fafafa;
+        }
+        tr:last-child{border-bottom: none;}
+      }
+    }
+
+  }
 }
