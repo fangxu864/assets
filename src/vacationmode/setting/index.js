@@ -63,9 +63,9 @@ var Main = PFT.Util.Class({
 		//	todayAfterDisable : true
 		//});
 
-		//this.getGlobalRule();
-		//
-		//this.getRuleList();
+		this.getGlobalRule();
+
+		this.getRuleList();
 
 	},
 	onSwitchBoxClick : function(e){

@@ -153,7 +153,7 @@ var Filter = RichBase.extend({
 					var endDate = endtime.substr(0,10);
 					var queryLimit = $("#queryLimitHidInp").val();
 					var queryLimitTip = $("#queryLimitTipHidInp").val();
-					if(endDate && beginDate && queryLimit){
+					if(endDate && beginDate && queryLimit==1){
 						var begin_str = +new Date(beginDate);
 						var end_str = +new Date(endDate);
 						if(end_str-begin_str >= (30*24*60*60*1000)){
@@ -179,7 +179,7 @@ var Filter = RichBase.extend({
 				onAfter : function(val,oldVal){
 					var endDate = val.substr(0,10);
 					var queryLimit = $("#queryLimitHidInp").val();
-					if(endDate && beginDate && queryLimit){
+					if(endDate && beginDate && queryLimit==1){
 						var begin_str = +new Date(beginDate);
 						var end_str = +new Date(endDate);
 						var queryLimitTip = $("#queryLimitTipHidInp").val();

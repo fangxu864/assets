@@ -86,6 +86,11 @@
     "orderquery-rebuild-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
 
 
+    "vacationmode-pc-tip-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
+    "vacationmode-pc-tip-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
+    "vacationmode-pc-tip-production" : "set NODE_ENV=production && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
+
+
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",

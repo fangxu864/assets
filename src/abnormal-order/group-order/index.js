@@ -4,6 +4,7 @@
  * Description: ""
  */
 require("./index.scss");
+var Datepicker = require("COMMON/modules/calendar");
 var Query = require("./query");
 var Terminal = require("./terminal");
 var Main = PFT.Util.Class({
@@ -12,10 +13,10 @@ var Main = PFT.Util.Class({
 		"click #tabHead .tabItem" : "onTabItemClick"
 	},
 	init : function(){
-		this.query = new Query();
-		this.terminal = new Terminal();
+		var datepicker = new Datepicker;
+		this.query = new Query({datepicker:datepicker,Datepicker:Datepicker,Calendar:Datepicker});
+		this.terminal = new Terminal({datepicker:datepicker,Datepicker:Datepicker,Calendar:Datepicker});
 		this.container.find("#tabHead .tabItem").first().trigger("click");
-
 	},
 	onTabItemClick : function(e){
 		var tarItem = $(e.currentTarget);

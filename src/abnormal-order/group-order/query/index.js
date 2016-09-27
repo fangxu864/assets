@@ -4,7 +4,7 @@
  * Description: ""
  */
 require("./index.scss");
-var Calendar = require("COMMON/modules/calendar");
+
 var Service = require("../api.service").Query;
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
@@ -26,7 +26,7 @@ var Query = PFT.Util.Class({
 		"mouseleave .showTitle" : "onShowTitleMouseleave"
 	},
 	template : PFT.Util.ParseTemplate(Tpl),
-	init : function(){
+	init : function(opt){
 		var that = this;
 		this.beginTimeInp = $("#query-beginTimeInp");
 		this.endTimeInp = $("#query-endTimeInp");
@@ -36,7 +36,8 @@ var Query = PFT.Util.Class({
 
 		this.offsetTop = $("#rtWrap").offset().top;
 
-		this.datepicker = new Calendar();
+		this.datepicker = opt.datepicker;
+		this.Calendar = opt.Calendar;
 
 		this.datepicker.on("select",function(data){});
 
@@ -58,7 +59,7 @@ var Query = PFT.Util.Class({
 	},
 	//页面初始化时，日期默认显示近7天
 	getDefaultDate : function(){
-		var core = Calendar.Core;
+		var core = this.Calendar.Core;
 		var today = core.gettoday();
 		var day_7_ago = core.prevDays(today,7)[6]; //7天前是哪一天
 		return{
@@ -154,7 +155,6 @@ var Query = PFT.Util.Class({
 		this.container.hide();
 	},
 	enable : function(){
-		console.log("enable")
 		var currentPage = this.pagination.getCurrentPage();
 		var totalPage = this.pagination.getTotalPage();
 		if(totalPage && totalPage>=1) this.pagination.render({current:currentPage,total:totalPage});

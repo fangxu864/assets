@@ -1,15 +1,19 @@
-.orderList{ margin-top:15px;}
+@import "COMMON/css/base/main";
+#tabPanel-terminal{ border:0 none; background:none}
+#tabPanel-terminal .searchBox{ border:1px solid $gray90; margin-top:-1px; background:#fff}
+
+.orderList{ margin-top:15px; line-height:1.5}
 .orderList .status{  line-height:50px; text-align:left; padding-left:10px;}
 .orderList .status.loading .icon{ position:relative; top:12px; margin-right:5px;}
 .orderList .orderItem{ margin-bottom:10px;}
-.orderList .oTit{ position:relative; height:36px; line-height:36px; padding:0 25px 0 22px; border:1px solid #ddd; background:#f7f7f7;}
+.orderList .oTit{ position:relative; height:36px; line-height:36px; padding:0 25px 0 22px; border:1px solid #ddd; background:#fff;}
 .orderList .oTit .flag{ position:relative; display:inline-block; float:right; height:20px; top:8px; line-height:20px; padding:0 10px; color:#fff; background:#f17848; margin-left:5px; }
 .orderList .oTit .flag.overDate{ background:#f17848}
 .orderList .oTit .flag.paytype{ background:#f17848}
 .orderList .oTit .flag.pmode_1{ background:#3eba40}
 .orderList .oTit .flag.status_0{ background:#3eba40}
 .orderList .oTit .mobile{ margin-left:15px;}
-.orderList .itemCon{ position:relative; padding-left:290px; border:1px solid #ededed; border-top:0 none; background:#fcfcfc}
+.orderList .itemCon{ position:relative; padding-left:290px; border:1px solid #e5e5e5; border-top:0 none; background:#fff}
 .orderList .inCon{ padding:15px 25px 15px 22px; overflow:hidden}
 .orderList .orderItem .ltCon{ position:absolute; top:0; left:0; bottom:0; width:255px; padding:10px; padding-left:15px; border-right:1px solid #ededed; background:#fff;}
 .orderList .orderItem .ltCon .line{ height:28px; line-height:28px;}
@@ -38,3 +42,7 @@
 .orderList .checkMethodBox{ margin-bottom:5px; text-align:right;}
 .orderList .checkMethodBox input{ position:relative; top:2px; vertical-align:middle; margin-right:2px;}
 .orderList .checkMethodBox label{ vertical-align:middle;}
+
+.orderList .termTimeWrap{ float:right; position:relative; width:88px; height:32px; margin-top:3px; margin-right:6px; background:#fff; padding:0 35px 0 5px; border:1px solid #e0e0e0}
+.orderList .termTimeWrap .iconfont{font-size: 14px; position:absolute; top:6px; right:5px; cursor:pointer; color:#0897d9; }
+.orderList .termTimeWrap .termTimeInp{ display:block; width:100%; height: 24px; line-height:24px; padding:3px; border:0 none; background:#fff}
