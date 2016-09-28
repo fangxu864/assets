@@ -314,9 +314,9 @@ var Book_form={
         })
         //导出按钮
         $(".excel_btn").on("click",function () {
-            var api="/r/report_statistics/cancelList/";
+            var api="/r/report_statistics/expireList/";
             if(_this.isAdmin=="1"){
-                api="/r/report_statistics/adminCancelList/";
+                api="/r/report_statistics/adminExpireList/";
             }
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
@@ -447,9 +447,9 @@ var Book_form={
     //ajax获取数据
     ajaxGetData:function (data) {
         var _this=this;
-        var api="/r/report_statistics/cancelList/";
+        var api="/r/report_statistics/expireList/";
         if(_this.isAdmin=="1"){
-            api="/r/report_statistics/adminCancelList/";
+            api="/r/report_statistics/adminExpireList/";
         }
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
