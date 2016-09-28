@@ -7,8 +7,8 @@
                 <template v-if="state=='success'">
                     <div class="calTop">
                         <div class="calTopText" v-text="selected_year+'-'+selected_month"></div>
-                        <span @click="onPrevMonth" href="javascript:void(0)" class="navBtn prev prevBtn"><i class="iconfont icon-back"></i></span>
-                        <span @click="onNextMonth" href="javascript:void(0)" class="navBtn next nextBtn"><i class="iconfont icon-right"></i></span>
+                        <span @click="onPrevMonth" href="javascript:void(0)" class="navBtn prev prevBtn"><i class="uicon uicon-jiantou-sin-left"></i></span>
+                        <span @click="onNextMonth" href="javascript:void(0)" class="navBtn next nextBtn"><i class="uicon uicon-jiantou-sin-right"></i></span>
                     </div>
                     <div class="calContent">
                         <div class="calContent-head">
@@ -54,6 +54,18 @@
                 type : String,
                 twoWay : true,
                 default : ""
+            },
+            min : { //例如开始时间的日历选择08-20 则结束时间的日历须在08-20以后，08-20之前的时间都不能选
+                type : String,
+                default : ""
+            },
+            max : {
+                type : String,
+                default : ""
+            },
+            disableTodaybefore : {
+                type : Boolean,
+                default : false
             }
         },
         data(){
@@ -66,7 +78,8 @@
                 selected_date : "",
                 errorMsg : "",
                 dates : [],
-                flex_gutter : 0
+                flex_gutter : 0,
+                minMaxDisableCls : ""
             }
         },
         ready(){
@@ -74,28 +87,60 @@
         },
         watch : {
             yearmonth(val,oldVal){
-                if(val.substr(0,7)==oldVal.substr(0,7)) return;
                 var arr = val.split("-");
                 this.selected_year = arr[0];
                 this.selected_month = arr[1];
                 if(arr.length==3) this.selected_date = val;
                 var _yearmonth = this.selected_year + "-" + this.selected_month;
                 this.switchYearmonth(this.pid,_yearmonth);
+            },
+            min(val){
+                var yearmonth = this.yearmonth;
+                var arr = yearmonth.split("-");
+                var _yearmonth = arr[0] + "-" + arr[1];
+                this.switchYearmonth(this.pid,_yearmonth);
+            },
+            max(val){
+                var yearmonth = this.yearmonth;
+                var arr = yearmonth.split("-");
+                var _yearmonth = arr[0] + "-" + arr[1];
+                this.switchYearmonth(this.pid,_yearmonth);
             }
         },
         methods : {
             calBoxCls(dateObj){
-                 return{
+                var min = this.min;
+                var max = this.max;
+                var minMaxDisableCls = "";
+                var date = dateObj.date;
+                var dateStram = +new Date(date);
+                var disableTodayBefore = this.disableTodaybefore;
+                var cls = {
                      empty : !dateObj.day,
                      disable : typeof dateObj.price=="undefined",
+                     disableTodaybefore : (disableTodayBefore && dateObj.today=='before'),
                      prevmonth : (dateObj.month!=='current' && dateObj.month < this.selected_month),
                      nextmonth : (dateObj.month!=='current' && dateObj.month > this.selected_month),
                      currentmonth : dateObj.month=='current',
                      todaybefore : dateObj.today=='before',
                      todayafter : dateObj.today=='after',
                      today : dateObj.today=='today',
-                     selected : dateObj.date==this.selected_date
-                 }
+                     selected : date==this.selected_date
+                };
+                if(min){
+                    min = +new Date(min);
+                    if(dateStram<=min) minMaxDisableCls = "minDisable";
+                }
+                if(max){
+                    max = +new Date(max);
+                    if(dateStram>=max) minMaxDisableCls = "maxDisable";
+                }
+                if(minMaxDisableCls) cls["minMaxDisable"] = true;
+                if(minMaxDisableCls=="minDisable") cls["minDisable"] = true;
+                if(minMaxDisableCls=="maxDisable") cls["maxDisable"] = true;
+
+                return cls;
+
             },
             switchYearmonth(pid,yearmonth){
                 if(!pid || !yearmonth) return console.error("缺省pid或yearmonth");
@@ -129,7 +174,7 @@
                 dates.forEach(function(date,index){
                     date.forEach(function(_date,_index){
                         var price = prices[_date.date];
-                        if(price) _date["price"] = price;
+                        if(price && price!=-1) _date["price"] = price;
                     })
                 })
                 return dates;
@@ -143,7 +188,7 @@
             onCalendarBoxClick(e){
                 var tarBox = $(e.target);
                 tarBox = tarBox.hasClass("calendar-box") ? tarBox : tarBox.parents(".calendar-box");
-                if(tarBox.hasClass("empty") || tarBox.hasClass("disable")) return false;
+                if(tarBox.hasClass("empty") || tarBox.hasClass("disable") || tarBox.hasClass("disableTodaybefore")) return false;
                 var year = this.selected_year;
                 var month = this.selected_month;
                 var day = tarBox.attr("data-day");
@@ -181,7 +226,7 @@
     .calendarContainer .calContent-head{ background:rgb(240,240,240); height:36px; line-height:36px; border-top:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5;}
     .calendarContainer .calContent-head .vux-flexbox{ text-align:center}
     .calendarContainer .calendar-box{ position:relative; text-align:center; height:40px; padding:7px 0 2px; overflow:hidden; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5  }
-    .calendarContainer .calendar-box.empty,.calendarContainer .calendar-box.disable{ background:rgb(252,252,252)}
+    .calendarContainer .calendar-box.empty,.calendarContainer .calendar-box.disable,.calendarContainer .calendar-box.disableTodaybefore{ background:rgb(252,252,252)}
     .calendarContainer .calendar-box.selected{ background:#f37138; color:#fff}
     .calendarContainer .calendar-box.selected .price{ color:#fff}
     .calendarContainer .calendar-box .day{ display:block; font-size:0.35rem; line-height:1.5}

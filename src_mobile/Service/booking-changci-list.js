@@ -70,9 +70,9 @@ module.exports = function(params,opt){
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
 				if(data.length){
-					success(data);
+					opt.success(data);
 				}else{
-					empty(data);
+					opt.empty(data);
 				}
 			}else{
 				opt.fail(msg);

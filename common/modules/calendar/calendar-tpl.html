@@ -49,8 +49,8 @@
                             var now_date_str = date ? new Date(date).getTime() : "";
                             var minCls = "";
                             var maxCls = "";
-                            if(min && now_date_str && now_date_str<=min) minCls="disable";
-                            if(max && now_date_str && now_date_str>=max) maxCls="disable";
+                            if(min && now_date_str && now_date_str<min) minCls="disable";
+                            if(max && now_date_str && now_date_str>max) maxCls="disable";
                         %>
                         <%if(day){%>
                             <td class="calendar-td day <%=minCls%> <%=maxCls%>" data-day="<%=day%>" data-date="<%=date%>" data-yearmonth="<%=yearmonth%>" data-week="<%=weeken%>" id="<%=containerID%>-calendar-td-<%=date%>">

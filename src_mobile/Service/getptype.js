@@ -7,6 +7,40 @@ module.exports = function(opt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
+
+	if(__DEBUG__){
+
+		opt.loading();
+
+		opt.success([
+			{
+				"name": "景区",
+				"identify": "A"
+			},
+			{
+				"name": "酒店",
+				"identify": "C"
+			},
+			{
+				"name": "周边游",
+				"identify": "B"
+			},
+			{
+				"name": "套票",
+				"identify": "F"
+			},
+			{
+				"name": "演出",
+				"identify": "H"
+			}
+		]);
+
+		return false;
+
+	}
+
+
+
 	PFT.Util.Ajax(PFT.Api.getptype(),{
 		type : "post",
 		params : {
@@ -16,10 +50,11 @@ module.exports = function(opt){
 		complete : opt.complete,
 		success : function(res){
 			if(res.code==200){
-				if(res.data.length){
-					opt.success(res);
+				var data = res.data;
+				if(data.length){
+					opt.success(data);
 				}else{
-					opt.empty(res);
+					opt.empty(data);
 				}
 			}else{
 				opt.fail(res.msg || PFT.AJAX_ERROR_TEXT);

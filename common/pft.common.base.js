@@ -6,7 +6,9 @@
 module.exports = function(PFT){
 
 	var Util = PFT["Util"] || (PFT["Util"] = {});
-
+	Util["Class"] = require("./js/util.class");
+	Util["Each"] = require("./js/util.each");
+	Util["ParseTemplate"] = require("./js/util.parseTemplate");
 	Util["PubSub"] = require("./js/util.pubsub");
 	Util["Ajax"] = require("./js/util.ajax");
 	Util["Placeholder"] = require("./js/util.placeholder");
@@ -23,6 +25,7 @@ module.exports = function(PFT){
 	Util["BindScope"] = require("./js/util.bindscope");
 	Util["isEmptyObject"] = require("./js/util.isEmptyObject");
 	Util["ImgLoader"] = require("./js/util.imageLoader");
+	Util["winWidthHeight"] = require("./js/util.window.width.height");
 	var Config = PFT["Config"] || (PFT["Config"] = {});
 	Config["Api"] = require("./js/config.api");
 	Config["Ajax"] = function(){
@@ -37,6 +40,13 @@ module.exports = function(PFT){
 			timeout : fn,
 			serverError : fn
 		}
+	};
+	Config["ptype"] = {
+		A : "景区门票",
+		B : "旅游线路",
+		C : "度假酒店",
+		F : "套票产品",
+		H : "剧场演出"
 	};
 
 	PFT["Api"] = require("./Api/api.base");

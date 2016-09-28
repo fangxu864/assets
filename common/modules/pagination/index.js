@@ -2,15 +2,16 @@
  * Created by Administrator on 2016/7/14.
  */
 /**
- var p=new Pagination({
- "id":"pagination_box",//分页器盒子的容器
- "data_total_num":10000,//数据总数量
- "per_page_num":8,//每页显示的数据条数
- "present_page":200,//当前页数
- "callBack":function (present_page) {
- alert(present_page);
- }
- })
+ * 分页器插件使用说明
+ *var p=new Pagination({
+ *"id":"pagination_box",                             //分页器盒子的容器
+ *"data_total_num":10000,                            //数据总数量
+ *"per_page_num":8,                                  //每页显示的数据条数
+ *"present_page":200,                                //当前页数
+ *"callBack":function (present_page) {               //用户点击按钮时的回调函数，参数为当前分页器的页码；
+ *alert(present_page);
+ *}
+ *})
  */
 var tpl = require("./index.xtpl");
 require("./index.scss");
@@ -36,24 +37,40 @@ Pagination.prototype={
         //初始化盒子内容
         this.pag_box.innerHTML=tpl;
         //分页器
-        this.pag=this.pag_box.getElementsByClassName("pagination")[0];
+        this.pag=getByClass(this.pag_box,'pagination')[0];
         //显示总页数的span
-        this.span_total_num=this.pag.getElementsByClassName("total")[0].getElementsByTagName("span")[0];
+        this.span_total_num=getByClass(this.pag,"total")[0].getElementsByTagName("span")[0];
         this.span_total_num.innerHTML=this.total_page_num;
         //装页码yema的盒子
-        this.yema_box=this.pag.getElementsByClassName("yema")[0].getElementsByTagName("ul")[0];
+        this.yema_box=getByClass(this.pag,"yema")[0].getElementsByTagName("ul")[0];
         //上一页按钮
-        this.prev=this.pag.getElementsByClassName("prev")[0];
+        this.prev=getByClass(this.pag,"prev")[0];
         //下一页按钮
-        this.next=this.pag.getElementsByClassName("next")[0];
+        this.next=getByClass(this.pag,"next")[0];
         //首页按钮
-        this.first=this.pag.getElementsByClassName("first")[0];
+        this.first=getByClass(this.pag,"first")[0];
         //末页按钮
-        this.last=this.pag.getElementsByClassName("last")[0];
+        this.last=getByClass(this.pag,"last")[0];
         //GO按钮
-        this.go_btn=this.pag.getElementsByClassName("go_btn")[0];
+        this.go_btn=getByClass(this.pag,"go_btn")[0];
         //输入框中go_num
-        this.go_num=this.pag.getElementsByClassName("go_num")[0];
+        this.go_num=getByClass(this.pag,"go_num")[0];
+
+        function getByClass(obj,className) {
+            var arr=[];
+            if(obj.getElementsByClassName){
+                return obj.getElementsByClassName(className);
+            }else{
+                var allEle=obj.getElementsByTagName("*");
+                for(var i=0;i<allEle.length;i++){
+                    var cls = allEle[i].getAttribute("class")+"1111";
+                    if(cls.search(className)>-1){
+                        arr.push(allEle[i]);
+                    }
+                }
+            }
+            return arr;
+        }
 
 
     },
@@ -63,25 +80,29 @@ Pagination.prototype={
         this.prev.onclick=function () {
             if(_this.present_page>=2){
                 _this.present_page--;
-                _this.updateYema(_this.present_page)
+                _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.next.onclick=function () {
             if(_this.present_page<_this.total_page_num){
                 _this.present_page++;
-                _this.updateYema(_this.present_page)
+                _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.first.onclick=function () {
             if(_this.present_page!=1){
                 _this.present_page=1;
                 _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.last.onclick=function () {
             if(_this.present_page!=_this.total_page_num){
                 _this.present_page=_this.total_page_num;
                 _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
         this.go_btn.onclick=function () {
@@ -89,7 +110,8 @@ Pagination.prototype={
             if(num!=_this.present_page){
                 if(num>=1&&num<=_this.total_page_num){
                     _this.present_page=num
-                    _this.updateYema(_this.present_page)
+                    _this.updateYema(_this.present_page);
+                    _this.callBack(_this.present_page)
                 }
             }
         }
@@ -101,7 +123,8 @@ Pagination.prototype={
                     if(num!=_this.present_page){
                         if(num>=1&&num<=_this.total_page_num){
                             _this.present_page=num
-                            _this.updateYema(_this.present_page)
+                            _this.updateYema(_this.present_page);
+                            _this.callBack(_this.present_page)
                         }
                     }
                 }
@@ -176,16 +199,17 @@ Pagination.prototype={
         }
 
         var _this=this;
-        _this.go_num.value=null;
+        _this.go_num.value="";
         this.yema_box.innerHTML=content;
         var arr_li=this.yema_box.getElementsByTagName("li");
         for(var j=0;j<arr_li.length;j++){
             arr_li[j].onclick=function () {
                 _this.present_page=parseInt(this.innerHTML);
-                _this.updateYema(_this.present_page)
+                _this.updateYema(_this.present_page);
+                _this.callBack(_this.present_page)
             }
         }
-        this.callBack(_this.present_page)
+        // _this.callBack(_this.present_page)
 
     },
 }

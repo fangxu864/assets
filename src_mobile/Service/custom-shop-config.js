@@ -33,6 +33,38 @@ CustomShopConfig.prototype = PFT.Util.Mixin({
 		var that = this;
 		opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt||{});
 
+		if(__DEBUG__){
+
+			opt.loading();
+			that.fire("loading");
+
+			setTimeout(function(){
+				opt.complete();
+				that.fire("complete");
+				var res = {
+					code : 200,
+					data : {
+						name : "测试店铺名称",
+						banner : [{
+							src:"http://images.12301.cc/123624/14514654753878.jpg",
+							link:"http://123624.12301.cc/wx/mall/pdetail.html?lid=3843"
+						},{
+							src:"http://images.12301.cc/123624/14514654753878.jpg",
+							link:"http://123624.12301.cc/wx/mall/pdetail.html?lid=3843"
+						}]
+					}
+				}
+				that.__shopname__ = res.data.name;
+				that.__banner__ = res.data.banner;
+				opt.success(res);
+				that.fire("success",res);
+			},1000)
+
+			return false;
+
+		}
+
+
 		PFT.Util.Ajax(PFT.Api.custom_shop_config(),{
 			loading : function(){
 				opt.loading();
@@ -65,7 +97,7 @@ CustomShopConfig.prototype = PFT.Util.Mixin({
 					that.fire("success",res);
 				}else{
 					opt.fail(res.msg || PFT.AJAX_ERROR_TEXT);
-					that.fire("fail",msg)
+					that.fire("fail",res.msg || PFT.AJAX_ERROR_TEXT);
 				}
 			}
 		})

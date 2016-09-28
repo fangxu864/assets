@@ -1,7 +1,7 @@
 <template>
     <div class="pdetailPhotoContainer">
         <template v-if="state=='success'">
-            <image-loador :src="src" :height="height" :flex="flex"></image-loador>
+            <image-loador :src="src" :height="height" :fixed="fixed"></image-loador>
             <div class="infoBox" v-if="title && address">
                 <p class="landTitle" v-text="title"></p>
                 <div class="landAddr">
@@ -35,11 +35,11 @@
         data(){
             return{
                 height : 150,
-                flex : true
+                fixed : false  //不固定photoContainer高度，由图片高度而定
             }
         },
         components : {
-            ImageLoador : require("COMMON_VUE_COMPONENTS/image-loador.vue")
+            ImageLoador : require("COMMON_VUE_COMPONENTS/image-loador")
         }
     }
 </script>

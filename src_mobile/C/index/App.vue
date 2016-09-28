@@ -3,13 +3,13 @@
         <div id="indexPageFixHeader">
             <fix-header>
                 <a class="leftBtn" href="javascript:void(0)" @click="citySwitchor.show=true" slot="left">
-                    <i class="iconfont icon-sevenbabicon31"></i>
+                    <i class="uicon uicon-dizhi"></i>
                     <span class="t" v-text="city"></span>
                 </a>
                 <div class="centerBox" slot="center">
                     <a href="javascript:void(0)" class="searchBox"><i class="iconfont icon-search"></i><span class="t">产品名称</span></a>
                 </div>
-                <a class="rightBtn" href="javascript:void(0)" slot="right"><i class="iconfont icon-lianxiren"></i></a>
+                <a class="rightBtn" href="javascript:void(0)" slot="right"><i class="uicon uicon-yonghu"></i></a>
             </fix-header>
         </div>
         <div id="bodyMainCon" class="bodyMainCon">
@@ -58,12 +58,12 @@
             }
         },
         components : {
-            slider : require("COMMON_VUE_COMPONENTS/slider.vue"),
-            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header.vue"),
-            productList : require("./components/product-list.vue"),
-            citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor.vue"),
-            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list.vue"),
-            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue")
+            slider : require("COMMON_VUE_COMPONENTS/slider"),
+            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
+            productList : require("./components/product-list"),
+            citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor"),
+            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list"),
+            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer")
         }
     }
 </script>
@@ -71,6 +71,7 @@
     @import "COMMON/css/base/core/px2rem";
     #indexPageFixHeader .gFixHeader .leftBtn{ width:90px; padding-left:10px; text-align:left; overflow:hidden}
     #indexPageFixHeader .gFixHeader .leftBtn .t{ font-size:0.35rem}
+    #indexPageFixHeader .gFixHeader .rightBtn .uicon{ font-size:22px}
     $height : 65;
     $marginTop : 12.25;
     #indexPageFixHeader .gFixHeader .searchBox{ display:block; width:70%; height:px2rem($height); line-height:px2rem($height); margin:px2rem($marginTop) auto 0; background:#e5f5fc; color:#92a0ab; border-radius:3px}

@@ -12,6 +12,7 @@ var List = Backbone.View.extend({
 		var urlParam = PFT.Util.UrlParse();
 		var pid = this.pid = urlParam["pid"];
 		var physics = this.physics = urlParam["physics"];
+		this.error = "";
 		if(!pid) return alert("缺少pid");
 		this.getList(pid,physics);
 		this.$el.html(this.loading_str);
@@ -56,9 +57,15 @@ var List = Backbone.View.extend({
 				var card_no = d["card_no"] || "无";
 				html += '<li data-sid="'+sid+'" data-virtual="'+virtual_no+'" data-card="'+card_no+'" data-physics="'+physics_no+'" class="border cardItem"><p>虚拟卡号：'+virtual_no+'</p><p>实体卡号：'+card_no+'</p><p>物理ID：'+physics_no+'</p></li>';
 			}
-			if(!html) html += '<li class="status empty" style="height:100px; line-height:100px; text-align:center">无查卡信息</li>';
+			if(!html){
+				html += '<li class="status empty" style="height:100px; line-height:100px; text-align:center">无查卡信息</li>';
+				this.error = "无查卡信息";
+				$("#submitBtn").addClass("disable");
+			}
 		}else{
 			html = '<li class="status fail" style="height:100px; line-height:100px; text-align:center">'+data+'</li>';
+			this.error = data;
+			$("#submitBtn").addClass("disable");
 		}
 		this.$el.html(html);
 	},

@@ -1,0 +1,8 @@
+<div id="fileInpContainer">
+    <p class="tit">上传海报</p>
+    <p class="desc">建议图片大小：400 * 600</p>
+    <label class="fileInpLabel" for="fileInp">
+        <span class="t">上传</span>
+        <input type="file" name="" accept="image/png,image/gif,image/jpeg" id="fileInp"/>
+    </label>
+</div>

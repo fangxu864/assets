@@ -47,7 +47,7 @@ module.exports = function(p_type,params,opt){
 			var list = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
-				success(list);
+				opt.success(list);
 			}else{
 				opt.fail(msg);
 			}

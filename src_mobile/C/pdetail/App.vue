@@ -29,12 +29,6 @@
             </div>
             <page-footer></page-footer>
         </div>
-        <!--<actionsheet-->
-                <!--:menus="actions"-->
-                <!--:show.sync="sheetVisible"-->
-                <!--:cancel-text="cancelText"-->
-                <!--v-on:click="onActionsheetClick">-->
-        <!--</actionsheet>-->
     </div>
 </template>
 
@@ -49,7 +43,7 @@
     export default {
         data(){
             return {
-                lid : "1111",
+                lid : PFT.Util.UrlParse()["lid"] || "",
                 state : "",
                 errorMsg : "",
                 tabActiveClass : "buy",
@@ -159,7 +153,7 @@
             photo : require("COMMON_VUE_COMPONENTS/pdetail-photo"),
             ticketList : require("COMMON_VUE_COMPONENTS/ticket-list"),
             taopiaoList : require("COMMON_VUE_COMPONENTS/taopiao-list"),
-            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer.vue")
+            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer")
         }
     }
 </script>

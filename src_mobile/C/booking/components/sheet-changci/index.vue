@@ -1,9 +1,9 @@
 <template>
     <sheet-core :show.sync="show">
-        <div class="changciLiContainer" slot="content">
+        <div id="changciLiContainer" class="changciLiContainer" slot="content">
             <div class="stateText" v-if="state!='success'" v-text="stateText"></div>
             <ul class="changciList" v-if="state=='success'">
-                <li @click="onItemClick(item)" data-id="{{item.id}}" :class="{'selected':selected_id==item.id}" class="changciItem" v-for="item in list">
+                <li @click="onItemClick(item)" data-venusid="{{item.id}}" data-roundid="{{item.venus_id}}" :class="{'selected':selected_id==item.id}" class="changciItem" v-for="item in list">
                     {{item.round_name+" "+item.bt+"-"+item.et}}
                 </li>
             </ul>
