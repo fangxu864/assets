@@ -392,43 +392,39 @@ var Book_form={
             "resellerAndTicket":"分销商/票类"
         };
         var kindsTitle=titleName[_this.filterParamsBox.count_way];
-        if(list[0]["service_money_out"]!==undefined){    //非景区账号
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
+        if(list[0]["cost_money"]!==undefined){    //非景区账号
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">过期票数</th><th class="th4">收入(元)</th> <th class="th5">支出(元)</th><th class="th6">利润(元)</th>';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
                 '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.costMoney+'</td>'+
-                '<td class="th5">'+sum.cancelMoney+'</td>'+
-                '<td class="th6">'+sum.serviceMoneyIn+'</td>'+
-                '<td class="th7">'+sum.serviceMoneyOut+'</td>'+
+                '<td class="th4">'+sum.saleMoney+'</td>'+
+                '<td class="th5">'+sum.costMoney+'</td>'+
+                '<td class="th6">'+sum.profitMoney+'</td>'+
                 '</tr>';
             for(var i=0;i<list.length;i++){
                 listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
                     '<td class="th2">'+list[i].order_num+'</td>'+
                     '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].cost_money+'</td>'+
-                    '<td class="th5">'+list[i].cancel_money+'</td>'+
-                    '<td class="th6">'+list[i].service_money_in+'</td>'+
-                    '<td class="th7">'+list[i].service_money_out+'</td>'+
+                    '<td class="th4">'+list[i].sale_money+'</td>'+
+                    '<td class="th5">'+list[i].cost_money+'</td>'+
+                    '<td class="th6">'+list[i].profit_money+'</td>'+
                     '</tr>'
             }
             $(".tablecon_box .con_tb tbody").html(listHtml);
         }else{
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th> <th class="th4">退票收入(元)</th><th class="th5">退票手续费收入(元)</th> ';
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">过期票数</th> <th class="th4">收入(元)</th> ';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
                 '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.costMoney+'</td>'+
-                '<td class="th5">'+sum.serviceMoneyIn+'</td>'+
+                '<td class="th4">'+sum.saleMoney+'</td>'+
                 '</tr>';
             for(var i=0;i<list.length;i++){
                 listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
                     '<td class="th2">'+list[i].order_num+'</td>'+
                     '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].cost_money+'</td>'+
-                    '<td class="th5">'+list[i].service_money_in+'</td>'+
+                    '<td class="th4">'+list[i].sale_money+'</td>'+
                     '</tr>'
             }
             $(".tablecon_box .con_tb tbody").html(listHtml);
