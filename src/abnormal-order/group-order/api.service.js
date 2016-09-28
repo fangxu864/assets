@@ -81,6 +81,9 @@ exports.Query = {
 						for(var i=0; i<len; i++){
 							var bcode = list[i]["bCode"];
 							list[i]["ticketName"] = ticketName[bcode];
+							if(list[i]["handleStatus"]==0){
+								list[i]["handleStatus"] = list[i]["oStatus"];
+							}
 							list[i]["handleStatus_ext"] = Status[list[i]["handleStatus"]] || {};
 						}
 						opt.success && opt.success.call(cxt,res.data);

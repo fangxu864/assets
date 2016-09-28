@@ -146,16 +146,16 @@ var Filter = RichBase.extend({
 			var max = endtime ? endtime.substr(0,10) : "";
 			datepicker.open(date,{
 				picker : tarInp,
-				todayAfterDisable : true,
-				max : max,
+				todayAfterDisable : false,
+				// max : max,
 				onAfter : function(val,oldVal){
 					var beginDate = val.substr(0,10);
 					var endDate = endtime.substr(0,10);
 					var queryLimit = $("#queryLimitHidInp").val();
 					var queryLimitTip = $("#queryLimitTipHidInp").val();
+					var begin_str = +new Date(beginDate);
+					var end_str = +new Date(endDate);
 					if(endDate && beginDate && queryLimit==1){
-						var begin_str = +new Date(beginDate);
-						var end_str = +new Date(endDate);
 						if(end_str-begin_str >= (30*24*60*60*1000)){
 							alert(queryLimitTip || "最多只能查询30天以内数据");
 							tarInp.val(oldVal);
@@ -174,8 +174,8 @@ var Filter = RichBase.extend({
 			var min = beingTime ? beingTime.substr(0,10) : "";
 			datepicker.open(date,{
 				picker : tarInp,
-				todayAfterDisable : true,
-				min : min,
+				todayAfterDisable : false,
+				// min : min,
 				onAfter : function(val,oldVal){
 					var endDate = val.substr(0,10);
 					var queryLimit = $("#queryLimitHidInp").val();

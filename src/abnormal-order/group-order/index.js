@@ -4,9 +4,10 @@
  * Description: ""
  */
 require("./index.scss");
-var Datepicker = require("COMMON/modules/calendar");
+var Datepicker = require("COMMON/modules/datepicker");
 var Query = require("./query");
 var Terminal = require("./terminal");
+var Tuipiao = require("./tuipiao");
 var Main = PFT.Util.Class({
 	container : "#rtContainer",
 	EVENTS : {
@@ -14,8 +15,9 @@ var Main = PFT.Util.Class({
 	},
 	init : function(){
 		var datepicker = new Datepicker;
-		this.query = new Query({datepicker:datepicker,Datepicker:Datepicker,Calendar:Datepicker});
+		this.query = new Query({datepicker:datepicker,Datepicker:Datepicker});
 		this.terminal = new Terminal({datepicker:datepicker,Datepicker:Datepicker,Calendar:Datepicker});
+		this.tuipiao = new Tuipiao();
 		this.container.find("#tabHead .tabItem").first().trigger("click");
 	},
 	onTabItemClick : function(e){
@@ -26,7 +28,7 @@ var Main = PFT.Util.Class({
 
 		pannel=="query" ? this.query.enable() : this.query.disable();
 		pannel=="terminal" ? this.terminal.enable() : this.terminal.disable();
-
+		pannel=="tuipiao" ? this.tuipiao.enable() : this.tuipiao.disable();
 	}
 });
 

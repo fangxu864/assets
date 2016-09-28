@@ -5,19 +5,18 @@
  */
 require("./index.scss");
 var Tpl = require("./order.item.html");
-var AdaptOrder = require("./adaptOrder");
+var AdaptOrder = require("../terminal/adaptOrder");
 var Api = require("COMMON/busi/terminal/core/api");
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
 	height : 300
 });
-var Terminal = PFT.Util.Class({
-	container : "#tabPanel-terminal",
+var TuiPiao = PFT.Util.Class({
+	container : "#tabPanel-tuipiao",
 	EVENTS : {
 		"click #terminal-searchBtn" : "onSearchBtnClick",
-		"click #terminal-order-listUl .checkBtn " : "onCheckBtnClick",
-		"keyup .query-orderInp" : "onQueryOrderInpKeyup",
-		"click .termTimeInp" : "onTermTimeInpClick"
+		"click #terminal-order-listUl .checkBtn " : "onTuiBtnClick",
+		"keyup .query-orderInp" : "onQueryOrderInpKeyup"
 	},
 	init : function(opt){
 		this.groupBussSelect = $("#groupBussSelect");
@@ -67,34 +66,13 @@ var Terminal = PFT.Util.Class({
 
 	},
 	template : PFT.Util.ParseTemplate(Tpl),
-	onTermTimeInpClick : function(e){
-		var tarInp = $(e.currentTarget);
-		var min = tarInp.attr("data-terminaltime");
-		var max = tarInp.attr("data-nowtime");
-		this.datepicker.show(tarInp.val(),{
-			picker : tarInp,
-			todayAfterDisable : true,
-			min : min,
-			top : 4,
-			left : -6,
-			onAfter : function(val,oldVal){
-				var now = +new Date(val);
-				var max = +new Date(max);
-				var min = +new Date(min);
-				if(now<min || now>max){
-					alert("验证时间必晚于下单时间且早于当前时间");
-					tarInp.val(oldVal);
-				}
-			}
-		})
-	},
-	//点击验证按钮
-	onCheckBtnClick : function(e){
+	//点击退票按钮
+	onTuiBtnClick : function(e){
 		var that = this;
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
 
-		that.terminal(tarBtn);
+		that.tuipiao(tarBtn);
 
 	},
 	onQueryOrderInpKeyup : function(e){
@@ -180,8 +158,8 @@ var Terminal = PFT.Util.Class({
 			}
 		})
 	},
-	//验证
-	terminal : function(tarBtn){
+	//退票
+	tuipiao : function(tarBtn){
 		var parent = tarBtn.parents(".inCon");
 		var ordernum = tarBtn.attr("data-mainordernum");
 		var salerid = tarBtn.attr("data-salerid");
@@ -268,4 +246,4 @@ var Terminal = PFT.Util.Class({
 		this.container.show();
 	}
 });
-module.exports = Terminal;
+module.exports = TuiPiao;

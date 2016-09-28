@@ -70,23 +70,14 @@
                                     <% var dcls = ticket.status!=3 ? "inline" : "none"; %>
                                     <span style="display:none">已使用<em class="tnum has_terminal_tnum"><%=has_terminal%></em>张</span>
                                     <i class="vt"></i>
-                                    待验证<em class="tnum un_terminal_tnum"><%=ticket.tnum%></em>张
+                                    可退<em class="tnum un_terminal_tnum"><%=ticket.tnum%></em>张
                                 </p>
                             </div>
                         </li>
                     <% }) %>
                 </ul>
-                <div style="display:none" class="checkMethodBox">
-                    <!-- 如果支持分批验证，则默认选中保留余票 -->
-                    <!-- 如果不支持分批验证，则默认选中取消余票 -->
-                    <input type="radio" <%=item.batch_check ? "" : "checked"%> name="check_method" value="0" id="check_method_<%=item.ordernum%>_0"/><label style="margin-right:15px" for="check_method_<%=item.ordernum%>_0">取消余票</label>
-                    <input type="radio" <%=item.batch_check ? "checked" : ""%> name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
-                </div>
                 <div class="doActionBox">
-                    <a class="checkBtn <%=item.can_check ? '' : 'disable'%>" data-salerid="<%=item.salerid%>" data-ptype="<%=item.ptype%>" href="javascript:void(0)" data-mainordernum="<%=tickets[0].ordernum%>">验 证</a>
-                    <% if(item.endtime){ %>
-                        <span class="termTimeWrap"><input data-nowtime="<%=item.endtime%>" data-terminaltime="<%=item.ordertime%>" readonly class="termTimeInp" type="text" value="<%=item.endtime%>"/><i class="iconfont">&#xe65b;</i></span>
-                    <% } %>
+                    <a class="checkBtn <%=item.can_check ? '' : 'disable'%>" data-salerid="<%=item.salerid%>" data-ptype="<%=item.ptype%>" href="javascript:void(0)" data-mainordernum="<%=tickets[0].ordernum%>">退 票</a>
                     <span class="errorTip"></span>
                 </div>
                 <% if(item.pmode==4){ %>

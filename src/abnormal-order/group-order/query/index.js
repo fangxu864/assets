@@ -37,7 +37,7 @@ var Query = PFT.Util.Class({
 		this.offsetTop = $("#rtWrap").offset().top;
 
 		this.datepicker = opt.datepicker;
-		this.Calendar = opt.Calendar;
+		this.Datepicker = opt.Datepicker;
 
 		this.datepicker.on("select",function(data){});
 
@@ -53,13 +53,13 @@ var Query = PFT.Util.Class({
 			jump : true
 		})
 		that.pagination.on("page.switch",function(toPage,current,total){
-			that.query(1);
+			that.query(toPage);
 		})
 		//that.searchBtn.trigger("click");
 	},
 	//页面初始化时，日期默认显示近7天
 	getDefaultDate : function(){
-		var core = this.Calendar.Core;
+		var core = this.Datepicker.Core;
 		var today = core.gettoday();
 		var day_7_ago = core.prevDays(today,7)[6]; //7天前是哪一天
 		return{
