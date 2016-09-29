@@ -107,6 +107,7 @@ var Terminal = PFT.Util.Class({
 		if(tarBtn.hasClass("disable")) return false;
 		var orderid = $.trim(this.terminalOrderInp.val());
 		var companyid = this.groupBussSelect.val();
+		if(!orderid) return alert("请输入票付通订单号");
 		//var data = {
 		//	"status": "success",
 		//	"orders": {

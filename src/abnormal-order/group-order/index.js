@@ -16,8 +16,8 @@ var Main = PFT.Util.Class({
 	init : function(){
 		var datepicker = new Datepicker;
 		this.query = new Query({datepicker:datepicker,Datepicker:Datepicker});
-		this.terminal = new Terminal({datepicker:datepicker,Datepicker:Datepicker,Calendar:Datepicker});
-		this.tuipiao = new Tuipiao();
+		this.terminal = new Terminal({datepicker:datepicker,Datepicker:Datepicker});
+		this.tuipiao = new Tuipiao({datepicker:datepicker,Datepicker:Datepicker});
 		this.container.find("#tabHead .tabItem").first().trigger("click");
 	},
 	onTabItemClick : function(e){

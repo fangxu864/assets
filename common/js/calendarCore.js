@@ -196,9 +196,11 @@ var CalendarCore={
 		date = date ? (+new Date(date)) : (+new Date());
 		var yestoday = date-(24*60*60*1000);
 		yestoday = new Date(yestoday);
+		var month = yestoday.getMonth()+1;
+		if(month<10) month = "0" + String(month);
 		return[
 			yestoday.getFullYear(),
-			yestoday.getMonth()+1,
+			month,
 			yestoday.getDate()
 		].join("-")
 	},

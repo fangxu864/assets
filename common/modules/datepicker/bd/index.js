@@ -28,6 +28,7 @@ var Bd = PFT.Util.Class({
 	render :function(date,opt){
 		opt = opt || {};
 		var yearmonth = date.substr(0,7);
+		var current_day = date.substr(8,10);
 		var dateList = this.CalendarCore.outputDate(yearmonth);
 		var min = opt.min ? +new Date(opt.min) : "";
 		var max = opt.max ? +new Date(opt.max) : "";
@@ -50,7 +51,13 @@ var Bd = PFT.Util.Class({
 		}
 		opt["min"] = min;
 		opt["max"] = max;
-		opt["default_day"] = opt.default_day ? (+new Date(opt.default_day)) : "";
+		//opt["default_day"] = opt.default_day ? (+new Date(opt.default_day)) : "";
+		opt["default_day"] = this.container.find(".dateBodyContainer .calendar-td").filter(function(){
+			return $(this).hasClass("active");
+		}).attr("data-day");
+		if(!opt["default_day"] && current_day){
+			opt["default_day"] = current_day;
+		}
 		var html = this.template({data:{
 			dates : dateList,
 			option : opt

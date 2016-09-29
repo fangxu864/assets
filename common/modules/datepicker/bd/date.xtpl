@@ -11,12 +11,20 @@
             var min = option.min;
             var max = option.max;
             var default_day = option.default_day;
+            var init_date = option.init_date;
             var minCls = "";
             var maxCls = "";
             var default_active_cls = "";
             if(min && now_date_str && (now_date_str<min)) minCls="disable";
             if(max && now_date_str && (now_date_str>max)) maxCls="disable";
-            if(default_day && now_date_str && default_day==now_date_str) default_active_cls = "active";
+            <!--if(default_day && now_date_str && default_day==now_date_str) default_active_cls = "active";-->
+            if(default_day && day){
+                if(default_day==day){
+                    default_active_cls = "active";
+                }else{
+
+                }
+            }
         %>
         <%if(day){%>
             <li class="calendar-td box day <%=minCls%> <%=maxCls%> <%=default_active_cls%>" data-day="<%=day%>" data-date="<%=date%>" data-yearmonth="<%=yearmonth%>" data-week="<%=weeken%>" id="calendar-td-<%=date%>">

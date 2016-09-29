@@ -4,10 +4,9 @@
  * Description: ""
  */
 var __Controll = PFT.Config.Api.get("Order_OrderQuery");
-var __list_api = __Controll("third_order");
-var __action_api = __Controll("force_chk");
+var __list_api = __Controll("group_order");
+var Status = require("./status");
 var fn = new Function;
-
 //查询订单模块
 exports.Query = {
 	query : function(params,opt,cxt){
@@ -77,13 +76,17 @@ exports.Query = {
 					var list = res.data.data;
 					var len = list.length;
 					var ticketName = res.data.ticketName;
+					var shopType = res.data.shopType;
 					if(list && len){
 						for(var i=0; i<len; i++){
 							var bcode = list[i]["bCode"];
+							var coopB = list[i]["coopB"];
+							var _shopType = shopType[coopB] || "--";
 							list[i]["ticketName"] = ticketName[bcode];
 							if(list[i]["handleStatus"]==0){
 								list[i]["handleStatus"] = list[i]["oStatus"];
 							}
+							list[i]["shopType"] = _shopType;
 							list[i]["handleStatus_ext"] = Status[list[i]["handleStatus"]] || {};
 						}
 						opt.success && opt.success.call(cxt,res.data);
@@ -99,44 +102,10 @@ exports.Query = {
 
 
 
-	},
-
-	/**
-	 * 强制退票、强制核销接口
-	 * @param params
-	 * @param opt
-	 */
-	doAction : function(params,opt,cxt){
-		cxt = cxt = this;
-		params = params || {};
-		opt = opt || {};
-		PFT.Util.Ajax(__action_api,{
-			type : "post",
-			params : params,
-			loading : function(){
-				opt.loading && opt.loading.call(cxt);
-			},
-			complete : function(){
-				opt.complete && opt.complete.call(cxt);
-			},
-			success : function(res){
-				res = res || {};
-				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-				if(res.code==200){
-					opt.success && opt.success.call(cxt,res.data);
-				}else{
-					alert(msg);
-				}
-			}
-		})
-
-
 	}
+
+
 
 };
 
-//验证模块
-exports.Terminal = {};
 
-//退票模块
-exports.Tuipiao = {};

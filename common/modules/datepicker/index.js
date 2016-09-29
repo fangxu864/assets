@@ -87,6 +87,7 @@ var Datepicker = PFT.Util.Class({
 			this.close();
 			var tarTd = this.bd.getActiveTd();
 			var time = this.timepicker.getTime();
+			if(!tarTd.length) return;
 			this.trigger("switch",this.getActiveParams({tarTd:tarTd,time:time}));
 		},this);
 		ft.on("cannel",function(){
@@ -197,6 +198,8 @@ var Datepicker = PFT.Util.Class({
 		date = $.trim(date);
 		opt = opt || {};
 		opt["default_day"] = date.substr(8,2) ? date.substr(0,10) : "";
+		opt["default_date"] = date;
+		opt["init_date"] = date;
 		var before = opt.onBefore || function(){};
 		var after = opt.onAfter || function(){};
 		var picker = opt.picker;

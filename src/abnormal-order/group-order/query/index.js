@@ -5,7 +5,7 @@
  */
 require("./index.scss");
 
-var Service = require("../api.service").Query;
+var Service = require("./api.service").Query;
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
 	tag : "tr",
@@ -59,7 +59,7 @@ var Query = PFT.Util.Class({
 	},
 	//页面初始化时，日期默认显示近7天
 	getDefaultDate : function(){
-		var core = this.Datepicker.Core;
+		var core = this.Datepicker.CalendarCore;
 		var today = core.gettoday();
 		var day_7_ago = core.prevDays(today,7)[6]; //7天前是哪一天
 		return{
@@ -69,9 +69,10 @@ var Query = PFT.Util.Class({
 	},
 	getParmas : function(){
 		return{
-			beginTime : this.beginTimeInp.val(),
-			endTime : this.endTimeInp.val(),
-			ordernum : $.trim(this.orderInp.val())
+			bDate : this.beginTimeInp.val(),
+			eDate : this.endTimeInp.val(),
+			orderid : $.trim(this.orderInp.val()),
+			pageSize : 15
 		};
 	},
 	onShowTitleMouseenter : function(e){
@@ -127,8 +128,9 @@ var Query = PFT.Util.Class({
 		toPage = toPage || 1;
 		var params = this.getParmas();
 		params["currentPage"] = toPage;
+
 		Service.query(params,{
-			debug : true,
+			debug : false,
 			loading : function(){
 				this.searchBtn.addClass("disable");
 				this.pagination.render(null);
