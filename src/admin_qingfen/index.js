@@ -17,7 +17,11 @@ var admin_qingfen={
 
         this.ajaxGetData({
             "api":"/r/Finance_SettleBlance/getRecords/",
-            "params"
+            "params":{
+                "page":"1",
+                "size":"20",
+                "fid":"2"
+            }
             
         })
     },
