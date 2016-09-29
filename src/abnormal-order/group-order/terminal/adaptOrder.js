@@ -58,15 +58,18 @@ var AdaptOrder = {
 		var result = false;
 		var tickets = order.tickets || [];
 		var paystatus = order.paystatus;
-		var pay = order.pay; //票的支付状态
-		for(var i in tickets){
-			var ticket = tickets[i];
-			var status = ticket.status;
-			var tnum = ticket.tnum;
-			if((status==0 || status==7 ) && (pay==0 || (pay==1 && paystatus==2)) && (tnum>0)){ // 只有 未使用 | 部分使用  的订单可以验证
-				result = true;
-				break;
-			}
+		// var pay = order.pay; //票的支付状态
+		// for(var i in tickets){
+		// 	var ticket = tickets[i];
+		// 	var status = ticket.status;
+		// 	var tnum = ticket.tnum;
+		// 	if((status==0 || status==7 ) && (pay==0 || (pay==1 && paystatus==2)) && (tnum>0)){ // 只有 未使用 | 部分使用  的订单可以验证
+		// 		result = true;
+		// 		break;
+		// 	}
+		// }
+		if(paystatus==0||paystatus==1){
+			result=true;
 		}
 		return result;
 	},

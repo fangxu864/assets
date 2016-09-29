@@ -20,7 +20,7 @@ var Terminal = PFT.Util.Class({
 		"click .termTimeInp" : "onTermTimeInpClick"
 	},
 	init : function(opt){
-		this.groupBussSelect = $("#groupBussSelect");
+		this.groupBussSelect = $("#groupBussSelect_yanzheng");
 		this.terminalOrderInp = $("#terminal-orderInp");
 		this.listUl = $("#terminal-order-listUl");
 		this.searchBtn = $("#terminal-searchBtn");
@@ -90,10 +90,15 @@ var Terminal = PFT.Util.Class({
 	},
 	//点击验证按钮
 	onCheckBtnClick : function(e){
+
+
+
+
 		var that = this;
 		var tarBtn = $(e.currentTarget);
+		// console.log(tarBtn.parentsUntil("li.orderItem").children(".itemCon .ltCon .line:first-child .rt").html());
+		that.yanParams["Ordern"]=tarBtn.parents("li.orderItem").attr("data-ordernum");
 		if(tarBtn.hasClass("disable")) return false;
-
 		that.terminal(tarBtn);
 
 	},
@@ -106,49 +111,51 @@ var Terminal = PFT.Util.Class({
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
 		var orderid = $.trim(this.terminalOrderInp.val());
+		console.log(this.groupBussSelect);
 		var companyid = this.groupBussSelect.val();
+		this.yanParams["mode"]=this.companyId_mode[companyid];
 		if(!orderid) return alert("请输入票付通订单号");
-		//var data = {
-		//	"status": "success",
-		//	"orders": {
-		//		"6864532": {
-		//			"ordernum": "6864532",
-		//			"code": "571296",
-		//			"mcode": "571296",
-		//			"ptype": "A",
-		//			"pmode": "3",
-		//			"status": "0",
-		//			"landid": "26985",
-		//			"series": "0",
-		//			"endtime": "2016-10-27",
-		//			"ordertel": "15060406416",
-		//			"ordername": "222222",
-		//			"ordertime": "2016-09-27 15:35:41",
-		//			"begintime": "2016-09-27",
-		//			"paystatus": "1",
-		//			"checktime": "0000-00-00 00:00:00",
-		//			"ifprint": "0",
-		//			"tickets": [
-		//				{
-		//					"tid": 58827,
-		//					"tnum": 1,
-		//					"tnum_s": 1,
-		//					"name": "001测试票",
-		//					"tprice": "1",
-		//					"ordernum": "6864532",
-		//					"status": "0",
-		//					"batch_check": "0",
-		//					"refund_audit": "0"
-		//				}
-		//			]
-		//		}
-		//	}
-		//};
-		//
-		//return this.renderList(data.orders);
+		// var data = {
+		// 	"status": "success",
+		// 	"orders": {
+		// 		"6864532": {
+		// 			"ordernum": "6864532",
+		// 			"code": "571296",
+		// 			"mcode": "571296",
+		// 			"ptype": "A",
+		// 			"pmode": "3",
+		// 			"status": "0",
+		// 			"landid": "26985",
+		// 			"series": "0",
+		// 			"endtime": "2016-10-27",
+		// 			"ordertel": "15060406416",
+		// 			"ordername": "222222",
+		// 			"ordertime": "2016-09-27 15:35:41",
+		// 			"begintime": "2016-09-27",
+		// 			"paystatus": "1",
+		// 			"checktime": "0000-00-00 00:00:00",
+		// 			"ifprint": "0",
+		// 			"tickets": [
+		// 				{
+		// 					"tid": 58827,
+		// 					"tnum": 1,
+		// 					"tnum_s": 1,
+		// 					"name": "001测试票",
+		// 					"tprice": "1",
+		// 					"ordernum": "6864532",
+		// 					"status": "0",
+		// 					"batch_check": "0",
+		// 					"refund_audit": "0"
+		// 				}
+		// 			]
+		// 		}
+		// 	}
+		// };
+        //
+		// return this.renderList(data.orders);
+
 
 		this.queryOrder(orderid,companyid);
-
 	},
 	//查询订单
 	queryOrder : function(orderid,companyid){
@@ -163,13 +170,17 @@ var Terminal = PFT.Util.Class({
 			loading : function(){ listUl.html(Loading_Text);},
 			complete : function(){ listUl.html("");},
 			success : function(res){
+				var status=res.status;
 				res = res || {};
-				var code = res.code;
-				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				// var code = res.code;
+				// var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 				if(status=="success"){
 					var orders = res.orders;
 					if(orders && !that.isObjectEmpty(orders)){
 						that.renderList(orders);
+						for(var i in orders){
+							that.yanParams["sid"]=orders[i]["sid"]
+						}
 					}else{
 						that.render("empty");
 					}
@@ -183,6 +194,14 @@ var Terminal = PFT.Util.Class({
 	},
 	//验证
 	terminal : function(tarBtn){
+		var that=this;
+		var companyId_mode={       //下拉选择框中companyId和mode对应的json
+			"2175": "0",
+			"1853":"21",
+		    "2706" :"22",
+			"28227":"23"
+		};
+
 		var parent = tarBtn.parents(".inCon");
 		var ordernum = tarBtn.attr("data-mainordernum");
 		var salerid = tarBtn.attr("data-salerid");
@@ -203,6 +222,7 @@ var Terminal = PFT.Util.Class({
 		})();
 		var rtime = parent.find(".termTimeInp").val() || "";
 		var errorTip = parent.find(".errorTip");
+		console.log(that.yanParams)
 		if(list==0) return ticketLi.length==1 ? alert("验证票数不能为0") : alert("验证票数不能全为0");
 		var params = {
 			check_method : check_method,
@@ -211,28 +231,54 @@ var Terminal = PFT.Util.Class({
 			list : list,
 			rtime : rtime
 		};
-		Api.terminal(params,{
-			loading : function(){
-				errorTip.hide();
-				tarBtn.addClass("disable").text("正在验证...");
+
+		$.ajax({
+			url: "/module/api/Group_consumption.php",    //请求的url地址
+			dataType: "json",                        //返回格式为json
+			async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
+			data: that.yanParams,
+			type: "post",                               //请求方式
+			beforeSend: function() {
+						errorTip.hide();
+						tarBtn.addClass("disable").text("正在验证...");
 			},
-			removeLoading : function(){
-				tarBtn.removeClass("disable").text("验 证");
+			success: function(res) {
+						PFT.Util.STip("success",'<p style="width:200px">验证成功</p>');
+						var orderid = that.terminalOrderInp.val();
+						var companyid = that.groupBussSelect.val();
+						that.queryOrder(orderid,companyid);
 			},
-			success : function(res){
-				PFT.Util.STip("success",'<p style="width:200px">验证成功</p>');
-				var orderid = that.terminalOrderInp.val();
-				var companyid = that.groupBussSelect.val();
-				that.queryOrder(orderid,companyid);
+			complete: function() {
+				//请求完成的处理
 			},
-			unlogin : function(res){
-				errorTip.show().html('登录状态已过期，请重新<a style="margin:0 2px;" href="dlogin_n.html">登录</a>');
-			},
-			fail : function(res){
-				tarBtn.text("重新验证");
-				errorTip.show().html(res.msg);
+			error: function(res) {
+						tarBtn.text("重新验证");
+						errorTip.show().html(res.responseText);
+				console.log(res.responseText)
 			}
-		})
+		});
+		// Api.terminal(params,{
+		// 	loading : function(){
+		// 		errorTip.hide();
+		// 		tarBtn.addClass("disable").text("正在验证...");
+		// 	},
+		// 	removeLoading : function(){
+		// 		tarBtn.removeClass("disable").text("验 证");
+		// 	},
+		// 	success : function(res){
+		// 		PFT.Util.STip("success",'<p style="width:200px">验证成功</p>');
+		// 		var orderid = that.terminalOrderInp.val();
+		// 		var companyid = that.groupBussSelect.val();
+		// 		that.queryOrder(orderid,companyid);
+		// 	},
+		// 	unlogin : function(res){
+		// 		errorTip.show().html('登录状态已过期，请重新<a style="margin:0 2px;" href="dlogin_n.html">登录</a>');
+		// 	},
+		// 	fail : function(res){
+		// 		tarBtn.text("重新验证");
+		// 		errorTip.show().html(res.msg);
+		// 	}
+		// })
 	},
 	renderList : function(data){
 		var now = this.Datepicker.CalendarCore.getNowDateTime();
@@ -267,6 +313,20 @@ var Terminal = PFT.Util.Class({
 	},
 	enable : function(){
 		this.container.show();
-	}
+	},
+	isObjectEmpty:function (obj) {
+		var isEmpty=true;
+		for (var i in obj){
+			isEmpty=false;
+		}
+		return isEmpty
+	},
+	companyId_mode:{       //下拉选择框中companyId和mode对应的json
+	"2175": "0",
+	"1853":"21",
+	"2706" :"22",
+	"28227":"23"
+    },
+	yanParams:{}
 });
 module.exports = Terminal;
