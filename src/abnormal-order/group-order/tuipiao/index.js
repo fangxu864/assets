@@ -154,7 +154,7 @@ var TuiPiao = PFT.Util.Class({
 					}
 				}else if(status=="fail"){
 
-					
+
 					console.log("res.msg")
 					that.render("fail",res.msg);
 				}
