@@ -85,6 +85,7 @@ var TuiPiao = PFT.Util.Class({
 		if(tarBtn.hasClass("disable")) return false;
 		var orderid = $.trim(this.terminalOrderInp.val());
 		var companyid = this.groupBussSelect.val();
+		if(!orderid) return alert("请输入票付通订单号");
 		//var data = {
 		//	"status": "success",
 		//	"orders": {
@@ -151,11 +152,17 @@ var TuiPiao = PFT.Util.Class({
 					}else{
 						that.render("empty");
 					}
-				}else if(status=="fail" && code==0){
-					that.render("unlogin");
 				}else if(status=="fail"){
-					that.render("fail",msg);
+
+					
+					console.log("res.msg")
+					that.render("fail",res.msg);
 				}
+				// else if(status=="fail" && code==0){
+				// 	that.render("unlogin");
+				// }else if(status=="fail"){
+				// 	that.render("fail",msg);
+				// }
 			}
 		})
 	},
