@@ -14,7 +14,7 @@ exports.Query = {
 
 		cxt = cxt || this;
 
-		var _params = {};
+		var _params = params||{};
 
 		for(var i in params){
 			if(i=="beginTime"){
@@ -74,7 +74,7 @@ exports.Query = {
 					res.data["page"] = params.currentPage;
 					res.data["totalPage"] = Math.ceil(count/params.pageSize);
 					var list = res.data.data;
-					var len = list.length;
+					var len = list?list.length:0;
 					var ticketName = res.data.ticketName;
 					var shopType = res.data.shopType;
 					if(list && len){

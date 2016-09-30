@@ -5,7 +5,7 @@
  */
 require("./index.scss");
 var Tpl = require("./order.item.html");
-var AdaptOrder = require("../terminal/adaptOrder");
+var AdaptOrder = require("./adaptOrder");
 var Api = require("COMMON/busi/terminal/core/api");
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
@@ -14,55 +14,55 @@ var Loading_Text = Loading("努力加载中...",{
 var TuiPiao = PFT.Util.Class({
 	container : "#tabPanel-tuipiao",
 	EVENTS : {
-		"click #terminal-searchBtn" : "onSearchBtnClick",
-		"click #terminal-order-listUl .checkBtn " : "onTuiBtnClick",
+		"click #tuipiao-searchBtn" : "onSearchBtnClick",
+		"click #tuipiao-order-listUl .checkBtn " : "onTuiBtnClick",
 		"keyup .query-orderInp" : "onQueryOrderInpKeyup"
 	},
 	init : function(opt){
 		this.groupBussSelect = $("#groupBussSelect");
-		this.terminalOrderInp = $("#terminal-orderInp");
-		this.listUl = $("#terminal-order-listUl");
-		this.searchBtn = $("#terminal-searchBtn");
+		this.terminalOrderInp = $("#tuipiao-orderInp");
+		this.listUl = $("#tuipiao-order-listUl");
+		this.searchBtn = $("#tuipiao-searchBtn");
 		this.datepicker = opt.datepicker;
 		this.Datepicker = opt.Datepicker;
 
-		var data = {
-			"status": "success",
-			"orders": {
-				"6864532": {
-					"ordernum": "6864532",
-					"code": "571296",
-					"mcode": "571296",
-					"ptype": "A",
-					"pmode": "3",
-					"status": "0",
-					"landid": "26985",
-					"series": "0",
-					"endtime": "2016-10-27",
-					"ordertel": "15060406416",
-					"ordername": "222222",
-					"ordertime": "2016-09-27 15:35:41",
-					"begintime": "2016-09-27",
-					"paystatus": "1",
-					"checktime": "0000-00-00 00:00:00",
-					"ifprint": "0",
-					"tickets": [
-						{
-							"tid": 58827,
-							"tnum": 1,
-							"tnum_s": 1,
-							"name": "001测试票",
-							"tprice": "1",
-							"ordernum": "6864532",
-							"status": "0",
-							"batch_check": "0",
-							"refund_audit": "0"
-						}
-					]
-				}
-			}
-		};
-		//this.renderList(data.orders);
+		// var data = {
+		// 	"status": "success",
+		// 	"orders": {
+		// 		"6864532": {
+		// 			"ordernum": "6864532",
+		// 			"code": "571296",
+		// 			"mcode": "571296",
+		// 			"ptype": "A",
+		// 			"pmode": "3",
+		// 			"status": "0",
+		// 			"landid": "26985",
+		// 			"series": "0",
+		// 			"endtime": "2016-10-27",
+		// 			"ordertel": "15060406416",
+		// 			"ordername": "222222",
+		// 			"ordertime": "2016-09-27 15:35:41",
+		// 			"begintime": "2016-09-27",
+		// 			"paystatus": "1",
+		// 			"checktime": "0000-00-00 00:00:00",
+		// 			"ifprint": "0",
+		// 			"tickets": [
+		// 				{
+		// 					"tid": 58827,
+		// 					"tnum": 1,
+		// 					"tnum_s": 1,
+		// 					"name": "001测试票",
+		// 					"tprice": "1",
+		// 					"ordernum": "6864532",
+		// 					"status": "0",
+		// 					"batch_check": "0",
+		// 					"refund_audit": "0"
+		// 				}
+		// 			]
+		// 		}
+		// 	}
+		// };
+		// this.renderList(data.orders);
 
 	},
 	template : PFT.Util.ParseTemplate(Tpl),
@@ -123,12 +123,12 @@ var TuiPiao = PFT.Util.Class({
 		//};
 		//
 		//return this.renderList(data.orders);
-
 		this.queryOrder(orderid,companyid);
 
 	},
 	//查询订单
 	queryOrder : function(orderid,companyid){
+
 		var that = this;
 		var listUl = this.listUl;
 		PFT.Util.Ajax("/call/terminal.php",{
@@ -141,8 +141,9 @@ var TuiPiao = PFT.Util.Class({
 			complete : function(){ listUl.html("");},
 			success : function(res){
 				res = res || {};
-				var code = res.code;
-				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				var status=res.status;
+				// var code = res.code;
+				// var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 				if(status=="success"){
 					var orders = res.orders;
 					if(orders && !that.isObjectEmpty(orders)){
@@ -160,56 +161,106 @@ var TuiPiao = PFT.Util.Class({
 	},
 	//退票
 	tuipiao : function(tarBtn){
+		var that=this;
+		var _params={};
+		var ordernum=tarBtn.parents("li.orderItem").attr("data-ordernum");
+		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待验证的票数
+		var inpNum=tarBtn.parents("li.orderItem").find(".countInp").val();                    //输入框中的票数
+		console.log(un_terminal_tnum +"--"+ inpNum);
+		if(parseInt(inpNum)===0){
+			alert("退票数不能为0");
+			tarBtn.parents("li.orderItem").find(".countInp").val("1");
+			return false;
+		}else if(parseInt(inpNum)>parseInt(un_terminal_tnum)){
+			alert("退票数不能超过未退票数");
+			tarBtn.parents("li.orderItem").find(".countInp").val(un_terminal_tnum);
+			return false;
+		}else if(parseInt(inpNum)<parseInt(un_terminal_tnum)){
+
+
+			_params["from"]="order_alter";
+			_params["tids"+"\["+ordernum+"\]"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
+			_params["ordernum"]=ordernum;
+		}else if(parseInt(inpNum)===parseInt(un_terminal_tnum)){
+			_params["from"]="order_cancel";
+			_params["ordernum"]=ordernum;
+
+		}
+
 		var parent = tarBtn.parents(".inCon");
-		var ordernum = tarBtn.attr("data-mainordernum");
-		var salerid = tarBtn.attr("data-salerid");
-		var check_method = parent.find("input[type=radio]:checked").val();
-		var ticketLi = parent.find(".ticketUl .ticketLi");
-		var list = (function(){
-			var list = {};
-			var total = 0;
-			ticketLi.each(function(){
-				var item = $(this);
-				var inp = item.find(".countInp");
-				var ordernum = inp.attr("data-ordernum");
-				var tnum = inp.val();
-				total += tnum*1;
-				list[ordernum] = tnum;
-			});
-			return total==0 ? 0 : list;
-		})();
-		var rtime = parent.find(".termTimeInp").val() || "";
+		// var ordernum = tarBtn.attr("data-mainordernum");
+		// var salerid = tarBtn.attr("data-salerid");
+		// var check_method = parent.find("input[type=radio]:checked").val();
+		// var ticketLi = parent.find(".ticketUl .ticketLi");
+		// var list = (function(){
+		// 	var list = {};
+		// 	var total = 0;
+		// 	ticketLi.each(function(){
+		// 		var item = $(this);
+		// 		var inp = item.find(".countInp");
+		// 		var ordernum = inp.attr("data-ordernum");
+		// 		var tnum = inp.val();
+		// 		total += tnum*1;
+		// 		list[ordernum] = tnum;
+		// 	});
+		// 	return total==0 ? 0 : list;
+		// })();
+		// var rtime = parent.find(".termTimeInp").val() || "";
 		var errorTip = parent.find(".errorTip");
-		if(list==0) return ticketLi.length==1 ? alert("验证票数不能为0") : alert("验证票数不能全为0");
-		var params = {
-			check_method : check_method,
-			salerid : salerid,
-			ordernum : ordernum,
-			list : list,
-			rtime : rtime
-		};
-		Api.terminal(params,{
-			loading : function(){
+		// if(list==0) return ticketLi.length==1 ? alert("验证票数不能为0") : alert("验证票数不能全为0");
+		// var params = {
+		// 	check_method : check_method,
+		// 	salerid : salerid,
+		// 	ordernum : ordernum,
+		// 	list : list,
+		// 	rtime : rtime
+		// };
+		$.ajax({
+			url: "/call/handle.php",    //请求的url地址
+			dataType: "json",                        //返回格式为json
+			async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
+			data: _params,
+			type: "get",                               //请求方式
+			beforeSend: function() {
 				errorTip.hide();
-				tarBtn.addClass("disable").text("正在验证...");
+				tarBtn.addClass("disable").text("正在退票...");
 			},
-			removeLoading : function(){
-				tarBtn.removeClass("disable").text("验 证");
-			},
-			success : function(res){
-				PFT.Util.STip("success",'<p style="width:200px">验证成功</p>');
+			success: function(res) {
+				PFT.Util.STip("success",'<p style="width:200px">退票成功</p>');
 				var orderid = that.terminalOrderInp.val();
 				var companyid = that.groupBussSelect.val();
 				that.queryOrder(orderid,companyid);
 			},
-			unlogin : function(res){
-				errorTip.show().html('登录状态已过期，请重新<a style="margin:0 2px;" href="dlogin_n.html">登录</a>');
+			complete: function() {
+				//请求完成的处理
 			},
-			fail : function(res){
+			error: function(res) {
 				tarBtn.text("重新验证");
-				errorTip.show().html(res.msg);
+				errorTip.show().html(res.responseText);
 			}
-		})
+		});
+		// Api.terminal(params,{
+		// 	loading : function(){
+		// 		errorTip.hide();
+		// 		tarBtn.addClass("disable").text("正在退票...");
+		// 	},
+		// 	removeLoading : function(){
+		// 		tarBtn.removeClass("disable").text("退 票");
+		// 	},
+		// 	success : function(res){
+		// 		PFT.Util.STip("success",'<p style="width:200px">验证成功</p>');
+		// 		var orderid = that.terminalOrderInp.val();
+		// 		var companyid = that.groupBussSelect.val();
+		// 		that.queryOrder(orderid,companyid);
+		// 	},
+		// 	unlogin : function(res){
+		// 		errorTip.show().html('登录状态已过期，请重新<a style="margin:0 2px;" href="dlogin_n.html">登录</a>');
+		// 	},
+		// 	fail : function(res){
+		// 		tarBtn.text("重新验证");
+		// 		errorTip.show().html(res.msg);
+		// 	}
+		// })
 	},
 	renderList : function(data){
 		var now = this.Datepicker.CalendarCore.getNowDateTime();
@@ -244,6 +295,13 @@ var TuiPiao = PFT.Util.Class({
 	},
 	enable : function(){
 		this.container.show();
+	},
+	isObjectEmpty:function (obj) {
+		var isEmpty=true;
+		for (var i in obj){
+			isEmpty=false;
+		}
+		return isEmpty
 	}
 });
 module.exports = TuiPiao;

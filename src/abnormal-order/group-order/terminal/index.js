@@ -90,10 +90,6 @@ var Terminal = PFT.Util.Class({
 	},
 	//点击验证按钮
 	onCheckBtnClick : function(e){
-
-
-
-
 		var that = this;
 		var tarBtn = $(e.currentTarget);
 		// console.log(tarBtn.parentsUntil("li.orderItem").children(".itemCon .ltCon .line:first-child .rt").html());
@@ -173,21 +169,27 @@ var Terminal = PFT.Util.Class({
 				res = res || {};
 				// var code = res.code;
 				// var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-				if(status=="success"){
+				if(status=="success") {
 					var orders = res.orders;
-					if(orders && !that.isObjectEmpty(orders)){
+					if (orders && !that.isObjectEmpty(orders)) {
 						that.renderList(orders);
-						for(var i in orders){
-							that.yanParams["sid"]=orders[i]["sid"]
+						for (var i in orders) {
+							that.yanParams["sid"] = orders[i]["sid"]
 						}
-					}else{
+					} else {
 						that.render("empty");
 					}
-				}else if(status=="fail" && code==0){
-					that.render("unlogin");
 				}else if(status=="fail"){
-					that.render("fail",msg);
-				}
+						console.log("res.msg")
+						that.render("fail",res.msg);
+					}
+				// }else if(status=="fail" && code==0){
+				// 	console.log("fdfs")
+				// 	that.render("unlogin");
+				// }else if(status=="fail"){
+				// 	console.log("res.msg")
+				// 	that.render("fail",res.msg);
+				// }
 			}
 		})
 	},
@@ -200,6 +202,20 @@ var Terminal = PFT.Util.Class({
 		    "2706" :"22",
 			"28227":"23"
 		};
+		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待验证的票数
+		var inpNum=tarBtn.parents("li.orderItem").find(".countInp").val();                    //输入框中的票数
+		console.log(un_terminal_tnum +"--"+ inpNum);
+		if(parseInt(inpNum)===0){
+			alert("验证票数不能为0");
+			tarBtn.parents("li.orderItem").find(".countInp").val("1")
+			return false;
+		}else if(parseInt(inpNum)>parseInt(un_terminal_tnum)){
+			alert("验证票数不能超过未验票数")
+			tarBtn.parents("li.orderItem").find(".countInp").val(un_terminal_tnum)
+			return false;
+		}
+
+		this.yanParams["tnum"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
 
 		var parent = tarBtn.parents(".inCon");
 		var ordernum = tarBtn.attr("data-mainordernum");

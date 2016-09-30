@@ -149,7 +149,9 @@ var Query = PFT.Util.Class({
 				this.tbody.html(html);
 				this.pagination.render({current:currentPage,total:totalPage});
 			},
-			empty : function(){}
+			empty : function(){
+				this.tbody.html("<td colspan='7'style='text-align: center;height: 500px;line-height: 500px;'>未查询到任何数据...</td>");
+			}
 		},this)
 	},
 	disable : function(){
