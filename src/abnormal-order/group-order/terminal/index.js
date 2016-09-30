@@ -111,7 +111,6 @@ var Terminal = PFT.Util.Class({
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
 		var orderid = $.trim(this.terminalOrderInp.val());
-		console.log(this.groupBussSelect);
 		var companyid = this.groupBussSelect.val();
 		this.yanParams["mode"]=this.companyId_mode[companyid];
 		if(!orderid) return alert("请输入票付通订单号");
@@ -222,7 +221,6 @@ var Terminal = PFT.Util.Class({
 		})();
 		var rtime = parent.find(".termTimeInp").val() || "";
 		var errorTip = parent.find(".errorTip");
-		console.log(that.yanParams)
 		if(list==0) return ticketLi.length==1 ? alert("验证票数不能为0") : alert("验证票数不能全为0");
 		var params = {
 			check_method : check_method,
@@ -237,7 +235,7 @@ var Terminal = PFT.Util.Class({
 			dataType: "json",                        //返回格式为json
 			async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
 			data: that.yanParams,
-			type: "post",                               //请求方式
+			type: "get",                               //请求方式
 			beforeSend: function() {
 						errorTip.hide();
 						tarBtn.addClass("disable").text("正在验证...");
@@ -254,7 +252,6 @@ var Terminal = PFT.Util.Class({
 			error: function(res) {
 						tarBtn.text("重新验证");
 						errorTip.show().html(res.responseText);
-				console.log(res.responseText)
 			}
 		});
 		// Api.terminal(params,{

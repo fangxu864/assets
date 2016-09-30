@@ -9,8 +9,10 @@
 		<td class="col col_7"><span class="handleStatus_<%=item.handleStatus%>"><%=item.handleStatus_ext.text%></span></td>
 		<td class="col col_8">
 			<%if(!item.ifAdmin){%>
-				<% if(item.handleStatus==1 || item.handleStatus==2){ %>
+				<% if( item.handleStatus==2){ %>
 					<a href="module/api/ThirdSystemRepairOrder.php?tempOrder=<%=item.apiOrder%>"><%=item.handleStatus_ext.actionText%></a>
+			    <% }else if(item.handleStatus==1){ %>
+		         	--
 				<% }else{ %>
 					<a data-mode="<%=item.handleStatus_ext.mode%>" data-ordernum="<%=item.pftOrder%>" data-tnum="<%=item.oStnum%>" class="actionBtn <%=item.handleStatus_ext.action%>" href="javascript:void(0)"><%=item.handleStatus_ext.actionText%></a>
 				<% } %>

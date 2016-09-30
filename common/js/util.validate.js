@@ -19,13 +19,15 @@ var Validate = {
 	},
 	typeCN : function(str){
 		var result = true;
-		var reg = /[\u4E00-\u9FA5\uF900-\uFA2D\(\（\)\）]/g;
-		for(var i= 0,len=str.length; i<len; i++){
-			if(!reg.test(str)){
-				result = false;
-				break;
-			}
-		}
+		// var reg = /[\u4E00-\u9FA5\uF900-\uFA2D\(\（\)\）]/g;
+		// for(var i= 0,len=str.length; i<len; i++){
+		// 	if(!reg.test(str)){
+		// 		result = false;
+		// 		break;
+		// 	}
+		// }
+		var re=/^([\u4e00-\u9fa5]+)?([\(\（])?[\u4e00-\u9fa5]+([\）\)])?([\u4e00-\u9fa5]+)?$/g;
+		result = re.test(str);
 		return result;
 	},
 	//中文、英文
