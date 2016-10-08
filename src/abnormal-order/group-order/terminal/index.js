@@ -204,7 +204,6 @@ var Terminal = PFT.Util.Class({
 		};
 		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待验证的票数
 		var inpNum=tarBtn.parents("li.orderItem").find(".countInp").val();                    //输入框中的票数
-		console.log(un_terminal_tnum +"--"+ inpNum);
 		if(parseInt(inpNum)===0){
 			alert("验证票数不能为0");
 			tarBtn.parents("li.orderItem").find(".countInp").val("1")
@@ -335,10 +334,10 @@ var Terminal = PFT.Util.Class({
 		return isEmpty
 	},
 	companyId_mode:{       //下拉选择框中companyId和mode对应的json
-	"2175": "0",
-	"1853":"21",
-	"2706" :"22",
-	"28227":"23"
+		"2175": "0",
+		"1853":"21",
+		"2706" :"22",
+		"28227":"23"
     },
 	yanParams:{}
 });

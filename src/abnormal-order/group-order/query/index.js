@@ -101,6 +101,7 @@ var Query = PFT.Util.Class({
 		$("#tooltipContainer").hide();
 	},
 	onOrderInpKeyup : function(e){
+		if(e.keyCode!==13) return false;
 		this.searchBtn.trigger("click");
 	},
 	onSearchBtnClick : function(e){
