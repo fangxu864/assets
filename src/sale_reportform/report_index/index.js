@@ -41,7 +41,6 @@ var Book_form={
 
         if(_this.isAdmin==1){
             $(".filter_box .filter .line1").show();
-
             //交易商户搜索框
             var select1=new Select({
                 source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
@@ -52,12 +51,7 @@ var Book_form={
                     danme : ""
                 },
                 isFillContent:false,
-
                 filterType : "ajax",  //指定过滤方式为ajax
-
-
-
-
                 field : {
                     id : "id",
                     name : "dname",
@@ -175,11 +169,10 @@ var Book_form={
             callback:function (cur_opt){}
         });
         //分销商搜索框
-        var select3=new Select({
+        this.select3=new Select({
             source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
             ajaxType : "get",
             isFillContent:false,
-
             ajaxParams : {
                 action : "fuzzyGetDname_c",
                 dtype : "1",
@@ -309,7 +302,7 @@ var Book_form={
                 "cacheKey":cacheKey,
                 "isInitPagination":true      //是否初始化分页器
             });
-        })
+        });
         //导出按钮
         $(".excel_btn").on("click",function () {
             var api="/r/report_statistics/orderList/";
@@ -318,7 +311,42 @@ var Book_form={
             }
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
-        })
+        });
+        //管理员账号时，点击分销商搜索框时更新此框数据
+        if(_this.isAdmin==1){
+            $("#fenxiaoshang_name_inp").on("focus",function () {
+                var member_id=_this.getParams()["merchant_id"]?_this.getParams()["merchant_id"]:"";
+                var api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                $.ajax({
+                    url: api,                                //请求的url地址"/r/report_statistics/orderList/"
+                    dataType: "json",                            //返回格式为json
+                    async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
+                    data: {},                            //参数值
+                    type: "GET",                                  //请求方式
+                    beforeSend: function() {
+                        //请求前的处理
+                    },
+                    success: function(res) {
+                        var reslut = {};
+                        reslut["code"]=res.code;
+                        reslut["msg"]=res.msg;
+                        var arr=[];
+                        var data=res.data;
+                        for(var i in data){
+                            arr.push(data[i]);
+                        }
+                        reslut["data"] =arr;
+                        _this.select3.refresh(reslut.data);
+                    },
+                    complete: function() {
+                        //请求完成的处理
+                    },
+                    error: function() {
+                        //请求出错处理
+                    }
+                });
+            })
+        }
     },
     //获取filter参数
     getParams:function () {
@@ -327,7 +355,9 @@ var Book_form={
         params["size"]=_this.perPageNum;
         params["begin_date"]=_this.stime_inp.val();
         params["end_date"]=_this.etime_inp.val();
-        params["count_way"]= $("#huizong_type").attr("count_way");
+        if($("#huizong_type").attr("count_way")){
+            params["count_way"]= $("#huizong_type").attr("count_way");
+        }
         if($("#product_name_inp").attr("data-id")){
             params["land_id"]=$("#product_name_inp").attr("data-id");
         }
