@@ -180,7 +180,6 @@ var Terminal = PFT.Util.Class({
 						that.render("empty");
 					}
 				}else if(status=="fail"){
-						console.log("res.msg")
 						that.render("fail",res.msg);
 					}
 				// }else if(status=="fail" && code==0){
@@ -204,7 +203,6 @@ var Terminal = PFT.Util.Class({
 		};
 		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待验证的票数
 		var inpNum=tarBtn.parents("li.orderItem").find(".countInp").val();                    //输入框中的票数
-		console.log(un_terminal_tnum +"--"+ inpNum);
 		if(parseInt(inpNum)===0){
 			alert("验证票数不能为0");
 			tarBtn.parents("li.orderItem").find(".countInp").val("1")
