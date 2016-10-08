@@ -19,8 +19,8 @@ var admin_qingfen={
             "api":"/r/Finance_SettleBlance/getRecords/",
             "params":{
                 "page":"1",
-                "size":"20",
-                "fid":"2"
+                "size":"10",
+                "fid":"3385"
             }
             
         })
@@ -39,35 +39,36 @@ var admin_qingfen={
             beforeSend: function() {
                 //请求前的处理
                 // _this.total_box.hide();
-                _this.tablecon_box.hide();
-                _this.pagination_wrap.hide();
-                _this.queryState_box.show().html(querying_tpl);
+                // _this.tablecon_box.hide();
+                // _this.pagination_wrap.hide();
+                // _this.queryState_box.show().html(querying_tpl);
             },
-            success: function(req) {
-                if(req.code==200){
-                    if(req.data.list.length==0){
-                        // _this.total_box.hide();
-                        _this.tablecon_box.hide();
-                        _this.pagination_wrap.hide();
-                        _this.queryState_box.show().html(querynodata_tpl);
-                    }else{
-                        _this.queryState_box.hide();
-                        _this.dealReqData(req);
-                        if(data.isCacheData){            //缓存查询的数据
-                            _this.dataContainer[data.cacheKey]=req;
-                        }
-                        if(data.isInitPagination){       //是否初始化分页器
-                            var totalPages= Math.ceil(req.data.total/_this.perPageNum);
-                            var currentPage= 1;
-                            _this.dealPagination(currentPage,totalPages);
-                        }else{
-                            _this.pagination_wrap.show(200);
-                        }
-                    }
-                }
-                else{
-                    $(".querying").text(req.msg);
-                }
+            success: function(res) {
+                console.log(res);
+                // if(req.code==200){
+                //     if(req.data.list.length==0){
+                //         // _this.total_box.hide();
+                //         _this.tablecon_box.hide();
+                //         _this.pagination_wrap.hide();
+                //         _this.queryState_box.show().html(querynodata_tpl);
+                //     }else{
+                //         _this.queryState_box.hide();
+                //         _this.dealReqData(req);
+                //         if(data.isCacheData){            //缓存查询的数据
+                //             _this.dataContainer[data.cacheKey]=req;
+                //         }
+                //         if(data.isInitPagination){       //是否初始化分页器
+                //             var totalPages= Math.ceil(req.data.total/_this.perPageNum);
+                //             var currentPage= 1;
+                //             _this.dealPagination(currentPage,totalPages);
+                //         }else{
+                //             _this.pagination_wrap.show(200);
+                //         }
+                //     }
+                // }
+                // else{
+                //     $(".querying").text(req.msg);
+                // }
 
             },
             complete: function() {
@@ -76,15 +77,15 @@ var admin_qingfen={
             error: function() {
                 //请求出错处理
                 // _this.total_box.hide();
-                _this.tablecon_box.hide();
-                _this.pagination_wrap.hide();
-                _this.queryState_box.show().html(queryerror_tpl);
+                // _this.tablecon_box.hide();
+                // _this.pagination_wrap.hide();
+                // _this.queryState_box.show().html(queryerror_tpl);
             }
         });
 
     }
     
-}
+};
 
 $(function () {
     admin_qingfen.init();
