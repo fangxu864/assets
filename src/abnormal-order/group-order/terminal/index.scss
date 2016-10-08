@@ -36,7 +36,7 @@
 .orderList .checkBtn.success .iconfont{ position:relative; top:1px; margin-right:3px;}
 .orderList .payTypeTip{ float:right; text-align:right; clear:right; margin-top:5px; color:#cf2e2e}
 .orderList .errorTip{ float:right; margin-top:11px; margin-left:10px; color:red; margin-right:5px;}
-.orderList .sta{ height:150px; line-height:110px; padding-left:20px;text-align: center;background-color: white}
+.orderList .sta{ height:150px; line-height:150px; padding-left:20px;text-align: center;background-color: white}
 .orderList .sta .loadingImg{ width:22px; vertical-align:middle; margin-right:3px;}
 .orderList .sta .t{ vertical-align:middle}
 .orderList .checkMethodBox{ margin-bottom:5px; text-align:right;}
@@ -46,3 +46,6 @@
 .orderList .termTimeWrap{ float:right; position:relative; width:125px; height:32px; margin-top:3px; margin-right:6px; background:#fff; padding:0 35px 0 5px; border:1px solid #e0e0e0}
 .orderList .termTimeWrap .iconfont{font-size: 14px; position:absolute; top:6px; right:5px; cursor:pointer; color:#0897d9; }
 .orderList .termTimeWrap .termTimeInp{ display:block; width:100%; height: 24px; line-height:24px; padding:3px; border:0 none; background:#fff}
+
+
+.groupBussSelect{ width:180px; height:32px; padding:0 5px; border:1px solid $gray90; box-shadow:inset 0 1px 1px rgba(0,0,0,0.1)}

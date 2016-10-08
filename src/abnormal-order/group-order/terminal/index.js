@@ -333,10 +333,10 @@ var Terminal = PFT.Util.Class({
 		return isEmpty
 	},
 	companyId_mode:{       //下拉选择框中companyId和mode对应的json
-	"2175": "0",
-	"1853":"21",
-	"2706" :"22",
-	"28227":"23"
+		"2175": "0",
+		"1853":"21",
+		"2706" :"22",
+		"28227":"23"
     },
 	yanParams:{}
 });
