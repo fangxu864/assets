@@ -213,7 +213,8 @@ var Terminal = PFT.Util.Class({
 			return false;
 		}
 
-		this.yanParams["tnum"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
+		// this.yanParams["tnum"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
+		this.yanParams["tnum"]=parseInt(inpNum);
 
 		var parent = tarBtn.parents(".inCon");
 		var ordernum = tarBtn.attr("data-mainordernum");
