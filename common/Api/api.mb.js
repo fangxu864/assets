@@ -26,6 +26,10 @@ var Api_Mb = {
 		getProductHot : function(){
 			return Mall_Product("index");
 		},
+		//获取产品列表
+		productList : function(){
+			return Mall_Product("productList");
+		},
 		//产品详情页，获取票类列表
 		getTicketList : function(){
 			return Mall_Product("getTicketList");

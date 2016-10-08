@@ -54,7 +54,7 @@
             ticketList : {
                 type : Array,
                 twoway : true,
-                detault : function(){ return[]}
+                default : function(){ return[]}
             },
             switchor : {
                 type : String,
@@ -169,7 +169,6 @@
                                     storeText : ""
                                 }
                             }else{ //预订1天以上
-
                                 //在多天中只要有一天库存为0(没有库存)，即视为用户选择的时间段内没有库存，无法下单
                                 //有问题请 @产品-詹必魁
                                 if(storeMin==0){

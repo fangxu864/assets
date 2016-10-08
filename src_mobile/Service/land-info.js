@@ -3,10 +3,11 @@
  * Date: 2016/8/10 18:52
  * Description: 获取产品详情
  */
-module.exports = function(lid,opt){
+module.exports = function(lid,opt,cxt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
+	cxt = cxt || this;
 
 	if(__DEBUG__){
 		opt.loading();
@@ -35,17 +36,21 @@ module.exports = function(lid,opt){
 			lid : lid,
 			token : PFT.Util.getToken()
 		},
-		loading : opt.loading,
-		complete : opt.complete,
+		loading : function(){
+			opt.loading.call(cxt);
+		},
+		complete : function(){
+			opt.complete.call(cxt);
+		},
 		success : function(res){
 			res = res || {};
 			var code = res.code;
 			var data = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
-				success(data);
+				opt.success.call(cxt,data);
 			}else{
-				opt.fail(msg);
+				opt.fail(cxt,msg);
 			}
 		}
 	})

@@ -49,5 +49,4 @@
     .pdetailPhotoContainer .landTitle{ font-weight:bold}
     .pdetailPhotoContainer .landAddr{ position:relative; padding-right:30px;}
     .pdetailPhotoContainer .landAddr .iconfont{ position:absolute; top:-7px; right:0;}
-
 </style>
