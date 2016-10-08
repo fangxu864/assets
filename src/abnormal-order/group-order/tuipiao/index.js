@@ -231,10 +231,16 @@ var TuiPiao = PFT.Util.Class({
 				tarBtn.addClass("disable").text("正在退票...");
 			},
 			success: function(res) {
-				PFT.Util.STip("success",'<p style="width:200px">退票成功</p>');
-				var orderid = that.terminalOrderInp.val();
-				var companyid = that.groupBussSelect.val();
-				that.queryOrder(orderid,companyid);
+				if(res.outcome=="1"){
+					PFT.Util.STip("success",'<p style="width:200px">退票成功</p>');
+					var orderid = that.terminalOrderInp.val();
+					var companyid = that.groupBussSelect.val();
+					that.queryOrder(orderid,companyid);
+				}else{
+					PFT.Util.STip("fail",'<p style="width:200px">'+res.msg+'</p>');
+				}
+
+
 			},
 			complete: function() {
 				//请求完成的处理
