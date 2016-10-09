@@ -55,7 +55,6 @@ var AdaptOrder = {
 	check_terminal : function(order){
 		// 判断一个订单是否可以验证，如果此订单内的，只要一张票可以验证，即判定此订单可以验证
 		// 除非此订单下的所有票都不能验证，才能判定此订单不可验证
-		var is_audit=order.is_audit;
 		var result = false;
 		var tickets = order.tickets || [];
 		var paystatus = order.paystatus;
@@ -73,6 +72,7 @@ var AdaptOrder = {
 				break;
 			}
 		}
+		var is_audit=order.is_audit;
 		if(is_audit){
 			result = false;
 		}
