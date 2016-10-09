@@ -4,7 +4,7 @@
             <ul class="actionUl">
                 <li class="actionItem" :class="{selected:selected_key==key}" v-for="(key,value) in menus" v-html="value" @click="onActionItemClick(key,value)"></li>
             </ul>
-            <div class="cancelBtn" @click="show=false" v-if="cancelText!==''" v-html="cancelText"></div>
+            <div class="cancelBtn" @click="onCancalBtnClick" v-if="cancelText!==''" v-html="cancelText"></div>
         </div>
     </actionsheet-core>
 </template>
@@ -56,6 +56,10 @@
                 this.selected_key = key;
                 this.$dispatch("click",key,text);
                 this.show = false;
+            },
+            onCancalBtnClick(){
+                this.show = false;
+                this.$dispatch("cannel");
             }
         },
         components : {
@@ -64,8 +68,8 @@
     }
 </script>
 <style lang="sass">
-    .ui-actionsheetContainer .actionItem{ height:43px; line-height:43px; text-align:center; border-bottom:1px solid #e5e5e5; overflow:hidden}
-    .ui-actionsheetContainer .cancelBtn{ height:43px; line-height:43px; text-align:center; color:#008fc2}
+    .ui-actionsheetContainer .actionItem{ height:43px; line-height:43px; text-align:center; border-bottom:1px solid #e5e5e5; overflow:hidden; background:#fff;}
+    .ui-actionsheetContainer .cancelBtn{ height:43px; line-height:43px; text-align:center; color:#008fc2; margin-top:5px; border-top:1px solid #e5e5e5; background:#fff}
     .ui-actionsheetContainer .actionItem:active,.ui-actionsheetContainer .cancelBtn:active{ background:rgba(0,0,0,0.02)}
     .ui-actionsheetContainer .actionItem.selected{ color:#008fc2}
 </style>
