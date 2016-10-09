@@ -72,6 +72,10 @@ var AdaptOrder = {
 				break;
 			}
 		}
+		var is_audit=order.is_audit;
+		if(is_audit){
+			result = false;
+		}
 
 		return result;
 	},

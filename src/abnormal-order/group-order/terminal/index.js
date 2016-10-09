@@ -180,7 +180,6 @@ var Terminal = PFT.Util.Class({
 						that.render("empty");
 					}
 				}else if(status=="fail"){
-						console.log("res.msg")
 						that.render("fail",res.msg);
 					}
 				// }else if(status=="fail" && code==0){
@@ -214,7 +213,8 @@ var Terminal = PFT.Util.Class({
 			return false;
 		}
 
-		this.yanParams["tnum"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
+		// this.yanParams["tnum"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
+		this.yanParams["tnum"]=parseInt(inpNum);
 
 		var parent = tarBtn.parents(".inCon");
 		var ordernum = tarBtn.attr("data-mainordernum");

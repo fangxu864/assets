@@ -155,7 +155,7 @@ var TuiPiao = PFT.Util.Class({
 				}else if(status=="fail"){
 
 
-					console.log("res.msg")
+
 					that.render("fail",res.msg);
 				}
 				// else if(status=="fail" && code==0){
@@ -173,7 +173,7 @@ var TuiPiao = PFT.Util.Class({
 		var ordernum=tarBtn.parents("li.orderItem").attr("data-ordernum");
 		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待验证的票数
 		var inpNum=tarBtn.parents("li.orderItem").find(".countInp").val();                    //输入框中的票数
-		console.log(un_terminal_tnum +"--"+ inpNum);
+
 		if(parseInt(inpNum)===0){
 			alert("退票数不能为0");
 			tarBtn.parents("li.orderItem").find(".countInp").val("1");
@@ -183,8 +183,6 @@ var TuiPiao = PFT.Util.Class({
 			tarBtn.parents("li.orderItem").find(".countInp").val(un_terminal_tnum);
 			return false;
 		}else if(parseInt(inpNum)<parseInt(un_terminal_tnum)){
-
-
 			_params["from"]="order_alter";
 			_params["tids"+"\["+ordernum+"\]"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
 			_params["ordernum"]=ordernum;
@@ -233,10 +231,16 @@ var TuiPiao = PFT.Util.Class({
 				tarBtn.addClass("disable").text("正在退票...");
 			},
 			success: function(res) {
-				PFT.Util.STip("success",'<p style="width:200px">退票成功</p>');
-				var orderid = that.terminalOrderInp.val();
-				var companyid = that.groupBussSelect.val();
-				that.queryOrder(orderid,companyid);
+				if(res.outcome=="1"){
+					PFT.Util.STip("success",'<p style="width:200px">退票成功</p>');
+					var orderid = that.terminalOrderInp.val();
+					var companyid = that.groupBussSelect.val();
+					that.queryOrder(orderid,companyid);
+				}else{
+					PFT.Util.STip("fail",'<p style="width:200px">'+res.msg+'</p>');
+				}
+
+
 			},
 			complete: function() {
 				//请求完成的处理
