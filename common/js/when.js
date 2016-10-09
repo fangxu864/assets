@@ -10,16 +10,33 @@ When.prototype.yestoday=function(){
 	return moment().subtract('days',1).format('YYYY-MM-DD');
 };
 When.prototype.lastweek=function(){
-	return [
-		moment().day(-6).format('YYYY-MM-DD'),
-		moment().day(0).format('YYYY-MM-DD')
-	];
+	var thisDay=new Date().getDay();
+	if(thisDay===0){
+		return [
+			moment().day(-13).format('YYYY-MM-DD'),
+			moment().day(-7).format('YYYY-MM-DD')
+		];
+	}else{
+		return [
+			moment().day(-6).format('YYYY-MM-DD'),
+			moment().day(0).format('YYYY-MM-DD')
+		];
+	}
+
 };
 When.prototype.week=function(){
-	return [
-		moment().day(1).format('YYYY-MM-DD'),
-		moment().day(7).format('YYYY-MM-DD')
-	];
+	var thisDay=new Date().getDay();
+	if(thisDay===0){
+		return [
+			moment().day(-6).format('YYYY-MM-DD'),
+			moment().day(0).format('YYYY-MM-DD')
+		];
+	}else{
+		return [
+			moment().day(1).format('YYYY-MM-DD'),
+			moment().day(7).format('YYYY-MM-DD')
+		];
+	}
 };
 When.prototype.month=function(){
 	return [
