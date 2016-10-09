@@ -428,7 +428,7 @@ var Book_form={
         };
         var kindsTitle=titleName[_this.filterParamsBox.count_way];
         if(list[0]["cost_money"]!==undefined){    //非景区账号
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th><th class="th4">收入(元)</th> <th class="th5">支出(元)</th>';
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th><th class="th4">预计收入(元)</th> <th class="th5">预计支出(元)</th>';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
@@ -446,7 +446,7 @@ var Book_form={
             }
             $(".tablecon_box .con_tb tbody").html(listHtml);
         }else{
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th><th class="th4">收入(元)</th> ';
+            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th><th class="th4">预计收入(元)</th> ';
             $(".tablecon_box .con_tb thead tr").html(theadHtml);
             listHtml+='<tr> <td class="th1 heji">合计:</td>'+
                 '<td class="th2">'+sum.orderNum+'</td>'+
