@@ -2,6 +2,12 @@
  * Created by Administrator on 2016/9/27.
  */
 
+/**
+ * @mode    1=日结，2=周结，3=月结
+ *
+ */
+
+
 require("./index.scss");
 //引入各种tpl
 var tableCon_tpl=require("./tpl/tableCon.xtpl");
