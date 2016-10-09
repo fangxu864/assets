@@ -77,7 +77,9 @@
                     <% }) %>
                 </ul>
                 <div class="doActionBox">
-                    <a class="checkBtn <%=item.can_check ? '' : 'disable'%>" data-salerid="<%=item.salerid%>" data-ptype="<%=item.ptype%>" href="javascript:void(0)" data-mainordernum="<%=tickets[0].ordernum%>">退 票</a>
+                    <a class="checkBtn <%=item.can_check ? '' : 'disable'%>" data-salerid="<%=item.salerid%>" data-ptype="<%=item.ptype%>" href="javascript:void(0)" data-mainordernum="<%=tickets[0].ordernum%>">
+                        <%=item.is_audit ? '退 票 中...' : '退 票'%>
+                    </a>
                     <span class="errorTip"></span>
                 </div>
                 <% if(item.pmode==4){ %>
