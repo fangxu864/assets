@@ -25,6 +25,8 @@ var ParseTemplate=require("COMMON/js/util.parseTemplate.js");
 var admin_qingfen={
     init:function () {
         var _this=this;
+        this.fid=(location.href).match(/fid=[\d]+/g)[0].match(/[\d]+$/)[0];
+        console.log(this.fid);
         //获取内容盒子
         this.tableCon_box=$(".tableCon_box");
         this.pagination_wrap=$("#pagination_wrap");
@@ -43,13 +45,19 @@ var admin_qingfen={
             // toPage :      要switch到第几页
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
+
             _this.pagination.render({current:toPage,total:totalPage});
-            _this.queryParamsBox["page"]=toPage;
-            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            _this.queryParamsBox={
+                "page":toPage,
+                "size":_this.perPageNum,
+                "fid":_this.fid
+            };
+            var cacheKey=_this.JsonStringify(_this.queryParamsBox);
             if(_this.dataContainer[cacheKey]){
                 _this.dealResData(_this.dataContainer[cacheKey]);
             }else{
                 _this.ajaxGetData({
+                    "api":"/r/Finance_SettleBlance/getRecords/",
                     "params":_this.queryParamsBox,
                     "isCacheData":true,
                     "cacheKey":cacheKey,
@@ -62,7 +70,7 @@ var admin_qingfen={
         this.queryParamsBox={
             "page":"1",
             "size":_this.perPageNum,
-            "fid":"3385"
+            "fid": _this.fid
         };
         this.ajaxGetData({
             "api":"/r/Finance_SettleBlance/getRecords/",
@@ -93,7 +101,7 @@ var admin_qingfen={
                 _this.queryState_box.show().text("查询数据中，请稍候...");
             },
             success: function(res) {
-                console.log(res);
+
                 if(res.code==200){
                     if(res.data.list.length==0){
                         _this.tableCon_box.hide();
@@ -106,7 +114,6 @@ var admin_qingfen={
                         }
                         if(data.isInitPagination){       //是否初始化分页器
                             var totalPages= Math.ceil(res.data.count/_this.perPageNum);
-                            console.log(totalPages)
                             var currentPage= 1;
                             _this.pagination.render({current:currentPage,total:totalPages});
                         }
@@ -160,15 +167,15 @@ var admin_qingfen={
             adaptData.push(obj)
         }
 
-        console.log(adaptData);
+
         var html=_this.template({data:adaptData});
-        console.log(html);
+
         $(".tableCon_box table.con_tb tbody").html(html);
 
         _this.tableCon_box.fadeIn(200);
         console.log(parseInt(res.data.total_page))
-        if(parseInt(res.data.total_page)>1){
-            _this.pagination_wrap.fadeIn(200);
+        if(parseInt(res.data.total_page)==1){
+            _this.pagination_wrap.hide();
         }
         _this.queryState_box.hide()
 
@@ -179,7 +186,7 @@ var admin_qingfen={
     //定义一个数据缓存容器，存储分页获取的数据
     dataContainer:{},
     //定义每页显示的条数
-    perPageNum:15,
+    perPageNum:10,
     //JsonStringify 对象序列化方法
     JsonStringify:function (obj) {
         var str="";
@@ -192,37 +199,37 @@ var admin_qingfen={
     },
     //php时间戳转化成时间函数
     timezone:function (time,isFull){
-    var v = time;
-    if (/^(-)?\d{1,10}$/.test(v)) {
-        v = v * 1000;
-    } else if (/^(-)?\d{1,13}$/.test(v)) {
-        v = v * 1;
-    } else {
-        alert("时间戳格式不正确");
-        return;
-    }
-    var dateObj = new Date(v);
-    var ymdhis = "";
-    ymdhis += dateObj.getFullYear() + '-';
-    ymdhis += (dateObj.getMonth() + 1)+ '-';
-    ymdhis += dateObj.getDate()+'';
-    if (isFull === true)
-    {
-        ymdhis += " " + dateObj.getHours() + ':';
-        var gmin = dateObj.getMinutes();
-        var gsec = dateObj.getSeconds();
-        if((String(gmin)).length == 1){
-            ymdhis += "0"+gmin+':';
-        }else{
-            ymdhis += gmin+':';
+        var v = time;
+        if (/^(-)?\d{1,10}$/.test(v)) {
+            v = v * 1000;
+        } else if (/^(-)?\d{1,13}$/.test(v)) {
+            v = v * 1;
+        } else {
+            alert("时间戳格式不正确");
+            return;
         }
-        if((String(gsec)).length == 1){
-            ymdhis += "0"+gsec;
-        }else{
-            ymdhis += gsec;
+        var dateObj = new Date(v);
+        var ymdhis = "";
+        ymdhis += dateObj.getFullYear() + '-';
+        ymdhis += (dateObj.getMonth() + 1)+ '-';
+        ymdhis += dateObj.getDate()+'';
+        if (isFull === true)
+        {
+            ymdhis += " " + dateObj.getHours() + ':';
+            var gmin = dateObj.getMinutes();
+            var gsec = dateObj.getSeconds();
+            if((String(gmin)).length == 1){
+                ymdhis += "0"+gmin+':';
+            }else{
+                ymdhis += gmin+':';
+            }
+            if((String(gsec)).length == 1){
+                ymdhis += "0"+gsec;
+            }else{
+                ymdhis += gsec;
+            }
         }
-    }
-    return ymdhis;
+        return ymdhis;
 }
 };
 
