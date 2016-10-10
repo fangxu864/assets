@@ -17,16 +17,31 @@ require("./index.scss");
 //引入各种tpl
 var tableCon_tpl=require("./tpl/tableCon.xtpl");
 var qingfenTR_tpl=require("./tpl/qingfenTR.xtpl");
+var dialogTR_tpl=require("./tpl/dialogTR.xtpl");
+var dialog_tpl=require("./tpl/dialog.xtpl");
 //引入各种插件
 var Pagination = require("COMMON/modules/pagination-x");
 var ParseTemplate=require("COMMON/js/util.parseTemplate.js");
+var Dialog=require("COMMON/modules/dialog-simple");
+
+var Dial=new Dialog({
+    width : 600,
+    closeBtn : true,
+    content : dialog_tpl,
+    drag : true,
+    speed : 100,
+    onCloseAfter : function(){
+        $(".select_down_pages .pages_wrap .con").off("click.click_pages");
+        $(".select_down_pages .btn_wrap .ok_btn").off("click.ok_down");
+        $(".select_down_pages .btn_wrap .all_btn").off("click.down_all")
+    }
+});
 
 
 var admin_qingfen={
     init:function () {
         var _this=this;
         this.fid=(location.href).match(/fid=[\d]+/g)[0].match(/[\d]+$/)[0];
-        console.log(this.fid);
         //获取内容盒子
         this.tableCon_box=$(".tableCon_box");
         this.pagination_wrap=$("#pagination_wrap");
@@ -45,8 +60,6 @@ var admin_qingfen={
             // toPage :      要switch到第几页
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
-
-            _this.pagination.render({current:toPage,total:totalPage});
             _this.queryParamsBox={
                 "page":toPage,
                 "size":_this.perPageNum,
@@ -64,7 +77,35 @@ var admin_qingfen={
                     "isInitPagination":false
                 });
             }
+            _this.pagination.render({current:toPage,total:totalPage});
         });
+        //弹框分页器部分
+        this.pagination_wrap_dialog = new Pagination({
+            container : "#pagination_wrap_dialog" , //必须，组件容器id
+            count : 5,                //可选  连续显示分页数 建议奇数7或9
+            showTotal : true,         //可选  是否显示总页数
+            jump : true	              //可选  是否显示跳到第几页
+        });
+        this.pagination_wrap_dialog.on("page.switch",function(toPage,currentPage,totalPage){
+            // toPage :      要switch到第几页
+            // currentPage : 当前所处第几页
+            // totalPage :   当前共有几页
+            _this.dialog_queryParamsBox["page"]=toPage;
+            var cacheKey=_this.JsonStringify(_this.dialog_queryParamsBox);
+            if(_this.dataContainer[cacheKey]){
+                _this.dialog_dealResData(_this.dataContainer[cacheKey]);
+            }else{
+                _this.dialog_ajaxGetData({
+                    "api":"/r/Finance_SettleBlance/getFrozeOrders/",
+                    "params":_this.dialog_queryParamsBox,
+                    "isCacheData":true,
+                    "cacheKey":cacheKey,
+                    "isInitPagination":false
+                });
+            }
+            _this.pagination_wrap_dialog.render({current:toPage,total:totalPage});
+        });
+        _this.pagination_wrap_dialog.render({current:1,total:10});
 
 
         this.queryParamsBox={
@@ -79,9 +120,58 @@ var admin_qingfen={
             "isCacheData":true,
             "cacheKey":_this.JsonStringify(_this.queryParamsBox)
         });
+        this.bind();
     },
-    bind:{
-        
+    bind:function(){
+        var _this=this;
+        //点击未使用订单时
+        this.tableCon_box.on("click",".dongji_nouseorder",function(){
+            Dial.open();
+            var qingsuan_time=$(this).attr("time");
+            var cycle_mark=$(this).attr("cycle_mark");
+            var mode=$(this).attr("mode");
+            _this.dialog_queryParamsBox={
+                "cycle_mark":cycle_mark,
+                "mode":mode,
+                "fid":_this.fid
+            };
+            console.log(_this.dialog_queryParamsBox)
+
+            $.ajax({
+                url: "/r/Finance_SettleBlance/getFrozeSummary/",      //请求的url地址
+                dataType: "json",                                         //返回格式为json
+                async: true,                                               //请求是否异步，默认为异步，这也是ajax重要特性
+                data: _this.dialog_queryParamsBox,                       //参数值
+                type: "post",                                              //请求方式
+                beforeSend: function() {                                   //请求前的处理
+
+                },
+                success: function(res) {
+                    console.log(res)
+                    $(".dialog_con .title ul").html('<li>清算时间：'+qingsuan_time+'</li><li>合计：'+res.data.money/100+'</li>')
+                },
+                complete: function() {
+                    //请求完成的处理
+                },
+                error: function() {
+                    //请求出错处理
+                }
+            });
+            _this.dialog_queryParamsBox={
+                "cycle_mark":cycle_mark,
+                "mode":mode,
+                "fid":_this.fid,
+                "page":1,
+                "size":_this.perPageNum
+            };
+            _this.dialog_ajaxGetData({
+                "api":"/r/Finance_SettleBlance/getFrozeOrders/",
+                "params":_this.dialog_queryParamsBox,
+                "isCacheData":true,
+                "cacheKey":_this.JsonStringify(_this.dialog_queryParamsBox),
+                "isInitPagination":true
+            });
+        })
     },
     /**
      *数据获取、适配加工、页面渲染部分
@@ -113,9 +203,11 @@ var admin_qingfen={
                             _this.dataContainer[data.cacheKey]=res;
                         }
                         if(data.isInitPagination){       //是否初始化分页器
-                            var totalPages= Math.ceil(res.data.count/_this.perPageNum);
-                            var currentPage= 1;
-                            _this.pagination.render({current:currentPage,total:totalPages});
+                            if(parseInt(res.data.total_page)>1){
+                                var totalPages= Math.ceil(res.data.count/_this.perPageNum);
+                                var currentPage= 1;
+                                _this.pagination.render({current:currentPage,total:totalPages});
+                            }
                         }
                     }
                 }else{
@@ -134,6 +226,54 @@ var admin_qingfen={
         });
 
     },
+    dialog_ajaxGetData:function (data) {
+        var _this=this;
+        $.ajax({
+            url: data.api,                                           //请求的url地址""/r/Finance_SettleBlance/getFrozeOrders/"
+            dataType: "json",                              //返回格式为json
+            async: true,                                    //请求是否异步，默认为异步，这也是ajax重要特性
+            data: data.params,            //参数值
+            type: "post",                                   //请求方式
+            beforeSend: function() {
+                //请求前的处理
+               $(".dialog_con .table_con").hide();
+               $("#pagination_wrap_dialog").hide();
+               $(".dialog_con .queryState_box").show().text("查询数据中，请稍候...");
+            },
+            success: function(res) {
+                if(res.code==200){
+                    if(res.data.list.length==0){
+                        $(".dialog_con .table_con").hide();
+                        $("#pagination_wrap_dialog").hide();
+                        $(".dialog_con .queryState_box").show().text("未查询到任何数据，请重试...");
+                    }else{
+                        _this.dialog_dealResData(res);
+                        if(data.isCacheData){            //缓存查询的数据
+                            _this.dataContainer[data.cacheKey]=res;
+                        }
+                        if(data.isInitPagination){       //是否初始化分页器
+                            if(parseInt(res.data.total_page)>1){
+                                var totalPages= Math.ceil(res.data.count/_this.perPageNum);
+                                var currentPage= 1;
+                                _this.pagination_wrap_dialog.render({current:currentPage,total:totalPages});
+                            }
+                        }
+                    }
+                }else{
+                    $(".dialog_con .queryState_box").show().text(res.msg);
+                }
+            },
+            complete: function() {
+                //请求完成的处理
+            },
+            error: function() {
+                //请求出错处理
+                $(".dialog_con .table_con").hide();
+                $("#pagination_wrap_dialog").hide();
+                $(".dialog_con .queryState_box").show().text("查询出错，请重试...");
+            }
+        });
+    },
     dealResData:function (res) {
         var _this=this;
         var list=res.data.list;
@@ -151,7 +291,7 @@ var admin_qingfen={
             obj["transfer_money"]=list[i].transfer_money;                                      //转账金额
             obj["settle_money"]=list[i].settle_money;                                           //清分时余额
             var freeze_type={
-                "0":"<a>冻结未使用订单</a>",
+                "0":'<a class="dongji_nouseorder" cycle_mark="'+list[i].cycle_mark+'" mode="'+list[i].mode+'" time="'+obj["settle_time"]+'">冻结未使用订单</a>',
                 "1":"按比例冻结",
                 "2":"按固定金额冻结"
             };
@@ -173,19 +313,23 @@ var admin_qingfen={
         $(".tableCon_box table.con_tb tbody").html(html);
 
         _this.tableCon_box.fadeIn(200);
-        console.log(parseInt(res.data.total_page));
-        if(parseInt(res.data.total_page)>1){
-            _this.pagination_wrap.fadeIn();
-        }else{
-            console.log("fdsfs")
-            _this.pagination_wrap.hide();
-        }
         _this.queryState_box.hide()
 
     },
+    dialog_dealResData:function (res) {
+        var _this=this;
+        var list=res.data.list;
+        var html=_this.dialog_template({data:list});
+        $(".dialog_con .table_con .dialog_tb tbody").html(html);
+        $(".dialog_con .table_con").fadeIn(200);
+        $(".dialog_con .queryState_box").hide();
+    },
     template:ParseTemplate(qingfenTR_tpl),
+    dialog_template:ParseTemplate(dialogTR_tpl),
     //定义一个query参数暂存容器，只有当查询数据时才会更新此容器
     queryParamsBox:{},
+    //定义一个query参数暂存容器，只有当查询数据时才会更新此容器
+    dialog_queryParamsBox:{},
     //定义一个数据缓存容器，存储分页获取的数据
     dataContainer:{},
     //定义每页显示的条数

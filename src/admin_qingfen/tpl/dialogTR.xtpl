@@ -1,0 +1,9 @@
+<% _.each(data,function(item,index){ %>
+<tr>
+<td><%=item.ordernum%></td>
+<td><%=item.ltitle+"-"+item.ttitle%></td>
+<td><%=item.tickets%></td>
+<td><%=item.money/100%></td>
+
+</tr>
+<% }) %>
