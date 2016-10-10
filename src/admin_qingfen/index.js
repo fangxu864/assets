@@ -99,16 +99,16 @@ var admin_qingfen={
                         _this.queryState_box.show().text("未查询到任何数据，请重试...");
                     }else{
                         _this.dealResData(res);
-                        // if(data.isCacheData){            //缓存查询的数据
-                        //     _this.dataContainer[data.cacheKey]=req;
-                        // }
-                        // if(data.isInitPagination){       //是否初始化分页器
-                        //     var totalPages= Math.ceil(req.data.total/_this.perPageNum);
-                        //     var currentPage= 1;
-                        //     _this.dealPagination(currentPage,totalPages);
-                        // }else{
-                        //     _this.pagination_wrap.show(200);
-                        // }
+                        if(data.isCacheData){            //缓存查询的数据
+                            _this.dataContainer[data.cacheKey]=req;
+                        }
+                        if(data.isInitPagination){       //是否初始化分页器
+                            var totalPages= Math.ceil(req.data.total/_this.perPageNum);
+                            var currentPage= 1;
+                            _this.dealPagination(currentPage,totalPages);
+                        }else{
+                            _this.pagination_wrap.show(200);
+                        }
                     }
                 }else{
                     _this.queryState_box.show().text(res.msg);
@@ -162,8 +162,11 @@ var admin_qingfen={
         console.log(adaptData);
         var html=_this.template({data:adaptData});
         console.log(html);
-        // $(".tableCon_box table.con_tb tbody").html(html);
+        $(".tableCon_box table.con_tb tbody").html(html);
 
+        _this.tableCon_box.fadeIn(200);
+        _this.pagination_wrap.fadeIn(200);
+        _this.queryState_box.hide()
 
     },
     template:ParseTemplate(qingfenTR_tpl),
@@ -221,4 +224,4 @@ var admin_qingfen={
 
 $(function () {
     admin_qingfen.init();
-})
+});
