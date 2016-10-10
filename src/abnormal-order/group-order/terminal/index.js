@@ -82,13 +82,13 @@ var Terminal = PFT.Util.Class({
 				var max = +new Date(max);
 				var min = +new Date(min);
 				if(now<min || now>max){
-					alert("验证时间必晚于下单时间且早于当前时间");
+					alert("核销时间必晚于下单时间且早于当前时间");
 					tarInp.val(oldVal);
 				}
 			}
 		})
 	},
-	//点击验证按钮
+	//点击核销按钮
 	onCheckBtnClick : function(e){
 		var that = this;
 		var tarBtn = $(e.currentTarget);
@@ -193,7 +193,7 @@ var Terminal = PFT.Util.Class({
 			}
 		})
 	},
-	//验证
+	//核销
 	terminal : function(tarBtn){
 		var that=this;
 		var companyId_mode={       //下拉选择框中companyId和mode对应的json
@@ -202,14 +202,14 @@ var Terminal = PFT.Util.Class({
 		    "2706" :"22",
 			"28227":"23"
 		};
-		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待验证的票数
+		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待核销的票数
 		var inpNum=tarBtn.parents("li.orderItem").find(".countInp").val();                    //输入框中的票数
 		if(parseInt(inpNum)===0){
-			alert("验证票数不能为0");
+			alert("核销票数不能为0");
 			tarBtn.parents("li.orderItem").find(".countInp").val("1")
 			return false;
 		}else if(parseInt(inpNum)>parseInt(un_terminal_tnum)){
-			alert("验证票数不能超过未验票数")
+			alert("核销票数不能超过未验票数")
 			tarBtn.parents("li.orderItem").find(".countInp").val(un_terminal_tnum)
 			return false;
 		}
@@ -237,7 +237,7 @@ var Terminal = PFT.Util.Class({
 		})();
 		var rtime = parent.find(".termTimeInp").val() || "";
 		var errorTip = parent.find(".errorTip");
-		if(list==0) return ticketLi.length==1 ? alert("验证票数不能为0") : alert("验证票数不能全为0");
+		if(list==0) return ticketLi.length==1 ? alert("核销票数不能为0") : alert("核销票数不能全为0");
 		var params = {
 			check_method : check_method,
 			salerid : salerid,
@@ -254,10 +254,10 @@ var Terminal = PFT.Util.Class({
 			type: "get",                               //请求方式
 			beforeSend: function() {
 						errorTip.hide();
-						tarBtn.addClass("disable").text("正在验证...");
+						tarBtn.addClass("disable").text("正在核销...");
 			},
 			success: function(res) {
-						PFT.Util.STip("success",'<p style="width:200px">验证成功</p>');
+						PFT.Util.STip("success",'<p style="width:200px">核销成功</p>');
 						var orderid = that.terminalOrderInp.val();
 						var companyid = that.groupBussSelect.val();
 						that.queryOrder(orderid,companyid);
@@ -266,20 +266,20 @@ var Terminal = PFT.Util.Class({
 				//请求完成的处理
 			},
 			error: function(res) {
-						tarBtn.text("重新验证");
+						tarBtn.text("重新核销");
 						errorTip.show().html(res.responseText);
 			}
 		});
 		// Api.terminal(params,{
 		// 	loading : function(){
 		// 		errorTip.hide();
-		// 		tarBtn.addClass("disable").text("正在验证...");
+		// 		tarBtn.addClass("disable").text("正在核销...");
 		// 	},
 		// 	removeLoading : function(){
 		// 		tarBtn.removeClass("disable").text("验 证");
 		// 	},
 		// 	success : function(res){
-		// 		PFT.Util.STip("success",'<p style="width:200px">验证成功</p>');
+		// 		PFT.Util.STip("success",'<p style="width:200px">核销成功</p>');
 		// 		var orderid = that.terminalOrderInp.val();
 		// 		var companyid = that.groupBussSelect.val();
 		// 		that.queryOrder(orderid,companyid);
@@ -288,7 +288,7 @@ var Terminal = PFT.Util.Class({
 		// 		errorTip.show().html('登录状态已过期，请重新<a style="margin:0 2px;" href="dlogin_n.html">登录</a>');
 		// 	},
 		// 	fail : function(res){
-		// 		tarBtn.text("重新验证");
+		// 		tarBtn.text("重新核销");
 		// 		errorTip.show().html(res.msg);
 		// 	}
 		// })
