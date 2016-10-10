@@ -173,8 +173,11 @@ var admin_qingfen={
         $(".tableCon_box table.con_tb tbody").html(html);
 
         _this.tableCon_box.fadeIn(200);
-        console.log(parseInt(res.data.total_page))
-        if(parseInt(res.data.total_page)==1){
+        console.log(parseInt(res.data.total_page));
+        if(parseInt(res.data.total_page)>1){
+            _this.pagination_wrap.fadeIn();
+        }else{
+            console.log("fdsfs")
             _this.pagination_wrap.hide();
         }
         _this.queryState_box.hide()
