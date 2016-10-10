@@ -32,8 +32,6 @@ var admin_qingfen={
         //往盒子中添加内容
         this.tableCon_box.html(tableCon_tpl);
 
-
-
         //分页器部分
         this.pagination = new Pagination({
             container : "#pagination_wrap" , //必须，组件容器id
@@ -46,28 +44,32 @@ var admin_qingfen={
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
             _this.pagination.render({current:toPage,total:totalPage});
-            _this.filterParamsBox["page"]=toPage;
+            _this.queryParamsBox["page"]=toPage;
             var cacheKey=_this.JsonStringify(_this.filterParamsBox);
             if(_this.dataContainer[cacheKey]){
                 _this.dealResData(_this.dataContainer[cacheKey]);
             }else{
                 _this.ajaxGetData({
-                    "params":_this.filterParamsBox,
+                    "params":_this.queryParamsBox,
                     "isCacheData":true,
                     "cacheKey":cacheKey,
                     "isInitPagination":false
                 });
             }
         });
-        this.pagination.render({current:2,total:10});
 
+
+        this.queryParamsBox={
+            "page":"1",
+            "size":_this.perPageNum,
+            "fid":"3385"
+        };
         this.ajaxGetData({
             "api":"/r/Finance_SettleBlance/getRecords/",
-            "params":{
-                "page":"1",
-                "size":"10",
-                "fid":"3385"
-            }
+            "params": _this.queryParamsBox,
+            "isInitPagination":true,
+            "isCacheData":true,
+            "cacheKey":_this.JsonStringify(_this.queryParamsBox)
         });
     },
     bind:{
@@ -100,14 +102,13 @@ var admin_qingfen={
                     }else{
                         _this.dealResData(res);
                         if(data.isCacheData){            //缓存查询的数据
-                            _this.dataContainer[data.cacheKey]=req;
+                            _this.dataContainer[data.cacheKey]=res;
                         }
                         if(data.isInitPagination){       //是否初始化分页器
-                            var totalPages= Math.ceil(req.data.total/_this.perPageNum);
+                            var totalPages= Math.ceil(res.data.count/_this.perPageNum);
+                            console.log(totalPages)
                             var currentPage= 1;
-                            _this.dealPagination(currentPage,totalPages);
-                        }else{
-                            _this.pagination_wrap.show(200);
+                            _this.pagination.render({current:currentPage,total:totalPages});
                         }
                     }
                 }else{
@@ -165,7 +166,10 @@ var admin_qingfen={
         $(".tableCon_box table.con_tb tbody").html(html);
 
         _this.tableCon_box.fadeIn(200);
-        _this.pagination_wrap.fadeIn(200);
+        console.log(parseInt(res.data.total_page))
+        if(parseInt(res.data.total_page)>1){
+            _this.pagination_wrap.fadeIn(200);
+        }
         _this.queryState_box.hide()
 
     },
