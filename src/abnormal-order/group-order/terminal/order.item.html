@@ -84,7 +84,7 @@
                 </div>
                 <div class="doActionBox">
                     <a class="checkBtn <%=item.can_check ? '' : 'disable'%>" data-salerid="<%=item.salerid%>" data-ptype="<%=item.ptype%>" href="javascript:void(0)" data-mainordernum="<%=tickets[0].ordernum%>">
-                        <%=item.is_audit ? '验 证 中...' : '验 证'%>
+                        <%=item.is_audit ? '核 销 中...' : '核 销'%>
                     </a>
                     <% if(item.endtime){ %>
                         <span class="termTimeWrap"><input data-nowtime="<%=item.endtime%>" data-terminaltime="<%=item.ordertime%>" readonly class="termTimeInp" type="text" value="<%=item.endtime%>"/><i class="iconfont">&#xe65b;</i></span>

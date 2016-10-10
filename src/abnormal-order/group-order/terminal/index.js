@@ -160,7 +160,8 @@ var Terminal = PFT.Util.Class({
 			type : "get",
 			params : {
 				orderid : orderid,
-				companyid : companyid
+				companyid : companyid,
+				chk:1
 			},
 			loading : function(){ listUl.html(Loading_Text);},
 			complete : function(){ listUl.html("");},
