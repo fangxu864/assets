@@ -26,14 +26,12 @@ var Dialog=require("COMMON/modules/dialog-simple");
 
 var Dial=new Dialog({
     width : 600,
+    offsetY : -80,
     closeBtn : true,
     content : dialog_tpl,
     drag : true,
     speed : 100,
     onCloseAfter : function(){
-        $(".select_down_pages .pages_wrap .con").off("click.click_pages");
-        $(".select_down_pages .btn_wrap .ok_btn").off("click.ok_down");
-        $(".select_down_pages .btn_wrap .all_btn").off("click.down_all")
     }
 });
 
@@ -135,7 +133,6 @@ var admin_qingfen={
                 "mode":mode,
                 "fid":_this.fid
             };
-            console.log(_this.dialog_queryParamsBox)
 
             $.ajax({
                 url: "/r/Finance_SettleBlance/getFrozeSummary/",      //请求的url地址
@@ -147,7 +144,6 @@ var admin_qingfen={
 
                 },
                 success: function(res) {
-                    console.log(res)
                     $(".dialog_con .title ul").html('<li>清算时间：'+qingsuan_time+'</li><li>合计：'+res.data.money/100+'</li>')
                 },
                 complete: function() {
@@ -311,7 +307,7 @@ var admin_qingfen={
         var html=_this.template({data:adaptData});
 
         $(".tableCon_box table.con_tb tbody").html(html);
-
+        $(".tableCon_box table.con_tb tbody tr:even").addClass("gray");
         _this.tableCon_box.fadeIn(200);
         _this.queryState_box.hide()
 
@@ -321,6 +317,7 @@ var admin_qingfen={
         var list=res.data.list;
         var html=_this.dialog_template({data:list});
         $(".dialog_con .table_con .dialog_tb tbody").html(html);
+        $(".dialog_con .table_con .dialog_tb tbody tr:even").addClass("gray")
         $(".dialog_con .table_con").fadeIn(200);
         $(".dialog_con .queryState_box").hide();
     },
