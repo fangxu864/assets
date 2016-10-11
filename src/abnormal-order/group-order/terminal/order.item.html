@@ -59,7 +59,7 @@
                             </div>
                             <div class="trnameCol">
                                 <p class="tname">【<%=ticket.name%>】</p>
-                                <p class="bt">
+                                <p class="bt" style="display: none;">
                                     共<em class="tnum total_tnum"><%=ticket.tnum_s%></em>张
                                     <i class="vt"></i>
                                     <%
@@ -87,7 +87,7 @@
                         <%=item.is_audit ? '退 票 中...' : '核 销'%>
                     </a>
                     <% if(item.endtime){ %>
-                        <span class="termTimeWrap"><input data-nowtime="<%=item.endtime%>" data-terminaltime="<%=item.ordertime%>" readonly class="termTimeInp" type="text" value="<%=item.endtime%>"/><i class="iconfont">&#xe65b;</i></span>
+                        <span class="termTimeWrap" style="display: none"><input data-nowtime="<%=item.endtime%>" data-terminaltime="<%=item.ordertime%>" readonly class="termTimeInp" type="text" value="<%=item.endtime%>"/><i class="iconfont">&#xe65b;</i></span>
                     <% } %>
                     <span class="errorTip"></span>
                 </div>
