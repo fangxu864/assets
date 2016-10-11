@@ -6,6 +6,11 @@ var common = new Common();
 var Api = require("./api.js");
 var api = new Api();
 var Filter = require("./filter.js");
+var PaginationX = require("COMMON/modules/pagination-x");
+
+
+
+
 var NavigationBar = require("./navigationbar.js");
 var QueryDisList = RichBase.extend({
 	EVENTS : {
@@ -39,6 +44,20 @@ var QueryDisList = RichBase.extend({
 		var that = this;
 		this.filter = new Filter();
 		this.navigationBar = new NavigationBar();
+		this.pagination = new PaginationX({
+			container : "#pagination_wrap",  //必须，组件容器id
+			count : 7,                //可选  连续显示分页数 建议奇数7或9
+			showTotal : true,         //可选  是否显示总页数
+			jump : true	              //可选  是否显示跳到第几页
+		});
+		this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
+			// toPage :      要switch到第几页
+			// currentPage : 当前所处第几页
+			// totalPage :   当前共有几页
+			that.pagination.render({current:toPage,total:totalPage});
+			that.fetch(toPage)
+		})
+
 		this.api = new Api();
 		this.tpl = $("#listTpl").html();
 		this.Gtpl = $("#GroupTpl").html();
@@ -212,14 +231,17 @@ var QueryDisList = RichBase.extend({
 			loading : function(){
 				that.renderList("loading");
 				that.navigationBar.hide();
+				that.pagination.container.hide();
 			},
 			removeLoading : function(){
 				that.renderList("removeLoading");
-				that.navigationBar.show();
+				that.pagination.container.show();
+				// that.navigationBar.show();
 			},
 			success : function(res){
 				that.renderList("success",res);
 				that.navigationBar.render({current_page:res.current_page,total_page:res.total_page});
+				that.pagination.render({current:res.current_page,total:res.total_page});
 			},
 			empty : function(res){
 				that.renderList("empty",res);
