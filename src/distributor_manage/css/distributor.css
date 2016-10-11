@@ -1,0 +1,87 @@
+
+.bgGray{background: #FAFAFA;}
+.colorGreen{color: #3DBA3F;}
+.colorOrange{color: #F07845;}
+.colorBlue{color: #0797D9;}
+
+
+.ml5{margin-left: 5px;}
+.selectBsae{border: 1px solid #C9C9C9; height: 34px; line-height: 34px;}
+.selectBsae_{border: 1px solid #C9C9C9; height: 34px; line-height: 34px;}
+.ui-textInp:focus{border-color: #0797D9; color: #0797D9;}
+
+
+.topBox{background: #FFFFFF; border: 1px solid #E5E5E5; }
+.topBox .title{display: block; height: 65px; line-height: 65px; border-bottom: 1px solid #E5E5E5; font-size: 22px; padding-left: 20px;}
+.topBox  .searchBox{padding: 25px; border-bottom: 1px solid #E5E5E5;}
+.topBox  .searchBox .searchBtn{border: 0 none; width: 100px;}
+.topBox  .searchBox .searchBtn_such{border: 0 none; width: 60px;text-align:center;}
+.topBox  .searchBox .checkWrap{margin-top:15px; margin-left: 3px;}
+.topBox  .searchBox .checkWrap .checkList{ width: 12px; height: 12px; margin:0 3px 0 10px; position: relative; top: 2px;}
+
+.newGroupWrap{text-align: right; height: 40px; line-height: 40px; margin-right: 20px;}
+.iconBase{position: relative; top: 5px; margin-left: 20px; display: inline-block; width:18px; height: 18px; background: url(http://images.12301.cc/icon/icon_fxsgl.png) no-repeat;}
+.newIcon{background-position: -18px 0;}
+.exIcon{background-position: -36px 0;}
+
+.tbManage{table-layout: fixed; width: 100%;}
+.tbManage tbody{border-top: 1px solid #E5E5E5;}
+.tbManage th{background: #E5E5E5; height: 35px; line-height: 35px;}
+.tbManage th.w240{width: 222px;}
+.tbManage th.w170{width: 161px;}
+.tbManage td{padding: 12px 0px; text-align: center;}
+.pBox{display: block;width: 833px; overflow-x: hidden; padding:5px 0 15px}/***180默锟斤拷锟斤拷示5锟斤拷******/
+.ltText{text-align: left; padding-left: 25px;}
+.rtText{text-align: right; padding-right: 80px;}
+
+.ticTypeToggleBtn:hover{ text-decoration:none}
+.ticTypeToggleBtn .up{ display:none}
+.ticTypeToggleBtn.on .up{ display:inline}
+.ticTypeToggleBtn.on .down{ display:none}
+
+
+.tbManage .ltTxt{text-align: left; padding-left: 25px;}
+/* .tbManage .ltTxt_{text-align: left; padding-left: 8px;} */
+.tbManage .ltTxt_{text-align: left; padding-left: 22px;} 
+.tbManage .rtTxt{text-align: right; } 
+.disabled{color: #989898;background: #f2f2f2;}
+.tdLine{position: relative; padding: 5px 25px; text-align: left;}
+.tdLine .rtCon{position: absolute; right: 23px; top: 0; padding: 5px;}
+
+.setBg{position: fixed; top: 0; left: 0; background: #000000; width: 100%; height: 100%;filter:alpha(opacity=50); -moz-opacity:0.5;  opacity:0.5;}
+.alertBox{width: 380px;  z-index: 9999; background: #FFFFFF; position: fixed; top: 50%; left: 50%; margin-top: -100px; margin-left: -190px; -moz-border-radius: 3px; border-radius: 3px;}
+.alertBox .title{height: 35px; line-height: 35px; position: relative; background: #E5E5E5;-moz-border-radius: 3px 3px 0 0; border-radius: 3px 3px 0 0;}
+.alertBox .title .leaderTitle{padding-left: 20px;  }
+.alertBox .title .closeBtn{position: absolute; right: 0; top: 0; display: inline-block; width: 35px; height: 35px; text-align: center; line-height: 35px; -moz-border-radius: 0 3px 0 0; border-radius: 0 3px 0 0;}
+.alertBox .title .closeBtn:hover{background: #F07845; color: #FFFFFF; text-decoration: none;}
+.alertBox .con{margin: 30px 20px 40px 20px;}
+
+.NameBox{width: 380px;  z-index: 9999; background: #FFFFFF; position: fixed; top: 50%; left: 50%; margin-top: -100px; margin-left: -190px; -moz-border-radius: 3px; border-radius: 3px;}
+.NameBox .title{height: 45px; line-height: 45px; position: relative; -moz-border-radius: 3px 3px 0 0; border-radius: 3px 3px 0 0;}
+.NameBox .title .leaderTitle{padding-left: 20px;padding-top: 6px;float: left;font-size: 1.2em;}
+.NameBox .title .closeBtn{position: absolute; right: 0; top: 0; display: inline-block; width: 35px; height: 35px; text-align: center; line-height: 35px; -moz-border-radius: 0 3px 0 0; border-radius: 0 3px 0 0;}
+.NameBox .title .closeBtn:hover{background: #F07845; color: #FFFFFF; text-decoration: none;}
+.NameBox .con{margin: 10px 20px 27px 20px;}
+.NameBox .btn_con {float: left;width: 100%;}
+.NameBox .line{float: left;width: 100%;border-top: 1px solid #dfdfdf;}
+.NameBox .submit{width: 110px;height: 29px;cursor:pointer;line-height: 29px;background:#0697D9;border: 1px solid #0697D9;display: inline-block;float: left;margin-left: 8px;margin-top: 10px;text-align: center;border-radius: 2px;color: white;margin-bottom: 10px;}
+.NameBox .cancel {width: 110px;cursor:pointer;height: 29px;line-height: 29px;background: white;border: 1px solid #F7AD90;display: inline-block;float: left;margin-left: 70px;margin-top: 10px;text-align: center;border-radius: 2px;color: #F49369;margin-bottom: 10px;}
+
+.w340{width: 340px;}
+.w300{width: 300px;}
+.w240{width: 240px; }  
+.w170{width: 170px;}
+.w230{width: 316px; }
+.tbManage .w120{width: 110px;}
+.aList{margin-right:7px;}
+#area {display: inline-block;}
+
+.ui-btn-such{display: inline-block;height: 34px;line-height: 34px;padding: 0 20px;background: #71B84F;color: #fff;cursor: pointer;text-decoration: none;}
+
+
+
+
+
+
+
+

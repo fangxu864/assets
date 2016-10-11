@@ -1,0 +1,135 @@
+<style type="text/css">
+input.set_check.sethe {
+    float: left;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.tbManage .ltTxt {
+    text-align: left;
+    padding-left: 22px;
+}
+.pBox_ {
+    display: block;
+    width: 833px;
+    overflow-x: hidden;
+    padding-top: 5px;
+<!--     max-height: 100px;
+    overflow-y: auto; -->
+}
+.selectPoint{
+	cursor:pointer;
+	color:#2A98DA;
+	display:inline-block;
+}
+.paging{text-align: right; margin-right: 10px; clear: both;}
+.paging .pre,.paging .next{display: inline-block; width: 60px; height: 25px; line-height: 25px; background: #BFE7F8; color: #6C7882; text-align: center; -moz-border-radius: 12px; border-radius: 12px; }
+.paging .pre:hover,.paging .next:hover{text-decoration: none; background: #0797D9; color: #FFFFFF;}
+.paging .pre:active,.paging .next:active{background: #0782BA;}
+.paging .pageCon{padding: 0 10px;}
+.paging .disabled{color: #989898;background: #f2f2f2;}
+</style>
+<script id="listTpl" type="text/template">
+    <% _.each(res.data,function(group){ %>
+        <% if(group.group_id!=0){ %>
+            <tbody class="group groupLine">
+                <tr>
+                    <td colspan="4">
+                        <div class="tdLine">
+                            <span class="ticTypeToggleBtn" group="<%=group.group_id%>"><%=group.group_name%>(<%=group.group_total%>)
+                            <a class="iconfont down" href="javascript:void(0)">&#xe673;</a>
+                            <a class="iconfont up" href="javascript:void(0)">&#xe695;</a>
+							</span>
+                            <div class="rtCon">
+                                <!-- <span>默认结算价：供货价+2元</span> -->
+                                <a class="ml5" href="new_configuration.html?gid=<%=group.group_id%>">分销价格配置</a>
+                                <a class="iconfont ml5 revise" group="<%=group.group_id%>" href="javascript: void(0)">&#xe684;</a>
+                                <a class="iconfont ml5 delete_group" group="<%=group.group_id%>" href="javascript: void(0)">&#xe634;</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+			<% if(group.group_members==""){%>
+
+
+			<% }else{ %>
+			  
+			
+			<tbody class="groupItem pBox_ bgGray " id="group_<%=group.group_id%>" style="display:none"> 
+            <% _.each(group.group_members,function(item){ %>
+                
+                <tr class="group_<%=group.group_id%>">
+                    <td class="w240 ltTxt">
+                        <a target="_blank" href="userinfo.html?id=<%=item.id%>" class="colorBlue"><%=item.dname%></a>
+                        <span>（<%=item.account%>）</span>
+                    </td>
+                    <td  class="w170 ltTxt">
+                        <span><%=item.cname%></span>
+                        <span><%=item.mobile%></span>
+                    </td>
+                    <td  class="w120" title="供应商余额=账户余额(<%=item.remain%>)+授信额度(<%=item.limit%>)"><%=item.total%></td>
+                    <td class="w230 rtTxt">
+                        <a class="aList group_move" href="javascript:void(0)" did="<%=item.id%>" g_name="<%=item.dname%>" group="<%=group.group_id%>">更换分组</a>
+                        <a class="aList" target="_blank" href="repayment.html?did=<%=item.id%>">授信/预存</a>
+                        <a class="aList" target="_blank" href="wx_shop_qr.html?id=<%=item.id%>">微店二维码</a>
+                        <a class="aList delete" did="<%=item.id%>" dname="<%=item.dname%>" type="1" href="javascript:void(0)">删除</a>
+                    </td>
+                </tr>
+                    
+            <% }) %>
+			<%if(group.group_total_page=="1"){%><% }else{ %>
+                <tr>
+                    <td colspan="4">
+                            
+                        <div class="paging">
+                            <input type="text" class="pagenuml ui-textInp ui-radius shadow pagelis" style="height:13px;line-height:13px;width:25px" value="">
+                            <span class="pagespan">页</span>
+                            <span class="pagelsub" group_id="<%=group.group_id%>" style="color: #2A98DA;cursor:pointer;">跳转</span>
+                            <a class="iconfont pageB pre disabled" href="javascript: void(0);" id="pre_<%=group.group_id%>" group_id="<%=group.group_id%>">&#xe60c;</a>
+                            
+							<span class="pageCon"><span id="num_one" class="num_<%=group.group_id%>">1</span>/<span  class="allnum_<%=group.group_id%>"><%=group.group_total_page%></span></span>
+                            <a class="iconfont pageB next <%if(group.group_total_page==group.current_page){%>disabled<%}%>" href="javascript: void(0);" id="next_<%=group.group_id%>" group_id="<%=group.group_id%>">&#xe60d;</a>
+                        </div>
+                    </td>
+                </tr>
+			<% } %>
+            </tbody>
+			 <% } %>
+        <% }else{ %>
+            <tbody class="group groupLine unGroup">
+                <tr>
+                    <td colspan="4">
+                        <div class="tdLine">
+                            <span>未分组(<%=group.group_total%>)</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody class="pBox groupItem">
+            <% _.each(group.group_members,function(item){ %>
+                <tr>
+                    <td class="w240 ltTxt_">
+                       <!--  <input class="set_check sethe" name="" type="checkbox" did="<%=item.id%>" value="<%=item.id%>"> -->
+						<a target="_blank" href="userinfo.html?id=<%=item.id%>" class="colorBlue"><%=item.dname%></a>
+                        <span>（<%=item.account%>）</span>
+                    </td>
+                    <td  class="w170 ltTxt_">
+                        <span><%=item.cname%></span>
+                        <span><%=item.mobile%></span>
+                    </td>
+                    <td  class="w120" title="供应商余额=账户余额(<%=item.remain%>)+授信额度(<%=item.limit%>)"><%=item.total%></td>
+                    <td class="w230 rtTxt">
+                        <a class="aList group_move" href="javascript:void(0)" did="<%=item.id%>" g_name="<%=item.dname%>" group="<%=group.group_id%>">更换分组</a>
+                        <a class="aList" target="_blank" href="repayment.html?did=<%=item.id%>">授信/预存</a>
+                        <a class="aList" target="_blank" href="wx_shop_qr.html?id=<%=item.id%>">微店二维码</a>
+                        <a class="aList" did="<%=item.id%>" type="0" href="new_configuration.html?did=<%=item.id%>">配置价格</a>
+						<a class="aList delete" did="<%=item.id%>" dname="<%=item.dname%>" type="0" href="javascript:void(0)">删除</a>
+                    </td>
+                </tr>
+            <%}) %>
+			
+            </tbody>
+        <% } %>
+    <% }) %>
+</script>
+
