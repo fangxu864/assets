@@ -144,7 +144,7 @@ var admin_qingfen={
 
                 },
                 success: function(res) {
-                    $(".dialog_con .title ul").html('<li>清算时间：'+qingsuan_time+'</li><li>合计：'+res.data.money/100+'</li>')
+                    $(".dialog_con .title ul").html('<li>清算时间：'+qingsuan_time+'</li><li>冻结金额：'+res.data.money/100+'</li>')
                 },
                 complete: function() {
                     //请求完成的处理
@@ -276,30 +276,30 @@ var admin_qingfen={
         var adaptData=[];
         for(var i in list){
             var obj={};
-            obj["settle_time"]=_this.timezone(list[i].settle_time,true);                        //清算时间
+            obj["settle_time"]=_this.timezone(list[i].settle_time,true);                          //清算时间
             var mode={
                 "1":"日结",
                 "2":"周结",
                 "3":"月结"
             };
-            obj["mode"]=mode[list[i].mode];                                                       //结算方式
-            obj["init_money"]=list[i].init_money=="-1"?"暂未清分":list[i].init_money;         //预计提现金额
-            obj["transfer_money"]=list[i].transfer_money;                                      //转账金额
-            obj["settle_money"]=list[i].settle_money;                                           //清分时余额
+            obj["mode"]=mode[list[i].mode];                                                           //结算方式
+            obj["init_money"]=list[i].init_money=="-1"?"暂未清分":list[i].init_money/100;         //预计提现金额
+            obj["transfer_money"]=list[i].transfer_money/100;                                      //转账金额
+            obj["settle_money"]=list[i].settle_money/100;                                           //清分时余额
             var freeze_type={
                 "0":'<a class="dongji_nouseorder" cycle_mark="'+list[i].cycle_mark+'" mode="'+list[i].mode+'" time="'+obj["settle_time"]+'">冻结未使用订单</a>',
                 "1":"按比例冻结",
                 "2":"按固定金额冻结"
             };
-            obj["freeze_type"]=freeze_type[list[i].freeze_type];                                //冻结方式
-            obj["freeze_money"]=list[i].freeze_money;                                           //冻结金额
+            obj["freeze_type"]=freeze_type[list[i].freeze_type];                                    //冻结方式
+            obj["freeze_money"]=list[i].freeze_money/100;                                           //冻结金额
             var status={
                 "1":"清分成功",
                 "2":"待清算",
                 "3":"清算,待转账",
                 "4":list[i].settle_remark
             };
-            obj["status"]=status[list[i].status];                                                //状态
+            obj["status"]=status[list[i].status];                                                      //状态
             adaptData.push(obj)
         }
 
