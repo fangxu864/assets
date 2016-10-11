@@ -76,6 +76,7 @@ var admin_qingfen={
                 });
             }
             _this.pagination.render({current:toPage,total:totalPage});
+            $("html,body").animate({"scrollTop":257},200,"swing")
         });
         //弹框分页器部分
         this.pagination_wrap_dialog = new Pagination({
@@ -103,7 +104,6 @@ var admin_qingfen={
             }
             _this.pagination_wrap_dialog.render({current:toPage,total:totalPage});
         });
-        _this.pagination_wrap_dialog.render({current:1,total:10});
 
 
         this.queryParamsBox={
@@ -283,16 +283,16 @@ var admin_qingfen={
                 "3":"月结"
             };
             obj["mode"]=mode[list[i].mode];                                                           //结算方式
-            obj["init_money"]=list[i].init_money=="-1"?"暂未清分":list[i].init_money/100;         //预计提现金额
-            obj["transfer_money"]=list[i].transfer_money/100;                                      //转账金额
-            obj["settle_money"]=list[i].settle_money/100;                                           //清分时余额
+            obj["init_money"]=list[i].init_money=="-1"?"0":list[i].init_money/100;                 //预计提现金额
+            obj["transfer_money"]=list[i].transfer_money=="-1"?"0":list[i].transfer_money/100;      //转账金额
+            obj["settle_money"]=list[i].settle_money=="-1"?"0":list[i].settle_money/100;          //清分时余额
             var freeze_type={
                 "0":'<a class="dongji_nouseorder" cycle_mark="'+list[i].cycle_mark+'" mode="'+list[i].mode+'" time="'+obj["settle_time"]+'">冻结未使用订单</a>',
                 "1":"按比例冻结",
                 "2":"按固定金额冻结"
             };
             obj["freeze_type"]=freeze_type[list[i].freeze_type];                                    //冻结方式
-            obj["freeze_money"]=list[i].freeze_money/100;                                           //冻结金额
+            obj["freeze_money"]=list[i].freeze_money=="-1"?"0":list[i].freeze_money/100;          //冻结金额
             var status={
                 "1":"清分成功",
                 "2":"待清算",
@@ -307,7 +307,7 @@ var admin_qingfen={
         var html=_this.template({data:adaptData});
 
         $(".tableCon_box table.con_tb tbody").html(html);
-        $(".tableCon_box table.con_tb tbody tr:even").addClass("gray");
+        $(".tableCon_box table.con_tb tbody tr:odd").addClass("gray");
         _this.tableCon_box.fadeIn(200);
         _this.queryState_box.hide()
 
@@ -317,7 +317,7 @@ var admin_qingfen={
         var list=res.data.list;
         var html=_this.dialog_template({data:list});
         $(".dialog_con .table_con .dialog_tb tbody").html(html);
-        $(".dialog_con .table_con .dialog_tb tbody tr:even").addClass("gray")
+        $(".dialog_con .table_con .dialog_tb tbody tr:odd").addClass("gray")
         $(".dialog_con .table_con").fadeIn(200);
         $(".dialog_con .queryState_box").hide();
     },
