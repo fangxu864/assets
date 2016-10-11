@@ -136,38 +136,70 @@ var Book_form={
 
 
         //产品名称搜索框
-        var select2=new Select({
-            source : "/r/report_statistics/getLandList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
+        this.ajaxParams={"search_id":""};
+        if(_this.isAdmin==1){
+            this.select2=new Select({
+                source : "/r/report_statistics/searchLands/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+                ajaxType : "post",
 
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "",  //指定过滤方式为ajax
-            field : {
-                id : "id",
-                name : "title",
-                keyword : "title"
-            },
-            trigger : $("#product_name_inp"),
-            isFillContent:false,
+                ajaxParams : _this.ajaxParams,
+                filterType : "ajax",  //指定过滤方式为ajax
+                field : {
+                    id : "id",
+                    name : "name",
+                    keyword : "keyword"
+                },
+                trigger : $("#product_name_inp"),
+                isFillContent:false,
 
-            filter : true,
-            adaptor : function(res){
-                var reslut = {};
-                reslut["code"]=res.code;
-                reslut["msg"]=res.msg;
-                var arr=[];
-                var data=res.data;
-                for(var i in data){
-                    arr.push(data[i]);
+                filter : true,
+                adaptor : function(res){
+                    var reslut = {};
+                    reslut["code"]=200;
+                    reslut["msg"]=res.msg;
+                    var arr=[];
+                    var data=res.data;
+                    for(var i in data){
+                        arr.push(data[i]);
+                    }
+                    reslut["data"] =arr;
+                    return reslut;
                 }
-                reslut["data"] =arr;
-                return reslut;
-            }
-        });
+            });
+        }else{
+            this.select2=new Select({
+                source : "/r/report_statistics/getLandList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+                ajaxType : "get",
+
+                ajaxParams : {
+                    action : "fuzzyGetDname_c",
+                    dtype : "1",
+                    danme : ""
+                },
+                filterType : "",  //指定过滤方式为ajax
+                field : {
+                    id : "id",
+                    name : "title",
+                    keyword : "title"
+                },
+                trigger : $("#product_name_inp"),
+                isFillContent:false,
+
+                filter : true,
+                adaptor : function(res){
+                    var reslut = {};
+                    reslut["code"]=res.code;
+                    reslut["msg"]=res.msg;
+                    var arr=[];
+                    var data=res.data;
+                    for(var i in data){
+                        arr.push(data[i]);
+                    }
+                    reslut["data"] =arr;
+                    return reslut;
+                }
+            });
+        }
 
         //分销商供应商选择
         var select_fg=new SelectShort({
@@ -354,6 +386,10 @@ var Book_form={
                         //请求出错处理
                     }
                 });
+            })
+            $("#product_name_inp").on("focus",function () {
+                var member_id = _this.getParams()["merchant_id"] ? _this.getParams()["merchant_id"] : "";
+                _this.ajaxParams["search_id"]=member_id;
             })
         }
     },
