@@ -4,7 +4,7 @@
 var Api = RichBase.extend({
 	statics : {
 		api : "partner_dt.php",
-		pageSize : 5
+		pageSize : 10
 	},
 	fetchList : function(page,queryParam,callbacks){
 		var queryParam = queryParam || {};
