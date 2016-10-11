@@ -94,7 +94,13 @@
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
-    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js"
+    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
+
+    "distributor_manage-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor_manage/webpack.config.js",
+    "distributor_manage-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
+    "distributor_manage-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
+    "v-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js"
+
   },
   "repository": {
     "type": "git",
