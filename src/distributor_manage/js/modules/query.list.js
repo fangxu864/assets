@@ -7,10 +7,6 @@ var Api = require("./api.js");
 var api = new Api();
 var Filter = require("./filter.js");
 var PaginationX = require("COMMON/modules/pagination-x");
-
-
-
-
 var NavigationBar = require("./navigationbar.js");
 var QueryDisList = RichBase.extend({
 	EVENTS : {
