@@ -207,6 +207,8 @@ var admin_qingfen={
                         }
                     }
                 }else{
+                    _this.tableCon_box.hide();
+                    _this.pagination_wrap.hide();
                     _this.queryState_box.show().text(res.msg);
                 }
             },
@@ -256,6 +258,8 @@ var admin_qingfen={
                         }
                     }
                 }else{
+                    $(".dialog_con .table_con").hide();
+                    $("#pagination_wrap_dialog").hide();
                     $(".dialog_con .queryState_box").show().text(res.msg);
                 }
             },
