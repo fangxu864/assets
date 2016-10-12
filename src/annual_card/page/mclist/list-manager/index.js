@@ -82,9 +82,14 @@ var Manager = Backbone.View.extend({
 		if(tarBtn.hasClass("disable")) return false;
 		if(tarBtn.hasClass("loss")){//挂失
 			this.doAction.loss.call(this,e);
-			// this.doAction.loss(e);
 		}else if(tarBtn.hasClass("inavail")){ //禁用
 			this.doAction.inavail.call(this,e);
+		}
+		else if(tarBtn.hasClass("buka")){ //补卡
+			this.doAction.buka.call(this,e);
+		}
+		else if(tarBtn.hasClass("huifu")){ //恢复
+			this.doAction.huifu.call(this,e);
 		}
 	},
 	buildSlideItem : function(status){
@@ -181,13 +186,57 @@ var Manager = Backbone.View.extend({
 	},
 	doAction : {
 		loss : function(e){ //挂失
-			console.log("挂失")
-			console.log(e.currentTarget)
-			console.log(this);
+			var tarBtn=e.currentTarget;
+			console.log(this.getParams(tarBtn))
 		},
 		inavail : function(e){ //禁用
-			console.log("禁用")
+			var tarBtn=e.currentTarget;
+			var param=this.getParams(tarBtn);
+			param["type"]=1;
+			var isForbid=confirm("是否禁用“"+$(tarBtn).parent().attr("account")+"”的会员卡");
+			if(isForbid){
+				$.ajax({
+					url: "../r/product_AnnualCard/operationAnnual/",    //请求的url地址
+					dataType: "json",   //返回格式为json
+					async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+					data: param,    //参数值
+					type: "post",   //请求方式
+					beforeSend: function() {//请求前的处理
+
+					},
+					success: function(res) {//请求成功时处理
+						console.log(res);
+						if(res.code=="200"){
+							
+						}
+					},
+					complete: function() {//请求完成的处理
+
+					},
+					error: function() {//请求出错处理
+
+					}
+				});
+			}
+		},
+		buka:function (e) {//补卡
+			var tarBtn=e.currentTarget;
+			console.log(this.getParams(tarBtn))
+		},
+		huifu : function(e){ //恢复
+			var tarBtn=e.currentTarget;
+			console.log(this.getParams(tarBtn))
 		}
+	},
+	getParams:function (tarBtn) {
+		var param={};
+		param["memberid"]=$(tarBtn).parent().attr("memberid");
+		param["id"]=$(tarBtn).parent().attr("canid");
+		param["sid"]=$(tarBtn).parent().attr("sid");
+		param["status"]=$(tarBtn).parent().attr("status");
+		param["card_no"]=$(tarBtn).parent().attr("card_no");
+		param["virtual_no"]=$(tarBtn).parent().attr("virtual_no");
+		return param;
 	}
 });
 
