@@ -78,7 +78,7 @@ var AdaptOrder = {
 			result = false;
 		}
 
-		return result;
+		return true;
 	},
 	/**
 	 * 在订单json里加入4个字段
