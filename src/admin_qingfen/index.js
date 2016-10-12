@@ -39,7 +39,7 @@ var Dial=new Dialog({
 var admin_qingfen={
     init:function () {
         var _this=this;
-        this.fid=(location.href).match(/fid=[\d]+/g)[0].match(/[\d]+$/)[0];
+        this.fid=parseInt((location.href).search(/fid/g))>-1?(location.href).match(/fid=[\d]+/g)[0].match(/[\d]+$/)[0]:0;
         //获取内容盒子
         this.tableCon_box=$(".tableCon_box");
         this.pagination_wrap=$("#pagination_wrap");
