@@ -298,7 +298,7 @@ var admin_qingfen={
             obj["freeze_type"]=freeze_type[list[i].freeze_type];                                        //冻结方式
             obj["freeze_money"]=list[i].freeze_money=="-1"?"0":list[i].freeze_money/100;             //冻结金额
             var status={
-                "1":"转账成功",
+                "1":list[i].trans_remark,
                 "2":"待清算",
                 "3":"待转账,预计转账时间:"+_this.timezone(list[i].transfer_time,true),
                 "4":list[i].settle_remark
