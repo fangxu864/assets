@@ -237,7 +237,7 @@ var QueryDisList = RichBase.extend({
 			success : function(res){
 				that.renderList("success",res);
 				that.navigationBar.render({current_page:res.current_page,total_page:res.total_page});
-				that.pagination.render({current:res.current_page,total:res.total_page});
+				that.pagination.render({current:parseInt(res.current_page),total:res.total_page});
 			},
 			empty : function(res){
 				that.renderList("empty",res);
