@@ -191,6 +191,9 @@ var Manager = Backbone.View.extend({
 		},
 		inavail : function(e){ //禁用
 			var tarBtn=e.currentTarget;
+			if($(tarBtn).hasClass("disabled")){
+				return false;
+			}
 			var param=this.getParams(tarBtn);
 			param["type"]=1;
 			var isForbid=confirm("是否禁用“"+$(tarBtn).parent().attr("account")+"”的会员卡");
@@ -202,7 +205,7 @@ var Manager = Backbone.View.extend({
 					data: param,    //参数值
 					type: "post",   //请求方式
 					beforeSend: function() {//请求前的处理
-
+						$(tarBtn).text("禁用中...").toggleClass("valid disabled")
 					},
 					success: function(res) {//请求成功时处理
 						console.log(res);
