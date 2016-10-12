@@ -204,15 +204,16 @@ var Terminal = PFT.Util.Class({
 		};
 		var un_terminal_tnum=tarBtn.parents("li.orderItem").find(".un_terminal_tnum").html();// 待核销的票数
 		var inpNum=tarBtn.parents("li.orderItem").find(".countInp").val();                    //输入框中的票数
-		if(parseInt(inpNum)===0){
-			alert("核销票数不能为0");
+		if(parseInt(inpNum)<1){
+			alert("核销票数不能低于1张");
 			tarBtn.parents("li.orderItem").find(".countInp").val("1")
 			return false;
-		}else if(parseInt(inpNum)>parseInt(un_terminal_tnum)){
-			alert("核销票数不能超过未验票数")
-			tarBtn.parents("li.orderItem").find(".countInp").val(un_terminal_tnum)
-			return false;
 		}
+		// else if(parseInt(inpNum)>parseInt(un_terminal_tnum)){
+		// 	alert("核销票数不能超过未验票数")
+		// 	tarBtn.parents("li.orderItem").find(".countInp").val(un_terminal_tnum)
+		// 	return false;
+		// }
 
 		// this.yanParams["tnum"]=parseInt(un_terminal_tnum)-parseInt(inpNum);
 		this.yanParams["tnum"]=parseInt(inpNum);
