@@ -208,6 +208,8 @@ var Manager = Backbone.View.extend({
 						console.log(res);
 						if(res.code=="200"){
 							PFT.Util.STip("success","禁用成功")
+						}else{
+							PFT.Util.STip("fail","禁用失败")
 						}
 					},
 					complete: function() {//请求完成的处理
