@@ -82,6 +82,7 @@ var Manager = Backbone.View.extend({
 		if(tarBtn.hasClass("disable")) return false;
 		if(tarBtn.hasClass("loss")){//挂失
 			this.doAction.loss.call(this,e);
+			// this.doAction.loss(e);
 		}else if(tarBtn.hasClass("inavail")){ //禁用
 			this.doAction.inavail.call(this,e);
 		}
@@ -180,11 +181,16 @@ var Manager = Backbone.View.extend({
 	},
 	doAction : {
 		loss : function(e){ //挂失
-
+			console.log("挂失")
+			console.log(e.currentTarget)
+			console.log(this);
 		},
 		inavail : function(e){ //禁用
-
+			console.log("禁用")
 		}
 	}
 });
+
+
+
 module.exports = Manager;

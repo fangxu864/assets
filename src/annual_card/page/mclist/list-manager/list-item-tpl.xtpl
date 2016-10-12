@@ -24,12 +24,20 @@
             <td><%={"5":"全部","1":"正常","0":"未激活","2":"禁用","4":"挂失","5":"全部"}[item.status]%></td>
             <td class="font-blue doAction">
                 <% if(item.status==0){ %>
-                    <span class="color:#ccc">--</span>
-                <% }else{ %>
-                    <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <span class="color:#ccc">--</span>
+                <% }else if(item.status==1){ %>
+                <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <a style="margin-right:8px" class="doBtn loss" href="javascript:void(0);">挂失</a>
+                <a  href="javascript:void(0);" class="doBtn inavail">禁用</a>
+                <% }else if(item.status==4){ %>
+                <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <a style="margin-right:8px" class="doBtn buka" href="javascript:void(0);">补卡</a>
+                <a  href="javascript:void(0);" class="doBtn inavail">禁用</a>
+                <% }else if(item.status==2){ %>
+                <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <a style="margin-right:8px" class="doBtn loss" href="javascript:void(0);">挂失</a>
+                <a  href="javascript:void(0);" class="doBtn huifu">恢复</a>
                 <% } %>
-                <a style="display:none;margin-right:8px" class="doBtn loss" href="javascript:void(0);">挂失</a>
-                <a style="display:none" href="javascript:void(0);" class="doBtn inavail">禁用</a>
             </td>
         </tr>
     <% }) %>
