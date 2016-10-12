@@ -207,7 +207,7 @@ var Manager = Backbone.View.extend({
 					success: function(res) {//请求成功时处理
 						console.log(res);
 						if(res.code=="200"){
-							
+							PFT.Util.STip("success","禁用成功")
 						}
 					},
 					complete: function() {//请求完成的处理
