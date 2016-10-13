@@ -6,11 +6,12 @@
     </div>
     <div class="line line2">
         <div class="td">持卡人手机验证码:</div>
-        <div class="td"><input id="" placeholder="请输入持卡人手机验证码"/></div>
+        <div class="td"><input class="vcode" placeholder="请输入持卡人手机验证码"/></div>
         <div class="td"><span class="btn btn_sendCode valid">点击获取短信验证码</span></div>
     </div>
+    <div class="line line2_1"><span class="success">验证码发送成功</span></div>
     <div class="line line3">
-        <div class="td td1"><span class="btn btn_yes">确定</span></div>
+        <div class="td td1"><span class="btn btn_yes valid">确定</span></div>
         <div class="td"><span class="btn btn_no">取消</span></div>
     </div>
 </div>

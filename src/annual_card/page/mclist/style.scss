@@ -81,6 +81,20 @@ select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text
         background-color: lightgrey !important;
       }
     }
+    .line2_1{
+      line-height: 20px;
+      height: 20px;
+      text-align: left;
+      padding-left: 327px;
+      font-size: 12px;
+      display: none;
+      span.success{
+        color: #3eba40;
+      }
+      span.fail{
+        color: orangered;
+      }
+    }
     .line3 {
       padding-left: 327px;
       .td1{

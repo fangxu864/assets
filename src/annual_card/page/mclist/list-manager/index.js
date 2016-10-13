@@ -75,7 +75,7 @@ var Manager = Backbone.View.extend({
 					if(!tarBtn.hasClass("valid")) return false;
 					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
 					param["type"]=0;
-					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile")
+					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
 					console.log(param)
 					$.ajax({
 						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
@@ -84,31 +84,45 @@ var Manager = Backbone.View.extend({
 						data: param,    //参数值
 						type: "post",   //请求方式
 						beforeSend: function() {//请求前的处理
-							$(tarBtn).text("60秒后重新获取...").toggleClass("valid disabled");
-							setTimeout(function () {
-								
-							},1000)
+							$(tarBtn).text("60秒后可重新获取...").toggleClass("valid disabled");
+							var num=61;
+							CountTime()
+							function CountTime(){
+								num--;
+								$(tarBtn).text(num+"秒后可重新获取...");
+								if(num>0){
+									setTimeout(arguments.callee,1000)
+								}else{
+									$(tarBtn).text("重新获取短信验证码").toggleClass("valid disabled");
+								}
+							}
 						},
 						success: function(res) {//请求成功时处理
 							console.log(res);
-							// if(res.code=="200"){
-							// 	PFT.Util.STip("success","禁用成功");
-							// 	// $(tarBtn).parent().siblings(".status").text("禁用");
-							// 	// $(tarBtn).parent().html(_this.changedHtml("jinyong",$(tarBtn).parent().attr("memberid")))
-							// 	$(".cardType.active").click()
-							// }else{
-							// 	PFT.Util.STip("fail","禁用失败");
-							// 	$(tarBtn).text("禁用").toggleClass("valid disabled")
-							// }
+							if(res.code=="200"){
+							   $(".dialog_loss .line2_1").html('<span class="success">'+res.msg+'</span>').slideDown(200)
+							}else{
+								$(".dialog_loss .line2_1").html('<span class="fail">'+res.msg+'</span>').slideDown(200)
+							}
 						},
 						complete: function() {//请求完成的处理
 
 						},
 						error: function() {//请求出错处理
-							PFT.Util.STip("fail","挂失失败");
-							$(tarBtn).text("挂失").toggleClass("valid disabled")
+							$(".dialog_loss .line2_1").html('<span class="fail">'+"请求出错"+'</span>').slideDown(200)
 						}
 					});
+				},
+				"click .btn_yes":function (e) {
+					var tarBtn=$(e.currentTarget);
+					if(!tarBtn.hasClass("valid")) return false;
+					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
+					param["type"]=0;
+					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
+					console.log(tarBtn.parents(".dialog_loss_con"))
+					var vcode=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
+					param["vcode"]=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
+					console.log(param)
 				}
 			}
 		});
