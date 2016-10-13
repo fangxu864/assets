@@ -12,6 +12,7 @@ var MainView = Backbone.View.extend({
 	},
 	initialize : function(){
 		var that = this;
+		
 		this.ListManager = new ListManager();
 	}
 });

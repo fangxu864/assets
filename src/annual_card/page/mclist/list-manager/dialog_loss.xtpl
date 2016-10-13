@@ -1,0 +1,16 @@
+<div class="dialog_loss_con" account="<%=data.account%>" memberid="<%=data.memberid%>" canid="<%=data.id%>" sid="<%=data.sid%>" status="<%=data.status%>" card_no="<%=data.card_no%>" virtual_no="<%=data.virtual_no%>" mobile="<%=data.mobile%>">
+    <div class="title">年卡申请挂失</div>
+    <div class="line line1">
+        <div class="td">实体卡号:</div>
+        <div class="td"><%=data.virtual_no%></div>
+    </div>
+    <div class="line line2">
+        <div class="td">持卡人手机验证码:</div>
+        <div class="td"><input id="" placeholder="请输入持卡人手机验证码"/></div>
+        <div class="td"><span class="btn btn_sendCode valid">点击获取短信验证码</span></div>
+    </div>
+    <div class="line line3">
+        <div class="td td1"><span class="btn btn_yes">确定</span></div>
+        <div class="td"><span class="btn btn_no">取消</span></div>
+    </div>
+</div>

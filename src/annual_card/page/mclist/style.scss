@@ -41,3 +41,51 @@ select{border:1px solid #dbdbdb;box-shadow:inset 0 1px 1px rgba(0,0,0,.075);text
 
 #activaCard,#activaCard:visited{ color:#fff}
 .doAction a.disabled{color:#8e8e8e!important;}
+
+.dialog_loss{
+  .dialog_loss_con {
+    .title {
+      height: 46px;
+      line-height: 46px;
+      padding-left: 20px;
+      font-size: 16px;
+    }
+    .line {
+      height: 60px;
+      line-height: 60px;
+      padding-left: 20px;
+      font-size: 14px;
+      .td {
+        float: left;
+        margin-right: 10px;
+      }
+      .btn {
+        padding: 10px 20px;
+        background-color: orange;
+        color: white;
+        line-height: 13px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background-color: orangered;
+      }
+    }
+    .line2 {
+      input {
+        @include textInp(160, 5);
+      }
+      .disabled{
+        background-color: lightgrey !important;
+      }
+      .disabled:hover{
+        background-color: lightgrey !important;
+      }
+    }
+    .line3 {
+      padding-left: 327px;
+      .td1{
+        margin-right: 20px;
+      }
+    }
+  }
+}

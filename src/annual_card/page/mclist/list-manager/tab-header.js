@@ -22,7 +22,7 @@ var Header = Backbone.View.extend({
 	},
 	onCardTypeClick : function(e){
 		var tarBtn = $(e.currentTarget);
-		if(tarBtn.hasClass("active")) return false;
+		// if(tarBtn.hasClass("active")) return false;
 		var cur_active = this.$el.find(".cardType").filter(".active");
 		var from_active_status = cur_active.length ? cur_active.attr("data-status") : -1;
 		var status = tarBtn.attr("data-status");

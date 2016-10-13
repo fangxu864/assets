@@ -4,12 +4,15 @@
  * Description: ""
  */
 var itemContainerTpl = require("./item-container-tpl.xtpl");
+var dialog_loss_tpl=require("./dialog_loss.xtpl");
 var LoadingPc = require("COMMON/js/util.loading.pc.js");
 var Api = require("../../../common/api.js");
 var itemTpl = require("./list-item-tpl.xtpl");
 var Pagination = require("COMMON/modules/pagination-simple");
 var State = require("../state.js");
 var TabHeader = require("./tab-header");
+var Dialog_simple=require("COMMON/modules/dialog-simple");
+
 var Manager = Backbone.View.extend({
 	el : $("#listSlideContainer"),
 	events : {
@@ -32,6 +35,9 @@ var Manager = Backbone.View.extend({
 	initialize : function(opt){
 		opt = opt || {};
 		var that = this;
+		// $(".dialog_loss").on("click",".btn_sendCode",function (e) {
+		// 	console.log(e.currentTarget)
+		// });
 		this.state = State;
 		this.itemWidth = this.$el.width();
 		this.TabHeader = this.initTabHeader();
@@ -52,6 +58,60 @@ var Manager = Backbone.View.extend({
 		this.slideUl.width(this.itemWidth*this.statusArr.length);
 		this.buildSlideItem(this.statusArr);
 		this.TabHeader.active(5);
+		this.Dialog_loss=new Dialog_simple({
+			width : 510,
+			height :"" ,
+			closeBtn : true,
+			content :'<div class="dialog_loss"></div>',
+			drag : true,
+			speed : 200,
+			offsetX : 0,
+			offsetY : 0,
+			overlay : true,
+			headerHeightMin :46,
+			events : {
+				"click .btn_sendCode":function (e) {
+					var tarBtn=$(e.currentTarget);
+					if(!tarBtn.hasClass("valid")) return false;
+					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
+					param["type"]=0;
+					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile")
+					console.log(param)
+					$.ajax({
+						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
+						dataType: "json",   //返回格式为json
+						async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+						data: param,    //参数值
+						type: "post",   //请求方式
+						beforeSend: function() {//请求前的处理
+							$(tarBtn).text("60秒后重新获取...").toggleClass("valid disabled");
+							setTimeout(function () {
+								
+							},1000)
+						},
+						success: function(res) {//请求成功时处理
+							console.log(res);
+							// if(res.code=="200"){
+							// 	PFT.Util.STip("success","禁用成功");
+							// 	// $(tarBtn).parent().siblings(".status").text("禁用");
+							// 	// $(tarBtn).parent().html(_this.changedHtml("jinyong",$(tarBtn).parent().attr("memberid")))
+							// 	$(".cardType.active").click()
+							// }else{
+							// 	PFT.Util.STip("fail","禁用失败");
+							// 	$(tarBtn).text("禁用").toggleClass("valid disabled")
+							// }
+						},
+						complete: function() {//请求完成的处理
+
+						},
+						error: function() {//请求出错处理
+							PFT.Util.STip("fail","挂失失败");
+							$(tarBtn).text("挂失").toggleClass("valid disabled")
+						}
+					});
+				}
+			}
+		});
 	},
 	template : _.template(itemTpl),
 	initTabHeader : function(){
@@ -127,7 +187,8 @@ var Manager = Backbone.View.extend({
 		this.TabHeader.setKeyword(new_keyword);
 		this.TabHeader.setSupplySelectVal(new_supply);
 		new_keyword ? $("#clearSearchBtn").show() : $("#clearSearchBtn").hide();
-		if(!listData) this.getList(toStatus,1);
+		// if(!listData) this.getList(toStatus,1);
+		this.getList(toStatus,1);
 		this.slideUl.animate({left:-1*this.itemWidth*index},300);
 	},
 	getList : function(status,page,keyword){
@@ -186,15 +247,64 @@ var Manager = Backbone.View.extend({
 	},
 	doAction : {
 		loss : function(e){ //挂失
-			var tarBtn=e.currentTarget;
-			console.log(this.getParams(tarBtn))
-		},
-		inavail : function(e){ //禁用
+			var _this=this;
 			var tarBtn=e.currentTarget;
 			if($(tarBtn).hasClass("disabled")){
 				return false;
 			}
-			var param=this.getParams(tarBtn);
+			var template=_.template(dialog_loss_tpl);
+			var html=template({data:{
+				"memberid":$(tarBtn).parent().attr("memberid"),
+				"account":$(tarBtn).parent().attr("account"),
+				"id":$(tarBtn).parent().attr("canid"),
+				"sid":$(tarBtn).parent().attr("sid"),
+				"status":$(tarBtn).parent().attr("status"),
+				"card_no":$(tarBtn).parent().attr("card_no"),
+				"virtual_no":$(tarBtn).parent().attr("virtual_no"),
+				"mobile":$(tarBtn).parent().attr("mobile")
+			}});
+			$(".dialog_loss").html(html);
+			this.Dialog_loss.open();
+			// var isForbid=confirm("是否挂失“"+$(tarBtn).parent().attr("account")+"”的会员卡");
+			// if(isForbid){
+			// 	$.ajax({
+			// 		url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
+			// 		dataType: "json",   //返回格式为json
+			// 		async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+			// 		data: param,    //参数值
+			// 		type: "post",   //请求方式
+			// 		beforeSend: function() {//请求前的处理
+			// 			$(tarBtn).text("挂失中...").toggleClass("valid disabled")
+			// 		},
+			// 		success: function(res) {//请求成功时处理
+			// 			console.log(res);
+			// 			// if(res.code=="200"){
+			// 			// 	PFT.Util.STip("success","禁用成功");
+			// 			// 	// $(tarBtn).parent().siblings(".status").text("禁用");
+			// 			// 	// $(tarBtn).parent().html(_this.changedHtml("jinyong",$(tarBtn).parent().attr("memberid")))
+			// 			// 	$(".cardType.active").click()
+			// 			// }else{
+			// 			// 	PFT.Util.STip("fail","禁用失败");
+			// 			// 	$(tarBtn).text("禁用").toggleClass("valid disabled")
+			// 			// }
+			// 		},
+			// 		complete: function() {//请求完成的处理
+            //
+			// 		},
+			// 		error: function() {//请求出错处理
+			// 			PFT.Util.STip("fail","挂失失败");
+			// 			$(tarBtn).text("挂失").toggleClass("valid disabled")
+			// 		}
+			// 	});
+			// }
+		},
+		inavail : function(e){ //禁用
+			var _this=this;
+			var tarBtn=$(e.currentTarget);
+			if($(tarBtn).hasClass("disabled")){
+				return false;
+			}
+			var param=this.getParams(tarBtn.parent());
 			param["type"]=1;
 			var isForbid=confirm("是否禁用“"+$(tarBtn).parent().attr("account")+"”的会员卡");
 			if(isForbid){
@@ -208,40 +318,137 @@ var Manager = Backbone.View.extend({
 						$(tarBtn).text("禁用中...").toggleClass("valid disabled")
 					},
 					success: function(res) {//请求成功时处理
-						console.log(res);
 						if(res.code=="200"){
-							PFT.Util.STip("success","禁用成功")
+							PFT.Util.STip("success","禁用成功");
+							// $(tarBtn).parent().siblings(".status").text("禁用");
+							// $(tarBtn).parent().html(_this.changedHtml("jinyong",$(tarBtn).parent().attr("memberid")))
+							$(".cardType.active").click()
 						}else{
-							PFT.Util.STip("fail","禁用失败")
+							PFT.Util.STip("fail","禁用失败");
+							$(tarBtn).text("禁用").toggleClass("valid disabled")
 						}
 					},
 					complete: function() {//请求完成的处理
 
 					},
 					error: function() {//请求出错处理
-
+						PFT.Util.STip("fail","禁用失败");
+						$(tarBtn).text("禁用").toggleClass("valid disabled")
 					}
 				});
 			}
 		},
 		buka:function (e) {//补卡
 			var tarBtn=e.currentTarget;
-			console.log(this.getParams(tarBtn))
 		},
 		huifu : function(e){ //恢复
-			var tarBtn=e.currentTarget;
-			console.log(this.getParams(tarBtn))
+			var _this=this;
+			var tarBtn=$(e.currentTarget);
+			if($(tarBtn).hasClass("disabled")){
+				return false;
+			}
+			var param=this.getParams(tarBtn.parent());
+			param["type"]=3;
+			var isHuifu=confirm("是否恢复“"+$(tarBtn).parent().attr("account")+"”的会员卡");
+			if(isHuifu){
+				$.ajax({
+					url: "../r/product_AnnualCard/operationAnnual/",    //请求的url地址
+					dataType: "json",   //返回格式为json
+					async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+					data: param,    //参数值
+					type: "post",   //请求方式
+					beforeSend: function() {//请求前的处理
+						$(tarBtn).text("恢复中...").toggleClass("valid disabled")
+					},
+					success: function(res) {//请求成功时处理
+						if(res.code=="200"){
+							PFT.Util.STip("success","恢复成功");
+							// $(tarBtn).parent().siblings(".status").text("正常");
+							// $(tarBtn).parent().html(_this.changedHtml("normal",$(tarBtn).parent().attr("memberid")))
+							$(".cardType.active").click()
+						}else if(res.code=="501"){
+							var isconfirm=confirm('一个手机号只能激活一张年卡，现在【'+res.msg+'】年卡已激活， 需要禁用此卡，激活【'+$(tarBtn).parent().attr("virtual_no")+'】吗?')
+							if(isconfirm){
+								param["confirm"]=1;
+								$.ajax({
+									url: "../r/product_AnnualCard/operationAnnual/",    //请求的url地址
+									dataType: "json",   //返回格式为json
+									async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+									data: param,    //参数值
+									type: "post",   //请求方式
+									beforeSend: function() {
+										//请求前的处理
+									},
+									success: function(res) {//请求成功时处理
+										if(res.code=="200"){
+											PFT.Util.STip("success","恢复成功");
+											// $(tarBtn).parent().siblings(".status").text("正常");
+											// $(tarBtn).parent().html(_this.changedHtml("normal",$(tarBtn).parent().attr("memberid")))
+											$(".cardType.active").click()
+										}else{
+											PFT.Util.STip("fail","恢复失败");
+											$(tarBtn).text("恢复").toggleClass("valid disabled")
+										}
+									},
+									complete: function() {
+										//请求完成的处理
+									},
+									error: function() {
+										//请求出错处理
+										PFT.Util.STip("fail","恢复失败");
+										$(tarBtn).text("恢复").toggleClass("valid disabled")
+									}
+								});
+							}
+							else{
+								PFT.Util.STip("fail","恢复取消");
+								$(tarBtn).text("恢复").toggleClass("valid disabled")
+							}
+						}else{
+							PFT.Util.STip("fail","恢复失败");
+							$(tarBtn).text("恢复").toggleClass("valid disabled")
+						}
+					},
+					complete: function() {//请求完成的处理
+
+					},
+					error: function() {//请求出错处理
+						PFT.Util.STip("fail","恢复失败");
+						$(tarBtn).text("恢复").toggleClass("valid disabled")
+					}
+				});
+			}
 		}
 	},
 	getParams:function (tarBtn) {
 		var param={};
-		param["memberid"]=$(tarBtn).parent().attr("memberid");
-		param["id"]=$(tarBtn).parent().attr("canid");
-		param["sid"]=$(tarBtn).parent().attr("sid");
-		param["status"]=$(tarBtn).parent().attr("status");
-		param["card_no"]=$(tarBtn).parent().attr("card_no");
-		param["virtual_no"]=$(tarBtn).parent().attr("virtual_no");
+		param["memberid"]=tarBtn.attr("memberid");
+		param["id"]=tarBtn.attr("canid");
+		param["sid"]=tarBtn.attr("sid");
+		param["status"]=tarBtn.attr("status");
+		param["card_no"]=tarBtn.attr("card_no");
+		param["virtual_no"]=tarBtn.attr("virtual_no");
+		param["confirm"]=0;
 		return param;
+	},
+	changedHtml:function(type,memberid) {
+		switch (type) {
+			case "jinyong":{
+				return '  <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id='+memberid+'">查看</a> <a style="margin-right:8px" class="doBtn loss valid" href="javascript:void(0);">挂失</a> <a  href="javascript:void(0);" class="doBtn huifu valid">恢复</a>'
+				break;
+			}
+			case "loss":{
+				return '  <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id='+memberid+'">查看</a><a style="margin-right:8px" class="doBtn buka valid" href="javascript:void(0);">补卡</a> <a  href="javascript:void(0);" class="doBtn inavail valid">禁用</a>'
+				break;
+			}
+			case "normal":{
+				return '  <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id='+memberid+'">查看</a> <a style="margin-right:8px" class="doBtn loss valid" href="javascript:void(0);">挂失</a> <a  href="javascript:void(0);" class="doBtn inavail valid">禁用</a>'
+				break;
+			}
+			default:{
+				alert("参数错误");
+			}
+		}
 	}
 });
 

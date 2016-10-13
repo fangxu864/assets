@@ -3,6 +3,7 @@
  * Date: 2016/6/21 10:04
  * Description: ""
  */
+
 require("./index.scss");
 var WinWidthHeight = require("COMMON/js/util.window.width.height.js");
 var Drag = require("COMMON/js/util.drag.js");

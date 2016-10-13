@@ -21,8 +21,8 @@
             <% } %>
             <td><%=item.card_no%></td>
             <td><%=item.supply%></td>
-            <td><%={"5":"全部","1":"正常","0":"未激活","2":"禁用","4":"挂失","5":"全部"}[item.status]%></td>
-            <td class="font-blue doAction" account="<%=item.account%>" memberid="<%=item.memberid%>" canid="<%=item.id%>" sid="<%=item.sid%>" status="<%=item.status%>" card_no="<%=item.card_no%>" virtual_no="<%=item.virtual_no%>">
+            <td class="status"><%={"5":"全部","1":"正常","0":"未激活","2":"禁用","4":"挂失","5":"全部"}[item.status]%></td>
+            <td class="font-blue doAction" account="<%=item.account%>" memberid="<%=item.memberid%>" canid="<%=item.id%>" sid="<%=item.sid%>" status="<%=item.status%>" card_no="<%=item.card_no%>" virtual_no="<%=item.virtual_no%>" mobile="<%=item.mobile%>">
                 <% if(item.status==0){ %>
                 <span class="color:#ccc">--</span>
                 <% }else if(item.status==1){ %>
