@@ -35,13 +35,29 @@ SelectScroll.prototype={
         _this.innerHTML=html;
         _this.style.position="relative";
         //给第一层div select_scroll赋值宽度
-        this.select_scroll=_this.getElementsByClassName("select_scroll")[0];
+        this.select_scroll=getByClass(_this,"select_scroll")[0];
         this.select_scroll.style.width=(parseInt(this.getStyle(_this,"width"))+2)+"px";
         //获取_this的高度
         this._this_h=parseInt(this.getStyle(_this,"height"))+1;
 
-        this.cur_con=_this.getElementsByClassName("cur_con")[0];
-        this.opt=_this.getElementsByClassName("opt")[0];
+        this.cur_con=getByClass(_this,"cur_con")[0];
+        this.opt=getByClass(_this,"opt")[0];
+        function getByClass(obj,className) {
+            var arr=[];
+            if(obj.getElementsByClassName){
+                return obj.getElementsByClassName(className);
+            }else{
+                var allEle=obj.getElementsByTagName("*");
+                for(var i=0;i<allEle.length;i++){
+                    var cls = allEle[i].getAttribute("class");
+
+                    if(cls.search(className)>-1){
+                        arr.push(allEle[i]);
+                    }
+                }
+            }
+            return arr;
+        }
         //往容器里加东西
         this.cur_con.innerHTML=this.arr[0];
         this.cur_opt=this.arr[0];
@@ -80,7 +96,8 @@ SelectScroll.prototype={
 //                startMove(_this.opt,{"height":0})
             _this.cur_con.className="cur_con fold";
             _this.isFold=1;
-            document.removeEventListener("click",fold)
+            // document.removeEventListener("click",fold)
+            $(document).off("click.select")
         }
         //为当前选项添加点击事件
         this.cur_con.onclick=function (ev) {
@@ -94,13 +111,13 @@ SelectScroll.prototype={
                 }
                 //展开select
                 unFold();
-                document.addEventListener("click",fold)
+                // document.addEventListener("click",fold)
+                $(document).on("click.select",fold)
 
             }else {
                 fold();
             }
         }
-
     },
     getStyle:function (obj,name) {
         if (obj.currentStyle) {
