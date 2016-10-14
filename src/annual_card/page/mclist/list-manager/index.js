@@ -76,7 +76,6 @@ var Manager = Backbone.View.extend({
 					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
 					param["type"]=0;
 					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
-					console.log(param)
 					$.ajax({
 						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
 						dataType: "json",   //返回格式为json
@@ -86,7 +85,7 @@ var Manager = Backbone.View.extend({
 						beforeSend: function() {//请求前的处理
 							$(tarBtn).text("60秒后可重新获取...").toggleClass("valid disabled");
 							var num=61;
-							CountTime()
+							CountTime();
 							function CountTime(){
 								num--;
 								$(tarBtn).text(num+"秒后可重新获取...");
@@ -119,10 +118,49 @@ var Manager = Backbone.View.extend({
 					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
 					param["type"]=0;
 					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
-					console.log(tarBtn.parents(".dialog_loss_con"))
+					console.log(tarBtn.parents(".dialog_loss_con"));
 					var vcode=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
 					param["vcode"]=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
-					console.log(param)
+					var re=/^\d{6}$/;
+					if(!re.test(vcode)){
+						$(".dialog_loss .line2_1").html('<span class="fail">'+"请输入正确的验证码"+'</span>').slideDown(200);
+						tarBtn.parents(".dialog_loss_con").find("input.vcode").focus();
+						return false
+					}else{
+						$(".dialog_loss .line2_1").slideUp(200)
+					}
+					console.log(param);
+					$.ajax({
+						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
+						dataType: "json",   //返回格式为json
+						async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+						data: param,    //参数值
+						type: "post",   //请求方式
+						beforeSend: function() {//请求前的处理
+							$(tarBtn).toggleClass("valid disabled");
+						},
+						success: function(res) {//请求成功时处理
+							console.log(res);
+							if(res.code=="200"){
+								$(".dialog_loss .line2_1").html('<span class="success">'+res.msg+'</span>').slideDown(200);
+								setTimeout(function () {
+									that.Dialog_loss.close();
+									$(".cardType.active").click()
+								},2000)
+							}else{
+								$(".dialog_loss .line2_1").html('<span class="fail">'+res.msg+'</span>').slideDown(200)
+							}
+						},
+						complete: function() {//请求完成的处理
+
+						},
+						error: function() {//请求出错处理
+							$(".dialog_loss .line2_1").html('<span class="fail">'+"挂失失败"+'</span>').slideDown(200)
+						}
+					});
+				},
+				"click .btn_no":function () {
+					that.Dialog_loss.close();
 				}
 			}
 		});
@@ -303,7 +341,7 @@ var Manager = Backbone.View.extend({
 			// 			// }
 			// 		},
 			// 		complete: function() {//请求完成的处理
-            //
+			//
 			// 		},
 			// 		error: function() {//请求出错处理
 			// 			PFT.Util.STip("fail","挂失失败");
