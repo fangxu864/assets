@@ -108,7 +108,7 @@ var admin_qingfen={
 
         this.queryParamsBox={
             "page":"1",
-            "size":_this.perPageNum,
+            "size":5,
             "fid": _this.fid
         };
         this.ajaxGetData({
@@ -158,7 +158,7 @@ var admin_qingfen={
                 "mode":mode,
                 "fid":_this.fid,
                 "page":1,
-                "size":_this.perPageNum
+                "size":5
             };
             _this.dialog_ajaxGetData({
                 "api":"/r/Finance_SettleBlance/getFrozeOrders/",
@@ -251,7 +251,7 @@ var admin_qingfen={
                         }
                         if(data.isInitPagination){       //是否初始化分页器
                             if(parseInt(res.data.total_page)>1){
-                                var totalPages= Math.ceil(res.data.count/_this.perPageNum);
+                                var totalPages= Math.ceil(res.data.count/5);
                                 var currentPage= 1;
                                 _this.pagination_wrap_dialog.render({current:currentPage,total:totalPages});
                             }
