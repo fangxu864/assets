@@ -1,0 +1,42 @@
+<% _.each(data,function(item,index){ %>
+<li id="ruleItem_<%=item.id%>" data-id="<%=item.id%>" class="ruleItem">
+    <div class="rTit">
+        <span class="checkbox <%=item.status==1 ? 'active' : ''%>"></span>
+        <input type="text" name="" id="" value="<%=item.name%>" placeholder="请输入页面名称" class="pageNameInp textInp"/>
+        <span class="doActionGroup">
+            <span class="btn slide"><i class="iconfont up">&#xe610;</i><i class="iconfont down">&#xe60b;</i></span>
+            <span class="delete btn"><i class="iconfont">&#xe634;</i></span>
+        </span>
+    </div>
+    <div class="conBox">
+        <div class="line">
+            <span class="lt">网址<i style="visibility: hidden;">：：</i></span>
+            <input type="text" name="" placeholder="请输入页面链接地址" value="<%=item.identifier%>" class="linkAddrInp textInp"/>
+        </div>
+        <div class="line">
+            <span class="lt">停用设置</span>
+            <span class="stopGroup"><i data-type="0" class="radio <%=item.type==0 ? 'active' : ''%>"></i><span class="t">全假日停用</span></span>
+            <span class="stopGroup"><i data-type="1" class="radio <%=item.type==1 ? 'active' : ''%>"></i><span class="t">限时停用</span></span>
+            <span class="stopGroup"><i data-type="2" class="radio <%=item.type==2 ? 'active' : ''%>"></i><span class="t">部分功能限时停用</span></span>
+        </div>
+        <div class="line configBox <%=item.type==2 ? '' : 'hide'%>">
+            <p class="setLine">
+                <span class="lt" style="visibility:hidden">：：：：</span>
+                <span class="checkbox clickLoad <%=item.config.clickLoad==1 ? 'active' : ''%>"></span><span class="t">页面打开时不加载数据</span>
+            </p>
+            <p class="setLine">
+                <span class="lt" style="visibility:hidden">：：：：</span>
+                <span class="checkbox queryLimit <%=item.config.queryLimit==1 ? 'active' : ''%>"></span><span class="t">最大查询30天数据</span>
+            </p>
+            <p class="setLine">
+                <span class="lt" style="visibility:hidden">：：：：</span>
+                <span class="checkbox reportData <%=item.config.reportData==1 ? 'active' : ''%>"></span><span class="t">限时停用导出数据</span>
+            </p>
+        </div>
+        <div class="line saveRuleLine">
+            <span class="lt" style="visibility:hidden">：：：：</span>
+            <span class="saveBtn">保存设置</span>
+        </div>
+    </div>
+</li>
+<% }) %>

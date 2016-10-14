@@ -26,14 +26,15 @@ var Class = function() {
 				if(container.indexOf("#")==0){
 					container = $(container);
 				}else{
-					container = $("#"+container)
+					container = $("#"+container);
 				}
 			}
         	if(container){
         		for(var i in events){
         			(function(i){
-						var eventType = i.split(" ")[0];
-	        			var selector = i.split(" ")[1];
+						var matched = i.match(/([a-z]+)(\s)(.+)/);
+						var eventType = matched[1];
+	        			var selector = matched[3];
 	        			var handler = events[i];
 	        			if(typeof handler=="string") handler = that[handler] ? that[handler] : function(){};
 	        			if(!handler) return;
@@ -46,7 +47,7 @@ var Class = function() {
 								handler.call(that,e);
 							});
 	        			}	
-        			})(i)
+        			})(i);
         		}
         	}
 			if(container) this.container = container;
@@ -63,6 +64,7 @@ var Class = function() {
 
         newClass.prototype.trigger = function(type){
         	var that = this;
+			this.__CustomEventCallback__ = this.__CustomEventCallback__ || {};
         	var fns = this.__CustomEventCallback__[type];
         	if(!fns) return false;
         	for(var i in fns){

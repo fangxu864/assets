@@ -1,0 +1,62 @@
+.bgGray{background: #F5FBFE;}
+.colorGray{color: #92A0AB;}
+.colorGreen{color: #3DBA3F;}
+.colorOrange{color: #F07845;}
+.colorBlue{color: #0797D9;}
+.w200{width: 200px;}
+.w40{width: 40px;} 
+
+.topBox{background: #FFFFFF; border: 1px solid #E5E5E5;  padding-bottom: 42px;}
+.topBox .title{display: block; height: 65px; line-height: 65px; border-bottom: 1px solid #E5E5E5; font-size: 16px; padding-left: 20px;}
+
+
+.searchBox{border-bottom: 1px solid #E5E5E5; padding: 15px 20px;}
+.searchBox .iSearch {position: relative; display: inline-block; margin-right: 5px;}
+.searchBox .iSearch .ui-textInp{ padding-left: 30px;}
+.searchBox .settlement {margin-left: 135px;}
+.searchBox .settlement .iconAdd{font-size: 12px; margin: 0 10px; position: relative; top: -1px;}
+.searchBox .settlement .setBtn{display: inline-block;  width: 100px; height: 35px; text-align: center; line-height: 35px;  background: #0797D9; margin-left: 20px; border-radius: 3px; }
+
+.searchBox .iSearch .clearBtn{position: absolute; right: 10px; top: 11px; }
+.searchBox .iSearch .searchIcon{position: absolute; top: 10px; left: 8px; color: #92A0AB; font-size: 14px;}
+a.clearBtn:link, a.clearBtn:visited{ color: #F07845;}
+.settlement a:link, .settlement a:visited{ color: #FFFFFF;}
+
+
+.tbManage{table-layout: fixed; width: 100%;}
+.tbManage tbody{border-top: 1px solid #E5E5E5;}
+.tbManage th{background: #E5E5E5; height: 35px; line-height: 35px;}
+.tbManage td{padding: 8px 0px; text-align: center; line-height: 18px;}
+.pBox{display: block;width: 805px; height: auto; overflow-y: auto; overflow-x: hidden; }/***180默认显示5行******/
+
+.tbManage .ltTxt{text-align: left; padding-left: 25px;}
+.tbManage .rtTxt{text-align: right; }
+.tdLine{position: relative; padding: 5px 25px; text-align: left;}
+.settlementInp{border: 1px solid #F7F7F7; width: 100px; text-align: center; margin-left: 60px; height: 18px; line-height: 18px; padding: 5px 8px 5px 0px; background: none; border: 0 none;}
+.settlementInp.focus{border:1px solid #C9C9C9;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+.tbManage .checkList{display: inline-block; width: 18px; height: 18px; margin-left: 10px;  background: url(http://www.12301.cc/images/icons/icon_check.png)no-repeat; cursor: pointer;}
+.tbManage .checkList.click{background-position: 0 -18px;}
+.w300{width: 300px;}  
+.w50{width: 50px;}
+.tbManage .w100{width: 100px;}
+.pBox tr{display: block; border-bottom: 1px dashed #E5E5E5;   }
+.announced {float: left;margin-top: 60px;margin-left: 225px;}
+span.cancelButton {display: inline-block;width: 150px;height: 33px;line-height: 33px;background-color: #F07845;border-radius: 2px;text-align: center;color: white;cursor:pointer;}
+span.subButton {display: inline-block;width: 150px;height: 33px;line-height: 33px;background-color: #0797D9;border-radius: 2px;text-align: center;color: white;cursor:pointer;}
+
+.ticTypeToggleBtn:hover{ text-decoration:none}
+.ticTypeToggleBtn .up{ display:none}
+.ticTypeToggleBtn.on .up{ display:inline}
+.ticTypeToggleBtn.on .down{ display:none}
+.ticTypedis:hover{ text-decoration:none}
+.ticTypedis .up{ display:none}
+.ticTypedis.on .up{ display:inline}
+.ticTypedis.on .down{ display:none}
+
+
+
+
+
+
+
+

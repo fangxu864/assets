@@ -1,0 +1,80 @@
+<style type="text/css">
+
+</style>
+<script id="listTpl" type="text/template">
+    <% _.each(res.data,function(group){ %>
+        <% if(group.group_id!=0){ %>
+            <tbody class="group groupLine">
+                <tr>
+                    <td colspan="4">
+                        <div class="tdLine">
+                            <span class="ticTypeToggleBtn" group="<%=group.group_id%>"><%=group.group_name%>(<%=group.group_total%>)
+                            <a class="iconfont down" href="javascript:void(0)">&#xe673;</a>
+                            <a class="iconfont up" href="javascript:void(0)">&#xe695;</a>
+							</span>
+                            <div class="rtCon">
+                                <!-- <span>默认结算价：供货价+2元</span> -->
+                                <a class="ml5" href="new_configuration.html?gid=<%=group.group_id%>">分销价格配置</a>
+                                <a class="iconfont ml5 revise" group="<%=group.group_id%>" href="javascript: void(0)">&#xe684;</a>
+                                <a class="iconfont ml5 delete_group" group="<%=group.group_id%>" href="javascript: void(0)">&#xe634;</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <% _.each(group.group_members,function(item){ %>
+                <tbody class="groupItem pBox bgGray group_<%=group.group_id%>">
+                    <tr>
+                        <td class="w240 ltTxt">
+                            <a target="_blank" href="userinfo.html?id=<%=item.id%>" class="colorBlue"><%=item.dname%></a>
+                            <span>（<%=item.account%>）</span>
+                        </td>
+                        <td  class="w170 ltTxt">
+                            <span><%=item.cname%></span>
+                            <span><%=item.mobile%></span>
+                        </td>
+                        <td  class="w120" title="供应商余额=账户余额(<%=item.remain%>)+授信额度(<%=item.limit%>)"><%=item.total%></td>
+                        <td class="w230 rtTxt">
+                            <a class="aList group_move" href="javascript:void(0)" did="<%=item.id%>" g_name="<%=item.dname%>" group="<%=group.group_id%>">更换分组</a>
+                            <a class="aList" target="_blank" href="repayment.html?did=<%=item.id%>">授信/预存</a>
+                            <a class="aList" target="_blank" href="wx_shop_qr.html?id=<%=item.id%>">微店二维码</a>
+                            <a class="aList delete" did="<%=item.id%>" dname="<%=item.dname%>" type="1" href="javascript:void(0)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            <% }) %>
+        <% }else{ %>
+            <tbody class="group groupLine unGroup">
+                <tr>
+                    <td colspan="4">
+                        <div class="tdLine">
+                            <span>未分组(<%=group.group_total%>)</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody class="pBox groupItem">
+            <% _.each(group.group_members,function(item){ %>
+                <tr>
+                    <td class="w240 ltTxt">
+						<a target="_blank" href="userinfo.html?id=<%=item.id%>" class="colorBlue"><%=item.dname%></a>
+                        <span>（<%=item.account%>）</span>
+                    </td>
+                    <td  class="w170 ltTxt">
+                        <span><%=item.cname%></span>
+                        <span><%=item.mobile%></span>
+                    </td>
+                    <td  class="w120" title="供应商余额=账户余额(<%=item.remain%>)+授信额度(<%=item.limit%>)"><%=item.total%></td>
+                    <td class="w230 rtTxt">
+                        <a class="aList group_move" href="javascript:void(0)" did="<%=item.id%>" g_name="<%=item.dname%>" group="<%=group.group_id%>">更换分组</a>
+                        <a class="aList" target="_blank" href="repayment.html?did=<%=item.id%>">授信/预存</a>
+                        <a class="aList" target="_blank" href="wx_shop_qr.html?id=<%=item.id%>">微店二维码</a>
+                        <a class="aList" did="<%=item.id%>" type="0" href="new_configuration.html?did=<%=item.id%>">配置价格</a>
+						<a class="aList delete" did="<%=item.id%>" dname="<%=item.dname%>" type="0" href="javascript:void(0)">删除</a>
+                    </td>
+                </tr>
+            <%}) %>
+            </tbody>
+        <% } %>
+    <% }) %>
+</script>

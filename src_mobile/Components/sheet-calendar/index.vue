@@ -231,5 +231,5 @@
     .calendarContainer .calendar-box.selected .price{ color:#fff}
     .calendarContainer .calendar-box .day{ display:block; font-size:0.35rem; line-height:1.5}
     .calendarContainer .calendar-box .price{ color:#f37138}
-    .calendarContainer .vux-flexbox-item:last-child .calendar-box{ border-right:0 none}
+    .calendarContainer .vux-flexbox-item:last-child .calendar-box{ border-right:0 none;}
 </style>

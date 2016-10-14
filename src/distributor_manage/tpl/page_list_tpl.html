@@ -1,0 +1,41 @@
+<script id="PagelistTpl" type="text/template">
+	<% _.each(res.data,function(group){ %>
+		
+				<% _.each(group.group_members,function(item){ %>
+					
+					<tr class="group_<%=group.group_id%>">
+						<td class="w240 ltTxt">
+							<a target="_blank" href="userinfo.html?id=<%=item.id%>" class="colorBlue"><%=item.dname%></a>
+							<span>（<%=item.account%>）</span>
+						</td>
+						<td  class="w170 ltTxt">
+							<span><%=item.cname%></span>
+							<span><%=item.mobile%></span>
+						</td>
+						<td  class="w120" title="供应商余额=账户余额(<%=item.remain%>)+授信额度(<%=item.limit%>)"><%=item.total%></td>
+						<td class="w230 rtTxt">
+							<a class="aList group_move" href="javascript:void(0)" did="<%=item.id%>" g_name="<%=item.dname%>" group="<%=group.group_id%>">更换分组</a>
+							<a class="aList" target="_blank" href="repayment.html?did=<%=item.id%>">授信/预存</a>
+							<a class="aList" target="_blank" href="wx_shop_qr.html?id=<%=item.id%>">微店二维码</a>
+							<a class="aList delete" did="<%=item.id%>" type="1" href="javascript:void(0)">删除</a>
+						</td>
+					</tr>
+						
+				<% }) %> 
+				<%if(group.group_total_page=="1"){%><% }else{ %>
+					<tr>
+						<td colspan="4">
+							<div class="paging">
+                                <input type="text" class="pagenuml ui-textInp ui-radius shadow pagelis" style="height:13px;line-height:13px;width:25px" value="">
+                                <span class="pagespan">页</span>
+                                <span class="pagelsub" group_id="<%=group.group_id%>" style="color: #2A98DA;cursor:pointer;">跳转</span>
+								<a class="iconfont pageB pre <%if(group.current_page==1){%>disabled<%}%>" href="javascript: void(0);" id="pre_<%=group.group_id%>" group_id="<%=group.group_id%>">&#xe60c;</a>
+								<span class="pageCon"><span id="num_one" class="num_<%=group.group_id%>">1</span>/<span  class="allnum_<%=group.group_id%>"><%=group.group_total_page%></span></span>
+								<a class="iconfont pageB next <%if(group.group_total_page==group.current_page){%>disabled<%}%>" href="javascript: void(0);" id="next_<%=group.group_id%>" group_id="<%=group.group_id%>">&#xe60d;</a>
+							</div>
+						</td>
+					</tr>
+				<% } %>
+		
+	<% }) %>
+</script>

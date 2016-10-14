@@ -231,4 +231,5 @@ Calendar.prototype = {
 		this.fire(type);
 	}
 };
+Calendar.Core = CalendarCore;
 module.exports = Calendar;
