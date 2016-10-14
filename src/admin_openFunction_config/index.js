@@ -9,11 +9,27 @@ var filter_tpl=require("./tpl/filter.xtpl");
 var tableCon_tpl=require("./tpl/tableCon.xtpl");
 var tableTR_tpl=require("./tpl/tableTR.xtpl");
 var querying_tpl=require("./tpl/querying.xtpl");
+var addRight_tpl=require("./tpl/addRight.xtpl");
 //引入插件
 var SelectShort=require("COMMON/modules/select_short");
 var SelectScroll=require("COMMON/modules/select_scroll");
 var Select = require("COMMON/modules/select");
 var Pagination = require("COMMON/modules/pagination-x");
+var Dialog_simple=require("COMMON/modules/dialog-simple");
+var Dialog=new Dialog_simple({
+    width : 500,
+    height :500,
+    closeBtn : true,
+    content : addRight_tpl,
+    drag : true,
+    speed : 200,
+    offsetX : 0,
+    offsetY : 0,
+    overlay : true,
+    headerHeightMin : 46,
+    events : {}
+});
+Dialog.open()
 
 var OpenFun={
     init:function(){
@@ -56,6 +72,49 @@ var OpenFun={
             },
             height : 260,
             trigger : $("#search_inp"),
+            offset : { //偏移量
+                top : -13,
+                left : 0,
+                width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
+            },
+            filter : true,
+            adaptor : function(res){
+                var reslut = { code:200};
+                reslut["data"] = res;
+                return reslut;
+            }
+        });
+
+        this.open_fun_select_dialog=new SelectScroll({
+            id:"open_fun_select_dialog",
+            arr:["全部","优惠券","营销活动","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单查询手机号部分隐藏","年卡会员管理"],
+            callback:function(cur_opt){}
+        });
+        this.searchType_select_dialog=new SelectShort({
+            id:"searchType_select_dialog",
+            arr:["账号名称","账号","手机号"],
+            callback:function(cur_opt){
+                var json={
+                    "账号名称":1,
+                    "账号":2,
+                    "手机号":3
+                };
+                _this.searchType_params_dialog["dtype"]=json[cur_opt];
+            }
+        });
+        this.search_inp_dialog=new Select({
+            source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            ajaxType : "get",
+            ajaxParams : _this.searchType_params_dialog,
+            isFillContent:false,
+            filterType : "ajax",  //指定过滤方式为ajax
+            field : {
+                id : "id",
+                name : "dname",
+                keyword : "dname"
+            },
+            height : 260,
+            trigger : $("#search_inp_dialog"),
             offset : { //偏移量
                 top : -13,
                 left : 0,
@@ -132,9 +191,19 @@ var OpenFun={
             $(this).siblings("input").val("").attr({"data-id":"","data-dname":""});
         });
     },
+    //ajax获取数据
+    ajaxGetData:function (data){
+
+    },
     template:PFT.Util.ParseTemplate(tableTR_tpl),
     //搜索框的ajax过滤参数
     searchType_params:{
+        "action":"fuzzyGetDname_c",
+        "dtype" : "1",
+        "danme" : ""
+    },
+    //搜索框的ajax过滤参数
+    searchType_params_dialog:{
         "action":"fuzzyGetDname_c",
         "dtype" : "1",
         "danme" : ""
