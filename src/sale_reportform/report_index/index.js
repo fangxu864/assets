@@ -71,8 +71,8 @@ var Book_form={
         this.stime_inp=$("#start_time");
         this.etime_inp=$("#end_time");
         //初始化input内容
-        _this.stime_inp.val(when.week()[0]);
-        _this.etime_inp.val(when.week()[1]);
+        _this.stime_inp.val(_this.getCookie("start_time")!==""?_this.getCookie("start_time"):when.week()[0]);
+        _this.etime_inp.val(_this.getCookie("end_time")!==""?_this.getCookie("end_time"):when.week()[1]);
         //日历插件部分
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
@@ -112,13 +112,15 @@ var Book_form={
                 if(inputId==="start_time"){
                     curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
                     _this.etime_inp.val(curDate);
+                    _this.setCookie("start_time",startDate,1000*60*60);
+                    _this.setCookie("end_time",curDate,1000*60*60)
                 }else if(inputId==="end_time"){
                     curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
                     _this.stime_inp.val(curDate);
+                    _this.setCookie("start_time",curDate,1000*60*60);
+                    _this.setCookie("end_time",endDate,1000*60*60)
                 }
             }
-
-
             //计算两个日期间的天数
             function GetDateDiff(startDate,endDate) {
                 var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();
@@ -288,26 +290,38 @@ var Book_form={
                 case "today_btn":{
                     _this.stime_inp.val(when.today());
                     _this.etime_inp.val(when.today());
+                    _this.setCookie("start_time",when.today(),1000*60*60);
+                    _this.setCookie("end_time",when.today(),1000*60*60)
                 }break;
                 case "yestoday_btn":{
                     _this.stime_inp.val(when.yestoday());
                     _this.etime_inp.val(when.yestoday());
+                    _this.setCookie("start_time",when.yestoday(),1000*60*60);
+                    _this.setCookie("end_time",when.yestoday(),1000*60*60)
                 }break;
                 case "thisweek_btn":{
                     _this.stime_inp.val(when.week()[0]);
                     _this.etime_inp.val(when.week()[1]);
+                    _this.setCookie("start_time",when.week()[0],1000*60*60);
+                    _this.setCookie("end_time",when.week()[1],1000*60*60)
                 }break;
                 case "lastweek_btn":{
                     _this.stime_inp.val(when.lastweek()[0]);
                     _this.etime_inp.val(when.lastweek()[1]);
+                    _this.setCookie("start_time",when.lastweek()[0],1000*60*60);
+                    _this.setCookie("end_time",when.lastweek()[1],1000*60*60)
                 }break;
                 case "thismonth_btn":{
                     _this.stime_inp.val(when.month()[0]);
                     _this.etime_inp.val(when.month()[1]);
+                    _this.setCookie("start_time",when.month()[0],1000*60*60);
+                    _this.setCookie("end_time",when.month()[1],1000*60*60)
                 }break;
                 case "lastmonth_btn":{
                     _this.stime_inp.val(when.lastmonth()[0]);
                     _this.etime_inp.val(when.lastmonth()[1]);
+                    _this.setCookie("start_time",when.lastmonth()[0],1000*60*60);
+                    _this.setCookie("end_time",when.lastmonth()[1],1000*60*60)
                 }break;
                 default:{
                     alert("why ???")
@@ -552,7 +566,6 @@ var Book_form={
                 else{
                     $(".querying").text(req.msg);
                 }
-
             },
             complete: function() {
                 //请求完成的处理
@@ -595,7 +608,34 @@ var Book_form={
             arr.push(str);
         }
         return arr.join("&");
+    },
+    //处理cookie的函数
+    setCookie:function (name, value, time) {
+    var oDate=new Date();
+    oDate.setTime(oDate.getTime()+time);
+    document.cookie=name+'='+encodeURIComponent(value)+';expires='+oDate;
+    },
+    getCookie:function (name) {
+    var arr=document.cookie.split('; ');
+    var i=0;
+    for(i=0;i<arr.length;i++)
+    {
+        //arr2->['username', 'abc']
+        var arr2=arr[i].split('=');
+
+        if(arr2[0]==name)
+        {
+            var getC = decodeURIComponent(arr2[1]);
+            return getC;
+        }
     }
+
+    return '';
+    },
+    removeCookie:function (name) {
+    setCookie(name, '1', -1);
+    }
+
 };
 
 
