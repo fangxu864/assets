@@ -20,5 +20,14 @@
             <div id="open_function_select_dialog" class="open_function_select_dialog"></div>
         </div>
     </div>
-    <div class="line line3"></div>
+    <div class="line line3">
+        <div class="td td1">
+            <span class="btn btn_yes">确定</span>
+        </div>
+        <div class="td td2">
+            <span class="btn btn_no">取消</span>
+        </div>
+
+
+    </div>
 </div>

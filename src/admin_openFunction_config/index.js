@@ -18,7 +18,7 @@ var Pagination = require("COMMON/modules/pagination-x");
 var Dialog_simple=require("COMMON/modules/dialog-simple");
 var Dialog=new Dialog_simple({
     width : 500,
-    height :500,
+    // height :500,
     closeBtn : true,
     content : addRight_tpl,
     drag : true,
@@ -85,13 +85,13 @@ var OpenFun={
             }
         });
 
-        this.open_fun_select_dialog=new SelectScroll({
-            id:"open_fun_select_dialog",
+        this.open_function_select_dialog=new SelectScroll({
+            id:"open_function_select_dialog",
             arr:["全部","优惠券","营销活动","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单查询手机号部分隐藏","年卡会员管理"],
             callback:function(cur_opt){}
         });
-        this.searchType_select_dialog=new SelectShort({
-            id:"searchType_select_dialog",
+        this.search_type_select_dialog=new SelectShort({
+            id:"search_type_select_dialog",
             arr:["账号名称","账号","手机号"],
             callback:function(cur_opt){
                 var json={

@@ -232,7 +232,7 @@ body{
       position: relative;
       .search_inp_dialog{
         margin-top: 13px;
-        @include textInp(200,5);
+        @include textInp(220,5);
       }
       i.clear_inp{
         position: absolute;
@@ -267,6 +267,13 @@ body{
       }
     }
   }
+  .line3{
+    padding-left: 300px;
+  }
 
 
+}
+
+.gSimpleDialog-container{
+  overflow: visible !important;
 }
