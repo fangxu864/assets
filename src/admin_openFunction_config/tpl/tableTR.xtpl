@@ -1,8 +1,8 @@
 <% _.each(data,function(item,index){ %>
-<tr>
-    <td class="th1"><%=item.open_function%></td>
-    <td class="th2"><%=item.account_num%></td>
-    <td class="th3"><%=item.account_name%></td>
+<tr cid="<%=item.id%>" uid="<%=item.uid%>" class="<%=index%2==0 ? '':'gray' %>">
+    <td class="th1"><%=item.access%></td>
+    <td class="th2"><%=item.fid%></td>
+    <td class="th3"><%=item.dname%></td>
     <td class="th4"><a href="javascript:void(0)">删除</a></td>
 </tr>
 <% } )%>

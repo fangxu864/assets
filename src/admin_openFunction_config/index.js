@@ -42,10 +42,13 @@ var OpenFun={
         //往容器添加内容
         this.filter_box.html(filter_tpl);
         this.tableCon_box.html(tableCon_tpl);
+
         this.open_fun_select=new SelectScroll({
             id:"open_function_select",
             arr:["全部","优惠券","营销活动","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单查询手机号部分隐藏","年卡会员管理"],
-            callback:function(cur_opt){}
+            callback:function(cur_opt){
+                $("#open_function_select").attr("data-status",_this.SelectJson[cur_opt])
+            }
         });
         this.searchType_select=new SelectShort({
             id:"search_type_select",
@@ -88,7 +91,9 @@ var OpenFun={
         this.open_function_select_dialog=new SelectScroll({
             id:"open_function_select_dialog",
             arr:["全部","优惠券","营销活动","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单查询手机号部分隐藏","年卡会员管理"],
-            callback:function(cur_opt){}
+            callback:function(cur_opt){
+                $("#open_function_select_dialog").attr("data-status",_this.SelectJson[cur_opt])
+            }
         });
         this.search_type_select_dialog=new SelectShort({
             id:"search_type_select_dialog",
@@ -139,49 +144,20 @@ var OpenFun={
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
             _this.pagination.render({current:toPage,total:totalPage});
-            // _this.filterParamsBox["page"]=toPage;
-            // var cacheKey=_this.JsonStringify(_this.filterParamsBox);
-            // if(_this.dataContainer[cacheKey]){
-            //     _this.dealReqData(_this.dataContainer[cacheKey]);
-            // }else{
-            //     _this.ajaxGetData({
-            //         "params":_this.filterParamsBox,
-            //         "isCacheData":true,
-            //         "cacheKey":cacheKey,
-            //         "isInitPagination":false
-            //     });
-            // }
-        });
-        _this.pagination.render({current:1,total:10});
-        var html=this.template({data:[
-            {
-                "open_function":"优惠券1",
-                "account_num":"15454551221",
-                "account_name":"慢慢的店铺"
-            },
-            {
-                "open_function":"优惠券2",
-                "account_num":"15454551221",
-                "account_name":"慢慢的店铺"
-            },
-            {
-                "open_function":"优惠券3",
-                "account_num":"15454551221",
-                "account_name":"慢慢的店铺"
-            },
-            {
-                "open_function":"优惠券4",
-                "account_num":"15454551221",
-                "account_name":"慢慢的店铺"
-            },
-            {
-                "open_function":"优惠券5",
-                "account_num":"15454551221",
-                "account_name":"慢慢的店铺"
+            _this.filterParamsBox["page"]=toPage;
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            if(_this.dataContainer[cacheKey]){
+                _this.dealresData(_this.dataContainer[cacheKey]);
+            }else{
+                _this.ajaxGetData({
+                    "params":_this.filterParamsBox,
+                    "isCacheData":true,
+                    "cacheKey":cacheKey,
+                    "isInitPagination":false
+                });
             }
-        ]});
-        this.tableCon_box.find("tbody").html(html);
-        this.queryState_box.html(querying_tpl).show();
+        });
+
         this.bind()
     },
     bind:function () {
@@ -190,12 +166,99 @@ var OpenFun={
         $(".clear_inp").on("click",function () {
             $(this).siblings("input").val("").attr({"data-id":"","data-dname":""});
         });
+        //给搜索按钮添加事件
+        $("#filter_search").on("click",function(){
+            // _this.dataContainer={};       //查询按钮点击时，清除数据缓存
+            _this.filterParamsBox={
+                "status":$("#open_function_select").attr("data-status"),
+                "fid":$("#search_inp").attr("data-id")
+            };
+            _this.filterParamsBox["page"]=1;
+            _this.filterParamsBox["pagesize"]=_this.perPageNum;
+
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            _this.ajaxGetData({
+                "params":_this.filterParamsBox,
+                "isCacheData":true,
+                "cacheKey":cacheKey,
+                "isInitPagination":true      //是否初始化分页器
+            });
+
+
+        })
     },
     //ajax获取数据
-    ajaxGetData:function (data){
-
+    ajaxGetData:function (data) {
+        var _this=this;
+        var api="/r/admin_Config/getConfig/";
+        $.ajax({
+            url: api,                                //请求的url地址"/r/report_statistics/orderList/"
+            dataType: "json",                            //返回格式为json
+            async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
+            data: data.params,                            //参数值
+            type: "GET",                                  //请求方式
+            beforeSend: function() {
+                //请求前的处理
+                // _this.total_box.hide();
+                _this.tableCon_box.hide();
+                _this.pagination_box.hide();
+                _this.queryState_box.html(querying_tpl).show();
+            },
+            success: function(res) {
+                if(res.code==200){
+                    if(res.data.data.length==0){
+                        // _this.total_box.hide();
+                        _this.tableCon_box.hide();
+                        _this.pagination_box.hide();
+                        _this.queryState_box.show().text("未查询到任何数据，请重新输入条件搜索...");
+                    }else{
+                        _this.queryState_box.hide();
+                        _this.dealresData(res);
+                        if(data.isCacheData){            //缓存查询的数据
+                            _this.dataContainer[data.cacheKey]=res;
+                        }
+                        if(data.isInitPagination){       //是否初始化分页器
+                            var totalPages= Math.ceil(res.data.totalnum/_this.perPageNum);
+                            var currentPage= 1;
+                            if(totalPages>1){
+                                _this.pagination.render({current:1,total:totalPages});
+                            }
+                        }else{
+                            _this.pagination_box.show(200);
+                        }
+                    }
+                }
+                else{
+                    _this.queryState_box.show().text(res.msg);
+                }
+            },
+            complete: function() {
+                //请求完成的处理
+            },
+            error: function() {
+                //请求出错处理
+                // _this.total_box.hide();
+                _this.tablecon_box.hide();
+                _this.pagination_wrap.hide();
+                _this.queryState_box.show().html(queryerror_tpl);
+            }
+        });
+    },
+    //定义一个select Json
+    SelectJson:{
+        "全部":0,"优惠券":1,"营销活动":2,"会员卡":3,"团购导码":4,"分销商首页":5,"微商城票付通支持":6,"线下充值":7,"订单查询手机号部分隐藏":8,"年卡会员管理":9
     },
     template:PFT.Util.ParseTemplate(tableTR_tpl),
+    dealresData:function (res) {
+        var _this=this;
+        console.log(res);
+        var html=this.template({data:res.data.data})
+        this.tableCon_box.find("tbody").html(html);
+        _this.tableCon_box.fadeIn(200);
+        _this.pagination_box.fadeIn(200);
+
+
+    },
     //搜索框的ajax过滤参数
     searchType_params:{
         "action":"fuzzyGetDname_c",
@@ -213,7 +276,7 @@ var OpenFun={
     //定义一个数据缓存容器，存储分页获取的数据
     dataContainer:{},
     //定义每页显示的条数
-    perPageNum:15,
+    perPageNum:5,
     //JsonStringify 对象序列化方法
     JsonStringify:function (obj) {
         var str="";

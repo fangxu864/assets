@@ -1,5 +1,6 @@
 @import "COMMON/css/base/core";
-
+$btn_color:#f07845;
+$btnHover_color:#d35c29;
 body{
   background-color: #f8f9fb;
 }
@@ -28,14 +29,14 @@ body{
           float: left;
           span.btn{
             padding: 8px 20px;
-            background-color: orange;
+            background-color: $btn_color;
             font-size: 14px;
             color: white;
             cursor: pointer;
             margin-left: 20px;
           }
           span.btn:hover{
-            background-color: orangered;
+            background-color: $btnHover_color;
           }
         }
       }
@@ -199,14 +200,14 @@ body{
       float: left;
       span.btn{
         padding: 8px 20px;
-        background-color: orange;
+        background-color: $btn_color;
         font-size: 14px;
         color: white;
         cursor: pointer;
         margin-left: 20px;
       }
       span.btn:hover{
-        background-color: orangered;
+        background-color: $btnHover_color;
       }
     }
   }
