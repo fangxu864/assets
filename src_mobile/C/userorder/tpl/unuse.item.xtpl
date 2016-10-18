@@ -1,0 +1,50 @@
+<%_.each(data,function(item,index){%>
+<li data-ordernum="<%=item.ordernum%>" class="unuseItem">
+    <a class="topPart" href="#/detail/<%=item.ordernum%>">
+        <div class="photoBox">
+            <div class="imgBox">
+                <img src="<%=item.imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null;" alt=""/>
+            </div>
+        </div>
+        <div class="midCon">
+            <h4 class="landTitle"><%=item.ltitle%></h4>
+            <ul>
+                <%_.each(item.tickets,function(ticket){%>
+                    <li class="ticItem">
+                        <span class="ticname"><%=ticket.title%>
+                        <span class="star">*</span>
+                        <span class="count"><%=ticket.tnum%></span>
+                        张
+                    </li>
+                <%})%>
+            </ul>
+        </div>
+        <div class="tri"><div class="triCon">》</div></div>
+    </a>
+    <div class="infoBox">
+        <div class="infoLine">
+            <span class="lt">有效期：</span>
+            <span class="rt"><%=item.begintime%> 至 <%=item.endtime%></span>
+        </div>
+        <div class="infoLine">
+            <span class="lt">订单状态：</span>
+            <span class="rt paystatusText status_<%=item.paystatus%>"><%={0:"现在支付",1:"已支付",2:"未支付"}[item.paystatus]%></span>
+        </div>
+        <div class="infoLine">
+            <span class="lt">凭证码：</span>
+            <span class="rt maCode">239482</span>
+        </div>
+    </div>
+
+    <div class="btnGroup">
+        <%if(item.pay==1){%>
+            <span class="btn pay" data-ordernum="<%=item.ordernum%>">支付</span>
+        <%}%>
+        <%if(item.cancel==1){%>
+            <span class="btn cannel" data-ordernum="<%=item.ordernum%>">取消订单</span>
+        <%}else{%>
+            <span class="btn cannel disable">不可取消</span>
+        <%}%>
+    </div>
+</li>
+<%})%>

@@ -2,15 +2,13 @@
  * Author: huangzhiyang
  * Date: 2016/8/9 16:50
  * Description: 获取价格及库存 (预定页面)
- * p_type	string	产品类型
  * params	object	ajax请求附带的参数
  * opt	    object	callback fn
  */
-module.exports = function(p_type,params,opt){
+module.exports = function(params,opt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
-	if(!p_type) return console.warn("service booking-storage-price params:p_type is required");
 
 	if(__DEBUG__){
 		opt.loading();
@@ -35,9 +33,11 @@ module.exports = function(p_type,params,opt){
 		return false;
 	}
 
+	params = params || {};
+	params["token"] = PFT.Util.getToken();
 
-
-	PFT.Util.Ajax(PFT.Api.C.getTicketListBook(),{
+	PFT.Util.Ajax(PFT.Api.C.getPriceAndStorage(),{
+		type : "post",
 		params : params,
 		loading : opt.loading,
 		complete : opt.complete,

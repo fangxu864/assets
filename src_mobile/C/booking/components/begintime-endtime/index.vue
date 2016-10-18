@@ -126,6 +126,7 @@
             },
             //修改入住时间或离店时间都会重新请求一次价格跟库存
             queryStoragePrice(){
+                console.log("queryStoragePrice")
                 var pid = this.pid;
                 var aid = this.aid;
                 var beginDate = this.begintime;

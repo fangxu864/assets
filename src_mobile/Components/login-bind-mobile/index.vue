@@ -70,14 +70,13 @@
                 if(!PFT.Util.Validate.typePhone(mobile)) return Alert("提示","手机号格式有误");
                 if(!code) return Alert("提示","请填写验证码");
                 if(isNaN(code) || code.length!==6) return Alert("提示","请填写6位数数字验证码");
-
                 Login({mobile:mobile,code:code},{
                     loading : () => {
                         submitBtn.classList.add("disable");
                         this.Toast.show("loading","努力加载中..");
                     },
                     complete : () => {
-                        submitBtn.classList.add("disable");
+                        submitBtn.classList.remove("disable");
                         this.Toast.hide();
                     },
                     success : () => {
@@ -88,10 +87,7 @@
                     fail : (msg) => {
                         this.Alert("提示",msg)
                     }
-                })
-
-
-
+                });
             },
             onGetCheckMaBtnClick(e){
                 var tarBtn = e.target;

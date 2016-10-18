@@ -14,8 +14,8 @@
                                 <span class="title" v-text="item.title"></span>
                             </div>
                             <div class="col rt">
-                                <span class="tprice">¥{{item.tprice}}</span>
                                 <span class="jsprice"><i class="yen">¥</i><em class="num" v-text="item.jsprice"></em></span>
+                                <span class="tprice">¥{{item.tprice}}</span>
                             </div>
                         </div>
                     </a>

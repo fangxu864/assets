@@ -87,7 +87,7 @@ var WXShare = {
 			nonceStr: "",       //随机数                必填
 			signature: ""      //签名                  必填
 		};
-		if(!wx) return alert("微信jsapi分享至朋友图缺省wx对象");
+		if(typeof wx=="undefined") return console.log("微信jsapi分享至朋友图缺省wx对象");
 		opt = $.extend({},DEFAULT_OPT,opt);
 		wx.config({
 			debug: opt.debug,

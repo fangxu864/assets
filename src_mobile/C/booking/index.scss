@@ -6,7 +6,7 @@ body{ background:rgb(245,245,245); color:rgb($fontColor,$fontColor,$fontColor)}
 input{  color:rgb($fontColor,$fontColor,$fontColor)}
 .bodyContainer{ margin-bottom:$bodyMarginBottom;}
 .bodyContainer .pad15{ padding-left:15px; padding-right:15px;}
-.bodyContainer .prodTtile{ height:45px; line-height:45px; font-size:0.4rem; font-weight:bold; background:#fff; border-bottom:1px solid #e5e5e5}
+.bodyContainer .prodTtile{ height:45px; line-height:45px; font-size:0.4rem; overflow:hidden; font-weight:bold; background:#fff; border-bottom:1px solid #e5e5e5}
 .modBox{ background:#fff}
 .buyDescBox{ padding-top:15px; padding-bottom:10px;}
 .buyDescBox .descFlag{ display:inline-block; font-size:0.30rem; padding:2px 5px; border:1px solid #008fc2; color:#008fc2; margin-bottom:5px; margin-right:5px;}

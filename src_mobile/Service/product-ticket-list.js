@@ -76,8 +76,10 @@ module.exports = function(lid,opt,cxt){
 	}
 
 	PFT.Util.Ajax(PFT.Api.C.getTicketList(),{
+		type : "post",
 		params : {
-			lid : lid
+			lid : lid,
+			token : PFT.Util.getToken()
 		},
 		loading : function(){
 			opt.loading.call(cxt);

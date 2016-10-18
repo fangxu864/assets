@@ -26,9 +26,14 @@
                 default : ""
             },
             menus : {
-                type : Object,
                 require : true,
-                default : {}
+                default : function(){
+                    return {};
+                }
+            },
+            initTrigger : {
+                type : Boolean,
+                default : true
             }
         },
         data(){
@@ -37,19 +42,21 @@
             }
         },
         ready(){
-            var index = 0;
-            var menus = this.menus;
-            var first_key = "";
-            var first_text = "";
-            for(var i in menus){
-                if(index==0){
-                    first_key = i;
-                    first_text = menus[i];
+            if(this.initTrigger){
+                var index = 0;
+                var menus = this.menus;
+                var first_key = "";
+                var first_text = "";
+                for(var i in menus){
+                    if(index==0){
+                        first_key = i;
+                        first_text = menus[i];
+                    }
+                    index += 1;
                 }
-                index += 1;
+                this.selected_key = first_key;
+                this.$dispatch("click",first_key,first_text);
             }
-            this.selected_key = first_key;
-            this.$dispatch("click",first_key,first_text);
         },
         methods : {
             onActionItemClick(key,text){
@@ -57,9 +64,9 @@
                 this.$dispatch("click",key,text);
                 this.show = false;
             },
-            onCancalBtnClick(){
+            onCancalBtnClick(e){
                 this.show = false;
-                this.$dispatch("cannel");
+                this.$dispatch("cannel",e);
             }
         },
         components : {

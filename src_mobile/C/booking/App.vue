@@ -161,10 +161,13 @@
 <script type="es6">
     import "./index.scss";
     let Toast = require("COMMON/modules/toast");
+    let Alert = PFT.Mobile.Alert;
     let GetStoragePrice = require("SERVICE_M/booking-storage-price");
     let GetStoragePriceHotel = require("SERVICE_M/booking-storage-price-hotel");
     let GetOrderInfo = require("SERVICE_M/booking-orderinfo");
     let SubmitOrder = require("SERVICE_M/booking-submit-order");
+    let NumberToFixed = require("COMMON/js/util.numberToFixed");
+    let CalendarCore = require("COMMON/js/calendarCore");
     export default {
         data(){
             return {
@@ -174,7 +177,7 @@
                 p_type : "",
                 needID : -1,
                 calendar : {
-                    date : "2016-08-15",
+                    date : CalendarCore.gettoday(),
                     yearmonth : "",
                     show : false
                 },
@@ -209,9 +212,9 @@
                 //酒店类产品，
                 hotel : {
                     switchor : "",
-                    daycount : 2,  //入住天数
-                    begintime : "2016-08-23",
-                    endtime : "2016-08-25"
+                    daycount : 1,  //入住天数
+                    begintime : CalendarCore.gettoday(),
+                    endtime : CalendarCore.nextDay()
                 },
                 //线路类产品 集合地点
                 assStation : {
@@ -235,13 +238,19 @@
                     this.orderInfo = data;
                     this.needID = data.needID;
                     this.ticketList = this.adaptListData(data.tickets);
-                    var assStationMenus = {};
-                    data.assStation.forEach(function(item,index){
-                        assStationMenus[index] = item;
-                    })
-                    this.assStation.menus = assStationMenus;
+                    if(data.assStation){
+                        var assStationMenus = {};
+                        data.assStation.forEach(function(item,index){
+                            assStationMenus[index] = item;
+                        })
+                        this.assStation.menus = assStationMenus;
+                    }
                     this.pageReady = true;
-                    if(this.p_type=='C') this.queryStoragePrice_Hotel();
+                    if(this.p_type=='C'){
+                        this.queryStoragePrice_Hotel();
+                    }else{
+                        this.onCalendarSwitchDay({date:this.calendar.date});
+                    }
                 },
                 fail : (msg)=>{
                     alert(msg);
@@ -322,7 +331,7 @@
                 var p_type = this.p_type;
                 if(p_type=="A" || p_type=="F" || p_type=="B"){ //景点||套票产品||线路
                     if(!date || !this.pids || !this.aid) return false;
-                    GetStoragePrice(this.p_type,{
+                    GetStoragePrice({
                         pids : this.pids,
                         aid : this.aid,
                         date : date
@@ -336,16 +345,15 @@
                         }
                     })
                 }else if(p_type=="H"){
-
                     this.ticketList.forEach((ticket,index) =>{
-                        ticket["jsprice"] = data.price;
+                        var price = data.price;
+                        if(typeof price!=="undefined") ticket["jsprice"] = data.price;
                     })
                     //接下来什么事都不做，data.dete的变化会映射到calendar.date
                     //而calendar.date已通过v-model绑定到子组件sheet-changci里了
                     //此时sheet-changci里已watch date的变化去自动调用queryChangciList方法
 
                 }else if(p_type=="C"){ //酒店类产品
-
                     this.calendar.yearmonth = date;
                     var begintime = this.hotel.begintime;
                     var begintime_s = +new Date(begintime);
@@ -374,6 +382,7 @@
                     var daycount = +new Date(this.hotel.endtime) - (+new Date(this.hotel.begintime));
                     daycount = daycount / (24 * 60 *60 * 1000);
                     this.hotel.daycount = daycount;
+
 
                     //修改入住时间或离店时间都会重新请求一次价格跟库存
                     this.queryStoragePrice_Hotel();
@@ -406,8 +415,8 @@
             queryStoragePrice_Hotel(){
                 var pid = this.pid;
                 var aid = this.aid;
-                var beginDate = this.begintime;
-                var endDate = this.endtime;
+                var beginDate = this.hotel.begintime;
+                var endDate = this.hotel.endtime;
                 GetStoragePriceHotel({
                     pid : pid,
                     aid : aid,
@@ -554,19 +563,35 @@
                             })
                         }
                     }
-                    for(var i in item) json[i] = item[i];
+                    for(var i in item){
+                        json[i] = item[i];
+                    }
                     totalMoney += json["count"] * item.jsprice;
                     result.push(json);
                 })
 
                 //计算页面初始化时的总金额
-                this.totalMoney = totalMoney;
+                this.totalMoney = Number(NumberToFixed(totalMoney,2));
 
                 return result;
             },
 
             //提交订单
             onSubmitBtnClick(e){
+
+
+                //var host = "";
+                //var hostname = window.location.hostname;
+                //if(hostname.split(".")[0]=="wx"){
+                //    host = hostname;
+                //}else{
+                //    host = hostname + "/wx";
+                //}
+                //var __ordernum = "3330351";
+                //return window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+__ordernum+'&h='+window.location.hostname;
+
+
+
                 var submitBtn = e.target;
                 if(submitBtn.classList.contains("disable")) return false;
                 var p_type = this.p_type;
@@ -580,8 +605,8 @@
                 if(tnum==0) return alert("主票预订票数不能为0");
 
                 //获取开始时间 结束时间
-                var begintime = p_type!="C" ? $$("beginTimeInp").value : $$("beginTimeInp_hotel").innerHTML;
-                var endtime = p_type!="C" ? null : $$("endTimeInp_hotel").innerHTML;
+                var begintime = p_type!="C" ? $$("beginTimeInp").value : this.hotel.begintime;
+                var endtime = p_type!="C" ? null : this.hotel.endtime;
 
                 //联系人，手机号，身份证
                 var ordernameInp = $$("ordernameInp");
@@ -630,13 +655,7 @@
                     if(count!=0) link[pid] = count;
                 })
 
-                //演出类产品 获取场馆id 场次id 分区id
-                var selectChangciItem = [].filter.call($$("changciLiContainer").querySelectorAll(".changciItem"),function(item,index){
-                    return item.classList.contains("selected");
-                })[0];
-                var zoneid = ticketList[0]["zone_id"];  //分区id
-                var roundid = selectChangciItem.getAttribute("data-roundid"); //场馆id
-                var venusid = selectChangciItem.getAttribute("data-venusid"); //场次id
+
 
                 //开始提交数据
                 var submitData = {
@@ -657,12 +676,21 @@
                 if(p_type=="C") submitData["endtime"] = endtime;  //酒店产品加入结束时间
 
                 if(p_type=="H"){ //演出类产品
+                    //演出类产品 获取场馆id 场次id 分区id
+                    var selectChangciItem = [].filter.call($$("changciLiContainer").querySelectorAll(".changciItem"),function(item,index){
+                        return item.classList.contains("selected");
+                    })[0];
+                    if(!selectChangciItem) return alert("请选择场次");
+                    var zoneid = ticketList[0]["zone_id"];  //分区id
+                    var roundid = selectChangciItem.getAttribute("data-roundid"); //场馆id
+                    var venusid = selectChangciItem.getAttribute("data-venusid"); //场次id
                     submitData["zoneid"] = zoneid;
                     submitData["roundid"] = roundid;
                     submitData["venusid"] = venusid;
                 }
 
-                //console.log(submitData);
+                //return console.log(submitData);
+
 
                 //开始提交数据
                 SubmitOrder(submitData,{
@@ -676,13 +704,25 @@
                     success : (data) => {
                         var ordernum = data.ordernum;
                         var paymode = data.paymode;
-                        alert("下单成功，订单号："+ordernum+" 支付方式："+paymode);
+                        var host = "";
+                        var hostname = window.location.hostname;
+                        if(hostname.split(".")[0]=="wx"){
+                            host = hostname;
+                        }else{
+                            host = hostname + "/wx";
+                        }
+                        var ordernum = data.ordernum;
+                        if(paymode==4){
+                            window.location.href = "ordersuccess.html?ordernum="+ordernum+"&paymode=1";
+                        }else{
+                            window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+ordernum+'&h='+hostname;
+                        }
                     },
                     fail : (code,msg) => {
                         if(code>=400){ //重复下单  这种情况下页面不允许再提交订单，提交按钮需禁用
-                            alert(msg);
+                            Alert("提示",msg);
                         }else{ //一般错误
-                            alert(msg);
+                            Alert("提示",msg);
                             submitBtn.classList.remove("disable");
                         }
                     }

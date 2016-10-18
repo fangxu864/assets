@@ -1,5 +1,11 @@
 <template>
     <div class="bodyContainer">
+        <div class="fixHeader">
+            <div class="searchBoxWrap">
+                <search-box :debounce="200" v-on:keyword-change="onKeywordChange"></search-box>
+            </div>
+            <a href="usercenter.html" class="userBtn"><i class="uicon uicon-yonghu"></i></a>
+        </div>
         <div id="scrollWrap" class="scrollWrap">
             <scroller
                     v-if="ready"
@@ -14,7 +20,26 @@
                     :scrollbar-x="false">
                 <div class="scrollCon">
                     <ul class="scrollInerCon">
-                        <li class="item" v-for="item in list" v-text="item"></li>
+                        <li v-for="item in list" :class="{item:!item.type,itemBox:!item.type,emptyTip:item.type=='empty'}">
+                            <template v-if="!item.type">
+                                <a href="pdetail.html?lid={{item.lid}}&ptype={{filterParams.type}}&topic={{filterParams.topic}}" class="con">
+                                    <div class="photoBox">
+                                        <image-loador :src="item.imgpath" :height="100" :fixed="true"></image-loador>
+                                    </div>
+                                    <div class="bCon">
+                                        <p class="title gtextoverflow">{{item.title}}</p>
+                                        <div class="bb">
+                                            <span class="price"><i class="yen">&yen;</i><span class="num">{{item.jsprice}}</span><i class="qi">起</i></span>
+                                            <span class="price tprice"><i class="yen">&yen;</i><span class="num">{{item.tprice}}</span></span>
+                                            <span style="display:none" class="ui-recFlag hui orign">惠</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </template>
+                            <template v-if="item.type=='empty'">
+                                <div>没有更多了...</div>
+                            </template>
+                        </li>
                     </ul>
                 </div>
             </scroller>
@@ -24,10 +49,10 @@
                 <a id="switchTopicBtn" @click="onSwitchTopicBtnClick" href="javascript:void(0)" style="display:block; color:#fff" class="ui-filterItem ui-filterItem-tap ui-filterItem-topic ui-flex-box topic">
                     <span class="t" v-text="topicName"></span>
                 </a>
-                <a id="switchPtypeBtn" @click="onSwitchPtypeBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype" data-param="type" data-val="<?=$ptype?>" data-show="<?=$ptype_text?>" style="color:#fff">
+                <a id="switchPtypeBtn" @click="onSwitchPtypeBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype" style="color:#fff">
                     <span class="t" v-text="ptypeName"></span>
                 </a>
-                <a id="switchCityBtn" @click="onSwitchCityBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-city city" data-param="area" data-val="<?=$city_id?>" data-show="<?=$city?>" style="color:#fff">
+                <a id="switchCityBtn" @click="onSwitchCityBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-city city" style="color:#fff">
                     <span class="t" v-text="cityName"></span>
                 </a>
             </div>
@@ -35,16 +60,17 @@
         <sheet-action
                 v-on:click="onPtypeItemClick"
                 v-on:cannel="filterBarHide=false"
+                :init-trigger="false"
                 :menus="ptypeList"
                 :cancel-text="'取消'"
                 :show.sync="ptypeShow">
         </sheet-action>
         <sheet-action
                 v-on:click="onTopicItemClick"
-                v-on:cannel="filterBarHide=false"
-                :height="winHeight+'px'"
+                v-on:cannel="onTopicNoLimitBtnClick"
+                :init-trigger="false"
                 :menus="topicList"
-                :cancel-text="'取消'"
+                :cancel-text="'不限'"
                 :show.sync="topicShow">
         </sheet-action>
         <sheet-core :height="winHeight+'px'" :show.sync="cityShow">
@@ -74,11 +100,12 @@
     let Toast = new PFT.Mobile.Toast();
     let Alert = PFT.Mobile.Alert;
     let CityData = require("COMMON/js/config.province.city.data2");
+    let Ptype = PFT.Util.UrlParse()["ptype"] || "A";
     export default{
         data(){
             return{
                 ready : false,
-                filterBarHide : true,
+                filterBarHide : false,
                 winHeight : 0,
                 scrollerHeight : "",
                 currentPage : 0,
@@ -87,17 +114,11 @@
                 filterParams : {
                     keyword : "",
                     topic : "",
-                    ptype : "",
+                    type : Ptype,
                     city : "",
                     lastPos : ""
                 },
-                topicList : (function(){
-                    var res = {};
-                    for(var i=0; i<50; i++){
-                        res[i] = "第"+i+"项";
-                    }
-                    return res;
-                })(),
+                topicList : [],
                 topicShow : false,
                 ptypeList : PFT.Config.ptype,
                 ptypeShow : false,
@@ -106,63 +127,56 @@
                 cityShow : false,
                 list : [],
                 pullupConfig : {
-                    content: '查看更多订单..',
+                    content: '查看更多..',
                     pullUpHeight: 60,
                     height: 40,
                     autoRefresh: false,
                     downContent: '释放以加载更多..',
-                    upContent: '查看更多订单..',
+                    upContent: '查看更多..',
                     loadingContent: '努力加载中..',
                     clsPrefix: 'xs-plugin-pullup-'
-                }
+                },
+                scrollStatus : "enable"
             }
         },
         ready(){
-            //this.initRouter();
             this.winHeight = $(window).height();
             this.scrollWrap = $("#scrollWrap");
             this.fetchData();
         },
         watch : {
-            "filterParams.ptype" : function(val,oldVal){
-                console.log(val,oldVal)
+            "filterParams.type" : function(val,oldVal){
+                this.onFilterParamsChange();
+            },
+            "filterParams.city" : function(val,oldVal){
+                this.onFilterParamsChange();
+            },
+            "filterParams.topic" : function(val,oldVal){
+                this.onFilterParamsChange();
+            },
+            "filterParams.keyword" : function(val,oldVal){
+                this.onFilterParamsChange();
             }
+            //"filterParams" : { //有bug
+            //    handler : function(val,oldVal){
+            //        console.log(val.lastPos,oldVal.lastPos)
+            //        if(val.ptype==oldVal.ptype && val.topic==oldVal.topic && val.city==oldVal.city && val.keyword==oldVal.keyword) return false;
+            //        console.log(val);
+            //    },
+            //    deep : true
+            //}
         },
         computed : {
             ptypeName(){
-                return this.ptypeList[this.filterParams.ptype] || "景区门票";
+                return this.ptypeList[this.filterParams.type] || "景区门票";
             },
-
             topicName(){
                 return this.filterParams.topic ? this.filterParams.topic : "不限"
             }
         },
         methods : {
-            initRouter(){
-                var that = this;
-                var Router = Backbone.Router.extend({
-                    routes : {
-                        "" : "index",
-                        "city" : "city",
-                        "topic/:topic" : "topic",
-                        "ptype" : "ptype"
-                    },
-                    initialize : function(){
-
-                    },
-                    index : function(){
-
-                    },
-                    city : function(){
-                        console.log("city");
-
-                    }
-                })
-                new Router;
-                Backbone.history.start();
-            },
             onPtypeItemClick(ptype){
-                this.filterParams.ptype = ptype;
+                this.filterParams.type = ptype;
                 this.filterBarHide = false;
             },
             onSwitchPtypeBtnClick(e){
@@ -170,6 +184,7 @@
                 this.filterBarHide = true;
             },
             onTopicItemClick(topic,topicText){
+                if(!topic && !topicText) return false;
                 this.filterParams.topic = topicText;
                 this.filterBarHide = false;
             },
@@ -199,12 +214,27 @@
                 this.cityShow = false;
                 this.filterBarHide = false;
             },
+            onKeywordChange(keyword){
+                this.$set("filterParams.keyword",keyword);
+            },
+            onFilterParamsChange(){
+                this.$set("filterParams.lastPos","");
+                this.$set("list",[]);
+                this.fetchData();
+            },
+            onTopicNoLimitBtnClick(e){
+                this.filterBarHide = false;
+                this.$set("filterParams.topic","");
+                this.topicShow = false;
+                $(e.target).prev().children().removeClass("selected");
+            },
             fetchData(){
                 var params = this.filterParams;
                 FetchList(params,{
                     loading : () => {
                         if(params.lastPos===""){
                             Toast.show("loading","努力加载中..");
+                            //if(this.ready) this.disableScroll();
                         }
                     },
                     complete : () => {
@@ -212,40 +242,60 @@
                     },
                     empty : () => {
                         this.disableScroll();
-                        Alert("提示","没有更多匹配条件的产品了..");
+                        if(this.filterParams.lastPos==""){
+                            Alert("提示","查无匹配条件的产品..");
+                        }else{
+                            Alert("提示","没有更多匹配条件的产品了..");
+                            this.list.push({type:"empty"});
+                            this.$nextTick(()=>{
+                                this.resetScroll();
+                            })
+                        }
                     },
                     success : (data) => {
-                        this.cityList = data.citys;
-                        this.list = this.list.concat(data.list);
-                        this.filterParams.lastPos = data.lastPos;
+                        if(data.citys) this.$set("cityList",data.citys);
+                        var themes = data.themes;
+                        if(themes){
+                            var __themes = {};
+                            for(var i in themes) __themes[i] = themes[i];
+                            this.$set("topicList",__themes);
+                        }
+                        this.$set("list",this.list.concat(data.list));
                         if(!this.ready){
                             this.scrollerHeight = String(this.scrollWrap.height())+"px";
                             this.ready = true;
                         }
                         this.$nextTick(()=>{
+                            if(this.filterParams.lastPos==""){
+                                var container = document.querySelector("#scrollWrap .xs-container");
+                                container.style["transform"] = "translate(0px,0px) translateZ(0px)";
+                            }
                             this.enableScroll();
+                            this.resetPullup();
                             this.resetScroll();
+                            this.$set("filterParams.lastPos",data.lastPos);
                         })
                     },
-                    fail : () => {}
+                    fail : (msg) => {
+                        Alert("提示",msg);
+                    }
                 })
             },
             onPullupLoading(uuid){
                 this.fetchData();
-                setTimeout(()=>{
-                    //this.$broadcast('pullup:reset',uuid);
-                    //this.$broadcast('pullup:disable',uuid);
-                    //this.$broadcast('pullup:enable',uuid);
-                    //this.$nextTick(() => {
-                    //    this.$refs.scroller.reset()
-                    //})
-                },1000)
             },
             disableScroll(){
+                if(this.scrollStatus=="disable") return false;
                 this.$broadcast('pullup:disable', this.$refs.scroller.uuid);
+                this.scrollStatus = "disable";
             },
             enableScroll(){
+                if(this.scrollStatus=="enable") return false;
                 this.$broadcast('pullup:enable', this.$refs.scroller.uuid);
+                this.scrollStatus = "enable";
+            },
+            resetPullup(){
+                this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
             },
             resetScroll(){
                 this.$refs.scroller.reset();
@@ -255,15 +305,16 @@
             scroller : require("vux/src/components/scroller/index.vue"),
             sheetAction : require("COMMON_VUE_COMPONENTS/sheet-action"),
             sheetCore : require("COMMON_VUE_COMPONENTS/sheet-core"),
-            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header")
+            searchBox : require("COMMON_VUE_COMPONENTS/search-box"),
+            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
+            imageLoador : require("COMMON_VUE_COMPONENTS/image-loador")
         }
     }
 </script>
 <style lang="sass">
     @import "COMMON/css/base/main";
     body{ background:$bgColor}
-    $tabHeight : 42px;
-    .scrollWrap{ position:absolute; top:$tabHeight; left:0; right:0; bottom:47px; overflow:hidden}
+    .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:47px; overflow:hidden}
 
     .item{ height:150px; line-height:150px; text-align:center; background:#fff; margin-bottom:10px;}
     .item:last-child{ margin-bottom:0}
@@ -352,6 +403,77 @@
 
         }
     }
+
+    .fixHeader{
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        height:45px;
+        box-shadow:0 1px 1px rgba(0,0,0,0.1);
+        background:#fff;
+        overflow:hidden;
+
+        .searchBoxWrap{
+            position:absolute;
+            left:0;
+            top:0;
+            bottom:0;
+            right:50px;
+        }
+
+        .userBtn{
+            display:block;
+            float:right;
+            width:50px;
+            height:100%;
+            line-height:45px;
+            text-align:center;
+            .uicon{
+                font-size:18px;
+            }
+        }
+
+    }
+
+    .scrollInerCon{
+        overflow:hidden; padding:0 10px;
+        .gtextoverflow{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+        .itemBox{
+            width:48.5%; float:left; overflow:hidden; background:#fff; margin-bottom:10px;
+            /*display:-webkit-box; display:-webkit-flex; display:-ms-flex; display:flex;*/
+            /*-webkit-box-orign:vertical; -webkit-box-direction:normal; -webkit-flex-direction:column; -ms-flex-direction:column; flex-direction:column;*/
+        }
+        .itemBox:nth-child(2n+1){ margin-right:3%;}
+        .itemBox > .con{ display:block; width:100%;}
+        .itemBox .photoBox{width:100%; height:100px; overflow:hidden; background-position: center; background-size: cover;
+            font-size:0; background-position: center; background-repeat: no-repeat;}
+        .itemBox .photoBox table{ width:100%; height:100%; text-align:center}
+        .itemBox .photoBox table,.itemBox .photoBox table tr,.itemBox .photoBox table td{ width:100%; height:100%; font-size:0}
+        .itemBox .photoBox img{width: 100%;}
+        .itemBox .title{ text-align:left; font-size:12px; line-height:1.4; color:#323131}
+        .itemBox .bCon{padding: 2px 6px 10px 10px; height: 36px;}
+        .itemBox .bb{ width:100%; line-height:1.4; overflow:hidden}
+        .itemBox .price{ float:left;}
+        .itemBox .price.tprice{ float:right; text-decoration:line-through; color:#999}
+        .itemBox .price.tprice .yen{ color:#999}
+        .itemBox .ui-recFlag{width: 14px; height: 14px; font-size: 12px; float:right; margin-left:3px;  -webkit-transform: scale(0.95);}
+        .itemBox .price{ font-size:16px; margin-top: 2px; color:#F07845; padding-left:1px}
+        .itemBox .price .yen{ font-size:12px; color: #F07845; margin-right: 2px;}
+        .itemBox .price .qi{ font-size:14px; color: #8a8a8a; margin-left: 2px;}
+
+        .emptyTip{
+            clear:both;
+            margin-top:5px;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            background:#fff;
+        }
+
+    }
+
+
 
     .xs-plugin-pullup-container{ line-height:40px}
 

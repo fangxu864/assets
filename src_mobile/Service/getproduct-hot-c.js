@@ -71,13 +71,10 @@ module.exports = function(opt){
 	}
 
 
-
-
 	PFT.Util.Ajax(PFT.Api.C.getProductHot(),{
 		type : "post",
 		params : {
-			area : area,
-			toket : PFT.Util.getToken()
+			token : PFT.Util.getToken()
 		},
 		loading : opt.loading,
 		complete : opt.complete,

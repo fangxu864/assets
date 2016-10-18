@@ -37,6 +37,7 @@
     </div>
 </template>
 <script type="es6">
+    let NumberToFixed = require("COMMON/js/util.numberToFixed");
     export default {
         props : {
             pid : {
@@ -117,7 +118,7 @@
                     var count = item.count;
                     total_money += (jsprice * count);
                 })
-                return total_money;
+                return Number(NumberToFixed(total_money,2));
             }
         },
         components : {
