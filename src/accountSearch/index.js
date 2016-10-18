@@ -108,12 +108,13 @@ var accountSearch={
             _this.filterParamsBox["reseller_id"]= $("#trader_inp").val();
             _this.filterParamsBox["page"]= 1;
             _this.filterParamsBox["export"]= 0;
-
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
             _this.ajaxGetData({
-                "params":_this.filterParamsBox
-            })
-
-
+                "params":_this.filterParamsBox,
+                "isCacheData":true,
+                "cacheKey":cacheKey,
+                "isInitPagination":true      //是否初始化分页器
+            });
         })
 
     },
@@ -127,6 +128,7 @@ var accountSearch={
             async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
             data: data.params,                            //参数值
             type: "GET",                                  //请求方式
+            timeout:5000,
             beforeSend: function() {
                 //请求前的处理
                 _this.total_box.hide();
@@ -136,34 +138,33 @@ var accountSearch={
             },
             success: function(res) {
                 console.log(res);
-                // if(req.code==200){
-                //     if(req.data.list.length==0){
-                //         // _this.total_box.hide();
-                //         _this.tablecon_box.hide();
-                //         _this.pagination_wrap.hide();
-                //         _this.queryState_box.show().html(querynodata_tpl);
-                //     }else{
-                //         _this.queryState_box.hide();
-                //         _this.dealReqData(req);
-                //         if(data.isCacheData){            //缓存查询的数据
-                //             _this.dataContainer[data.cacheKey]=req;
-                //         }
-                //         if(data.isInitPagination){       //是否初始化分页器
-                //             var totalPages= Math.ceil(req.data.total/_this.perPageNum);
-                //             var currentPage= 1;
-                //             _this.dealPagination(currentPage,totalPages);
-                //         }else{
-                //             _this.pagination_wrap.show(200);
-                //         }
-                //     }
-                // }
-                // else{
-                //     $(".querying").text(req.msg);
-                // }
-
+                if(res.code==200){
+                    if(res.data.list.length==0){
+                        _this.total_box.hide();
+                        _this.tablecon_box.hide();
+                        _this.pagination_wrap.hide();
+                        _this.queryState_box.show().html(querynodata_tpl);
+                    }else{
+                        _this.queryState_box.hide();
+                        _this.dealReqData(res);
+                        if(data.isCacheData){            //缓存查询的数据
+                            _this.dataContainer[data.cacheKey]=res;
+                        }
+                        if(data.isInitPagination){       //是否初始化分页器
+                            var totalPages= Math.ceil(res.data.total/_this.perPageNum);
+                            var currentPage= 1;
+                            _this.dealPagination(currentPage,totalPages);
+                        }else{
+                            _this.pagination_wrap.show(200);
+                        }
+                    }
+                }
+                else{
+                    $(".querying").text(res.msg);
+                }
             },
-            complete: function() {
-                //请求完成的处理
+            complete: function(res,status) {
+               console.log(arguments)
             },
             error: function() {
                 //请求出错处理
@@ -171,6 +172,7 @@ var accountSearch={
                 // _this.tablecon_box.hide();
                 // _this.pagination_wrap.hide();
                 // _this.queryState_box.show().html(queryerror_tpl);
+                alert("error")
             }
         });
     },

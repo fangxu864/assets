@@ -3,7 +3,7 @@
 <div class="trecordCount">
     <div class="nav_title">
         <ul>
-            <li><a href="trecordCount.html">交易记录汇总</a></li>
+            <li class="active"><a href="trecordCount.html">交易记录汇总</a></li>
             <li><a href="accountSearch.html" class="not_active">账户余额查询</a></li>
         </ul>
     </div>
