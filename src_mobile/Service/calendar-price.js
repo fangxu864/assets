@@ -3,7 +3,7 @@
  * Date: 2016/8/12 14:31
  * Description: 获取日历价格
  */
-module.exports = function(pid,yearmonth,opt){
+module.exports = function(pid,aid,yearmonth,opt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
@@ -37,11 +37,13 @@ module.exports = function(pid,yearmonth,opt){
 		return false;
 	}
 
-	PFT.Util.Ajax(PFT.Api.C.getTicketList(),{
+	PFT.Util.Ajax(PFT.Api.C.getCalendarPrice(),{
 		type : "post",
 		params : {
 			pid : pid,
-			date : yearmonth
+			aid : aid,
+			date : yearmonth,
+			token : PFT.Util.getToken()
 		},
 		loading : opt.loading,
 		complete : opt.complete,
@@ -51,10 +53,11 @@ module.exports = function(pid,yearmonth,opt){
 			var list = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
-				if(!PFT.Util.isEmptyObj(list)){
-					success(list);
+				if(Object.prototype.toString.call(list)=="[object Array]" && list.length==0) return opt.empty(list);
+				if(!PFT.Util.isEmptyObject(list)){
+					opt.success(list);
 				}else{
-					empty(list);
+					opt.empty(list);
 				}
 			}else{
 				opt.fail(msg);

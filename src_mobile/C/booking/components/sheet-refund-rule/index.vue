@@ -7,6 +7,7 @@
     </sheet-core>
 </template>
 <script type="es6">
+    let MinueToDayTime = require("COMMON/js/util.minuToDayTime");
     export default {
         props : {
             show : {
@@ -45,16 +46,16 @@
         },
         methods : {
             getDayTime(daytime){
-                var day = daytime/(24*60);
-                var day_init = Math.floor(day);
-                var hour = (day-day_init) * 24;
-                var hour_init = Math.floor(hour);
-                var mine = (hour-hour_init) * 60;
-                var mine_init = Math.floor(mine);
-                var day_text = day_init==0 ? "" : (day_init+"天");
-                var hour_text = (day_init==0 && hour_init==0) ? "" : (hour_init+"小时");
-                var mine_text = mine_init + "分钟";
-                return day_text+hour_text+mine_text+"内，";
+                //var day = daytime/(24*60);
+                //var day_init = Math.floor(day);
+                //var hour = (day-day_init) * 24;
+                //var hour_init = Math.floor(hour);
+                //var mine = (hour-hour_init) * 60;
+                //var mine_init = Math.floor(mine);
+                //var day_text = day_init==0 ? "" : (day_init+"天");
+                //var hour_text = (day_init==0 && hour_init==0) ? "" : (hour_init+"小时");
+                //var mine_text = mine_init + "分钟";
+                return MinueToDayTime(daytime)+"内，";
             },
             beginTimePerfix(p_type){
                 return {

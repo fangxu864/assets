@@ -31,6 +31,7 @@
 </template>
 <script type="es6">
     const OrderService = require("SERVICE_M/mall-member-user-order");
+    let Alert = PFT.Mobile.Alert;
     let Toast = new PFT.Mobile.Toast();
     let __TransformPre = (function(){
         var div = document.createElement("div");
@@ -183,7 +184,9 @@
                             }
                         })
                     },
-                    fail : () => {}
+                    fail : (msg) => {
+                        Alert("提示",msg);
+                    }
                 })
             },
             onPullupLoading(uuid){

@@ -54,14 +54,14 @@ var Pagination = UtilClass({
 	EVENTS : {
 		"click .nav" : "onNavClick",
 		"click .prevNextBtn" : "onPrevNextBtnClick",
-		"click .toWhichBtn" : "onWhichPageClick",
+		"mousedown .toWhichBtn" : "onWhichPageClick",
 		"focus .whichPageInp" : "onWhichInpFocus",
 		"blur .whichPageInp" : "onWhichInpBlur",
 		"keyup .whichPageInp" : "onWhichPageEnter"
 	},
 	onNavClick : function(e){
 		var tarNav = $(e.currentTarget);
-		if(tarNav.hasClass("dot") || tarNav.hasClass("disable")) return false;
+		if(tarNav.hasClass("dot") || tarNav.hasClass("disable") || tarNav.hasClass("current")) return false;
 		var page = tarNav.attr("data-page") * 1;
 		this.trigger("page.switch",page,this.currentPage,this.totalPage,tarNav);
 	},
@@ -162,6 +162,7 @@ var Pagination = UtilClass({
 		var total = opt.total;
 		var showTotal = typeof opt.showTotal=="boolean" ? opt.showTotal : this.showTotal;
 		var jump = typeof opt.jump=="boolean" ? opt.jump : this.jump;
+		if(total==1) jump = false;
 		this.currentPage = current;
 		this.totalPage = total;
 		if(total==0 || current>total) return this.container.html("").hide();
@@ -171,6 +172,12 @@ var Pagination = UtilClass({
 		var html = this.template({data:resultData,current:current,total:total,showTotal:showTotal,jump:jump});
 
 		this.container.show().html(html);
+	},
+	getCurrentPage : function(){
+		return this.currentPage;
+	},
+	getTotalPage : function(){
+		return this.totalPage;
 	}
 });
 

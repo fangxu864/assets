@@ -19,18 +19,19 @@
                         <span class="t">帐户余额</span>
                         <i class="yen">&yen;</i><em class="num" v-text="info.remainMoney"></em>
                     </div>
-                    <div v-if="info.remainMoney>1" style="margin-top:10px"><a href="javascript:void(0)">红包提现</a></div>
+
                 </div>
                 <div class="col right">
-                    <div>
-                        <span class="t">手机号</span>
-                        <span v-if="info.mobile" class="mobileNum" v-text="info.mobile"></span>
-                    </div>
-                    <div style="margin-top:10px"><a :href="link" v-text="isBindMobile ? '解绑' : '绑定'"></a></div>
+                    <div v-if="info.remainMoney>1"><a href="javascript:void(0)">红包提现</a></div>
+                    <!--<div>-->
+                        <!--<span class="t">手机号</span>-->
+                        <!--<span v-if="info.mobile" class="mobileNum" v-text="info.mobile"></span>-->
+                    <!--</div>-->
+                    <!--<div style="margin-top:10px"><a :href="link" v-text="bindMobileText"></a></div>-->
                 </div>
             </div>
             <div class="line-list">
-                <line-item :class-name="menuName" v-for="(menuName,item) in info.menus">
+                <line-item :link="menuName=='orderList'? 'userorder.html' : ''" :class-name="menuName" v-for="(menuName,item) in info.menus">
                     <span slot="left">
                         <i class="icon-biz" :class="getCls(menuName)"></i>
                         <span class="t" v-text="item.name"></span>
@@ -41,16 +42,21 @@
                     </span>
                 </line-item>
             </div>
+            <span @click="onLogoutBtnClick" class="accountLoginBtn" data-wxaccount="{{wxAccount}}" v-text="wxAccount==1 ? '切换手机号登录' : '退出'"></span>
         </div>
         <page-footer></page-footer>
     </template>
 </template>
 <script type="es6">
     const FetchUsercenterInfo = require("SERVICE_M/mall-member-usercenter-info");
+    const Logout = require("SERVICE_M/mall-member-user-logout");
+    let Toast = new PFT.Mobile.Toast;
+    let Alert = PFT.Mobile.Alert;
     export default{
         data(){
             return{
                 state : "",
+                wxAccount : "1",
                 info : {}
             }
         },
@@ -61,12 +67,19 @@
                 }else{
                     return "bind_mobile.html";
                 }
+            },
+            bindMobileText(){
+                if(this.info.mobile){ //如果已绑定
+                    return "解绑";
+                }else{
+                    return "绑定";
+                }
             }
         },
         ready(){
             var Mobile = PFT.Mobile;
             let Toast = new Mobile.Toast();
-            let Alert = new Mobile.Alert();
+            let Alert = Mobile.Alert;
             FetchUsercenterInfo({
                 loading : () => {
                     Toast.show("loading","努力加载中...");
@@ -75,9 +88,15 @@
                 success : (data)=> {
                     var that = this;
                     this.state = "success";
+                    if(typeof data.wxAccount!=="undefined") this.wxAccount = data.wxAccount;
                     for(var i in data) that.$set("info."+i,data[i]);
                 },
-                fail : (msg)=> { Alert.show("提示",msg)}
+                fail : (msg,code)=> {
+                    Alert("提示",msg);
+                    if(code==102){
+                        window.location.href = "bind_mobile.html";
+                    }
+                }
             })
         },
         methods : {
@@ -88,6 +107,26 @@
                     coupon : "icon-youhuiquan",
                     poster : "icon-erweima"
                 }[menuName];
+            },
+            onLogoutBtnClick(e){
+                var tarBtn = $(e.currentTarget);
+                if(tarBtn.hasClass("disable")) return false;
+                Logout({
+                    loading : ()=> {
+                        tarBtn.addClass("disable");
+                        Toast.show("loading","请稍后...")
+                    },
+                    complete : ()=> {
+                        tarBtn.removeClass("disable");
+                        Toast.hide();
+                    },
+                    success : (data)=> {
+                       window.location.href = "bind_mobile.html";
+                    },
+                    fail : (msg,code)=> {
+                        Alert("提示",msg);
+                    }
+                })
             }
         },
         components : {
@@ -135,15 +174,29 @@
     .absContainer .col{ position:relative; float:left; box-sizing:border-box; padding:20px 0 20px 18px; font-size:0.35rem}
     .absContainer .col .t{ margin-right:5px; color:$gray50}
     .absContainer .col.left{ width:40%; }
-    .absContainer .col.right:before{
-        content : "";
-        position:absolute;
-        top:0;
-        left:0;
-        bottom:0;
-        width:1px;
-        font-size:0;
-        background:$gray80;
-        transform:scaleX(0.5);
+    .absContainer .col.right{ float:right; padding-right:15px }
+    /*.absContainer .col.right:before{*/
+        /*content : "";*/
+        /*position:absolute;*/
+        /*top:0;*/
+        /*left:0;*/
+        /*bottom:0;*/
+        /*width:1px;*/
+        /*font-size:0;*/
+        /*background:$gray80;*/
+        /*transform:scaleX(0.5);*/
+    /*}*/
+
+    .accountLoginBtn{
+        @include btn-block();
+        width:auto;
+        height:px2rem(86);
+        line-height:px2rem(86);
+        margin:30px 15px 0;
+        text-align:center;
+        &.disable{ @include btn-disable}
     }
+
+
+
 </style>

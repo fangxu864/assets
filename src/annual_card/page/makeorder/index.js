@@ -141,6 +141,7 @@ var MainView = Backbone.View.extend({
 			memo : opt.note,
 			pids : opt.pids
 		};
+		if(this.CardList.error) return alert(this.CardList.error+" 无法购买");
 		data["begintime"] = Format(new Date,"yyyy-MM-dd");
 		data["card_type"] = this.type;
 		data["virtual_no"] = this.CardList.getVirtualCards();

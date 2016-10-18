@@ -4,6 +4,7 @@
             <div slot="content">
                 <div class="state loading" v-if="state=='loading'">努力加载中...</div>
                 <div class="state error" v-if="state=='error'" v-text="errorMsg"></div>
+                <div class="state empty" v-if="state=='empty'">没有数据...</div>
                 <template v-if="state=='success'">
                     <div class="calTop">
                         <div class="calTopText" v-text="selected_year+'-'+selected_month"></div>
@@ -39,12 +40,10 @@
 <script type="es6">
     let CalendarCore = require("COMMON/js/calendarCore");
     let GetCalendarPrice = require("SERVICE_M/calendar-price");
+    let aid = PFT.Util.UrlParse()["aid"] || "";
+    let pid = PFT.Util.UrlParse()["pid"] || "";
     export default {
         props : {
-            pid : {
-                type : String,
-                default : "111"
-            },
             show : {
                 type : Boolean,
                 default : false,
@@ -92,19 +91,19 @@
                 this.selected_month = arr[1];
                 if(arr.length==3) this.selected_date = val;
                 var _yearmonth = this.selected_year + "-" + this.selected_month;
-                this.switchYearmonth(this.pid,_yearmonth);
+                this.switchYearmonth(pid,_yearmonth);
             },
             min(val){
                 var yearmonth = this.yearmonth;
                 var arr = yearmonth.split("-");
                 var _yearmonth = arr[0] + "-" + arr[1];
-                this.switchYearmonth(this.pid,_yearmonth);
+                this.switchYearmonth(pid,_yearmonth);
             },
             max(val){
                 var yearmonth = this.yearmonth;
                 var arr = yearmonth.split("-");
                 var _yearmonth = arr[0] + "-" + arr[1];
-                this.switchYearmonth(this.pid,_yearmonth);
+                this.switchYearmonth(pid,_yearmonth);
             }
         },
         methods : {
@@ -148,7 +147,7 @@
                 var cache_prices = this.Cache_Prices[yearmonth];
                 if(!cache_dates) cache_dates = this.Cache_Dates[yearmonth] = CalendarCore.outputDate(yearmonth);
                 if(!cache_prices){
-                    GetCalendarPrice(pid,yearmonth,{
+                    GetCalendarPrice(pid,aid,yearmonth,{
                         loading : ()=> {
                             this.state = "loading";
                         },
@@ -162,7 +161,7 @@
                         },
                         fail : (msg)=> {
                             this.errorMsg = msg;
-                            this.state = "fail";
+                            this.state = "error";
                         }
                     })
                 }else{
@@ -231,5 +230,5 @@
     .calendarContainer .calendar-box.selected .price{ color:#fff}
     .calendarContainer .calendar-box .day{ display:block; font-size:0.35rem; line-height:1.5}
     .calendarContainer .calendar-box .price{ color:#f37138}
-    .calendarContainer .vux-flexbox-item:last-child .calendar-box{ border-right:0 none}
+    .calendarContainer .vux-flexbox-item:last-child .calendar-box{ border-right:0 none;}
 </style>

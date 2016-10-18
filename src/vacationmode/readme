@@ -1,0 +1,31 @@
+### 假日模式前端页面主要修改两个地方：订单查询页(orderquery.html) 新版交易记录页(trecordNew.html)
+其中，这两个页面的鼠标hover提示限制信息，此功能合一处，都放在assets/src/vacationmode/tooltip-msg模块下
+
+### 新版交易记录页
+假日模式业务在assets/src/trecordnew-tooltip-msg模块实现(通过require assets/src/vacationmode/tooltip-msg)
+所以此页面需要额外引最终编译好的all.js文件: http://static.12301.cc/assets/build/js/vacationmode.trecordnew.tooltip.msg.all.js
+及css文件: http://static.12301.cc/assets/build/css/vacationmode.trecordnew.tooltip.msg.all.css
+要修改此页面：
+npm run vacationmode-start
+npm run vacationmode-test
+npm run vacationmode-release
+npm run vacationmode-production
+
+
+
+### 订单查询页(orderquery.html)
+此页面原本的代码是放在www项目: new/d/tpl/orderquery下面的，现在已经全部迁移到assets/src/orderquery-rebuild模块下
+新增的假日模式业务在filter.js模块里实现(通过require assets/src/vacationmode/tooltip-msg)
+要修改此页面：
+npm run orderquery-rebuild-start
+npm run orderquery-rebuild-test
+npm run orderquery-rebuild-release
+npm run orderquery-rebuild-production
+
+
+
+
+## 要发布时，请执行：
+npm run vacationmode-pc-tip-test
+npm run vacationmode-pc-tip-release
+npm run vacationmode-pc-tip-production

@@ -63,7 +63,7 @@
         transition:-webkit-transform .3s;
         backface-visibility: hidden;
     }
-    .ui-actionshet-con{ height:100%;}
+    .ui-actionshet-con{ height:100%; overflow:auto; overflow-scrolling:touch; -webkit-overflow-scrolling:touch}
     .ui-actionsheetContainer.show{
         transform:translateY(0);
     }

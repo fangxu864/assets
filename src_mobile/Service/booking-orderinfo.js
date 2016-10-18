@@ -5,6 +5,7 @@
  * pid	int	产品id
  * aid	int	产品aid
  */
+let MinueToDayTime = require("COMMON/js/util.minuToDayTime");
 module.exports = function(pid,aid,opt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
@@ -93,7 +94,7 @@ module.exports = function(pid,aid,opt){
 		return false;
 	}
 
-	PFT.Util.Ajax(PFT.Api.C.getTicketListBook(),{
+	PFT.Util.Ajax(PFT.Api.C.getBookInfo(),{
 		type : "post",
 		params : {
 			pid : pid,
@@ -112,7 +113,7 @@ module.exports = function(pid,aid,opt){
 				if(data.validTime==0){
 					data["validTime"] = "仅当天有效";
 				}else{
-					data["validTime"] = (data["validTime"]+"内有效");
+					data["validTime"] = (data["validTime"]+"天内有效");
 				}
 
 				//验证时间（全天都可验时，不显示）
@@ -138,10 +139,10 @@ module.exports = function(pid,aid,opt){
 
 				//2不可退，1游玩日期前可退，0有效期前可退
 				var refund_rule = data.refund_rule;
-				var refund_early_time = data.refund_early_time;
-				if(refund_rule==0){
+				var refund_early_time = MinueToDayTime(data.refund_early_time);
+				if(refund_rule==1){
 					data["refund_rule_text"] = "有效期前"+refund_early_time+"分钟可退";
-				}else if(refund_rule==1){
+				}else if(refund_rule==0){
 					data["refund_rule_text"] = "游玩日期前可退";
 				}else if(refund_rule==2){
 					data["refund_rule_text"] = "不可退";

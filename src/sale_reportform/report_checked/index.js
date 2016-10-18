@@ -77,8 +77,8 @@ var Book_form={
         this.stime_inp=$("#start_time");
         this.etime_inp=$("#end_time");
         //初始化input内容
-        _this.stime_inp.val(when.week()[0]);
-        _this.etime_inp.val(when.week()[1]);
+        _this.stime_inp.val(_this.getCookie("start_time")!==""?_this.getCookie("start_time"):when.week()[0]);
+        _this.etime_inp.val(_this.getCookie("end_time")!==""?_this.getCookie("end_time"):when.week()[1]);
         //日历插件部分
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
@@ -108,40 +108,99 @@ var Book_form={
                 onAfter : function(){}       //弹出日历后callback
             })
         });
-
-        //产品名称搜索框
-        var select2=new Select({
-            source : "/r/report_statistics/getLandList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "",  //指定过滤方式为ajax
-            field : {
-                id : "id",
-                name : "title",
-                keyword : "title"
-            },
-            trigger : $("#product_name_inp"),
-            isFillContent:false,
-
-            filter : true,
-            adaptor : function(res){
-                var reslut = {};
-                reslut["code"]=res.code;
-                reslut["msg"]=res.msg;
-                var arr=[];
-                var data=res.data;
-                for(var i in data){
-                    arr.push(data[i]);
+        calendar.on("select",function(data){
+            var inputId=data.picker[0].id;
+            var startDate=_this.stime_inp.val();
+            var endDate=_this.etime_inp.val();
+            var dateDiff=GetDateDiff(startDate,endDate);
+            var curDate;
+            if(dateDiff>90){
+                if(inputId==="start_time"){
+                    curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    _this.etime_inp.val(curDate);
+                    _this.setCookie("start_time",startDate,1000*60*60);
+                    _this.setCookie("end_time",curDate,1000*60*60)
+                }else if(inputId==="end_time"){
+                    curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    _this.stime_inp.val(curDate);
+                    _this.setCookie("start_time",curDate,1000*60*60);
+                    _this.setCookie("end_time",endDate,1000*60*60)
                 }
-                reslut["data"] =arr;
-                return reslut;
+            }
+            //计算两个日期间的天数
+            function GetDateDiff(startDate,endDate) {
+                var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();
+                var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
+                var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
+                return  dates;
             }
         });
+
+        //产品名称搜索框
+        this.ajaxParams={"search_id":""};
+        if(_this.isAdmin==1){
+            this.select2=new Select({
+                source : "/r/report_statistics/searchLands/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+                ajaxType : "post",
+
+                ajaxParams : _this.ajaxParams,
+                filterType : "ajax",  //指定过滤方式为ajax
+                field : {
+                    id : "id",
+                    name : "name",
+                    keyword : "keyword"
+                },
+                trigger : $("#product_name_inp"),
+                isFillContent:false,
+
+                filter : true,
+                adaptor : function(res){
+                    var reslut = {};
+                    reslut["code"]=200;
+                    reslut["msg"]=res.msg;
+                    var arr=[];
+                    var data=res.data;
+                    for(var i in data){
+                        arr.push(data[i]);
+                    }
+                    reslut["data"] =arr;
+                    return reslut;
+                }
+            });
+        }else{
+            this.select2=new Select({
+                source : "/r/report_statistics/getLandList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+                ajaxType : "get",
+
+                ajaxParams : {
+                    action : "fuzzyGetDname_c",
+                    dtype : "1",
+                    danme : ""
+                },
+                filterType : "",  //指定过滤方式为ajax
+                field : {
+                    id : "id",
+                    name : "title",
+                    keyword : "title"
+                },
+                trigger : $("#product_name_inp"),
+                isFillContent:false,
+
+                filter : true,
+                adaptor : function(res){
+                    var reslut = {};
+                    reslut["code"]=res.code;
+                    reslut["msg"]=res.msg;
+                    var arr=[];
+                    var data=res.data;
+                    for(var i in data){
+                        arr.push(data[i]);
+                    }
+                    reslut["data"] =arr;
+                    return reslut;
+                }
+            });
+        }
 
         //分销商供应商选择
         var select_fg=new SelectShort({
@@ -150,7 +209,7 @@ var Book_form={
             callback:function (cur_opt){}
         });
         //分销商搜索框
-        var select3=new Select({
+        this.select3=new Select({
             source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
             ajaxType : "get",
             isFillContent:false,
@@ -238,26 +297,38 @@ var Book_form={
                 case "today_btn":{
                     _this.stime_inp.val(when.today());
                     _this.etime_inp.val(when.today());
+                    _this.setCookie("start_time",when.today(),1000*60*60);
+                    _this.setCookie("end_time",when.today(),1000*60*60)
                 }break;
                 case "yestoday_btn":{
                     _this.stime_inp.val(when.yestoday());
                     _this.etime_inp.val(when.yestoday());
+                    _this.setCookie("start_time",when.yestoday(),1000*60*60);
+                    _this.setCookie("end_time",when.yestoday(),1000*60*60)
                 }break;
                 case "thisweek_btn":{
                     _this.stime_inp.val(when.week()[0]);
                     _this.etime_inp.val(when.week()[1]);
+                    _this.setCookie("start_time",when.week()[0],1000*60*60);
+                    _this.setCookie("end_time",when.week()[1],1000*60*60)
                 }break;
                 case "lastweek_btn":{
                     _this.stime_inp.val(when.lastweek()[0]);
                     _this.etime_inp.val(when.lastweek()[1]);
+                    _this.setCookie("start_time",when.lastweek()[0],1000*60*60);
+                    _this.setCookie("end_time",when.lastweek()[1],1000*60*60)
                 }break;
                 case "thismonth_btn":{
                     _this.stime_inp.val(when.month()[0]);
                     _this.etime_inp.val(when.month()[1]);
+                    _this.setCookie("start_time",when.month()[0],1000*60*60);
+                    _this.setCookie("end_time",when.month()[1],1000*60*60)
                 }break;
                 case "lastmonth_btn":{
                     _this.stime_inp.val(when.lastmonth()[0]);
                     _this.etime_inp.val(when.lastmonth()[1]);
+                    _this.setCookie("start_time",when.lastmonth()[0],1000*60*60);
+                    _this.setCookie("end_time",when.lastmonth()[1],1000*60*60)
                 }break;
                 default:{
                     alert("why ???")
@@ -295,6 +366,45 @@ var Book_form={
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
         })
+        //管理员账号时，点击分销商搜索框时更新此框数据
+        if(_this.isAdmin==1){
+            $("#fenxiaoshang_name_inp").on("focus",function () {
+                var member_id=_this.getParams()["merchant_id"]?_this.getParams()["merchant_id"]:"";
+                var api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                $.ajax({
+                    url: api,                                //请求的url地址"/r/report_statistics/orderList/"
+                    dataType: "json",                            //返回格式为json
+                    async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
+                    data: {},                            //参数值
+                    type: "GET",                                  //请求方式
+                    beforeSend: function() {
+                        //请求前的处理
+                    },
+                    success: function(res) {
+                        var reslut = {};
+                        reslut["code"]=res.code;
+                        reslut["msg"]=res.msg;
+                        var arr=[];
+                        var data=res.data;
+                        for(var i in data){
+                            arr.push(data[i]);
+                        }
+                        reslut["data"] =arr;
+                        _this.select3.refresh(reslut.data);
+                    },
+                    complete: function() {
+                        //请求完成的处理
+                    },
+                    error: function() {
+                        //请求出错处理
+                    }
+                });
+            })
+            $("#product_name_inp").on("focus",function () {
+                var member_id = _this.getParams()["merchant_id"] ? _this.getParams()["merchant_id"] : "";
+                _this.ajaxParams["search_id"]=member_id;
+            })
+        }
     },
     //获取filter参数
     getParams:function () {
@@ -500,6 +610,32 @@ var Book_form={
             arr.push(str);
         }
         return arr.join("&");
+    },
+    //处理cookie的函数
+    setCookie:function (name, value, time) {
+        var oDate=new Date();
+        oDate.setTime(oDate.getTime()+time);
+        document.cookie=name+'='+encodeURIComponent(value)+';expires='+oDate;
+    },
+    getCookie:function (name) {
+        var arr=document.cookie.split('; ');
+        var i=0;
+        for(i=0;i<arr.length;i++)
+        {
+            //arr2->['username', 'abc']
+            var arr2=arr[i].split('=');
+
+            if(arr2[0]==name)
+            {
+                var getC = decodeURIComponent(arr2[1]);
+                return getC;
+            }
+        }
+
+        return '';
+    },
+    removeCookie:function (name) {
+        setCookie(name, '1', -1);
     }
 };
 

@@ -41,7 +41,6 @@ module.exports = function(opt){
 		return false;
 	}
 
-	params["token"] = PFT.Util.getToken();
 
 	PFT.Util.Ajax(PFT.Api.C.getUserCenterInfo(),{
 		type : "post",
@@ -58,7 +57,7 @@ module.exports = function(opt){
 			if(code==200){
 				opt.success(data);
 			}else{
-				opt.fail(msg);
+				opt.fail(msg,code);
 			}
 		}
 	})

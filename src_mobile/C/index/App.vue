@@ -2,14 +2,14 @@
     <div id="bodyContainer" class="bodyContainer">
         <div id="indexPageFixHeader">
             <fix-header>
-                <a class="leftBtn" href="javascript:void(0)" @click="citySwitchor.show=true" slot="left">
-                    <i class="uicon uicon-dizhi"></i>
-                    <span class="t" v-text="city"></span>
-                </a>
+                <!--<a class="leftBtn" href="javascript:void(0)" @click="citySwitchor.show=true" slot="left">-->
+                    <!--<i class="uicon uicon-dizhi"></i>-->
+                    <!--<span class="t" v-text="city"></span>-->
+                <!--</a>-->
                 <div class="centerBox" slot="center">
                     <a href="javascript:void(0)" class="searchBox"><i class="iconfont icon-search"></i><span class="t">产品名称</span></a>
                 </div>
-                <a class="rightBtn" href="javascript:void(0)" slot="right"><i class="uicon uicon-yonghu"></i></a>
+                <a class="rightBtn" href="usercenter.html" slot="right"><i class="uicon uicon-yonghu"></i></a>
             </fix-header>
         </div>
         <div id="bodyMainCon" class="bodyMainCon">
@@ -20,12 +20,12 @@
             <product-list :area="city"></product-list>
             <page-footer></page-footer>
         </div>
-        <city-switchor
-                :geo-location="citySwitchor.GeoLocation"
-                :show="citySwitchor.show"
-                v-on:switch="onCitySwitch"
-                v-on:close="citySwitchor.show=false">
-        </city-switchor>
+        <!--<city-switchor-->
+                <!--:geo-location="citySwitchor.GeoLocation"-->
+                <!--:show="citySwitchor.show"-->
+                <!--v-on:switch="onCitySwitch"-->
+                <!--v-on:close="citySwitchor.show=false">-->
+        <!--</city-switchor>-->
     </div>
 </template>
 
@@ -35,12 +35,12 @@
     export default {
         data(){
             return {
-                city : GeoLocation.getLastSwitchCity().city,
-                city_id : "",
-                citySwitchor : {
-                    GeoLocation : GeoLocation,
-                    show : false
-                },
+                //city : GeoLocation.getLastSwitchCity().city,
+                //city_id : "",
+                //citySwitchor : {
+                //    GeoLocation : GeoLocation,
+                //    show : false
+                //},
                 slideInitHeight : 150
             }
         },
@@ -61,7 +61,7 @@
             slider : require("COMMON_VUE_COMPONENTS/slider"),
             fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
             productList : require("./components/product-list"),
-            citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor"),
+            //citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor"),
             ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list"),
             pageFooter : require("COMMON_VUE_COMPONENTS/page-footer")
         }
@@ -76,4 +76,14 @@
     $marginTop : 12.25;
     #indexPageFixHeader .gFixHeader .searchBox{ display:block; width:70%; height:px2rem($height); line-height:px2rem($height); margin:px2rem($marginTop) auto 0; background:#e5f5fc; color:#92a0ab; border-radius:3px}
     #indexPageFixHeader .gFixHeader .searchBox .iconfont{ font-size:0.48rem; margin-right:3px; top:1px;}
+    #bodyContainer .gFixHeader .centerBox{
+        margin-left:15px;
+    }
+    #bodyContainer #indexPageFixHeader .gFixHeader .searchBox{
+        width:100%;
+        padding-left:10px;
+        box-sizing:border-box;
+        text-align:left;
+    }
+
 </style>

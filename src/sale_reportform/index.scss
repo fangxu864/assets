@@ -7,7 +7,7 @@
     line-height: 60px;
     padding-left: 10px;
     font-size: 22px;
-    font-weight: 300;
+    font-weight: normal;
     background: #FFFFFF;
     border: 1px solid #E5E5E5;
     span.noactive{
@@ -262,6 +262,8 @@
 //表格内容
 .tablecon_box{
   background-color: #ffffff;
+  border:1px solid #e5e5e5;
+  border-top:none;
   table.con_tb{
     width: 100%;
     .th1{
@@ -323,9 +325,9 @@
   border-top:none ;
   display: none;
   .querying{
-     height: 200px;
-     line-height: 200px;
-     text-align: center;
+      height: 200px;
+      text-align: center;
+      padding-top: 30px;
    }
   .queryerror{
     height: 200px;

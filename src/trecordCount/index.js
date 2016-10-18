@@ -25,6 +25,7 @@ var Dial=new Dialog({
     //     $(".select_down_pages .btn_wrap .all_btn").off("click.down_all")
     // }
 });
+Dial.open();
 
 var TrecordCount={
     init:function () {
@@ -199,8 +200,8 @@ var TrecordCount={
                 _this.pagination_wrap.hide();
                 _this.queryState_box.show(200).text("查询中，请稍后...");
             },
-            success: function(req) {
-                
+            success: function(res) {
+                console.log(res)
 
             },
             complete: function() {
@@ -214,7 +215,7 @@ var TrecordCount={
                 _this.queryState_box.show(200).text("查询出错，请重试...");
             }
         });
-    },
+    }
 
 };
 

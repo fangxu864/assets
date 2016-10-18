@@ -3,7 +3,7 @@
         <template v-if="state=='success'">
             <ul class="ptypeList">
                 <li class="ptypeBox" :class="item.identify" v-for="item in list" :data-ptype="item.identify">
-                    <a class="ptypeBoxCon" href="javascript:void(0)">
+                    <a class="ptypeBoxCon" href="plist.html?ptype={{item.identify}}">
                         <div class="iconBox"><i class="icon-ptype" :class="'icon-'+icons[item.identify]"></i></div>
                         <p class="text" v-text="item.name"></p>
                     </a>

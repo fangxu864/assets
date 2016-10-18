@@ -26,6 +26,10 @@ var Api_Mb = {
 		getProductHot : function(){
 			return Mall_Product("index");
 		},
+		//获取产品列表
+		productList : function(){
+			return Mall_Product("productList");
+		},
 		//产品详情页，获取票类列表
 		getTicketList : function(){
 			return Mall_Product("getTicketList");
@@ -42,21 +46,33 @@ var Api_Mb = {
 		getCalendarPrice : function(){
 			return Mall_Product("getCalendarPrice")
 		},
-		//下订单页，获取票类列表
-		getTicketListBook : function(){
-			return Mall_Product("getBookList")
+		//下订单页，获取产品信息（包含票列表）
+		getBookInfo : function(){
+			return Mall_Product("getBookInfo")
 		},
 		//获取场次列表
 		getShowInfo : function(){
 			return Mall_Product("getShowInfo");
 		},
+		//下单页，非酒店类产品获取价格库存
+		getPriceAndStorage : function(){
+			return Mall_Product("getPriceAndStorage");
+		},
 		//下单页，酒店类产品获取价格库存
 		getHotelPriceAndStorage : function(){
-			return Mall_Product("getHotelPriceAndStorage")
+			return Mall_Product("getHotelPriceAndStorage");
 		},
 		//下单页，提交订单
 		submitOrder : function(){
-			return Mall_Order("order")
+			return Mall_Order("order");
+		},
+		//下单成功，选择支付方式
+		selectPaymode : function(){
+			return Mall_Order("pay");
+		},
+		//下单成功，订单&支付详情
+		ordersuccess : function(){
+			return Mall_Order("paySuccess");
 		},
 		//帐号登录
 		login : function(){
@@ -77,6 +93,18 @@ var Api_Mb = {
 		//个人中心 订单列表页
 		userCenterOrderList : function(){
 			return Mall_Member("getOrderList");
+		},
+		//个人中心 订单详情页
+		userCenterOrderDetail : function(){
+			return Mall_Member("orderDetail");
+		},
+		//个人中心 取消订单
+		userCenterOrderCanel : function(){
+			return Mall_Member("cancelOrder");
+		},
+		//退出登录
+		logout : function(){
+			return Mall_Member("logout");
 		},
 		//C端端面跳转链接
 		Page_Link : {

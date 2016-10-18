@@ -4,7 +4,7 @@
             <ul class="actionUl">
                 <li class="actionItem" :class="{selected:selected_key==key}" v-for="(key,value) in menus" v-html="value" @click="onActionItemClick(key,value)"></li>
             </ul>
-            <div class="cancelBtn" @click="show=false" v-if="cancelText!==''" v-html="cancelText"></div>
+            <div class="cancelBtn" @click="onCancalBtnClick" v-if="cancelText!==''" v-html="cancelText"></div>
         </div>
     </actionsheet-core>
 </template>
@@ -26,9 +26,14 @@
                 default : ""
             },
             menus : {
-                type : Object,
                 require : true,
-                default : {}
+                default : function(){
+                    return {};
+                }
+            },
+            initTrigger : {
+                type : Boolean,
+                default : true
             }
         },
         data(){
@@ -37,25 +42,31 @@
             }
         },
         ready(){
-            var index = 0;
-            var menus = this.menus;
-            var first_key = "";
-            var first_text = "";
-            for(var i in menus){
-                if(index==0){
-                    first_key = i;
-                    first_text = menus[i];
+            if(this.initTrigger){
+                var index = 0;
+                var menus = this.menus;
+                var first_key = "";
+                var first_text = "";
+                for(var i in menus){
+                    if(index==0){
+                        first_key = i;
+                        first_text = menus[i];
+                    }
+                    index += 1;
                 }
-                index += 1;
+                this.selected_key = first_key;
+                this.$dispatch("click",first_key,first_text);
             }
-            this.selected_key = first_key;
-            this.$dispatch("click",first_key,first_text);
         },
         methods : {
             onActionItemClick(key,text){
                 this.selected_key = key;
                 this.$dispatch("click",key,text);
                 this.show = false;
+            },
+            onCancalBtnClick(e){
+                this.show = false;
+                this.$dispatch("cannel",e);
             }
         },
         components : {
@@ -64,8 +75,8 @@
     }
 </script>
 <style lang="sass">
-    .ui-actionsheetContainer .actionItem{ height:43px; line-height:43px; text-align:center; border-bottom:1px solid #e5e5e5; overflow:hidden}
-    .ui-actionsheetContainer .cancelBtn{ height:43px; line-height:43px; text-align:center; color:#008fc2}
+    .ui-actionsheetContainer .actionItem{ height:43px; line-height:43px; text-align:center; border-bottom:1px solid #e5e5e5; overflow:hidden; background:#fff;}
+    .ui-actionsheetContainer .cancelBtn{ height:43px; line-height:43px; text-align:center; color:#008fc2; margin-top:5px; border-top:1px solid #e5e5e5; background:#fff}
     .ui-actionsheetContainer .actionItem:active,.ui-actionsheetContainer .cancelBtn:active{ background:rgba(0,0,0,0.02)}
     .ui-actionsheetContainer .actionItem.selected{ color:#008fc2}
 </style>

@@ -39,14 +39,29 @@
     }
     .tr1{
       .td1{
-        .e_time{
+        .etime_inp{
           @include textInp(160,5);
         }
+
       }
       .td2{
         margin-left: 10px;
+        position: relative;
         .trader_inp{
-          @include textInp(180,5);
+          @include textInp(220,5);
+        }
+        i.clear_trader_inp{
+          position: absolute;
+          font-family: "iconfont";
+          font-size: 17px;
+          right: 6px;
+          top: 14px;
+          color: #bfbfbf;
+          cursor: pointer;
+          line-height: 30px;
+        }
+        i.clear_trader_inp:active{
+          color: orangered;
         }
       }
       .td3{
@@ -165,3 +180,46 @@
     }
   }
 }
+//查询状态
+.queryState_box{
+  background-color: white;
+  border: 1px solid #E5E5E5;
+  border-top:none ;
+  display: none;
+  min-height: 200px;
+  text-align: center;
+  line-height: 200px;
+  .querying{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+  }
+  .queryerror{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+  }
+  .querynodata{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+  }
+}
+//分页器
+#pagination_box{
+  height: 66px;
+  line-height: 100px;
+  width: 800px;
+  text-align: center;
+  .paginationXContainer {
+    display: inline-block;
+  }
+}
+
+
+
+
+.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{color: #dedede !important;}
+.calendar-table .calendar-td.day:hover{background-color: #00a0e9}
+.calendar-td.selected.disable{background-color: #008fc2 !important;color:#ffffff !important;}
+.calendar-pop-contaienr{  width:220px !important;}
