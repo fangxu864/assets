@@ -44,10 +44,7 @@ var AdaptOrder = {
 				break;
 			}
 		}
-		var is_audit=order.is_audit;
-		if(is_audit){
-			result = false;
-		}
+
 		return result;
 	},
 	/**
@@ -76,8 +73,12 @@ var AdaptOrder = {
 				break;
 			}
 		}
+		var is_audit=order.is_audit;
+		if(is_audit){
+			result = false;
+		}
 
-		return result;
+		return true;
 	},
 	/**
 	 * 在订单json里加入4个字段

@@ -37,7 +37,7 @@
     "forget-password-release": "set NODE_ENV=release && webpack --config ./src/forget_password/webpack.config.js",
     "forget-password-production": "set NODE_ENV=production && webpack --config ./src/forget_password/webpack.config.js",
     "react-test": "set NODE_ENV=test && webpack --config ./src/react_test/webpack.config.js",
-    "react-start": "set NODE_ENV=develop && webpack --progress --colors --config ./src/react_test/webpack.config.js",
+    "react-start": "set NODE_ENV=develop && webpack --config ./src/react_test/webpack.config.js",
     "mall-index-flex-start": "set NODE_ENV=develop && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
     "mall-index-flex-test": "set NODE_ENV=test && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
     "mall-index-flex-release": "set NODE_ENV=release && webpack --config ./src_mobile/mall_index_flex/webpack.config.js",
@@ -47,7 +47,7 @@
     "wxconfigsetmenu-release": "set NODE_ENV=release && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-production": "set NODE_ENV=production && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "mobile-server": "set NODE_ENV=server && webpack-dev-server --config ./src_mobile/webpack-task/webpack.config.js --inline",
-    "mobile-start": "set NODE_ENV=develop && webpack --progress --colors --config ./src_mobile/webpack-task/webpack.config.js -w",
+    "mobile-start": "set NODE_ENV=develop && webpack --config ./src_mobile/webpack-task/webpack.config.js -w",
     "mobile-test": "set NODE_ENV=test && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-release": "set NODE_ENV=release && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-production": "set NODE_ENV=production && webpack --config ./src_mobile/webpack-task/webpack.config.js",
@@ -55,6 +55,7 @@
     "yx-storage-normal-test": "set NODE_ENV=test && webpack --config ./src/yx_storage_normal/webpack.config.js",
     "yx-storage-normal-release": "set NODE_ENV=release && webpack --config ./src/yx_storage_normal/webpack.config.js",
     "yx-storage-normal-production": "set NODE_ENV=production && webpack --config ./src/yx_storage_normal/webpack.config.js",
+
     "canvas-uploadimg-start": "set NODE_ENV=develop && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js -w",
     "canvas-uploadimg-test": "set NODE_ENV=test && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js",
     "canvas-uploadimg-release": "set NODE_ENV=release && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js",
@@ -94,7 +95,27 @@
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
-    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js"
+    "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
+
+
+    "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
+    "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
+    "report_unAdmin-release": "set NODE_ENV=release && webpack --config ./src/report_unAdmin/webpack.config.js",
+    "report_unAdmin-production": "set NODE_ENV=production && webpack --config ./src/report_unAdmin/webpack.config.js",
+
+    "sale_reportform-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/sale_reportform/webpack.config.js ",
+    "sale_reportform-test": "set NODE_ENV=test && webpack --config ./src/sale_reportform/webpack.config.js",
+    "sale_reportform-release": "set NODE_ENV=release && webpack --config ./src/sale_reportform/webpack.config.js",
+    "sale_reportform-production": "set NODE_ENV=production && webpack --config ./src/sale_reportform/webpack.config.js",
+
+
+
+    "distributor_manage-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor_manage/webpack.config.js",
+    "distributor_manage-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
+    "distributor_manage-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
+    "v-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js"
+
+
   },
   "repository": {
     "type": "git",
@@ -122,7 +143,6 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "fastclick": "^1.0.6",
     "file-loader": "^0.8.5",
-    "file-saver": "^1.3.2",
     "gulp": "^3.9.1",
     "gulp-file-include": "^0.13.7",
     "gulp-minify-css": "^1.2.4",
@@ -131,7 +151,6 @@
     "gulp-watch": "^4.3.6",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.15.0",
-    "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.0.0",
     "jquery.transit": "^0.9.12",
     "js-md5": "^0.4.1",
@@ -142,13 +161,6 @@
     "node-sass": "3.7.0",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8",
-    "react-redux": "^4.4.5",
-    "react-router": "^2.7.0",
-    "redux": "^3.6.0",
-    "redux-promise-middleware": "^4.0.0",
-    "redux-thunk": "^2.1.0",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
@@ -159,7 +171,6 @@
     "vue-loader": "^8.5.3",
     "vue-style-loader": "^1.0.0",
     "vux": "^0.1.3-rc6",
-    "vux-xscroll": "^3.1.8",
     "webpack": "^1.13.0",
     "webpack-dashboard": "^0.1.8",
     "webpack-dev-server": "^1.14.1",
