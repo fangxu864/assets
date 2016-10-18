@@ -1,16 +1,12 @@
+@import "COMMON/css/base/main";
 #searchListPage{
+    display:block;
     position:fixed;
-    top:0;
+    top:px2rem(90);
     right:0;
     bottom:0;
     left:0;
     z-index:3;
     background:#fff;
-    transition:transform 0.3s;
     transform:translate3d(0px,2000px,0);
-
-
-
-
-
 }

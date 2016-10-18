@@ -61,7 +61,7 @@ module.exports = function(ordernum,opt){
 	}
 
 	PFT.Util.Ajax(PFT.Api.C.ordersuccess(),{
-		type : "get",
+		type : "post",
 		params : {
 			ordernum : ordernum,
 			token : PFT.Util.getToken()
