@@ -9,6 +9,8 @@ require("./index.scss");
 var filter_tpl=require("./tpl/filter.xtpl");
 var total_tpl=require("./tpl/total.xtpl");
 var tableCon_tpl=require("./tpl/tableCon.xtpl");
+var tableTR_tpl=require("./tpl/tableTR.xtpl");
+var querying_tpl=require("./tpl/querying.xtpl");
 //引入插件
 var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
@@ -87,8 +89,21 @@ var accountSearch={
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
             _this.pagination.render({current:toPage,total:totalPage});
+            _this.filterParamsBox["page"]=toPage;
+            _this.filterParamsBox["export"]= 0;
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            if(_this.dataContainer[cacheKey]){
+                _this.dealReqData(_this.dataContainer[cacheKey]);
+            }else{
+                _this.ajaxGetData({
+                    "params":_this.filterParamsBox,
+                    "isCacheData":true,
+                    "cacheKey":cacheKey,
+                    "isInitPagination":false
+                });
+            }
         });
-        this.pagination.render({current:5,total:10});
+
 
         this.bind();
     },
@@ -105,8 +120,9 @@ var accountSearch={
         //查询按钮点击
         $("#query_btn").on("click",function () {
             _this.filterParamsBox["end_time"]= _this.etime_inp.val();
-            _this.filterParamsBox["reseller_id"]= $("#trader_inp").val();
+            _this.filterParamsBox["reseller_id"]= $("#trader_inp").attr("data-id")||"";
             _this.filterParamsBox["page"]= 1;
+            _this.filterParamsBox["page_size"]= _this.perPageNum;
             _this.filterParamsBox["export"]= 0;
             var cacheKey=_this.JsonStringify(_this.filterParamsBox);
             _this.ajaxGetData({
@@ -115,8 +131,15 @@ var accountSearch={
                 "cacheKey":cacheKey,
                 "isInitPagination":true      //是否初始化分页器
             });
+        });
+        //导出按钮
+        $("#excel_btn").on("click",function () {
+            _this.filterParamsBox["export"]= 1;
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            var downUrl='/r/Finance_TradeRecord/accountBalance?'+cacheKey;
+            console.log(downUrl)
+            _this.outExcel(downUrl)
         })
-
     },
     //ajax获取数据
     ajaxGetData:function (data) {
@@ -128,22 +151,73 @@ var accountSearch={
             async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
             data: data.params,                            //参数值
             type: "GET",                                  //请求方式
-            timeout:5000,
             beforeSend: function() {
                 //请求前的处理
                 _this.total_box.hide();
                 _this.tableCon_box.hide();
                 _this.pagination_box.hide();
-                _this.queryState_box.show().text("查询中请稍候...");
+                _this.queryState_box.show().html(querying_tpl);
             },
             success: function(res) {
-                console.log(res);
-                if(res.code==200){
-                    if(res.data.list.length==0){
+                // var RES={
+                //     "code":200,
+                //     "data": [
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         },
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         },
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         },
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         },
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         },
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         },
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         },
+                //         {
+                //             "dname":"三亚先行",
+                //             "fid":"5648545",
+                //             "lmoney":1000
+                //         }
+                //     ],
+                //     "sum":{
+                //         "shopSum":16,
+                //         "lmoneySum":1514541
+                //     },
+                //     "totalPage":3
+                //
+                //
+                // };
+                // res=RES;
+                if(res&&res.code==200){
+                    if(res.data.length==0){
                         _this.total_box.hide();
-                        _this.tablecon_box.hide();
-                        _this.pagination_wrap.hide();
-                        _this.queryState_box.show().html(querynodata_tpl);
+                        _this.tableCon_box.hide();
+                        _this.pagination_box.hide();
+                        _this.queryState_box.show().html("未查询到任何数据，请重新输入条件搜索...");
                     }else{
                         _this.queryState_box.hide();
                         _this.dealReqData(res);
@@ -151,20 +225,22 @@ var accountSearch={
                             _this.dataContainer[data.cacheKey]=res;
                         }
                         if(data.isInitPagination){       //是否初始化分页器
-                            var totalPages= Math.ceil(res.data.total/_this.perPageNum);
-                            var currentPage= 1;
-                            _this.dealPagination(currentPage,totalPages);
+                            // var totalPages= Math.ceil(res.data.total/_this.perPageNum);
+                            var totalPages=res.num.totalpage;
+                            if(totalPages>1){
+                                _this.pagination.render({current:1,total:totalPages});
+                            }
                         }else{
-                            _this.pagination_wrap.show(200);
+                            _this.pagination_box.show(200);
                         }
                     }
                 }
                 else{
-                    $(".querying").text(res.msg);
+                    _this.queryState_box.html("未查询到任何数据，请重新输入条件搜索...")
                 }
             },
-            complete: function(res,status) {
-               console.log(arguments)
+            complete: function() {
+
             },
             error: function() {
                 //请求出错处理
@@ -179,11 +255,17 @@ var accountSearch={
     //处理总的数据的方法
     dealReqData:function (data) {
         var _this=this;
-        // var total= data.data.sum;
         var list= data.data;
-        // _this.dealTotal(total);
-        _this.dealTablecon(list);
+        var sum=data.sum;
+        var totalHtml=' <dl> <dt>合计</dt> <dd>商户数：'+sum.shopSum+'</dd> <dd>总余额：'+sum.lmoneySum+'元</dd> </dl>';
+        var tableHtml=_this.template({data:list});
+        this.tableCon_box.find("tbody").html(tableHtml);
+        this.total_box.find(".total").html(totalHtml);
+        _this.total_box.fadeIn(200);
+        _this.tableCon_box.fadeIn(200);
     },
+    //template
+    template:PFT.Util.ParseTemplate(tableTR_tpl),
     //导出excel
     outExcel:function (downloadUrl) {
         var iframeName="iframe"+new Date().getTime();
@@ -195,7 +277,7 @@ var accountSearch={
     //定义一个数据缓存容器，存储分页获取的数据
     dataContainer:{},
     //定义每页显示的条数
-    perPageNum:15,
+    perPageNum:10,
     //JsonStringify 对象序列化方法
     JsonStringify:function (obj) {
         var str="";
@@ -206,11 +288,10 @@ var accountSearch={
         }
         return arr.join("&");
     }
-    
-    
 };
 $(function () {
     accountSearch.init();
+    $("#query_btn").click()
 })
 
 
