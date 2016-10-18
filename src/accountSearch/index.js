@@ -292,7 +292,7 @@ var accountSearch={
 $(function () {
     accountSearch.init();
     $("#query_btn").click()
-})
+});
 
 
 
