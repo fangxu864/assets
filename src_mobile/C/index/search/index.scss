@@ -1,5 +1,5 @@
 @import "COMMON/css/base/main";
-#searchListPage{
+#searchPage{
     display:block;
     position:fixed;
     top:px2rem(90);
@@ -9,4 +9,14 @@
     z-index:3;
     background:#fff;
     transform:translate3d(0px,2000px,0);
+
+
+    .sta{
+        height:150px;
+        line-height:150px;
+        text-align:center;
+        color:$gray50;
+    }
+
+
 }
