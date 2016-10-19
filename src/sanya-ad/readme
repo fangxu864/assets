@@ -1,0 +1,11 @@
+## 三亚先行广告推广项目
+
+需求文档：http://bug.12301.test/index.php?m=task&f=view&task=147
+
+
+
+### 构建：
+npm run sanya-ad-start：     本地开发环境
+npm run sanya-ad-test：      内网测试环境
+npm run sanya-ad-release：   预发布环境
+npm run sanya-ad-production：生产环境
