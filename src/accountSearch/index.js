@@ -137,7 +137,6 @@ var accountSearch={
             _this.filterParamsBox["export"]= 1;
             var cacheKey=_this.JsonStringify(_this.filterParamsBox);
             var downUrl='/r/Finance_TradeRecord/accountBalance?'+cacheKey;
-            console.log(downUrl)
             _this.outExcel(downUrl)
         })
     },
