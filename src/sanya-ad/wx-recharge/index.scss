@@ -1,1 +1,114 @@
-.test{ position:relative}
+@import "COMMON/css/base/main";
+
+body{
+  margin:0;
+}
+
+.recharge form{
+  line-height:40px;
+  border-top:1px solid $gray90;
+  border-bottom:1px solid $gray90;
+  margin-top:20px;
+}
+
+.recharge form div{
+  height:40px;
+  width:90%;
+  margin-left:15px;
+}
+
+.recharge form .charge{
+  border-bottom:1px solid $gray90;
+  margin-bottom:0;
+}
+
+.recharge form .cur{
+  margin-top:0;
+}
+
+.recharge form input{
+  border-style:none;
+  outline:none;
+  margin-left:35px;
+  font-size:15px;
+}
+
+.recharge .payway{
+  display: -webkit-flex;
+  display: flex;
+  flex-direction:column;
+}
+
+.recharge .payway>span{
+  line-height:40px;
+  margin-left:10px;
+  font-size:14px;
+  color:$gray80;
+}
+
+.recharge .payway .pay{
+  display: -webkit-flex;
+  display: flex;
+}
+
+.recharge .payway .pay .payitem{
+  text-align:center;
+  height:100px;
+  border:1px solid $gray90;
+  width:123px;
+}
+
+.recharge .payway .pay > div:last-child{
+	border-right:0 none;
+}
+
+.recharge .payway .pay > div:first-child{
+	border-left:0 none;
+}
+
+.recharge .payway .pay .wpay{
+  order:1;
+  flex-grow:1;
+}
+
+.recharge .payway .pay .wtpay{
+  order:2;
+  flex-grow:1;
+}
+
+.recharge .payway .pay .alipay{
+  order:3;
+  flex-grow:1;
+}
+
+.recharge .prompt{
+  width:90%;
+  margin:20px auto;
+}
+
+.recharge .prompt p{
+  font-size:13px;
+  line-height:17px;
+  color:$gray80;
+}
+
+.recharge .ad{
+  width:90%;
+  margin:35px auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
