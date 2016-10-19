@@ -41,7 +41,7 @@ var accountSearch={
         var calendar = new Calendar();
         this.etime_inp.on("click",function(e){
             var max_day=when.today();
-            max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#etime_inp"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
