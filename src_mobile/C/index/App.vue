@@ -55,7 +55,7 @@
                 this.citySwitchor.show = false;
             },
             onSearchInpFocus(e){
-                this.Search.router.navigate("open",{trigger: true});
+                this.Search.router.navigate("result",{trigger: true});
             }
         },
         components : {
@@ -70,9 +70,8 @@
 </script>
 <style lang="sass">
     @import "COMMON/css/base/main";
-    $containerHeight : 90;
     #bodyMainCon{ margin-top:px2rem(90); background:#fff;}
-
+    $containerHeight:90;
     #indexPageFixHeader{
         position:fixed;
         left:0;

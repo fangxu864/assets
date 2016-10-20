@@ -3,6 +3,10 @@
 
     </ul>
     <div class="historyContainer">
-
+        <div class="topLine">
+            <span class="lt">搜索记录</span>
+            <span class="rBtn deleteAllBtn">删除</span>
+        </div>
+        <div class="historyList"></div>
     </div>
 </div>
