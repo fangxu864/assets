@@ -262,7 +262,7 @@ var QueryDisList = RichBase.extend({
 			},
 			removeLoading : function(){
 				that.renderList("removeLoading");
-				that.navigationBar.show();
+				// that.navigationBar.show();
 			},
 			success : function(res){
 				
