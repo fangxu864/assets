@@ -167,9 +167,13 @@ body{
     background-color: white;
     border: 1px solid #E5E5E5;
     border-top:none ;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
     display: none;
     .querying{
       height: 200px;
+      line-height: 20px;
       text-align: center;
       padding-top: 30px;
     }

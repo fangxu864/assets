@@ -27,9 +27,13 @@ var Dialog=new Dialog_simple({
     offsetY : 0,
     overlay : true,
     headerHeightMin : 46,
-    events : {}
+    events : {
+        "click .btn_no":function (e) {
+            Dialog.close()
+        }
+    }
 });
-Dialog.open()
+
 
 var OpenFun={
     init:function(){
@@ -183,8 +187,18 @@ var OpenFun={
                 "cacheKey":cacheKey,
                 "isInitPagination":true      //是否初始化分页器
             });
-
-
+        })
+        //给删除添加事件
+        $(".tableCon_box").on("click",".delete_fun",function () {
+            var uid=$(this).parent().attr("uid");
+            var dname=$(this).parent().attr("dname");
+            var fid=$(this).parent().attr("fid");
+            var access=$(this).parent().attr("access");
+            confirm('是否删除用户"'+dname+'"的"'+access+'"权限')
+        })
+        //添加权限事件
+        $("#btn_add_fun").on("click",function () {
+            Dialog.open()
         })
     },
     //ajax获取数据
@@ -222,6 +236,8 @@ var OpenFun={
                             var currentPage= 1;
                             if(totalPages>1){
                                 _this.pagination.render({current:1,total:totalPages});
+                            }else{
+                                _this.pagination_box.hide();
                             }
                         }else{
                             _this.pagination_box.show(200);
@@ -291,4 +307,5 @@ var OpenFun={
 
 $(function () {
    OpenFun.init();
+    $("#filter_search").click()
 });

@@ -20,7 +20,7 @@
             <span class="btn" id="filter_search">搜索</span>
         </div>
         <div class="td td7">
-            <span class="btn">添加权限</span>
+            <span class="btn" id="btn_add_fun">添加权限</span>
         </div>
     </div>
 </div>
