@@ -81,7 +81,7 @@ body{
           position: relative;
           .search_inp{
             margin-top: 13px;
-            @include textInp(200,5);
+            @include textInp(266,5);
           }
           i.clear_inp{
             position: absolute;
@@ -138,6 +138,12 @@ body{
           td:last-child{
             padding-right: 20px;
           }
+          td{
+            a.disabled{
+              color: #989898;
+            }
+          }
+
         }
         tr.gray{
           background-color: #fcfcfc;

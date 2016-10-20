@@ -30,6 +30,53 @@ var Dialog=new Dialog_simple({
     events : {
         "click .btn_no":function (e) {
             Dialog.close()
+        },
+        "click .btn_yes":function (e) {
+            var uid=$("#search_inp_dialog").attr("data-id");
+            var uname=$("#search_inp_dialog").attr("data-dname");
+            var status=$("#open_function_select_dialog").attr("data-status");
+            var status_name=$("#open_function_select_dialog").attr("data-name");
+            if(uid==undefined){
+                alert("请选择所要开放权限的用户");
+                return false;
+            }
+            var isOpen=confirm('是否开放"'+uname+'"的"'+status_name+'"权限');
+            if(!isOpen) return false;
+            var params={
+                "status":status,
+                "uid":uid
+            }
+            $.ajax({
+                url: "/r/admin_Config/addConfig/",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: params,    //参数值
+                type: "post",   //请求方式
+                timeout:5000,   //设置超时 5000毫秒
+                beforeSend: function() {//请求前的处理
+                },
+                success: function(res) {//请求成功时处理
+                    if(res.code==200){
+                        PFT.Util.STip("success","添加权限成功")
+                    }else if(res.code==208){
+                        PFT.Util.STip("fail","该用户已拥有该权限，请不要重复添加")
+                    }else if(res.code==209){
+                        PFT.Util.STip("fail","添加失败，请重试")
+                    }else{
+                        PFT.Util.STip("fail","返回的数据有误")
+                    }
+                },
+                complete: function(res,status) {
+                    //请求完成的处理
+                    if(status=="timeout"){
+                        alert("请求超时")
+                    }
+                },
+                error: function() {//请求出错处理
+                    PFT.Util.STip("fail","请求出错，请重试")
+                }
+            });
+
         }
     }
 });
@@ -49,7 +96,7 @@ var OpenFun={
 
         this.open_fun_select=new SelectScroll({
             id:"open_function_select",
-            arr:["全部","优惠券","营销活动","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单查询手机号部分隐藏","年卡会员管理"],
+            arr:["全部","优惠券","营销管理","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单手机号隐藏","年卡会员管理"],
             callback:function(cur_opt){
                 $("#open_function_select").attr("data-status",_this.SelectJson[cur_opt])
             }
@@ -59,23 +106,23 @@ var OpenFun={
             arr:["账号名称","账号","手机号"],
             callback:function(cur_opt){
                 var json={
-                    "账号名称":1,
-                    "账号":2,
-                    "手机号":3
+                    "账号名称":0,
+                    "账号":1,
+                    "手机号":2
                 };
-                _this.searchType_params["dtype"]=json[cur_opt];
+                _this.searchType_params["type"]=json[cur_opt];
             }
         });
         this.search_inp=new Select({
-            source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
+            source : "/r/admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            ajaxType : "post",
             ajaxParams : _this.searchType_params,
             isFillContent:false,
             filterType : "ajax",  //指定过滤方式为ajax
             field : {
                 id : "id",
                 name : "dname",
-                keyword : "dname"
+                keyword : "keyword"
             },
             height : 260,
             trigger : $("#search_inp"),
@@ -86,17 +133,19 @@ var OpenFun={
             },
             filter : true,
             adaptor : function(res){
-                var reslut = { code:200};
-                reslut["data"] = res;
-                return reslut;
+                var result={};
+                 result["code"] = 200;
+                result["data"] = res.data[0]==undefined?res.data:res.data[0];
+                 result["msg"] = res.msg;
+                return result;
             }
         });
 
         this.open_function_select_dialog=new SelectScroll({
             id:"open_function_select_dialog",
-            arr:["全部","优惠券","营销活动","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单查询手机号部分隐藏","年卡会员管理"],
+            arr:["优惠券","营销管理","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单手机号隐藏","年卡会员管理"],
             callback:function(cur_opt){
-                $("#open_function_select_dialog").attr("data-status",_this.SelectJson[cur_opt])
+                $("#open_function_select_dialog").attr({"data-status":_this.SelectJson[cur_opt],"data-name":cur_opt})
             }
         });
         this.search_type_select_dialog=new SelectShort({
@@ -104,23 +153,23 @@ var OpenFun={
             arr:["账号名称","账号","手机号"],
             callback:function(cur_opt){
                 var json={
-                    "账号名称":1,
-                    "账号":2,
-                    "手机号":3
+                    "账号名称":0,
+                    "账号":1,
+                    "手机号":2
                 };
-                _this.searchType_params_dialog["dtype"]=json[cur_opt];
+                _this.searchType_params_dialog["type"]=json[cur_opt];
             }
         });
         this.search_inp_dialog=new Select({
-            source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
+            source : "/r/admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            ajaxType : "post",
             ajaxParams : _this.searchType_params_dialog,
             isFillContent:false,
             filterType : "ajax",  //指定过滤方式为ajax
             field : {
                 id : "id",
                 name : "dname",
-                keyword : "dname"
+                keyword : "keyword"
             },
             height : 260,
             trigger : $("#search_inp_dialog"),
@@ -131,9 +180,11 @@ var OpenFun={
             },
             filter : true,
             adaptor : function(res){
-                var reslut = { code:200};
-                reslut["data"] = res;
-                return reslut;
+                var result={};
+                result["code"] = 200;
+                result["data"] = res.data[0]==undefined?res.data:res.data[0];
+                result["msg"] = res.msg;
+                return result;
             }
         });
         //分页器部分
@@ -187,15 +238,60 @@ var OpenFun={
                 "cacheKey":cacheKey,
                 "isInitPagination":true      //是否初始化分页器
             });
-        })
+        });
         //给删除添加事件
         $(".tableCon_box").on("click",".delete_fun",function () {
+            var tarBtn=$(this);
+            if(tarBtn.hasClass("disabled"))  return false;
             var uid=$(this).parent().attr("uid");
             var dname=$(this).parent().attr("dname");
             var fid=$(this).parent().attr("fid");
             var access=$(this).parent().attr("access");
-            confirm('是否删除用户"'+dname+'"的"'+access+'"权限')
-        })
+            var isDel=confirm('是否删除用户"'+dname+'"的"'+access+'"权限');
+            if (!isDel) return false;
+            var params={
+                "status":fid,
+                "uid":uid
+            };
+            $.ajax({
+                url: "/r/admin_Config/delConfig/",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: params,    //参数值
+                type: "GET",   //请求方式
+                timeout:5000,   //设置超时 5000毫秒
+                beforeSend: function() {//请求前的处理
+                    tarBtn.text("删除中...").addClass("disabled")
+                },
+                success: function(res) {//请求成功时处理
+                    if(res){
+                        if(res.code=="200"){
+                            PFT.Util.STip("success","删除成功");
+                            tarBtn.text("已删除");
+                            $("#filter_search").click()
+                        }else{
+                            PFT.Util.STip("fail",res.msg);
+                            tarBtn.text("删除").removeClass("disabled")
+                        }
+                    }else{
+                        alert("没有请求结果，请重试");
+                        tarBtn.text("删除").removeClass("disabled")
+                    }
+                },
+                complete: function(res,status) {
+                    //请求完成的处理
+                    if(status=="timeout"){
+                        alert("请求超时，请重试");
+                        tarBtn.text("删除").removeClass("disabled")
+                    }
+                },
+                error: function() {//请求出错处理
+                    alert("请求出错，请重试");
+                    tarBtn.text("删除").removeClass("disabled")
+                }
+            });
+
+        });
         //添加权限事件
         $("#btn_add_fun").on("click",function () {
             Dialog.open()
@@ -262,37 +358,41 @@ var OpenFun={
     },
     //定义一个select Json
     SelectJson:{
-        "全部":0,"优惠券":1,"营销活动":2,"会员卡":3,"团购导码":4,"分销商首页":5,"微商城票付通支持":6,"线下充值":7,"订单查询手机号部分隐藏":8,"年卡会员管理":9
+        "全部":0,
+        "优惠券":1,
+        "营销管理":2,
+        "会员卡":3,
+        "团购导码":4,
+        "分销商首页":5,
+        "微商城票付通支持":6,
+        "线下充值":7,
+        "订单手机号隐藏":8,
+        "年卡会员管理":9
     },
     template:PFT.Util.ParseTemplate(tableTR_tpl),
     dealresData:function (res) {
         var _this=this;
-        console.log(res);
         var html=this.template({data:res.data.data})
         this.tableCon_box.find("tbody").html(html);
         _this.tableCon_box.fadeIn(200);
         _this.pagination_box.fadeIn(200);
-
-
     },
     //搜索框的ajax过滤参数
     searchType_params:{
-        "action":"fuzzyGetDname_c",
-        "dtype" : "1",
-        "danme" : ""
+        "type" : "0",
+        "keyword":""
     },
     //搜索框的ajax过滤参数
     searchType_params_dialog:{
-        "action":"fuzzyGetDname_c",
-        "dtype" : "1",
-        "danme" : ""
+        "type" : "0",
+        "keyword":""
     },
     //定义一个filter参数暂存容器，只有当查询按钮点击时才会更新此容器
     filterParamsBox:{},
     //定义一个数据缓存容器，存储分页获取的数据
     dataContainer:{},
     //定义每页显示的条数
-    perPageNum:5,
+    perPageNum:10,
     //JsonStringify 对象序列化方法
     JsonStringify:function (obj) {
         var str="";
