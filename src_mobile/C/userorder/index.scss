@@ -214,6 +214,11 @@ body{ background:$gray98}
     transition:transform 0.3s;
     transform:translate3d(0px,2000px,0);
 
+    .detailInfoContainer{
+        height:100%;
+        overflow:auto;
+    }
+
     .line{
         width:100%;
         overflow:hidden;
@@ -248,7 +253,7 @@ body{ background:$gray98}
     .codeContainer{
 
         width:160px;
-        margin:7px auto;
+        margin:7px auto 0;
         text-align:center;
 
         .codeNum{ color:$orange; font-size:14px; font-weight:bold}
@@ -265,6 +270,30 @@ body{ background:$gray98}
 
     }
 
+    .detailBtnGroup{
+        position:fixed;
+        z-index:10;
+        left:0;
+        right:0;
+        bottom:0;
+        height:40px;
+        text-align:center;
+        background:#e5f5fc;
+
+        .btn{
+            display:inline-block;
+            height:100%;
+            line-height:40px;
+            margin-right:40px;
+            color:#1488bb;
+            padding:0 15px;
+            &:active{
+                background:#cce6f1;
+            }
+            &:last-child{ margin-right:0}
+        }
+
+    }
 
 }
 
