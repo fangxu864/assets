@@ -5,6 +5,7 @@
  */
 var itemContainerTpl = require("./item-container-tpl.xtpl");
 var dialog_loss_tpl=require("./dialog_loss.xtpl");
+var dialog_buka_tpl=require("./dialog_buka.xtpl");
 var LoadingPc = require("COMMON/js/util.loading.pc.js");
 var Api = require("../../../common/api.js");
 var itemTpl = require("./list-item-tpl.xtpl");
@@ -164,6 +165,85 @@ var Manager = Backbone.View.extend({
 				}
 			}
 		});
+		this.Dialog_buka=new Dialog_simple({
+			width : 600,
+			height :300 ,
+			closeBtn : true,
+			content :'<div class="dialog_buka"></div>',
+			drag : true,
+			speed : 200,
+			offsetX : 0,
+			offsetY : 0,
+			overlay : true,
+			headerHeightMin :46,
+			events : {
+				"click #readwuKa":function(that,e){
+					var helloBossma = document.getElementById("helloBossma");
+					if(!helloBossma){
+						alert("请使用IE浏览器读物理卡号");
+						return false;
+					}
+					if(typeof helloBossma.open!="number" && typeof helloBossma.ICReaderRequest!="string"){
+						alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
+						return false;
+					}
+					helloBossma.open();
+					var val = helloBossma.ICReaderRequest();
+					$("#phy_no_inp").val(val);
+				},
+				"click .btn_yes":function (e) {
+					var tarBtn=$(e.currentTarget);
+					if(!tarBtn.hasClass("valid")) return false;
+					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
+					param["type"]=0;
+					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
+					console.log(tarBtn.parents(".dialog_loss_con"));
+					var vcode=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
+					param["vcode"]=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
+					var re=/^\d{6}$/;
+					if(!re.test(vcode)){
+						$(".dialog_loss .line2_1").html('<span class="fail">'+"请输入正确的验证码"+'</span>').slideDown(200);
+						tarBtn.parents(".dialog_loss_con").find("input.vcode").focus();
+						return false
+					}else{
+						$(".dialog_loss .line2_1").slideUp(200)
+					}
+					console.log(param);
+					$.ajax({
+						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
+						dataType: "json",   //返回格式为json
+						async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+						data: param,    //参数值
+						type: "post",   //请求方式
+						beforeSend: function() {//请求前的处理
+							$(tarBtn).toggleClass("valid disabled");
+						},
+						success: function(res) {//请求成功时处理
+							console.log(res);
+							if(res.code=="200"){
+								$(".dialog_loss .line2_1").html('<span class="success">'+res.msg+'</span>').slideDown(200);
+								setTimeout(function () {
+									that.Dialog_loss.close();
+									$(".cardType.active").click()
+								},2000)
+							}else{
+								$(".dialog_loss .line2_1").html('<span class="fail">'+res.msg+'</span>').slideDown(200)
+							}
+						},
+						complete: function() {//请求完成的处理
+
+						},
+						error: function() {//请求出错处理
+							$(".dialog_loss .line2_1").html('<span class="fail">'+"挂失失败"+'</span>').slideDown(200)
+						}
+					});
+				},
+				"click .btn_no":function () {
+					that.Dialog_buka.close();
+				}
+			}
+		});
+
 	},
 	template : _.template(itemTpl),
 	initTabHeader : function(){
@@ -391,7 +471,15 @@ var Manager = Backbone.View.extend({
 			}
 		},
 		buka:function (e) {//补卡
+			var _this=this;
 			var tarBtn=e.currentTarget;
+			if($(tarBtn).hasClass("disabled")){
+				return false;
+			}
+			var template=_.template(dialog_buka_tpl);
+			var html=template({data:[]});
+			$(".dialog_buka").html(html);
+			this.Dialog_buka.open();
 		},
 		huifu : function(e){ //恢复
 			var _this=this;
