@@ -44,7 +44,7 @@ var Dialog=new Dialog_simple({
             if(!isOpen) return false;
             var params={
                 "status":status,
-                "uid":uid
+                "sid":uid
             }
             $.ajax({
                 url: "/r/admin_Config/addConfig/",    //请求的url地址
@@ -243,7 +243,7 @@ var OpenFun={
         $(".tableCon_box").on("click",".delete_fun",function () {
             var tarBtn=$(this);
             if(tarBtn.hasClass("disabled"))  return false;
-            var uid=$(this).parent().attr("uid");
+            var sid=$(this).parent().attr("sid");
             var dname=$(this).parent().attr("dname");
             var fid=$(this).parent().attr("fid");
             var access=$(this).parent().attr("access");
@@ -251,7 +251,7 @@ var OpenFun={
             if (!isDel) return false;
             var params={
                 "status":fid,
-                "uid":uid
+                "sid":sid
             };
             $.ajax({
                 url: "/r/admin_Config/delConfig/",    //请求的url地址
