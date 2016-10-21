@@ -195,8 +195,11 @@
             border-bottom: 1px solid #e5e5e5;
             .th1{width:280px;text-align: left ;padding-left: 20px;}
           }
+          tr.gray{
+            background-color: #fcfcfc;
+          }
           tr:hover{
-            background-color: #f9f2f3;
+            background-color: #fafafa;
           }
           tr:last-child{border-bottom: none;}
         }
@@ -232,7 +235,7 @@
   }
   .detail_table_box{
     overflow-y: auto;
-    height: 554px;
+    max-height: 554px;
     table.detail_table{
       width:100%;
       .th1{
@@ -263,8 +266,11 @@
 
       }
       tbody{
+        tr.gray{
+          background-color: #fcfcfc;
+        }
         tr:hover{
-          background-color: #f9f2f3;
+          background-color: #fafafa;
         }
       }
     }
@@ -278,7 +284,11 @@
   text-align: center;
   border: 1px solid #e5e5e5;
   border-top: none;
-
+  .querying{
+    height: 200px;
+    line-height: 20px;
+    text-align: center;
+  }
 
 
   background: white;

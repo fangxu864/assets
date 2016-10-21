@@ -9,12 +9,14 @@ var Select = require("COMMON/modules/select");
 // var Pagination = require("COMMON/modules/pagination");
 var tpl=require("./index.xtpl");
 var dialogtpl=require("./dialogtpl.xtpl");
+var tableTR_tpl=require("./tableTR.xtpl");
+var dialogTR_tpl=require("./detailTR.xtpl");
+var querying_tpl=require("./querying.xtpl");
 var Pagination = require("COMMON/modules/pagination-x");
 
 var Dialog=require("COMMON/modules/dialog-simple");
 var Dial=new Dialog({
     width : 500,
-    height:600,
     closeBtn : true,
     content : dialogtpl,
     drag : true,
@@ -25,17 +27,16 @@ var Dial=new Dialog({
     //     $(".select_down_pages .btn_wrap .all_btn").off("click.down_all")
     // }
 });
-Dial.open();
 
 var TrecordCount={
     init:function () {
         var _this=this;
         //获取三个容器
         this.trecordCount_box= $(".trecordCount_box");
-        this.pagination_wrap=$("#pagination_wrap");
+        this.pagination_box=$("#pagination_wrap");
         this.queryState_box=$(".queryState_box");
         this.trecordCount_box.html(tpl);
-        this.table_box=$(".table_box");
+        this.tableCon_box=$(".table_box");
         /*查询部分*/
         //获取元素
         this.stime_inp=$("#start_time");
@@ -85,8 +86,22 @@ var TrecordCount={
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
             _this.pagination.render({current:toPage,total:totalPage});
+            _this.filterParamsBox["page"]=toPage;
+            _this.filterParamsBox["export"]= 0;
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            if(_this.dataContainer[cacheKey]){
+                _this.dealReqData(_this.dataContainer[cacheKey]);
+            }else{
+                _this.ajaxGetData({
+                    "api":"/r/Finance_TradeRecord/getRecordCountInfo/",
+                    "params":_this.filterParamsBox,
+                    "isCacheData":true,
+                    "cacheKey":cacheKey,
+                    "isInitPagination":false
+                });
+            }
+            $("html body").animate({"scrollTop":377},200)
         });
-        this.pagination.render({current:5,total:10});
         // Dial.open();
         this.bind();
     },
@@ -124,6 +139,7 @@ var TrecordCount={
                     alert("why ???")
                 }
             }
+            $(".query_btn").click()
         });
         //交易商户搜索框
         var select=new Select({
@@ -163,11 +179,69 @@ var TrecordCount={
         });
         //查询按钮
         $(".query_btn").on("click",function () {
-            console.log(_this.getFilterParams());
+            var params=_this.getFilterParams();
+            params["export"]= 0;
+            params["page"]=1;
+            _this.filterParamsBox=params;
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
             _this.ajaxGetData({
                 "api":"/r/Finance_TradeRecord/getRecordCountInfo/",
-                "params":_this.getFilterParams()
-            })
+                "params":params,
+                "isCacheData":true,
+                "cacheKey":cacheKey,
+                "isInitPagination":true      //是否初始化分页器
+            });
+
+
+        });
+        //点击详细时
+        $(".table_box").on("click",".detail_btn",function () {
+            var reseller_id=$(this).attr("reseller_id");
+            var params={
+                "bTime":_this.filterParamsBox['bTime'],
+                "eTime":_this.filterParamsBox['eTime'],
+                "reseller_id":reseller_id
+            }
+            // Dial.open();
+            $.ajax({
+                url: "/r/Finance_TradeRecord/getRecordCountDetail",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: params,    //参数值
+                type: "get",   //请求方式
+                beforeSend: function() {
+                    //请求前的处理
+                },
+                success: function(res) {
+                    //请求成功时处理
+                    if(res.code==0){
+                        var list=[];
+                        for(var i in res.res){
+                          for(var j in res.res[i]){
+                              var obj=res.res[i][j]
+                              list.push(obj)
+                          }
+                        }
+                        var html=_this.template_dialog({data:list})
+                        $(".detail_box .detail_table_box .detail_table tbody").html(html)
+                        Dial.open()
+                    }else{
+                        PFT.Util.STip("fail",res.msg)
+                    }
+                },
+                complete: function(res,status) {//请求完成的处理
+                },
+                error: function() {//请求出错处理
+                    alert("请求出错")
+                }
+            });
+        });
+        //导出按钮
+        $("#excel_btn").on("click",function () {
+            _this.filterParamsBox["export"]= 1;
+            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            var downUrl='/r/Finance_TradeRecord/getRecordCountInfo/?'+cacheKey;
+            _this.outExcel(downUrl)
         })
     },
     //获取filter参数
@@ -180,7 +254,7 @@ var TrecordCount={
         if(reseller_id!=undefined){
             params["reseller_id"]=reseller_id;
         }
-        params["ignoreType"]=$(".count_dot_btn_box .not_selected").attr("data_type");
+        params["ignoreType"]=$(".count_dot_btn_box .selected").attr("data_type");
         return params
 
     },
@@ -196,12 +270,52 @@ var TrecordCount={
             beforeSend: function() {
                 //请求前的处理
                 // _this.total_box.hide();
-                _this.table_box.hide();
-                _this.pagination_wrap.hide();
-                _this.queryState_box.show(200).text("查询中，请稍后...");
+                _this.tableCon_box.hide();
+                _this.pagination_box.hide();
+                _this.queryState_box.show().html(querying_tpl);
             },
             success: function(res) {
-                console.log(res)
+                var code=res.code;
+                if(code==0){
+                    var list=[];
+                    for (var i in res.list){
+                        var obj={};
+                        obj["reseller_id"]=i;
+                        for (var j in res.list[i]){
+                            obj["blmoney"]= res.list[i]["blmoney"];
+                            obj["elmoney"]= res.list[i]["elmoney"];
+                            obj["expense"]= res.list[i]["expense"];
+                            obj["income"]= res.list[i]["income"];
+                            obj["name"]= res.list[i]["name"];
+                        }
+                        list.push(obj)
+                    }
+
+                    if(list.length==0){
+                        _this.tableCon_box.hide();
+                        _this.pagination_box.hide();
+                        _this.queryState_box.show().html("未查询到任何数据，请重新输入条件搜索...");
+                    }else{
+                        _this.queryState_box.hide();
+                        _this.dealReqData(res);
+                        if(data.isCacheData){            //缓存查询的数据
+                            _this.dataContainer[data.cacheKey]=res;
+                        }
+                        if(data.isInitPagination){       //是否初始化分页器
+                            var totalPages= Math.ceil(res.total/15);
+                            if(totalPages>1){
+                                _this.pagination.render({current:1,total:totalPages});
+                            }else{
+                                _this.pagination_box.hide();
+                            }
+                        }else{
+                            _this.pagination_box.show(200);
+                        }
+                    }
+                }
+                else{
+                    _this.queryState_box.html("未查询到任何数据，请重新输入条件搜索...")
+                }
 
             },
             complete: function() {
@@ -210,15 +324,61 @@ var TrecordCount={
             error: function() {
                 //请求出错处理
                 // _this.total_box.hide();
-                _this.table_box.hide();
-                _this.pagination_wrap.hide();
+                _this.tableCon_box.hide();
+                _this.pagination_box.hide();
                 _this.queryState_box.show(200).text("查询出错，请重试...");
             }
         });
+    },
+    //处理总的数据的方法
+    dealReqData:function (res) {
+        var _this=this;
+        var list=[];
+        for (var i in res.list){
+            var obj={};
+            obj["reseller_id"]=i;
+            for (var j in res.list[i]){
+                obj["blmoney"]= res.list[i]["blmoney"];
+                obj["elmoney"]= res.list[i]["elmoney"];
+                obj["expense"]= res.list[i]["expense"];
+                obj["income"]= res.list[i]["income"];
+                obj["name"]= res.list[i]["name"];
+            }
+            list.push(obj)
+        }
+        var html=_this.template({data:list});
+        _this.tableCon_box.find("table tbody").html(html);
+        _this.tableCon_box.fadeIn();
+    },
+    //template
+    template:PFT.Util.ParseTemplate(tableTR_tpl),
+    template_dialog:PFT.Util.ParseTemplate(dialogTR_tpl),
+    //定义一个filter参数暂存容器，只有当查询按钮点击时才会更新此容器
+    filterParamsBox:{},
+    //定义一个数据缓存容器，存储分页获取的数据
+    dataContainer:{},
+    //定义每页显示的条数
+    perPageNum:10,
+    //导出excel
+    outExcel:function (downloadUrl) {
+        var iframeName="iframe"+new Date().getTime();
+        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+        window.open(downloadUrl, iframeName);
+    },
+    //JsonStringify 对象序列化方法
+    JsonStringify:function (obj) {
+        var str="";
+        var arr=[];
+        for(var key in obj){
+            str=key+"="+obj[key];
+            arr.push(str);
+        }
+        return arr.join("&");
     }
 
 };
 
 $(function () {
     TrecordCount.init();
+    $(".query_btn").click()
 });

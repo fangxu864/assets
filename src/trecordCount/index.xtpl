@@ -38,7 +38,7 @@
                 <span class="query_btn">查询</span>
             </div>
             <div class="fll btn2">
-                <span class="excel_btn">导出数据</span>
+                <span class="excel_btn" id="excel_btn">导出数据</span>
             </div>
         </div>
     </div>
@@ -56,84 +56,9 @@
             </thead>
             <tbody>
             <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
-            </tr>
-            <tr>
-                <td class="th1">三亚先行</td>
-                <td class="th2">45253452</td>
-                <td class="th3">4522</td>
-                <td class="th4">4522</td>
-                <td class="th5">4522</td>
-                <td class="th6"><a href="javascript:void(0)">详细</a></td>
+                <td>
+                    dfsdfds
+                </td>
             </tr>
             </tbody>
         </table>
