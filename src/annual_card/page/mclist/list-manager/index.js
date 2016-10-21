@@ -98,7 +98,6 @@ var Manager = Backbone.View.extend({
 							}
 						},
 						success: function(res) {//请求成功时处理
-							console.log(res);
 							if(res.code=="200"){
 							   $(".dialog_loss .line2_1").html('<span class="success">'+res.msg+'</span>').slideDown(200)
 							}else{
@@ -119,7 +118,6 @@ var Manager = Backbone.View.extend({
 					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
 					param["type"]=0;
 					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
-					console.log(tarBtn.parents(".dialog_loss_con"));
 					var vcode=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
 					param["vcode"]=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
 					var re=/^\d{6}$/;
@@ -130,7 +128,6 @@ var Manager = Backbone.View.extend({
 					}else{
 						$(".dialog_loss .line2_1").slideUp(200)
 					}
-					console.log(param);
 					$.ajax({
 						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
 						dataType: "json",   //返回格式为json
@@ -141,7 +138,6 @@ var Manager = Backbone.View.extend({
 							$(tarBtn).toggleClass("valid disabled");
 						},
 						success: function(res) {//请求成功时处理
-							console.log(res);
 							if(res.code=="200"){
 								$(".dialog_loss .line2_1").html('<span class="success">'+res.msg+'</span>').slideDown(200);
 								setTimeout(function () {
@@ -194,23 +190,22 @@ var Manager = Backbone.View.extend({
 				"click .btn_yes":function (e) {
 					var tarBtn=$(e.currentTarget);
 					if(!tarBtn.hasClass("valid")) return false;
-					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
-					param["type"]=0;
-					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
-					console.log(tarBtn.parents(".dialog_loss_con"));
-					var vcode=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
-					param["vcode"]=tarBtn.parents(".dialog_loss_con").find("input.vcode").val();
-					var re=/^\d{6}$/;
-					if(!re.test(vcode)){
-						$(".dialog_loss .line2_1").html('<span class="fail">'+"请输入正确的验证码"+'</span>').slideDown(200);
-						tarBtn.parents(".dialog_loss_con").find("input.vcode").focus();
-						return false
-					}else{
-						$(".dialog_loss .line2_1").slideUp(200)
+					var param=that.getParams(tarBtn.parents(".dialog_buka_con"));
+					param["type"]=2;
+					var card_no=tarBtn.parents(".dialog_buka_con").find(".card_no_inp").val();
+					if(card_no==""){
+						tarBtn.parents(".dialog_buka_con").find(".card_no_inp").siblings("i").show();
+						return false;
 					}
-					console.log(param);
+					var virtual_no=$("#phy_no_inp").val();
+					if(virtual_no==""){
+						alert("请用读卡设备读取物理卡号");
+						return false;
+					}
+					param["card_no"]=card_no;
+					param["virtual_no"]=virtual_no;
 					$.ajax({
-						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
+						url: "../r/product_AnnualCard/operationAnnual/",    //请求的url地址
 						dataType: "json",   //返回格式为json
 						async: true, //请求是否异步，默认为异步，这也是ajax重要特性
 						data: param,    //参数值
@@ -219,27 +214,35 @@ var Manager = Backbone.View.extend({
 							$(tarBtn).toggleClass("valid disabled");
 						},
 						success: function(res) {//请求成功时处理
-							console.log(res);
 							if(res.code=="200"){
-								$(".dialog_loss .line2_1").html('<span class="success">'+res.msg+'</span>').slideDown(200);
-								setTimeout(function () {
-									that.Dialog_loss.close();
-									$(".cardType.active").click()
-								},2000)
+								PFT.Util.STip("success","补卡成功")
 							}else{
-								$(".dialog_loss .line2_1").html('<span class="fail">'+res.msg+'</span>').slideDown(200)
+								PFT.Util.STip("fail","补卡失败");
+								$(tarBtn).toggleClass("valid disabled");
 							}
 						},
 						complete: function() {//请求完成的处理
-
+                    
 						},
 						error: function() {//请求出错处理
-							$(".dialog_loss .line2_1").html('<span class="fail">'+"挂失失败"+'</span>').slideDown(200)
+							PFT.Util.STip("fail","请求错误，请重试");
+							$(tarBtn).toggleClass("valid disabled");
 						}
 					});
 				},
 				"click .btn_no":function () {
 					that.Dialog_buka.close();
+				},
+				"focus .card_no_inp":function (e) {
+					var tarBtn=$(e.currentTarget);
+					tarBtn.siblings("i.red").hide();
+				},
+				"blur .card_no_inp":function (e) {
+					var tarBtn=$(e.currentTarget);
+					var card_no=tarBtn.val();
+					if(card_no==""){
+						tarBtn.siblings("i.red").show();
+					}
 				}
 			}
 		});
@@ -477,7 +480,16 @@ var Manager = Backbone.View.extend({
 				return false;
 			}
 			var template=_.template(dialog_buka_tpl);
-			var html=template({data:[]});
+			var html=template({data:{
+				"memberid":$(tarBtn).parent().attr("memberid"),
+				"account":$(tarBtn).parent().attr("account"),
+				"id":$(tarBtn).parent().attr("canid"),
+				"sid":$(tarBtn).parent().attr("sid"),
+				"status":$(tarBtn).parent().attr("status"),
+				"card_no":$(tarBtn).parent().attr("card_no"),
+				"virtual_no":$(tarBtn).parent().attr("virtual_no"),
+				"supply":$(tarBtn).parent().attr("supply")
+			}});
 			$(".dialog_buka").html(html);
 			this.Dialog_buka.open();
 		},

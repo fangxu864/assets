@@ -1,21 +1,22 @@
-<div class="dialog_buka_con">
+<div class="dialog_buka_con" supply="<%=data.supply%>" account="<%=data.account%>" memberid="<%=data.memberid%>" canid="<%=data.id%>" sid="<%=data.sid%>" status="<%=data.status%>" card_no="<%=data.card_no%>" virtual_no="<%=data.virtual_no%>" mobile="<%=data.mobile%>">
     <div class="title">补卡</div>
     <div class="line line1">
         <div class="td td1"><span>发卡单位</span></div>
         <div class="td td2">
-            <input type="text" value="慢慢的店铺" readonly="readonly"/>
+            <input type="text" value="<%=data.supply%>" readonly="readonly"/>
         </div>
     </div>
     <div class="line line2">
         <div class="td td1"><span>卡号</span></div>
         <div class="td td2">
-            <input type="text" value="666666" readonly="readonly"/>
+            <input type="text" value="" class="card_no_inp"/>
+            <i class="red">* 请输入卡号</i>
         </div>
     </div>
     <div class="line line3">
         <div class="td td1"><span>物理卡号</span></div>
         <div class="td td2">
-            <input type="text" value="88888888" readonly="readonly" id="phy_no_inp"/>
+            <input type="text" value="6666666" readonly="readonly" id="phy_no_inp"/>
         </div>
         <div class="td td3">
             <object  classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="helloBossma"></object>
