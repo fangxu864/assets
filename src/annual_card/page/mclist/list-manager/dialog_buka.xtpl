@@ -9,18 +9,19 @@
     <div class="line line2">
         <div class="td td1"><span>卡号</span></div>
         <div class="td td2">
-            <input type="text" value="" class="card_no_inp"/>
+            <input type="text" value="" class="card_no_inp" placeholder="请输入卡正面右下角对应的卡号"/>
             <i class="red">* 请输入卡号</i>
         </div>
     </div>
     <div class="line line3">
         <div class="td td1"><span>物理卡号</span></div>
         <div class="td td2">
-            <input type="text" value="6666666" readonly="readonly" id="phy_no_inp"/>
+            <input type="text" value="" id="phy_no_inp"  placeholder="请用读卡器读取物理卡号"/>
         </div>
         <div class="td td3">
+            <i class="">* 请用读卡器读卡</i>
             <object  classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="helloBossma"></object>
-            <a id="readwuKa" class="readwuKa" href="javascript:void(0)">读取物理卡号</a>
+            <!--<a id="readwuKa" class="readwuKa" href="javascript:void(0)">读取物理卡号</a>-->
         </div>
     </div>
     <div class="line line4">

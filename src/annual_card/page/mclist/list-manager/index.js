@@ -129,7 +129,7 @@ var Manager = Backbone.View.extend({
 						$(".dialog_loss .line2_1").slideUp(200)
 					}
 					$.ajax({
-						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
+						url: "../r/product_AnnualCard/operationAnnual/",    //请求的url地址
 						dataType: "json",   //返回格式为json
 						async: true, //请求是否异步，默认为异步，这也是ajax重要特性
 						data: param,    //参数值
@@ -194,7 +194,9 @@ var Manager = Backbone.View.extend({
 					param["type"]=2;
 					var card_no=tarBtn.parents(".dialog_buka_con").find(".card_no_inp").val();
 					if(card_no==""){
-						tarBtn.parents(".dialog_buka_con").find(".card_no_inp").siblings("i").show();
+						setTimeout(function () {
+							tarBtn.parents(".dialog_buka_con").find(".card_no_inp").siblings("i").show();
+						},100);
 						return false;
 					}
 					var virtual_no=$("#phy_no_inp").val();
@@ -203,7 +205,7 @@ var Manager = Backbone.View.extend({
 						return false;
 					}
 					param["card_no"]=card_no;
-					param["virtual_no"]=virtual_no;
+					param["physics_no"]=virtual_no;
 					$.ajax({
 						url: "../r/product_AnnualCard/operationAnnual/",    //请求的url地址
 						dataType: "json",   //返回格式为json
@@ -217,7 +219,7 @@ var Manager = Backbone.View.extend({
 							if(res.code=="200"){
 								PFT.Util.STip("success","补卡成功")
 							}else{
-								PFT.Util.STip("fail","补卡失败");
+								PFT.Util.STip("fail",res.msg);
 								$(tarBtn).toggleClass("valid disabled");
 							}
 						},
