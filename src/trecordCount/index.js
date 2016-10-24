@@ -375,7 +375,6 @@ var TrecordCount={
         }
         return arr.join("&");
     }
-
 };
 
 $(function () {
