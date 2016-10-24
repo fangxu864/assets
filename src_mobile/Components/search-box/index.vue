@@ -2,7 +2,6 @@
     <div class="ui-searchBox">
         <input autocomplete="off" class="searchInp" type="text"
                v-model="value"
-               :autofocus="isFocus"
                :placeholder="placeholder"
                :debounce="debounce" />
         <i class="uicon search uicon-sousuo"></i>

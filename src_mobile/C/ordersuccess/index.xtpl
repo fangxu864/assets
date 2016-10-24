@@ -35,5 +35,5 @@
 <div class="fixFoot">
     <a href="index.html" class="lt tlink">返回首页</a>
     <a href="usercenter.html" class="rt tlink">个人中心</a>
-    <a href="" class="buyBtn">继续购买</a>
+    <a href="booking.html?aid=<%=aid%>&pid=<%=pid%>" class="buyBtn">继续购买</a>
 </div>

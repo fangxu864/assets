@@ -29,6 +29,9 @@
             var html = "";
             var that = this;
             var ruleList = this.ruleList;
+
+            console.log(MinueToDayTime("1501"));
+
             if(Object.prototype.toString.call(ruleList)=="[object Array]"){
                 for(var i in ruleList){
                     html += '<li class="refundRuleItem">';
@@ -73,7 +76,7 @@
     }
 </script>
 <style lang="sass">
-    .refundRuleList li{ height:43px; line-height:43px; padding:0 10px; border-bottom:1px solid #e5e5e5;}
+    .refundRuleList li{ line-height:1.5; padding:13px 10px; border-bottom:1px solid #e5e5e5;}
     .refundRuleList .cancelBtn{ height:43px; line-height:43px; text-align:center}
     .refundRuleList .staticLi{ height:150px; line-height:60px;}
 </style>

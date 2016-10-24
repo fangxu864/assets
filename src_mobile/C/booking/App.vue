@@ -473,7 +473,7 @@
                                             storeNum : -1,
                                             storeText : ""
                                         }
-                                    }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值
+                                    }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值,但是页面上只要显示"有" 有问题请@产品-詹必魁
                                         return{
                                             daycount : daycount,
                                             storeNum : storeMin,
