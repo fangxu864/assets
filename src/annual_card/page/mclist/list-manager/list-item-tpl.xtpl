@@ -27,11 +27,15 @@
                 <span class="color:#ccc">--</span>
                 <% }else if(item.status==1){ %>
                 <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <%if(!/^144/.test(item.mobile)){%>
                 <a style="margin-right:8px" class="doBtn loss valid" href="javascript:void(0);">挂失</a>
+                <%}%>
                 <a  href="javascript:void(0);" class="doBtn inavail valid">禁用</a>
                 <% }else if(item.status==4){ %>
                 <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>
+                <%if(!/^144/.test(item.mobile)){%>
                 <a style="margin-right:8px" class="doBtn buka valid" href="javascript:void(0);">补卡</a>
+                <%}%>
                 <!--<a  href="javascript:void(0);" class="doBtn inavail valid">禁用</a>-->
                 <% }else if(item.status==2){ %>
                 <a style="margin-right:8px" class="doBtn detail" target="_blank" href="annual_memdetail.html?id=<%=item.memberid%>">查看</a>

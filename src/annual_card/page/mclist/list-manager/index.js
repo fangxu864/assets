@@ -77,6 +77,7 @@ var Manager = Backbone.View.extend({
 					var param=that.getParams(tarBtn.parents(".dialog_loss_con"));
 					param["type"]=0;
 					param["mobile"]=tarBtn.parents(".dialog_loss_con").attr("mobile");
+					param["account"]=tarBtn.parents(".dialog_loss_con").attr("account");
 					$.ajax({
 						url: "../r/product_AnnualCard/sendcardVcode/",    //请求的url地址
 						dataType: "json",   //返回格式为json
@@ -521,7 +522,7 @@ var Manager = Backbone.View.extend({
 							// $(tarBtn).parent().html(_this.changedHtml("normal",$(tarBtn).parent().attr("memberid")))
 							$(".cardType.active").click()
 						}else if(res.code=="501"){
-							var isconfirm=confirm('一个手机号只能激活一张年卡，现在【'+res.msg+'】年卡已激活， 需要禁用此卡，激活【'+$(tarBtn).parent().attr("virtual_no")+'】吗?')
+							var isconfirm=confirm('一个手机号只能激活一张年卡，现在【'+res.msg+'】年卡已激活， 需要禁用此卡，激活【'+$(tarBtn).parent().attr("card_no")+'】吗?')
 							if(isconfirm){
 								param["confirm"]=1;
 								$.ajax({
