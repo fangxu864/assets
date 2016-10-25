@@ -27,12 +27,12 @@
             <span class="rt"><%=item.begintime%> 至 <%=item.endtime%></span>
         </div>
         <div class="infoLine">
-            <span class="lt">订单状态：</span>
+            <span class="lt">支付状态：</span>
             <span class="rt paystatusText status_<%=item.paystatus%>"><%={0:"现场支付",1:"已支付",2:"未支付"}[item.paystatus]%></span>
         </div>
         <div class="infoLine">
             <span class="lt">凭证码：</span>
-            <span class="rt maCode">239482</span>
+            <span class="rt maCode"><%=item.code%></span>
         </div>
     </div>
 

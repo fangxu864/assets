@@ -113,10 +113,11 @@ module.exports = function(pid,aid,opt){
 				if(validTime==0){
 					data["validTime"] = "仅当天有效";
 				}else{
+					var pre = data.validType==1 ? "下单后" : "游玩日期后";
 					if(validTime.indexOf("~")<0){
-						data["validTime"] = (validTime+"天内有效");
+						data["validTime"] = (pre+validTime+"天内有效");
 					}else{
-						data["validTime"] = (validTime+"内有效");
+						data["validTime"] = (pre+validTime+"内有效");
 					}
 				}
 

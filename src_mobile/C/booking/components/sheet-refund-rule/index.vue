@@ -38,8 +38,8 @@
                     var item = ruleList[i];
                     html += i*1+1+"、";
                     html += that.beginTimePerfix(that.p_type) + that.getDayTime(item.c_days);
-                    html += item.c_type==1 ? "收取手续费："+(item.c_cost / 100) : "收取手续费："+("票价的"+item.c_cost);
-                    html += item.c_type==1 ? "元" : "%";
+                    html += item.c_type==0 ? "收取手续费："+(item.c_cost / 100) : "收取手续费："+("票价的"+item.c_cost/100);
+                    html += item.c_type==0 ? "元" : "%";
                     html += '</li>';
                 }
             }else{

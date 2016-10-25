@@ -5,7 +5,7 @@
                 <div class="minBox">
                     <div class="ptitle">
                         <span class="t">
-                            <span v-if="item.zone_name" class="zoneName" v-text="'【'+'item.zone_name'+'】'"></span>
+                            <span v-if="item.zone_name" class="zoneName">{{'【'+item.zone_name+'】'}}</span>
                             <span class="tit" v-text="item.title"></span>
                         </span>
                     </div>

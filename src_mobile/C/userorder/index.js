@@ -143,7 +143,12 @@ var Main = PFT.Util.Class({
 					scroll.render();
 				}
 			},
-			fail : function(msg){ Alert("提示",msg)}
+			fail : function(msg,code){
+				Alert("提示",msg);
+				if(code==102){ //未登录
+					window.location.href = "usercenter.html";
+				}
+			}
 		},this)
 	},
 	renderList : function(type,page,data){
