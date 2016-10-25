@@ -483,4 +483,4 @@ pagination.on("page.switch",function(toPage,currentPage,totalPage){
     $('html,body').animate({scrollTop:$('#datatableWrap').offset().top},500);
 });
 
-ajaxGetPV(1);
+ajaxManagerAd(1);
