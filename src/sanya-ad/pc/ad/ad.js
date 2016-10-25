@@ -190,6 +190,11 @@ $('#adText').on('keyup change',function(){
 
 function ajaxSave(btnEle, adId, status, successText) {
     var btnText;
+
+    if(!$.trim(adUrl.val())) {
+        return;
+    }
+
     if($(btnEle).is('.disabled')) {
         return;
     } else {
@@ -201,6 +206,7 @@ function ajaxSave(btnEle, adId, status, successText) {
     if(adId !== undefined) {
         opts.id = adId; //编辑广告传页面id
     }
+
     $.extend(
         opts,
         {
@@ -215,8 +221,11 @@ function ajaxSave(btnEle, adId, status, successText) {
         }
     );
 
+    console.log(opts);
+
     $.ajax({
         url: '/r/adCO_AdCO/saveAdCO',
+        type: 'POST',
         data: opts,
         error: function(XHR, textStatus, error) {
         },

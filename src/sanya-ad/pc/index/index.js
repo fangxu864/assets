@@ -479,7 +479,7 @@ pagination.on("page.switch",function(toPage,currentPage,totalPage){
     // toPage :      要switch到第几页
     // currentPage : 当前所处第几页
     // totalPage :   当前共有几页
-    ajaxGetPV(toPage);
+    ajaxManagerAd(toPage);
     $('html,body').animate({scrollTop:$('#datatableWrap').offset().top},500);
 });
 
