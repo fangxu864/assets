@@ -117,7 +117,7 @@ if(adId === undefined) {
         success: function(response){
             var responseData = response.data;
 
-            console.log(responseData);
+            // console.log(responseData);
 
             //页面类型
             if(xhrSelPageType.status === 200) {
@@ -165,6 +165,75 @@ if(adId === undefined) {
     });
 }
 
+//字符限制
+function textLimitCheck(thisArea, maxLength){
+    var len = thisArea.value.length;
+    if (len > maxLength) {
+        alert(maxLength + ' 个字限制. \r超出的将自动去除.');
+        var areaStr = thisArea.value.split("");
+        thisArea.value = areaStr.slice(0,120).join();
+        thisArea.focus();
+    }
+}
+//去除字符串中空格字符
+function removeBlank(str) {
+    var temp;
+    if(typeof str == 'string') {
+        temp = str.replace(/\s+/g,'');
+    }
+    return temp;
+}
 
+$('#adText').on('keyup change',function(){
+    textLimitCheck(this, 120);
+});
 
+function ajaxSave(btnEle, adId, status, successText) {
+    var btnText;
+    if($(btnEle).is('.disabled')) {
+        return;
+    } else {
+        btnText = $(btnEle).html();
+        $(btnEle).addClass('disabled').html('保存中');
+    }
+    var opts = {};
 
+    if(adId !== undefined) {
+        opts.id = adId; //编辑广告传页面id
+    }
+    $.extend(
+        opts,
+        {
+            pageType: selPageType.children('option:selected').attr('data-ptype'),
+            pageId: selPageName.children('option:selected').attr('data-pageid'),
+            position: selPosition.children('option:selected').attr('data-position'),
+            pId: selProduct.children('option:selected').attr('data-pid'),
+            status: status,
+            adUrl: removeBlank(adUrl.val()),
+            content: adText.val(),
+            picUrl: $('#Fileupload').find('img')[0].src
+        }
+    );
+
+    $.ajax({
+        url: '/r/adCO_AdCO/saveAdCO',
+        data: opts,
+        error: function(XHR, textStatus, error) {
+        },
+        success: function(response){
+            $(btnEle).removeClass('disabled').html(btnText);
+        }
+    });
+}
+
+$('#btnSaveOnline').on('click', function(e){
+    ajaxSave(e.target, adId, 1, '保存上线成功');
+});
+
+$('#btnSave').on('click', function(e){
+    ajaxSave(e.target, adId, 0, '保存成功');
+});
+
+$('#btnCancel').on('click', function(e){
+    window.history.go(-1);
+});
