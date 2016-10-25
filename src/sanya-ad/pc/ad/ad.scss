@@ -37,7 +37,7 @@
 
 /* 表单组件 */
 .textarea-wrap { padding:0 11px;}
-.textarea { display:block; width:100%; margin-left:-11px; margin-right:-11px; padding:10px; border:1px solid #e5e5e5; background-color:#fff; overflow-y:auto; -webkit-border-radius:3px; border-radius:3px; -webkit-box-shadow:0 0 5px rgba(0,0,0,.1) inset; box-shadow:0 0 5px rgba(0,0,0,.1) inset; resize:none; word-wrap:break-word; word-break:break-all; }
+.textarea { display:block; width:100%; margin-left:-11px; margin-right:-11px; padding:7px 10px; border:1px solid #e5e5e5; background-color:#fff; overflow-y:auto; line-height:20px; -webkit-border-radius:3px; border-radius:3px; -webkit-box-shadow:0 0 5px rgba(0,0,0,.1) inset; box-shadow:0 0 5px rgba(0,0,0,.1) inset; resize:none; word-wrap:break-word; word-break:break-all; }
 
 .select { height:26px; }
 .select.w175 { width:175px; }
