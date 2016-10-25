@@ -17,7 +17,7 @@ var positionArr = ["头部", "尾部"],
 for(var i = 0, len = positionArr.length; i < len; i++) {
     tempStr += '<option data-position="' + i + '">' + positionArr[i] + '</option>';
 }
-selPosition.html('<option>请选择</option>' + tempStr);
+selPosition.html(tempStr);
 
 //初始化图片上传
 var Fileupload = require("COMMON/modules/fileupload");
@@ -192,7 +192,12 @@ function ajaxSave(btnEle, adId, status, successText) {
     var btnText;
 
     if(!$.trim(adUrl.val())) {
-        return;
+        PFT.Util.STip("error",'请填写广告链接地址！');
+        return false;
+    }
+    if(!$.trim(adText.val()) && !$('#Fileupload').find('img').length) {
+        PFT.Util.STip("error",'推广文字/推广图必须至少提供一项');
+        return false;
     }
 
     if($(btnEle).is('.disabled')) {
@@ -217,7 +222,7 @@ function ajaxSave(btnEle, adId, status, successText) {
             status: status,
             adUrl: removeBlank(adUrl.val()),
             content: adText.val(),
-            picUrl: $('#Fileupload').find('img')[0].src
+            picUrl: $('#Fileupload').find('img').length?$('#Fileupload').find('img')[0].src : ''
         }
     );
 
@@ -231,6 +236,11 @@ function ajaxSave(btnEle, adId, status, successText) {
         },
         success: function(response){
             $(btnEle).removeClass('disabled').html(btnText);
+            if( response.code == 200 ) {
+                PFT.Util.STip("success",successText);
+            } else {
+                PFT.Util.STip("fail",'该位置的广告已存在');
+            }
         }
     });
 }

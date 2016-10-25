@@ -445,7 +445,7 @@ function renderTB(container, dataArray, pageType) {
     for( i = 0; i < dataArrayLen; i++) {
         temp += '<tr>';
         temp += '<td>' + pageType[dataArray[i].page_type] + ' - ' + dataArray[i].page_name + '</td>';
-        temp += '<td><div class="clearfix"><img src="' + dataArray[i].pic_url + '" alt="" class="fl mr5" width="64" height="64" /><div>' + dataArray[i].ad_comment + '</div></div></td>';
+        temp += '<td><div class="clearfix">'+ (dataArray[i].pic_url?'<img src="' + dataArray[i].pic_url + '" alt="" class="fl mr5" width="64" height="64" />':'') + '<div>' + dataArray[i].ad_comment + '</div></div></td>';
         temp += '<td>' + dataArray[i].ad_url + '</td>';
         temp += '<td class="t-center">' + (dataArray[i].title == null ? '-':dataArray[i].title) + '</td>';
         temp += '<td class="t-center">' + (dataArray[i].hits == null? 0:dataArray[i].hits) + '</td>';
