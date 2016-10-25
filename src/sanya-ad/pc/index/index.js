@@ -50,7 +50,7 @@ $('.datatable-wrap').on('click', '.btn-link', function(e){
             type: 'POST',
             data: {'id': $(ele).attr('data-adid'), 'status': $(ele).attr('data-status') },
             success: function(response) {
-                ajaxGetPV(1);
+                // ajaxManagerAd(1);
             }
         });
     }
