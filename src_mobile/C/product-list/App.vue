@@ -171,7 +171,7 @@
                 return this.ptypeList[this.filterParams.type] || "景区门票";
             },
             topicName(){
-                return this.filterParams.topic ? this.filterParams.topic : "不限"
+                return this.filterParams.topic ? this.filterParams.topic : "主题"
             }
         },
         methods : {
@@ -200,7 +200,7 @@
                 if(typeof type=="string"){
                     if(type=="all"){
                         this.filterParams.city = "";
-                        this.cityName = "全部";
+                        this.cityName = "所有城市";
                     }
                 }else{
                     var tarItem = $(type.target);

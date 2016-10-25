@@ -138,6 +138,8 @@
         <sheet-refundrule
                 :show.sync="refundRuleShow"
                 :rule-list="orderInfo.cancel_cost.length ? orderInfo.cancel_cost : orderInfo.reb"
+                :reb="orderInfo.reb"
+                :reb_type="orderInfo.reb_type"
                 v-if="orderInfo.refund_rule!=2">
         </sheet-refundrule>
 

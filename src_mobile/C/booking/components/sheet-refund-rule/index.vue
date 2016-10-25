@@ -18,7 +18,15 @@
                 type : String,
                 default : "A"
             },
-            ruleList : {}
+            ruleList : {},
+            reb : {
+                default : 0,
+                type : Number
+            },
+            reb_type : {
+                default : 1,
+                type : Number
+            }
         },
         data(){
             return {
@@ -29,9 +37,14 @@
             var html = "";
             var that = this;
             var ruleList = this.ruleList;
-
-            console.log(MinueToDayTime("1501"));
-
+            var reb = this.reb;
+            var reb_type = this.reb_type;
+            if(reb!=0){
+                var reg_text = reb_type==1 ? (reb+"元") : ("票价的"+reb+"%");
+                html += '<li class="refundRuleItem">';
+                html += '基础扣费：'+ reg_text;
+                html += '</li>';
+            }
             if(Object.prototype.toString.call(ruleList)=="[object Array]"){
                 for(var i in ruleList){
                     html += '<li class="refundRuleItem">';

@@ -163,6 +163,11 @@ module.exports = function(pid,aid,opt){
 					if(buy_up==0) item["buy_up"] = -1;
 				})
 
+				var reb = data.reb;
+				var reb_type = data.reb_type;
+				data["reb"] = reb * 1;
+				data["reb_type"] = reb_type * 1;
+
 				opt.success(data);
 
 			}else{
