@@ -2,7 +2,7 @@
  * Created by Administrator on 15-11-19.
  */
 // var ExcelDown=require("../../exceldown/index.js");
-require("../../layer/layer.js");
+require("./layer.js");
 var Common = require("./common.js");
 var common = new Common();
 var When = require("./when.js");
