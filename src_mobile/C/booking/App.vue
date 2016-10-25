@@ -337,11 +337,11 @@
                         date : date
                     },{
                         loading : () =>{
-                            this.toast.show("loading","努力加载中...")
+                            this.toast.show("loading","努力加载中...");
                         },complete : () =>{
-                            this.toast.hide()
+                            this.toast.hide();
                         },success : (data) =>{
-                            this.updateTicketList(data)
+                            this.updateTicketList(data);
                         }
                     })
                 }else if(p_type=="H"){
@@ -391,24 +391,33 @@
                 }
             },
             //当场次变化时
-            onChangeciChange(data){
+            onChangeciChange(data,msg){
                 var round_name = data.round_name;
                 var bt = data.bt || "";
                 var et = data.et || "";
                 var area_storage = data.area_storage;
                 var ticketList = this.ticketList;
-                this.showPuct.selected_text = round_name+" "+bt+" - "+et;
-                ticketList.forEach((ticket,index) =>{
-                    var result = {};
-                    var pid = ticket.pid;
-                    var zone_id = ticket.zone_id;
-                    if(!zone_id) return false;
-                    var storage = area_storage[zone_id];
-                    if(typeof storage==="undefined") return false;
-                    result[pid] = {};
-                    result[pid]["store"] = storage;
-                    this.updateTicketList(result);
-                })
+
+                if(typeof data!=="string"){
+                    this.showPuct.selected_text = round_name+" "+bt+" - "+et;
+                    ticketList.forEach((ticket,index) =>{
+                        var result = {};
+                        var pid = ticket.pid;
+                        var zone_id = ticket.zone_id;
+                        if(!zone_id) return false;
+                        var storage = area_storage[zone_id];
+                        if(typeof storage==="undefined") return false;
+                        result[pid] = {};
+                        result[pid]["store"] = storage;
+                        this.updateTicketList(result);
+                    })
+                }else{
+                    if(data=="fail"){
+                        this.showPuct.selected_text = msg;
+                    }else if(data=="empty"){
+                        this.showPuct.selected_text = "暂无演出场次信息";
+                    }
+                }
             },
 
             //酒店类产品 修改入住时间或离店时间都会重新请求一次价格跟库存
