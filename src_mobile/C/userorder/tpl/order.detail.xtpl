@@ -95,11 +95,15 @@
     </div>
 </div>
 
-<div class="detailBtnGroup">
-    <span class="btn pay">支付</span>
-    <span class="btn cancel">取消订单</span>
-</div>
 
 
 <% if(pay==1 || cancel==1){ %>
+<div class="detailBtnGroup">
+    <%if(pay==1){%>
+    <span data-ordernum="<%=ordernum%>" class="btn pay">支付</span>
+    <%}%>
+    <%if(cancel==1){%>
+    <span data-ordernum="<%=ordernum%>" class="btn cancel">取消订单</span>
+    <%}%>
+</div>
 <%}%>

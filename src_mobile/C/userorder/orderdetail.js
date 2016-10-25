@@ -10,10 +10,16 @@ var Detail = PFT.Util.Class({
 	container : "#detailPage",
 	template : PFT.Util.ParseTemplate(Tpl),
 	__Cache : {},
+	EVENTS : {
+		 "click .detailBtnGroup .btn" : "onBtnClick"
+	},
 	init : function(opt){
 		this.Service = opt.Service;
 		this.detailInfoContainer = $("#detailInfoContainer");
 		this.containerDom = this.container[0];
+	},
+	onBtnClick : function(e){
+		this.trigger("btn.click",e,"detail");
 	},
 	fetchDetailInfo : function(ordernum){
 		if(!ordernum) return false;

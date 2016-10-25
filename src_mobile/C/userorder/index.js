@@ -38,10 +38,14 @@ var Main = PFT.Util.Class({
 		}
 	},
 	init : function(){
+		var that = this;
 		this.tabPannelWrap = $("#tabPannelWrap");
 		this.fixTabHead = $("#fixTabHead");
 		this.fixTabHead.children().first().trigger("click");
 		this.Detail = new Detail({Service:Service});
+		this.Detail.on("btn.click",function(e){
+			that.onActionBtnClick(e);
+		})
 		this.initRouter();
 	},
 	initScroll : function(type){
@@ -183,7 +187,8 @@ var Main = PFT.Util.Class({
 		if(this.page[type]["current"]==0) this.fetchData(type,1);
 
 	},
-	onActionBtnClick : function(e){
+	onActionBtnClick : function(e,type){
+		var that = this;
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
 		var ordernum = tarBtn.attr("data-ordernum");
@@ -204,9 +209,13 @@ var Main = PFT.Util.Class({
 				success : function(res){
 					var msg = res.msg || "取消成功";
 					this.Detail.clearCache(ordernum);
-					tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
 					Alert("提示",msg);
-					tarBtn.remove();
+					if(type=="detail"){
+						that.fetchDetailInfo(ordernum);
+					}else{
+						tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
+						tarBtn.remove();
+					}
 				},
 				fail : function(msg){
 					Alert("提示",msg)

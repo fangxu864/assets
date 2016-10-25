@@ -26,7 +26,7 @@
                                          data-price="{{item.price}}"
                                          class="calendar-box">
                                         <span class="day" v-text="item.day"></span>
-                                        <span class="price" v-if="item.price"><i class="yen">&yen;</i><em v-text="item.price"></em></span>
+                                        <span class="price" v-if="typeof item.price!=='undefined'"><i class="yen">&yen;</i><em v-text="item.price"></em></span>
                                     </div>
                                 </flex-item>
                             </flexbox>
@@ -173,7 +173,7 @@
                 dates.forEach(function(date,index){
                     date.forEach(function(_date,_index){
                         var price = prices[_date.date];
-                        if(price && price!=-1) _date["price"] = price;
+                        if((typeof price!=='unedfined') && price!=-1) _date["price"] = price;
                     })
                 })
                 return dates;
