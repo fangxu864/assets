@@ -23,6 +23,9 @@
 .btn-default-reverse { background-color:#fff; border-color:#0797D9; color:#0797D9; }
 .btn-success { background-color:#3DBA3F; border-color:#3DBA3F; color:#fff; }
 
+.btn-default.disabled {}
+.btn-default-reverse.disabled {}
+
 .btn-w-auto { width:auto; }
 
 /* 表单布局 */

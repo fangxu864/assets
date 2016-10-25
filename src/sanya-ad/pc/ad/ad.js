@@ -75,6 +75,13 @@ function ajaxSelPageName(typeId, pageId) {
                 tempStr += '<option data-pageid="' + response.data[i].id + '" ' + ((pageId!==undefined && pageId == response.data[i].id)?'selected':'') + '>' + response.data[i].page_name + '</option>';
             }
             selPageName.html(tempStr);
+            if(pageId === undefined) {
+                if( typeId==3 && selPageName.find("option:first-child").attr('data-pageid')==3 ) {
+                    selProduct.attr('disabled', 'disabled');
+                } else {
+                    selProduct.removeAttr('disabled');
+                }
+            }
         }
     });
 }
@@ -101,6 +108,16 @@ selPageType.on('change', function(){
     }
 
     ajaxSelPageName(selPageType.find("option:selected").attr('data-ptype'));
+});
+
+selPageName.on('change', function(){
+    var $this = $(this);
+
+    if( selPageType.find("option:selected").attr('data-ptype')==3 && $this.find("option:selected").attr('data-pageid')==3 ) {
+        selProduct.attr('disabled', 'disabled');
+    } else {
+        selProduct.removeAttr('disabled');
+    }
 });
 
 ajaxSelPageType();
@@ -212,13 +229,18 @@ function ajaxSave(btnEle, adId, status, successText) {
         opts.id = adId; //编辑广告传页面id
     }
 
+    if( selPageType.find("option:selected").attr('data-ptype')==3 && selPageName.find("option:selected").attr('data-pageid')==3 ) {
+        opts.pId = -1;
+    } else {
+        opts.pId = selProduct.children('option:selected').attr('data-pid');
+    }
+
     $.extend(
         opts,
         {
             pageType: selPageType.children('option:selected').attr('data-ptype'),
             pageId: selPageName.children('option:selected').attr('data-pageid'),
             position: selPosition.children('option:selected').attr('data-position'),
-            pId: selProduct.children('option:selected').attr('data-pid'),
             status: status,
             adUrl: removeBlank(adUrl.val()),
             content: adText.val(),
@@ -239,7 +261,7 @@ function ajaxSave(btnEle, adId, status, successText) {
             if( response.code == 200 ) {
                 PFT.Util.STip("success",successText);
             } else {
-                PFT.Util.STip("fail",'该位置的广告已存在');
+                PFT.Util.STip("fail",response.msg);
             }
         }
     });
