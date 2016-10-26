@@ -259,7 +259,9 @@ function ajaxSave(btnEle, adId, status, successText) {
         success: function(response){
             $(btnEle).removeClass('disabled').html(btnText);
             if( response.code == 200 ) {
-                PFT.Util.STip("success",successText);
+                PFT.Util.STip("success", successText, 1000, function(){
+                    location.href= 'sanyaad.html';
+                });
             } else {
                 PFT.Util.STip("fail",response.msg);
             }
