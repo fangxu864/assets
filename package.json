@@ -108,6 +108,11 @@
     "sale_reportform-release": "set NODE_ENV=release && webpack --config ./src/sale_reportform/webpack.config.js",
     "sale_reportform-production": "set NODE_ENV=production && webpack --config ./src/sale_reportform/webpack.config.js",
 
+    "renew_warning-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/renew_warning/webpack.config.js ",
+    "renew_warning-test": "set NODE_ENV=test && webpack --config ./src/renew_warning/webpack.config.js",
+    "renew_warning-release": "set NODE_ENV=release && webpack --config ./src/renew_warning/webpack.config.js",
+    "renew_warning-production": "set NODE_ENV=production && webpack --config ./src/renew_warning/webpack.config.js",
+
     "sanya-ad-start" : "set NODE_ENV=develop && webpack --config ./src/sanya-ad/webpack.config.js",
     "sanya-ad-test" : "set NODE_ENV=test && webpack --config ./src/sanya-ad/webpack.config.js",
     "sanya-ad-release" : "set NODE_ENV=release && webpack --config ./src/sanya-ad/webpack.config.js",
