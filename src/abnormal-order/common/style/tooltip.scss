@@ -2,7 +2,7 @@
 $bgColor: #f3fbff;
 $borderColor: #bfd9e8;
 #tooltipContainer{ position:absolute; padding-bottom:7px;}
-#tooltipContainer .con{ width:240px; line-height:1.4; padding:6px 10px; color:#0c789e; background:$bgColor; border:1px solid $borderColor;  box-shadow:1px 1px 1px rgba(0,0,0,0.1)}
+#tooltipContainer .con{ max-width:240px; word-wrap: break-word; line-height:1.4em; padding:6px 10px; color:#0c789e; background:$bgColor; border:1px solid $borderColor;  box-shadow:1px 1px 1px rgba(0,0,0,0.1)}
 #tooltipContainer {
     &:after {
         @include triangle(12px,$borderColor,$bgColor,down,false,false);
