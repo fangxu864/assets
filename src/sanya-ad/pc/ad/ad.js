@@ -17,7 +17,7 @@ var positionArr = ["头部", "尾部"],
 for(var i = 0, len = positionArr.length; i < len; i++) {
     tempStr += '<option data-position="' + i + '">' + positionArr[i] + '</option>';
 }
-selPosition.html('<option>请选择</option>' + tempStr);
+selPosition.html(tempStr);
 
 //初始化图片上传
 var Fileupload = require("COMMON/modules/fileupload");
@@ -75,6 +75,13 @@ function ajaxSelPageName(typeId, pageId) {
                 tempStr += '<option data-pageid="' + response.data[i].id + '" ' + ((pageId!==undefined && pageId == response.data[i].id)?'selected':'') + '>' + response.data[i].page_name + '</option>';
             }
             selPageName.html(tempStr);
+            if(pageId === undefined) {
+                if( typeId==3 && selPageName.find("option:first-child").attr('data-pageid')==3 ) {
+                    selProduct.attr('disabled', 'disabled');
+                } else {
+                    selProduct.removeAttr('disabled');
+                }
+            }
         }
     });
 }
@@ -103,6 +110,16 @@ selPageType.on('change', function(){
     ajaxSelPageName(selPageType.find("option:selected").attr('data-ptype'));
 });
 
+selPageName.on('change', function(){
+    var $this = $(this);
+
+    if( selPageType.find("option:selected").attr('data-ptype')==3 && $this.find("option:selected").attr('data-pageid')==3 ) {
+        selProduct.attr('disabled', 'disabled');
+    } else {
+        selProduct.removeAttr('disabled');
+    }
+});
+
 ajaxSelPageType();
 ajaxSelProduct();
 if(adId === undefined) {
@@ -117,7 +134,7 @@ if(adId === undefined) {
         success: function(response){
             var responseData = response.data;
 
-            console.log(responseData);
+            // console.log(responseData);
 
             //页面类型
             if(xhrSelPageType.status === 200) {
@@ -165,6 +182,101 @@ if(adId === undefined) {
     });
 }
 
+//字符限制
+function textLimitCheck(thisArea, maxLength){
+    var len = thisArea.value.length;
+    if (len > maxLength) {
+        alert(maxLength + ' 个字限制. \r超出的将自动去除.');
+        var areaStr = thisArea.value.split("");
+        thisArea.value = areaStr.slice(0,120).join();
+        thisArea.focus();
+    }
+}
+//去除字符串中空格字符
+function removeBlank(str) {
+    var temp;
+    if(typeof str == 'string') {
+        temp = str.replace(/\s+/g,'');
+    }
+    return temp;
+}
 
+$('#adText').on('keyup change',function(){
+    textLimitCheck(this, 120);
+});
 
+function ajaxSave(btnEle, adId, status, successText) {
+    var btnText;
 
+    if(!$.trim(adUrl.val())) {
+        PFT.Util.STip("error",'请填写广告链接地址！');
+        return false;
+    }
+    if(!$.trim(adText.val()) && !$('#Fileupload').find('img').length) {
+        PFT.Util.STip("error",'推广文字/推广图必须至少提供一项');
+        return false;
+    }
+
+    if($(btnEle).is('.disabled')) {
+        return;
+    } else {
+        btnText = $(btnEle).html();
+        $(btnEle).addClass('disabled').html('保存中');
+    }
+    var opts = {};
+
+    if(adId !== undefined) {
+        opts.id = adId; //编辑广告传页面id
+    }
+
+    if( selPageType.find("option:selected").attr('data-ptype')==3 && selPageName.find("option:selected").attr('data-pageid')==3 ) {
+        opts.pId = -1;
+    } else {
+        opts.pId = selProduct.children('option:selected').attr('data-pid');
+    }
+
+    $.extend(
+        opts,
+        {
+            pageType: selPageType.children('option:selected').attr('data-ptype'),
+            pageId: selPageName.children('option:selected').attr('data-pageid'),
+            position: selPosition.children('option:selected').attr('data-position'),
+            status: status,
+            adUrl: removeBlank(adUrl.val()),
+            content: adText.val(),
+            picUrl: $('#Fileupload').find('img').length?$('#Fileupload').find('img')[0].src : ''
+        }
+    );
+
+    console.log(opts);
+
+    $.ajax({
+        url: '/r/adCO_AdCO/saveAdCO',
+        type: 'POST',
+        data: opts,
+        error: function(XHR, textStatus, error) {
+        },
+        success: function(response){
+            $(btnEle).removeClass('disabled').html(btnText);
+            if( response.code == 200 ) {
+                PFT.Util.STip("success", successText, 1000, function(){
+                    location.href= 'sanyaad.html';
+                });
+            } else {
+                PFT.Util.STip("fail",response.msg);
+            }
+        }
+    });
+}
+
+$('#btnSaveOnline').on('click', function(e){
+    ajaxSave(e.target, adId, 1, '保存上线成功');
+});
+
+$('#btnSave').on('click', function(e){
+    ajaxSave(e.target, adId, 0, '保存成功');
+});
+
+$('#btnCancel').on('click', function(e){
+    window.history.go(-1);
+});
