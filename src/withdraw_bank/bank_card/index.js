@@ -5,7 +5,7 @@
 require("./index.scss");
 var tpl = require("./index.xtpl");
 
-var Mixin = require("COMMON/js/util.mix");
+var Mixin = require("COMMON/js/util.mixin");
 var Pubsub = require("COMMON/js/util.pubsub");
 var BankCheckor = function(opt){
     this.init(opt)

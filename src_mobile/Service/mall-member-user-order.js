@@ -129,7 +129,7 @@ var UserOrder = {
 						opt.empty.call(cxt,data);
 					}
 				}else{
-					opt.fail.call(cxt,msg);
+					opt.fail.call(cxt,msg,code);
 				}
 			}
 		})

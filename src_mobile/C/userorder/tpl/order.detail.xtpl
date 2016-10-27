@@ -88,9 +88,22 @@
     </div>
 </div>
 
-<div class="box">
+<div style="margin-bottom:50px" class="box">
     <div class="codeContainer">
         <p>凭证码：<span class="codeNum"><%=code%></span></p>
         <div id="codeBox" class="codeBox"></div>
     </div>
 </div>
+
+
+
+<% if(pay==1 || cancel==1){ %>
+<div class="detailBtnGroup">
+    <%if(pay==1){%>
+    <span data-ordernum="<%=ordernum%>" class="btn pay">支付</span>
+    <%}%>
+    <%if(cancel==1){%>
+    <span data-ordernum="<%=ordernum%>" class="btn cancel">取消订单</span>
+    <%}%>
+</div>
+<%}%>

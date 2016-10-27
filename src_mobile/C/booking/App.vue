@@ -137,7 +137,9 @@
 
         <sheet-refundrule
                 :show.sync="refundRuleShow"
-                :rule-list="orderInfo.cancel_cost.length ? orderInfo.cancel_cost : orderInfo.reb"
+                :rule-list="orderInfo.cancel_cost"
+                :reb="orderInfo.reb"
+                :reb_type="orderInfo.reb_type"
                 v-if="orderInfo.refund_rule!=2">
         </sheet-refundrule>
 
@@ -146,6 +148,7 @@
                 v-on:click="onassStationItemClick"
                 :menus="assStation.menus"
                 :cancel-text="'确定'"
+                :align="'left'"
                 :show.sync="assStation.show">
         </sheet-action>
 
@@ -337,11 +340,11 @@
                         date : date
                     },{
                         loading : () =>{
-                            this.toast.show("loading","努力加载中...")
+                            this.toast.show("loading","努力加载中...");
                         },complete : () =>{
-                            this.toast.hide()
+                            this.toast.hide();
                         },success : (data) =>{
-                            this.updateTicketList(data)
+                            this.updateTicketList(data);
                         }
                     })
                 }else if(p_type=="H"){
@@ -391,24 +394,33 @@
                 }
             },
             //当场次变化时
-            onChangeciChange(data){
+            onChangeciChange(data,msg){
                 var round_name = data.round_name;
                 var bt = data.bt || "";
                 var et = data.et || "";
                 var area_storage = data.area_storage;
                 var ticketList = this.ticketList;
-                this.showPuct.selected_text = round_name+" "+bt+" - "+et;
-                ticketList.forEach((ticket,index) =>{
-                    var result = {};
-                    var pid = ticket.pid;
-                    var zone_id = ticket.zone_id;
-                    if(!zone_id) return false;
-                    var storage = area_storage[zone_id];
-                    if(typeof storage==="undefined") return false;
-                    result[pid] = {};
-                    result[pid]["store"] = storage;
-                    this.updateTicketList(result);
-                })
+
+                if(typeof data!=="string"){
+                    this.showPuct.selected_text = round_name+" "+bt+" - "+et;
+                    ticketList.forEach((ticket,index) =>{
+                        var result = {};
+                        var pid = ticket.pid;
+                        var zone_id = ticket.zone_id;
+                        if(!zone_id) return false;
+                        var storage = area_storage[zone_id];
+                        if(typeof storage==="undefined") return false;
+                        result[pid] = {};
+                        result[pid]["store"] = storage;
+                        this.updateTicketList(result);
+                    })
+                }else{
+                    if(data=="fail"){
+                        this.showPuct.selected_text = msg;
+                    }else if(data=="empty"){
+                        this.showPuct.selected_text = "暂无演出场次信息";
+                    }
+                }
             },
 
             //酒店类产品 修改入住时间或离店时间都会重新请求一次价格跟库存
@@ -473,7 +485,7 @@
                                             storeNum : -1,
                                             storeText : ""
                                         }
-                                    }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值
+                                    }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值,但是页面上只要显示"有" 有问题请@产品-詹必魁
                                         return{
                                             daycount : daycount,
                                             storeNum : storeMin,
@@ -634,6 +646,20 @@
                         }
                     });
                     var idcards = tourMsgArray.map(function(item,index){ return item.idcard});
+                    var unique = (function(){
+                        var result = [];
+                        var json = {};
+                        for(var i=0; i<idcards.length; i++){
+                            if(!json[idcards[i]]){
+                                json[idcards[i]] = true;
+                                result.push(idcards[i])
+                            }
+                        }
+                        return result;
+                    })();
+
+
+
                     var tourists = tourMsgArray.map(function(item,index){ return item.name});
                     var idcards_available = idcards.every(function(item,index){
                         return PFT.Util.Validate.idcard(item);

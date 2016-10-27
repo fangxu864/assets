@@ -3,7 +3,12 @@
         <ul id="ticketListUl" class="ticketListUl">
             <li id="{{$index==0? 'mainTicketItem' : ''}}" data-pid="{{item.pid}}" data-zoneid="{{item.zone_id}}" class="item" v-for="item in list">
                 <div class="minBox">
-                    <div class="ptitle"><span class="t" v-text="item.title"></span></div>
+                    <div class="ptitle">
+                        <span class="t">
+                            <span v-if="item.zone_name" class="zoneName">{{'【'+item.zone_name+'】'}}</span>
+                            <span class="tit" v-text="item.title"></span>
+                        </span>
+                    </div>
                     <div class="bcon">
                         <div class="bbCon">
                             <span class="conBox price">单价：<i class="yen">&yen;</i><span class="num" v-text="item.jsprice"></span></span>
@@ -140,6 +145,7 @@
     .ticketListUl .item .countBox{ position:absolute; top:0; right:0; width:$countBoxWidth;}
     .ticketListUl .item .conBox.price .num{ font-size:0.4rem; color:#f37138}
     .ticketListUl .item .conBox.price .yen{ color:#f37138}
+    .ticketListUl .item .zoneName{ color:$blue}
     .ticketListUl .item .buyLimitTip{ color:#258cc9; font-size:0.3rem; text-align:right; padding-top:3px;}
     .ticketListUl .sonTicketBox{ padding:10px 15px 20px; background:#fafafa; font-size:0.30rem; line-height:1.6; border-top:1px solid $gray96}
 </style>

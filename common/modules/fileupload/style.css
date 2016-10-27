@@ -8,8 +8,8 @@
     box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
 }
 .fileuploadWrap .ctrlBtn{ position:relative; top:1px; display:inline-block; width:75px; height:32px; line-height:32px; text-align:center; background:#0797D9; color:#fff; cursor:pointer}
-.fileuploadWrap .ctrlBtn:hover{ background:#008fc2}
-.fileuploadWrap .filebrowseBtn{ position:relative; top:11px; overflow:hidden; margin-left:2px;}
+.fileuploadWrap .ctrlBtn:hover{ background:#008fc2;}
+.fileuploadWrap .filebrowseBtn{ /*position:relative; top:11px;*/ overflow:hidden; margin-left:2px; vertical-align:top;}
 .fileuploadWrap .filebrowseBtn .fileuploadFileInp{ position:absolute; display:block; top:0; right:-5px; bottom:0; width:1000px; cursor:pointer; font-size:0; background:none; border:0 none}
 .fileuploadWrap .fileuploadBtn{ background:#f5530c; }
 .fileuploadWrap .fileuploadBtn:hover{ background:#ed4c06}

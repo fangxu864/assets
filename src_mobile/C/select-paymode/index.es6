@@ -31,6 +31,7 @@ var Main = PFT.Util.Class({
 			},
 			success : (data)=>{
 				this.__CacheData = data;
+				data["payDomain"] = $("#paydomainHinInp").val();
 				var html = this.template(data);
 				this.container.html(html);
 			},

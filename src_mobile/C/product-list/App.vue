@@ -88,7 +88,7 @@
                 <div class="fixBtnGroup">
                     <div class="con ui-flex">
                         <a href="javascript:void(0)" @click="onCitySwitchClose('cannel')" class="btn cannel ui-flex-box">取消</a>
-                        <a href="javascript:void(0)" @click="onCitySwitchClose('all')" class="btn all ui-flex-box">全部</a>
+                        <a href="javascript:void(0)" @click="onCitySwitchClose('all')" class="btn all ui-flex-box">所有城市</a>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
                 ptypeList : PFT.Config.ptype,
                 ptypeShow : false,
                 cityList : {},
-                cityName : "全部",
+                cityName : "所有城市",
                 cityShow : false,
                 list : [],
                 pullupConfig : {
@@ -171,7 +171,7 @@
                 return this.ptypeList[this.filterParams.type] || "景区门票";
             },
             topicName(){
-                return this.filterParams.topic ? this.filterParams.topic : "不限"
+                return this.filterParams.topic ? this.filterParams.topic : "主题"
             }
         },
         methods : {
@@ -200,7 +200,7 @@
                 if(typeof type=="string"){
                     if(type=="all"){
                         this.filterParams.city = "";
-                        this.cityName = "全部";
+                        this.cityName = "所有城市";
                     }
                 }else{
                     var tarItem = $(type.target);

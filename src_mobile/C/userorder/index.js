@@ -38,10 +38,14 @@ var Main = PFT.Util.Class({
 		}
 	},
 	init : function(){
+		var that = this;
 		this.tabPannelWrap = $("#tabPannelWrap");
 		this.fixTabHead = $("#fixTabHead");
 		this.fixTabHead.children().first().trigger("click");
 		this.Detail = new Detail({Service:Service});
+		this.Detail.on("btn.click",function(e){
+			that.onActionBtnClick(e,"detail");
+		})
 		this.initRouter();
 	},
 	initScroll : function(type){
@@ -143,7 +147,12 @@ var Main = PFT.Util.Class({
 					scroll.render();
 				}
 			},
-			fail : function(msg){ Alert("提示",msg)}
+			fail : function(msg,code){
+				Alert("提示",msg);
+				if(code==102){ //未登录
+					window.location.href = "usercenter.html";
+				}
+			}
 		},this)
 	},
 	renderList : function(type,page,data){
@@ -178,7 +187,8 @@ var Main = PFT.Util.Class({
 		if(this.page[type]["current"]==0) this.fetchData(type,1);
 
 	},
-	onActionBtnClick : function(e){
+	onActionBtnClick : function(e,type){
+		var that = this;
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
 		var ordernum = tarBtn.attr("data-ordernum");
@@ -192,16 +202,24 @@ var Main = PFT.Util.Class({
 				host = hostname + "/wx";
 			}
 			window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+ordernum+'&h='+hostname;
-		}else if(tarBtn.hasClass("cannel")){ //取消订单
+		}else if(tarBtn.hasClass("cancel")){ //取消订单
+			if(!confirm("确定要取消订单吗？")) return false;
 			Service.cancel(ordernum,{
 				loading : function(){ tarBtn.text("取消中...").addClass("disable")},
 				complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
 				success : function(res){
 					var msg = res.msg || "取消成功";
 					this.Detail.clearCache(ordernum);
-					tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
 					Alert("提示",msg);
-					tarBtn.remove();
+					if(type=="detail"){
+						that.Detail.fetchDetailInfo(ordernum,function(data){
+							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text("已取消").addClass("disable");
+						});
+					}else{
+						tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
+						tarBtn.remove();
+					}
+
 				},
 				fail : function(msg){
 					Alert("提示",msg)

@@ -9,7 +9,7 @@
         <div class="scrollMainContainer" :class="{isTabHeadFix:tabFix}">
             <div id="buy-boxMod" data-type="buy" class="buy boxMod">
                 <ticket-list :lid="lid"></ticket-list>
-                <div v-if="p_type!=='F'" style="margin-top:10px">
+                <div v-if="info.p_type!=='F'" style="margin-top:10px">
                     <taopiao-list :lid="lid"></taopiao-list>
                 </div>
             </div>

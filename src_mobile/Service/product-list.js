@@ -107,11 +107,9 @@ module.exports = function(params,opt,cxt){
 			var list = data.list;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(res.code==200){
-
 				//citys = [{name:"福州",code:382,pin:"f"},{name:"厦门",code:384,pin:"x"}]
 				//以上是后端返回的citys字段格式，这里前端需要自己按首字母分组
-				data["citys"] = adaptCity(data.citys);
-
+				if(data.citys) data["citys"] = adaptCity(data.citys);
 				if(list.length){
 					opt.success.call(cxt,data);
 				}else{
