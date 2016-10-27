@@ -63,20 +63,31 @@ var Main = PFT.Util.Class({
 				Toast.show("loading","请稍后...");
 			},
 			complete : function(){
-				Toast.hide();
+
 			},
 			success : function(res){},
-			error : function(msg){ Alert("提示",msg)},
+			error : function(msg){
+				Toast.hide();
+				Alert("提示",msg);
+			},
 			//请求超时
-			timeout : function(){},
+			timeout : function(){
+				Toast.hide();
+				alert(PFT.AJAX_TIMEOUT_TEXT)
+			},
 			//请求服务器出错
-			serverError : function(){},
+			serverError : function(){
+				Toast.hide();
+				alert(PFT.AJAX_ERROR_TEXT);
+			},
 
 			//微信WeixinJSBridge.invoke也是异步操作
 			//开始支付
 			loading_wx : function(){},
 			//完成支付
-			complete_wx : function(){},
+			complete_wx : function(){
+				Toast.hide();
+			},
 			//支付成功
 			success_wx : function(res){
 				var payParams = that.__CacheData.payParams;
