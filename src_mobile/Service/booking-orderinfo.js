@@ -6,6 +6,7 @@
  * aid	int	产品aid
  */
 var MinueToDayTime = require("COMMON/js/util.minuToDayTime");
+
 module.exports = function(pid,aid,opt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);

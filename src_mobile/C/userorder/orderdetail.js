@@ -21,7 +21,7 @@ var Detail = PFT.Util.Class({
 	onBtnClick : function(e){
 		this.trigger("btn.click",e,"detail");
 	},
-	fetchDetailInfo : function(ordernum){
+	fetchDetailInfo : function(ordernum,callback){
 		if(!ordernum) return false;
 		if(this.__Cache[ordernum]){ //如果已经请求过了
 			this.renderDetail(this.__Cache[ordernum]);
@@ -35,6 +35,7 @@ var Detail = PFT.Util.Class({
 				success : function(data){
 					this.__Cache[ordernum] = data;
 					this.renderDetail(data);
+					callback && callback(data);
 				},
 				fail : function(msg){
 					Alert("提示",msg);

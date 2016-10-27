@@ -44,7 +44,7 @@ var Main = PFT.Util.Class({
 		this.fixTabHead.children().first().trigger("click");
 		this.Detail = new Detail({Service:Service});
 		this.Detail.on("btn.click",function(e){
-			that.onActionBtnClick(e);
+			that.onActionBtnClick(e,"detail");
 		})
 		this.initRouter();
 	},
@@ -202,7 +202,8 @@ var Main = PFT.Util.Class({
 				host = hostname + "/wx";
 			}
 			window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+ordernum+'&h='+hostname;
-		}else if(tarBtn.hasClass("cannel")){ //取消订单
+		}else if(tarBtn.hasClass("cancel")){ //取消订单
+			if(!confirm("确定要取消订单吗？")) return false;
 			Service.cancel(ordernum,{
 				loading : function(){ tarBtn.text("取消中...").addClass("disable")},
 				complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
@@ -211,11 +212,14 @@ var Main = PFT.Util.Class({
 					this.Detail.clearCache(ordernum);
 					Alert("提示",msg);
 					if(type=="detail"){
-						that.fetchDetailInfo(ordernum);
+						that.Detail.fetchDetailInfo(ordernum,function(data){
+							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text("已取消").addClass("disable");
+						});
 					}else{
 						tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
 						tarBtn.remove();
 					}
+
 				},
 				fail : function(msg){
 					Alert("提示",msg)

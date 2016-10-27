@@ -88,7 +88,7 @@
                 <div class="fixBtnGroup">
                     <div class="con ui-flex">
                         <a href="javascript:void(0)" @click="onCitySwitchClose('cannel')" class="btn cannel ui-flex-box">取消</a>
-                        <a href="javascript:void(0)" @click="onCitySwitchClose('all')" class="btn all ui-flex-box">全部</a>
+                        <a href="javascript:void(0)" @click="onCitySwitchClose('all')" class="btn all ui-flex-box">所有城市</a>
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
                 ptypeList : PFT.Config.ptype,
                 ptypeShow : false,
                 cityList : {},
-                cityName : "全部",
+                cityName : "所有城市",
                 cityShow : false,
                 list : [],
                 pullupConfig : {

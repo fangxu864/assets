@@ -40,16 +40,17 @@
             var reb = this.reb;
             var reb_type = this.reb_type;
             if(reb!=0){
-                var reg_text = reb_type==1 ? (reb+"元") : ("票价的"+reb+"%");
+                var reg_text = reb_type==1 ? (reb/100+"元") : ("票价的"+reb+"%");
                 html += '<li class="refundRuleItem">';
                 html += '基础扣费：'+ reg_text;
                 html += '</li>';
             }
             if(Object.prototype.toString.call(ruleList)=="[object Array]"){
-                for(var i in ruleList){
+                for(var i=0; i<ruleList.length; i++){
                     html += '<li class="refundRuleItem">';
                     var item = ruleList[i];
                     html += i*1+1+"、";
+                    //"c_type": "1",      //1-百分比    0-收取固定金额
                     html += that.beginTimePerfix(that.p_type) + that.getDayTime(item.c_days);
                     html += item.c_type==0 ? "收取手续费："+(item.c_cost / 100) : "收取手续费："+("票价的"+item.c_cost/100);
                     html += item.c_type==0 ? "元" : "%";

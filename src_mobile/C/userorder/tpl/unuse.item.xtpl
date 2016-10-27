@@ -1,5 +1,5 @@
 <%_.each(data,function(item,index){%>
-<li data-ordernum="<%=item.ordernum%>" class="unuseItem">
+<li id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="unuseItem">
     <a class="topPart" href="#/detail/<%=item.ordernum%>">
         <div class="photoBox">
             <div class="imgBox">
@@ -41,9 +41,9 @@
             <span class="btn pay" data-ordernum="<%=item.ordernum%>">支付</span>
         <%}%>
         <%if(item.cancel==1){%>
-            <span class="btn cannel" data-ordernum="<%=item.ordernum%>">取消订单</span>
+            <span class="btn cancel" data-ordernum="<%=item.ordernum%>">取消订单</span>
         <%}else{%>
-            <span class="btn cannel disable">不可取消</span>
+            <span class="btn cancel disable">不可取消</span>
         <%}%>
     </div>
 </li>

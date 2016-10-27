@@ -137,7 +137,7 @@
 
         <sheet-refundrule
                 :show.sync="refundRuleShow"
-                :rule-list="orderInfo.cancel_cost.length ? orderInfo.cancel_cost : orderInfo.reb"
+                :rule-list="orderInfo.cancel_cost"
                 :reb="orderInfo.reb"
                 :reb_type="orderInfo.reb_type"
                 v-if="orderInfo.refund_rule!=2">
@@ -148,6 +148,7 @@
                 v-on:click="onassStationItemClick"
                 :menus="assStation.menus"
                 :cancel-text="'确定'"
+                :align="'left'"
                 :show.sync="assStation.show">
         </sheet-action>
 
@@ -645,6 +646,20 @@
                         }
                     });
                     var idcards = tourMsgArray.map(function(item,index){ return item.idcard});
+                    var unique = (function(){
+                        var result = [];
+                        var json = {};
+                        for(var i=0; i<idcards.length; i++){
+                            if(!json[idcards[i]]){
+                                json[idcards[i]] = true;
+                                result.push(idcards[i])
+                            }
+                        }
+                        return result;
+                    })();
+
+
+
                     var tourists = tourMsgArray.map(function(item,index){ return item.name});
                     var idcards_available = idcards.every(function(item,index){
                         return PFT.Util.Validate.idcard(item);
