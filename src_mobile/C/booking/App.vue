@@ -646,17 +646,22 @@
                         }
                     });
                     var idcards = tourMsgArray.map(function(item,index){ return item.idcard});
-                    var unique = (function(){
-                        var result = [];
+                    var isUnique = (function(){
                         var json = {};
+                        var result = true;
                         for(var i=0; i<idcards.length; i++){
-                            if(!json[idcards[i]]){
+                            if(json[idcards[i]]){
+                                result = false;
+                                break;
+                            }else{
                                 json[idcards[i]] = true;
-                                result.push(idcards[i])
                             }
                         }
                         return result;
                     })();
+                    if(!isUnique){ //如果身份证有重复
+                        return alert("游客信息里，身份证重复");
+                    }
 
 
 
@@ -746,9 +751,9 @@
                     },
                     fail : (code,msg) => {
                         if(code>=400){ //重复下单  这种情况下页面不允许再提交订单，提交按钮需禁用
-                            Alert("提示",msg);
+                            alert(msg);
                         }else{ //一般错误
-                            Alert("提示",msg);
+                            alert(msg);
                             submitBtn.classList.remove("disable");
                         }
                     }

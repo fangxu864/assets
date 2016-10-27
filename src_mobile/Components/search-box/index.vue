@@ -2,6 +2,8 @@
     <div class="ui-searchBox">
         <input autocomplete="off" class="searchInp" type="text"
                v-model="value"
+               @focus="onInputFocus"
+               @blur="onInputBlur"
                :placeholder="placeholder"
                :debounce="debounce" />
         <i class="uicon search uicon-sousuo"></i>
@@ -28,6 +30,12 @@
         methods : {
             onClearBtnClick(e){
                 this.value = "";
+            },
+            onInputFocus(e){
+                this.$dispatch("focus",e);
+            },
+            onInputBlur(e){
+                this.$dispatch("blur",e);
             }
         },
         watch : {

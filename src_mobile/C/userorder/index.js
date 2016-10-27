@@ -210,7 +210,8 @@ var Main = PFT.Util.Class({
 				success : function(res){
 					var msg = res.msg || "取消成功";
 					this.Detail.clearCache(ordernum);
-					Alert("提示",msg);
+					//Alert("提示",msg);
+					alert(msg);
 					if(type=="detail"){
 						that.Detail.fetchDetailInfo(ordernum,function(data){
 							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text("已取消").addClass("disable");
@@ -222,7 +223,8 @@ var Main = PFT.Util.Class({
 
 				},
 				fail : function(msg){
-					Alert("提示",msg)
+					alert(msg);
+					//Alert("提示",msg)
 				}
 			},this)
 		}

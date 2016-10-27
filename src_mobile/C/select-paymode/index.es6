@@ -21,7 +21,7 @@ var Main = PFT.Util.Class({
 	init : function(){
 		var urlParams = PFT.Util.UrlParse();
 		this.ordernum = urlParams["ordernum"] || "";
-		this.host = location.hostname.split(".")[0];
+		this.host = urlParams["h"].split(".")[0];
 		Service(this.ordernum,this.host,{
 			loading : ()=>{
 				Toast.show("loading","努力加载中...");
