@@ -11,8 +11,175 @@
 }
 //内容
 .con_box{
+  padding-bottom: 100px;
   height: 500px;
   background-color: #ffffff;
   border: 1px solid #e5e5e5;
   border-top: none;
+  padding-top: 20px;
+  .block{  padding-left: 40px;  }
+  h3{
+    font-size: 20px;
+    padding: 15px 0;
+    font-weight: 300;
+  }
+  p{
+    font-size: 14px;
+    padding: 5px 0;
+  }
+  .block1{
+    h3{
+      color: #F07845;
+      font-weight: 600;
+    }
+  }
+  .block2{
+    .package_box{
+      margin-top: 10px;
+      height: 80px;
+      span.package_type{
+        display: inline-block;
+        float:left;
+        padding: 13px 27px;
+        border: 2px solid #eaeaea;
+        margin-right: 30px;
+        font-size: 14px;
+        cursor:pointer;
+        i{
+           display: block;
+           line-height: 20px;
+           text-align: center;
+         }
+        i.number{
+          font-size: 16px;
+        }
+        i.tip{
+          font-size: 12px;
+          color: #F07845;
+        }
+      }
+      span.package_type:hover{
+        border: 2px solid #bbbbbb;
+      }
+      span.package_type.active{
+        border: 2px solid #0797d9;
+      }
+      span.xieyi.package_type{
+        i{
+          font-size: 16px;
+          line-height: 40px;
+        }
+        height: 40px;
+        line-height: 40px;
+      }
+    }
+  }
+  .block3{
+    p{
+      color: #F07845;
+    }
+    .recharge_box {
+      height: 130px;
+      width: 150px;
+      border: 2px solid #e5e5e5;
+      float: left;
+      margin-top: 20px;
+      margin-right: 50px;
+      cursor: pointer;
+      .img_box{
+        height: 60px;
+        width: 60px;
+        margin: 20px auto 10px auto;
+        img{
+          height: 60px;
+          width: 60px;
+        }
+      }
+      .title{
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 14px;
+      }
+    }
+    .recharge_box:hover{
+      border: 2px solid #0797d9;
+    }
+  }
+}
+//查询状态
+.queryState_box{
+  height: 200px;
+  border: 1px solid #e5e5e5;
+  border-top: none;
+  background-color: white;
+  .querying{
+    height: 200px;
+    text-align: center;
+    padding-top: 30px;
+  }
+  .querySuccess{
+    .line{
+      line-height: 60px;
+      text-align: center;
+    }
+    .line1{
+      padding-top: 18px;
+      line-height: 60px;
+      font-size: 22px;
+      color: #3DBA3F;
+    }
+    .line2{
+      line-height: 40px;
+      font-size: 14px;
+      color: #303D46;
+    }
+    .line3{
+      span.btn{
+        padding:8px 30px;
+        border: 1px solid #0797D9;
+        color: #0797D9;
+        font-size: 14px;
+        background-color: #ffffff;
+        transition:   background-color 0.5s;
+        cursor: pointer;
+      }
+      span.btn:hover{
+        color: white;
+        background-color: #0797D9;
+      }
+    }
+  }
+  .queryFail{
+    .line{
+      line-height: 60px;
+      text-align: center;
+    }
+    .line1{
+      padding-top: 18px;
+      line-height: 60px;
+      font-size: 22px;
+      color: #F07845;
+    }
+    .line2{
+      line-height: 40px;
+      font-size: 14px;
+      color: #303D46;
+    }
+    .line3{
+      span.btn{
+        padding:8px 30px;
+        border: 1px solid #0797D9;
+        color: #0797D9;
+        font-size: 14px;
+        background-color: #ffffff;
+        transition:   background-color 0.5s;
+        cursor: pointer;
+      }
+      span.btn:hover{
+        color: white;
+        background-color: #0797D9;
+      }
+    }
+  }
 }

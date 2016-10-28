@@ -1,0 +1,11 @@
+<div class="querySuccess">
+   <div class="line line1">
+       续费成功！
+   </div>
+   <div class="line line2">
+       续费成功！系统将自动顺延有效期。
+   </div>
+   <div class="line line3">
+       <span class="btn">首页</span>
+   </div>
+</div>
