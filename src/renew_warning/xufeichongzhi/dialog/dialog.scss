@@ -1,0 +1,61 @@
+#dialog_box{
+  width: 500px;
+  height: 500px;
+  .dialog_con{
+    .title{
+      padding-left: 40px;
+      line-height: 46px;
+      height: 46px;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .line{
+      line-height: 40px;
+      padding-left: 40px;
+      font-size: 16px;
+    }
+    .line4{
+      padding-left: 0;
+      .img_box{
+        text-align: center;
+        margin: 20px auto;
+        border: 1px solid #e5e5e5;
+        height:200px ;
+        width: 200px;
+        font-size: 12px;
+        img.code{
+          height:200px ;
+          width: 200px;
+        }
+        .img_box_loading{
+          margin-top: 33px;
+          img.code{
+            height:150px ;
+            width: 150px;
+          }
+        }
+
+      }
+    }
+    .line5{
+      padding-left: 0;
+      text-align: center;
+      span.btn{
+        padding:8px 30px;
+        border: 1px solid #0797D9;
+        color: #0797D9;
+        font-size: 14px;
+        background-color: #ffffff;
+        transition:   background-color 0.5s;
+        cursor: pointer;
+      }
+      span.btn:hover{
+        color: white;
+        background-color: #0797D9;
+      }
+    }
+  }
+
+
+
+}
