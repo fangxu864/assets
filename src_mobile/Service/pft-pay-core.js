@@ -13,13 +13,13 @@ exports.Wx = function(opt){
 	if(!WeixinJSBridge || !data) return false;
 	var url = opt.url || "http://wx.12301.cc/api/index.php?c=pay_WxPay&a=order";
 	var loading = opt.loading || fn;
-	var complete = opt.removeLoading || fn;
+	var complete = opt.complete || fn;
 	var success = opt.success || fn;
 	var error = opt.error || fn;
 	var timeout = opt.timeout || fn;
 	var serverError = opt.serverError || fn;
 	var loading_wx = opt.loading_wx || fn;
-	var complete_wx = opt.removeLoading_wx || fn;
+	var complete_wx = opt.complete_wx || fn;
 	var success_wx = opt.success_wx || fn;
 	var cancel_wx = opt.cancel_wx || fn;
 	var fail_wx = opt.fail_wx || fn;
