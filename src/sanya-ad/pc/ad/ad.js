@@ -134,7 +134,9 @@ if(adId === undefined) {
         success: function(response){
             var responseData = response.data;
 
-            // console.log(responseData);
+            if( responseData.page_type == 3 && responseData.page_id == 3 ) {
+                selProduct.attr('disabled', 'disabled');
+            }
 
             //页面类型
             if(xhrSelPageType.status === 200) {
@@ -248,7 +250,7 @@ function ajaxSave(btnEle, adId, status, successText) {
         }
     );
 
-    console.log(opts);
+    // console.log(opts);
 
     $.ajax({
         url: '/r/adCO_AdCO/saveAdCO',
