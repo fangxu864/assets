@@ -10,7 +10,7 @@ function LoopTip(data){
     this.content=data.content;//loopTip的文本内容
     this.init();
     this.loop();
-    this.bind()
+    this.bind();
 
 }
 LoopTip.prototype={
@@ -24,16 +24,12 @@ LoopTip.prototype={
     },
     loop:function () {
         var _this=this;
-        this.timer={};
-        clearInterval(this.timer);
-        var left=parseInt(_this.wrap.css("left"));
-        this.timer=setInterval(function () {
-            _this.wrap.css("left",(left-=3)+"px");
-            if(-parseInt(_this.wrap.css("left"))>_this.wrap.width()){
-                console.log("fdsfsdf");
-                clearInterval(_this.timer);
-                _this.wrap.css("left",_this.container.width()+"px");
-                console.log(_this.container.width())
+        _this.setInterval_own.clear();
+        _this.setInterval_own.count(function () {
+            _this.wrap.css("left",(parseInt(_this.wrap.css("left"))-1)+"px");
+            if(Math.abs(parseInt(_this.wrap.css("left")))>=_this.wrap.width()){
+                _this.setInterval_own.clear();
+                _this.wrap.css("left",500+"px");
                 _this.loop()
             }
         },30)
@@ -41,13 +37,26 @@ LoopTip.prototype={
     bind:function () {
         var _this=this;
         _this.wrap.on("mouseover",function(){
-            console.log("mouseover");
-            clearInterval(_this.timer);
+            _this.setInterval_own.clear();
         });
         _this.wrap.on("mouseout",function(){
-            console.log("mouseout");
             _this.loop()
         })
+    },
+    setInterval_own:{
+        timer:-1,
+        count:function(func,time){
+            var _this=this;
+            _this.clear()
+            this.timer=setTimeout(function () {
+                func();
+                _this.count(func,time)
+            },time);
+        },
+        clear:function () {
+            var _this=this;
+            clearTimeout(_this.timer)
+        }
     }
 };
 
