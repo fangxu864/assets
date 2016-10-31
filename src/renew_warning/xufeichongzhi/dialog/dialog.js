@@ -7,8 +7,6 @@ require("./dialog.scss");
 //引入tpl
 var dialog_con_tpl=require("./dialog_con.xtpl");
 var dialog_querying_tpl=require("./dialog_querying.xtpl");
-
-
 //引入插件
 var DialogSimple=require("COMMON/modules/dialog-simple");
 
