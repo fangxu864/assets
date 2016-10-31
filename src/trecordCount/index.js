@@ -240,7 +240,8 @@ var TrecordCount={
         $("#excel_btn").on("click",function () {
             _this.filterParamsBox["export"]= 1;
             var cacheKey=_this.JsonStringify(_this.filterParamsBox);
-            var downUrl='/r/Finance_TradeRecord/getRecordCountInfo/?'+cacheKey;
+            cacheKey=cacheKey.replace(/&page=\d+/,"");
+            var downUrl='http://www.12301.local/r/Finance_TradeRecord/excelGetRecordCountInfo/?'+cacheKey;
             _this.outExcel(downUrl)
         })
     },
