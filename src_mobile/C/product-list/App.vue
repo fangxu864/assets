@@ -2,9 +2,10 @@
     <div class="bodyContainer">
         <div class="fixHeader">
             <div class="searchBoxWrap">
-                <search-box :debounce="200" v-on:keyword-change="onKeywordChange"></search-box>
+                <search-box :debounce="400" v-on:keyword-change="onKeywordChange" v-on:focus="onSearchInpFocus" v-on:blur="onSearchInpBlur"></search-box>
             </div>
-            <a href="usercenter.html" class="userBtn"><i class="uicon uicon-yonghu"></i></a>
+            <a id="userBtn" href="usercenter.html" class="userBtn"><i class="uicon uicon-yonghu"></i></a>
+            <a id="searchBtn" href="javascript:void(0)" class="searchBtn hide">搜索</a>
         </div>
         <div id="scrollWrap" class="scrollWrap">
             <scroller
@@ -38,6 +39,9 @@
                             </template>
                             <template v-if="item.type=='empty'">
                                 <div>没有更多了...</div>
+                            </template>
+                            <template v-if="item.type=='no-search-result'">
+                                <div class="noSearchResult">暂无匹配产品...</div>
                             </template>
                         </li>
                     </ul>
@@ -140,9 +144,13 @@
             }
         },
         ready(){
+            var that = this;
             this.winHeight = $(window).height();
             this.scrollWrap = $("#scrollWrap");
             this.fetchData();
+            document.getElementById("searchBtn").addEventListener("touchstart",function(e){
+                that.onSearchBtnClick(e);
+            },false)
         },
         watch : {
             "filterParams.type" : function(val,oldVal){
@@ -228,6 +236,22 @@
                 this.topicShow = false;
                 $(e.target).prev().children().removeClass("selected");
             },
+            onSearchInpFocus(e){
+                //document.getElementById("searchBtn").classList.remove("hide");
+                //document.getElementById("userBtn").classList.add("hide");
+            },
+            onSearchInpBlur(e){
+                //document.getElementById("searchBtn").classList.add("hide");
+                //document.getElementById("userBtn").classList.remove("hide");
+            },
+            onSearchBtnClick(e){
+                var tarBtn = $(e.target);
+                if(tarBtn.hasClass("disable")) return false;
+                var keyword = this.filterParams.keyword;
+                keyword = $.trim(keyword);
+                if(!keyword) return false;
+                this.onFilterParamsChange();
+            },
             fetchData(){
                 var params = this.filterParams;
                 FetchList(params,{
@@ -243,7 +267,8 @@
                     empty : () => {
                         this.disableScroll();
                         if(this.filterParams.lastPos==""){
-                            Alert("提示","查无匹配条件的产品..");
+                            //Alert("提示","查无匹配条件的产品..");
+                            this.list.push({type:"no-search-result"});
                         }else{
                             Alert("提示","没有更多匹配条件的产品了..");
                             this.list.push({type:"empty"});
@@ -347,6 +372,7 @@
 
 
     .citySwitchContainer{
+        position:relative;
         height:100%; overflow:auto; background:#fafafa;
         .gFixHeader{
             position:absolute;
@@ -381,8 +407,13 @@
             }
         }
         .cityList{
-            margin-top:55px;
-            margin-bottom:45px;
+            position:absolute;
+            top:46px;
+            left:0;
+            right:0;
+            bottom:42px;
+            width:100%;
+            overflow:auto;
             .group{
                 margin-bottom:15px;
 
@@ -399,6 +430,7 @@
                 }
 
                 &:last-child{ margin-bottom:0}
+                &:first-child{ margin-top:10px}
             }
 
         }
@@ -419,19 +451,33 @@
             left:0;
             top:0;
             bottom:0;
-            right:50px;
+            right:60px;
         }
 
         .userBtn{
             display:block;
             float:right;
-            width:50px;
+            width:60px;
             height:100%;
             line-height:45px;
             text-align:center;
             .uicon{
                 font-size:18px;
             }
+            &.hide{ display:none}
+        }
+        .searchBtn{
+            display:block;
+            position:absolute;
+            top:8px;
+            bottom:8px;
+            right:8px;
+            width:50px;
+            text-align:center;
+            background:$orange;
+            color:#fff;
+            line-height:29px;
+            &.hide{ display:none}
         }
 
     }
@@ -467,6 +513,14 @@
             margin-top:5px;
             height:40px;
             line-height:40px;
+            text-align:center;
+        }
+
+        .noSearchResult{
+            clear:both;
+            margin-top:5px;
+            height:200px;
+            line-height:200px;
             text-align:center;
             background:#fff;
         }
