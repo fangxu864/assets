@@ -7,3 +7,29 @@
 #money{ height:26px; line-height:22px; border-radius:0;
     box-shadow:inset 1px 1px 1px rgba(0,0,0,0.1);
 }
+#applyform .notice_title_p{
+    clear:left;
+    position:relative;
+    top:5px;
+    margin-left:130px;
+    color:lighten(#999,5%);
+}
+#calculateAdBtn{
+    display:block;
+    float:left;
+    height:32px;
+    line-height:32px;
+    padding:0 20px;
+    background:#0797d9;
+    color:#fff;
+    margin:17px 0 0 15px;
+    font-size:12px;
+}
+#calculateAdBtn:hover{
+    text-decoration:none;
+    background:darken(#0797d9,6%);
+}
+#calculateAdBtn.disable{
+    background:#999;
+    cursor:default;
+}
