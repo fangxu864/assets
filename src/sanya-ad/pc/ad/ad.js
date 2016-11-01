@@ -58,6 +58,11 @@ function ajaxSelPageType(pageType, pageId) {
             }
             selPageType.html(tempStr);
 
+            //页面类型为消息通知时不显示推广图
+            if(pageType == 4 || (!pageType && selPageType.find("option:first-child").attr('data-ptype')==4)) {
+                $('#adPic').hide();
+            }
+
             if(pageId === undefined) {
                 pageType = pageType!==undefined ? pageType : selPageType.find("option:selected").attr('data-ptype');
                 ajaxSelPageName(pageType);
@@ -154,6 +159,13 @@ function ajaxSelProduct(pId) {
 selPageType.on('change', function(){
     var $this = $(this);
 
+    //页面类型为消息通知时不显示推广图
+    if(selPageType.find("option:selected").attr('data-ptype')==4) {
+        $('#adPic').hide();
+    } else {
+        $('#adPic').show();
+    }
+
     if(xhrSelPageName) {
         xhrSelPageName.abort();
     }
@@ -196,6 +208,10 @@ if(adId === undefined) {
             //页面类型
             if(xhrSelPageType.status === 200) {
                 selPageType.children('option').removeAttr('selected').end().children('[data-ptype="'+ responseData.page_type +'"]').attr('selected','selected');
+                //页面类型为消息通知时不显示推广图
+                if(responseData.page_type == 4) {
+                    $('#adPic').hide();
+                }
             } else {
                 xhrSelPageType.abort();
                 ajaxSelPageType(responseData.page_type, responseData.page_id);
@@ -265,6 +281,10 @@ $('#adText').on('keyup change',function(){
 function ajaxSave(btnEle, adId, status, successText) {
     var btnText;
 
+    if(selPageType.find("option:selected").attr('data-ptype') == 4 && !$.trim(adText.val())) {
+        PFT.Util.STip("error",'推广文字不能为空');
+        return false;
+    }
     if(!$.trim(adUrl.val())) {
         PFT.Util.STip("error",'请填写广告链接地址！');
         return false;
@@ -293,6 +313,7 @@ function ajaxSave(btnEle, adId, status, successText) {
         opts.pId = selProduct.children('option:selected').attr('data-pid');
     }
 
+
     $.extend(
         opts,
         {
@@ -302,7 +323,7 @@ function ajaxSave(btnEle, adId, status, successText) {
             status: status,
             adUrl: removeBlank(adUrl.val()),
             content: adText.val(),
-            picUrl: $('#Fileupload').find('img').length?$('#Fileupload').find('img')[0].src : ''
+            picUrl: selPageType.find("option:selected").attr('data-ptype') == 4? '' : $('#Fileupload').find('img').length?$('#Fileupload').find('img')[0].src : ''
         }
     );
 
@@ -317,7 +338,7 @@ function ajaxSave(btnEle, adId, status, successText) {
             $(btnEle).removeClass('disabled').html(btnText);
             if( response.code == 200 ) {
                 PFT.Util.STip("success", successText, 1000, function(){
-                    location.href= 'sanyaad.html';
+                    // location.href= 'sanyaad.html';
                 });
             } else {
                 PFT.Util.STip("fail",response.msg);
