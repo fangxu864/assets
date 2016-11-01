@@ -36,7 +36,7 @@ var Recharge={
         $(".wx_pay").on("click",function () {
             _this.Dialoga.show_dialog_con({
                 "title":"微信二维码支付",
-                "account":"15659329937",
+                "account":"票付通",
                 "money":"9800"
             });
         });
@@ -44,7 +44,7 @@ var Recharge={
         $(".ali_pay").on("click",function () {
             _this.Dialoga.show_dialog_con({
                 "title":"支付宝二维码支付",
-                "account":"15659329937",
+                "account":"票付通",
                 "money":"9800"
             });
         })
