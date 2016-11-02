@@ -38,7 +38,6 @@ var HeaderWarning={
         }else if($("#special_w").length>0){
             $("#special_w .subnav").eq(0).css("position","relative").append(loopTip_tpl);
         }else if($("#siteLocationBar .siteLocationBarCon").length>0){
-            console.log("siteLocationBar");
             $("#siteLocationBar .siteLocationBarCon").eq(0).css("position","relative").append(loopTip_tpl)
                 .find(".loop_box").css({"top":"-2px"})
                 .find(".xufei_box").css("padding-top","0px")
