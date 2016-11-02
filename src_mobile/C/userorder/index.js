@@ -14,6 +14,7 @@ var Tpl = {
 	history : require("./tpl/history.item.xtpl")
 };
 var Detail = require("./orderdetail");
+
 var Main = PFT.Util.Class({
 	container : "#bodyContainer",
 	EVENTS : {
@@ -47,6 +48,13 @@ var Main = PFT.Util.Class({
 			that.onActionBtnClick(e,"detail");
 		})
 		this.initRouter();
+
+
+
+
+
+
+
 	},
 	initScroll : function(type){
 		var that = this;
