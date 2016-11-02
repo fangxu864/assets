@@ -11,8 +11,8 @@ var loopTip_tpl=require("./loopTip/loopTip.xtpl");
 var HeaderWarning={
     init:function () {
         var _this=this;
-        // var value_of_overTime=$("#value_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
-        var value_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
+        var value_of_overTime=$("#value_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
+        // var value_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
         var isloopTip=value_of_overTime=="-1"||value_of_overTime=="0"?true:false;
         var isDialog=true;
         if(isloopTip){
@@ -38,7 +38,6 @@ var HeaderWarning={
         }else if($("#special_w").length>0){
             $("#special_w .subnav").eq(0).css("position","relative").append(loopTip_tpl);
         }else if($("#siteLocationBar .siteLocationBarCon").length>0){
-            console.log("siteLocationBar");
             $("#siteLocationBar .siteLocationBarCon").eq(0).css("position","relative").append(loopTip_tpl)
                 .find(".loop_box").css({"top":"-2px"})
                 .find(".xufei_box").css("padding-top","0px")

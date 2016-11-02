@@ -379,6 +379,7 @@ $(function(){
             $("#protocol_start").val(res.protocol_start);
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
+            $("#protocal_meal").val(res.protocal_meal);
             $(".alert_box").css("display","block");
         })
     })
@@ -401,6 +402,7 @@ $(function(){
             protocal_start = $("#protocol_start").val(),
             protocal_end   = $("#protocol_end").val(),
             protocol_main  = $("#protocol_main").val();
+        protocal_meal  = $("#protocal_meal").val();
         PFT_GLOBAL.G.Ajax({
             url : "../module/zax/admin_report/call.php",
             data : {
@@ -410,7 +412,8 @@ $(function(){
                 kefuID:kefuID,
                 protocal_start:protocal_start,
                 protocal_end:protocal_end,
-                protocol_main:protocol_main
+                protocol_main:protocol_main,
+                protocal_meal:protocal_meal
             },
             type :'POST',
             timeout : function(){console && console.log("获取数据超时")},

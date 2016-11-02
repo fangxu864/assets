@@ -20,7 +20,6 @@ var Recharge={
         //获取盒子
         this.queryState_box=$(".queryState_box");
         this.con_box=$(".con_box");
-
         //初始化模块
         this.Dialoga=new DialogS;
         this.bind();
@@ -48,7 +47,7 @@ var Recharge={
         $(".ali_pay").on("click",function () {
             _this.Dialoga.show_dialog_con({
                 "url":"/r/pay_Alipay/renew/",
-                "title":"微信二维码支付",
+                "title":"支付宝二维码支付",
                 "account":"票付通",
                 "money":$(".package_type.active").attr("money"),
                 "typeid":$(".package_type.active").attr("typeid")
@@ -71,11 +70,9 @@ var Recharge={
             },
             success: function(res) {
                 //请求成功时处理
-                console.log(res);
                 if(res.code==200){
                     var list=res.data;
                     var html=_this.template({data:list});
-                    console.log(html);
                     $(".package_box").html(html);
                     _this.con_box.show();
                     _this.queryState_box.hide()
@@ -108,7 +105,6 @@ var Recharge={
         _this.queryState_box.show().html(queryFail_tpl);
         _this.con_box.hide()
     }
-    
 };
 $(function(){
     Recharge.init()

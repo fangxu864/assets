@@ -4,7 +4,7 @@
  * Description: ""
  */
 var CalculatMoney = {
-	debug : true,
+	debug : false,
 	timer : null,
 	INTERVAL : 5,
 	init : function(){
@@ -22,6 +22,20 @@ var CalculatMoney = {
 			that.onCalculateAdBtnClick(e);
 		})
 	},
+	reCalculateWait:function(tarBtn,orignText){
+		var that = this;
+		var minue = this.INTERVAL;
+		this.timer = setInterval(function(){
+			if(minue==0){
+				clearInterval(that.timer);
+				that.timer = null;
+				tarBtn.removeClass("disable").html(orignText);
+				return false;
+			}
+			minue -= 1;
+			tarBtn.html(minue+"秒后可重新计算");
+		},1000);
+	},
 	onCalculateAdBtnClick : function(e){
 		var tarBtn = $(e.target);
 		var orignText = tarBtn.html();
@@ -32,25 +46,16 @@ var CalculatMoney = {
 			},
 			complete : function(){},
 			success : function(data){
-				var that = this;
-				var minue = this.INTERVAL;
-				this.timer = setInterval(function(){
-					if(minue==0){
-						clearInterval(that.timer);
-						that.timer = null;
-						tarBtn.removeClass("disable").html(orignText);
-						return false;
-					}
-					minue -= 1;
-					tarBtn.html(minue+"秒后可重新计算");
-				},1000);
 
-
-				this.moneyInp.val(data.total);
+				this.reCalculateWait(tarBtn,orignText);
+				this.moneyInp.val(data);
 				//计算
-				this.calculate(data.total);
+				this.calculate(data);
 
-
+			},
+			below:function(){
+				alert("您所能提现的金额小于200");
+				this.reCalculateWait(tarBtn,orignText);
 			},
 			fail : function(msg,code){
 				tarBtn.removeClass("disable");
@@ -74,12 +79,13 @@ var CalculatMoney = {
 	queryMoney : function(opt,cxt){
 		opt = opt || {};
 		cxt = cxt || this;
-		var url = "";
+		var url = "/r/Finance_WithDraw/withDrawFre";
 		var fn = new Function;
 		var loading = opt.loading || fn;
 		var complete = opt.complete || fn;
 		var success = opt.success || fn;
 		var fail = opt.fail || fn;
+		var below = opt.below || fn;
 
 		if(cxt.debug){
 			loading.call(cxt);
@@ -103,14 +109,20 @@ var CalculatMoney = {
 			success : function(res){
 				res = res || {};
 				var code = res.code;
-				var data = res.data || {};
+				var data = res.data * 1;
+				// data = 500;
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-				if(code==200){
-					success.call(cxt,data);
-				}else{
+				if(code=="success"){
+					if(data>=200){
+						success.call(cxt,data);
+					}else{
+						below.call(cxt);
+					}
+
+				}else if(data==0){
 					fail.call(cxt,msg,code);
 				}
-				success.call(cxt,res);
+
 			}
 		})
 
