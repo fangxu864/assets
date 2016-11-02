@@ -97,7 +97,17 @@ var Recharge={
 
 
     },
-    template:PFT.Util.ParseTemplate(packageType_tpl)
+    template:PFT.Util.ParseTemplate(packageType_tpl),
+    rechargeSuccess:function () {
+        var _this=this;
+        _this.queryState_box.show().html(querySuccess_tpl);
+        _this.con_box.hide()
+    },
+    rechargeFail:function () {
+        var _this=this;
+        _this.queryState_box.show().html(queryFail_tpl);
+        _this.con_box.hide()
+    }
     
 };
 $(function(){
