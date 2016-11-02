@@ -11,8 +11,8 @@ var loopTip_tpl=require("./loopTip/loopTip.xtpl");
 var HeaderWarning={
     init:function () {
         var _this=this;
-        // var value_of_overTime=$("#value_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
-        var value_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
+        var value_of_overTime=$("#value_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
+        // var value_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
         var isloopTip=value_of_overTime=="-1"||value_of_overTime=="0"?true:false;
         var isDialog=true;
         if(isloopTip){
