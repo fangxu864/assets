@@ -1,7 +1,7 @@
 <div class="dialog_con" typeid="<%=data.typeid%>">
     <div class="title"><%=data.title%></div>
     <div class="line line1">收款账户：<%=data.account%></div>
-    <div class="line line2">金额：<%=data.money%>元</div>
+    <div class="line line2">金额：<span style="color:#F07845"><%=data.money/100%> 元</span></div>
     <div class="line line3">请用手机扫码支付：</div>
     <div class="line line4">
         <div class="img_box" id="payCode_box">
