@@ -123,7 +123,12 @@
     "distributor_manage-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
-    "distributor_manage-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js"
+    "distributor_manage-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
+
+    "mems_export-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js"
 
 
   },
