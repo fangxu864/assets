@@ -1,6 +1,6 @@
 @import "COMMON/css/base/main";
 $height : 42px;
-$fixHeight : 45px;
+$fixHeight : 43px;
 html.sheet-show,body.sheet-show{ overflow:hidden}
 .ui-sheetMask{
     display:none;
@@ -79,11 +79,11 @@ html.sheet-show,body.sheet-show{ overflow:hidden}
 
     }
     .sheet-content{
-        position:absolute;
-        top:0;
-        right:0;
-        bottom:0;
-        left:0;
+        //position:absolute;
+        //top:0;
+        //right:0;
+        //bottom:0;
+        //left:0;
         overflow:auto;
         overflow-scrolling:touch;
         -webkit-overflow-scrolling:touch;
@@ -91,12 +91,12 @@ html.sheet-show,body.sheet-show{ overflow:hidden}
 
     &.fixHead{
         .sheet-content{
-            top:$fixHeight;
+            margin-top:$fixHeight;
         }
     }
     &.fixFoot{
         .sheet-content{
-            bottom:$fixHeight;
+            margin-bottom:$fixHeight;
         }
     }
 }

@@ -6,7 +6,10 @@ import Datepicker from "COMMON/modules/datepicker-mobile/v1";
 $(function(){
 
 	var d = new Datepicker();
-	
+
+	setTimeout(function(){
+		d.show("2016-10-23")
+	},500)
 
 
 

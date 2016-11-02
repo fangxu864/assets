@@ -1,0 +1,62 @@
+@import "COMMON/css/base/main";
+.pftui-datepicker-headCon{
+    position:relative;
+    text-align:center;
+    height:42px;
+    line-height:42px;
+    .resultText{ font-size:14px; font-weight:bold; padding:0 70px;}
+
+    .navBtn{
+        display:block;
+        position:absolute;
+        top:0;
+        bottom:0;
+        width:50px;
+        line-height:42px;
+        color:$blue;
+        .iconfont{ font-size:16px}
+        &:active{
+            background:$gray80;
+        }
+    }
+    .navBtn.next{
+        right:0;
+    }
+    .navBtn.prev{
+        left:0;
+    }
+
+
+}
+.pftui-datepicker-bdCon{
+    position:relative;
+    width:100%;
+    margin-bottom:10px;
+    .headWeekLine{
+        height:36px;
+        line-height:36px;
+        background:$gray96;
+        .headWeek{
+            border-bottom:1px solid $gray90;
+        }
+    }
+    .box{
+        height:38px;
+        line-height:38px;
+        text-align:center;
+        font-size:12px;
+        &.disable{
+            color:$gray70;
+        }
+    }
+    .box.selected{
+        background:$blue;
+        color:#fff;
+    }
+    .box.minMaxDisable,.box.disableTodaybefore{
+        color : $gray80
+    }
+
+
+
+}

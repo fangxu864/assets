@@ -30,12 +30,12 @@ var SheetCore = PFT.Util.Class({
 		var $body = this.$body = $("body");
 		var container = this.container = $('<div class="ui-sheetCoreContainer"></div>').appendTo($body);
 		container.css({height:height,zIndex:zIndex+1});
-
 		if(header){
 			container.append('<div class="sheet-header">'+header+'</div>');
 			container.addClass("fixHead");
 		}
-		if(content) container.append('<div class="sheet-content">'+content+'</div>');
+		this.content = $('<div class="sheet-content"></div>').appendTo(container);
+		if(content) this.content.html(content);
 
 		if(yesBtn || noBtn){
 			var btnGroup = $('<div class="sheet-foot"></div>').appendTo(container);

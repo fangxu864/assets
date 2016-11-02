@@ -1,5 +1,5 @@
-<div class="calTop">
-    <div class="calTopText"></div>
+<div class="pftui-datepicker-headCon">
+    <div class="resultText"></div>
     <span class="navBtn prev prevBtn"><i class="uicon uicon-jiantou-sin-left"></i></span>
     <span class="navBtn next nextBtn"><i class="uicon uicon-jiantou-sin-right"></i></span>
 </div>

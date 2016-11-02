@@ -1,0 +1,58 @@
+<% var dates=data.dates, option=data.option;%>
+<table class="pftui-datepicker-bdCon">
+<thead>
+    <tr class="headWeekLine">
+        <th class="headWeek">日</th>
+        <th class="headWeek">一</th>
+        <th class="headWeek">二</th>
+        <th class="headWeek">三</th>
+        <th class="headWeek">四</th>
+        <th class="headWeek">五</th>
+        <th class="headWeek">六</th>
+    </tr>
+</thead>
+<tbody>
+    <% _.each(dates,function(item,index){%>
+    <tr style="overflow:hidden; font-size:0">
+        <%_.each(item,function(td){%>
+            <%
+                var date = td.date;
+                var day = td.day;
+                var weeken = td.weeken;
+                var yearmonth = td.yearmonth;
+                var now_date_str = date ? new Date(date).getTime() : "";
+                var min = option.min;
+                var max = option.max;
+                if(max.indexOf("-")>-1) max = new Date(max).getTime();
+                if(min.indexOf("-")>-1) min = new Date(min).getTime();
+                var default_day = option.default_day;
+                var init_date = option.init_date;
+                var minCls = "";
+                var maxCls = "";
+                var default_active_cls = "";
+                if(min && now_date_str && (now_date_str<min)) minCls="disable";
+                if(max && now_date_str && (now_date_str>max)) maxCls="disable";
+                <!--if(default_day && now_date_str && default_day==now_date_str) default_active_cls = "active";-->
+                if(default_day && day){
+                    if(default_day==day){
+                        default_active_cls = "active";
+                    }else{
+
+                    }
+                }
+            %>
+        <%if(day){%>
+        <td class="calendar-td box day <%=td.cls%>" data-day="<%=day%>" data-date="<%=date%>" data-yearmonth="<%=yearmonth%>" data-week="<%=weeken%>" id="calendar-td-<%=date%>">
+            <div class="tdCon">
+                <span class="dayNum"><%=day%></span>
+            </div>
+        </td>
+        <%}else{%>
+            <td class="calendar-td empty box"></td>
+        <%}%>
+        <% }) %>
+    </tr>
+    <% }) %>
+</tbody>
+
+</table>
