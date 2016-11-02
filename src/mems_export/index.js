@@ -379,6 +379,7 @@ $(function(){
             $("#protocol_start").val(res.protocol_start);
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
+            $("#protocal_meal").val(res.protocal_meal);
             $(".alert_box").css("display","block");
         })
     })
