@@ -56,3 +56,40 @@ scripts里包含多对键值对(以后会越来越多)，
 键名命名格式：项目名-编译到哪个环境，如：common-start 把common项目编译到本地开发环境
 
 
+## assets项目结构划分：
+
+--assets
+    |
+    |-- build
+    |     |
+    |     |-- lib  存放一些公用的类库或第三方插件，如jq,backbone,vue等
+    |     |
+    |     |-- images 存放图片
+    |     |
+    |     |-- local       本地开发环境build后的代码(.all文件)都放在这里，里面又分为两个子目录css，js
+    |     |     |
+    |     |     |-- css    npm run xxx-start后，会生成两个文件：xxx.all.css及xxx.all.js。其中，css放在这里
+    |     |     |
+    |     |     |-- js     npm run xxx-start后，会生成两个文件：xxx.all.css及xxx.all.js。其中，js放在这里
+    |     |
+    |     |-- test         内网环境build后的代码
+    |     |     |
+    |     |     |-- css    存放xxx.all.css
+    |     |     |
+    |     |     |-- js     存放xxx.all.js
+    |     |     
+    |     |-- release      预生产环境build后的代码
+    |     |     |
+    |     |     |-- css    存放xxx.all.css
+    |     |     |
+    |     |     |-- js     存放xxx.all.js
+    |     |     
+    |     |-- production   生产环境build后的代码
+    |           |
+    |           |-- css    存放xxx.all.css
+    |           |
+    |           |-- js     存放xxx.all.js
+    |     
+    |         
+    |     
+    |     

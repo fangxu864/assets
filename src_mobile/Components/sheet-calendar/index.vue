@@ -222,8 +222,8 @@
         },
         components : {
             sheetCore : require("COMMON_VUE_COMPONENTS/sheet-core"),
-            flexbox : require("VUX_COMPONENTS/flexbox/index.vue"),
-            flexItem : require("VUX_COMPONENTS/flexbox-item/index.vue")
+            flexbox : require("VUX_COMPONENTS/flexbox/flexbox.vue"),
+            flexItem : require("VUX_COMPONENTS/flexbox/flexbox-item.vue")
         }
     }
 </script>

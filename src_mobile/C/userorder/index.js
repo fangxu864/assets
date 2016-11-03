@@ -22,7 +22,8 @@ var Main = PFT.Util.Class({
 	EVENTS : {
 		"click .fixHeader .tabItem" : "onTabTriggerClick",
 		"click .unuseItem .btn" : "onActionBtnClick",
-		"click #history-searchBar .searchBtn" : "onHistorySearchBtnClick"
+		"click #history-searchBar .searchBtn" : "onHistorySearchBtnClick",
+		"click #history-searchBar .clearBtn" : "onHistoryClearBtnClick"
 	},
 	template : {
 		unuse : PFT.Util.ParseTemplate(Tpl.unuse),
@@ -86,14 +87,24 @@ var Main = PFT.Util.Class({
 
 	},
 	initSearch : function(){
+		var that = this;
 		var searchBar = this.searchBar = $("#history-searchBar");
 		var searchText = this.searchText = searchBar.find(".searchText");
+		var clearBtn = searchBar.find(".clearBtn");
 		this.search = new Search();
 		this.search.on("search",function(data){
-			console.log(data)
+			searchText.text(data.beginDate+" 至 "+data.endDate);
+			clearBtn.css({display:"inline-block"});
+			that.fetchData("history",1,{
+				beginDate : data.beginDate,
+				endDate : data.endDate,
+				dateType : data.type
+			},"refreshScroll")
 		});
 		this.search.on("reset",function(){
-			console.log("reset");
+			searchText.text("搜索订单");
+			clearBtn.css({display:"none"});
+			that.fetchData("history",1,{},"refreshScroll");
 		})
 	},
 	initRouter : function(){
@@ -122,17 +133,17 @@ var Main = PFT.Util.Class({
 	 * @param    page {number}
 	 * @returns {boolean}
 	 */
-	fetchData : function(type,page){
+	fetchData : function(type,page,params,refreshScroll){
 		if(!type || !page) return false;
 		var scroll = this.scroll[type];
 		var pullup = this.pullup[type];
 		var pageData = this.page[type];
 		var listUl = $("#listUl-"+type);
-		Service.list({
-			type : type,
-			page : page,
-			pageSize : this.PAGE_SIZE
-		},{
+		params = params || {};
+		params["type"] = type;
+		params["page"] = page;
+		params["pageSize"] = this.PAGE_SIZE;
+		Service.list(params,{
 			loading : function(){
 				if(page!=1) return false;
 				Toast.show("loading","努力加载中...");
@@ -155,7 +166,12 @@ var Main = PFT.Util.Class({
 				pageData["total"] = totalPage;
 				this.renderList(type,page,data.list);
 				if(page==1){ //第一次加载时
-					this.initScroll(type);
+					if(!refreshScroll){
+						this.initScroll(type);
+					}else{
+						scroll.render();
+						scroll.scrollTop(0);
+					}
 					if(page==totalPage){ //所有数据只有一页，此时须禁用掉加载更多
 						this.scroll[type].unplug(this.pullup[type]);
 					}
@@ -218,6 +234,9 @@ var Main = PFT.Util.Class({
 
 		if(this.page[type]["current"]==0) this.fetchData(type,1);
 
+	},
+	onHistoryClearBtnClick : function(e){
+		this.search.reset();
 	},
 	onActionBtnClick : function(e,type){
 		var that = this;

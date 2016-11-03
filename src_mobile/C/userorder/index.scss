@@ -329,72 +329,24 @@ body{ background:$gray98}
         float:left;
     }
 
-
-}
-
-
-#searchSheetContainer{
-    padding:20px;
-    background:#fff;
-
-    .dateTypeGroup{
-        margin-bottom:20px;
-        .dateTypeBtn{
-            display:inline-block;
-            padding:0 20px;
-            line-height:26px;
-            border:1px solid $gray90;
-            margin-right:15px;
-            &.active{
-                border-color:$blue;
-                color:$blue;
-            }
-        }
-    }
-
-    .line{
+    .clearBtn{
         position:relative;
-        margin-bottom:10px;
-        .dateInp{
-            width:100%;
-            display:block;
-            height:22px;
-            line-height:22px;
-            padding:8px 0;
-            text-indent:10px;
-            border:1px solid $gray90;
-            box-shadow:inset 1px 1px 1px rgba(0,0,0,0.1);
-        }
+        top:-1px;
+        display:none;
+        width:18px;
+        height:18px;
+        line-height:15px;
+        background:$gray85;
+        text-align:center;
+        margin-left:10px;
+        border-radius:50%;
+        font-size:12px;
     }
 
-    .btnGroup{
-        margin-top:25px;
-        .btn{
-            display:block;
-            height:40px;
-            line-height:40px;
-            text-align:center;
-            margin-bottom:10px;
-            &.doSearchBtn{
-                background:$blue;
-                color:#fff;
-                &:active{
-                    background:darken($blue,5%);
-                }
-            }
-            &.removeAllBtn{
-                height:38px;
-                line-height:38px;
-                border:1px solid $blue;
-                &:active{
-                    background:$blue;
-                    color:#fff;
-                }
-            }
-        }
-    }
 
 }
+
+
 
 
 

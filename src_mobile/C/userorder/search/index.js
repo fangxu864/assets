@@ -3,6 +3,7 @@
  * Date: 2016/11/3 11:06
  * Description: ""
  */
+require("./index.scss");
 var SheetCore = require("COMMON/modules/sheet-core/v1");
 var Datepicker = require("COMMON/modules/datepicker-mobile/v1");
 var CalendarCore = Datepicker.CalendarCore;
@@ -25,13 +26,14 @@ var Search = PFT.Util.Class({
 					that.onRemoveAllBtnClick(e);
 				}
 			},
-			height : $(window).height()-$("#fixTabHead").height(),
+			//height : $(window).height()-$("#fixTabHead").height(),
+			height : "100%",
 			content : SheetTpl,
-			zIndex : 1,
+			zIndex : 11,
 			noBtn : true
 		})
 		this.datepicker = new Datepicker({
-			zIndex : 11
+			zIndex : 12
 		});
 		this.beginDateInp = $("#beginDateInp");
 		this.endDateInp = $("#endDateInp");
@@ -67,6 +69,11 @@ var Search = PFT.Util.Class({
 		this.endDateInp.val("");
 		this.trigger("reset");
 		this.close();
+	},
+	reset : function(){
+		this.beginDateInp.val("");
+		this.endDateInp.val("");
+		this.trigger("reset");
 	},
 	show : function(beginDate,endDate){
 		this.Sheet.show();
