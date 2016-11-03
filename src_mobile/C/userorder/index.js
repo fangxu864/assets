@@ -15,11 +15,14 @@ var Tpl = {
 };
 var Detail = require("./orderdetail");
 
+var Search = require("./search");
+
 var Main = PFT.Util.Class({
 	container : "#bodyContainer",
 	EVENTS : {
 		"click .fixHeader .tabItem" : "onTabTriggerClick",
-		"click .unuseItem .btn" : "onActionBtnClick"
+		"click .unuseItem .btn" : "onActionBtnClick",
+		"click #history-searchBar .searchBtn" : "onHistorySearchBtnClick"
 	},
 	template : {
 		unuse : PFT.Util.ParseTemplate(Tpl.unuse),
@@ -49,7 +52,7 @@ var Main = PFT.Util.Class({
 		})
 		this.initRouter();
 
-
+		this.search = new Search();
 
 
 
@@ -178,6 +181,17 @@ var Main = PFT.Util.Class({
 		}else if(page>1){
 			listUl.append(html);
 		}
+	},
+	onHistorySearchBtnClick : function(e){
+		var searchText = $("#history-searchBar").find(".searchText").text();
+		var beginDate = "";
+		var endDate = "";
+		if(searchText.indexOf("至")>-1){
+			searchText = searchText.split("至");
+			beginDate = $.trim(searchText[0]);
+			endDate = $.trim(searchText[1]);
+		}
+		this.search.show(beginDate,endDate);
 	},
 	onPullupLoading : function(type){
 		this.fetchData(type,this.page[type]["current"]+1);

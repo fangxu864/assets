@@ -16,7 +16,7 @@ body{ background:$gray98}
     top:0;
     left:0;
     right:0;
-    z-index:1;
+    z-index:10;
     height:$tabHeight;
     line-height:$tabHeight;
     overflow:hidden;
@@ -66,6 +66,9 @@ body{ background:$gray98}
     left:0;
     right:0;
     overflow:hidden;
+}
+.tabPannel.historyPannel .scrollWrap{
+    top:45px;
 }
 
 @mixin prodInfoBox{
@@ -299,10 +302,99 @@ body{ background:$gray98}
 
 
 
+#history-searchBar{
+    height:42px;
+    line-height:42px;
+    padding:0 0 0 15px;
+    overflow:hidden;
+
+    .searchBtn{
+        float:right;
+        display:block;
+        height:100%;
+        width:50px;
+        text-align:center;
+        .uicon.uicon-sousuo{
+            position:relative;
+            top:-2px;
+            font-size:18px;
+            color:$blue;
+        }
+        &:active{
+            background:$gray90;
+        }
+    }
+
+    .searchText{
+        float:left;
+    }
 
 
+}
 
 
+#searchSheetContainer{
+    padding:20px;
+    background:#fff;
+
+    .dateTypeGroup{
+        margin-bottom:20px;
+        .dateTypeBtn{
+            display:inline-block;
+            padding:0 20px;
+            line-height:26px;
+            border:1px solid $gray90;
+            margin-right:15px;
+            &.active{
+                border-color:$blue;
+                color:$blue;
+            }
+        }
+    }
+
+    .line{
+        position:relative;
+        margin-bottom:10px;
+        .dateInp{
+            width:100%;
+            display:block;
+            height:22px;
+            line-height:22px;
+            padding:8px 0;
+            text-indent:10px;
+            border:1px solid $gray90;
+            box-shadow:inset 1px 1px 1px rgba(0,0,0,0.1);
+        }
+    }
+
+    .btnGroup{
+        margin-top:25px;
+        .btn{
+            display:block;
+            height:40px;
+            line-height:40px;
+            text-align:center;
+            margin-bottom:10px;
+            &.doSearchBtn{
+                background:$blue;
+                color:#fff;
+                &:active{
+                    background:darken($blue,5%);
+                }
+            }
+            &.removeAllBtn{
+                height:38px;
+                line-height:38px;
+                border:1px solid $blue;
+                &:active{
+                    background:$blue;
+                    color:#fff;
+                }
+            }
+        }
+    }
+
+}
 
 
 

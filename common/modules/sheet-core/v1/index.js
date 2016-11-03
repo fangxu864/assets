@@ -111,15 +111,20 @@ var SheetCore = PFT.Util.Class({
 	setContent : function(html){
 		this.container.children(".sheet-content").html(html);
 	},
+	find : function(selector){
+		return this.container.find(selector);
+	},
 	show : function(){
 		this.container.addClass("show");
 		this.mask.addClass("show");
 		$("html,body").addClass("sheet-show");
+		this.trigger("show");
 	},
 	close : function(){
 		this.container.removeClass("show");
 		this.mask.removeClass("show");
 		$("html,body").removeClass("sheet-show");
+		this.trigger("close");
 	}
 });
 module.exports = SheetCore;
