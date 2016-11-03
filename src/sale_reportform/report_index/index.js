@@ -454,6 +454,7 @@ var Book_form={
             sum=data.sum,
             theadHtml="",
             listHtml="" ;
+            console.log(data);
 
         var thead={
             "title" : "名称",
