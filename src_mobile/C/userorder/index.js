@@ -52,8 +52,7 @@ var Main = PFT.Util.Class({
 		})
 		this.initRouter();
 
-		this.search = new Search();
-
+		this.initSearch();
 
 
 
@@ -85,6 +84,17 @@ var Main = PFT.Util.Class({
 
 		//unuseScroll.render();
 
+	},
+	initSearch : function(){
+		var searchBar = this.searchBar = $("#history-searchBar");
+		var searchText = this.searchText = searchBar.find(".searchText");
+		this.search = new Search();
+		this.search.on("search",function(data){
+			console.log(data)
+		});
+		this.search.on("reset",function(){
+			console.log("reset");
+		})
 	},
 	initRouter : function(){
 		var that = this;

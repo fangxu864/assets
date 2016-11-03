@@ -48,10 +48,15 @@
         &.disable{
             color:$gray70;
         }
+        .dayNum{
+            padding:8px 12px;
+        }
     }
     .box.selected{
-        background:$blue;
-        color:#fff;
+        .dayNum{
+            background:$blue;
+            color:#fff;
+        }
     }
     .box.minMaxDisable,.box.disableTodaybefore{
         color : $gray80

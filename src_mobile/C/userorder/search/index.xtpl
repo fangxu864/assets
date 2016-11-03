@@ -1,7 +1,7 @@
 <div id="searchSheetContainer" class="searchSheetContainer">
     <div class="dateTypeGroup">
-        <span class="dateTypeBtn pay active">游玩日期</span>
-        <span class="dateTypeBtn order">下单日期</span>
+        <span data-type="play" class="dateTypeBtn pay active">游玩日期</span>
+        <span data-type="order" class="dateTypeBtn order">下单日期</span>
     </div>
     <div class="line">
         <input type="text" name="" readonly class="dateInp begin beginDateInp" id="beginDateInp" placeholder="起始日期"/>

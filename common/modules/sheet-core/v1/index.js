@@ -1,25 +1,27 @@
 /**
  * Author: huangzhiyang
  * Date: 2016/11/2 9:08
- * Description: ""
+ * Description: "时间紧迫，组件api文档过几天再补上"
  */
 require("./index.scss");
-var Defaults = {
-	header : "",
-	height : "auto",
-	content : "",
-	yesBtn : false,
-	noBtn : false,
-	zIndex : 1,
-	EVENTS : {}
+var Defaults = function(){
+	return {
+		header : "",
+		height : "auto",
+		content : "",
+		yesBtn : false,
+		noBtn : false,
+		zIndex : 1,
+		EVENTS : {}
+	};
 };
 var SheetCore = PFT.Util.Class({
 	init : function(opt){
 		var that = this;
-		var opt = this.opt = $.extend(Defaults,opt || {});
-		var header = opt.header, content = opt.content, height = opt.height, yesBtn = opt.yesBtn, noBtn = opt.noBtn;
-		var zIndex = opt.zIndex;
-		var events = opt.EVENTS;
+		this.opt = $.extend(Defaults(),opt || {});
+		var header = this.opt.header, content = this.opt.content, height = this.opt.height, yesBtn = this.opt.yesBtn, noBtn = this.opt.noBtn;
+		var zIndex = this.opt.zIndex;
+		var events = this.opt.EVENTS;
 		if(typeof header=="function") header = header();
 		if(typeof content=="function") content = content();
 		if(typeof height=="number") height = height + "px";
@@ -104,7 +106,7 @@ var SheetCore = PFT.Util.Class({
 			})(i);
 		}
 
-		this.mask = $("#ui-actionSheetMask").length ? $("#ui-actionSheetMask") : $('<div id="ui-sheetMask" class="ui-sheetMask"></div>').appendTo($body);
+		this.mask = $("#ui-sheetMask").length ? $("#ui-sheetMask") : $('<div id="ui-sheetMask" class="ui-sheetMask"></div>').appendTo($body);
 		this.mask.css({zIndex:zIndex})
 
 	},
@@ -116,7 +118,7 @@ var SheetCore = PFT.Util.Class({
 	},
 	show : function(){
 		this.container.addClass("show");
-		this.mask.addClass("show");
+		this.mask.addClass("show").css({zIndex:this.opt.zIndex});
 		$("html,body").addClass("sheet-show");
 		this.trigger("show");
 	},
