@@ -379,22 +379,22 @@ $(function(){
             $("#protocol_start").val(res.protocol_start);
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
-            $("#protocal_meal").val(res.protocal_meal);
+            $("#protocal_meal").val(res.protocol_meal);
             $(".alert_box").css("display","block");
         })
-    })
+    });
     $(".click_close_addqd,.cancel_addqd").click(function(){
         $(".alert_box_addqd").css("display","none");
         $(".black_addqd").css("display","none");
-    })
+    });
 
     $('#mem_list_tbd').on('click','a.saleIDAdd',function(e){
         $(".alert_box_addqd").css("display","block");
-    })
+    });
     $(".click_close,.cancel").click(function(){
         $(".alert_box").css("display","none");
         $(".black").css("display","none");
-    })
+    });
     $(".save").click(function(){
         var union_id = $("input[name='z_salesID']")[0].value,
             salesID = $("#salesID>option:selected")[0].value,
@@ -413,7 +413,7 @@ $(function(){
                 protocal_start:protocal_start,
                 protocal_end:protocal_end,
                 protocol_main:protocol_main,
-                protocal_meal:protocal_meal
+                protocol_meal:protocal_meal
             },
             type :'POST',
             timeout : function(){console && console.log("获取数据超时")},

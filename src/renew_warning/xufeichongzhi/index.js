@@ -53,6 +53,10 @@ var Recharge={
                 "typeid":$(".package_type.active").attr("typeid")
             });
         })
+        //重新登录
+        $("body").on("click",".btn_login_renew",function () {
+            $("#siteLogoutBtn").click();
+        })
     },
     ajaxGetData:function () {
         var _this=this;
@@ -90,21 +94,8 @@ var Recharge={
                 //请求出错处理
             }
         });
-
-
-
     },
-    template:PFT.Util.ParseTemplate(packageType_tpl),
-    rechargeSuccess:function () {
-        var _this=this;
-        _this.queryState_box.show().html(querySuccess_tpl);
-        _this.con_box.hide()
-    },
-    rechargeFail:function () {
-        var _this=this;
-        _this.queryState_box.show().html(queryFail_tpl);
-        _this.con_box.hide()
-    }
+    template:PFT.Util.ParseTemplate(packageType_tpl)
 };
 $(function(){
     Recharge.init()

@@ -106,7 +106,7 @@ Dialog.prototype={
                         // $("#payCode_box").html("");
                         _this.close();
                         $(".con_box").hide();
-                        $(".queryState_box").html(querySuccess_tpl);
+                        $(".queryState_box").html(querySuccess_tpl).show();
                     }
                 }
             },

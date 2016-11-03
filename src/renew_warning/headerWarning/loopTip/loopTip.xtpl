@@ -1,5 +1,5 @@
 <div class="loop_box" style="position:absolute;right: 25px;top:7px;height: 36px;line-height: 36px;">
-    <div style="overflow: hidden;height: 36px;float: right;line-height: 36px;padding-top: 5px;margin-left: 10px;" class="xufei_box"><a href="http://www.12301.local/new/renewwarning.html">续费</a></div>
+    <div style="overflow: hidden;height: 36px;float: right;line-height: 36px;padding-top: 5px;margin-left: 10px;" class="xufei_box"><a href="http://<%=data.host%>/new/renewwarning.html">续费</a></div>
     <div style="width: 500px;overflow: hidden;height: 36px;float: right;position: relative" id="loopTip_box">
         <!--<div class="loop_con">您好，您的票付通账户将于2016年11月11日到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）</div>-->
     </div>

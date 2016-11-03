@@ -37,6 +37,7 @@ Dialog.prototype={
     },
     show_dialog_con:function (data) {
         var list=data;
+        list["host"]=location.host;
         var _this=this;
         var html=_this.template({data:list});
         this.Dialog_box.html(html);
