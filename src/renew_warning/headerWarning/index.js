@@ -4,30 +4,35 @@
 //引入modules
 var LoopTip=require("./loopTip");
 var Dialog=require("./dialog/dialog.js");
+
+var ParseTemplate=require("COMMON/js/util.parseTemplate.js");
 //引入tpl
 var loopTip_tpl=require("./loopTip/loopTip.xtpl");
+loopTip_tpl=ParseTemplate(loopTip_tpl)({data:{"host":location.host}});
 
 
 var HeaderWarning={
     init:function () {
         var _this=this;
-        var value_of_overTime=$("#value_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
-        // var value_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
-        var isloopTip=value_of_overTime=="-1"||value_of_overTime=="0"?true:false;
-        var isDialog=true;
+        var judge_of_overTime=$("#judge_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
+        var judge_of_dtype=$("#judge_of_dtype").val();  //6会员
+        // var judge_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
+        // var isloopTip=judge_of_overTime=="-1"||judge_of_overTime=="0"?true:false;
+        var isloopTip=judge_of_overTime=="0"||judge_of_dtype=="6"?true:false;
+        var isDialog=judge_of_dtype=="6"?false:true;
         if(isloopTip){
             _this.loopTip();
         }
         if(isDialog){
             // _this.removeCookie("isDialog");
-            if(value_of_overTime=="0"){
+            if(judge_of_overTime=="0"){
                 var isDialog_cookie=_this.getCookie("isDialog");
                 if(isDialog_cookie=="false") return false;
                 _this.setCookie("isDialog",false,1000*60*60*12)
             }
             _this.dialog=new Dialog;
             _this.dialog.open();
-            _this.dialog.show_dialog_con(_this.dialogCon[value_of_overTime]);
+            _this.dialog.show_dialog_con(_this.dialogCon[judge_of_overTime]);
         }
     },
     loopTip:function () {
@@ -45,7 +50,7 @@ var HeaderWarning={
 
         var loop_tip=new LoopTip({
             "container":$("#loopTip_box"),
-            "content":"您好，您的票付通账户将于2016年11月11日到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）"
+            "content":"您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）"
         });
     },
     dialogCon:{
@@ -56,7 +61,7 @@ var HeaderWarning={
         },
         "0":{
             "title":"账户即将到期！",
-            "content":" 您好，您的票付通账户将于2016年11月11日到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
+            "content":" 您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
             "isBtn_close":true
         }
     },

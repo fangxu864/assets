@@ -10,6 +10,6 @@
         <%if(data.isBtn_close){%>
         <span class="btn btn_close">关闭</span>
         <%}%>
-        <a href="http://www.12301.local/new/renewwarning.html"><span class="btn btn_xufei">续费</span></a>
+        <a href="http://<%=data.host%>/new/renewwarning.html"><span class="btn btn_xufei">续费</span></a>
     </div>
 </div>
