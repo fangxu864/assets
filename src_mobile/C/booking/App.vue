@@ -208,7 +208,7 @@
                 sheetIdcardShow : false,
 
                 contactSheet : {
-                    show : false
+                    show : true
                 },
 
                 orderInfo : {}, //以上为各个产品类型的公用数据

@@ -5,7 +5,11 @@
             <div class="content">
                 <ul class="userList">
                     <li class="userItem">
-                        <i class="uicon uicon-shanchu"></i>
+                        <div class="nameCol">
+                            <span class="name">人人人人</span>
+                            <span class="mobile">18305917866</span>
+                        </div>
+                        <a href="javascript:void(0)" class="deleteBtn"><i class="uicon uicon-shanchu"></i></a>
                     </li>
                 </ul>
             </div>
@@ -78,6 +82,33 @@
         text-align:center;
         border-top:1px solid $gray90;
         color:$blue;
+    }
+
+    .userItem{
+        height:45px;
+        line-height:45px;
+        margin:0 10px;
+        overflow:hidden;
+        border-bottom:1px solid $gray90;
+
+        .nameCol{
+            float:left;
+            .name{
+                display:inline-block;
+                width:70px;
+                padding-left:10px;
+            }
+        }
+        .deleteBtn{
+            float:right;
+            height:100%;
+            line-height:43px;
+            width:45px;
+            text-align:center;
+
+
+        }
+
     }
 
 
