@@ -9,6 +9,7 @@
             <div class="img_box_loading"><img class="loading" src="http://static.12301.cc/images/loading_vcode.gif" alt=""/></div>
             <div>支付二维码获取中，请稍后...</div>
         </div>
+        <span class="tip">*扫码充值过程中请勿关闭弹框！</span>
     </div>
     <div class="line line5">
         <span class="btn btn_close">关闭</span>

@@ -8,6 +8,7 @@ require("./dialog.scss");
 var dialog_con_tpl=require("./dialog_con.xtpl");
 var dialog_querying_tpl=require("./dialog_querying.xtpl");
 var querySuccess_tpl=require("../tpl/querySuccess.xtpl");
+querySuccess_tpl=PFT.Util.ParseTemplate(querySuccess_tpl)({data:{"host":location.host}});
 //引入插件
 var DialogSimple=require("COMMON/modules/dialog-simple");
 
