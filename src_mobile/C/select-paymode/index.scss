@@ -60,3 +60,19 @@
 
 
 }
+
+#wxQRcodeContainer{
+    margin-top:20px;
+    padding:20px 0;
+    background:$gray94;
+    text-align:center;
+    .qrcodeBox{
+        width:160px;
+        height:160px;
+        margin:10px auto;
+        font-size:0;
+        padding:10px;
+        overflow:hidden;
+        background:#fff;
+    }
+}

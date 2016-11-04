@@ -3,15 +3,22 @@
         <div id="contactContainer" class="contactContainer" slot="content">
             <div class="contact-header">常用联系人</div>
             <div class="content">
-                <ul class="userList">
-                    <li class="userItem">
-                        <div class="nameCol">
-                            <span class="name">人人人人</span>
-                            <span class="mobile">18305917866</span>
-                        </div>
-                        <a href="javascript:void(0)" class="deleteBtn"><i class="uicon uicon-shanchu"></i></a>
-                    </li>
-                </ul>
+                <template v-if="list">
+                    <ul class="userList">
+                        <li class="userItem" v-for="(mobile,name) in list">
+                            <div class="con">
+                                <div @click="onNameColClick" class="nameCol">
+                                    <span class="name" v-text="name"></span>
+                                    <span class="mobile" v-text="mobile"></span>
+                                </div>
+                                <a @click="onDeleteBtnClick" href="javascript:void(0)" class="deleteBtn"><i class="uicon uicon-shanchu"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </template>
+                <template v-else>
+                    <div class="emptyItem">尚无常用联系人</div>
+                </template>
             </div>
             <div @click="show=false" class="foot-cancelBtn">取消</div>
         </div>
@@ -28,22 +35,73 @@
         },
         data(){
             return{
-                state : "",
                 selected_id : "",
-                list : []
+                list : {}
             }
         },
         computed : {
 
         },
         ready(){
-
+            var that = this;
+            var contacts = this.getFromStorage();
+            this.list = contacts;
+            this.$on("orderBtn.click",function(data){
+                that.addStorage(data.name,data.mobile);
+            })
         },
         watch : {
 
         },
         methods : {
+            onNameColClick(e){
+                var target = $(e.target);
+                if(target.hasClass("name") || target.hasClass("mobile")){
+                    target = target.parent();
+                }
+                var name = target.find(".name").text();
+                var mobile = target.find(".mobile").text();
+                this.$dispatch("select",{name:name,mobile:mobile});
+            },
+            onDeleteBtnClick(e){
+                var target = $(e.target);
+                if(target.hasClass("uicon")){
+                    target = target.parent();
+                }
+                var parent = target.parent();
+                var name = parent.find(".name").text();
+                var mobile = parent.find(".mobile").text();
 
+                this.removeFromStorage(mobile);
+                this.list = this.getFromStorage();
+
+                this.$dispatch("delete",{name:name,mobile:mobile});
+            },
+            getFromStorage : function(){
+                var key = "WX-C-USUAL-CONTACTER";
+                var contacts = window.localStorage.getItem(key);
+                return contacts ? JSON.parse(contacts) : null;
+                //contacts = {"18305915678":"姓名","18305915678":"姓名","18305915678":"姓名"};
+            },
+            removeFromStorage : function(mobile){
+                var key = "WX-C-USUAL-CONTACTER";
+                var contacts = this.getFromStorage();
+                if(!contacts) return false;
+                delete contacts[mobile];
+                if(PFT.Util.isEmptyObject(contacts)){
+                    localStorage.removeItem(key);
+                }else{
+                    localStorage.setItem(key,JSON.stringify(contacts));
+                }
+            },
+            addStorage : function(name,mobile){
+                var key = "WX-C-USUAL-CONTACTER";
+                if(!name || !mobile) return false;
+                var contacts = this.getFromStorage() || {};
+                contacts[mobile] = name;
+                this.list = contacts;
+                localStorage.setItem(key,JSON.stringify(contacts));
+            }
         },
         components : {
             sheetCore : require("COMMON_VUE_COMPONENTS/sheet-core")
@@ -91,24 +149,40 @@
         overflow:hidden;
         border-bottom:1px solid $gray90;
 
-        .nameCol{
-            float:left;
-            .name{
-                display:inline-block;
-                width:70px;
-                padding-left:10px;
-            }
+        .con{
+            position:relative;
+            padding-right:45px;
+        }
+
+        .nameCol:active{
+            background:$gray95;
+        }
+        .name{
+            display:inline-block;
+            width:70px;
+            padding-left:10px;
         }
         .deleteBtn{
-            float:right;
-            height:100%;
-            line-height:43px;
+            position:absolute;
+            top:0;
+            right:0;;
+            height:45px;
+            line-height:45px;
             width:45px;
             text-align:center;
-
-
+            color:$gray60;
+            &:active{
+                background:$gray95;
+                color:$blue;
+            }
         }
 
+    }
+
+    .emptyItem{
+        height:150px;
+        line-height:150px;
+        text-align:center;
     }
 
 

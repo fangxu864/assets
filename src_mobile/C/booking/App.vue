@@ -158,7 +158,10 @@
                 :disable-todaybefore="true"
                 :show.sync="calendar.show">
         </sheet-calendar>
-        <sheet-contact :show.sync="contactSheet.show"></sheet-contact>
+        <sheet-contact
+                v-on:select="onContactSheetSelect"
+                :show.sync="contactSheet.show">
+        </sheet-contact>
     </div>
 </template>
 
@@ -208,7 +211,7 @@
                 sheetIdcardShow : false,
 
                 contactSheet : {
-                    show : true
+                    show : false
                 },
 
                 orderInfo : {}, //以上为各个产品类型的公用数据
@@ -333,6 +336,15 @@
                 this.hotel.switchor = "end";
                 this.calendar.yearmonth = this.hotel.endtime;
                 this.calendar.show = true;
+            },
+            onContactSheetSelect(data){
+                var mobile = data.mobile;
+                var name = data.name;
+                this.contactSheet.show = false;
+                this.submitData.ordername.value = name;
+                this.submitData.ordername.validateResult = 1;
+                this.submitData.contacttel.value = mobile;
+                this.submitData.contacttel.validateResult = 1;
             },
             //当日历改变日期时
             onCalendarSwitchDay(data){
@@ -609,8 +621,6 @@
                 //var __ordernum = "3330351";
                 //return window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+__ordernum+'&h='+window.location.hostname;
 
-
-
                 var submitBtn = e.target;
                 if(submitBtn.classList.contains("disable")) return false;
                 var p_type = this.p_type;
@@ -639,6 +649,11 @@
                 if(idcardInp && !sfz) return alert("请填写取票人身份证");
                 if(!PFT.Util.Validate.typePhone(mobile)) return alert("请输入正确格式手机号");
                 if(idcardInp && !PFT.Util.Validate.idcard(sfz)) return alert("取票人身份证格式错误");
+
+                //提交数据之前，先把用户填写的联系人保存在localStorage
+                this.$broadcast("orderBtn.click",{name:ordername,mobile:mobile});
+
+
 
                 //需要多张身份证时  每张身份证都需要填写姓名跟身份证
                 if(needID==2){
@@ -728,6 +743,7 @@
                 }
 
                 //return console.log(submitData);
+
 
 
                 //开始提交数据
