@@ -29,13 +29,20 @@ $('.datatable-wrap').on('click', '.btn-link', function(e){
         // 删除广告
         disp_confirm('确定删除，并清除相关记录？',function(){
             $(ele).parents('tr').remove();
-            $.ajax({
-                url: '/r/adCO_AdCO/delAd',
+            PFT.Util.Ajax('/r/adCO_AdCO/delAd', {
                 type: 'POST',
-                data: {"id": $(ele).attr('data-del')},
+                params: {"id": $(ele).attr('data-del')},
                 success: function(response){
+
                 }
             });
+            // $.ajax({
+            //     url: '/r/adCO_AdCO/delAd',
+            //     type: 'POST',
+            //     data: {"id": $(ele).attr('data-del')},
+            //     success: function(response){
+            //     }
+            // });
         })
     } else if($(ele).is('[data-status]')) {
         // 上线/下线
@@ -45,14 +52,21 @@ $('.datatable-wrap').on('click', '.btn-link', function(e){
             $(this).html('上线').closest('td').prev().html('<span data-status="0" class="c-waiting">待上线</span>');
         }
         $(ele).attr('data-status', $(ele).attr('data-status')==0?'1':'0');
-        $.ajax({
-            url: '/r/adCO_AdCO/updateStatus',
+        PFT.Util.Ajax('/r/adCO_AdCO/updateStatus', {
             type: 'POST',
-            data: {'id': $(ele).attr('data-adid'), 'status': $(ele).attr('data-status') },
-            success: function(response) {
-                // ajaxManagerAd(1);
+            params: {'id': $(ele).attr('data-adid'), 'status': $(ele).attr('data-status') },
+            success: function(response){
+
             }
         });
+        // $.ajax({
+        //     url: '/r/adCO_AdCO/updateStatus',
+        //     type: 'POST',
+        //     data: {'id': $(ele).attr('data-adid'), 'status': $(ele).attr('data-status') },
+        //     success: function(response) {
+        //         // ajaxManagerAd(1);
+        //     }
+        // });
     }
 });
 
@@ -125,15 +139,23 @@ function renderTB(container, dataArray, pageType) {
 }
 
 function ajaxManagerAd(page) {
-    xhrGetPV = $.ajax({
-        url: '/r/adCO_AdCO/managerAd',
-        type: 'POST',
-        data: {'page': page },
-        success: function(response) {
-            renderTB('datatableWrap', response.data.list, response.data.page_arr);
-            pagination.render({current: page, total: response.data.totalPage});
-        }
-    });
+    xhrGetPV = PFT.Util.Ajax('/r/adCO_AdCO/managerAd', {
+                type: 'POST',
+                params: {'page': page },
+                success: function(response) {
+                    renderTB('datatableWrap', response.data.list, response.data.page_arr);
+                    pagination.render({current: page, total: response.data.totalPage});
+                }
+            });
+    // $.ajax({
+    //     url: '/r/adCO_AdCO/managerAd',
+    //     type: 'POST',
+    //     data: {'page': page },
+    //     success: function(response) {
+    //         renderTB('datatableWrap', response.data.list, response.data.page_arr);
+    //         pagination.render({current: page, total: response.data.totalPage});
+    //     }
+    // });
 }
 
 var pagination = new Pagination({
