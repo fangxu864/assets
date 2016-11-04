@@ -271,9 +271,30 @@
       text-align: left;
       padding-left: 20px;
     }
-    .th2,.th3,.th4,.th5,.th6,.th7{
+    .th2,.th3,.th4,.th5,.th6,.th7,.th8{
       text-align: right;
       padding-right: 20px;
+    }
+    //分销商/票类样式
+    .th4.resellerAndTicket{
+      color:#000;
+    }
+    .th1.resellerAndTicket{
+      width: 12%;
+    }
+    .resellerAndTicket.heji.th2{
+      text-align: right;
+    }
+    .th2.resellerAndTicket{
+      width: 30%;
+      text-align: left;
+      padding-left: 30px;
+    }
+    tbody .th5.resellerAndTicket{
+      color: #3DBA3F;
+    }
+    tbody .th6.resellerAndTicket{
+      color: #F07845;
     }
     thead{
       tr{
@@ -300,10 +321,10 @@
           text-align: right;
           padding-right: 20px;
         }
-        .th5{
+        .th4{
           color: #3DBA3F;
         }
-        .th6{
+        .th5{
           color: #F07845;
         }
       }
