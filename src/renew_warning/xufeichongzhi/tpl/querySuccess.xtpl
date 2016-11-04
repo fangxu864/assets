@@ -6,6 +6,6 @@
        续费成功！系统将自动顺延有效期。
    </div>
    <div class="line line3">
-       <span class="btn btn_login_renew">重新登录</span>
+       <a href="http://<%=data.host%>/home.html"><span class="btn">首页</span></a>
    </div>
 </div>

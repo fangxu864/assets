@@ -18,7 +18,7 @@
       padding-left: 0;
       .img_box{
         text-align: center;
-        margin: 20px auto;
+        margin: 7px auto;
         border: 1px solid #e5e5e5;
         height:200px ;
         width: 200px;
@@ -35,6 +35,11 @@
           }
         }
 
+      }
+      span.tip{
+        font-size: 12px;
+        margin-left: 171px;
+        color: #F07845;
       }
     }
     .line5{
