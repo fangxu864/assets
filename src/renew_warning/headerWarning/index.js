@@ -25,7 +25,8 @@ var HeaderWarning={
         }
         if(isDialog){
             // _this.removeCookie("isDialog");
-            if(judge_of_overTime=="0"){
+            // if(judge_of_overTime=="0"){                   //
+            if(judge_of_overTime=="0"||judge_of_overTime=="-1"){         //过渡期
                 var isDialog_cookie=_this.getCookie("isDialog");
                 if(isDialog_cookie=="false") return false;
                 _this.setCookie("isDialog",false,1000*60*60*12)
@@ -57,7 +58,8 @@ var HeaderWarning={
         "-1":{
             "title":"账户已到期！",
             "content":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）",
-            "isBtn_close":false
+            // "isBtn_close":false
+            "isBtn_close":true    //过渡期
         },
         "0":{
             "title":"账户即将到期！",
