@@ -76,6 +76,10 @@ var Api_Mb = {
 				return Mall_Order("pay");
 			}
 		},
+		//下单成功，请求微信支付二维码
+		selectPaymode_wx_qrcode : function(){
+			return "/api/index.php?c=pay_WxPay&a=order";
+		},
 		//下单成功，订单&支付详情
 		ordersuccess : function(){
 			return Mall_Order("paySuccess");

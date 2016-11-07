@@ -29,7 +29,7 @@
                             </template>
                         </td>
                         <td class="col col_2">
-                            <a :href="'booking.html?aid='+item.aid+'&pid='+item.pid">
+                            <a style="display:block" :href="'booking.html?aid='+item.aid+'&pid='+item.pid">
                                 <span class="price tprice"><i class="yen">&yen;</i><em class="num" v-text="item.tprice"></em></span></br>
                                 <span class="price jsprice"><i class="yen">&yen;</i><em class="num" v-text="item.jsprice"></em></span></br>
                                 <span class="buyBtn">预定</span>

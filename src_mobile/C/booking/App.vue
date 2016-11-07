@@ -64,8 +64,8 @@
                     :list.sync="ticketList">
             </ticket-list>
         </div>
-
         <div class="modBox" style="margin-top:5px;">
+            <span id="addContactBtn" class="addContactBtn" @click="onAddContactBtnClick">+</span>
             <input-line
                     :id="'ordernameInp'"
                     :model.sync="submitData.ordername.value"
@@ -158,6 +158,10 @@
                 :disable-todaybefore="true"
                 :show.sync="calendar.show">
         </sheet-calendar>
+        <sheet-contact
+                v-on:select="onContactSheetSelect"
+                :show.sync="contactSheet.show">
+        </sheet-contact>
     </div>
 </template>
 
@@ -204,8 +208,14 @@
                     }
                 },
                 refundRuleShow : false,
-                orderInfo : {},
-                sheetIdcardShow : false,//以上为各个产品类型的公用数据
+                sheetIdcardShow : false,
+
+                contactSheet : {
+                    show : false
+                },
+
+                orderInfo : {}, //以上为各个产品类型的公用数据
+
 
                 //演出类产品
                 showPuct : {
@@ -289,7 +299,6 @@
                             if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
                         })
                     }
-
                 })
                 return {
                     total : total,
@@ -328,6 +337,15 @@
                 this.calendar.yearmonth = this.hotel.endtime;
                 this.calendar.show = true;
             },
+            onContactSheetSelect(data){
+                var mobile = data.mobile;
+                var name = data.name;
+                this.contactSheet.show = false;
+                this.submitData.ordername.value = name;
+                this.submitData.ordername.validateResult = 1;
+                this.submitData.contacttel.value = mobile;
+                this.submitData.contacttel.validateResult = 1;
+            },
             //当日历改变日期时
             onCalendarSwitchDay(data){
                 var date = this.calendar.date = data.date;
@@ -355,7 +373,6 @@
                     //接下来什么事都不做，data.dete的变化会映射到calendar.date
                     //而calendar.date已通过v-model绑定到子组件sheet-changci里了
                     //此时sheet-changci里已watch date的变化去自动调用queryChangciList方法
-
                 }else if(p_type=="C"){ //酒店类产品
                     this.calendar.yearmonth = date;
                     var begintime = this.hotel.begintime;
@@ -422,7 +439,9 @@
                     }
                 }
             },
-
+            onAddContactBtnClick(e){
+                this.contactSheet.show = true;
+            },
             //酒店类产品 修改入住时间或离店时间都会重新请求一次价格跟库存
             queryStoragePrice_Hotel(){
                 var pid = this.pid;
@@ -602,8 +621,6 @@
                 //var __ordernum = "3330351";
                 //return window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+__ordernum+'&h='+window.location.hostname;
 
-
-
                 var submitBtn = e.target;
                 if(submitBtn.classList.contains("disable")) return false;
                 var p_type = this.p_type;
@@ -632,6 +649,11 @@
                 if(idcardInp && !sfz) return alert("请填写取票人身份证");
                 if(!PFT.Util.Validate.typePhone(mobile)) return alert("请输入正确格式手机号");
                 if(idcardInp && !PFT.Util.Validate.idcard(sfz)) return alert("取票人身份证格式错误");
+
+                //提交数据之前，先把用户填写的联系人保存在localStorage
+                this.$broadcast("orderBtn.click",{name:ordername,mobile:mobile});
+
+
 
                 //需要多张身份证时  每张身份证都需要填写姓名跟身份证
                 if(needID==2){
@@ -723,6 +745,7 @@
                 //return console.log(submitData);
 
 
+
                 //开始提交数据
                 SubmitOrder(submitData,{
                     loading : () => {
@@ -770,7 +793,31 @@
             begintimeEndtime : require("./components/begintime-endtime"),
             inputLine : require("./components/input-line"),
             sheetRefundrule : require("./components/sheet-refund-rule"),
-            sheetChangci : require("./components/sheet-changci")
+            sheetChangci : require("./components/sheet-changci"),
+            sheetContact : require("./components/sheet-contact")
         }
     }
 </script>
+<style lang="sass">
+    @import "COMMON/css/base/main";
+    .modBox{
+        position:relative;
+        .addContactBtn{
+            position:absolute;
+            z-index:10;
+            display:block;
+            top:9px;
+            right:10px;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            color:$blue;
+            font-size:24px;
+            font-weight:bold;
+            &:active{
+                background:$gray90;
+            }
+        }
+    }
+</style>

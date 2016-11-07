@@ -63,3 +63,10 @@
         </div>
     </li>
 </ul>
+<div id="wxQRcodeContainer">
+    <p class="topTit">微信二维码支付</p>
+    <div class="qrcodeBox">
+        <div id="wxQRcodeBox"></div>
+    </div>
+    <p class="tip">长按二维码识别</p>
+</div>

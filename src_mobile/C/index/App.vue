@@ -22,7 +22,7 @@
 <script type="es6">
     import "./index.scss";
     let Search = require("./search");
-    //var Alert = require("COMMON/modules/alert-mobile");
+    var Alert = require("COMMON/modules/alert-mobile");
     export default {
         data(){
             return {
@@ -37,7 +37,7 @@
         },
         ready(){
 
-            //Alert("提示","测试测试测试测试测试");
+            Alert("提示","测试测试测试测试测试");
 
             //alert(navigator.userAgent);
 
