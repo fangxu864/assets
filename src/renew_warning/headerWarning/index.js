@@ -1,6 +1,12 @@
 /**
  * Created by Administrator on 2016/10/28.
  */
+
+/**
+ * 当到正式使用期后，将‘过渡期’那一行代码删除，使用‘过渡期’上一行的代码即可
+ */
+
+
 //引入modules
 var LoopTip=require("./loopTip");
 var Dialog=require("./dialog/dialog.js");
