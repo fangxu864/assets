@@ -258,24 +258,21 @@ var Main = PFT.Util.Class({
 			Service.cancel(ordernum,{
 				loading : function(){ tarBtn.text("取消中...").addClass("disable")},
 				complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
-				success : function(res){
+				success : function(res,code){
 					var msg = res.msg || "取消成功";
 					this.Detail.clearCache(ordernum);
-					//Alert("提示",msg);
-					alert(msg);
+					Alert(msg);
+					var status_text = code==200 ? "已取消" : "退票中";
 					if(type=="detail"){
 						that.Detail.fetchDetailInfo(ordernum,function(data){
-							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text("已取消").addClass("disable");
+							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text(status_text).addClass("disable");
 						});
 					}else{
-						tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
-						tarBtn.remove();
+						tarBtn.text(status_text).addClass("disable");
 					}
-
 				},
 				fail : function(msg){
-					alert(msg);
-					//Alert("提示",msg)
+					Alert(msg);
 				}
 			},this)
 		}
