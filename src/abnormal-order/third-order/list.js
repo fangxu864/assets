@@ -56,7 +56,9 @@ var List = PFT.Util.Class({
 				var type=data.type;
 				if(type){
 					$(".col.col_5_1").hide()
-				}  //判断是否是分销商，true显示分销商列，false，不显示
+				}else{
+					$(".col.col_5_1").show()
+				}
 				var currentPage = data.page;
 				var totalPage = data.totalPage;
 				var html = this.template({data : data.data});

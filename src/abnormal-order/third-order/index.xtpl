@@ -1,7 +1,7 @@
 <% _.each(data,function(item,index){ %>
 	<tr class="listItem <%=index%2==0 ? 'odd' : 'even'%>">
 		<td class="col col_1"><%=item.cTime%></td>
-		<td class="col col_2 showTitle" style="display: table-cell"  data-title='<%=JSON.stringify(JSON.parse(item.tourist_info))%>' ><%=item.pftOrder%></td>
+		<td class="col col_2 " style="display: table-cell"><%=item.pftOrder%></td>
 		<td class="col col_3"><a class="showTitle transition" href="javascript:void(0)" data-title="<%=item.ticketName%>"><%=item.ticketName%></a></td>
 		<td class="col col_4"><%=item.oStnum%></td>
 		<td class="col col_5"><%=item.name%></td>
