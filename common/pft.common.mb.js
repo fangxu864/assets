@@ -11,7 +11,7 @@ PFT = require("./pft.common.base")(PFT);
 PFT["Toast"] = require("./modules/Toast");
 var Mobile = PFT["Mobile"] || (PFT["Mobile"]={});
 Mobile["Toast"] = PFT["Toast"];
-Mobile["Alert"] = require("./modules/alert-mobile");
+Mobile["Alert"] = require("./modules/alert-mobile/v1");
 Mobile["Confirm"] = require("./modules/confirm-mobile");
 PFT["Util"]["SetFontSize"] = require("./js/util.wx.fontsize");
 PFT["Util"]["Platform"] = require("./js/util.platform.js");
