@@ -17,6 +17,7 @@ var When=require("COMMON/js/when.js");
 var when=new When();
 var Select = require("COMMON/modules/select");
 var PaginationX = require("COMMON/modules/pagination-x");
+var SelectShort=require("COMMON/modules/select_short");
 
 
 var accountSearch={
@@ -53,31 +54,72 @@ var accountSearch={
             });
             return this;
         });
-        var select=new Select({
-            source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
+        // var select=new Select({
+        //     source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+        //     ajaxType : "get",
+        //     ajaxParams : {
+        //         action : "fuzzyGetDname_c",
+        //         dtype : "1",
+        //         danme : ""
+        //     },
+        //     filterType : "ajax",  //指定过滤方式为ajax
+        //     field : {
+        //         id : "id",
+        //         name : "dname",
+        //         keyword : "dname"
+        //     },
+        //     trigger : $("#trader_inp"),
+        //     height:300,
+        //
+        //     filter : true,
+        //     adaptor : function(res){
+        //         var reslut = { code:200};
+        //         reslut["data"] = res;
+        //         return reslut;
+        //     }
+        // });
+        //分页器部分
+        this.searchType_params_dialog={};
+        this.search_type_select_dialog=new SelectShort({
+            id:"search_type_select",
+            arr:["账号名称","账号","手机号"],
+            callback:function(cur_opt){
+                var json={
+                    "账号名称":0,
+                    "账号":1,
+                    "手机号":2
+                };
+                _this.searchType_params_dialog["type"]=json[cur_opt];
+            }
+        });
+        this.search_inp_dialog=new Select({
+            source : "/r/admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            ajaxType : "post",
+            ajaxParams : _this.searchType_params_dialog,
+            isFillContent:false,
             filterType : "ajax",  //指定过滤方式为ajax
             field : {
                 id : "id",
                 name : "dname",
-                keyword : "dname"
+                keyword : "keyword"
             },
+            height : 260,
             trigger : $("#trader_inp"),
-            height:300,
-
+            offset : { //偏移量
+                top : 0,
+                left : 0,
+                width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
+            },
             filter : true,
             adaptor : function(res){
-                var reslut = { code:200};
-                reslut["data"] = res;
-                return reslut;
+                var result={};
+                result["code"] = 200;
+                result["data"] = res.data[0]==undefined?res.data:res.data[0];
+                result["msg"] = res.msg;
+                return result;
             }
         });
-        //分页器部分
+
         this.pagination = new PaginationX({
             container : "#pagination_box" , //必须，组件容器id
             count : 7,                //可选  连续显示分页数 建议奇数7或9
@@ -114,7 +156,7 @@ var accountSearch={
             $("#trader_inp").attr({
                 "data-id":"",
                 "data-dname":"",
-                "placeholder":"请输入交易商户名称"
+                "placeholder":"请输入账号/账号名称"
             }).val("")
         });
         //查询按钮点击
