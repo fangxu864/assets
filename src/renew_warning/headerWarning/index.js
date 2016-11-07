@@ -15,10 +15,12 @@ var HeaderWarning={
     init:function () {
         var _this=this;
         var judge_of_overTime=$("#judge_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
+        this.judge_of_overTime=judge_of_overTime;
         var judge_of_dtype=$("#judge_of_dtype").val();  //6会员
         // var judge_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
         // var isloopTip=judge_of_overTime=="-1"||judge_of_overTime=="0"?true:false;
-        var isloopTip=judge_of_overTime=="0"||judge_of_dtype=="6"?true:false;
+        // var isloopTip=judge_of_overTime=="0"||judge_of_dtype=="6"?true:false;
+        var isloopTip=true;   //过渡期
         var isDialog=judge_of_dtype=="6"?false:true;
         if(isloopTip){
             _this.loopTip();
@@ -37,6 +39,7 @@ var HeaderWarning={
         }
     },
     loopTip:function () {
+        var _this=this;
         if ($("#siteLocationBar .subnav").length>0){
             $("#siteLocationBar .subnav").eq(0).css("position","relative").append(loopTip_tpl)
                 .find(".loop_box").css({"top":"-13px"})
@@ -51,7 +54,7 @@ var HeaderWarning={
 
         var loop_tip=new LoopTip({
             "container":$("#loopTip_box"),
-            "content":"您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）"
+            "content":_this.loopTipCon[_this.judge_of_overTime]
         });
     },
     dialogCon:{
@@ -66,6 +69,10 @@ var HeaderWarning={
             "content":" 您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
             "isBtn_close":true
         }
+    },
+    loopTipCon:{
+        "0":"您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
+        "-1":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）"
     },
     //处理cookie的函数
     setCookie:function (name, value, time) {
