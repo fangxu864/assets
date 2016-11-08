@@ -114,7 +114,7 @@ var OpenFun={
             }
         });
         this.search_inp=new Select({
-            source : "/r/admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            source : "/r/Admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
             ajaxType : "post",
             ajaxParams : _this.searchType_params,
             isFillContent:false,
