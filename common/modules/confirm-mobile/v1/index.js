@@ -4,18 +4,23 @@
  * Description: ""
  *
  * how to use:
- * PFT.Mobile.Alert("您的帐号登录状态已过期，请重新登录");
- * PFT.Mobile.Alert("您的帐号登录状态已过期，请重新登录","温馨提示");
+ * PFT.Mobile.Confirm("您的帐号登录状态已过期，是否重新登录");
+ * PFT.Mobile.Confirm("您的帐号登录状态已过期，是否重新登录","温馨提示");
  *
- * 模拟window.alert，在手机端，如果需要alert，请用PFT.Mobile.Alert()替代原生window.alert;
+ * 模拟window.confirm，在手机端，如果需要confirm，请用PFT.Mobile.Confirm()替代原生window.confirm;
  * @param msg       要alert的信息 (必填)
  * @param header    alert时，顶部的title (可选)
  * @constructor
  */
 require("./index.scss");
-function Alert(msg,header){
+function Confirm(msg,header,opt){
 	var zIndex = 5000;
 	var $body = $("body");
+	var yesText = "确定";
+	var cancelText = "取消";
+
+
+
 
 	var show = function(){
 		alertBox.addClass("entry");
@@ -37,24 +42,27 @@ function Alert(msg,header){
 
 
 	//创建dom元素  单例
-	var alertBox = $("#pui-m-alertBox");
+	var alertBox = $("#pui-m-confirmBox");
 	if(!alertBox.length){
-		alertBox = $('<div id="pui-m-alertBox" class="pui-m-alertBox"></div>').css({
+		alertBox = $('<div id="pui-m-confirmBox" class="pui-m-confirmBox"></div>').css({
 			zIndex : zIndex + 1
 		}).appendTo($body);
-		alertBox.on("click",".alertFoot",function(e){
+		alertBox.on("click",".confirmFoot .btn",function(e){
+
 			close();
 		})
 	}
 	alertBox.html("");
 
-	var alertMask = $("#pui-m-alertMask");
-	if(!alertMask.length) alertMask = $('<div id="pui-m-alertMask" class="pui-m-alertMask"></div>').css({
+	var alertMask = $("#pui-m-confirmMask");
+	if(!alertMask.length) alertMask = $('<div id="pui-m-confirmMask" class="pui-m-confirmMask"></div>').css({
 		zIndex : zIndex
 	}).appendTo($body);
 
-	if(header){
-		var headerBox = $('<div class="alertHeaderBox"></div>').appendTo(alertBox);
+	if(Object.prototype.toString.call(header)=="[object Object]"){
+
+	}else if(header){
+		var headerBox = $('<div class="confirmHeaderBox"></div>').appendTo(alertBox);
 		if(typeof header=="function"){
 			header = header();
 			headerBox.append(header);
@@ -67,11 +75,11 @@ function Alert(msg,header){
 		}
 	}
 
-	var conBox = $('<div class="alertConBox"></div>').appendTo(alertBox);
+	var conBox = $('<div class="confirmConBox"></div>').appendTo(alertBox);
 	msg = typeof msg=="string" ? msg : typeof msg=="function" ? msg() : null;
 	if(msg) conBox.append(msg);
 
-	var foot = $('<div class="alertFoot">确定</div>').appendTo(alertBox);
+	var foot = $('<div class="confirmFoot"><span class="cancelBtn btn cancel">'+cancelText+'</span><span class="yesBtn btn yes">'+yesText+'</span></div>').appendTo(alertBox);
 
 
 	show();
@@ -79,6 +87,6 @@ function Alert(msg,header){
 
 }
 
-module.exports = Alert;
+module.exports = Confirm;
 
 

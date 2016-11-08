@@ -12,7 +12,7 @@ PFT["Toast"] = require("./modules/Toast");
 var Mobile = PFT["Mobile"] || (PFT["Mobile"]={});
 Mobile["Toast"] = PFT["Toast"];
 Mobile["Alert"] = require("./modules/alert-mobile/v1");
-Mobile["Confirm"] = require("./modules/confirm-mobile");
+Mobile["Confirm"] = require("./modules/confirm-mobile/v1");
 PFT["Util"]["SetFontSize"] = require("./js/util.wx.fontsize");
 PFT["Util"]["Platform"] = require("./js/util.platform.js");
 PFT["Api"] = require("./Api/api.mb")(PFT.Api);
