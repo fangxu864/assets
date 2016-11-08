@@ -82,10 +82,10 @@ var accountSearch={
         this.searchType_params_dialog={};
         this.search_type_select_dialog=new SelectShort({
             id:"search_type_select",
-            arr:["账号名称","账号","手机号"],
+            arr:["商户名称","账号","手机号"],
             callback:function(cur_opt){
                 var json={
-                    "账号名称":0,
+                    "商户名称":0,
                     "账号":1,
                     "手机号":2
                 };
@@ -156,7 +156,7 @@ var accountSearch={
             $("#trader_inp").attr({
                 "data-id":"",
                 "data-dname":"",
-                "placeholder":"请输入账号/账号名称"
+                "placeholder":"请输入账号/商户名称"
             }).val("")
         });
         //查询按钮点击
