@@ -56,7 +56,7 @@ BankCheckor.prototype = Mixin({
                                "position":"absolute",
                                "left":"0",
                                "top":"0",
-                               "opacity":"0.80",
+                               "opacity":"0.92",
                                "z-index":"100",
                                "background":"#dcdcdc",
                                "height":$(checkor).outerHeight()+"px",
