@@ -42,8 +42,8 @@ var TrecordCount={
         this.stime_inp=$("#start_time");
         this.etime_inp=$("#end_time");
         //初始化input内容
-        this.stime_inp.val(when.today());
-        this.etime_inp.val(when.today());
+        this.stime_inp.val(when.yestoday());
+        this.etime_inp.val(when.yestoday());
         //日历插件部分
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
@@ -197,11 +197,13 @@ var TrecordCount={
         //点击详细时
         $(".table_box").on("click",".detail_btn",function () {
             var reseller_id=$(this).attr("reseller_id");
+            var reseller_name=$(this).attr("reseller_name");
+            $("#dialog_title_trader_name").text(reseller_name);
             var params={
                 "bTime":_this.filterParamsBox['bTime'],
                 "eTime":_this.filterParamsBox['eTime'],
                 "reseller_id":reseller_id
-            }
+            };
             // Dial.open();
             $.ajax({
                 url: "/r/Finance_TradeRecord/getRecordCountDetail",    //请求的url地址

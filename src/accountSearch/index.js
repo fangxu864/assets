@@ -37,12 +37,12 @@ var accountSearch={
         //获取元素;
         this.etime_inp=$("#etime_inp");
         //初始化input内容
-        this.etime_inp.val(when.today());
+        this.etime_inp.val(when.yestoday());
         //日历插件部分
         var calendar = new Calendar();
         this.etime_inp.on("click",function(e){
             var max_day=when.today();
-            // max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            max_day=moment( Date.parse(max_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#etime_inp"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -82,12 +82,11 @@ var accountSearch={
         this.searchType_params_dialog={};
         this.search_type_select_dialog=new SelectShort({
             id:"search_type_select",
-            arr:["商户名称","账号","手机号"],
+            arr:["商户名称","ID"],
             callback:function(cur_opt){
                 var json={
                     "商户名称":0,
-                    "账号":1,
-                    "手机号":2
+                    "ID":3
                 };
                 _this.searchType_params_dialog["type"]=json[cur_opt];
             }
