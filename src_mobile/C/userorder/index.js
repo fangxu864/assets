@@ -14,11 +14,16 @@ var Tpl = {
 	history : require("./tpl/history.item.xtpl")
 };
 var Detail = require("./orderdetail");
+
+var Search = require("./search");
+
 var Main = PFT.Util.Class({
 	container : "#bodyContainer",
 	EVENTS : {
 		"click .fixHeader .tabItem" : "onTabTriggerClick",
-		"click .unuseItem .btn" : "onActionBtnClick"
+		"click .unuseItem .btn" : "onActionBtnClick",
+		"click #history-searchBar .searchBtn" : "onHistorySearchBtnClick",
+		"click #history-searchBar .clearBtn" : "onHistoryClearBtnClick"
 	},
 	template : {
 		unuse : PFT.Util.ParseTemplate(Tpl.unuse),
@@ -38,11 +43,21 @@ var Main = PFT.Util.Class({
 		}
 	},
 	init : function(){
+		var that = this;
 		this.tabPannelWrap = $("#tabPannelWrap");
 		this.fixTabHead = $("#fixTabHead");
 		this.fixTabHead.children().first().trigger("click");
 		this.Detail = new Detail({Service:Service});
+		this.Detail.on("btn.click",function(e){
+			that.onActionBtnClick(e,"detail");
+		})
 		this.initRouter();
+
+		this.initSearch();
+
+
+
+
 	},
 	initScroll : function(type){
 		var that = this;
@@ -71,6 +86,27 @@ var Main = PFT.Util.Class({
 		//unuseScroll.render();
 
 	},
+	initSearch : function(){
+		var that = this;
+		var searchBar = this.searchBar = $("#history-searchBar");
+		var searchText = this.searchText = searchBar.find(".searchText");
+		var clearBtn = searchBar.find(".clearBtn");
+		this.search = new Search();
+		this.search.on("search",function(data){
+			searchText.text(data.beginDate+" 至 "+data.endDate);
+			clearBtn.css({display:"inline-block"});
+			that.fetchData("history",1,{
+				beginDate : data.beginDate,
+				endDate : data.endDate,
+				dateType : data.type
+			},"refreshScroll")
+		});
+		this.search.on("reset",function(){
+			searchText.text("搜索订单");
+			clearBtn.css({display:"none"});
+			that.fetchData("history",1,{},"refreshScroll");
+		})
+	},
 	initRouter : function(){
 		var that = this;
 		var Router = Backbone.Router.extend({
@@ -97,17 +133,17 @@ var Main = PFT.Util.Class({
 	 * @param    page {number}
 	 * @returns {boolean}
 	 */
-	fetchData : function(type,page){
+	fetchData : function(type,page,params,refreshScroll){
 		if(!type || !page) return false;
 		var scroll = this.scroll[type];
 		var pullup = this.pullup[type];
 		var pageData = this.page[type];
 		var listUl = $("#listUl-"+type);
-		Service.list({
-			type : type,
-			page : page,
-			pageSize : this.PAGE_SIZE
-		},{
+		params = params || {};
+		params["type"] = type;
+		params["page"] = page;
+		params["pageSize"] = this.PAGE_SIZE;
+		Service.list(params,{
 			loading : function(){
 				if(page!=1) return false;
 				Toast.show("loading","努力加载中...");
@@ -130,7 +166,12 @@ var Main = PFT.Util.Class({
 				pageData["total"] = totalPage;
 				this.renderList(type,page,data.list);
 				if(page==1){ //第一次加载时
-					this.initScroll(type);
+					if(!refreshScroll){
+						this.initScroll(type);
+					}else{
+						scroll.render();
+						scroll.scrollTop(0);
+					}
 					if(page==totalPage){ //所有数据只有一页，此时须禁用掉加载更多
 						this.scroll[type].unplug(this.pullup[type]);
 					}
@@ -143,7 +184,12 @@ var Main = PFT.Util.Class({
 					scroll.render();
 				}
 			},
-			fail : function(msg){ Alert("提示",msg)}
+			fail : function(msg,code){
+				Alert("提示",msg);
+				if(code==102){ //未登录
+					window.location.href = "usercenter.html";
+				}
+			}
 		},this)
 	},
 	renderList : function(type,page,data){
@@ -162,6 +208,17 @@ var Main = PFT.Util.Class({
 			listUl.append(html);
 		}
 	},
+	onHistorySearchBtnClick : function(e){
+		var searchText = $("#history-searchBar").find(".searchText").text();
+		var beginDate = "";
+		var endDate = "";
+		if(searchText.indexOf("至")>-1){
+			searchText = searchText.split("至");
+			beginDate = $.trim(searchText[0]);
+			endDate = $.trim(searchText[1]);
+		}
+		this.search.show(beginDate,endDate);
+	},
 	onPullupLoading : function(type){
 		this.fetchData(type,this.page[type]["current"]+1);
 	},
@@ -178,7 +235,11 @@ var Main = PFT.Util.Class({
 		if(this.page[type]["current"]==0) this.fetchData(type,1);
 
 	},
-	onActionBtnClick : function(e){
+	onHistoryClearBtnClick : function(e){
+		this.search.reset();
+	},
+	onActionBtnClick : function(e,type){
+		var that = this;
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
 		var ordernum = tarBtn.attr("data-ordernum");
@@ -192,19 +253,26 @@ var Main = PFT.Util.Class({
 				host = hostname + "/wx";
 			}
 			window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+ordernum+'&h='+hostname;
-		}else if(tarBtn.hasClass("cannel")){ //取消订单
+		}else if(tarBtn.hasClass("cancel")){ //取消订单
+			if(!confirm("确定要取消订单吗？")) return false;
 			Service.cancel(ordernum,{
 				loading : function(){ tarBtn.text("取消中...").addClass("disable")},
 				complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
-				success : function(res){
+				success : function(res,code){
 					var msg = res.msg || "取消成功";
 					this.Detail.clearCache(ordernum);
-					tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
-					Alert("提示",msg);
-					tarBtn.remove();
+					Alert(msg);
+					var status_text = code==200 ? "已取消" : "退票中";
+					if(type=="detail"){
+						that.Detail.fetchDetailInfo(ordernum,function(data){
+							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text(status_text).addClass("disable");
+						});
+					}else{
+						tarBtn.text(status_text).addClass("disable");
+					}
 				},
 				fail : function(msg){
-					Alert("提示",msg)
+					Alert(msg);
 				}
 			},this)
 		}

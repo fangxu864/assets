@@ -15,20 +15,12 @@
             </div>
             <ptype-list></ptype-list>
             <product-list :area="city"></product-list>
-            <page-footer></page-footer>
         </div>
-        <!--<city-switchor-->
-                <!--:geo-location="citySwitchor.GeoLocation"-->
-                <!--:show="citySwitchor.show"-->
-                <!--v-on:switch="onCitySwitch"-->
-                <!--v-on:close="citySwitchor.show=false">-->
-        <!--</city-switchor>-->
     </div>
 </template>
 
 <script type="es6">
     import "./index.scss";
-    let GeoLocation = require("COMMON/modules/geo-location");
     let Search = require("./search");
     export default {
         data(){
@@ -63,8 +55,7 @@
             //fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
             productList : require("./components/product-list"),
             //citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor"),
-            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list"),
-            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer")
+            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list")
         }
     }
 </script>

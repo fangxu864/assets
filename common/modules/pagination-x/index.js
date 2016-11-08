@@ -37,7 +37,6 @@ var Defaults = {
 	showTotal : true,
 	jump : true
 };
-
 var Pagination = UtilClass({
 	init : function(opt){
 		opt = $.extend({},Defaults,opt);

@@ -37,7 +37,14 @@
                         <span class="t" v-text="item.name"></span>
                     </span>
                     <span slot="right">
-                        <!--<span class="t">累计佣金：<i class="yen">&yen;</i><em class="num">136</em></span>-->
+                        <i class="uicon uicon-jiantou-sin-right"></i>
+                    </span>
+                </line-item>
+                <line-item :link="'index.html'">
+                    <span slot="left">
+                        <span class="t" v-text="'去逛逛'"></span>
+                    </span>
+                    <span slot="right">
                         <i class="uicon uicon-jiantou-sin-right"></i>
                     </span>
                 </line-item>

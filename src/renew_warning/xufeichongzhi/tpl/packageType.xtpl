@@ -1,0 +1,7 @@
+
+<% _.each(data,function(item,index){ %>
+    <span typeid="<%=item.id%>" money="<%=item.money%>" class="package_type <%=index==0?'active':''%>">
+        <i class="number"><%=item.name%></i>
+        <i class="tip"><%=item.desc%></i>
+    </span>
+<%})%>

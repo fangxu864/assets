@@ -44,7 +44,6 @@ var Main = PFT.Util.Class({
 			},
 			success : function(data){
 				var html = this.template({data:data});
-				console.log(html)
 				listUl.html(html);
 			},
 			empty : function(){

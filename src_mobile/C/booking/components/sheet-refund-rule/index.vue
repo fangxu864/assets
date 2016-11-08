@@ -18,7 +18,15 @@
                 type : String,
                 default : "A"
             },
-            ruleList : {}
+            ruleList : {},
+            reb : {
+                default : 0,
+                type : Number
+            },
+            reb_type : {
+                default : 1,
+                type : Number
+            }
         },
         data(){
             return {
@@ -29,14 +37,23 @@
             var html = "";
             var that = this;
             var ruleList = this.ruleList;
+            var reb = this.reb;
+            var reb_type = this.reb_type;
+            if(reb!=0){
+                var reg_text = reb_type==1 ? (reb/100+"元") : ("票价的"+reb+"%");
+                html += '<li class="refundRuleItem">';
+                html += '基础扣费：'+ reg_text;
+                html += '</li>';
+            }
             if(Object.prototype.toString.call(ruleList)=="[object Array]"){
-                for(var i in ruleList){
+                for(var i=0; i<ruleList.length; i++){
                     html += '<li class="refundRuleItem">';
                     var item = ruleList[i];
                     html += i*1+1+"、";
+                    //"c_type": "1",      //1-百分比    0-收取固定金额
                     html += that.beginTimePerfix(that.p_type) + that.getDayTime(item.c_days);
-                    html += item.c_type==1 ? "收取手续费："+(item.c_cost / 100) : "收取手续费："+("票价的"+item.c_cost);
-                    html += item.c_type==1 ? "元" : "%";
+                    html += item.c_type==0 ? "收取手续费："+(item.c_cost / 100) : "收取手续费："+("票价的"+item.c_cost/100);
+                    html += item.c_type==0 ? "元" : "%";
                     html += '</li>';
                 }
             }else{
@@ -73,7 +90,7 @@
     }
 </script>
 <style lang="sass">
-    .refundRuleList li{ height:43px; line-height:43px; padding:0 10px; border-bottom:1px solid #e5e5e5;}
+    .refundRuleList li{ line-height:1.5; padding:13px 10px; border-bottom:1px solid #e5e5e5;}
     .refundRuleList .cancelBtn{ height:43px; line-height:43px; text-align:center}
     .refundRuleList .staticLi{ height:150px; line-height:60px;}
 </style>

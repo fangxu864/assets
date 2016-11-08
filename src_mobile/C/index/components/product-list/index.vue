@@ -97,7 +97,7 @@
     }
 </script>
 <style lang="sass">
-    #productListContainer{ padding:0 10px;}
+    #productListContainer{ padding:0 10px 50px; margin-top:5px;}
     #productListContainer .htitle{ font-size:0; text-align:center; margin:15px 0 15px;}
     #productListContainer .htitle img{ width:65%;}
     #productListUl .itemRow{ margin-bottom:10px;}

@@ -103,18 +103,22 @@
                     this.plus_cls = "disable";
                 }
                 if(val<=min && min!=-1){
-                    if(Math.abs(val)>Math.abs(oldVal)){ //加
-                        this.value = min;
-                    }else{ //减
-                        this.value = can_0 ? 0 : min;
+                    if(val==min){
+                        if(!can_0) this.minu_cls = "disable";
+                    }else{
+                        if(can_0){
+                            this.value = 0;
+                        }else{
+                            this.value = min;
+                        }
+                        this.minu_cls = "disable"
                     }
-                    this.minu_cls = "disable"
                 }
                 if(val==0 && !can_0){
                     this.value = oldVal;
                     this.minu_cls = "disable";
                 }
-                this.$dispatch("count-change",this.id,this.value,oldVal)
+                this.$dispatch("count-change",this.id,this.value,oldVal);
             }
         }
     }

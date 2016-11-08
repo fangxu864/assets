@@ -12,10 +12,10 @@
     "orderquery-test": "set NODE_ENV=test && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-release": "set NODE_ENV=release && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-production": "set NODE_ENV=production && webpack --config ./src/orderquery/webpack.config.js",
-    "withdraw-bank-start": "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js -w",
-    "withdraw-bank-test": "set NODE_ENV=test && webpack --config ./src/withdraw_bank/webpack.config.js",
-    "withdraw-bank-release": "set NODE_ENV=release && webpack --config ./src/withdraw_bank/webpack.config.js",
-    "withdraw-bank-production": "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-start": "set NODE_ENV=develop && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js -w",
+    "withdraw-bank-test": "set NODE_ENV=test && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-release": "set NODE_ENV=release && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-production": "set NODE_ENV=production && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js",
     "register-start": "set NODE_ENV=develop && webpack --config ./src/register/webpack.config.js -w",
     "register-test": "set NODE_ENV=test && webpack --config ./src/register/webpack.config.js",
     "register-release": "set NODE_ENV=release && webpack --config ./src/register/webpack.config.js",
@@ -108,6 +108,12 @@
     "sale_reportform-release": "set NODE_ENV=release && webpack --config ./src/sale_reportform/webpack.config.js",
     "sale_reportform-production": "set NODE_ENV=production && webpack --config ./src/sale_reportform/webpack.config.js",
 
+
+    "renew_warning-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/renew_warning/webpack.config.js ",
+    "renew_warning-test": "set NODE_ENV=test && webpack --config ./src/renew_warning/webpack.config.js",
+    "renew_warning-release": "set NODE_ENV=release && webpack --config ./src/renew_warning/webpack.config.js",
+    "renew_warning-production": "set NODE_ENV=production && webpack --config ./src/renew_warning/webpack.config.js",
+
     "sanya-ad-start" : "set NODE_ENV=develop && webpack --progress --colors --watch --config ./src/sanya-ad/webpack.config.js",
     "sanya-ad-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
     "sanya-ad-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
@@ -121,7 +127,12 @@
     "distributor_manage-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
-    "distributor_manage-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js"
+    "distributor_manage-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
+
+    "mems_export-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js"
 
 
   },

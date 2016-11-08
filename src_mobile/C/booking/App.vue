@@ -64,8 +64,8 @@
                     :list.sync="ticketList">
             </ticket-list>
         </div>
-
         <div class="modBox" style="margin-top:5px;">
+            <span id="addContactBtn" class="addContactBtn" @click="onAddContactBtnClick">+</span>
             <input-line
                     :id="'ordernameInp'"
                     :model.sync="submitData.ordername.value"
@@ -137,7 +137,9 @@
 
         <sheet-refundrule
                 :show.sync="refundRuleShow"
-                :rule-list="orderInfo.cancel_cost.length ? orderInfo.cancel_cost : orderInfo.reb"
+                :rule-list="orderInfo.cancel_cost"
+                :reb="orderInfo.reb"
+                :reb_type="orderInfo.reb_type"
                 v-if="orderInfo.refund_rule!=2">
         </sheet-refundrule>
 
@@ -146,6 +148,7 @@
                 v-on:click="onassStationItemClick"
                 :menus="assStation.menus"
                 :cancel-text="'确定'"
+                :align="'left'"
                 :show.sync="assStation.show">
         </sheet-action>
 
@@ -155,6 +158,10 @@
                 :disable-todaybefore="true"
                 :show.sync="calendar.show">
         </sheet-calendar>
+        <sheet-contact
+                v-on:select="onContactSheetSelect"
+                :show.sync="contactSheet.show">
+        </sheet-contact>
     </div>
 </template>
 
@@ -201,8 +208,14 @@
                     }
                 },
                 refundRuleShow : false,
-                orderInfo : {},
-                sheetIdcardShow : false,//以上为各个产品类型的公用数据
+                sheetIdcardShow : false,
+
+                contactSheet : {
+                    show : false
+                },
+
+                orderInfo : {}, //以上为各个产品类型的公用数据
+
 
                 //演出类产品
                 showPuct : {
@@ -286,7 +299,6 @@
                             if(name && idcard && PFT.Util.Validate.idcard(idcard)) completed += 1;
                         })
                     }
-
                 })
                 return {
                     total : total,
@@ -325,6 +337,15 @@
                 this.calendar.yearmonth = this.hotel.endtime;
                 this.calendar.show = true;
             },
+            onContactSheetSelect(data){
+                var mobile = data.mobile;
+                var name = data.name;
+                this.contactSheet.show = false;
+                this.submitData.ordername.value = name;
+                this.submitData.ordername.validateResult = 1;
+                this.submitData.contacttel.value = mobile;
+                this.submitData.contacttel.validateResult = 1;
+            },
             //当日历改变日期时
             onCalendarSwitchDay(data){
                 var date = this.calendar.date = data.date;
@@ -337,11 +358,11 @@
                         date : date
                     },{
                         loading : () =>{
-                            this.toast.show("loading","努力加载中...")
+                            this.toast.show("loading","努力加载中...");
                         },complete : () =>{
-                            this.toast.hide()
+                            this.toast.hide();
                         },success : (data) =>{
-                            this.updateTicketList(data)
+                            this.updateTicketList(data);
                         }
                     })
                 }else if(p_type=="H"){
@@ -352,7 +373,6 @@
                     //接下来什么事都不做，data.dete的变化会映射到calendar.date
                     //而calendar.date已通过v-model绑定到子组件sheet-changci里了
                     //此时sheet-changci里已watch date的变化去自动调用queryChangciList方法
-
                 }else if(p_type=="C"){ //酒店类产品
                     this.calendar.yearmonth = date;
                     var begintime = this.hotel.begintime;
@@ -391,26 +411,37 @@
                 }
             },
             //当场次变化时
-            onChangeciChange(data){
+            onChangeciChange(data,msg){
                 var round_name = data.round_name;
                 var bt = data.bt || "";
                 var et = data.et || "";
                 var area_storage = data.area_storage;
                 var ticketList = this.ticketList;
-                this.showPuct.selected_text = round_name+" "+bt+" - "+et;
-                ticketList.forEach((ticket,index) =>{
-                    var result = {};
-                    var pid = ticket.pid;
-                    var zone_id = ticket.zone_id;
-                    if(!zone_id) return false;
-                    var storage = area_storage[zone_id];
-                    if(typeof storage==="undefined") return false;
-                    result[pid] = {};
-                    result[pid]["store"] = storage;
-                    this.updateTicketList(result);
-                })
-            },
 
+                if(typeof data!=="string"){
+                    this.showPuct.selected_text = round_name+" "+bt+" - "+et;
+                    ticketList.forEach((ticket,index) =>{
+                        var result = {};
+                        var pid = ticket.pid;
+                        var zone_id = ticket.zone_id;
+                        if(!zone_id) return false;
+                        var storage = area_storage[zone_id];
+                        if(typeof storage==="undefined") return false;
+                        result[pid] = {};
+                        result[pid]["store"] = storage;
+                        this.updateTicketList(result);
+                    })
+                }else{
+                    if(data=="fail"){
+                        this.showPuct.selected_text = msg;
+                    }else if(data=="empty"){
+                        this.showPuct.selected_text = "暂无演出场次信息";
+                    }
+                }
+            },
+            onAddContactBtnClick(e){
+                this.contactSheet.show = true;
+            },
             //酒店类产品 修改入住时间或离店时间都会重新请求一次价格跟库存
             queryStoragePrice_Hotel(){
                 var pid = this.pid;
@@ -473,7 +504,7 @@
                                             storeNum : -1,
                                             storeText : ""
                                         }
-                                    }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值
+                                    }else{ //如果时间段内有不限的 也有 具体库存的，取具体库存最小值,但是页面上只要显示"有" 有问题请@产品-詹必魁
                                         return{
                                             daycount : daycount,
                                             storeNum : storeMin,
@@ -590,8 +621,6 @@
                 //var __ordernum = "3330351";
                 //return window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+__ordernum+'&h='+window.location.hostname;
 
-
-
                 var submitBtn = e.target;
                 if(submitBtn.classList.contains("disable")) return false;
                 var p_type = this.p_type;
@@ -621,6 +650,11 @@
                 if(!PFT.Util.Validate.typePhone(mobile)) return alert("请输入正确格式手机号");
                 if(idcardInp && !PFT.Util.Validate.idcard(sfz)) return alert("取票人身份证格式错误");
 
+                //提交数据之前，先把用户填写的联系人保存在localStorage
+                this.$broadcast("orderBtn.click",{name:ordername,mobile:mobile});
+
+
+
                 //需要多张身份证时  每张身份证都需要填写姓名跟身份证
                 if(needID==2){
                     var tourMsgContainer = $$("tourMsgContainer");
@@ -634,6 +668,25 @@
                         }
                     });
                     var idcards = tourMsgArray.map(function(item,index){ return item.idcard});
+                    var isUnique = (function(){
+                        var json = {};
+                        var result = true;
+                        for(var i=0; i<idcards.length; i++){
+                            if(json[idcards[i]]){
+                                result = false;
+                                break;
+                            }else{
+                                json[idcards[i]] = true;
+                            }
+                        }
+                        return result;
+                    })();
+                    if(!isUnique){ //如果身份证有重复
+                        return alert("游客信息里，身份证重复");
+                    }
+
+
+
                     var tourists = tourMsgArray.map(function(item,index){ return item.name});
                     var idcards_available = idcards.every(function(item,index){
                         return PFT.Util.Validate.idcard(item);
@@ -692,6 +745,7 @@
                 //return console.log(submitData);
 
 
+
                 //开始提交数据
                 SubmitOrder(submitData,{
                     loading : () => {
@@ -720,9 +774,9 @@
                     },
                     fail : (code,msg) => {
                         if(code>=400){ //重复下单  这种情况下页面不允许再提交订单，提交按钮需禁用
-                            Alert("提示",msg);
+                            alert(msg);
                         }else{ //一般错误
-                            Alert("提示",msg);
+                            alert(msg);
                             submitBtn.classList.remove("disable");
                         }
                     }
@@ -739,7 +793,31 @@
             begintimeEndtime : require("./components/begintime-endtime"),
             inputLine : require("./components/input-line"),
             sheetRefundrule : require("./components/sheet-refund-rule"),
-            sheetChangci : require("./components/sheet-changci")
+            sheetChangci : require("./components/sheet-changci"),
+            sheetContact : require("./components/sheet-contact")
         }
     }
 </script>
+<style lang="sass">
+    @import "COMMON/css/base/main";
+    .modBox{
+        position:relative;
+        .addContactBtn{
+            position:absolute;
+            z-index:10;
+            display:block;
+            top:9px;
+            right:10px;
+            width:30px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            color:$blue;
+            font-size:24px;
+            font-weight:bold;
+            &:active{
+                background:$gray90;
+            }
+        }
+    }
+</style>

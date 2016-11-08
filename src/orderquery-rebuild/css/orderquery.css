@@ -180,6 +180,88 @@
 }
 
 
+.layui-layer-content .pages_wrap {
+    padding: 10px 10px;
+}
+.layui-layer-content .pages_wrap .clear {
+    clear: both;
+}
+.layui-layer-content .pages_wrap .page {
+    width: 58px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    margin: 10px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    float: left;
+    cursor: pointer;
+    background: white;
+    transition: background 0.1s;
+}
+.layui-layer-content .pages_wrap .no_down:hover {
+    background: #f0f0f0;
+}
+.layui-layer-content .pages_wrap .downed {
+    border: 1px solid gainsboro;
+    color: gainsboro;
+}
+.layui-layer-content .pages_wrap .active {
+    background-color: #00a0e9;
+    color: white;
+}
+.layui-layer-content .pages_wrap .active:hover {
+    background-color: #00a0e9;
+    color: white;
+}
+.layui-layer-content .btn_wrap {
+    height: 60px;
+    padding: 0 20px;
+}
+.layui-layer-content .btn_wrap .lt {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #8c8c8c;
+    float: left;
+}
+.layui-layer-content .btn_wrap .clickable {
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    text-align: center;
+    float: right;
+    padding: 0 10px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.layui-layer-content .btn_wrap .clickable:active {
+    background-color: #00a0e9;
+    color: white;
+}
+.layui-layer-content .btn_wrap .notclick {
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    text-align: center;
+    float: right;
+    padding: 0 10px;
+    border: 1px solid gainsboro;
+    color: gainsboro;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.layui-layer-content .btn_wrap .all_btn {
+    margin-right: 10px;
+}
+
+.iframe_wrap iframe.iframe_down {
+    display: none;
+}
+
+
 
 
 
