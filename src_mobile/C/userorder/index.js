@@ -221,7 +221,23 @@ var Main = PFT.Util.Class({
 		this.search.show(beginDate,endDate);
 	},
 	onPullupLoading : function(type){
-		this.fetchData(type,this.page[type]["current"]+1);
+
+		if(type=="history"){
+			var con = $("#searchSheetContainer");
+			console.log($("#beginDateInp"))
+			var beginDate = $("#beginDateInp").val();
+			var endDate = $("#endDateInp").val();
+			var _type = con.find(".dateTypeGroup .active").attr("data-type");
+			this.fetchData("history",this.page[type]["current"],{
+				beginDate : beginDate,
+				endDate : endDate,
+				dateType : _type
+			});
+		}else{
+			this.fetchData(type,this.page[type]["current"]+1);
+		}
+
+		//this.fetchData(type,this.page[type]["current"]+1);
 	},
 	onTabTriggerClick : function(e){
 		var tarTab = $(e.currentTarget);
@@ -276,8 +292,9 @@ var Main = PFT.Util.Class({
 					fail : function(msg){
 						Alert(msg);
 					}
-				},that)
+				},this)
 			})
+
 		}
 	}
 });

@@ -154,13 +154,22 @@
             padding-right:45px;
         }
 
+        .nameCol{ position:relative; overflow:hidden}
         .nameCol:active{
             background:$gray95;
         }
         .name{
-            display:inline-block;
-            width:70px;
+            display:block;
+            float:left;
+            width:80px;
             padding-left:10px;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            overflow:hidden;
+        }
+        .mobile{
+            float:left;
+            margin-left:5px;
         }
         .deleteBtn{
             position:absolute;

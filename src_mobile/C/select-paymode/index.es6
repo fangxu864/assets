@@ -11,6 +11,7 @@ var Alert = PFT.Mobile.Alert;
 var Toast = new PFT.Mobile.Toast();
 var PayCore = require("SERVICE_M/pft-pay-core");
 var Main = PFT.Util.Class({
+	__interval : null,
 	container : "#bodyContainer",
 	template : PFT.Util.ParseTemplate(Tpl),
 	EVENTS : {
@@ -31,20 +32,74 @@ var Main = PFT.Util.Class({
 				Toast.hide("loading","努力加载中...");
 			},
 			success : (data)=>{
+				var that = this;
 				this.__CacheData = data;
 				data["payDomain"] = $("#paydomainHinInp").val();
 				var html = this.template(data);
 				this.container.html(html);
 				this.ajaxToQueryCode(data);
+				setTimeout(function(){
+					that.setLoop();
+				},10)
 			},
 			fail : (msg)=>{
 				Alert(msg);
 			}
 		})
 	},
+	setLoop : function(){
+		var that = this;
+		var ordernum = PFT.Util.UrlParse()["ordernum"];
+		//if(that.__interval) return false;
+		//if(!ordernum) return false;
+		//that.__interval = setInterval(function(){
+		//	that.loopToGetPaySuccess(ordernum);
+		//},3 * 1000);
+		//
+		//return false;
+		$("#wxQRcodeBox").on("touchend",function(e){
+			if(that.__interval) return false;
+			if(!ordernum) return false;
+			that.__interval = setInterval(function(){
+				that.loopToGetPaySuccess(ordernum);
+			},3 * 1000);
+		})
+	},
+	//当用户选择长按二维码支付时，微信支付在支付成功后无法通知当前页面刷新，需要页面轮询后端，才能获知是否支付完成
+	loopToGetPaySuccess : function(ordernum){
+		var that = this;
+		PFT.Util.Ajax("/api/index.php?c=Mall_Order&a=isPayComplete",{
+			type : "post",
+			params : {
+				ordernum : ordernum,
+				token : PFT.Util.getToken()
+			},
+			success : function(res){
+				res = res || {};
+				if(res.code==200){
+					var data = res.data;
+					var payStatus = data.payStatus;
+					if(payStatus==1){ //已支付  支付成功就是跳往支付成功面页面
+						clearInterval(that.__interval);
+						var host = PFT.Util.UrlParse()["h"];
+						host = host.indexOf("wx")>-1 ? host : host+"/wx";
+						var link = "http://"+host+"/c/ordersuccess.html?ordernum="+ordernum;
+						window.location.href = link;
+					}
+				}
+			},
+			tiemout : function(){
+				clearInterval(that.__interval);
+			},
+			serverError : function(){
+				clearInterval(that.__interval);
+			}
+		})
+	},
 
 	//请求二维码
 	ajaxToQueryCode : function(data){
+		var that = this;
 		var payParams = data.payParams;
 		var ordernum = payParams.outTradeNo;
 		var subject = payParams.subject;
@@ -52,14 +107,14 @@ var Main = PFT.Util.Class({
 			loading : ()=> {},
 			complete : ()=> {},
 			success : (data)=> {
-				this.createQRcode(data);
+				that.createQRcode(data);
 			},
 			fail : (msg)=> {
 				Alert(msg);
 			}
 		})
 	},
-	creaeQRcode : function(code){
+	createQRcode : function(code){
 		//code = "weixin://wxpay/bizpayurl?pr=irJUNA8";
 		var box = $("#wxQRcodeBox");
 		var qrcode = new QRCode("wxQRcodeBox", {
