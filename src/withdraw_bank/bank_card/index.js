@@ -56,14 +56,19 @@ BankCheckor.prototype = Mixin({
                                "position":"absolute",
                                "left":"0",
                                "top":"0",
-                               "opacity":"0.90",
+                               "opacity":"0.80",
                                "z-index":"100",
-                               "background":"#cacacf",
+                               "background":"#dcdcdc",
                                "height":$(checkor).outerHeight()+"px",
                                "width":$(checkor).outerWidth()+"px"
                            });
                            if($(checkor).val()==2){
-                               $e.html("<span class='checkor_shell_span'>未验证</span>"+"<input   type='button' class='checkor_shell_btn1' value = '删除'/>"+"<input   type='button'  class='checkor_shell_btn2' value = '验证'/>"+"<input  type='button'  class='checkor_shell_btn3' value ='修改'/>")
+                               $e.html(
+                                        "<span class='checkor_shell_span'>需验证后使用!</span>"+
+                                        "<input   type='button' class='checkor_shell_btn1' value = '删除'/>"+
+                                        "<input   type='button'  class='checkor_shell_btn2' value = '验证'/>"+
+                                        "<input  type='button'  class='checkor_shell_btn3' value ='修改'/>"
+                                      )
 
                            }
                        else{
