@@ -6,7 +6,7 @@
 var CalculatMoney = {
 	debug : false,
 	timer : null,
-	INTERVAL : 5,
+	INTERVAL : 60,
 	init : function(){
 		this.calculateAdBtn = $("#calculateAdBtn");
 		this.moneyInp = $("#money");
@@ -45,12 +45,12 @@ var CalculatMoney = {
 				tarBtn.addClass("disable").text("正在计算，请稍后...");
 			},
 			complete : function(){},
-			success : function(data){
+			success : function(money){
 
 				this.reCalculateWait(tarBtn,orignText);
-				this.moneyInp.val(data);
+				this.moneyInp.val(money);
 				//计算
-				this.calculate(data);
+				this.calculate(money);
 
 			},
 			below:function(){
@@ -87,18 +87,6 @@ var CalculatMoney = {
 		var fail = opt.fail || fn;
 		var below = opt.below || fn;
 
-		if(cxt.debug){
-			loading.call(cxt);
-			setTimeout(function(){
-				complete.call(cxt);
-				success.call(cxt,{
-					total : 2032.32
-				})
-			},1000);
-			return false;
-		}
-
-
 		PFT.Util.Ajax(url,{
 			loading : function(){
 				loading.call(cxt);
@@ -109,16 +97,16 @@ var CalculatMoney = {
 			success : function(res){
 				res = res || {};
 				var code = res.code;
-				var data = res.data * 1;
+				var data = res.data || {};
 				// data = 500;
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				var wdMoney = data.wdMoney * 1;
 				if(code=="success"){
-					if(data>=200){
-						success.call(cxt,data);
+					if(wdMoney>=200){
+						success.call(cxt,wdMoney);
 					}else{
 						below.call(cxt);
 					}
-
 				}else if(data==0){
 					fail.call(cxt,msg,code);
 				}

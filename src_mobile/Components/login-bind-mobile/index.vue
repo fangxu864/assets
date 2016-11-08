@@ -66,10 +66,10 @@
                 if(submitBtn.classList.contains("disable")) return false;
                 var mobile = this.mobile;
                 var code = this.code;
-                if(!mobile) return Alert("提示","请填写手机号");
-                if(!PFT.Util.Validate.typePhone(mobile)) return Alert("提示","手机号格式有误");
-                if(!code) return Alert("提示","请填写验证码");
-                if(isNaN(code) || code.length!==6) return Alert("提示","请填写6位数数字验证码");
+                if(!mobile) return Alert("请填写手机号");
+                if(!PFT.Util.Validate.typePhone(mobile)) return Alert("手机号格式有误");
+                if(!code) return Alert("请填写验证码");
+                if(isNaN(code) || code.length!==6) return Alert("请填写6位数数字验证码");
                 Login({mobile:mobile,code:code},{
                     loading : () => {
                         submitBtn.classList.add("disable");
@@ -85,7 +85,7 @@
                         window.location.href = to;
                     },
                     fail : (msg) => {
-                        this.Alert("提示",msg)
+                        this.Alert(msg)
                     }
                 });
             },
@@ -93,14 +93,14 @@
                 var tarBtn = e.target;
                 var mobile = this.mobile;
                 if(tarBtn.classList.contains("disable")) return false;
-                if(!mobile) return this.Alert("提示","请填写手机号");
-                if(!PFT.Util.Validate.typePhone(mobile)) return this.Alert("提示","手机号格式有误");
+                if(!mobile) return this.Alert("请填写手机号");
+                if(!PFT.Util.Validate.typePhone(mobile)) return this.Alert("手机号格式有误");
 
                 Login.getVCode(mobile,{
                     loading : () => { this.vcodeState = "loading" },
                     complete : () => { this.vcodeState = "" },
                     success : () => {
-                        this.Alert("提示","验证码已发送到您所填写的手机，请注意查收");
+                        this.Alert("验证码已发送到您所填写的手机，请注意查收");
                         window.clearInterval(timer);
                         var _time = 0;
                         this.time = VCODE_INTER_TIME;
@@ -112,7 +112,7 @@
                             }
                         },1000)
                     },
-                    fail : (msg) => { this.Alert("提示",msg) }
+                    fail : (msg) => { this.Alert(msg) }
                 })
 
 

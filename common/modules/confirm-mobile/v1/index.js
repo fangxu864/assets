@@ -4,23 +4,34 @@
  * Description: ""
  *
  * how to use:
- * PFT.Mobile.Confirm("您的帐号登录状态已过期，是否重新登录");
+ * 		PFT.Mobile.Confirm("您的帐号登录状态已过期，是否重新登录",function(result){
+ * 				if(result==true){
+ * 					dosomething();
+ * 				}else{
+ * 					donothing();
+ * 				}
+ * 		},{
+ *			header : "温馨提示",
+ *			yesText : "ok是的",
+ *			cancelText : "不了"
+ * 		});
  * PFT.Mobile.Confirm("您的帐号登录状态已过期，是否重新登录","温馨提示");
  *
  * 模拟window.confirm，在手机端，如果需要confirm，请用PFT.Mobile.Confirm()替代原生window.confirm;
- * @param msg       要alert的信息 (必填)
- * @param header    alert时，顶部的title (可选)
+ * @param msg               要alert的信息 (必填)
+ * @param callback(result)  回调函数，用户点击确定或取消，都在这个回调里执行你的业务代码  回调函数的参数result为true || false   点击确定为true  点击取消为false
+ * @param opt               opt.header   弹出窗顶部title标题  (可选)
+ * @param opt               opt.yesText  确定按钮可自定义文字  (可选)
+ * @param opt               opt.cancelText  取消按钮可自定义文字  (可选)
  * @constructor
  */
 require("./index.scss");
-function Confirm(msg,header,opt){
+function Confirm(msg,callback,opt){
 	var zIndex = 5000;
 	var $body = $("body");
 	var yesText = "确定";
 	var cancelText = "取消";
-
-
-
+	callback = callback || function(){};
 
 	var show = function(){
 		alertBox.addClass("entry");
@@ -48,8 +59,13 @@ function Confirm(msg,header,opt){
 			zIndex : zIndex + 1
 		}).appendTo($body);
 		alertBox.on("click",".confirmFoot .btn",function(e){
-
+			var tarBtn = $(e.currentTarget);
 			close();
+			if(tarBtn.hasClass("yes")){
+				callback(true);
+			}else{
+				callback(false);
+			}
 		})
 	}
 	alertBox.html("");
@@ -59,19 +75,13 @@ function Confirm(msg,header,opt){
 		zIndex : zIndex
 	}).appendTo($body);
 
-	if(Object.prototype.toString.call(header)=="[object Object]"){
-
-	}else if(header){
-		var headerBox = $('<div class="confirmHeaderBox"></div>').appendTo(alertBox);
-		if(typeof header=="function"){
-			header = header();
+	if(Object.prototype.toString.call(opt)=="[object Object]"){
+		var header = opt.header;
+		yesText = opt.yesText ? opt.yesText : yesText;
+		cancelText = opt.cancelText ? opt.cancelText : cancelText;
+		if(header){
+			var headerBox = $('<div class="confirmHeaderBox"></div>').appendTo(alertBox);
 			headerBox.append(header);
-		}else if(typeof header=="string"){
-			headerBox.append(header);
-		}else if(header.length){ //jq元素
-			headerBox.append(header);
-		}else if(header.nodeType==1){ //dom元素
-			headerBox.append($(header));
 		}
 	}
 

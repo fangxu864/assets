@@ -38,7 +38,7 @@ var Main = PFT.Util.Class({
 				this.ajaxToQueryCode(data);
 			},
 			fail : (msg)=>{
-				Alert("提示",msg);
+				Alert(msg);
 			}
 		})
 	},
@@ -55,7 +55,7 @@ var Main = PFT.Util.Class({
 				this.createQRcode(data);
 			},
 			fail : (msg)=> {
-				alert(msg);
+				Alert(msg);
 			}
 		})
 	},
@@ -77,7 +77,7 @@ var Main = PFT.Util.Class({
 	onWXPayBtnClick : function(e){
 		var that = this;
 		var tarBtn = $(e.currentTarget);
-		if(tarBtn.hasClass("disable")) return Alert("提示","此订单尚不支持微信支付");
+		if(tarBtn.hasClass("disable")) return Alert("此订单尚不支持微信支付");
 		var payParams = this.__CacheData.payParams || {};
 		var params = {
 			appid : payParams.appid,
@@ -99,17 +99,17 @@ var Main = PFT.Util.Class({
 			success : function(res){},
 			error : function(msg){
 				Toast.hide();
-				Alert("提示",msg);
+				Alert(msg);
 			},
 			//请求超时
 			timeout : function(){
 				Toast.hide();
-				alert(PFT.AJAX_TIMEOUT_TEXT)
+				Alert(PFT.AJAX_TIMEOUT_TEXT)
 			},
 			//请求服务器出错
 			serverError : function(){
 				Toast.hide();
-				alert(PFT.AJAX_ERROR_TEXT);
+				Alert(PFT.AJAX_ERROR_TEXT);
 			},
 
 			//微信WeixinJSBridge.invoke也是异步操作

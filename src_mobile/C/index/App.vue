@@ -35,9 +35,6 @@
             }
         },
         ready(){
-            setTimeout(function(){
-                PFT.Mobile.Confirm("登录状态已过期，是否重新登录？");
-            },1000)
             this.Search = new Search();
         },
         methods : {

@@ -6,6 +6,7 @@
 require("./index.scss");
 var Toast = new PFT.Mobile.Toast();
 var Alert = PFT.Mobile.Alert;
+var Confirm = PFT.Mobile.Confirm;
 var XScroll = require("vux-xscroll/build/cmd/xscroll");
 var Pullup = require("vux-xscroll/build/cmd/plugins/pullup");
 var Service = require("SERVICE_M/mall-member-user-order");
@@ -254,27 +255,29 @@ var Main = PFT.Util.Class({
 			}
 			window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+ordernum+'&h='+hostname;
 		}else if(tarBtn.hasClass("cancel")){ //取消订单
-			if(!confirm("确定要取消订单吗？")) return false;
-			Service.cancel(ordernum,{
-				loading : function(){ tarBtn.text("取消中...").addClass("disable")},
-				complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
-				success : function(res,code){
-					var msg = res.msg || "取消成功";
-					this.Detail.clearCache(ordernum);
-					Alert(msg);
-					var status_text = code==200 ? "已取消" : "退票中";
-					if(type=="detail"){
-						that.Detail.fetchDetailInfo(ordernum,function(data){
-							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text(status_text).addClass("disable");
-						});
-					}else{
-						tarBtn.text(status_text).addClass("disable");
+			Confirm("确定要取消订单吗？",function(resulst){
+				if(resulst==false) return false;
+				Service.cancel(ordernum,{
+					loading : function(){ tarBtn.text("取消中...").addClass("disable")},
+					complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
+					success : function(res,code){
+						var msg = res.msg || "取消成功";
+						this.Detail.clearCache(ordernum);
+						Alert(msg);
+						var status_text = code==200 ? "已取消" : "退票中";
+						if(type=="detail"){
+							that.Detail.fetchDetailInfo(ordernum,function(data){
+								$("#orderItem-"+ordernum).find(".btnGroup .cancel").text(status_text).addClass("disable");
+							});
+						}else{
+							tarBtn.text(status_text).addClass("disable");
+						}
+					},
+					fail : function(msg){
+						Alert(msg);
 					}
-				},
-				fail : function(msg){
-					Alert(msg);
-				}
-			},this)
+				},that)
+			})
 		}
 	}
 });
