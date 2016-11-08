@@ -47,7 +47,7 @@ var Dialog=new Dialog_simple({
                 "sid":uid
             }
             $.ajax({
-                url: "/r/admin_Config/addConfig/",    //请求的url地址
+                url: "/r/Admin_Config/addConfig/",    //请求的url地址
                 dataType: "json",   //返回格式为json
                 async: true, //请求是否异步，默认为异步，这也是ajax重要特性
                 data: params,    //参数值
@@ -114,7 +114,7 @@ var OpenFun={
             }
         });
         this.search_inp=new Select({
-            source : "/r/admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            source : "/r/Admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
             ajaxType : "post",
             ajaxParams : _this.searchType_params,
             isFillContent:false,
@@ -161,7 +161,7 @@ var OpenFun={
             }
         });
         this.search_inp_dialog=new Select({
-            source : "/r/admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            source : "/r/Admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
             ajaxType : "post",
             ajaxParams : _this.searchType_params_dialog,
             isFillContent:false,
@@ -254,7 +254,7 @@ var OpenFun={
                 "sid":sid
             };
             $.ajax({
-                url: "/r/admin_Config/delConfig/",    //请求的url地址
+                url: "/r/Admin_Config/delConfig/",    //请求的url地址
                 dataType: "json",   //返回格式为json
                 async: true, //请求是否异步，默认为异步，这也是ajax重要特性
                 data: params,    //参数值
@@ -300,7 +300,7 @@ var OpenFun={
     //ajax获取数据
     ajaxGetData:function (data) {
         var _this=this;
-        var api="/r/admin_Config/getConfig/";
+        var api="/r/Admin_Config/getConfig/";
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
             dataType: "json",                            //返回格式为json
