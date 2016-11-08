@@ -113,6 +113,10 @@
     "sanya-ad-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
     "sanya-ad-production" : "set NODE_ENV=production && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
 
+    "account-start" : "set NODE_ENV=develop && webpack --progress --colors --watch --config ./src/account/webpack.config.js",
+    "account-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src/account/webpack.config.js",
+    "account-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/account/webpack.config.js",
+    "account-production" : "set NODE_ENV=production && webpack --progress --colors --config ./src/account/webpack.config.js",
 
     "distributor_manage-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
