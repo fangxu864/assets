@@ -59,9 +59,10 @@ BankCheckor.prototype = Mixin({
                                "opacity":"0.92",
                                "z-index":"100",
                                "background":"#dcdcdc",
-                               "height":$(checkor).outerHeight()+"px",
-                               "width":$(checkor).outerWidth()+"px"
+                               "height":$(checkor).outerHeight()-2+"px",
+                               "width":$(checkor).outerWidth()-2+"px"
                            });
+                           console.log()
                            if($(checkor).val()==2){
                                $e.html(
                                         "<span class='checkor_shell_span'>需验证后使用!</span>"+
