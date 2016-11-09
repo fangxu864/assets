@@ -26,6 +26,7 @@ var Detail = PFT.Util.Class({
 	onBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
+		
 
 	},
 	fetchDetailInfo : function(ordernum,callback){
@@ -45,6 +46,7 @@ var Detail = PFT.Util.Class({
 				Toast.hide()
 			},
 			success : function(res){
+				console.log(res);
 				res = res || {};
 				var code = res.code;
 				var data = res.data || {};

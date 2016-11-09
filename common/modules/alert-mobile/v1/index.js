@@ -35,7 +35,6 @@ function Alert(msg,header){
 		},300)
 	};
 
-
 	//创建dom元素  单例
 	var alertBox = $("#pui-m-alertBox");
 	if(!alertBox.length){
