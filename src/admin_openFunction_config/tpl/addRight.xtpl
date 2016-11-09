@@ -1,0 +1,33 @@
+<div class="add_right">
+    <div class="title">添加权限</div>
+    <div class="line line1">
+        <div class="td td1">
+            <span>开放账号:</span>
+        </div>
+        <div class="td td2">
+            <div id="search_type_select_dialog" class="search_type_select_dialog"></div>
+        </div>
+        <div class="td td3">
+            <input type="text" class="search_inp_dialog" id="search_inp_dialog" readonly="readonly"  placeholder="请输入账号/账号名称/手机号"/>
+            <i class="clear_inp">&#xe674;</i>
+        </div>
+    </div>
+    <div class="line line2">
+        <div class="td td1">
+            <span>开放功能:</span>
+        </div>
+        <div class="td td2">
+            <div id="open_function_select_dialog" class="open_function_select_dialog"></div>
+        </div>
+    </div>
+    <div class="line line3">
+        <div class="td td1">
+            <span class="btn btn_yes">确定</span>
+        </div>
+        <div class="td td2">
+            <span class="btn btn_no">取消</span>
+        </div>
+
+
+    </div>
+</div>

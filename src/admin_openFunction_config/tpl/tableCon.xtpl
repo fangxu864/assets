@@ -1,0 +1,12 @@
+<table class="con_tb">
+    <thead>
+    <tr>
+        <th class="th1">开放功能</th>
+        <th class="th2">开放账号</th>
+        <th class="th3">账号名称</th>
+        <th class="th4">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
