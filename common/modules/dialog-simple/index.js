@@ -176,7 +176,7 @@ Dialog.prototype = Extend({
 		},speed,function(){
 			onAfter();
 			container.hide().css({zIndex:-1});
-		})
+		});
 		var mask = $("#"+this.flag+"mask");
 		mask.fadeOut(function(){
 			mask.css("zIndex",0)
