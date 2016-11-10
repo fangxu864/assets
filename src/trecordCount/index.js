@@ -53,7 +53,7 @@ var TrecordCount={
                 picker : $("#start_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
                 left : 0,                     //日历box偏移量
-                // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
+                min : "2016-01-01",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
                 max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
                 onAfter : function(){}       //弹出日历后callback
