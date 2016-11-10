@@ -8,8 +8,8 @@ var Tpl = require("./order.detail.xtpl");
 var Toast = new PFT.Mobile.Toast();
 var Alert = PFT.Mobile.Alert;
 var Confirm = PFT.Mobile.Confirm;
-//引入tpl
-var dialog_tuipiao_tpl=require("./dialog-tuipiao.xtpl");
+//引入modules
+var Dialog_tuipiao=require("./dialog-tuipiao");
 
 var Detail = PFT.Util.Class({
 	container : "#detailPage",
@@ -18,7 +18,7 @@ var Detail = PFT.Util.Class({
 		"click .detailBtnGroup .btn" : "onBtnClick"
 	},
 	init : function(opt){
-		$("body").append(dialog_tuipiao_tpl)
+		this.Dialog_tuipiao=new Dialog_tuipiao();
 		this.detailInfoContainer = $("#detailInfoContainer");
 		this.containerDom = this.container[0];
 

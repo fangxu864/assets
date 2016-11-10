@@ -1,0 +1,15 @@
+<div id="dialog_tuipiao">
+    <div class="mask"></div>
+    <div class="dialog_con">
+        <div class="line line1">为保障票务安全需要验证联系人手机</div>
+        <div class="line line2">
+            <div class="td td1">请输入手机验证码</div>
+            <div class="td td2"><input type="text"/></div>
+            <div class="td td3"></div>
+        </div>
+        <div class="line line3">
+            <div class="td td1"><span class="btn btn_yes">确定</span></div>
+            <div class="td td2"><span class="btn btn_no">取消</span></div>
+        </div>
+    </div>
+</div>
