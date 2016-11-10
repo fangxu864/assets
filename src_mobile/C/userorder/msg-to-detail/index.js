@@ -37,7 +37,7 @@ var Detail = PFT.Util.Class({
 	fetchDetailInfo : function(ordernum,callback){
 		if(!ordernum) return false;
 		var that = this;
-		PFT.Util.Ajax("/r/Mall_Member/detailShow/",{
+		PFT.Util.Ajax("/api/index.php?c=Mall_Member&a=detailShow",{
 			type : "post",
 			params : {
 				ordernum : ordernum,
