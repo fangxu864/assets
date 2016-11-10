@@ -18,20 +18,21 @@ var Detail = PFT.Util.Class({
 		"click .detailBtnGroup .btn" : "onBtnClick"
 	},
 	init : function(opt){
-		this.Dialog_tuipiao=new Dialog_tuipiao();
+
 		this.detailInfoContainer = $("#detailInfoContainer");
 		this.containerDom = this.container[0];
 
 		this.ordernum = PFT.Util.UrlParse()["ordernum"];
 		if(this.ordernum) this.fetchDetailInfo(this.ordernum);
+		
+		this.Dialog_tuipiao=new Dialog_tuipiao();
 
 	},
 	onBtnClick : function(e){
 		var tarBtn = $(e.currentTarget);
 		if(tarBtn.hasClass("disable")) return false;
-
-		
-
+		var ordernum=tarBtn.attr("data-ordernum");
+		this.Dialog_tuipiao.open(ordernum)
 	},
 	fetchDetailInfo : function(ordernum,callback){
 		if(!ordernum) return false;
@@ -50,7 +51,6 @@ var Detail = PFT.Util.Class({
 				Toast.hide()
 			},
 			success : function(res){
-				console.log(res);
 				res = res || {};
 				var code = res.code;
 				var data = res.data || {};
@@ -64,8 +64,11 @@ var Detail = PFT.Util.Class({
 		})
 	},
 	renderDetail : function(data){
+		console.log(data);
+		var Data=data;
+		Data["orderNum_url"]=PFT.Util.UrlParse(location.href).ordernum;
 		var that = this;
-		var html = this.template(data);
+		var html = this.template(Data);
 		this.detailInfoContainer.html(html);
 		setTimeout(function(){
 			that.createQRcode(data.code);

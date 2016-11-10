@@ -97,8 +97,8 @@
 
 
 
-<%if(cancel==10){%>
+<%if(cancel==1){%>
 <div class="detailBtnGroup">
-    <span data-ordernum="<%=ordernum%>" class="btn cancel">退票</span>
+    <span data-ordernum="<%=orderNum_url%>" class="btn cancel">退票</span>
 </div>
 <%}%>

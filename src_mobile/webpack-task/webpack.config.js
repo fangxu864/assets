@@ -16,12 +16,12 @@ var config = require("../../task-webpack/config")({
 		// "mb.pdetail.c" : path.resolve(ROOT_URL,"C/pdetail/index.es6"),
 		// "mb.productlist.c" : path.resolve(ROOT_URL,"C/product-list/index.es6"),
 		// "mb.booking.c" : path.resolve(ROOT_URL,"C/booking/index.es6"),
-		"mb.select_paymode.c" : path.resolve(ROOT_URL,"C/select-paymode/index.es6"),
+		// "mb.select_paymode.c" : path.resolve(ROOT_URL,"C/select-paymode/index.es6"),
 		// "mb.ordersuccess.c" : path.resolve(ROOT_URL,"C/ordersuccess/index.es6"),
 		// "mb.bindmobile.c" : path.resolve(ROOT_URL,"C/bind-mobile/index.es6"),
 		// "mb.usercenter.c" : path.resolve(ROOT_URL,"C/usercenter/index.es6"),
 		// "mb.userorder.c" : path.resolve(ROOT_URL,"C/userorder/index.js"),
-		// "mb.tel.msg.to.userorderdetail.c" : path.resolve(ROOT_URL,"C/userorder/msg-to-detail/index.js")
+		"mb.tel.msg.to.userorderdetail.c" : path.resolve(ROOT_URL,"C/userorder/msg-to-detail/index.js")
 
 	},
 	output : output,
