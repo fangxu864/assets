@@ -38,9 +38,9 @@ var Dialog_tuipiao=PFT.Util.Class({
         var vcode=Con.find("input.vcode").val();
         var re=/^\d{6}$/;
         if(!re.test(vcode)){
-            Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_error">*请输入正确的6位数字验证码...</span>')
+            Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_error">*请输入正确的6位数字验证码...</span>');
             return false
-        };
+        }
         var orderNum=this.OrderNum;
         if(orderNum==""){
             PFT.Mobile.Alert("订单号不存在！");
