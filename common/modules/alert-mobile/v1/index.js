@@ -1,4 +1,3 @@
-require("./index.scss");
 /**
  * Author: huangzhiyang
  * Date: 2016/11/4 17:23
@@ -13,6 +12,7 @@ require("./index.scss");
  * @param header    alert时，顶部的title (可选)
  * @constructor
  */
+require("./index.scss");
 function Alert(msg,header){
 	var zIndex = 5000;
 	var $body = $("body");
@@ -34,7 +34,6 @@ function Alert(msg,header){
 			alertMask.removeClass("leave");
 		},300)
 	};
-
 
 	//创建dom元素  单例
 	var alertBox = $("#pui-m-alertBox");
@@ -75,12 +74,6 @@ function Alert(msg,header){
 
 
 	show();
-
-
-
-
-
-
 
 
 }

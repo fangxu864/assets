@@ -29,7 +29,7 @@ var Main = PFT.Util.Class({
 				this.createQRcode(data.qrcode);
 			},
 			fail : (msg)=>{
-				Alert("提示",msg);
+				Alert(msg);
 			}
 		})
 	},
