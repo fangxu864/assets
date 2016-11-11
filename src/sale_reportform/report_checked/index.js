@@ -459,9 +459,6 @@ var Book_form={
             sum=data.sum,
             theadHtml="",
             listHtml="" ;
-
-            console.log(data);
-
         theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3">订单数</th> <th class="th4">检票数</th> <th class="th5">平均价格</th> <th class="th6">金额(元)</th> <th class="th7">利润(元)</th> ';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
@@ -490,16 +487,14 @@ var Book_form={
                     '<td class="th6">'+list[i].tickets[j].sale_money+'</td>'+
                     '<td class="th7">'+list[i].tickets[j].profit_money+'</td>'+
                     '</tr>';
-
             }
-
         }
         $(".tablecon_box .con_tb tbody").html(listHtml);
         $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
         $(".tablecon_box .con_tb tbody .th5").css("color","#000");
         $(".tablecon_box .con_tb tbody .th6").css("color","#3DBA3F");
         $(".tablecon_box .con_tb tbody .th7").css("color","#F07845");
-
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
     },
     //处理其他表
     otherform : function(data,kindsTitle){
@@ -508,9 +503,6 @@ var Book_form={
             sum=data.sum,
             theadHtml="",
             listHtml="" ;
-            
-            console.log(data);
-
 
         theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">检票数</th> <th class="th4">平均价格</th><th class="th5">金额(元)</th> <th class="th6">利润(元)</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);

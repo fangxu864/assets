@@ -498,6 +498,7 @@ var Book_form={
         }    
         $(".tablecon_box .con_tb tbody").html(listHtml);    
         $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
     },
     //处理其他表
     otherform : function(data,kindsTitle){

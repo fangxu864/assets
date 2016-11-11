@@ -492,6 +492,7 @@ var Book_form={
         }    
         $(".tablecon_box .con_tb tbody").html(listHtml);    
         $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
     },     
     //处理其他表
     otherform : function(data,kindsTitle){
@@ -599,7 +600,6 @@ var Book_form={
                 _this.queryState_box.show().html(querying_tpl);
             },
             success: function(req) {
-                console.log(req);
                 if(req.code==200){
                     if(req.data.list.length==0){
                         // _this.total_box.hide();

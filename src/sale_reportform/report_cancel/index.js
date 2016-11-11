@@ -501,6 +501,7 @@ var Book_form={
         $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
         $(".tablecon_box .con_tb tbody .th5").css("color","#3DBA3F");
         $(".tablecon_box .con_tb tbody .th6").css("color","#F07845");
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
     },
     //处理其他表
     otherform : function(data,kindsTitle){
