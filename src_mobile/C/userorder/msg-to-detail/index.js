@@ -64,7 +64,6 @@ var Detail = PFT.Util.Class({
 		})
 	},
 	renderDetail : function(data){
-		console.log(data);
 		var Data=data;
 		Data["orderNum_url"]=PFT.Util.UrlParse(location.href).ordernum;
 		var that = this;
