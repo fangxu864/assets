@@ -22,7 +22,6 @@ var Filter=PFT.Util.Class({
             
         });
         var b=2
-        var c=3
         
         
     },
