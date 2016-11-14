@@ -143,7 +143,7 @@ var AlipayMain = {
 
                 if(data.code !==200){
                     if(data.code == 102){
-                        alert("请先登陆");
+                        alert("请先登录");
                         window.location.href="http://"+window.location.host;
                         return false;
                     }
@@ -194,7 +194,7 @@ var AlipayMain = {
         if (data.code != 200) {
             
             if(data.code == 102){
-                alert("请先登陆");
+                alert("请先登录");
                 window.location.href="http://"+window.location.host;
                 return false;
             }
@@ -246,7 +246,7 @@ var AlipayMain = {
         if (data.code != 200) {
             
             if(data.code == 102){
-                alert("请先登陆");
+                alert("请先登录");
                 window.location.href="http://"+window.location.host;
                 return false;
             }
