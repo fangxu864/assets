@@ -137,7 +137,13 @@
     "mems_export-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
-    "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js"
+    "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+
+    "orderLog_query-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/orderLog_query/webpack.config.js",
+    "orderLog_query-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
+    "orderLog_query-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
+    "orderLog_query-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js"
+
 
 
   },
