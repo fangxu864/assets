@@ -20,8 +20,8 @@ var Filter=PFT.Util.Class({
         
         $.ajax({
             
-        });
-        var b=2
+        })
+        
         
         
     },
