@@ -135,6 +135,13 @@ var Mobile = {
                 type: 'POST',
                 success:function (data) {
                     if(data.code !==200){
+
+                        if(data.code == 102){
+                            alert("请先登陆");
+                            window.location.href="http://"+window.location.host;
+                            return false;
+                        }
+
                         clearInterval(that.Interval);
                         getCodeBtn.removeClass("disable").text("获取验证码")
                         alert(data.msg);
@@ -182,7 +189,14 @@ var Mobile = {
             var data = eval("(" + res + ")");
 
             if (data.code != 200) {
-                
+
+                if(data.code == 102){
+                    alert("请先登陆");
+                    window.location.href="http://"+window.location.host;
+                    return false;
+                }
+
+
                 alert("验证码错误或已失效");
                 //alert(data.msg)
                 
@@ -224,6 +238,13 @@ var Mobile = {
         var data = eval("(" + res + ")");
         //非200
         if (data.code != 200) {
+            
+            if(data.code == 102){
+                alert("请先登陆");
+                window.location.href="http://"+window.location.host;
+                return false;
+            }
+
             //201
             if (data.code == 201) {
                 //alert("修改失败");

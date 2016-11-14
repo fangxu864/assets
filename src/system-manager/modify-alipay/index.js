@@ -35,6 +35,8 @@ var AlipayMain = {
             events : {
                 //点击下一步
                 "click #next_ali":function () {
+                    
+
                     var mobile =AlipayMain.getOldMobile();
                     var Vcode = $("#VcodeOld_ali").val();
                     if(AlipayMain.onCheckVCode(mobile,Vcode)){
@@ -48,6 +50,8 @@ var AlipayMain = {
                         $("#next_ali").replaceWith("<div id='submit_ali' class='button_modify_ali'>绑定</div>");
                     }
                 },
+
+
 
                 //点击绑定
                 "click #submit_ali":function () {
@@ -65,7 +69,7 @@ var AlipayMain = {
 
                 //点击获取验证码(原先的手机)
                 "click #getCodeOld_ali":function (e) {
-                    var mobile = undefined;//Alipay.getOldMobile();
+                    var mobile =undefined;//Alipay.getOldMobile();
                     AlipayMain.onGetVCodeBtnClick($(e.target),mobile);
                 },
 
@@ -74,6 +78,8 @@ var AlipayMain = {
                     var mobile =$("#newPhone_ali").val();
                     Alipay.onGetVCodeBtnClick($(e.target),mobile);
                 },*/
+
+
 
 
                 //点击确认
@@ -103,6 +109,7 @@ var AlipayMain = {
 
 //获取验证码
     onGetVCodeBtnClick : function(tarBtn,mobile){
+
         //console.log(mobile);
         var that = this;
         if(tarBtn.hasClass("disable")) return false;
@@ -124,6 +131,7 @@ var AlipayMain = {
             }
         },1000);
 
+
         $.ajax({
             dataType:"json",
             url: "r/Member_MemberInfo/sendVcode",
@@ -131,7 +139,14 @@ var AlipayMain = {
             async: true,
             type: 'POST',
             success:function (data) {
+
+
                 if(data.code !==200){
+                    if(data.code == 102){
+                        alert("请先登陆");
+                        window.location.href="http://"+window.location.host;
+                        return false;
+                    }
                     clearInterval(that.Interval);
                     getCodeBtn.removeClass("disable").text("获取验证码")
                     alert(data.msg);
@@ -141,6 +156,7 @@ var AlipayMain = {
                 }
             }
         });
+
 
         /*$.getJSON("call/jh_mem.php", { action:'SendVcode', stype:'phone', mobile:mobile }, function(json){
          if(json['status']!='ok'){
@@ -176,7 +192,13 @@ var AlipayMain = {
         var data = eval("(" + res + ")");
 
         if (data.code != 200) {
-
+            
+            if(data.code == 102){
+                alert("请先登陆");
+                window.location.href="http://"+window.location.host;
+                return false;
+            }
+            
             alert("验证码错误或已失效");
             //alert(data.msg)
 
@@ -222,6 +244,12 @@ var AlipayMain = {
 
         //非200
         if (data.code != 200) {
+            
+            if(data.code == 102){
+                alert("请先登陆");
+                window.location.href="http://"+window.location.host;
+                return false;
+            }
             //201
             if (data.code == 201) {
                 //alert("修改失败");
