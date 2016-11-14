@@ -635,7 +635,6 @@ var Book_form={
     removeCookie:function (name) {
     setCookie(name, '1', -1);
     }
-
 };
 
 
