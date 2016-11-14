@@ -31,8 +31,7 @@ var AlipayMain = {
             /*onCloseAfter:function () {
                 window.location.reload();
             },*/
-
-
+            
             events : {
                 //点击下一步
                 "click #next_ali":function () {
@@ -212,6 +211,7 @@ var AlipayMain = {
             url: "r/Member_MemberInfo/changeAlipay",
             data: { alipay: aliAccount},
             async: false,
+            type: 'POST',
             success:function () {
                // console.log(this.url)
             }
