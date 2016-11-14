@@ -130,7 +130,7 @@
     "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
 
-    "poster-img-upload-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/mems_export/webpack.config.js"
+    "poster-img-upload-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/poster-img-upload/webpack.config.js"
 
   },
   "repository": {
