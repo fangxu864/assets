@@ -5,7 +5,7 @@
 
 
 ### 构建：
-npm run sanya-ad-start：     本地开发环境
-npm run sanya-ad-test：      内网测试环境
-npm run sanya-ad-release：   预发布环境
-npm run sanya-ad-production：生产环境
+npm run account-start：     本地开发环境
+npm run account-test：      内网测试环境
+npm run account-release：   预发布环境
+npm run account-production：生产环境
