@@ -21,7 +21,7 @@ var Filter=PFT.Util.Class({
         $.ajax({
             
         })
-        var a=1
+        
         
         
     },
