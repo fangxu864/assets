@@ -46,7 +46,7 @@
     "wxconfigsetmenu-test": "set NODE_ENV=test && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-release": "set NODE_ENV=release && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-production": "set NODE_ENV=production && webpack --config ./src/wx_config_setmenu/webpack.config.js",
-    "mobile-server": "set NODE_ENV=server && webpack-dev-server --config ./src_mobile/webpack-task/webpack.config.js --inline",
+    "mobile-server": "set NODE_ENV=server && webpack-dev-server --config --progress --colors  ./src_mobile/webpack-task/webpack.config.js --inline",
     "mobile-start": "set NODE_ENV=develop && webpack --config ./src_mobile/webpack-task/webpack.config.js -w",
     "mobile-test": "set NODE_ENV=test && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-release": "set NODE_ENV=release && webpack --config ./src_mobile/webpack-task/webpack.config.js",

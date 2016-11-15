@@ -7,7 +7,7 @@
     width: 100%;
     background-color: black;
     opacity: 0.5;
-    z-index: 3;
+    z-index: 2;
     display: none;
   }
   .mask.open{
@@ -19,7 +19,7 @@
     width: 100%;
     bottom:-200px;
     background-color: white;
-    z-index: 4;
+    z-index: 3;
     opacity: 1;
     .line {
       line-height: 48px;
@@ -29,9 +29,8 @@
         float: left;
       }
       .btn {
-        padding: 10px 30px;
+        text-align: center;
         font-size: .35rem;
-        margin: 0 10px;
         background-color: #f37138;
         color: #ffffff;
       }
@@ -45,8 +44,8 @@
         margin-left: 10px;
         input{
           display: block;
-          width: 100%;
           height: 48px;
+          width: 100px;
           line-height: 22px;
           font-size: .35rem;
           padding: 13px 12px 13px 0;
@@ -55,6 +54,14 @@
         }
         input:focus{
           color:#f37138;
+        }
+      }
+      .td3{
+        .btn{
+          padding:10px 10px;
+        }
+        .btn.disabled{
+          background-color: #a7a7a7;
         }
       }
     }
@@ -70,7 +77,14 @@
     }
     .line3{
       display: flex;
-      justify-content:center;
+      height: 30px;
+      line-height: 30px;
+      justify-content:space-around;
+      .btn{
+        width: 37%;
+        line-height: 37px;
+        height: 37px;
+      }
     }
   }
 
