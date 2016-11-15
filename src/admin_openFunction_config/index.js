@@ -96,7 +96,7 @@ var OpenFun={
 
         this.open_fun_select=new SelectScroll({
             id:"open_function_select",
-            arr:["全部","优惠券","营销管理","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单手机号隐藏","年卡会员管理"],
+            arr:["全部","优惠券","营销管理","会员卡","团购导码","分销商首页","微商城票付通支持","订单手机号隐藏","年卡会员管理"],
             callback:function(cur_opt){
                 $("#open_function_select").attr("data-status",_this.SelectJson[cur_opt])
             }
@@ -143,7 +143,7 @@ var OpenFun={
 
         this.open_function_select_dialog=new SelectScroll({
             id:"open_function_select_dialog",
-            arr:["优惠券","营销管理","会员卡","团购导码","分销商首页","微商城票付通支持","线下充值","订单手机号隐藏","年卡会员管理"],
+            arr:["优惠券","营销管理","会员卡","团购导码","分销商首页","微商城票付通支持","订单手机号隐藏","年卡会员管理"],
             callback:function(cur_opt){
                 $("#open_function_select_dialog").attr({"data-status":_this.SelectJson[cur_opt],"data-name":cur_opt})
             }
