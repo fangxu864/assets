@@ -2,21 +2,21 @@
  * Created by Administrator on 2016/11/14.
  */
 
-// //引入css
-// require("./index.scss");
-// //引入tpl
-// var table_tpl=require("./index.xtpl");
+//引入css
+require("./index.scss");
+//引入tpl
+var table_tpl=require("./index.xtpl");
 
 var Table=PFT.Util.Class({
     container:"#table_box",
     EVENTS:{
-
+        
     },
-    say_hi:function (data) {
-        alert(data)
+    init:function () {
+        $("#table_box").append(table_tpl)
     },
-    say_hello:function (data) {
-        alert(data)
+    dealData:function (data) {
+        
     }
 });
 

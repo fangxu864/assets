@@ -1,0 +1,137 @@
+@import "COMMON/css/base/core";
+
+.whole_container{
+
+  background: white;
+  border: 1px solid #e5e5e5;
+
+  #head{
+    font-weight: 400;
+    font-style: normal;
+    font-size: 22px;
+    color: #303D46;
+    border-bottom: 1px solid #e5e5e5;
+    height: 64px;
+    line-height: 64px;
+    text-align: left;
+    text-indent: 20px;
+  }
+
+}
+
+#filter_box{
+  font-weight: 400;
+  font-style: normal;
+  font-size: 12px;
+  color: #303D46;
+  height: 108px;
+  padding: 12px 0px 12px 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e5e5e5;
+
+
+  input{
+    /*display: inline-block;
+    box-sizing: border-box;
+    height: 30px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    color: #303D46;
+    text-align: left;
+    border: 2px solid #e5e5e5;*/
+    /* border-radius: 5px;*/
+    /*width: 140px;*/
+    @include textInp(160,4);
+  }
+
+  select{
+    box-sizing: border-box;
+    height: 30px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    color: #303D46;
+    text-align: left;
+    border: 2px solid #e5e5e5;
+    border-radius: 5px;
+    width: 110px;
+  }
+
+  button{
+    width: 90px;
+    height: 30px;
+    margin-left: 20px;
+    text-align: center;
+  }
+
+  .line1_filter{
+    box-sizing: content-box;
+    height: 32px;
+    line-height: 30px;
+
+    .warn{
+      display: inline-block;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      background: red;
+      color: white;
+      text-align: center;
+    }
+
+
+    span{
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      margin-left: 20px ;
+    }
+    span:nth-child(1){
+      margin-left: 0px;
+      width: 72px;
+    }
+  }
+
+  .line2_filter{
+    box-sizing: content-box;
+    margin-top: 12px;
+    height: 32px;
+
+    .warn{
+      display: inline-block;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      background: red;
+      color: white;
+      text-align: center;
+    }
+
+    span{
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      margin-left: 20px ;
+    }
+    span:nth-child(1){
+      margin-left: 0px;
+      width: 72px;
+    }
+    #search{
+      background: #f07845;
+      color: white;
+      border: 2px solid #e5e5e5;
+      border-radius: 5px;
+    }
+    #export{
+      background: white;
+      color: black;
+      border: 2px solid #e5e5e5;
+      border-radius: 5px;
+    }
+
+  }
+}
+
+

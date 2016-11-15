@@ -1,0 +1,48 @@
+
+<div class="line1_filter">
+    <!--平台商户-->
+    <span>平台商户：</span>
+    <input type="text" id="merchant">
+    <!--操作时间-->
+    <span>操作时间：</span>
+    <input type="text" style="width: 140px" id="startTime">
+    <span style="margin-left: 0px">至</span>
+    <input type="text" style="width: 140px" id="endTime">
+    <!--订单号-->
+    <span>订单号：</span>
+    <input type="text" style="width: 140px" id="orderNumber">
+</div>
+
+<div class="line2_filter">
+    <!--操作员姓名-->
+    <span>操作员姓名：</span>
+    <input type="text" id="operatePerson">
+    <!--操作类型-->
+    <span>操作类型：</span>
+    <select name="" id="operateType" >
+        <option value="0">下单</option>
+        <option value="1">修改</option>
+        <option value="2">取消</option>
+        <option value="3">出票</option>
+        <option value="4">验证</option>
+        <option value="5">撤销</option>
+        <option value="6">撤改</option>
+        <option value="7">重打印</option>
+    </select>
+    <!--操作终端-->
+    <span>操作类型：</span>
+    <select name="" id="operateTerminal">
+        <option value="0">平台</option>
+        <option value="1">终端机</option>
+        <option value="2">软终端</option>
+        <option value="3">自助机</option>
+        <option value="4">外部通知更新</option>
+        <option value="5">云票务</option>
+        <option value="6">云闸机</option>
+        <option value="7">微商城</option>
+        <option value="8">微信</option>
+    </select>
+    <button id="search">搜索</button>
+    <button id="export">导出</button>
+</div>
+
