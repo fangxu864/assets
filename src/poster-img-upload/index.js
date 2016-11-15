@@ -2,11 +2,6 @@
 
 
 
-var cropper=require("./cropper/cropper.js");
-
-
-
-
 var Postercrop =function(){
 
 	this.piccon = $(".piccon");
@@ -33,7 +28,6 @@ Postercrop.prototype = {
 
 		//获取自定义海报文件
 		this.inputposter.change(function(){
-			console.log("aaa");
 			var file = this.files[0];
 			var reader=new FileReader();
 			reader.readAsDataURL(file);
@@ -70,9 +64,9 @@ Postercrop.prototype = {
 		});
 
 		//防止图片被拖拽
-		this.QRcode[0].ondragstart = function(){
+		this.QRcode.on("dragstart",function(){
 			return false;
-		}
+		});
 		//裁剪动作
 		$(".crop").on("click",function(){
 			var CroppedCanvas=that.selpic.cropper("getCroppedCanvas",{
@@ -92,9 +86,32 @@ Postercrop.prototype = {
 			that.cancelchange.show();
 
 		});
-		//保存修改
+		//保存修改,发送请求
 		this.savechange.on("click",function(){
-			that.formposter();
+	
+
+			var posterdata = that.formposter();   //生成合成图,返回数据
+
+			var bgdata = posterdata.bgcanvas;  //背景图数据
+			var formbgdata = that.filterURL(bgdata);  //生成背景图form数据
+ 			var canvasdata = posterdata.formcanvas;   //合成图数据
+			var formcanvasdata = that.filterURL(canvasdata);	//生成合成图form数据
+			var qrx = parseInt(that.QRcode.css("left"));  //二维码x坐标
+			var qry = parseInt(that.QRcode.css("top"));  //二维码y坐标
+			var qrdata ={
+				"x":qrx,
+				"y":qry
+			}
+		
+			
+			//先保存微商城海报请求
+			var url1 = "/r/Mall_Poster/saveMallPoster/";
+			that.submitImgformData(formcanvasdata,url1,qrdata);
+			//后保存微商城 海报背景图请求
+			var url2 = "/r/Mall_Poster/saveMallPosterBg/";
+			that.submitImgformData(formbgdata,url2);
+			
+			
 		});
 
 		//取消修改  （单纯的刷新页面）
@@ -177,8 +194,18 @@ Postercrop.prototype = {
 			var aftercrop = $(".aftercrop");
 		 	var cxt = aftercrop[0].getContext("2d");
 
+		 	var bgcanvas = aftercrop[0].toDataURL();    //获得背景图片的数据
+
 			cxt.drawImage(this.QRcode[0],0,0,nw,nh,ql,qt,100,100);
+
+			var formcanvas = aftercrop[0].toDataURL();    //获得合成图片的数据
+
 			this.QRcode.css("display","none");
+
+			return {
+				"bgcanvas":bgcanvas,
+				"formcanvas":formcanvas
+			}
 		}else{
 			var poster=document.createElement('canvas');
 			var ctx=poster.getContext('2d');
@@ -198,14 +225,114 @@ Postercrop.prototype = {
 			var qh = parseInt(this.QRcode.css("height"));
 
 			ctx.drawImage(this.dpic[0],0,0,dnw,dnh,0,0,dpicw,dpich);   //绘制背景图片
+
+			var bgcanvas = poster.toDataURL();    //获得背景图片的数据
+
 			ctx.drawImage(this.QRcode[0],0,0,nw,nh,ql,qt,100,100);  //绘制二维码
 
+			var formcanvas = poster.toDataURL();    //获得合成图片的数据
+
 			this.dpic.remove();
-			this.QRcode.remove();
+			this.QRcode.css("display","none");
 			this.piccon.append(poster);
+
+			return {
+				"bgcanvas":bgcanvas,
+				"formcanvas":formcanvas
+			}
 		}
 
 
+
+	},
+
+
+
+	filterURL:function(dataURL){  
+
+		// dataURL 的格式为 “data:image/png;base64,****”,
+		// 逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
+		dataURL = dataURL.split(",")[1];
+
+
+		// 用 toDataURL 就可以转换成上面用到的 DataURL 。
+		// 然后取出其中 base64 信息，再用 window.atob 转换成由二进制字符串。
+		// 但 window.atob 转换后的结果仍然是字符串，直接给 Blob 还是会出错。
+		// 所以又要用 Uint8Array 转换一下
+		var imgData = window.atob(dataURL);
+		var ia = new Uint8Array(imgData.length);
+		for (var i = 0; i < imgData.length; i++) {
+			ia[i] = imgData.charCodeAt(i);
+		};
+
+		// canvas.toDataURL 返回的默认格式就是 image/png
+		// 这时候裁剪后的文件就储存在 blob 里了,
+		// 可以把它当作是普通文件一样，加入到 FormData 里，并上传至服务器了
+		var blob = new Blob([ia], {type:"image/png"});
+
+		var formData = new FormData();
+		formData.append("image",blob,"image.png");
+
+		return formData;
+
+	},
+
+	submitImgformData:function(formdata,uploadurl,qrdata){   //上传图片form数据到服务器
+		var that = this;
+		if(window.FormData){
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST",uploadurl);
+			var url = "";
+			xhr.onload = function(res){
+				if(xhr.status==200){
+					res = res.srcElement.responseText;
+					res = JSON.parse(res);
+					var code = res.code;
+					var data = res.data || {};
+					url = data.url;
+					var msg = res.msg 
+					if(code==200 && url){
+						that.sendQRInfo(url,qrdata);   //传二维码坐标与url
+						console.log("发送xy坐标");
+					}else{
+						alert(msg + "发送背景");
+					}
+				}else if(xhr.status==413){
+					alert("您上传的图片过大");
+				}else{
+					alert(xhr.status);
+				}
+			}
+			xhr.send(formdata);
+		}else{
+			alert("您的浏览器不支持FormData对象");
+		}
+	},
+
+	sendQRInfo:function(url,qrdata){  //传二维码坐标与url
+
+		var x = qrdata.x;
+		var y = qrdata.y;
+
+		$.ajax({
+			url:"/r/Mall_Poster/saveXY/",
+			type:"POST",
+			dataType:"json",
+			data:{
+				"x":x,
+				"y":y,
+				"url":url
+			},
+			success:function(res){
+				res = res || {};
+				if(res.code==200){
+					window.location.href = "http://www.12301.local/new/posterimgupload_index.html";
+				}else{
+					alert(res.msg);
+				}
+			}
+
+		});
 
 	}
 
