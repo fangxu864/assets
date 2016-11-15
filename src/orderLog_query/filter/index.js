@@ -8,7 +8,7 @@
 // var filer_tpl=require("./index.xtpl");
 
 var Filter=PFT.Util.Class({
-    container:"#filer_box",
+    container:"#filter_box",
     EVENTS:{
         "click button":"dealData"
     },
