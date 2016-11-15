@@ -7,7 +7,7 @@
     width: 100%;
     background-color: black;
     opacity: 0.5;
-    z-index: 21;
+    z-index: 3;
     display: none;
   }
   .mask.open{
@@ -19,7 +19,7 @@
     width: 100%;
     bottom:-200px;
     background-color: white;
-    z-index: 22;
+    z-index: 4;
     opacity: 1;
     .line {
       line-height: 48px;
