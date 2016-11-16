@@ -32,7 +32,7 @@
                 <div id="search_type_select" class="search_type_select"></div>
             </div>
             <div class="fll td3">
-                <input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入账号/商户名称"/>
+                <input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入商户名称/ID"/>
                 <i class="clear_trader_inp">&#xe674;</i>
             </div>
             <div class="fll td2">

@@ -188,7 +188,7 @@ var TrecordCount={
             $("#trader_inp").attr({
                 "data-id":"",
                 "data-dname":"",
-                "placeholder":"请输入交易商户名称"
+                "placeholder":"请输入商户名称/ID"
             }).val("")
         });
         //两种账户的单选按钮
