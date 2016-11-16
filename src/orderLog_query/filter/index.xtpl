@@ -1,8 +1,10 @@
 
 <div class="line1_filter">
     <!--平台商户-->
-    <span>平台商户：</span>
+    <?php if($_SESSION['memberID'] == 1){?>
+    <span id="labelMerchant">平台商户：</span>
     <input type="text" id="merchant">
+    <?php }?>
     <!--操作时间-->
     <span>操作时间：</span>
     <input type="text" style="width: 140px" id="startTime">
