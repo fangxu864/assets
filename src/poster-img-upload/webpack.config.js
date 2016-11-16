@@ -9,7 +9,9 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		"poster-img-upload" : "./src/poster-img-upload/index.js"
+		"poster-img-upload-mallposter" : "./src/poster-img-upload/mallposter/index.js",
+		"poster-img-upload-myposter" : "./src/poster-img-upload/myposter/index.js",
+		"poster-img-upload-supplyposter" : "./src/poster-img-upload/supplyposter/index.js"
 	},
 	output : output,
 	plugins : plugins

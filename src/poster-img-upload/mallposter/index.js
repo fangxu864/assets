@@ -1,6 +1,8 @@
 
 
+console.log("我是微商城海报页面");
 
+// require("./index.scss");
 
 var Postercrop =function(){
 
@@ -92,18 +94,18 @@ Postercrop.prototype = {
 
 			var posterdata = that.formposter();   //生成合成图,返回数据
 
-			var bgdata = posterdata.bgcanvas;  //背景图数据
-			var formbgdata = that.filterURL(bgdata);  //生成背景图form数据
- 			var canvasdata = posterdata.formcanvas;   //合成图数据
-			var formcanvasdata = that.filterURL(canvasdata);	//生成合成图form数据
+			var bgdata = posterdata.bgcanvas;  
+			var formbgdata = that.filterURL(bgdata);  //背景图form数据
+ 			var canvasdata = posterdata.formcanvas;   
+			var formcanvasdata = that.filterURL(canvasdata);	//合成图form数据
 			var qrx = parseInt(that.QRcode.css("left"));  //二维码x坐标
 			var qry = parseInt(that.QRcode.css("top"));  //二维码y坐标
 			var qrdata ={
 				"x":qrx,
 				"y":qry
 			}
-		
-			
+
+						
 			//先保存微商城海报请求
 			var url1 = "/r/Mall_Poster/saveMallPoster/";
 			that.submitImgformData(formcanvasdata,url1,qrdata);
@@ -196,7 +198,7 @@ Postercrop.prototype = {
 
 		 	var bgcanvas = aftercrop[0].toDataURL();    //获得背景图片的数据
 
-			cxt.drawImage(this.QRcode[0],0,0,nw,nh,ql,qt,100,100);
+			cxt.drawImage(this.QRcode[0],0,0,nw,nh,ql,qt,150,150);
 
 			var formcanvas = aftercrop[0].toDataURL();    //获得合成图片的数据
 
@@ -228,7 +230,7 @@ Postercrop.prototype = {
 
 			var bgcanvas = poster.toDataURL();    //获得背景图片的数据
 
-			ctx.drawImage(this.QRcode[0],0,0,nw,nh,ql,qt,100,100);  //绘制二维码
+			ctx.drawImage(this.QRcode[0],0,0,nw,nh,ql,qt,150,150);  //绘制二维码
 
 			var formcanvas = poster.toDataURL();    //获得合成图片的数据
 
@@ -277,7 +279,7 @@ Postercrop.prototype = {
 
 	},
 
-	submitImgformData:function(formdata,uploadurl,qrdata){   //上传图片form数据到服务器
+	submitImgformData:function(formdata,uploadurl,qrdata){   //传图片form数据到服务器
 		var that = this;
 		if(window.FormData){
 			var xhr = new XMLHttpRequest();
@@ -293,9 +295,8 @@ Postercrop.prototype = {
 					var msg = res.msg 
 					if(code==200 && url){
 						that.sendQRInfo(url,qrdata);   //传二维码坐标与url
-						console.log("发送xy坐标");
 					}else{
-						alert(msg + "发送背景");
+						alert(msg);
 					}
 				}else if(xhr.status==413){
 					alert("您上传的图片过大");
