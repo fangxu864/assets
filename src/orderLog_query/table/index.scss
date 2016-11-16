@@ -4,6 +4,22 @@
   font-size: 12px;
   color: #6C7882;
 
+  .loading{
+    height: 500px;
+    line-height: 500px;
+    text-align: center;
+  }
+  .loading:hover{
+    background: white;
+  }
+
+  tr{
+    line-height: 25px;
+  }
+  tr:hover{
+    background: #f0f3f5;
+  }
+
   table{
     width: 100%;
     .th1{
