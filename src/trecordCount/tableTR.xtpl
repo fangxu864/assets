@@ -1,6 +1,7 @@
 <% _.each(data,function(item,index){ %>
 <tr class="<%=index%2==0?'':'gray'%>">
     <td class="th1"><%=item.name%></td>
+    <td class="th7"><%=item.reseller_id%></td>
     <td class="th2"><%=item.blmoney%></td>
     <td class="th3"><%=item.income%></td>
     <td class="th4"><%=item.expense%></td>

@@ -13,6 +13,7 @@ var tableTR_tpl=require("./tableTR.xtpl");
 var dialogTR_tpl=require("./detailTR.xtpl");
 var querying_tpl=require("./querying.xtpl");
 var Pagination = require("COMMON/modules/pagination-x");
+var SelectShort=require("COMMON/modules/select_short");
 
 var Dialog=require("COMMON/modules/dialog-simple");
 var Dial=new Dialog({
@@ -74,6 +75,46 @@ var TrecordCount={
                 onAfter : function(){}       //弹出日历后callback
             })
         });
+
+        this.searchType_params_dialog={};
+        this.search_type_select_dialog=new SelectShort({
+            id:"search_type_select",
+            arr:["商户名称","ID"],
+            callback:function(cur_opt){
+                var json={
+                    "商户名称":0,
+                    "ID":3
+                };
+                _this.searchType_params_dialog["type"]=json[cur_opt];
+            }
+        });
+        this.search_inp_dialog=new Select({
+            source : "/r/Admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            ajaxType : "post",
+            ajaxParams : _this.searchType_params_dialog,
+            isFillContent:false,
+            filterType : "ajax",  //指定过滤方式为ajax
+            field : {
+                id : "id",
+                name : "dname",
+                keyword : "keyword"
+            },
+            height : 260,
+            trigger : $("#trader_inp"),
+            offset : { //偏移量
+                top : 0,
+                left : 0,
+                width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
+            },
+            filter : true,
+            adaptor : function(res){
+                var result={};
+                result["code"] = 200;
+                result["data"] = res.data[0]==undefined?res.data:res.data[0];
+                result["msg"] = res.msg;
+                return result;
+            }
+        });
         //分页器部分
         this.pagination = new Pagination({
             container : "#pagination_wrap" , //必须，组件容器id
@@ -102,6 +143,7 @@ var TrecordCount={
             }
             $("html body").animate({"scrollTop":377},200)
         });
+
         // Dial.open();
         this.bind();
     },
@@ -141,30 +183,6 @@ var TrecordCount={
             }
             $(".query_btn").click()
         });
-        //交易商户搜索框
-        var select=new Select({
-            source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "ajax",  //指定过滤方式为ajax
-            field : {
-                id : "id",
-                name : "dname",
-                keyword : "dname"
-            },
-            trigger : $("#trader_inp"),
-
-            filter : true,
-            adaptor : function(res){
-                var reslut = { code:200};
-                reslut["data"] = res;
-                return reslut;
-            }
-        });
         //交易商户搜索框 清除按钮
         $("i.clear_trader_inp").on("click",function () {
             $("#trader_inp").attr({
@@ -175,7 +193,7 @@ var TrecordCount={
         });
         //两种账户的单选按钮
         $(".count_dot_btn_box").on("click","span.cell",function () {
-            $(".count_dot_btn_box span.cell").toggleClass("selected").toggleClass("not_selected")
+            $(this).toggleClass("selected").toggleClass("not_selected")
         });
         //查询按钮
         $(".query_btn").on("click",function () {
@@ -257,7 +275,15 @@ var TrecordCount={
         if(reseller_id!=undefined){
             params["reseller_id"]=reseller_id;
         }
-        params["ignoreType"]=$(".count_dot_btn_box .selected").attr("data_type");
+        var $select=$(".count_dot_btn_box .selected");
+        if($select.length==2||$select.length==0){
+            if($select.length==0){
+                $(".count_dot_btn_box .cell").toggleClass("selected").toggleClass("not_selected");
+            }
+            params["ignoreType"]=0;
+        }else{
+            params["ignoreType"]=$(".count_dot_btn_box .selected").attr("data_type");
+        }
         return params
 
     },

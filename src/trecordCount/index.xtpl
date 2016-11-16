@@ -24,14 +24,21 @@
             </div>
         </div>
         <div class="line line2">
-            <div class="fll td1">
+           <!-- <div class="fll td1">
                 <span>交易商户：</span><input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入交易商户名称"/>
+                <i class="clear_trader_inp">&#xe674;</i>
+            </div>-->
+            <div class="fll td1">
+                <div id="search_type_select" class="search_type_select"></div>
+            </div>
+            <div class="fll td3">
+                <input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入账号/商户名称"/>
                 <i class="clear_trader_inp">&#xe674;</i>
             </div>
             <div class="fll td2">
                 <div class="box count_dot_btn_box">
                     <span class="cell selected" data_type="1">正式账户</span>
-                    <span class="cell not_selected" data_type="2">测试账户</span>
+                    <span class="cell selected" data_type="2">测试账户</span>
                 </div>
             </div>
             <div class="fll btn1">
@@ -47,6 +54,7 @@
             <thead>
             <tr>
                 <th class="th1">交易商户</th>
+                <th class="th7">ID</th>
                 <th class="th2">期初余额(元)</th>
                 <th class="th3">收入(元)</th>
                 <th class="th4">支出(元)</th>
