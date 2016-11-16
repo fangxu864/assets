@@ -11,7 +11,8 @@ var config = require("../../task-webpack/config")({
 	entry : {
 		"poster-img-upload-mallposter" : "./src/poster-img-upload/mallposter/index.js",
 		"poster-img-upload-myposter" : "./src/poster-img-upload/myposter/index.js",
-		"poster-img-upload-supplyposter" : "./src/poster-img-upload/supplyposter/index.js"
+		"poster-img-upload-supplyposter" : "./src/poster-img-upload/supplyposter/index.js",
+		"poster-img-upload-editmyposter" : "./src/poster-img-upload/editmyposter/index.js"
 	},
 	output : output,
 	plugins : plugins
