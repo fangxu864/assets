@@ -21,8 +21,12 @@
             <div id="botTipBox" class="botTipBox">
                 <p class="p2"><i style="margin-right:2px; vertical-align:middle" class="uicon uicon-pft"></i><span class="t">票付通-技术支持</span></p>
             </div>
-            <div class="dialog_mask" v-show="{{dialog_status}}"></div>
-            <div class="dialog_con"  v-show="{{dialog_status}}">fsdfsd</div>
+            <div class="dialog_mask" v-if="dialogStatus" @click="onDialogMaskClick"></div>
+            <div class="dialog_con"  v-if="dialogStatus">
+                <p class="tips">微商城仅开放给散客进行快速购票，您手机绑定的是平台用户，您可以选择：</p>
+                <a href="index.html"><p class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p></a>
+                <a href="../mall/login.html"><p class="href">使用账号密码登录到个人中心<span class="arrow">》</span></p></a>
+            </div>
         </div>
     </div>
 </template>
@@ -38,7 +42,7 @@
                 code : "",
                 time : -1,
                 vcodeState : "",
-                dialog_status:"show"
+                dialogStatus:false
             };
 
         },
@@ -65,7 +69,13 @@
             }
         },
         methods : {
+            onDialogMaskClick(){
+                console.log("fdsf")
+                this.dialogStatus=false
+            },
+
             onMobileInpBlur(){
+                var _this=this;
                 console.log("fsdfsf");
                 var Alert = this.Alert;
                 var mobile = this.mobile;
@@ -93,7 +103,8 @@
                         if(res.data.avalid==1){
                             $("#getCheckMaBtn").removeClass("disable")
                         }else{
-                            $("#getCheckMaBtn").addClass("disable")
+                            $("#getCheckMaBtn").addClass("disable");
+                            _this.dialogStatus=true
                         }
                     }else{
                         Alert(res.msg)
@@ -223,6 +234,30 @@
         position: fixed;
         top: 0;
         left: 0;
+    }
+    .dialog_con{
+        height: 200px;
+        width: 100%;
+        bottom: 0;
+        background-color: white;
+        position: fixed;
+        left: 0;
+        p.tips{
+            font-size: 14px;
+            padding: 10px 8px;
+            line-height: 20px;
+        }
+        p.href{
+            padding:0px 5px;
+            font-size: 14px;
+            line-height: 40px;
+            color: white;
+            margin: 10px 8px;
+            background: #15b6fe;
+            span.arrow{
+                float:right
+            }
+        }
     }
 
 </style>
