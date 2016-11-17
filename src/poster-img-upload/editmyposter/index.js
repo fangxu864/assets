@@ -1,15 +1,10 @@
 
 
-
-
-
-console.log("我的产品海报添加编辑页面");
-
-// require("./index.scss");
 var Select = require("COMMON/modules/select");     //选择产品框
 var Dialog = require("COMMON/modules/dialog-simple");  //遮罩框
+require('./index.scss');
 
-var productposter =function(){
+var productposter =function(nowurl){
 
     this.piccon = $(".piccon");
     this.dpic = $(".defaultpic");
@@ -29,6 +24,11 @@ var productposter =function(){
                 '<button class="selectCancel selectBtn">取消</button>'+
                 '</div>';
     this.urlsave = []; //保存海报url与背景图url以用于请求            
+
+    this.nowurl = nowurl;
+    
+    
+
 
     this.init();
 
@@ -52,6 +52,33 @@ productposter.prototype = {
             overlay : true,
             headerHeightMin : 46
         });
+
+        var tips = this.getNowLidAndSid(this.nowurl);
+        if(tips == "添加产品海报"){
+            console.log("什么都不做");
+        }else{
+            console.log(tips);
+            var dPicSrc = '/r/Mall_Poster/proPosterBg/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
+            var QRPicSrc = '/r/Mall_Poster/proPosterQrCode/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
+            $(".defaultpic").attr("src",dPicSrc);
+            $(".QRcode").attr("src",QRPicSrc);
+            $(".tip").css("display","none");
+            $(".posterShow").css("display","block");
+            $(".inputposterlabel").css("display","block");
+            $.ajax({
+                url:"/r/Mall_Poster/getProductName/",
+                type:"POST",
+                dataType:"json",
+                data:{
+                    "lid":that.idBox[0]
+                },
+                success:function(res){
+                    var data = res.data;
+                    var title = data.productName;
+                    $(".choose_complete").text('已选择'+title+'产品');
+                }
+            });
+        }
 
 
         this.bind();
@@ -103,13 +130,13 @@ productposter.prototype = {
         //确定产品
         $(".selectEnter").on("click",function(){
 
-            //获取lid与sid
+            
 
             //再次修改 清空idBox 
             if(that.idBox.length == 2){
                 that.idBox.length = 0;
             }
-
+            //获取lid与sid
             var a = $("#selectInput").attr("data-id");
             if(a&&that.idBox.length == 0){
                 var b = a.split(",");
@@ -275,6 +302,33 @@ productposter.prototype = {
     //取消修改
     reset:function(){
         window.location.reload();   //是否有更好的办法
+    },
+
+    getNowLidAndSid:function(nowurl){
+        console.log(nowurl);
+
+        var a=nowurl.indexOf("lid");        
+
+        if(a == -1){
+            var tips = "添加产品海报";
+            return tips;
+        }else{
+            var id = nowurl.split("?");
+            var ids = id[1].split("&");
+            var lid = ids[0].split("=");
+            var sid = ids[1].split("=");
+            lid = lid[1];
+            sid = sid[1];
+
+            this.idBox.push(lid);
+            this.idBox.push(sid);
+
+            var tips = "编辑";
+            return tips;
+
+                  
+        }
+
     },
 
     getOffset:function(event){
@@ -498,9 +552,9 @@ productposter.prototype = {
             success:function(res){
                 res = res || {};
                 if(res.code==200){
-                    // window.location.href = "http://www.12301.local/new/posterimgupload_editmyposter.html";
                     console.log("xy保存成功");
                     alert("保存成功");
+                    window.location.href = "http://www.12301.local/new/posterimgupload_myposter.html";
                 }else{
                     alert(res.msg);
                 }
@@ -516,11 +570,9 @@ productposter.prototype = {
 
 $(function(){
 
-    //得到lid与sid
+    
     var nowurl = window.location.href;
-    console.log(nowurl);
-
-    var newproductposter = new productposter();
+    var newproductposter = new productposter(nowurl);
 });
 
 

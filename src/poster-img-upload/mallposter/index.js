@@ -1,8 +1,7 @@
 
 
-console.log("我是微商城海报页面");
-
-// require("./index.scss");
+require('./jquery.qrcode.min.js');
+require("./index.scss");
 
 var Postercrop =function(){
 
@@ -18,6 +17,9 @@ var Postercrop =function(){
 
 
 	this.bind();
+	var qrcodetext = window.location.origin+'/r/Mall_Poster/downMallPoster/';  
+	console.log(qrcodetext);
+	$(".QRCode").qrcode({width: 127,height: 127,text: qrcodetext});
 
 }
 
@@ -343,6 +345,14 @@ Postercrop.prototype = {
 $(function(){
 	var newposter = new Postercrop();
 });
+
+$(function(){
+    $("span.posterDownload").mouseover(function(){
+      $(this).children().show();
+    }).mouseout(function(){
+        $(this).children().hide(100);
+    })
+})
 
 
 
