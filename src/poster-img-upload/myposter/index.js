@@ -27,7 +27,7 @@ function ajaxGetMyPoster( page, pageSize ) {
                         $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
                     });
 
-                    pagination.render({current: page, total: res.data.total});
+                    pagination.render({current: page, total: res.data.totalPage});
                 } else {
                     //无数据
                     $('#paginationWrap').hide();
@@ -44,9 +44,9 @@ function renderList(arr) {
         tempStr += '    <div class="poster-item">'
                 + '<div class="poster-img"><img src="' + arr[i].url + '"  alt=""></div>'
                 + '<div class="poster-intro">'
-                + '    <p class="poster-name">' + (arr[i].productName == null?'产品海报' : arr[i].productName) + '</p>'
+                + '    <p class="poster-name" title="' + (arr[i].productName == null?'产品海报' : arr[i].productName) + '">' + (arr[i].productName == null?'产品海报' : arr[i].productName) + '</p>'
                 + '    <div class="clearfix"><a href="posterimgupload_editmyposter.html?lid='+ arr[i].lid +'&sid=' + arr[i].sid + '" class="fl" target="_blank">编辑</a><a href="javascript:;" class="fl ml35 btnDelPoster" data-id="' + arr[i].id + '" data-product="'+ arr[i].productName +'">删除</a>'
-                + '        <div class="fr QRdownload">下载到手机<i class="iconfont">&#xe66e;</i><div class="QRCode" data-text="' + arr[i].downUrl + '"></div></div></div></div></div>';
+                + '        <div class="fr QRdownload">下载到手机<i class="iconfont">&#xe66e;</i><div class="QRCode" data-text="'+ window.location.origin + arr[i].downUrl + '"></div></div></div></div></div>';
     }
     return tempStr;
 }

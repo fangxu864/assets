@@ -19,21 +19,6 @@ function ajaxGetPoster( page, pageSize ) {
 
             },
             success:function(res){
-                // var resIndex;
-
-                // if(resArr.length) {
-                //     for(var i=0, resArrLen = resArr.length; i<resArrLen; i++) {
-                //         if(resArr[i].page == res.data.page) {
-                //             resIndex = i;
-                //             break;
-                //         }
-                //     }
-                //     if(resIndex == undefined) {
-                //         resArr.push(res.data);
-                //     }
-                // } else {
-                //     resArr.push(res.data);
-                // }
 
                 if(res.data.list.length) {
                     posterList.html(renderList(res.data.list));
@@ -42,7 +27,7 @@ function ajaxGetPoster( page, pageSize ) {
                         $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
                     });
 
-                    pagination.render({current: page, total: res.data.total});
+                    pagination.render({current: page, total: res.data.totalPage});
                 } else {
                     //无数据
                     $('#paginationWrap').hide();
@@ -58,10 +43,10 @@ function renderList(arr) {
         tempStr += '    <div class="poster-item">'
                 + '<div class="poster-img"><img src="' + arr[i].url + '"  alt=""></div>'
                 + '<div class="poster-intro">'
-                + '    <p class="poster-name">' + arr[i].productName + '</p>'
+                + '    <p class="poster-name" title="' + (arr[i].productName == null?'产品海报' : arr[i].productName) + '">' + arr[i].productName + '</p>'
                 + '    <p class="poster-supply">供应商：' + arr[i].supply + '</p>'
-                + '    <div class="clearfix"><a href="'+ arr[i].downUrl +'" class="fl" target="_blank">查看产品</a>'
-                + '        <div class="fr QRdownload">下载到手机<i class="iconfont">&#xe66e;</i><div class="QRCode" data-text="' + arr[i].downUrl + '"></div></div></div></div></div>';
+                + '    <div class="clearfix"><a href="/scenicDetail.html?lid='+ arr[i].lid +'" class="fl" target="_blank">查看产品</a>'
+                + '        <div class="fr QRdownload">下载到手机<i class="iconfont">&#xe66e;</i><div class="QRCode" data-text="'+ window.location.origin + arr[i].downUrl + '"></div></div></div></div></div>';
     }
     return tempStr;
 }
@@ -86,25 +71,8 @@ pagination.on("page.switch",function(toPage,currentPage,totalPage){
     // toPage :      要switch到第几页
     // currentPage : 当前所处第几页
     // totalPage :   当前共有几页
-    var resIndex;
 
     pagination.render({current:toPage,total:totalPage});
-
-    // if(resArr.length) {
-    //     for(var i=0, resArrLen = resArr.length; i<resArrLen; i++) {
-    //         if(resArr[i].page == toPage) {
-    //             resIndex = i;
-    //             break;
-    //         }
-    //     }
-    //     if(resIndex != undefined) {
-    //         posterList.html(renderList(resArr[resIndex].list));
-    //         $('.QRCode').each(function(){
-    //             $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
-    //         });
-    //         return;
-    //     }
-    // }
 
     if(xhrPoster && xhrPoster.status !== 200) {
         xhrPoster.abort();
