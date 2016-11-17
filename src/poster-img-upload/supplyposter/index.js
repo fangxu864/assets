@@ -46,6 +46,7 @@ function ajaxGetPoster( page, pageSize ) {
                 } else {
                     //无数据
                     $('#paginationWrap').hide();
+                    posterList.html('<div class="nodata-wrap">暂无供应商产品海报</div>');
                 }
             }
         });
