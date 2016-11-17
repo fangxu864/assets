@@ -64,7 +64,7 @@
     height: 32px;
     line-height: 30px;
 
-    #warn1{
+    .warn1{
       width: 100px;
       height: 30px;
       line-height: 30px;
@@ -76,8 +76,11 @@
       top: 45px;
       display: none;
     }
+    .warn1_move{
+      left: 100px;
+    }
 
-    #warn2{
+    .warn2{
       width: 100px;
       height: 30px;
       line-height: 30px;
@@ -88,6 +91,11 @@
       left: 525px;
       top: 45px;
       display: none;
+    }
+
+    .warn2_move{
+      left: 275px;
+
     }
 
 

@@ -49,10 +49,10 @@ var Main={
          dataType: "json",
          async: true,
          data: Params,
-         type: "GET",
+         type: "POST",
 
          beforeSend:function () {
-             console.log(this.url);
+             //console.log(this.url);
              //加载中提示
             $("#table_box tbody ").remove();
             $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>加载中，请稍后....</td><td></td><td></td><td></td></tr>");
@@ -66,10 +66,10 @@ var Main={
                  alert("none")
              }*/
 
-             console.log(this.url);
+             //console.log(this.url);
              //console.log(ajaxData);
              _this.table.dealData(ajaxData);
-             console.log(ajaxData.msg);
+             //console.log(ajaxData.msg);
              _this.pagination.render(toPage,ajaxData.msg);
            /* var cookie = {page:page,data:ajaxData};
             _this.cookieDate.push(cookie)*/

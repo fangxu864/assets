@@ -1,27 +1,28 @@
+<!--
 
 <div class="line1_filter">
-    <!--平台商户-->
-    <?php if($_SESSION['memberID'] == 1){?>
-    <span id="labelMerchant">平台商户：</span>
-    <input type="text" id="merchant">
-    <?php }?>
-    <!--操作时间-->
+    &lt;!&ndash;平台商户&ndash;&gt;
+    <? if($_SESSION['memberID'] == 1){
+    echo "<span id='labelMerchant'>平台商户：</span>";
+    echo "<input type='text' id='merchant'>";
+     }?>
+    &lt;!&ndash;操作时间&ndash;&gt;
     <span>操作时间：</span>
     <input type="text" style="width: 140px" id="startTime">
     <span id="warn1">操作时间必填</span>
     <span style="margin-left: 0px">至</span>
     <input type="text" style="width: 140px" id="endTime">
     <span id="warn2">操作时间必填</span>
-    <!--订单号-->
+    &lt;!&ndash;订单号&ndash;&gt;
     <span>订单号：</span>
     <input type="text" style="width: 140px" id="orderNumber">
 </div>
 
 <div class="line2_filter">
-    <!--操作员姓名-->
+    &lt;!&ndash;操作员姓名&ndash;&gt;
     <span>操作员姓名：</span>
     <input type="text" id="operatePerson">
-    <!--操作类型-->
+    &lt;!&ndash;操作类型&ndash;&gt;
     <span>操作类型：</span>
     <select name="" id="operateType" >
         <option value="">全部</option>
@@ -34,7 +35,7 @@
         <option value="7">撤改</option>
         <option value="8">重打印</option>
     </select>
-    <!--操作终端-->
+    &lt;!&ndash;操作终端&ndash;&gt;
     <span>操作终端：</span>
     <select name="" id="operateTerminal">
         <option value="">全部</option>
@@ -60,3 +61,4 @@
     </div>
 </div>
 
+-->

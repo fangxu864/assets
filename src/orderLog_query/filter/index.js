@@ -24,7 +24,11 @@ var Filter=PFT.Util.Class({
     //init()方法在实例化以后会默认执行
     init:function () {
         $("#filter_box").append(filer_tpl);
-
+        
+        if(!$("#labelMerchant").css("display")){
+            $("#warn1").addClass("warn1_move");
+            $("#warn2").addClass("warn2_move");
+        }
         //必填提示部分
         $("#startTime").on("focus",function(){
             $("#warn1").toggle("fast");
@@ -103,7 +107,7 @@ var Filter=PFT.Util.Class({
         }
         var downUrl="/r/Order_OrderQuery/getOrderRecord?"+_this.JsonStringify(Params);
 
-        console.log(downUrl);
+        //console.log(downUrl);
         //发布"更新参数"事件
         // _this.trigger("downloadExcel",Params);
         _this.outExcel(downUrl)
@@ -143,7 +147,7 @@ var Filter=PFT.Util.Class({
         }
 
 
-        console.log(Params);
+        //console.log(Params);
         //发布"更新参数"事件
         _this.trigger("refreshParams",Params);
     },
