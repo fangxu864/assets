@@ -62,9 +62,9 @@ var Main={
                  alert(ajaxData.msg);
                  return false
              }
-             if(!ajaxData.data){
+             /*if(!ajaxData.data){
                  alert("none")
-             }
+             }*/
 
              console.log(this.url);
              //console.log(ajaxData);
@@ -76,8 +76,8 @@ var Main={
          }
          });
     },
-
-    //判断cookie或者ajax
+    
+   /* //判断cookie或者ajax
     getFromCookie_or_getFromAjax:function (page,Params) {
         var _this = this;
         var cookieData = _this.cookieDate;
@@ -96,7 +96,7 @@ var Main={
         alert("无");
         _this.getAjaxData_dealTable(Params,page);
 
-    },
+    },*/
 
     //模块交流区
     talkArea:function () {
@@ -107,13 +107,15 @@ var Main={
             _this.paramBox = Params;
             _this.getAjaxData_dealTable(_this.paramBox); //处理表格部分包在了getAjaxData中
         });
-       
-
+        
+        
         //接收分页器被点击时发布的更改页数的事件
         _this.pagination.on("pageChange",function(toPage){
             var paramBox = _this.extendParams(_this.paramBox,{page:toPage});
             _this.getAjaxData_dealTable(paramBox,toPage)
         })
+        
+        
     }
 
 };

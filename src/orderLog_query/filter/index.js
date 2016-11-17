@@ -18,7 +18,7 @@ var Filter=PFT.Util.Class({
     container:"#filter_box",
     EVENTS:{
         "click #search":"getParams",   //点击搜索
-        "click #export":""            //点击导出
+        "click #export":"exportExcel"  //点击导出
     },
 
     //init()方法在实例化以后会默认执行
@@ -66,12 +66,53 @@ var Filter=PFT.Util.Class({
             })
         })
     },
-    
+
+    //表格导出
+    exportExcel:function () {
+        var _this = this;
+        var paramBox = {};
+        paramBox.fxname=$("#merchant").val()?$("#merchant").val():"";  //可能不存在
+        paramBox.btime=$("#startTime").val();   //开始时间
+        paramBox.etime=$("#endTime").val();     //结束时间
+
+        paramBox.ordernum=$("#orderNumber").val();   //订单编号
+        paramBox.ename=$("#operatePerson").val();   //操作人姓名
+        paramBox.action=$("#operateType").find(':selected').val();  //操作类型
+        paramBox.source=$("#operateTerminal").find(':selected').val(); //操作终端
+
+        paramBox.excel=1;
+
+        var Params = paramBox;
+
+        //检测必填项
+        if(!Params.btime||!Params.etime){
+            if(!Params.btime){
+                $("#warn1").toggle("fast");
+                window.setTimeout(function () {
+                    $("#warn1").toggle("fast");
+                },1500)
+            };
+
+            if(!Params.etime){
+                $("#warn2").toggle("fast");
+                window.setTimeout(function () {
+                    $("#warn2").toggle("fast");
+                },1500)
+            }
+            return false
+        }
+        var downUrl="/r/Order_OrderQuery/getOrderRecord?"+_this.JsonStringify(Params);
+
+        console.log(downUrl);
+        //发布"更新参数"事件
+        // _this.trigger("downloadExcel",Params);
+        _this.outExcel(downUrl)
+    },
     //生成参数盒子
     getParams:function () {
         var _this = this;
         var paramBox = {};
-        paramBox.fxname=$("#merchant").val();  //可能不存在
+        paramBox.fxname=$("#merchant").val()?$("#merchant").val():"";  //可能不存在
         paramBox.btime=$("#startTime").val();   //开始时间
         paramBox.etime=$("#endTime").val();     //结束时间
         
@@ -105,6 +146,23 @@ var Filter=PFT.Util.Class({
         console.log(Params);
         //发布"更新参数"事件
         _this.trigger("refreshParams",Params);
+    },
+    //JsonStringify 对象序列化方法
+    JsonStringify:function (obj) {
+        var str="";
+        var arr=[];
+        for(var key in obj){
+            str=key+"="+obj[key];
+            arr.push(str);
+        }
+        return arr.join("&");
+    },
+
+    //导出excel
+    outExcel:function (downloadUrl) {
+        var iframeName="iframe"+new Date().getTime();
+        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+        window.open(downloadUrl, iframeName);
     }
     
 
