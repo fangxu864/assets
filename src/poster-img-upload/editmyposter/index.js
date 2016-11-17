@@ -57,7 +57,6 @@ productposter.prototype = {
         if(tips == "添加产品海报"){
             console.log("什么都不做");
         }else{
-            console.log(tips);
             var dPicSrc = '/r/Mall_Poster/proPosterBg/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
             var QRPicSrc = '/r/Mall_Poster/proPosterQrCode/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
             $(".defaultpic").attr("src",dPicSrc);
@@ -269,7 +268,6 @@ productposter.prototype = {
                         if(code==200 && url){
 
                             that.urlsave.push(url);
-                            console.log("海报背景图保存成功"); 
 
                             //在海报背景图保存成功以后保存产品海报
                             var url1 = "/r/Mall_Poster/saveProPoster/";
@@ -285,7 +283,6 @@ productposter.prototype = {
                     }
                 }
                 xhr1.send(formbgdata);
-                console.log("海报背景图上传成功"); 
             }else{
                 alert("您的浏览器不支持FormData对象");
             }
@@ -305,7 +302,6 @@ productposter.prototype = {
     },
 
     getNowLidAndSid:function(nowurl){
-        console.log(nowurl);
 
         var a=nowurl.indexOf("lid");        
 
@@ -513,7 +509,6 @@ productposter.prototype = {
                 }
             }
             xhr.send(formdata);
-            console.log("海报合成图保存成功");
         }else{
             alert("您的浏览器不支持FormData对象");
         }
@@ -530,12 +525,6 @@ productposter.prototype = {
         var id = idbox[0]; //id
         var sid = idbox[1]; //sid
 
-        // console.log(id);
-        // console.log(sid);
-        // console.log(x);
-        // console.log(y);
-        // console.log(proUrl);
-        // console.log(proBgUrl);
 
         $.ajax({
             url:"/r/Mall_Poster/saveProXY/",
@@ -552,7 +541,6 @@ productposter.prototype = {
             success:function(res){
                 res = res || {};
                 if(res.code==200){
-                    console.log("xy保存成功");
                     alert("保存成功");
                     window.location.href = "http://www.12301.local/new/posterimgupload_myposter.html";
                 }else{

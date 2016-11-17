@@ -18,7 +18,6 @@ var Postercrop =function(){
 
 	this.bind();
 	var qrcodetext = window.location.origin+'/r/Mall_Poster/downMallPoster/';  
-	console.log(qrcodetext);
 	$(".QRCode").qrcode({width: 127,height: 127,text: qrcodetext});
 
 }
