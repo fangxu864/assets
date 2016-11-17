@@ -2,7 +2,7 @@ require('./index.scss');
 require('./jquery.qrcode.min.js');
 
 var posterList = $('#posterList'),
-    resArr = [],
+    // resArr = [],
     pagination,
     xhrPoster;
 
@@ -15,30 +15,38 @@ function ajaxGetPoster( page, pageSize ) {
                 "page": page,
                 "pageSize": pageSize
             },
+            loading: function(){
+
+            },
             success:function(res){
-                var resIndex;
+                // var resIndex;
 
-                if(resArr.length) {
-                    for(var i=0, resArrLen = resArr.length; i<resArrLen; i++) {
-                        if(resArr[i].page == res.data.page) {
-                            resIndex = i;
-                            break;
-                        }
-                    }
-                    if(resIndex == undefined) {
-                        resArr.push(res.data);
-                    }
+                // if(resArr.length) {
+                //     for(var i=0, resArrLen = resArr.length; i<resArrLen; i++) {
+                //         if(resArr[i].page == res.data.page) {
+                //             resIndex = i;
+                //             break;
+                //         }
+                //     }
+                //     if(resIndex == undefined) {
+                //         resArr.push(res.data);
+                //     }
+                // } else {
+                //     resArr.push(res.data);
+                // }
+
+                if(res.data.list.length) {
+                    posterList.html(renderList(res.data.list));
+
+                    $('.QRCode').each(function(){
+                        $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
+                    });
+
+                    pagination.render({current: page, total: res.data.total});
                 } else {
-                    resArr.push(res.data);
+                    //无数据
+                    $('#paginationWrap').hide();
                 }
-
-                posterList.html(renderList(res.data.list));
-
-                $('.QRCode').each(function(){
-                    $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
-                });
-
-                pagination.render({current: page, total: res.data.total});
             }
         });
 }
@@ -81,25 +89,29 @@ pagination.on("page.switch",function(toPage,currentPage,totalPage){
 
     pagination.render({current:toPage,total:totalPage});
 
-    if(resArr.length) {
-        for(var i=0, resArrLen = resArr.length; i<resArrLen; i++) {
-            if(resArr[i].page == toPage) {
-                resIndex = i;
-                break;
-            }
-        }
-        if(resIndex != undefined) {
-            posterList.html(renderList(resArr[resIndex].list));
-            $('.QRCode').each(function(){
-                $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
-            });
-            return;
-        }
-    }
+    // if(resArr.length) {
+    //     for(var i=0, resArrLen = resArr.length; i<resArrLen; i++) {
+    //         if(resArr[i].page == toPage) {
+    //             resIndex = i;
+    //             break;
+    //         }
+    //     }
+    //     if(resIndex != undefined) {
+    //         posterList.html(renderList(resArr[resIndex].list));
+    //         $('.QRCode').each(function(){
+    //             $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
+    //         });
+    //         return;
+    //     }
+    // }
 
     if(xhrPoster && xhrPoster.status !== 200) {
         xhrPoster.abort();
     }
+
+    $('html,body').animate({
+        scrollTop: $('#p_content').offset().top
+    }, 300);
 
     ajaxGetPoster(toPage, 9);
 });
