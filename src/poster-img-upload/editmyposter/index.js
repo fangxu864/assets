@@ -23,11 +23,11 @@ var productposter =function(nowurl){
                 '<button class="selectEnter selectBtn">确定</button>'+
                 '<button class="selectCancel selectBtn">取消</button>'+
                 '</div>';
-    this.urlsave = []; //保存海报url与背景图url以用于请求            
+    this.urlsave = []; //保存海报url与背景图url以用于请求
 
     this.nowurl = nowurl;
-    
-    
+
+
 
 
     this.init();
@@ -84,20 +84,20 @@ productposter.prototype = {
 
     },
 
-    
+
     bind:function(){
 
         var that = this;
 
         //打开遮罩层
         $("#choose_poster_btn").on("click",function(){
-            that.dialog.open();  //打开dialog 
-            //初始化搜索框 
+            that.dialog.open();  //打开dialog
+            //初始化搜索框
             var select1 = new Select({
                 source : "/r/Mall_Poster/getProducts/",
                 ajaxType : "post",
                 ajaxParams : {
-                    
+
                 },
                 isFillContent:false,
                 filterType : "ajax",  //指定过滤方式为ajax
@@ -123,15 +123,15 @@ productposter.prototype = {
                     reslut["data"] = newList
                     return reslut;
                 }
-            });  
+            });
         });
 
         //确定产品
         $(".selectEnter").on("click",function(){
 
-            
 
-            //再次修改 清空idBox 
+
+            //再次修改 清空idBox
             if(that.idBox.length == 2){
                 that.idBox.length = 0;
             }
@@ -143,7 +143,7 @@ productposter.prototype = {
                     var c = b[i].split("=");
                     var d = c[1];
                     that.idBox.push(d);
-                }    
+                }
             }else{
                 alert("请选择产品");
                 return
@@ -152,7 +152,7 @@ productposter.prototype = {
             if(that.idBox.length == 2){
                 var productTitle = $("#selectInput").attr("data-title");
                 $(".choose_complete").text("已选择"+productTitle+"产品");
- 
+
                 var dPicSrc = '/r/Mall_Poster/proPosterBg/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];   //修改默认背景图
                 var QRPicSrc = '/r/Mall_Poster/proPosterQrCode/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];  // 修改默认二维码
 
@@ -163,14 +163,14 @@ productposter.prototype = {
                 $(".posterShow").css("display","block");
                 $(".inputposterlabel").css("display","block");
 
-                that.dialog.close();  //关闭dialog 
+                that.dialog.close();  //关闭dialog
             }
-            
+
 
         });
 
         $(".selectCancel").on("click",function(){
-            that.dialog.close();  //关闭dialog 
+            that.dialog.close();  //关闭dialog
         })
 
         //获取自定义海报文件
@@ -218,11 +218,11 @@ productposter.prototype = {
         $(".crop").on("click",function(){
             var CroppedCanvas=that.selpic.cropper("getCroppedCanvas",{
                 width:500
-            }); 
-            
+            });
+
             Ccanvas = $(CroppedCanvas);
             Ccanvas.addClass("aftercrop");
-            
+
             that.piccon.append(Ccanvas);
             that.selpic.cropper("destroy").css("display","none");
 
@@ -235,12 +235,12 @@ productposter.prototype = {
         });
         //保存修改,发送请求
         this.savechange.on("click",function(){
-    
+
             var posterdata = that.formposter();   //生成合成图,返回数据
 
-            var bgdata = posterdata.bgcanvas;  
+            var bgdata = posterdata.bgcanvas;
             var formbgdata = that.filterURL(bgdata);  //背景图form数据
-            var canvasdata = posterdata.formcanvas;   
+            var canvasdata = posterdata.formcanvas;
             var formcanvasdata = that.filterURL(canvasdata);    //合成图form数据
             var qrx = parseInt(that.QRcode.css("left"));  //二维码x坐标
             var qry = parseInt(that.QRcode.css("top"));  //二维码y坐标
@@ -249,7 +249,7 @@ productposter.prototype = {
                 "y":qry
             }
 
-            
+
             //先保存产品 海报背景图请求   //手动传，不和保存产品海报一起
             var url2 = "/r/Mall_Poster/saveProPosterBg/";
             // that.submitImgformData(formbgdata,url2);
@@ -264,15 +264,15 @@ productposter.prototype = {
                         var code = res.code;
                         var data = res.data || {};
                         url = data.url;
-                        var msg = res.msg 
+                        var msg = res.msg
                         if(code==200 && url){
 
                             that.urlsave.push(url);
 
                             //在海报背景图保存成功以后保存产品海报
                             var url1 = "/r/Mall_Poster/saveProPoster/";
-                            that.submitImgformData(formcanvasdata,url1,qrdata);          
-                            
+                            that.submitImgformData(formcanvasdata,url1,qrdata);
+
                         }else{
                             alert(msg);
                         }
@@ -286,8 +286,8 @@ productposter.prototype = {
             }else{
                 alert("您的浏览器不支持FormData对象");
             }
-            
-            
+
+
         });
 
         //取消修改  （单纯的刷新页面）
@@ -303,7 +303,7 @@ productposter.prototype = {
 
     getNowLidAndSid:function(nowurl){
 
-        var a=nowurl.indexOf("lid");        
+        var a=nowurl.indexOf("lid");
 
         if(a == -1){
             var tips = "添加产品海报";
@@ -322,7 +322,7 @@ productposter.prototype = {
             var tips = "编辑";
             return tips;
 
-                  
+
         }
 
     },
@@ -334,12 +334,12 @@ productposter.prototype = {
             var x,y;
             x=event.clientX;
             y=event.clientY;
-            if(!this.lastPoint){   
+            if(!this.lastPoint){
                 this.lastPoint={   //保存上次的位置
                     x:x,
                     y:y
                 };
-            }   
+            }
 
             var offset={    //上一次移动与下一次移动的偏差
                     x:x-this.lastPoint.x,
@@ -350,7 +350,7 @@ productposter.prototype = {
                 y:y
             };
 
-                    
+
             return offset;//将这次与上次的偏差返回
 
 
@@ -379,7 +379,7 @@ productposter.prototype = {
         if(nt>hd){
             nt = hd-1;
         }
-        
+
         this.QRcode.css({
             "left":nl+'px',
             "top":nt+'px'
@@ -413,7 +413,7 @@ productposter.prototype = {
             var ctx=poster.getContext('2d');
 
             //默认图片的宽高
-            var dpicw = parseInt(this.dpic.css("width"));  
+            var dpicw = parseInt(this.dpic.css("width"));
             var dpich = parseInt(this.dpic.css("height"));
 
             post = $(poster);
@@ -449,7 +449,7 @@ productposter.prototype = {
     },
 
 
-    filterURL:function(dataURL){  
+    filterURL:function(dataURL){
 
         // dataURL 的格式为 “data:image/png;base64,****”,
         // 逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
@@ -491,14 +491,14 @@ productposter.prototype = {
                     var code = res.code;
                     var data = res.data || {};
                     url = data.url;
-                    var msg = res.msg 
+                    var msg = res.msg
                     if(code==200 && url){
 
                         that.urlsave.push(url);
                         if(that.urlsave.length == 2&&qrdata){
                             that.sendQRInfo(that.urlsave,qrdata,that.idBox);   //传二维码坐标与url
                         }
-                        
+
                     }else{
                         alert(msg);
                     }
@@ -542,7 +542,7 @@ productposter.prototype = {
                 res = res || {};
                 if(res.code==200){
                     alert("保存成功");
-                    window.location.href = "http://www.12301.local/new/posterimgupload_myposter.html";
+                    window.location.href = "/new/posterimgupload_myposter.html";
                 }else{
                     alert(res.msg);
                 }
@@ -558,7 +558,7 @@ productposter.prototype = {
 
 $(function(){
 
-    
+
     var nowurl = window.location.href;
     var newproductposter = new productposter(nowurl);
 });
