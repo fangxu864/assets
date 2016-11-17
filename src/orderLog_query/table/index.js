@@ -20,8 +20,14 @@ var Table=PFT.Util.Class({
 
     dealData:function (ajaxData) {
 
-        console.log(ajaxData.data.length);
         $("#table_box tbody tr").remove();
+
+        //没有数据提示
+        if(ajaxData.data.length==0){
+            $("#table_box tbody ").remove();
+            $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>未找到相关数据。</td><td></td><td></td><td></td></tr>");
+        }
+
         for(var i = 0; i <ajaxData.data.length ; i++){
             var tr = $("<tr>"+
                 "<td class='th1'>"+ajaxData.data[i].insertTime+"</td>" + //操作时间

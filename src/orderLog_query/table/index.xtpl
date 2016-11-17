@@ -1,6 +1,6 @@
 <table>
     <thead>
-    <tr>
+    <tr class="headline">
         <th class="th1">操作时间</th>
         <th>操作员</th>
         <th>操作类型</th>

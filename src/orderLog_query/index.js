@@ -21,17 +21,13 @@ var Main={
                 //2.点击导出，访问ajax，返回XLS
         _this.table=new Table;
         _this.pagination = new changePage;
-        console.log(_this.pagination)
+        //console.log(_this.pagination)
 
 
         //判断时候admin
         _this.cookieDate=[];
         _this.paramBox=_this.filter.getParams();
         _this.talkArea();
-
-        //加载中提示
-      /*  $("#table_box tbody ").remove();
-        $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>加载中，请稍后....</td><td></td><td></td><td></td></tr>");*/
 
 
     },
@@ -44,6 +40,9 @@ var Main={
     
     //获取ajaxData，获取成功后自动处理表格
     getAjaxData_dealTable:function (Params,toPage) {
+        if(!toPage){
+             toPage = 1 ;
+        };
         var _this = this;
          $.ajax({
          url: "/r/Order_OrderQuery/getOrderRecord",
@@ -52,9 +51,23 @@ var Main={
          data: Params,
          type: "GET",
 
-         success: function(ajaxData) {
+         beforeSend:function () {
              console.log(this.url);
-             console.log(ajaxData);
+             //加载中提示
+            $("#table_box tbody ").remove();
+            $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>加载中，请稍后....</td><td></td><td></td><td></td></tr>");
+         },
+         success: function(ajaxData) {
+             if(ajaxData.code !== 200){
+                 alert(ajaxData.msg);
+                 return false
+             }
+             if(!ajaxData.data){
+                 alert("none")
+             }
+
+             console.log(this.url);
+             //console.log(ajaxData);
              _this.table.dealData(ajaxData);
              console.log(ajaxData.msg);
              _this.pagination.render(toPage,ajaxData.msg);

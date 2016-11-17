@@ -74,6 +74,7 @@ var Filter=PFT.Util.Class({
         paramBox.fxname=$("#merchant").val();  //可能不存在
         paramBox.btime=$("#startTime").val();   //开始时间
         paramBox.etime=$("#endTime").val();     //结束时间
+        
         paramBox.ordernum=$("#orderNumber").val();   //订单编号
         paramBox.ename=$("#operatePerson").val();   //操作人姓名
         paramBox.action=$("#operateType").find(':selected').val();  //操作类型

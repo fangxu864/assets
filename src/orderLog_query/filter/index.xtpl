@@ -54,7 +54,9 @@
         <option value="25">会员购票</option>
         <option value="26">年卡特权</option>
     </select>
-    <button id="search">搜索</button>
-    <button id="export">导出</button>
+    <div id="search">搜索</div>
+    <div id="export">
+        导出
+    </div>
 </div>
 

@@ -25,10 +25,15 @@
     .th1{
       padding-left: 20px;
     }
+    .headline{
+      height: 36px;
+      line-height: 36px;
+      background: #f0f0f0;
+    }
     thead{
       height: 36px;
       line-height: 36px;
-      background: #e5e5e5;
+      background: #f0f0f0;
       tr{
         th{
           text-align: left;
