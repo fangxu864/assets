@@ -17,8 +17,7 @@ var Postercrop =function(){
 
 
 	this.bind();
-	var qrcodetext = window.location.origin+'/r/Mall_Poster/downMallPoster/';  
-	$(".QRCode").qrcode({width: 127,height: 127,text: qrcodetext});
+	
 
 }
 
@@ -52,6 +51,12 @@ Postercrop.prototype = {
 			$(".inputposterlabel").hide();
 			that.savechange.hide();
 			that.cancelchange.hide();
+
+			//生成下载二维码
+			var memberID = $(".memberID").val();
+			var qrcodetext = window.location.origin+'/r/Mall_Poster/downMallPoster/?mid='+memberID;
+			$(".QRCode").qrcode({width: 127,height: 127,text: qrcodetext});
+
 		})
 		//二维码拖拽事件绑定
 		this.QRcode.on('mousedown',function(event){
@@ -328,7 +333,7 @@ Postercrop.prototype = {
 			success:function(res){
 				res = res || {};
 				if(res.code==200){
-					window.location.href = "http://www.12301.local/new/posterimgupload_index.html";
+					window.location.href = "/new/posterimgupload_index.html";
 				}else{
 					alert(res.msg);
 				}

@@ -265,6 +265,13 @@
      font-size: 14px;
      cursor: pointer;
      margin-left: 5px;
+     border-top-style: none;
+     border-right-style: none;
+     border-bottom-style: none;
+     border-left-style: none;
+ }
+ .crop:active{
+     background:#0f7cb7;            
  }
 
  /* 选择产品提示 */

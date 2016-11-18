@@ -55,7 +55,7 @@
     }
   .posterShow{
          padding: 10px;
-         width: 450px;
+         // width: 450px;
          margin: 10px;
          display: inline-block;
      }
@@ -168,6 +168,13 @@
         font-size: 14px;
         cursor: pointer;
         margin-left: 5px;
+        border-top-style: none;
+        border-right-style: none;
+        border-bottom-style: none;
+        border-left-style: none;
+    }
+    .crop:active{
+        background:#0f7cb7;            
     }
 
 
@@ -263,7 +270,6 @@
          position: relative;
      }
      .posterShow{
-         width: 400px;
          margin: 20px auto;
      } 
      .posterProduct{
