@@ -1,4 +1,5 @@
-
+require('./cropper.js');
+require('./cropper.css');
 
 var Select = require("COMMON/modules/select");     //选择产品框
 var Dialog = require("COMMON/modules/dialog-simple");  //遮罩框
