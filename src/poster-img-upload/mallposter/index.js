@@ -20,6 +20,12 @@ var Postercrop =function(){
 	this.bind();
 
 
+	//生成下载二维码
+	var memberID = $(".memberID").val();
+	var qrcodetext = window.location.origin+'/r/Mall_Poster/downMallPoster/?mid='+memberID;
+	$(".QRCode").qrcode({width: 127,height: 127,text: qrcodetext});
+
+
 }
 
 Postercrop.prototype = {
@@ -53,10 +59,7 @@ Postercrop.prototype = {
 			that.savechange.hide();
 			that.cancelchange.hide();
 
-			//生成下载二维码
-			var memberID = $(".memberID").val();
-			var qrcodetext = window.location.origin+'/r/Mall_Poster/downMallPoster/?mid='+memberID;
-			$(".QRCode").qrcode({width: 127,height: 127,text: qrcodetext});
+
 
 		})
 		//二维码拖拽事件绑定

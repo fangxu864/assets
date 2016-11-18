@@ -28,9 +28,6 @@ var productposter =function(nowurl){
 
     this.nowurl = nowurl;
 
-
-
-
     this.init();
 
 }
@@ -58,6 +55,8 @@ productposter.prototype = {
         if(tips == "添加产品海报"){
             console.log("什么都不做");
         }else{
+            $(".choose_poster_btn").show();
+            $(".choose_complete").show();
             var dPicSrc = '/r/Mall_Poster/proPosterBg/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
             var QRPicSrc = '/r/Mall_Poster/proPosterQrCode/'+ '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
             $(".defaultpic").attr("src",dPicSrc);
@@ -91,7 +90,8 @@ productposter.prototype = {
         var that = this;
 
         //打开遮罩层
-        $("#choose_poster_btn").on("click",function(){
+        console.log($(".choose_poster_btn,.tip1"));
+        $(".choose_poster_btn,.tip1").on("click",function(){
             that.dialog.open();  //打开dialog
             //初始化搜索框
             var select1 = new Select({
@@ -118,19 +118,23 @@ productposter.prototype = {
                     }
                     var newList=[];
                     for(var i=0;i<list.length;i++){
-                        list[i].id="id="+list[i].id+","+"sid="+list[i].sapply_sid;
+                        list[i].id="id="+list[i].id+","+"sid="+list[i].apply_sid;
                         newList.push(list[i])
                     }
                     reslut["data"] = newList
                     return reslut;
                 }
             });
-        });
+
+        }); 
+        //Select插件随滚动条滚动bug解决   
+        $("#selectInput").on("blur",function(){
+            $("#gSelectDownBox_1").css("position","fixed");
+            $("#gSelectDownBox_1").css("top","290.5px");    
+        })
 
         //确定产品
         $(".selectEnter").on("click",function(){
-
-
 
             //再次修改 清空idBox
             if(that.idBox.length == 2){
@@ -163,6 +167,8 @@ productposter.prototype = {
                 $(".tip").css("display","none");
                 $(".posterShow").css("display","block");
                 $(".inputposterlabel").css("display","block");
+                $(".choose_poster_btn").show();
+                $(".choose_complete").show();
 
                 that.dialog.close();  //关闭dialog
             }
@@ -197,6 +203,8 @@ productposter.prototype = {
             $(".inputposterlabel").hide();
             that.savechange.hide();
             that.cancelchange.hide();
+            $(".choose_poster_btn").hide();
+            $(".choose_complete").hide();
         });
         //二维码拖拽事件绑定
         this.QRcode.on('mousedown',function(event){
@@ -232,6 +240,7 @@ productposter.prototype = {
             $(this).hide();
             that.savechange.show();
             that.cancelchange.show();
+            $(".inputposterlabel").show();
 
         });
         //保存修改,发送请求

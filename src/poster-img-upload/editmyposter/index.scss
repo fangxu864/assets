@@ -215,14 +215,7 @@
 
 
 
- /* 选择框样式 */
- .selectwrap{
-     height: 300px;
-     width: 300px;
-     /* position: absolute; */
-     margin: 100px auto;
-
- }
+ 
 
 
  .piccon{
@@ -274,12 +267,6 @@
      background:#0f7cb7;            
  }
 
- /* 选择产品提示 */
- .tip{
-     padding-left: 50px;
-     margin: 50px auto;
-     font-size: 30px;
- }
 
  .inputposterlabel{
      position: absolute;
@@ -300,14 +287,29 @@
  }
  
 
+
+ /* 选择框样式 */
+ .selectwrap{
+     height: 485px;
+     width: 550px;
+     position: relative;
+     margin: 100px auto;
+
+ }
+
  #selectInput{
+     position:absolute;
+     top:50px;
+     left:124px;
      display: block;
-     width: 200px;
+     width: 300px;
      height:30px;
  }
  .selectText{
+     position:absolute;
+     top:10px;
+     left:125px;
      display: block;
-     float: left;
      height: 30px;
      line-height: 30px;
      font-size: 15px;
@@ -316,8 +318,7 @@
  .selectBtn{
      height: 34px;
      width: 110px;
-     margin-top: 250px;
-     margin-left: 30px;
+     border-radius: 2px;
      background: #0797d9;
      border-top-style: none;
      border-right-style: none;
@@ -325,6 +326,9 @@
      border-left-style: none;
  }
  .selectEnter.selectBtn{
+     position:absolute;
+     bottom:20px;
+     right:10px;
      color: #FFF;
  }
  .selectEnter.selectBtn:active{
@@ -334,6 +338,9 @@
      color: #0797d9;
      background: #fff;
      border: 1px solid #0797d9;
+     position:absolute;
+     bottom:20px;
+     right:142px;
  }
  .selectCancel.selectBtn:active{
      background: #0f7cb7;
@@ -370,4 +377,25 @@
      border: 1px solid #0797D9;
      background: #fff;
      color: #0797D9;
+ }
+
+ .tip{
+     height:140px;
+     width:100%;
+ }    
+
+ .tip1{
+     background: #0797d9;
+     margin:50px 20px 0 250px;
+     height: 34px;
+     width: 110px;
+     color: #ffffff;
+     display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+ }
+ .tip1:active{
+     background: #0f7cb7;
  }
