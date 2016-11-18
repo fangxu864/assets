@@ -1,7 +1,7 @@
 .fl { float:left; }
 .fr { float:right; }
 
-.nodata-wrap { padding:50px 10px; text-align:center; }
+.nodata-wrap { padding:200px 10px; text-align:center; }
 
 .section { background-color:#fff; border:1px solid #e5e5e5; }
 
@@ -55,6 +55,7 @@
 }
 
 .poster-list {
+    margin-top: 20px;
     line-height: 30px;
     font-weight: normal;
     font-size: 14px;

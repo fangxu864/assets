@@ -1,4 +1,5 @@
-
+require('./cropper.css');
+require('./cropper.js');
 
 require('./jquery.qrcode.min.js');
 require("./index.scss");
@@ -17,13 +18,13 @@ var Postercrop =function(){
 
 
 	this.bind();
-	
+
 
 }
 
 Postercrop.prototype = {
 
-	
+
 	bind:function(){
 
 		var that = this;
@@ -79,11 +80,11 @@ Postercrop.prototype = {
 		$(".crop").on("click",function(){
 			var CroppedCanvas=that.selpic.cropper("getCroppedCanvas",{
 				width:500
-			}); 
-			
+			});
+
 			Ccanvas = $(CroppedCanvas);
 			Ccanvas.addClass("aftercrop");
-			
+
 			that.piccon.append(Ccanvas);
 			that.selpic.cropper("destroy").css("display","none");
 
@@ -96,13 +97,13 @@ Postercrop.prototype = {
 		});
 		//保存修改,发送请求
 		this.savechange.on("click",function(){
-	
+
 
 			var posterdata = that.formposter();   //生成合成图,返回数据
 
-			var bgdata = posterdata.bgcanvas;  
+			var bgdata = posterdata.bgcanvas;
 			var formbgdata = that.filterURL(bgdata);  //背景图form数据
- 			var canvasdata = posterdata.formcanvas;   
+ 			var canvasdata = posterdata.formcanvas;
 			var formcanvasdata = that.filterURL(canvasdata);	//合成图form数据
 			var qrx = parseInt(that.QRcode.css("left"));  //二维码x坐标
 			var qry = parseInt(that.QRcode.css("top"));  //二维码y坐标
@@ -111,15 +112,15 @@ Postercrop.prototype = {
 				"y":qry
 			}
 
-						
+
 			//先保存微商城海报请求
 			var url1 = "/r/Mall_Poster/saveMallPoster/";
 			that.submitImgformData(formcanvasdata,url1,qrdata);
 			//后保存微商城 海报背景图请求
 			var url2 = "/r/Mall_Poster/saveMallPosterBg/";
 			that.submitImgformData(formbgdata,url2);
-			
-			
+
+
 		});
 
 		//取消修改  （单纯的刷新页面）
@@ -140,12 +141,12 @@ Postercrop.prototype = {
 			var x,y;
 			x=event.clientX;
 		   	y=event.clientY;
-		   	if(!this.lastPoint){   
+		   	if(!this.lastPoint){
 		   		this.lastPoint={   //保存上次的位置
 		   	   		x:x,
 		   	   		y:y
 		   		};
-		   	} 	
+		   	}
 
 		   	var offset={    //上一次移动与下一次移动的偏差
 		      		x:x-this.lastPoint.x,
@@ -156,7 +157,7 @@ Postercrop.prototype = {
 		      	y:y
 		   	};
 
-					
+
 		   	return offset;//将这次与上次的偏差返回
 
 
@@ -185,7 +186,7 @@ Postercrop.prototype = {
 		if(nt>hd){
 			nt = hd-1;
 		}
-		
+
 		this.QRcode.css({
 			"left":nl+'px',
 			"top":nt+'px'
@@ -219,7 +220,7 @@ Postercrop.prototype = {
 			var ctx=poster.getContext('2d');
 
 			//默认图片的宽高
-			var dpicw = parseInt(this.dpic.css("width"));  
+			var dpicw = parseInt(this.dpic.css("width"));
 			var dpich = parseInt(this.dpic.css("height"));
 
 			post = $(poster);
@@ -256,7 +257,7 @@ Postercrop.prototype = {
 
 
 
-	filterURL:function(dataURL){  
+	filterURL:function(dataURL){
 
 		// dataURL 的格式为 “data:image/png;base64,****”,
 		// 逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
@@ -291,14 +292,16 @@ Postercrop.prototype = {
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST",uploadurl);
 			var url = "";
-			xhr.onload = function(res){
+			xhr.onload = function(e){
+                var e = e? e : window.e;
+                var target = e.srcElement ? e.srcElement : e.target;
 				if(xhr.status==200){
-					res = res.srcElement.responseText;
+					res = target.responseText;
 					res = JSON.parse(res);
 					var code = res.code;
 					var data = res.data || {};
 					url = data.url;
-					var msg = res.msg 
+					var msg = res.msg
 					if(code==200 && url){
 						that.sendQRInfo(url,qrdata);   //传二维码坐标与url
 					}else{
