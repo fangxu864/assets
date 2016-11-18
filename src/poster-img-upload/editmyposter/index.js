@@ -128,12 +128,14 @@ productposter.prototype = {
 
         }); 
         //Select插件随滚动条滚动bug解决   
-        $("#selectInput").on("blur",function(){
-            $("#gSelectDownBox_1").css("position","fixed");
+        $("#selectInput").on("focus",function(e){
+           var gSim=$(".gSimpleDialog-container");
+           gSim.css("position","absolute");
+           var h=$(this)[0].scrollHeight;
+           var Y=$(this).offset().top+h;
+            $("#gSelectDownBox_1").css("top",Y+"px");
             
-            var X=$(this).offset().top;
-           var h=$(this).height()+5;
-            $("#gSelectDownBox_1").css("top",X+h+"px");    
+          
         })
 
         //确定产品
@@ -559,7 +561,7 @@ productposter.prototype = {
                 res = res || {};
                 if(res.code==200){
                      var i=0;
-                    alert("保存成功"+i);
+                    alert("保存成功++++"+"+"+i);
                    
                     window.location.href = "/new/posterimgupload_myposter.html?c="+i;
                     console.log(i)
