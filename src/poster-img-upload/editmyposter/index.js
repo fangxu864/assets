@@ -90,7 +90,6 @@ productposter.prototype = {
         var that = this;
 
         //打开遮罩层
-        console.log($(".choose_poster_btn,.tip1"));
         $(".choose_poster_btn,.tip1").on("click",function(){
             that.dialog.open();  //打开dialog
             //初始化搜索框
@@ -130,7 +129,10 @@ productposter.prototype = {
         //Select插件随滚动条滚动bug解决   
         $("#selectInput").on("blur",function(){
             $("#gSelectDownBox_1").css("position","fixed");
-            $("#gSelectDownBox_1").css("top","290.5px");    
+            var X=$(this).offset().top;
+            var h = $(this).height()+5;           
+            $("#gSelectDownBox_1").css("top",X+h+"px"); 
+
         })
 
         //确定产品
@@ -180,16 +182,20 @@ productposter.prototype = {
             that.dialog.close();  //关闭dialog
         })
 
+        
         //获取自定义海报文件
         this.inputposter.change(function(){
+            
             var file = this.files[0];
             var reader=new FileReader();
             reader.readAsDataURL(file);
             reader.onload=function(){
-                var url=reader.result;
 
-                that.selpic.css("width","100%");
+                var url=reader.result;
+                
+                that.selpic.css("max-width","100%");
                 that.selpic.attr("src",url);
+
                 that.dpic.css("display","none");
                 that.QRcode.css("display","none");
 
@@ -205,6 +211,7 @@ productposter.prototype = {
             that.cancelchange.hide();
             $(".choose_poster_btn").hide();
             $(".choose_complete").hide();
+
         });
         //二维码拖拽事件绑定
         this.QRcode.on('mousedown',function(event){
@@ -240,7 +247,6 @@ productposter.prototype = {
             $(this).hide();
             that.savechange.show();
             that.cancelchange.show();
-            $(".inputposterlabel").show();
 
         });
         //保存修改,发送请求
@@ -310,7 +316,13 @@ productposter.prototype = {
     },
     //取消修改
     reset:function(){
-        window.location.reload();   //是否有更好的办法
+        var nowloca = window.location.href;
+        var a = nowloca.indexOf("?");
+        if(a = -1){
+            window.location.href = window.location.href + '?lid=' +this.idBox[0] + '&sid='+this.idBox[1];
+        }else{
+            window.location.reload();
+        }
     },
 
     getNowLidAndSid:function(nowurl){

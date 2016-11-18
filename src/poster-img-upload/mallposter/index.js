@@ -23,6 +23,7 @@ var Postercrop =function(){
 	//生成下载二维码
 	var memberID = $(".memberID").val();
 	var qrcodetext = window.location.origin+'/r/Mall_Poster/downMallPoster/?mid='+memberID;
+	console.log(qrcodetext);
 	$(".QRCode").qrcode({width: 127,height: 127,text: qrcodetext});
 
 
