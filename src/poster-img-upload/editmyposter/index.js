@@ -130,7 +130,10 @@ productposter.prototype = {
         //Select插件随滚动条滚动bug解决   
         $("#selectInput").on("blur",function(){
             $("#gSelectDownBox_1").css("position","fixed");
-            $("#gSelectDownBox_1").css("top","290.5px");    
+            
+            var X=$(this).offset().top;
+           var h=$(this).height()+5;
+            $("#gSelectDownBox_1").css("top",X+h+"px");    
         })
 
         //确定产品
@@ -555,8 +558,12 @@ productposter.prototype = {
             success:function(res){
                 res = res || {};
                 if(res.code==200){
-                    alert("保存成功");
-                    window.location.href = "/new/posterimgupload_myposter.html";
+                     var i=0;
+                    alert("保存成功"+i);
+                   
+                    window.location.href = "/new/posterimgupload_myposter.html?c="+i;
+                    console.log(i)
+                    i++;
                 }else{
                     alert(res.msg);
                 }

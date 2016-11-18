@@ -356,11 +356,12 @@ $(function(){
 	var newposter = new Postercrop();
 });
 
+
 $(function(){
-    $("span.posterDownload").mouseover(function(){
-      $(this).children().show();
-    }).mouseout(function(){
-        $(this).children().hide(100);
+    $(".posterContent").on('mouseenter','.posterDownload',function(){
+      $(this).children('.QRCode').show();
+    }).on('mouseleave','.posterDownload',function(){
+        $(this).children('.QRCode').hide(100);
     })
 })
 
