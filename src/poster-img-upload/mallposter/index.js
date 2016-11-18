@@ -287,9 +287,11 @@ Postercrop.prototype = {
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST",uploadurl);
 			var url = "";
-			xhr.onload = function(res){
+			xhr.onload = function(e){
+                var e = e? e : window.e;
+                var target = e.srcElement ? e.srcElement : e.target;
 				if(xhr.status==200){
-					res = res.srcElement.responseText;
+					res = target.responseText;
 					res = JSON.parse(res);
 					var code = res.code;
 					var data = res.data || {};

@@ -1,5 +1,5 @@
-require('./cropper.js');
 require('./cropper.css');
+require('./cropper.js');
 
 var Select = require("COMMON/modules/select");     //选择产品框
 var Dialog = require("COMMON/modules/dialog-simple");  //遮罩框
@@ -258,9 +258,11 @@ productposter.prototype = {
                 var xhr1 = new XMLHttpRequest();
                 xhr1.open("POST",url2);
                 var url = "";
-                xhr1.onload = function(res){
+                xhr1.onload = function(e){
+                    var e = e? e : window.e;
+                    var target = e.srcElement ? e.srcElement : e.target;
                     if(xhr1.status==200){
-                        res = res.srcElement.responseText;
+                        res = target.responseText;
                         res = JSON.parse(res);
                         var code = res.code;
                         var data = res.data || {};
