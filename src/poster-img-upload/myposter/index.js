@@ -31,7 +31,7 @@ function ajaxGetMyPoster( page, pageSize ) {
                 } else {
                     //无数据
                     $('#paginationWrap').hide();
-                    posterList.html('<div class="nodata-wrap">暂无供应商产品海报</div>');
+                    posterList.html('<div class="nodata-wrap">您的产品海报还是空的,您可以<a href="'+window.location.origin+'/new/posterimgupload_editmyposter.html">添加产品海报</a></div>');
                 }
 
             }
@@ -89,7 +89,7 @@ posterList.on('click', '.btnDelPoster', function(){
                     } else {
                         //无数据
                         $('#paginationWrap').hide();
-                        posterList.html('<div class="nodata-wrap">暂无供应商产品海报</div>');
+                        posterList.html('<div class="nodata-wrap">您的产品海报还是空的,您可以<a href="'+window.location.origin+'/new/posterimgupload_editmyposter.html">添加产品海报</a></div>');
                     }
                 }
             },
