@@ -1,0 +1,53 @@
+
+#filter_box{
+  background: white;
+  border: 1px solid #e5e5e5;
+
+  h1{
+    color: #303D46;
+    font-size: 22px;
+    padding-left: 20px;
+    border-bottom: 1px solid #E5E5E5;
+    height: 60px;
+    font-weight: 500;
+    line-height: 60px;
+  }
+
+  .tipContainer{
+    box-sizing: content-box;
+    padding: 8px 12px 8px 20px;
+    height: 63px;
+    font-size: 12px;
+    color: #4D4D4D;
+    p{
+      margin-top: 5px;
+      margin-left: 5px;
+      em{
+        color: red;
+      }
+    }
+  }
+
+  form{
+
+    //padding-top: 20px;
+
+    label{
+      box-sizing: border-box;
+      display: inline-block;
+      width: 155px;
+      height: 60px;
+      line-height: 60px;
+      color: #92a0ab ;
+      //background: indianred;
+      padding: 5px 10px 5px 25px ;
+      em{
+        position: relative;
+        top: 5px;
+        font-size: 20px;
+        font-style: normal;
+        color: red;
+      }
+    }
+  }
+}
