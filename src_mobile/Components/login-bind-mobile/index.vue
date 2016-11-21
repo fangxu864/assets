@@ -30,8 +30,7 @@
         </div>
     </div>
 </template>
-<!--<script type="es6">-->
-<script>
+<script type="es6">
     const Login = require("SERVICE_M/mall-member-smslogin");
     const VCODE_INTER_TIME = 60; //验证码获取时间间隔60s
     let timer = null;
@@ -70,13 +69,11 @@
         },
         methods : {
             onDialogMaskClick(){
-                console.log("fdsf")
                 this.dialogStatus=false
             },
 
             onMobileInpBlur(){
                 var _this=this;
-                console.log("fsdfsf");
                 var Alert = this.Alert;
                 var mobile = this.mobile;
                 if(!mobile) return Alert("请填写手机号");
@@ -125,7 +122,7 @@
                 var submitBtn = e.target;
                 var Alert = this.Alert;
                 if(submitBtn.classList.contains("disable")) return false;
-//                var mobile = this.mobile;
+                var mobile = this.mobile;
                 var code = this.code;
 //                if(!mobile) return Alert("请填写手机号");
 //                if(!PFT.Util.Validate.typePhone(mobile)) return Alert("手机号格式有误");
