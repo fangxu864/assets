@@ -124,7 +124,7 @@
                 },
                 topicList : [],
                 topicShow : false,
-                ptypeList : PFT.Config.ptype,
+                ptypeList : {},
                 ptypeShow : false,
                 cityList : {},
                 cityName : "所有城市",
@@ -270,7 +270,7 @@
                             //Alert("提示","查无匹配条件的产品..");
                             this.list.push({type:"no-search-result"});
                         }else{
-                            Alert("提示","没有更多匹配条件的产品了..");
+                            Alert("没有更多匹配条件的产品了..");
                             this.list.push({type:"empty"});
                             this.$nextTick(()=>{
                                 this.resetScroll();
@@ -278,8 +278,20 @@
                         }
                     },
                     success : (data) => {
+                        var that = this;
                         if(data.citys) this.$set("cityList",data.citys);
                         var themes = data.themes;
+                        var type = data.type;
+                        if(type){
+                            var adaptType = {};
+                            for(var i=0; i<type.length; i++){
+                                var ptype = type[i]["identify"];
+                                var ptypeName = type[i]["name"];
+                                adaptType[ptype] = ptypeName;
+                            }
+                            this.ptypeList = adaptType;
+                        }
+
                         if(themes){
                             var __themes = {};
                             for(var i in themes) __themes[i] = themes[i];
@@ -302,7 +314,7 @@
                         })
                     },
                     fail : (msg) => {
-                        Alert("提示",msg);
+                        Alert(msg);
                     }
                 })
             },

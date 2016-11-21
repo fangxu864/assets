@@ -137,7 +137,8 @@ var TuiPiao = PFT.Util.Class({
 			params : {
 				orderid : orderid,
 				companyid : companyid,
-				cancel:1
+				cancel:1,
+				flag:1
 			},
 			loading : function(){ listUl.html(Loading_Text);},
 			complete : function(){ listUl.html("");},

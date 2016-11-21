@@ -90,7 +90,7 @@
                      }
                      this.begintime = date;
                  }else{ //切换的是离店时间
-                     if(date_s<=begintime_s) return alert("离店时间必须晚于入住时间");
+                     if(date_s<=begintime_s) return Alert("离店时间必须晚于入住时间");
                      this.endtime = date;
                  }
                  var daycount = +new Date(this.endtime) - (+new Date(this.begintime));
@@ -203,7 +203,7 @@
                     },
                     fail : (msg) => {
                         this.toast.hide();
-                        alert(msg);
+                        Alert(msg);
                     }
                 })
             }

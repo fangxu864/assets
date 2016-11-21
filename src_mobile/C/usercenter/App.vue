@@ -86,7 +86,6 @@
         ready(){
             var Mobile = PFT.Mobile;
             let Toast = new Mobile.Toast();
-            let Alert = Mobile.Alert;
             FetchUsercenterInfo({
                 loading : () => {
                     Toast.show("loading","努力加载中...");
@@ -99,7 +98,7 @@
                     for(var i in data) that.$set("info."+i,data[i]);
                 },
                 fail : (msg,code)=> {
-                    Alert("提示",msg);
+                    Alert(msg);
                     if(code==102){
                         window.location.href = "bind_mobile.html";
                     }
@@ -131,7 +130,7 @@
                        window.location.href = "bind_mobile.html";
                     },
                     fail : (msg,code)=> {
-                        Alert("提示",msg);
+                        Alert(msg);
                     }
                 })
             }

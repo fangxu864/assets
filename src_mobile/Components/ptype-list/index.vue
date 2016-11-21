@@ -64,8 +64,12 @@
         background:#fff;
         text-align:center;
     }
+    #ptypeListContainer .ptypeList{
+        text-align:center;
+        font-size:0;
+    }
     #ptypeListContainer .ptypeBox{
-        float:left;
+        display:inline-block;
         width:20%;
         text-align:center;
     }
