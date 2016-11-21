@@ -2,7 +2,9 @@
  * Created by Administrator on 2016/11/21.
  */
 
-var newPart1=require("./filter_box");
+var FILTER_BOX=require("./filter_box");
+var RESULT_BOX=require("./result_box");
+var QUICK_BOX=require("./quick_box");
 
 
 var Main={
@@ -10,7 +12,9 @@ var Main={
     init:function () {
 
 //将块级元素实例化成一个内部的对象
-        this.part=new newPart1;
+        this.filter_box=new FILTER_BOX;
+        this.result_box=new RESULT_BOX;
+        this.quick_box=new QUICK_BOX;
 
 //存放一些全局变量
         this.publicParams = {

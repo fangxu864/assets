@@ -1,0 +1,94 @@
+
+#quick_box {
+  background: white;
+  border: 1px solid #e5e5e5;
+  margin-top: 20px;
+
+  h1 {
+    color: #303D46;
+    font-size: 22px;
+    padding-left: 20px;
+    border-bottom: 1px solid #E5E5E5;
+    height: 60px;
+    font-weight: 500;
+    line-height: 60px;
+  }
+
+  h2{
+    color: #303D46;
+    font-size: 12px;
+    padding-left: 20px;
+    height: 34px;
+    font-weight: 500;
+    line-height: 34px;
+  }
+
+  .pictureContainer{
+    box-sizing: border-box;
+    overflow: hidden;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 5px 15px 20px 15px;
+    figure{
+      box-sizing: border-box;
+      display: inline-block;
+      float: left;
+      margin: 10px 22.5px 10px 20px;
+      text-align: center;
+
+      .wrapper{
+           width: 150px;
+        img{
+          box-sizing: content-box;
+          height: 49px;
+          width: auto;
+          padding: 9px;
+          border: 1px solid #e5e5e5;
+          border-radius: 5px;
+        }
+      }
+
+      img{
+        box-sizing: content-box;
+        height: 49px;
+        width: 130px;
+        padding: 9px;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+      }
+
+      .less{
+        box-sizing: content-box;
+        height: 49px;
+        width: auto;
+        padding: 9px;
+        border: 1px solid #e5e5e5;
+        border-radius: 5px;
+        margin: 0 auto;
+      }
+
+      figcaption{
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+
+  }
+
+  #distributor_platform{
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+      .picture_p{
+        box-sizing: border-box;
+        padding-bottom: 20px;
+        background: url("../img/allall.png");
+        width: 780px;
+        height: 110px;
+        overflow: hidden;
+        margin: 5px auto;
+        border: 1px solid white;
+      }
+
+
+  }
+
+}

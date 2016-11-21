@@ -1,3 +1,4 @@
+@import "COMMON/css/base/core";
 
 #filter_box{
   background: white;
@@ -22,6 +23,8 @@
     p{
       margin-top: 5px;
       margin-left: 5px;
+      height: 15px;
+      line-height: 15px;
       em{
         color: red;
       }
@@ -31,7 +34,7 @@
   form{
 
     //padding-top: 20px;
-
+    margin-bottom: 20px;
     label{
       box-sizing: border-box;
       display: inline-block;
@@ -43,11 +46,48 @@
       padding: 5px 10px 5px 25px ;
       em{
         position: relative;
-        top: 5px;
+        top: 6px;
         font-size: 20px;
         font-style: normal;
         color: red;
       }
+    }
+
+    input{
+      @include textInp(34,4);
+      width: 418px;
+      &:focus{
+        border-color: #0797D9;
+        color: #0797D9;
+        background: #FFFFFF;
+        border-radius: 5px;
+      }
+    }
+
+    select{
+      height: 34px;
+      width: 418px;
+      &:focus{
+        border-color: #0797D9;
+        color: #0797D9;
+        background: #FFFFFF;
+        border-radius: 5px;
+      }
+    }
+
+    #submit{
+      display: block;
+      margin: 28px 0 0 330px ;
+      height: 32px;
+      background: #019be1;
+      border: 1px solid #019be1;
+      width: 74px;
+      font-size: 14px;
+      color: #FFF;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: center;
     }
   }
 }

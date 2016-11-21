@@ -8,19 +8,21 @@
 
 <form>
     <label for="dis_nickName"><em>*</em>分销商名称/手机号</label><input type="text" id="dis_nickname"/><br/>
-    <label for="dis_name"><em>*</em>分销商姓名</label><input type="text" id="dis_name"/><br/>
-    <label for="name"><em>*</em>姓名</label><input type="text" id="name"/><br/>
-    <label for="password"><em>*</em>密码</label><input type="text" id="password"/><br/>
-    <label for="password_confirm"><em>*</em>确认密码</label><input type="text" id="password_confirm"/><br/>
-    <label for="telephone">手机号</label><input type="text" id="telephone"/><br/>
-    <label for="phone">固定电话</label><input type="text" id="phone"/><br/>
-    <label for="type">企业类型</label>
-    <select name="" id="type">
-        <option value="">加盟门店</option>
-        <option value="">电商/团购网</option>
-        <option value="">旅行社</option>
-        <option value="">淘宝/天猫</option>
-        <option value="">其他</option>
-    </select><br/>
-    <input type="submit" 提交/>
+    <div id="hideContainer" style="display: none">
+        <label for="dis_name"><em>*</em>分销商姓名</label><input type="text" id="dis_name"/><br/>
+        <label for="name"><em>*</em>姓名</label><input type="text" id="name"/><br/>
+        <label for="password"><em>*</em>密码</label><input type="text" id="password"/><br/>
+        <label for="password_confirm"><em>*</em>确认密码</label><input type="text" id="password_confirm"/><br/>
+        <label for="telephone">手机号</label><input type="text" id="telephone"/><br/>
+        <label for="phone">固定电话</label><input type="text" id="phone"/><br/>
+        <label for="type">企业类型</label>
+        <select name="" id="type">
+            <option value="">加盟门店</option>
+            <option value="">电商/团购网</option>
+            <option value="">旅行社</option>
+            <option value="">淘宝/天猫</option>
+            <option value="">其他</option>
+        </select><br/>
+        <input type="submit" id="submit" 提交/>
+    </div>
 </form>

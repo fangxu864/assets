@@ -5,7 +5,7 @@ require("./index.scss");
 var tpl = require("./filter_box.xtpl");
 
 //块级写法\
-var newPart1=PFT.Util.Class({
+var FILTER_BOX=PFT.Util.Class({
     //放入容器
     container:"#filter_box",
 
@@ -37,4 +37,4 @@ selfFunctionCall1:function(){
 });
 
 //模块导出
-module.exports=newPart1;
+module.exports=FILTER_BOX;
