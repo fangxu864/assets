@@ -550,6 +550,7 @@
                 //    }
                 //};
                 var list = this.ticketList;
+                this.adaptListData(list)
                 for(var i in list){
                     var pid = list[i]["pid"];
                     var obj = data[pid];
@@ -559,8 +560,10 @@
                     var buy_low = list[i]["buy_low"] * 1;
                     if(typeof obj.price!=="undefined") list[i]["jsprice"] = obj.price;
                     if(typeof obj.storeText!=="undefined") list[i]["storeText"] = obj.storeText;
-                    list[i]["storage"] = store==-1?"不限":store;
-                    //list[i]["storage"] = store;
+                    if (i == 0 && list[i]["count"] <= 0) {
+						list[i]["count"] = buy_low;
+					}
+                    list[i]["storage"] = store;
                     if(store== -1){
                         if(buy_up!= -1){ //限制最多购买张数
                             list[i]["max"] = buy_up;
