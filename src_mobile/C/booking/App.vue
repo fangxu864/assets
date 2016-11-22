@@ -550,7 +550,6 @@
                 //    }
                 //};
                 var list = this.ticketList;
-                this.adaptListData(list)
                 for(var i in list){
                     var pid = list[i]["pid"];
                     var obj = data[pid];
@@ -560,6 +559,7 @@
                     var buy_low = list[i]["buy_low"] * 1;
                     if(typeof obj.price!=="undefined") list[i]["jsprice"] = obj.price;
                     if(typeof obj.storeText!=="undefined") list[i]["storeText"] = obj.storeText;
+                    //日历切换后，更新第一张票的购买数量
                     if (i == 0 && list[i]["count"] <= 0) {
 						list[i]["count"] = buy_low;
 					}
