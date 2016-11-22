@@ -25,7 +25,6 @@ var RESULT_BOX=PFT.Util.Class({
 
 //事件调用方法1
     showResult:function(req){
-        console.log(req.length);
         $("table tbody tr").remove();
         if(req.length){
             for(var i =0 ;i<req.length;i++){
@@ -36,10 +35,25 @@ var RESULT_BOX=PFT.Util.Class({
                 }
                 var tr = $("<tr><td class='col_first'>["+req[i].passport+"]"+req[i].dname+"</td><td>"+req[i].com_type+"</td><td>"+req[i].cname+"["+req[i].mobile+"]</td><td>"+operation+"</td></tr>");
                 $("table tbody").append(tr);
-                console.log(2);
             }
-
         }
+    },
+
+    quickAdd:function (req) {
+        var operation = "添加";
+
+        if(req.created){
+            operation = "已添加|配置价格"
+        }
+        var tr = $("<tr><td class='col_first'>["+req.passport+"]"+req.dname+"</td><td>"+req.com_type+"</td><td>"+req.cname+"["+req.mobile+"]</td><td>"+operation+"</td></tr>");
+        var data = $("table tbody .col_first");
+        for(var i =0 ; i< data.length ; i++){
+            if(data[i].innerHTML == "["+req.passport+"]"+req.dname){
+                return false
+            }
+        }
+
+        $("table tbody").append(tr);
     },
 //事件调用方法2
     event2:function(){

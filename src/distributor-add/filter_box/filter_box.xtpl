@@ -9,10 +9,10 @@
 <form>
     <label for="dis_nickName"><em>*</em>分销商名称/手机号</label><input type="text" id="dis_nickname"/><br/>
     <div id="hideContainer" style="display: none">
-        <label for="dis_name"><em>*</em>分销商姓名</label><input type="text" id="dis_name"/><br/>
-        <label for="name"><em>*</em>姓名</label><input type="text" id="name"/><br/>
-        <label for="password"><em>*</em>密码</label><input type="text" id="password"/><br/>
-        <label for="password_confirm"><em>*</em>确认密码</label><input type="text" id="password_confirm"/><br/>
+        <label for="dis_name"><em>*</em>分销商姓名</label><input type="text" id="dis_name" required/><br/>
+        <label for="name"><em>*</em>姓名</label><input type="text" id="name" required/><br/>
+        <label for="password"><em>*</em>密码</label><input type="text" id="password" required/><br/>
+        <label for="password_confirm"><em>*</em>确认密码</label><input type="text" id="password_confirm" required/><br/>
         <label for="telephone">手机号</label><input type="text" id="telephone"/><br/>
         <label for="phone">固定电话</label><input type="text" id="phone"/><br/>
         <label for="type">企业类型</label>
