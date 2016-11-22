@@ -10,47 +10,47 @@
     <div class="pictureContainer">
         <figure>
             <img src="../img/xiecheng.png" />
-            <figcaption>携程网</figcaption>
+            <figcaption data-name="携程网">携程网</figcaption>
         </figure>
         <figure>
             <img src="../img/qunaer.png" />
-            <figcaption>去哪儿</figcaption>
+            <figcaption data-name="去哪儿">去哪儿</figcaption>
         </figure>
         <figure>
             <img src="../img/lvmama.png" />
-            <figcaption>驴妈妈</figcaption>
+            <figcaption data-name="驴妈妈">驴妈妈</figcaption>
         </figure>
         <figure>
             <img src="../img/tongcheng.png" />
-            <figcaption>同程网</figcaption>
+            <figcaption data-name="同程网">同程网</figcaption>
         </figure>
         <figure>
             <img src="../img/tuniu.png" />
-            <figcaption>途牛网</figcaption>
+            <figcaption data-name="南京途牛旅游网">途牛网</figcaption>
         </figure>
         <figure>
             <img src="../img/weixun.png" />
-            <figcaption>微讯旅游网</figcaption>
+            <figcaption data-name="深圳微讯科技信息部">微讯旅游网</figcaption>
         </figure>
         <figure>
             <div class="wrapper"><img src="../img/yaochufa.png" class="less"/></div>
-            <figcaption>酷旅·要出发</figcaption>
+            <figcaption data-name="广州酷旅旅行社有限公司产品中心">酷旅·要出发</figcaption>
         </figure>
         <figure>
             <div class="wrapper"><img src="../img/kuxiulvyou.png" class="less" /></div>
-            <figcaption>酷秀旅游</figcaption>
+            <figcaption data-name="酷秀旅游">酷秀旅游</figcaption>
         </figure>
         <figure>
             <img src="../img/yikuaiqu.png" width="100%" height="100%"/>
-            <figcaption>一块去</figcaption>
+            <figcaption data-name="常州途游网络科技有限公司">一块去</figcaption>
         </figure>
         <figure>
             <img src="../img/weitianxia.jpg" />
-            <figcaption>微天下</figcaption>
+            <figcaption data-name="微天下（厦门）网络科技有限公司">微天下</figcaption>
         </figure>
         <figure>
             <img src="../img/yiqilvyouwang.jpg" />
-            <figcaption>一起旅游网</figcaption>
+            <figcaption data-name="一起旅游网">一起旅游网</figcaption>
         </figure>
 
 
@@ -61,17 +61,17 @@
     <div class="pictureContainer">
         <figure>
             <div class="wrapper"><img src="../img/meituan.png"/></div>
-            <figcaption>美团网</figcaption>
+            <figcaption data-name="【美团】北京三快在线科技有限公司">美团网</figcaption>
         </figure>
 
         <figure>
             <div class="wrapper"><img src="../img/lashou.png" /></div>
-            <figcaption>拉手网</figcaption>
+            <figcaption data-name="拉手网">拉手网</figcaption>
         </figure>
 
         <figure>
             <div class="wrapper"> <img src="../img/nuomi.jpg" /></div>
-            <figcaption>百度糯米</figcaption>
+            <figcaption data-name="百度糯米网">百度糯米</figcaption>
         </figure>
     </div>
 </div>

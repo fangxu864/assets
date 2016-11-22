@@ -24,11 +24,22 @@ var RESULT_BOX=PFT.Util.Class({
     },
 
 //事件调用方法1
-    event1:function(){
+    showResult:function(req){
+        console.log(req.length);
+        $("table tbody tr").remove();
+        if(req.length){
+            for(var i =0 ;i<req.length;i++){
+                var operation = "添加";
 
-        this.selfFunctionCall1();   //可以调用自身的函数
-        this.trigger("customizedEvent1",data);   //可以发布自定义事件用于在主模块监听
+                if(req[i].created){
+                    operation = "已添加|配置价格"
+                }
+                var tr = $("<tr><td class='col_first'>["+req[i].passport+"]"+req[i].dname+"</td><td>"+req[i].com_type+"</td><td>"+req[i].cname+"["+req[i].mobile+"]</td><td>"+operation+"</td></tr>");
+                $("table tbody").append(tr);
+                console.log(2);
+            }
 
+        }
     },
 //事件调用方法2
     event2:function(){
