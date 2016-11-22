@@ -251,9 +251,9 @@
                     this.p_type = data.p_type;
                     this.orderInfo = data;
                     //如果返回的是限制时段，更改游玩日期
-                    if(data.validTime.search("~")>-1){
-                         this.calendar.date=data.validTime.match(/[\d\-]+/)[0]
-                    }
+                    //if(data.validTime.search("~")>-1){
+                         //this.calendar.date=data.validTime.match(/[\d\-]+/)[0]
+                    //}
                     this.needID = data.needID;
                     this.ticketList = this.adaptListData(data.tickets);
                     if(data.assStation){

@@ -54,12 +54,12 @@
         },
         methods : {
             onPlus(e){
-                if(e.target.classList.contains("disable")) return false;
+                //if(e.target.classList.contains("disable")) return false;
                 this.value += 1;
                 //setTimeout(()=>{ this.$dispatch("plus",this.value) },60);
             },
             onMinu(e){
-                if(e.target.classList.contains("disable")) return false;
+                //if(e.target.classList.contains("disable")) return false;
                 this.value -= 1;
                 //setTimeout(()=>{ this.$dispatch("minu",this.value) },60);
             }
