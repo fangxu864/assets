@@ -4,6 +4,7 @@ require('./jquery.qrcode.min.js');
 var dialog = require('COMMON/modules/easydialog');
 
 var posterList = $('#posterList'),
+    nodataHTML = '<div class="nodata-wrap">您的产品海报还是空的,您可以<a href="'+window.location.origin+'/new/posterimgupload_editmyposter.html">添加产品海报</a></div>',
     pagination,
     xhrPoster;
 
@@ -31,7 +32,7 @@ function ajaxGetMyPoster( page, pageSize ) {
                 } else {
                     //无数据
                     $('#paginationWrap').hide();
-                    posterList.html('<div class="nodata-wrap">您的产品海报还是空的,您可以<a href="'+window.location.origin+'/new/posterimgupload_editmyposter.html">添加产品海报</a></div>');
+                    posterList.html(nodataHTML);
                 }
 
             }
@@ -89,7 +90,7 @@ posterList.on('click', '.btnDelPoster', function(){
                     } else {
                         //无数据
                         $('#paginationWrap').hide();
-                        posterList.html('<div class="nodata-wrap">您的产品海报还是空的,您可以<a href="'+window.location.origin+'/new/posterimgupload_editmyposter.html">添加产品海报</a></div>');
+                        posterList.html(nodataHTML);
                     }
                 }
             },

@@ -2,7 +2,7 @@ require('./index.scss');
 require('./jquery.qrcode.min.js');
 
 var posterList = $('#posterList'),
-    // resArr = [],
+    nodataHTML = '<div class="nodata-wrap">暂无供应商产品海报</div>',
     pagination,
     xhrPoster;
 
@@ -31,7 +31,7 @@ function ajaxGetPoster( page, pageSize ) {
                 } else {
                     //无数据
                     $('#paginationWrap').hide();
-                    posterList.html('<div class="nodata-wrap">暂无供应商产品海报</div>');
+                    posterList.html(nodataHTML);
                 }
             }
         });
