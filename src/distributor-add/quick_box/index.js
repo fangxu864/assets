@@ -15,7 +15,7 @@ var QUICK_BOX=PFT.Util.Class({
 //绑定事件
     EVENTS:{
          "click figcaption":"quickAdd",
-        // "click .class1":"event2"
+         "click .picture_p":"clickPlatform"
     },
 
     //init()方法在实例化以后会默认执行
@@ -25,7 +25,6 @@ var QUICK_BOX=PFT.Util.Class({
 
 //事件调用方法1
     quickAdd:function(e){
-        console.log();
         var _this=this;
         $.post("../call/jh_mem.php",
             {action:"chkAndGetDname",dname:$(e.target).attr("data-name")},
@@ -35,6 +34,10 @@ var QUICK_BOX=PFT.Util.Class({
             },"json")
     },
 
+
+    clickPlatform:function () {
+        window.location.href='../alliance_join.html?id=4'
+    },
 
 
 //用于函数内部自我调用的方法

@@ -14,7 +14,7 @@ var RESULT_BOX=PFT.Util.Class({
 
 //绑定事件
     EVENTS:{
-        // "click #id1":"event1",
+         "click .btn_add":"clickAdd",
         // "click .class1":"event2"
     },
 
@@ -28,22 +28,36 @@ var RESULT_BOX=PFT.Util.Class({
         $("table tbody tr").remove();
         if(req.length){
             for(var i =0 ;i<req.length;i++){
-                var operation = "添加";
+                var operation = "<a class='btn_add' data-id="+req[i].id+">添加</a>";
 
                 if(req[i].created){
-                    operation = "已添加|配置价格"
+                    operation = "已添加|<a class='price_fix' data-id="+req[i].id+">价格配置</a>"
                 }
-                var tr = $("<tr><td class='col_first'>["+req[i].passport+"]"+req[i].dname+"</td><td>"+req[i].com_type+"</td><td>"+req[i].cname+"["+req[i].mobile+"]</td><td>"+operation+"</td></tr>");
+                var tr = $("<tr data-id="+req[i].id+"><td class='col_first'>["+req[i].passport+"]"+req[i].dname+"</td><td>"+req[i].com_type+"</td><td>"+req[i].cname+"["+req[i].mobile+"]</td><td>"+operation+"</td></tr>");
                 $("table tbody").append(tr);
             }
         }
     },
 
+    clickAdd:function (e) {
+        var _this=this;
+        console.log($("#csrf_token").val());
+        $.post("../call/jh_mem.php",
+            {action:"AddRelationShip",distor:$(e.target).attr("data-id"),token:$("#csrf_token").val()},
+            function (req){
+                if(req.status != "success"){
+                    alert(req.msg)
+                }else{
+                    $(e.target).replaceWith($("<span>已添加|<a class='price_fix' data-id="+req.id+">价格配置</a></span>"));
+                }
+            },"json")
+    },
+
     quickAdd:function (req) {
-        var operation = "添加";
+        var operation = "<a class='btn_add' data-id="+req.id+">添加</a>";
 
         if(req.created){
-            operation = "已添加|配置价格"
+            operation = "已添加|<a class='price_fix' data-id="+req.id+">价格配置</a>"
         }
         var tr = $("<tr><td class='col_first'>["+req.passport+"]"+req.dname+"</td><td>"+req.com_type+"</td><td>"+req.cname+"["+req.mobile+"]</td><td>"+operation+"</td></tr>");
         var data = $("table tbody .col_first");

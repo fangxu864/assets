@@ -1,28 +1,29 @@
-<h1>添加分销商</h1>
-<div class="tipContainer">
-    <p><em>+</em>直接输入分销商名称（仅限中文）,若列表中存在请直接点“添加”；若不存在，请点“创建新分销商”。</p>
-    <p><em>+</em>添加成功后请点击“价格配置”为分销商配置结算价。</p>
-    <p><em>+</em>同时可显示10条分销商信息。</p>
-</div>
+<!--<h1>添加分销商</h1>-->
+<!--<div class="tipContainer">-->
+    <!--<p><em>+</em>直接输入分销商名称（仅限中文）,若列表中存在请直接点“添加”；若不存在，请点“创建新分销商”。</p>-->
+    <!--<p><em>+</em>添加成功后请点击“价格配置”为分销商配置结算价。</p>-->
+    <!--<p><em>+</em>同时可显示10条分销商信息。</p>-->
+<!--</div>-->
 
 
-<form>
-    <label for="dis_nickName"><em>*</em>分销商名称/手机号</label><input type="text" id="dis_nickname"/><br/>
-    <div id="hideContainer" style="display: none">
-        <label for="dis_name"><em>*</em>分销商姓名</label><input type="text" id="dis_name" required/><br/>
-        <label for="name"><em>*</em>姓名</label><input type="text" id="name" required/><br/>
-        <label for="password"><em>*</em>密码</label><input type="text" id="password" required/><br/>
-        <label for="password_confirm"><em>*</em>确认密码</label><input type="text" id="password_confirm" required/><br/>
-        <label for="telephone">手机号</label><input type="text" id="telephone"/><br/>
-        <label for="phone">固定电话</label><input type="text" id="phone"/><br/>
-        <label for="type">企业类型</label>
-        <select name="" id="type">
-            <option value="">加盟门店</option>
-            <option value="">电商/团购网</option>
-            <option value="">旅行社</option>
-            <option value="">淘宝/天猫</option>
-            <option value="">其他</option>
-        </select><br/>
-        <input type="submit" id="submit" 提交/>
-    </div>
-</form>
+<!--<form>-->
+    <!--<?=$data['csrf_token'];?>-->
+    <!--<label for="dis_nickName"><em>*</em>分销商名称/手机号</label><input type="text" id="dis_nickname"/><br/>-->
+    <!--<div id="hideContainer" style="display: none">-->
+        <!--<label for="dis_name"><em>*</em>分销商姓名</label><input type="text" id="dis_name" required/><br/>-->
+        <!--<label for="name"><em>*</em>姓名</label><input type="text" id="name" required/><br/>-->
+        <!--<label for="password"><em>*</em>密码</label><input type="text" id="password" required/><br/>-->
+        <!--<label for="password_confirm"><em>*</em>确认密码</label><input type="text" id="password_confirm" required/><br/>-->
+        <!--<label for="telephone">手机号</label><input type="text" id="telephone"/><br/>-->
+        <!--<label for="phone">固定电话</label><input type="text" id="phone"/><br/>-->
+        <!--<label for="type">企业类型</label>-->
+        <!--<select name="" id="type">-->
+            <!--<option value="">加盟门店</option>-->
+            <!--<option value="">电商/团购网</option>-->
+            <!--<option value="">旅行社</option>-->
+            <!--<option value="">淘宝/天猫</option>-->
+            <!--<option value="">其他</option>-->
+        <!--</select><br/>-->
+        <!--<input type="submit" id="submit" 提交/>-->
+    <!--</div>-->
+<!--</form>-->

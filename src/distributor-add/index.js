@@ -17,11 +17,7 @@ var Main={
         this.quick_box=new QUICK_BOX;
 
 //存放一些全局变量
-        this.publicParams = {
-            a : "" ,
-            b : [] ,
-            c :  {}
-        };
+       
 
 //运行模块交流部分
         this.CommunicateArea();
