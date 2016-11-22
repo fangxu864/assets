@@ -164,11 +164,12 @@
         </sheet-contact>
     </div>
 </template>
-
+<!--<script>-->
 <script type="es6">
     import "./index.scss";
     let Toast = require("COMMON/modules/toast");
     let Alert = PFT.Mobile.Alert;
+    let Confirm = PFT.Mobile.Confirm;
     let GetStoragePrice = require("SERVICE_M/booking-storage-price");
     let GetStoragePriceHotel = require("SERVICE_M/booking-storage-price-hotel");
     let GetOrderInfo = require("SERVICE_M/booking-orderinfo");
@@ -249,6 +250,10 @@
                 success : (data)=>{
                     this.p_type = data.p_type;
                     this.orderInfo = data;
+                    //如果返回的是限制时段，更改游玩日期
+                    if(data.validTime.search("~")>-1){
+                         this.calendar.date=data.validTime.match(/[\d\-]+/)[0]
+                    }
                     this.needID = data.needID;
                     this.ticketList = this.adaptListData(data.tickets);
                     if(data.assStation){
@@ -266,7 +271,7 @@
                     }
                 },
                 fail : (msg)=>{
-                    alert(msg);
+                    Alert(msg);
                 }
             })
         },
@@ -396,7 +401,7 @@
                         }
                         this.hotel.begintime = date;
                     }else{ //切换的是离店时间
-                        if(date_s<=begintime_s) return alert("离店时间必须晚于入住时间");
+                        if(date_s<=begintime_s) return Alert("离店时间必须晚于入住时间");
                         this.hotel.endtime = date;
                     }
                     var daycount = +new Date(this.hotel.endtime) - (+new Date(this.hotel.begintime));
@@ -527,7 +532,7 @@
                     },
                     fail : (msg) => {
                         this.toast.hide();
-                        alert(msg);
+                        Alert(msg);
                     }
                 })
             },
@@ -554,7 +559,8 @@
                     var buy_low = list[i]["buy_low"] * 1;
                     if(typeof obj.price!=="undefined") list[i]["jsprice"] = obj.price;
                     if(typeof obj.storeText!=="undefined") list[i]["storeText"] = obj.storeText;
-                    list[i]["storage"] = store;
+                    list[i]["storage"] = store==-1?"不限":store;
+                    //list[i]["storage"] = store;
                     if(store== -1){
                         if(buy_up!= -1){ //限制最多购买张数
                             list[i]["max"] = buy_up;
@@ -631,7 +637,7 @@
                 var tnum = ticketList[0]["count"];
 
                 //首先判断购买数量
-                if(tnum==0) return alert("主票预订票数不能为0");
+                if(tnum==0) return Alert("主票预订票数不能为0");
 
                 //获取开始时间 结束时间
                 var begintime = p_type!="C" ? $$("beginTimeInp").value : this.hotel.begintime;
@@ -644,11 +650,11 @@
                 var ordername = ordernameInp.value;
                 var mobile = mobileInp.value;
                 var sfz = idcardInp ? idcardInp.value : "";
-                if(!ordername) return alert("请填写联系人姓名");
-                if(!mobile) return alert("请填写取票人手机号");
-                if(idcardInp && !sfz) return alert("请填写取票人身份证");
-                if(!PFT.Util.Validate.typePhone(mobile)) return alert("请输入正确格式手机号");
-                if(idcardInp && !PFT.Util.Validate.idcard(sfz)) return alert("取票人身份证格式错误");
+                if(!ordername) return Alert("请填写联系人姓名");
+                if(!mobile) return Alert("请填写取票人手机号");
+                if(idcardInp && !sfz) return Alert("请填写取票人身份证");
+                if(!PFT.Util.Validate.typePhone(mobile)) return Alert("请输入正确格式手机号");
+                if(idcardInp && !PFT.Util.Validate.idcard(sfz)) return Alert("取票人身份证格式错误");
 
                 //提交数据之前，先把用户填写的联系人保存在localStorage
                 this.$broadcast("orderBtn.click",{name:ordername,mobile:mobile});
@@ -682,7 +688,7 @@
                         return result;
                     })();
                     if(!isUnique){ //如果身份证有重复
-                        return alert("游客信息里，身份证重复");
+                        return Alert("游客信息里，身份证重复");
                     }
 
 
@@ -694,8 +700,8 @@
                     var tourists_available = tourists.every(function(item,index){
                         return item!="";
                     });
-                    if(!tourists_available) return alert("游客信息里，姓名不能为空");
-                    if(!idcards_available) return alert("游客信息里，身份证填写有误");
+                    if(!tourists_available) return Alert("游客信息里，姓名不能为空");
+                    if(!idcards_available) return Alert("游客信息里，身份证填写有误");
 
                 }
 
@@ -733,7 +739,7 @@
                     var selectChangciItem = [].filter.call($$("changciLiContainer").querySelectorAll(".changciItem"),function(item,index){
                         return item.classList.contains("selected");
                     })[0];
-                    if(!selectChangciItem) return alert("请选择场次");
+                    if(!selectChangciItem) return Alert("请选择场次");
                     var zoneid = ticketList[0]["zone_id"];  //分区id
                     var roundid = selectChangciItem.getAttribute("data-roundid"); //场馆id
                     var venusid = selectChangciItem.getAttribute("data-venusid"); //场次id
@@ -774,9 +780,9 @@
                     },
                     fail : (code,msg) => {
                         if(code>=400){ //重复下单  这种情况下页面不允许再提交订单，提交按钮需禁用
-                            alert(msg);
+                            Alert(msg);
                         }else{ //一般错误
-                            alert(msg);
+                            Alert(msg);
                             submitBtn.classList.remove("disable");
                         }
                     }

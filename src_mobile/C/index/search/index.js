@@ -10,6 +10,7 @@ var Loading = require("COMMON/js/util.loading.pc")("努力加载中...",{
 	tag : "li",
 	className : "sta loading"
 });
+var Confirm = PFT.Mobile.Confirm;
 var Search = PFT.Util.Class({
 	status : "close",
 	__timeout : null,
@@ -39,9 +40,9 @@ var Search = PFT.Util.Class({
 			},300)
 		})
 		this.historyContainer.on("click",".deleteAllBtn",function(e){
-			if(confirm("确定要删除所有搜索记录吗")){
-				that.removeSearchHistory();
-			}
+			Confirm("确定要删除所有搜索记录吗？",function(result){
+				if(result==true) that.removeSearchHistory();
+			})
 		}).on("click",".historyList .t",function(e){
 			var text = $(e.currentTarget).text();
 			that.searchInp.val(text);

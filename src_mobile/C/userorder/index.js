@@ -6,6 +6,7 @@
 require("./index.scss");
 var Toast = new PFT.Mobile.Toast();
 var Alert = PFT.Mobile.Alert;
+var Confirm = PFT.Mobile.Confirm;
 var XScroll = require("vux-xscroll/build/cmd/xscroll");
 var Pullup = require("vux-xscroll/build/cmd/plugins/pullup");
 var Service = require("SERVICE_M/mall-member-user-order");
@@ -220,7 +221,23 @@ var Main = PFT.Util.Class({
 		this.search.show(beginDate,endDate);
 	},
 	onPullupLoading : function(type){
-		this.fetchData(type,this.page[type]["current"]+1);
+
+		if(type=="history"){
+			var con = $("#searchSheetContainer");
+			console.log($("#beginDateInp"))
+			var beginDate = $("#beginDateInp").val();
+			var endDate = $("#endDateInp").val();
+			var _type = con.find(".dateTypeGroup .active").attr("data-type");
+			this.fetchData("history",this.page[type]["current"],{
+				beginDate : beginDate,
+				endDate : endDate,
+				dateType : _type
+			});
+		}else{
+			this.fetchData(type,this.page[type]["current"]+1);
+		}
+
+		//this.fetchData(type,this.page[type]["current"]+1);
 	},
 	onTabTriggerClick : function(e){
 		var tarTab = $(e.currentTarget);
@@ -254,30 +271,31 @@ var Main = PFT.Util.Class({
 			}
 			window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+ordernum+'&h='+hostname;
 		}else if(tarBtn.hasClass("cancel")){ //取消订单
-			if(!confirm("确定要取消订单吗？")) return false;
-			Service.cancel(ordernum,{
-				loading : function(){ tarBtn.text("取消中...").addClass("disable")},
-				complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
-				success : function(res){
-					var msg = res.msg || "取消成功";
-					this.Detail.clearCache(ordernum);
-					//Alert("提示",msg);
-					alert(msg);
-					if(type=="detail"){
-						that.Detail.fetchDetailInfo(ordernum,function(data){
-							$("#orderItem-"+ordernum).find(".btnGroup .cancel").text("已取消").addClass("disable");
-						});
-					}else{
-						tarBtn.parents(".unuseItem").find(".paystatusText").text("已取消");
-						tarBtn.remove();
+			Confirm("确定要取消订单吗？",function(resulst){
+				console.log(resulst);
+				if(resulst==false) return false;
+				Service.cancel(ordernum,{
+					loading : function(){ tarBtn.text("取消中...").addClass("disable")},
+					complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
+					success : function(res,code){
+						var msg = res.msg || "取消成功";
+						// this.Detail.clearCache(ordernum);
+						Alert(msg);
+						var status_text = code==200 ? "已取消" : "退票中";
+						if(type=="detail"){
+							that.Detail.fetchDetailInfo(ordernum,function(data){
+								$("#orderItem-"+ordernum).find(".btnGroup .cancel").text(status_text).addClass("disable");
+							});
+						}else{
+							tarBtn.text(status_text).addClass("disable");
+						}
+					},
+					fail : function(msg){
+						Alert(msg);
 					}
+				},this)
+			})
 
-				},
-				fail : function(msg){
-					alert(msg);
-					//Alert("提示",msg)
-				}
-			},this)
 		}
 	}
 });
