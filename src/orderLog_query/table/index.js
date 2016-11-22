@@ -21,9 +21,9 @@ var Table=PFT.Util.Class({
     dealData:function (ajaxData) {
 
         $("#table_box tbody tr").remove();
-
         //没有数据提示
         if(ajaxData.data.length==0){
+            console.log(ajaxData.data);
             $("#table_box tbody ").remove();
             $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>未找到相关数据。</td><td></td><td></td><td></td></tr>");
         }

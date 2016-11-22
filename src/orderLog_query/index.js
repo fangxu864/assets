@@ -29,6 +29,7 @@ var Main={
         _this.paramBox=_this.filter.getParams();
         _this.talkArea();
 
+        _this.allPage = 0
 
     },
     
@@ -62,15 +63,11 @@ var Main={
                  alert(ajaxData.msg);
                  return false
              }
-             /*if(!ajaxData.data){
-                 alert("none")
-             }*/
 
-             //console.log(this.url);
-             //console.log(ajaxData);
              _this.table.dealData(ajaxData);
              //console.log(ajaxData.msg);
-             _this.pagination.render(toPage,ajaxData.msg);
+             _this.pagination.render(toPage,ajaxData.data[0].allPage);
+             _this.allPage = ajaxData.data[0].allPage;
            /* var cookie = {page:page,data:ajaxData};
             _this.cookieDate.push(cookie)*/
          }
@@ -111,7 +108,7 @@ var Main={
         
         //接收分页器被点击时发布的更改页数的事件
         _this.pagination.on("pageChange",function(toPage){
-            var paramBox = _this.extendParams(_this.paramBox,{page:toPage});
+            var paramBox = _this.extendParams(_this.paramBox,{page:toPage,allPage:_this.allPage});
             _this.getAjaxData_dealTable(paramBox,toPage)
         })
         
