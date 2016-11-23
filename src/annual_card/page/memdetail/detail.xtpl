@@ -33,7 +33,7 @@
                 </div>
             </div>
             <p><span class="memL">状态：</span><span class="memR font-orange"><a href="javascript:void(0);" class="unActivate"><%=statusTxt[item.status]%></a></span></p>
-            <p><span class="memL">备注：</span></p>
+            <p><span class="memL">备注：<%=item.memo%></span></p>
         </li>
     </ul>
 </div>
