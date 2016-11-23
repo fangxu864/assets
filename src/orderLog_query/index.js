@@ -63,11 +63,13 @@ var Main={
                  if(ajaxData.code == 204){
                      $("#table_box tbody ").remove();
                      $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>未能找到相关数据</td><td></td><td></td><td></td></tr>");
+                     _this.pagination.render(0,0);
                      return false
                  }
                  alert(ajaxData.msg);
                  $("#table_box tbody ").remove();
                  $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>加载失败</td><td></td><td></td><td></td></tr>");
+                 _this.pagination.render(0,0);
                  return false
              }
 
