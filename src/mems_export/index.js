@@ -373,6 +373,7 @@ $(function(){
                     return false;
                 }
             })
+
 //            res.protocal_start = '2015-12-20';
 //            res.protocal_end   = '2015-12-31';
 //            res.protocol_main  = '年费9800,协议截止日期为2016年12月31日';
@@ -380,6 +381,19 @@ $(function(){
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
             $("#protocal_meal").val(res.protocol_meal);
+            $("#ContractNumber").val(res.contract_num);  //合同编号
+            if(res.contract_model == "1"){  //合作模式
+                $("#selectPackage").attr("selected","selected");
+            }else if(res.contract_model == "2"){
+                $("#selectTicket").attr("selected","selected");
+            }else if(res.contract_model == "3"){
+                $("#selectOrder").attr("selected","selected");
+            }
+            if(res.is_pay == "0"){    //否
+                $("#payment").attr("checked", false);
+            }else if(res.is_pay == "1"){   //是
+                $("#payment").attr("checked", true);
+            }
             $(".alert_box").css("display","block");
         })
     });
