@@ -26,7 +26,9 @@ var changePage=PFT.Util.Class({
 		});
 	},
 	render:function (toPage,totalPage) {
-		this.pagination.render({current:toPage,total:totalPage});
+		var toPageInt = parseInt(toPage);
+		var totalPageInt = parseInt(totalPage);
+		this.pagination.render({current:toPageInt,total:totalPageInt});
 	}
 });
 

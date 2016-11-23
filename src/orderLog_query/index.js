@@ -26,7 +26,7 @@ var Main={
 
         //判断时候admin
         _this.cookieDate=[];
-        _this.paramBox=_this.filter.getParams();
+        _this.paramBox={};
         _this.talkArea();
 
         _this.allPage = 0
@@ -60,7 +60,14 @@ var Main={
          },
          success: function(ajaxData) {
              if(ajaxData.code !== 200){
+                 if(ajaxData.code == 204){
+                     $("#table_box tbody ").remove();
+                     $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>未能找到相关数据</td><td></td><td></td><td></td></tr>");
+                     return false
+                 }
                  alert(ajaxData.msg);
+                 $("#table_box tbody ").remove();
+                 $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>加载失败</td><td></td><td></td><td></td></tr>");
                  return false
              }
 

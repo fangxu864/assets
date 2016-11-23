@@ -6,6 +6,7 @@
 require("./index.scss");
 //引入tpl
 var filer_tpl=require("./index.xtpl");
+var Validate = require("COMMON/js/util.validate.js");
 
 //引入日历
 var Calendar = require("COMMON/modules/calendar");
@@ -88,28 +89,41 @@ var Filter=PFT.Util.Class({
 
         var Params = paramBox;
 
+
         //检测必填项
-        if(!Params.btime||!Params.etime){
-            if(!Params.btime){
-                $("#warn1").toggle("fast");
-                window.setTimeout(function () {
-                    $("#warn1").toggle("fast");
-                },1500)
-            };
-
-            if(!Params.etime){
-                $("#warn2").toggle("fast");
-                window.setTimeout(function () {
-                    $("#warn2").toggle("fast");
-                },1500)
+        if($("#orderNumber").val()){
+            var error = "";
+            if(!Validate.typeNum($("#orderNumber").val())) error = "请输入正确格式的订单号";
+            if(error){
+                alert(error);
             }
-            return false
-        }
-        var downUrl="/r/Order_OrderQuery/getOrderRecord?"+_this.JsonStringify(Params);
+        }else{
+            //检测必填项
+            if(!Params.btime||!Params.etime){
+                if(!Params.btime){
+                    $("#warn1").toggle("fast");
+                    window.setTimeout(function () {
+                        $("#warn1").toggle("fast");
+                    },1500)
+                };
 
+                if(!Params.etime){
+                    $("#warn2").toggle("fast");
+                    window.setTimeout(function () {
+                        $("#warn2").toggle("fast");
+                    },1500)
+                }
+                return false
+            }
+        }
+
+
+        var downUrl="/r/order_orderQuery/getOrderRecord?"+_this.JsonStringify(Params);
+        console.log(downUrl)
         //console.log(downUrl);
         //发布"更新参数"事件
         // _this.trigger("downloadExcel",Params);
+        console.log(1);
         _this.outExcel(downUrl)
     },
     //生成参数盒子
@@ -128,25 +142,32 @@ var Filter=PFT.Util.Class({
         var Params = paramBox;
 
 
-        //检测必填项
-        if(!Params.btime||!Params.etime){
-            if(!Params.btime){
-                $("#warn1").toggle("fast");
-                window.setTimeout(function () {
-                    $("#warn1").toggle("fast");
-                },1500)
-            };
-
-            if(!Params.etime){
-                $("#warn2").toggle("fast");
-                window.setTimeout(function () {
-                    $("#warn2").toggle("fast");
-                },1500)
+        if($("#orderNumber").val()){
+            var error = "";
+            if(!Validate.typeNum($("#orderNumber").val())) error = "请输入正确格式的订单号";
+            if(error){
+                alert(error);
             }
-            return false
+        }else{
+            //检测必填项
+            if(!Params.btime||!Params.etime){
+                if(!Params.btime){
+                    $("#warn1").toggle("fast");
+                    window.setTimeout(function () {
+                        $("#warn1").toggle("fast");
+                    },1500)
+                };
+
+                if(!Params.etime){
+                    $("#warn2").toggle("fast");
+                    window.setTimeout(function () {
+                        $("#warn2").toggle("fast");
+                    },1500)
+                }
+                return false
+            }
         }
-
-
+        
         //console.log(Params);
         //发布"更新参数"事件
         _this.trigger("refreshParams",Params);
