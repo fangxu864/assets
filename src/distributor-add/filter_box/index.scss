@@ -57,6 +57,7 @@
 
     input{
       @include textInp(34,4);
+      border-radius: 5px;
       width: 418px;
       &:focus{
         border-color: #0797D9;
@@ -68,7 +69,8 @@
 
     select{
       height: 34px;
-      width: 418px;
+      width: 430px;
+      border-radius: 5px;
       &:focus{
         border-color: #0797D9;
         color: #0797D9;
@@ -92,4 +94,13 @@
       text-align: center;
     }
   }
+}
+
+.createNew{
+  display: inline-block;
+  margin-left: 20px;
+  height: 60px;
+  line-height: 60px;
+  display: none;
+  cursor: pointer;
 }

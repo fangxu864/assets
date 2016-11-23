@@ -15,7 +15,7 @@ var RESULT_BOX=PFT.Util.Class({
 //绑定事件
     EVENTS:{
          "click .btn_add":"clickAdd",
-        // "click .class1":"event2"
+         "click .price_fix":"clickPriceFix"
     },
 
     //init()方法在实例化以后会默认执行
@@ -53,6 +53,9 @@ var RESULT_BOX=PFT.Util.Class({
             },"json")
     },
 
+    clickPriceFix:function (e) {
+        window.location.href='../new_configuration.html?did='+$(e.target).attr("data-id")
+    },
     quickAdd:function (req) {
         var operation = "<a class='btn_add' data-id="+req.id+">添加</a>";
 
