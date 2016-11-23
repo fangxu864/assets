@@ -417,6 +417,16 @@ $(function(){
             protocal_end   = $("#protocol_end").val(),
             protocol_main  = $("#protocol_main").val();
         protocal_meal  = $("#protocal_meal").val();
+
+
+        var contract_num = $("#contract_num").val();
+        var contract_model = $("#cooperateMode").val();
+        if($("#payment").is(":checked")==true){
+            var is_pay = 1;             
+        }else{
+            var is_pay = 0;      
+        }
+         
         PFT_GLOBAL.G.Ajax({
             url : "../module/zax/admin_report/call.php",
             data : {
@@ -427,7 +437,11 @@ $(function(){
                 protocal_start:protocal_start,
                 protocal_end:protocal_end,
                 protocol_main:protocol_main,
-                protocol_meal:protocal_meal
+                protocol_meal:protocal_meal,
+                contract_num:contract_num,
+                contract_model:contract_model,
+                is_pay:is_pay
+
             },
             type :'POST',
             timeout : function(){console && console.log("获取数据超时")},
