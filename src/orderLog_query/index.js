@@ -46,7 +46,7 @@ var Main={
         };
         var _this = this;
          $.ajax({
-         url: "/r/Order_OrderQuery/getOrderRecord",
+         url: "/r/order_orderQuery/getOrderRecord",
          dataType: "json",
          async: true,
          data: Params,
