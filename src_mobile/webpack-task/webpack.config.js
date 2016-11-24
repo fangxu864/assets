@@ -20,8 +20,8 @@ var config = require("../../task-webpack/config")({
 		// "mb.ordersuccess.c" : path.resolve(ROOT_URL,"C/ordersuccess/index.es6"),
 		// "mb.bindmobile.c" : path.resolve(ROOT_URL,"C/bind-mobile/index.es6"),
 		// "mb.usercenter.c" : path.resolve(ROOT_URL,"C/usercenter/index.es6"),
-		// "mb.userorder.c" : path.resolve(ROOT_URL,"C/userorder/index.js"),
-		"mb.tel.msg.to.userorderdetail.c" : path.resolve(ROOT_URL,"C/userorder/msg-to-detail/index.js")
+		 "mb.userorder.c" : path.resolve(ROOT_URL,"C/userorder/index.js")
+		//"mb.tel.msg.to.userorderdetail.c" : path.resolve(ROOT_URL,"C/userorder/msg-to-detail/index.js")
 
 	},
 	output : output,

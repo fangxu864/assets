@@ -57,13 +57,13 @@ var Main = PFT.Util.Class({
 		//},3 * 1000);
 		//
 		//return false;
-		$("#wxQRcodeBox").on("touchend",function(e){
-			if(that.__interval) return false;
+		//$("#wxQRcodeBox").on("touchend",function(e){
+		//	if(that.__interval) return false;
 			if(!ordernum) return false;
 			that.__interval = setInterval(function(){
 				that.loopToGetPaySuccess(ordernum);
 			},3 * 1000);
-		})
+		//})
 	},
 	//当用户选择长按二维码支付时，微信支付在支付成功后无法通知当前页面刷新，需要页面轮询后端，才能获知是否支付完成
 	loopToGetPaySuccess : function(ordernum){
