@@ -41,7 +41,7 @@ var RESULT_BOX=PFT.Util.Class({
 
     clickAdd:function (e) {
         var _this=this;
-        console.log($("#csrf_token").val());
+        //console.log($("#csrf_token").val());
         $.post("../call/jh_mem.php",
             {action:"AddRelationShip",distor:$(e.target).attr("data-id"),token:$("#csrf_token").val()},
             function (req){

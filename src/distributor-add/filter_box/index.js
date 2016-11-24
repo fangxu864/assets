@@ -14,8 +14,15 @@ var FILTER_BOX=PFT.Util.Class({
 //绑定事件
     EVENTS:{
          "input #dis_nickname":"search",
+         "blur #dis_nickname":"check_CN_Phone",
          "click .createNew":"showHiddenPart",
-         "blur #dis_nickname":"check"
+         "blur #dis_name":"check_CN",
+         "blur #telephone":"check_Phone",
+         "blur #phone":"check_Num",
+         "blur #password_confirm":"confirm_Code",
+         "blur #password":"check_Code",
+         "click #submit":"formSubmit"
+
     },
 
     //init()方法在实例化以后会默认执行
@@ -61,24 +68,117 @@ var FILTER_BOX=PFT.Util.Class({
         $("#hideContainer").show()
     },
 
-    //用于函数内部自我调用的方法
-    selfFunctionCall1:function(){
+
+    formSubmit:function(e){
+        var fillPart =$("#highLevel input");
+        for(var i = 0 ; i<fillPart.length ; i++){
+            if(!fillPart.eq(i).val()){
+                alert("必填部分不能为空");
+                return false
+            }
+        }
+
+        var checkPart = $("#highLevel .tip");
+        for(var i = 0 ; i<checkPart.length ; i++){
+            if(checkPart.eq(i).text()){
+                return false
+            }
+        }
+
+        $.post("../call/jh_mem.php",
+            {action:"AddRelationShip",distor:$(e.target).attr("data-id"),token:$("#csrf_token").val()},
+            function (req){
+                if(req.status != "success"){
+                    alert(req.msg)
+                }else{
+                    $(e.target).replaceWith($("<span>已添加|<a class='price_fix' data-id="+req.id+">价格配置</a></span>"));
+                }
+            },"json")
     },
 
-    validate_CN : function(input,regular){
+
+    check_CN_Phone:function (e) {
         var error = "";
-        if(!Validate.typeCN(input)) {
+        if(!Validate.typeCN($(e.target).val())&&!Validate.typePhone($(e.target).val())) {
+            error = "请输入电话号码或分销商名称";
+        }else{
+            if(!Validate.typeCN($(e.target).val())){
+                $("#dis_name").val($(e.target).val())
+            }
+            if(!Validate.typePhone($(e.target).val())){
+                $("#telephone").val($(e.target).val())
+            }
+        }
+
+        if(error){
+            $(e.target).next("div").find("span[id$=tip]").text(error)
+        }else{
+            $(e.target).next("div").find("span[id$=tip]").text("")
+        }
+    },
+    check_CN:function (e) {
+        var error = "";
+        if(!Validate.typeCN($(e.target).val())) {
             error = "公司名为中文汉字";
         }
-        return error;
+        if(error){
+            $(e.target).next("span[id$=tip]").text(error)
+        }else{
+            $(e.target).next("span[id$=tip]").text("")
+        }
     },
 
-    check:function () {
-        var error = this.validate_CN($("#dis_nickname").val());
+    check_Phone:function (e) {
+        var error = "";
+        if(!Validate.typePhone($(e.target).val())) {
+            error = "电话格式不正确";
+        }
         if(error){
-            $("#dis_nickname_tip").text(error)
+            $(e.target).next("span[id$=tip]").text(error)
         }else{
-            $("#dis_nickname_tip").text("")
+            $(e.target).next("span[id$=tip]").text("")
+        }
+    },
+
+    check_Num:function (e) {
+        var error = "";
+        if(!Validate.typeNum($(e.target).val())) {
+            error = "电话格式不正确";
+        }
+        if(error){
+            $(e.target).next("span[id$=tip]").text(error)
+        }else{
+            $(e.target).next("span[id$=tip]").text("")
+        }
+    },
+    check_Code:function (e) {
+        var error = ""
+        if($(e.target).val().length < 6){
+            error = "密码长度小于6位";
+        }
+        if(error){
+            $(e.target).next("span[id$=tip]").text(error)
+        }else{
+            $(e.target).next("span[id$=tip]").text("")
+        }
+    },
+
+    confirm_Code:function (e) {
+        var error = ""
+
+        if($(e.target).val().length < 6){
+            error = "密码长度小于6位";
+        }else{
+            if($(e.target).val()!=$("#password").val()){
+                error = "两次输入的密码不一致，请重新输入";
+            }
+        }
+
+
+        if(error){
+            $(e.target).next("span[id$=tip]").text(error)
+        }else{
+            $(e.target).next("span[id$=tip]").text("")
         }
     }
 

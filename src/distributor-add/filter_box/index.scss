@@ -83,6 +83,7 @@
       display: block;
       margin: 28px 0 0 330px ;
       height: 32px;
+      line-height: 32px;
       background: #019be1;
       border: 1px solid #019be1;
       width: 74px;
@@ -96,14 +97,23 @@
   }
 }
 
-.createNew{
+.positionFix{
   display: inline-block;
-  margin-left: 20px;
-  height: 60px;
-  line-height: 60px;
-  display: none;
-  cursor: pointer;
+  .createNew{
+    display: block;
+    margin-left: 20px;
+    height: 30px;
+    line-height: 30px;
+    display: none;
+    cursor: pointer;
+  }
+  #dis_nickname_tip{
+    display: block;
+    color: #FD463B;
+    padding-left: 16px;
+  }
 }
+
 
 .tip{
   display: inline-block;
