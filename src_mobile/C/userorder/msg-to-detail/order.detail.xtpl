@@ -59,7 +59,7 @@
     </p>
 </div>
 
-<a class="prodInfoBox box" href="pdetail.html?lid=<%=lid%>">
+<a class="prodInfoBox box" href="pdetail.html?lid=<%=lid%>" onclick="return false">
     <div class="photoBox">
         <div class="imgBox">
             <img src="<%=imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null;" alt=""/>
@@ -78,7 +78,7 @@
             <%})%>
         </ul>
     </div>
-    <div class="tri"><div class="triCon">》</div></div>
+    <div class="tri"><div class="triCon" style="display: none">》</div></div>
 </a>
 
 <div class="box">
@@ -97,8 +97,8 @@
 
 
 
-<%if(cancel==0){%>
+<%if(cancel==1){%>
 <div class="detailBtnGroup">
-    <span data-ordernum="<%=ordernum%>" class="btn cancel">退票</span>
+    <span data-ordernum="<%=orderNum_url%>" class="btn cancel">退票</span>
 </div>
 <%}%>

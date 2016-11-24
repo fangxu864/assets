@@ -9,13 +9,9 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		//异常订单-第三方订单入口
-		"abnormal.third.order" : "./src/abnormal-order/third-order/index.js"
-		//异常订单-团购订单入口
-		// "abnormal.group.order" : "./src/abnormal-order/group-order/index.js"
+		"channels_conf" : "./src/channels_conf/js/channels_conf"
 	},
 	output : output,
 	plugins : plugins
 });
 module.exports = config;
-

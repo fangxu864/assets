@@ -46,7 +46,7 @@
     "wxconfigsetmenu-test": "set NODE_ENV=test && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-release": "set NODE_ENV=release && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-production": "set NODE_ENV=production && webpack --config ./src/wx_config_setmenu/webpack.config.js",
-    "mobile-server": "set NODE_ENV=server && webpack-dev-server --config ./src_mobile/webpack-task/webpack.config.js --inline",
+    "mobile-server": "set NODE_ENV=server && webpack-dev-server --config --progress --colors  ./src_mobile/webpack-task/webpack.config.js --inline",
     "mobile-start": "set NODE_ENV=develop && webpack --config ./src_mobile/webpack-task/webpack.config.js -w",
     "mobile-test": "set NODE_ENV=test && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-release": "set NODE_ENV=release && webpack --config ./src_mobile/webpack-task/webpack.config.js",
@@ -119,6 +119,15 @@
     "sanya-ad-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
     "sanya-ad-production" : "set NODE_ENV=production && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
 
+    "channels_conf-start" : "set NODE_ENV=develop && webpack --progress --colors --watch --config ./src/channels_conf/webpack.config.js",
+    "channels_conf-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src/channels_conf/webpack.config.js",
+    "channels_conf-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/channels_conf/webpack.config.js",
+    "channels_conf-production" : "set NODE_ENV=production && webpack --progress --colors --config ./src/channels_conf/webpack.config.js",
+
+    "account-start" : "set NODE_ENV=develop && webpack --progress --colors --watch --config ./src/account/webpack.config.js",
+    "account-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src/account/webpack.config.js",
+    "account-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/account/webpack.config.js",
+    "account-production" : "set NODE_ENV=production && webpack --progress --colors --config ./src/account/webpack.config.js",
 
     "distributor_manage-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
@@ -128,7 +137,12 @@
     "mems_export-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
-    "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js"
+    "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+
+    "system-manager-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/system-manager/webpack.config.js",
+    "system-manager-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
+    "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
+    "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js"
 
 
   },

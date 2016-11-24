@@ -272,14 +272,14 @@ var Main = PFT.Util.Class({
 			window.location.href="http://"+host+"/html/order_pay_c.html?ordernum="+ordernum+'&h='+hostname;
 		}else if(tarBtn.hasClass("cancel")){ //取消订单
 			Confirm("确定要取消订单吗？",function(resulst){
+				console.log(resulst);
 				if(resulst==false) return false;
 				Service.cancel(ordernum,{
 					loading : function(){ tarBtn.text("取消中...").addClass("disable")},
 					complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
 					success : function(res,code){
 						var msg = res.msg || "取消成功";
-						//this.Detail.clearCache(ordernum);
-						console.log(msg)
+						this.Detail.clearCache(ordernum);
 						Alert(msg);
 						var status_text = code==200 ? "已取消" : "退票中";
 						if(type=="detail"){

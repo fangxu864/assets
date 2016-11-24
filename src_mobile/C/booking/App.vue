@@ -164,7 +164,7 @@
         </sheet-contact>
     </div>
 </template>
-
+<!--<script>-->
 <script type="es6">
     import "./index.scss";
     let Toast = require("COMMON/modules/toast");
@@ -250,6 +250,10 @@
                 success : (data)=>{
                     this.p_type = data.p_type;
                     this.orderInfo = data;
+                    //如果返回的是限制时段，更改游玩日期
+                    //if(data.validTime.search("~")>-1){
+                         //this.calendar.date=data.validTime.match(/[\d\-]+/)[0]
+                    //}
                     this.needID = data.needID;
                     this.ticketList = this.adaptListData(data.tickets);
                     if(data.assStation){
@@ -555,6 +559,10 @@
                     var buy_low = list[i]["buy_low"] * 1;
                     if(typeof obj.price!=="undefined") list[i]["jsprice"] = obj.price;
                     if(typeof obj.storeText!=="undefined") list[i]["storeText"] = obj.storeText;
+                    //日历切换后，更新第一张票的购买数量
+                    if (i == 0 && list[i]["count"] <= 0) {
+						list[i]["count"] = buy_low;
+					}
                     list[i]["storage"] = store;
                     if(store== -1){
                         if(buy_up!= -1){ //限制最多购买张数
