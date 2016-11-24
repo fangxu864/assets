@@ -4,7 +4,8 @@
 require("./index.scss");
 //require("./jquery.validate.min.js");
 var Validate = require("COMMON/js/util.validate.js");
-var tpl = require("./filter_box.xtpl");
+var tpl_high = require("./filter_box_high.xtpl");
+var tpl_low = require("./filter_box_low.xtpl");
 
 
 var FILTER_BOX=PFT.Util.Class({
@@ -21,25 +22,27 @@ var FILTER_BOX=PFT.Util.Class({
          "blur #phone":"check_Num",
          "blur #password_confirm":"confirm_Code",
          "blur #password":"check_Code",
-         "click #submit":"formSubmit"
+          "click #submit":"formSubmit"
+         
 
     },
 
     //init()方法在实例化以后会默认执行
     init:function(){
         //加载模版
-        $("#filter_box").append(tpl);
+        
 
         //判断是否可以直接搜索
         $.post("../r/member_memberInfo/getAddSalerType",
             {},
             function (req){
-                $("form").attr("data",req.data);
-                if(req.data == 1){
-                    $("#hideContainer").css({
-                        "display":"none"
-                    });
-                }
+                $("#filter_box").append(tpl_low);
+                // $("form").attr("data",req.data);
+                // if(req.data == 1){
+                //     $("#filter_box").append(tpl_high);
+                // }else {
+                //     $("#filter_box").append(tpl_low);
+                // }
             },"json");
 
         //验证格式
@@ -81,12 +84,26 @@ var FILTER_BOX=PFT.Util.Class({
         var checkPart = $("#highLevel .tip");
         for(var i = 0 ; i<checkPart.length ; i++){
             if(checkPart.eq(i).text()){
+                alert("请检查您的输入时候又错误");
                 return false
             }
         }
 
         $.post("../call/jh_mem.php",
-            {action:"AddRelationShip",distor:$(e.target).attr("data-id"),token:$("#csrf_token").val()},
+            {
+                action:"RelationshipCreate",
+                distor:$(e.target).attr("data-id"),
+                csrf_token:$("#csrf_token").val(),
+                actionType:"CreateDistor",
+                dtype:1,
+                company:$("#dis_name").val(),
+                username:$("#name").val(),
+                confirmPwd:$("#password_confirm").val(),
+                password:$("#password").val(),
+                mobile:$("#telephone").val(),
+                com_type:$("select option:checked").val()
+
+            },
             function (req){
                 if(req.status != "success"){
                     alert(req.msg)
