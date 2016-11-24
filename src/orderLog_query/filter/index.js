@@ -30,18 +30,25 @@ var Filter=PFT.Util.Class({
             $("#warn1").addClass("warn1_move");
             $("#warn2").addClass("warn2_move");
         }
-        //必填提示部分
-        $("#startTime").on("focus",function(){
-            $("#warn1").toggle("fast");
-        }).on("blur",function () {
-            $("#warn1").toggle("fast");
-        });
 
-        $("#endTime").on("focus",function(){
-            $("#warn2").toggle("fast");
-        }).on("blur",function () {
-            $("#warn2").toggle("fast");
+        $("#clear_orderNumber").on("click",function () {
+            $("#orderNumber").val("")
         });
+        $("#clear_operatePerson").on("click",function () {
+            $("#operatePerson").val("")
+        });
+        // //必填提示部分
+        // $("#startTime").on("focus",function(){
+        //     $("#warn1").toggle("fast");
+        // }).on("blur",function () {
+        //     $("#warn1").toggle("fast");
+        // });
+        //
+        // $("#endTime").on("focus",function(){
+        //     $("#warn2").toggle("fast");
+        // }).on("blur",function () {
+        //     $("#warn2").toggle("fast");
+        // });
 
         //日历插件部分
         var calendar = new Calendar();
@@ -118,12 +125,11 @@ var Filter=PFT.Util.Class({
         }
 
 
-        var downUrl="/r/order_orderQuery/getOrderRecord?"+_this.JsonStringify(Params);
-        console.log(downUrl)
+        var downUrl="/r/Order_OrderQuery/getOrderRecord?"+_this.JsonStringify(Params);
+        //console.log(downUrl)
         //console.log(downUrl);
         //发布"更新参数"事件
         // _this.trigger("downloadExcel",Params);
-        console.log(1);
         _this.outExcel(downUrl)
     },
     //生成参数盒子

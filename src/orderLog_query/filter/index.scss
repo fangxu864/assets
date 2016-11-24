@@ -1,5 +1,20 @@
 @import "COMMON/css/base/core";
 
+i.clear_inp{
+  position: relative;
+  font-family: "iconfont";
+  font-size: 17px;
+  right: 6px;
+  color: #bfbfbf;
+  cursor: pointer;
+  line-height: 30px;
+  left: -25px;
+  top: -1px;
+}
+i.clear_inp:active{
+  color: orangered;
+}
+
 .whole_container{
 
   background: white;
