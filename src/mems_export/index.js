@@ -381,7 +381,7 @@ $(function(){
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
             $("#protocal_meal").val(res.protocol_meal);
-            $("#ContractNumber").val(res.contract_num);  //合同编号
+            $("#contract_num").val(res.contract_num);  //合同编号
             if(res.contract_model == "1"){  //合作模式
                 $("#selectPackage").attr("selected","selected");
             }else if(res.contract_model == "2"){
@@ -393,6 +393,12 @@ $(function(){
                 $("#payment").attr("checked", false);
             }else if(res.is_pay == "1"){   //是
                 $("#payment").attr("checked", true);
+            }
+
+            if($("#cooperateMode").val() == 3){
+                $('#protocal_meal').attr("disabled",true);
+                $('#protocal_meal').attr("value","");
+                $('#protocal_meal').css("background","#eee");
             }
             $(".alert_box").css("display","block");
         })
