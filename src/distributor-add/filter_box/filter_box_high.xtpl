@@ -6,7 +6,7 @@
 </div>
 <form id="highLevel">
     <label for="dis_nickName"><em>*</em>分销商名称/手机号</label><input  type="text" id="dis_nickname" required/><div class="positionFix"><span class="tip" id="dis_nickname_tip"></span><a class="createNew">创建新分销商</a></div><br/>
-    <div id="hideContainer">
+    <div id="hideContainer" style="display: none;">
         <label for="dis_name"><em>*</em>分销商名称</label><input name="dis_name" type="text" id="dis_name" required/><span class="tip" id="dis_name_tip"></span><br/>
         <label for="name"><em>*</em>姓名</label><input type="text" id="name" required/><span class="tip" id="name_tip"></span><br/>
         <label for="password"><em>*</em>密码</label><input type="password" id="password" required/><span class="tip" id="password_tip"></span><br/>

@@ -15,44 +15,73 @@ var FILTER_BOX=PFT.Util.Class({
 //绑定事件
     EVENTS:{
          "input #dis_nickname":"search",
-         "blur #dis_nickname":"check_CN_Phone",
+         //"blur #dis_nickname":"check_CN_Phone",
          "click .createNew":"showHiddenPart",
-         "blur #dis_name":"check_CN",
-         "blur #telephone":"check_Phone",
-         "blur #phone":"check_Num",
-         "blur #password_confirm":"confirm_Code",
-         "blur #password":"check_Code",
+         "click .closeNew":"hideHiddenPart",
+         "input #dis_name":"check_CN",
+         "input #telephone":"check_Phone",
+         "input #phone":"check_Num",
+         "input #password_confirm":"confirm_Code",
+         "input #password":"check_Code",
           "click #submit":"formSubmit"
-         
-
     },
 
     //init()方法在实例化以后会默认执行
     init:function(){
-        //加载模版
-        
+        var _this = this;
 
         //判断是否可以直接搜索
         $.post("../r/member_memberInfo/getAddSalerType",
             {},
             function (req){
-                $("#filter_box").append(tpl_low);
-                // $("form").attr("data",req.data);
-                // if(req.data == 1){
-                //     $("#filter_box").append(tpl_high);
-                // }else {
-                //     $("#filter_box").append(tpl_low);
-                // }
+                //加载模版
+                $("form").attr("data",req.data);
+                if(req.data == 1){
+                    $("#filter_box").append(tpl_high);
+                }else {
+                    $("#filter_box").append(tpl_low);
+                }
             },"json");
-
-        //验证格式
 
 
     },
 
-    //事件调用方法1
+    //检索
     search:function(e){
+
         var _this=this;
+
+        //验证格式
+        var error = "";
+        if(!Validate.typeCN($(e.target).val())&&!Validate.typePhone($(e.target).val())) {
+            error = "请输入电话号码或分销商名称";
+        }else{
+            if(!Validate.typeCN($(e.target).val())){
+                $("#dis_name").val($(e.target).val())
+            }
+            if(!Validate.typePhone($(e.target).val())){
+                $("#telephone").val($(e.target).val())
+            }
+        }
+
+        if(error){
+            $(e.target).next("div").find("span[id$=tip]").text(error)
+        }else{
+            $(e.target).next("div").find("span[id$=tip]").text("")
+        }
+
+        //弹出创建
+        var content = $("#dis_nickname").val();
+        console.log(content)
+        if(Validate.typeCN(content)){
+            $(".createNew").show().addClass("closeNew");
+            $(".dis_name").val(content);
+        }else if (Validate.typePhone(content)){
+            $(".createNew").show().addClass("closeNew");
+            $("#telephone").val(content);
+        }
+
+        //检索
         $.get("../call/jh_mem.php",
             {action:"fuzzyGetDname",dname:$("#dis_nickname").val()},
             function (req){
@@ -70,10 +99,12 @@ var FILTER_BOX=PFT.Util.Class({
     showHiddenPart:function(){
         $("#hideContainer").show()
     },
-
-
+    hideHiddenPart:function () {
+        $(".createNew").addClass("closeNew");
+        $("#hideContainer").hide();
+    },
     formSubmit:function(e){
-        var fillPart =$("#highLevel input");
+        var fillPart =$("form input[required]");
         for(var i = 0 ; i<fillPart.length ; i++){
             if(!fillPart.eq(i).val()){
                 alert("必填部分不能为空");
@@ -81,10 +112,10 @@ var FILTER_BOX=PFT.Util.Class({
             }
         }
 
-        var checkPart = $("#highLevel .tip");
+        var checkPart = $("form .tip");
         for(var i = 0 ; i<checkPart.length ; i++){
             if(checkPart.eq(i).text()){
-                alert("请检查您的输入时候又错误");
+                alert("请检查您的输入是否有错误");
                 return false
             }
         }
@@ -101,7 +132,9 @@ var FILTER_BOX=PFT.Util.Class({
                 confirmPwd:$("#password_confirm").val(),
                 password:$("#password").val(),
                 mobile:$("#telephone").val(),
-                com_type:$("select option:checked").val()
+                com_type:$("select option:checked").val(),
+                s_val:$("#dis_nickname").val(),
+                g_tel:$("#phone").val()
 
             },
             function (req){
