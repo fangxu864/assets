@@ -79,10 +79,8 @@ var OperCard = Backbone.View.extend({
 					var needID = data.need_ID || "";
 					var virtual_no = data.virtual_no;
 					var physics_no = data.physics_no;
-					var card_no = data.card_no;
-                   
-					$("#cardInfoBar").html("实体卡号："+card_no+"<i style='margin:0 10px'></i>虚拟卡号："+virtual_no+"<i style='margin:0 10px'></i>"+"物理ID："+physics_no);
-                    
+					var card_no = data.card_no;					
+                    $("#cardInfoBar").show().html("实体卡号：<input class='inptxt' name='visible_no' id='card_no' value="+card_no+">");   
 				}else{
 					$("#cardInfoBar").show().html(res.msg || PFT.AJAX_ERROR_TEXT).addClass("error");
 				}
