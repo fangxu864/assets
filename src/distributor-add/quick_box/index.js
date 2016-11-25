@@ -7,7 +7,7 @@
 require("./index.scss");
 var tpl = require("./quick_box.xtpl");
 
-//块级写法\
+
 var QUICK_BOX=PFT.Util.Class({
     //放入容器
     container:"#quick_box",
@@ -23,7 +23,7 @@ var QUICK_BOX=PFT.Util.Class({
         $("#quick_box").append(tpl)
     },
 
-//事件调用方法1
+//点击快速添加
     quickAdd:function(e){
         var _this=this;
         $.post("../call/jh_mem.php",
@@ -38,7 +38,7 @@ var QUICK_BOX=PFT.Util.Class({
             },"json")
     },
 
-
+ //点击分销平台   
     clickPlatform:function () {
         window.location.href='../alliance_join.html?id=4'
     },

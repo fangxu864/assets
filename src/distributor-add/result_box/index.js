@@ -7,7 +7,7 @@
 require("./index.scss");
 var tpl = require("./result_box.xtpl");
 
-//块级写法\
+//块级写法
 var RESULT_BOX=PFT.Util.Class({
     //放入容器
     container:"#result_box",
@@ -23,7 +23,7 @@ var RESULT_BOX=PFT.Util.Class({
         $("#result_box").append(tpl)
     },
 
-//事件调用方法1
+//搜索结果显示
     showResult:function(req){
         $("table tbody tr").remove();
         if(req.length){
@@ -38,7 +38,7 @@ var RESULT_BOX=PFT.Util.Class({
             }
         }
     },
-
+//快速添加结果显示
     clickAdd:function (e) {
         var _this=this;
         //console.log($("#csrf_token").val());
@@ -52,7 +52,8 @@ var RESULT_BOX=PFT.Util.Class({
                 }
             },"json")
     },
-
+    
+//点击价格配置    
     clickPriceFix:function (e) {
         window.location.href='../new_configuration.html?did='+$(e.target).attr("data-id")
     },

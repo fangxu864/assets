@@ -92,6 +92,7 @@ var FILTER_BOX=PFT.Util.Class({
         }
     },
 
+    //显示隐藏部分
     showHiddenPart:function(e){
         $("#hideContainer").show();
         $(e.target).text("选择已有分销商").addClass("closeNew").removeClass("createNew");
@@ -103,6 +104,8 @@ var FILTER_BOX=PFT.Util.Class({
             $("#telephone").val(content);
         }
     },
+
+    //隐藏隐藏部分
     hideHiddenPart:function(e){
         $("#hideContainer").hide();
         $(e.target).text("创建新分销商").addClass("createNew").removeClass("closeNew");
@@ -113,6 +116,8 @@ var FILTER_BOX=PFT.Util.Class({
             $("#telephone").val(content);
         }
     },
+
+    //点击提交
     formSubmit:function(e){
         var fillPart =$("form input[required]");
         for(var i = 0 ; i<fillPart.length ; i++){
@@ -158,6 +163,7 @@ var FILTER_BOX=PFT.Util.Class({
     },
 
 
+    //检查中文或者手机
     check_CN_Phone:function (e) {
         var error = "";
         if(!Validate.typeCN($(e.target).val())&&!Validate.typePhone($(e.target).val())) {
@@ -177,6 +183,8 @@ var FILTER_BOX=PFT.Util.Class({
             $(e.target).next("div").find("span[id$=tip]").text("")
         }
     },
+
+    //检查中文
     check_CN:function (e) {
         var error = "";
         if(!Validate.typeCN($(e.target).val())) {
@@ -189,6 +197,8 @@ var FILTER_BOX=PFT.Util.Class({
         }
     },
 
+
+    //检查手机
     check_Phone:function (e) {
         var error = "";
         if(!Validate.typePhone($(e.target).val())) {
@@ -201,6 +211,7 @@ var FILTER_BOX=PFT.Util.Class({
         }
     },
 
+    //检查数字
     check_Num:function (e) {
         var error = "";
         if(!Validate.typeNum($(e.target).val())) {
@@ -212,6 +223,8 @@ var FILTER_BOX=PFT.Util.Class({
             $(e.target).next("span[id$=tip]").text("")
         }
     },
+
+    //检查密码长度
     check_Code:function (e) {
         var error = ""
         if($(e.target).val().length < 6){
@@ -224,6 +237,7 @@ var FILTER_BOX=PFT.Util.Class({
         }
     },
 
+    //检查密码长度以及验证重复输入
     confirm_Code:function (e) {
         var error = ""
 
