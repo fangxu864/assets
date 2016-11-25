@@ -1,0 +1,11 @@
+<li><span class="txtrig">员工卡号：</span><input type="text" class="inptxt" validator="card" placeholder="请电脑连接读卡器" id="cardInp" name="pft_member_card">
+
+    <div class="rt">
+        <div id="clearCardInpBtn" class="clearCardInpBtn ">
+            <i class="iconfont">&#xe674;</i></div>
+       
+    </div>
+</li>
+<li>
+        <p id="cardInfoBar" class="actip"></p>
+</li>
