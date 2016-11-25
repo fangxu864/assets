@@ -149,6 +149,9 @@ var FILTER_BOX=PFT.Util.Class({
             },
             function (req){
                 alert(req.msg);
+                if(req.status == "ok"){
+                    window.location.reload();
+                }
                 // $(e.target).replaceWith($("<span>已添加|<a class='price_fix' data-id="+req.id+">价格配置</a></span>"));
 
             },"json")
