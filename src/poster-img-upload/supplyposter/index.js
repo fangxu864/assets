@@ -5,6 +5,7 @@ var posterList = $('#posterList'),
     nodataHTML = '<div class="nodata-wrap">暂无供应商产品海报</div>',
     pagination,
     xhrPoster;
+var Pagination = require("COMMON/modules/pagination-x");
 
 function ajaxGetPoster( page, pageSize ) {
     xhrPoster = PFT.Util.Ajax(
@@ -59,7 +60,7 @@ $('#posterList').on('mouseenter', '.QRdownload', function(){
 
 // posterList.html(renderList(response.data.list));
 
-var Pagination = require("COMMON/modules/pagination-x");
+
 
 pagination = new Pagination({
     container : "#paginationWrap", //必须，组件容器id
@@ -86,3 +87,4 @@ pagination.on("page.switch",function(toPage,currentPage,totalPage){
 });
 
 ajaxGetPoster(1, 9);
+
