@@ -47,16 +47,17 @@ var Main = PFT.Util.Class({
 		var that = this;
 		this.tabPannelWrap = $("#tabPannelWrap");
 		this.fixTabHead = $("#fixTabHead");
-		this.fixTabHead.children().first().trigger("click");
 		this.Detail = new Detail({Service:Service});
 		this.Detail.on("btn.click",function(e){
 			that.onActionBtnClick(e,"detail");
 		})
+
+
+		this.fixTabHead.children().first().trigger("click");
+
 		this.initRouter();
 
 		this.initSearch();
-
-
 
 
 	},
@@ -154,22 +155,32 @@ var Main = PFT.Util.Class({
 				Toast.hide();
 			},
 			empty : function(data){
+				var totalPage = data.totalPage;
 				pageData["current"] = page;
+				this.renderList(type,page,totalPage,data.list);
 				if(page==1){
-					this.renderList(type,page,"empty");
+					if(scroll){
+						scroll.scrollTop(0);
+						scroll.unplug(pullup);
+						scroll.render();
+					}
 				}else if(page>1){
-					this.renderList(type,page,"noMore");
+					if(scroll){
+						scroll.unplug(pullup);
+						scroll.render();
+					}
 				}
 			},
 			success : function(data){
 				var totalPage = data.totalPage;
 				pageData["current"] = page;
 				pageData["total"] = totalPage;
-				this.renderList(type,page,data.list);
-				if(page==1){ //第一次加载时
+				this.renderList(type,page,totalPage,data.list);
+				if(page==1){ //刷新页面时
 					if(!refreshScroll){
 						this.initScroll(type);
 					}else{
+						scroll.plug(pullup);
 						scroll.render();
 						scroll.scrollTop(0);
 					}
@@ -180,7 +191,6 @@ var Main = PFT.Util.Class({
 					pullup && pullup.complete();
 					if(page==totalPage){ //当加载到最后一页时，没有更多可加载时需disable pullup
 						scroll.unplug(pullup);
-						this.renderList(type,page,"noMore");
 					}
 					scroll.render();
 				}
@@ -193,7 +203,37 @@ var Main = PFT.Util.Class({
 			}
 		},this)
 	},
-	renderList : function(type,page,data){
+
+
+	enablePullup : function(type){
+
+	},
+	disablePullup : function(type){
+
+	},
+	renderList : function(type,page,totalPage,data){
+		var html = "";
+		var listUl = $("#listUl-"+type);
+		var template = this.template[type];
+		if(page==1){  //刷新时
+			if(totalPage==0){ //没有数据
+				html = '<li class="sta empty">暂无相关订单...</li>';
+			}else if(totalPage==1){ //只有第一页数据
+				html = template({data:data});
+				html += '<li class="noMore empty">没有更多了...</li>';
+			}else{ //有多页数据，可加载更多
+				html = template({data:data});
+			}
+			listUl.html(html);
+		}else{ //加载更多时
+			html = template({data:data});
+			if(totalPage==page){
+				html += '<li class="noMore empty">没有更多了...</li>';
+			}
+			listUl.append(html);
+		}
+	},
+	renderList_backup : function(type,page,data){
 		var html = "";
 		if(data=="empty"){
 			html = '<li class="sta empty">暂无相关订单...</li>';
@@ -204,7 +244,11 @@ var Main = PFT.Util.Class({
 		}
 		var listUl = $("#listUl-"+type);
 		if(page==1){
-			listUl.html(html);
+			if(typeof data!=="string"){
+				listUl.html(html);
+			}else{
+				listUl.append(html);
+			}
 		}else if(page>1){
 			listUl.append(html);
 		}
@@ -221,14 +265,12 @@ var Main = PFT.Util.Class({
 		this.search.show(beginDate,endDate);
 	},
 	onPullupLoading : function(type){
-
 		if(type=="history"){
 			var con = $("#searchSheetContainer");
-			console.log($("#beginDateInp"))
 			var beginDate = $("#beginDateInp").val();
 			var endDate = $("#endDateInp").val();
 			var _type = con.find(".dateTypeGroup .active").attr("data-type");
-			this.fetchData("history",this.page[type]["current"],{
+			this.fetchData("history",this.page[type]["current"]+1,{
 				beginDate : beginDate,
 				endDate : endDate,
 				dateType : _type
@@ -236,8 +278,6 @@ var Main = PFT.Util.Class({
 		}else{
 			this.fetchData(type,this.page[type]["current"]+1);
 		}
-
-		//this.fetchData(type,this.page[type]["current"]+1);
 	},
 	onTabTriggerClick : function(e){
 		var tarTab = $(e.currentTarget);

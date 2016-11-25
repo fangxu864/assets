@@ -54,12 +54,12 @@
         },
         methods : {
             onPlus(e){
-                //if(e.target.classList.contains("disable")) return false;
+                if(e.target.classList.contains("disable")) return false;
                 this.value += 1;
                 //setTimeout(()=>{ this.$dispatch("plus",this.value) },60);
             },
             onMinu(e){
-                //if(e.target.classList.contains("disable")) return false;
+                if(e.target.classList.contains("disable")) return false;
                 this.value -= 1;
                 //setTimeout(()=>{ this.$dispatch("minu",this.value) },60);
             }
@@ -132,5 +132,5 @@
     .ui-count-container .countBtn{ display:block; position:absolute; top:0; bottom:0; width:$btnWidth; line-height:22px; text-align:center; font-size:18px; font-weight:bold; background:#fff; color:#258cc9}
     .ui-count-container .countBtn.plus{ right:0}
     .ui-count-container .countBtn.minu{ left:0;}
-    /*.ui-count-container .countBtn.disable{ background:rgb(180,180,180)}*/
+    .ui-count-container .countBtn.disable{ background:rgb(180,180,180)}
 </style>
