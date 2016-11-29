@@ -27,13 +27,17 @@ var Main={
 //所有模块的交流区域
     CommunicateArea:function(){
         var _this = this;
+        //当监听到发布的事件时，可以调用其他模块的部分
         this.filter_box.on("showResult",function(req){
-//当监听到发布的事件时，可以调用其他模块的部分
             _this.result_box.showResult(req)
-        })
+        });
         this.quick_box.on("quickShow",function (req) {
             //console.log(req)
             _this.result_box.quickAdd(req)
+        });
+        this.filter_box.on("showResultObj",function (req) {
+            //console.log(req)
+            _this.result_box.showResultObj(req)
         })
     },
 

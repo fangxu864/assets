@@ -38,6 +38,18 @@ var RESULT_BOX=PFT.Util.Class({
             }
         }
     },
+    showResultObj:function (req) {
+        $("table tbody tr").remove();
+        if(req.code == 100){
+            var operation = "<a class='btn_add' data-id="+req.data.id+">添加</a>";
+
+            if(req.data.created){
+                operation = "已添加|<a class='price_fix' data-id="+req.data.id+">价格配置</a>"
+            }
+            var tr = $("<tr data-id="+req.data.id+"><td class='col_first'>["+req.data.passport+"]"+req.data.dname+"</td><td>"+req.data.com_type+"</td><td>"+req.data.cname+"["+req.data.mobile+"]</td><td>"+operation+"</td></tr>");
+            $("table tbody").append(tr);
+        }
+    },
 //快速添加结果显示
     clickAdd:function (e) {
         var _this=this;
