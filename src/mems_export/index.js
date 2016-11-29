@@ -395,7 +395,7 @@ $(function(){
                 $("#payment").attr("checked", true);
             }
 
-            if($("#cooperateMode").val() == 3){
+            if($("#cooperateMode").val() == 3 || $("#cooperateMode").val() == 0){
                 $('#protocal_meal').attr("disabled",true);
                 $('#protocal_meal').attr("value","");
                 $('#protocal_meal').css("background","#eee");
