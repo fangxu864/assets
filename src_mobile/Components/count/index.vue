@@ -68,7 +68,7 @@
             max(val,oldVal){
                 var count = this.value;
                 var min = this.min;
-                if(val==-1) return;
+                if(val==-1) return this.plus_cls = "";
                 if(val<0) return this.max = oldVal;
                 if(val<min){
                     this.can_0 = true;
@@ -105,6 +105,7 @@
                 if(val<=min && min!=-1){
                     if(val==min){
                         if(!can_0) this.minu_cls = "disable";
+                        if(can_0 && val==0) this.minu_cls = "disable";
                     }else{
                         if(can_0){
                             this.value = 0;

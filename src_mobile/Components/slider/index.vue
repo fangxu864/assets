@@ -7,7 +7,7 @@
             </div>
         </template>
         <template v-if="state=='fail'">
-            <div class="fail state">请求用户配置的banner信息出错</div>
+            <div class="fail state" v-text="failMsg"></div>
         </template>
         <template v-if="state=='success' && bannerCount==1">
             <div class="bannerCon">
@@ -34,7 +34,8 @@
                 loading_img_src : PFT.LOADING_IMG_GIF,
                 height : this.initHeight,
                 state : "loading",
-                banner : []
+                banner : [],
+                failMsg : "请求用户配置的banner信息出错"
             }
         },
         ready(){
@@ -42,8 +43,9 @@
             PFT.CustomShopConfig.on("success",(res) => {
                 this.loadFirstBannerImg(res.data.banner);
             })
-            PFT.CustomShopConfig.on("fail",(res) => {
+            PFT.CustomShopConfig.on("fail",(msg) => {
                 this.state = "fail";
+                this.failMsg = msg;
             })
         },
         computed : {

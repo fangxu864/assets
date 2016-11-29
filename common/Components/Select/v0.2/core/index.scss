@@ -1,0 +1,42 @@
+@import "";
+.pui-select-container{
+    display:none;
+    position:absolute;
+    z-index:10002;
+    background:#fff;
+    border:1px solid #e5e5e5;
+    border-top:0 none;
+    .pui-select-ul{
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background:#fff;
+        overflow:auto;
+    }
+    .pui-select-option{
+        padding:0 10px;
+        height:32px;
+        line-height:32px;
+        overflow:hidden;
+        border-bottom:1px solid #e5e5e5;
+        &:last-child{
+            border-bottom:0 none;
+        }
+        cursor:pointer;
+        &.active{
+            background:#f7f7f7;
+        }
+    }
+
+}
+.pui-select-mask{
+    display:none;
+    position:fixed;
+    z-index:10001;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+}
