@@ -125,7 +125,7 @@ var Filter=PFT.Util.Class({
         }
 
 
-        var downUrl="/r/order_orderQuery/getOrderRecord?"+_this.JsonStringify(Params);
+        var downUrl="/r/Order_OrderQuery/getOrderRecord?"+_this.JsonStringify(Params);
         //console.log(downUrl)
         //console.log(downUrl);
         //发布"更新参数"事件
