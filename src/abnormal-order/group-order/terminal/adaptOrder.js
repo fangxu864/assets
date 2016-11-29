@@ -128,7 +128,8 @@ var AdaptOrder = {
 				}
 			}
 		}
-		order["readonly"] = readonly;
+		// order["readonly"] = readonly;
+		order["readonly"] = ""; //2016-11-24 需求说都可以修改
 		order["tip"] = tip;
 		return order;
 	}
