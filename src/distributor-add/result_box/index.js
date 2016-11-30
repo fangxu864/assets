@@ -57,7 +57,7 @@ var RESULT_BOX=PFT.Util.Class({
         $.post("../call/jh_mem.php",
             {action:"AddRelationShip",distor:$(e.target).attr("data-id"),token:$("#csrf_token").val()},
             function (req){
-                if(req.status != "success"){
+                if(req.status != "ok"){
                     alert(req.msg)
                 }else{
                     $(e.target).replaceWith($("<span>已添加|<a class='price_fix' data-id="+req.id+">价格配置</a></span>"));
