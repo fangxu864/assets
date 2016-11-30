@@ -17,7 +17,7 @@ var FILTER_BOX=PFT.Util.Class({
          "blur .secondSearch":"secondSearch",
          "blur .secondThird":"secondThird",
          "input #dis_nickname":"search",
-         "click #dis_nickname":"hide",
+         // "click #dis_nickname":"hide",
          //"blur #dis_nickname":"check_CN_Phone",
          "click .createNew":"showHiddenPart",
          "click .closeNew":"hideHiddenPart",
@@ -49,12 +49,13 @@ var FILTER_BOX=PFT.Util.Class({
 
     },
 
-    hide:function () {
-        //console.log($(".createNew").css("display") == undefined);
-        if($(".createNew").css("display") === undefined){
-            $("#hideContainer").hide()
-        }
-    },
+    // hide:function () {
+    //     //console.log($(".createNew").css("display") == undefined);
+    //     if($(".createNew").css("display") === undefined){
+    //         $("#hideContainer").hide();
+    //         $(".createNew").text("创建新分销商").addClass("createNew").removeClass("closeNew");
+    //     }
+    // },
     //检索
     search:function(e){
 
