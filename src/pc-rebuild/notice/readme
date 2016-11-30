@@ -1,5 +1,6 @@
 ###平台-前后端分离-系统通知页
 
+页面访问 http://www.12301.local/notice.html
 
 npm run system-notice-pc-start
 npm run system-notice-pc-test
