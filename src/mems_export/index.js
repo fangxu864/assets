@@ -388,7 +388,7 @@ $(function(){
         $(".black_addqd").css("display","none");
     });
 
-    $('#mem_list_tbd').on('click','a.saleIDAdd',function(e){
+    $('#mem_list_tbd').on('click','a.salesIDAdd',function(e){
         $(".alert_box_addqd").css("display","block");
     });
     $(".click_close,.cancel").click(function(){
@@ -500,3 +500,17 @@ $(function(){
         },'json');
     })
 });
+
+/**
+ *解决点击会回到页面顶部的bug
+ * 2016/11/30
+ */
+$(function(){
+    $("a.saleID").attr("href","javascript:void(0)");
+    $("a.salesIDAdd").attr("href","javascript:void(0)");
+    $("a.CsysID").attr("href","javascript:void(0)");
+    $("a.save").attr("href","javascript:void(0)");
+    $("a.cancel").attr("href","javascript:void(0)");
+    $("a.save_addqd").attr("href","javascript:void(0)");
+    $("a.cancel_addqd").attr("href","javascript:void(0)");
+})
