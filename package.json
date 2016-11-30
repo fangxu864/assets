@@ -144,10 +144,10 @@
     "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
 
-    "system-notice-pc-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/pc-rebuild/notice/webpack.config.js",
-    "system-notice-pc-test": "set NODE_ENV=test && webpack --watch --progress --colors --config ./src/pc-rebuild/notice/webpack.config.js",
-    "system-notice-pc-release": "set NODE_ENV=release && webpack --watch --progress --colors --config ./src/pc-rebuild/notice/webpack.config.js",
-    "system-notice-pc-production": "set NODE_ENV=production && webpack --watch --progress --colors --config ./src/pc-rebuild/notice/webpack.config.js",
+    "operator-manager-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/pc-rebuild/operator-manager/webpack.config.js",
+    "operator-manager-test": "set NODE_ENV=test && webpack --watch --progress --colors --config ./src/pc-rebuild/operator-manager/webpack.config.js",
+    "operator-manager-release": "set NODE_ENV=release && webpack --watch --progress --colors --config ./src/pc-rebuild/operator-manager/webpack.config.js",
+    "operator-manager-production": "set NODE_ENV=production && webpack --watch --progress --colors --config ./src/pc-rebuild/operator-manager/webpack.config.js",
 
 
 
