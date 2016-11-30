@@ -1,4 +1,7 @@
 ###平台-前后端分离-系统通知页
 
 
-npm run abnormal-order-start
+npm run system-notice-pc-start
+npm run system-notice-pc-test
+npm run system-notice-pc-release
+npm run system-notice-pc-production
