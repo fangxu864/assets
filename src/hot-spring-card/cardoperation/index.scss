@@ -1,0 +1,288 @@
+
+            /* g-*为框架， m-* 为模块，u-* 为原件，z-* 表示状态  */
+            
+            i {
+                font-style: normal;
+            }
+            /*录手牌*/
+            
+            a {
+                cursor: pointer;
+            }
+            
+            .g-index {
+                width: 800px;
+                border: 1px solid #e1e1e1;
+                background: #FFF;
+                margin: 0px auto;
+            }
+            
+            .g-hd {
+                border-bottom: 1px solid #E5E5E5;
+                padding-left: 20px;
+                height: 45px;
+                position: relative;
+            }
+            
+            .g-hd .u-title {
+                height: 40px;
+                line-height: 40px;
+                font-size: 22px;
+            }
+            
+            .g-hd .u-entring_btn,
+            .g-content .u-sch_btn {
+                width: 100px;
+                height: 30px;
+                line-height: 30px;
+                margin-left: 10px;
+                color: #FFFFFF;
+                font-size: 10px;
+                text-align: center;
+                display: inline-block;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+            }
+            
+            .g-content .u-sch_btn {
+                background: #f07845;
+            }
+            
+            .g-hd .u-entring_btn {
+                background: #0797D9;
+                position: absolute;
+                top: 6px;
+                right: 10px;
+            }
+            
+            .g-content {
+                padding: 10px 0px 0px 20px;
+            }
+            
+            .g-content .u-div {
+                margin: 20px auto;
+            }
+            
+            .g-content .u-div #entryCard {
+                margin-left: 10px;
+            }
+            
+            .g-content #cardColor {
+                width: 200px;
+            }
+            
+            .g-content .u-div .u-span_status,
+            .g-content .u-div .u-span_color {
+                font-size: 16px;
+            }
+            
+            .g-content .u-div .u-span_color {
+                display: inline-block;
+                margin-left: 45px;
+            }
+            
+           
+
+            .g-content .u-input_entry {
+                position: relative;
+                width: 172px;
+                height: 20px;
+                line-height: 20px;
+                padding: 5px 8px;
+                border: 1px solid #C9C9C9;
+                background: #eee;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            }
+            
+            .g-content .u-input_entry:focus,
+            .g-content #cardColor:focus {
+                border-color: #0797D9;
+            }
+            
+            .g-content .u-div #clearCardInpBtn{
+                display: none;
+                position:absolute; 
+                top:77px; 
+                left:185px; 
+                width:30px; 
+                height:30px; 
+                line-height:30px; 
+                text-align:center; 
+                cursor:pointer;
+               
+            }
+            .g-content .u-div .iconfont{
+                 font-size:17px; 
+                color:#8c8c8c;
+            }
+
+            .g-content .u-div .u-input_radio {
+                vertical-align: middle;
+                margin-left: 17px;
+            }
+            
+            .g-index .m-table {
+                margin-top: 10px;
+            }
+            
+            .g-index .m-table .u-card_status {
+                table-layout: fixed;
+                width: 100%;
+            }
+            
+            .g-index .m-table .u-card_status th {
+                font-weight: normal;
+                height: 35px;
+                line-height: 35px;
+                background: #E5E5E5;
+                color: #6C7882;
+                text-align: center;
+            }
+            
+            .g-index .m-table .u-card_status td {
+                word-wrap: break-word;
+                line-height: 18px;
+                padding: 15px 0;
+                border-top: 1px solid #E5E5E5;
+                text-align: center;
+            }
+            
+            .g-index .m-table .u-card_status tr:hover {
+                background: #f5f5f5;
+            }
+            .g-index .m-table .u-card_status .crd_opration {
+                width: 200px;
+            }
+            /*编辑 录入手牌 模态框*/
+            .m-modal_bg{
+                display: none;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.01);
+                z-index: 999;
+            }
+            .m-modal_entring,
+            .m-modal_edit {
+                /*display: none;*/
+                margin: 0 auto;
+                position: absolute;
+                top: 100px;
+                left: 100px;
+                background: #fff;
+                border-radius: 2px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+                -webkit-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+                -moz-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+                width: 560px;
+                height: 360px;
+                border: 1px solid #eee;
+                z-index: 100;
+            }
+            
+            .u-modal_title {
+                position: relative;
+                height: 20px;
+                padding: 10px 0 10px 20px;
+                font-size: 16px;
+                background: #f5f5f5;
+            }
+            
+            .u-span_close {
+                width: 25px;
+                color: #92a0ab;
+                position: absolute;
+                font-size: 17px;
+                top: 10px;
+                right: 1px;
+                cursor: pointer;
+            }
+            
+            .u-span_close:hover {
+                color: #f07845;
+            }
+            
+            .u-modal_inpBox .u-span {
+                width: 120px;
+                display: inline-block;
+                text-align: right;
+            }
+            
+            .u-input_box .u-input {
+                width: 172px;
+                height: 20px;
+                line-height: 20px;
+                padding: 5px 8px;
+                border: 1px solid #C9C9C9;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                margin-left: 10px;
+            }
+            .u-input_box #phy_no{
+                background: #eee;
+            }
+            .u-modal_inpBox,
+            .u-modal_inpBox .u-input_box {
+                margin: 20px auto;
+            }
+            
+            .u-input_box select.cardBg {
+                width: 190px;
+                height: 30px;
+                border: 1px solid #C9C9C9;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                margin-left: 10px;
+            }
+            
+            .u-modal_inpBox .u-input:focus,
+            .u-input_box .cardBg:focus {
+                border-color: #0797D9;
+            }
+            
+            .u-modal_inpBox .u-span_des,
+            .u-modal_inpBox .readCard {
+                margin: auto 10px;
+            }
+            
+            .u-modal_inpBox .u-span_des {
+                color: #C9C9C9;
+            }
+            
+            .u-modal_btnBox {
+                margin: 30px 0 0 115px;
+            }
+            
+            .u-modal_btnBox .u-modal_btn {
+                width: 100px;
+                height: 35px;
+                line-height: 35px;
+                margin-left: 18px;
+                color: #FFFFFF;
+                font-size: 10px;
+                text-align: center;
+                display: inline-block;
+                background: #0797D9;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+            }
+            
+            .m-modal_edit .u-modal_btn.save {
+                margin-left: 20px;
+            }
+            
+            .u-modal_btnBox .u-modal_btn.cancel {
+                border: 1px solid #0797D9;
+                background: #FFF;
+                color: #0797D9;
+            }
+        

@@ -1,0 +1,7 @@
+    
+    var entrycard= require("./cardoperation/");
+
+ 
+   
+
+    

@@ -1,0 +1,15 @@
+                        <tr>
+                            <td class="crd_card_no"></td>
+                            <td class="crd_phy_no"></td>
+                            <td class="crd_color"></td>
+                            <td class="crd_status"></td>
+                            <td class="crd_paylist"></td>
+                            <td class="crd_operation">
+                                <a class="u-btn_edit" >编辑</a>
+                                <a class="u-btn_rl" >挂失</a>
+                                <a class="u-btn_disable" >禁用</a>
+                                <a class="u-btn_del" >删除</a>
+                                <a class="u-btn_paylist" >历史账单</a>
+                            </td>
+                        </tr>
+                        

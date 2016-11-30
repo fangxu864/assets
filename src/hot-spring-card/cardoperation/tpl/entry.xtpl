@@ -1,0 +1,67 @@
+<div class="m-modal_bg entry">
+<div class="m-modal m-modal_entring">
+    <div class="u-modal_title">录卡 <span class="u-span_close close">X</span></div>
+    <div class="u-modal_inpBox">
+        <div class="u-input_box">
+            <span class="u-span">物理卡号：</span>
+            <input type="text" name="physicsNo"  class="u-input phy_no"  readonly> <a class="readCard">读取物理卡号</a>
+        </div>
+        <div class="u-input_box">
+            <span class="u-span">手牌号：</span>
+            <input type="text" name="visibleNo" id="card_no" class="u-input"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
+        </div>
+        <div class="u-input_box">
+            <span class="u-span">手牌背景色：</span> <select name="cardBg" class="cardBg">
+                        <option value="">请选择背景色</option>
+                        <option value="1">蓝色(男)</option>
+                        <option value="2">粉色(女)</option>
+                    </select><span class="u-span_des">刷卡时通过底色区分男女</span>
+        </div>
+        <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid">福建温泉酒店</span></div>
+    </div>
+    <div class="u-modal_btnBox">
+        <a class="u-modal_btn saveNew">保存并继续录入</a>
+        <a class="u-modal_btn save">保存</a>
+        <a class="u-modal_btn close cancel">取消</a>
+
+    </div>
+</div>
+</div>
+<div class="m-modal_bg edit">
+    <div class="m-modal m-modal_edit">
+        <div class="u-modal_title">编辑 <span class="u-span_close close">X</span></div>
+        <div class="u-modal_inpBox">
+            <div class="u-input_box">
+                <span class="u-span">物理卡号：</span>
+                <input type="text" name="physicsNo"  class="u-input phy_no" readonly>
+            </div>
+            <div class="u-input_box">
+                <span class="u-span">手牌号：</span>
+                <input type="text" name="visibleNo" id="card_no" class="u-input"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
+            </div>
+            <div class="u-input_box">
+                <span class="u-span">手牌背景色：</span> <select name="cardBg" class="cardBg">
+                        <option value="">请选择背景色</option>
+                        <option value="1">蓝色(男)</option>
+                        <option value="2">粉色(女)</option>
+                    </select><span class="u-span_des gender">刷卡时通过底色区分男女</span>
+                    <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid">福建温泉酒店</span></div>
+            </div>
+        </div>
+        <div class="u-modal_btnBox">
+
+            <a class="u-modal_btn save">保存</a>
+            <a class="u-modal_btn close cancel">取消</a>
+
+        </div>
+    </div>
+</div>
+<div class="m-modal_bg loss">
+    <div class="m-modal loss">
+        <div class="u-modal_content">确定要挂失？</div>
+        <div class="u-modal_foot">
+            <div class="u-modal_btn confirm">确定</div>
+            <div class="u-modal_btn close">取消</div>
+        </div>
+    </div>
+</div>
