@@ -5,7 +5,6 @@
  */
 require("./index.scss");
 var __UUID = 0;
-var Base = require("./base.js");
 var Defaults = function(){
 	return {
 		triggerElem : null,
@@ -16,15 +15,17 @@ var Defaults = function(){
 		offsetY : 0
 	};
 };
-module.exports = PFT.Util.Class({extend:Base},{
+module.exports = PFT.Util.Class({
 	__Cache : {
 		currentOption : {
 			key : "",
 			value : ""
 		},
-		data : null
+		data : null,
+		Plugins : {}
 	},
 	init : function(opt){
+		var that = this;
 		opt = this.opt = $.extend(Defaults(),opt || {});
 		this.uuid = this.__getUUID();
 		this.$body = $("body");
@@ -43,6 +44,23 @@ module.exports = PFT.Util.Class({extend:Base},{
 			this.listUl.html(this.renderOptions(options));
 			if(options.length>0){
 				this.listUl.children().first().trigger("click");
+			}
+		}
+
+		//插件化
+		var plugins = this.opt.plugins;
+		if(Object.prototype.toString.call(plugins)=="[object Array]" && plugins.length>0){
+			for(var i=0; i<plugins.length; i++){
+				var _pluginObj = plugins[i];
+				for(var name in _pluginObj){
+					var _plugin = _pluginObj[name];
+					if(typeof _plugin=="function"){
+						//初始化插件
+						_plugin = _plugin(that);
+						//加入插件列表
+						that.__Cache.Plugins[name] = _plugin;
+					}
+				}
 			}
 		}
 	},
@@ -137,6 +155,11 @@ module.exports = PFT.Util.Class({extend:Base},{
 			t.text(value)
 		}
 	},
+	/**
+	 * 渲染option主方法
+	 * @param data {Array}  [{1:选项1},{2:选项2}]
+	 * @returns {*}
+	 */
 	renderOptions : function(data){
 		var html = "";
 		if(!data) return false;
@@ -172,6 +195,25 @@ module.exports = PFT.Util.Class({extend:Base},{
 			}
 		})
 		this.setValueToTrigger(key,value);
+	},
+	/**
+	 * 获取插件
+	 * @param pluginName 插件名
+	 * @returns {*}
+	 */
+	getPlugin : function(pluginName){
+		if(!pluginName) return null;
+		return this.__Cache.Plugins[pluginName];
+	},
+	/**
+	 * 销毁某个插件
+	 * @param pluginName 插件名
+	 */
+	destoryPlugin : function(pluginName){
+		var plugin = this.getPlugin(pluginName);
+		if(plugin && plugin.destoryPlugin){
+			plugin.destoryPlugin(this);
+		}
 	},
 	/**
 	 * 获取当前组件的值
