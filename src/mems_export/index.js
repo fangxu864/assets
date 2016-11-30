@@ -395,10 +395,14 @@ $(function(){
                 $("#payment").attr("checked", true);
             }
 
-            if($("#cooperateMode").val() == 3 || $("#cooperateMode").val() == 0){
-                $('#protocal_meal').attr("disabled",true);
+            if($("#contract_model").val() == 3 || $("#contract_model").val() == 0){
+                $('#protocal_meal').attr("disabled");
                 $('#protocal_meal').attr("value","");
                 $('#protocal_meal').css("background","#eee");
+            }else{
+                $('#protocal_meal').removeAttr("disabled");
+                $('#protocal_meal').attr("value","");
+                $('#protocal_meal').css("background","#ffffff");
             }
             $(".alert_box").css("display","block");
         })
