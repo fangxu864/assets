@@ -1,0 +1,59 @@
+/**
+ * Author: ZhengJiashen
+ * Date: 2016/11/28
+ * Description: ""
+ */
+
+
+////————————————箭头样式————————————————
+// 参数：triangle($size,$color,$direction)
+// 使用：@include triangle(10px,blue,up)
+// 三个参数从左至右依次为(尺寸，颜色，方向)
+// 注：三角形尺寸要带单位，尺寸为边长，三角形为等边三角形;箭头方向参数为:up,right,down,left；
+//     根据具体情形，使用定位来固定位置
+@mixin triangle($size,$color,$direction){
+  //通用部分
+  height: 0;
+  width: 0;
+  border-color: transparent;
+  border-style: solid;
+  font-size:0;
+  vertical-align:middle;
+
+  //向上
+  @if $direction == up {
+    border-bottom-color: $color;
+    border-bottom-width: $size*1.732/2;
+    border-left-width: $size/2;
+    border-right-width: $size/2;
+    border-top-width: 0;
+  }
+
+    //向右
+  @else if $direction == right {
+    border-left-color: $color;
+    border-left-width: $size*1.732/2;
+    border-top-width: $size/2;
+    border-bottom-width: $size/2;
+    border-right-width: 0;
+  }
+
+    //向下
+  @else if $direction == down {
+    border-top-color: $color;
+    border-bottom-width: 0;
+    border-left-width: $size/2;
+    border-right-width: $size/2;
+    border-top-width: $size*1.732/2;
+  }
+
+    //向左
+  @else if $direction == left {
+    border-right-color: $color;
+    border-left-width: 0;
+    border-top-width: $size/2;
+    border-bottom-width: $size/2;
+    border-right-width: $size*1.732/2;
+  }
+}
+//————————————箭头样式结束————————————————

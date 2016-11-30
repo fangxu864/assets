@@ -21,17 +21,17 @@
             <div id="botTipBox" class="botTipBox">
                 <p class="p2"><i style="margin-right:2px; vertical-align:middle" class="uicon uicon-pft"></i><span class="t">票付通-技术支持</span></p>
             </div>
-            <div class="dialog_mask" v-if="dialogStatus" @click="onDialogMaskClick"></div>
+            <div class="dialog_mask" v-if="dialogStatus"></div>
             <div class="dialog_con"  v-if="dialogStatus">
                 <p class="tips">微商城仅开放给散客进行快速购票，您手机绑定的是平台用户，您可以选择：</p>
                 <a href="index.html"><p class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p></a>
                 <a href="../mall/login.html"><p class="href">使用账号密码登录到个人中心<span class="arrow">》</span></p></a>
+                <p class="btn_close" @click="onDialogMaskClick" style="text-align: center">关闭</p>
             </div>
         </div>
     </div>
 </template>
-<!--<script type="es6">-->
-<script>
+<script type="es6">
     const Login = require("SERVICE_M/mall-member-smslogin");
     const VCODE_INTER_TIME = 60; //验证码获取时间间隔60s
     let timer = null;
@@ -70,13 +70,11 @@
         },
         methods : {
             onDialogMaskClick(){
-                console.log("fdsf")
                 this.dialogStatus=false
             },
 
             onMobileInpBlur(){
                 var _this=this;
-                console.log("fsdfsf");
                 var Alert = this.Alert;
                 var mobile = this.mobile;
                 if(!mobile) return Alert("请填写手机号");
@@ -125,7 +123,7 @@
                 var submitBtn = e.target;
                 var Alert = this.Alert;
                 if(submitBtn.classList.contains("disable")) return false;
-//                var mobile = this.mobile;
+                var mobile = this.mobile;
                 var code = this.code;
 //                if(!mobile) return Alert("请填写手机号");
 //                if(!PFT.Util.Validate.typePhone(mobile)) return Alert("手机号格式有误");
@@ -236,10 +234,11 @@
         left: 0;
     }
     .dialog_con{
-        height: 200px;
+        height: 250px;
         width: 100%;
         bottom: 0;
         background-color: white;
+        background-color: rgba(255,255,255,0.8);
         position: fixed;
         left: 0;
         p.tips{
@@ -257,6 +256,14 @@
             span.arrow{
                 float:right
             }
+        }
+        p.btn_close{
+            font-size: 14px;
+            line-height: 30px;
+            color: #0f7cb7;
+            margin: 20px 35%;
+            border: 1px solid  #0f7cb7;
+            width: 30%;
         }
     }
 

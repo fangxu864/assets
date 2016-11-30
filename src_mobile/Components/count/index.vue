@@ -68,7 +68,7 @@
             max(val,oldVal){
                 var count = this.value;
                 var min = this.min;
-                if(val==-1) return;
+                if(val==-1) return this.plus_cls = "";
                 if(val<0) return this.max = oldVal;
                 if(val<min){
                     this.can_0 = true;
@@ -105,6 +105,7 @@
                 if(val<=min && min!=-1){
                     if(val==min){
                         if(!can_0) this.minu_cls = "disable";
+                        if(can_0 && val==0) this.minu_cls = "disable";
                     }else{
                         if(can_0){
                             this.value = 0;
@@ -132,5 +133,5 @@
     .ui-count-container .countBtn{ display:block; position:absolute; top:0; bottom:0; width:$btnWidth; line-height:22px; text-align:center; font-size:18px; font-weight:bold; background:#fff; color:#258cc9}
     .ui-count-container .countBtn.plus{ right:0}
     .ui-count-container .countBtn.minu{ left:0;}
-    /*.ui-count-container .countBtn.disable{ background:rgb(180,180,180)}*/
+    .ui-count-container .countBtn.disable{ background:rgb(180,180,180)}
 </style>

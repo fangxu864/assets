@@ -16,7 +16,7 @@
                    :readonly="readonly"
                    :type="type"/>
             <i class="uicon" :class="'uicon-'+icon" v-if="icon"></i>
-            <span class="errorMsg" v-text="errorMsg"></span>
+            <span class="errorMsg" :class="placeholder=='联系人姓名' ? 'name' : ''" v-text="errorMsg"></span>
         </div>
     </div>
 </template>
@@ -207,4 +207,5 @@
     .inputLine .rt .uicon{ position:absolute; top:14px; right:0; color:#258cc9}
     .inputLine .errorMsg{ display:none; position:absolute; top:0; bottom:0; right:0; color:red; line-height:48px;}
     .inputLine.error .errorMsg{ display:block;}
+    .inputLine .errorMsg.name{ right:24px}
 </style>
