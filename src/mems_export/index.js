@@ -373,6 +373,7 @@ $(function(){
                     return false;
                 }
             })
+
 //            res.protocal_start = '2015-12-20';
 //            res.protocal_end   = '2015-12-31';
 //            res.protocol_main  = '年费9800,协议截止日期为2016年12月31日';
@@ -380,6 +381,29 @@ $(function(){
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
             $("#protocal_meal").val(res.protocol_meal);
+            $("#contract_num").val(res.contract_num);  //合同编号
+            if(res.contract_model == "1"){  //合作模式
+                $("#selectPackage").attr("selected","selected");
+            }else if(res.contract_model == "2"){
+                $("#selectTicket").attr("selected","selected");
+            }else if(res.contract_model == "3"){
+                $("#selectOrder").attr("selected","selected");
+            }
+            if(res.is_pay == "0"){    //否
+                $("#payment").attr("checked", false);
+            }else if(res.is_pay == "1"){   //是
+                $("#payment").attr("checked", true);
+            }
+
+            if($("#contract_model").val() == 3 || $("#contract_model").val() == 0){
+                $('#protocal_meal').attr("disabled");
+                $('#protocal_meal').attr("value","");
+                $('#protocal_meal').css("background","#eee");
+            }else{
+                $('#protocal_meal').removeAttr("disabled");
+                $('#protocal_meal').attr("value","");
+                $('#protocal_meal').css("background","#ffffff");
+            }
             $(".alert_box").css("display","block");
         })
     });
@@ -388,7 +412,7 @@ $(function(){
         $(".black_addqd").css("display","none");
     });
 
-    $('#mem_list_tbd').on('click','a.saleIDAdd',function(e){
+    $('#mem_list_tbd').on('click','a.salesIDAdd',function(e){
         $(".alert_box_addqd").css("display","block");
     });
     $(".click_close,.cancel").click(function(){
@@ -403,6 +427,16 @@ $(function(){
             protocal_end   = $("#protocol_end").val(),
             protocol_main  = $("#protocol_main").val();
         protocal_meal  = $("#protocal_meal").val();
+
+
+        var contract_num = $("#contract_num").val();
+        var contract_model = $("#cooperateMode").val();
+        if($("#payment").is(":checked")==true){
+            var is_pay = 1;             
+        }else{
+            var is_pay = 0;      
+        }
+         
         PFT_GLOBAL.G.Ajax({
             url : "../module/zax/admin_report/call.php",
             data : {
@@ -413,7 +447,11 @@ $(function(){
                 protocal_start:protocal_start,
                 protocal_end:protocal_end,
                 protocol_main:protocol_main,
-                protocol_meal:protocal_meal
+                protocol_meal:protocal_meal,
+                contract_num:contract_num,
+                contract_model:contract_model,
+                is_pay:is_pay
+
             },
             type :'POST',
             timeout : function(){console && console.log("获取数据超时")},
@@ -500,3 +538,17 @@ $(function(){
         },'json');
     })
 });
+
+/**
+ *解决点击会回到页面顶部的bug
+ * 2016/11/30
+ */
+$(function(){
+    $("a.saleID").attr("href","javascript:void(0)");
+    $("a.salesIDAdd").attr("href","javascript:void(0)");
+    $("a.CsysID").attr("href","javascript:void(0)");
+    $("a.save").attr("href","javascript:void(0)");
+    $("a.cancel").attr("href","javascript:void(0)");
+    $("a.save_addqd").attr("href","javascript:void(0)");
+    $("a.cancel_addqd").attr("href","javascript:void(0)");
+})

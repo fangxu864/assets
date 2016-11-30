@@ -9,13 +9,12 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		//异常订单-第三方订单入口
-		"abnormal.third.order" : "./src/abnormal-order/third-order/index.js",
-		//异常订单-团购订单入口
-		// "abnormal.group.order" : "./src/abnormal-order/group-order/index.js"
+		"poster-img-upload-mallposter" : "./src/poster-img-upload/mallposter/index.js",
+		"poster-img-upload-myposter" : "./src/poster-img-upload/myposter/index.js",
+		"poster-img-upload-supplyposter" : "./src/poster-img-upload/supplyposter/index.js",
+		"poster-img-upload-editmyposter" : "./src/poster-img-upload/editmyposter/index.js"
 	},
 	output : output,
 	plugins : plugins
 });
 module.exports = config;
-

@@ -12,9 +12,10 @@
 #deleteBankCard_ensure{width:100%;height: 100%;text-align: center;display: none}
 .check_Btn:hover{background: #258cea}
 #bankCheckor_input{width: 80px;height: 29px;padding-left: 5px}
-#cancel_deBankC_Btn{border: none;color: blue;background-color: #fff}
-.checkor_shell_btn1,.checkor_shell_btn2,.checkor_shell_btn3{width: 44px;height:29px;margin: 7px 5px 14px 35px;border: solid 1px #ccc;background-color: rgba(51, 51, 51, 0.6);position: relative;top: 20px;color: #fff;border-radius: 4px;float: left }
-.checkor_shell_span{position: absolute;top: 10px;right: 5px;font-size: 12px;color: #fff}
+#cancel_deBankC_Btn{border: none;color: blue;background-color: #0797d9;}
+.checkor_shell_btn1,.checkor_shell_btn2,.checkor_shell_btn3{font-size:15px;width: 44px;height:29px;float: left;margin-top:20px;margin-left:15px; border:none;color:#0797d9;background:#dcdcdc; }
+.checkor_shell_btn1{margin-left:30px;}
+.checkor_shell_span{font-size: 12px;color: #e11d2c;text-align:center;display:block;margin-top:30px;}
 .checkor_shell_span1{position: absolute;top: 10px;right: 5px;font-size: 12px;color: #f00000}
 .checkor_shell_span3{position:relative;top: 24px;left: 14px;font-size: 12px;color: #fff;letter-spacing: 2px;}
 
