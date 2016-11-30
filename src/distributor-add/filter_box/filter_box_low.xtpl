@@ -10,6 +10,7 @@
     <label for="telephone">手机号</label><input type="text" id="telephone" class="secondThird"/><span class="tip" id="telephone_tip"></span><br/>
     <label for="type">企业类型</label>
     <select name="" id="type">
+        <option value="all">全部</option>
         <option value="加盟门店">加盟门店</option>
         <option value="电商/团购网">电商/团购网</option>
         <option value="旅行社">旅行社</option>

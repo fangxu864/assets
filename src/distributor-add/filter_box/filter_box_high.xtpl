@@ -15,11 +15,12 @@
         <label for="phone">固定电话</label><input type="text" id="phone"/><span class="tip" id="phone_tip"></span><br/>
         <label for="type">企业类型</label>
         <select name="" id="type">
-            <option value="">加盟门店</option>
-            <option value="">电商/团购网</option>
-            <option value="">旅行社</option>
-            <option value="">淘宝/天猫</option>
-            <option value="">其他</option>
+            <option value="all">全部</option>
+            <option value="加盟门店">加盟门店</option>
+            <option value="电商/团购网">电商/团购网</option>
+            <option value="旅行社">旅行社</option>
+            <option value="淘宝/天猫">淘宝/天猫</option>
+            <option value="其他">其他</option>
         </select><br/>
         <div id="submit">提交</div>
         <!--<input type="submit" id="submit" value="提交" />-->
