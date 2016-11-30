@@ -9,7 +9,7 @@ var Base = require("./base.js");
 var Defaults = function(){
 	return {
 		triggerElem : null,
-		height : 300,
+		height : 200,
 		width : "auto",
 		options : null,
 		offsetX : 0,
@@ -34,11 +34,17 @@ module.exports = PFT.Util.Class({extend:Base},{
 		this.mask = this.__createMask();
 		var options = opt.options;
 		if(typeof options=="function") options = options();
+
+		this.triangleBtn = this.__setTriangle();
+		this.__bindEvents();
+
 		if(Object.prototype.toString.call(options)=="[object Array]"){
 			this.__Cache.data = options;
 			this.listUl.html(this.renderOptions(options));
+			if(options.length>0){
+				this.listUl.children().first().trigger("click");
+			}
 		}
-		this.__bindEvents();
 	},
 	__bindEvents : function(){
 		var that = this;
@@ -106,7 +112,14 @@ module.exports = PFT.Util.Class({extend:Base},{
 		return mask;
 	},
 	__setTriangle : function(){
-
+		var triggerElem = this.triggerElem;
+		var triangle = $('<div class="pui-select-triangleBtn"><i></i></div>');
+		if(triggerElem[0].tagName.toUpperCase()=="INPUT"){
+			triggerElem.parent().append(triangle);
+		}else{
+			triggerElem.append(triangle);
+		}
+		return triangle;
 	},
 	/**
 	 * 设置选中的值到triggerElem
@@ -116,7 +129,13 @@ module.exports = PFT.Util.Class({extend:Base},{
 	setValueToTrigger : function(key,value){
 		var triggerElem = this.triggerElem;
 		triggerElem.attr("data-key",key);
-		triggerElem[0].tagName.toUpperCase()=="DIV" ? triggerElem.text(value) : triggerElem.val(value);
+		if(triggerElem[0].tagName.toUpperCase()=="INPUT"){
+			triggerElem.val(value)
+		}else{
+			var t = triggerElem.find(".t");
+			if(t.length==0) t = $('<span class="t"></span>').appendTo(triggerElem);
+			t.text(value)
+		}
 	},
 	renderOptions : function(data){
 		var html = "";
@@ -165,11 +184,13 @@ module.exports = PFT.Util.Class({extend:Base},{
 		this.container.show();
 		this.__position();
 		this.mask.show();
+		this.triangleBtn.addClass("on");
 		this.triggerElem.addClass("on");
 	},
 	close : function(){
 		this.container.hide();
 		this.mask.hide();
+		this.triangleBtn.removeClass("on");
 		this.triggerElem.removeClass("on");
 	}
 });

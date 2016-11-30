@@ -7,10 +7,6 @@ var Select = require("COMMON/Components/Select/v0.2");
 
 var s = new Select({
 	triggerElem:$("#triggerInp"),
-	field : {
-		key : "id",
-		value : "text"
-	},
 	options : function(){
 		var data = [];
 		for(var i=0; i<20; i++){
@@ -22,6 +18,4 @@ var s = new Select({
 	}
 });
 
-s.setValue(10);
-console.log(s.getValue())
 

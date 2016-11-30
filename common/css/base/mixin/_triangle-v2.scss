@@ -17,6 +17,8 @@
   width: 0;
   border-color: transparent;
   border-style: solid;
+  font-size:0;
+  vertical-align:middle;
 
   //向上
   @if $direction == up {
