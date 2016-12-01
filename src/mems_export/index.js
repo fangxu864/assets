@@ -377,6 +377,7 @@ $(function(){
 //            res.protocal_start = '2015-12-20';
 //            res.protocal_end   = '2015-12-31';
 //            res.protocol_main  = '年费9800,协议截止日期为2016年12月31日';
+            console.log(res);
             $("#protocol_start").val(res.protocol_start);
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
@@ -398,6 +399,9 @@ $(function(){
             if($("#cooperateMode").val() == 3 || $("#cooperateMode").val() == 0){
                 $('#protocal_meal').attr("disabled",true);
                 $('#protocal_meal').attr("value","");
+                $('#protocal_meal').css("background","#eee");
+            }else{
+                $('#protocal_meal').attr("disabled",true);
                 $('#protocal_meal').css("background","#eee");
             }
             $(".alert_box").css("display","block");
