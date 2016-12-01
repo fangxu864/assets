@@ -1,7 +1,7 @@
 
 //封装ajax请求
 
-module.exports = function(opt){
+module.exports = function(opt,toPage,totalPage){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
@@ -11,21 +11,37 @@ module.exports = function(opt){
 	if(debug){
 		console.log("正在debug");
 
+		if(toPage == undefined){
+			toPage = 1;   //默认第一页
+		}
+
+		if(totalPage == undefined){
+			totalPage = 5; //默认共五页
+		}		
+
+		console.log(toPage);
+		console.log(totalPage);
+
 		//模拟数据data
-		var data={};
-		var listlength = 7;
-		data.code = 200;
-		data.msg = "success";
-		data.list = [];
+
+		// for()
+
+
+		var data1={};
+		var listlength = 10;  //一页10条
+		data1.page = 1;  //第一页
+		data1.code = 200;
+		data1.msg = "success";
+		data1.list = [];
 		for(var i = 0;i<listlength;i++){
 
 			(function(i){
 				var dataItem = {};		
-				dataItem.name = "员工姓名" + i ;
-				dataItem.telNumber = "手机号码" + i ;
-				dataItem.status = "正常" + i ;
-				dataItem.lastLogin = "最近登陆时间" + i ;
-				data.list.push(dataItem);
+				dataItem.name = "第一页员工姓名" + i ;
+				dataItem.telNumber = "第一页手机号码" + i ;
+				dataItem.status = "第一页正常" + i ;
+				dataItem.lastLogin = "第一页最近登陆时间" + i ;
+				data1.list.push(dataItem);
 			})(i)
 				
 		}

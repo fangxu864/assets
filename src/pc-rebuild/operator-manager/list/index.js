@@ -10,7 +10,7 @@
 
  require("./index.scss");
  var Toast = require("COMMON/modules/toast");
- var getlist = require("./service_list.js");
+ var getlistajax = require("./service_list.js");
  var Pagination = require("COMMON/modules/pagination-x");
 
 
@@ -177,7 +177,7 @@ var operatorManagerList = {
             fail : function(msg){
                 alert(msg);
             }
-        },toPage,currentPage,totalPage);    
+        },toPage,totalPage);    
 
 
         })
@@ -237,7 +237,7 @@ var operatorManagerList = {
     getList : function(){
         //ajax并动态生成dom
         var toast = new Toast();
-        getlist({
+        getlistajax({
             loading : function(){
                 toast.show("loading","努力加载中...")
             },
