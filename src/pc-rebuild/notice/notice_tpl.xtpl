@@ -7,10 +7,10 @@
    </ul>
    <div class="message_container" id="message_container">
    </div>
-</div>
-<div class="button_container" >
-   <div id="chooseAll" class="cursor_pointer">全选</div>
-   <div id="mark" class="cursor_pointer">标记为已读</div>
-   <div id="delete" class="cursor_pointer">删除</div>
+   <div class="button_container" >
+      <div id="chooseAll" class="cursor_pointer">全选</div>
+      <div id="mark" class="cursor_pointer">标记为已读</div>
+      <div id="delete" class="cursor_pointer">删除</div>
+   </div>
 </div>
 <div id="pagination"></div>
