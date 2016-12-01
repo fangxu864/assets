@@ -1,0 +1,24 @@
+<div class="message_send">
+    <ul>
+        <li>
+            <input type="checkbox"/>
+            <span class="blue">[2016-11-30]测试</span>
+            <span class="time">2016-11-30 17:45:37</span>
+        </li>
+        <li>
+            <input type="checkbox"/>
+            <span class="blue">[2016-11-30]测试</span>
+            <span class="time">2016-11-30 17:45:37</span>
+        </li>
+        <li>
+            <input type="checkbox"/>
+            <span class="blue">[2016-11-30]测试</span>
+            <span class="time">2016-11-30 17:45:37</span>
+        </li>
+        <li>
+            <input type="checkbox"/>
+            <span class="blue">[2016-11-30]测试</span>
+            <span class="time">2016-11-30 17:45:37</span>
+        </li>
+    </ul>
+</div>

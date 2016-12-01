@@ -1,76 +1,16 @@
 <h1>系统通知</h1>
-<div class="notice_box">
+<div id="notice_box" class="notice_box">
    <ul class="tab">
-      <li class="active_tab">已发送通知</li>
-      <li>收到的通知</li>
-      <li class="right_float"><span class="btn_publish">发布通知</span></li>
+      <li id="message_send" class="active_tab cursor_pointer">已发送通知</li>
+      <li id="message_accept" class="cursor_pointer">收到的通知</li>
+      <li class="right_float cursor_pointer"><span class="btn_publish">发布通知</span></li>
    </ul>
-   <div class="message_container">
-      <!--<div class="message_send">-->
-         <!--<ul>-->
-            <!--<li>-->
-               <!--<input type="checkbox"/>-->
-               <!--<span class="blue">[2016-11-30]测试</span>-->
-               <!--<span class="time">2016-11-30 17:45:37</span>-->
-            <!--</li>-->
-            <!--<li>-->
-               <!--<input type="checkbox"/>-->
-               <!--<span class="blue">[2016-11-30]测试</span>-->
-               <!--<span class="time">2016-11-30 17:45:37</span>-->
-            <!--</li>-->
-            <!--<li>-->
-               <!--<input type="checkbox"/>-->
-               <!--<span class="blue">[2016-11-30]测试</span>-->
-               <!--<span class="time">2016-11-30 17:45:37</span>-->
-            <!--</li>-->
-            <!--<li>-->
-               <!--<input type="checkbox"/>-->
-               <!--<span class="blue">[2016-11-30]测试</span>-->
-               <!--<span class="time">2016-11-30 17:45:37</span>-->
-            <!--</li>-->
-         <!--</ul>-->
-      <!--</div>-->
-
-
-      <div class="message_accept">
-         <ul id="type">
-            <li class="active_type">所有通知</li>
-            <li class="active_type">未读通知</li>
-            <li>已读通知</li>
-         </ul>
-         <ul style="margin: 0px 20px">
-            <li>
-               <input type="checkbox"/>
-               <span>[未读]</span>
-               <span>[2016-11-30]测试</span>
-               <span class="time">2016-11-30 17:45:37</span>
-            </li>
-            <li>
-               <input type="checkbox"/>
-               <span>[未读]</span>
-               <span>[2016-11-30]测试</span>
-               <span class="time">2016-11-30 17:45:37</span>
-            </li>
-            <li>
-               <input type="checkbox"/>
-               <span>[未读]</span>
-               <span>[2016-11-30]测试</span>
-               <span class="time">2016-11-30 17:45:37</span>
-            </li>
-            <li>
-               <input type="checkbox"/>
-               <span>[未读]</span>
-               <span>[2016-11-30]测试</span>
-               <span class="time">2016-11-30 17:45:37</span>
-            </li>
-         </ul>
-      </div>
-
+   <div class="message_container" id="message_container">
    </div>
 </div>
-<div class="button_container">
-   <div id="chooseAll">全选</div>
-   <div id="mark">标记为已读</div>
-   <div id="delete">删除</div>
+<div class="button_container" >
+   <div id="chooseAll" class="cursor_pointer">全选</div>
+   <div id="mark" class="cursor_pointer">标记为已读</div>
+   <div id="delete" class="cursor_pointer">删除</div>
 </div>
 <div id="pagination"></div>

@@ -2,6 +2,9 @@
   color: #3e3e3e;
   border: 1px solid #E5E5E5;
   background: white;
+  .cursor_pointer{
+    cursor: pointer;
+  }
   h1{
     padding: 0 20px;
     border-bottom: 1px solid #E5E5E5;
@@ -135,6 +138,7 @@
     height: 30px;
     line-height: 30px;
     margin-top: 10px;
+    margin-bottom: 10px;
     div{
       border: 1px solid grey;
       display: inline-block;
@@ -151,5 +155,10 @@
       border-color: #0797D9;
       box-shadow: none;
     }
+  }
+
+  #pagination{
+    float: right;
+    margin-top: 10px;
   }
 }

@@ -4,21 +4,40 @@
  * Description: ""
  */
 require("./index.scss");
+require("./ajax.js");
 var notice_tpl = require("./notice_tpl.xtpl");
-
+var CHANGE_PAGE = require("./pagination_box/index.js");
+var MESSAGE_BOX = require("./message_box/index.js");
 
 var Main={
     //初始化
     init:function () {
 
+        var _this = this;
+
+        //导入基础模版
         $(".system-notice").append(notice_tpl);
 
-//存放一些全局变量
-        this.publicParams = {
-            a : "" ,
-            b : [] ,
-            c :  {}
-        };
+        //实例化各个模块
+        _this.pagination = new CHANGE_PAGE();
+        _this.message_box = new MESSAGE_BOX();
+
+
+        //缓存后台数据
+        _this.ajax = ajax;
+        _this.ajax({
+            url:"#",
+            method:"POST",
+            data:null
+        }).then(function (xhr) {
+
+        }).catch(function (error) {
+            console.log(error.errorType)
+        })
+
+        //分页器渲染
+        _this.pagination.render(1,5);
+
 
 //运行模块交流部分
         this.CommunicateArea()
@@ -26,11 +45,7 @@ var Main={
 
 //所有模块的交流区域
     CommunicateArea:function(){
-        var _this = this;
-        this.newPart1.on("customizedEvent1",function(data){
-//当监听到发布的事件时，可以调用其他模块的部分
-            _this.newPart2.someFuction()
-        })
+
     },
 
     PublicFuction:{
