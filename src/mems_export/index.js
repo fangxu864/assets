@@ -401,8 +401,7 @@ $(function(){
                 $('#protocal_meal').attr("value","");
                 $('#protocal_meal').css("background","#eee");
             }else{
-                $('#protocal_meal').attr("disabled",true);
-                $('#protocal_meal').css("background","#eee");
+                $('#protocal_meal').attr("disabled",false);
             }
             $(".alert_box").css("display","block");
         })
