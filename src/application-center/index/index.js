@@ -3,7 +3,7 @@
  * Date: 2016/12/1 9:52
  * Description: ""
  */
-require("./scss/app-item.scss");
+require("./index.scss");
 var Template = {
 	appBox : PFT.Util.ParseTemplate(require("./tpl/app-box.tpl"))
 };
