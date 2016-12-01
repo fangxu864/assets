@@ -1,0 +1,155 @@
+.system-notice{
+  color: #3e3e3e;
+  border: 1px solid #E5E5E5;
+  background: white;
+  h1{
+    padding: 0 20px;
+    border-bottom: 1px solid #E5E5E5;
+    margin-left: -5px;
+    height: 60px;
+    font-size: 22px;
+    font-weight: normal;
+    line-height: 60px;
+    background: none;
+    color: #303D46;
+  }
+  .notice_box{
+    input[type="checkbox"]{
+      position: relative;
+      top:2.5px;
+    }
+    .tab{
+      border-bottom: 1px solid #E5E5E5;
+      list-style-type: none;
+      height: 50px;
+      padding: 0 20px;
+      box-sizing: border-box;
+      li{
+        float: left;
+        display: inline-block;
+        height: 50px;
+        line-height: 50px;
+        margin-left: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: normal;
+        margin-right: 10px;
+      }
+      .right_float{
+        display: inline-block;
+        float: right;
+      }
+      .btn_publish{
+        margin-top: 10px;
+        background: #0797D9;
+        border-radius: 3px;
+        display: inline-block;
+        width: 90px;
+        height: 30px;
+        font-size: 12px;
+        color: white;
+        line-height: 30px;
+        text-align: center;
+      }
+      .active_tab{
+        color: #0797D9;
+        border-bottom: 2px solid #0797D9;
+      }
+    }
+  }
+
+  .message_container{
+    .message_send{
+      ul{
+        list-style-type: none;
+        margin:  20px;
+        li{
+          border-bottom: 1px dashed #CCC;
+          height: 38px;
+          line-height: 38px;
+          font-size: 12px;
+          span{
+            display: inline-block;
+            margin-left: 10px;
+          }
+          .blue{
+            color: #008EC1;
+          }
+          .time{
+            float: right;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+
+    .message_accept{
+      #type{
+        border-bottom: 2px solid #3DBA3F ;
+        padding: 0 5px;
+        height: 27px;
+        margin-bottom: 0;
+        li{
+          display: inline-block;
+          border: none;
+          height: 27px;
+          line-height: 27px;
+          padding: 0 10px;
+        }
+        .active_type{
+          background: #3DBA3F;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          color: white;
+          font-weight: bold;
+        }
+      }
+
+      ul{
+        list-style-type: none;
+        margin:  20px;
+        li{
+          border-bottom: 1px dashed #CCC;
+          height: 38px;
+          line-height: 38px;
+          font-size: 12px;
+          span{
+            display: inline-block;
+            margin-left: 10px;
+          }
+          .blue{
+            color: #008EC1;
+          }
+          .time{
+            float: right;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+
+  }
+
+  .button_container{
+    padding:  0 20px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+    div{
+      border: 1px solid grey;
+      display: inline-block;
+      box-sizing: content-box;
+      height: 26px;
+      line-height: 26px;
+      font-size: 12px;
+      margin-right: 10px;
+      padding: 0 5px;
+    }
+    #mark,#delete{
+      background: #0797D9;
+      color: white;
+      border-color: #0797D9;
+      box-shadow: none;
+    }
+  }
+}
