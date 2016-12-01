@@ -26,7 +26,8 @@ var Defaults = function(){
 			//		}],
 			//		page : 1,       支持分页时才需要此字段
 			//		totalPage : 10  支持分页时才需要此字段
-			//	}
+			//	},
+			//  msg : ""
 			//}
 			return res;
 		},
@@ -88,6 +89,16 @@ module.exports = PFT.Util.Class({
 			complete : function(){},
 			success : function(res){
 				res = adaptData(res);
+				var code = res.code;
+				var data = res.data;
+				var list = data.list;
+				var page = data.page;
+				var totalPage = data.totalPage;
+				if(code==200){
+
+				}else{
+
+				}
 			},
 			timeout : function(){},
 			serverError : function(){}
