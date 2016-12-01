@@ -1,0 +1,6 @@
+### 平台应用中心
+
+npm run application-center-start
+npm run application-center-test
+npm run application-center-release
+npm run application-center-production
