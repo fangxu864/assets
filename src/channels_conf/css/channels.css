@@ -61,7 +61,7 @@ input.check {position: relative;margin-right: 5px;top: 2px;}
 :root .pagenavW .rt .d3{ top:0px\9;}
 .pagenavW .rt .d3{ *top:0px;}
 .pagenavW .rt .d3 .di,.pagenavW .rt .d3 .ye{ *position:relative; *top:-4px;}
-.pagenavW .btn{ position:relative; top:-2px; display:inline-block; width:54px; height:23px; color:#2d6dc5; font-weight:bold; margin-right:5px; text-indent:-9999px; font-size:0; background:url(http://www.12301.cc/images/other/product_package_new_navBtns.gif) no-repeat 0 0}
+.pagenavW .btn{ position:relative; top:-2px; display:inline-block; width:54px; height:23px; color:#2d6dc5; font-weight:bold; margin-right:5px; text-indent:-9999px; font-size:0; background:url(http://static.12301.cc/images/other/product_package_new_navBtns.gif) no-repeat 0 0}
 .pagenavW .prevBtn{ background-position:top left; margin-left:10px; margin-right:5px;}
 .pagenavW .nextBtn{ background-position:top right}
 .pagenavW a.prevBtn:hover{ background-position:bottom left}
