@@ -104,6 +104,8 @@
 var operatorManagerList = {
 
     init : function(){
+
+        var that = this;
         //分页器
         pagination = new Pagination({
             container : "#pagination_wrap" , //必须，组件容器id
@@ -111,12 +113,47 @@ var operatorManagerList = {
             showTotal : true,         //可选  是否显示总页数
             jump : true               //可选  是否显示跳到第几页
         });
-        pagination.render({current:1,total:5});
+        pagination.render({current:1,total:10});
 
+        this.toast = new Toast();
 
+        //获取员工列表并渲染dom   //不传
+            getlistajax({
+                loading : function(){
+                    that.toast.show("loading","努力加载中...")
+                },
+                complete : function(){
+                    that.toast.hide()
+                },
+                success : function(data){
 
-        //获取员工列表并渲染dom
-        this.getList();
+                    var code = data.code;
+                    var msg = data.msg;
+                    var list = data.list;
+                    var tbody = $(".perlistab tbody.perlistabBody");
+                    var temp = "";
+                    //动态dom
+                    for(var i = 0;i<list.length;i++){
+                        temp += 
+                        '<tr>' +
+                            '<td class="txtlf">'+list[i].name+'</td>' +
+                            '<td>'+list[i].telNumber+'</td>' +
+                            '<td class="colgrn">'+list[i].status+'</td>' +
+                            '<td>'+list[i].lastLogin+'</td>'+
+                            '<td>'+
+                                '<a href="#" >禁用</a> | '+
+                                '<a href="#">删除</a> | '+
+                                '<a href="#">权限管理</a> | '+
+                                '<a href="#">密码重设</a>'+
+                            '</td>'+
+                        '</tr>' ;
+                    }
+                    tbody.html(temp);
+                },
+                fail : function(msg){
+                    alert(msg);
+                }
+            });
         //绑定事件
         this.bind();
 
@@ -134,51 +171,46 @@ var operatorManagerList = {
         pagination.on("page.switch",function(toPage,currentPage,totalPage){
             // toPage :      要switch到第几页
             // currentPage : 当前所处第几页
-            // totalPage :   当前共有几页
+            // totalPage :   当前共有几页   
+            pagination.render({current:toPage,total:totalPage});
 
-        console.log(toPage);
-        console.log(currentPage);
-        console.log(totalPage);    
+            getlistajax({
+                loading : function(){
+                    $(".perlistab tbody.perlistabBody").children().remove();
+                    that.toast.show("loading","努力加载中...")
+                },
+                complete : function(){
+                    that.toast.hide()
+                },
+                success : function(data){
 
-        pagination.render({current:toPage,total:totalPage});
-
-        that.getList({
-            loading : function(){
-                toast.show("loading","努力加载中...")
-            },
-            complete : function(){
-                toast.hide()
-            },
-            success : function(data){
-
-                var code = data.code;
-                var msg = data.msg;
-                var list = data.list;
-                var tbody = $(".perlistab tbody.perlistabBody");
-                var temp = "";
-                //动态dom
-                for(var i = 0;i<list.length;i++){
-                    temp += 
-                    '<tr>' +
-                        '<td class="txtlf">'+list[i].name+'</td>' +
-                        '<td>'+list[i].telNumber+'</td>' +
-                        '<td class="colgrn">'+list[i].status+'</td>' +
-                        '<td>'+list[i].lastLogin+'</td>'+
-                        '<td>'+
-                            '<a href="#" >禁用</a> | '+
-                            '<a href="#">删除</a> | '+
-                            '<a href="#">权限管理</a> | '+
-                            '<a href="#">密码重设</a>'+
-                        '</td>'+
-                    '</tr>' ;
+                    var code = data.code;
+                    var msg = data.msg;
+                    var list = data.list;
+                    var tbody = $(".perlistab tbody.perlistabBody");
+                    var temp = "";
+                    //动态dom
+                    for(var i = 0;i<list.length;i++){
+                        temp += 
+                        '<tr>' +
+                            '<td class="txtlf">'+list[i].name+'</td>' +
+                            '<td>'+list[i].telNumber+'</td>' +
+                            '<td class="colgrn">'+list[i].status+'</td>' +
+                            '<td>'+list[i].lastLogin+'</td>'+
+                            '<td>'+
+                                '<a href="#" >禁用</a> | '+
+                                '<a href="#">删除</a> | '+
+                                '<a href="#">权限管理</a> | '+
+                                '<a href="#">密码重设</a>'+
+                            '</td>'+
+                        '</tr>' ;
+                    }
+                    tbody.html(temp);
+                },
+                fail : function(msg){
+                    alert(msg);
                 }
-                tbody.append(temp);
-            },
-            fail : function(msg){
-                alert(msg);
-            }
-        },toPage,totalPage);    
-
+            },toPage,totalPage);    
 
         })
     },
@@ -231,49 +263,15 @@ var operatorManagerList = {
             return;
         }
 
-    },
-
-    //获得员工列表
-    getList : function(){
-        //ajax并动态生成dom
-        var toast = new Toast();
-        getlistajax({
-            loading : function(){
-                toast.show("loading","努力加载中...")
-            },
-            complete : function(){
-                toast.hide()
-            },
-            success : function(data){
-
-                var code = data.code;
-                var msg = data.msg;
-                var list = data.list;
-                var tbody = $(".perlistab tbody.perlistabBody");
-                var temp = "";
-                //动态dom
-                for(var i = 0;i<list.length;i++){
-                    temp += 
-                    '<tr>' +
-                        '<td class="txtlf">'+list[i].name+'</td>' +
-                        '<td>'+list[i].telNumber+'</td>' +
-                        '<td class="colgrn">'+list[i].status+'</td>' +
-                        '<td>'+list[i].lastLogin+'</td>'+
-                        '<td>'+
-                            '<a href="#" >禁用</a> | '+
-                            '<a href="#">删除</a> | '+
-                            '<a href="#">权限管理</a> | '+
-                            '<a href="#">密码重设</a>'+
-                        '</td>'+
-                    '</tr>' ;
-                }
-                tbody.append(temp);
-            },
-            fail : function(msg){
-                alert(msg);
-            }
-        });    
     }
+
+    //获得员工列表    //多此一举
+    // getList : function(opt,toPage,totalPage){
+    //     //ajax并动态生成dom
+    //     console.log(opt);
+    //     var toast = new Toast();
+    //     getlistajax(opt,toPage,totalPage);    
+    // }
 
 
 }

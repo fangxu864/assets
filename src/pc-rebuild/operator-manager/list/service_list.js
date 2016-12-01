@@ -9,49 +9,75 @@ module.exports = function(opt,toPage,totalPage){
 	var debug = true ;
 
 	if(debug){
-		console.log("正在debug");
+		console.log("模拟数据");
 
 		if(toPage == undefined){
 			toPage = 1;   //默认第一页
 		}
-
 		if(totalPage == undefined){
 			totalPage = 5; //默认共五页
-		}		
-
-		console.log(toPage);
-		console.log(totalPage);
+		}	
 
 		//模拟数据data
 
-		// for()
+		var dataGroup = [];
 
+		for(var j = 0;j<totalPage;j++){
 
-		var data1={};
-		var listlength = 10;  //一页10条
-		data1.page = 1;  //第一页
-		data1.code = 200;
-		data1.msg = "success";
-		data1.list = [];
-		for(var i = 0;i<listlength;i++){
-
-			(function(i){
-				var dataItem = {};		
-				dataItem.name = "第一页员工姓名" + i ;
-				dataItem.telNumber = "第一页手机号码" + i ;
-				dataItem.status = "第一页正常" + i ;
-				dataItem.lastLogin = "第一页最近登陆时间" + i ;
-				data1.list.push(dataItem);
-			})(i)
+			(function(j){
 				
+				var data={};
+				var listlength = 10;  //一页10条
+				data.page = j;  //第几页
+				data.code = 200;
+				data.msg = "success";
+				data.list = [];
+				for(var i = 0;i<listlength;i++){
+
+					(function(i,j){
+						j = j+1;
+						i = i+1;
+						var dataItem = {};		
+						dataItem.name = '第'+j+'页员工姓名第' + i +'行';
+						dataItem.telNumber = '第'+j+'页手机号码第' + i +'行';
+						dataItem.status = '第'+j+'页正常第' + i +'行';
+						dataItem.lastLogin = '第'+j+'页最近登陆时间第' + i +'行';
+						data.list.push(dataItem);
+					})(i,j)
+						
+				}	
+				dataGroup.push(data);
+
+			})(j)
+
 		}
 
-		console.log(data.list);
+
+		// var data={};
+		// var listlength = 10;  //一页10条
+		// data.page = 1;  //第一页
+		// data.code = 200;
+		// data.msg = "success";
+		// data.list = [];
+		// for(var i = 0;i<listlength;i++){
+
+		// 	(function(i){
+		// 		var dataItem = {};		
+		// 		dataItem.name = "员工姓名" + i ;
+		// 		dataItem.telNumber = "手机号码" + i ;
+		// 		dataItem.status = "正常" + i ;
+		// 		dataItem.lastLogin = "最近登陆时间" + i ;
+		// 		data.list.push(dataItem);
+		// 	})(i)
+				
+		// }
+
+		var nowdata = dataGroup[toPage-1];
 
 		opt.loading();
 		setTimeout(function(){
 			opt.complete();
-			opt.success(data);
+			opt.success(nowdata);
 		},1000)
 
 		return false;

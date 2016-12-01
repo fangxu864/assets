@@ -1,7 +1,7 @@
 
 //封装ajax请求
 
-module.exports = function(opt){
+module.exports = function(opt,toPage,totalPage){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
@@ -9,33 +9,75 @@ module.exports = function(opt){
 	var debug = true ;
 
 	if(debug){
-		console.log("正在debug");
+		console.log("模拟数据");
 
-		//模拟数据data
-		var data={};
-		var listlength = 7;
-		
-		data.code = 200;
-		data.msg = "success";
-		data.list = [];
-		for(var i = 0;i<listlength;i++){
-
-			(function(i){
-				var dataItem = {};		
-				dataItem.name = "员工姓名" + i ;
-				dataItem.time = "记录时间" + i ;
-				dataItem.content = "正常" + i ;
-				data.list.push(dataItem);
-			})(i)
-				
+		if(toPage == undefined){
+			toPage = 1;   //默认第一页
 		}
 
-		console.log(data.list);
+		if(totalPage == undefined){
+			totalPage = 5; //默认共五页
+		}	
+
+		//模拟数据data
+		// var data={};
+		// var listlength = 7;
+		
+		// data.code = 200;
+		// data.msg = "success";
+		// data.list = [];
+		// for(var i = 0;i<listlength;i++){
+
+		// 	(function(i){
+		// 		var dataItem = {};		
+		// 		dataItem.name = "员工姓名" + i ;
+		// 		dataItem.time = "记录时间" + i ;
+		// 		dataItem.content = "正常" + i ;
+		// 		data.list.push(dataItem);
+		// 	})(i)
+				
+		// }
+
+
+		var dataGroup = [];
+
+		for(var j = 0;j<totalPage;j++){
+
+			(function(j){
+				
+				var data={};
+				var listlength = 10;  //一页10条
+				data.page = j;  //第几页
+				data.code = 200;
+				data.msg = "success";
+				data.list = [];
+				for(var i = 0;i<listlength;i++){
+
+					(function(i,j){
+						j = j+1;
+						i = i+1;
+						var dataItem = {};		
+						dataItem.name = '第'+j+'页员工姓名第' + i +'行';
+						dataItem.time = '第'+j+'页记录时间第' + i +'行';
+						dataItem.content = '第'+j+'正常第' + i +'行';
+						data.list.push(dataItem);
+					})(i,j)
+						
+				}	
+
+				dataGroup.push(data);
+
+			})(j)
+
+		}
+
+		var nowdata = dataGroup[toPage-1];
+
 
 		opt.loading();
 		setTimeout(function(){
 			opt.complete();
-			opt.success(data);
+			opt.success(nowdata);
 		},1000)
 
 		return false;

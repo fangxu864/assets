@@ -1,3 +1,6 @@
+
+
+// operlist.css
 .r_content{border: 0 none; padding: 0; width: 800px;}
 .mt_title {height: 60px; border: 1px solid #E5E5E5; background: #FFFFFF;}
 .mt_title .mctit_1{ font-weight: normal; margin-left: 20px; color: #0797D9; font-size: 22px; border-bottom: 2px solid #0797D9; padding: 15px 5px 16px 5px;}
@@ -24,8 +27,8 @@ table.records tr:hover{background: #F7F7F7;}
 .r_content form input.exportBtn{margin-left: 5px;}
 .mtsearch .txtinpt{-moz-border-radius: 3px; border-radius: 3px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
 
-
+//分页器样式
 #pagination_wrap{
-	height:39px;
-	width:700px;
+	margin-left : 150px;
+	margin-top : 20px;
 }
