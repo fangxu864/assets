@@ -34,7 +34,7 @@ var FILTER_BOX=PFT.Util.Class({
     init:function(){
         var _this = this;
         //判断是否可以直接搜索
-        $.post("../r/Member_MemberInfo/getAddSalerType",
+        $.post("/r/Member_MemberInfo/getAddSalerType",
             {},
             function (req){
                 //加载模版
