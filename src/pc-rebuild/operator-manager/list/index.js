@@ -265,13 +265,7 @@ var operatorManagerList = {
 
     }
 
-    //获得员工列表    //多此一举
-    // getList : function(opt,toPage,totalPage){
-    //     //ajax并动态生成dom
-    //     console.log(opt);
-    //     var toast = new Toast();
-    //     getlistajax(opt,toPage,totalPage);    
-    // }
+    
 
 
 }
