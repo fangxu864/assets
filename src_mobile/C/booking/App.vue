@@ -1,7 +1,7 @@
 <template>
     <div id="bodyContainer" class="bodyContainer" v-if="!!pageReady">
         <div class="prodTtile pad15"><span class="t" v-text="orderInfo.title"></span></div>
-        <div class="modBox">
+        <div class="modBox top">
             <input-line
                     v-if="p_type!=='C'"
                     :id="'beginTimeInp'"
@@ -828,5 +828,9 @@
                 background:$gray90;
             }
         }
+    }
+    .modBox.top{
+        padding:7px 0;
+        background:rgb(245,245,245);
     }
 </style>

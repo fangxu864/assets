@@ -20,7 +20,6 @@
 </template>
 
 <script type="es6">
-    import "./index.scss";
     let Search = require("./search");
     export default {
         data(){
@@ -31,7 +30,7 @@
                 //    GeoLocation : GeoLocation,
                 //    show : false
                 //},
-                slideInitHeight : 150
+                slideInitHeight : 200
             }
         },
         ready(){
@@ -61,7 +60,7 @@
 </script>
 <style lang="sass">
     @import "COMMON/css/base/main";
-    #bodyMainCon{ margin-top:px2rem(90); background:#fff;}
+    #bodyMainCon{ background:#fff;}
     $containerHeight:90;
     #indexPageFixHeader{
         position:fixed;
@@ -72,8 +71,9 @@
         background:#fff;
         padding:8px 0 8px 10px;
         box-sizing:border-box;
-        box-shadow:0 1px 1px rgba(0,0,0,0.1);
+        /*box-shadow:0 1px 1px rgba(0,0,0,0.1);*/
         z-index:10;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
         .con{
             height:100%;
         }
@@ -81,9 +81,10 @@
             display:block;
             position:relative;
             height:100%;
-            background:#e5f5fc;
+            background:#fff;
             margin-right:60px;
             padding-left:7px;
+            border-radius:25px;
             .searchInp{
                 width:100%;
                 height:100%;
@@ -107,6 +108,7 @@
             line-height:px2rem($containerHeight);
             .uicon{
                 font-size:22px;
+                color:#fff;
             }
             &.hide{ display:none}
         }
