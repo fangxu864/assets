@@ -52,7 +52,7 @@
                 <span class="validTime descFlag" v-text="orderInfo.validTime"></span>
                 <span class="descFlag verifyTime" v-if="orderInfo.verifyTime!=''" v-text="orderInfo.verifyTime"></span>
                 <span class="descFlag refund_rule" v-text="orderInfo.refund_rule_text"></span>
-                <span class="descFlag batch_check_rule" v-if="orderInfo.batch_day!=0" v-text="orderInfo.batch_day"></span>
+                <span class="descFlag batch_check_rule" v-if="orderInfo.batch_day && orderInfo.batch_day!=0" v-text="orderInfo.batch_day"></span>
                 <span @click="refundRuleShow=true" class="descFlag refund_ruleBtn" v-if="orderInfo.refund_rule && orderInfo.refund_rule!=2">退票规则</span>
             </div>
         </div>
