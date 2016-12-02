@@ -4,12 +4,37 @@
  * Description: ""
  */
 var ItemTpl = PFT.Util.ParseTemplate(require("./item.xtpl"));
-var SheetCore = require("COMMON/modules/sheet-core/v1");
 var FetchList = require("SERVICE_M/product-list");
+var Filter = require("./filters");
 var Main = PFT.Util.Class({
 	__lastPos : 0,
+	__hasInit : false,
 	init : function(){
+		var that = this;
 		this.listUl = $("#scrollInerCon");
+
+		this.on("fetchList.complete",function(res){
+			if(that.__hasInit) return false;
+			that.__hasInit = true;
+			var res = res || {};
+			var code = res.code;
+			var data = res.data;
+			if(code!==200) return false;
+			var citys = data.citys;
+			var themes = data.themes;
+			var type = data.type;
+			that.initFilter(type,themes,citys);
+		})
+
+	},
+	initFilter : function(type,themes,citys){
+		this.filter = new Filter({
+			data : {
+				type : type,
+				theme : themes,
+				city : citys
+			}
+		})
 	},
 	//启动&恢复 上拉加载功能
 	enablePullup : function(){},
@@ -29,7 +54,6 @@ var Main = PFT.Util.Class({
 		var render = this.render;
 		var type = "";
 		var paramKeyword = param.keyword;
-		var template = this.template;
 		FetchList(params,{
 			loading : () => {
 				if(lastPos==0){
@@ -38,9 +62,11 @@ var Main = PFT.Util.Class({
 					this.disablePullup();
 					this.refreshScroll();
 				}
+				this.trigger('fetchList.loading');
 			},
-			complete : () => {
+			complete : (res) => {
 				Toast.hide();
+				this.trigger('fetchList.complete');
 			},
 			empty : () => {
 				if(lastPos==0){
@@ -51,12 +77,14 @@ var Main = PFT.Util.Class({
 				}
 				this.disablePullup();
 				this.refreshScroll();
+				this.trigger('fetchList.empty');
 			},
 			success : (data) => {
 				var that = this;
 				render(lastPos==0 ? "success" : "successMore",data);
 				this.enablePullup();
 				this.refreshScroll();
+				this.trigger('fetchList.success');
 			},
 			fail : (msg) => {
 				if(lastPos==0){
@@ -67,6 +95,7 @@ var Main = PFT.Util.Class({
 					render("failMore");
 					Alert(msg);
 				}
+				this.trigger('fetchList.fail');
 			}
 		})
 	},
