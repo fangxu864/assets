@@ -10,16 +10,25 @@ var Ptype = PFT.Util.Class({
 		this.data = opt.data;
 		var item = '<a id="switchPtypeBtn" data-filter="type" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype" style="color:#fff"><span class="t"></span></a>';
 		this.container.children(".con").append(item);
+		this.initSheet();
 	},
 	initSheet : function(){
+		var that = this;
 		var data = this.data;
 		var content = this.host.renderHtml(data);
 		this.sheet = new opt.SheetCore({
-			content : content
+			content : content,
+			noBtn : true,
+			EVENTS : {
+				"click .actionItem" : function(e){
+					var tarItem = $(e.currentTarget);
+					var key = tarItem.attr("data-key");
+					var value = tarItem.text();
+					tarItem.addClass("selected").siblings().removeClass("selected");
+					that.trigger("select",{key:key,value:value});
+				}
+			}
 		});
-	},
-	renderHtml : function(){
-
 	}
 });
 module.exports = Ptype;
