@@ -53,6 +53,9 @@
         color: white;
         line-height: 30px;
         text-align: center;
+        &:hover{
+          background: #0f7cb7;
+        }
       }
       .active_tab{
         color: #0797D9;
@@ -71,6 +74,10 @@
           height: 38px;
           line-height: 38px;
           font-size: 12px;
+          &:hover{
+            background: #f8f9fb;
+          }
+
           a{
             display: inline-block;
             margin-left: 10px;
@@ -102,6 +109,13 @@
           height: 27px;
           line-height: 27px;
           padding: 0 10px;
+          &:hover{
+            background: #3DBA3F;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            color: white;
+            font-weight: bold;
+          }
         }
         .active_type{
           background: #3DBA3F;
@@ -120,6 +134,9 @@
           height: 38px;
           line-height: 38px;
           font-size: 12px;
+          &:hover{
+            background: #f8f9fb;
+          }
           span{
             display: inline-block;
             margin-left: 10px;
@@ -153,11 +170,19 @@
       margin-right: 10px;
       padding: 0 5px;
     }
+    #chooseAll{
+      &:hover{
+        background: #e5e5e5;
+      }
+    }
     #mark,#delete{
       background: #0797D9;
       color: white;
       border-color: #0797D9;
       box-shadow: none;
+      &:hover{
+        background: #0f7cb7;
+      }
     }
   }
 
