@@ -144,7 +144,8 @@
     "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
 
-    "hot-spring-card-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/hot-spring-card/webpack.config.js"
+    "hot-spring-card-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/hot-spring-card/webpack.config.js",
+    "hot-spring-card-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/hot-spring-card/webpack.config.js"
   },
   "repository": {
     "type": "git",
