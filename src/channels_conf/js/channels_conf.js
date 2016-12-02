@@ -1,5 +1,9 @@
 require('../css/channels.css');
 
+var Dialog = require("COMMON/modules/dialog-simple");
+
+
+
 // require("./global");
 // require("./ajaxData");
 // require("./sData");
@@ -200,3 +204,169 @@ $(function(){
 
 
 })
+
+
+
+
+//新加"批量配置渠道"与"新产品渠道默认设置"
+
+var BatchConfigChannel = {
+
+
+    init : function(){
+
+        this.bind();
+
+    },
+
+
+    bind : function(){
+
+        $(".selectUW_left").on("click",function(){
+
+            var h=$(window).height(); 
+            var w=$(window).width(); 
+            //显现背景
+            $("#batchConfig .batch_bgbox").css("height",h);
+            $("#batchConfig .batch_bgbox").css("width",w); 
+            $("#batchConfig .batch_bgbox").show();
+            //显现弹窗
+            $("#batchConfig #batch_checkchoose_box").show();
+            $("#batchConfig #batch_checkchoose_box").animate({"top":200});
+            // x弹窗按钮或取消
+            $("#batchConfig .batch_close_btn,#batchConfig .batch_btn_cancels").one("click",function(){
+                $("#batchConfig #batch_checkchoose_box").css("top","-20%");
+                $("#batchConfig .batch_bgbox,#batchConfig #batch_checkchoose_box").hide();    
+            });
+
+        });
+        //全选
+        $(".batch_all_choose").click(function(){
+            $(".batch_selectlist .batch_check").attr("checked",true);  
+        })
+        //取消全选
+        $(".batch_cancel_choose").click(function(){
+            $(".batch_selectlist .batch_check").attr("checked",false);
+            
+        })
+
+        $(".batch_btn_sure_all").on("click",function(){
+            var checkboxs = $(".batch_selectlist input:checkbox:checked");        
+
+            var chkbox_value =[]; 
+            checkboxs.each(function(){ 
+                // parseInt($(this).val())   化为number
+                chkbox_value.push($(this).val()); 
+            });
+            
+
+            if(chkbox_value.length>0){
+                $("#batchConfig .batch_bgbox,#batchConfig #batch_checkchoose_box").hide(); 
+            }else{
+                alert("请您至少选择一个渠道");
+            }
+
+            console.log(chkbox_value);
+
+            $.ajax({
+
+                url : "/r/Product_Channel/setBatChannelTask/",
+                type : "POST",
+                data : {channel : chkbox_value},
+                success : function(res){
+                    console.log(res);
+                }
+
+            });
+
+            var res = {
+                "code":200, // 200：成功，601：错误，102：未登录
+                "data":{},
+                "msg":"请您至少选择一个渠道"  // 成功或错误信息
+            }
+
+            if(res.code == 200){
+
+                $("#selectUW_left_btn,.selectUW_left").css("background","#d2d2d2").off("click");   
+                // 批量设置进度查询  
+                setTimeout(function(){
+                    alert("ajax成功");
+                    $("#selectUW_left_btn").text("批量设置进度查询").css("background","#0797d9");
+                    $(".selectUW_left").css("background","#0797d9");
+                }, 2000);
+
+                
+                $(".selectUW_left").on("click",function(){
+
+                    // $.ajax({
+
+                    //     url : "/r/Product_Channel/getTaskSchedule/",
+                    //     type : "POST",
+                    //     data : {id : 任务id},   //如何获取任务ID
+                    //     success : function(res){
+                    //         console.log(res);
+                    //     }
+
+                    // });
+
+                    // var ajaxReturnData{
+                    //    "code":200, // 200：成功，601：错误，102：未登录
+                    //    "data":{'ration':'80'}, // 200成功返回已完成进度
+                    //    "msg":"验证码过期"  // 成功或错误信息
+                    // }
+
+                    var dialog =  new Dialog();
+                    dialog.open({
+                        width : 500,
+                        height : 500,
+                        closeBtn : true,
+                        content : "<div>我是content</div>",
+                        drag : false,
+                        speed : 200,
+                        offsetX : 0,
+                        offsetY : 0,
+                        overlay : true,
+                        headerHeightMin : 46,
+                        // events : {},
+                        // onReady : fn,
+                        // onOpenBefore : fn,
+                        // onOpenAfter : fn,
+                        // onCloseBefore : fn,
+                        // onCloseAfter : fn,
+                        // onDragBefore : fn,
+                        // onDrag : fn,
+                        // onDragAfter : fn
+                    });
+
+                });
+                           
+            }    
+
+
+
+
+
+        });
+        
+
+
+
+    }
+
+
+
+}
+
+
+$(function(){
+    BatchConfigChannel.init();
+});
+
+
+
+
+
+
+
+
+
