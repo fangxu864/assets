@@ -213,31 +213,19 @@ $(function(){
 var BatchConfigChannel = {
 
 
+
     init : function(){
 
-        this.bind();
-
-    },
+        var that = this;
 
 
-    bind : function(){
+        //已进入页面获得taskID
+        var taskID = $(".taskID").val();
+        console.log(taskID);
 
         $(".selectUW_left").on("click",function(){
 
-            var h=$(window).height(); 
-            var w=$(window).width(); 
-            //显现背景
-            $("#batchConfig .batch_bgbox").css("height",h);
-            $("#batchConfig .batch_bgbox").css("width",w); 
-            $("#batchConfig .batch_bgbox").show();
-            //显现弹窗
-            $("#batchConfig #batch_checkchoose_box").show();
-            $("#batchConfig #batch_checkchoose_box").animate({"top":200});
-            // x弹窗按钮或取消
-            $("#batchConfig .batch_close_btn,#batchConfig .batch_btn_cancels").one("click",function(){
-                $("#batchConfig #batch_checkchoose_box").css("top","-20%");
-                $("#batchConfig .batch_bgbox,#batchConfig #batch_checkchoose_box").hide();    
-            });
+            that.showBox();
 
         });
         //全选
@@ -247,113 +235,141 @@ var BatchConfigChannel = {
         //取消全选
         $(".batch_cancel_choose").click(function(){
             $(".batch_selectlist .batch_check").attr("checked",false);
-            
         })
 
         $(".batch_btn_sure_all").on("click",function(){
+
             var checkboxs = $(".batch_selectlist input:checkbox:checked");        
 
             var chkbox_value =[]; 
             checkboxs.each(function(){ 
-                // parseInt($(this).val())   化为number
                 chkbox_value.push($(this).val()); 
             });
             
-
             if(chkbox_value.length>0){
-                $("#batchConfig .batch_bgbox,#batchConfig #batch_checkchoose_box").hide(); 
+                $("#batchConfig #batch_checkchoose_box").css("top","-20%");
+                $("#batchConfig .batch_bgbox,#batchConfig #batch_checkchoose_box").hide();
             }else{
                 alert("请您至少选择一个渠道");
+                return
             }
-
-            console.log(chkbox_value);
 
             $.ajax({
 
                 url : "/r/Product_Channel/setBatChannelTask/",
                 type : "POST",
                 data : {channel : chkbox_value},
+                beforeSend : function(){
+                    $("#selectUW_left_btn,.selectUW_left").css("background","#d2d2d2").off("click");
+                },
                 success : function(res){
                     console.log(res);
+                    var code = res.code;
+                    var msg = res.msg;
+
+                    //获得id
+
+
+
+                    code = 200;//模拟成功状态//用后删除
+                    console.log(code);
+
+
+                    //设置成功
+                    if(code == 200){
+                        var id = res.data.id;
+                        $("#selectUW_left_btn").text("批量设置进度查询").css("background","#0797d9");
+                        $(".selectUW_left").css("background","#0797d9");
+                        alert(msg);
+
+                            $(".selectUW_left").on("click",function(){
+
+                                $.ajax({
+
+                                    url : "/r/Product_Channel/getTaskSchedule/",
+                                    type : "POST",
+                                    data : {id : id},   
+                                    success : function(res){
+
+                                        var code = res.code;
+                                        var msg = res.mag;
+
+                                        console.log(res);
+
+                                        if(code == 200){
+                                            
+                                            var tempTpl =   '<div id="dialogContent">' +
+                                                                '<div class="taskNumber dialogItem">任务编号：'+id+'</div>' +
+                                                                '<div class="taskProgress dialogItem">任务进度：已完成 '+ res.data.ration+'%</div>' +
+                                                                '<div class="wramTips dialogItem">温馨提示 : 任务完成后会发送成功短信到您的绑定手机，请确定您的手机能正常接收短信。</div>' +
+                                                            '</div>'  ;
+
+                                            var dialog =  new Dialog({  
+
+                                                width : 500,
+                                                height : 500,
+                                                closeBtn : true,
+                                                content : tempTpl,
+                                                drag : false,
+                                                speed : 200,
+                                                offsetX : 0,
+                                                offsetY : 0,
+                                                overlay : true,
+                                                headerHeightMin : 46
+
+                                            });
+                                            dialog.open();  
+
+                                        }
+                                    }
+
+                                });
+                                
+                            });
+                                       
+
+                    }
+                    //任务以存在请勿重复操作
+                    if(code == 601){
+                        $("#selectUW_left_btn").text("批量配置渠道").css("background","#0797d9");
+                        $(".selectUW_left").css("background","#0797d9");
+                        //重新绑定事件
+                        $(".selectUW_left").on("click",function(){
+                            that.showBox();
+                        });
+                        alert(msg);
+                    }
+
+
                 }
 
             });
 
-            var res = {
-                "code":200, // 200：成功，601：错误，102：未登录
-                "data":{},
-                "msg":"请您至少选择一个渠道"  // 成功或错误信息
-            }
-
-            if(res.code == 200){
-
-                $("#selectUW_left_btn,.selectUW_left").css("background","#d2d2d2").off("click");   
-                // 批量设置进度查询  
-                setTimeout(function(){
-                    alert("ajax成功");
-                    $("#selectUW_left_btn").text("批量设置进度查询").css("background","#0797d9");
-                    $(".selectUW_left").css("background","#0797d9");
-                }, 2000);
-
-                
-                $(".selectUW_left").on("click",function(){
-
-                    // $.ajax({
-
-                    //     url : "/r/Product_Channel/getTaskSchedule/",
-                    //     type : "POST",
-                    //     data : {id : 任务id},   //如何获取任务ID
-                    //     success : function(res){
-                    //         console.log(res);
-                    //     }
-
-                    // });
-
-                    // var ajaxReturnData{
-                    //    "code":200, // 200：成功，601：错误，102：未登录
-                    //    "data":{'ration':'80'}, // 200成功返回已完成进度
-                    //    "msg":"验证码过期"  // 成功或错误信息
-                    // }
-
-                    var dialog =  new Dialog();
-                    dialog.open({
-                        width : 500,
-                        height : 500,
-                        closeBtn : true,
-                        content : "<div>我是content</div>",
-                        drag : false,
-                        speed : 200,
-                        offsetX : 0,
-                        offsetY : 0,
-                        overlay : true,
-                        headerHeightMin : 46,
-                        // events : {},
-                        // onReady : fn,
-                        // onOpenBefore : fn,
-                        // onOpenAfter : fn,
-                        // onCloseBefore : fn,
-                        // onCloseAfter : fn,
-                        // onDragBefore : fn,
-                        // onDrag : fn,
-                        // onDragAfter : fn
-                    });
-
-                });
-                           
-            }    
-
-
-
-
+            
 
         });
-        
+
+
+    },
 
 
 
+    showBox : function(){
+        var h=$(window).height(); 
+        var w=$(window).width(); 
+        //显现背景
+        $("#batchConfig .batch_bgbox").css("height",h);
+        $("#batchConfig .batch_bgbox").css("width",w); 
+        $("#batchConfig .batch_bgbox").show();
+        //显现弹窗
+        $("#batchConfig #batch_checkchoose_box").show();
+        $("#batchConfig #batch_checkchoose_box").animate({"top":200});
+        // x弹窗按钮或取消
+        $("#batchConfig .batch_close_btn,#batchConfig .batch_btn_cancels").one("click",function(){
+            $("#batchConfig #batch_checkchoose_box").css("top","-20%");
+            $("#batchConfig .batch_bgbox,#batchConfig #batch_checkchoose_box").hide();    
+        });
     }
-
-
 
 }
 

@@ -257,3 +257,22 @@ tr.set_all_data {
 .batch_checkchoose_box .batch_btnbox_a .batch_all_choose,.batch_checkchoose_box .batch_btnbox_a .batch_cancel_choose{background:none;border:0 none;color:#0797D9;cursor:pointer;}
 .batch_checkchoose_ .batch_btnbox_a .batch_all_choosec,.batch_checkchoose_ .batch_btnbox_a .batch_cancel_choosec{background:none;border:0 none;color:#0797D9;cursor:pointer;}
 
+/* 弹框 */
+#dialogContent{
+	margin-top: 50px;
+}
+
+#dialogContent .dialogItem{
+	height: 100px;
+	line-height: 100px;
+	margin-left : 50px;
+	font-size: 20px;
+}
+
+#dialogContent .wramTips{
+	margin-top: 50px;
+	width: 392px;
+	line-height: 30px;
+	font-size: 14px;
+}
+
