@@ -4,16 +4,15 @@
  * Description: ""
  */
 require("./index.scss");
-require("./ajax.js");
 var notice_tpl = require("./notice_tpl.xtpl");
 var CHANGE_PAGE = require("./pagination_box/index.js");
 var MESSAGE_BOX = require("./message_box/index.js");
 var message_send_tpl = require("./message_box/message_send.xtpl");
 
 var Main= {
+
         //初始化
         init: function () {
-
             var _this = this;
 
             //导入基础模版
@@ -22,64 +21,231 @@ var Main= {
             //实例化各个模块
             _this.pagination = new CHANGE_PAGE();
             _this.message_box = new MESSAGE_BOX();
+            //点击发布通知
+            
+
+            //缓存发送的所有通知
+            $.post("/r/Notice_Notice/getNoticeList?outbox",
+                {},
+                function (req) {
+                    if(req.code == 200){
+                        //console.log(req)
+                        _this.dataBox_send = req.data;
+                        _this.cacheData_send =_this.dividePage(_this.dataBox_send,10);
+
+                        var Page1 = _this.cacheData_send[0];
+                        $("#message_container").empty();
+                        $("#message_container").append(message_send_tpl);
+
+                        //加载数据
+                        for(var i = 0 ; i<Page1.length ; i++){
+                            var newLi = $("<li data-id='"+Page1[i].id+"'> <input type='checkbox'/> <a  class='blue' href='/noticed.html?id="+ Page1[i].id +"'target='_blank'>"+Page1[i].title+"</a> <span class='time'>"+Page1[i].btime+"</span> </li>");
+                            $(".message_send ul").append(newLi);
+                        }
+                        _this.pagination.render(1,_this.cacheData_send.length);
+                    }
+                }
+            );
 
 
-            //缓存后台数据
-            var fakeData = [{content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-                {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"}
-            ];
+            //缓存收到的所有通知
+            $.post("/r/Notice_Notice/getNoticeList?inbox",
+                { state : 3 },
+                function (req) {
+                    if(req.code == 200){
+                        //console.log(req)
+                        _this.dataBox_accept = req.data;
+                        _this.cacheData_accept =_this.dividePage(req.data,10);
+                    }
+                }
+            );
 
-            var afterDevide =_this.dividePage(fakeData,5);
-            var Page1 = afterDevide.cacheData[0];
-
-            $("#message_container").empty();
-            $("#message_container").append(message_send_tpl);
-            //加载数据
-            for(var i = 0 ; i<Page1.length ; i++){
-                var li = $("<li> <input type='checkbox'/> <span class='blue'>"+Page1[i].content+"</span> <span class='time'>"+Page1[i].time+"</span> </li>");
-                $(".message_send ul").append(li);
-            }
-            //分页器渲染
-            _this.pagination.render(1, afterDevide.totalPage);
-
-
-//运行模块交流部分
+            //运行模块交流部分
             this.CommunicateArea()
         },
 
 //所有模块的交流区域
         CommunicateArea: function () {
             var _this = this;
-            _this.message_box.on("changePage_send",function (page) {
-                alert(page)
+
+            //点击分页器时触发的事件
+            _this.pagination.on("pageChange",function (toPage) {
+                _this.nowPage = toPage;
+                if($("#message_container>div").hasClass("message_send")){
+                    _this.message_box.pageTurnTo(toPage,"message_send",_this.cacheData_send)
+
+                }else if($("#message_container>div").hasClass("message_accept")){
+                    _this.message_box.pageTurnTo(toPage,"message_accept",_this.cacheData_accept)
+                }
+            });
+
+            //--------------------------点击已发送的通知 收到的通知
+            //1.切换到已发送通知
+            _this.message_box.on("show_message_send",function () {
+                _this.message_box.pageTurnTo(1,"message_send",_this.cacheData_send);
+                _this.pagination.render(1,_this.cacheData_send.length);
+            });
+            //1.切换到收到的通知
+            _this.message_box.on("show_message_accept",function () {
+                _this.message_box.pageTurnTo(1,"message_accept",_this.cacheData_accept);
+                _this.pagination.render(1,_this.cacheData_accept.length);
+            });
+
+            //---------------------------点击所有通知、未读通知、已读通知部分
+            //1.所有通知
+            _this.message_box.on("message_all",function () {
+                _this.message_box.pageTurnTo(1,"message_accept",_this.cacheData_accept);
+                _this.pagination.render(1,_this.cacheData_accept.length);
+            });
+
+            //2.未读通知
+            _this.message_box.on("message_unread",function () {
+
+                var afterFilter = _this.filter("status",0,_this.dataBox_accept);
+                var partData = _this.dividePage(afterFilter,10);
+
+                _this.message_box.pageTurnTo(1,"message_accept",partData);
+                _this.pagination.render(1,partData.length);
+            });
+
+            //3.已读通知
+            _this.message_box.on("message_read",function () {
+                var afterFilter = _this.filter("status",1,_this.dataBox_accept);
+                var partData = _this.dividePage(afterFilter,10);
+
+                _this.message_box.pageTurnTo(1,"message_accept",partData);
+                _this.pagination.render(1,partData.length);
+            });
+
+            //----------------------------------------------点击删除和标记已读
+            //1.删除
+            _this.message_box.on("clickDelete",function (deleteBox) {
+
+                //如果是在已发送的通知页面
+                if($("#message_container>div").hasClass("message_send")){
+                    $.each(deleteBox,function (index,value) {
+                        for(var i=0 ; i<_this.dataBox_send.length ; i++){
+                            if(_this.dataBox_send[i]["id"] == value){
+                                _this.dataBox_send.splice(i,1)
+                            }
+                        }
+                    });
+
+                    //刷新缓存数据
+                    _this.cacheData_send =_this.dividePage(_this.dataBox_send,10);
+
+                    //记住原来所在的页数
+                    if(!_this.nowPage){_this.nowPage = 1}
+
+                    //刷新页面并重新渲染分页器
+                    _this.message_box.pageTurnTo(_this.nowPage,"message_send",_this.cacheData_send);
+                    _this.pagination.render(_this.nowPage,_this.cacheData_send.length);
+
+                //如果是在收到的通知页面
+                }else if($("#message_container>div").hasClass("message_accept")){
+
+                    $.each(deleteBox,function (index,value) {
+                        for(var i=0 ; i<_this.dataBox_accept.length ; i++){
+                            if(_this.dataBox_accept[i]["id"] == value){
+                                _this.dataBox_accept.splice(i,1)
+                            }
+                        }
+                    });
+
+                    if(!_this.nowPage){_this.nowPage = 1}
+
+                    //刷新重新缓存数据
+                    _this.cacheData_accept =_this.dividePage(_this.dataBox_accept,10);
+
+
+                    //其中如果是选中所有通知
+                    if($("#message-all").hasClass("active_type")){
+                        var partData = _this.cacheData_accept;
+
+                        //其中如果是选中未读通知
+                    }else if($("#message-unread").hasClass("active_type")){
+
+                        var afterFilter = _this.filter("status",0,_this.dataBox_accept);
+                        var partData = _this.dividePage(afterFilter,10);
+
+                        //其中如果是选中已读通知
+                    }else if($("#message-read").hasClass("active_type")){
+                        var afterFilter = _this.filter("status",1,_this.dataBox_accept);
+                        var partData = _this.dividePage(afterFilter,10);
+
+                    }
+
+                    //通用页面刷新与分页器渲染
+                    _this.message_box.pageTurnTo(_this.nowPage,"message_accept",partData);
+                    _this.pagination.render(_this.nowPage,partData.length);
+                }
+            });
+
+            //2.标记为已读
+            _this.message_box.on("clickMark",function (deleteBox) {
+
+                //如果是在发送通知界面
+                if($("#message_container>div").hasClass("message_send")){
+                    $.each(deleteBox,function (index,value) {
+                        for(var i=0 ; i<_this.dataBox_send.length ; i++){
+                            if(_this.dataBox_send[i]["id"] == value){
+                                _this.dataBox_send[i]["status"] = 1
+                            }
+                        }
+                    });
+
+                    //标记后重新缓存
+                    _this.cacheData_send =_this.dividePage(_this.dataBox_send,10);
+
+                    //记住原来所在的页数
+                    if(!_this.nowPage){_this.nowPage = 1}
+                    _this.message_box.pageTurnTo(_this.nowPage,"message_send",_this.cacheData_send);
+                    _this.pagination.render(_this.nowPage,_this.cacheData_send.length);
+
+                //如果是在收到的通知界面
+                }else if($("#message_container>div").hasClass("message_accept")){
+
+                    $.each(deleteBox,function (index,value) {
+                        for(var i=0 ; i<_this.dataBox_accept.length ; i++){
+                            if(_this.dataBox_accept[i]["id"] == value){
+                                _this.dataBox_accept[i]["status"] = 1
+                            }
+                        }
+                    });
+                    if(!_this.nowPage){_this.nowPage = 1}
+
+                        //其中如果是选中所有通知
+                    if($("#message-all").hasClass("active_type")){
+                        var partData = _this.cacheData_accept;
+
+                        //其中如果是选中未读通知
+                    }else if($("#message-unread").hasClass("active_type")){
+
+                        var afterFilter = _this.filter("status",0,_this.dataBox_accept);
+                        var partData = _this.dividePage(afterFilter,10);
+
+                        //其中如果是选中已读通知
+                    }else if($("#message-read").hasClass("active_type")){
+                        var afterFilter = _this.filter("status",1,_this.dataBox_accept);
+                        var partData = _this.dividePage(afterFilter,10);
+
+                    }
+
+                        //通用页面刷新与分页器渲染
+                    _this.message_box.pageTurnTo(_this.nowPage,"message_accept",partData);
+                    _this.pagination.render(_this.nowPage,partData.length);
+                }
             })
+
         },
 
+    /*————————————————————————————————————————————————————————————————————————————————————————————*/
+    /*以下为方法，不是事件*/
+        //工具：根据输入的数组与size进行分页
         dividePage: function (data, size) {
 
-            //求出数据分页后的总页数
-            var whole = data;
+            //拷贝了一个数组(一开始使用赋值来赋值导致了严重的错误)
+            var whole = $.extend([], data);
             var length = data.length;
             var totalPage = Math.ceil(length/parseInt(size));
 
@@ -98,7 +264,18 @@ var Main= {
 
                 cacheData.push(part)
             }
-            return {cacheData:cacheData,totalPage:totalPage}
+            return cacheData
+        },
+
+        //工具：过滤器，需要提供属性和值
+        filter: function (attr,value,data) {
+            var newData = [];
+            for(var i =0 ; i<data.length ; i++){
+                if(data[i][attr] == value){
+                    newData.push(data[i])
+                }
+            }
+            return newData
         }
     }
 ;

@@ -3,7 +3,7 @@
    <ul class="tab">
       <li id="message_send" class="active_tab cursor_pointer">已发送通知</li>
       <li id="message_accept" class="cursor_pointer">收到的通知</li>
-      <li class="right_float cursor_pointer"><span class="btn_publish">发布通知</span></li>
+      <li class="right_float cursor_pointer"><a href="/Sendnotice.html" target="_blank" class="btn_publish">发布通知</a></li>
    </ul>
    <div class="message_container" id="message_container">
    </div>

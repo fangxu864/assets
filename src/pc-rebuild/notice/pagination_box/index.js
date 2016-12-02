@@ -19,10 +19,13 @@ var changePage=PFT.Util.Class({
         });
 
         _this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
-            //_this.trigger("pageChange",toPage);
-             _this.pagination.render({current:toPage,total:totalPage});
+            _this.pagination.render({current:toPage,total:totalPage});
+            _this.trigger("pageChange",toPage);
+             
         });
     },
+    
+    //用于在外部渲染页面
     render:function (toPage,totalPage) {
         var toPageInt = parseInt(toPage);
         var totalPageInt = parseInt(totalPage);

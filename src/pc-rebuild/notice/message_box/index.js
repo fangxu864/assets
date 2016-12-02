@@ -23,7 +23,9 @@ var message_box=PFT.Util.Class({
         //全选 标记为已读 删除
         "click #chooseAll":"btn_chooseAll",
         "click #mark":"btn_mark",
-        "click #delete":"btn_delete"
+        "click #delete":"btn_delete",
+
+        
     },
 
     //init()方法在实例化以后会默认执行
@@ -37,82 +39,51 @@ var message_box=PFT.Util.Class({
 
 
     //内部事件
-        //已发送通知 和 收到通知
+        //---------------------------已发送通知 和 收到通知
     btn_send:function (e) {
-        //动画
+        var _this = this;
         $(e.target).addClass("active_tab").siblings().removeClass("active_tab");
 
         //清空数据，加载新模版
         $("#message_container").empty();
         $("#message_container").append(message_send_tpl);
 
-        //假数据
-        var fakeData = [{content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"}
-        ];
-        var req = fakeData;
-
-        //加载数据
-        for(var i = 0 ; i<fakeData.length ; i++){
-            var li = $("<li> <input type='checkbox'/> <span class='blue'>"+req[i].content+"</span> <span class='time'>"+req[i].time+"</span> </li>");
-            $(".message_send ul").append(li);
-        }
-
+        _this.trigger("show_message_send")
     },
 
     btn_accept:function (e) {
+        var _this = this;
         $(e.target).addClass("active_tab").siblings().removeClass("active_tab");
 
         //清空
         $("#message_container").empty();
         $("#message_container").append(message_accept_tpl);
 
-        //假数据
-        var fakeData = [{status:"[未读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[未读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[已读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[未读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[未读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[已读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[未读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[未读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[已读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-            {status:"[未读]",content:"[2016-05-31]测试发布通知咯咯",time:"2016-05-31"},
-
-        ];
-
-        var req = fakeData;
-        //加载数据
-        for(var i = 0 ; i<fakeData.length ; i++){
-            var li = $("<li> <input type='checkbox'/> <span>"+req[i].status+"</span> <span>"+req[i].content+"</span> <span class='time'>"+req[i].content+"</span> </li>");
-            $(".message_accept ul:eq(1)").append(li);
-        }
+        _this.trigger("show_message_accept")
     },
 
-        //已发送通知 和 收到通知
+        //--------------------------所有通知 未读通知 已读通知
     btn_all:function (e) {
+        var _this = this;
         $(e.target).addClass("active_type").siblings().removeClass("active_type");
-        $(".message_accept ul:eq(1)").empty()
+        $(".message_accept ul:eq(1)").empty();
+        _this.trigger("message_all")
 
     },
     btn_unread:function (e) {
+        var _this = this;
         $(e.target).addClass("active_type").siblings().removeClass("active_type");
-        $(".message_accept ul:eq(1)").empty()
+        $(".message_accept ul:eq(1)").empty();
+        _this.trigger("message_unread")
     },
     btn_read:function (e) {
+        var _this = this;
         $(e.target).addClass("active_type").siblings().removeClass("active_type");
-        $(".message_accept ul:eq(1)").empty()
+        $(".message_accept ul:eq(1)").empty();
+        _this.trigger("message_read")
     },
 
-        //全选 标记为已读 删除
+        //----------------------------------------------全选 标记为已读 删除
     btn_chooseAll:function () {
         var isChoose = [];
 
@@ -142,6 +113,73 @@ var message_box=PFT.Util.Class({
         }
 
 
+    },
+
+    btn_delete:function () {
+        var _this = this;
+        var deleteBox = [];
+        $(".content").find("li").each(function (index,Element) {
+            if($(Element).find("input[type='checkbox']").attr("checked")){
+                deleteBox.push($(Element).attr("data-id"))
+            }
+        });
+
+        if(deleteBox.length ==0 ){return false}
+        _this.trigger("clickDelete",deleteBox)
+    },
+    btn_mark:function () {
+        var _this = this;
+        var markBox = [];
+        $(".content").find("li").each(function (index,Element) {
+            if($(Element).find("input[type='checkbox']").attr("checked")){
+                markBox.push($(Element).attr("data-id"))
+            }
+        });
+
+        if(markBox.length ==0 ){return false}
+        _this.trigger("clickMark",markBox)
+    },
+
+
+    
+    /*————————————————————————————————————————————————————————————————————————————————————————*/
+    /*以下都是调用方法，不是事件*/
+    //页面变更事件
+    pageTurnTo : function(toPage,type,data){
+        if(type == "message_send"){
+            $(".message_send .content").empty();
+
+            if(data.length == 0){
+                $(".message_send .content").append($("<li>未能找到相关通知</li>"));
+                return false
+            }
+
+            var req = data[toPage-1];
+            for(var i=0 ; i<data[toPage-1].length ; i++){
+                var box = req[i];
+                var newLi = $("<li data-id='"+req[i].id+"'> <input type='checkbox'/> <a  class='blue' href='/noticed.html?id="+ req[i].id +"'target='_blank'>"+req[i].title+"</a> <span class='time'>"+req[i].btime+"</span> </li>");
+                $(".message_send .content").append(newLi);
+            }
+
+
+        }else if(type == "message_accept"){
+
+            $(".message_accept .content").empty();
+            if(data.length == 0){
+                $(".message_accept .content").append($("<li>未能找到相关通知</li>"));
+                return false
+            }
+            var req = data[toPage-1];
+            for(var i=0 ; i<data[toPage-1].length ; i++){
+                if(req[i].status == 0){
+                    var haveRead = "[未读]"
+                }else if(req[i].status == 1){
+                    var haveRead = "[已读]"
+                }
+                var newLi = $("<li data-id='"+req[i].id+"'> <input type='checkbox'/> <span>"+haveRead+"</span> <a  class='blue' href='/noticed.html?id="+ req[i].id +"'target='_blank'>"+req[i].title+"</a> <span class='time'>"+req[i].btime+"</span> </li>");
+                $(".message_accept .content").append(newLi);
+            }
+        }
     },
 
 
