@@ -1,10 +1,8 @@
-<li><span class="txtrig">物理卡号：</span>
-<input type="text" class="inptxt" validator="card" placeholder="请电脑连接读卡器" id="cardInp" name="physics_no">
+
+
     <div class="rt">
         <div id="clearCardInpBtn" class="clearCardInpBtn ">
             <i class="iconfont">&#xe674;</i></div>     
     </div>
-</li>
-<li>
-    <span id="cardInfoBar" class=" actip"></span>
-</li>
+
+
