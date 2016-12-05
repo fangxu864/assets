@@ -10,7 +10,7 @@ var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
 		//应用中心 - 首页
-		"application_center_index" : "./src/application-center/index/index.js"
+		"appcenter_index" : "./src/application-center/index/index.js"
 	},
 	output : output,
 	plugins : plugins
