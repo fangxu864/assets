@@ -18,7 +18,7 @@ var config = require("../../task-webpack/config")({
 		//"annual_card_active" : "./src/annual_card/page/active/index.js",
 	//	"annual_memdetail" : "./src/annual_card/page/memdetail/index.js",
 		//"annual_card_mclist" : "./src/annual_card/page/mclist/index.js"
-		"opercard-input":"./src/annual_card/page/opercard-input/index.js"
+		"annual_card_opercard-input":"./src/annual_card/page/opercard-input/index.js"
 	},
 	output : output,
 	plugins : plugins,
