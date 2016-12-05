@@ -97,6 +97,11 @@
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
 
+    "common-pc-style-start" : "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-test" : "set NODE_ENV=test && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-release" : "set NODE_ENV=release && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-production" : "set NODE_ENV=production && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
+
 
     "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
