@@ -17,10 +17,23 @@ var MainView = Backbone.View.extend({
         this.submitBtn = $(".btn>.inpbtn[type='submit']");
         this.ReadPhysicsCard = new ReadPhysicsCard({ id: "readCardObj" });
         this.cardInp=$(".inpNum");
+        this.phyNo=$("input[name='physics_no']");
+        this.visiNo=$("input[name='visible_no']");
     },
     onAddBtnClick: function (e) {
-        var InpVal = this.cardInp.val();      
-        if (InpVal==="") { alert("物理卡号和实体卡号不能为空"); return false;};
+        //var InpVal = this.cardInp.val();      
+        var that =this;
+        var phyVal=that.phyNo.val();
+        var visiVal=that.visiNo.val();
+        if (phyVal==="") { 
+            alert("物理卡号不能为空"); 
+            that.phyNo.focus();
+            return false;
+        }else if(visiVal===""){
+            alert("实体卡号不能为空");
+            that.visiNo.focus();
+            return false;       
+        }
     },
     onTextInpChange: function (e) {
         var that = this;
