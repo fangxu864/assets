@@ -576,7 +576,7 @@ var BatchConfigChannel = {
                     var tempTpl =   '<div id="dialogContent">' +
                                         '<div class="taskNumber dialogItem">任务编号：'+ $("#taskID").val() +'</div>' +
                                         '<div class="taskProgress dialogItem">任务进度：已完成 '+ res.data.ratio +'%</div>' +
-                                        '<div class="wramTips dialogItem">温馨提示 :'+ (parseInt(res.data.ratio)===100? '<span style="color:#f00">任务已完成，请刷新页面</span></div>':'任务完成后会发送成功短信到您的绑定手机，请确定您的手机能正常接收短信。</div>') +
+                                        '<div class="wramTips dialogItem">温馨提示 :'+ (parseInt(res.data.ratio)===100? '<span style="color:#f00">任务已完成，请您核对</span></div>':'任务完成后会发送系统消息通知。</div>') +
                                     '</div>'  ;
 
                     var dialog =  new Dialog({
