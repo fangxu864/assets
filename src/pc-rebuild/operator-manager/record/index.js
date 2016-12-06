@@ -5,7 +5,7 @@
 // 平台-前后端分离-操作日志模块 
 
 require("./index.scss");
-var Toast = require("COMMON/modules/toast");
+var loadingHTML = require("COMMON/js/util.loading.pc.js");
 var getlistajax = require("./service_record.js");
 var Pagination = require("COMMON/modules/pagination-x");
 
@@ -60,56 +60,6 @@ var Pagination = require("COMMON/modules/pagination-x");
 
 //新js
 
-
-// var toast = new Toast();
-// getlist({
-//             loading : function(){
-//                 toast.show("loading","努力加载中...")
-//             },
-//             complete : function(){
-//                 toast.hide()
-//             },
-//             success : function(data){
-
-//                 console.log(data);
-//                 var code = data.code;
-//                 var msg = data.msg;
-//                 var list = data.list;
-//                 console.log(list);
-//                 var temp = "";
-//                 //动态dom
-//                 for(var i = 0;i<list.length;i++){
-//                     temp += 
-//                     '<tr>' +
-//                         '<td>'+list[i].time+'</td>' +
-//                         '<td>'+list[i].name+'</td>' +
-//                         '<td>'+list[i].content+'</td>'
-//                     '</tr>' ;
-//                 }
-//                 $("table.records").append(temp);
-//                 console.log("请求成功");
-//             },
-//             fail : function(msg){
-//                 alert(msg);
-//             }
-//         });    
-
-
-
-// $(function(){
-// 	pagination = new Pagination({
-// 	    container : "#pagination_wrap" , //必须，组件容器id
-// 	    count : 7,                //可选  连续显示分页数 建议奇数7或9
-// 	    showTotal : true,         //可选  是否显示总页数
-// 	    jump : true               //可选  是否显示跳到第几页
-// 	});
-// 	pagination.render({current:1,total:5});
-
-// 	console.log(pagination);
-// })
-
-
-
 var operatorManagerRecord = {
 
     init : function(){
@@ -121,44 +71,8 @@ var operatorManagerRecord = {
             showTotal : true,         //可选  是否显示总页数
             jump : true               //可选  是否显示跳到第几页
         });
-        pagination.render({current:1,total:10});
-        this.toast = new Toast();
 
-        getlistajax({
-                loading : function(){
-                    that.toast.show("loading","努力加载中...")
-                },
-                complete : function(){
-                    that.toast.hide()
-                },
-                success : function(data){
-
-                    var code = data.code;
-                    var msg = data.msg;
-                    var list = data.list;
-                    var tbody = $(".perlistab tbody.perlistabBody");
-                    var temp = "";
-
-                    // temp =  '<tr>' +
-                    //             '<th>记录时间</th>' +
-                    //             '<th>员工姓名</th>' +
-                    //             '<th>操作内容</th>' +
-                    //         '</tr>' ;
-                    //动态dom
-                    for(var i = 0;i<list.length;i++){
-                        temp += 
-                        '<tr>' +
-                            '<td>'+list[i].time+'</td>' +
-                            '<td>'+list[i].name+'</td>' +
-                            '<td>'+list[i].content+'</td>'
-                        '</tr>' ;
-                    }
-                    $("tbody.records").html(temp);
-                },
-                fail : function(msg){
-                    alert(msg);
-                }
-            })
+        this.showList(1);
 
         //绑定事件
         this.bind();
@@ -173,44 +87,11 @@ var operatorManagerRecord = {
             // toPage :      要switch到第几页
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页   
-            pagination.render({current:toPage,total:totalPage});
 
-            getlistajax({
-                loading : function(){
-                    $("tbody.records").children().remove();
-                    that.toast.show("loading","努力加载中...")
-                },
-                complete : function(){
-                    that.toast.hide()
-                },
-                success : function(data){
+            $("#pagination_wrap").hide();
 
-                    var code = data.code;
-                    var msg = data.msg;
-                    var list = data.list;
-                    var tbody = $(".perlistab tbody.perlistabBody");
-                    var temp = "";
+            that.showList(toPage);
 
-                    // temp =  '<tr>' +
-                    //             '<th>记录时间</th>' +
-                    //             '<th>员工姓名</th>' +
-                    //             '<th>操作内容</th>' +
-                    //         '</tr>' ;
-                    //动态dom
-                    for(var i = 0;i<list.length;i++){
-                        temp += 
-                        '<tr>' +
-                            '<td>'+list[i].time+'</td>' +
-                            '<td>'+list[i].name+'</td>' +
-                            '<td>'+list[i].content+'</td>'
-                        '</tr>' ;
-                    }
-                    $("tbody.records").html(temp);
-                },
-                fail : function(msg){
-                    alert(msg);
-                }
-            },toPage,totalPage);    
 
         })
 
@@ -259,6 +140,47 @@ var operatorManagerRecord = {
     getDateFromStr : function(dateStr) {
         var date = new Date(dateStr.replace(/-/g, '/'));
         return date;
+    },
+
+
+    showList : function(topage){
+
+        getlistajax({
+                loading : function(){
+                    var loadingHtml = loadingHTML("请稍后...",{
+                        tag : "tr",
+                        colspan : 5
+                    });
+                    $("tbody.records").html(loadingHtml);
+                },
+                complete : function(){
+                },
+                success : function(data){
+
+                    var code = data.code;
+                    var msg = data.msg;
+                    var list = data.list;
+                    var totalPage = data.totalPage;
+                    var tbody = $(".perlistab tbody.perlistabBody");
+                    var temp = "";
+                    
+                    //动态dom
+                    for(var i = 0;i<list.length;i++){
+                        temp += 
+                        '<tr>' +
+                            '<td>'+list[i].time+'</td>' +
+                            '<td>'+list[i].name+'</td>' +
+                            '<td>'+list[i].content+'</td>'
+                        '</tr>' ;
+                    }
+                    $("tbody.records").html(temp);
+                    pagination.render({current:topage,total:totalPage});
+                },
+                fail : function(msg){
+                    alert(msg);
+                }
+            },topage)
+
     }
 
 

@@ -1,7 +1,7 @@
 
 //封装ajax请求
 
-module.exports = function(opt,toPage,totalPage){
+module.exports = function(opt,toPage){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
@@ -15,9 +15,7 @@ module.exports = function(opt,toPage,totalPage){
 			toPage = 1;   //默认第一页
 		}
 
-		if(totalPage == undefined){
-			totalPage = 5; //默认共五页
-		}	
+		var totalPage = 10;
 
 		//模拟数据data
 		// var data={};
@@ -51,6 +49,7 @@ module.exports = function(opt,toPage,totalPage){
 				data.code = 200;
 				data.msg = "success";
 				data.list = [];
+				data.totalPage = totalPage;
 				for(var i = 0;i<listlength;i++){
 
 					(function(i,j){

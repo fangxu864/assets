@@ -14,7 +14,7 @@ module.exports = function(opt,toPage){
 			toPage = 1;   //默认第一页
 		}
 
-		var totalPage = 5;//后端定义totalPage
+		var totalPage = 10;//后端定义totalPage
 
 		//模拟数据data
 
