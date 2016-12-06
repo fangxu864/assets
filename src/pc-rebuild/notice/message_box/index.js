@@ -138,54 +138,6 @@ var message_box=PFT.Util.Class({
 
         if(markBox.length ==0 ){return false}
         _this.trigger("clickMark",markBox)
-    },
-
-
-    
-    /*————————————————————————————————————————————————————————————————————————————————————————*/
-    /*以下都是调用方法，不是事件*/
-    //页面变更事件
-    pageTurnTo : function(toPage,type,data){
-        if(type == "message_send"){
-            $(".message_send .content").empty();
-
-            if(data.length == 0){
-                $(".message_send .content").append($("<li>未能找到相关通知</li>"));
-                return false
-            }
-
-            var req = data[toPage-1];
-            for(var i=0 ; i<data[toPage-1].length ; i++){
-                var box = req[i];
-                var newLi = $("<li data-id='"+req[i].id+"'> <input type='checkbox'/> <a  class='blue' href='/noticed.html?id="+ req[i].id +"'target='_blank'>"+req[i].title+"</a> <span class='time'>"+req[i].btime+"</span> </li>");
-                $(".message_send .content").append(newLi);
-            }
-
-
-        }else if(type == "message_accept"){
-
-            $(".message_accept .content").empty();
-            if(data.length == 0){
-                $(".message_accept .content").append($("<li>未能找到相关通知</li>"));
-                return false
-            }
-            var req = data[toPage-1];
-            for(var i=0 ; i<data[toPage-1].length ; i++){
-                if(req[i].status == 0){
-                    var haveRead = "[未读]"
-                }else if(req[i].status == 1){
-                    var haveRead = "[已读]"
-                }
-                var newLi = $("<li data-id='"+req[i].id+"'> <input type='checkbox'/> <span>"+haveRead+"</span> <a  class='blue' href='/noticed.html?id="+ req[i].id +"'target='_blank'>"+req[i].title+"</a> <span class='time'>"+req[i].btime+"</span> </li>");
-                $(".message_accept .content").append(newLi);
-            }
-        }
-    },
-
-
-
-    //用于函数内部自我调用的方法
-    selfFunctionCall1:function(){
     }
 });
 
