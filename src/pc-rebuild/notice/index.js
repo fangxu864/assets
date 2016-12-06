@@ -4,9 +4,11 @@
  * Description: ""
  */
 require("./index.scss");
+var loading = require("COMMON/js/util.loading.pc.js");
+var Ajax = require("COMMON/js/util.ajax.js");
 var notice_tpl = require("./notice_tpl.xtpl");
-var CHANGE_PAGE = require("./pagination_box/index.js");
-var MESSAGE_BOX = require("./message_box/index.js");
+var ChangePage = require("./pagination_box/index.js");
+var MessageBox = require("./message_box/index.js");
 var message_send_tpl = require("./message_box/message_send.xtpl");
 
 var Main= {
@@ -19,8 +21,8 @@ var Main= {
             $(".system-notice").append(notice_tpl);
 
             //实例化各个模块
-            _this.pagination = new CHANGE_PAGE();
-            _this.message_box = new MESSAGE_BOX();
+            _this.pagination = new ChangePage();
+            _this.message_box = new MessageBox();
             //点击发布通知
             
 
@@ -97,7 +99,6 @@ var Main= {
             //----------------------------------------------点击删除和标记已读
             //1.删除
             _this.message_box.on("clickDelete",function (deleteBox) {
-
                 //如果是在已发送的通知页面
                 if($("#message_container>div").hasClass("message_send")){
                     $.each(deleteBox,function (index,value) {
@@ -156,6 +157,10 @@ var Main= {
                     _this.message_box.pageTurnTo(_this.nowPage,"message_accept",partData);
                     _this.pagination.render(_this.nowPage,partData.length);
                 }
+
+
+                var req = _this.dealData({nid:deleteBox,status:1});
+                console.log(req)
             });
 
             //2.标记为已读
@@ -259,11 +264,18 @@ var Main= {
         refreshCache_send:function () {
             //缓存发送的通知
             var _this = this;
-            $.post("/r/Notice_Notice/getNoticeList?outbox",
-                {},
-                function (req) {
+            $.ajax({
+                url: "/r/Notice_Notice/getNoticeList",
+                dataType: "json",
+                async: true,
+                data: { "outbox": "" },
+                type: "GET",
+                beforeSend: function() {
+                    var html = loading("加载中，请稍后");
+                    $(".content").empty().append(html);
+                },
+                success: function(req) {
                     if(req.code == 200){
-                        //console.log(req)
                         _this.dataBox_send = req.data;
                         _this.cacheData_send =_this.dividePage(_this.dataBox_send,10);
 
@@ -279,22 +291,55 @@ var Main= {
                         _this.pagination.render(1,_this.cacheData_send.length);
                     }
                 }
-            );
+            });
+
         },
 
         refreshCache_accept:function () {
             //缓存收到的所有通知
             var _this = this;
-            $.post("/r/Notice_Notice/getNoticeList?inbox",
-                { state : 3 },
-                function (req) {
+
+            $.ajax({
+                url: "/r/Notice_Notice/getNoticeList",
+                dataType: "json",
+                async: true,
+                data: { "inbox": "" , "state" : 3 },
+                type: "POST",
+                beforeSend: function() {
+                    var html = loading("加载中，请稍后");
+                    $(".content").empty().append(html);
+                },
+                success: function(req) {
                     if(req.code == 200){
                         //console.log(req)
                         _this.dataBox_accept = req.data;
                         _this.cacheData_accept =_this.dividePage(req.data,10);
                     }
                 }
-            );
+            });
+        },
+
+        dealData:function (data) {
+            Ajax("/r/Notice_Notice/setNoticeStatus",
+                {params:data,complete:function (res) {
+                    console.log(res)
+                }}
+            )
+            // $.ajax({
+            //     url: "/r/Notice_Notice/setNoticeStatus",
+            //     dataType: "json",
+            //     async: false,
+            //     data: data,
+            //         type: "GET",
+            //     // beforeSend: function() {
+            //     //     var html = loading("加载中，请稍后");
+            //     //     $(".content").empty().append(html);
+            //     // },
+            //     success: function(req) {
+            //         console.log(req)
+            //         return 1
+            //     }
+            // });
         }
     }
 ;
