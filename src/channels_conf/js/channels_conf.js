@@ -413,11 +413,11 @@ var BatchConfigChannel = {
         console.log(taskID);
 
         if(parseInt(taskID)) {
-            $("#selectUW_left_btn").text("批量设置进度查询").css("background","#0797d9");
+            $("#selectUW_left_btn").text("全部产品渠道配置进度").css("background","#0797d9");
             // $(".selectUW_left").css("background","#0797d9");
             that.batchChannelGet();
         } else {
-            $("#selectUW_left_btn").text("批量配置渠道").css("background","#0797d9");
+            $("#selectUW_left_btn").text("全部产品渠道配置").css("background","#0797d9");
             // $(".selectUW_left").css("background","#0797d9");
             that.batchChannelSet();
         }
