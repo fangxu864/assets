@@ -422,7 +422,7 @@ var BatchConfigChannel = {
             that.batchChannelSet();
         }
     },
-
+    //批量配置渠道
     batchChannelSet: function () {
 
         var that = this;
@@ -450,7 +450,23 @@ var BatchConfigChannel = {
                 $("#batchConfig #batch_checkchoose_box").css("top","-20%");
                 $("#batchConfig .batch_bgbox,#batchConfig #batch_checkchoose_box").hide();
             }else{
-                alert("请您至少选择一个渠道");
+                // alert("请您至少选择一个渠道");
+                var tempTpl1 =   '<span class="alertmessage">请您至少选择一个渠道</span>';
+                var dialog1 =  new Dialog({
+
+                    width : 500,
+                    height : 300,
+                    closeBtn : true,
+                    content : tempTpl1,
+                    drag : false,
+                    speed : 200,
+                    offsetX : 0,
+                    offsetY : 0,
+                    overlay : true,
+                    headerHeightMin : 46
+
+                });
+                dialog1.open();
                 return
             }
 
@@ -467,14 +483,6 @@ var BatchConfigChannel = {
                     var code = res.code;
                     var msg = res.msg;
 
-                    //获得id
-
-
-
-                    code = 200;//模拟成功状态//用后删除
-                    console.log(code);
-
-
                     //设置成功
                     if(code == 200){
                         var id = res.data.id;
@@ -487,7 +495,23 @@ var BatchConfigChannel = {
                         } else {
                             window.location.reload(true);
                         }
-                        alert(msg);
+                        // alert(msg);
+                        var tempTpl2 =   '<span class="alertmessage">'+msg+'</span>';
+                        var dialog2 =  new Dialog({
+
+                            width : 500,
+                            height : 300,
+                            closeBtn : true,
+                            content : tempTpl2,
+                            drag : false,
+                            speed : 200,
+                            offsetX : 0,
+                            offsetY : 0,
+                            overlay : true,
+                            headerHeightMin : 46
+
+                        });
+                        dialog2.open();
                     }
                     //任务以存在请勿重复操作
                     if(code == 601){
@@ -495,7 +519,23 @@ var BatchConfigChannel = {
                         // $(".selectUW_left").css("background","#0797d9");
                         //重新绑定事件
                         $("#selectUW_left_btn").on("click", { context: that }, that.btnSetClickFn );
-                        alert(msg);
+                        // alert(msg);
+                        var tempTpl3 =   '<span class="alertmessage">'+msg+'</span>';
+                        var dialog3 =  new Dialog({
+
+                            width : 500,
+                            height : 300,
+                            closeBtn : true,
+                            content : tempTpl3,
+                            drag : false,
+                            speed : 200,
+                            offsetX : 0,
+                            offsetY : 0,
+                            overlay : true,
+                            headerHeightMin : 46
+
+                        });
+                        dialog3.open();
                     }
 
 
@@ -515,6 +555,7 @@ var BatchConfigChannel = {
         $("#selectUW_left_btn").on("click", { context: that }, that.btnGetClickFn );
     },
 
+    //批量设置进度查询
     btnGetClickFn: function(e) {
         var that = e.data.context;
 
@@ -563,7 +604,23 @@ var BatchConfigChannel = {
                         $("#selectUW_left_btn").off('click').on('click', { context: that }, that.btnSetClickFn );
                     }
                 } else {
-                    alert(msg);
+                    // alert(msg);
+                    var tempTpl4 =   '<span class="alertmessage">'+msg+'</span>';
+                    var dialog4 =  new Dialog({
+
+                        width : 500,
+                        height : 300,
+                        closeBtn : true,
+                        content : tempTpl4,
+                        drag : false,
+                        speed : 200,
+                        offsetX : 0,
+                        offsetY : 0,
+                        overlay : true,
+                        headerHeightMin : 46
+
+                    });
+                    dialog4.open();
                 }
             }
 
