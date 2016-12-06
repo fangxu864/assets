@@ -176,8 +176,13 @@ var accountSearch={
         //导出按钮
         $("#excel_btn").on("click",function () {
             _this.filterParamsBox["export"]= 1;
+            var downUrl = "";
             var cacheKey=_this.JsonStringify(_this.filterParamsBox);
-            var downUrl='/r/Finance_TradeRecord/accountBalance?'+cacheKey;
+            if( _this.filterParamsBox.end_time == when.today()){
+                downUrl='/r/Finance_TradeRecord/realTimeAccountBalance?'+cacheKey;
+            }else{
+                downUrl='/r/Finance_TradeRecord/accountBalance?'+cacheKey;
+            }
             _this.outExcel(downUrl)
         })
     },
