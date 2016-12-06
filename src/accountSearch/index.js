@@ -37,12 +37,12 @@ var accountSearch={
         //获取元素;
         this.etime_inp=$("#etime_inp");
         //初始化input内容
-        this.etime_inp.val(when.yestoday());
+        this.etime_inp.val(when.today());
         //日历插件部分
         var calendar = new Calendar();
         this.etime_inp.on("click",function(e){
             var max_day=when.today();
-            max_day=moment( Date.parse(max_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // max_day=moment( Date.parse(max_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#etime_inp"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -183,8 +183,13 @@ var accountSearch={
     },
     //ajax获取数据
     ajaxGetData:function (data) {
+        var api = "";
+        if(data.params.end_time == when.today()){
+            api="/r/Finance_TradeRecord/realTimeAccountBalance";
+        }else{
+            api="/r/Finance_TradeRecord/accountBalance";
+        }
         var _this=this;
-        var api="/r/Finance_TradeRecord/accountBalance";
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
             dataType: "json",                            //返回格式为json
