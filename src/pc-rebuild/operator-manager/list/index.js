@@ -7,50 +7,10 @@
 
  // 平台-前后端分离-员工管理模块
 
-
  require("./index.scss");
- var Toast = require("COMMON/modules/toast");
  var loadingHTML = require("COMMON/js/util.loading.pc.js");
  var getlistajax = require("./service_list.js");
  var Pagination = require("COMMON/modules/pagination-x");
-
-
-        
-
-
-
- //分页器部分  //不行  //onload
-        // pagination = new Pagination({
-        //     container : "#pagination_wrap" , //必须，组件容器id
-        //     count : 7,                //可选  连续显示分页数 建议奇数7或9
-        //     showTotal : true,         //可选  是否显示总页数
-        //     jump : true               //可选  是否显示跳到第几页
-        // });
-
-        // pagination.render({current:1,total:5});
-
-        // console.log(pagination);
-
-        // pagination.on("page.switch",function(toPage,currentPage,totalPage){
-        //     // toPage :      要switch到第几页
-        //     // currentPage : 当前所处第几页
-        //     // totalPage :   当前共有几页
-        //     _this.pagination.render({current:toPage,total:totalPage});
-        //     _this.filterParamsBox["page"]=toPage;
-        //     var cacheKey=_this.JsonStringify(_this.filterParamsBox);
-        //     if(_this.dataContainer[cacheKey]){
-        //         _this.dealReqData(_this.dataContainer[cacheKey]);
-        //     }else{
-        //         _this.ajaxGetData({
-        //             "params":_this.filterParamsBox,
-        //             "isCacheData":true,
-        //             "cacheKey":cacheKey,
-        //             "isInitPagination":false
-        //         });
-        //     }
-        // });
-
-
 
 
  //原有页面js
@@ -115,10 +75,7 @@ var operatorManagerList = {
             jump : true               //可选  是否显示跳到第几页
         });
         
-
-        this.toast = new Toast();
-
-        this.showList(1);
+        this.showList(1);   //初始化渲染第一页
             
         //绑定事件
         this.bind();
@@ -137,55 +94,12 @@ var operatorManagerList = {
         pagination.on("page.switch",function(toPage,currentPage,totalPage){
             // toPage :      要switch到第几页
             // currentPage : 当前所处第几页
-            // totalPage :   当前共有几页   
+            // totalPage :   当前共有几页 
 
             $("#pagination_wrap").hide();
 
             that.showList(toPage);
 
-            // getlistajax({
-            //     loading : function(){
-            //         $(".perlistab tbody.perlistabBody").children().remove();
-            //         // that.toast.show("loading","努力加载中...")
-            //         var loadingHtml = loadingHTML("请稍后...",{
-            //             tag : "tr",
-            //             colspan : 5
-            //         });
-            //         $(".perlistabBody").html(loadingHtml);
-            //     },
-            //     complete : function(){
-            //         // that.toast.hide()
-            //     },
-            //     success : function(data){
-
-            //         var code = data.code;
-            //         var msg = data.msg;
-            //         var list = data.list;
-            //         var tbody = $(".perlistab tbody.perlistabBody");
-            //         var temp = "";
-            //         //动态dom
-            //         for(var i = 0;i<list.length;i++){
-            //             temp += 
-            //             '<tr>' +
-            //                 '<td class="txtlf">'+list[i].name+'</td>' +
-            //                 '<td>'+list[i].telNumber+'</td>' +
-            //                 '<td class="colgrn">'+list[i].status+'</td>' +
-            //                 '<td>'+list[i].lastLogin+'</td>'+
-            //                 '<td>'+
-            //                     '<a href="#" >禁用</a> | '+
-            //                     '<a href="#">删除</a> | '+
-            //                     '<a href="#">权限管理</a> | '+
-            //                     '<a href="#">密码重设</a>'+
-            //                 '</td>'+
-            //             '</tr>' ;
-            //         }
-            //         tbody.html(temp);
-            //         pagination.render({current:toPage,total:totalPage});
-            //     },
-            //     fail : function(msg){
-            //         alert(msg);
-            //     }
-            // },toPage,totalPage);    
 
         })
     },
@@ -244,7 +158,6 @@ var operatorManagerList = {
     showList : function(topage){  //第几页
         getlistajax({
             loading : function(){
-                // that.toast.show("loading","努力加载中...")
                 var loadingHtml = loadingHTML("请稍后...",{
                     tag : "tr",
                     colspan : 5
@@ -258,6 +171,7 @@ var operatorManagerList = {
                 var code = data.code;
                 var msg = data.msg;
                 var list = data.list;
+                var totalPage = data.totalPage;
                 var tbody = $(".perlistab tbody.perlistabBody");
                 var temp = "";
                 //动态dom
@@ -277,16 +191,15 @@ var operatorManagerList = {
                     '</tr>' ;
                 }
                 tbody.html(temp);
-                pagination.render({current:topage,total:10});
+                pagination.render({current:topage,total:totalPage});
             },
             fail : function(msg){
                 alert(msg);
             }
-        });
+        },topage);
     }
 
     
-
 
 }
 
