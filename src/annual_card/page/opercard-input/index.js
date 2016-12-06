@@ -26,7 +26,7 @@ var MainView = Backbone.View.extend({
         var phyVal = that.phyNo.val();
         var visiVal = that.visiNo.val();
         var reg = /^[A-Za-z0-9]+$/;
-        console.log((reg.test(visiVal) + "+" + reg.test(phyVal)));
+     
         if (phyVal === "" && visiVal !== "") {
             alert("物理卡号不能为空");
             if (!reg.test(visiVal)) {
@@ -37,8 +37,7 @@ var MainView = Backbone.View.extend({
             return false;
         } else if (visiVal === "" && phyVal !== "") {
             alert("实体卡号不能为空");
-            if (!reg.test(phyVal)) {
-                console.log((reg.test(visiVal) + "+" + reg.test(phyVal)));
+            if (!reg.test(phyVal)) {          
                 alert("物理卡号仅允许字母与数字,不能有空格");
                 that.visiNo.focus();
                 return false;
@@ -49,8 +48,7 @@ var MainView = Backbone.View.extend({
                 alert("物理卡号仅允许字母与数字,不能有空格");
                 that.phyNo.focus();
                 return false;
-            } else if (!reg.test(visiVal) && visiVal !== "") {
-                console.log((reg.test(visiVal) + "+" + reg.test(phyVal)));
+            } else if (!reg.test(visiVal) && visiVal !== "") {          
                 alert("实体卡号仅允许字母与数字,不能有空格");
                 that.visiNo.focus();
                 return false;
@@ -59,7 +57,6 @@ var MainView = Backbone.View.extend({
                 if (phyVal === "" && visiVal !== "") {
                     alert("物理卡号不能为空");
                     if (!reg.test(visiVal) && visiVal !== "") {
-                        console.log((reg.test(visiVal) + "+" + reg.test(phyVal)));
                         alert("实体卡号仅允许字母与数字,不能有空格");
                         that.phyNo.focus();
                         return false;
