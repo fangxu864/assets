@@ -3,22 +3,21 @@ require("./index.scss");
 var tpl = require("./index.xtpl");
 var Api = require("../../common/api.js");
 var ReadPhysicsCard = require("../../common/ReadPhysicsCard.js")
-$(".inpNum").after(tpl);
+$("#formId .inpNum").after(tpl);
 var MainView = Backbone.View.extend({
-    el: $("form"),
+    el: $("#formId"),
     events: {
-        "click input[type='submit']": "onAddBtnClick",
-
+        "click #btnSub": "onAddBtnClick",
         "keydown .inpNum": "onCardInpKeyDown",
         "click #clearCardInpBtn": "onClearCardInpBtnClick"
     },
     initialize: function () {
         var that = this;
-        this.submitBtn = $(".btn>.inpbtn[type='submit']");
+        this.submitBtn = $("#btnSub");
         this.ReadPhysicsCard = new ReadPhysicsCard({ id: "readCardObj" });
         this.cardInp = $(".inpNum");
-        this.phyNo = $("input[name='physics_no']");
-        this.visiNo = $("input[name='visible_no']");
+        this.phyNo = $("#phyNo");
+        this.visiNo = $("#visibleNo");
     },
     onAddBtnClick: function (e) {
         //var InpVal = this.cardInp.val();      
@@ -34,6 +33,7 @@ var MainView = Backbone.View.extend({
                 that.phyNo.focus();
                 return false;
             }
+            that.phyNo.focus();
             return false;
         } else if (visiVal === "" && phyVal !== "") {
             alert("实体卡号不能为空");
@@ -42,6 +42,7 @@ var MainView = Backbone.View.extend({
                 that.visiNo.focus();
                 return false;
             }
+            that.visiNo.focus();
             return false;
         } else {
             if (!reg.test(phyVal) && phyVal !== "") {
@@ -61,6 +62,7 @@ var MainView = Backbone.View.extend({
                         that.phyNo.focus();
                         return false;
                     }
+                    that.phyNo.focus();
                     return false;
                 } else if (visiVal === "" && phyVal !== "") {
                     alert("实体卡号不能为空");
@@ -69,6 +71,7 @@ var MainView = Backbone.View.extend({
                         that.visiNo.focus();
                         return false;
                     }
+                    that.visiNo.focus();
                     return false;
                 } else if (visiVal === "" && phyVal === "") {
                     return true;
