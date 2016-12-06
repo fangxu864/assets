@@ -167,5 +167,5 @@
     .scrollMainContainer .boxMod .boxModTit{ height:43px; line-height:43px; padding:0 10px; font-size:0.4rem; font-weight:bold; border-bottom:1px solid #e5e5e5}
     .scrollMainContainer .boxMod.zhi,.scrollMainContainer .boxMod.info{ background:#fff; margin-top:10px}
     .scrollMainContainer .boxMod .boxModCon{ padding:10px; background:#fff; font-size:0.35rem; line-height:1.5; overflow:hidden}
-    .boxMod.info-boxMod .boxModCon img{ width:100%}
+    .boxMod.info .boxModCon img{ width:100%}
 </style>

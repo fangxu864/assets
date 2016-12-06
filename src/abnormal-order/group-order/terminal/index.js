@@ -6,7 +6,7 @@
 require("./index.scss");
 var Tpl = require("./order.item.html");
 var AdaptOrder = require("./adaptOrder");
-var Api = require("COMMON/busi/terminal/core/api");
+//var Api = require("COMMON/busi/terminal/core/api");
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
 	height : 300
