@@ -10,6 +10,7 @@
 
  require("./index.scss");
  var Toast = require("COMMON/modules/toast");
+ var loadingHTML = require("COMMON/js/util.loading.pc.js");
  var getlistajax = require("./service_list.js");
  var Pagination = require("COMMON/modules/pagination-x");
 
@@ -120,10 +121,14 @@ var operatorManagerList = {
         //获取员工列表并渲染dom   //不传
             getlistajax({
                 loading : function(){
-                    that.toast.show("loading","努力加载中...")
+                    // that.toast.show("loading","努力加载中...")
+                    var loadingHtml = loadingHTML("请稍后...",{
+                        tag : "tr",
+                        colspan : 5
+                    });
+                    $(".perlistabBody").html(loadingHtml);
                 },
                 complete : function(){
-                    that.toast.hide()
                 },
                 success : function(data){
 
@@ -172,15 +177,21 @@ var operatorManagerList = {
             // toPage :      要switch到第几页
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页   
-            pagination.render({current:toPage,total:totalPage});
+
+            $("#pagination_wrap").hide();
 
             getlistajax({
                 loading : function(){
                     $(".perlistab tbody.perlistabBody").children().remove();
-                    that.toast.show("loading","努力加载中...")
+                    // that.toast.show("loading","努力加载中...")
+                    var loadingHtml = loadingHTML("请稍后...",{
+                        tag : "tr",
+                        colspan : 5
+                    });
+                    $(".perlistabBody").html(loadingHtml);
                 },
                 complete : function(){
-                    that.toast.hide()
+                    // that.toast.hide()
                 },
                 success : function(data){
 
@@ -206,6 +217,7 @@ var operatorManagerList = {
                         '</tr>' ;
                     }
                     tbody.html(temp);
+                    pagination.render({current:toPage,total:totalPage});
                 },
                 fail : function(msg){
                     alert(msg);
