@@ -114,51 +114,12 @@ var operatorManagerList = {
             showTotal : true,         //可选  是否显示总页数
             jump : true               //可选  是否显示跳到第几页
         });
-        pagination.render({current:1,total:10});
+        
 
         this.toast = new Toast();
 
-        //获取员工列表并渲染dom   //不传
-            getlistajax({
-                loading : function(){
-                    // that.toast.show("loading","努力加载中...")
-                    var loadingHtml = loadingHTML("请稍后...",{
-                        tag : "tr",
-                        colspan : 5
-                    });
-                    $(".perlistabBody").html(loadingHtml);
-                },
-                complete : function(){
-                },
-                success : function(data){
-
-                    var code = data.code;
-                    var msg = data.msg;
-                    var list = data.list;
-                    var tbody = $(".perlistab tbody.perlistabBody");
-                    var temp = "";
-                    //动态dom
-                    for(var i = 0;i<list.length;i++){
-                        temp += 
-                        '<tr>' +
-                            '<td class="txtlf">'+list[i].name+'</td>' +
-                            '<td>'+list[i].telNumber+'</td>' +
-                            '<td class="colgrn">'+list[i].status+'</td>' +
-                            '<td>'+list[i].lastLogin+'</td>'+
-                            '<td>'+
-                                '<a href="#" >禁用</a> | '+
-                                '<a href="#">删除</a> | '+
-                                '<a href="#">权限管理</a> | '+
-                                '<a href="#">密码重设</a>'+
-                            '</td>'+
-                        '</tr>' ;
-                    }
-                    tbody.html(temp);
-                },
-                fail : function(msg){
-                    alert(msg);
-                }
-            });
+        this.showList(1);
+            
         //绑定事件
         this.bind();
 
@@ -180,49 +141,51 @@ var operatorManagerList = {
 
             $("#pagination_wrap").hide();
 
-            getlistajax({
-                loading : function(){
-                    $(".perlistab tbody.perlistabBody").children().remove();
-                    // that.toast.show("loading","努力加载中...")
-                    var loadingHtml = loadingHTML("请稍后...",{
-                        tag : "tr",
-                        colspan : 5
-                    });
-                    $(".perlistabBody").html(loadingHtml);
-                },
-                complete : function(){
-                    // that.toast.hide()
-                },
-                success : function(data){
+            that.showList(toPage);
 
-                    var code = data.code;
-                    var msg = data.msg;
-                    var list = data.list;
-                    var tbody = $(".perlistab tbody.perlistabBody");
-                    var temp = "";
-                    //动态dom
-                    for(var i = 0;i<list.length;i++){
-                        temp += 
-                        '<tr>' +
-                            '<td class="txtlf">'+list[i].name+'</td>' +
-                            '<td>'+list[i].telNumber+'</td>' +
-                            '<td class="colgrn">'+list[i].status+'</td>' +
-                            '<td>'+list[i].lastLogin+'</td>'+
-                            '<td>'+
-                                '<a href="#" >禁用</a> | '+
-                                '<a href="#">删除</a> | '+
-                                '<a href="#">权限管理</a> | '+
-                                '<a href="#">密码重设</a>'+
-                            '</td>'+
-                        '</tr>' ;
-                    }
-                    tbody.html(temp);
-                    pagination.render({current:toPage,total:totalPage});
-                },
-                fail : function(msg){
-                    alert(msg);
-                }
-            },toPage,totalPage);    
+            // getlistajax({
+            //     loading : function(){
+            //         $(".perlistab tbody.perlistabBody").children().remove();
+            //         // that.toast.show("loading","努力加载中...")
+            //         var loadingHtml = loadingHTML("请稍后...",{
+            //             tag : "tr",
+            //             colspan : 5
+            //         });
+            //         $(".perlistabBody").html(loadingHtml);
+            //     },
+            //     complete : function(){
+            //         // that.toast.hide()
+            //     },
+            //     success : function(data){
+
+            //         var code = data.code;
+            //         var msg = data.msg;
+            //         var list = data.list;
+            //         var tbody = $(".perlistab tbody.perlistabBody");
+            //         var temp = "";
+            //         //动态dom
+            //         for(var i = 0;i<list.length;i++){
+            //             temp += 
+            //             '<tr>' +
+            //                 '<td class="txtlf">'+list[i].name+'</td>' +
+            //                 '<td>'+list[i].telNumber+'</td>' +
+            //                 '<td class="colgrn">'+list[i].status+'</td>' +
+            //                 '<td>'+list[i].lastLogin+'</td>'+
+            //                 '<td>'+
+            //                     '<a href="#" >禁用</a> | '+
+            //                     '<a href="#">删除</a> | '+
+            //                     '<a href="#">权限管理</a> | '+
+            //                     '<a href="#">密码重设</a>'+
+            //                 '</td>'+
+            //             '</tr>' ;
+            //         }
+            //         tbody.html(temp);
+            //         pagination.render({current:toPage,total:totalPage});
+            //     },
+            //     fail : function(msg){
+            //         alert(msg);
+            //     }
+            // },toPage,totalPage);    
 
         })
     },
@@ -275,6 +238,51 @@ var operatorManagerList = {
             return;
         }
 
+    },
+
+
+    showList : function(topage){  //第几页
+        getlistajax({
+            loading : function(){
+                // that.toast.show("loading","努力加载中...")
+                var loadingHtml = loadingHTML("请稍后...",{
+                    tag : "tr",
+                    colspan : 5
+                });
+                $(".perlistabBody").html(loadingHtml);
+            },
+            complete : function(){
+            },
+            success : function(data){
+
+                var code = data.code;
+                var msg = data.msg;
+                var list = data.list;
+                var tbody = $(".perlistab tbody.perlistabBody");
+                var temp = "";
+                //动态dom
+                for(var i = 0;i<list.length;i++){
+                    temp += 
+                    '<tr>' +
+                        '<td class="txtlf">'+list[i].name+'</td>' +
+                        '<td>'+list[i].telNumber+'</td>' +
+                        '<td class="colgrn">'+list[i].status+'</td>' +
+                        '<td>'+list[i].lastLogin+'</td>'+
+                        '<td>'+
+                            '<a href="#" >禁用</a> | '+
+                            '<a href="#">删除</a> | '+
+                            '<a href="#">权限管理</a> | '+
+                            '<a href="#">密码重设</a>'+
+                        '</td>'+
+                    '</tr>' ;
+                }
+                tbody.html(temp);
+                pagination.render({current:topage,total:10});
+            },
+            fail : function(msg){
+                alert(msg);
+            }
+        });
     }
 
     
