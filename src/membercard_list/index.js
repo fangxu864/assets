@@ -2,7 +2,7 @@
  * Created by Administrator on 2016/7/27.
  */
 require("./index.scss")
-
+require("./timeInput/index.scss");
 var Calendar=require("COMMON/modules/calendar");
 var Pagination=require("COMMON/modules/pagination")
 //切换菜单
