@@ -2,7 +2,45 @@
 
 原型地址： http://axure.12301.test/%E9%AB%98%E4%BF%9D%E7%9C%9F/%E5%BA%94%E7%94%A8%E4%B8%AD%E5%BF%83%E5%8E%9F%E5%9E%8B/#g=1&p=现有版本
 
+
+## 目录说明
+common：存放此项目的公共文件
+    |
+    |-- scss      公共scss基类
+    |
+    |-- service   与后端取数据的接口都以service存放在这里，具体参见assets/src_mobile/service里的写法
+    |
+    |-- tpl       公共html模板文件
+
+index：首页
+    |
+    |-- index.js  入口
+    |
+    |-- index.scss css入口，所有index.scss入口必须import common/scss下的_base.scss基类
+    |
+    |-- scss  存放此页面自己的css样式
+    |
+    |-- tpl   存放此页面自己的模板
+
+detail：应用详情页 (目录划分同index)
+
+
+
+assets项目：(feature/application-center分支)
 npm run application-center-start
 npm run application-center-test
 npm run application-center-release
 npm run application-center-production
+
+Views项目：(feature/application-center分支)
+
+Service项目：(feature/application-center分支)
+
+
+
+页面地址访问：http://www.12301.local/new/appcenter.html 或 http://www.12301.local/new/appcenter_index.html
+
+
+
+
+
