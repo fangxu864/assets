@@ -32,9 +32,9 @@ npm run application-center-test
 npm run application-center-release
 npm run application-center-production
 
-Views项目：(feature/application-center分支)
+Views项目：(feature/application-center分支) Views/appcenter下添加新页面html
 
-Service项目：(feature/application-center分支)
+Service项目：(feature/application-center分支) Service/Controller/Tpl/appcenter.class.php内添加新页面路由
 
 
 
