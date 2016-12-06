@@ -232,6 +232,7 @@ entryCard.prototype = {
                         + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-lid="">'
                         + ' <a class="u-btn_fillCard" >补卡</a>'
                         + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
+                        + ' <a class="u-btn_del" >删除</a><br/>'
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
                       break;
@@ -354,7 +355,7 @@ entryCard.prototype = {
                     + ' <a class="u-btn_edit" >编辑</a>'
                     + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                     + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
-                    + ' <a class="u-btn_del" >删除</a><br/>'
+                    + ' <a class="u-btn_del" >删除</a>'
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
                     + ' </td> </tr>';
                   break;
@@ -373,6 +374,7 @@ entryCard.prototype = {
                     + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-lid="">'
                     + ' <a class="u-btn_fillCard" >补卡</a>'
                     + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
+                    + ' <a class="u-btn_del" >删除</a>'
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
                     + ' </td> </tr>';
                   break;
