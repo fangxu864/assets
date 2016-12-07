@@ -8,6 +8,7 @@
     border-radius: 3px;
     max-width: 200px;
     box-shadow: 1px 1px 1px rgba(0,0,0,0.12);
+    text-align: justify;
 }
 
 .pft-tips-right i.arrow{
@@ -118,6 +119,22 @@
         opacity: 1;
         transform: none;
     }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.fadeOut {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: fadeOut;
 }
 
 
