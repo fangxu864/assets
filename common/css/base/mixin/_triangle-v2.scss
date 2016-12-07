@@ -7,18 +7,36 @@
 
 ////————————————箭头样式————————————————
 // 参数：triangle($size,$color,$direction)
-// 使用：@include triangle(10px,blue,up)
+// 使用：@include triangle(("size":10px,"color":white,"direction":"down"))
 // 三个参数从左至右依次为(尺寸，颜色，方向)
-// 注：三角形尺寸要带单位，尺寸为边长，三角形为等边三角形;箭头方向参数为:up,right,down,left；
-//     根据具体情形，使用定位来固定位置
-@mixin triangle($size,$color,$direction){
+// 注：1.三角形尺寸要带单位;
+//     2.箭头方向参数为:up,right,down,left；
+//     3.根据具体情形，使用定位来固定位置,默认没有设置margin\position;
+//     4.参数可以只传其中一个或者不传，不传为@include triangle(())
+
+@mixin triangle($fs-map){
+  //默认参数配置
+  @if map-has-key($fs-map,"color") == false {
+    $fs-map : map-merge($fs-map,("color" : #e5e5e5))
+  }
+  @if map-has-key($fs-map,"size") == false {
+    $fs-map : map-merge($fs-map,("size" : 14px))
+  }
+  @if map-has-key($fs-map,"direction") == false {
+    $fs-map : map-merge($fs-map,("direction" : "down"))
+  }
+
+  $color : map-get($fs-map,"color");
+  $size : map-get($fs-map,"size");
+  $direction : map-get($fs-map,"direction");
+
   //通用部分
   height: 0;
   width: 0;
   border-color: transparent;
   border-style: solid;
-  font-size:0;
-  vertical-align:middle;
+  font-size : 0;
+  vertical-align : middle;
 
   //向上
   @if $direction == up {
@@ -56,4 +74,5 @@
     border-right-width: $size*1.732/2;
   }
 }
+
 //————————————箭头样式结束————————————————
