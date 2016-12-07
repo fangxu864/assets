@@ -4,7 +4,9 @@
             <ul class="ptypeList">
                 <li class="ptypeBox" :class="item.identify" v-for="item in list" :data-ptype="item.identify">
                     <a class="ptypeBoxCon" href="plist.html?ptype={{item.identify}}">
-                        <div class="iconBox"><i class="icon-ptype" :class="'icon-'+icons[item.identify]"></i></div>
+                        <div class="iconBox">
+                            <i class="icon-ecshop-theme" :class="'icon-'+icons[item.identify]"></i>
+                        </div>
                         <p class="text" v-text="item.name"></p>
                     </a>
                 </li>
@@ -24,7 +26,7 @@
                 state : "",
                 icons : {
                     A : "jingqu",
-                    B : "xianlu",
+                    B : "zhoubianyou",
                     C : "jiudian",
                     F : "taopiao",
                     H : "yanchu"
@@ -84,7 +86,7 @@
         color:#fff;
         margin:0 auto 0.2rem;
     }
-    #ptypeListContainer .ptypeBox .icon-ptype{
+    #ptypeListContainer .ptypeBox .icon-ecshop-theme{
         font-size:0.7rem;
     }
     #ptypeListContainer .ptypeBox .text{

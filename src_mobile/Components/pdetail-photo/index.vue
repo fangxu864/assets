@@ -6,7 +6,7 @@
                 <p class="landTitle" v-text="title"></p>
                 <div class="landAddr">
                     <p class="addrText" v-text="address"></p>
-                    <i class="iconfont icon-daohang"></i>
+                    <i class="icon-u-regular icon-daohang"></i>
                 </div>
             </div>
         </template>
@@ -48,5 +48,5 @@
     .pdetailPhotoContainer .infoBox{ position:absolute; left:0; right:0; bottom:0; padding:8px 10px; font-size:0.35rem; line-height:1.5; background:rgba(0,0,0,0.4); color:#fff}
     .pdetailPhotoContainer .landTitle{ font-weight:bold}
     .pdetailPhotoContainer .landAddr{ position:relative; padding-right:30px;}
-    .pdetailPhotoContainer .landAddr .iconfont{ position:absolute; top:-7px; right:0;}
+    .pdetailPhotoContainer .landAddr .icon-u-regular{ position:absolute; top:0px; right:0;}
 </style>
