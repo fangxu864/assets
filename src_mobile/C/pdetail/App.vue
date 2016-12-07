@@ -102,7 +102,8 @@
                         PFT.CustomWXShare.init({
                             title : title,
                             desc : title,
-                            imgUrl : data.imgpath
+                            imgUrl : data.imgpath,
+                            link : window.location.href
                         });
 
                         for(var i in data) this.info[i] = data[i];
