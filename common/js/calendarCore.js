@@ -271,10 +271,14 @@ var CalendarCore={
 		date = date ? (+new Date(date)) : (+new Date());
 		var nextDay = date+(24*60*60*1000);
 		nextDay = new Date(nextDay);
+
+		var _day = nextDay.getDate();
+		if(_day<10) _day = "0" + _day;
+
 		return[
 			nextDay.getFullYear(),
 			nextDay.getMonth()+1,
-			nextDay.getDate()
+			_day
 		].join("-")
 	},
 	/**
