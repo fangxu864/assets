@@ -6,7 +6,7 @@
 
 
 ////————————————箭头样式————————————————
-// 参数：triangle($size,$color,$direction)
+// 参数：triangle($fs-map)
 // 使用：@include triangle(("size":10px,"color":white,"direction":"down"))
 // 三个参数从左至右依次为(尺寸，颜色，方向)
 // 注：1.三角形尺寸要带单位;
