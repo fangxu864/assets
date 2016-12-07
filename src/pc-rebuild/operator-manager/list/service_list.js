@@ -3,7 +3,7 @@
 
 module.exports = function(opt,toPage){
 
-	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
+	// opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
 	//是否处于模拟数据状态
 	var debug = true ;
