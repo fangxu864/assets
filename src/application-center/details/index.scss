@@ -7,55 +7,65 @@ body{
 #PageMainRightContainer{
     background:#efefef;
 }
-.mr10 { margin-right: 10px; }
-.mb30 { margin-bottom: 30px; }
 
-.c-warning { color: #df3e0a; }
-.bgc-fff {
+.section-appdetails {
+    border: 1px solid #e5e5e5;
     background-color: #fff;
 }
-.text-ellipsis {
+.section-appdetails .section-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.section-appdetails .section-header .section-title {
+    position: relative;
+    font-size: 22px;
+    color: #3e3e3e;
+}
+.section-appdetails .section-header .section-title:before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: -15px;
     display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 4px;
+    height: 20px;
+    background-color: #fe8007;
 }
-.clearfix:before,
-.clearfix:after {
-    content:'.';
+.section-appdetails .section-con {
+    padding: 30px 24px;
+}
+
+.app-panel {
+    margin-bottom: 15px;
+}
+.app-panel .app-panel-header:after {
+    content:'';
     display: table;
-    font-size: 0;
-}
-.clearfix:after {
     clear: both;
 }
-
-.btn { display:inline-block; padding:10px 20px; line-height:16px; text-align:center; border-width:1px; border-style:solid; overflow:visible; white-space:nowrap; font-size:14px; -webkit-border-radius:4px; border-radius:4px; *display:inline; *zoom:1;}
-
-.btn-default { background-color:#0797D9; border-color:#0797D9; color:#fff; }
-.btn-default-reverse { background-color:#fff; border-color:#0797D9; color:#0797D9; }
-.btn-success { background-color:#3DBA3F; border-color:#3DBA3F; color:#fff; }
-.btn-success-reverse { background-color:#fff; border-color:#3DBA3F; color:#3DBA3F; }
-
-.btn.w100 { width: 60px; }
-
-.icon-new {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    background: url(http://static.12301.local/assets/build/images/appcenter/new.gif) no-repeat;
+.app-panel .app-panel-header {
+    border-bottom: 2px solid #2a97d8;
 }
-.icon-expired {
-    display: inline-block;
-    width: 94px;
-    height: 58px;
-    background: url(http://static.12301.local/assets/build/images/appcenter/expired.png) no-repeat;
+.app-panel .app-panel-header .app-panel-title {
+    float: left;
+    padding: 6px 20px;
+    background-color: #2a97d8;
+    font-size: 18px;
+    font-weight: normal;
+    color: #fff;
+    line-height: 30px;
 }
-
-.section-applist {
-    padding: 24px;
-    border: 1px solid #e5e5e5;
-    background-color: #EFEFEF;
+.app-panel .app-panel-con {
+    padding: 20px;
+    background-color: #efefef;
+    line-height: 1.5;
+}
+.app-panel .app-panel-con.app-list-wrap {
+    padding: 20px 10px;
+}
+.app-panel .app-list li {
+    margin-right: 10px;
+    margin-bottom: 0;
 }
 
 .topad-wrap {
