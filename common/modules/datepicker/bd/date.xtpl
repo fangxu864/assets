@@ -17,7 +17,6 @@
             var default_active_cls = "";
             if(min && now_date_str && (now_date_str<min)) minCls="disable";
             if(max && now_date_str && (now_date_str>max)) maxCls="disable";
-            <!--if(default_day && now_date_str && default_day==now_date_str) default_active_cls = "active";-->
             if(default_day && day){
                 if(default_day==day){
                     default_active_cls = "active";

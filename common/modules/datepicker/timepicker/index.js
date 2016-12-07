@@ -17,8 +17,11 @@ var Timepicker = PFT.Util.Class({
 	SPEED : 60,
 	__interval : null,
 	init : function(opt){
+		var that = this;
 		this.container.html(Tpl);
-		setTimeout(this.buildTimeSpan.call(this),0);
+		setTimeout(function(){
+			that.buildTimeSpan();
+		},0)
 	},
 	onTimeSpanClick : function(e){
 		var tarSpan = $(e.currentTarget);

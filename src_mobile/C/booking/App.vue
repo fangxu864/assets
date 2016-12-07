@@ -52,6 +52,7 @@
                 <span class="validTime descFlag" v-text="orderInfo.validTime"></span>
                 <span class="descFlag verifyTime" v-if="orderInfo.verifyTime!=''" v-text="orderInfo.verifyTime"></span>
                 <span class="descFlag refund_rule" v-text="orderInfo.refund_rule_text"></span>
+                <span class="descFlag batch_check_rule" v-if="orderInfo.batch_day && orderInfo.batch_day!=0" v-text="orderInfo.batch_day"></span>
                 <span @click="refundRuleShow=true" class="descFlag refund_ruleBtn" v-if="orderInfo.refund_rule && orderInfo.refund_rule!=2">退票规则</span>
             </div>
         </div>
@@ -269,6 +270,22 @@
                     }else{
                         this.onCalendarSwitchDay({date:this.calendar.date});
                     }
+
+                    //微信自定义分享
+                    var title = data.title;
+                    document.title = title;
+                    PFT.CustomWXShare.init({
+                        title : title,
+                        desc : title,
+                        //imgUrl : data.imgpath,  暂时还没有产品图片这个字段，需要后端提供
+                        link : window.location.href
+                    });
+
+
+
+
+
+
                 },
                 fail : (msg)=>{
                     Alert(msg);
