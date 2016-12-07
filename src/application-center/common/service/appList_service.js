@@ -14,7 +14,7 @@ module.exports = function(opt){
 		//模拟数据data
 
 		var data = {};
-		var listlength = 30;
+		var listlength = 8;
 		data.code = 200;
 		data.msg = "success";
 		data.list = [];
@@ -58,6 +58,18 @@ module.exports = function(opt){
 				}
 			}
 		}
+
+		//新上线情况
+		for(var i = 0;i<listlength;i++){
+			var r = parseInt(Math.random()*100);
+			if(r >= 10){
+				data.list[i].isNew = false;
+			}else{
+				data.list[i].isNew = true;
+			} 
+		}
+
+
 
 		opt.loading();
 		setTimeout(function(){
