@@ -146,8 +146,10 @@
 
     "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
 
-    "newcertifi-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/newcertifi/webpack.config.js"
-
+    "newcertifi-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/newcertifi/webpack.config.js",
+    "newcertifi-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/newcertifi/webpack.config.js",
+    "newcertifi-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/newcertifi/webpack.config.js",
+    "newcertifir-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/newcertifi/webpack.config.js"
 
   },
   "repository": {
