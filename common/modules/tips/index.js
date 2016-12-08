@@ -4,6 +4,7 @@ require("./index.scss");
 function Tips(){
 
 }
+
 Tips.prototype={
 	/**
 	 * tips的显示方法
@@ -62,7 +63,10 @@ Tips.prototype={
 		});
 		if(lifetime == -1) return false;
 		setTimeout(function () {
-			tip.remove();
+			tip.addClass("fadeOut");
+			setTimeout(function () {
+				tip.remove()
+			},210)
 		},lifetime)
 	},
 	/**
@@ -93,7 +97,7 @@ Tips.prototype={
 			validArr.push("bottom")
 		}
 		//检测left
-		if ( tip.outerWidth() + 10 < host_W ){
+		if ( tip.outerWidth() + 10 < host_W && $(window).outerHeight() - host_H > tip.outerHeight() ){
 			validArr.push("left")
 		}
 		//检测right
@@ -103,7 +107,7 @@ Tips.prototype={
 		//判断是是否为空数组
 		if(validArr.length !== 0){
 			//数组中是否存在direction
-			if(validArr.indexOf(direct) === -1){
+			if(validArr.join(",").indexOf(direct) === -1){
 				direct = validArr[0];
 			}
 		}
@@ -113,8 +117,9 @@ Tips.prototype={
 	 * 关闭所有tips
 	 */
 	closeAllTips : function(){
-		$(".pft-tips").remove();
+		$(".pft-tips").remove()
 	}
 };
+
 
 module.exports=Tips;
