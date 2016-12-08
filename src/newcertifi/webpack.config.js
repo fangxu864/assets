@@ -4,8 +4,8 @@
  * Description: ""
  */
 var env = require("../../task-webpack/getNodeENV.js");
-var output = require("../../task-webpack/getOutput")(env,"[name]/all");
-var plugins = require("../../task-webpack/getPlugins")(env,"[name]/all");
+var output = require("../../task-webpack/getOutput")(env,"[name].all");
+var plugins = require("../../task-webpack/getPlugins")(env,"[name].all");
 var config = require("../../task-webpack/config")({
 	entry : {
 		"newcertifi" : "./src/newcertifi/index.js"

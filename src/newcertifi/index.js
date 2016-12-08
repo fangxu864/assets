@@ -15,11 +15,11 @@ $.ajax({
     success:function(res){
         var list=res.data;
         if(res.code===200){
-            if(list.info.com_type==="其他"){
+           
                 var render = PFT.Util.ParseTemplate(tpl);
-                var html = render({array:list});
-                $("#memCertifyContainer .formContainer").html(html);
-            }
+                var html = render({list:list});
+                $("#memCertifyContainer").append(html);
+            
         }
     },
     error:function(xhr,textStatus){
