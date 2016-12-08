@@ -86,15 +86,19 @@ for(var i=0;i<stateLi.length;i++){
         // console.log( $("#daoBtn").attr("href"));
 
         $("#searchBtn").on("click",function(){
-            var begin=$("#begintime").val();
-            var end=$("#endtime").val();
+            var begin=$("#begintime");
+            var begintime=begin.val();
+            var end=$("#endtime");
+            var endtime=end.val();
             var searchVal=$("#searchInp").val();
             if(searchVal!=="会员名称/卡号/手机号/联系人姓名"){
+               begintime="";
+              endtime="";
                 searchVal=searchVal;
             }else{
                 searchVal="";
             }
-             var newhref=href+"&keyword="+searchVal+"&begin="+begin+"&end="+end;
+             var newhref=href+"&keyword="+searchVal+"&begin="+begintime+"&end="+endtime;
              $("#daoBtn").attr("href",newhref);
         })
     })
