@@ -1,4 +1,7 @@
-{{if list.certi_status==2}}
+{{if list.info.certi_status==2}}
+<%  _.each(array,function(){%>
+  <%=%>
+<% }) %>
 <span class="exme"></span>
 {{/if}}
 {{if list com_type==="个人"}}

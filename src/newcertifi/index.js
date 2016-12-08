@@ -1,4 +1,4 @@
-var template=require("art-template");
+
 var tpl=require("./index.xtpl");
 
 $(document).ready(function(){ 
@@ -13,11 +13,12 @@ $.ajax({
         console.log('发送前')
     },
     success:function(res){
-        var data=res.data;
+        var list=res.data;
         if(res.code===200){
-            if(data.info.com_type==="其他"){
-                templdate(tpl,data);
-                $("#memCertifyContainer .formContainer").html(tpl);
+            if(list.info.com_type==="其他"){
+                var render = PFT.Util.ParseTemplate(tpl);
+                var html = render({array:list});
+                $("#memCertifyContainer .formContainer").html(html);
             }
         }
     },
