@@ -69,34 +69,36 @@ module.exports = function(opt,whichBtn){
 			} 
 		}
 
-		var newlist = [];
 
-		if( whichBtn == "newOnline"){
-			for(var i = 0;i<listlength;i++){
-				if(data.list[i].isNew == true){
-					newlist.push(data.list[i]);
-				}
-			}
-			data.list = newlist;
-		}
+		//不用缓存而是后台返回分类的情况
+		// var newlist = [];
 
-		if( whichBtn == "unopend"){
-			for(var i = 0;i<listlength;i++){
-				if(data.list[i].opend == false){
-					newlist.push(data.list[i]);
-				}
-			}
-			data.list = newlist;
-		}
+		// if( whichBtn == "newOnline"){
+		// 	for(var i = 0;i<listlength;i++){
+		// 		if(data.list[i].isNew == true){
+		// 			newlist.push(data.list[i]);
+		// 		}
+		// 	}
+		// 	data.list = newlist;
+		// }
 
-		if( whichBtn == "opend"){
-			for(var i = 0;i<listlength;i++){
-				if(data.list[i].opend == true){
-					newlist.push(data.list[i]);
-				}
-			}
-			data.list = newlist;
-		}
+		// if( whichBtn == "unopend"){
+		// 	for(var i = 0;i<listlength;i++){
+		// 		if(data.list[i].opend == false){
+		// 			newlist.push(data.list[i]);
+		// 		}
+		// 	}
+		// 	data.list = newlist;
+		// }
+
+		// if( whichBtn == "opend"){
+		// 	for(var i = 0;i<listlength;i++){
+		// 		if(data.list[i].opend == true){
+		// 			newlist.push(data.list[i]);
+		// 		}
+		// 	}
+		// 	data.list = newlist;
+		// }
 
 
 		opt.loading();
