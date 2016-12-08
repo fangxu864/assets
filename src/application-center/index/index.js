@@ -19,8 +19,7 @@ var Main = PFT.Util.Class({
 		// 	priceText : ""
 
 		// })
-	
-		console.log("MainInit");		
+			
 		new AppList();
 
 	},
