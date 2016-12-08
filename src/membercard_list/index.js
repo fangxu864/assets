@@ -86,8 +86,14 @@ for(var i=0;i<stateLi.length;i++){
         // console.log( $("#daoBtn").attr("href"));
 
         $("#searchBtn").on("click",function(){
-            var newhref=href+"&keyword="+$("#searchInp").val()
-            $("#daoBtn").attr("href",newhref);
+            var searchVal=$("#searchInp").val();
+            if(searchVal!=="会员名称/卡号/手机号/联系人姓名"){
+                searchVal=searchVal;
+            }else{
+                searchVal="";
+            }
+             var newhref=href+"&keyword="+searchVal;
+             $("#daoBtn").attr("href",newhref);
         })
     })
 }
