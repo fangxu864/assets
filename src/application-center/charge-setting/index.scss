@@ -1,0 +1,112 @@
+body{
+    padding:0;
+}
+@import "../common/scss/base";
+@import "./scss/app-item";
+
+#PageMainRightContainer{
+    background:#efefef;
+}
+
+.section-applist {
+    padding: 24px;
+    border: 1px solid #e5e5e5;
+    background-color: #EFEFEF;
+}
+
+.topad-wrap {
+    position: relative;
+    margin-bottom: 15px;
+}
+.topad-wrap img {
+    display:block;
+    width: 100%;
+}
+
+.tab {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.tab-list:after {
+    content: '';
+    display: table;
+    clear: both;
+    height: 0;
+}
+.tab-list li {
+    float: left;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-bottom: 2px solid transparent;
+    color: #737373;
+    font-size: 12px;
+    line-height: 24px;
+    white-space: nowrap;
+}
+.tab-list li.active {
+    border-bottom: 2px solid #ee6d33;
+    font-size: 14px;
+    color: #313131;
+}
+
+.app-class {
+    font-size: 24px;
+}
+.app-list-wrap {
+
+}
+.app-list {
+    margin-right: -20px;
+}
+.app-list li {
+    position: relative;
+    float: left;
+    width: 240px;
+    margin-right: 20px;
+    margin-bottom: 25px;
+}
+.app-list .app-item {
+    padding: 19px 14px;
+    border: 1px solid #eaeaea;
+    background-color: #fff;
+    line-height: 1.5;
+}
+.app-list .app-item:hover {
+    padding: 18px 13px;
+    border: 2px solid #e5beeb;
+}
+.app-list .app-item .app-left {
+    float: left;
+    width: 73px;
+    text-align: center;
+}
+.app-list .app-item .app-open {
+    font-size: 12px;
+    color: #7a7a7a;
+}
+.app-list .app-item .app-usernum {}
+.app-list .app-item .app-right {
+    margin-left: 83px;
+}
+.app-list .app-item .app-name {
+    font-size: 18px;
+    font-weight: normal;
+    color: #2d2d2d;
+}
+.app-list .app-item .app-price {
+    font-size: 14px;
+    color: #7a7a7a;
+}
+.app-list .app-item .app-btn-w {
+    margin-top: 10px;
+}
+.app-list li .icon-expired {
+    position: absolute;
+    left: 3px;
+    top: 5px;
+}
+.app-list li .icon-new {
+    position: absolute;
+    left: -2px;
+    top: -2px;
+}
