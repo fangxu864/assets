@@ -472,7 +472,7 @@ var BatchConfigChannel = {
 
             $.ajax({
 
-                url : "/r/Product_Channel/setBatChannelTask/",
+                url : "/r/product_Channel/setBatChannelTask/",
                 type : "POST",
                 data : {channel : chkbox_value},
                 beforeSend : function(){
@@ -561,7 +561,7 @@ var BatchConfigChannel = {
 
         $.ajax({
 
-            url : "/r/Product_Channel/getTaskSchedule/",
+            url : "/r/product_Channel/getTaskSchedule/",
             type : "POST",
             data : {id : $("#taskID").val()},
             success : function(res){
