@@ -61,7 +61,7 @@
     <div class="pictureContainer">
         <figure>
             <div class="wrapper"><img src="http://static.12301.cc/assets/build/images/distributor_add/meituan.png"/></div>
-            <figcaption data-name="【美团】北京三快在线科技有限公司">美团网</figcaption>
+            <figcaption data-name="【美团】北京三快在线科技有限公司">美团团购发码</figcaption>
         </figure>
 
         <figure>
@@ -72,6 +72,11 @@
         <figure>
             <div class="wrapper"> <img src="http://static.12301.cc/assets/build/images/distributor_add/nuomi.jpg" /></div>
             <figcaption data-name="百度糯米网">百度糯米</figcaption>
+        </figure>
+
+        <figure>
+            <div class="wrapper"> <img src="http://static.12301.cc/assets/build/images/meituandianping.jpg" /></div>
+            <figcaption data-name="美团直连" style="width: 280px">美团直连</figcaption>
         </figure>
     </div>
 </div>
