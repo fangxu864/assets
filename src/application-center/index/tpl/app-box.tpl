@@ -1,3 +1,3 @@
-<li class="appItem">
+<li class="detail">
 
 </li>

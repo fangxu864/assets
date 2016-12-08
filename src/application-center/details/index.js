@@ -4,8 +4,9 @@
  * Description: ""
  */
 require("./index.scss");
+$(".detail").append(require("./tpl/details.tpl"));
 var Template = {
-    appBox : PFT.Util.ParseTemplate(require("./tpl/app-box.tpl"))
+    appBox : PFT.Util.ParseTemplate(require("./tpl/details.tpl"))
 };
 
 var demo = {
@@ -14,6 +15,7 @@ var demo = {
 }
 var Main = PFT.Util.Class({
     init : function(){
+
         this.renderAppBox({
             id : "121",
             name : "微商城",
@@ -21,11 +23,6 @@ var Main = PFT.Util.Class({
             priceText : ""
 
         })
-
-
-
-
-
 
 
 
