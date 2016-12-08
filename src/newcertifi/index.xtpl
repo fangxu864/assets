@@ -1,0 +1,130 @@
+{{if list.certi_status==2}}
+<span class="exme"></span>
+{{/if}}
+{{if list com_type==="个人"}}
+<div class="memberIdNumLine">
+        <span class="t">身份证号码：</span>
+        <input type="text" name="" class="formInp memberIdNumInp" id="id_card_input" value={{list.id_card_no}} {{if list.certi_status==2}}disabled="disabled"{{/if}}>/>
+        <span class="tip" style="color:#f37138">必须和支付宝实名信息一致</span></br>
+        <span class="t" style="visibility:hidden">身份证号码：</span>
+        <span id="idcardErrorTip" class="error tip" style="color:#e12424; padding-top:5px; display:none">*请输入正确格式的身份证号</span></br>
+    </div>
+    <div style="margin-top:10px" class="uploadBox">
+        <div class="fbox lt">
+            <p class="tit">手持身份证正面<span class="require tip">(必传)</span></p>
+            <div class="boxCon">
+                <div class="photoWrap">
+                    <div id="imgLoaderContainer_1" class="imgW ui-upload-container" style="background-image:url('<?=$var['id_card_hand']?>')">
+                        <input id="id_card_hand_hid_inp" value="<?=$var['id_card_hand']?>" class="imgurl hidInp_imgurl" data-require="true" data-msg="请上传手持身证正面" name="" type="hidden"/>
+                        <iframe frameborder="0" name="imgLoador_1_iframe"></iframe>
+                        <form id="sssform" action="<?=$upload_api?>" enctype="multipart/form-data" method="post" target="imgLoador_1_iframe">
+							{{if list.certi_status!=2}}
+                            <label for="imgupload_file_1">
+                                <i class="iconfont">&#xe675;</i><span class="t">上传图片</span>
+                                <input type="file" name="id_card_hand" class="fileInp" id="imgupload_file_1"/>
+                            </label>
+							{{/if}}
+                            <input name="callback" value="imgUpload_1.oncomplete" type="hidden"/>
+                            <input name="action" value="UploadImage" type="hidden"/>
+                            <input type="hidden" name="tt" value="id_card_hand"/>
+                        </form>
+                        <div class="loading">
+                            <div class="loadingCon">
+                                <img src="http://www.12301.cc/images/icons/gloading.gif" alt=""/><span class="t">正在上传...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fbox rt">
+            <p class="tit">示例</p>
+            <div class="boxCon">
+                <div class="picW"><img class="setwidth" src="http://www.12301.cc/tpl/membercard/images/certifi06.gif" alt=""/></div>
+                <ol class="ol">
+                    <li>1、身份证上的信息清晰无遮挡</li>
+                    <li>2、完整露出双手手臂</li>
+                    <li>3、五官可见</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="uploadBox">
+        <div class="fbox lt">
+            <p class="tit">手持身份证背面<span class="require tip">(必传)</span></p>
+            <div class="boxCon">
+                <div class="photoWrap">
+                    <div id="imgLoaderContainer_2" class="imgW ui-upload-container" style="background-image:url({{list.id_card_B}})">
+                        <input id="id_card_B_hid_inp" value={{list.id_card_B}} class="imgurl hidInp_imgurl" data-require="true" data-msg="手持身份证背面" name="" type="hidden"/>
+                        <iframe frameborder="0" name="imgLoador_2_iframe"></iframe>
+                        <form id="" action={{list.upload_api}}  target="imgLoador_2_iframe" enctype="multipart/form-data" method="post">
+                            {{if certi_status!=2}}
+                            <label for="imgupload_file_2">
+                                <i class="iconfont">&#xe675;</i><span class="t">上传图片</span>
+                                <input type="file" name="id_card_B" class="fileInp" id="imgupload_file_2"/>
+                            </label>
+                            {{/if}}
+                            <input name="callback" value="imgUpload_2.oncomplete" type="hidden"/>
+                            <input name="action" value="UploadImage" type="hidden"/>
+                            <input type="hidden" name="tt" value="id_card_B"/>
+                        </form>
+                        <div class="loading">
+                            <div class="loadingCon">
+                                <img src="http://www.12301.cc/images/icons/gloading.gif" alt=""/><span class="t">正在上传...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </div>
+        <div class="fbox rt">
+            <p class="tit">示例</p>
+            <div class="boxCon">
+                <div class="picW"><img class="setwidth" src="http://www.12301.cc/tpl/membercard/images/certifi05.gif" alt=""/></div>
+                <ol class="ol">
+                    <li>1、身份证上的信息清晰无遮挡</li>
+                    <li>2、完整露出双手手臂</li>
+                    <li>3、五官可见</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="uploadBox">
+        <div class="fbox lt">
+            <p class="tit">其它证件（驾驶证或导游证）</p>
+            <div class="boxCon">
+                <div class="photoWrap">
+                    <div id="imgLoaderContainer_3" class="imgW ui-upload-container" style="background-image:url('<?=$var['other_les']?>')">
+                        <input id="other_les_hid_inp" value={{other_les}} class="imgurl hidInp_imgurl" name="" type="hidden"/>
+                        <iframe frameborder="0" name="imgLoador_3_iframe"></iframe>
+                        <form id="" action="<?=$upload_api?>" enctype="multipart/form-data" method="post" target="imgLoador_3_iframe">
+							<?if($var['certi_status']<>2):?>
+                            <label for="imgupload_file_3"><i class="iconfont">&#xe675;</i><span class="t">上传图片</span></label>
+                            <input name="callback" value="imgUpload_3.oncomplete" type="hidden"/>
+                            <input name="action" value="UploadImage" type="hidden"/>
+                            <input type="file" name="other_les" class="fileInp" id="imgupload_file_3"/>
+							<?endif;?>
+                            <input type="hidden" name="tt" value="other_les"/>
+                            <span class="ie8formsubmitBtn"></span>
+                        </form>
+                        <div class="loading">
+                            <div class="loadingCon">
+                                <img src="http://www.12301.cc/images/icons/gloading.gif" alt=""/><span class="t">正在上传...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fbox rt">
+            <p class="tit">示例</p>
+            <div class="boxCon">
+                <div class="picW"><img src="http://www.12301.cc/tpl/membercard/images/none.jpg" alt=""/></div>
+                <ol class="ol">
+                     <li>1、信息清晰可识别</li>
+                    
+                </ol>
+            </div>
+        </div>
+    </div>
+    {{/if}}
