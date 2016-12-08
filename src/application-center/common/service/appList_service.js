@@ -2,14 +2,14 @@
 
 
 
-module.exports = function(opt){
+module.exports = function(opt,whichBtn){
 
 	//是否处于模拟数据状态
 	var debug = true ;
 
 	if(debug){
 
-		console.log("模拟数据中");
+		console.log('模拟'+whichBtn+'数据中');
 
 		//模拟数据data
 
@@ -69,6 +69,34 @@ module.exports = function(opt){
 			} 
 		}
 
+		var newlist = [];
+
+		if( whichBtn == "newOnline"){
+			for(var i = 0;i<listlength;i++){
+				if(data.list[i].isNew == true){
+					newlist.push(data.list[i]);
+				}
+			}
+			data.list = newlist;
+		}
+
+		if( whichBtn == "unopend"){
+			for(var i = 0;i<listlength;i++){
+				if(data.list[i].opend == false){
+					newlist.push(data.list[i]);
+				}
+			}
+			data.list = newlist;
+		}
+
+		if( whichBtn == "opend"){
+			for(var i = 0;i<listlength;i++){
+				if(data.list[i].opend == true){
+					newlist.push(data.list[i]);
+				}
+			}
+			data.list = newlist;
+		}
 
 
 		opt.loading();
@@ -76,6 +104,7 @@ module.exports = function(opt){
 			opt.complete();
 			opt.success(data);
 		},1000)
+		
 
 		return false;
 
