@@ -6,7 +6,7 @@
 var CalculatMoney = {
 	debug : false,
 	timer : null,
-	INTERVAL : 5,
+	INTERVAL : 60,
 	init : function(){
 		this.calculateAdBtn = $("#calculateAdBtn");
 		this.moneyInp = $("#money");
@@ -43,14 +43,15 @@ var CalculatMoney = {
 		this.queryMoney({
 			loading : function(){
 				tarBtn.addClass("disable").text("正在计算，请稍后...");
+				this.moneyInp.val("");
 			},
 			complete : function(){},
-			success : function(data){
+			success : function(money){
 
 				this.reCalculateWait(tarBtn,orignText);
-				this.moneyInp.val(data);
+				this.moneyInp.val(money);
 				//计算
-				this.calculate(data);
+				this.calculate(money);
 
 			},
 			below:function(){
@@ -109,20 +110,18 @@ var CalculatMoney = {
 			success : function(res){
 				res = res || {};
 				var code = res.code;
-				var data = res.data * 1;
-				// data = 500;
+				var data = res.data;
+				var freMoney = data.freMoney * 1; //可提现金额
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 				if(code=="success"){
-					if(data>=200){
-						success.call(cxt,data);
+					if(freMoney>=200){
+						success.call(cxt,freMoney);
 					}else{
 						below.call(cxt);
 					}
-
-				}else if(data==0){
+				}else{
 					fail.call(cxt,msg,code);
 				}
-
 			}
 		})
 
