@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Router, Route, IndexRoute, Link } from 'dva/router';
-import IndexPage from './routes/IndexPage';
+
+const IndexPage = require("./pages/index");
 
 export default function({ history }) {
   return (
