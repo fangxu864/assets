@@ -1,0 +1,13 @@
+<div id="qrcodeToastPage" class="qrcodeToastPage">
+    <div id="qrcodeToastContainer" class="qrcodeToastContainer">
+        <div id="qrcodeToastBox" class="qrcodeToastBox">
+            <div class="qrcodeToastBoxCon">
+                <p class="nickname"><%=data.nickName%></p>
+                <img src="<%=data.qrcodeUrl%>" alt=""/>
+                <p class="tip">关注公众号，再次购买更方便</p>
+                <a href="javascript:top.location='/wx/c/subcribe.html'" id="iosGotoBtn" class="iosGotoBtn">若无法识别二维码，请前往新页面</a>
+                <div class="btnGroup">关闭</div>
+            </div>
+        </div>
+    </div>
+</div>
