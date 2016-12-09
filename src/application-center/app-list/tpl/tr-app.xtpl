@@ -1,10 +1,10 @@
 <% _.each( data, function(item,index){ %>
                 <tr>
-                    <td><%=item.appname%></td>
-                    <td><%=item.isFree?'是':'否'%></td>
-                    <td><%=item.daysFreeTrial%></td>
-                    <td><%=item.appRecommend%></td>
-                    <td><div class="text-ellipsis w300"><%=item.appDesc%></div></td>
+                    <td><%=item.name%></td>
+                    <td><%=item.isfree?'是':'否'%></td>
+                    <td><%=item.free_day%></td>
+                    <td><%=item.linkStr%></td>
+                    <td><div class="text-ellipsis w300"><%=item.summary%></div></td>
                     <td><a href="appcenter_appsetting.html?appid=<%=item.id%>" class="btn-link">修改</a></td>
                 </tr>
 <% }) %>
