@@ -6,9 +6,7 @@
 require("./index.scss");
 var Checkbox = require('../common/js/checkbox');
 
-var Template = {
-	appBox : PFT.Util.ParseTemplate(require("./tpl/app-box.tpl"))
-};
+
 var Main = PFT.Util.Class({
 	init : function(){
 
