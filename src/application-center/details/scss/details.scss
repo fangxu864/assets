@@ -170,31 +170,31 @@
     }
 }
 
-//@import "COMMON/css/base/mixin/_triangle-v2.scss";
-//.message_box{
-//    position: absolute;
-//    //display: none;
-//    width: 200px;
-//    .content{
-//        padding: 10px 20px;
-//        background: #fff5f5;
-//        width: 200px;
-//        height: 40px;
-//        line-height: 18px;
-//        border-radius: 5px;
-//        border: 1px solid #e5e5e5;
-//    };
-//    .triangle_back{
-//        @include triangle(16px,#e5e5e5,down);
-//        position: absolute;
-//        left: 51.5%;
-//        bottom:-13px;
-//    }
-//    .triangle {
-//        @include triangle(15px,#fff5f5,down);
-//        position: absolute;
-//        left: 52%;
-//        z-index: 20;
-//        bottom:-10px;
-//    }
-//}
+@import "COMMON/css/base/mixin/_triangle-v2.scss";
+.message_box{
+    position: absolute;
+    //display: none;
+    width: 200px;
+    .content{
+        padding: 10px 20px;
+        background: #fff5f5;
+        width: 200px;
+        height: 40px;
+        line-height: 18px;
+        border-radius: 5px;
+        border: 1px solid #e5e5e5;
+    };
+    .triangle_back{
+        @include triangle((size:16px,color:#e5e5e5,direction:down));
+        position: absolute;
+        left: 51.5%;
+        bottom:-13px;
+    }
+    .triangle {
+        @include triangle((size:15px,color:#fff5f5,direction:down));
+        position: absolute;
+        left: 52%;
+        z-index: 20;
+        bottom:-10px;
+    }
+}

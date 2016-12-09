@@ -4,11 +4,10 @@
  * Description: ""
  */
 require("./index.scss");
-console.log(1);
-$(".section-appdetails").empty().append(require("./tpl/details.tpl"));
-var Template = {
-    appBox : PFT.Util.ParseTemplate(require("./tpl/details.tpl"))
-};
+var getAppdetail = require("./appDetail_Service.js");
+// var Template = {
+//     appBox : PFT.Util.ParseTemplate(require("./tpl/details.tpl"))
+// };
 
 var demo = {
     isNew: true,
@@ -16,20 +15,31 @@ var demo = {
 }
 var Main = PFT.Util.Class({
     init : function(){
-
-        this.renderAppBox({
-            id : "121",
-            name : "微商城",
-            iconCls : "sMall",
-            priceText : ""
-
-        })
-
-
+        $(".section-appdetails").empty().append(require("./tpl/details.tpl"));
+        // this.renderAppBox({
+        //     id : "121",
+        //     name : "微商城",
+        //     iconCls : "sMall",
+        //     priceText : ""
+        //
+        // })
+        this.loadAjax();
 
     },
     renderAppBox : function(data){
         var html = Template.appBox(data);
         console.log(html);
+    },
+
+    loadAjax:function () {
+        getAppdetail({},{
+            success:function (req) {
+                
+            }
+        })
     }
+});
+
+$(function () {
+    var appDetail = new Main()
 });
