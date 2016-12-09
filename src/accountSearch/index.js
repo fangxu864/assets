@@ -155,7 +155,7 @@ var accountSearch={
             $("#trader_inp").attr({
                 "data-id":"",
                 "data-dname":"",
-                "placeholder":"请输入账号/商户名称"
+                "placeholder":"请输入商户名称/ID"
             }).val("")
         });
         //查询按钮点击
