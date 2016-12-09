@@ -2,7 +2,7 @@ body{
     padding:0;
 }
 @import "../common/scss/base";
-@import "scss/details";
+@import "scss/details.scss";
 
 #PageMainRightContainer{
     background:#efefef;
@@ -164,3 +164,4 @@ body{
     left: -2px;
     top: -2px;
 }
+

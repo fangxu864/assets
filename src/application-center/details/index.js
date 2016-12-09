@@ -4,7 +4,8 @@
  * Description: ""
  */
 require("./index.scss");
-$(".detail").append(require("./tpl/details.tpl"));
+console.log(1);
+$(".section-appdetails").empty().append(require("./tpl/details.tpl"));
 var Template = {
     appBox : PFT.Util.ParseTemplate(require("./tpl/details.tpl"))
 };
