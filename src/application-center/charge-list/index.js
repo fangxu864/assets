@@ -8,17 +8,37 @@ require("./index.scss");
 var Pagination = require("COMMON/modules/pagination-x");
 
 var Template = {
-	appBox : PFT.Util.ParseTemplate(require("./tpl/app-box.tpl"))
+	appBox : PFT.Util.ParseTemplate(require("./tpl/tr-charge.xtpl"))
 };
 
 var Main = PFT.Util.Class({
 	init : function(){
-		this.renderAppBox({
-			id : "121",
-			name : "微商城",
-			iconCls : "sMall",
-			priceText : ""
-		});
+		this.renderAppBox([
+			{
+				appId : "121",
+				appName : "微商城1",
+				payMode : "月",
+				chargePerCycle : "111",
+				startTime: '2016-01-01',
+				endTime: '2017-01-01'
+			},
+			{
+				appId : "122",
+				appName : "微商城2",
+				payMode : "月",
+				chargePerCycle : "111",
+				startTime: '2016-01-01',
+				endTime: '2017-01-01'
+			},
+			{
+				appId : "123",
+				appName : "微商城3",
+				payMode : "月",
+				chargePerCycle : "111",
+				startTime: '2016-01-01',
+				endTime: '2017-01-01'
+			}
+		]);
 
 		this.pagination = new Pagination({
 	        container : "#pagination",  //必须，组件容器id
@@ -38,8 +58,8 @@ var Main = PFT.Util.Class({
 	},
 
 	renderAppBox : function(data){
-		var html = Template.appBox(data);
-		// console.log(html);
+		var html = Template.appBox({ data: data });
+		$('#tbCharge').children('tbody').html(html);
 	}
 });
 
