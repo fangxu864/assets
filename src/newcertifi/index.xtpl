@@ -330,3 +330,4 @@
 <%}%>
 <div id="formLoading" style="display:none" class="formLoading"><div class="con"><img src="http://www.12301.cc/images/icons/gloading.gif" alt=""/><span class="t">正在保存...</span></div></div>
 </div>
+<script type="text/javascript" src="js/membercard_ren.js"></script> 
