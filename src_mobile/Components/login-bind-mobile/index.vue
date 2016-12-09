@@ -24,7 +24,7 @@
             <div class="dialog_mask" v-if="dialogStatus"></div>
             <div class="dialog_con"  v-if="dialogStatus">
                 <p class="tips">微商城仅开放给散客进行快速购票，您手机绑定的是平台用户，您可以选择：</p>
-                <a v-if="isWXBrowser" href="index.html"><p class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p></a>
+                <p v-if="isWXBrowser" @click="onWxTest" class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p>
                 <a href="../mall/login.html"><p class="href">使用账号密码登录到个人中心<span class="arrow">》</span></p></a>
                 <p class="btn_close" @click="onDialogMaskClick" style="text-align: center">关闭</p>
             </div>
@@ -112,6 +112,43 @@
                     //请求完成的处理
                     if(status=="timeout"){
                         alert("请求超时")
+                    }
+                },
+                error: function() {
+                    //请求出错处理
+                }
+            });
+            },
+            onWxTest(e){
+                var tarBtn = e.target;
+                var Alert = this.Alert;
+                $.ajax({
+                url: "http://www.12301.cc/r/mall_Member/resellerUseSankeAccountLogin/",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: {},    //参数值
+                type: "POST",   //请求方式
+                timeout:10000,   //设置超时 10000毫秒
+                beforeSend: function() {
+                    //请求前的处理
+                    $(tarBtn).html("跳转中，请稍候..." + "<span class='arrow'>》</span>")
+                },
+                success: function(res) {
+                    //请求成功时处理
+                    if(res.code == 200){
+                        if( res.data.url && res.data.url != "" ){
+                            window.location.href = res.data.url ;
+                        }else{
+                             Alert(res.msg);
+                        }
+                    }else if(res.code == 401){
+                        Alert(res.msg)
+                    }
+                },
+                complete: function(res,status) {
+                    //请求完成的处理
+                    if(status=="timeout"){
+                        Alert("请求超时")
                     }
                 },
                 error: function() {
@@ -234,7 +271,6 @@
         left: 0;
     }
     .dialog_con{
-        height: 250px;
         width: 100%;
         bottom: 0;
         background-color: #fff;
