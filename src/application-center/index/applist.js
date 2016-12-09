@@ -14,30 +14,21 @@ var AppList = PFT.Util.Class({
 			
 	init : function(){
 
+		this.indexList = [];
+
 		this.tempbox = [];
 		this.tab = $(".tab-list li");
 
-		this.showAppList("app-list1","index");
-		this.showAppList("app-list2","index");
-		this.showAppList("app-list3","index");
-
+		this.getAppList("app-list1","index","核心功能");
+		this.getAppList("app-list2","index","营销推广");
+		this.getAppList("app-list3","index","同业对接");
+		this.getAppList("app-list3","index","会员一卡通");
 
 	},
 
-	showAppList : function(ulClassName,BtnName,CacheData){ //传入动态生成内容的父ul的类名或按钮名
+	getAppList : function(ulClassName,BtnName,listTitle){ //传入动态生成内容的父ul的类名或按钮名
 
 		var that = this;
-		var listTitle = "";
-
-		if(BtnName == "newOnline"){
-			listTitle = "新上线";			
-		}else if(BtnName == "unopend"){
-			listTitle = "未开通";			
-		}else if(BtnName == "opend"){
-			listTitle = "已开通";			
-		}else{
-			listTitle = "核心功能";
-		}
 
 		GetListAjax({
 		    loading : function(){
@@ -47,27 +38,17 @@ var AppList = PFT.Util.Class({
 		            className : "loading"
 		        });
 
-		        if( CacheData == undefined ){ //当没有缓存的时候loading
-		        	$("#tabCon").html(loadingHtml);	
-		        }
+		        $("#tabCon").html(loadingHtml);
 		        
 		    },
 		    complete : function(){
 
-		    	if( CacheData == undefined ){ //当没有缓存的时候loading
-		        	$(".loading").remove();	
-		        }
+		        $(".loading").remove();
 		    	
 		    },
 		    success : function(data){
 
-		    	if( CacheData != undefined && CacheData.length>0 ){
-		    		var list = CacheData;
-		    		$("#tabCon").html("");
-		    	}else{
-		    		var list = data.list;
-		    	}
-
+		    	var list = data.list;
 		        var code = data.code;
 		        var msg = data.msg;
 
@@ -89,25 +70,31 @@ var AppList = PFT.Util.Class({
 		tarBtn.siblings().removeClass("active");
 		var nowId = tarBtn.attr("id");
 		if( nowId == "indexTab"){ //首页
-			this.init();  //重新发请求并清空tempbox
+
+			//不用重新请求，利用缓存tempbox
+			$("#tabCon").html("");
+			this.appendList(this.tempbox[0],"核心功能","app-list1","index");
+			this.appendList(this.tempbox[1],"营销推广","app-list2","index");
+			this.appendList(this.tempbox[2],"同业对接","app-list3","index");
+			this.appendList(this.tempbox[3],"会员一卡通","app-list4","index");
+
 		}
+
+		//以下代码有bug，重复点tab会变多 //原因应该是tempbox变多了
 		if( nowId == "newOnlineTab"){ //新上线
 			var CacheData = this.handleTempBox("newOnline");
-			// this.showAppList("app-list1","newOnline",CacheData);
 			$("#tabCon").html("");
 			var listTitle = "新上线";
 			this.appendList(CacheData,listTitle,"app-list1","newOnline");
 		}
 		if( nowId == "unopendTab"){ //未开通
 			var CacheData = this.handleTempBox("unopend");
-			// this.showAppList("app-list1","unopend",CacheData);	
 			$("#tabCon").html("");
 			var listTitle = "未开通";
 			this.appendList(CacheData,listTitle,"app-list1","unopend");
 		}
 		if( nowId == "opendTab"){ //已开通
 			var CacheData = this.handleTempBox("opend");
-			// this.showAppList("app-list1","opend",CacheData);
 			$("#tabCon").html("");
 			var listTitle = "已开通";
 			this.appendList(CacheData,listTitle,"app-list1","opend");
@@ -119,9 +106,6 @@ var AppList = PFT.Util.Class({
 	handleTempBox : function(type){ //根据不同情况处理首页缓存并返回
 
 		if(type == "newOnline" && this.tempbox.length > 0){
-
-			console.log("处理新上线缓存");
-			console.log(this.tempbox);
 
 			var newData = [];
 
@@ -137,15 +121,11 @@ var AppList = PFT.Util.Class({
 
 			}
 
-			console.log(newData);
 			return newData;
 
 		}
 
 		if(type == "unopend" && this.tempbox.length > 0){
-
-			console.log("处理未开通缓存");
-			console.log(this.tempbox);
 
 			var newData = [];
 
@@ -161,15 +141,11 @@ var AppList = PFT.Util.Class({
 
 			}
 
-			console.log(newData);
 			return newData;
 
 		}
 
 		if(type == "opend" && this.tempbox.length > 0){
-
-			console.log("处理未开通缓存");
-			console.log(this.tempbox);
 
 			var newData = [];
 
@@ -185,7 +161,6 @@ var AppList = PFT.Util.Class({
 
 			}
 
-			console.log(newData);
 			return newData;
 
 		}
@@ -275,7 +250,7 @@ var AppList = PFT.Util.Class({
         }
        	listbox.html(temp);
 
-       	if(BtnName == "index"){ //缓存首页数据
+       	if( BtnName == "index" ){ //缓存首页数据
        		this.tempbox.push(list);	
        	}
 
