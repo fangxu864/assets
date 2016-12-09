@@ -8,18 +8,11 @@ require("./index.scss");
 var Pagination = require("COMMON/modules/pagination-x");
 
 var Template = {
-	appBox : PFT.Util.ParseTemplate(require("./tpl/app-box.tpl"))
+	appBox : PFT.Util.ParseTemplate(require("./tpl/tr-app.xtpl"))
 };
 
 var Main = PFT.Util.Class({
 	init : function(){
-		this.renderAppBox({
-			id : "121",
-			name : "微商城",
-			iconCls : "sMall",
-			priceText : ""
-		});
-
 		this.pagination = new Pagination({
 	        container : "#pagination",  //必须，组件容器id
 	        count : 7,                //可选  连续显示分页数 建议奇数7或9
@@ -33,13 +26,35 @@ var Main = PFT.Util.Class({
 		    // totalPage :   当前共有几页
 
 		});
+
+		this.renderAppBox([
+			{
+				id : "121",
+				appname : "微商城1",
+				isFree : true,
+				daysFreeTrial : 30,
+				appRecommend: '营销活动、优惠券',
+				appDesc: '微商城微商城微商城微商城微商城微商城微商城微商城微商城微商城'
+			},
+			{
+				id : "121",
+				appname : "微商城2",
+				isFree : true,
+				daysFreeTrial : 30,
+				appRecommend: '营销活动、优惠券',
+				appDesc: '微商城微商城微商城微商城微商城微商城微商城微商城微商城微商城'
+			}
+		]);
+
+
 		this.pagination.render({current: 1, total: 10});
 
 	},
 
 	renderAppBox : function(data){
-		var html = Template.appBox(data);
-		// console.log(html);
+		var html = Template.appBox({data:data});
+
+		$('#tbApp tbody').append(html);
 	}
 });
 

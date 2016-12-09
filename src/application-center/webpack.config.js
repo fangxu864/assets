@@ -18,7 +18,9 @@ var config = require("../../task-webpack/config")({
         //应用中心 - 应用属性配置
         "appcenter_appsetting" : "./src/application-center/app-setting/index.js",
         //应用中心 - 应用费用设置
-        "appcenter_chargesetting" : "./src/application-center/charge-setting/index.js"
+        "appcenter_chargesetting" : "./src/application-center/charge-setting/index.js",
+        //应用中心 - 模块列表
+        "appcenter_applist" : "./src/application-center/app-list/index.js"
 	},
 	output : output,
 	plugins : plugins

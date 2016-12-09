@@ -8,105 +8,46 @@ body{
     background:#efefef;
 }
 
-.section-applist {
-    padding: 24px;
+.section {
     border: 1px solid #e5e5e5;
-    background-color: #EFEFEF;
+    background-color: #fff;
+}
+.section-appadmin .section-con {
+    padding: 35px 50px;
 }
 
-.topad-wrap {
-    position: relative;
+.app-panel {
     margin-bottom: 15px;
 }
-.topad-wrap img {
-    display:block;
-    width: 100%;
-}
-
-.tab {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-.tab-list:after {
-    content: '';
+.app-panel .app-panel-header:after {
+    content:'';
     display: table;
     clear: both;
-    height: 0;
 }
-.tab-list li {
+.app-panel .app-panel-header {
+    border-bottom: 2px solid #2a97d8;
+}
+.app-panel .app-panel-header .app-panel-title {
     float: left;
-    padding: 10px 15px;
-    margin-right: 10px;
-    border-bottom: 2px solid transparent;
-    color: #737373;
-    font-size: 12px;
-    line-height: 24px;
-    white-space: nowrap;
-}
-.tab-list li.active {
-    border-bottom: 2px solid #ee6d33;
-    font-size: 14px;
-    color: #313131;
-}
-
-.app-class {
-    font-size: 24px;
-}
-.app-list-wrap {
-
-}
-.app-list {
-    margin-right: -20px;
-}
-.app-list li {
-    position: relative;
-    float: left;
-    width: 240px;
-    margin-right: 20px;
-    margin-bottom: 25px;
-}
-.app-list .app-item {
-    padding: 19px 14px;
-    border: 1px solid #eaeaea;
-    background-color: #fff;
-    line-height: 1.5;
-}
-.app-list .app-item:hover {
-    padding: 18px 13px;
-    border: 2px solid #e5beeb;
-}
-.app-list .app-item .app-left {
-    float: left;
-    width: 73px;
-    text-align: center;
-}
-.app-list .app-item .app-open {
-    font-size: 12px;
-    color: #7a7a7a;
-}
-.app-list .app-item .app-usernum {}
-.app-list .app-item .app-right {
-    margin-left: 83px;
-}
-.app-list .app-item .app-name {
+    padding: 6px 20px;
+    background-color: #2a97d8;
     font-size: 18px;
     font-weight: normal;
-    color: #2d2d2d;
+    color: #fff;
+    line-height: 30px;
 }
-.app-list .app-item .app-price {
-    font-size: 14px;
-    color: #7a7a7a;
+.app-panel .app-panel-con {
+    padding: 30px;
+    background-color: #efefef;
+    line-height: 1.5;
 }
-.app-list .app-item .app-btn-w {
-    margin-top: 10px;
+
+.form-charge .form-group {
+    width: 370px;
 }
-.app-list li .icon-expired {
-    position: absolute;
-    left: 3px;
-    top: 5px;
-}
-.app-list li .icon-new {
-    position: absolute;
-    left: -2px;
-    top: -2px;
+.double-line {
+    border-top: 1px solid #c9c9c9;
+    height: 1px;
+    background-color: #fff;
+    font-size: 0;
 }
