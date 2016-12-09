@@ -35,6 +35,63 @@ var Main = PFT.Util.Class({
         getAppdetail({},{
             success:function (req) {
                 
+                //后台数据导入
+                $("#appName").text(req.appName);
+                $("#appText").append(req.appText);
+                $("#num").text(req.appUseNumber);
+                $("#appDetails").text(req.appDetail);
+                $("#etime").text(req.etime);
+                $("#appDetails").text(req.appDetail);
+                $("#price").text(req.price);
+                
+                
+                var status = req.status;
+                if(status == 0){
+                    $("#btn").text("免费试用");
+                    //信息提示框部分初始化
+                    var btnLeft = $("#btn").offset().left;
+                    var btnTop = $("#btn").offset().top;
+                    $("#btn").mouseenter(function () {
+                        $("#message_box_close").show().offset(function (n,c) {
+                            newPos = new Object();
+                            newPos.left =  btnLeft - 20;
+                            newPos.top= btnTop - 80;
+                            return newPos
+                        })
+                    }).mouseleave(function () {
+                        $("#message_box_close").hide()
+                    });
+                }else if(status == 1){
+                    $("#btn").text("续费");
+                    //信息提示框部分初始化
+                    var btnLeft = $("#btn").offset().left;
+                    var btnTop = $("#btn").offset().top;
+                    $("#btn").mouseenter(function () {
+                        $("#message_box_open").show().offset(function (n,c) {
+                            newPos = new Object();
+                            newPos.left =  btnLeft - 50;
+                            newPos.top= btnTop - 80;
+                            return newPos
+                        })
+                    }).mouseleave(function () {
+                        $("#message_box_open").hide()
+                    });
+                }else if(status == -1){
+                    $("#btn").text("开通");
+                    //信息提示框部分初始化
+                    var btnLeft = $("#btn").offset().left;
+                    var btnTop = $("#btn").offset().top;
+                    $("#btn").mouseenter(function () {
+                        $("#message_box_close").show().offset(function (n,c) {
+                            newPos = new Object();
+                            newPos.left =  btnLeft + 30;
+                            newPos.top= btnTop - 80;
+                            return newPos
+                        })
+                    }).mouseleave(function () {
+                        $("#message_box_close").hide()
+                    });
+                }
             }
         })
     }

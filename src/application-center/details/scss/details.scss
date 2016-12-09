@@ -99,7 +99,7 @@
                 font-weight: bold;
             }
         }
-        .renewal{
+        .btn_details{
             margin-top: 2px;
             text-align: center;
             line-height: 35px;
@@ -110,6 +110,17 @@
             width: 120px;
             height: 35px;
             color: white;
+        }
+        .price_details{
+            display: inline-block;
+            color: map-get($Color,blur);
+            margin-left: 30px;
+            margin-top: 2px;
+            text-align: center;
+            line-height: 35px;
+            font-size: 14px;
+            float: left;
+            display: inline-block;
         }
     }
     .appdetails_details{
@@ -173,12 +184,10 @@
 @import "COMMON/css/base/mixin/_triangle-v2.scss";
 .message_box{
     position: absolute;
-    //display: none;
-    width: 200px;
+    display: none;
     .content{
         padding: 10px 20px;
         background: #fff5f5;
-        width: 200px;
         height: 40px;
         line-height: 18px;
         border-radius: 5px;
