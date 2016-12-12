@@ -1,0 +1,6 @@
+<% _.each( data, function( item, index ) {%>
+                <tr>
+                    <td><%=item.name%></td>
+                    <td><a href="appcenter_appstatisticsdetail.html?id=<%=item.id%>" class="btn-link mr10"><%=item.num%></a></td>
+                </tr>
+<% }) %>

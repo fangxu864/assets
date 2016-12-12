@@ -20,7 +20,9 @@ var config = require("../../task-webpack/config")({
         //应用中心 - 应用费用设置
         "appcenter_chargesetting" : "./src/application-center/charge-setting/index.js",
         //应用中心 - 模块列表
-        "appcenter_applist" : "./src/application-center/app-list/index.js"
+        "appcenter_applist" : "./src/application-center/app-list/index.js",
+        //应用中心 - 开通统计列表
+        "appcenter_appstatistics" : "./src/application-center/app-statistics/index.js"
 	},
 	output : output,
 	plugins : plugins

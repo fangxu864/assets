@@ -4,6 +4,6 @@
                     <td><%=item.mode%></td>
                     <td><%=item.fee%></td>
                     <td><%=item.begin_time%> 至 <%=item.end_time%></td>
-                    <td><a href="appcenter_chargesetting.html?id=<%=item.id%>" class="btn-link mr10">编辑</a> <a data-appid="<%=item.id%>" href="javascript:;" class="btn-link">下架</a></td>
+                    <td><a href="appcenter_chargesetting.html?id=<%=item.id%>" class="btn-link mr10">编辑</a> <a data-id="<%=item.id%>" href="javascript:;" class="btn-link btnRemoveCharge">下架</a></td>
                 </tr>
 <% }) %>

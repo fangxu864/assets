@@ -1,9 +1,0 @@
-<% _.each( data, function( item, index ) {%>
-                <tr>
-                    <td><%=item.appName%></td>
-                    <td><%=item.payMode%></td>
-                    <td><%=item.chargePerCycle%></td>
-                    <td><%=item.startTime%> 至 <%=item.endTime%></td>
-                    <td><a href="appcenter_chargesetting.html?appid=<%=item.appId%>" class="btn-link mr10">编辑</a> <a data-appid="<%=item.appId%>" href="javascript:;" class="btn-link">下架</a></td>
-                </tr>
-<% }) %>

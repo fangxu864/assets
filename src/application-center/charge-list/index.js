@@ -9,6 +9,8 @@ var ajaxUrls = require('../common/js/ajaxurl.js');
 
 var Pagination = require("COMMON/modules/pagination-x");
 
+var loading = require('COMMON/js/util.loading.pc.js');
+
 var Template = {
 	appBox : PFT.Util.ParseTemplate(require("./tpl/tr-charge.xtpl"))
 };
@@ -35,26 +37,49 @@ var Main = PFT.Util.Class({
 
 		});
 
+
+
 		_this.ajaxGetData({
 			page: 1,
 			loading: function(){
-
+				loading('',{
+					tag: 'tr',
+					id: 'listLoading',
+					colspan: 5
+				});
 			},
 			success: function(res){
+				$('#listLoading').remove();
 				_this.renderAppBox(res.data.list);
 
 				_this.pagination.render({current: 1, total: res.data.total});
 			}
 		});
+
+		$('#tbCharge').on('click', '.btnRemoveCharge', function() {
+			_this.ajaxRemoveData(this.attr('data-id'));
+		})
+	},
+	ajaxRemoveData: function(id) {
+		PFT.Util.Ajax( ajaxUrls.removeCharge , {
+			params: {
+				id: id
+			},
+			loading: function(){
+			},
+			success: function(res) {
+
+			}
+		})
 	},
 	ajaxGetData: function( opts ){
 		var fn = new Function,
 			_this = this;
+
 		var defaultOpts = {
 			page: 			1,
 			searchAppName: 	'',
 			payMode: 		null,
-			loading: 		fn,
 			success: 		fn
 		};
 
@@ -69,7 +94,7 @@ var Main = PFT.Util.Class({
 				mode: 		opts.payMode
 			},
 			loading: function(){
-				opts.loading();
+
 			},
 			success: function(res) {
 				opts.success(res);
