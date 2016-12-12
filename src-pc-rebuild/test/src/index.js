@@ -8,8 +8,8 @@ const app = dva();
 // 2. Plugins
 //app.use({});
 
-var models = require("./models");
-models(app);
+var Models = require("./models/index.js");
+Models(app);
 
 // 4. Router
 app.router(require('./router'));

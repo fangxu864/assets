@@ -1,6 +1,6 @@
 export default {
 
-  namespace: 'example',
+  namespace: 'count',
 
   state: {
       record : 0,

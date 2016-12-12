@@ -4,7 +4,8 @@
  * Description: ""
  */
 const modelArr = [
-    require("./count")
+    require("./count"),
+    require("./test"),
 ];
 export default function(app){
     modelArr.forEach(model => {
