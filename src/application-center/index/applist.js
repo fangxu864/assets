@@ -72,11 +72,12 @@ var AppList = PFT.Util.Class({
 		if( nowId == "indexTab"){ //首页
 
 			//不用重新请求，利用缓存tempbox
+			//参数BtnName传的为indexCache，不会push到tempbox中
 			$("#tabCon").html("");
-			this.appendList(this.tempbox[0],"核心功能","app-list1","index");
-			this.appendList(this.tempbox[1],"营销推广","app-list2","index");
-			this.appendList(this.tempbox[2],"同业对接","app-list3","index");
-			this.appendList(this.tempbox[3],"会员一卡通","app-list4","index");
+			this.appendList(this.tempbox[0],"核心功能","app-list1","indexCache");
+			this.appendList(this.tempbox[1],"营销推广","app-list2","indexCache");
+			this.appendList(this.tempbox[2],"同业对接","app-list3","indexCache");
+			this.appendList(this.tempbox[3],"会员一卡通","app-list4","indexCache");
 
 		}
 
@@ -249,6 +250,7 @@ var AppList = PFT.Util.Class({
 
         }
        	listbox.html(temp);
+
 
        	if( BtnName == "index" ){ //缓存首页数据
        		this.tempbox.push(list);	
