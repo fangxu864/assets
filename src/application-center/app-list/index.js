@@ -49,13 +49,13 @@ var Main = PFT.Util.Class({
 				},
 				success: function( res ) {
 
-					if(res.code == "success"){
+					if(res.code == 200){
 						_this.renderAppBox(res.data.list);
 						_this.pagination.render({current: toPage, total: res.data.total});
-					}
-					if(res.code == "fail"){
+					}else{
 						alert(res.msg);
-					}	
+					}
+					
 				}
 			})
 		});
@@ -76,13 +76,13 @@ var Main = PFT.Util.Class({
 			success: function( res ) {
 
 				console.log(res);
-				if(res.code == "success"){
+				if(res.code == 200){
 					_this.renderAppBox(res.data.list);
 					_this.pagination.render({current: 1, total: res.data.total});
-				}
-				if(res.code == "fail"){
+				}else{
 					alert(res.msg);
-				}	
+				}
+				
 				
 			}
 		})
