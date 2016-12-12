@@ -7,6 +7,8 @@ require("./index.scss");
 
 var Pagination = require("COMMON/modules/pagination-x");
 
+var appAjaxUrl = require('../common/js/ajaxurl.js')['appListInPage'];
+
 var Template = {
 	appBox : PFT.Util.ParseTemplate(require("./tpl/tr-app.xtpl"))
 };
@@ -29,52 +31,60 @@ var Main = PFT.Util.Class({
 		    // toPage :      要switch到第几页
 		    // currentPage : 当前所处第几页
 		    // totalPage :   当前共有几页
+			_this.ajaxGetData({
+				page: 			1,
+				loading: function() {
 
+				},
+				success: function( res ) {
+					_this.renderAppBox(res.data.list);
+
+					_this.pagination.render({current: 1, total: res.data.total});
+				}
+			})
 		});
 
-		PFT.Util.Ajax( ajaxUrls.appList , {
+		_this.ajaxGetData({
+			page: 			1,
+			loading: function() {
+
+			},
+			success: function( res ) {
+				_this.renderAppBox(res.data.list);
+
+				_this.pagination.render({current: 1, total: res.data.total});
+			}
+		})
+	},
+	ajaxGetData: function( opts ){
+		var fn = new Function,
+			_this = this;
+		var defaultOpts = {
+			page: 			1,
+			success: 		fn
+		};
+
+		var opts = $.extend(true, defaultOpts, opts);
+
+
+		PFT.Util.Ajax( appAjaxUrl , {
 			params: {
 				page: 		opts.page,
 				pageSize: 	_this.static.pageSize
 			},
 			loading: function(){
-
+				//加载中
 			},
 			success: function(res) {
-				_this.renderAppBox(res.data.list);
-
-				_this.pagination.render({current: 1, total: res.data.total});
+				opts.success(res);
 			}
-		});
-
-		// this.renderAppBox([
-		// 	{
-		// 		id : "121",
-		// 		appname : "微商城1",
-		// 		isFree : true,
-		// 		daysFreeTrial : 30,
-		// 		appRecommend: '营销活动、优惠券',
-		// 		appDesc: '微商城微商城微商城微商城微商城微商城微商城微商城微商城微商城'
-		// 	},
-		// 	{
-		// 		id : "121",
-		// 		appname : "微商城2",
-		// 		isFree : true,
-		// 		daysFreeTrial : 30,
-		// 		appRecommend: '营销活动、优惠券',
-		// 		appDesc: '微商城微商城微商城微商城微商城微商城微商城微商城微商城微商城'
-		// 	}
-		// ]);
-
-
-		// this.pagination.render({current: 1, total: 10});
-
+		})
 	},
 
 	renderAppBox : function(data){
 		var html = Template.appBox({data:data});
 
-		$('#tbApp tbody').append(html);
+		$('#tbApp tbody').html(html);
 	}
 });
 

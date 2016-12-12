@@ -35,7 +35,7 @@ var Main = PFT.Util.Class({
 
 		});
 
-		this.ajaxGetData({
+		_this.ajaxGetData({
 			page: 1,
 			loading: function(){
 
