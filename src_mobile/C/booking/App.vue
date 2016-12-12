@@ -296,15 +296,15 @@
                         this.onCalendarSwitchDay({date:this.calendar.date});
                     }
 
-                    ////微信自定义分享
-                    //var title = data.title;
-                    //document.title = title;
-                    //PFT.CustomWXShare.init({
-                    //    title : title,
-                    //    desc : title,
-                    //    //imgUrl : data.imgpath,  暂时还没有产品图片这个字段，需要后端提供
-                    //    link : window.location.href
-                    //});
+                    //微信自定义分享
+                    var title = data.title;
+                    document.title = title;
+                    PFT.CustomWXShare.init({
+                        title : title,
+                        desc : title,
+                        //imgUrl : data.imgpath,  暂时还没有产品图片这个字段，需要后端提供
+                        link : window.location.href
+                    });
 
 
 
