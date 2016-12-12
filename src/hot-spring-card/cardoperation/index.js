@@ -11,7 +11,7 @@ var entryCard = function () {
   this.phyInp = $(".u-input_box .u-input.phy_no");
   this.schInp = $("#sch_inp");
   this.entryDiv = $(".u-input_box,.u-div");
-  this.tbody = $("tbody");
+  this.tbody = $("#tbody");
   this.searchBtn = $(".u-sch_btn");
   this.cardEditBtn = $(".crd_operation .u-btn_edit");
   this.clearBtn = $(".g-content .u-div .clearCardInpBtn");
@@ -170,6 +170,14 @@ entryCard.prototype = {
   },
   getLid: function (e) {
     //获取关联产品
+    PFT.Util.Ajax(
+      "/r/product_Product/getLandInfoByApplyId",
+    {
+      type:"GET",
+    success:function(res){
+
+    }
+    })
     this.phyInp.val("").css("background", "#eee");
     this.entryModalbg.show();
   },
@@ -177,11 +185,11 @@ entryCard.prototype = {
     //搜索获取手牌列表
     var that = this,
       cardList = "",
-      physicsNo,
+      saler_inp=$("saler_inp").val(),
       physicsNo = this.schInp.val();
     status = $(".u-input_radio.status:checked").val();
     color = $(".u-input_radio.color:checked").val();
-
+console.log(saler_inp)
     xhrPoster = PFT.Util.Ajax(
       "/r/product_HotSpringCard/searchHotSpringCard",
       {
@@ -191,8 +199,7 @@ entryCard.prototype = {
           "status": status,
           "color": color,
           "page": page,
-
-
+          "salerid":saler_inp,
         },
         loading: function () {
           that.tbody.html("").html("<tr><td>正在加载...</td></tr>");
@@ -273,7 +280,7 @@ entryCard.prototype = {
   cardEdit: function () {
     //手牌编辑模态框
     var that = this;
-    var cardEditBtn = $("tbody .crd_operation .u-btn_edit");
+    var cardEditBtn = $("#tbody .crd_operation .u-btn_edit");
     var saveEditBtn = $(".m-modal_edit .u-modal_btn.save");
 
     cardEditBtn.on("click", function (e) {
@@ -629,8 +636,8 @@ entryCard.prototype = {
   cardDel: function (e) {
     //删除模态框
     var that = this;
-    var crd_operation = $("tbody .crd_operation");
-    var delBtn = $("tbody .crd_operation .u-btn_del")
+    var crd_operation = $("#tbody .crd_operation");
+    var delBtn = $("#tbody .crd_operation .u-btn_del")
     var delModal = $(".m-modal_bg.del");
     var confirmBtn = $(".m-modal_bg.del .confirm");
     delBtn.on("click", function (e) {
@@ -686,7 +693,7 @@ entryCard.prototype = {
   statusUpdate: function (e) {
     //状态更新
     var that = this;
-    var statusBtn = $("tbody .crd_operation .status");
+    var statusBtn = $("#tbody .crd_operation .status");
     var statusModal = $(".m-modal_bg.loss");
     var content = $(".m-modal_bg.loss .u-modal_content");
     var confirmBtn = $(".m-modal_bg.loss .confirm");
@@ -742,7 +749,7 @@ entryCard.prototype = {
   },
   fillCard: function () {
     var that = this;
-    var fillBtn = $("tbody .crd_operation .u-btn_fillCard");
+    var fillBtn = $("#tbody .crd_operation .u-btn_fillCard");
     var fillModal = $(".m-modal_bg.fillCard");
     var confirmBtn = $(".m-modal_bg.fillCard .save");
     fillBtn.on("click", function () {

@@ -18,7 +18,7 @@
                         <option value="2">粉色(女)</option>
                     </select><span class="u-span_des">刷卡时通过底色区分男女</span>
             </div>
-            <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid" data-lid="14076">福建温泉酒店</span></div>
+            <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid" data-lid="" ></span></div>
         </div>
         <div class="u-modal_btnBox">
             <a class="u-modal_btn saveNew">保存并继续录入</a>
@@ -46,7 +46,7 @@
                         <option value="1">蓝色(男)</option>
                         <option value="2">粉色(女)</option>
                     </select><span class="u-span_des gender">刷卡时通过底色区分男女</span>
-                <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid" data-lid="14076">福建温泉酒店</span></div>
+                <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid" data-lid="" ></span></div>
             </div>
         </div>
         <div class="u-modal_btnBox">
@@ -72,7 +72,9 @@
 
 <div class="m-modal_bg del">
     <div class="m-modal del">
-        <div class="u-modal_content">确定要删除？</div>
+        <div class="u-modal_content">
+        <p>是否删除该手牌？</p>
+                                <p>删除后将不可恢复。</p></div>
         <div class="u-modal_btnBox">
             <div class="u-modal_btn confirm">确定</div>
             <div class="u-modal_btn cancel close">取消</div>
