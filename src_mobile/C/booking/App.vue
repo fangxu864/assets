@@ -1,7 +1,7 @@
 <template>
     <div id="bodyContainer" class="bodyContainer" v-if="!!pageReady">
         <div class="prodTtile pad15"><span class="t" v-text="orderInfo.title"></span></div>
-        <div class="modBox">
+        <div class="modBox attr">
             <input-line
                     v-if="p_type!=='C'"
                     :id="'beginTimeInp'"
@@ -910,6 +910,11 @@
                 background:$gray90;
             }
         }
+    }
+    .modBox.attr{
+        margin-top:10px;
+        background:#f5f5f5;
+        border-top:1px solid #e5e5e5;
     }
     .tipBtnGroup{
         .tipBtn{
