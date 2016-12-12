@@ -40,11 +40,11 @@ $(function(){
                 that.lineNum    = $('.find_' + that.lid ).length;
                 that.targetLine = target.closest('tr').eq(0);
 
-                that.thisIndex = targetLine.index();
+                that.thisIndex = that.targetLine.index();
 
                 var left    = e.pageX + 20,
                     top     = e.pageY + 20,
-                    val     = targetLine.find(".ctitles").html();
+                    val     = that.targetLine.find(".ctitles").html();
                 that.dg_tips.show( 'dgf', left, top, val);
 
                 that.thisLineTop    = e.pageY;
@@ -410,7 +410,7 @@ var BatchConfigChannel = {
 
         //已进入页面获得taskID
         var taskID = $("#taskID").val();
-        console.log(taskID);
+        // console.log(taskID);
 
         if(parseInt(taskID)) {
             $("#selectUW_left_btn").text("全部产品渠道配置进度").css("background","#0797d9");
@@ -479,7 +479,7 @@ var BatchConfigChannel = {
                     $("#selectUW_left_btn").css("background","#d2d2d2").off("click");
                 },
                 success : function(res){
-                    console.log(res);
+                    // console.log(res);
                     var code = res.code;
                     var msg = res.msg;
 
@@ -569,7 +569,7 @@ var BatchConfigChannel = {
                 var code = res.code;
                 var msg = res.msg;
 
-                console.log(res);
+                // console.log(res);
 
                 if(code == 200){
 
