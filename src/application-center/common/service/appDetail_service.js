@@ -8,6 +8,7 @@ module.exports = function(params,opt){
         setTimeout(function(){
             opt.complete();
             opt.success({
+                Ishardware : false,
                 appName : "微商城",
                 appText : "微信会员可以进行微商城开店分佣，有利于微商城的传播和产品销售。",
                 appUseNumber : 3680,
@@ -16,8 +17,24 @@ module.exports = function(params,opt){
                 recommend : ["票券验证","计调下单","统计分析"],
                 etime:"2017-11-20",
                 price:"原价218元/年",
+                recomend:[{
+                    appName:"票券验证",
+                    text:"票券验证简介",
+                    state:1,
+                    useNum:8570
+                },{
+                    appName:"计调下单",
+                    text:"计调下单简介",
+                    state:0,
+                    useNum:8588
+                },{
+                    appName:"统计分析",
+                    text:"统计分析简介",
+                    state:-1,
+                    useNum:1512
+                }]
             })
-        },1000);
+        },100);
 
         return false;
     }

@@ -53,7 +53,8 @@
 <section class="recommend_details">
     <h2>推荐应用</h2>
     <div class="content_details">
-        <ul class="app-list">
+        <ul class="app-list" id="app-list">
+            <!--
             <li>
                 <div class="app-item">
                     <div class="app-left">
@@ -101,6 +102,7 @@
                 </div>
                 <i class="icon-expired"></i>
             </li>
+            -->
         </ul>
     </div>
 
