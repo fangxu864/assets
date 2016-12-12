@@ -35,6 +35,18 @@
     #indexPageFixHeader .gFixHeader .leftBtn .t{ font-size:0.35rem}
     $height : 65;
     $marginTop : 12.25;
-    #indexPageFixHeader .gFixHeader .searchBox{ display:block; width:70%; height:px2rem($height); line-height:px2rem($height); margin:px2rem($marginTop) auto 0; background:#e5f5fc; color:#92a0ab; border-radius:3px}
+    #indexPageFixHeader .gFixHeader .searchBox{
+        display:block;
+        width:70%;
+        height:px2rem($height);
+        line-height:px2rem($height);
+        margin:px2rem($marginTop) auto 0;
+        background:#e5f5fc;
+        color:#92a0ab;
+        border-radius:3px;
+
+
+
+    }
     #indexPageFixHeader .gFixHeader .searchBox .iconfont{ font-size:0.48rem; margin-right:3px; top:1px;}
 </style>

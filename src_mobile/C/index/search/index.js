@@ -71,6 +71,8 @@ var Search = PFT.Util.Class({
 			},
 			home : function(){
 				that.close();
+				$("#indexPageFixHeader .searchBox").removeClass("onFocus");
+				$("#indexPageFixHeader").removeClass("onFocus");
 			},
 			result : function(keyword){
 				if(!keyword){
@@ -79,6 +81,8 @@ var Search = PFT.Util.Class({
 				}else{
 					that.showListPage();
 				}
+				$("#indexPageFixHeader .searchBox").addClass("onFocus");
+				$("#indexPageFixHeader").addClass("onFocus");
 			}
 		});
 		this.router = new Router();

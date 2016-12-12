@@ -2,6 +2,7 @@
     <div id="bodyContainer" class="bodyContainer">
         <div id="indexPageFixHeader">
             <div class="con">
+                <a href="javascript:window.history.back()" class="topGobackBtn" id="topGobackBtn"><i class="icon-u-regular icon-jiantou"></i></a>
                 <div class="searchBox">
                     <input @click="onSearchInpFocus" type="text" name="" placeholder="输入关键词搜索" id="searchInp" class="searchInp"/>
                 </div>
@@ -47,6 +48,7 @@
             },
             onSearchInpFocus(e){
                 this.Search.router.navigate("result",{trigger: true});
+
             }
         },
         components : {
@@ -126,12 +128,35 @@
                 display:block;
                 height:100%;
                 line-height:29px;
-                background:$orange;
+                background:$blue;
                 color:#fff;
             }
             &.hide{ display:none}
         }
     }
     #indexPageFixHeader .searchBox .iconfont{ font-size:0.48rem; margin-right:3px; top:1px;}
+    #indexPageFixHeader .searchBox.onFocus{
+        border-radius:0;
+        margin-left:36px;
+    }
+    #indexPageFixHeader .topGobackBtn{
+        display:none;
+        width:36px;
+        height:33px;
+        line-height:33px;
+        text-align:center;
+        .icon-jiantou{
+            position:relative;
+            top:-1px;
+            font-size:20px;
+        }
+    }
+    #indexPageFixHeader.onFocus{
+        background:#f5f5f5;
+    }
+    #indexPageFixHeader.onFocus .topGobackBtn{
+        display:block;
+        float:left;
+    }
 
 </style>
