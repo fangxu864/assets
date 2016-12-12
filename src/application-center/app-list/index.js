@@ -13,6 +13,8 @@ var Template = {
 	appBox : PFT.Util.ParseTemplate(require("./tpl/tr-app.xtpl"))
 };
 
+var loadingHTML = require("COMMON/js/util.loading.pc.js");
+
 var Main = PFT.Util.Class({
 	static: {
 		pageSize: 10
@@ -32,14 +34,28 @@ var Main = PFT.Util.Class({
 		    // currentPage : 当前所处第几页
 		    // totalPage :   当前共有几页
 			_this.ajaxGetData({
-				page: 			1,
+				page: 			toPage,
 				loading: function() {
+					var loadingHtml = loadingHTML("请稍后...",{
+					    tag : "tr",
+					    colspan : 6,
+					    className : "loading"
+					});
+					$("table#tbApp tbody").html(loadingHtml);
+				},
 
+				complete : function(){
+					$(".loading").remove();
 				},
 				success: function( res ) {
-					_this.renderAppBox(res.data.list);
 
-					_this.pagination.render({current: 1, total: res.data.total});
+					if(res.code == "success"){
+						_this.renderAppBox(res.data.list);
+						_this.pagination.render({current: toPage, total: res.data.total});
+					}
+					if(res.code == "fail"){
+						alert(res.msg);
+					}	
 				}
 			})
 		});
@@ -47,12 +63,27 @@ var Main = PFT.Util.Class({
 		_this.ajaxGetData({
 			page: 			1,
 			loading: function() {
-
+				var loadingHtml = loadingHTML("请稍后...",{
+				    tag : "tr",
+				    colspan : 6,
+				    className : "loading"
+				});
+				$("table#tbApp tbody").html(loadingHtml);
+			},
+			complete : function(){
+				$(".loading").remove();
 			},
 			success: function( res ) {
-				_this.renderAppBox(res.data.list);
 
-				_this.pagination.render({current: 1, total: res.data.total});
+				console.log(res);
+				if(res.code == "success"){
+					_this.renderAppBox(res.data.list);
+					_this.pagination.render({current: 1, total: res.data.total});
+				}
+				if(res.code == "fail"){
+					alert(res.msg);
+				}	
+				
 			}
 		})
 	},
@@ -66,15 +97,17 @@ var Main = PFT.Util.Class({
 
 		var opts = $.extend(true, defaultOpts, opts);
 
-
 		PFT.Util.Ajax( appAjaxUrl , {
 			params: {
 				page: 		opts.page,
 				pageSize: 	_this.static.pageSize
 			},
 			loading: function(){
-				//加载中
+				opts.loading();
 			},
+			complete : function(){
+				opts.complete();	
+			},	
 			success: function(res) {
 				opts.success(res);
 			}
@@ -83,12 +116,10 @@ var Main = PFT.Util.Class({
 
 	renderAppBox : function(data){
 		var html = Template.appBox({data:data});
-
 		$('#tbApp tbody').html(html);
 	}
 });
 
 $(function(){
 	new Main();
-	// main.init();
 })
