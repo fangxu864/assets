@@ -1,5 +1,7 @@
 var entry_modal = require("./tpl/entry.xtpl");
 require("./index.scss");
+var Select = require("COMMON/modules/select");
+var Pagination = require("COMMON/modules/pagination-x");
 $(".g-index").append(entry_modal);
 
 var entryCard = function () {
@@ -40,7 +42,6 @@ entryCard.prototype = {
   bind: function () {
     var that = this;
 
-    var Pagination = require("COMMON/modules/pagination-x");
 
     pagination = new Pagination({
       container: "#paginationWrap", //必须，组件容器id
@@ -166,18 +167,12 @@ entryCard.prototype = {
     that.fillConfBtn.on("click", function (e) {
       that.onFillCardSubmit(e);
     })
-
+    $("#saler_inp").on("focus",function(e) {
+        that.getMoreLid();
+    })
   },
   getLid: function (e) {
-    //获取关联产品
-    PFT.Util.Ajax(
-      "/r/product_Product/getLandInfoByApplyId",
-    {
-      type:"GET",
-    success:function(res){
-
-    }
-    })
+   
     this.phyInp.val("").css("background", "#eee");
     this.entryModalbg.show();
   },
@@ -465,11 +460,9 @@ console.log(saler_inp)
               break;
             case 102:
               //未登录
-
               break;
             case 204:
               //参数错误
-
               break;
           }
 
@@ -502,14 +495,12 @@ console.log(saler_inp)
     var that = this;
     that.onModalSubmit(e);
     that.onCloseModalClean(e);
-
   },
 
   onModalEditSaveBtn: function (e) {
     //编辑模态框 完成编辑
     var that = this;
     that.onModalEditSubmit(e);
-
   },
 
   onModalSubmit: function (e) {
@@ -799,6 +790,46 @@ console.log(saler_inp)
       return false;
     }
   },
+ 
+   getMoreLid : function(e){
+      var select = new Select({
+                source : "/r/product_Product/getLandInfoByApplyId",
+                ajaxType : "GET",
+                ajaxParams : {
+
+                },
+                isFillContent:false,
+                filterType : "ajax",  //指定过滤方式为ajax
+                field : {
+                    id : "id",
+                    name : "title",
+                    keyword : "land_name"
+                },
+                trigger : $("#saler_inp"),
+                filter : true,
+                adaptor : function(res){
+
+                    var reslut = { code:200};
+                    console.log(reslut);
+                    var list=res.data;
+                    if(!list){
+                        console.log("1111")
+                        return reslut;
+                    }
+                    var newList=[];
+                    for(var i=0;i<list.length;i++){
+                        list[i].id="title="+list[i].title+","+"salerid="+list[i].salerid;
+                        newList.push(list[i]);
+                    }
+                     
+                    reslut["data"] = newList;
+                    return reslut;
+                }
+            });
+  }
+
+
+
 }
 
 
