@@ -16,11 +16,10 @@ var Template = {
 var loadingHTML = require("COMMON/js/util.loading.pc.js");
 
 var Main = PFT.Util.Class({
-	static: {
-		pageSize: 10
-	},
+
 	init : function(){
 		var _this = this;
+		this.pageSize = 10;
 
 		_this.pagination = new Pagination({
 	        container : "#pagination",  //必须，组件容器id
@@ -33,35 +32,66 @@ var Main = PFT.Util.Class({
 		    // toPage :      要switch到第几页
 		    // currentPage : 当前所处第几页
 		    // totalPage :   当前共有几页
-			_this.ajaxGetData({
-				page: 			toPage,
-				loading: function() {
-					var loadingHtml = loadingHTML("请稍后...",{
-					    tag : "tr",
-					    colspan : 6,
-					    className : "loading"
-					});
-					$("table#tbApp tbody").html(loadingHtml);
-				},
-
-				complete : function(){
-					$(".loading").remove();
-				},
-				success: function( res ) {
-
-					if(res.code == 200){
-						_this.renderAppBox(res.data.list);
-						_this.pagination.render({current: toPage, total: res.data.total});
-					}else{
-						alert(res.msg);
-					}
-					
-				}
-			})
+			_this.swichPage(toPage);
 		});
 
-		_this.ajaxGetData({
-			page: 			1,
+		this.swichPage(1); //初始化第一页
+
+	},
+
+	underCarriage : function(type,id){ //上架为1，下架为0
+
+		console.log("type:" + type);
+		console.log("id:" + id);
+		this.carriageAjax({
+			type : type ,
+			id : id ,
+			loading: function() {
+			},
+			complete : function(){
+			},
+			success: function( res ) {
+
+				console.log(res);
+				if(res.code == 200){
+
+				}else{
+					alert(res.msg);
+				}
+				
+			}
+		});
+
+	},
+
+	carriageAjax : function(opts){
+
+		PFT.Util.Ajax( "/r/AppCenter_ModuleConfig/underCarriage" , {
+			params: {
+				module_id : opts.id,
+				type : opts.type
+			},
+			type:"POST",
+			loading: function(){
+				opts.loading();
+			},
+			complete : function(){
+				opts.complete();	
+			},	
+			success: function(res) {
+				opts.success(res);
+			}
+		});
+
+
+	},
+
+	swichPage : function(topage){
+
+		var _this = this;
+
+		this.ajaxGetData({
+			page: 			topage,
 			loading: function() {
 				var loadingHtml = loadingHTML("请稍后...",{
 				    tag : "tr",
@@ -79,6 +109,20 @@ var Main = PFT.Util.Class({
 				if(res.code == 200){
 					_this.renderAppBox(res.data.list);
 					_this.pagination.render({current: 1, total: res.data.total});
+
+					$(".underCarriage").on("click",function(e){
+						e.preventDefault();
+						var id = $(this).attr("data-id");
+						if($(this).text() == "下架"){
+							_this.underCarriage(0,id);  //下架为0
+							$(this).text("上架");
+						}else if($(this).text() == "上架"){
+							_this.underCarriage(1,id);  //上架为1
+							$(this).text("下架");
+						}
+
+					});
+
 				}else{
 					alert(res.msg);
 				}
@@ -86,7 +130,10 @@ var Main = PFT.Util.Class({
 				
 			}
 		})
+
+
 	},
+
 	ajaxGetData: function( opts ){
 		var fn = new Function,
 			_this = this;
@@ -100,8 +147,9 @@ var Main = PFT.Util.Class({
 		PFT.Util.Ajax( appAjaxUrl , {
 			params: {
 				page: 		opts.page,
-				pageSize: 	_this.static.pageSize
+				pageSize: 	_this.pageSize
 			},
+			type:"POST",
 			loading: function(){
 				opts.loading();
 			},

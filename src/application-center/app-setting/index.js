@@ -66,6 +66,7 @@ var Main = PFT.Util.Class({
 				    if(code == 200){
 				    	alert(msg);
 				    	//跳转回页面
+				    	window.location = '/new/appcenter_applist.html';
 				    }else if(code == 400){
 				    	//弹窗错误信息
 				    	alert(msg);
@@ -90,6 +91,7 @@ var Main = PFT.Util.Class({
 						$('#daysFreeTrial').prop('disabled', false);
 					} else {
 						$('#daysFreeTrial').prop('disabled', true);
+						$('#daysFreeTrial').val("");
 					}
 				}
 			}
@@ -125,7 +127,7 @@ var Main = PFT.Util.Class({
 		}
 	},
 
-	updateModuleAjax : function(){
+	updateModuleAjax : function(opts){
 
 		var that = this;
 
@@ -143,23 +145,23 @@ var Main = PFT.Util.Class({
 		});
 		console.log(linkModule);
 
-
-		// PFT.Util.Ajax( updateModuleAjaxUrl , {
-		// 	params: {
-		// 		// id : that.id,
-		// 		// summary : ,
-		// 		// introduce : ,
-		// 		// freeDays : ,
-		// 		// linkModule :
-		// 	},
-		// 	loading: function(){
-		// 	},
-		// 	complete : function(){	
-		// 	},	
-		// 	success: function(res) {
-		// 		opts.success(res);
-		// 	}
-		// });
+		PFT.Util.Ajax( updateModuleAjaxUrl , {
+			params: {
+				module_id : that.id,
+				summary : summary,
+				introduce : introduce,
+				free_days : freeDays,
+				link_module : linkModule
+			},
+			type:"POST",
+			loading: function(){
+			},
+			complete : function(){	
+			},	
+			success: function(res) {
+				opts.success(res);
+			}
+		});
 	},
 
 	getModuleListRecommend : function(opts){
@@ -168,8 +170,9 @@ var Main = PFT.Util.Class({
 
 		PFT.Util.Ajax( getRecommendAppsAjaxUrl , {
 			params: {
-				id : that.id
+				module_id : that.id
 			},
+			type:"POST",
 			loading: function(){
 			},
 			complete : function(){	
@@ -186,8 +189,9 @@ var Main = PFT.Util.Class({
 		
 		PFT.Util.Ajax( getInfoAjaxUrl , {
 			params: {
-				id : that.id
+				module_id : that.id
 			},
+			type:"POST",
 			loading: function(){
 			},
 			complete : function(){	
@@ -206,7 +210,7 @@ var Main = PFT.Util.Class({
 		if(applist.length > 0){
 			for(var i = 0;i<applist.length;i++){
 
-				temp += '<label class="checkbox mr30" data-fn="recommendLimited" data-id='+ applist[i].id +'>'+
+				temp += '<label class="checkbox mr30" data-fn="recommendLimited" data-id='+ applist[i].module_id +'>'+
 						    '<input type="checkbox" name="" class="hide" />'+
 						    '<em class="checkbox-content">'+applist[i].name+'</em>'+
 						'</label>' ;	
@@ -224,7 +228,7 @@ var Main = PFT.Util.Class({
 			introduce = data.introduce,
 			summary = data.summary,
 			name = data.name,
-			linkInfo = data.linkInfo;  //关联模块数组
+			linkInfo = data.link_info;  //关联模块数组
 		var temp = "";
 
 		$("#moduleName").html(name);
@@ -240,7 +244,7 @@ var Main = PFT.Util.Class({
 		}
 
 		for(var i = 0;i<linkInfo.length;i++){
-			var nowid = linkInfo[i].id;
+			var nowid = linkInfo[i].module_id;
 			var nowlabel = $('#recommendApp label[data-id='+nowid+']');
 			if(nowlabel.length > 0){
 				nowlabel.addClass("checked");
