@@ -92,12 +92,10 @@ var Main = PFT.Util.Class({
 
 		//生效日期
 		$(this.dom.search.btime).on('click', function() {
-			var minEffectDate = _this.dateFormat( new Date(), 'yyyy-MM-dd'),
-				opts = {};
+			var opts = {};
 
 			opts.defaultDate = $(this).val();
 			opts.picker = $(_this.dom.search.btime);
-			opts.min = minEffectDate;
 
 			_this.showDatepicker(opts);
 		});
@@ -131,7 +129,7 @@ var Main = PFT.Util.Class({
 			type: 'POST',
 			params: {
 				page: 		opts.page,
-				size: 		_this.static.pageSize,
+				page_size: 		_this.static.pageSize,
 				btime: 		opts.beginTime,
 				etime: 		opts.endTime,
 				name: 		opts.searchAppName
@@ -174,7 +172,7 @@ var Main = PFT.Util.Class({
 
 	showDatepicker: function (opts) {
 		var defaultDate = opts.defaultDate ? opts.defaultDate : '',
-			min 		= opts.min ? opts.min : _this.dateFormat( new Date(), 'yyyy-MM-dd');
+			min 		= opts.min ? opts.min : '';
 
 		this.datepicker.show( defaultDate,{
 		    picker : opts.picker,				//必选

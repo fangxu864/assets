@@ -109,7 +109,7 @@ var Main = PFT.Util.Class({
 				btime: 		urlParams.begintime ? urlParams.begintime : '',
 				etime: 		urlParams.endtime ? urlParams.endtime : '',
 				page: 		opts.page,
-				size: 		_this.static.pageSize
+				page_size: 		_this.static.pageSize
 			},
 			loading: function(){
 				//加载中

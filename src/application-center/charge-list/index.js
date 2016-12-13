@@ -93,7 +93,7 @@ var Main = PFT.Util.Class({
 		PFT.Util.Ajax( ajaxUrls.chargeList , {
 			params: {
 				page: 		opts.page,
-				pageSize: 	_this.static.pageSize,
+				page_size: 	_this.static.pageSize,
 				name: 		opts.searchAppName,
 				mode: 		opts.payMode
 			},
