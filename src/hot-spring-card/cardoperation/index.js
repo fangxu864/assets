@@ -9,29 +9,29 @@ var entryCard = function () {
   var pagination;
   this.entryBtn = $("#entryBtn");
   this.modalBg = $(".m-modal_bg");
-  this.entryModalbg = $(".m-modal_bg.entry");
+  this.entryModalbg = $("#entryModal");
   this.phyInp = $(".u-input_box .u-input.phy_no");
   this.schInp = $("#sch_inp");
   this.entryDiv = $(".u-input_box,.u-div");
   this.tbody = $("#tbody");
-  this.searchBtn = $(".u-sch_btn");
-  this.cardEditBtn = $(".crd_operation .u-btn_edit");
+  this.searchBtn = $("#sch_btn");
+  this.cardEditBtn = $("#tbody .crd_operation .u-btn_edit");
   this.clearBtn = $(".g-content .u-div .clearCardInpBtn");
   this.modalClearBtn = $(".m-modal .u-input_box .clearCardInpBtn");
   this.modalUInp = $(".m-modal_bg .u-input");
   this.modalCardInp = $(".m-modal .u-input_box .card_no");
-  this.editModalCardInp = $(".m-modal_edit .u-input_box .card_no");
+  this.editModalCardInp = $("#editModal .u-input_box .card_no");
   this.readCardBtn = $(".m-modal .readCard");
   this.lid = $(".m-modal .lid");
   this.saveBtn = $(".m-modal_entring .save");
   this.saveNewBtn = $(".m-modal_entring .saveNew");
   this.editSaveBtn = $(".m-modal_edit .save");
-  this.delBtn = $(".crd_operation .u-btn_del");
+  this.delBtn = $("#tbody .crd_operation .u-btn_del");
   this.delConfBtn = $(".m-modal.del .confirm");
-  this.lossBtn = $(".crd_operation .u-btn_rl");
+  this.lossBtn = $("#tbody .crd_operation .u-btn_rl");
   this.lossConfBtn = $(".m-modal.loss .confirm");
   this.fillConfBtn = $(".m-modal_fillCard .save");
-
+  this.salerInp=$("#saler_inp");
   this.bind();
 }
 
@@ -41,7 +41,8 @@ var entryCard = function () {
 entryCard.prototype = {
   bind: function () {
     var that = this;
-
+    //获取关联产品
+    that.getMoreLid();
 
     pagination = new Pagination({
       container: "#paginationWrap", //必须，组件容器id
@@ -167,24 +168,34 @@ entryCard.prototype = {
     that.fillConfBtn.on("click", function (e) {
       that.onFillCardSubmit(e);
     })
-    $("#saler_inp").on("focus",function(e) {
-        that.getMoreLid();
-    })
+   
+  },
+  checkSalerId:function(){
+
   },
   getLid: function (e) {
-   
-    this.phyInp.val("").css("background", "#eee");
-    this.entryModalbg.show();
+    var that=this;
+    var salerInp=$("#saler_inp");
+    var slVal=salerInp.val();
+    var salerid=salerInp.attr("data-id");
+    var salerName=salerInp.attr("data-title")
+    if(slVal.trim().length<=0||salerid===""||slVal==="请先选择产品!"){
+      salerInp.val("请先选择产品!").focus();
+      return false;
+    }
+    that.lid.text(salerName);
+    that.phyInp.val("").css("background", "#eee");
+    that.entryModalbg.show();
   },
   getCardList: function (page) {
     //搜索获取手牌列表
     var that = this,
       cardList = "",
-      saler_inp=$("saler_inp").val(),
+      saler_inp=$("#saler_inp").attr("data-id"),
       physicsNo = this.schInp.val();
-    status = $(".u-input_radio.status:checked").val();
-    color = $(".u-input_radio.color:checked").val();
-console.log(saler_inp)
+      status = $(".u-input_radio.status:checked").val();
+      color = $(".u-input_radio.color:checked").val();
+      console.log(saler_inp)
     xhrPoster = PFT.Util.Ajax(
       "/r/product_HotSpringCard/searchHotSpringCard",
       {
@@ -287,7 +298,7 @@ console.log(saler_inp)
       var cardInp = $(".m-modal_bg.edit .card_no");
       var cardBg = $(".m-modal_bg.edit .cardBg");
       var editModal = $(".m-modal_bg.edit");
-      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no, "data-lid": '' });
+      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no});
       editModal.show();
       phyInp.val(phy_no);
       cardInp.val(card_no);
@@ -330,6 +341,7 @@ console.log(saler_inp)
     var cardInp = that.schInp;
     var physicsNo = cardInp.val();
     var cardInfo = "";
+    var salerid=$("#saler_inp").attr("data-id");
     $("#paginationWrap").hide();
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/getCardInfo",
@@ -337,6 +349,7 @@ console.log(saler_inp)
         type: "GET",
         params: {
           "physicsNo": physicsNo,
+          "salerid":salerid
         },
         loading: function () {
           that.tbody.html("").html("<tr><td>正在加载...</td></tr>");
@@ -442,12 +455,14 @@ console.log(saler_inp)
     //模态框中刷卡检验唯一性
     var that = this;
     var cardInfo = "";
+    var salerid=$("#saler_inp").attr("data-id");
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/checkPhysicsCard",
       {
         type: "GET",
         params: {
           "physicsNo": physicsNo,
+          "salerid":salerid
         },
         success: function (res) {
           switch (res.code) {
@@ -507,7 +522,7 @@ console.log(saler_inp)
     var that = this;
     var reg = /^[0-9a-zA-Z]+$/;
     var colorBg = $(".m-modal_bg .cardBg");
-    var lid = that.lid.attr("data-lid");
+    var salerid =$("#saler_inp").attr("data-id");
     var phyVal = that.phyInp.val();
     var carVal = that.modalCardInp.val();
     var color = colorBg.val();
@@ -520,7 +535,7 @@ console.log(saler_inp)
             "physicsNo": phyVal,
             "color": color,
             "visibleNo": carVal,
-            "lid": "14076"
+            "salerid": salerid
           },
           success: function (res) {
             switch (res.code) {
@@ -553,7 +568,7 @@ console.log(saler_inp)
     var oldColor = that.editSaveBtn.attr("data-oldcolor");
     var oldCard = that.editSaveBtn.attr("data-oldcrd");
     console.log(oldPhyVal + "+" + oldCard + "+" + oldColor);
-    var lid = that.lid.attr("data-lid");
+    var lid = that.salerInp.attr("data-id");
     var phyVal = phyNo.val();
     console.log(phyVal);
     var cardVal = cardNo.val();
@@ -567,7 +582,7 @@ console.log(saler_inp)
             "newPhysics": phyVal,
             "newColor": color,
             "newVisible": cardVal,
-            "lid": "14076",
+            "lid": lid,
             "oldPhysics": oldPhyVal,
             "oldVisible": oldCard,
             "oldColor": oldColor
@@ -753,7 +768,7 @@ console.log(saler_inp)
   onFillCardSubmit: function () {
     var that = this;
     var reg = /^[0-9a-zA-Z]+$/;
-    var lid = that.lid.attr("data-lid");
+    var lid = that.salerInp.attr("data-id");
     var phyVal=$(".m-modal_fillCard .u-input.phy_no").val();
     var fillCardModal=$(".m-modal_bg.fillCard");
     var oldPhyVal = that.fillConfBtn.attr("data-pn");
@@ -810,7 +825,6 @@ console.log(saler_inp)
                 adaptor : function(res){
 
                     var reslut = { code:200};
-                    console.log(reslut);
                     var list=res.data;
                     if(!list){
                         console.log("1111")
@@ -818,7 +832,8 @@ console.log(saler_inp)
                     }
                     var newList=[];
                     for(var i=0;i<list.length;i++){
-                        list[i].id="title="+list[i].title+","+"salerid="+list[i].salerid;
+                        list[i].id=list[i].salerid;
+                        list[i].title=list[i].title
                         newList.push(list[i]);
                     }
                      

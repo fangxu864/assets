@@ -1,4 +1,4 @@
-<div class="m-modal_bg entry">
+<div class="m-modal_bg entry" id="entryModal">
     <div class="m-modal m-modal_entring">
         <div class="u-modal_title">录卡 <span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
@@ -18,7 +18,7 @@
                         <option value="2">粉色(女)</option>
                     </select><span class="u-span_des">刷卡时通过底色区分男女</span>
             </div>
-            <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid" data-lid="" ></span></div>
+            <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid" ></span></div>
         </div>
         <div class="u-modal_btnBox">
             <a class="u-modal_btn saveNew">保存并继续录入</a>
@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<div class="m-modal_bg edit">
+<div class="m-modal_bg edit" id="editModal">
     <div class="m-modal m-modal_edit">
         <div class="u-modal_title">编辑 <span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
@@ -46,7 +46,7 @@
                         <option value="1">蓝色(男)</option>
                         <option value="2">粉色(女)</option>
                     </select><span class="u-span_des gender">刷卡时通过底色区分男女</span>
-                <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid" data-lid="" ></span></div>
+                <div class="u-input_box"><span class="u-span">关联产品：</span><span class="u-span lid"  ></span></div>
             </div>
         </div>
         <div class="u-modal_btnBox">
@@ -82,7 +82,7 @@
     </div>
 </div>
 
-<div class="m-modal_bg fillCard">
+<div class="m-modal_bg fillCard" id="fillModal">
     <div class="m-modal m-modal_fillCard">
         <div class="u-modal_title">补卡 <span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
