@@ -11,18 +11,22 @@ var Pagination = require("COMMON/modules/pagination-x");
 
 var loading = require('COMMON/js/util.loading.pc.js');
 
+var Toast = require('COMMON/modules/Toast');
+
 var Template = {
-	appBox : PFT.Util.ParseTemplate(require("./tpl/tr-charge.xtpl"))
+	tplTb : PFT.Util.ParseTemplate(require("./tpl/tr-charge.xtpl")),
+	tplOption : PFT.Util.ParseTemplate(require("./tpl/option.xtpl"))
 };
 
 var Main = PFT.Util.Class({
 	static: {
-		pageSize: 10,
-		payMode: ['年','季度','月']
+		pageSize: 10
+		// payMode: ['年','季度','月']
 	},
 	init : function(){
 		var _this = this;
 
+		// 初始化分页
 		_this.pagination = new Pagination({
 	        container : "#pagination",  //必须，组件容器id
 	        count : 7,                //可选  连续显示分页数 建议奇数7或9
@@ -34,44 +38,44 @@ var Main = PFT.Util.Class({
 		    // toPage :      要switch到第几页
 		    // currentPage : 当前所处第几页
 		    // totalPage :   当前共有几页
+			_this.ajaxGetData({
+				page: toPage,
+				success: function(res){
+					_this.renderTable(res.data.list);
 
+					_this.pagination.render({current: toPage, total: res.data.total});
+				}
+			});
 		});
 
-
-
+		// 获取付费模式
+		_this.ajaxGetMode();
+		// 加载第一页
 		_this.ajaxGetData({
 			page: 1,
-			loading: function(){
-				loading('',{
-					tag: 'tr',
-					id: 'listLoading',
-					colspan: 5
-				});
-			},
 			success: function(res){
-				$('#listLoading').remove();
-				_this.renderAppBox(res.data.list);
+				_this.renderTable(res.data.list);
 
 				_this.pagination.render({current: 1, total: res.data.total});
 			}
 		});
 
-		$('#tbCharge').on('click', '.btnRemoveCharge', function() {
-			_this.ajaxRemoveData(this.attr('data-id'));
-		})
-	},
-	ajaxRemoveData: function(id) {
-		PFT.Util.Ajax( ajaxUrls.removeCharge , {
-			params: {
-				id: id
-			},
-			loading: function(){
-			},
-			success: function(res) {
+		// 搜索
+		$('#searchCharge').on('click', function() {
 
-			}
+			_this.ajaxGetData({
+				page: 1,
+				searchAppName: 	$('#searchAppName').val(),
+				payMode: 		$('#searchChargeMode').val(),
+				success: function(res){
+					_this.renderTable(res.data.list);
+
+					_this.pagination.render({current: 1, total: res.data.total});
+				}
+			});
 		})
 	},
+
 	ajaxGetData: function( opts ){
 		var fn = new Function,
 			_this = this;
@@ -79,7 +83,7 @@ var Main = PFT.Util.Class({
 		var defaultOpts = {
 			page: 			1,
 			searchAppName: 	'',
-			payMode: 		null,
+			payMode: 		'',
 			success: 		fn
 		};
 
@@ -94,16 +98,52 @@ var Main = PFT.Util.Class({
 				mode: 		opts.payMode
 			},
 			loading: function(){
-
+				loading('',{
+					tag: 'tr',
+					id: 'listLoading',
+					colspan: 5
+				});
 			},
 			success: function(res) {
-				opts.success(res);
+				$('#listLoading').remove();
+
+				if(res.code == 200) {
+					opts.success(res);
+				} else {
+					// opts.error && opts.error( res.code );
+					alert( res.msg );
+				}
+			},
+			error: function( xhr, txt ) {
+				alert( txt );
 			}
 		})
 	},
-	renderAppBox : function(data){
-		var html = Template.appBox({ data: data });
+	ajaxGetMode: function() {
+		var _this = this;
+
+		PFT.Util.Ajax( ajaxUrls.getMode , {
+			success: function(res) {
+
+				if(res.code == 200) {
+					_this.renderSelect(res.data);
+				} else {
+					// opts.error && opts.error( res.code );
+					alert( res.msg );
+				}
+			},
+			error: function( xhr, txt ) {
+				alert( txt );
+			}
+		})
+	},
+	renderTable : function( data ){
+		var html = Template.tplTb({ data: data });
 		$('#tbCharge').children('tbody').html(html);
+	},
+	renderSelect : function( data ){
+		var html = Template.tplOption({ data: data });
+		$('#searchChargeMode').append(html);
 	}
 });
 

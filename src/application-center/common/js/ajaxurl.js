@@ -1,6 +1,8 @@
 module.exports = {
     //付费页面 - 资费列表
     chargeList: '/r/AppCenter_ModuleConfig/tariffAlloca',
+    //付费界面 - 付费模式
+    getMode:    '/r/AppCenter_ModuleList/payModeInfo',
     //付费页面 - 应用中心费用配置页面的 下架功能
     removeCharge: '/r/AppCenter_ModuleConfig/underCarriage',
 
