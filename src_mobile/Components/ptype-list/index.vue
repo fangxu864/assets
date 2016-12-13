@@ -98,4 +98,8 @@
     #ptypeListContainer .ptypeBox.C .iconBox{ background:#64cd3f}
     #ptypeListContainer .ptypeBox.F .iconBox{ background:#f37777}
     #ptypeListContainer .ptypeBox.H .iconBox{ background:#e05a9f}
+
+    #ptypeListContainer .ptypeBox.C .iconBox i{ font-size:0.6rem}
+    #ptypeListContainer .ptypeBox.H .iconBox i{ font-size:0.75rem}
+    #ptypeListContainer .ptypeBox.F .iconBox i{ font-size:0.75rem}
 </style>
