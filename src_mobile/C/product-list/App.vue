@@ -25,15 +25,12 @@
                             <template v-if="!item.type">
                                 <a href="pdetail.html?lid={{item.lid}}&ptype={{filterParams.type}}&topic={{filterParams.topic}}" class="con">
                                     <div class="photoBox">
-                                        <image-loador :src="item.imgpath" :height="100" :fixed="true"></image-loador>
+                                        <image-loador :src="item.imgpath" :height="imgHeight" :fixed="true"></image-loador>
+                                        <p class="title gtextoverflow">{{item.title}}</p>
                                     </div>
                                     <div class="bCon">
-                                        <p class="title gtextoverflow">{{item.title}}</p>
-                                        <div class="bb">
-                                            <span class="price"><i class="yen">&yen;</i><span class="num">{{item.jsprice}}</span><i class="qi">起</i></span>
-                                            <span class="price tprice"><i class="yen">&yen;</i><span class="num">{{item.tprice}}</span></span>
-                                            <span style="display:none" class="ui-recFlag hui orign">惠</span>
-                                        </div>
+                                        <span class="price"><i class="yen">&yen;</i><span class="num">{{item.jsprice}}</span><i class="qi">起</i></span>
+                                        <span class="price tprice"><i class="yen">&yen;</i><span class="num">{{item.tprice}}</span></span>
                                     </div>
                                 </a>
                             </template>
@@ -117,6 +114,7 @@
                 scrollerHeight : "",
                 currentPage : 0,
                 totalPage : 0,
+                imgHeight : 115,
                 //搜索条件
                 filterParams : {
                     keyword : "",
@@ -356,7 +354,7 @@
     body{ background:$bgColor}
     .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:50px; overflow:hidden}
 
-    .item{ height:150px; line-height:150px; text-align:center; background:#fff; margin-bottom:10px;}
+    .item{ text-align:center; background:#fff; margin-bottom:10px;}
     .item:last-child{ margin-bottom:0}
 
     .ui-filterBar{
@@ -512,19 +510,30 @@
         }
         .itemBox:nth-child(2n+1){ margin-right:3%;}
         .itemBox > .con{ display:block; width:100%;}
-        .itemBox .photoBox{width:100%; height:100px; overflow:hidden; background-position: center; background-size: cover;
+        .itemBox .photoBox{ position:relative; width:100%; overflow:hidden; background-position: center; background-size: cover;
             font-size:0; background-position: center; background-repeat: no-repeat;}
         .itemBox .photoBox table{ width:100%; height:100%; text-align:center}
         .itemBox .photoBox table,.itemBox .photoBox table tr,.itemBox .photoBox table td{ width:100%; height:100%; font-size:0}
         .itemBox .photoBox img{width: 100%;}
-        .itemBox .title{ text-align:left; font-size:12px; line-height:1.4; color:#323131}
-        .itemBox .bCon{padding: 2px 6px 10px 10px; height: 36px; background:#f0f4f5}
-        .itemBox .bb{ width:100%; line-height:1.4; overflow:hidden}
+        .itemBox .title{
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0;
+            height:26px;
+            line-height:26px;
+            text-align:left;
+            font-size:12px;
+            color:#fff;
+            padding-left:5px;
+            background:rgba(0,0,0,0.5);
+        }
+        .itemBox .bCon{padding:0 5px; height:30px; line-height:30px; overflow:hidden; background:#f0f4f5}
         .itemBox .price{ float:left;}
         .itemBox .price.tprice{ float:right; text-decoration:line-through; color:#999}
         .itemBox .price.tprice .yen{ color:#999}
         .itemBox .ui-recFlag{width: 14px; height: 14px; font-size: 12px; float:right; margin-left:3px;  -webkit-transform: scale(0.95);}
-        .itemBox .price{ font-size:16px; margin-top: 2px; color:#F07845; padding-left:1px}
+        .itemBox .price{ font-size:16px; color:#F07845; padding-left:1px}
         .itemBox .price .yen{ font-size:12px; color: #F07845; margin-right: 2px;}
         .itemBox .price .qi{ font-size:14px; color: #8a8a8a; margin-left: 2px;}
 
