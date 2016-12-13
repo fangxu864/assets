@@ -50,13 +50,16 @@
         </div>
         <div id="filterBar" class="filterBar ui-filterBar" :class="{hide:filterBarHide}">
             <div class="con ui-flex">
-                <a id="switchTopicBtn" @click="onSwitchTopicBtnClick" href="javascript:void(0)" style="display:block; color:#fff" class="ui-filterItem ui-filterItem-tap ui-filterItem-topic ui-flex-box topic">
+                <a id="switchTopicBtn" @click="onSwitchTopicBtnClick" href="javascript:void(0)" style="display:block;" class="ui-filterItem ui-filterItem-tap ui-filterItem-topic ui-flex-box topic">
+                    <i class="filterIcon icon-ecshop-application icon-zhuti"></i>
                     <span class="t" v-text="topicName"></span>
                 </a>
-                <a id="switchPtypeBtn" @click="onSwitchPtypeBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype" style="color:#fff">
+                <a id="switchPtypeBtn" @click="onSwitchPtypeBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype">
+                    <i class="filterIcon icon-u-regular icon-dizhi"></i>
                     <span class="t" v-text="ptypeName"></span>
                 </a>
-                <a id="switchCityBtn" @click="onSwitchCityBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-city city" style="color:#fff">
+                <a id="switchCityBtn" @click="onSwitchCityBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-city city">
+                    <i class="filterIcon icon-ecshop-application icon-suoyouchengshi"></i>
                     <span class="t" v-text="cityName"></span>
                 </a>
             </div>
@@ -351,23 +354,28 @@
 <style lang="sass">
     @import "COMMON/css/base/main";
     body{ background:$bgColor}
-    .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:47px; overflow:hidden}
+    .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:50px; overflow:hidden}
 
     .item{ height:150px; line-height:150px; text-align:center; background:#fff; margin-bottom:10px;}
     .item:last-child{ margin-bottom:0}
 
-    .ui-filterBar{ position:fixed; left:0; right:0; bottom:0; height:40px; z-index:10003; transition:all 0.4s; background:rgba(40,56,71,.90)}
+    .ui-filterBar{
+        position:fixed;
+        left:0; right:0; bottom:0; height:44px;
+        z-index:10003;
+        transition:all 0.4s;
+        /*background:rgba(40,56,71,.90)*/
+        background:#f0f4f5;
+        box-shadow:0 -1px 3px rgba(0,0,0,0.2);
+    }
     .ui-filterBar.hide{ bottom:-100px;}
-    .ui-filterBar > .con{ width:100%; height:100%; position:relative; overflow:hidden; color:#fff}
-    .ui-filterBar .ui-filterItem{ height:100%; line-height:50px; text-align:center; font-size:14px;}
+    .ui-filterBar > .con{ width:100%; height:100%; position:relative; overflow:hidden;}
+    .ui-filterBar .ui-filterItem{ height:100%; padding-top:6px; text-align:center; font-size:14px; color:#777}
     .ui-filterBar .ui-filterItem.today .iconfont.checked{ display:none}
     .ui-filterBar .ui-filterItem.today.active .iconfont{ display:none}
     .ui-filterBar .ui-filterItem.today.active .iconfont.checked{ display:inline-block}
-    .ui-filterBar .ui-filterItem .iconfont{ vertical-align:middle; margin-right:2px}
-    .ui-filterBar .ui-filterItem .t{ position:relative; top:1px; vertical-align:middle;}
-    .ui-filterBar .ui-filterItem.today .iconfont{ margin-right:0; top:1px}
-    .ui-filterBar .ui-filterItem.topic .iconfont{ margin-right:3px}
-    .ui-filterBar .ui-filterItem{ line-height:40px;}
+    .ui-filterBar .ui-filterItem .filterIcon{ }
+    .ui-filterBar .ui-filterItem .t{ position:relative; display:block; margin-top:3px}
     .ui-flex{ width:100%;
         display:-webkit-box;
         display:-webkit-flex;
@@ -510,7 +518,7 @@
         .itemBox .photoBox table,.itemBox .photoBox table tr,.itemBox .photoBox table td{ width:100%; height:100%; font-size:0}
         .itemBox .photoBox img{width: 100%;}
         .itemBox .title{ text-align:left; font-size:12px; line-height:1.4; color:#323131}
-        .itemBox .bCon{padding: 2px 6px 10px 10px; height: 36px;}
+        .itemBox .bCon{padding: 2px 6px 10px 10px; height: 36px; background:#f0f4f5}
         .itemBox .bb{ width:100%; line-height:1.4; overflow:hidden}
         .itemBox .price{ float:left;}
         .itemBox .price.tprice{ float:right; text-decoration:line-through; color:#999}

@@ -95,6 +95,17 @@
                     },
                     success : (data)=> {
                         this.state = "success";
+
+                        //开始自定义分享
+                        var title = data.title;
+                        document.title = title;
+                        PFT.CustomWXShare.init({
+                            title : title,
+                            desc : title,
+                            imgUrl : data.imgpath,
+                            link : window.location.href
+                        });
+
                         for(var i in data) this.info[i] = data[i];
                     },
                     fail : (msg)=> {

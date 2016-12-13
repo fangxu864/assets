@@ -1,7 +1,8 @@
 @import "COMMON/css/base/main";
 %fixed{
     position:fixed;
-    top:px2rem(90);
+    padding-top:px2rem(90);
+    top:0;
     right:0;
     bottom:0;
     left:0;
@@ -69,7 +70,11 @@
     }
 
 
-
+    .icon-shanchu{
+        position:relative;
+        top:1px;
+        margin-right:2px;
+    }
 
 }
 
@@ -95,4 +100,8 @@
         }
 
     }
+
+
+
+
 }

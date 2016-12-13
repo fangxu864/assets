@@ -98,8 +98,8 @@ module.exports = function(params,opt,cxt){
 		loading : function(){
 			opt.loading.call(cxt);
 		},
-		complete : function(){
-			opt.complete.call(cxt);
+		complete : function(res){
+			opt.complete.call(cxt,res);
 		},
 		success : function(res){
 			res = res || {};

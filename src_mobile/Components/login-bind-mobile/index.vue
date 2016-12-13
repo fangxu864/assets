@@ -24,7 +24,7 @@
             <div class="dialog_mask" v-if="dialogStatus"></div>
             <div class="dialog_con"  v-if="dialogStatus">
                 <p class="tips">微商城仅开放给散客进行快速购票，您手机绑定的是平台用户，您可以选择：</p>
-                <a href="index.html"><p class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p></a>
+                <a v-if="isWXBrowser" href="index.html"><p class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p></a>
                 <a href="../mall/login.html"><p class="href">使用账号密码登录到个人中心<span class="arrow">》</span></p></a>
                 <p class="btn_close" @click="onDialogMaskClick" style="text-align: center">关闭</p>
             </div>
@@ -38,6 +38,7 @@
     export default {
         data(){
             return{
+                isWXBrowser : /micromessenger/.test(navigator.userAgent.toLowerCase()),  //是否为微信内置浏览器
                 mobile : "",
                 code : "",
                 time : -1,
@@ -72,7 +73,6 @@
             onDialogMaskClick(){
                 this.dialogStatus=false
             },
-
             onMobileInpBlur(){
                 var _this=this;
                 var Alert = this.Alert;
@@ -237,8 +237,7 @@
         height: 250px;
         width: 100%;
         bottom: 0;
-        background-color: white;
-        background-color: rgba(255,255,255,0.8);
+        background-color: #fff;
         position: fixed;
         left: 0;
         p.tips{

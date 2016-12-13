@@ -1,0 +1,30 @@
+@import "COMMON/css/base/main";
+.pftui-datepicker-headCon{
+    position:relative;
+    text-align:center;
+    height:44px;
+    line-height:45px;
+    background:#57a8d8;
+    color:#fff;
+    .resultText{ font-size:14px; font-weight:bold; padding:0 70px;}
+
+    .navBtn{
+        display:block;
+        position:absolute;
+        top:50%;
+        margin-top:-10px;
+        height:18px;
+        line-height:18px;
+        color:#fff;
+        cursor:pointer;
+        .iconfont{ font-size:16px}
+        &.prevMonth{ left:35px;}
+        &.prevYear{ left:10px;}
+        &.nextMonth{ right:35px}
+        &.nextYear{ right:10px}
+        &:hover{ text-decoration:none}
+
+    }
+
+
+}

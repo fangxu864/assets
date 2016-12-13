@@ -1,0 +1,7 @@
+<div class="pftui-datepicker-headCon">
+    <span class="resultText"></span>
+    <a href="javascript:void(0)" class="navBtn monthBtn next nextMonth"><i class="icon-u-bold icon-arrowright"></i></a>
+    <a href="javascript:void(0)" class="navBtn monthBtn prev prevMonth"><i class="icon-u-bold icon-arrowright"></i></a>
+    <a href="javascript:void(0)" class="navBtn yearBtn next nextYear"><i class="icon-u-bold icon-shuangjiantou"></i></a>
+    <a href="javascript:void(0)" class="navBtn yearBtn prev prevYear"><i class="icon-u-bold icon-doubleup-copy"></i></a>
+</div>

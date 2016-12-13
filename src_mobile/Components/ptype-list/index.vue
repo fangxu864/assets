@@ -4,7 +4,9 @@
             <ul class="ptypeList">
                 <li class="ptypeBox" :class="item.identify" v-for="item in list" :data-ptype="item.identify">
                     <a class="ptypeBoxCon" href="plist.html?ptype={{item.identify}}">
-                        <div class="iconBox"><i class="icon-ptype" :class="'icon-'+icons[item.identify]"></i></div>
+                        <div class="iconBox">
+                            <i class="icon-ecshop-theme" :class="'icon-'+icons[item.identify]"></i>
+                        </div>
                         <p class="text" v-text="item.name"></p>
                     </a>
                 </li>
@@ -24,7 +26,7 @@
                 state : "",
                 icons : {
                     A : "jingqu",
-                    B : "xianlu",
+                    B : "zhoubianyou",
                     C : "jiudian",
                     F : "taopiao",
                     H : "yanchu"
@@ -57,7 +59,7 @@
 <style lang="sass">
     @import "COMMON/css/base/core/px2rem";
     @import "COMMON/css/base/iconfont.ptype.scss";
-    #ptypeListContainer{ padding:px2rem(40) px2rem(16); background:#fff; overflow:hidden}
+    #ptypeListContainer{ padding:px2rem(40) px2rem(16); border-bottom:10px solid #e5e5e5; background:#fff; overflow:hidden}
     #ptypeListContainer .state{
         height:3rem;
         line-height:3rem;
@@ -76,14 +78,15 @@
     #ptypeListContainer .ptypeBoxCon{ display:block; width:100%}
     #ptypeListContainer .ptypeBox .iconBox{
         width:px2rem(114);
-        height:px2rem(114);
+        height:px2rem(110);
         line-height:px2rem(114);
         background:#3cafd5;
-        border-radius:50%;
+        border-top-right-radius:20px;
+        border-bottom-left-radius:20px;
         color:#fff;
         margin:0 auto 0.2rem;
     }
-    #ptypeListContainer .ptypeBox .icon-ptype{
+    #ptypeListContainer .ptypeBox .icon-ecshop-theme{
         font-size:0.7rem;
     }
     #ptypeListContainer .ptypeBox .text{
