@@ -5,7 +5,7 @@
                     <td><%=item.free_day%></td>
                     <td><%=item.linkStr%></td>
                     <td><div class="text-ellipsis w300"><%=item.summary%></div></td>
-                    <td><a href="appcenter_appsetting.html?appid=<%=item.id%>" class="btn-link">修改</a></br><a href="" class="btn-link">下架</a></td>
+                    <td><a href="appcenter_appsetting.html?appid=<%=item.id%>" class="btn-link">修改</a></br><a href="" class="btn-link underCarriage" data-id=<%=item.id%>>上架</a></td>
                 </tr>
 <% }) %>
 
