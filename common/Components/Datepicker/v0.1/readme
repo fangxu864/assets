@@ -1,0 +1,32 @@
+## 日期时间组件
+
+### how to use
+
+var Datepicker = require("COMMON/modules/datepicker");
+
+建议一个页面只new一次datepicker
+
+var datepicker = new Datepicker();
+
+datepicker.show(date,{
+    picker : $elem,              //必选
+    top : 0,                     //可选，相对偏移量
+    left : 0,                    //可选，相对偏移量
+    min : "2016-09-10",          //可选，默认为空""
+    min : "2016-09-20",          //可选，默认为空""
+    todayBeforeDisable : false,  //可选，今天之前的日期都不显示
+    todayAfterDisable : false,   //可选，今天之后的日期都不显示
+})
+
+datepicker.show("2016-09-20",opt)          //只显示日期，不显示时间
+
+datepicker.show("2016-09-20 10",opt)       //只显示日期 与 小时，不显示分与秒
+
+datepicker.show("2016-09-20 10:30",opt)    //只显示日期 与 小时 分钟，不显示秒
+
+datepicker.show("2016-09-20 10:30:29",opt) //日期时间全显示
+
+
+datepicker.on("switch",function(data){ //当选中某一天或时间改变时
+    console.log(data);
+})
