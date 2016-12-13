@@ -128,7 +128,7 @@
             </div>
         </div>
     </div>
- <%}else if(list.info.com_type=="其他"){%>
+ <%}else{%>
 
   <p><span style="color: red; position: relative; top: 2px; margin-right: 5px; ">*</span>一码一证的企业不需上传代证码与税务登记证</p>
     <div class="uploadBox"> 
