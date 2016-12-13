@@ -125,7 +125,7 @@ no_use_btn.onclick=function () {
                 "currentPage":1,
                 "action":"list"
             },  //参数值
-            type: "GET",   //请求方式
+            type: "POST",   //请求方式
             beforeSend: function() {
                 //请求前的处理
             },
@@ -186,7 +186,7 @@ function dealData(req){
                         "currentPage":present_page,
                         "action":"list"
                     },  //参数值
-                    type: "GET",   //请求方式
+                    type: "POST",   //请求方式
                     beforeSend: function() {
                         //请求前的处理
                     },
