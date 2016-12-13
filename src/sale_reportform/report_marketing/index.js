@@ -3,7 +3,7 @@
  */
 
 
-require("../index.scss");
+require("./index.scss");
 var SelectShort=require("COMMON/modules/select_short");
 var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
@@ -237,22 +237,23 @@ var Book_form={
                 return reslut;
             }
         });
+        $(".filter_box .filter .line3 .td4").hide();
         //产品类型选择框
-        var select_huizong_type=new SelectShort({
-            id:"huizong_type",
-            arr:["按产品汇总","按门票汇总","按日期汇总","按分销商汇总","按预定渠道汇总","按分销商+票类汇总"],
-            callback:function (cur_opt){
-                var data={
-                    "按产品汇总":"product",
-                    "按门票汇总":"ticket",
-                    "按日期汇总":"date",
-                    "按分销商汇总":"reseller",
-                    "按预定渠道汇总":"channel",
-                    "按分销商+票类汇总":"resellerAndTicket"
-                };
-                $("#huizong_type").attr("count_way",data[cur_opt]);
-            }
-        });
+        // var select_huizong_type=new SelectShort({
+        //     id:"huizong_type",
+        //     arr:["按产品汇总","按门票汇总","按日期汇总","按分销商汇总","按预定渠道汇总","按分销商+票类汇总"],
+        //     callback:function (cur_opt){
+        //         var data={
+        //             "按产品汇总":"product",
+        //             "按门票汇总":"ticket",
+        //             "按日期汇总":"date",
+        //             "按分销商汇总":"reseller",
+        //             "按预定渠道汇总":"channel",
+        //             "按分销商+票类汇总":"resellerAndTicket"
+        //         };
+        //         $("#huizong_type").attr("count_way",data[cur_opt]);
+        //     }
+        // });
 
         //分页器部分
         this.pagination = new Pagination({
@@ -354,9 +355,9 @@ var Book_form={
         });
         //导出按钮
         $(".excel_btn").on("click",function () {
-            var api="/r/report_statistics/orderList/";
+            var api="/r/report_statistics/marketingList/";
             if(_this.isAdmin=="1"){
-                api="/r/report_statistics/adminOrderList /";
+                api="/r/report_statistics/marketingList/";
             }
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
@@ -503,24 +504,24 @@ var Book_form={
             listHtml="" ;
 
 
-        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th> <th class="th4">收入(元)</th> <th class="th5">支出(元)</th> <th class="th6">优惠券数量</th> <th class="th7">优惠金额(元)</th>';
+        theadHtml='<th class="th1">'+'日期'+'</th> <th class="th2">景区名称</th> <th class="th3">客源分类</th> <th class="th4">渠道来源</th> <th class="th5">购买票种</th> <th class="th6">付款方式</th> <th class="th7">购票数量</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
-        listHtml+='<tr> <td class="th1 heji">合计:</td>'+
-            '<td class="th2">'+sum.orderNum+'</td>'+
-            '<td class="th3">'+sum.ticketNum+'</td>'+
-            '<td class="th4">'+sum.saleMoney+'</td>'+
-            '<td class="th5">'+sum.costMoney+'</td>'+
-            '<td class="th6">'+sum.couPonNum+'</td>'+
-            '<td class="th7">'+sum.couPonMoney+'</td>'+
-            '</tr>';
+        // listHtml+='<tr> <td class="th1 heji">合计:</td>'+
+        //     '<td class="th2">'+sum.orderNum+'</td>'+
+        //     '<td class="th3">'+sum.ticketNum+'</td>'+
+        //     '<td class="th4">'+sum.saleMoney+'</td>'+
+        //     '<td class="th5">'+sum.costMoney+'</td>'+
+        //     '<td class="th6">'+sum.couPonNum+'</td>'+
+        //     '<td class="th7">'+sum.couPonMoney+'</td>'+
+        //     '</tr>';
         for(var i=0;i<list.length;i++){
-            listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
-            '<td class="th2">'+list[i].order_num+'</td>'+
-            '<td class="th3">'+list[i].ticket_num+'</td>'+
-            '<td class="th4">'+list[i].sale_money+'</td>'+
-            '<td class="th5">'+list[i].cost_money+'</td>'+
-            '<td class="th6">'+list[i].coupon_num+'</td>'+
-            '<td class="th7">'+list[i].coupon_money+'</td>'+
+            listHtml+='<tr> <td class="th1">'+list[i].order_date+'</td>'+
+            '<td class="th2">'+list[i].land+'</td>'+
+            '<td class="th3">'+list[i].com_type+'</td>'+
+            '<td class="th4">'+list[i].channel+'</td>'+
+            '<td class="th5">'+list[i].ticket+'</td>'+
+            '<td class="th6">'+list[i].pmode+'</td>'+
+            '<td class="th7">'+list[i].ticket_num+'</td>'+
             '</tr>'
         }
         $(".tablecon_box .con_tb tbody").html(listHtml);
@@ -582,9 +583,9 @@ var Book_form={
     //ajax获取数据
     ajaxGetData:function (data) {
         var _this=this;
-        var api="/r/report_statistics/orderList/";
+        var api="/r/report_statistics/marketingList/";
         if(_this.isAdmin=="1"){
-            api="/r/report_statistics/adminOrderList /";
+            api="/r/report_statistics/marketingList/";
         }
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
