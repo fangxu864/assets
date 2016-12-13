@@ -33,7 +33,7 @@ Checkbox.prototype = {
         if( ele ) {
             $(ele).removeClass('checked').children(':checkbox').prop('checked', false);
         } else {
-            $(_this.opts.selector).removeClass('checked').children(':checkbox').prop('checked', false);
+            $(this.opts.selector).removeClass('checked').children(':checkbox').prop('checked', false);
         }
     }
 }

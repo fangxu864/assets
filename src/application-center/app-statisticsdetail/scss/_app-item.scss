@@ -1,0 +1,10 @@
+.appItem{
+    position:relative;
+    float:left;
+    margin-right:15px;
+    border:1px solid map-get($Color,border);
+    background:#fff;
+    &:nth-child(3n){
+        margin-right:0;
+    }
+}

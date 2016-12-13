@@ -22,7 +22,9 @@ var config = require("../../task-webpack/config")({
         //应用中心 - 模块列表
         "appcenter_applist" : "./src/application-center/app-list/index.js",
         //应用中心 - 开通统计列表
-        "appcenter_appstatistics" : "./src/application-center/app-statistics/index.js"
+        "appcenter_appstatistics" : "./src/application-center/app-statistics/index.js",
+        //应用中心 - 开通统计详情
+        "appcenter_appstatisticsdetail" : "./src/application-center/app-statisticsdetail/index.js"
 	},
 	output : output,
 	plugins : plugins

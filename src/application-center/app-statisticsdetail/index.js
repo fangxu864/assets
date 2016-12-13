@@ -5,28 +5,26 @@
  */
 require("./index.scss");
 
-var ajaxUrls = require('../common/js/ajaxurl.js');
-
 var Pagination = require("COMMON/modules/pagination-x");
+
+var ajaxUrls = require('../common/js/ajaxurl.js');
 
 var loading = require('COMMON/js/util.loading.pc.js');
 
-var Toast = require('COMMON/modules/Toast');
-
 var Template = {
-	tplTb : PFT.Util.ParseTemplate(require("./tpl/tr-charge.xtpl")),
-	tplOption : PFT.Util.ParseTemplate(require("./tpl/option.xtpl"))
+	appBox : PFT.Util.ParseTemplate(require("./tpl/tr-statistics.xtpl"))
 };
 
 var Main = PFT.Util.Class({
 	static: {
 		pageSize: 10
-		// payMode: ['年','季度','月']
+	},
+	dom: {
+		tbStatistics: '#tbStatisticsDetail'
 	},
 	init : function(){
 		var _this = this;
 
-		// 初始化分页
 		_this.pagination = new Pagination({
 	        container : "#pagination",  //必须，组件容器id
 	        count : 7,                //可选  连续显示分页数 建议奇数7或9
@@ -39,70 +37,86 @@ var Main = PFT.Util.Class({
 		    // currentPage : 当前所处第几页
 		    // totalPage :   当前共有几页
 			_this.ajaxGetData({
-				page: toPage,
+				page: 1,
 				success: function(res){
-					_this.renderTable(res.data.list);
+					_this.renderAppBox(res.data.list);
 
 					_this.pagination.render({current: toPage, total: res.data.total});
 				}
 			});
 		});
 
-		// 获取付费模式
-		_this.ajaxGetMode();
-		// 加载第一页
 		_this.ajaxGetData({
 			page: 1,
 			success: function(res){
-				_this.renderTable(res.data.list);
+				_this.renderAppBox(res.data.list);
 
 				_this.pagination.render({current: 1, total: res.data.total});
 			}
 		});
 
-		// 搜索
-		$('#searchCharge').on('click', function() {
-
-			_this.ajaxGetData({
-				page: 1,
-				searchAppName: 	$('#searchAppName').val(),
-				payMode: 		$('#searchChargeMode').val(),
-				success: function(res){
-					_this.renderTable(res.data.list);
-
-					_this.pagination.render({current: 1, total: res.data.total});
-				}
-			});
-		})
 	},
 
+	getUrlParams: function() {
+		var url = window.location.href,
+			paramStr = url.split('?')[1],
+			paramArr = paramStr.split('&'),
+			module_id = paramArr[0].split('=')[1],
+			key,
+			begintime,
+			endtime;
+
+		if( paramArr[1] ) {
+			key = paramArr[1].split('=')[0];
+			if(key == 'btime') {
+				begintime = paramArr[1].split('=')[1];
+			} else {
+				endtime = paramArr[1].split('=')[1];
+			}
+		}
+
+		if( paramArr[2] ) {
+			key = paramArr[2].split('=')[0];
+			if(key == 'btime') {
+				begintime = paramArr[2].split('=')[1];
+			} else {
+				endtime = paramArr[2].split('=')[1];
+			}
+		}
+
+		return {
+			module_id: module_id,
+			begintime: begintime,
+			endtime: endtime
+		}
+	},
 	ajaxGetData: function( opts ){
 		var fn = new Function,
 			_this = this;
-
 		var defaultOpts = {
 			page: 			1,
-			searchAppName: 	'',
-			payMode: 		'',
 			success: 		fn
 		};
 
 		var opts = $.extend(true, defaultOpts, opts);
 
+		var urlParams = _this.getUrlParams();
 
-		PFT.Util.Ajax( ajaxUrls.chargeList , {
-			params: {
-				page: 		opts.page,
-				pageSize: 	_this.static.pageSize,
-				name: 		opts.searchAppName,
-				mode: 		opts.payMode
-			},
+		PFT.Util.Ajax( ajaxUrls.statisticsDetail , {
 			type: 'POST',
+			params: {
+				module_id: 	urlParams.module_id,
+				btime: 		urlParams.begintime ? urlParams.begintime : '',
+				etime: 		urlParams.endtime ? urlParams.endtime : '',
+				page: 		opts.page,
+				size: 		_this.static.pageSize
+			},
 			loading: function(){
+				//加载中
 				loading('',{
 					tag: 'tr',
 					id: 'listLoading',
-					colspan: 5
+					colspan: 3
 				});
 			},
 			success: function(res) {
@@ -120,32 +134,10 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
-	ajaxGetMode: function() {
-		var _this = this;
 
-		PFT.Util.Ajax( ajaxUrls.getMode , {
-			type: 'POST',
-			success: function(res) {
-
-				if(res.code == 200) {
-					_this.renderSelect(res.data);
-				} else {
-					// opts.error && opts.error( res.code );
-					alert( res.msg );
-				}
-			},
-			error: function( xhr, txt ) {
-				alert( txt );
-			}
-		})
-	},
-	renderTable : function( data ){
-		var html = Template.tplTb({ data: data });
-		$('#tbCharge').children('tbody').html(html);
-	},
-	renderSelect : function( data ){
-		var html = Template.tplOption({ data: data });
-		$('#searchChargeMode').append(html);
+	renderAppBox : function(data){
+		var html = Template.appBox({ data: data });
+		$(this.dom.tbStatistics).children('tbody').html(html);
 	}
 });
 

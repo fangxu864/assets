@@ -19,6 +19,7 @@ var Template = {
 };
 
 var Main = PFT.Util.Class({
+	appCheckboxs: null,
 	dom: {
 			paneltitle: '#panelTitle',
 			appname: 	'#appName',
@@ -71,22 +72,22 @@ var Main = PFT.Util.Class({
 		_this.datepicker = new Datepicker();
 
 		//生效日期
-		$('#effectiveDate').on('click', function() {
+		$(dom.begin).on('click', function() {
 			var minEffectDate = _this.dateFormat( new Date(), 'yyyy-MM-dd'),
 				opts = {};
 
 			opts.defaultDate = $(this).val();
-			opts.picker = $("#effectiveDate");
+			opts.picker = $(_this.dom.begin);
 			opts.min = minEffectDate;
 
 			_this.showDatepicker(opts);
 		});
-		$('#expiryDate').on('click', function() {
-			var minEffectDate = $('#effectiveDate').val() ? $('#effectiveDate').val() : _this.dateFormat( new Date(), 'yyyy-MM-dd'),
+		$(dom.end).on('click', function() {
+			var minEffectDate = $(_this.dom.begin).val() ? $(_this.dom.begin).val() : _this.dateFormat( new Date(), 'yyyy-MM-dd'),
 				opts = {};
 
 			opts.defaultDate = $(this).val();
-			opts.picker = $("#expiryDate");
+			opts.picker = $(_this.dom.end);
 			opts.min = minEffectDate;
 
 			_this.showDatepicker(opts);
@@ -189,7 +190,10 @@ var Main = PFT.Util.Class({
 
 	// 提交新增
 	ajaxSubmitAdd: function ( opts ) {
+		var _this = this;
+
 		var module_id = [];
+
 		$(this.dom.applist).children('.checked').each(function(){
 			module_id.push( $(this).children('input').val() );
 		});
@@ -224,10 +228,10 @@ var Main = PFT.Util.Class({
 			type: 'POST',
 			params: {
 				module_id: 	module_id.join(),
-				mode: 		$(this.dom.appmode).val(),
-				fee: 		$(this.dom.appcharge).val(),
-				begin: 		$(this.dom.begin).val(),
-				end: 		$(this.dom.end).val()
+				mode: 		$(_this.dom.appmode).val(),
+				fee: 		$(_this.dom.appcharge).val(),
+				begin: 		$(_this.dom.begin).val(),
+				end: 		$(_this.dom.end).val()
 			},
 			loading: function(){
 
@@ -237,11 +241,11 @@ var Main = PFT.Util.Class({
 
 					if( opts.continueAdd ) {
 						module_id = [];
-						this.appCheckboxs.unCheck();
-						$(this.dom.appmode).val('');
-						$(this.dom.appcharge).val('');
-						$(this.dom.begin).val('');
-						$(this.dom.end).val('');
+						_this.appCheckboxs.unCheck();
+						$(_this.dom.appmode).val('');
+						$(_this.dom.appcharge).val('');
+						$(_this.dom.begin).val('');
+						$(_this.dom.end).val('');
 					}
 
 					opts.success && opts.success( res.msg );
@@ -311,7 +315,7 @@ var Main = PFT.Util.Class({
 	},
 	showDatepicker: function (opts) {
 		var defaultDate = opts.defaultDate ? opts.defaultDate : '',
-			min 		= opts.min ? opts.min : _this.dateFormat( new Date(), 'yyyy-MM-dd');
+			min 		= opts.min ? opts.min : this.dateFormat( new Date(), 'yyyy-MM-dd');
 
 		this.datepicker.show( defaultDate,{
 		    picker : opts.picker,				//必选
