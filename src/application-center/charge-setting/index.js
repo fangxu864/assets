@@ -7,7 +7,7 @@ require("./index.scss");
 
 var Checkbox = require('../common/js/checkbox');
 
-var Datepicker = require("COMMON/modules/datepicker");
+var Datepicker = require("COMMON/Components/Datepicker/v0.1");
 
 var ajaxUrls = require('../common/js/ajaxurl.js');
 
@@ -26,7 +26,11 @@ var Main = PFT.Util.Class({
 			appmode: 	'#appMode',
 			appcharge: 	'#appCharge',
 			begin: 		'#effectiveDate',
-			end: 		'#expiryDate'
+			end: 		'#expiryDate',
+			btn: {
+				submit: '#btnSubmit',
+				add: 	'#btnAdd'
+			}
 	},
 	init : function(){
 		var _this = this;
@@ -42,6 +46,7 @@ var Main = PFT.Util.Class({
 			$(dom.paneltitle).html('编辑资费');
 			$(dom.appname).show();
 			$(dom.applist).hide();
+			$(dom.btn.add).hide();
 
 			_this.ajaxGetData({
 				id: id,
@@ -57,6 +62,7 @@ var Main = PFT.Util.Class({
 			$(dom.paneltitle).html('新增资费');
 			$(dom.appname).hide();
 			$(dom.applist).show();
+			$(dom.btn.add).show();
 
 			_this.ajaxGetApps();
 			_this.ajaxGetMode();
@@ -92,6 +98,7 @@ var Main = PFT.Util.Class({
 		var _this = this;
 
 		PFT.Util.Ajax( ajaxUrls.getMode , {
+			type: 'POST',
 			success: function(res) {
 
 				if(res.code == 200) {
@@ -112,6 +119,7 @@ var Main = PFT.Util.Class({
 		var _this = this;
 
 		PFT.Util.Ajax( ajaxUrls.appList , {
+			type: 'POST',
 			success: function(res) {
 
 				if(res.code == 200) {
@@ -130,6 +138,7 @@ var Main = PFT.Util.Class({
 	// 获取初始数据
 	ajaxGetData: function (opts) {
 		PFT.Util.Ajax( ajaxUrls.singleCharge , {
+			type: 'POST',
 			params: {
 				traiff_id: opts.id
 			},
@@ -149,6 +158,9 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
+
+
+
 	dateFormat: function (dateObj, fmt) {
 	    var o = {
 	        "M+": dateObj.getMonth() + 1, //月份

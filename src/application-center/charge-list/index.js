@@ -97,6 +97,7 @@ var Main = PFT.Util.Class({
 				name: 		opts.searchAppName,
 				mode: 		opts.payMode
 			},
+			type: 'POST',
 			loading: function(){
 				loading('',{
 					tag: 'tr',
@@ -123,6 +124,7 @@ var Main = PFT.Util.Class({
 		var _this = this;
 
 		PFT.Util.Ajax( ajaxUrls.getMode , {
+			type: 'POST',
 			success: function(res) {
 
 				if(res.code == 200) {
