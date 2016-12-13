@@ -30,7 +30,11 @@ Checkbox.prototype = {
         });
     },
     unCheck: function ( ele ) {
-        $(ele).removeClass('checked').children(':checkbox').prop('checked', false);
+        if( ele ) {
+            $(ele).removeClass('checked').children(':checkbox').prop('checked', false);
+        } else {
+            $(_this.opts.selector).removeClass('checked').children(':checkbox').prop('checked', false);
+        }
     }
 }
 

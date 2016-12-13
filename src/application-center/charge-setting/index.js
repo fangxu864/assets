@@ -57,7 +57,7 @@ var Main = PFT.Util.Class({
 					$(dom.begin).val( resData.begin_time );
 					$(dom.end).val( resData.end_time );
 				}
-			})
+			});
 		} else {
 			$(dom.paneltitle).html('新增资费');
 			$(dom.appname).hide();
@@ -90,6 +90,34 @@ var Main = PFT.Util.Class({
 			opts.min = minEffectDate;
 
 			_this.showDatepicker(opts);
+		});
+
+		$(dom.btn.submit).on('click', function(){
+			if( isEdit ) {
+
+				_this.ajaxSubmitEdit({
+					id: id,
+					success: function( msg ){
+						window.location.href = 'appcenter_chargeList.html';
+					}
+				});
+
+			} else {
+				_this.ajaxSubmitAdd({
+					success: function() {
+						window.location.href = 'appcenter_chargeList.html';
+					}
+				})
+			}
+		});
+
+		$(dom.btn.add).on('click', function(){
+			_this.ajaxSubmitAdd({
+				continueAdd: true,
+				success: function() {
+
+				}
+			})
 		});
 	},
 
@@ -159,7 +187,112 @@ var Main = PFT.Util.Class({
 		})
 	},
 
+	// 提交新增
+	ajaxSubmitAdd: function ( opts ) {
+		var module_id = [];
+		$(this.dom.applist).children('.checked').each(function(){
+			module_id.push( $(this).children('input').val() );
+		});
 
+		if( !module_id.length ) {
+			alert('至少选择一个应用模块');
+			return false;
+		}
+
+		if(!$(this.dom.appmode).val()) {
+			alert('请选择付费模式');
+			return false;
+		}
+
+		if(!$.trim( $(this.dom.appcharge).val() )) {
+			alert('请输入收费标准金额');
+			return false;
+		}
+
+		if(!$.trim( $(this.dom.begin).val() )) {
+			alert('请选择生效日期');
+			return false;
+		}
+
+		if(!$.trim( $(this.dom.end).val() )) {
+			alert('请选择截止时间');
+			return false;
+		}
+
+
+		PFT.Util.Ajax( ajaxUrls.addCharge , {
+			type: 'POST',
+			params: {
+				module_id: 	module_id.join(),
+				mode: 		$(this.dom.appmode).val(),
+				fee: 		$(this.dom.appcharge).val(),
+				begin: 		$(this.dom.begin).val(),
+				end: 		$(this.dom.end).val()
+			},
+			loading: function(){
+
+			},
+			success: function(res) {
+				if(res.code == 200) {
+
+					if( opts.continueAdd ) {
+						module_id = [];
+						this.appCheckboxs.unCheck();
+						$(this.dom.appmode).val('');
+						$(this.dom.appcharge).val('');
+						$(this.dom.begin).val('');
+						$(this.dom.end).val('');
+					}
+
+					opts.success && opts.success( res.msg );
+				} else {
+					// opts.error && opts.error( res.code );
+					alert( res.code + ':' + res.msg );
+				}
+			},
+			error: function( xhr, txt ) {
+				alert( txt );
+			}
+		})
+	},
+
+	// 提交修改
+	ajaxSubmitEdit: function ( opts ) {
+		if(!$(this.dom.appmode).val()) {
+			alert('请选择付费模式');
+			return false;
+		}
+
+		if(!$.trim( $(this.dom.appcharge).val() )) {
+			alert('请输入收费标准金额');
+			return false;
+		}
+
+		PFT.Util.Ajax( ajaxUrls.modCharge , {
+			type: 'POST',
+			params: {
+				id: 		opts.id,
+				mode: 		$(this.dom.appmode).val(),
+				fee: 		$(this.dom.appcharge).val(),
+				begin_time: $(this.dom.begin).val(),
+				end_time: 	$(this.dom.end).val()
+			},
+			loading: function(){
+
+			},
+			success: function(res) {
+				if(res.code == 200) {
+					opts.success && opts.success( res.msg );
+				} else {
+					// opts.error && opts.error( res.code );
+					alert( res.code + ':' + res.msg );
+				}
+			},
+			error: function( xhr, txt ) {
+				alert( txt );
+			}
+		})
+	},
 
 	dateFormat: function (dateObj, fmt) {
 	    var o = {
@@ -198,7 +331,7 @@ var Main = PFT.Util.Class({
 		$(this.dom.applist).html(html);
 
 		//应用模块选择
-		new Checkbox({
+		this.appCheckboxs = new Checkbox({
 			selector: this.dom.applist + ' .checkbox'
 		});
 	}
