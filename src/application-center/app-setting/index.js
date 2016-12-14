@@ -8,10 +8,14 @@ var Checkbox = require('../common/js/checkbox');
 var getInfoAjaxUrl = require('../common/js/ajaxurl.js')['getAppDetail'];
 var getRecommendAppsAjaxUrl = require('../common/js/ajaxurl.js')['getRecommendApps'];
 var updateModuleAjaxUrl = require('../common/js/ajaxurl.js')['updateApp'];
+var Toast = require("COMMON/modules/Toast/");
+
 var Main = PFT.Util.Class({
 	init : function(){
 
 		var that = this;
+		var toast = new Toast();
+
 
 		this.id = this.getId();//获取当前模块的id
 
@@ -52,8 +56,10 @@ var Main = PFT.Util.Class({
 		$("#confirm").on("click",function(){
 			that.updateModuleAjax({
 				loading : function(){
+					toast.show("loading","正在更新中...");
 				},
 				complete : function(){
+					toast.hide();
 				},
 				success : function(data){
 
@@ -65,7 +71,7 @@ var Main = PFT.Util.Class({
 				    	alert(msg);
 				    	//跳转回页面
 				    	window.location = '/new/appcenter_applist.html';
-				    }else if(code == 400){
+				    }else{
 				    	//弹窗错误信息
 				    	alert(msg);
 				    }
@@ -159,8 +165,10 @@ var Main = PFT.Util.Class({
 			},
 			type:"POST",
 			loading: function(){
+				opts.loading();
 			},
-			complete : function(){	
+			complete : function(){
+				opts.complete();
 			},	
 			success: function(res) {
 				opts.success(res);
