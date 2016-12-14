@@ -16,6 +16,7 @@
             <div class="absContainer">
                 <div class="col left">
                     <div>
+                        <i class="icon-ecshop-application icon-zhanghaoyue"></i>
                         <span class="t">帐户余额</span>
                         <i class="yen">&yen;</i><em class="num" v-text="info.remainMoney"></em>
                     </div>
@@ -33,7 +34,7 @@
             <div class="line-list">
                 <line-item :link="menuName=='orderList'? 'userorder.html' : ''" :class-name="menuName" v-for="(menuName,item) in info.menus">
                     <span slot="left">
-                        <i class="icon-biz" :class="getCls(menuName)"></i>
+                        <i class="icon-ecshop-application" :class="getCls(menuName)"></i>
                         <span class="t" v-text="item.name"></span>
                     </span>
                     <span slot="right">
@@ -42,6 +43,7 @@
                 </line-item>
                 <line-item :link="'index.html'">
                     <span slot="left">
+                        <i class="icon-ecshop-application icon-quguangguang"></i>
                         <span class="t" v-text="'去逛逛'"></span>
                     </span>
                     <span slot="right">
@@ -111,7 +113,7 @@
                     saleCenter : "icon-fenxiao",
                     orderList : "icon-wodedingdan",
                     coupon : "icon-youhuiquan",
-                    poster : "icon-erweima"
+                    poster : "icon-haibaotuiguang"
                 }[menuName];
             },
             onLogoutBtnClick(e){
@@ -203,6 +205,18 @@
         &.disable{ @include btn-disable}
     }
 
+    .line-list{
+        .icon-wodedingdan{ position:relative; color:$orange;}
+        .icon-youhuiquan{ position:relative; color:$green;}
+        .icon-haibaotuiguang{ position:relative; top:1px; color:$blue;}
+        .icon-quguangguang{ position:relative; top:1px; color:#db41d3;}
+    }
+
+    .icon-zhanghaoyue{
+        position:relative;
+        top:1px;
+        color:$blue;
+    }
 
 
 </style>

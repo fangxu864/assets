@@ -138,7 +138,7 @@ var MainView = Backbone.View.extend({
 			paymode : opt.paymode,
 			ordertel : opt.ordertel,
 			ordername : opt.ordername,
-			memo : opt.note,
+			memo : opt.memo,
 			pids : opt.pids
 		};
 		if(this.CardList.error) return alert(this.CardList.error+" 无法购买");

@@ -12,7 +12,8 @@ var Dialog_tuipiao=PFT.Util.Class({
     EVENTS : {
         "click #dialog_tuipiao .mask" : "close",
         "click #dialog_tuipiao .dialog_con .line .btn_no" : "close",
-        "click #dialog_tuipiao .dialog_con .line .btn_yes" : "onBtnYesClick"
+        "click #dialog_tuipiao .dialog_con .line .btn_yes" : "onBtnYesClick",
+        "click #dialog_tuipiao .dialog_con .line .btn_sendCode" : "onBtnSendCodeClick"
     },
     init : function(opt){
         var _this=this;
@@ -23,7 +24,8 @@ var Dialog_tuipiao=PFT.Util.Class({
         Con.find(".dialog_con").animate({"bottom":0+"px"},500,"swing");
         // Con.find(".mask").fadeTo("slow",0.5);
         Con.find(".mask").addClass("open");
-        this.ajaxGetVcode(ordernum);
+        // this.ajaxGetVcode(ordernum);
+        this.OrderNum=ordernum;
     },
     close:function () {
         var Con=$(this.container.selector);
@@ -31,6 +33,11 @@ var Dialog_tuipiao=PFT.Util.Class({
         // Con.find(".mask").fadeOut(500);
         Con.find(".mask").removeClass("open");
         Con.find("#dialog_tuipiao .dialog_con .line4").html("")
+    },
+    onBtnSendCodeClick:function (e) {
+        var tarBtn=$(e.currentTarget);
+        if(tarBtn.hasClass("disabled")) return false;
+        this.ajaxGetVcode(tarBtn,this.OrderNum);
     },
     onBtnYesClick:function (e) {
         var _this=this;
@@ -80,8 +87,7 @@ var Dialog_tuipiao=PFT.Util.Class({
     },
     OrderNum:"",
     //获取验证码
-    ajaxGetVcode:function (ordernum) {
-        this.OrderNum=ordernum;
+    ajaxGetVcode:function (tarBtn,ordernum) {
         var _this=$(this.container.selector);
         $.ajax({
             url: "/api/index.php?c=Mall_Member&a=sendVcodeForCancleOrder",    //请求的url地址
@@ -94,6 +100,18 @@ var Dialog_tuipiao=PFT.Util.Class({
             type: "post",   //请求方式
             beforeSend: function() {
                 //请求前的处理
+                var num=60;
+                tarBtn.addClass("disabled").text(num+"s后重发");
+                clearInterval(timer);
+                var timer=setInterval(function () {
+                    if(num>0){
+                        num--;
+                        tarBtn.text(num+"s后重发")
+                    }else{
+                        clearInterval(timer);
+                        tarBtn.removeClass("disabled").text("重新发送");
+                    }
+                },1000)
             },
             success: function(res) {
                 //请求成功时处理

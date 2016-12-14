@@ -13,7 +13,7 @@
 		<td class="col col_8">
 			<%if(!item.ifAdmin){%>
 				<% if( item.handleStatus==2){ %>
-					<a href="module/api/ThirdSystemRepairOrder.php?tempOrder=<%=item.apiOrder%>"><%=item.handleStatus_ext.actionText%></a>
+					<a href="module/api/ThirdSystemRepairOrder.php?tempOrder=<%=item.pftOrder%>"><%=item.handleStatus_ext.actionText%></a>
 			    <% }else if(item.handleStatus==1){ %>
 		         	--
 				<% }else{ %>
