@@ -19,7 +19,7 @@ var Main = PFT.Util.Class({
 
 	init : function(){
 		var _this = this;
-		this.pageSize = 10;
+		this.pageSize = 3;
 
 		_this.pagination = new Pagination({
 	        container : "#pagination",  //必须，组件容器id
@@ -50,9 +50,10 @@ var Main = PFT.Util.Class({
 			},
 			complete : function(){
 			},
-			success: function( res , type) {
+			success: function( res ) {
 
 				console.log(res);
+				console.log(type);
 				if(res.code == 200 && type == 1){
 					alert("上架成功");
 					jqThis.text("下架").css("color","#e11d2c");
@@ -60,6 +61,7 @@ var Main = PFT.Util.Class({
 					alert("下架成功");	
 					jqThis.text("上架").css("color","#2A98DA");
 				}else{
+					console.log("失败");
 					alert(res.msg);
 				}
 				
@@ -69,37 +71,24 @@ var Main = PFT.Util.Class({
 	},
 
 	carriageAjax : function(opts){
+		
 
-
-		//模拟数据
-		var debug = true;
-		if(debug == true){
-
-			var data = {};
-			data.code = 200;
-
-			setTimeout(function(){
-				opts.success(data,opts.type);
-			},500);
-
-		}
-
-		// PFT.Util.Ajax( "/r/AppCenter_ModuleConfig/underCarriage" , {
-		// 	params: {
-		// 		module_id : opts.id,
-		// 		type : opts.type
-		// 	},
-		// 	type:"POST",
-		// 	loading: function(){
-		// 		opts.loading();
-		// 	},
-		// 	complete : function(){
-		// 		opts.complete();	
-		// 	},	
-		// 	success: function(res) {
-		// 		opts.success(res);
-		// 	}
-		// });
+		PFT.Util.Ajax( "/r/AppCenter_ModuleConfig/underCarriage" , {
+			params: {
+				module_id : opts.id,
+				type : opts.type
+			},
+			type:"POST",
+			loading: function(){
+				opts.loading();
+			},
+			complete : function(){
+				opts.complete();	
+			},	
+			success: function(res) {
+				opts.success(res);
+			}
+		});
 
 
 	},
@@ -126,8 +115,10 @@ var Main = PFT.Util.Class({
 				console.log(res);
 				if(res.code == 200){
 					_this.renderAppBox(res.data.list);
-					_this.pagination.render({current: 1, total: res.data.total});
+					_this.pagination.render({current: topage, total: res.data.total});
 
+
+					//绑定上下架事件
 					$(".underCarriage").on("click",function(e){
 						e.preventDefault();
 						var jqThis = $(this);
@@ -137,7 +128,6 @@ var Main = PFT.Util.Class({
 						}else if($(this).text() == "上架"){
 							_this.underCarriage(1,id,jqThis);  //上架为1
 						}
-
 					});
 
 				}else{

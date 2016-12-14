@@ -8,8 +8,6 @@ var Checkbox = require('../common/js/checkbox');
 var getInfoAjaxUrl = require('../common/js/ajaxurl.js')['getAppDetail'];
 var getRecommendAppsAjaxUrl = require('../common/js/ajaxurl.js')['getRecommendApps'];
 var updateModuleAjaxUrl = require('../common/js/ajaxurl.js')['updateApp'];
-// var loadingHTML = require("COMMON/js/util.loading.pc.js");
-
 var Main = PFT.Util.Class({
 	init : function(){
 
@@ -74,6 +72,12 @@ var Main = PFT.Util.Class({
 
 				}
 			});
+		});
+
+		$("#cancel").on("click",function(){
+
+			window.location = '/new/appcenter_applist.html';
+
 		});
 
 
@@ -174,6 +178,7 @@ var Main = PFT.Util.Class({
 			},
 			type:"POST",
 			loading: function(){
+				opts.loading();
 			},
 			complete : function(){	
 			},	
