@@ -8,6 +8,8 @@ require("./index.scss");
 var Checkbox = require('../common/js/checkbox');
 
 var Datepicker = require("COMMON/Components/Datepicker/v0.1");
+var Toast = require('COMMON/modules/Toast');
+var toast = new Toast;
 
 var ajaxUrls = require('../common/js/ajaxurl.js');
 
@@ -20,6 +22,7 @@ var Template = {
 
 var Main = PFT.Util.Class({
 	appCheckboxs: null,
+
 	dom: {
 			paneltitle: '#panelTitle',
 			appname: 	'#appName',
@@ -33,6 +36,9 @@ var Main = PFT.Util.Class({
 				add: 	'#btnAdd'
 			}
 	},
+
+	xhr: null,
+
 	init : function(){
 		var _this = this;
 
@@ -52,7 +58,7 @@ var Main = PFT.Util.Class({
 			_this.ajaxGetData({
 				id: id,
 				success: function( resData ) {
-					$(dom.appname).html( resData.name );
+					$(dom.appname).html( resData.name ).attr( 'data-moduleid' , resData.module_id );
 					_this.ajaxGetMode( resData.mode );
 					$(dom.appcharge).val( resData.fee );
 					$(dom.begin).val( resData.begin_time );
@@ -94,25 +100,32 @@ var Main = PFT.Util.Class({
 		});
 
 		$(dom.btn.submit).on('click', function(){
+			if(_this.xhr && _this.xhr.readyState != 4 ) {
+				return false;
+			}
+
 			if( isEdit ) {
 
 				_this.ajaxSubmitEdit({
 					id: id,
 					success: function( msg ){
-						window.location.href = 'appcenter_chargeList.html';
+						// window.location.href = 'appcenter_chargeList.html';
 					}
 				});
 
 			} else {
 				_this.ajaxSubmitAdd({
 					success: function() {
-						window.location.href = 'appcenter_chargeList.html';
+						// window.location.href = 'appcenter_chargeList.html';
 					}
 				})
 			}
 		});
 
 		$(dom.btn.add).on('click', function(){
+			if(_this.xhr && _this.xhr.readyState != 4 ) {
+				return false;
+			}
 			_this.ajaxSubmitAdd({
 				continueAdd: true,
 				success: function() {
@@ -224,7 +237,7 @@ var Main = PFT.Util.Class({
 		}
 
 
-		PFT.Util.Ajax( ajaxUrls.addCharge , {
+		_this.xhr = PFT.Util.Ajax( ajaxUrls.addCharge , {
 			type: 'POST',
 			params: {
 				module_id: 	module_id.join(),
@@ -234,9 +247,11 @@ var Main = PFT.Util.Class({
 				end: 		$(_this.dom.end).val()
 			},
 			loading: function(){
-
+				toast.show( 'loading' , '正在提交中' );
 			},
 			success: function(res) {
+				toast.hide();
+
 				if(res.code == 200) {
 
 					if( opts.continueAdd ) {
@@ -262,6 +277,8 @@ var Main = PFT.Util.Class({
 
 	// 提交修改
 	ajaxSubmitEdit: function ( opts ) {
+		var _this = this;
+
 		if(!$(this.dom.appmode).val()) {
 			alert('请选择付费模式');
 			return false;
@@ -272,19 +289,22 @@ var Main = PFT.Util.Class({
 			return false;
 		}
 
-		PFT.Util.Ajax( ajaxUrls.modCharge , {
+		_this.xhr = PFT.Util.Ajax( ajaxUrls.modCharge , {
 			type: 'POST',
 			params: {
-				id: 		opts.id,
+				price_id: 	opts.id,
+				module_id: 	$(this.dom.appname).attr('data-moduleid'),
 				mode: 		$(this.dom.appmode).val(),
 				fee: 		$(this.dom.appcharge).val(),
 				begin_time: $(this.dom.begin).val(),
 				end_time: 	$(this.dom.end).val()
 			},
 			loading: function(){
-
+				toast.show( 'loading' , '正在提交中' );
 			},
 			success: function(res) {
+				toast.hide();
+
 				if(res.code == 200) {
 					opts.success && opts.success( res.msg );
 				} else {
