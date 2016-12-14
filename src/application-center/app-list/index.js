@@ -118,6 +118,15 @@ var Main = PFT.Util.Class({
 					_this.pagination.render({current: topage, total: res.data.total});
 
 
+					$(".underCarriage").each(function(i){
+						var status = $(this).attr("data-status");
+						if(status == 0){  //处于下架状态
+							$(this).text("上架").css("color","#2A98DA");
+						}else if(status == 1){ //处于上架状态
+							$(this).text("下架").css("color","#e11d2c");
+						}
+					});
+
 					//绑定上下架事件
 					$(".underCarriage").on("click",function(e){
 						e.preventDefault();
