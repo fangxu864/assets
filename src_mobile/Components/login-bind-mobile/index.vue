@@ -123,10 +123,12 @@
                 var tarBtn = e.target;
                 var Alert = this.Alert;
                 $.ajax({
-                url: "http://www.12301.cc/r/mall_Member/resellerUseSankeAccountLogin/",    //请求的url地址
+                url: "/r/Mall_Member/resellerUseSankeAccountLogin/",    //请求的url地址
                 dataType: "json",   //返回格式为json
                 async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-                data: {},    //参数值
+                data: {
+                    token : PFT.Util.getToken()
+                },    //参数值
                 type: "POST",   //请求方式
                 timeout:10000,   //设置超时 10000毫秒
                 beforeSend: function() {
@@ -137,12 +139,13 @@
                     //请求成功时处理
                     if(res.code == 200){
                         if( res.data.url && res.data.url != "" ){
-                            window.location.href = res.data.url ;
+                            window.location.href = "http://"+res.data.url ;
                         }else{
                              Alert(res.msg);
                         }
                     }else if(res.code == 401){
                         Alert(res.msg)
+                        $(tarBtn).html("无需登录以散客身份继续购票" + "<span class='arrow'>》</span>")
                     }
                 },
                 complete: function(res,status) {
@@ -153,6 +156,7 @@
                 },
                 error: function() {
                     //请求出错处理
+                      Alert("请求出错")
                 }
             });
             },
