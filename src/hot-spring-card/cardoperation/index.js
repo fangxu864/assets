@@ -32,6 +32,8 @@ var entryCard = function () {
   this.lossConfBtn = $(".m-modal.loss .confirm");
   this.fillConfBtn = $(".m-modal_fillCard .save");
   this.salerInp=$("#saler_inp");
+
+
   this.bind();
 }
 
@@ -54,8 +56,8 @@ entryCard.prototype = {
       // toPage :      要switch到第几页
       // currentPage : 当前所处第几页
       // totalPage :   当前共有几页
-      console.log(currentPage);
-      pagination.render({ current: toPage, total: totalPage });
+    //  console.log(this.currentPage);
+      pagination.render({ current: currentPage, topage:toPage });
 
       if (xhrPoster && xhrPoster.status !== 200) {
         xhrPoster.abort();
@@ -70,9 +72,17 @@ entryCard.prototype = {
 
 
 
-    //读卡自动focus,去除背景
+    //读卡自动focus,去除背景  以及判断lid是否为空
     that.entryDiv.on("click", ".readCard,#entryCard", function (e) {
+      var lid=$("#saler_inp").attr("data-id");
+        var salerName=$("#saler_inp").attr("data-title");
+      if(lid===""){
+     
+        that.checkSalerId();
+      }else{
+       // this.lid.text(salerName);
       $(this).prev("input").removeAttr("readonly").val('').focus().css("background", "#FFF");
+      }
     });
 
 
@@ -84,7 +94,12 @@ entryCard.prototype = {
 
     //录入模态框,获取关联产品
     that.entryBtn.on("click", function (e) {
+      var lid=$("#saler_inp").attr("data-id");
+      if(lid===""){
+        that.checkSalerId();
+      }else{
       that.getLid(e);
+      }
     });
 
     //编辑模态框
@@ -99,8 +114,13 @@ entryCard.prototype = {
 
     //搜索手牌列表
     that.searchBtn.on("click", function (e) {
-      that.getCardList(1);
+       var lid=$("#saler_inp").attr("data-id");
+      if(lid===""){
+        that.checkSalerId();
+      }else{ that.getCardList(1);
       that.phyInp.val("").css("background", "#eee");
+    }
+     
     });
 
     //模态框录入卡号
@@ -170,33 +190,35 @@ entryCard.prototype = {
     })
    
   },
-  checkSalerId:function(){
-
-  },
-  getLid: function (e) {
-    var that=this;
+  checkSalerId:function(){ 
     var salerInp=$("#saler_inp");
     var slVal=salerInp.val();
+   // console.log(slVal);
     var salerid=salerInp.attr("data-id");
-    var salerName=salerInp.attr("data-title")
     if(slVal.trim().length<=0||salerid===""||slVal==="请先选择产品!"){
       salerInp.val("请先选择产品!").focus();
       return false;
     }
-    that.lid.text(salerName);
+   // console.log(this.lid)
+  },
+  getLid: function (e) {
+    var that=this;
+
+     var salerName=$("#saler_inp").attr("data-title");
+    this.lid.text(salerName);
     that.phyInp.val("").css("background", "#eee");
     that.entryModalbg.show();
   },
-  getCardList: function (page) {
+  getCardList: function (currentPage) {
+    
     //搜索获取手牌列表
     var that = this,
       cardList = "",
-      saler_inp=$("#saler_inp").attr("data-id"),
+      saler_inp=$("#saler_inp").attr("data-id"),     
       physicsNo = this.schInp.val();
       status = $(".u-input_radio.status:checked").val();
       color = $(".u-input_radio.color:checked").val();
-      console.log(saler_inp)
-    xhrPoster = PFT.Util.Ajax(
+      xhrPoster = PFT.Util.Ajax(
       "/r/product_HotSpringCard/searchHotSpringCard",
       {
         type: "GET",
@@ -204,7 +226,7 @@ entryCard.prototype = {
           "physicsOrVisible": physicsNo,
           "status": status,
           "color": color,
-          "page": page,
+          "page": currentPage,
           "salerid":saler_inp,
         },
         loading: function () {
@@ -223,7 +245,7 @@ entryCard.prototype = {
                     case "1":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-lid="">'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' >'
                         + ' <a class="u-btn_edit" >编辑</a>'
                         + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                         + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
@@ -235,14 +257,15 @@ entryCard.prototype = {
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
                         + '<td class="crd_operation" >'
-                        /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' data-lid="">编辑</a>'*/
+                        +'<a class="u-btn_unbind">解绑</a>'
+                        /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' >编辑</a>'*/
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
                       break;
                     case "3":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-lid="">'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' >'
                         + ' <a class="u-btn_fillCard" >补卡</a>'
                         + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
                         + ' <a class="u-btn_del" >删除</a><br/>'
@@ -252,7 +275,7 @@ entryCard.prototype = {
                     case "4":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-lid="">'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' >'
 
                         + ' <a class="u-btn_undisable status" data-status="1">取消禁用</a>'
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
@@ -262,7 +285,8 @@ entryCard.prototype = {
 
                 });
                 that.tbody.html("").html(cardList);
-                pagination.render({ current: page ,total:res.data[0].allPage});
+                pagination.render({ current: currentPage ,topage:currentPage,total:res.data[0].allPage});
+                $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
                 that.cardEdit();
                 that.cardDel();
                 that.fillCard();
@@ -288,7 +312,8 @@ entryCard.prototype = {
     var that = this;
     var cardEditBtn = $("#tbody .crd_operation .u-btn_edit");
     var saveEditBtn = $(".m-modal_edit .u-modal_btn.save");
-
+    var salerName=$("#saler_inp").attr("data-title");
+    this.lid.text(salerName);
     cardEditBtn.on("click", function (e) {
       var parent = $(this).parent();
       var phy_no = parent.attr("data-pn");
@@ -366,7 +391,7 @@ entryCard.prototype = {
                 case "1":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                     + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-lid="">'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
                     + ' <a class="u-btn_edit" >编辑</a>'
                     + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                     + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
@@ -377,7 +402,7 @@ entryCard.prototype = {
                 case "2":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                     + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-lid="">'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
                     + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" >'
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
@@ -386,7 +411,7 @@ entryCard.prototype = {
                 case "3":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                     + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-lid="">'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
                     + ' <a class="u-btn_fillCard" >补卡</a>'
                     + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
                     + ' <a class="u-btn_del" >删除</a>'
@@ -397,7 +422,7 @@ entryCard.prototype = {
 
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                     + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-lid="">'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
 
                     + ' <a class="u-btn_undisable status" data-status="1">取消禁用</a>'
 
@@ -526,6 +551,7 @@ entryCard.prototype = {
     var phyVal = that.phyInp.val();
     var carVal = that.modalCardInp.val();
     var color = colorBg.val();
+    var currentPage=$("#paginationWrap").attr("data-curr");
     if (reg.test(phyVal, carVal)) {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/createHotSpringCard",
@@ -544,6 +570,8 @@ entryCard.prototype = {
                 PFT.Util.STip("success", res.msg, 3000, function () {
 
                 });
+
+                that.getCardList(currentPage);
                 break;
               case 400:
                 PFT.Util.STip("fail", res.msg, 3000, function () {
@@ -567,12 +595,13 @@ entryCard.prototype = {
     var oldPhyVal = that.editSaveBtn.attr("data-oldpn");
     var oldColor = that.editSaveBtn.attr("data-oldcolor");
     var oldCard = that.editSaveBtn.attr("data-oldcrd");
-    console.log(oldPhyVal + "+" + oldCard + "+" + oldColor);
+   // console.log(oldPhyVal + "+" + oldCard + "+" + oldColor);
     var lid = that.salerInp.attr("data-id");
     var phyVal = phyNo.val();
-    console.log(phyVal);
+ //   console.log(phyVal);
     var cardVal = cardNo.val();
     var color = colorBg.val();
+     var currentPage=$("#paginationWrap").attr("data-curr");
     if (reg.test(phyVal, cardVal)) {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/editCard",
@@ -582,7 +611,7 @@ entryCard.prototype = {
             "newPhysics": phyVal,
             "newColor": color,
             "newVisible": cardVal,
-            "lid": lid,
+            "salerid": lid,
             "oldPhysics": oldPhyVal,
             "oldVisible": oldCard,
             "oldColor": oldColor
@@ -595,6 +624,7 @@ entryCard.prototype = {
                 that.onCloseModalClean();
                 PFT.Util.STip("success", res.msg, 3000, function () {
                 });
+                that.getCardList(currentPage);
                 break;
               case 400:
                 PFT.Util.STip("fail", res.msg, 3000, function () {
@@ -611,7 +641,7 @@ entryCard.prototype = {
   },
   onSubmitCheck: function (entryCard) {
     var reg = /^[0-9a-zA-Z]+$/;
-    var lid = this.lid.attr("data-lid");
+    var lid = $("#saler_id").attr("data-id");
     var span_des = $(".u-span_des.card_no");
     if (reg.test(entryCard)) {
       PFT.Util.Ajax(
@@ -703,6 +733,7 @@ entryCard.prototype = {
     var statusModal = $(".m-modal_bg.loss");
     var content = $(".m-modal_bg.loss .u-modal_content");
     var confirmBtn = $(".m-modal_bg.loss .confirm");
+    
     statusBtn.on("click", function () {
       var $this = $(this);
       var phyNo = $this.parent().attr("data-pn");
@@ -718,6 +749,7 @@ entryCard.prototype = {
     var that = this;
     var physicsNo = confirmBtn.attr("data-pn");
     var statusModal = $(".m-modal_bg.loss");
+    var currentPage=$("#paginationWrap").attr("data-curr");
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/setCardStatus",
       {
@@ -726,14 +758,16 @@ entryCard.prototype = {
           "physicsNo": physicsNo,
           "status": status,
         },
-        success: function (res) {
+        loading:function(){
           statusModal.hide();
+        },
+        success: function (res) {    
           switch (res.code) {
             case 200:
               PFT.Util.STip("success", res.msg, 3000, function () {
                 //修改成功回调
               });
-              that.getCardList(1);
+              that.getCardList(currentPage);
               break;
             case 201:
               //未登录
@@ -760,7 +794,9 @@ entryCard.prototype = {
     var confirmBtn = $(".m-modal_bg.fillCard .save");
     fillBtn.on("click", function () {
       var $this = $(this).parent();
+      var oldPhyInp=$("#oldCrdInp");
       var oldPhyNo = $this.attr("data-pn");
+      oldPhyInp.val(oldPhyNo);
       fillModal.show();
       confirmBtn.attr("data-pn", oldPhyNo);
     })
@@ -772,7 +808,7 @@ entryCard.prototype = {
     var phyVal=$(".m-modal_fillCard .u-input.phy_no").val();
     var fillCardModal=$(".m-modal_bg.fillCard");
     var oldPhyVal = that.fillConfBtn.attr("data-pn");
- 
+    var currentPage=$("#paginationWrap").attr("data-curr");
     if (reg.test(phyVal)) {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/replacePhysicsCard",
@@ -790,7 +826,7 @@ entryCard.prototype = {
                 PFT.Util.STip("success", res.msg, 3000, function () {
 
                 });
-                 that.getCardList(1);
+                 that.getCardList(currentPage);
                 break;
               case 400:
                 PFT.Util.STip("fail", res.msg, 3000, function () {

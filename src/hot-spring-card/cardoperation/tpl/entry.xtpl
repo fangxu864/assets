@@ -87,9 +87,13 @@
         <div class="u-modal_title">补卡 <span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
             <div class="u-input_box">
-                <span class="u-span">物理卡号：</span>
+                <span class="u-span">新手牌：</span>
                 <input type="text" name="physicsNo" class="u-input phy_no" readonly> <a class="readCard">读取物理卡号</a>
                 <div class="clearCardInpBtn"> <i class="iconfont">&#xe674;</i></div>
+            </div>
+            <div class="u-input_box">
+                <span class="u-span">原手牌：</span>
+                <input type="text" class="u-input" id="oldCrdInp" readonly>
             </div>
 
             <div class="u-modal_btnBox">
