@@ -151,9 +151,8 @@
     .line3{
       .td1{
         position: relative;
-        width: 172px;
         .product_name_inp{
-          @include textInp(160,5);
+          @include textInp(220,5);
         }
         i.clear_inp{
           position: absolute;
@@ -182,9 +181,8 @@
       }
       .td3{
         position: relative;
-        width: 172px;
         .fenxiaoshang_name_inp{
-          @include textInp(160,5);
+          @include textInp(220,5);
         }
         i.clear_inp{
           position: absolute;
@@ -300,6 +298,7 @@
       tr{
         th{
           font-weight: 300;
+          white-space: nowrap;
         }
         height: 36px;
         line-height: 36px;

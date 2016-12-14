@@ -9,12 +9,12 @@ var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
 // var title_tpl=require("../tpl/title.xtpl");
-var filter_tpl=require("../tpl/filter.xtpl");
+var filter_tpl=require("./tpl/filter.xtpl");
 // var total_tpl=require("../tpl/total.xtpl");
-var tablecon_tpl=require("../tpl/tablecon.xtpl");
-var querying_tpl=require("../tpl/querying.xtpl");
-var queryerror_tpl=require("../tpl/queryerror.xtpl");
-var querynodata_tpl=require("../tpl/querynodata.xtpl");
+var tablecon_tpl=require("./tpl/tablecon.xtpl");
+var querying_tpl=require("./tpl/querying.xtpl");
+var queryerror_tpl=require("./tpl/queryerror.xtpl");
+var querynodata_tpl=require("./tpl/querynodata.xtpl");
 var Select = require("COMMON/modules/select");
 var Pagination = require("COMMON/modules/pagination-x");
 
@@ -71,8 +71,11 @@ var Book_form={
         this.stime_inp=$("#start_time");
         this.etime_inp=$("#end_time");
         //初始化input内容
-        _this.stime_inp.val(_this.getCookie("start_time")!==""?_this.getCookie("start_time"):when.week()[0]);
-        _this.etime_inp.val(_this.getCookie("end_time")!==""?_this.getCookie("end_time"):when.week()[1]);
+        // _this.stime_inp.val(_this.getCookie("start_time")!==""?_this.getCookie("start_time"):when.week()[0]);
+        // _this.etime_inp.val(_this.getCookie("end_time")!==""?_this.getCookie("end_time"):when.week()[1]);
+        _this.stime_inp.val(when.week()[0]);
+        // _this.etime_inp.val(when.week()[1]);
+        _this.etime_inp.val(when.today());
         //日历插件部分
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
@@ -97,7 +100,7 @@ var Book_form={
                 top : 0,                       //日历box偏移量
                 left : 0,                     //日历box偏移量
                 min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
-                // max : when.today(),          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                max : when.today(),          //2016-07-10往后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
                 onAfter : function(){}       //弹出日历后callback
             })
@@ -110,14 +113,14 @@ var Book_form={
             _this.setCookie("end_time",endDate,1000*60*60);
             var dateDiff=GetDateDiff(startDate,endDate);
             var curDate;
-            if(dateDiff>90){
+            if(dateDiff>30){
                 if(inputId==="start_time"){
-                    curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+30*24 * 3600 * 1000 ).format('YYYY-MM-DD');
                     _this.etime_inp.val(curDate);
                     _this.setCookie("start_time",startDate,1000*60*60);
                     _this.setCookie("end_time",curDate,1000*60*60)
                 }else if(inputId==="end_time"){
-                    curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-30*24 * 3600 * 1000 ).format('YYYY-MM-DD');
                     _this.stime_inp.val(curDate);
                     _this.setCookie("start_time",curDate,1000*60*60);
                     _this.setCookie("end_time",endDate,1000*60*60)
@@ -174,6 +177,7 @@ var Book_form={
                     danme : ""
                 },
                 filterType : "",  //指定过滤方式为ajax
+                height : 300 ,
                 field : {
                     id : "id",
                     name : "title",
@@ -216,6 +220,7 @@ var Book_form={
                 danme : ""
             },
             filterType : "",  //指定过滤方式为ajax
+            height : 300 ,
             field : {
                 id : "id",
                 name : "name",
@@ -304,9 +309,9 @@ var Book_form={
                 }break;
                 case "thisweek_btn":{
                     _this.stime_inp.val(when.week()[0]);
-                    _this.etime_inp.val(when.week()[1]);
+                    _this.etime_inp.val(when.today());
                     _this.setCookie("start_time",when.week()[0],1000*60*60);
-                    _this.setCookie("end_time",when.week()[1],1000*60*60)
+                    _this.setCookie("end_time",when.today(),1000*60*60)
                 }break;
                 case "lastweek_btn":{
                     _this.stime_inp.val(when.lastweek()[0]);
@@ -316,9 +321,9 @@ var Book_form={
                 }break;
                 case "thismonth_btn":{
                     _this.stime_inp.val(when.month()[0]);
-                    _this.etime_inp.val(when.month()[1]);
+                    _this.etime_inp.val(when.today());
                     _this.setCookie("start_time",when.month()[0],1000*60*60);
-                    _this.setCookie("end_time",when.month()[1],1000*60*60)
+                    _this.setCookie("end_time",when.today(),1000*60*60)
                 }break;
                 case "lastmonth_btn":{
                     _this.stime_inp.val(when.lastmonth()[0]);
