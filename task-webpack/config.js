@@ -32,7 +32,7 @@ module.exports = function(opt){
 				test: /\.vue$/,
 				loader: "vue"
 			},{
-				test: /\.es6$/,
+				test: /\.(es|es6)$/,
 				loader: 'babel',
 				exclude: /node_modules/
 			},{

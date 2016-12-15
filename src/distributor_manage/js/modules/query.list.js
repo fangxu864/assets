@@ -94,7 +94,7 @@ var QueryDisList = RichBase.extend({
 				dataType : "json",
 				data : data
 		},function(res){
-			window.open('partner.php?act=get_distributors&do=load_excel&'+res.lists+'', '_blank');
+			window.open('partner_dt.php?act=get_distributors&do=load_excel&'+res.lists+'', '_blank');
 		})
 	},
 	

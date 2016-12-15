@@ -1,0 +1,32 @@
+<div class="pftui-timepicker-containerCon">
+    <div class="hourLine line hour timeLine">
+        <div class="showBox"><span class="num"></span><span class="pre">时</span></div>
+        <div class="listCon hourList hour">
+            <span class="navBtn prev"><i class="iconfont">&#xe60c;</i></span>
+            <div class="slideStage">
+                <span class="slideBox slideBoxHour hour"></span>
+            </div>
+            <span class="navBtn next"><i class="iconfont">&#xe60d;</i></span>
+        </div>
+    </div>
+    <div class="minuLine line minu timeLine">
+        <div class="showBox"><span class="num"></span><span class="pre">分</span></div>
+        <div class="listCon minuList minu">
+            <span class="navBtn prev"><i class="iconfont">&#xe60c;</i></span>
+            <div class="slideStage">
+                <span class="slideBox slideBoxMinu minu"></span>
+            </div>
+            <span class="navBtn next"><i class="iconfont">&#xe60d;</i></span>
+        </div>
+    </div>
+    <div class="secondLine line second timeLine">
+        <div class="showBox"><span class="num"></span><span class="pre">秒</span></div>
+        <div class="listCon secondList second">
+            <span class="navBtn prev"><i class="iconfont">&#xe60c;</i></span>
+            <div class="slideStage">
+                <span class="slideBox slideBoxSecond second"></span>
+            </div>
+            <span class="navBtn next"><i class="iconfont">&#xe60d;</i></span>
+        </div>
+    </div>
+</div>
