@@ -326,8 +326,11 @@
                     $("#pui-m-alertBox").find(".alertFoot").trigger("click");
                     $("#mobileInp").focus();
                 }else{
-                    PFT.Util.Ajax("/r/mall_Member/resellerUseSankeAccountLogin/",{
+                    PFT.Util.Ajax("/r/Mall_Member/resellerUseSankeAccountLogin/",{
                         type : "post",
+                        params : {
+                            token : PFT.Util.getToken()
+                        },
                         loading : function(){
                             tarBtn.text("正在请求微信授权，请稍后...");
                         },
@@ -340,7 +343,7 @@
                             var data = res.data;
                             //"code":401,200,  200:成功；401：非法访问/请换号码登录
                             if(code==200){
-                                window.location.href = data.url;
+                                window.location.href = "http://" + data.url;
                             }else if(code==401){
                                 Alert(msg);
                             }
