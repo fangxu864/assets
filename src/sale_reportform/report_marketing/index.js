@@ -39,34 +39,6 @@ var Book_form={
         this.filter_box.html(filter_tpl);
         this.tablecon_box.html(tablecon_tpl);
 
-        if(_this.isAdmin==1){
-            $(".filter_box .filter .line1").show();
-            //交易商户搜索框
-            var select1=new Select({
-                source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-                ajaxType : "get",
-                ajaxParams : {
-                    action : "fuzzyGetDname_c",
-                    dtype : "1",
-                    danme : ""
-                },
-                isFillContent:false,
-                filterType : "ajax",  //指定过滤方式为ajax
-                field : {
-                    id : "id",
-                    name : "dname",
-                    keyword : "dname"
-                },
-                trigger : $("#trader_inp"),
-
-                filter : true,
-                adaptor : function(res){
-                    var reslut = { code:200};
-                    reslut["data"] = res;
-                    return reslut;
-                }
-            });
-        }
         //获取元素
         this.stime_inp=$("#start_time");
         this.etime_inp=$("#end_time");
@@ -135,130 +107,6 @@ var Book_form={
             }
         });
 
-        //产品名称搜索框
-        this.ajaxParams={"search_id":""};
-        if(_this.isAdmin==1){
-            this.select2=new Select({
-                source : "/r/report_statistics/searchLands/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-                ajaxType : "post",
-
-                ajaxParams : _this.ajaxParams,
-                filterType : "ajax",  //指定过滤方式为ajax
-                field : {
-                    id : "id",
-                    name : "name",
-                    keyword : "keyword"
-                },
-                trigger : $("#product_name_inp"),
-                isFillContent:false,
-
-                filter : true,
-                adaptor : function(res){
-                    var reslut = {};
-                    reslut["code"]=200;
-                    reslut["msg"]=res.msg;
-                    var arr=[];
-                    var data=res.data;
-                    for(var i in data){
-                        arr.push(data[i]);
-                    }
-                    reslut["data"] =arr;
-                    return reslut;
-                }
-            });
-        }else{
-            this.select2=new Select({
-                source : "/r/report_statistics/getLandList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-                ajaxType : "get",
-
-                ajaxParams : {
-                    action : "fuzzyGetDname_c",
-                    dtype : "1",
-                    danme : ""
-                },
-                filterType : "",  //指定过滤方式为ajax
-                height : 300 ,
-                field : {
-                    id : "id",
-                    name : "title",
-                    keyword : "title"
-                },
-                trigger : $("#product_name_inp"),
-                isFillContent:false,
-
-                filter : true,
-                adaptor : function(res){
-                    var reslut = {};
-                    reslut["code"]=res.code;
-                    reslut["msg"]=res.msg;
-                    var arr=[];
-                    var data=res.data;
-                    for(var i in data){
-                        arr.push(data[i]);
-                    }
-                    reslut["data"] =arr;
-                    return reslut;
-                }
-            });
-        }
-
-
-        //分销商供应商选择
-        var select_fg=new SelectShort({
-            id:"select_fg",
-            arr:["分销商","供应商"],
-            callback:function (cur_opt){}
-        });
-        //分销商搜索框
-        this.select3=new Select({
-            source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-            isFillContent:false,
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "",  //指定过滤方式为ajax
-            height : 300 ,
-            field : {
-                id : "id",
-                name : "name",
-                keyword : "name"
-            },
-            trigger : $("#fenxiaoshang_name_inp"),
-
-            filter : true,
-            adaptor : function(res){
-                var reslut = {};
-                reslut["code"]=res.code;
-                reslut["msg"]=res.msg;
-                var arr=[];
-                var data=res.data;
-                for(var i in data){
-                    arr.push(data[i]);
-                }
-                reslut["data"] =arr;
-                return reslut;
-            }
-        });
-        $(".filter_box .filter .line3 .td4").hide();
-        //产品类型选择框
-        // var select_huizong_type=new SelectShort({
-        //     id:"huizong_type",
-        //     arr:["按产品汇总","按门票汇总","按日期汇总","按分销商汇总","按预定渠道汇总","按分销商+票类汇总"],
-        //     callback:function (cur_opt){
-        //         var data={
-        //             "按产品汇总":"product",
-        //             "按门票汇总":"ticket",
-        //             "按日期汇总":"date",
-        //             "按分销商汇总":"reseller",
-        //             "按预定渠道汇总":"channel",
-        //             "按分销商+票类汇总":"resellerAndTicket"
-        //         };
-        //         $("#huizong_type").attr("count_way",data[cur_opt]);
-        //     }
-        // });
 
         //分页器部分
         this.pagination = new Pagination({
@@ -414,25 +262,6 @@ var Book_form={
         params["size"]=_this.perPageNum;
         params["begin_date"]=_this.stime_inp.val();
         params["end_date"]=_this.etime_inp.val();
-        if($("#huizong_type").attr("count_way")){
-            params["count_way"]= $("#huizong_type").attr("count_way");
-        }
-        if($("#product_name_inp").attr("data-id")){
-            params["land_id"]=$("#product_name_inp").attr("data-id");
-        }
-        if($("#fenxiaoshang_name_inp").attr("data-id")){
-            params["reseller_id"]=$("#fenxiaoshang_name_inp").attr("data-id");
-        }
-        if(_this.isAdmin==1){
-            if($("#trader_inp").attr("data-id")){
-                params["merchant_id"]=$("#trader_inp").attr("data-id");
-            }
-            if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
-                params["exclude_test"]=1;
-            }else{
-                params["exclude_test"]=0;
-            }
-        }
         return params;
     },
     //处理合计数据
@@ -522,10 +351,10 @@ var Book_form={
         for(var i=0;i<list.length;i++){
             listHtml+='<tr> <td class="th1">'+list[i].order_date+'</td>'+
             '<td class="th2">'+list[i].land+'</td>'+
-            '<td class="th3">'+list[i].com_type+'</td>'+
+            '<td class="th3">'+list[i].c_type+'</td>'+
             '<td class="th4">'+list[i].channel+'</td>'+
             '<td class="th5">'+list[i].ticket+'</td>'+
-            '<td class="th6">'+list[i].pmode+'</td>'+
+            '<td class="th6">'+list[i].p_mode+'</td>'+
             '<td class="th7">'+list[i].ticket_num+'</td>'+
             '</tr>'
         }

@@ -1,15 +1,6 @@
 <div class="filter">
     <div class="line line1">
         <div class="td td1">
-            <input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入交易商户名称"/>
-            <i class="clear_inp">&#xe674;</i>
-        </div>
-        <div class="td td2">
-            <span class="checked option"></span><span>过滤测试账号</span>
-        </div>
-    </div>
-    <div class="line line2">
-        <div class="td td1">
         <input type="text" class="time_area" readonly="readonly"  value="时间段(1个月以内)"/>
         </div>
         <div class="td td2">
@@ -24,23 +15,6 @@
                 <li id="thismonth_btn">本月</li>
                 <li id="lastmonth_btn">上月</li>
             </ul>
-        </div>
-
-    </div>
-    <div class="line line3">
-        <div class="td td1">
-            <input type="text" class="product_name_inp" id="product_name_inp" readonly="readonly"  placeholder="请输入产品名称"/>
-            <i class="clear_inp">&#xe674;</i>
-        </div>
-        <div class="td td2">
-            <div class="select_fg" id="select_fg"></div>
-        </div>
-        <div class="td td3">
-            <input type="text" class="fenxiaoshang_name_inp" id="fenxiaoshang_name_inp" readonly="readonly"  placeholder="请输入分销商名称"/>
-            <i class="clear_inp">&#xe674;</i>
-        </div>
-        <div class="td td4">
-            <div id="huizong_type" class="huizong_type"></div>
         </div>
         <div class="td td5">
             <span class="query_btn">查询</span>
