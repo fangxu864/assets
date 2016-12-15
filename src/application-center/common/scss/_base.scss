@@ -124,11 +124,8 @@ body {
     border-color:#0797D9;
     color:#fff;
 }
-
-.btn-default-disable{
-    background-color:#d2d2d2;
-    border-color:#d2d2d2;
-    color:#fff;
+.btn-default:hover {
+    background-color: #0f7cb7;
 }
 
 .btn-default-reverse {
@@ -136,16 +133,25 @@ body {
     border-color:#0797D9;
     color:#0797D9;
 }
+.btn-default-reverse:hover {
+    background-color: #e5f5fc;
+}
+
 .btn-warning {
-    background-color: #f07844;
-    border-color: #f07844;
+    background-color: #f07845;
+    border-color: #f07845;
     color: #fff;
 }
+.btn-warning:hover {
+    background-color: #e4632d;
+}
+
 .btn-warning-reverse {
     background-color:#fff;
-    border-color:#f07844;
-    color:#f07844;
+    border-color:#f07845;
+    color:#f07845;
 }
+
 .btn-success {
     background-color:#3DBA3F;
     border-color:#3DBA3F;
@@ -155,6 +161,22 @@ body {
     background-color:#fff;
     border-color:#3DBA3F;
     color:#3DBA3F;
+}
+
+.btn-gray {
+    background-color: #fff;
+    border-color: #c9c9c9;
+    color: #303d46;
+}
+.btn-gray:hover {
+    color: #0797D9;
+}
+
+
+.btn-default-disable{
+    background-color:#d2d2d2;
+    border-color:#d2d2d2;
+    color:#fff;
 }
 
 .btn.w100 {
