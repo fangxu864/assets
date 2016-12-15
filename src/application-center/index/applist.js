@@ -24,13 +24,13 @@ var AppList = PFT.Util.Class({
 		this.getAppList("app-list3","index","同业对接");
 		this.getAppList("app-list3","index","会员一卡通");
 
-		$.ajax({
-			url : "/r/AppCenter_ModuleList/getModuleList",
-			dataType : "json",
-			success : function(res){
-				console.log(res);
-			}
-		});
+		// $.ajax({
+		// 	url : "/r/AppCenter_ModuleList/getModuleList",
+		// 	dataType : "json",
+		// 	success : function(res){
+		// 		console.log(res);
+		// 	}
+		// });
 
 	},
 

@@ -2,10 +2,10 @@
 
 
 
-module.exports = function(opt,whichBtn){
+module.exports = function(opts,whichBtn){
 
 	//是否处于模拟数据状态
-	var debug = true ;
+	var debug = false ;
 
 	if(debug){
 
@@ -101,16 +101,95 @@ module.exports = function(opt,whichBtn){
 		// }
 
 
-		opt.loading();
+		opts.loading();
 		setTimeout(function(){
-			opt.complete();
-			opt.success(data);
+			opts.complete();
+			opts.success(data);
 		},1000)
 		
 
 		return false;
 
 	}else{
+
+		if( opts.type == undefined && opts.category != undefined ){ //只传了category
+
+			var xhr = PFT.Util.Ajax( "/r/AppCenter_ModuleList/getModuleList" , {
+				params: {
+					category : opts.category 
+				},
+				type:"POST",
+				loading: function(){
+					opts.loading();
+				},
+				complete : function(){
+					opts.complete();	
+				},	
+				success: function(res) {
+					opts.success(res);
+				}
+			});	
+
+		}else if( opts.type != undefined && opts.category == undefined ){  //只传了type
+
+			var xhr = PFT.Util.Ajax( "/r/AppCenter_ModuleList/getModuleList" , {
+				params: {
+					type : opts.type 
+				},
+				type:"POST",
+				loading: function(){
+					opts.loading();
+				},
+				complete : function(){
+					opts.complete();	
+				},	
+				success: function(res) {
+					opts.success(res);
+				}
+			});	
+
+		}else if( opts.type != undefined && opts.category != undefined ){  //type,category两个都传了
+
+			var xhr = PFT.Util.Ajax( "/r/AppCenter_ModuleList/getModuleList" , {
+				params: {
+					type : opts.type,
+					category : opts.category
+				},
+				type:"POST",
+				loading: function(){
+					opts.loading();
+				},
+				complete : function(){
+					opts.complete();	
+				},	
+				success: function(res) {
+					opts.success(res);
+				}
+			});	
+
+		}else{ //两个都没传
+
+			var xhr = PFT.Util.Ajax( "/r/AppCenter_ModuleList/getModuleList" , {
+				params: {
+				},
+				type:"POST",
+				loading: function(){
+					opts.loading();
+				},
+				complete : function(){
+					opts.complete();	
+				},	
+				success: function(res) {
+					opts.success(res);
+				}
+			});	
+
+		}
+
+
+		return xhr
+
+
 
 	}
 
