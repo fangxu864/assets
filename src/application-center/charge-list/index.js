@@ -23,6 +23,7 @@ var Main = PFT.Util.Class({
 		pageSize: 10
 		// payMode: ['年','季度','月']
 	},
+	xhr: null,
 	init : function(){
 		var _this = this;
 
@@ -89,8 +90,11 @@ var Main = PFT.Util.Class({
 
 		var opts = $.extend(true, defaultOpts, opts);
 
+		if(_this.xhr && _this.xhr.status != 200) {
+			_this.xhr.abort();
+		}
 
-		PFT.Util.Ajax( ajaxUrls.chargeList , {
+		_this.xhr = PFT.Util.Ajax( ajaxUrls.chargeList , {
 			params: {
 				page: 		opts.page,
 				page_size: 	_this.static.pageSize,
@@ -116,7 +120,10 @@ var Main = PFT.Util.Class({
 				}
 			},
 			error: function( xhr, txt ) {
-				alert( txt );
+				// 调用 xhr.abort 不把错误信息弹出
+				if( xhr.readyState != 0 ) {
+					alert( txt );
+				}
 			}
 		})
 	},
