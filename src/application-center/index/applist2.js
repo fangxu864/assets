@@ -118,6 +118,9 @@ var AppList = PFT.Util.Class({
 		var nowId = tarBtn.attr("id");
 		if( nowId == "indexTab"){ //首页
 			// that.getAppList2(0);
+
+			//这样不好，重新请求慢，应该缓存
+			that.init();
 		}
 		if( nowId == "newOnlineTab"){ //新上线
 			that.tempListBox = "";
@@ -127,10 +130,18 @@ var AppList = PFT.Util.Class({
 			});
 		}
 		if( nowId == "unopendTab"){ //未开通
-			that.getAppList2(2);
+			that.tempListBox = "";
+			var xhr = that.getAppList2(2);
+			xhr.then(function(){
+				$("#tabCon").html(that.tempListBox);
+			});
 		}
 		if( nowId == "opendTab"){ //已开通
-			that.getAppList2(3);
+			that.tempListBox = "";
+			var xhr = that.getAppList2(3);
+			xhr.then(function(){
+				$("#tabCon").html(that.tempListBox);
+			});
 		}
 
 
