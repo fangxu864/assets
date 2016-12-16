@@ -52,7 +52,8 @@ var Main={
 
 
 $(function () {
-    Main.init()
+    Main.init();
+    $("#distributor_platform").remove();
 });
 
 
