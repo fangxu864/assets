@@ -5,4 +5,6 @@
  */
 
 require ("./index.scss");
-alert("fsdf");
+$(function () {
+    $(".pft_left_box .menu_box").css("height" , $(".pft_left_box").height() - 60 + "px")
+})
