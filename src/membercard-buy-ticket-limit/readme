@@ -1,0 +1,20 @@
+### 平台会员卡购票限制
+
+平台页面访问：http://www.12301.local/prod_restrict.html
+
+平台new/d分支：feature/member-to-service
+后端Service库相应分支：feature/member_to_service   @蓝罗成
+前端assets分支：feature/member-to-service
+
+后端接口地址：/r/product_MemberCardBasic/Lands
+
+返回的数据格式：
+{
+    code : 200,
+    data : {
+        list : {
+
+        },    //数据   注意：这里如果有数据，则list是一个对象{}   如果没有数据（为空时）则list为一空数组[]
+        total : 230   //总条数
+    }
+}
