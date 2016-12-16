@@ -104,7 +104,18 @@
     let Toast = new PFT.Mobile.Toast();
     let Alert = PFT.Mobile.Alert;
     let CityData = require("COMMON/js/config.province.city.data2");
-    let Ptype = PFT.Util.UrlParse()["ptype"] || "A";
+    let Ptype = PFT.Util.UrlParse()["ptype"];
+    let theme = PFT.Util.UrlParse()["theme"];
+    if(Ptype){
+        Ptype = decodeURIComponent(Ptype);
+    }else{
+        Ptype = "all";
+    }
+    if(theme){
+        theme = decodeURIComponent(theme);
+    }else{
+        theme = "";
+    }
     export default{
         data(){
             return{
@@ -118,7 +129,7 @@
                 //搜索条件
                 filterParams : {
                     keyword : "",
-                    topic : "",
+                    topic : theme,
                     type : Ptype,
                     city : "",
                     lastPos : ""
@@ -177,7 +188,7 @@
         },
         computed : {
             ptypeName(){
-                return this.ptypeList[this.filterParams.type] || "景区门票";
+                return this.ptypeList[this.filterParams.type];
             },
             topicName(){
                 return this.filterParams.topic ? this.filterParams.topic : "主题"
