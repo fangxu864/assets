@@ -84,7 +84,7 @@
 
 <div class="m-modal_bg fillCard" id="fillModal">
     <div class="m-modal m-modal_fillCard">
-        <div class="u-modal_title">补卡 <span class="u-span_close close">X</span></div>
+        <div class="u-modal_title">补卡/换手牌<span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
             <div class="u-input_box">
                 <span class="u-span">新手牌：</span>

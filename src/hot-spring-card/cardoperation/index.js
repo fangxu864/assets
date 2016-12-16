@@ -259,8 +259,9 @@ entryCard.prototype = {
                     case "2":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + '>'
                         +'<a class="u-btn_changeCard">换手牌</a>'
+                       /* + ' <a class="u-btn_fillCard" >换手牌</a>'*/
                         /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' >编辑</a>'*/
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
@@ -409,7 +410,8 @@ entryCard.prototype = {
                     + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
                     + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" >'
-                     +'<a class="u-btn_changeCard">换手牌</a>'
+                     + ' <a class="u-btn_fillCard" >换手牌</a>'
+                   /*  +'<a class="u-btn_changeCard">换手牌</a>'*/
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
                     + ' </td> </tr>';
                   break;
