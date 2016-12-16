@@ -4,10 +4,28 @@
  * Description: ""
  */
 require("./index.scss");
+require("./expiredText.scss");
+var dialog=require("COMMON/modules/dialog-simple");
+var expiredTextTpl = require("./tpl/expiredText.tpl");
 var getAppdetail = require("../common/service/appDetail_service.js");
 
 var Main = PFT.Util.Class({
+
+    //过期弹窗，暂不确定出现的位置，先放在这里测试
     init : function(){
+        this.dialog_expired = new dialog({
+            width : 800,
+            height : 600,
+            closeBtn : true,
+            content : expiredTextTpl,
+            drag : true,
+            speed : 200,
+            offsetX : 0,
+            offsetY : 0,
+            overlay : true,
+            headerHeightMin : 46
+        });
+        this.dialog_expired .open();
         this.loadAjax();
     },
 
