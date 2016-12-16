@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body , html{
+            margin: 0;
+            padding: 0;
+        }
+        .pft_header_box{
+            width: 100% ;
+            height: 50px;
+            position: fixed;
+            top: 0px;
+            background-color: #333333;
+            z-index: 1;
+            color: #ffffff;
+            line-height: 50px;
+        }
+        .pft_header_box .lt{
+            float: left;
+        }
+        .pft_header_box .rt{
+            float: right;
+        }
+        .pft_left_box{
+            width: 204px;
+            position: fixed;
+            top: 50px;
+            bottom: 50px;
+            background-color: #333333;
+            overflow-x: hidden;
+        }
+        .pft_right_box{
+            width: auto;
+            position: absolute;
+            top: 50px;
+            left: 204px;
+            bottom: 50px;
+            right: 0px;
+            overflow-y: auto;
+            background: #CCCCcc;
+        }
+        .pft_footer_box{
+            width: 100% ;
+            height: 50px;
+            position: fixed;
+            bottom: 0px;
+            background-color: #333333;
+        }
+        .con{
+            height: 5000px;
+            width: 200px;
+            background-color: #E0A500;
+        }
+    </style>
+</head>
+<body>
+<div class="pft_header_box">
+    <div class="lt">
+        <span class="logo_box">logo</span>
+        <span class="change_btn">切换</span>
+        <span class="">首页</span>
+        <span class="">应用</span>
+        <span class="">帮助</span>
+    </div>
+    <div class="rt">
+        <span class="">消息</span>
+        <span class="">充值</span>
+        <span class="">退出</span>
+    </div>
+</div>
+<div class="pft_left_box"></div>
+<div class="pft_right_box">
+    <div class="con"></div>
+</div>
+<div class="pft_footer_box"></div>
+
+</body>
+</html>
