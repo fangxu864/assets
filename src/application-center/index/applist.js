@@ -15,7 +15,6 @@ var AppList = PFT.Util.Class({
 	init : function(){
 
 		var that = this;
-		console.log("这是applist2,在applist1的基础上进行改动");
 		
 		this.tempListBox = "";
 		this.tempIndexListBox = ""; //首页缓存

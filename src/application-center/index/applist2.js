@@ -1,6 +1,6 @@
 
 
-
+//模拟数据时用的js，弃用
 var GetListAjax = require("./appList_service.js"); 
 var loadingHTML = require("COMMON/js/util.loading.pc.js");
 
