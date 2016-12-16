@@ -14,283 +14,255 @@ var AppList = PFT.Util.Class({
 			
 	init : function(){
 
-		var that = this;
-		console.log("这是applist2,在applist1的基础上进行改动");
-		
-		this.tempListBox = "";
-		this.tempIndexListBox = ""; //首页缓存
-		this.tempNewOnlineListBox = ""; //新上线缓存
-		this.tempUnOpendListBox = ""; //未开通缓存
-		this.tempOpendListBox = ""; //已开通缓存
+		this.indexList = [];
 
-		var req1 = function(){
-			return that.getAppList(0,1);  //首页，核心功能
-		}
-		var req2 = function(){
-			return that.getAppList(0,2);  //首页，营销推广	
-		}
-		var req3 = function(){
-			return that.getAppList(0,3);  //首页，同业对接
-		}
-		var req4 = function(){
-			return that.getAppList(0,4);  //首页，一卡通
-		}
-		var req5 = function(){
-			return that.getAppList(0,5);  //首页，智能硬件
-		}
+		this.tempbox = [];
+		this.tab = $(".tab-list li");
 
-		//顺序发请求
-		req1().then(req2).then(req3).then(req4).then(req5).done(function(xhr){
-			$("#tabCon").html(that.tempIndexListBox);
-		});
+		this.getAppList("app-list1","index","核心功能");
+		this.getAppList("app-list2","index","营销推广");
+		this.getAppList("app-list3","index","同业对接");
+		this.getAppList("app-list3","index","会员一卡通");
 
+		// $.ajax({
+		// 	url : "/r/AppCenter_ModuleList/getModuleList",
+		// 	dataType : "json",
+		// 	success : function(res){
+		// 		console.log(res);
+		// 	}
+		// });
 
 	},
 
-
-	getAppList : function(type,category){    
+	getAppList : function(ulClassName,BtnName,listTitle){ //传入动态生成内容的父ul的类名或按钮名
 
 		var that = this;
 
-		var xhr = GetListAjax({ 
+		GetListAjax({
+		    loading : function(){
+		        var loadingHtml = loadingHTML("请稍后...",{
+		            tag : "div",
+		            colspan : 5,
+		            className : "loading"
+		        });
 
-			type : type,
+		        $("#tabCon").html(loadingHtml);
+		        
+		    },
+		    complete : function(){
 
-			category : category,
+		        $(".loading").remove();
+		    	
+		    },
+		    success : function(data){
 
-			loading : function(){
+		    	var list = data.list;
+		        var code = data.code;
+		        var msg = data.msg;
 
-				var loadingHtml = loadingHTML("请稍后...",{
-				    tag : "div",
-				    colspan : 5,
-				    className : "loading"
-				});
-				$("#tabCon").html(loadingHtml);	
+		        that.appendList(list,listTitle,ulClassName,BtnName);
 
-			},	
+		    },
+		    fail : function(msg){
+		        alert(msg);
+		    }
+		},BtnName);
 
-			complete : function(){
-
-				$(".loading").remove();
-
-			},
-
-			success : function(res){
-
-				console.log(res);
-				var code = res.code;
-				var msg = res.msg;
-				var list = res.data;
-
-				that.appendList(list,type,category);
-
-
-			}
-
-
-		});
-
-		return xhr;
 
 	},
-
 
 	onTabBtnClick : function(e){
 
-		var that = this;
 		var tarBtn = $(e.currentTarget);
 		tarBtn.addClass("active");
 		tarBtn.siblings().removeClass("active");
 		var nowId = tarBtn.attr("id");
-
-		//有缓存就用缓存，没缓存就发请求
 		if( nowId == "indexTab"){ //首页
-			if(that.tempIndexListBox == ""){
-				that.init();
-			}else{
-				$("#tabCon").html(that.tempIndexListBox);
-			}
+
+			//不用重新请求，利用缓存tempbox
+			//参数BtnName传的为indexCache，不会push到tempbox中
+			$("#tabCon").html("");
+			this.appendList(this.tempbox[0],"核心功能","app-list1","indexCache");
+			this.appendList(this.tempbox[1],"营销推广","app-list2","indexCache");
+			this.appendList(this.tempbox[2],"同业对接","app-list3","indexCache");
+			this.appendList(this.tempbox[3],"会员一卡通","app-list4","indexCache");
+
 		}
+
+		//以下代码有bug，重复点tab会变多 //原因应该是tempbox变多了
 		if( nowId == "newOnlineTab"){ //新上线
-			if(that.tempNewOnlineListBox == ""){
-				var xhr = that.getAppList(1);
-				xhr.then(function(){
-					$("#tabCon").html(that.tempNewOnlineListBox);
-				});
-			}else{
-				$("#tabCon").html(that.tempNewOnlineListBox);
-			}
+			var CacheData = this.handleTempBox("newOnline");
+			$("#tabCon").html("");
+			var listTitle = "新上线";
+			this.appendList(CacheData,listTitle,"app-list1","newOnline");
 		}
 		if( nowId == "unopendTab"){ //未开通
-			if(that.tempUnOpendListBox == ""){
-				var xhr = that.getAppList(2);
-				xhr.then(function(){
-					$("#tabCon").html(that.tempUnOpendListBox);
-				});
-			}else{
-				$("#tabCon").html(that.tempUnOpendListBox);
-			}
+			var CacheData = this.handleTempBox("unopend");
+			$("#tabCon").html("");
+			var listTitle = "未开通";
+			this.appendList(CacheData,listTitle,"app-list1","unopend");
 		}
 		if( nowId == "opendTab"){ //已开通
-			if(that.tempOpendListBox == ""){
-				var xhr = that.getAppList(3);
-				xhr.then(function(){
-					$("#tabCon").html(that.tempOpendListBox);
-				});
-			}else{
-				$("#tabCon").html(that.tempOpendListBox);
+			var CacheData = this.handleTempBox("opend");
+			$("#tabCon").html("");
+			var listTitle = "已开通";
+			this.appendList(CacheData,listTitle,"app-list1","opend");
+		}
+
+	},
+
+
+	handleTempBox : function(type){ //根据不同情况处理首页缓存并返回
+
+		if(type == "newOnline" && this.tempbox.length > 0){
+
+			var newData = [];
+
+			for(var i = 0;i<this.tempbox.length;i++){
+
+				for(var j = 0;j<this.tempbox[i].length;j++){
+
+					if(this.tempbox[i][j].isNew == true){
+						newData.push(this.tempbox[i][j]);
+					}
+
+				}
+
 			}
+
+			return newData;
+
+		}
+
+		if(type == "unopend" && this.tempbox.length > 0){
+
+			var newData = [];
+
+			for(var i = 0;i<this.tempbox.length;i++){
+
+				for(var j = 0;j<this.tempbox[i].length;j++){
+
+					if(this.tempbox[i][j].opend == false){
+						newData.push(this.tempbox[i][j]);
+					}
+
+				}
+
+			}
+
+			return newData;
+
+		}
+
+		if(type == "opend" && this.tempbox.length > 0){
+
+			var newData = [];
+
+			for(var i = 0;i<this.tempbox.length;i++){
+
+				for(var j = 0;j<this.tempbox[i].length;j++){
+
+					if(this.tempbox[i][j].opend == true){
+						newData.push(this.tempbox[i][j]);
+					}
+
+				}
+
+			}
+
+			return newData;
+
 		}
 
 
 	},
 
 
-	appendList : function(list,type,category,tabType){
+	appendList : function(list,listTitle,ulClassName,BtnName){
 
-		console.log("type:"+type);
-		console.log("category:"+category);
 
-		var listTitle = "";
-		var ulClassName = "";
+        var fatherTemp =    '<div class="tab-con">' + 
+				                '<h4 class="app-class mb30">'+listTitle+'</h4>' +
+				                '<div class="app-list-wrap">' +
+				                    '<ul class="app-list '+ ulClassName +' clearfix">' +
+				                    '</ul>' +
+				                '</div>' +
+				            '</div>'  ;
 
-		if(category == 1 && type == 0){
-			listTitle = "核心功能";
-			ulClassName = "app-list1";
-		}else if(category == 2 && type == 0){
-			listTitle = "营销推广";
-			ulClassName = "app-list2";
-		}else if(category == 3 && type == 0){
-			listTitle = "同业对接";
-			ulClassName = "app-list3";
-		}else if(category == 4 && type == 0){
-			listTitle = "一卡通";
-			ulClassName = "app-list4";
-		}else if(category == 5 && type == 0){
-			listTitle = "智能硬件";
-			ulClassName = "app-list5";
-		}
+		$("#tabCon").append(fatherTemp);
 
-		if( type == 1 && category == undefined){
-			listTitle = "新上线";
-			ulClassName = "app-list1";
-		}
-		if( type == 2 && category == undefined){
-			listTitle = "未开通";
-			ulClassName = "app-list1";
-		}
-		if( type == 3 && category == undefined){
-			listTitle = "已开通";
-			ulClassName = "app-list1";
-		}           
+		var listbox = $('ul.'+ ulClassName);		           
 
         var temp = "";
-
-        	temp +=
-            //父
-			'<div class="tab-con">' + 
-                '<h4 class="app-class mb30">'+listTitle+'</h4>' +
-                '<div class="app-list-wrap">' +
-                    '<ul class="app-list '+ ulClassName +' clearfix">';    
-        //子
+        //动态dom
         for(var i = 0;i<list.length;i++){
-
             temp += 
-
             '<li>' +
                 '<div class="app-item">' +
                     '<div class="app-left">' +
                         '<i class="ui-app-icon"></i>' +
-                        '<p class="app-open"><span class="app-usernum c-warning">'+'un'+'</span> 用户<br>已开通</p>' +
+                        '<p class="app-open"><span class="app-usernum c-warning">'+list[i].userNumber+'</span> 用户<br>已开通</p>' +
                     '</div>' +
                     '<div class="app-right">' +
-                        '<div class="text-ellipsis"><strong class="app-name">'+list[i].name+'</strong></div>' ;
+                        '<div class="text-ellipsis"><strong class="app-name">'+list[i].title+'</strong></div>' ;
 
-                    if(category == 4){ //一卡通
-
-        	            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
-        	            '<div class="app-btn-w">' +
-        	               '<a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>' +
-        			    '</div>' ;
-
-                    }else if(category == 5){ //智能硬件  //只有图片  //这样不行啊
-
-                    	temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
-        	            '<div class="app-btn-w">' +
-        	               '<a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>' +
-        			    '</div>' ;
-
-                    }else{ //其余
-
-
-						if(list[i].button_type == 0){//免费试用
-	    		            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
-	    		            '<div class="app-btn-w">' +
-	    		               '<a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>' +
-	    				    '</div>' ;
-						}else if(list[i].button_type == 1){//开通
-		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
-				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default-reverse w100">开通</a>' +
-						    '</div>' ;
-						}else if(list[i].button_type == 2){//使用
-		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
-				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="javascript:;" class="btn-link">续费</a>' +
-						    '</div>' ;
-						}else if(list[i].button_type == 3){//去看看（过期）
-		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+'2016-12-11到期'+'</span></div>' +
-				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default-disable mr10">去看看</a>' + '<a href="javascript:;" class="btn-link">续费</a>' +
-						    '</div>' ;
-						}      
-
-                    }    
-
+                        if(list[i].opend == false){  //未开通
+                        	if(list[i].try == true){  
+                		          temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'元/1季</span></div>' +
+                		          '<div class="app-btn-w">' +
+                		             '<a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>' +
+                				  '</div>' ;
+                        	}else{
+                        		  temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'元/1季</span></div>' +
+                		          '<div class="app-btn-w">' +
+                		             '<a href="javascript:;" class="btn btn-default-reverse w100">开通</a>' +
+                				  '</div>' ;
+                        	}
+                        }else{//已开通
+                    		if(list[i].expired == true){  //未过期
+                        		  temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'元/1季</span></div>' +
+                		          '<div class="app-btn-w">' +
+                		             '<a href="javascript:;" class="btn btn-default w100">使用</a>' +
+                				  '</div>' ;
+                    		}else{  //已过期
+                        		  temp += '<div class="text-ellipsis"><span class="app-price">'+'2016-12-11到期'+'</span></div>' +
+                		          '<div class="app-btn-w">' +
+                		             '<a href="javascript:;" class="btn btn-default-disable mr10">使用</a>' + '<a href="javascript:;" class="btn-link">续费</a>' +
+                				  '</div>' ;
+                    		}  
+                        }
 
 	            temp += '</div>' +
 	                '</div>' ;
 
-                if(list[i].flag_new == 1){ //是否是新上线
+                if(list[i].isNew == true){ //是否是新上线
 
-        	    	if(list[i].use_status == 2){//新上线并且过期
+        	    	if(list[i].expired == false){//新上线并且过期
         	    		temp += '<i class="icon-expired"></i>' +'<i class="icon-new"></i>'+
         				'</li>' ;
-        	    	}else{ //新上线没有过期 
+        	    	}else{ 
 	    		    	temp += '<i class="icon-new"></i>' +
 	    				'</li>' ;
         	    	}
                 	
-                }else{  //不是新上线
+                }else{
 
-                	if(list[i].use_status == 2){//过期
+                	if(list[i].expired == false){//过期
                 		temp += '<i class="icon-expired"></i>' +
             			'</li>' ;
-                	}else if(list[i].use_status == 1){ //正常使用
+                	}else{
                 		temp += '</li>' ; 
                 	}
 
-                }       
+                }
 
         }
-
-        //父结尾
-        temp+=        '</ul>' +
-            		'</div>' +
-        		'</div>'  ;
+       	listbox.html(temp);
 
 
-        // 缓存
-        if( type == 0 ){  //首页
-        	this.tempIndexListBox += temp;
-        }else if(type == 1 && category == undefined){ //新上线
-        	this.tempNewOnlineListBox += temp;
-        }else if(type == 2 && category == undefined){ //未开通
-        	this.tempUnOpendListBox += temp;
-        }else if(type == 3 && category == undefined){ //已开通
-        	this.tempOpendListBox += temp;
-        }		
-        
+       	if( BtnName == "index" ){ //缓存首页数据
+       		this.tempbox.push(list);	
+       	}
 
 
 	}

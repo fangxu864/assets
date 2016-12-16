@@ -4,7 +4,7 @@
  * Description: ""
  */
 require("./index.scss");
-var AppList = require("./applist2.js");
+var AppList = require("./applist.js");
 
 // var Template = {
 // 	appBox : PFT.Util.ParseTemplate(require("./tpl/app-box.tpl"))
