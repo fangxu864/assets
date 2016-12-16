@@ -180,9 +180,9 @@ entryCard.prototype = {
     //挂失按钮(所有状态更新确认按钮)
     that.lossConfBtn.on("click", function (e) {
       var confirmBtn = $(this),
-        status = confirmBtn.attr("data-status");
-
-      that.onSetStatusConfirm(status, confirmBtn);
+          status = confirmBtn.attr("data-status"),
+          request=confirmBtn.attr("data-request");
+      that.onSetStatusConfirm(status, confirmBtn,request);
     });
     //补卡按钮
     that.fillConfBtn.on("click", function (e) {
@@ -215,13 +215,14 @@ entryCard.prototype = {
     var that = this,
       cardList = "",
       saler_inp=$("#saler_inp").attr("data-id"),     
-      physicsNo = this.schInp.val();
-      status = $(".u-input_radio.status:checked").val();
-      color = $(".u-input_radio.color:checked").val();
+      physicsNo = this.schInp.val(),
+      status = $(".u-input_radio.status:checked").val(),
+      color = $(".u-input_radio.color:checked").val(),
+      request="查询";
       xhrPoster = PFT.Util.Ajax(
       "/r/product_HotSpringCard/searchHotSpringCard",
       {
-        type: "GET",
+        type: "POST",
         params: {
           "physicsOrVisible": physicsNo,
           "status": status,
@@ -235,8 +236,10 @@ entryCard.prototype = {
         success: function (res) {
           switch (res.code) {
             case 200:
-              var list = res.data;
+              var data=res.data;
+              var list = data.list;
               if (list.length) {
+                 cardList+='<tr><td class="countColor" colspan="6"><span class="u-span_countAll">共 '+data.num+'个</span> <span class="u-span_countBlue">蓝 '+data.blue+'个</span> <span class="u-span_countPink">粉 '+data.pink+'个</span> </td></tr>';
                 $.each(list, function (i, item) {
                   cardList += ' <tr> <td class="crd_card_no">' + list[i].visible_no + '</td>'
                     + '<td class="crd_phy_no">' + list[i].physics_no + '</td>'
@@ -257,7 +260,7 @@ entryCard.prototype = {
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
                         + '<td class="crd_operation" >'
-                        +'<a class="u-btn_unbind">解绑</a>'
+                        +'<a class="u-btn_changeCard">换手牌</a>'
                         /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' >编辑</a>'*/
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
@@ -285,12 +288,12 @@ entryCard.prototype = {
 
                 });
                 that.tbody.html("").html(cardList);
-                pagination.render({ current: currentPage ,topage:currentPage,total:res.data[0].allPage});
-                $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
                 that.cardEdit();
                 that.cardDel();
                 that.fillCard();
-                that.statusUpdate();
+                that.statusUpdate(request);
+                pagination.render({ current: currentPage ,topage:currentPage,total:data.total});
+                $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
               }
               break;
             case 201:
@@ -366,12 +369,13 @@ entryCard.prototype = {
     var cardInp = that.schInp;
     var physicsNo = cardInp.val();
     var cardInfo = "";
+    var request="编辑";
     var salerid=$("#saler_inp").attr("data-id");
     $("#paginationWrap").hide();
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/getCardInfo",
       {
-        type: "GET",
+        type: "POST",
         params: {
           "physicsNo": physicsNo,
           "salerid":salerid
@@ -405,6 +409,7 @@ entryCard.prototype = {
                     + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
                     + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" >'
+                     +'<a class="u-btn_changeCard">换手牌</a>'
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
                     + ' </td> </tr>';
                   break;
@@ -436,7 +441,7 @@ entryCard.prototype = {
               that.cardEdit();
               that.cardDel();
               that.fillCard();
-              that.statusUpdate();
+              that.statusUpdate(request);
               break;
             case 102:
               //未登录
@@ -484,7 +489,7 @@ entryCard.prototype = {
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/checkPhysicsCard",
       {
-        type: "GET",
+        type: "POST",
         params: {
           "physicsNo": physicsNo,
           "salerid":salerid
@@ -556,7 +561,7 @@ entryCard.prototype = {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/createHotSpringCard",
         {
-          type: "GET",
+          type: "POST",
           params: {
             "physicsNo": phyVal,
             "color": color,
@@ -595,10 +600,8 @@ entryCard.prototype = {
     var oldPhyVal = that.editSaveBtn.attr("data-oldpn");
     var oldColor = that.editSaveBtn.attr("data-oldcolor");
     var oldCard = that.editSaveBtn.attr("data-oldcrd");
-   // console.log(oldPhyVal + "+" + oldCard + "+" + oldColor);
     var lid = that.salerInp.attr("data-id");
     var phyVal = phyNo.val();
- //   console.log(phyVal);
     var cardVal = cardNo.val();
     var color = colorBg.val();
      var currentPage=$("#paginationWrap").attr("data-curr");
@@ -606,7 +609,7 @@ entryCard.prototype = {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/editCard",
         {
-          type: "GET",
+          type: "POST",
           params: {
             "newPhysics": phyVal,
             "newColor": color,
@@ -617,7 +620,6 @@ entryCard.prototype = {
             "oldColor": oldColor
           },
           success: function (res) {
-
             switch (res.code) {
               case 200:
                 that.modalBg.hide();
@@ -641,16 +643,17 @@ entryCard.prototype = {
   },
   onSubmitCheck: function (entryCard) {
     var reg = /^[0-9a-zA-Z]+$/;
-    var lid = $("#saler_id").attr("data-id");
+    var lid = $("#saler_inp").attr("data-id");
+    console.log(lid);
     var span_des = $(".u-span_des.card_no");
     if (reg.test(entryCard)) {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/checkVisibleNo",
         {
-          type: "GET",
+          type: "POST",
           params: {
             "visibleNo": entryCard,
-            "lid": lid
+            "salerid": lid
           },
           success: function (res) {
             var span = '<span class="u-span_des ">' + res.msg + '</span>';
@@ -683,15 +686,15 @@ entryCard.prototype = {
     });
   },
   onDelConfirm: function (e) {
-
     var that = this;
     var physicsNo = that.delConfBtn.attr("data-pn");
     var delModal = $(".m-modal_bg.del");
+    var currentPage=$("#paginationWrap").attr("data-curr");
     //点击删除按钮
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/setStatusOfDeleting",
       {
-        type: "GET",
+        type: "POST",
         params: {
           "physicsNo": physicsNo,
           "is_delete": 1,
@@ -704,7 +707,7 @@ entryCard.prototype = {
               PFT.Util.STip("success", "删除成功", 3000, function () {
                 //删除成功回调        
               });
-              that.getCardList(1);
+             that.getCardList(currentPage);
               break;
             case 201:
               //未登录
@@ -726,7 +729,7 @@ entryCard.prototype = {
   },
 
 
-  statusUpdate: function (e) {
+  statusUpdate: function (request) {
     //状态更新
     var that = this;
     var statusBtn = $("#tbody .crd_operation .status");
@@ -742,18 +745,18 @@ entryCard.prototype = {
       var contentTxt = "确定要" + text + "？";
       content.text(contentTxt);
       statusModal.show();
-      confirmBtn.attr({ "data-pn": phyNo, "data-status": status });
+      confirmBtn.attr({ "data-pn": phyNo, "data-status": status ,"data-request": request});
     });
   },
-  onSetStatusConfirm: function (status, confirmBtn) {
+  onSetStatusConfirm: function (status, confirmBtn,request) {
     var that = this;
+    var currentPage=$("#paginationWrap").attr("data-curr");  
     var physicsNo = confirmBtn.attr("data-pn");
-    var statusModal = $(".m-modal_bg.loss");
-    var currentPage=$("#paginationWrap").attr("data-curr");
+    var statusModal = $(".m-modal_bg.loss"); 
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/setCardStatus",
       {
-        type: "GET",
+        type: "POST",
         params: {
           "physicsNo": physicsNo,
           "status": status,
@@ -767,7 +770,7 @@ entryCard.prototype = {
               PFT.Util.STip("success", res.msg, 3000, function () {
                 //修改成功回调
               });
-              that.getCardList(currentPage);
+              (request=="查询") ? that.getCardList(currentPage) : that.getCardInfo(1);
               break;
             case 201:
               //未登录
@@ -789,7 +792,7 @@ entryCard.prototype = {
   },
   fillCard: function () {
     var that = this;
-    var fillBtn = $("#tbody .crd_operation .u-btn_fillCard");
+    var fillBtn = $("#tbody .crd_operation .u-btn_fillCard,#tbody .crd_operation .u-btn_changeCard");
     var fillModal = $(".m-modal_bg.fillCard");
     var confirmBtn = $(".m-modal_bg.fillCard .save");
     fillBtn.on("click", function () {
@@ -813,7 +816,7 @@ entryCard.prototype = {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/replacePhysicsCard",
         {
-          type: "GET",
+          type: "POST",
           params: {
             "newPhysics": phyVal,
             "oldPhysics": oldPhyVal
@@ -845,7 +848,7 @@ entryCard.prototype = {
    getMoreLid : function(e){
       var select = new Select({
                 source : "/r/product_Product/getLandInfoByApplyId",
-                ajaxType : "GET",
+                ajaxType : "POST",
                 ajaxParams : {
 
                 },

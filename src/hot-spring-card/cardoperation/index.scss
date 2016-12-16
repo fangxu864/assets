@@ -161,7 +161,25 @@
                 border-top: 1px solid #E5E5E5;
                 text-align: center;
             }
-            
+            #tbody .countColor{
+                text-align: left;
+            }
+            #tbody .u-span_countAll,#tbody .u-span_countBlue,#tbody .u-span_countPink{
+                display: inline-block;
+                width: 90px;
+                font-size: 17px;
+                padding-left: 10px;
+                text-align: center;
+            }
+            #tbody .u-span_countAll{
+                padding-left: 30px;
+            }
+            #tbody .u-span_countBlue{
+                color:#0797d9;
+            }
+            #tbody .u-span_countPink{
+                color:#ff6699;
+            }
             .g-index .m-table .u-card_status tr:hover {
                 background: #f5f5f5;
             }
