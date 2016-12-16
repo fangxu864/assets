@@ -1,0 +1,36 @@
+.expiredText{
+  box-sizing: border-box;
+  padding: 50px 35px 40px 35px;
+  width: 100%;
+  height: 600px;
+  font-size: 18px;
+  h1{
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 30px;
+    color: #f07845;
+    font-weight: bold;
+    border-bottom: 2px solid #e5e5e5;
+  }
+
+  p{
+    margin: 30px 20px;
+    text-indent: 2em;
+    line-height: 30px;
+  }
+}
+
+.appBox_expired{
+  width: 100%;
+  border: 1px solid #e5e5e5;
+  li{
+    padding: 0 15px;
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 1px solid #e5e5e5;
+    .etime{
+      padding: 0 5px;
+      color: #f07845;
+    }
+  }
+}

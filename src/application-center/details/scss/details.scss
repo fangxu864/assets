@@ -70,19 +70,39 @@
             }
             p{
                 line-height: 20px;
-                e{
-                    color: #3e3e3e;
-                }
                 margin-top: 10px;
                 color: #92a0ab;
-                .time_detail {
-                    color: #e11d2c;
-                    font-weight: bold;
-                    padding: 0 5px;
-                }
             }
 
         }
+    }
+    .time_detail {
+        color: #e11d2c;
+        font-weight: bold;
+        padding: 0 5px;
+    }
+    .btn_details{
+        margin-top: 2px;
+        text-align: center;
+        line-height: 35px;
+        font-size: 16px;
+        float: left;
+        display: inline-block;
+        background: #f07845;
+        width: 120px;
+        height: 35px;
+        color: white;
+    }
+    .price_details{
+        display: inline-block;
+        color: map-get($Color,blur);
+        margin-left: 30px;
+        margin-top: 2px;
+        text-align: center;
+        line-height: 35px;
+        font-size: 14px;
+        float: left;
+        display: inline-block;
     }
     .line2_detail{
         @extend %clearfix;
@@ -95,34 +115,11 @@
             p{
                 text-align: center;
             }
-            .num_detail{
-                color: #e11d2c;
-                font-weight: bold;
-            }
         }
-        .btn_details{
-            margin-top: 2px;
-            text-align: center;
-            line-height: 35px;
-            font-size: 16px;
-            float: left;
-            display: inline-block;
-            background: #f07845;
-            width: 120px;
-            height: 35px;
-            color: white;
-        }
-        .price_details{
-            display: inline-block;
-            color: map-get($Color,blur);
-            margin-left: 30px;
-            margin-top: 2px;
-            text-align: center;
-            line-height: 35px;
-            font-size: 14px;
-            float: left;
-            display: inline-block;
-        }
+    }
+    .num_detail{
+        color: #e11d2c;
+        font-weight: bold;
     }
     .appdetails_details{
         padding: 0 22px;
