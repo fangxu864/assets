@@ -24,7 +24,9 @@ var config = require("../../task-webpack/config")({
         //应用中心 - 开通统计列表
         "appcenter_appstatistics" : "./src/application-center/app-statistics/index.js",
         //应用中心 - 开通统计详情
-        "appcenter_appstatisticsdetail" : "./src/application-center/app-statisticsdetail/index.js"
+        "appcenter_appstatisticsdetail" : "./src/application-center/app-statisticsdetail/index.js",
+        //应用中心 - 过期提示窗口
+        "appcenter_expiredText" : "./src/application-center/expiredText/index.js",
 	},
 	output : output,
 	plugins : plugins

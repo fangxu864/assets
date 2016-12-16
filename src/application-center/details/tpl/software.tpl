@@ -1,7 +1,7 @@
 <!--标题-->
 <h1>微商城</h1>
 <!--应用详情-->
-<section class="available">
+<div>
     <!--图标简介-->
     <div class="line1_detail">
         <i class="ui-app-icon"></i>
@@ -20,7 +20,7 @@
         <span class="btn_details" id="btn">续费</span>
         <span class="price_details" id="price"></span>
         <div class="message_box" id="message_box_open">
-            <div class="content"><e style="color:#df3e0a;font-size: 16px;">微商城开通</e></br>有效期：<e style="color:#df3e0a;padding: 0 2px">2016-11-20</e style="color:#df3e0a;padding: 0 2px">至<e style="color:#df3e0a;padding: 0 2px">2017-11-20</e></div>
+            <div class="content"><e style="color:#df3e0a;font-size: 16px;">微商城开通</e></br>有效期：<e style="color:#df3e0a;padding: 0 2px">2016-11-20</e>至<e style="color:#df3e0a;padding: 0 2px">2017-11-20</e></div>
             <span class="triangle"></span>
             <span class="triangle_back"></span>
         </div>
@@ -48,9 +48,9 @@
         </p>-->
     </div>
 </div>
-</section>
+</div>
 <!--推荐应用-->
-<section class="recommend_details">
+<div class="recommend_details">
     <h2>推荐应用</h2>
     <div class="content_details">
         <ul class="app-list" id="app-list">
@@ -107,4 +107,4 @@
     </div>
 
 
-</section>
+</div>
