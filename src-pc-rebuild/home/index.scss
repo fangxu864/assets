@@ -30,8 +30,12 @@ ul{
     list-style-type: none;
     float: left;
     color: #017aff;
-    margin-left: 24px;
+    padding-left: 24px;
     font-size: 14px;
+    min-width: 666px;
+    position: relative;
+    z-index: 1;
+    background-color : $black_color ;
     li{
       cursor : pointer;
       position: relative;
@@ -117,8 +121,10 @@ ul{
     margin: 0;
     padding: 0;
     list-style-type: none;
-    float: right;
+    position: absolute;
+    right: 0px;
     margin-right: 24px;
+    min-width: 300px;
     font-size: 14px;
     color: #a0a0a0;
     .icon-Platform-Prompt{
@@ -252,20 +258,26 @@ ul{
   position: fixed;
   bottom: 0px;
   background-color: $black_color;
-  //ul.href_list{
-  //  position: absolute;
-  //  left : 200px;
-  //  color: white;
-  //  li{
-  //    float: left;
-  //    a{
-  //      color: #969696;
-  //    }
-  //  }
-  //}
+  ul.href_list{
+    position: absolute;
+    left : 10%;
+    color: white;
+    li{
+      float: left;
+      a{
+        color: #969696;
+        text-decoration: none;
+      }
+      i.short_line{
+        color: #969696;
+        font-style: normal;
+        margin: 0 5px;
+      }
+    }
+  }
   .copy_right{
-    width: 500px;
+    width: 572px;
     margin: 0 auto;
-    color: #969696;
+    color: #717171;
   }
 }
