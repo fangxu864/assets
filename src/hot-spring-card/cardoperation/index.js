@@ -56,7 +56,6 @@ entryCard.prototype = {
       // toPage :      要switch到第几页
       // currentPage : 当前所处第几页
       // totalPage :   当前共有几页
-    //  console.log(this.currentPage);
       pagination.render({ current: currentPage, topage:toPage });
 
       if (xhrPoster && xhrPoster.status !== 200) {
@@ -195,13 +194,11 @@ entryCard.prototype = {
   checkSalerId:function(){ 
     var salerInp=$("#saler_inp");
     var slVal=salerInp.val();
-   // console.log(slVal);
     var salerid=salerInp.attr("data-id");
     if(slVal.trim().length<=0||salerid===""||slVal==="请先选择产品!"){
       salerInp.val("请先选择产品!").focus();
       return false;
     }
-   // console.log(this.lid)
   },
   getLid: function (e) {
     var that=this;
@@ -249,7 +246,7 @@ entryCard.prototype = {
                   switch (list[i].status) {
                     case "1":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
-                        + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                        + '<td class="crd_paylist"></td>'
                         + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_edit" >编辑</a>'
                         + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
@@ -270,7 +267,7 @@ entryCard.prototype = {
                       break;
                     case "3":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
-                         + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                         + '<td class="crd_paylist"></td>'
                         + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
                         
                         + ' <a class="u-btn_fillCard" >补卡</a>'
@@ -281,7 +278,7 @@ entryCard.prototype = {
                       break;
                     case "4":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
-                         + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                         + '<td class="crd_paylist"></td>'
                         + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_undisable status" data-status="1">解除禁用</a>'
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
@@ -398,7 +395,7 @@ entryCard.prototype = {
               switch (data.status) {
                 case "1":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                    + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                    + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
                     + ' <a class="u-btn_edit" >编辑</a>'
                     + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
@@ -420,7 +417,7 @@ entryCard.prototype = {
                   break;
                 case "3":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                    + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                    + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
                     + ' <a class="u-btn_fillCard" >补卡</a>'
                     + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
@@ -431,7 +428,7 @@ entryCard.prototype = {
                 case "4":
 
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                   + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                   + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
 
                     + ' <a class="u-btn_undisable status" data-status="1">解除禁用</a>'
@@ -496,7 +493,7 @@ entryCard.prototype = {
       {
         type: "POST",
         params: {
-          "physicsNo": physicsNo,
+          "physics_no": physicsNo,
          
         },
         success: function (res) {
@@ -587,6 +584,11 @@ entryCard.prototype = {
                 PFT.Util.STip("fail", res.msg, 3000, function () {
 
                 });
+               case 403:
+              PFT.Util.STip("fail", res.msg, 3000, function () {
+                //失败回调
+              });
+              break;
             }
           },
         }
@@ -639,6 +641,11 @@ entryCard.prototype = {
                 PFT.Util.STip("fail", res.msg, 3000, function () {
                 });
                 break;
+               case 403:
+              PFT.Util.STip("fail", res.msg, 3000, function () {
+                //失败回调
+              });
+              break;
             }
           },
         }
@@ -671,6 +678,11 @@ entryCard.prototype = {
               case 400:
                 span_des.html("").html(span);
                 break;
+              case 403:
+              PFT.Util.STip("fail", res.msg, 3000, function () {
+                //失败回调
+              });
+              break; 
             }
           },
         }
@@ -728,6 +740,11 @@ entryCard.prototype = {
                 //删除失败回调
               });
               break;
+              case 403:
+              PFT.Util.STip("fail", res.msg, 3000, function () {
+                //失败回调
+              });
+              break;
           }
 
         }
@@ -763,7 +780,7 @@ entryCard.prototype = {
        url="forbidCard";
        break;
        case "解除禁用":
-       url="forbidCard";
+       url="recoverForbid";
      }
       content.text(contentTxt);
       statusModal.show();
@@ -774,14 +791,16 @@ entryCard.prototype = {
     var that = this;
     var currentPage=$("#paginationWrap").attr("data-curr");  
     var physicsNo = confirmBtn.attr("data-pn");
+    var presuming_id = confirmBtn.attr("data-preid");
     var statusModal = $(".m-modal_bg.loss"); 
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/"+url,
       {
         type: "POST",
         params: {
-          "physicsNo": physicsNo,
-          "status": status,
+          
+          "presuming_id":presuming_id,
+         
         },
         loading:function(){
           statusModal.hide();
@@ -806,6 +825,11 @@ entryCard.prototype = {
                 //修改失败回调
               });
               break;
+            case 403:
+              PFT.Util.STip("fail", res.msg, 3000, function () {
+                //修改失败回调
+              });
+              break;
           }
 
         }
@@ -821,9 +845,11 @@ entryCard.prototype = {
       var $this = $(this).parent();
       var oldPhyInp=$("#oldCrdInp");
       var oldPhyNo = $this.attr("data-pn");
+      var presuming_id = $this.attr("data-preid");
+    
       oldPhyInp.val(oldPhyNo);
       fillModal.show();
-      confirmBtn.attr("data-pn", oldPhyNo);
+      confirmBtn.attr({"data-pn": oldPhyNo,"data-preid":presuming_id});
     })
   },
   onFillCardSubmit: function () {
