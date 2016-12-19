@@ -23,9 +23,18 @@ var Main = PFT.Util.Class({
 		pageSize: 10
 		// payMode: ['年','季度','月']
 	},
+	dom: {
+		tbCharge: '#tbCharge',
+		search: {
+			keywords: '#searchAppName',
+			select: '#searchChargeMode',
+			btn: '#searchCharge'
+		}
+	},
 	xhr: null,
 	init : function(){
-		var _this = this;
+		var _this = this,
+			dom = _this.dom;
 
 		// 初始化分页
 		_this.pagination = new Pagination({
@@ -66,8 +75,8 @@ var Main = PFT.Util.Class({
 
 			_this.ajaxGetData({
 				page: 1,
-				searchAppName: 	$('#searchAppName').val(),
-				payMode: 		$('#searchChargeMode').val(),
+				searchAppName: 	$( dom.search.keywords ).val(),
+				payMode: 		$( dom.search.select ).val(),
 				success: function(res){
 					_this.renderTable(res.data.list);
 
@@ -103,11 +112,12 @@ var Main = PFT.Util.Class({
 			},
 			type: 'POST',
 			loading: function(){
-				loading('',{
+				var html = loading('',{
 					tag: 'tr',
 					id: 'listLoading',
 					colspan: 5
 				});
+				$(_this.dom.tbCharge).children('tbody').html(html);
 			},
 			success: function(res) {
 				$('#listLoading').remove();
@@ -148,11 +158,11 @@ var Main = PFT.Util.Class({
 	},
 	renderTable : function( data ){
 		var html = Template.tplTb({ data: data });
-		$('#tbCharge').children('tbody').html(html);
+		$(this.dom.tbCharge).children('tbody').html(html);
 	},
 	renderSelect : function( data ){
 		var html = Template.tplOption({ data: data });
-		$('#searchChargeMode').append(html);
+		$(this.dom.search.select).append(html);
 	}
 });
 

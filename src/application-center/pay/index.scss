@@ -38,10 +38,10 @@ body{
 .mode-list li.active:after {
     content: '';
     position: absolute;
-    left: -4px;
-    top: -4px;
-    right: -4px;
-    bottom: -4px;
+    left: -5px;
+    top: -5px;
+    right: -5px;
+    bottom: -5px;
     border: 2px solid #0797d9;
     -webkit-border-radius: 2px;
     border-radius: 2px;

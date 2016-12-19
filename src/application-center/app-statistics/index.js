@@ -78,12 +78,16 @@ var Main = PFT.Util.Class({
 				endTime: 		$(_this.dom.search.etime).val(),
 				searchAppName: 	$(_this.dom.search.appname).val(),
 				success: function(res){
-					_this.renderTable(res.data.list, {
-						btime: $(_this.dom.search.btime).val(),
-						etime: $(_this.dom.search.etime).val()
-					});
+					if(res.data.list) {
+						_this.renderTable(res.data.list, {
+							btime: $(_this.dom.search.btime).val(),
+							etime: $(_this.dom.search.etime).val()
+						});
 
-					_this.pagination.render({current: 1, total: res.data.total});
+						_this.pagination.render({current: 1, total: res.data.total});
+					} else {
+						$(_this.dom.tbStatistics).children('tbody').html('<tr><td align="center" colspan="2">查无数据</td></tr>');
+					}
 				}
 			});
 		})
@@ -136,11 +140,12 @@ var Main = PFT.Util.Class({
 			},
 			loading: function(){
 				//加载中
-				loading('',{
+				var html = loading('',{
 					tag: 'tr',
 					id: 'listLoading',
 					colspan: 2
 				});
+				$(_this.dom.tbStatistics).children('tbody').html(html);
 			},
 			success: function(res) {
 				$('#listLoading').remove();
