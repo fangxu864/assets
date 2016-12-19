@@ -181,8 +181,10 @@ entryCard.prototype = {
     that.lossConfBtn.on("click", function (e) {
       var confirmBtn = $(this),
           status = confirmBtn.attr("data-status"),
-          request=confirmBtn.attr("data-request");
-      that.onSetStatusConfirm(status, confirmBtn,request);
+          request=confirmBtn.attr("data-request"),
+          url=confirmBtn.attr("data-url");
+
+      that.onSetStatusConfirm(status, confirmBtn,request,url);
     });
     //补卡按钮
     that.fillConfBtn.on("click", function (e) {
@@ -247,8 +249,8 @@ entryCard.prototype = {
                   switch (list[i].status) {
                     case "1":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
-                        + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' >'
+                        + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_edit" >编辑</a>'
                         + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                         + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
@@ -258,8 +260,8 @@ entryCard.prototype = {
                       break;
                     case "2":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
-                        + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + '>'
+                        + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid'+list[i].id+' >'
                         +'<a class="u-btn_changeCard">换手牌</a>'
                        /* + ' <a class="u-btn_fillCard" >换手牌</a>'*/
                         /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' >编辑</a>'*/
@@ -268,8 +270,9 @@ entryCard.prototype = {
                       break;
                     case "3":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
-                        + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' >'
+                         + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
+                        
                         + ' <a class="u-btn_fillCard" >补卡</a>'
                         + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
                         + ' <a class="u-btn_del" >删除</a><br/>'
@@ -278,10 +281,9 @@ entryCard.prototype = {
                       break;
                     case "4":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
-                        + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' >'
-
-                        + ' <a class="u-btn_undisable status" data-status="1">取消禁用</a>'
+                         + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
+                        + ' <a class="u-btn_undisable status" data-status="1">解除禁用</a>'
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
                       break;
@@ -323,11 +325,12 @@ entryCard.prototype = {
       var phy_no = parent.attr("data-pn");
       var card_no = parent.attr("data-vn");
       var color = parent.attr("data-cl");
+      var presuming_id =parent.attr("data-preid");
       var phyInp = $(".m-modal_bg.edit .phy_no");
       var cardInp = $(".m-modal_bg.edit .card_no");
       var cardBg = $(".m-modal_bg.edit .cardBg");
       var editModal = $(".m-modal_bg.edit");
-      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no});
+      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no,"data-preid":presuming_id});
       editModal.show();
       phyInp.val(phy_no);
       cardInp.val(card_no);
@@ -378,8 +381,8 @@ entryCard.prototype = {
       {
         type: "POST",
         params: {
-          "physicsNo": physicsNo,
-          "salerid":salerid
+          "physics_no": physicsNo,
+         
         },
         loading: function () {
           that.tbody.html("").html("<tr><td>正在加载...</td></tr>");
@@ -395,8 +398,8 @@ entryCard.prototype = {
               switch (data.status) {
                 case "1":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                    + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
+                    + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
                     + ' <a class="u-btn_edit" >编辑</a>'
                     + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                     + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
@@ -406,8 +409,8 @@ entryCard.prototype = {
                   break;
                 case "2":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                    + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
+                   + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
                     + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" >'
                      + ' <a class="u-btn_fillCard" >换手牌</a>'
@@ -417,8 +420,8 @@ entryCard.prototype = {
                   break;
                 case "3":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                    + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
+                    + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
                     + ' <a class="u-btn_fillCard" >补卡</a>'
                     + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
                     + ' <a class="u-btn_del" >删除</a>'
@@ -428,10 +431,10 @@ entryCard.prototype = {
                 case "4":
 
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                    + '<td class="crd_paylist"> </td>'
-                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' >'
+                   + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
+                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
 
-                    + ' <a class="u-btn_undisable status" data-status="1">取消禁用</a>'
+                    + ' <a class="u-btn_undisable status" data-status="1">解除禁用</a>'
 
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
                     + ' </td> </tr>';
@@ -487,14 +490,14 @@ entryCard.prototype = {
     //模态框中刷卡检验唯一性
     var that = this;
     var cardInfo = "";
-    var salerid=$("#saler_inp").attr("data-id");
+  
     PFT.Util.Ajax(
       "/r/product_HotSpringCard/checkPhysicsCard",
       {
         type: "POST",
         params: {
           "physicsNo": physicsNo,
-          "salerid":salerid
+         
         },
         success: function (res) {
           switch (res.code) {
@@ -565,9 +568,9 @@ entryCard.prototype = {
         {
           type: "POST",
           params: {
-            "physicsNo": phyVal,
+            "physics_no": phyVal,
+            "visible_no": carVal,
             "color": color,
-            "visibleNo": carVal,
             "salerid": salerid
           },
           success: function (res) {
@@ -602,6 +605,7 @@ entryCard.prototype = {
     var oldPhyVal = that.editSaveBtn.attr("data-oldpn");
     var oldColor = that.editSaveBtn.attr("data-oldcolor");
     var oldCard = that.editSaveBtn.attr("data-oldcrd");
+    var presuming_id = that.editSaveBtn.attr("data-preid");
     var lid = that.salerInp.attr("data-id");
     var phyVal = phyNo.val();
     var cardVal = cardNo.val();
@@ -613,13 +617,14 @@ entryCard.prototype = {
         {
           type: "POST",
           params: {
-            "newPhysics": phyVal,
-            "newColor": color,
-            "newVisible": cardVal,
+            "new_physics": phyVal,
+            "new_color": color,
+            "new_visible": cardVal,
             "salerid": lid,
-            "oldPhysics": oldPhyVal,
-            "oldVisible": oldCard,
-            "oldColor": oldColor
+            "old_physics": oldPhyVal,
+            "old_visible": oldCard,
+            "old_color": oldColor,
+            "presuming_id":presuming_id
           },
           success: function (res) {
             switch (res.code) {
@@ -646,7 +651,7 @@ entryCard.prototype = {
   onSubmitCheck: function (entryCard) {
     var reg = /^[0-9a-zA-Z]+$/;
     var lid = $("#saler_inp").attr("data-id");
-    console.log(lid);
+  //  console.log(lid);
     var span_des = $(".u-span_des.card_no");
     if (reg.test(entryCard)) {
       PFT.Util.Ajax(
@@ -654,7 +659,7 @@ entryCard.prototype = {
         {
           type: "POST",
           params: {
-            "visibleNo": entryCard,
+            "visible_no": entryCard,
             "salerid": lid
           },
           success: function (res) {
@@ -683,23 +688,23 @@ entryCard.prototype = {
     var confirmBtn = $(".m-modal_bg.del .confirm");
     delBtn.on("click", function (e) {
       var phyNo = $(this).parent(".crd_operation").attr("data-pn");
+      var preid = $(this).parent(".crd_operation").attr("data-preid");
       delModal.show();
-      confirmBtn.attr("data-pn", phyNo);
+      confirmBtn.attr({"data-pn": phyNo,"data-preid":preid});
     });
   },
   onDelConfirm: function (e) {
     var that = this;
-    var physicsNo = that.delConfBtn.attr("data-pn");
+    var presuming_id = that.delConfBtn.attr("data-preid");
     var delModal = $(".m-modal_bg.del");
     var currentPage=$("#paginationWrap").attr("data-curr");
     //点击删除按钮
     PFT.Util.Ajax(
-      "/r/product_HotSpringCard/setStatusOfDeleting",
+      "/r/product_HotSpringCard/deleteCard",
       {
         type: "POST",
         params: {
-          "physicsNo": physicsNo,
-          "is_delete": 1,
+          "presuming_id": presuming_id
         },
         success: function (res) {
           delModal.hide();
@@ -742,21 +747,36 @@ entryCard.prototype = {
     statusBtn.on("click", function () {
       var $this = $(this);
       var phyNo = $this.parent().attr("data-pn");
+      var presuming_id=$this.parent().attr("data-preid");
       var status = $this.attr("data-status");
       var text = $this.text();
       var contentTxt = "确定要" + text + "？";
+      var url="";
+     switch (text) {
+       case "挂失":
+       url="lossCard";
+       break;
+       case "取消挂失":
+       url="recoverCard";
+       break;
+       case "禁用":
+       url="forbidCard";
+       break;
+       case "解除禁用":
+       url="forbidCard";
+     }
       content.text(contentTxt);
       statusModal.show();
-      confirmBtn.attr({ "data-pn": phyNo, "data-status": status ,"data-request": request});
+      confirmBtn.attr({ "data-pn": phyNo, "data-status": status ,"data-request": request,"data-preid":presuming_id,"data-url":url});
     });
   },
-  onSetStatusConfirm: function (status, confirmBtn,request) {
+  onSetStatusConfirm: function (status, confirmBtn,request,url) {
     var that = this;
     var currentPage=$("#paginationWrap").attr("data-curr");  
     var physicsNo = confirmBtn.attr("data-pn");
     var statusModal = $(".m-modal_bg.loss"); 
     PFT.Util.Ajax(
-      "/r/product_HotSpringCard/setCardStatus",
+      "/r/product_HotSpringCard/"+url,
       {
         type: "POST",
         params: {
@@ -813,6 +833,7 @@ entryCard.prototype = {
     var phyVal=$(".m-modal_fillCard .u-input.phy_no").val();
     var fillCardModal=$(".m-modal_bg.fillCard");
     var oldPhyVal = that.fillConfBtn.attr("data-pn");
+    var presuming_id=that.fillConfBtn.attr("data-preid");
     var currentPage=$("#paginationWrap").attr("data-curr");
     if (reg.test(phyVal)) {
       PFT.Util.Ajax(
@@ -820,8 +841,9 @@ entryCard.prototype = {
         {
           type: "POST",
           params: {
-            "newPhysics": phyVal,
-            "oldPhysics": oldPhyVal
+            "new_physics": phyVal,
+            "old_physics": oldPhyVal,
+            "presuming_id":presuming_id
           },
           success: function (res) {
             switch (res.code) {
@@ -868,7 +890,7 @@ entryCard.prototype = {
                     var reslut = { code:200};
                     var list=res.data;
                     if(!list){
-                        console.log("1111")
+                       
                         return reslut;
                     }
                     var newList=[];
