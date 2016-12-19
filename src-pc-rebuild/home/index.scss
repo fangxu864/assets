@@ -6,7 +6,6 @@ $gray_color_left : #dddce1;
 //右边灰色
 $gray_color_right : #f3f1f2 ;
 
-
 body , html,ul{
   margin: 0;
   padding: 0;
@@ -30,7 +29,7 @@ ul{
     list-style-type: none;
     float: left;
     color: #017aff;
-    padding-left: 24px;
+    padding-left: 15px;
     font-size: 14px;
     min-width: 666px;
     position: relative;
@@ -177,18 +176,50 @@ ul{
   top: 50px;
   bottom: 50px;
   background-color: $black_color;
-  overflow-x: hidden;
+  z-index: 1;
   .user_info_box{
     height: 60px;
+    .user_img_box{
+      width: 40px;
+      box-sizing: border-box;
+      top: 10px;
+      left: 28px;
+      height: 40px;
+      border: 2px solid #fff;
+      border-radius: 40px;
+      position: absolute;
+      overflow: hidden;
+      img{
+        width: 32px;
+        border: 2px solid black;
+        border-radius: 36px;
+        height: 32px;
+      }
+    }
+    .user_name_box{
+      min-width: 60px;
+      position: absolute;
+      color: white;
+      font-size: 12px;
+      left: 87px;
+      top: 14px;
+      .user_type{
+        margin-top: 5px;
+        color: #b2b2b2;
+      }
+    }
+
   }
+
   .menu_box{
     height: 200px;
     margin-left: 10px;
     border-radius: 5px 0 0 5px;
     background-color: $gray_color_left;
-    overflow: hidden;
+    padding-top: 10px;
+    box-sizing: border-box;
     ul.menu_ul{
-      li{
+      li.menu_1_li{
         line-height: 50px;
         margin-top: 12px;
         border-radius: 8px 0 0 8px;
@@ -197,9 +228,9 @@ ul{
         padding-left: 14px;
         cursor: pointer;
         position: relative;
-        transition: background-color 0.2s ,box-shadow 0.2s;
+        //transition: background-color 0.2s ,box-shadow 0.2s;
       }
-      li:hover{
+      li.menu_1_li:hover{
         line-height: 50px;
         margin-top: 12px;
         background-color: $gray_color_right;
@@ -208,12 +239,15 @@ ul{
         margin-left: 10px;
         padding-left: 14px;
         box-shadow: 1px 1px 1px 1px #b7b7b7;
-        color : #235fcd ;
+
       }
-      li:hover  span.icon{
+      li.menu_1_li:hover span.icon {
         background-color: #235fcd;
       }
-      li{
+      li.menu_1_li:hover span.txt ,li.menu_1_li:hover span.arrow {
+       color: #235fcd;
+     }
+      li.menu_1_li{
         span.icon , span.txt , span.arrow{
           position: absolute;
         }
@@ -227,14 +261,37 @@ ul{
           top: 10px;
         }
         span.txt{
+          width: 50px;
           left: 66px;
           font-size: 12px;
         }
         span.arrow{
           left: 150px;
         }
-
-
+      }
+      li.menu_1_li:hover ul.menu_2_list_ul {
+        display: block;
+      }
+      ul.menu_2_list_ul{
+          display: none;
+          width: 138px;
+          position: absolute;
+          right: -138px;
+          background-color: #f3f1f2;
+          border-bottom: 1px solid #ccc;
+          border-top: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          margin: 0 ;
+          padding: 0 ;
+          top :-1px;
+          .menu_2_list_li{
+            padding-left: 20px;
+            line-height: 50px;
+            font-size: 12px;
+          }
+          .menu_2_list_li:hover {
+            color: #235fcd;
+          }
       }
     }
   }
@@ -242,12 +299,15 @@ ul{
 //右边
 .pft_right_box{
   width: auto;
-  position: absolute;
+  position: fixed;
   top: 50px;
   left: 204px;
   bottom: 50px;
   right: 0px;
   overflow-y: auto;
+  background-color: $gray_color_right;
+  padding-top: 32px;
+  padding-left: 28px;
 }
 //尾部
 .pft_footer_box{
