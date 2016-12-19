@@ -3,7 +3,7 @@
 平台页面访问：http://www.12301.local/prod_restrict.html
 
 平台new/d分支：feature/member-to-service
-后端Service库相应分支：feature/member_to_service   @蓝罗成
+后端Service库相应分支：feature/member_to_service   @蓝罗程
 前端assets分支：feature/member-to-service
 
 后端接口地址：/r/product_MemberCardBasic/Lands
