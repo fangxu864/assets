@@ -30,5 +30,14 @@ module.exports = {
     //开通统计列表
     statistics: '/r/AppCenter_ModuleList/sumModule',
     //开通统计明细
-    statisticsDetail: '/r/AppCenter_ModuleList/getDetail'
+    statisticsDetail: '/r/AppCenter_ModuleList/getDetail',
+
+    //支付 - 获取当前时间段对应的某模块资费信息
+    getModeList: '/r/AppCenter_ModulePayment/getPriceInfo',
+    //支付 - 使用平台账户余额支付
+    payViaAccBalance: '/r/AppCenter_ModulePayment/payInPlatform',
+    //支付 - 微信二维码生成
+    payViaWepay: '/r/AppCenter_ModulePayment/wxPayCreQrCode',
+    //支付 - 支付宝二维码生成
+    payViaAlipay: '/r/AppCenter_ModulePayment/aliPayCreQrCode'
 };

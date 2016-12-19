@@ -7,8 +7,9 @@ require("./index.scss");
 
 var ajaxUrls = require('../common/js/ajaxurl.js');
 
-var ParseTemplate = PFT.Util.ParseTemplate;
+var dialog = require('COMMON/modules/dialog-simple');
 
+var ParseTemplate = PFT.Util.ParseTemplate;
 var Template = {
 	li : ParseTemplate(require("./tpl/li.xtpl"))
 };
@@ -31,21 +32,43 @@ var Main = PFT.Util.Class({
 
 		var url = window.location.href,
 			urlArr = url.split('?'),
+			id;
+
+		if(urlArr[1]) {
 			id = urlArr[1].split('=')[1];
+		} else {
+			alert('无模块Id');
+			return false;
+		}
+
+		_this.ajaxGetModeList(id);
+
+		$(dom.modelist).on('click', 'li', function(){
+			$(this).toggleClass('active').siblings().removeClass('active');
+		})
 
 
+		// $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
 	},
 
+    // getModeList: '/r/AppCenter_ModulePayment/getPriceInfo',
+    // payViaAccBalance: '/r/AppCenter_ModulePayment/payInPlatform',
+    // payViaWepay: '/r/AppCenter_ModulePayment/wxPayCreQrCode',
+    // payViaAlipay: '/r/AppCenter_ModulePayment/aliPayCreQrCode'
+
 	// 获取付费模式
-	ajaxGetMode: function( defaultmode ) {
+	ajaxGetModeList: function( id ) {
 		var _this = this;
 
-		PFT.Util.Ajax( ajaxUrls.getMode , {
+		PFT.Util.Ajax( ajaxUrls.getModeList , {
 			type: 'POST',
+			params: {
+				module_id: id
+			},
 			success: function(res) {
 
 				if(res.code == 200) {
-					_this.renderSelect( res.data , defaultmode );
+					_this.renderModeList( res.data );
 				} else {
 					// opts.error && opts.error( res.code );
 					alert( res.msg );
@@ -59,7 +82,7 @@ var Main = PFT.Util.Class({
 
 	renderModeList : function( data ){
 		var html = Template.li({ data: data });
-		$(this.dom.appmode).append(html);
+		$(this.dom.modelist).html(html);
 	}
 });
 
