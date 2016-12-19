@@ -1,4 +1,4 @@
-
+	
 
 
 var GetListAjax = require("./appList_service.js"); 
@@ -195,6 +195,8 @@ var AppList = PFT.Util.Class({
         //子li
         for(var i = 0;i<list.length;i++){
 
+        	var mid = list[i].module_id;
+
             temp += 
 
             '<li>' +
@@ -231,17 +233,17 @@ var AppList = PFT.Util.Class({
 						}else if(list[i].button_type == 1){//开通
 		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
 				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default-reverse w100">开通</a>' +
+				               '<a href="appcenter_pay.html?appid='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
 						    '</div>' ;
 						}else if(list[i].button_type == 2){//使用
 		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
 				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="javascript:;" class="btn-link">续费</a>' +
+				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
 						    '</div>' ;
 						}else if(list[i].button_type == 3){//去看看（过期）
 		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+'2016-12-11到期'+'</span></div>' +
 				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default-disable mr10">去看看</a>' + '<a href="javascript:;" class="btn-link">续费</a>' +
+				               '<a href="javascript:;" class="btn btn-default-disable mr10">去看看</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
 						    '</div>' ;
 						}      
 

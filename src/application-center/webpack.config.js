@@ -9,8 +9,8 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		//应用中心 - 首页
-		"appcenter_index" : "./src/application-center/index/index.js",
+	//应用中心 - 首页
+	"appcenter_index" : "./src/application-center/index/index.js",
         //应用中心 - 详情
         "appcenter_details" : "./src/application-center/details/index.js",
         //应用中心 - 应用费用配置列表
@@ -26,9 +26,12 @@ var config = require("../../task-webpack/config")({
         //应用中心 - 开通统计详情
         "appcenter_appstatisticsdetail" : "./src/application-center/app-statisticsdetail/index.js",
         //应用中心 - 支付
-        "appcenter_pay" : "./src/application-center/pay/index.js"
-	},
-	output : output,
-	plugins : plugins
+        "appcenter_pay" : "./src/application-center/pay/index.js",
+
+        //应用中心 - 过期提示窗口
+        "appcenter_expiredText" : "./src/application-center/expiredText/index.js"
+    },
+    output : output,
+    plugins : plugins
 });
 module.exports = config;

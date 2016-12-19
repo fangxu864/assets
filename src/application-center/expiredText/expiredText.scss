@@ -23,14 +23,35 @@
 .appBox_expired{
   width: 100%;
   border: 1px solid #e5e5e5;
+  max-height: 330px;
+  overflow: auto;
   li{
     padding: 0 15px;
-    height: 60px;
-    line-height: 60px;
+    height: 55px;
+    line-height: 55px;
     border-bottom: 1px solid #e5e5e5;
     .etime{
       padding: 0 5px;
       color: #f07845;
+    }
+    .renew{
+      display: inline-block;
+      margin-top: 7px;
+      background: #f07845;
+      float: right;
+      color: white;
+      height: 40px;
+      line-height: 40px;
+      width: 120px;
+      text-align: center;
+      cursor: pointer;
+      &:hover{
+        background: #e46732;
+      }
+    }
+
+    &:nth-child(odd){
+      background: #f0f3f5;
     }
   }
 }

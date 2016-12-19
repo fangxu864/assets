@@ -1,7 +1,7 @@
 <!--标题-->
 <h1>MINI云票务</h1>
 <!--应用详情-->
-<section>
+<div>
     <h2 style="text-align: center;margin: 20px 0">MINI云票务--移动式电子票务系统</h2>
     <div style="text-align: center">
         <img class="img" src="../移动电子售票系统.png" alt="">
@@ -13,9 +13,9 @@
             啥啥啥啥啥啥啥啥啥啥啥啥啥啥啥啥啥啥
         </div>
     </div>
-</section>
+</div>
 <!--推荐应用-->
-<section class="recommend_details">
+<div class="recommend_details">
     <h2>推荐应用</h2>
     <div class="content_details">
         <ul class="app-list" id="app-list">
@@ -26,4 +26,4 @@
     </div>
 
 
-</section>
+</div>
