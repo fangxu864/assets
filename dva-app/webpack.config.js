@@ -1,5 +1,8 @@
 const webpack = require('atool-build/lib/webpack');
-
+const path = require("path");
+const autoprefixer = require("autoprefixer");
+const precss = require("precss");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = function(webpackConfig, env) {
   webpackConfig.babel.plugins.push('transform-runtime');
 
@@ -37,11 +40,20 @@ module.exports = function(webpackConfig, env) {
     }
   });
 
-  webpackConfig["externals"] = {
-      "react": "React",
-      "dva" : "dva"
-  }
+    webpackConfig["externals"] = {
+        "react": "React",
+        "dva" : "dva"
+    }
 
+    webpackConfig["resolve"] = webpackConfig["resolve"] || {};
+    let alias = webpackConfig["resolve"]["alias"] = webpackConfig["resolve"]["alias"] || {};
+    alias["COMPONENTS"] = path.resolve("./src/components");
 
-  return webpackConfig;
+    webpackConfig.module.loaders.push({
+        test : /\.sass|scss$/,
+        //loader : ExtractTextPlugin.extract("style","css?sourceMap!cssnext!autoprefixer!sass")
+        loader : ExtractTextPlugin.extract("style","css?sourceMap!cssnext!postcss!sass")
+    })
+
+    return webpackConfig;
 };
