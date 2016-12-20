@@ -9,6 +9,9 @@ var Pft_left = Class({
     init : function () {
         $(this.container).html(pft_left_tpl);
         $(".pft_left_box .menu_box").css("height" , $(".pft_left_box").height() - 60 + "px");
+        $(window).on("resize",function () {
+            $(".pft_left_box .menu_box").css("height" , $(".pft_left_box").height() - 60 + "px");
+        })
     },
     EVENTS :{
     }
