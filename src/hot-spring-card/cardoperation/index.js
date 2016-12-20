@@ -141,14 +141,17 @@ entryCard.prototype = {
     //手牌号检验
     that.modalCardInp.on("change", function (e) {
       var entryCardVal,
-        editCardNo = $(".m-modal_edit .u-input.card_no").val(),
         entryCard = $(".u-input_box .card_no").val(),
         editEntryCard = $(".m-modal_edit .u-input_box .card_no").val(),
+        fillCard=$(".m-modal_fillCard .u-input_box .card_no").val(),
         span_des = $(".u-span_des.card_no");
       if (entryCard === "") {
         entryCardVal = editEntryCard;
       } else if (editEntryCard === "") {
         entryCardVal = entryCard;
+      } else{
+        entryCardVal = fillCard;
+      console.log(entryCardVal)
       }
       var reg = /^[0-9a-zA-Z]+$/;
       var span = '<span class="u-span_des ">检查是否含有空格</span>';
@@ -202,8 +205,7 @@ entryCard.prototype = {
   },
   getLid: function (e) {
     var that=this;
-
-     var salerName=$("#saler_inp").attr("data-title");
+    var salerName=$("#saler_inp").attr("data-title");
     this.lid.text(salerName);
     that.phyInp.val("").css("background", "#eee");
     that.entryModalbg.show();
@@ -217,7 +219,8 @@ entryCard.prototype = {
       physicsNo = this.schInp.val(),
       status = $(".u-input_radio.status:checked").val(),
       color = $(".u-input_radio.color:checked").val(),
-      request="查询";
+      req="";
+      request="查询"
       xhrPoster = PFT.Util.Ajax(
       "/r/product_HotSpringCard/searchHotSpringCard",
       {
@@ -247,7 +250,7 @@ entryCard.prototype = {
                     case "1":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+ ' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_edit" >编辑</a>'
                         + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                         + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
@@ -258,7 +261,7 @@ entryCard.prototype = {
                     case "2":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid'+list[i].id+' >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+' data-preid'+list[i].id+' >'
                         +'<a class="u-btn_changeCard">换手牌</a>'
                        /* + ' <a class="u-btn_fillCard" >换手牌</a>'*/
                         /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' >编辑</a>'*/
@@ -268,8 +271,7 @@ entryCard.prototype = {
                     case "3":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                          + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
-                        
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_fillCard" >补卡</a>'
                         + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
                         + ' <a class="u-btn_del" >删除</a><br/>'
@@ -279,7 +281,7 @@ entryCard.prototype = {
                     case "4":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                          + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-preid='+list[i].id+' >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_undisable status" data-status="1">解除禁用</a>'
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
@@ -288,7 +290,7 @@ entryCard.prototype = {
 
                 });
                 that.tbody.html("").html(cardList);
-                that.cardEdit();
+                that.cardEdit(req);
                 that.cardDel();
                 that.fillCard();
                 that.statusUpdate(request);
@@ -310,14 +312,24 @@ entryCard.prototype = {
       }
     )
   },
-  cardEdit: function () {
+  cardEdit: function (request) {
     //手牌编辑模态框
     var that = this;
     var cardEditBtn = $("#tbody .crd_operation .u-btn_edit");
     var saveEditBtn = $(".m-modal_edit .u-modal_btn.save");
     var salerName=$("#saler_inp").attr("data-title");
+    
     this.lid.text(salerName);
-    cardEditBtn.on("click", function (e) {
+    $("#tbody .crd_operation .u-btn_edit,#tbody .crd_operation .u-btn_fillCard").on("click", function (e) {
+      var readCrdBtn=$(".m-modal_edit .readCard");
+      var title=$(".m-modal_edit .u-span_title");
+      if($(this).hasClass("u-btn_changeCard")){
+          title.text("补卡");
+          readCrdBtn.hide();
+      }else{
+          title.text("编辑");
+          readCrdBtn.show();
+      }
       var parent = $(this).parent();
       var phy_no = parent.attr("data-pn");
       var card_no = parent.attr("data-vn");
@@ -327,7 +339,7 @@ entryCard.prototype = {
       var cardInp = $(".m-modal_bg.edit .card_no");
       var cardBg = $(".m-modal_bg.edit .cardBg");
       var editModal = $(".m-modal_bg.edit");
-      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no,"data-preid":presuming_id});
+      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no,"data-preid":presuming_id,"data-req":request});
       editModal.show();
       phyInp.val(phy_no);
       cardInp.val(card_no);
@@ -370,7 +382,7 @@ entryCard.prototype = {
     var cardInp = that.schInp;
     var physicsNo = cardInp.val();
     var cardInfo = "";
-    var request="编辑";
+    var request="edit";
     var salerid=$("#saler_inp").attr("data-id");
     $("#paginationWrap").hide();
     PFT.Util.Ajax(
@@ -385,7 +397,7 @@ entryCard.prototype = {
           that.tbody.html("").html("<tr><td>正在加载...</td></tr>");
         },
         success: function (res) {
-
+         
           switch (res.code) {
             case 200:
               var data = res.data;
@@ -396,7 +408,7 @@ entryCard.prototype = {
                 case "1":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                     + '<td class="crd_paylist"></td>'
-                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-id='+data.salerid+' data-preid='+data.id+'>'
                     + ' <a class="u-btn_edit" >编辑</a>'
                     + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                     + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
@@ -406,19 +418,18 @@ entryCard.prototype = {
                   break;
                 case "2":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
-                   + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
-                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
+                   + '<td class="crd_paylist">'+data.ordernum+'</td>'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-id='+data.salerid+'  data-preid='+data.id+'>'
                     + '<td class="crd_paylist"></td>'
                     + '<td class="crd_operation" >'
-                     + ' <a class="u-btn_fillCard" >换手牌</a>'
-                   /*  +'<a class="u-btn_changeCard">换手牌</a>'*/
+                    +'<a class="u-btn_changeCard">换手牌</a>'
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
                     + ' </td> </tr>';
                   break;
                 case "3":
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                     + '<td class="crd_paylist"></td>'
-                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-id='+data.salerid+'  data-preid='+data.id+'>'
                     + ' <a class="u-btn_fillCard" >补卡</a>'
                     + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
                     + ' <a class="u-btn_del" >删除</a>'
@@ -429,7 +440,7 @@ entryCard.prototype = {
 
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                    + '<td class="crd_paylist"></td>'
-                    + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].id+' >'
+                    + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' +data.color + ' data-id='+data.salerid+' data-preid='+data.id+' >'
 
                     + ' <a class="u-btn_undisable status" data-status="1">解除禁用</a>'
 
@@ -440,7 +451,7 @@ entryCard.prototype = {
 
 
               that.tbody.html("").html(cardInfo);
-              that.cardEdit();
+              that.cardEdit(request);
               that.cardDel();
               that.fillCard();
               that.statusUpdate(request);
@@ -607,12 +618,21 @@ entryCard.prototype = {
     var oldPhyVal = that.editSaveBtn.attr("data-oldpn");
     var oldColor = that.editSaveBtn.attr("data-oldcolor");
     var oldCard = that.editSaveBtn.attr("data-oldcrd");
+    var req=that.editSaveBtn.attr("data-req");
     var presuming_id = that.editSaveBtn.attr("data-preid");
     var lid = that.salerInp.attr("data-id");
     var phyVal = phyNo.val();
     var cardVal = cardNo.val();
     var color = colorBg.val();
      var currentPage=$("#paginationWrap").attr("data-curr");
+     var sch_inp=$("#sch_inp");
+     var sch_inpVal=sch_inp.val();
+     if(req=="edit"){
+       sch_inp.val(phyVal);
+     }else{
+      that.onSearchclearBtn();
+     }
+    
     if (reg.test(phyVal, cardVal)) {
       PFT.Util.Ajax(
         "/r/product_HotSpringCard/editCard",
@@ -838,7 +858,7 @@ entryCard.prototype = {
   },
   fillCard: function () {
     var that = this;
-    var fillBtn = $("#tbody .crd_operation .u-btn_fillCard,#tbody .crd_operation .u-btn_changeCard");
+    var fillBtn = $("#tbody .crd_operation .u-btn_changeCard");
     var fillModal = $(".m-modal_bg.fillCard");
     var confirmBtn = $(".m-modal_bg.fillCard .save");
     fillBtn.on("click", function () {
@@ -856,7 +876,7 @@ entryCard.prototype = {
     var that = this;
     var reg = /^[0-9a-zA-Z]+$/;
     var lid = that.salerInp.attr("data-id");
-    var phyVal=$(".m-modal_fillCard .u-input.phy_no").val();
+    var phyVal=$(".m-modal_fillCard .u-input.card_no").val();
     var fillCardModal=$(".m-modal_bg.fillCard");
     var oldPhyVal = that.fillConfBtn.attr("data-pn");
     var presuming_id=that.fillConfBtn.attr("data-preid");
@@ -930,7 +950,8 @@ entryCard.prototype = {
                     return reslut;
                 }
             });
-  }
+  },
+
 
 
 

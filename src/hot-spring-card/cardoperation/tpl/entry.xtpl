@@ -30,7 +30,7 @@
 </div>
 <div class="m-modal_bg edit" id="editModal">
     <div class="m-modal m-modal_edit">
-        <div class="u-modal_title">编辑 <span class="u-span_close close">X</span></div>
+        <div class="u-modal_title"><span class="u-span_title">编辑</span><span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
             <div class="u-input_box">
                 <span class="u-span">物理卡号：</span>
@@ -84,12 +84,12 @@
 
 <div class="m-modal_bg fillCard" id="fillModal">
     <div class="m-modal m-modal_fillCard">
-        <div class="u-modal_title">补卡/换手牌<span class="u-span_close close">X</span></div>
+        <div class="u-modal_title">换手牌<span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
             <div class="u-input_box">
                 <span class="u-span">新手牌：</span>
-                <input type="text" name="physicsNo" class="u-input phy_no" readonly> <a class="readCard">读取物理卡号</a>
-                <div class="clearCardInpBtn"> <i class="iconfont">&#xe674;</i></div>
+                 <input type="text" name="visibleNo" class="u-input card_no"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
+                
             </div>
             <div class="u-input_box">
                 <span class="u-span">原手牌：</span>
