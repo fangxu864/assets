@@ -1,16 +1,21 @@
 <template>
     <div id="ptypeListContainer" class="ptypeListContainer">
         <template v-if="state=='success'">
-            <ul class="ptypeList">
-                <li class="ptypeBox" :class="getPtypeBoxCls(item)" v-for="item in list" :data-ptype="item.identify">
-                    <a class="ptypeBoxCon" :href="getLinkUrl(item)">
-                        <div :style="{'backgroundColor':getBackgroundColor(item)}" class="iconBox">
-                            <i class="icon-ecshop-theme" :class="getIconCls(item)"></i>
-                        </div>
-                        <p class="text" v-text="item.name"></p>
-                    </a>
-                </li>
-            </ul>
+            <!--<div id="ptypeScrollWrap" class="scrollWrap ptype ptypeScrollWrap" style="width:100%; overflow:hidden; position:relative">-->
+                <!--<ul class="ptypeList">-->
+                    <!--<li class="ptypeBox" :class="getPtypeBoxCls(item)" v-for="item in ptypeList" :data-ptype="item.identify">-->
+                        <!--<a class="ptypeBoxCon" :href="getLinkUrl(item)">-->
+                            <!--<div :style="{'backgroundColor':getBackgroundColor(item)}" class="iconBox">-->
+                                <!--<i class="icon-ecshop-theme" :class="getIconCls(item)"></i>-->
+                            <!--</div>-->
+                            <!--<p class="text" v-text="item.name"></p>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <div id="ptypeThemeSliderContainer">
+                <div id="ptypeThemeScrollWrap" class="ptypeThemeScrollWrap"></div>
+            </div>
         </template>
         <template v-if="state!=='success'">
             <div class="state" v-text="state"></div>
@@ -47,30 +52,44 @@
     export default {
         data(){
             return {
-                list : null,state : "",icons : {
+                ptypeList : null,
+                themeList : null,
+                state : "",
+                icons : {
                     A : {
                         icon : "jingqu",color : "#3dafd4"
-                    },B : {
+                    },
+                    B : {
                         icon : "zhoubianyou",color : "#ff516a"
-                    },C : {
+                    },
+                    C : {
                         icon : "jiudian",color : "#64cd3f"
-                    },F : {
+                    },
+                    F : {
                         icon : "taopiao",color : "#f37777"
-                    },H : {
+                    },
+                    H : {
                         icon : "yanchu",color : "#e05a9f"
                     }
                 }
             }
-        },ready(){
+        },
+        ready(){
             getPtypeList({
                 loading : () =>{
                     this.state = PFT.AJAX_LOADING_TEXT;
-                },complete : () =>{
+                },
+                complete : () =>{
                     this.state = PFT.AJAX_COMPLETE_TEXT;
-                },success : (data) =>{
+                },
+                success : (data) =>{
                     this.state = "success";
-                    this.list = data;
-                },empty : (res) =>{
+                    this.$nextTick(()=>{
+                        this.render(data);
+                    })
+
+                },
+                empty : (res) =>{
                     this.state = "用户没有配置要显示的产品类型";
                     this.list = [];
                 },fail : (res) =>{
@@ -91,6 +110,72 @@
             },
             getBackgroundColor(item){
                 return item.identify!=="theme" ? this.icons[item.identify]["color"] : Themes[item.name]["color"];
+            },
+            render(list){
+                var that = this;
+                var _renderSlideItem = function(data){
+                    var html = "";
+                    html += '<ul class="ptypeThemeSlideItemCon ptypeList listUl">';
+                    for(var i=0; i<data.length; i++){
+                        var item = data[i];
+                        html += '<li class="ptypeBox" class="'+that.getPtypeBoxCls(item)+'" data-ptype="'+item.identify+'">';
+                        html += '<a class="ptypeBoxCon" href="'+that.getLinkUrl(item)+'">';
+                        html += '<div style="background-color:'+that.getBackgroundColor(item)+'" class="iconBox">';
+                        html += '<i class="icon-ecshop-theme '+that.getIconCls(item)+'"></i>';
+                        html += '</div>';
+                        html += '<p class="text">'+item.name+'</p>';
+                        html += '</a>';
+                        html += '</li>';
+                    }
+                    html += '</ul>';
+                    return html;
+                };
+                var sliceArr = function(arr,groupCountPer){
+                    var result = [];
+                    var len = arr.length;
+                    var groupCount = Math.ceil(len/groupCountPer);
+                    for(var i=0; i<groupCount; i++){
+                        var _arr = [];
+                        for(var s=i*groupCountPer; s<(i+1)*groupCountPer; s++){
+                            arr[s] && _arr.push(arr[s]);
+                        }
+                        result.push(_arr);
+                    }
+                    return result;
+                };
+                var container = document.getElementById("ptypeThemeScrollWrap");
+                if(list.length<=10){ //小于10个不需要滑动
+                    container.innerHTML = _renderSlideItem(list);
+                    setTimeout(function(){
+                        $("#ptypeThemeScrollWrap").height($(".ptypeThemeSlideItemCon").height())
+                    },20)
+                }else{ //大于10个启用滑动
+                    list = sliceArr(list,10);
+                    var slideDataList = [];
+                    for(var i=0; i<list.length; i++){
+                        var group = list[i];
+                        var item = {type:"html",content:_renderSlideItem(group)};
+                        slideDataList.push(item);
+                    }
+                    var slide = new iSlider({
+                        data: slideDataList,
+                        dom: container,
+                        isAutoplay : false,
+                        isVertical : false,
+                        isLooping: false,
+                        animateType: 'default',
+                        plugins : ["dot"]
+                    });
+                    slide.on("slideChanged",function(index,item,r){})
+
+                    setTimeout(function(){
+                        console.log($("#ptypeThemeScrollWrap"))
+                        $("#ptypeThemeScrollWrap").height($(".ptypeThemeSlideItemCon").height()).css({
+                            paddingBottom : 20
+                        });
+                    },20)
+
+                }
             }
         }
     }
@@ -98,7 +183,7 @@
 <style lang="sass">
     @import "COMMON/css/base/core/px2rem";
     @import "COMMON/css/base/iconfont.ptype.scss";
-    #ptypeListContainer{ padding:px2rem(40) px2rem(16) 0 px2rem(16); border-bottom:10px solid #e5e5e5; background:#fff; overflow:hidden}
+    #ptypeListContainer{ padding:px2rem(30) px2rem(16) 0 px2rem(16); border-bottom:10px solid #e5e5e5; background:#fff; overflow:hidden}
     #ptypeListContainer .state{
         height:3rem;
         line-height:3rem;
@@ -106,9 +191,9 @@
         text-align:center;
     }
     #ptypeListContainer .ptypeList{
-        text-align:center;
+        text-align:left;
         font-size:0;
-        padding-bottom:7px;
+        width:100%;
     }
     #ptypeListContainer .ptypeBox{
         display:inline-block;
@@ -137,4 +222,14 @@
     #ptypeListContainer .ptypeBox.C .iconBox i{ font-size:0.6rem}
     #ptypeListContainer .ptypeBox.H .iconBox i{ font-size:0.75rem}
     #ptypeListContainer .ptypeBox.F .iconBox i{ font-size:0.75rem}
+
+    #ptypeThemeSliderContainer{ position:relative}
+    #ptypeThemeSliderContainer .islider-dot-wrap{ bottom:5px}
+    #ptypeThemeSliderContainer .islider-dot{ background:rgba(0,0,0,0.3); border:0 none;}
+    #ptypeThemeSliderContainer .islider-dot.active{ background:#2a98da; border:0 none}
+    #ptypeThemeScrollWrap{ width:100%; height:180px; position:relative; overflow:hidden;}
+    #ptypeThemeScrollWrap .islider-outer{ position:relative; height:100%; overflow:hidden}
+    #ptypeThemeScrollWrap .islider-html{ position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;list-style: none;margin: 0;padding: 0; }
+    #ptypeThemeScrollWrap .slideItem{ display:block; width:100%; height:100%; font-size:0; overflow:hidden;}
+
 </style>
