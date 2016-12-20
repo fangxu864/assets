@@ -41,15 +41,17 @@ var Main = {
 
         //输入搜索
         $("#filter").on("input",function (e) {
+
+            $("#loading").remove()
             var filterResult = _this.filterBox($(e.target).val(),_this.Wholedata.list);
             if(!filterResult){
                 return false
             }
             var sortResult = _this.sortBox("-",filterResult);
-            var devideResult = _this.dividePage(sortResult,12);
+            var devideResult = _this.dividePage(sortResult,15);
             _this.cacheData = devideResult;
-            // $("#total_box").show();
-            // $("#total_box #total").text(_this.cacheData.length);
+            $("#total_box").show();
+            $("#total_box #total").text(_this.countTotal(_this.cacheData));
 
             //形成分页器，渲染第一页
             _this.pagination.render({current:1,total:_this.cacheData.length});
@@ -84,17 +86,38 @@ var Main = {
                         var buy_interval = _this.cacheData[0][i].buy_interval
                     }
 
-                    var newTr = $('<tr> <td>'+_this.cacheData[0][i].p_name+'</td> <td class="daily_buy_limit">'+daily_buy_limit+'</td> <td class="buy_num_limit">'+buy_num_limit+'</td> <td class="buy_interval">'+buy_interval+'</td> <td class="ticketEdit" data-name="'+_this.cacheData[0][i].p_name+'" data-pid="'+_this.cacheData[0][i].pid+'"" data-rid="'+rid+'">票类编辑</td> </tr>');
+                    var newTr = $('<tr> <td>'+_this.cacheData[0][i].p_name+'</td> <td class="daily_buy_limit">'+daily_buy_limit+'</td> <td class="buy_num_limit">'+buy_num_limit+'</td> <td class="buy_interval">'+buy_interval+'</td> <td class="ticketEdit" data-rid = "'+_this.cacheData[0][i].rid+'" data-name="'+_this.cacheData[0][i].p_name+'" data-pid="'+_this.cacheData[0][i].pid+'" data-rid="'+rid+'">票类编辑</td> </tr>');
                     $("#tbody").append(newTr)
                 }
+            }else{
+                var loadingHTML = Loading("找不到相关数据，请检查您的搜索条件。",{
+                    width : 808,
+                    height : 500,
+                    id : "loading",
+                    imgWidth : -1,
+                });
+                $(".ticketLimit").append(loadingHTML);
+                $("#total_box").hide();
             }
 
             //点击编辑
             $(".ticketEdit").on("click",function (e) {
                 _this.editPart.Dialog.open();
-                $("#daily_limit").val("");
-                $("#num_limit").val("");
-                $("#interval").val("");
+                var daily_limit = $(e.target).parent().find(".daily_buy_limit").text();
+                var num_limit = $(e.target).parent().find(".buy_num_limit").text();
+                var interval = $(e.target).parent().find(".buy_interval").text();
+                if(daily_limit == "不限"){
+                    daily_limit = -1
+                }
+                if(num_limit == "不限"){
+                    num_limit = -1
+                }
+                if(interval == "不限"){
+                    interval = -1
+                }
+                $("#daily_limit").val(daily_limit);
+                $("#num_limit").val(num_limit);
+                $("#interval").val(interval);
                 $("#editContainer").attr("data-pid",$(e.target).attr("data-pid"));
                 $("#editContainer").attr("data-rid",$(e.target).attr("data-rid"));
                 $("#p_name").attr("title",$(e.target).attr("data-name")).text($(e.target).attr("data-name"))
@@ -119,10 +142,20 @@ var Main = {
             success:function (data) {
                 $("#loading").remove();
                 _this.Wholedata = data;
-                // $("#total_box").show();
-                // $("#total_box #total").text(_this.Wholedata.length);
+                $("#total_box").show();
+                $("#total_box #total").text(_this.countTotal(_this.Wholedata));
                 $("#filter").trigger("input");
             },
+            fail:function () {
+                var loadingHTML = Loading("找不到相关数据，请检查您的搜索条件。",{
+                    width : 808,
+                    height : 500,
+                    id : "loading",
+                    imgWidth : -1,
+                });
+                $(".ticketLimit").append(loadingHTML);
+                $("#total_box").hide();
+            }
         })
     },
 
@@ -132,11 +165,11 @@ var Main = {
         $("#tbody").empty();
         for(var i =0 ; i < this.cacheData[toPage-1].length ; i++){
             //rid
-            if(!this.cacheData[toPage-1][i].rid){
-                var rid = "";
-            }else{
-                var rid = this.cacheData[toPage-1][i].rid;
-            }
+            // if(!this.cacheData[toPage-1][i].rid){
+            //     var rid = "";
+            // }else{
+            //     var rid = this.cacheData[toPage-1][i].rid;
+            // }
 
 
             //每日购票次数
@@ -161,7 +194,7 @@ var Main = {
             }
 
 
-            var newTr = $('<tr> <td>'+this.cacheData[toPage-1][i].p_name+'</td> <td class="daily_buy_limit">'+daily_buy_limit+'</td> <td class="buy_num_limit">'+buy_num_limit+'</td> <td class="buy_interval">'+buy_interval+'</td> <td class="ticketEdit" data-name="'+this.cacheData[toPage-1][i].p_name+'" data-pid="'+this.cacheData[toPage-1][i].pid+'"" data-rid="'+rid+'">票类编辑</td> </tr>');
+            var newTr = $('<tr> <td>'+this.cacheData[toPage-1][i].p_name+'</td> <td class="daily_buy_limit">'+daily_buy_limit+'</td> <td class="buy_num_limit">'+buy_num_limit+'</td> <td class="buy_interval">'+buy_interval+'</td> <td class="ticketEdit" data-rid="'+this.cacheData[toPage-1][i].rid+'" data-name="'+this.cacheData[toPage-1][i].p_name+'" data-pid="'+this.cacheData[toPage-1][i].pid+'">票类编辑</td> </tr>');
             $("#tbody").append(newTr)
         }
 
@@ -193,6 +226,7 @@ var Main = {
                 if(data[key].p_name.indexOf(keyWord[i]) != -1){
                     tab.times += 1;
                     tab.p_name = data[key].p_name;
+                    tab.rid = data[key].rid;
                     tab.pid =  data[key].pid;
                     tab.buy_interval = data[key].buy_interval;
                     tab.buy_num_limit = data[key].buy_num_limit;
@@ -212,7 +246,7 @@ var Main = {
             for (key in data){
                 var tab = {};
                 tab.times = 0;
-
+                tab.rid = data[key].rid;
                 tab.p_name = data[key].p_name;
                 tab.pid =  data[key].pid;
                 tab.buy_interval = data[key].buy_interval;
@@ -282,6 +316,15 @@ var Main = {
             cacheData.push(part)
         }
         return cacheData
+    },
+    //计算总条数
+    countTotal:function (data) {
+        var len = 0;
+        for(var i = 0 ; i < data.length ; i++){
+            len += data[i].length
+        }
+        return len;
+
     }
 };
 

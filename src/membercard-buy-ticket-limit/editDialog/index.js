@@ -55,15 +55,6 @@ var editDialog=PFT.Util.Class({
             var daily_limit = $("#daily_limit").val();
             var num_limit = $("#num_limit").val();
             var interval = $("#interval").val();
-            if(!daily_limit){
-                daily_limit = 0;
-            }
-            if(!num_limit){
-                num_limit = 0;
-            }
-            if(!interval){
-                interval = 0;
-            }
 
             var params = {
                 pid :　$("#editContainer").attr("data-pid"),
@@ -73,20 +64,34 @@ var editDialog=PFT.Util.Class({
                 interval : interval
             };
 
-            if(_this.validate_number(params.num_limit)){
-                alert(_this.validate_number(params.num_limit));
-                return false
-            }
+            if(daily_limit == -1){
+                daily_limit = "不限"
+            }else{
+                var error = _this.validate_typeInit0(daily_limit);
+                if(error){
+                    alert(error);
+                    return false
+                }
+            };
+            if(num_limit == -1){
+                num_limit = "不限"
+            }else{
+                var error = _this.validate_typeInit0(num_limit);
+                if(error){
+                    alert(error);
+                    return false
+                }
+            };
+            if(interval == -1){
+                interval = "不限"
+            }else{
+                var error = _this.validate_typeInit0(interval);
+                if(error){
+                    alert(error);
+                    return false
+                }
+            };
 
-            if(_this.validate_number(params.daily_limit)){
-                alert(_this.validate_number(params.daily_limit));
-                return false
-            }
-
-            if(_this.validate_number(params.interval)){
-                alert(_this.validate_number(params.interval));
-                return false
-            }
 
 
 
@@ -94,9 +99,9 @@ var editDialog=PFT.Util.Class({
                 if(data.status=='success'){
                     alert(data.msg);
                     $(".ticketEdit[data-pid="+$("#editContainer").attr("data-pid")+"]").parent()
-                        .find(".daily_buy_limit").text(params.daily_limit).end()
-                        .find(".buy_num_limit").text(params.num_limit).end()
-                        .find(".buy_interval").text(params.interval);
+                        .find(".daily_buy_limit").text(daily_limit).end()
+                        .find(".buy_num_limit").text(num_limit).end()
+                        .find(".buy_interval").text(interval);
                     _this.Dialog.close()
                 }
                 else{
@@ -106,10 +111,10 @@ var editDialog=PFT.Util.Class({
             },'json');
         })
     },
-    validate_number : function(input){
+    validate_typeInit0 : function(input){
         var error = "";
-        if(!Validate.typeNum(input)) {
-            error = "请输入正确的数字";
+        if(!Validate.typeInit0(input)) {
+            error = "请输入正确的数值";
         }
         return error;
     },
