@@ -25,7 +25,7 @@ module.exports = function(params,opt){
             var data = res.data;
             var msg = res.msg || PFT.AJAX_ERROR_TEXT;
             if(code==200){
-                if(data.length){
+                if(data.total){
                     opt.success(data);
                 }else{
                     opt.empty(data);

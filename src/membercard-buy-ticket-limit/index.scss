@@ -29,6 +29,8 @@
 .resultBox{
   color: #656F78;
   width: 100%;
+
+
   th{
     background: #F2F2F2;
     border-bottom: 1px solid #e5e5e5;
@@ -50,6 +52,13 @@
     height: 35px;
     line-height: 35px;
     border-bottom: 1px solid #e5e5e5;
+    &:hover{
+      background: #f0f3f5;
+    }
+    .ticketEdit{
+      color: #0797d9;
+      cursor: pointer;
+    }
   }
   td:first-child{
     text-align: left;
@@ -63,4 +72,17 @@
 #pagination_box{
   float: right;
   margin-top: 20px;
+}
+
+#total_box{
+  display: none;
+  height: 35px;
+  line-height: 35px;
+  margin: 20px ;
+  font-size: 14px;
+  float: left;
+  em{
+    color: #fa6f39;
+    font-size: 15px;
+  }
 }
