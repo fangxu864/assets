@@ -1,8 +1,8 @@
 require("./index.scss");
 import Loading from "COMPONENTS/loading";
-function UserInfo(userInfo){
-    const {info,isLoading,code,msg,dispatch} = userInfo;
-    const {shopName,accountName,mobile,lastLoginTime} = info;
+function UserInfo(props){
+    const {info,isLoading,code,msg,dispatch} = props;
+    const {dname,accountName,mobile,lastLoginTime} = info;
 
     return(
         <div className="userInfoBox">
@@ -10,7 +10,7 @@ function UserInfo(userInfo){
                 if(isLoading){
                     <Loading/>
                 }else if(code==200){
-                    <div>{shopName}</div>
+                    <div>{dname}</div>
                 }else{
                     {msg}
                 }

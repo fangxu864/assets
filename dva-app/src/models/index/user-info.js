@@ -15,10 +15,15 @@ export default {
         code : 0,
         msg : "",
         info : {
-            shopName : "慢慢的店铺",
-            accountName : "慢慢",
+            dname : "慢慢的店铺",
+            dtype : "1",
             mobile : "1231234132",
-            lastLoginTime : "201604-10 10:23:45"
+            account : "慢慢",
+            lastLoginTime : "2016-04-10 10:23:45",
+            effectDate : "2016-12-10 10:23:45",
+            abOrderNum : 23,
+            photoImg : "",
+            balance : 203.12
         }
     },
     subscriptions: {
