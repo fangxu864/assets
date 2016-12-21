@@ -250,7 +250,7 @@ entryCard.prototype = {
                     case "1":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+ ' data-preid='+list[i].id+' >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].salerid+ ' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_edit" >编辑</a>'
                         + ' <a class="u-btn_rl status" data-status="3">挂失</a>'
                         + ' <a class="u-btn_disable status" data-status="4">禁用</a>'
@@ -261,7 +261,7 @@ entryCard.prototype = {
                     case "2":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                         + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+' data-preid'+list[i].id+' >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].salerid+' data-preid='+list[i].id+' >'
                         +'<a class="u-btn_changeCard">换手牌</a>'
                        /* + ' <a class="u-btn_fillCard" >换手牌</a>'*/
                         /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' >编辑</a>'*/
@@ -271,7 +271,7 @@ entryCard.prototype = {
                     case "3":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                          + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+' data-preid='+list[i].id+' >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].salerid+' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_fillCard" >补卡</a>'
                         + ' <a class="u-btn_unloss status" data-status="1">取消挂失</a>'
                         + ' <a class="u-btn_del" >删除</a><br/>'
@@ -281,7 +281,7 @@ entryCard.prototype = {
                     case "4":
                       cardList += '<td class="crd_status">' + list[i].status_name + '</td>'
                          + '<td class="crd_paylist"></td>'
-                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+data.salerid+' data-preid='+list[i].id+' >'
+                        + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].salerid+' data-preid='+list[i].id+' >'
                         + ' <a class="u-btn_undisable status" data-status="1">解除禁用</a>'
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
@@ -863,32 +863,32 @@ entryCard.prototype = {
     var confirmBtn = $(".m-modal_bg.fillCard .save");
     fillBtn.on("click", function () {
       var $this = $(this).parent();
-      var oldPhyInp=$("#oldCrdInp");
-      var oldPhyNo = $this.attr("data-pn");
+      var oldVsiInp=$("#oldCrdInp");
+      var oldVsiNo = $this.attr("data-vn");
       var presuming_id = $this.attr("data-preid");
-    
-      oldPhyInp.val(oldPhyNo);
+    console.log(presuming_id);
+      oldVsiInp.val(oldVsiNo);
       fillModal.show();
-      confirmBtn.attr({"data-pn": oldPhyNo,"data-preid":presuming_id});
+      confirmBtn.attr({"data-vn": oldVsiNo,"data-preid":presuming_id});
     })
   },
   onFillCardSubmit: function () {
     var that = this;
     var reg = /^[0-9a-zA-Z]+$/;
     var lid = that.salerInp.attr("data-id");
-    var phyVal=$(".m-modal_fillCard .u-input.card_no").val();
+    var vsiVal=$(".m-modal_fillCard .u-input.card_no").val(); //手牌号
     var fillCardModal=$(".m-modal_bg.fillCard");
-    var oldPhyVal = that.fillConfBtn.attr("data-pn");
+    var oldVsiVal = that.fillConfBtn.attr("data-vn");
     var presuming_id=that.fillConfBtn.attr("data-preid");
     var currentPage=$("#paginationWrap").attr("data-curr");
-    if (reg.test(phyVal)) {
+    if (reg.test(vsiVal)) {
       PFT.Util.Ajax(
-        "/r/product_HotSpringCard/replacePhysicsCard",
+        "/r/product_HotSpringCard/replaceVisible",
         {
           type: "POST",
           params: {
-            "new_physics": phyVal,
-            "old_physics": oldPhyVal,
+            "new_visible": vsiVal,
+            "old_visible": oldVsiVal,
             "presuming_id":presuming_id
           },
           success: function (res) {
