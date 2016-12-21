@@ -18,14 +18,15 @@
                 <p>已安装</p>
             </span>
         <span class="btn_details" id="btn">续费</span>
-        <span class="price_details" id="price"></span>
+        <ul class="price_details" id="price">
+        </ul>
         <div class="message_box" id="message_box_open">
-            <div class="content"><e style="color:#df3e0a;font-size: 16px;">微商城开通</e></br>有效期：<e style="color:#df3e0a;padding: 0 2px">2016-11-20</e>至<e style="color:#df3e0a;padding: 0 2px">2017-11-20</e></div>
+            <div class="content"><e style="color:#df3e0a;font-size: 16px;">微商城开通</e></br>有效期：<e style="color:#df3e0a;padding: 0 2px" id="begin_time"></e>至<e style="color:#df3e0a;padding: 0 2px" id="expire_time"></e></div>
             <span class="triangle"></span>
             <span class="triangle_back"></span>
         </div>
         <div class="message_box" id="message_box_close">
-            <div class="content">需先免费开通<e style="color:#df3e0a;font-size: 16px;">微商城</e></br>后方可开通<e style="color:#df3e0a;padding: 0 2px">海报推广</e></div>
+            <div class="content">需先免费开通<e id="topName" style="color:#df3e0a;font-size: 16px;"></e></br>后方可开通<e style="color:#df3e0a;padding: 0 2px" id="secondAppName"></e></div>
             <span class="triangle"></span>
             <span class="triangle_back"></span>
         </div>
@@ -53,57 +54,7 @@
 <div class="recommend_details">
     <h2>推荐应用</h2>
     <div class="content_details">
-        <ul class="app-list" id="app-list">
-            <!--
-            <li>
-                <div class="app-item">
-                    <div class="app-left">
-                        <i class="ui-app-icon"></i>
-                        <p class="app-open"><span class="app-usernum c-warning">8888</span> 用户<br>已开通</p>
-                    </div>
-                    <div class="app-right">
-                        <div class="text-ellipsis"><strong class="app-name">微商城</strong></div>
-                        <div class="text-ellipsis"><span class="app-price">222元/1季</span></div>
-                        <div class="app-btn-w">
-                            <a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>
-                        </div>
-                    </div>
-                </div>
-                <i class="icon-new"></i>
-            </li>
-            <li>
-                <div class="app-item">
-                    <div class="app-left">
-                        <i class="ui-app-icon"></i>
-                        <p class="app-open"><span class="app-usernum c-warning">8888</span> 用户<br>已开通</p>
-                    </div>
-                    <div class="app-right">
-                        <div class="text-ellipsis"><strong class="app-name">微商城</strong></div>
-                        <div class="text-ellipsis"><span class="app-price">222元/1季</span></div>
-                        <div class="app-btn-w">
-                            <a href="javascript:;" class="btn btn-default-reverse w100">开通</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="app-item app-expired">
-                    <div class="app-left">
-                        <i class="ui-app-icon"></i>
-                        <p class="app-open"><span class="app-usernum c-warning">8888</span> 用户<br>已开通</p>
-                    </div>
-                    <div class="app-right">
-                        <div class="text-ellipsis"><strong class="app-name">微商城</strong></div>
-                        <div class="text-ellipsis"><span class="app-price">222元/1季</span></div>
-                        <div class="app-btn-w">
-                            <a href="javascript:;" class="btn btn-default mr10">使用</a><a href="javascript:;" class="btn-link">续费</a>
-                        </div>
-                    </div>
-                </div>
-                <i class="icon-expired"></i>
-            </li>
-            -->
-        </ul>
+        <ul class="app-list" id="app-list"></ul>
     </div>
 
 

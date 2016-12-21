@@ -1,8 +1,7 @@
 
 module.exports = function(params,opt){
-
+    var __DEBUG__ = false;
     opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
-    var __DEBUG__ = true;
     if(__DEBUG__){
         opt.loading();
         setTimeout(function(){
@@ -38,13 +37,11 @@ module.exports = function(params,opt){
         return false;
     }
 
-    PFT.Util.Ajax(PFT.Api.C.getShowInfo(),{
+    PFT.Util.Ajax("/r/AppCenter_ModuleDetail/getAppDetail",{
         type : "post",
         params : {
-            pid : params.pid,
-            aid : params.aid,
-            date : params.date,
-            token : PFT.Util.getToken()
+            module_id : params.module_id,
+            ptypeApp : params.ptypeApp,
         },
         loading : opt.loading,
         complete : opt.complete,

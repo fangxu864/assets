@@ -108,6 +108,7 @@
         @extend %clearfix;
         padding-bottom: 20px;
         span:nth-child(1){
+            width: 50px;
             float: left;
             line-height: 20px;
             display: inline-block;
