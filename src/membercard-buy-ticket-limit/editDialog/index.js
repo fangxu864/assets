@@ -114,7 +114,7 @@ var editDialog=PFT.Util.Class({
     validate_typeInit0 : function(input){
         var error = "";
         if(!Validate.typeInit0(input)) {
-            error = "请输入正确的数值";
+            error = "请输入正确的数值,不限请输入-1";
         }
         return error;
     },
