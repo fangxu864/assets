@@ -3,6 +3,7 @@
 
 var GetListAjax = require("./appList_service.js"); 
 var loadingHTML = require("COMMON/js/util.loading.pc.js");
+// var card_tpl = require("./tpl/cardtpl.xtpl");
 
 var AppList = PFT.Util.Class({
 		
@@ -24,19 +25,19 @@ var AppList = PFT.Util.Class({
 
 		var req1 = function(){
 			return that.getAppList(0,1);  //首页，核心功能
-		}
+		};
 		var req2 = function(){
 			return that.getAppList(0,2);  //首页，营销推广	
-		}
+		};
 		var req3 = function(){
 			return that.getAppList(0,3);  //首页，同业对接
-		}
+		};
 		var req4 = function(){
 			return that.getAppList(0,4);  //首页，一卡通
-		}
+		};
 		var req5 = function(){
 			return that.getAppList(0,5);  //首页，智能硬件
-		}
+		};
 
 		//顺序发请求
 		req1().then(req2).then(req3).then(req4).then(req5).done(function(xhr){
@@ -202,7 +203,7 @@ var AppList = PFT.Util.Class({
             '<li>' +
                 '<div class="app-item">' +
                     '<div class="app-left">' +
-                        '<i class="ui-app-icon"></i>' +
+                        '<i class="ui-app-ico"></i>' +
                         '<p class="app-open"><span class="app-usernum c-warning">'+'un'+'</span> 用户<br>已开通</p>' +
                     '</div>' +
                     '<div class="app-right">' +
@@ -228,12 +229,12 @@ var AppList = PFT.Util.Class({
 						if(list[i].button_type == 0){//免费试用
 	    		            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
 	    		            '<div class="app-btn-w">' +
-	    		               '<a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>' +
+	    		               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
 	    				    '</div>' ;
 						}else if(list[i].button_type == 1){//开通
 		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
 				            '<div class="app-btn-w">' +
-				               '<a href="appcenter_pay.html?appid='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
+				               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
 						    '</div>' ;
 						}else if(list[i].button_type == 2){//使用
 		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
@@ -243,7 +244,7 @@ var AppList = PFT.Util.Class({
 						}else if(list[i].button_type == 3){//去看看（过期）
 		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+'2016-12-11到期'+'</span></div>' +
 				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default-disable mr10">去看看</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
+				               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-disable mr10">去看看</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
 						    '</div>' ;
 						}      
 
@@ -296,7 +297,13 @@ var AppList = PFT.Util.Class({
         
 
 
-	}
+	},
+
+
+	/**
+	 * cardTemplate 卡片模板
+	 */
+	// cardTemplate : PFT.Util.ParseTemplate(card_tpl)
 
 
 });

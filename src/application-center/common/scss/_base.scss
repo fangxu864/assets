@@ -214,15 +214,15 @@ body {
 }
 
 /* 图片背景icon  约定classname以 ico- 打头，避免和iconfont的classname冲突 */
-// .ui-app-icon{
-//     position:relative;
-//     display:inline-block;
-//     width:53px;
-//     height:53px;
-//     font-size:0;
-//     line-height:0;
-//     background:url("http://static.12301.cc/assets/build/images/appcenter/icons.png");
-// }
+ .ui-app-ico{
+     position:relative;
+     display:inline-block;
+     width:53px;
+     height:53px;
+     font-size:0;
+     line-height:0;
+     background:url("http://static.12301.cc/assets/build/images/appcenter/icons.png");
+ }
 .ico-new {
     display: inline-block;
     width: 50px;

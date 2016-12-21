@@ -19,7 +19,7 @@ var Main = PFT.Util.Class({
 
 	init : function(){
 		var _this = this;
-		this.pageSize = 3;
+		this.pageSize = 10;
 
 		_this.pagination = new Pagination({
 	        container : "#pagination",  //必须，组件容器id
