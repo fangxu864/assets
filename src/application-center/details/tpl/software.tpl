@@ -1,10 +1,10 @@
 <!--标题-->
-<h1>微商城</h1>
+<h1 id="title"></h1>
 <!--应用详情-->
 <div>
     <!--图标简介-->
     <div class="line1_detail">
-        <i class="ui-app-icon"></i>
+        <i class="ui-app-ico"></i>
             <span>
                 <h4 id="appName"></h4>
                 <p class="introdaction_detail" id="appText" title="微信会员可以进行微商城开店分佣，有利于微商城的传播和产品销售。"><e>产品简介：</e></p>
