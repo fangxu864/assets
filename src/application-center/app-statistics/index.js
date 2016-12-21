@@ -104,7 +104,7 @@ var Main = PFT.Util.Class({
 			_this.showDatepicker(opts);
 		});
 		$(this.dom.search.etime).on('click', function() {
-			var minEffectDate = $(_this.dom.search.btime).val() ? $(_this.dom.search.btime).val() : _this.dateFormat( new Date(), 'yyyy-MM-dd'),
+			var minEffectDate = $(_this.dom.search.btime).val() ? $(_this.dom.search.btime).val() : '',
 				opts = {};
 
 			opts.defaultDate = $(this).val();

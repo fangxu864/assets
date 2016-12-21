@@ -35,11 +35,13 @@ module.exports = {
     //支付 - 获取当前时间段对应的某模块资费信息
     getModeList: '/r/AppCenter_ModulePayment/getPriceInfo',
     //支付 - 使用平台账户余额支付
-    getAccBalance: '/r/AppCenter_ModulePayment/payInPlatform',
+    getAccBalance: '/r/Finance_WithDraw/withDrawFre',
     //支付 - 使用平台账户余额支付
     payViaAccBalance: '/r/AppCenter_ModulePayment/payInPlatform',
     //支付 - 微信二维码生成
     payViaWepay: '/r/AppCenter_ModulePayment/wxPayCreQrCode',
     //支付 - 支付宝二维码生成
-    payViaAlipay: '/r/AppCenter_ModulePayment/aliPayCreQrCode'
+    payViaAlipay: '/r/AppCenter_ModulePayment/aliPayCreQrCode',
+    //支付 - 判断订单是否支付成功
+    checkOrderStatus: '/r/AppCenter_ModulePayment/checkPayStatus'
 };

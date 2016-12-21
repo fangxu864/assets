@@ -221,10 +221,15 @@ var Main = PFT.Util.Class({
 			return false;
 		}
 
-		if(!$.trim( $(this.dom.appcharge).val() )) {
+		var appchargeVal = $.trim( $(this.dom.appcharge).val() );
+		if(!appchargeVal) {
 			alert('请输入收费标准金额');
 			return false;
+		} else if( !/^\d*\.?\d*$/.test(appchargeVal) ) {
+			alert('仅允许数字和小数点');
+			return false;
 		}
+
 
 		if(!$.trim( $(this.dom.begin).val() )) {
 			alert('请选择生效日期');

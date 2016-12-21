@@ -1,14 +1,14 @@
-    <div class="form form-expand mt30">
-        <div class="form-group">
-            <div class="form-label">当前平台余额：</div>
+    <div class="form form-expand pt20" style="margin-top:46px; padding-left:155px;">
+        <div class="form-group f14">
+            <div class="form-label t-right">当前平台余额：</div>
             <div class="form-content">
-                <div class="form-text"><%=balance%> 元</div>
+                <div class="form-text c-warning"><%=balance%> 元</div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="form-label">支付金额：</div>
+        <div class="form-group f14">
+            <div class="form-label t-right">支付金额：</div>
             <div class="form-content">
-                <div class="form-text"><%=fee%> 元</div>
+                <div class="form-text c-warning"><%=fee%> 元</div>
             </div>
         </div>
     </div>

@@ -17,7 +17,8 @@ var toast = new Toast;
 var ParseTemplate = PFT.Util.ParseTemplate;
 var Template = {
 	li : ParseTemplate(require("./tpl/li.xtpl")),
-	form: ParseTemplate(require("./tpl/form.xtpl"))
+	form: ParseTemplate(require("./tpl/form.xtpl")),
+	dialogheader: ParseTemplate(require("./tpl/dialogheader.xtpl"))
 };
 
 var Main = PFT.Util.Class({
@@ -26,10 +27,21 @@ var Main = PFT.Util.Class({
 		accbalance: '#viaAccBalance',
 		wepay: 		'#viaWepay',
 		alipay: 	'#viaAlipay',
-		appstate: 	'#appState'
+		appstate: 	'#appState',
+		dialog: {
+			qrcode: 'dialogQrcode',
+			accbalance: 'dialogAccbalance'
+		}
+	},
+
+	interval: {
+		timer: null,
+		time: 1000
 	},
 
 	xhr: null,
+	xhrChkStatus: null,
+	ordernum: null,
 
 	init : function(){
 		var _this = this;
@@ -37,17 +49,16 @@ var Main = PFT.Util.Class({
 		var dom = _this.dom;
 
 		var url = window.location.href,
-			urlArr = url.split('?'),
-			module_id;
+			urlArr = url.split('?');
 
 		if(urlArr[1]) {
-			module_id = urlArr[1].split('=')[1];
+			_this.module_id = urlArr[1].split('=')[1];
 		} else {
 			alert('无模块Id');
 			return false;
 		}
 
-		_this.ajaxGetModeList(module_id);
+		_this.ajaxGetModeList( _this.module_id );
 
 		$(dom.modelist).on('click', 'li', function(){
 			$(this).toggleClass('active').siblings().removeClass('active');
@@ -60,7 +71,7 @@ var Main = PFT.Util.Class({
 				return false;
 			}
 
-			_this.showDialog( 'accbalance' , module_id, chargeMode.eq(0).attr('data-id'), chargeMode.eq(0).attr('data-fee') );
+			_this.showDialog( 'accbalance' , _this.module_id, chargeMode.eq(0).attr('data-id'), chargeMode.eq(0).attr('data-fee') );
 		});
 
 		$(dom.wepay).on('click', function(){
@@ -70,16 +81,19 @@ var Main = PFT.Util.Class({
 				return false;
 			}
 
-			_this.showDialog( 'wepay' , module_id, chargeMode.eq(0).attr('data-id') );
+			_this.showDialog( 'wepay' , _this.module_id, chargeMode.eq(0).attr('data-id'), chargeMode.eq(0).attr('data-fee') );
+		});
 
+		$(dom.alipay).on('click', function(){
+			var chargeMode = $(dom.modelist).find('.active');
+			if(!chargeMode.length) {
+				alert('请先选择付费模式！');
+				return false;
+			}
+
+			_this.showDialog( 'alipay' , _this.module_id, chargeMode.eq(0).attr('data-id'), chargeMode.eq(0).attr('data-fee') );
 		})
-		// $(this).qrcode({width: 127,height: 127,text: $(this).attr('data-text')});
 	},
-
-    // getModeList: '/r/AppCenter_ModulePayment/getPriceInfo',
-    // payViaAccBalance: '/r/AppCenter_ModulePayment/payInPlatform',
-    // payViaWepay: '/r/AppCenter_ModulePayment/wxPayCreQrCode',
-    // payViaAlipay: '/r/AppCenter_ModulePayment/aliPayCreQrCode'
 
 	// 获取付费模式
 	ajaxGetModeList: function( module_id ) {
@@ -94,9 +108,13 @@ var Main = PFT.Util.Class({
 			success: function(res) {
 
 				if(res.code == 200) {
-					_this.renderModeList( res.data );
+					_this.renderModeList( res.data.list );
+					res.data.vali.is_open ? $(_this.dom.appstate).html('有效期 <em class="c-warning">'+ res.data.vali.begin + '</em> 至 <em class="c-warning">' + res.data.vali.end +'</em>')
+											: $(_this.dom.appstate).html('未开通');
+				} else if(res.code == 400){
+					alert( res.msg );
+					window.history.go(-1);
 				} else {
-					// opts.error && opts.error( res.code );
 					alert( res.msg );
 				}
 			},
@@ -113,84 +131,54 @@ var Main = PFT.Util.Class({
 
 		switch(target) {
 			case 'accbalance':
-				var dialogBalance = new dialog({
+				dialogBalance = new dialog({
+					header: Template.dialogheader({ title: '平台账号余额支付' }),
 				 	width: 560,
-				 	content: '<div id="dialogAccbalance"></div>',
+				 	height: 260,
+				 	content: '<div id="'+ _this.dom.dialog.accbalance +'"></div>',
 				 	onOpenAfter: function(){
-						PFT.Util.Ajax( ajaxUrls.getAccBalance , {
-							type: 'POST',
-							params: {
-								module_id: module_id,
-								price_id: price_id
-							},
-							loading: function(){
-								var html = loading('',{
-									tag: 'div',
-									id: 'dialogLoading'
-								});
-								$('#dialogAccbalance').html(html);
-							},
+				 		_this.ajaxRenderData({
+				 			container: 	'#' + _this.dom.dialog.accbalance,
+				 			url: 		ajaxUrls.getAccBalance,
+				 			loading: 	{ tag: 'div', id: 'dialogLoading' },
 							success: function(res) {
-								$('#dialogLoading').remove();
-								if(res.code == 200) {
-									var html = Template.form({ balance: 50.11, fee: fee });
-				 					$('#dialogAccbalance').html(html);
+								var html = Template.form({ balance: res.data.realWdMoney, fee: fee });
+			 					$('#' + _this.dom.dialog.accbalance).html(html);
 
-				 					if(compareFloat(50.11,fee)) {
-				 						$('#dialogAccbalance').append('<a id="btnConfirmPay" href="javascript:;" class="btn btn-default">确认支付</a>');
+			 					if(_this.compareFloat( res.data.realWdMoney, fee )) {
+			 						$('#' + _this.dom.dialog.accbalance).append('<div class="t-center"><a id="btnConfirmPay" href="javascript:;" class="btn btn-default">确认支付</a></div>');
 
-				 						$(document).on('click', '#btnConfirmPay', function(){
-				 							dialogBalance.close();
-				 							ajaxPayViaAccBalance({
-				 								module_id: module_id,
-				 								price_id: price_id,
-				 								success: function ( res ) {
-				 									console.log( res.msg );
-				 								}
-				 							});
-				 						})
-				 					} else {
-										$('#dialogAccbalance').append('<a href="recharge.html" class="btn btn-default">余额不足去充值</a>');
-				 					}
-
-
-								} else {
-									// opts.error && opts.error( res.code );
-									alert( res.msg );
-								}
-							},
-							error: function( xhr, txt ) {
-								alert( txt );
+			 						$(document).on('click', '#btnConfirmPay', function(){
+			 							dialogBalance.close();
+			 							_this.ajaxPayViaAccBalance({
+			 								module_id: module_id,
+			 								price_id: price_id,
+			 								success: function ( res ) {
+			 									_this.ajaxGetModeList( _this.module_id );
+			 								}
+			 							});
+			 						})
+			 					} else {
+			 						$('#' + _this.dom.dialog.accbalance).append('<div class="t-center"><a href="recharge.html" class="btn btn-default">余额不足去充值</a></div>');
+			 					}
 							}
-						})
+				 		});
+				 	},
+				 	onCloseAfter: function(){
+				 		dialogBalance.remove();
+				 		dialogBalance = null;
+				 		$(document).off('click', '#btnConfirmPay');
 				 	}
 				});
+				dialogBalance.open();
 				break;
 
 			case 'wepay':
-				if( !dialogWepay ) {
-					dialogWepay = new dialog({
-						header: '<div style="padding:10px 25px;font-size:20px; color:#38444D; background-color:#F5F5F5;">扫码支付</div>',
-					 	width: 560,
-					 	content: '<div id="dialogWepay"></div>',
-					 	onOpenAfter: function(){
-					 		_this.ajaxRenderData({
-					 			url: ajaxUrls.payViaWepay,
-					 			params: {
-									module_id: module_id,
-									price_id: price_id
-					 			},
-					 			loading: {
-					 				id: '#dialogLoading'
-					 			},
-					 			success: function( res ){
-					 				$('#dialogWepay').css({marginTop:46, padding:30,textAlign: 'center'}).qrcode({ width: 165, height: 165, text: res.data });
-					 			}
-					 		})
-					 	}
-					});
-				}
-				dialogWepay.open();
+				_this.ajaxPayViaQrcode('wepay', module_id, price_id, fee );
+				break;
+
+			case 'alipay':
+				_this.ajaxPayViaQrcode('alipay', module_id, price_id, fee );
 				break;
 		}
 	},
@@ -201,14 +189,105 @@ var Main = PFT.Util.Class({
 				module_id: opts.module_id,
 				price_id: opts.price_id
 			},
+			loading: { text: '正在处理中' },
 			success: function( res ) {
 				opts.success( res );
 			}
 		});
 	},
+	ajaxPayViaQrcode: function( method, module_id, price_id, fee ){
+		var _this = this;
+
+		var dialogTitle,
+			colorSaoyisao,
+			ajaxUrl;
+
+		switch(method) {
+			case 'wepay':
+				dialogTitle = '微信扫码支付';
+				colorSaoyisao = '#45D445';
+				ajaxUrl = ajaxUrls.payViaWepay;
+				break;
+			case 'alipay':
+				dialogTitle = '支付宝扫码支付';
+				colorSaoyisao = '#0797d9';
+				ajaxUrl = ajaxUrls.payViaAlipay;
+				break;
+		}
+
+		var dialogQrcode = new dialog({
+			header: Template.dialogheader({ title: dialogTitle }),
+		 	width: 560,
+	 		height: 350,
+		 	content: '<div id="'+ _this.dom.dialog.qrcode +'" style="margin-top:46px;padding:20px 30px;text-align:center;"></div>',
+		 	onOpenAfter: function(){
+		 		_this.ajaxRenderData({
+		 			container: '#' + _this.dom.dialog.qrcode,
+		 			url: ajaxUrl,
+		 			params: {
+						module_id: module_id,
+						price_id: price_id
+		 			},
+		 			loading: {
+		 				id: 'dialogLoading'
+		 			},
+		 			success: function( res ){
+		 				_this.ordernum = res.data.order_no;
+
+		 				$('#' + _this.dom.dialog.qrcode).qrcode({ width: 165, height: 165, text: res.data.url });
+		 				$('#' + _this.dom.dialog.qrcode).prepend('<div class="t-center f14 mb20">应付金额：<em class="c-warning">'+ fee +'</em>元</div>');
+		 				$('#' + _this.dom.dialog.qrcode).append('<div class="t-center f16 mt20 pt20 border-t border-d" style="line-height:30px"><i class="iconfont icon-saoyisao" style="color:' + colorSaoyisao + ';font-size:30px;vertical-align:middle;"></i> 扫码完成支付</div>');
+
+
+		 				_this.checkOrderStatus({
+		 					ordernum: _this.ordernum,
+		 					success: function( res ) {
+		 						if( res.code == 200 ) {
+		 							location.href = ''
+		 						}
+		 					}
+		 				});
+		 			}
+		 		})
+		 	},
+		 	onCloseAfter: function(){
+		 		_this.ordernum = null;
+		 		clearInterval(_this.interval.timer);
+		 		dialogQrcode.remove();
+		 		dialogQrcode = null;
+		 	}
+		});
+		dialogQrcode.open();
+	},
+	checkOrderStatus: function( opts ) {
+		var _this = this;
+		_this.interval.timer = setInterval(function(){
+			if( !_this.xhrChkStatus  || _this.xhrChkStatus.readyState == 4 ) {
+				_this.xhrChkStatus = _this.ajaxCheckOrderStatus({
+					ordernum: opts.ordernum,
+					success: function ( res ) {
+						opts.success( res );
+					}
+				});
+			}
+		}, _this.interval.time )
+	},
+	ajaxCheckOrderStatus: function ( opts ) {
+		return PFT.Util.Ajax( ajaxUrls.checkOrderStatus, {
+			type: 'POST',
+			params: { order_no: opts.ordernum },
+			success: function ( res ) {
+				opts.success && opts.success( res );
+			},
+			error: function( xhr, txt ) {
+				alert( txt );
+			}
+		})
+	},
 	ajaxRenderData: function ( opts ) {
 		/*
 			opts: {
+				container: //ajax获取数据的容器, 表格容器需设定为 #tbSelector tbody
 				url:
 				params:
 				loading: {
@@ -238,9 +317,10 @@ var Main = PFT.Util.Class({
 				$( opts.container ).html(html);
 			},
 			success: function ( res ) {
-				$( opts.loading.id ).remove();
+				$( '#'+opts.loading.id ).remove();
 
-				if(res.code == 200) {
+
+				if(res.code == 200 || res.code == 'success') {
 					opts.success && opts.success( res );
 				} else {
 					alert( res.msg );
@@ -293,7 +373,7 @@ var Main = PFT.Util.Class({
 		var num1 = parseFloat( num1 ).toFixed(2),
 			num2 = parseFloat( num2 ).toFixed(2);
 
-		return num1 * 100 > num2 * 100;
+		return num1 * 100 >= num2 * 100;
 	}
 });
 
