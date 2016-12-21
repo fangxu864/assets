@@ -82,8 +82,8 @@
     </div>
 </div>
 
-<div class="m-modal_bg fillCard" id="fillModal">
-    <div class="m-modal m-modal_fillCard">
+<div class="m-modal_bg changeCard" id="changeModal">
+    <div class="m-modal m-modal_changeCard">
         <div class="u-modal_title">换手牌<span class="u-span_close close">X</span></div>
         <div class="u-modal_inpBox">
             <div class="u-input_box">

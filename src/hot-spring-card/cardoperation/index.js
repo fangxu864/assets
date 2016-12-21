@@ -1,3 +1,6 @@
+/**author : WangTong 
+ * 2016-12
+*/
 var entry_modal = require("./tpl/entry.xtpl");
 require("./index.scss");
 var Select = require("COMMON/modules/select");
@@ -30,7 +33,7 @@ var entryCard = function () {
   this.delConfBtn = $(".m-modal.del .confirm");
   this.lossBtn = $("#tbody .crd_operation .u-btn_rl");
   this.lossConfBtn = $(".m-modal.loss .confirm");
-  this.fillConfBtn = $(".m-modal_fillCard .save");
+  this.changeConfBtn = $(".m-modal_changeCard .save");
   this.salerInp=$("#saler_inp");
 
 
@@ -76,10 +79,8 @@ entryCard.prototype = {
       var lid=$("#saler_inp").attr("data-id");
         var salerName=$("#saler_inp").attr("data-title");
       if(lid===""){
-     
         that.checkSalerId();
       }else{
-       // this.lid.text(salerName);
       $(this).prev("input").removeAttr("readonly").val('').focus().css("background", "#FFF");
       }
     });
@@ -100,11 +101,6 @@ entryCard.prototype = {
       that.getLid(e);
       }
     });
-
-    //编辑模态框
-    /*that.cardEditBtn.on("click", function (e) {
-      $(".m-modal_bg.edit").show();
-    });*/
 
     //读卡自动检测
     that.schInp.on("keyup", function (e) {
@@ -127,7 +123,6 @@ entryCard.prototype = {
       that.onModalFlashCard(e);
     });
 
-
     //页面input清除按钮
     that.clearBtn.on("click", function (e) {
       that.onSearchclearBtn(e);
@@ -141,22 +136,42 @@ entryCard.prototype = {
     //手牌号检验
     that.modalCardInp.on("change", function (e) {
       var entryCardVal,
-        entryCard = $(".u-input_box .card_no").val(),
+        entryCard = $(".m-modal_entring .u-input_box .card_no").val(),
         editEntryCard = $(".m-modal_edit .u-input_box .card_no").val(),
-        fillCard=$(".m-modal_fillCard .u-input_box .card_no").val(),
-        span_des = $(".u-span_des.card_no");
-      if (entryCard === "") {
+        changeCard=$(".m-modal_changeCard .u-input_box .card_no").val(),
+        span_des = $(".u-span_des.card_no"),
+        url="checkVisibleNo",
+         lid = $("#saler_inp").attr("data-id"),
+         data;
+         var presuming_id=that.changeConfBtn.attr("data-preid");
+         var oldVisi=that.changeConfBtn.attr("data-vn");
+      if (!entryCard && !changeCard) {
         entryCardVal = editEntryCard;
-      } else if (editEntryCard === "") {
+          data= {
+            "visible_no": entryCardVal,
+            "salerid": lid
+          }
+         
+      } else if (!editEntryCard && !changeCard) {
         entryCardVal = entryCard;
-      } else{
-        entryCardVal = fillCard;
-      console.log(entryCardVal)
+          data= {
+            "visible_no": entryCardVal,
+            "salerid": lid
+          }
+       
+      } else if (!entryCard && !editEntryCard){
+        entryCardVal = changeCard;
+        url="checkReplaceVisible";
+        data={
+            "old_visible":oldVisi,
+            "new_visible":entryCardVal,
+            "presuming_id":presuming_id
+        }
       }
       var reg = /^[0-9a-zA-Z]+$/;
       var span = '<span class="u-span_des ">检查是否含有空格</span>';
       if (reg.test(entryCardVal)) {
-        that.onSubmitCheck(entryCardVal);
+        that.onSubmitCheck(entryCardVal,url,data);
       } else {
         span_des.html("").html(span);
       }
@@ -189,8 +204,8 @@ entryCard.prototype = {
       that.onSetStatusConfirm(status, confirmBtn,request,url);
     });
     //补卡按钮
-    that.fillConfBtn.on("click", function (e) {
-      that.onFillCardSubmit(e);
+    that.changeConfBtn.on("click", function (e) {
+      that.onChangeCardSubmit(e);
     })
    
   },
@@ -292,7 +307,7 @@ entryCard.prototype = {
                 that.tbody.html("").html(cardList);
                 that.cardEdit(req);
                 that.cardDel();
-                that.fillCard();
+                that.changeCard();
                 that.statusUpdate(request);
                 pagination.render({ current: currentPage ,topage:currentPage,total:data.total});
                 $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
@@ -323,23 +338,27 @@ entryCard.prototype = {
     $("#tbody .crd_operation .u-btn_edit,#tbody .crd_operation .u-btn_fillCard").on("click", function (e) {
       var readCrdBtn=$(".m-modal_edit .readCard");
       var title=$(".m-modal_edit .u-span_title");
-      if($(this).hasClass("u-btn_changeCard")){
-          title.text("补卡");
-          readCrdBtn.hide();
-      }else{
-          title.text("编辑");
-          readCrdBtn.show();
-      }
+     
       var parent = $(this).parent();
       var phy_no = parent.attr("data-pn");
       var card_no = parent.attr("data-vn");
       var color = parent.attr("data-cl");
       var presuming_id =parent.attr("data-preid");
       var phyInp = $(".m-modal_bg.edit .phy_no");
-      var cardInp = $(".m-modal_bg.edit .card_no");
+      var cardInp = $(".m-modal_bg.edit .u-input.card_no");
       var cardBg = $(".m-modal_bg.edit .cardBg");
       var editModal = $(".m-modal_bg.edit");
-      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no,"data-preid":presuming_id,"data-req":request});
+      var url;
+       if($(this).hasClass("u-btn_fillCard")){
+          title.text("补卡");
+           cardInp.attr({"readonly":true}).css("background","#eee");
+           url="replacePhysics"
+      }else{
+          title.text("编辑");
+         cardInp.removeAttr("readonly").css("background","#fff");
+         url="editCard"
+      }
+      saveEditBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no,"data-preid":presuming_id,"data-req":request,"data-url":url});
       editModal.show();
       phyInp.val(phy_no);
       cardInp.val(card_no);
@@ -358,7 +377,6 @@ entryCard.prototype = {
     var that = this;
     var a = '读取物理卡号';
     var span = '使用箱号或手牌上印制的卡号';
-    
     that.modalClearBtn.hide();
     that.readCardBtn.html("").text(a);
     that.modalCardInp.html("").text(span);
@@ -453,7 +471,7 @@ entryCard.prototype = {
               that.tbody.html("").html(cardInfo);
               that.cardEdit(request);
               that.cardDel();
-              that.fillCard();
+              that.changeCard();
               that.statusUpdate(request);
               break;
             case 102:
@@ -483,7 +501,7 @@ entryCard.prototype = {
     var physicsNo = "";
     var physicsNo0 = $(".m-modal_edit .u-input_box .u-input.phy_no").val();
     var physicsNo1 = $(".m-modal_entring .u-input_box .u-input.phy_no").val();
-    var physicsNo2=$(".m-modal_fillCard .u-input_box .u-input.phy_no").val();
+    var physicsNo2=$(".m-modal_changeCard .u-input_box .u-input.phy_no").val();
     if (physicsNo0 !== "") {
       physicsNo = physicsNo0;
     } else if (physicsNo1 !== "") {
@@ -620,6 +638,7 @@ entryCard.prototype = {
     var oldCard = that.editSaveBtn.attr("data-oldcrd");
     var req=that.editSaveBtn.attr("data-req");
     var presuming_id = that.editSaveBtn.attr("data-preid");
+    var url = that.editSaveBtn.attr("data-url");
     var lid = that.salerInp.attr("data-id");
     var phyVal = phyNo.val();
     var cardVal = cardNo.val();
@@ -635,7 +654,7 @@ entryCard.prototype = {
     
     if (reg.test(phyVal, cardVal)) {
       PFT.Util.Ajax(
-        "/r/product_HotSpringCard/editCard",
+        "/r/product_HotSpringCard/"+url,
         {
           type: "POST",
           params: {
@@ -666,6 +685,11 @@ entryCard.prototype = {
                 //失败回调
               });
               break;
+               case 401:
+              PFT.Util.STip("fail", res.msg, 3000, function () {
+                //失败回调
+              });
+              break;
             }
           },
         }
@@ -675,20 +699,18 @@ entryCard.prototype = {
       return false;
     }
   },
-  onSubmitCheck: function (entryCard) {
+  onSubmitCheck: function (entryCard,url,data) {
+   
     var reg = /^[0-9a-zA-Z]+$/;
     var lid = $("#saler_inp").attr("data-id");
-  //  console.log(lid);
+  
     var span_des = $(".u-span_des.card_no");
     if (reg.test(entryCard)) {
       PFT.Util.Ajax(
-        "/r/product_HotSpringCard/checkVisibleNo",
+        "/r/product_HotSpringCard/"+url,
         {
           type: "POST",
-          params: {
-            "visible_no": entryCard,
-            "salerid": lid
-          },
+          params:data,
           success: function (res) {
             var span = '<span class="u-span_des ">' + res.msg + '</span>';
             switch (res.code) {
@@ -856,30 +878,29 @@ entryCard.prototype = {
       });
 
   },
-  fillCard: function () {
+  changeCard: function () {
     var that = this;
-    var fillBtn = $("#tbody .crd_operation .u-btn_changeCard");
-    var fillModal = $(".m-modal_bg.fillCard");
-    var confirmBtn = $(".m-modal_bg.fillCard .save");
-    fillBtn.on("click", function () {
+    var changeBtn = $("#tbody .crd_operation .u-btn_changeCard");
+    var changeModal = $(".m-modal_bg.changeCard");
+    var confirmBtn = $(".m-modal_bg.changeCard .save");
+    changeBtn.on("click", function () {
       var $this = $(this).parent();
       var oldVsiInp=$("#oldCrdInp");
       var oldVsiNo = $this.attr("data-vn");
       var presuming_id = $this.attr("data-preid");
-    console.log(presuming_id);
       oldVsiInp.val(oldVsiNo);
-      fillModal.show();
+      changeModal.show();
       confirmBtn.attr({"data-vn": oldVsiNo,"data-preid":presuming_id});
     })
   },
-  onFillCardSubmit: function () {
+  onChangeCardSubmit: function () {
     var that = this;
     var reg = /^[0-9a-zA-Z]+$/;
     var lid = that.salerInp.attr("data-id");
-    var vsiVal=$(".m-modal_fillCard .u-input.card_no").val(); //手牌号
-    var fillCardModal=$(".m-modal_bg.fillCard");
-    var oldVsiVal = that.fillConfBtn.attr("data-vn");
-    var presuming_id=that.fillConfBtn.attr("data-preid");
+    var vsiVal=$(".m-modal_changeCard .u-input.card_no").val(); //手牌号
+    var changeCardModal=$(".m-modal_bg.changeCard");
+    var oldVsiVal = that.changeConfBtn.attr("data-vn");
+    var presuming_id=that.changeConfBtn.attr("data-preid");
     var currentPage=$("#paginationWrap").attr("data-curr");
     if (reg.test(vsiVal)) {
       PFT.Util.Ajax(
@@ -894,7 +915,7 @@ entryCard.prototype = {
           success: function (res) {
             switch (res.code) {
               case 200:
-                fillCardModal.hide();
+                changeCardModal.hide();
                 that.onCloseModalClean();
                 PFT.Util.STip("success", res.msg, 3000, function () {
 
@@ -905,6 +926,17 @@ entryCard.prototype = {
                 PFT.Util.STip("fail", res.msg, 3000, function () {
 
                 });
+                break;
+                  case 401:
+                PFT.Util.STip("fail", res.msg, 3000, function () {
+
+                });
+                break;
+                   case 500:
+                PFT.Util.STip("fail", res.msg, 3000, function () {
+
+                });
+                break;
             }
           },
         }
