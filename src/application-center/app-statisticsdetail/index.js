@@ -5,7 +5,7 @@
  */
 require("./index.scss");
 
-var Pagination = require("COMMON/modules/pagination-x");
+var Pagination = require("COMMON/modules/pagination-x/v1.0");
 
 var ajaxUrls = require('../common/js/ajaxurl.js');
 

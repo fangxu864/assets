@@ -27,10 +27,7 @@ var config = require("../../task-webpack/config")({
         "appcenter_appstatisticsdetail" : "./src/application-center/app-statisticsdetail/index.js",
         //应用中心 - 支付
         "appcenter_pay" : "./src/application-center/pay/index.js",
-        "appcenter_paysuccess" : "./src/application-center/pay/success.js",
-
-        //应用中心 - 过期提示窗口
-        "appcenter_expiredText" : "./src/application-center/expiredText/index.js"
+        "appcenter_paysuccess" : "./src/application-center/pay/success.js"
     },
     output : output,
     plugins : plugins

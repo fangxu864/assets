@@ -236,7 +236,7 @@ var Main = PFT.Util.Class({
 
 		 				$('#' + _this.dom.dialog.qrcode).qrcode({ width: 165, height: 165, text: res.data.url });
 		 				$('#' + _this.dom.dialog.qrcode).prepend('<div class="t-center f14 mb20">应付金额：<em class="c-warning">'+ fee +'</em>元</div>');
-		 				$('#' + _this.dom.dialog.qrcode).append('<div class="t-center f16 mt20 pt20 border-t border-d" style="line-height:30px"><i class="iconfont icon-saoyisao" style="color:' + colorSaoyisao + ';font-size:30px;vertical-align:middle;"></i> 扫码完成支付</div>');
+		 				$('#' + _this.dom.dialog.qrcode).append('<div class="t-center f16 mt20 pt10 border-t border-d" style="line-height:32px"><i class="icon-u-bold icon-saoyisao" style="color:' + colorSaoyisao + ';font-size:30px;vertical-align:top;"></i> 扫码完成支付</div>');
 
 
 		 				_this.checkOrderStatus({
@@ -247,12 +247,12 @@ var Main = PFT.Util.Class({
 		 						}
 		 						if( res.code == 403 ) {
 		 							// 支付失败
-		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20">支付失败</div>');
+		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20 c-warning" style="padding-top: 60px;">支付失败</div><div class="t-center f20 c-warning" style="padding-top: 60px;"><a href="javascript:;" class="btn btn-default" onclick="location.reload()">重新支付</a></div>');
 		 							clearInterval(_this.interval.timer);
 		 						}
 		 						if( res.code == 400 ) {
 		 							// 查询异常
-		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20">查询异常</div>');
+		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20 c-warning" style="padding-top: 60px;">支付失败</div><div class="t-center f20 c-warning" style="padding-top: 60px;"><a href="javascript:;" class="btn btn-default" onclick="location.reload()">重新支付</a></div>');
 		 							clearInterval(_this.interval.timer);
 		 						}
 		 					}
