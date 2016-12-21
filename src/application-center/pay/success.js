@@ -34,32 +34,39 @@ var Main = PFT.Util.Class({
 
 		var dom = _this.dom;
 
-		// var url = window.location.href,
-		// 	urlArr = url.split('?');
+		var url = window.location.href,
+			urlArr = url.split('?');
 
-		// if(urlArr[1]) {
-		// 	_this.module_id = urlArr[1].split('=')[1];
-		// } else {
-		// 	alert('无模块Id');
-		// 	return false;
-		// }
-		_this.ajaxGetOrderInfo({
-			success: function ( res ) {
-				$('#' + dom.sucText).html( _this.successText );
-				$('#' + dom.btn.gotoApp).attr('href', '1');
-				$('#' + dom.btn.gotoIndex).attr('href', '2');
+		if(urlArr[1]) {
+			_this.order_num = urlArr[1].split('=')[1];
+		} else {
+			alert('无订单号');
+			return false;
+		}
 
-				var data = {
-					method: '微信二维码支付',
-					fee: 	'88',
-					name: 	'微商城',
-					btime: 	'2016-02-02',
-					etime: 	'2017-03-03'
+		if( /^\w+$/.test( _this.order_num )) {
+			_this.ajaxGetOrderInfo({
+				params: { order_no: _this.order_num },
+				success: function ( res ) {
+					var data = res.data ;
+
+					$('#' + dom.sucText).html( _this.successText );
+					$('#' + dom.btn.gotoApp).attr('href', data.url );
+					$('#' + dom.btn.gotoIndex).attr('href', 'appcenter_index.html');
+
+					var data = {
+						method: data.pay,
+						fee: 	data.fee,
+						name: 	data.name,
+						btime: 	data.begin,
+						etime: 	data.end
+					}
+					_this.renderFormSuccess( data );
 				}
-				_this.renderFormSuccess( data );
-			}
-		})
-
+			});
+		} else {
+			alert('订单号有误');
+		}
 	},
 
 	ajaxGetOrderInfo: function ( opts ) {
@@ -67,7 +74,8 @@ var Main = PFT.Util.Class({
 
  		_this.ajaxRenderData({
  			container: 	'#' + _this.dom.formSuc,
- 			url: 		ajaxUrls.getAccBalance,
+ 			url: 		ajaxUrls.getOrderInfo,
+ 			params: 	opts.params,
  			loading: 	{ tag: 'div', id: 'formLoading' },
 			success: function(res) {
 				opts.success && opts.success( res );
@@ -114,7 +122,8 @@ var Main = PFT.Util.Class({
 				if(res.code == 200 || res.code == 'success') {
 					opts.success && opts.success( res );
 				} else {
-					alert( res.msg );
+					alert( res.msg || '该订单未支付成功！' );
+					window.history.go(-1);
 				}
 			},
 			error: function( xhr, txt ) {
@@ -131,4 +140,4 @@ var Main = PFT.Util.Class({
 
 $(function () {
 	new Main();
-})
+});
