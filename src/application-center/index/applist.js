@@ -256,17 +256,17 @@ var AppList = PFT.Util.Class({
                 if(list[i].flag_new == 1){ //是否是新上线
 
         	    	if(list[i].use_status == 2){//新上线并且过期
-        	    		temp += '<i class="icon-expired"></i>' +'<i class="icon-new"></i>'+
+        	    		temp += '<i class="ico-expired"></i>' +'<i class="ico-new"></i>'+
         				'</li>' ;
         	    	}else{ //新上线没有过期 
-	    		    	temp += '<i class="icon-new"></i>' +
+	    		    	temp += '<i class="ico-new"></i>' +
 	    				'</li>' ;
         	    	}
                 	
                 }else{  //不是新上线
 
                 	if(list[i].use_status == 2){//过期
-                		temp += '<i class="icon-expired"></i>' +
+                		temp += '<i class="ico-expired"></i>' +
             			'</li>' ;
                 	}else if(list[i].use_status == 1){ //正常使用
                 		temp += '</li>' ; 
