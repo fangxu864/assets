@@ -23,8 +23,8 @@
     console.log(dialog_expired);
     dialog_expired.open();
     Service({},{
-        complete:function (req) {
-            if(req.code == 200){
+        success:function (data) {
+            
                 //判断当天是否访问过
                 // var lastDate = Cookie.getCookie('lastDate');
                 // console.log(lastDate);
@@ -43,7 +43,7 @@
                 //     Cookie.setCookie('lastDate',today,{expireHours:24});
                 // }
 
-                $.each(req.data,function (index,value) {
+                $.each(data,function (index,value) {
                     var i = index+1;
                     if(index < 10){
                         var seq = "0"+i;
@@ -54,7 +54,7 @@
                     $("#appBox_expired").append(newLi)
                 })
             }
-        }
+        
     })
    // $.post("/r/appCenter_ModuleList/getModuleListOfExpireSoon",{},function (req) {
    //     if(req.code == 200){
