@@ -43,5 +43,7 @@ module.exports = {
     //支付 - 支付宝二维码生成
     payViaAlipay: '/r/AppCenter_ModulePayment/aliPayCreQrCode',
     //支付 - 判断订单是否支付成功
-    checkOrderStatus: '/r/AppCenter_ModulePayment/checkPayStatus'
+    checkOrderStatus: '/r/AppCenter_ModulePayment/checkPayStatus',
+    //支付 - 支付成功订单状态
+    getOrderInfo: '/r/AppCenter_ModulePayment/getOrderStatus'
 };

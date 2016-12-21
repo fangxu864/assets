@@ -154,12 +154,12 @@ var Main = PFT.Util.Class({
 			 								module_id: module_id,
 			 								price_id: price_id,
 			 								success: function ( res ) {
-			 									_this.ajaxGetModeList( _this.module_id );
+			 									location.href= 'appcenter_paysuccess.html?ordernum=' + res.data.order_no
 			 								}
 			 							});
 			 						})
 			 					} else {
-			 						$('#' + _this.dom.dialog.accbalance).append('<div class="t-center"><a href="recharge.html" class="btn btn-default">余额不足去充值</a></div>');
+			 						$('#' + _this.dom.dialog.accbalance).append('<div class="t-center"><a target="_blank" href="recharge.html" class="btn btn-default">余额不足去充值</a></div>');
 			 					}
 							}
 				 		});
@@ -243,7 +243,17 @@ var Main = PFT.Util.Class({
 		 					ordernum: _this.ordernum,
 		 					success: function( res ) {
 		 						if( res.code == 200 ) {
-		 							location.href = ''
+		 							location.href= 'appcenter_paysuccess.html?ordernum=' + _this.ordernum
+		 						}
+		 						if( res.code == 403 ) {
+		 							// 支付失败
+		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20">支付失败</div>');
+		 							clearInterval(_this.interval.timer);
+		 						}
+		 						if( res.code == 400 ) {
+		 							// 查询异常
+		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20">查询异常</div>');
+		 							clearInterval(_this.interval.timer);
 		 						}
 		 					}
 		 				});
