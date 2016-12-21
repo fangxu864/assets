@@ -84,8 +84,24 @@
                 },
                 success : (data) =>{
                     this.state = "success";
+                    var filterTheme = {
+                        "出境游" : 1,
+                        "国内游" : 1,
+                        "跟团游" : 1,
+                        "周边游" : 1,
+                        "邮轮" : 1,
+                        "定制游" : 1,
+                        "自由行" : 1,
+                        "自驾游" : 1
+                    };
+                    var newData = [];
+                    for(var i=0; i<data.length; i++){
+                        var item = data[i];
+                        var name = item.name;
+                        if(!filterTheme[name]) newData.push(item);
+                    }
                     this.$nextTick(()=>{
-                        this.render(data);
+                        this.render(newData);
                     })
 
                 },
@@ -99,7 +115,11 @@
         },
         methods : {
             getPtypeBoxCls(item){
-                return item.identify!=='theme' ? item.identify : (Themes[item.name]['cls']+' theme')
+                if(item.identify!=="theme") return item.identify;
+                var theme = Themes[item.name];
+                if(!theme) return "theme";
+                var cls = theme["cls"] || "";
+                return cls+" theme";
             },
             getLinkUrl(item){
                 var href = "plist.html";
@@ -169,7 +189,6 @@
                     slide.on("slideChanged",function(index,item,r){})
 
                     setTimeout(function(){
-                        console.log($("#ptypeThemeScrollWrap"))
                         $("#ptypeThemeScrollWrap").height($(".ptypeThemeSlideItemCon").height()).css({
                             paddingBottom : 20
                         });
@@ -229,7 +248,7 @@
     #ptypeThemeSliderContainer .islider-dot.active{ background:#2a98da; border:0 none}
     #ptypeThemeScrollWrap{ width:100%; height:180px; position:relative; overflow:hidden;}
     #ptypeThemeScrollWrap .islider-outer{ position:relative; height:100%; overflow:hidden}
-    #ptypeThemeScrollWrap .islider-html{ position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; display: -webkit-box;-webkit-box-pack: center;-webkit-box-align: center;list-style: none;margin: 0;padding: 0; }
+    #ptypeThemeScrollWrap .islider-html{ position:absolute; top:0; left:0; width:100%; height:100%; overflow:hidden; list-style: none;margin: 0;padding: 0; }
     #ptypeThemeScrollWrap .slideItem{ display:block; width:100%; height:100%; font-size:0; overflow:hidden;}
 
 </style>
