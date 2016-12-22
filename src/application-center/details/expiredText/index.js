@@ -25,23 +25,23 @@
     Service({},{
         success:function (data) {
 
-                //判断当天是否访问过
-                var lastDate = Cookie.getCookie('lastDate');
-                console.log(lastDate);
-                if(lastDate){
-                    var today = new Date().getDate();
-                    console.log(today);
-                    if(today == lastDate){
-                        return false
-                    }else{
-                        dialog_expired.open();
-                        Cookie.setCookie('lastDate',today,{expireHours:24});
-                    }
-                }else{
-                    dialog_expired.open();
-                    var today = new Date().getDate();
-                    Cookie.setCookie('lastDate',today,{expireHours:24});
-                }
+                // //判断当天是否访问过
+                // var lastDate = Cookie.getCookie('lastDate');
+                // console.log(lastDate);
+                // if(lastDate){
+                //     var today = new Date().getDate();
+                //     console.log(today);
+                //     if(today == lastDate){
+                //         return false
+                //     }else{
+                //         dialog_expired.open();
+                //         Cookie.setCookie('lastDate',today,{expireHours:24});
+                //     }
+                // }else{
+                //     dialog_expired.open();
+                //     var today = new Date().getDate();
+                //     Cookie.setCookie('lastDate',today,{expireHours:24});
+                // }
 
                 $.each(data,function (index,value) {
                     var i = index+1;
