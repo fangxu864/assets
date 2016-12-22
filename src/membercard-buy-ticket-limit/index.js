@@ -200,9 +200,21 @@ var Main = {
 
         $(".ticketEdit").on("click",function (e) {
             _this.editPart.Dialog.open();
-            $("#daily_limit").val("");
-            $("#num_limit").val("");
-            $("#interval").val("");
+            var daily_limit = $(e.target).parent().find(".daily_buy_limit").text();
+            var num_limit = $(e.target).parent().find(".buy_num_limit").text();
+            var interval = $(e.target).parent().find(".buy_interval").text();
+            if(daily_limit == "不限"){
+                daily_limit = -1
+            }
+            if(num_limit == "不限"){
+                num_limit = -1
+            }
+            if(interval == "不限"){
+                interval = -1
+            }
+            $("#daily_limit").val(daily_limit);
+            $("#num_limit").val(num_limit);
+            $("#interval").val(interval);
             $("#editContainer").attr("data-pid",$(e.target).attr("data-pid"));
             $("#editContainer").attr("data-rid",$(e.target).attr("data-rid"));
             $("#p_name").attr("title",$(e.target).attr("data-name")).text($(e.target).attr("data-name"))
