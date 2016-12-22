@@ -4,12 +4,13 @@
 <div>
     <h2 style="text-align: center;margin: 20px 0"><span id="name"></span>--<span id="summary"></span></h2>
     <div style="text-align: center" id="pictures">
-
+        <img class="img" src="../移动电子售票系统.png" alt="">
     </div>
     <!--应用详情-->
     <div class="appdetails_details">
         <h2>应用详情</h2>
         <div class="content_details" id="appDetails">
+            硬件详情介绍部分
         </div>
     </div>
 </div>
@@ -18,11 +19,9 @@
     <h2>推荐应用</h2>
     <div class="content_details">
         <ul class="app-list" id="app-list">
-            <!--
                <li><img class="img" " src="../云票务.png" alt=""></li>
                <li><img class="img" src="../云闸机.png" alt=""></li>
                <li><img class="img" src="../自助售取票机.png" alt=""></li>
-               -->
             </ul>
         </div>
 

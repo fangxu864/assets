@@ -115,9 +115,16 @@ body{
 .app-list li {
     position: relative;
     float: left;
-    width: 240px;
+    width: 210px;
     margin-right: 20px;
     margin-bottom: 25px;
+
+    .btn{
+        &:hover{
+            background: #0797d9;
+            color: white;
+        }
+    }
 }
 .app-list .app-item {
     padding: 19px 14px;
@@ -127,7 +134,7 @@ body{
 }
 .app-list .app-item:hover {
     padding: 18px 13px;
-    border: 2px solid #e5beeb;
+    border: 2px solid #0797d9;
 }
 .app-list .app-item .app-left {
     float: left;
@@ -150,6 +157,12 @@ body{
 .app-list .app-item .app-price {
     font-size: 14px;
     color: #7a7a7a;
+}
+.app-list .app-item .app-summary {
+    display: inline-block;
+    width: 126px;
+    height: 19px;
+    overflow: hidden;
 }
 .app-list .app-item .app-btn-w {
     margin-top: 10px;

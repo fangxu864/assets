@@ -7,7 +7,7 @@
         <i class="ui-app-ico"></i>
             <span>
                 <h4 id="appName"></h4>
-                <p class="introdaction_detail" id="appText" title="微信会员可以进行微商城开店分佣，有利于微商城的传播和产品销售。"><e>产品简介：</e></p>
+                <p class="introdaction_detail" id="appText" title=""><e>产品简介：</e></p>
                 <p>微商城将于<e class="time_detail" id="etime"></e>到期</p>
             </span>
     </div>
@@ -54,7 +54,40 @@
 <div class="recommend_details">
     <h2>推荐应用</h2>
     <div class="content_details">
-        <ul class="app-list" id="app-list"></ul>
+        <ul class="app-list" id="app-list">
+            <!--
+            <li class="app-item app-expired">
+                <div class="app-left">
+                    <i class="ui-app-ico"></i>
+                    <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p>
+                </div>
+                <div class="app-right">
+                    <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div>
+                    <div class="text-ellipsis"> <span class="app-price">222元/季节</span></div>
+                    <div class="app-btn-w">
+                        <a href="javascript:;" class="btn btn-default mr10">使用</a>
+                        <a href="javascript:;" class="btn-link">续费</a>
+                    </div>
+                </div>
+                <i class="ico-new"></i>
+            </li>
+
+            <li class="app-item">
+                <div class="app-left">
+                    <i class="ui-app-ico"></i>
+                    <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p>
+                </div>
+                <div class="app-right">
+                    <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div>
+                    <div class="text-ellipsis"> <span class="app-price">222元/季节</span></div>
+                    <div class="app-btn-w">
+                        <a href="javascript:;" class="btn btn-reverse w100">开通</a>
+                    </div>
+                </div>
+                <i class="ico-expired"></i>
+            </li>
+            -->
+        </ul>
     </div>
 
 
