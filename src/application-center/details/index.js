@@ -112,10 +112,20 @@ var Main = PFT.Util.Class({
                     var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">222元/季节</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">去看看</a> </div> </div><i class="ico-expired"></i></li>')
                 }
 
+
                 newLi.attr("data-id",detail.id);
+
                 newLi.find(".app-usernum").text(detail.open_num);
                 newLi.find(".app-name").text(detail.name);
                 newLi.find(".app-summary").text(detail.summary);
+
+                newLi.find(".btn").on("click",function () {
+                    window.location.href="appcenter_details.html?module_id="+detail.id;
+                });
+
+                newLi.find(".btn-link").on("click",function () {
+                    window.location.href="appcenter_pay.html?appid="+detail.id;
+                });
                 $("#app-list").append(newLi);
 
             }
@@ -134,23 +144,23 @@ var Main = PFT.Util.Class({
         //按钮文字部分
         if(status == 0){
             $("#btn").text("免费试用").on("click",function () {
-                window.location.href="www.baidu.com"
+                window.location.href="appcenter_details.html?module_id="+_this.module_id;
             })
         }else if(status == -1){
             $("#btn").text("续费").on("click",function () {
-                window.location.href="www.baidu.com"
+                window.location.href="appcenter_pay.html?appid="+_this.module_id
             })
         }else if(status == 1){
             $("#btn").text("开通").on("click",function () {
-                window.location.href="www.baidu.com"
+                window.location.href="appcenter_details.html?module_id="+_this.module_id
             })
         }else if(status == 2){
             $("#btn").text("使用").on("click",function () {
-                window.location.href="www.baidu.com"
+                window.location.href="appcenter_details.html?module_id="+_this.module_id
             })
         }else if(status == 3){
             $("#btn").text("去看看").on("click",function () {
-                window.location.href="www.baidu.com"
+                window.location.href="appcenter_details.html?module_id="+_this.module_id
             })
         }
 
