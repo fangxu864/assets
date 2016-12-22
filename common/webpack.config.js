@@ -6,7 +6,7 @@
 var env = require("../task-webpack/getNodeENV");
 var path = require("path");
 var plugins = require("../task-webpack/getPlugins")(env);
-var output = require("../task-webpack/getOutput")(env,"all");
+var output = require("../task-webpack/getOutput")(env);
 var config = require("../task-webpack/config")({
 	entry : {
 		"pft.common.mb" : "./common/pft.common.mb.js",   //use in mobile
