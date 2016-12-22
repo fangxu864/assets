@@ -3,6 +3,7 @@
 
 var GetListAjax = require("./appList_service.js"); 
 var loadingHTML = require("COMMON/js/util.loading.pc.js");
+var yingjian_tpl = require("./tpl/yingjian.xtpl");
 // var card_tpl = require("./tpl/cardtpl.xtpl");
 
 var AppList = PFT.Util.Class({
@@ -35,13 +36,13 @@ var AppList = PFT.Util.Class({
 		var req4 = function(){
 			return that.getAppList(0,4);  //首页，一卡通
 		};
-		var req5 = function(){
-			return that.getAppList(0,5);  //首页，智能硬件
-		};
+		// var req5 = function(){
+		// 	return that.getAppList(0,5);  //首页，智能硬件
+		// };
 
 		//顺序发请求
-		req1().then(req2).then(req3).then(req4).then(req5).done(function(xhr){
-			$("#tabCon").html(that.tempIndexListBox);
+		req1().then(req2).then(req3).then(req4).done(function(xhr){
+			$("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
 		});
 
 
@@ -77,7 +78,6 @@ var AppList = PFT.Util.Class({
 
 			success : function(res){
 
-				console.log(res);
 				var code = res.code;
 				var msg = res.msg;
 				var list = res.data;
@@ -108,7 +108,7 @@ var AppList = PFT.Util.Class({
 			if(that.tempIndexListBox == ""){
 				that.init();
 			}else{
-				$("#tabCon").html(that.tempIndexListBox);
+				$("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
 			}
 		}
 		if( nowId == "newOnlineTab"){ //新上线
@@ -147,9 +147,7 @@ var AppList = PFT.Util.Class({
 
 
 	CacheList : function(list,type,category,tabType){
-
-		console.log("type:"+type);
-		console.log("category:"+category);
+		
 
 		var listTitle = "";
 		var ulClassName = "";

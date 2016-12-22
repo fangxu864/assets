@@ -1,0 +1,31 @@
+<div class="tab-con">
+    <h4 class="app-class mb30">智能硬件</h4>
+    <div class="app-list-wrap">
+        <ul class="app-list app-list2 clearfix">
+            <li class="yingjian">
+                <h4 class="yingjian_name">MINI云票务</h4>
+                <a href="appcenter_details.html?module_id=10">
+                    <img src="http://static.12301.cc/assets/build/images/appcenter/miniyun.jpg" alt=""/>
+                </a>
+            </li>
+            <li class="yingjian">
+                <h4 class="yingjian_name">云票务</h4>
+                <a href="appcenter_details.html?module_id=11">
+                     <img src="http://static.12301.cc/assets/build/images/appcenter/yunpiaowu.jpg" alt=""/>
+                </a>
+            </li>
+            <li class="yingjian">
+                <h4 class="yingjian_name">云闸机</h4>
+                <a href="appcenter_details.html?module_id=12">
+                     <img src="http://static.12301.cc/assets/build/images/appcenter/yunzaji.jpg" alt=""/>
+                </a>
+            </li>
+            <li class="yingjian">
+                <h4 class="yingjian_name">自助售取票机</h4>
+                <a href="appcenter_details.html?module_id=13">
+                     <img src="http://static.12301.cc/assets/build/images/appcenter/zizhuji.jpg" alt=""/>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
