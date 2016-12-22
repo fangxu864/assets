@@ -15,6 +15,10 @@ var DialogS=require("./dialog/dialog.js");
 
 
 var Recharge={
+
+    /**
+     * @function  init
+     */
     init:function(){
         var _this=this;
         //获取盒子
@@ -25,6 +29,10 @@ var Recharge={
         this.bind();
         _this.ajaxGetData()
     },
+
+    /**
+     * @function 事件绑定
+     */
     bind:function () {
         var _this=this;
         //套餐类型
@@ -56,7 +64,7 @@ var Recharge={
         //票付通账户余额支付
         $(".pft_pay").on("click",function () {
             _this.Dialoga.show_dialog_con_pft({
-                "url":"/r/pay_Alipay/renew/",
+                "url":"/r/Member_Renew/renewByBalanceCheck",
                 "title":"票付通账户余额支付",
                 "account":"票付通",
                 "money":$(".package_type.active").attr("money"),
@@ -68,6 +76,11 @@ var Recharge={
             $("#siteLogoutBtn").click();
         })
     },
+
+
+    /**
+     * @function 初始化时获取初始化数据
+     */
     ajaxGetData:function () {
         var _this=this;
         $.ajax({
@@ -105,6 +118,11 @@ var Recharge={
             }
         });
     },
+
+
+    /**
+     * @function 续费套餐解析模板
+     */
     template:PFT.Util.ParseTemplate(packageType_tpl)
 };
 $(function(){
