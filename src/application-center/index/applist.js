@@ -199,13 +199,14 @@ var AppList = PFT.Util.Class({
 
         	var mid = list[i].module_id;
         	var open_num = list[i].open_num;
+        	var icon_url = list[i].icon || "http://static.12301.cc/assets/build/images/appcenter/icons/default.png";
 
             temp += 
 
             '<li>' +
                 '<div class="app-item">' +
                     '<div class="app-left">' +
-                        '<i class="ui-app-ico"></i>' +
+                        '<i class="ui-app-ico" style="background-image:url('+icon_url+')"></i>' +
                         '<p class="app-open"><span class="app-usernum c-warning">'+open_num+'</span> 用户<br>已开通</p>' +
                     '</div>' +
                     '<div class="app-right">' +
