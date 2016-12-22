@@ -24,7 +24,7 @@
     dialog_expired.open();
     Service({},{
         success:function (data) {
-            
+
                 //判断当天是否访问过
                 var lastDate = Cookie.getCookie('lastDate');
                 console.log(lastDate);
@@ -34,11 +34,11 @@
                     if(today == lastDate){
                         return false
                     }else{
-                        _this.dialog_expired.open();
+                        dialog_expired.open();
                         Cookie.setCookie('lastDate',today,{expireHours:24});
                     }
                 }else{
-                    _this.dialog_expired.open();
+                    dialog_expired.open();
                     var today = new Date().getDate();
                     Cookie.setCookie('lastDate',today,{expireHours:24});
                 }
