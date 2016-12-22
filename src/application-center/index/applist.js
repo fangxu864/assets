@@ -82,8 +82,35 @@ var AppList = PFT.Util.Class({
 				var msg = res.msg;
 				var list = res.data;
 
-				if(list.length > 0 ){
+				if( type == 0 && list.length > 0 ){
 					that.CacheList(list,type,category);
+				}
+				if( type != 0 ){
+					switch (type){
+						case 1 :
+							if( list.length > 0 ){
+								that.CacheList(list,type,category);
+							}else{
+								that.tempNewOnlineListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
+							}
+							break;
+						case 2 :
+							if( list.length > 0 ){
+								that.CacheList(list,type,category);
+							}else{
+								that.tempUnOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
+							}
+							break;
+						case 3:
+							if( list.length > 0 ){
+								that.CacheList(list,type,category);
+							}else{
+								that.tempOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
+							}
+							break;
+						default :
+							alert(type+"是什么类型？")
+					}
 				}
 			}
 
