@@ -4,7 +4,7 @@
 <div>
     <!--图标简介-->
     <div class="line1_detail">
-        <i class="ui-app-ico"></i>
+        <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i>
             <span>
                 <h4 id="appName"></h4>
                 <p class="introdaction_detail" id="appText" title=""><e>产品简介：</e></p>

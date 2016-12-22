@@ -22,7 +22,8 @@ var Main = PFT.Util.Class({
         if(getval){
             this.module_id = getval.split("=")[1];
         }else{
-            this.module_id = 2;
+            alert("请先选择您要查看的应用。");
+            window.location.href="appcenter.html";
         }
 
     },
@@ -78,9 +79,10 @@ var Main = PFT.Util.Class({
             $("#etime").text(_this.changeTimeType(data.expire_time));            //到期时间
             $("#appDetails").text(data.introduce);   //应用详情
             $("#price").show().text(req.price);            //价格
-            // $(".line1_detail").find(".ui-app-icon").css({
-            //     "background-image": "url("+data.icon+")"     //图标
-            // });
+            if(data.icon){
+                $(".line1_detail").find(".ui-app-ico img").attr("src",data.icon);
+            }
+
 
 
             //应用开通状态判断
@@ -99,17 +101,17 @@ var Main = PFT.Util.Class({
                 // })
 
                 if(state == -1){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">222元/季节</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-default mr10">使用</a> <a href="javascript:;" class="btn-link">续费</a> </div> </div> </li>')
+                    var newLi = $('<li class="app-item"><div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-default mr10">使用</a> <a href="javascript:;" class="btn-link">续费</a> </div> </div> </li>')
                 }else if(state == 0){
-                   var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">222元/季节</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">免费试用</a> </div> </div><i class="ico-new"></i></li>')
+                   var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">免费试用</a> </div> </div><i class="ico-new"></i></li>')
                 }else if(state == 1){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">222元/季节</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">开通</a> </div> </div> </li>')
+                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 open">开通</a> </div> </div> </li>')
                 }
                 else if(state == 2){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">222元/季节</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">使用</a> </div> </div> </li>')
+                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">使用</a> </div> </div> </li>')
                 }
                 else if(state == 3){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">222元/季节</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">去看看</a> </div> </div><i class="ico-expired"></i></li>')
+                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100">去看看</a> </div> </div><i class="ico-expired"></i></li>')
                 }
 
 
@@ -119,13 +121,24 @@ var Main = PFT.Util.Class({
                 newLi.find(".app-name").text(detail.name);
                 newLi.find(".app-summary").text(detail.summary);
 
+                if(data.icon){
+                    newLi.find(".ui-app-ico img").attr("src",data.icon);
+                }
+
                 newLi.find(".btn").on("click",function () {
                     window.location.href="appcenter_details.html?module_id="+detail.id;
                 });
 
+
                 newLi.find(".btn-link").on("click",function () {
                     window.location.href="appcenter_pay.html?appid="+detail.id;
                 });
+
+                newLi.find(".open").on("click",function () {
+                    window.location.href="appcenter_pay.html?appid="+detail.id;
+                });
+
+
                 $("#app-list").append(newLi);
 
             }
@@ -144,7 +157,7 @@ var Main = PFT.Util.Class({
         //按钮文字部分
         if(status == 0){
             $("#btn").text("免费试用").on("click",function () {
-                window.location.href="appcenter_details.html?module_id="+_this.module_id;
+                _this.freeTrial()
             })
         }else if(status == -1){
             $("#btn").text("续费").on("click",function () {
@@ -152,8 +165,19 @@ var Main = PFT.Util.Class({
             })
         }else if(status == 1){
             $("#btn").text("开通").on("click",function () {
-                window.location.href="appcenter_details.html?module_id="+_this.module_id
-            })
+                window.location.href="appcenter_pay.html?appid="+_this.module_id
+            });
+
+            //价格提示部分
+            if(moduleFree){
+                var price = "";
+                for (var key in moduleFree){
+                    price+=moduleFree[key].free + "元 / " + moduleFree[key].mode +"   ";
+                }
+                $("#price").text(price)
+            }else(
+                console.log("none")
+            )
         }else if(status == 2){
             $("#btn").text("使用").on("click",function () {
                 window.location.href="appcenter_details.html?module_id="+_this.module_id
@@ -163,17 +187,6 @@ var Main = PFT.Util.Class({
                 window.location.href="appcenter_details.html?module_id="+_this.module_id
             })
         }
-
-        //价格提示部分
-        if(moduleFree){
-            var price = "";
-            for (var key in moduleFree){
-                price+=moduleFree[key].free + " / " + moduleFree[key].mode +"   ";
-            }
-            $("#price").text(price)
-        }else(
-            console.log("none")
-        )
 
 
         //悬浮提示部分
@@ -201,7 +214,21 @@ var Main = PFT.Util.Class({
     changeTimeType:function (timestamp) {
         var newDate = new Date();
         newDate.setTime(timestamp * 1000);
-        return newDate.toLocaleDateString()
+        var year = newDate.getFullYear();
+        var month = newDate.getMonth()+1;
+        var day = newDate.getDate();
+        return year+"-"+month+"-"+day
+    },
+
+    freeTrial:function () {
+        $.post("/r/AppCenter_ModulePayment/freeTrial",{module_id:this.module_id},function (data) {
+            if(data.code ==  200){
+                alert("已为您开通免费试用");
+                location.reload()
+            }else{
+                alert(data.msg);
+            }
+        })
     }
 });
 
