@@ -66,6 +66,30 @@ body{
     margin-right: 20px;
     margin-bottom: 25px;
 }
+.app-list li.yingjian {
+    position: relative;
+    float: left;
+    width: 161px;
+    height: 200px;
+    margin-right: 32px;
+    margin-bottom: 25px;
+    background-color: #fff;
+    cursor: pointer;
+}
+.app-list li.yingjian .yingjian_name{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px auto 20px 10px;
+}
+.app-list li.yingjian img{
+    display: block;
+    margin: 0 auto;
+    transform: translate(0px);
+    transition: transform 0.2s;
+}
+.app-list li.yingjian img:hover{
+    transform: translate(5px);
+}
 .app-list .app-item {
     padding: 19px 14px;
     border: 1px solid #eaeaea;
