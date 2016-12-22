@@ -18,7 +18,6 @@ var Main = PFT.Util.Class({
     getParam:function () {
         var thisURL = document.URL;
         var  getval =thisURL.split('?')[1];
-        console.log(getval);
         if(getval){
             this.module_id = getval.split("=")[1];
         }else{
@@ -33,7 +32,6 @@ var Main = PFT.Util.Class({
         getAppdetail({module_id:_this.module_id},{
             complete:function (req) {
                 if(req.code == 200){
-                    console.log(req.data);
                     _this.renderAppDetails(req.data);
                     _this.btnInit()
                 }
@@ -91,7 +89,6 @@ var Main = PFT.Util.Class({
 
             //推荐应用
             var recommend = req.link;
-            console.log(recommend.length);
             for(var i=0 ; i<recommend.length ; i++){
                 var detail = recommend[i].detail;
                 var checkData = recommend[i].detail.checkData;
@@ -223,7 +220,6 @@ var Main = PFT.Util.Class({
 
 
         $("#app-list").find(".btn-link").on("click",function (e) {
-
             window.location.href="appcenter_pay.html?appid="+$(e.target).attr("data-id");
         });
 

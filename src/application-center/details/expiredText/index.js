@@ -20,28 +20,25 @@
        overlay : true,
        headerHeightMin : 46
    });
-    console.log(dialog_expired);
-    dialog_expired.open();
     Service({},{
         success:function (data) {
 
-                // //判断当天是否访问过
-                // var lastDate = Cookie.getCookie('lastDate');
-                // console.log(lastDate);
-                // if(lastDate){
-                //     var today = new Date().getDate();
-                //     console.log(today);
-                //     if(today == lastDate){
-                //         return false
-                //     }else{
-                //         dialog_expired.open();
-                //         Cookie.setCookie('lastDate',today,{expireHours:24});
-                //     }
-                // }else{
-                //     dialog_expired.open();
-                //     var today = new Date().getDate();
-                //     Cookie.setCookie('lastDate',today,{expireHours:24});
-                // }
+                //判断当天是否访问过
+                var lastDate = Cookie.getCookie('lastDate');
+                if(lastDate){
+                    var today = new Date().getDate();
+                    console.log(today);
+                    if(today == lastDate){
+                        return false
+                    }else{
+                        dialog_expired.open();
+                        Cookie.setCookie('lastDate',today,{expireHours:24});
+                    }
+                }else{
+                    dialog_expired.open();
+                    var today = new Date().getDate();
+                    Cookie.setCookie('lastDate',today,{expireHours:24});
+                }
 
                 $.each(data,function (index,value) {
                     var i = index+1;
@@ -50,8 +47,11 @@
                     }else {
                         var seq = i;
                     }
-                    var newLi = $('<li> <span>'+seq+'、</span> <span> <em style="padding: 0 5px">'+value.name+'</em>将于<em class="etime">'+value.expire_time+'</em>到期。</span> <span class="renew">续费</span> </li>')
+                    var newLi = $('<li> <span>'+seq+'、</span> <span> <em style="padding: 0 5px">'+value.name+'</em>将于<em class="etime">'+value.expire_time+'</em>到期。</span> <span class="renew" data-id="'+value.module_id+'">续费</span> </li>')
                     $("#appBox_expired").append(newLi)
+                });
+                $(".renew").on("click",function (e) {
+                    window.location.href="appcenter_pay.html?appid="+$(e.target).attr("data-id");
                 })
             }
         
