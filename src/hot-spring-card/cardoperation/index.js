@@ -994,8 +994,7 @@ entryCard.prototype = {
 
                     var reslut = { code:200};
                     var list=res.data;
-                    if(!list){
-                       
+                    if(!list){  
                         return reslut;
                     }
                     var newList=[];
@@ -1003,13 +1002,16 @@ entryCard.prototype = {
                         list[i].id=list[i].salerid;
                         list[i].title=list[i].title
                         newList.push(list[i]);
-                    }
-                     
+                    }        
                     reslut["data"] = newList;
                     return reslut;
-                }
+                },
             });
+ 
   },
+  on:function(){
+
+  }
 
 
 
