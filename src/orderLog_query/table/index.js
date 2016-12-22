@@ -37,7 +37,7 @@ var Table=PFT.Util.Class({
                 "<td>"+ajaxData.data[i].ordernum+"</td> " +           //订单号
                 "<td>"+ajaxData.data[i].land_title+"</td> " +           //产品
                 "<td>"+ajaxData.data[i].ticket_title+"</td> " +           //票
-                "<td class='tl1'>"+ajaxData.data[i].content+"</td> " +                 //操作内容
+                "<td class='tl1'>"+ajaxData.data[i].content+"</td> " +                 //数量
                 "</tr>");
             $("#table_box tbody").append(tr);
         };
