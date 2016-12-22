@@ -255,25 +255,21 @@ var AppList = PFT.Util.Class({
 	            temp += '</div>' +//app-right结束标签
 	                '</div>' ; //app-item结束标签
 
-                if(list[i].flag_new == 1){ //是否是新上线
+                if(list[i].flag_new == 0 && list[i].flag_expire == 0){ //不显示"new"标签，也不显示"过期"标签；
 
-        	    	if(list[i].use_status == 2){//新上线并且过期
-        	    		temp += '<i class="ico-expired"></i>' +'<i class="ico-new"></i>'+
-        				'</li>' ;
-        	    	}else{ //新上线没有过期 
-	    		    	temp += '<i class="ico-new"></i>' +
-	    				'</li>' ;
-        	    	}
-                	
-                }else{  //不是新上线
+        	    		temp += '</li>' ;
+                }else{  //显示"new"标签，或显示"过期"标签；
 
-                	if(list[i].use_status == 2){//过期
-                		temp += '<i class="ico-expired"></i>' +
+					//显示"new"标签
+                	if(list[i].flag_new == 1){
+                		temp += '<i class="ico-new"></i>' +
             			'</li>' ;
-                	}else if(list[i].use_status == 1){ //正常使用
-                		temp += '</li>' ; 
                 	}
-
+					//显示"过期"标签；
+					else if(list[i].flag_expire == 1){
+						temp += '<i class="ico-expired"></i>'+
+							'</li>' ;
+                	}
                 }       
 
         }
