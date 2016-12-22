@@ -147,7 +147,7 @@ var AppList = PFT.Util.Class({
 
 
 	CacheList : function(list,type,category,tabType){
-		
+
 
 		var listTitle = "";
 		var ulClassName = "";
