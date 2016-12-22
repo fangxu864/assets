@@ -14,10 +14,10 @@
     <!--续费-->
     <div class="line2_detail">
             <span>
-                <p><e class="num_detail" id="num">3680</e>用户</p>
+                <p><e class="num_detail" id="num"></e>用户</p>
                 <p>已安装</p>
             </span>
-        <span class="btn_details" id="btn">续费</span>
+        <span class="btn_details" id="btn"></span>
         <ul class="price_details" id="price">
         </ul>
         <div class="message_box" id="message_box_open">
