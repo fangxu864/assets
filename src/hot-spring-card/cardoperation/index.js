@@ -36,7 +36,6 @@ var entryCard = function () {
   this.changeConfBtn = $(".m-modal_changeCard .save");
   this.salerInp=$("#saler_inp");
 
-
   this.bind();
 }
 
@@ -47,8 +46,8 @@ entryCard.prototype = {
   bind: function () {
     var that = this;
     //获取关联产品
+   
     that.getMoreLid();
-
     pagination = new Pagination({
       container: "#paginationWrap", //必须，组件容器id
       // count : 7,                //可选  连续显示分页数 建议奇数7或9
@@ -72,17 +71,14 @@ entryCard.prototype = {
       that.getCardList(toPage);
     });
 
-
+    var currentPage=pagination.getCurrentPage();
+    that.refresh(currentPage);
 
     //读卡自动focus,去除背景  以及判断lid是否为空
     that.entryDiv.on("click", ".readCard,#entryCard", function (e) {
-      var lid=$("#saler_inp").attr("data-id");
-        var salerName=$("#saler_inp").attr("data-title");
-      if(lid===""){
-        that.checkSalerId();
-      }else{
+    
       $(this).prev("input").removeAttr("readonly").val('').focus().css("background", "#FFF");
-      }
+      
     });
 
 
@@ -94,12 +90,7 @@ entryCard.prototype = {
 
     //录入模态框,获取关联产品
     that.entryBtn.on("click", function (e) {
-      var lid=$("#saler_inp").attr("data-id");
-      if(lid===""){
-        that.checkSalerId();
-      }else{
       that.getLid(e);
-      }
     });
 
     //读卡自动检测
@@ -109,12 +100,10 @@ entryCard.prototype = {
 
     //搜索手牌列表
     that.searchBtn.on("click", function (e) {
-       var lid=$("#saler_inp").attr("data-id");
-      if(lid===""){
-        that.checkSalerId();
-      }else{ that.getCardList(1);
-      that.phyInp.val("").css("background", "#eee");
-    }
+      
+        that.getCardList(1);
+        that.phyInp.val("")
+    
      
     });
 
@@ -208,8 +197,43 @@ entryCard.prototype = {
       that.onChangeCardSubmit(e);
     })
    
+   
   },
-  checkSalerId:function(){ 
+  refresh:function(currentPage){
+    var that=this;
+    var salerInp=$("#saler_inp");
+    var salerid=salerInp.attr("data-id");
+   /*  $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
+ 
+    */
+    if(currentPage===0){
+      currentPage=1
+    }
+    console.log(currentPage)
+ 
+    PFT.Util.Ajax(
+      "/r/product_HotSpringCard/defaultSalerId",
+      {
+        type:"POST",
+        params:{
+          "salerid":salerid
+        },
+        success:function(res){ 
+          var data=res.data
+            switch(res.code){
+              case 200:
+              console.log(data)
+              console.log(currentPage)
+              salerInp.attr("data-id",data.salerid).val(data.title);
+
+              that.getCardList(currentPage);
+              break;
+            }
+        }
+
+    });
+  },
+ /* checkSalerId:function(){ 
     var salerInp=$("#saler_inp");
     var slVal=salerInp.val();
     var salerid=salerInp.attr("data-id");
@@ -217,16 +241,18 @@ entryCard.prototype = {
       salerInp.val("请先选择产品!").focus();
       return false;
     }
-  },
+  },*/
   getLid: function (e) {
     var that=this;
     var salerName=$("#saler_inp").attr("data-title");
     this.lid.text(salerName);
-    that.phyInp.val("").css("background", "#eee");
+    that.phyInp.val("")
     that.entryModalbg.show();
   },
   getCardList: function (currentPage) {
-    
+    if(currentPage=="undefined"){
+      currentPage=1;
+    }
     //搜索获取手牌列表
     var that = this,
       cardList = "",
@@ -311,6 +337,7 @@ entryCard.prototype = {
                 that.statusUpdate(request);
                 pagination.render({ current: currentPage ,topage:currentPage,total:data.total});
                 $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
+                console.log(pagination.getCurrentPage())
               }
               break;
             case 201:
@@ -375,13 +402,13 @@ entryCard.prototype = {
 
   onCloseModalClean: function () {
     var that = this;
-    var a = '读取物理卡号';
+    var a = '';
     var span = '使用箱号或手牌上印制的卡号';
     that.modalClearBtn.hide();
     that.readCardBtn.html("").text(a);
     that.modalCardInp.html("").text(span);
     that.modalUInp.val("");
-    that.phyInp.attr("readonly", "readnoly").css("background", "#eee");
+    
   },
   onFlashCard: function (e) {
     //页面刷卡
@@ -555,7 +582,7 @@ entryCard.prototype = {
   onModalClearBtn: function (e) {
     //模态框清除按钮
     var that = this;
-    var a = ' 读取物理卡号';
+    var a = '';
     that.modalClearBtn.prevAll(".u-input.phy_no").focus().val("");
     that.modalClearBtn.prevAll("a").html("").text(a);
     that.modalClearBtn.hide();

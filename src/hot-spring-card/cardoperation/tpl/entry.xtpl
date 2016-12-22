@@ -4,7 +4,7 @@
         <div class="u-modal_inpBox">
             <div class="u-input_box">
                 <span class="u-span">物理卡号：</span>
-                <input type="text" name="physicsNo" class="u-input phy_no" readonly> <a class="readCard">读取物理卡号</a>
+                <input type="text" name="physicsNo" class="u-input phy_no" > <a class="readCard"></a>
                 <div class="clearCardInpBtn"> <i class="iconfont">&#xe674;</i></div>
             </div>
             <div class="u-input_box">
@@ -34,7 +34,7 @@
         <div class="u-modal_inpBox">
             <div class="u-input_box">
                 <span class="u-span">物理卡号：</span>
-                <input type="text" name="physicsNo" class="u-input phy_no" readonly> <a class="readCard">读取物理卡号</a>
+                <input type="text" name="physicsNo" class="u-input phy_no" > <a class="readCard"></a>
                 <div class="clearCardInpBtn"> <i class="iconfont">&#xe674;</i></div>
             </div>
             <div class="u-input_box">
