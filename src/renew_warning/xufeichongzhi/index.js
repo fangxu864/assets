@@ -52,7 +52,17 @@ var Recharge={
                 "money":$(".package_type.active").attr("money"),
                 "typeid":$(".package_type.active").attr("typeid")
             });
-        })
+        });
+        //票付通账户余额支付
+        $(".pft_pay").on("click",function () {
+            _this.Dialoga.show_dialog_con_pft({
+                "url":"/r/pay_Alipay/renew/",
+                "title":"票付通账户余额支付",
+                "account":"票付通",
+                "money":$(".package_type.active").attr("money"),
+                "typeid":$(".package_type.active").attr("typeid")
+            });
+        });
         //重新登录
         $("body").on("click",".btn_login_renew",function () {
             $("#siteLogoutBtn").click();

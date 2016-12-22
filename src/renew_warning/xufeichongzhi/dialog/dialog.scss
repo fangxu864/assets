@@ -1,6 +1,6 @@
 #dialog_box{
   width: 500px;
-  height: 500px;
+  padding-bottom: 30px;
   .dialog_con{
     .title{
       padding-left: 40px;
@@ -60,7 +60,38 @@
       }
     }
   }
-
+  .dialog_con_pft{
+    .title{
+      padding-left: 40px;
+      line-height: 46px;
+      height: 46px;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .line{
+      line-height: 40px;
+      padding-left: 40px;
+      font-size: 16px;
+    }
+    .line4{
+      margin-top: 38px;
+      padding-left: 0;
+      text-align: center;
+      span.btn{
+        padding:8px 30px;
+        border: 1px solid #0797D9;
+        color: #0797D9;
+        font-size: 14px;
+        background-color: #ffffff;
+        transition:   background-color 0.5s;
+        cursor: pointer;
+      }
+      span.btn:hover{
+        color: white;
+        background-color: #0797D9;
+      }
+    }
+  }
 
 
 }

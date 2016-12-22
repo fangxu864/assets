@@ -1,0 +1,9 @@
+<div class="dialog_con_pft" typeid="<%=data.typeid%>">
+    <div class="title"><%=data.title%></div>
+    <div class="line line1">收款账户：<%=data.account%></div>
+    <div class="line line2">支付金额：<span style="color:#F07845"><%=data.money/100%> 元</span></div>
+    <div class="line line3">账户当前余额：80000</div>
+    <div class="line line4">
+        <span class="btn btn_close">确认支付</span>
+    </div>
+</div>

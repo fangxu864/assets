@@ -6,6 +6,7 @@
 require("./dialog.scss");
 //引入tpl
 var dialog_con_tpl=require("./dialog_con.xtpl");
+var dialog_con_pft_tpl=require("./dialog_con_pft.xtpl");
 var dialog_querying_tpl=require("./dialog_querying.xtpl");
 var querySuccess_tpl=require("../tpl/querySuccess.xtpl");
 querySuccess_tpl=PFT.Util.ParseTemplate(querySuccess_tpl)({data:{"host":location.host}});
@@ -16,7 +17,6 @@ function Dialog(){
     var _this=this;
     this.Dialog_simple=new DialogSimple({
         width : 500,
-        height : 500,
         closeBtn : true,
         content : "<div id='dialog_box'></div>",
         drag : true,
@@ -51,7 +51,16 @@ Dialog.prototype={
         this.open();
         _this.ajaxGetVcode(list)
     },
+    show_dialog_con_pft:function (data) {
+        var list=data;
+        var _this=this;
+        var html=_this.template_pft({data:list});
+        this.Dialog_box.html(html);
+        this.open();
+        _this.ajaxGetVcode(list)
+    },
     template:PFT.Util.ParseTemplate(dialog_con_tpl),
+    template_pft:PFT.Util.ParseTemplate(dialog_con_pft_tpl),
     ajaxGetVcode:function (data) {
         var _this=this;
         $.ajax({
