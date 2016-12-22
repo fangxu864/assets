@@ -81,6 +81,9 @@
         font-weight: bold;
         padding: 0 5px;
     }
+    #btn{
+        cursor: pointer;
+    }
     .btn_details{
         margin-top: 2px;
         text-align: center;
@@ -102,6 +105,7 @@
         line-height: 35px;
         font-size: 14px;
         float: left;
+        cursor: pointer;
         display: inline-block;
     }
     .line2_detail{
