@@ -82,8 +82,9 @@ var AppList = PFT.Util.Class({
 				var msg = res.msg;
 				var list = res.data;
 
-				that.CacheList(list,type,category);
-
+				if(list.length > 0 ){
+					that.CacheList(list,type,category);
+				}
 			}
 
 
@@ -197,6 +198,7 @@ var AppList = PFT.Util.Class({
         for(var i = 0;i<list.length;i++){
 
         	var mid = list[i].module_id;
+        	var open_num = list[i].open_num;
 
             temp += 
 
@@ -204,7 +206,7 @@ var AppList = PFT.Util.Class({
                 '<div class="app-item">' +
                     '<div class="app-left">' +
                         '<i class="ui-app-ico"></i>' +
-                        '<p class="app-open"><span class="app-usernum c-warning">'+'un'+'</span> 用户<br>已开通</p>' +
+                        '<p class="app-open"><span class="app-usernum c-warning">'+open_num+'</span> 用户<br>已开通</p>' +
                     '</div>' +
                     '<div class="app-right">' +
                         '<div class="text-ellipsis"><strong class="app-name">'+list[i].name+'</strong></div>' ;
