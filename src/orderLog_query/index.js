@@ -75,8 +75,8 @@ var Main={
 
              _this.table.dealData(ajaxData);
              //console.log(ajaxData.msg);
-             _this.pagination.render(toPage,ajaxData.data[0].allPage);
-             _this.allPage = ajaxData.data[0].allPage;
+             _this.pagination.render(toPage,ajaxData.data.total);
+             _this.allPage = ajaxData.data[0].total;
            /* var cookie = {page:page,data:ajaxData};
             _this.cookieDate.push(cookie)*/
          }
@@ -117,7 +117,7 @@ var Main={
         
         //接收分页器被点击时发布的更改页数的事件
         _this.pagination.on("pageChange",function(toPage){
-            var paramBox = _this.extendParams(_this.paramBox,{page:toPage,allPage:_this.allPage});
+            var paramBox = _this.extendParams(_this.paramBox,{page:toPage});
             _this.getAjaxData_dealTable(paramBox,toPage)
         })
         
