@@ -17,7 +17,7 @@
                 <p><e class="num_detail" id="num"></e>用户</p>
                 <p>已安装</p>
             </span>
-        <span class="btn_details" id="btn"></span>
+        <span class="btn btn-warning w120" id="btn"></span>
         <ul class="price_details" id="price">
         </ul>
         <div class="message_box" id="message_box_open">
