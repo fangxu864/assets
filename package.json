@@ -89,9 +89,9 @@
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
 
     "common-pc-style-start" : "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
-    "common-pc-style-test" : "set NODE_ENV=test && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
-    "common-pc-style-release" : "set NODE_ENV=release && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
-    "common-pc-style-production" : "set NODE_ENV=production && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-test" : "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-release" : "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-production" : "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
 
     "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
@@ -130,6 +130,10 @@
     "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "application-center-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+
     "expired-text-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/expiredText/webpack.config.js",
     "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js"
   },

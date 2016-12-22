@@ -37,7 +37,7 @@ var Main = PFT.Util.Class({
 		    // currentPage : 当前所处第几页
 		    // totalPage :   当前共有几页
 			_this.ajaxGetData({
-				page: 1,
+				page: toPage,
 				success: function(res){
 					_this.renderAppBox(res.data.list);
 

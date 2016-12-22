@@ -50,6 +50,8 @@ var Main = PFT.Util.Class({
 		    // totalPage :   当前共有几页
 			_this.ajaxGetData({
 				page: toPage,
+				searchAppName: 	$( dom.search.keywords ).val(),
+				payMode: 		$( dom.search.select ).val(),
 				success: function(res){
 					_this.renderTable(res.data.list);
 

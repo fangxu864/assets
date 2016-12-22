@@ -45,5 +45,8 @@ module.exports = {
     //支付 - 判断订单是否支付成功
     checkOrderStatus: '/r/AppCenter_ModulePayment/checkPayStatus',
     //支付 - 支付成功订单状态
-    getOrderInfo: '/r/AppCenter_ModulePayment/getOrderStatus'
+    getOrderInfo: '/r/AppCenter_ModulePayment/getOrderStatus',
+
+    //模块免费试用
+    setFreeTrial: '/r/AppCenter_ModulePayment/freeTrial'
 };
