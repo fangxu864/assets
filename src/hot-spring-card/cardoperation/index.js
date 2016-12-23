@@ -197,7 +197,8 @@ entryCard.prototype = {
       that.onChangeCardSubmit(e);
     })
    
-   
+  var select=new select({});
+  
   },
   refresh:function(currentPage){
     var that=this;
@@ -1007,7 +1008,7 @@ entryCard.prototype = {
                     return reslut;
                 },
             });
- 
+           
   },
   on:function(){
 
