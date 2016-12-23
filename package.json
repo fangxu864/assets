@@ -134,7 +134,7 @@
     "application-center-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/application-center/webpack.config.js",
     "application-center-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/application-center/webpack.config.js",
 
-    "expired-text-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/expiredText/webpack.config.js",
+    "expired-text-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/expiredText/webpack.config.js",
     "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js"
   },
   "repository": {

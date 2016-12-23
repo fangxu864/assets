@@ -1,11 +1,6 @@
-/**
- * Author: Zhengjiashen
- * Date: 2016/12/1 9:52
- * Description: ""
- */
 
 require("./index.scss");
-require("./expiredText/index.js");
+//require("./expiredText/index.js");
 var getAppdetail = require("../common/service/appDetail_service.js");
 
 var Main = PFT.Util.Class({
@@ -99,17 +94,17 @@ var Main = PFT.Util.Class({
                 // })
 
                 if(state == -1){
-                    var newLi = $('<li class="app-item"><div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-default mr10" data-id = "'+detail.module_id+'">使用</a> <a href="javascript:;" class="btn-link" data-id = "'+detail.module_id+'">续费</a> </div> </div> </li>')
+                    var newLi = $('<li class="app-item"><div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-default mr10 show" data-id = "'+detail.module_id+'">使用</a> <a href="javascript:;" class="btn-link" data-id = "'+detail.module_id+'">续费</a> </div> </div> </li>')
                 }else if(state == 0){
-                   var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100" data-id = "'+detail.module_id+'">免费试用</a> </div> </div><i class="ico-new"></i></li>')
+                   var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">免费试用</a> </div> </div><i class="ico-new"></i></li>')
                 }else if(state == 1){
                     var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 open" data-id = "'+detail.module_id+'">开通</a> </div> </div> </li>')
                 }
                 else if(state == 2){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100" data-id = "'+detail.module_id+'">使用</a> </div> </div> </li>')
+                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 use" data-use = "'+detail.url+'" data-id = "'+detail.module_id+'">使用</a> </div> </div> </li>')
                 }
                 else if(state == 3){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100" data-id = "'+detail.module_id+'">去看看</a> </div> </div><i class="ico-expired"></i></li>')
+                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">去看看</a> </div> </div><i class="ico-expired"></i></li>')
                 }
 
 
@@ -163,6 +158,7 @@ var Main = PFT.Util.Class({
         }else if(status == 2){
             $("#btn").text("使用").on("click",function () {
                 window.location.href="appcenter_details.html?module_id="+_this.module_id
+                
             })
         }else if(status == 3){
             $("#btn").text("去看看").on("click",function () {
@@ -214,7 +210,7 @@ var Main = PFT.Util.Class({
     },
 
     btnInit:function () {
-        $("#app-list").find(".btn").on("click",function (e) {
+        $("#app-list").find(".show").on("click",function (e) {
             window.location.href="appcenter_details.html?module_id="+ $(e.target).attr("data-id");
         });
 
@@ -225,6 +221,10 @@ var Main = PFT.Util.Class({
 
         $("#app-list").find(".open").on("click",function (e) {
             window.location.href="appcenter_pay.html?appid="+$(e.target).attr("data-id");
+        });
+
+        $("#app-list").find(".use").on("click",function (e) {
+            window.location.href=$(e.target).attr("data-url");
         });
     }
 });
