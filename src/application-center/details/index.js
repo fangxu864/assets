@@ -83,41 +83,44 @@ var Main = PFT.Util.Class({
             this.checkStatus(data);
 
             //推荐应用
+
             var recommend = req.link;
-            for(var i=0 ; i<recommend.length ; i++){
-                var detail = recommend[i].detail;
-                var checkData = recommend[i].detail.checkData;
-                var state = checkData.showType;
-                // var newLi = $('<li class="linkApp" data-type="'+detail.id+'"> <div class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">'+detail.open_num+'</span> 用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"><strong class="app-name">'+detail.name+'</strong></div> <div class="text-ellipsis"><span class="app-price">'+detail.summary+'</span></div> <div class="app-btn-w"> <a href="javascript:;"  class="btn btn-default-reverse w100 showType" ></a> </div> </div> </div>');
-                // newLi.find(".ui-app-icon").css({
-                //     "background-image": "url("+detail.icon+")"
-                // })
+            if(recommend){
+                for(var i=0 ; i<recommend.length ; i++){
+                    var detail = recommend[i].detail;
+                    var checkData = recommend[i].detail.checkData;
+                    var state = checkData.showType;
+                    // var newLi = $('<li class="linkApp" data-type="'+detail.id+'"> <div class="app-item"> <div class="app-left"> <i class="ui-app-ico"></i> <p class="app-open"><span class="app-usernum c-warning">'+detail.open_num+'</span> 用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"><strong class="app-name">'+detail.name+'</strong></div> <div class="text-ellipsis"><span class="app-price">'+detail.summary+'</span></div> <div class="app-btn-w"> <a href="javascript:;"  class="btn btn-default-reverse w100 showType" ></a> </div> </div> </div>');
+                    // newLi.find(".ui-app-icon").css({
+                    //     "background-image": "url("+detail.icon+")"
+                    // })
 
-                if(state == -1){
-                    var newLi = $('<li class="app-item"><div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-default mr10 show" data-id = "'+detail.module_id+'">使用</a> <a href="javascript:;" class="btn-link" data-id = "'+detail.module_id+'">续费</a> </div> </div> </li>')
-                }else if(state == 0){
-                   var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">免费试用</a> </div> </div><i class="ico-new"></i></li>')
-                }else if(state == 1){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 open" data-id = "'+detail.module_id+'">开通</a> </div> </div> </li>')
+                    if(state == -1){
+                        var newLi = $('<li class="app-item"><div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-default mr10 show" data-id = "'+detail.module_id+'">使用</a> <a href="javascript:;" class="btn-link" data-id = "'+detail.module_id+'">续费</a> </div> </div> </li>')
+                    }else if(state == 0){
+                        var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">免费试用</a> </div> </div><i class="ico-new"></i></li>')
+                    }else if(state == 1){
+                        var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 open" data-id = "'+detail.module_id+'">开通</a> </div> </div> </li>')
+                    }
+                    else if(state == 2){
+                        var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 use" data-use = "'+detail.url+'" data-id = "'+detail.module_id+'">使用</a> </div> </div> </li>')
+                    }
+                    else if(state == 3){
+                        var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">去看看</a> </div> </div><i class="ico-expired"></i></li>')
+                    }
+
+
+                    newLi.find(".app-usernum").text(detail.open_num);
+                    newLi.find(".app-name").text(detail.name);
+                    newLi.find(".app-summary").text(detail.summary);
+
+                    if(data.icon){
+                        newLi.find(".ui-app-ico img").attr("src",data.icon);
+                    }
+
+                    $("#app-list").append(newLi);
+
                 }
-                else if(state == 2){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 use" data-use = "'+detail.url+'" data-id = "'+detail.module_id+'">使用</a> </div> </div> </li>')
-                }
-                else if(state == 3){
-                    var newLi = $('<li class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">去看看</a> </div> </div><i class="ico-expired"></i></li>')
-                }
-
-
-                newLi.find(".app-usernum").text(detail.open_num);
-                newLi.find(".app-name").text(detail.name);
-                newLi.find(".app-summary").text(detail.summary);
-
-                if(data.icon){
-                    newLi.find(".ui-app-ico img").attr("src",data.icon);
-                }
-
-                $("#app-list").append(newLi);
-
             }
         }
     },
