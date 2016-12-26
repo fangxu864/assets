@@ -8,7 +8,7 @@
             <span>
                 <h4 id="appName"></h4>
                 <p class="introdaction_detail" id="appText" title=""><e>产品简介：</e></p>
-                <p>微商城将于<e class="time_detail" id="etime"></e>到期</p>
+                <p id="expiredTime">微商城将于<e class="time_detail" id="etime"></e>到期</p>
             </span>
     </div>
     <!--续费-->
