@@ -29,7 +29,7 @@ var Table=PFT.Util.Class({
             $("#table_box table ").append("<tr class='loading'><td></td><td></td><td></td><td></td><td>未找到相关数据。</td><td></td><td></td><td></td></tr>");
         }
         for(var i = 0; i <list.length ; i++){
-            var tr = $("<tr>"+
+            var tr = "<tr>"+
                 "<td class='th1'>"+list[i].insertTime+"</td>" + //操作时间
                 " <td>"+list[i].oper+"</td> " +          //操作员
                 "<td>"+list[i].action_name+"</td> " +           //操作类型
@@ -38,7 +38,21 @@ var Table=PFT.Util.Class({
                 "<td>"+list[i].land_title+"</td> " +           //产品
                 "<td>"+list[i].ticket_title+"</td> " +           //票
                 "<td class='tl1'>"+list[i].tnum+"</td> " +                 //数量
-                "</tr>");
+                "</tr>";
+               /* if(list[i].concat.length){
+                for(var j=0 ;j<list[i].concat.length;j++){
+                tr +="<tr>"+
+                "<td class='th1'>"+list[i].concat[j].insertTime+"</td>" + //操作时间
+                " <td>"+list[i].concat[j].oper+"</td> " +          //操作员
+                "<td>"+list[i].concat[j].action_name+"</td> " +           //操作类型
+                "<td>"+list[i].concat[j].source_name+"</td> " +           //操作终端
+                "<td>"+list[i].concat[j].ordernum+"</td> " +           //订单号
+                "<td>"+list[i].concat[j].land_title+"</td> " +           //产品
+                "<td>"+list[i].concat[j].ticket_title+"</td> " +           //票
+                "<td class='tl1'>"+list[i].concat[j].tnum+"</td> " +                 //数量
+                "</tr>";
+                    }
+                }*/
             $("#table_box tbody").append(tr);
         };
     },
