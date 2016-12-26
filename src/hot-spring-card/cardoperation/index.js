@@ -18,20 +18,16 @@ var entryCard = function () {
   this.entryDiv = $(".u-input_box,.u-div");
   this.tbody = $("#tbody");
   this.searchBtn = $("#sch_btn");
-  this.cardEditBtn = $("#tbody .crd_operation .u-btn_edit");
   this.clearBtn = $(".g-content .u-div .clearCardInpBtn");
   this.modalClearBtn = $(".m-modal .u-input_box .clearCardInpBtn");
   this.modalUInp = $(".m-modal_bg .u-input");
   this.modalCardInp = $(".m-modal .u-input_box .card_no");
-  this.editModalCardInp = $("#editModal .u-input_box .card_no");
   this.readCardBtn = $(".m-modal .readCard");
-  this.lid = $(".m-modal .lid");
   this.saveBtn = $(".m-modal_entring .save");
   this.saveNewBtn = $(".m-modal_entring .saveNew");
   this.editSaveBtn = $(".m-modal_edit .save");
   this.delBtn = $("#tbody .crd_operation .u-btn_del");
   this.delConfBtn = $(".m-modal.del .confirm");
-  this.lossBtn = $("#tbody .crd_operation .u-btn_rl");
   this.lossConfBtn = $(".m-modal.loss .confirm");
   this.changeConfBtn = $(".m-modal_changeCard .save");
   this.salerInp=$("#saler_inp");
@@ -72,7 +68,7 @@ entryCard.prototype = {
     });
 
     var currentPage=pagination.getCurrentPage();
-    that.refresh(currentPage);
+   // that.refresh(currentPage);
 
     //读卡自动focus,去除背景  以及判断lid是否为空
     that.entryDiv.on("click", ".readCard,#entryCard", function (e) {
@@ -196,53 +192,11 @@ entryCard.prototype = {
     that.changeConfBtn.on("click", function (e) {
       that.onChangeCardSubmit(e);
     })
-   
-  var select=new select({});
-  
+   $("#gSelectDownBox_1").on("click","li",function(){
+     that.getCardList(1)
+   })
   },
-  refresh:function(currentPage){
-    var that=this;
-    var salerInp=$("#saler_inp");
-    var salerid=salerInp.attr("data-id");
-   /*  $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
- 
-    */
-    if(currentPage===0){
-      currentPage=1
-    }
-    console.log(currentPage)
- 
-    PFT.Util.Ajax(
-      "/r/product_HotSpringCard/defaultSalerId",
-      {
-        type:"POST",
-        params:{
-          "salerid":salerid
-        },
-        success:function(res){ 
-          var data=res.data
-            switch(res.code){
-              case 200:
-              console.log(data)
-              console.log(currentPage)
-              salerInp.attr("data-id",data.salerid).val(data.title);
 
-              that.getCardList(currentPage);
-              break;
-            }
-        }
-
-    });
-  },
- /* checkSalerId:function(){ 
-    var salerInp=$("#saler_inp");
-    var slVal=salerInp.val();
-    var salerid=salerInp.attr("data-id");
-    if(slVal.trim().length<=0||salerid===""||slVal==="请先选择产品!"){
-      salerInp.val("请先选择产品!").focus();
-      return false;
-    }
-  },*/
   getLid: function (e) {
     var that=this;
     var salerName=$("#saler_inp").attr("data-title");
@@ -305,7 +259,7 @@ entryCard.prototype = {
                         + '<td class="crd_paylist">'+list[i].ordernum+'</td>'
                         + '<td class="crd_operation" data-pn=' + list[i].physics_no + ' data-vn=' + list[i].visible_no + ' data-cl=' + list[i].color + ' data-id='+list[i].salerid+' data-preid='+list[i].id+' >'
                         +'<a class="u-btn_changeCard">换手牌</a>'
-                       /* + ' <a class="u-btn_fillCard" >换手牌</a>'*/
+                        /* + ' <a class="u-btn_fillCard" >换手牌</a>'*/
                         /* + ' <a class="u-btn_edit" data-pn='+list[i].physics_no+' data-vn='+list[i].visible_no+ 'data-cl='+list[i].color+' >编辑</a>'*/
                         /* + '<a class="u-btn_paylist">历史账单</a>'*/
                         + ' </td> </tr>';
@@ -365,8 +319,7 @@ entryCard.prototype = {
     this.lid.text(salerName);
     $("#tbody .crd_operation .u-btn_edit,#tbody .crd_operation .u-btn_fillCard").on("click", function (e) {
       var readCrdBtn=$(".m-modal_edit .readCard");
-      var title=$(".m-modal_edit .u-span_title");
-     
+      var title=$(".m-modal_edit .u-span_title"); 
       var parent = $(this).parent();
       var phy_no = parent.attr("data-pn");
       var card_no = parent.attr("data-vn");
@@ -976,6 +929,7 @@ entryCard.prototype = {
   },
  
    getMoreLid : function(e){
+     var that=this;
       var select = new Select({
                 source : "/r/product_Product/getLandInfoByApplyId",
                 ajaxType : "POST",
@@ -992,7 +946,7 @@ entryCard.prototype = {
                 trigger : $("#saler_inp"),
                 filter : true,
                 adaptor : function(res){
-
+                    var saler_inp= $("#saler_inp")
                     var reslut = { code:200};
                     var list=res.data;
                     if(!list){  
@@ -1003,8 +957,10 @@ entryCard.prototype = {
                         list[i].id=list[i].salerid;
                         list[i].title=list[i].title
                         newList.push(list[i]);
-                    }        
+                    }
                     reslut["data"] = newList;
+                   saler_inp.attr({"data-id":list[0].id,"data-title":list[0].title}).val(list[0].title);
+                   that.getCardList(1);
                     return reslut;
                 },
             });
