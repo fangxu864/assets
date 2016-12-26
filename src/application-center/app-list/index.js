@@ -41,8 +41,8 @@ var Main = PFT.Util.Class({
 
 	underCarriage : function(type,id,jqThis){ //上架为1，下架为0
 
-		console.log("type:" + type);
-		console.log("id:" + id);
+		// console.log("type:" + type);
+		// console.log("id:" + id);
 		this.carriageAjax({
 			type : type ,
 			id : id ,
@@ -52,26 +52,26 @@ var Main = PFT.Util.Class({
 			},
 			success: function( res ) {
 
-				console.log(res);
-				console.log(type);
+				// console.log(res);
+				// console.log(type);
 				if(res.code == 200 && type == 1){
 					alert("上架成功");
 					jqThis.text("下架").css("color","#e11d2c");
 				}else if(res.code == 200 && type == 0){
-					alert("下架成功");	
+					alert("下架成功");
 					jqThis.text("上架").css("color","#2A98DA");
 				}else{
-					console.log("失败");
+					// console.log("失败");
 					alert(res.msg);
 				}
-				
+
 			}
 		});
 
 	},
 
 	carriageAjax : function(opts){
-		
+
 
 		PFT.Util.Ajax( "/r/AppCenter_ModuleConfig/underCarriage" , {
 			params: {
@@ -83,8 +83,8 @@ var Main = PFT.Util.Class({
 				opts.loading();
 			},
 			complete : function(){
-				opts.complete();	
-			},	
+				opts.complete();
+			},
 			success: function(res) {
 				opts.success(res);
 			}
@@ -112,7 +112,7 @@ var Main = PFT.Util.Class({
 			},
 			success: function( res ) {
 
-				console.log(res);
+				// console.log(res);
 				if(res.code == 200){
 					_this.renderAppBox(res.data.list);
 					_this.pagination.render({current: topage, total: res.data.total});
@@ -142,8 +142,8 @@ var Main = PFT.Util.Class({
 				}else{
 					alert(res.msg);
 				}
-				
-				
+
+
 			}
 		})
 
@@ -170,8 +170,8 @@ var Main = PFT.Util.Class({
 				opts.loading();
 			},
 			complete : function(){
-				opts.complete();	
-			},	
+				opts.complete();
+			},
 			success: function(res) {
 				opts.success(res);
 			}

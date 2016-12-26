@@ -20,7 +20,7 @@ var Main = PFT.Util.Class({
 		this.id = this.getId();//获取当前模块的id
 
 		this.handleCheckBox();
-		
+
 		this.getModuleListRecommend({//获取推荐的模块列表
 			loading : function(){
 			},
@@ -111,7 +111,7 @@ var Main = PFT.Util.Class({
 			selector: '#recommendApp .checkbox',
 			callbacks: {
 				recommendLimited: function (cxt) {
-					console.log(this.className)
+					// console.log(this.className)
 					if($('#recommendApp').children('.checked').length > 3) {
 						cxt.unCheck(this);
 						alert('推荐应用不能超过3个');
@@ -132,7 +132,7 @@ var Main = PFT.Util.Class({
 			var id = idSplited[1];
 			return id
 		}else{
-			console.log("没有id参数");
+			// console.log("没有id参数");
 			return -1
 		}
 	},
@@ -153,7 +153,7 @@ var Main = PFT.Util.Class({
 			var checkedId = $(this).attr("data-id");
 			linkModule.push(checkedId);
 		});
-		console.log(linkModule);
+		// console.log(linkModule);
 
 		PFT.Util.Ajax( updateModuleAjaxUrl , {
 			params: {
@@ -169,7 +169,7 @@ var Main = PFT.Util.Class({
 			},
 			complete : function(){
 				opts.complete();
-			},	
+			},
 			success: function(res) {
 				opts.success(res);
 			}
@@ -188,8 +188,8 @@ var Main = PFT.Util.Class({
 			loading: function(){
 				opts.loading();
 			},
-			complete : function(){	
-			},	
+			complete : function(){
+			},
 			success: function(res) {
 				opts.success(res);
 			}
@@ -199,7 +199,7 @@ var Main = PFT.Util.Class({
 
 	getInfoAjax : function(opts){
 		var that = this;
-		
+
 		PFT.Util.Ajax( getInfoAjaxUrl , {
 			params: {
 				module_id : that.id
@@ -207,8 +207,8 @@ var Main = PFT.Util.Class({
 			type:"POST",
 			loading: function(){
 			},
-			complete : function(){	
-			},	
+			complete : function(){
+			},
 			success: function(res) {
 				opts.success(res);
 			}
@@ -226,7 +226,7 @@ var Main = PFT.Util.Class({
 				temp += '<label class="checkbox mr30" data-fn="recommendLimited" data-id='+ applist[i].module_id +'>'+
 						    '<input type="checkbox" name="" class="hide" />'+
 						    '<em class="checkbox-content">'+applist[i].name+'</em>'+
-						'</label>' ;	
+						'</label>' ;
 
 			}
 		}

@@ -116,7 +116,7 @@ var Main = PFT.Util.Class({
 			} else {
 				_this.ajaxSubmitAdd({
 					success: function() {
-						// window.location.href = 'appcenter_chargeList.html';
+						window.location.href = 'appcenter_chargeList.html';
 					}
 				})
 			}

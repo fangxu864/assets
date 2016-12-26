@@ -118,7 +118,7 @@ var Main = PFT.Util.Class({
 					alert( res.msg );
 				}
 			},
-			error: function( xhr, txt ) {
+			serverError: function( xhr, txt ) {
 				alert( txt );
 			}
 		})
@@ -221,47 +221,60 @@ var Main = PFT.Util.Class({
 	 		height: 350,
 		 	content: '<div id="'+ _this.dom.dialog.qrcode +'" style="margin-top:46px;padding:20px 30px;text-align:center;"></div>',
 		 	onOpenAfter: function(){
-		 		_this.ajaxRenderData({
-		 			container: '#' + _this.dom.dialog.qrcode,
-		 			url: ajaxUrl,
-		 			params: {
-						module_id: module_id,
-						price_id: price_id
-		 			},
-		 			loading: {
-		 				id: 'dialogLoading'
-		 			},
-		 			success: function( res ){
-		 				_this.ordernum = res.data.order_no;
+		 		// if( _this.canvasSupport() ) {
+			 		_this.xhr = _this.ajaxRenderData({
+			 			container: '#' + _this.dom.dialog.qrcode,
+			 			url: ajaxUrl,
+			 			params: {
+							module_id: module_id,
+							price_id: price_id
+			 			},
+			 			loading: {
+			 				id: 'dialogLoading'
+			 			},
+			 			success: function( res ){
+			 				_this.ordernum = res.data.order_no;
 
-		 				$('#' + _this.dom.dialog.qrcode).qrcode({ width: 165, height: 165, text: res.data.url });
-		 				$('#' + _this.dom.dialog.qrcode).prepend('<div class="t-center f14 mb20">应付金额：<em class="c-warning">'+ fee +'</em>元</div>');
-		 				$('#' + _this.dom.dialog.qrcode).append('<div class="t-center f16 mt20 pt10 border-t border-d" style="line-height:32px"><i class="icon-u-bold icon-saoyisao" style="color:' + colorSaoyisao + ';font-size:30px;vertical-align:top;"></i> 扫码完成支付</div>');
+			 				if( _this.canvasSupport() ) {
+			 					$('#' + _this.dom.dialog.qrcode).qrcode({ width: 165, height: 165, text: res.data.url });
+			 				} else {
+			 					$('#' + _this.dom.dialog.qrcode).qrcode({ render: "table", width: 165, height: 165, text: res.data.url });
+			 					$('#' + _this.dom.dialog.qrcode).wrapInner('<div style="padding-left:167px;"></div>');
+			 				}
+			 				$('#' + _this.dom.dialog.qrcode).prepend('<div class="t-center f14 mb20">应付金额：<em class="c-warning">'+ fee +'</em>元</div>');
+			 				$('#' + _this.dom.dialog.qrcode).append('<div class="t-center f16 mt20 pt10 border-t border-d" style="line-height:32px"><i class="icon-u-bold icon-saoyisao" style="color:' + colorSaoyisao + ';font-size:30px;vertical-align:top;"></i> 扫码完成支付</div>');
 
 
-		 				_this.checkOrderStatus({
-		 					ordernum: _this.ordernum,
-		 					success: function( res ) {
-		 						if( res.code == 200 ) {
-		 							location.href= 'appcenter_paysuccess.html?ordernum=' + _this.ordernum
-		 						}
-		 						if( res.code == 403 ) {
-		 							// 支付失败
-		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20 c-warning" style="padding-top: 60px;">支付失败</div><div class="t-center f20 c-warning" style="padding-top: 60px;"><a href="javascript:;" class="btn btn-default" onclick="location.reload()">重新支付</a></div>');
-		 							clearInterval(_this.interval.timer);
-		 						}
-		 						if( res.code == 400 ) {
-		 							// 查询异常
-		 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20 c-warning" style="padding-top: 60px;">支付失败</div><div class="t-center f20 c-warning" style="padding-top: 60px;"><a href="javascript:;" class="btn btn-default" onclick="location.reload()">重新支付</a></div>');
-		 							clearInterval(_this.interval.timer);
-		 						}
-		 					}
-		 				});
-		 			}
-		 		})
+			 				_this.checkOrderStatus({
+			 					ordernum: _this.ordernum,
+			 					success: function( res ) {
+			 						if( res.code == 200 ) {
+			 							location.href= 'appcenter_paysuccess.html?ordernum=' + _this.ordernum
+			 						}
+			 						if( res.code == 403 ) {
+			 							// 支付失败
+			 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20 c-warning" style="padding-top: 60px;">支付失败</div><div class="t-center f20 c-warning" style="padding-top: 60px;"><a href="javascript:;" class="btn btn-default" onclick="location.reload()">重新支付</a></div>');
+			 							clearInterval(_this.interval.timer);
+			 						}
+			 						if( res.code == 400 ) {
+			 							// 查询异常
+			 							$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20 c-warning" style="padding-top: 60px;">支付失败</div><div class="t-center f20 c-warning" style="padding-top: 60px;"><a href="javascript:;" class="btn btn-default" onclick="location.reload()">重新支付</a></div>');
+			 							clearInterval(_this.interval.timer);
+			 						}
+			 					}
+			 				});
+			 			}
+			 		})
+		 		// }
+		 		//  else {
+		 		// 	$('#' + _this.dom.dialog.qrcode).html('<div class="t-center f20 c-warning" style="padding-top: 60px;">支付失败</div>');
+		 		// }
 		 	},
 		 	onCloseAfter: function(){
 		 		_this.ordernum = null;
+		 		if( _this.xhr && _this.xhr.readyState != 4 ) {
+		 			_this.xhr.abort();
+		 		}
 		 		clearInterval(_this.interval.timer);
 		 		dialogQrcode.remove();
 		 		dialogQrcode = null;
@@ -289,8 +302,8 @@ var Main = PFT.Util.Class({
 			success: function ( res ) {
 				opts.success && opts.success( res );
 			},
-			error: function( xhr, txt ) {
-				alert( txt );
+			serverError: function( xhr, txt ) {
+				// alert( txt );
 			}
 		})
 	},
@@ -333,11 +346,11 @@ var Main = PFT.Util.Class({
 				if(res.code == 200 || res.code == 'success') {
 					opts.success && opts.success( res );
 				} else {
-					alert( res.msg );
+					// alert( res.msg );
 				}
 			},
-			error: function( xhr, txt ) {
-				alert( txt );
+			serverError: function( xhr, txt ) {
+				// alert( txt );
 			}
 		})
 	},
@@ -364,11 +377,11 @@ var Main = PFT.Util.Class({
 				if(res.code == 200) {
 					opts.success && opts.success( res );
 				} else {
-					alert( res.msg );
+					// alert( res.msg );
 				}
 			},
-			error: function( xhr, txt ) {
-				alert( txt );
+			serverError: function( xhr, txt ) {
+				// alert( txt );
 			}
 		})
 	},
@@ -384,6 +397,9 @@ var Main = PFT.Util.Class({
 			num2 = parseFloat( num2 ).toFixed(2);
 
 		return num1 * 100 >= num2 * 100;
+	},
+	canvasSupport: function() {
+    	return !!document.createElement('canvas').getContext;
 	}
 });
 
