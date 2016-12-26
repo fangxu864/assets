@@ -265,7 +265,7 @@ var AppList = PFT.Util.Class({
 				               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
 						    '</div>' ;
 						}else if(list[i].button_type == 2){//使用
-		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'</span></div>' +
+		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'到期</span></div>' +
 				            '<div class="app-btn-w">' +
 				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
 						    '</div>' ;
