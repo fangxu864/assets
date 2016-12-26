@@ -18,6 +18,7 @@ var entryCard = function () {
   this.entryDiv = $(".u-input_box,.u-div");
   this.tbody = $("#tbody");
   this.searchBtn = $("#sch_btn");
+  this.lid=$(".u-span.lid");
   this.clearBtn = $(".g-content .u-div .clearCardInpBtn");
   this.modalClearBtn = $(".m-modal .u-input_box .clearCardInpBtn");
   this.modalUInp = $(".m-modal_bg .u-input");
@@ -966,9 +967,7 @@ entryCard.prototype = {
             });
            
   },
-  on:function(){
 
-  }
 
 
 
