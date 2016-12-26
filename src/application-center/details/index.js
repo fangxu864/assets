@@ -1,6 +1,6 @@
 
 require("./index.scss");
-//require("./expiredText/index.js");
+var loading = require('COMMON/js/util.loading.pc.js');
 var getAppdetail = require("../common/service/appDetail_service.js");
 
 var Main = PFT.Util.Class({
@@ -25,6 +25,10 @@ var Main = PFT.Util.Class({
         var _this = this;
         // 获取后台数据
         getAppdetail({module_id:_this.module_id},{
+            loading:function () {
+            var html = loading("加载中",{height:800});
+                $(".section-appdetails").append(html)
+            },
             complete:function (req) {
                 if(req.code == 200){
                     _this.renderAppDetails(req.data);
@@ -137,8 +141,24 @@ var Main = PFT.Util.Class({
         //按钮文字部分
         if(status == 0){
             $("#btn").text("免费试用").on("click",function () {
-                _this.freeTrial()
+                _this.freeTrial();
             })
+
+            //价格提示部分
+            if(moduleFree){
+                var price = "";
+                for (var key in moduleFree){
+                    if(key !=0 ){
+                        price+= "；     " + moduleFree[key].free + "元 / " + moduleFree[key].mode ;
+                    }else{
+                        price+=moduleFree[key].free + "元 / " + moduleFree[key].mode ;
+                    }
+
+                }
+                $("#price").text(price)
+            }else(
+                console.log("none")
+            )
         }else if(status == -1){
             $("#btn").text("续费").on("click",function () {
                 window.location.href="appcenter_pay.html?appid="+_this.module_id
@@ -154,6 +174,7 @@ var Main = PFT.Util.Class({
                 for (var key in moduleFree){
                     price+=moduleFree[key].free + "元 / " + moduleFree[key].mode +"&nbsp;&nbsp;";
                 }
+                console.log(price);
                 $("#price").text(price)
             }else(
                 console.log("none")
