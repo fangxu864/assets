@@ -240,3 +240,6 @@
 .app-list li.yingjian img:hover{
     transform: translate(5px);
 }
+.app-summary{
+    text-overflow: ellipsis;
+}
