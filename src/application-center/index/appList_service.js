@@ -9,65 +9,65 @@ module.exports = function(opts,whichBtn){
 
 	if(debug){
 
-		console.log('模拟'+whichBtn+'数据中');
+		// console.log('模拟'+whichBtn+'数据中');
 
 		//模拟数据data
 
-		var data = {};
-		var listlength = 8;
-		data.code = 200;
-		data.msg = "success";
-		data.list = [];
-		for(var i = 0;i<listlength;i++){
+		// var data = {};
+		// var listlength = 8;
+		// data.code = 200;
+		// data.msg = "success";
+		// data.list = [];
+		// for(var i = 0;i<listlength;i++){
 
-			(function(){
+		// 	(function(){
 
-				var dataItem = {};
-				dataItem.title = "微商城" + i ;
-				dataItem.price = parseInt(Math.random()*1000);
-				dataItem.userNumber = parseInt(Math.random()*10000);
-				data.list.push(dataItem);
+		// 		var dataItem = {};
+		// 		dataItem.title = "微商城" + i ;
+		// 		dataItem.price = parseInt(Math.random()*1000);
+		// 		dataItem.userNumber = parseInt(Math.random()*10000);
+		// 		data.list.push(dataItem);
 
-			})(i);
+		// 	})(i);
 
-		}
-		//模拟开通情况
-		for(var i = 0;i<listlength;i++){
-			var r = parseInt(Math.random()*100);
-			if(r>=50){
-				data.list[i].opend = true; 	
-			}
-			if(r<50){
-				data.list[i].opend = false;
-			}
-		}		
-		//模拟试用与过期情况
-		for(var i = 0;i<listlength;i++){
-			var r = parseInt(Math.random()*100);
-			if(data.list[i].opend == false){ //只有未开通才有是否试用的情况
-				if(r >= 50){
-					data.list[i].try = true;
-				}else{
-					data.list[i].try = false;
-				} 
-			}else{  //已开通则选择是否过期
-				if(r >= 50){
-					data.list[i].expired = true;
-				}else{
-					data.list[i].expired = false;
-				}
-			}
-		}
+		// }
+		// //模拟开通情况
+		// for(var i = 0;i<listlength;i++){
+		// 	var r = parseInt(Math.random()*100);
+		// 	if(r>=50){
+		// 		data.list[i].opend = true; 	
+		// 	}
+		// 	if(r<50){
+		// 		data.list[i].opend = false;
+		// 	}
+		// }		
+		// //模拟试用与过期情况
+		// for(var i = 0;i<listlength;i++){
+		// 	var r = parseInt(Math.random()*100);
+		// 	if(data.list[i].opend == false){ //只有未开通才有是否试用的情况
+		// 		if(r >= 50){
+		// 			data.list[i].try = true;
+		// 		}else{
+		// 			data.list[i].try = false;
+		// 		} 
+		// 	}else{  //已开通则选择是否过期
+		// 		if(r >= 50){
+		// 			data.list[i].expired = true;
+		// 		}else{
+		// 			data.list[i].expired = false;
+		// 		}
+		// 	}
+		// }
 
-		//新上线情况
-		for(var i = 0;i<listlength;i++){
-			var r = parseInt(Math.random()*100);
-			if(r >= 10){
-				data.list[i].isNew = false;
-			}else{
-				data.list[i].isNew = true;
-			} 
-		}
+		// //新上线情况
+		// for(var i = 0;i<listlength;i++){
+		// 	var r = parseInt(Math.random()*100);
+		// 	if(r >= 10){
+		// 		data.list[i].isNew = false;
+		// 	}else{
+		// 		data.list[i].isNew = true;
+		// 	} 
+		// }
 
 
 		//不用缓存而是后台返回分类的情况
@@ -101,14 +101,14 @@ module.exports = function(opts,whichBtn){
 		// }
 
 
-		opts.loading();
-		setTimeout(function(){
-			opts.complete();
-			opts.success(data);
-		},1000)
+		// opts.loading();
+		// setTimeout(function(){
+		// 	opts.complete();
+		// 	opts.success(data);
+		// },1000)
 		
 
-		return false;
+		// return false;
 
 	}else{
 
