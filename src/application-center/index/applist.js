@@ -239,10 +239,24 @@ var AppList = PFT.Util.Class({
 
                     if(category == 4){ //一卡通
 
-        	            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
-        	            '<div class="app-btn-w">' +
-        	               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
-        			    '</div>' ;
+                    	if(list[i].button_type == 0){ //免费试用
+        		            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
+        		            '<div class="app-btn-w">' +
+        		               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
+        				    '</div>' ;
+                    	}else if(list[i].button_type == 1){ //开通
+        		            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
+        		            '<div class="app-btn-w">' +
+        		               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
+        				    '</div>' ;
+                    	}else if(list[i].button_type == 2){ //使用
+                    		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
+        		            '<div class="app-btn-w">' +
+        		               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
+        				    '</div>' ;
+                    	}
+
+        	            
 
                     }else if(category == 5){ //智能硬件用静态加，在45行
 
@@ -251,30 +265,57 @@ var AppList = PFT.Util.Class({
         	      //          '<a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>' +
         			    // '</div>' ;
 
-                    }else{ //其余
+                    }else{ //其余  //category为undefined的情况
 
+                    	if(list[i].category == "4"){//为不是首页的一卡通情况
 
-						if(list[i].button_type == 0){//免费试用
-	    		            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
-	    		            '<div class="app-btn-w">' +
-	    		               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
-	    				    '</div>' ;
-						}else if(list[i].button_type == 1){//开通
-		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
-				            '<div class="app-btn-w">' +
-				               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
-						    '</div>' ;
-						}else if(list[i].button_type == 2){//使用
-		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'到期</span></div>' +
-				            '<div class="app-btn-w">' +
-				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
-						    '</div>' ;
-						}else if(list[i].button_type == 3){//去看看（过期）
-		        		    temp += '<div class="text-ellipsis"><span class="app-price">'+'2016-12-11到期'+'</span></div>' +
-				            '<div class="app-btn-w">' +
-				               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-disable mr10">去看看</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
-						    '</div>' ;
-						}      
+    		            	if(list[i].button_type == 0){ //免费试用
+    				            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
+    				            '<div class="app-btn-w">' +
+    				               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
+    						    '</div>' ;
+    		            	}else if(list[i].button_type == 1){ //开通
+    				            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
+    				            '<div class="app-btn-w">' +
+    				               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
+    						    '</div>' ;
+    		            	}else if(list[i].button_type == 2){ //使用
+    		            		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
+    				            '<div class="app-btn-w">' +
+    				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
+    						    '</div>' ;
+    		            	}
+
+                    	}else{//不是首页的非一卡通情况
+
+							if(list[i].button_type == 0){//免费试用
+		    		            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
+		    		            '<div class="app-btn-w">' +
+		    		               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
+		    				    '</div>' ;
+							}else if(list[i].button_type == 1){//开通
+
+								if(list[i].flag_expire == 1){  //开通按钮但过期显示过期时间
+				        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'到期</span></div>' +
+						            '<div class="app-btn-w">' +
+						               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
+								    '</div>' ;
+								}else{  //开通按钮但未过期显示价格
+				        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
+						            '<div class="app-btn-w">' +
+						               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
+								    '</div>' ;
+								}
+			        		    
+							}else if(list[i].button_type == 2){//使用
+			        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'到期</span></div>' +
+					            '<div class="app-btn-w">' +
+					               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
+							    '</div>' ;
+							}
+
+                    	}						
+
 
                     }    
 
