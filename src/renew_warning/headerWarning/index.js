@@ -27,7 +27,11 @@ var HeaderWarning={
         // var isloopTip=judge_of_overTime=="-1"||judge_of_overTime=="0"?true:false;
         var isloopTip=judge_of_overTime=="0"||judge_of_dtype=="6"?true:false;
         // var isloopTip=true;   //过渡期
-        var isDialog=judge_of_dtype=="6"?false:true;
+        var isDialog=judge_of_dtype=="6" ? false : true;
+        //充值页面不要弹框
+        if(/recharge\.html$/.test(location.href)){
+            isDialog = false ;
+        }
         if(isloopTip){
             _this.loopTip();
         }
