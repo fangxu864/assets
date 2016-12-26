@@ -159,7 +159,7 @@ var Main = PFT.Util.Class({
 			 							});
 			 						})
 			 					} else {
-			 						$('#' + _this.dom.dialog.accbalance).append('<div class="t-center"><a target="_blank" href="recharge.html" class="btn btn-default">余额不足去充值</a></div>');
+			 						$('#' + _this.dom.dialog.accbalance).append('<div class="t-center"><a target="_blank" href="/recharge.html" class="btn btn-default">余额不足去充值</a></div>');
 			 					}
 							}
 				 		});
