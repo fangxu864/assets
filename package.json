@@ -124,7 +124,12 @@
     "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "application-center-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/webpack.config.js",
-    "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js"
+    "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
+
+    "memcard-reg-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/memcard_reg/webpack.config.js"
+
+
+
   },
   "repository": {
     "type": "git",
