@@ -96,10 +96,12 @@
                 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
             }
             #saler_inp{
-                width: 600px;
+                width: 300px;
                 margin-top: 11px;
                 border: none;
                 font-size: 19px;
+                //overflow:hidden;
+                text-overflow:ellipsis;
                 background: #fff;
             }
             .g-content .u-input_entry:focus,
@@ -351,6 +353,10 @@
                 border: 1px solid #0797D9;
                 background: #FFF;
                 color: #0797D9;
+            }
+            #arrowDown{
+                position: relative;
+                left: -13px;
             }
             //分页
            /* #paginationWrap {

@@ -35,15 +35,10 @@ var entryCard = function () {
 
   this.bind();
 }
-
-
-
-
 entryCard.prototype = {
   bind: function () {
     var that = this;
     //获取关联产品
-   
     that.getMoreLid();
     pagination = new Pagination({
       container: "#paginationWrap", //必须，组件容器id
@@ -68,17 +63,7 @@ entryCard.prototype = {
       that.getCardList(toPage);
     });
 
-    var currentPage=pagination.getCurrentPage();
-   // that.refresh(currentPage);
-
-    //读卡自动focus,去除背景  以及判断lid是否为空
-    that.entryDiv.on("click", ".readCard,#entryCard", function (e) {
-    
-      $(this).prev("input").removeAttr("readonly").val('').focus().css("background", "#FFF");
-      
-    });
-
-
+   // var currentPage=pagination.getCurrentPage();
     //关闭模态框以后重置input框状态
     that.modalBg.on("click", ".close", function () {
       that.modalBg.hide();
@@ -137,14 +122,12 @@ entryCard.prototype = {
             "visible_no": entryCardVal,
             "salerid": lid
           }
-         
       } else if (!editEntryCard && !changeCard) {
         entryCardVal = entryCard;
           data= {
             "visible_no": entryCardVal,
             "salerid": lid
           }
-       
       } else if (!entryCard && !editEntryCard){
         entryCardVal = changeCard;
         url="checkReplaceVisible";
@@ -162,8 +145,6 @@ entryCard.prototype = {
         span_des.html("").html(span);
       }
     });
-
-
     //录入模态框保存按钮
     that.saveBtn.on("click", function (e) {
       that.onModalAddSaveBtn(e);
@@ -186,7 +167,6 @@ entryCard.prototype = {
           status = confirmBtn.attr("data-status"),
           request=confirmBtn.attr("data-request"),
           url=confirmBtn.attr("data-url");
-
       that.onSetStatusConfirm(status, confirmBtn,request,url);
     });
     //补卡按钮
@@ -194,10 +174,13 @@ entryCard.prototype = {
       that.onChangeCardSubmit(e);
     })
    $("#gSelectDownBox_1").on("click","li",function(){
-     that.getCardList(1)
+     var saler_inp=$("#saler_inp");
+     var salerid=saler_inp.attr("data-id");
+     var title=saler_inp.attr("data-title");
+     that.setCookie(salerid,title);
+     that.getCardList(1);
    })
   },
-
   getLid: function (e) {
     var that=this;
     var salerName=$("#saler_inp").attr("data-title");
@@ -284,7 +267,6 @@ entryCard.prototype = {
                         + ' </td> </tr>';
                       break;
                   }
-
                 });
                 that.tbody.html("").html(cardList);
                 that.cardEdit(req);
@@ -293,7 +275,7 @@ entryCard.prototype = {
                 that.statusUpdate(request);
                 pagination.render({ current: currentPage ,topage:currentPage,total:data.total});
                 $("#paginationWrap").attr("data-curr",pagination.getCurrentPage());
-                console.log(pagination.getCurrentPage())
+               // console.log(pagination.getCurrentPage())
               }
               break;
             case 201:
@@ -960,22 +942,44 @@ entryCard.prototype = {
                         newList.push(list[i]);
                     }
                     reslut["data"] = newList;
-                   saler_inp.attr({"data-id":list[0].id,"data-title":list[0].title}).val(list[0].title);
+                   var getCookie=that.getCookie();
+                   var i='<i class="iconfont down">&#xe673;</span>'
+                   if(getCookie.salerid==undefined){
+                     that.setCookie(list[0].id,list[0].title);
+                    saler_inp.attr({"data-id":list[0].id,"data-title":list[0].title}).val(list[0].title);
+                   }else{
+                     that.setCookie(getCookie.salerid,getCookie.title);
+                    saler_inp.attr({"data-id":getCookie.salerid,"data-title":getCookie.title}).val(getCookie.title);
+                   }
                    that.getCardList(1);
                     return reslut;
                 },
             });
-           
-  },
-
-
-
-
+     },
+     getCookie:function(){
+      var cookie=document.cookie.split(";");
+     for(var i=0;i<cookie.length;i++){
+       var data={}
+        if(cookie[i].indexOf("salerid=")!=-1){
+            var salerid=cookie[i].substr(8,6);
+        }
+        if(cookie[i].indexOf("title=")!=-1){
+          var title=cookie[i].substr(7,cookie[i].length-6);
+        }
+      }
+        data={"salerid":salerid,"title":title}
+       return data;
+     },
+     setCookie:function(salerid,title){
+      // console.log(salerid+"+"+title)
+       var exp=new Date();
+       exp.setTime(exp.getTime()+5*60*60*1000);
+       expGMT=exp.toGMTString();
+       document.cookie="salerid="+salerid+";expires="+expGMT;
+       document.cookie="title="+title+";expires="+expGMT;
+     }
 
 }
-
-
-
 
 $(function () {
   var newCard = new entryCard();
