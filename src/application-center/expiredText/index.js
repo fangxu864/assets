@@ -23,15 +23,20 @@
 
      //判断当天是否访问过
      var lastDate = Cookie.getCookie('lastDate');
+     console.log(lastDate);
+     console.log(new Date().getDate());
      if(lastDate){
          var today = new Date().getDate();
          if(today == lastDate){
+             console.log("Cookie存在,但是相等");
              return false
          }else{
+             console.log("Cookie存在,但是不相等");
              dialog_expired.open();
              Cookie.setCookie('lastDate',today,{expireHours:24});
          }
      }else{
+         console.log("Cookie不存在");
          dialog_expired.open();
          var today = new Date().getDate();
          Cookie.setCookie('lastDate',today,{expireHours:24});
