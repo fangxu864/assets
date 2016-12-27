@@ -94,7 +94,7 @@ var Main= {
                 //(一)、如果是在已发送的通知页面
                 if($("#message_container>div").hasClass("message_send")){
                     var params = {nid:deleteBox,status:2};
-                    var nowState = "";
+                    var nowState = "send";
                     _this.setStatus(params,nowState);
 
                 //（二）、如果是在收到的通知页面
@@ -130,7 +130,7 @@ var Main= {
                 //如果是在发送通知界面
                 if($("#message_container>div").hasClass("message_send")){
                     var params = {nid:markBox,status:1};
-                    var nowState = "";
+                    var nowState = "send";
                     _this.setStatus(params,nowState);
 
                 //如果是在收到的通知界面
@@ -166,13 +166,13 @@ var Main= {
     /*以下为方法，不是事件*/
         setStatus:function (params,nowState) {
             var _this = this;
-            if(nowState == ""){
+            if(nowState == "send"){
                 Ajax_SetStatus(params,
                     {
                         success:function (data) {
                             console.log(data);
                             if(!this.nowPage){_this.nowPage = 1}
-                            _this.getNotice_accept({page:_this.nowPage});
+                            _this.getNotice_send({page:_this.nowPage});
                         },
                         empty:function (data) {
                             console.log("empty")
