@@ -5,8 +5,8 @@
    require("./expiredText.scss");
    var Cookie = require("./cookies.js");
    var dialog=require("COMMON/modules/dialog-simple");
-
    var expiredTextTpl = require("./expiredText.tpl");
+   var memberID = $("#memberId").attr("data-id");
    //过期模拟部分————————————————————————————————————————————————————————
    var dialog_expired = new dialog({
        width : 800,
@@ -22,7 +22,7 @@
    });
 
      //判断当天是否访问过
-     var lastDate = Cookie.getCookie('lastDate');
+     var lastDate = Cookie.getCookie('lastDate'+memberID);
      console.log(lastDate);
      console.log(new Date().getDate());
      if(lastDate){
@@ -32,14 +32,13 @@
              return false
          }else{
              console.log("Cookie存在,但是不相等");
-             dialog_expired.open();
-             Cookie.setCookie('lastDate',today,{expireHours:24});
+
+             Cookie.setCookie('lastDate'+memberID,today,{expireHours:24});
          }
      }else{
          console.log("Cookie不存在");
-         dialog_expired.open();
          var today = new Date().getDate();
-         Cookie.setCookie('lastDate',today,{expireHours:24});
+         Cookie.setCookie('lastDate'+memberID,today,{expireHours:24});
      }
 
      $.post("/r/AppCenter_ModuleList/getModuleListOfExpireSoon",{},function (res) {
@@ -47,6 +46,7 @@
          var code = res.code;
 
          if(code==200){
+             dialog_expired.open();
              $.each(data,function (index,value) {
                  var i = index+1;
                  if(index < 10){
@@ -61,7 +61,7 @@
                  window.location.href="new/appcenter_pay.html?appid="+$(e.target).attr("data-id");
              })
          }else{
-             alert(res.msg)
+             console.log(res.msg)
          }
 
      })
