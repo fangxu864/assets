@@ -1,37 +1,25 @@
-var Validate = {
+/**
+ * Author: huangzhiyang
+ * Date: 2016/12/26 15:48
+ * Description: ""
+ */
+var output = function(isOk,errMsg,errCode){
+	return{
+		isOk : isOk,
+		errCode : typeof errCode=="undefined" ? "" : errCode,
+		errMsg : errMsg || ""
+	}
+};
+module.exports = {
 	require : function(value){
-		return !!value;
-	},
-	//非空
-	noBlank: function( value ){
-		return !!value;
-	},
-	//最小
-	min: function( value, rule ){
-		return value.length >= rule;
-	},
-	//最大
-	max: function( value, rule ){
-		return value.length <= rule;
-	},
-	//验证常用英文符号，常用于密码验证
-	typeChar : function(val){
-		//常用英文符号
-		var sChar = /[`~!@#\$%\^&\*\(\)_\+\-=\{\[\}\]\\\\|;:'",<>\.\?\/]/g;
-		return sChar.test(val);
+		var isOk = !!value;
+		return output(isOk,isOk ? "" : "必填");
 	},
 	typeCN : function(str){
 		var result = true;
-		// var reg = /[\u4E00-\u9FA5\uF900-\uFA2D\(\（\)\）]/g;
-		// for(var i= 0,len=str.length; i<len; i++){
-		// 	if(!reg.test(str)){
-		// 		result = false;
-		// 		break;
-		// 	}
-		// }
 		var re=/^([\u4e00-\u9fa5]+)?([\(\（])?[\u4e00-\u9fa5]+([\）\)])?([\u4e00-\u9fa5]+)?$/g;
-		result = re.test(str);
-		return result;
+		var isOk = re.test(str);
+		return output(isOk,isOk ? "" : "请输入中文");
 	},
 	//中文、英文
 	typeZE: function( value ){
@@ -39,45 +27,48 @@ var Validate = {
 	},
 	//英文、数字
 	typeEN: function( value ){
-		return /^[0-9|a-z|A-Z]+$/.test( value );
+		var isOk = /^[0-9|a-z|A-Z]+$/.test( value );
+		return output(isOk,isOk ? "" : "请输入英文或数字");
 	},
 	//只能大写英文字母
 	typeE : function(value){
-		return /^[A-Z]+$/g.test(value);
+		var isOk =  /^[A-Z]+$/g.test(value);
+		return output(isOk,isOk ? "" : "只能输入大写英文字母");
 	},
 	//只能小写英文字母
 	typee : function(value){
-		return /^[a-z]+$/g.test(value);
+		var isOk = /^[a-z]+$/g.test(value);
+		return output(isOk,isOk ? "" : "只能输入小写英文字母");
 	},
 	//只能大小写英文字母
 	typeEe : function(value){
-		return /^[a-zA-Z]+$/g.test(value);
+		var isOk = /^[a-zA-Z]+$/g.test(value);
+		return output(isOk,isOk ? "" : "只能输入英文字母");
 	},
 	typeChina : function(string){
 		var reg = /[^\u0000-\u00FF]/;
-		if(!reg.test(string)) return false;
-		return true;
+		var isOk = reg.test(string);
+		return output(isOk,isOk ? "" : "只能输入汉字");
 	},
 	//数字
 	typeNum: function( value ){
-		return !isNaN( value );
-	},
-	//电话
-	typePhone: function( value ){
-		var reg = /^1[0-9]{10}$/;
-		return reg.test( value );
+		var isOk = !isNaN( value );
+		return output(isOk,isOk ? "" : "请输入数字");
 	},
 	//email
 	typeEmail: function( value ){
-		return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value)
+		var isOk = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value);
+		return output(isOk,isOk ? "" : "格式错误");
 	},
 	//验证正整数(不包括0)
 	typeInit : function(value){
-		return /^[0-9]*[1-9][0-9]*$/.test(value);
+		var isOk = /^[0-9]*[1-9][0-9]*$/.test(value);
+		return output(isOk,isOk ? "" : "请输入正整数");
 	},
 	//验证非负整数(包括0)
 	typeInit0 : function(value){
-		return /^\d+$/.test(value);
+		var isOk = /^\d+$/.test(value);
+		return output(isOk,isOk ? "" : "请输入非负整数");
 	},
 	//身份证号合法性验证
 	//支持15位和18位身份证号
@@ -86,12 +77,15 @@ var Validate = {
 		var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
 		var tip = "";
 		var pass= true;
+		var errCode = "";
 
 		if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
 			tip = "身份证号格式错误";
+			errCode = 1;
 			pass = false;
 		}else if(!city[code.substr(0,2)]){
 			tip = "地址编码错误";
+			errCode = 2;
 			pass = false;
 		}else{
 			//18位身份证需要验证最后一位校验位
@@ -114,11 +108,12 @@ var Validate = {
 				var last = parity[sum % 11];
 				if(parity[sum % 11] != code[17]){
 					tip = "校验位错误";
+					errCode = 3;
 					pass =false;
 				}
 			}
 		}
-		return pass;
+		return output(pass,tip,errCode);
 	},
 	//验证密码(合法性及安全度)
 	//6-20数字、字母和常用符号两种以上组合
@@ -155,7 +150,12 @@ var Validate = {
 			return result;
 		})(pwd);
 		if(inCommonPwds){ //如果此密码在常用密码里
-			return {error:"您输入的密码太常见，很容易被人猜出，请更换",level:""};
+			return {
+				isOk : false,
+				errMsg:"您输入的密码太常见，很容易被人猜出，请更换",
+				errCode : 1,
+				level:""
+			};
 		}
 		//判断密码可用性
 		//不能全为数字  不能全为字母   不能全为符号
@@ -200,29 +200,45 @@ var Validate = {
 		};
 		var check_able = check(pwd);
 		if(check_able){
-			return{error:check_able,level:""};
+			return{
+				isOk : check_able ? false : true,
+				errMsg : check_able,
+				errCode : "",
+				level : ""
+			};
 		}else{
 			var level = getCheckLevel(pwd);
-			return{error:"",level:level};
+			return{
+				isOk : true,
+				errCode : "",
+				errMsg : "",
+				level:level
+			};
 		}
 	},
 
 	//2016-08-17
 	//新的验证api
 	mobile : function(val){
-		var result = {};
 		var reg = /^1[0-9]{10}$/;
+		var isOk, errMsg, errCode;
 		if(!val){
-			result["code"] = -1;
-			result["error"] = "手机号不能为空";
-		}else if(reg.test(val)){
-			result["code"] = 0;
-			result["error"] = "手机号格式错误";
+			isOk = false;
+			errCode = 0;
+			errMsg = "手机号不能为空";
+		}else if(val.length!==11){
+			isOk = false;
+			errCode = 1;
+			errMsg = "请输入11位数手机号";
+		}else if(!reg.test(val)){
+			isOk = false;
+			errCode = 2;
+			errMsg = "手机号格式错误";
 		}else{
-			result["code"] = 1;
-			result["error"] = "";
+			isOk = true;
+			errCode = "";
+			errMsg = "";
 		}
-		return result;
+		return output(isOk,errMsg,errCode);
 	}
 };
-module.exports = Validate;
