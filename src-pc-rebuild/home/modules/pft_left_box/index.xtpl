@@ -18,9 +18,9 @@
                     <i class="icon-Platform-Prompt icon-xiangyou"></i>
                 </span>
         <ul class="menu_2_list_ul">
-            <li class="menu_2_list_li">订单查询</li>
-            <li class="menu_2_list_li">产品预订</li>
-            <li class="menu_2_list_li">票券验证</li>
+            <li class="menu_2_list_li"><a href="/test_orderquery.html">订单查询</a></li>
+            <li class="menu_2_list_li"><a href="test_plist.html">产品预订</a></li>
+            <li class="menu_2_list_li"><a href="/test_prodlists.html">出售中的产品</a></li>
             <li class="menu_2_list_li">票券验证</li>
             <li class="menu_2_list_li">票券验证</li>
             <li class="menu_2_list_li">票券验证</li>
