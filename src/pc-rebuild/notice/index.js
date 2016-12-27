@@ -90,79 +90,33 @@ var Main= {
             //----------------------------------------------点击删除和标记已读
             //1.删除
             _this.message_box.on("clickDelete",function (deleteBox) {
-                //如果是在已发送的通知页面
+
+                //(一)、如果是在已发送的通知页面
                 if($("#message_container>div").hasClass("message_send")){
-                    Ajax_SetStatus({nid:deleteBox,status:2},
-                        {
-                            success:function (data) {
-                                console.log(data);
-                                if(!_this.nowPage){_this.nowPage = 1}
-                                _this.getNotice_send({page:_this.nowPage});
-                            },
-                            empty:function (data) {
-                                console.log("empty")
-                            },
-                            fail:function (msg) {
-                                alert("操作失败")
-                            }
-                        }
-                    );
-                //如果是在收到的通知页面
+                    var params = {nid:deleteBox,status:2};
+                    var nowState = "";
+                    _this.setStatus(params,nowState);
+
+                //（二）、如果是在收到的通知页面
                 }else if($("#message_container>div").hasClass("message_accept")){
 
                         //(1).其中如果是选中所有通知
                     if($("#message-all").hasClass("active_type")){
-                        Ajax_SetStatus({nid:deleteBox,status:2},
-                            {
-                                success:function (data) {
-                                    console.log(data);
-                                    if(!_this.nowPage){_this.nowPage = 1}
-                                    _this.getNotice_accept({page:_this.nowPage,state:3});
-                                },
-                                empty:function (data) {
-                                    console.log("empty")
-                                },
-                                fail:function (msg) {
-                                    alert("操作失败")
-                                }
-                            }
-                        );
+                        var params = {nid:deleteBox,status:2};
+                        var nowState = 3;
+                        _this.setStatus(params,nowState);
 
                         //(2).其中如果是选中未读通知
                     }else if($("#message-unread").hasClass("active_type")){
+                        var params = {nid:deleteBox,status:2};
+                        var nowState = 0;
+                        _this.setStatus(params,nowState);
 
-                        Ajax_SetStatus({nid:deleteBox,status:2},
-                            {
-                                success:function (data) {
-                                    console.log(data);
-                                    if(!_this.nowPage){_this.nowPage = 1}
-                                    _this.getNotice_accept({page:_this.nowPage,state:0});
-                                },
-                                empty:function (data) {
-                                    console.log("empty")
-                                },
-                                fail:function (msg) {
-                                    alert("操作失败")
-                                }
-                            }
-                        );
                         //(3).其中如果是选中已读通知
                     }else if($("#message-read").hasClass("active_type")){
-                        Ajax_SetStatus({nid:deleteBox,status:2},
-                            {
-                                success:function (data) {
-                                    console.log(data);
-                                    if(!_this.nowPage){_this.nowPage = 1}
-                                    _this.getNotice_accept({page:_this.nowPage,state:1});
-                                },
-                                empty:function (data) {
-                                    console.log("empty")
-                                },
-                                fail:function (msg) {
-                                    alert("操作失败")
-                                }
-                            }
-                        );
+                        var params = {nid:deleteBox,status:2};
+                        var nowState = 1;
+                        _this.setStatus(params,nowState);
                     }
 
                 }
@@ -175,75 +129,30 @@ var Main= {
 
                 //如果是在发送通知界面
                 if($("#message_container>div").hasClass("message_send")){
-                    Ajax_SetStatus({nid:markBox,status:1},
-                        {
-                            success:function (data) {
-                                console.log(data);
-                                if(!_this.nowPage){_this.nowPage = 1}
-                                _this.getNotice_send({page:_this.nowPage});
-                            },
-                            empty:function (data) {
-                                console.log("empty")
-                            },
-                            fail:function (msg) {
-                                alert("操作失败")
-                            }
-                        }
-                    );
+                    var params = {nid:markBox,status:1};
+                    var nowState = "";
+                    _this.setStatus(params,nowState);
+
                 //如果是在收到的通知界面
                 }else if($("#message_container>div").hasClass("message_accept")){
 
                         //其中如果是选中所有通知
                     if($("#message-all").hasClass("active_type")){
-                        Ajax_SetStatus({nid:markBox,status:1},
-                            {
-                                success:function (data) {
-                                    console.log(data);
-                                    if(!_this.nowPage){_this.nowPage = 1}
-                                    _this.getNotice_accept({page:_this.nowPage,state:3});
-                                },
-                                empty:function (data) {
-                                    console.log("empty")
-                                },
-                                fail:function (msg) {
-                                    alert("操作失败")
-                                }
-                            }
-                        );
+                        var params = {nid:markBox,status:1};
+                        var nowState = 3;
+                        _this.setStatus(params,nowState);
+
                         //其中如果是选中未读通知
                     }else if($("#message-unread").hasClass("active_type")){
-                        Ajax_SetStatus({nid:markBox,status:1},
-                            {
-                                success:function (data) {
-                                    console.log(data);
-                                    if(!_this.nowPage){_this.nowPage = 1}
-                                    _this.getNotice_accept({page:_this.nowPage,state:0});
-                                },
-                                empty:function (data) {
-                                    console.log("empty")
-                                },
-                                fail:function (msg) {
-                                    alert("操作失败")
-                                }
-                            }
-                        );
+                        var params = {nid:markBox,status:1};
+                        var nowState = 0;
+                        _this.setStatus(params,nowState);
 
                         //其中如果是选中已读通知
                     }else if($("#message-read").hasClass("active_type")){
-                        Ajax_SetStatus({nid:markBox,status:1},
-                            {
-                                success:function (data) {
-                                    console.log(data);
-                                    if(!_this.nowPage){_this.nowPage = 1}
-                                    _this.getNotice_accept({page:_this.nowPage,state:1});
-                                },
-                                empty:function (data) {
-                                    console.log("empty")
-                                },
-                                fail:function (msg) {
-                                }
-                            }
-                        );
+                        var params = {nid:markBox,status:1};
+                        var nowState = 1;
+                        _this.setStatus(params,nowState);
 
                     }
                 }
@@ -255,7 +164,42 @@ var Main= {
 
     /*————————————————————————————————————————————————————————————————————————————————————————————*/
     /*以下为方法，不是事件*/
-
+        setStatus:function (params,nowState) {
+            var _this = this;
+            if(nowState == ""){
+                Ajax_SetStatus(params,
+                    {
+                        success:function (data) {
+                            console.log(data);
+                            if(!this.nowPage){_this.nowPage = 1}
+                            _this.getNotice_accept({page:_this.nowPage});
+                        },
+                        empty:function (data) {
+                            console.log("empty")
+                        },
+                        fail:function (msg) {
+                            alert(msg)
+                        }
+                    }
+                );
+                return false
+            }
+            Ajax_SetStatus(params,
+                {
+                    success:function (data) {
+                        console.log(data);
+                        if(!this.nowPage){_this.nowPage = 1}
+                        _this.getNotice_accept({page:_this.nowPage,state:nowState});
+                    },
+                    empty:function (data) {
+                        console.log("empty")
+                    },
+                    fail:function (msg) {
+                        alert(msg)
+                    }
+                }
+            );
+        },
 
         getNotice_send:function (params) {
             //缓存发送的通知
@@ -284,7 +228,9 @@ var Main= {
                         console.log("empty")
                     },
                     fail:function (msg) {
-                        console.log(msg)
+                        var html = loading("未能找到相关数据。",{loadingImg:""});
+                        $(".content").empty().append(html);
+                        _this.pagination.render(0,0);
                     }
                 }
             );
@@ -321,7 +267,9 @@ var Main= {
                         console.log("empty")
                     },
                     fail:function (msg) {
-                        console.log(msg)
+                        var html = loading("未能找到相关数据。",{loadingImg:""});
+                        $(".content").empty().append(html);
+                        _this.pagination.render(0,0);
                     }
                 }
             );
