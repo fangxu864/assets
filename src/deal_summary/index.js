@@ -264,6 +264,12 @@ var DealSum={
 				type: "GET",                               //请求方式
 				beforeSend: function() {
 					//请求前的处理
+					$(".dealSumBox").hide();
+					$(".tb_top_box").hide();
+					$(".day_detail_box").hide();
+					$(".tb_bottom_box").hide();
+					$("#pag_box").hide();
+					$(".query_state_box").show();
 				},
 				success: function(req) {
 					_this.dealDataTB1(req)
@@ -284,9 +290,14 @@ var DealSum={
 						type: "GET",                               //请求方式
 						beforeSend: function() {
 							//请求前的处理
+
 						},
 						success: function(req) {
 							_this.dealDataTB2(req)
+							$(".dealSumBox").show();
+							$(".tb_top_box").show();
+							$(".day_detail_box").show();
+							$(".query_state_box").hide();
 						},
 						complete: function() {
 							//请求完成的处理

@@ -105,7 +105,17 @@ ul.pagination{margin: 0 auto;}
 .PageHeaderContainer .logoBannerBox .logoBox img{    width: 280px;  height: 66px;  }
 
 .dealsumContainer .iframe_wrap{display: none;}
-
+.query_state_box{
+  .querying{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    img{
+      position:relative;
+      top : 10px;
+    }
+  }
+}
 
 
 

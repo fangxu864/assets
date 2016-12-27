@@ -34,11 +34,11 @@
             </div>
     </div>
     </div>
-    <div class="dealSumBox">
+    <div class="dealSumBox" style="display: none;">
         总收入：<span class="totalIncome"><span id="totalIncome"></span> 元</span>
         总支出：<span class="totalExpend"><span id="totalExpend"></span> 元</span>
     </div>
-    <div class="tb_top_box">
+    <div class="tb_top_box" style="display: none;">
         <div class="lt">
             <div class="th"><div class="roll_left" style="color: white;"><</div></div>
             <div class="tr">收入</div>
@@ -60,7 +60,7 @@
         </div>
 
     </div>
-    <div class="day_detail_box">
+    <div class="day_detail_box" style="display: none;">
         <span class="day_detail_btn1" id="day_detail_btn">日汇总明细</span>
     </div>
     <div class="tb_bottom_box" style="display:none;">
@@ -88,6 +88,11 @@
             <div class="con"></div>
         </div>
         <div class="nodata">未查询到任何数据...</div>
+    </div>
+    <div class="query_state_box">
+        <div class="querying">
+            <img src="http://static.12301.cc/assets/build/images/gloading.gif" alt=""/><span>加载中...</span>
+        </div>
     </div>
     <div class="iframe_wrap"></div>
 </div>
