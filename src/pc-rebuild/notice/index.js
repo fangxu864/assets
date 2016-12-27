@@ -5,8 +5,8 @@
  */
 require("./index.scss");
 var loading = require("COMMON/js/util.loading.pc.js");
-var Ajax_SetStatus = require("./Service_SetStatus.js");
-var Ajax_GetNotice = require("./Service_GetNotice.js");
+var Ajax_SetStatus = require("./Service/Service_SetStatus.js");
+var Ajax_GetNotice = require("./Service/Service_GetNotice.js");
 var notice_tpl = require("./notice_tpl.xtpl");
 var ChangePage = require("./pagination_box/index.js");
 var MessageBox = require("./message_box/index.js");
