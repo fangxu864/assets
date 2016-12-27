@@ -7,12 +7,10 @@ module.exports = function(opt){
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt || {});
 	var cxt = opt.cxt || null;
 	var debug = opt.debug;
-	var url = PFT.Config.Api.get("product_MemberCardBasic","memberCardInfos");
+	var url = PFT.Config.Api.get("product_MemberCardBasic","Register");
 	var type = opt.type || "post";
 	var params = opt.params || {};
-	var fid = params.fid;
 
-	if(!fid) throw new Error("缺少fid参数");
 	if(debug){
 		opt.loading.call(cxt);
 		setTimeout(function(){
@@ -36,9 +34,7 @@ module.exports = function(opt){
 	}else{
 		PFT.Util.Ajax(url,{
 			type : type,
-			params : {
-				fid : fid
-			},
+			params : params,
 			loading : function(){
 				opt.loading.call(cxt);
 			},
@@ -47,7 +43,7 @@ module.exports = function(opt){
 			},
 			success : function(res){
 				var code = res.code;
-				var data = res.data.list;
+				var data = res.data;
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 				if(code==200){
 					opt.success.call(cxt,data);

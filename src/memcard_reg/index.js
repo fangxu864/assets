@@ -3,10 +3,11 @@
  */
 require("./index.css");
 var KeyupTimeout = null;
-var Debug = true;
+var Debug = false;
 var Query_Info = require("SERVICE/MemcardReg/Query_Info");
 var Query_MobileLogup = require("SERVICE/MemcardReg/Query_MobileLogup");
 var Query_Vcode = require("SERVICE/MemcardReg/Query_Vcode");
+var Update_Info = require("SERVICE/MemcardReg/Update_Info");
 var Loading = require("COMMON/js/util.loading.pc.js");
 var ProvCity = require("COMMON/Components/ProvCitySelect");
 var Fileupload = require("COMMON/modules/fileupload");
@@ -20,12 +21,20 @@ var Main = PFT.Util.Class({
 		"keyup #mobileInp" : "onMobileInpKeyup",
 		"click #getCheckmaBtn" : "onGetCheckMaBtnClick",
 		"click #famleWrap .fe" : "onFamleFeClick",
-		"click #saveBtn" : "onSaveBtnClick"
+		"click #saveBtn" : "onSaveBtnClick",
+		"mouseenter .uploadResultImg" : "onPhotoMouseEnter",
+		"mouseleave .uploadResultImg" : "onPhotoMouseLeave",
+		"click .removePhotoBtn" : "onRemovePhotoBtnClick",
+		"click .saveBtn" : "onFormSubmit"
 	},
 	validator : {},
 	init : function(){
 		this.fid = PFT.Util.UrlParse()["fid"] || "";
 		this.editMode = this.fid!=="undefined" && this.fid!==""; //编辑模式
+
+
+
+
 
 		if(this.editMode){ //如果是编辑模式
 			Query_Info({
@@ -53,6 +62,48 @@ var Main = PFT.Util.Class({
 		}else{ //新建模式
 			this.render();
 		}
+	},
+	onRemovePhotoBtnClick : function(e){
+		$(e.currentTarget).parents(".uploadResultImg").remove();
+	},
+	onPhotoMouseEnter : function(e){
+		var tarBox = $(e.currentTarget);
+		var width = tarBox.width();
+		var height = tarBox.height();
+		tarBox.css("position","relative");
+		var innerBox = $('<div class="innerBox"/>').css({
+			position : "absolute",
+			top : 0,
+			right : 0,
+			left : 0,
+			bottom : 0,
+			width : width,
+			height : height,
+			backgroundColor : "#000",
+			opacity : 0.6,
+			overflow:"hidden"
+		});
+		var btn = $('<span class="removePhotoBtn"/>').css({
+			position : "absolute",
+			top : "50%",
+			left : "50%",
+			width : 70,
+			height : 26,
+			margin : "-13px 0 0 -35px",
+			lineHeight : "26px",
+			textAlign : "center",
+			backgroundColor : "#0796d8",
+			color : "#fff",
+			cursor : "pointer",
+			fontSize : 12
+		}).text("删除");
+		tarBox.append(innerBox);
+		tarBox.append(btn);
+	},
+	onPhotoMouseLeave : function(e){
+		var tarBox = $(e.currentTarget);
+		tarBox.find(".removePhotoBtn").remove();
+		tarBox.find(".innerBox").remove();
 	},
 	//手机号检测
 	onMobileInpKeyup : function(e){
@@ -194,6 +245,42 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
+	validateDname : function(){
+		var dnameInp = $("#cnameInp");
+		return Validate({
+			target : dnameInp,
+			event : "blur",
+			rule : ["require"],
+			callback : function(rule,isOk,errMsg,errCode,target,value){
+				var errortip = target.siblings(".errortip");
+				if(isOk){
+					target.removeClass("error");
+					errortip.hide();
+				}else{
+					target.addClass("error");
+					errortip.show().text(errMsg);
+				}
+			}
+		})
+	},
+	validateCardNo : function(){
+		var cardNoInp = $("#card_no_inp");
+		return Validate({
+			target : cardNoInp,
+			event : "blur",
+			rule : ["require"],
+			callback : function(rule,isOk,errMsg,errCode,target,value){
+				var errortip = target.siblings(".errortip");
+				if(isOk){
+					target.removeClass("error");
+					errortip.hide();
+				}else{
+					target.addClass("error");
+					errortip.show().text(errMsg);
+				}
+			}
+		})
+	},
 	//初始化省市联动
 	initProvCity : function(data){
 		var province = data.province || "";
@@ -210,7 +297,7 @@ var Main = PFT.Util.Class({
 
 	},
 	//初始化图片上传
-	initImgUpload : function(){
+	initImgUpload : function(data){
 		var container = $("#up_img_box");
 		this.fileupload = new Fileupload({
 			container : $("#up_img_box"),                    //必选 组件要显示在哪个容器内，可传容器id或jq对象
@@ -231,7 +318,13 @@ var Main = PFT.Util.Class({
 				container.find(".uploadResultImg").remove();
 				container.append('<div class="uploadResultImg"><img src="'+data.data.src+'"/></div>');
 			}
-		})
+		});
+		var headphoto = data.headphoto;
+		if(headphoto){
+			setTimeout(function(){
+				container.append('<div class="uploadResultImg"><img src="'+headphoto+'"/></div>');
+			},20)
+		}
 	},
 	render : function(data){
 		var that = this;
@@ -245,21 +338,93 @@ var Main = PFT.Util.Class({
 			address : "",
 			headphoto : "",
 			car : "",
-			remakes : "",
+			remarks : "",
 			phy_no : "",
 			card_no : "",
 			notice_type	 : "",
+			open_name : "",
 			sex : "M"
 		},data || {});
 		var html = Tpl.index(data);
 		this.container.html(html);
 		setTimeout(function(){
 			that.initProvCity(data);
-			that.initImgUpload();
-			that.validator["mobile"] = that.validateMobile();
+			that.initImgUpload(data);
+			if($("#mobileInp").attr("readonly")!=="readonly"){
+				that.validator["mobile"] = that.validateMobile();
+			}
 			that.validator["vcode"] = that.validateVCode();
-			that.validator["idcard"] = that.validateIDCard();
+			if($("#idcardInp").attr("readonly")!=="readonly"){
+				that.validator["idcard"] = that.validateIDCard();
+			}
+			if($("#cnameInp").attr("readonly")!=="readonly"){
+				that.validator["dname"] = that.validateDname();
+			}
+
+			that.validator["cardNo"] = that.validateCardNo();
+
 		},10)
+	},
+	onFormSubmit : function(e){
+		var tarBtn = $(e.currentTarget);
+		var orignText = tarBtn.text();
+		if(tarBtn.hasClass("disable")) return false;
+
+		var validator = this.validator;
+
+		var canSubmit = true;
+
+		for(var i in validator){
+			var valid = validator[i];
+			if(typeof valid=="function"){
+				var result = valid();
+				if(!result.isOk){
+					canSubmit = false;
+					break;
+				}
+			}
+		}
+
+		if(!canSubmit) return false;
+
+		var phy_no = $("#phy_no_inp").val();
+		if(!phy_no) return alert("物理卡号为必填项，请用读卡器请取物理卡号");
+
+		var submitData = {
+			mobile : $.trim($("#mobileInp").val()),
+			vcode : $.trim($("#checkmaInp").val()),
+			id_card_no : $.trim($("#idcardInp").val()),
+			card_no : $.trim($("#card_no_inp").val()),
+			phy_no : $.trim($("#phy_no_inp").val()),
+			dname : $.trim($("#cnameInp").val()),
+			sex : $("#famleWrap").children(".active").attr("data-type"),
+			province : $("#provSelect").val(),
+			city : $("#citySelect").val(),
+			address : $.trim($("#addressInp").val()),
+			headImg : $("#up_img_box").find(".uploadResultImg img").attr("src") || "",
+			carInfo : $("#carInfoBox").find("input:checked").val(),
+			remarks : $("#remarksTextarea").val(),
+			notice_type : $("#sendTypeBox").find("input:checked").val()
+		};
+
+		if(this.fid) submitData["fid"] = this.fid;
+
+		Update_Info({
+			cxt : this,
+			loading : function(){
+				tarBtn.text("请稍后...").addClass("disable");
+			},
+			complete : function(){
+				tarBtn.text(orignText).removeClass("disable");
+			},
+			success : function(data){
+				PFT.Util.STip("success",this.fid ? "修改成功" : "开卡成功");
+			},
+			error : function(msg,code){
+				alert(msg);
+			}
+		})
+
 	}
 
 });

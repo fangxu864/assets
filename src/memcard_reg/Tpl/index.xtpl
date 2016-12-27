@@ -39,25 +39,24 @@
                 </div>
                 <div class="line">
                     <span class="lt">详细地址</span>
-                    <input type="text" class="formInp" value="<%=address%>" name="address"/>
+                    <input type="text" id="addressInp" class="formInp" value="<%=address%>" name="address"/>
                 </div>
                 <div class="line" style="width:100%; overflow:hidden">
                     <span style="float:left; position:relative; top:11px;" class="lt">持卡人照片</span>
                     <div style="float:left; margin-left:4px" id="up_img_box">
-
                     </div>
                     <input id="photo_src_hidden_input" type="hidden" name="headphoto" value="<%=headphoto%>">
                 </div>
                 <div class="line" style="width:100%; margin:18px 0">
                     <span style="position:relative; top:0" class="lt car_info_l">车辆信息</span>
-                    <span class="carInfoBox">
-                        <label for="car_min_5"><input checked type="radio" name="car" id="car_min_5"/><span class="t">5座以内(包含5座)</span></label>
-                        <label for="car_max_5"><input type="radio" name="car" id="car_max_5"/><span class="t">5座以上</span></label>
+                    <span id="carInfoBox" class="carInfoBox">
+                        <label for="car_min_5"><input checked type="radio" name="car" value="0" id="car_min_5" <%=car==0 ? 'checked' : ''%> /><span class="t">5座以内(包含5座)</span></label>
+                        <label for="car_max_5"><input type="radio" name="car" id="car_max_5" value="1" <%=car==1 ? 'checked' : ''%> /><span class="t">5座以上</span></label>
                     </span>
                 </div>
                 <div class="line">
                     <span class="lt beizhu">备注</span>
-                    <textarea class="textarea" name="remarks"></textarea>
+                    <textarea id="remarksTextarea" class="textarea" name="remarks"><%=remarks%></textarea>
                 </div>
             </div>
 
@@ -67,28 +66,23 @@
 
         <div id="requireFormBox" class="formBox requireFormBox">
             <div class="line">
-                <span class="lt">发卡单位</span>
-                <input type="text" name="mobile" class="formInp valifyInp mobileInp" value="" id=""/>
-                <span class="errortip"><i class="star">*</i><i class="t">必填</i></span>
-            </div>
-            <div class="line">
-                <span class="lt">卡号</span>
+                <span class="lt"><i class="star">*</i>卡号</span>
                 <input type="text" class="formInp card_no_inp valifyInp" name="card_no" value="<%=card_no%>" id="card_no_inp" placeholder="必填"/>
                 <span class="errortip"><i class="star">*</i><i class="t">必填</i></span>
             </div>
             <div class="line">
-                <span class="lt">物理卡号</span>
-                <input type="text"  value="<%=phy_no%>" class="formInp phy_no_inp valifyInp" name="phy_no" id="phy_no_inp"/>
+                <span class="lt"><i class="star">*</i>物理卡号</span>
+                <input type="text" readonly="readonly" value="<%=phy_no%>" class="formInp phy_no_inp valifyInp" name="phy_no" id="phy_no_inp"/>
                 <object  classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="helloBossma"></object>
                 <a id="readwuKa" class="readwuKa" href="javascript:void(0)">读取物理卡号</a>
                 <span class="errortip"><i class="star">*</i><i class="t">必填</i></span>
             </div>
             <div class="line sendType">
                 <span class="lt">消息通知</span>
-					<span>
-						<label class="group" for="msg_type_weixin"><input type="radio" class="noticeTypeRadio" name="notice_type" value="1" id="msg_type_weixin"/><span class="t">微信</span></label>
-						<label class="group" for="msg_type_duanxin"><input type="radio" class="noticeTypeRadio" name="notice_type" value="2" id="msg_type_duanxin"/><span class="t">短信</span></label>
-						<label class="group" for="msg_type_no"><input type="radio" class="noticeTypeRadio" name="notice_type" value="0" id="msg_type_no"/><span class="t">不通知</span></label>
+					<span id="sendTypeBox">
+						<label class="group" for="msg_type_weixin"><input type="radio" class="noticeTypeRadio" name="notice_type" value="1" <%=notice_type==1 ? 'checked' : ''%> id="msg_type_weixin"/><span class="t">微信</span></label>
+						<label class="group" for="msg_type_duanxin"><input type="radio" class="noticeTypeRadio" name="notice_type" value="2" <%=notice_type==2 ? 'checked' : ''%> id="msg_type_duanxin"/><span class="t">短信</span></label>
+						<label class="group" for="msg_type_no"><input type="radio" class="noticeTypeRadio" name="notice_type" value="0" <%=notice_type==0 ? 'checked' : ''%> id="msg_type_no"/><span class="t">不通知</span></label>
 					</span>
             </div>
         </div>
@@ -96,7 +90,7 @@
         <div class="formBox buttonW">
             <div class="line">
                 <span class="lt" style="visibility:hidden"></span>
-                <a id="saveBtn" class="saveBtn" href="#"><i class="iconfont loading">&#xe644;</i><span class="t default">下一步</span><span class="t loading">正在保存</span></a>
+                <a id="saveBtn" class="saveBtn" href="###"><%=fid ? '保存' : '开卡'%></a>
             </div>
         </div>
     </div>
