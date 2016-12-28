@@ -17,6 +17,15 @@ var appIntro = {
 		$("body").append(this.temp);			
 		$("#introHelper").append(this.pic);
 
+		var a = $(".app-list1 li").eq(2);
+		a.css({
+
+			"z-index" : "999",
+			"position" : "relative"
+
+		});
+
+
 	}
 
 
