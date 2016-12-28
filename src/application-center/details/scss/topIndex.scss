@@ -1,0 +1,31 @@
+#topIndex{
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 18px;
+  padding: 28px 20px;
+  h1{
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 30px;
+    color: #f07845;
+    font-weight: bold;
+    border-bottom: 2px solid #e5e5e5;
+  }
+  p{
+    margin: 30px 20px;
+    text-indent: 2em;
+    line-height: 30px;
+  }
+  .orange{
+    color: #f07845;
+  }
+  a{
+    display: block;
+    margin: 30px 20px;
+    text-indent: 2em;
+    line-height: 30px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+

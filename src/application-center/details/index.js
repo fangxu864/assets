@@ -143,6 +143,7 @@ var Main = PFT.Util.Class({
         var status = data.checkData.showType,
             topType = data.checkData.topType,
             topName = data.checkData.topName,
+            checkData = data.checkData,
             moduleFree = data.checkData.moduleFree,
             showextime = data.checkData.showextime;
 
@@ -153,8 +154,12 @@ var Main = PFT.Util.Class({
         //按钮文字部分
         if(status == 0){
             $("#btn").text("免费试用").on("click",function () {
+                if(topType == 2){
+                    _this.checkIsTop(checkData);
+                    return false
+                }
                 _this.freeTrial();
-            })
+            });
 
             //价格提示部分
             if(moduleFree){
@@ -177,6 +182,10 @@ var Main = PFT.Util.Class({
             })
         }else if(status == 1){
             $("#btn").text("开通").on("click",function () {
+                if(topType == 2){
+                    _this.checkIsTop(checkData);
+                    return false
+                }
                 window.location.href="appcenter_pay.html?appid="+_this.module_id
             });
 
@@ -265,6 +274,37 @@ var Main = PFT.Util.Class({
         $("#app-list").find(".use").on("click",function (e) {
             window.location.href=$(e.target).attr("data-url");
         });
+    },
+    
+    //上级应用提示
+    checkIsTop:function (checkData) {
+        var dialog=require("COMMON/modules/dialog-simple");
+        //过期模拟部分————————————————————————————————————————————————————————
+        var dialog_topIndex = new dialog({
+            width : 600,
+            height : 300,
+            closeBtn : true,
+            content : require("./tpl/topIndex.tpl"),
+            drag : true,
+            speed : 200,
+            offsetX : 0,
+            offsetY : 0,
+            overlay : true,
+            headerHeightMin : 46
+        });
+        dialog_topIndex.open();
+
+        var thisApp = $("#title").text();
+        $("#targetApp").text(thisApp);
+        $("#topApp").text(checkData.topName);
+        $("#topApp2").text(checkData.topName);
+
+        $("#topLink").on("click",function () {
+            window.location.href="appcenter_details.html?module_id="+parseInt(checkData.id);
+        })
+
+
+
     },
 
     //硬件详情数据库
