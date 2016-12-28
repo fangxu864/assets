@@ -33,7 +33,6 @@ var DealSum={
 		this.trader_inp=$("#trader");
 		this.clear_btn=$(".clear_trader_box");
 		this.toExcel=$("#to_excel");
-		this.iframe_index=0;//定义iframe的索引；
 		this.present_page=1;
 		//日历部分
 		//扩展日期对象，新增格式化方法
@@ -118,7 +117,6 @@ var DealSum={
 				//请求前的处理
 			},
 			success: function(req) {
-				console.log(req.code);
 				if(req.code==0){
 					$(".dealsumContainer .dealTimeBox .line1").css("display","block");
 					var select=new Select({
@@ -395,19 +393,12 @@ var DealSum={
 				"flag":1
 			};
 			for(var key in params){
-				var str=key+"="+params[key];
+				var str = key + "=" + params[key];
 				paramsArr.push(str);
 			}
-			console.log(paramsArr);
-			console.log(paramsArr.join("&"));
-
 
 			var url='/r/Finance_TradeRecord/exportExcelTrade/?'+paramsArr.join("&");
-			_this.iframe_index++;
-			var name='iframe'+_this.iframe_index;
-			var html='<iframe class="iframe_downfile" name="'+name+'"></iframe>';
-			$(".iframe_wrap").append(html);
-			window.open(url,name)
+			_this.outExcel(url)
 		})
 	},
 	//处理上表数据
@@ -552,6 +543,12 @@ var DealSum={
 		var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
 		var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
 		return  dates;
+	},
+	//导出excel
+	outExcel:function (downloadUrl) {
+		var iframeName="iframe"+new Date().getTime();
+		$("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+		window.open(downloadUrl, iframeName);
 	}
 };
 $(function ($) {
