@@ -7,7 +7,7 @@ require("./index.scss");
 var SheetCore = require("COMMON/modules/sheet-core/v1");
 var City = require("./city");
 var theme = require("./theme");
-var type = require("./type");
+var type = require("./ptype");
 var Filter = PFT.Util.Class({
 	init : function(opt){
 		var opt = opt || {};

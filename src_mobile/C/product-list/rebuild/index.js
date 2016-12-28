@@ -3,9 +3,14 @@
  * Date: 2016/12/1 16:00
  * Description: ""
  */
+var Toast = new PFT.Mobile.Toast();
+var Alert = PFT.Mobile.Alert;
+
 var ItemTpl = PFT.Util.ParseTemplate(require("./item.xtpl"));
 var FetchList = require("SERVICE_M/product-list");
 var Filter = require("./filters");
+var CityData = require("COMMON/js/config.province.city.data2");
+
 var Main = PFT.Util.Class({
 	__lastPos : 0,
 	__hasInit : false,
@@ -13,18 +18,42 @@ var Main = PFT.Util.Class({
 		var that = this;
 		this.listUl = $("#scrollInerCon");
 
-		this.on("fetchList.complete",function(res){
-			if(that.__hasInit) return false;
-			that.__hasInit = true;
-			var res = res || {};
-			var code = res.code;
-			var data = res.data;
-			if(code!==200) return false;
-			var citys = data.citys;
-			var themes = data.themes;
-			var type = data.type;
-			that.initFilter(type,themes,citys);
-		})
+		this.params = {
+            keyword : "",
+            topic : "",
+            type : PFT.Util.UrlParse()["ptype"] || "A",
+            city : "",
+            lastPos : this.__lastPos
+        };
+
+		this.fetchList( this.params , {
+			complete: function(res){
+				if(that.__hasInit) return false;
+				that.__hasInit = true;
+				var res = res || {};
+				var code = res.code;
+				var data = res.data;
+				if(code!==200) return false;
+				var citys = data.citys;
+				var themes = data.themes;
+				var type = data.type;
+				that.initFilter(type,themes,citys);
+				console.log(res)
+			}
+		});
+		// this.on("fetchList.complete",function(res){
+		// 	if(that.__hasInit) return false;
+		// 	that.__hasInit = true;
+		// 	var res = res || {};
+		// 	var code = res.code;
+		// 	var data = res.data;
+		// 	if(code!==200) return false;
+		// 	var citys = data.citys;
+		// 	var themes = data.themes;
+		// 	var type = data.type;
+		// 	that.initFilter(type,themes,citys);
+		// 	console.log(res)
+		// })
 
 	},
 	initFilter : function(type,themes,citys){
@@ -49,11 +78,11 @@ var Main = PFT.Util.Class({
 	setLastPos : function(pos){
 		this.__lastPos = pos * 1;
 	},
-	fetchList : function(param){
+	fetchList : function( params ){
 		var lastPos = params.lastPos;
 		var render = this.render;
 		var type = "";
-		var paramKeyword = param.keyword;
+		var paramKeyword = params.keyword;
 		FetchList(params,{
 			loading : () => {
 				if(lastPos==0){
@@ -80,6 +109,7 @@ var Main = PFT.Util.Class({
 				this.trigger('fetchList.empty');
 			},
 			success : (data) => {
+				console.log(data);
 				var that = this;
 				render(lastPos==0 ? "success" : "successMore",data);
 				this.enablePullup();
@@ -124,3 +154,7 @@ var Main = PFT.Util.Class({
 		return html;
 	}
 });
+
+$(function(){
+	new Main();
+})
