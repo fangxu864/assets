@@ -55,8 +55,8 @@ var Main = PFT.Util.Class({
 				success : function(data){
 					this.render(data)
 				},
-				error : function(code,msg){
-					alert(msg);
+				error : function(msg,code){
+					this.container.html('<div style="height:600px; line-height:600px; color:#777; text-align:center">'+msg+'</div>');
 				}
 			})
 		}else{ //新建模式
