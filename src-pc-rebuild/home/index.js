@@ -22,6 +22,10 @@ var Main =  Class({
     }
 });
 
-$(function () {
-    new Main()
-});
+module.exports = (function(){
+    $(function () {
+        new Main()
+    });
+}());
+
+
