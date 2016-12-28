@@ -1,0 +1,37 @@
+
+#introMask{
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	opacity: .8;
+	background: black;
+	transition: all 0.3s ease-out;
+	z-index: 9;
+	/* display: none; */
+}
+
+#introHelper img{
+	position: absolute;
+
+	width: 310px;
+    height: 117px;
+    top: 55px;
+    left: 147px;
+    z-index: 99;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

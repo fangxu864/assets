@@ -30,6 +30,8 @@ var config = require("../../task-webpack/config")({
         "appcenter_paysuccess" : "./src/application-center/pay/success.js",
         //应用中心 - 过期提示
         "appcenter_expiredText" : "./src/application-center/expiredText/index.js",
+        //应用中心 - 上线引导
+        "appcenter_homeIntro" : "./src/application-center/intro/intro-home/index.js"
     },
     output : output,
     plugins : plugins

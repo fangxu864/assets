@@ -5,6 +5,7 @@ var GetListAjax = require("./appList_service.js");
 var loadingHTML = require("COMMON/js/util.loading.pc.js");
 var yingjian_tpl = require("./tpl/yingjian.xtpl");
 // var card_tpl = require("./tpl/cardtpl.xtpl");
+var appIntro = require("./intro-appcenter/index.js");
 
 var AppList = PFT.Util.Class({
 
@@ -79,6 +80,9 @@ var AppList = PFT.Util.Class({
                 //顺序发请求
                 req1().then(req2).then(req3).then(req4).done(function(xhr){
                     $("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
+                    console.log("引导开始");
+                    console.log(appIntro);
+                    // appIntro.init();
                 });
         }
 	},
