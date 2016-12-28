@@ -265,9 +265,9 @@ var AppList = PFT.Util.Class({
         	      //          '<a href="javascript:;" class="btn btn-default-reverse w100">免费试用</a>' +
         			    // '</div>' ;
 
-                    }else{ //其余  //category为undefined的情况
+                    }else{ //其余  //category为undefined的情况和category为1,2,3的情况
 
-                    	if(list[i].category == "4"){//为不是首页的一卡通情况
+                    	if(list[i].category == "4"){//为不是首页的一卡通情况（一卡通要展示summary）
 
     		            	if(list[i].button_type == 0){ //免费试用
     				            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
