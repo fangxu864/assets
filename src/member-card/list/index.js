@@ -2,9 +2,9 @@
  * Created by Administrator on 2016/7/27.
  */
 require("./index.scss");
-
+require("./timeInput/index.scss");
 var Calendar=require("COMMON/modules/calendar");
-var Pagination=require("COMMON/modules/pagination")
+var Pagination=require("COMMON/modules/pagination");
 //切换菜单
 var no_use_btn=document.getElementById("no_use_btn");//取“未使用”按钮
 var searchWrap=document.getElementById("searchWrap");
@@ -85,8 +85,20 @@ for(var i=0;i<stateLi.length;i++){
         // console.log( $("#daoBtn").attr("href"));
 
         $("#searchBtn").on("click",function(){
-            var newhref=href+"&keyword="+$("#searchInp").val()
-            $("#daoBtn").attr("href",newhref);
+            var begin=$("#begintime");
+            var begintime=begin.val();
+            var end=$("#endtime");
+            var endtime=end.val();
+            var searchVal=$("#searchInp").val();
+            if(searchVal!=="会员名称/卡号/手机号/联系人姓名"){
+               begintime="";
+              endtime="";
+                searchVal=searchVal;
+            }else{
+                searchVal="";
+            }
+             var newhref=href+"&keyword="+searchVal+"&begin="+begintime+"&end="+endtime;
+             $("#daoBtn").attr("href",newhref);
         })
     })
 }
