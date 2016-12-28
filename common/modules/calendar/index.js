@@ -43,8 +43,14 @@ Calendar.prototype = {
 		//模板
 		this.tpl = opt.tpl || require("./calendar-tpl.html");
 
-		if(PFT.Util.ParseTemplate){
-			this.template = PFT.Util.ParseTemplate(this.tpl);
+
+
+		if(window["PFT"]){
+			if(PFT.Util){
+				if(PFT.Util.ParseTemplate){
+					this.template = PFT.Util.ParseTemplate(this.tpl);
+				}
+			}
 		}else if(_){
 			this.template = _.template(this.tpl);
 		}

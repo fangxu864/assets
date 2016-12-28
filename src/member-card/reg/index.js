@@ -25,17 +25,13 @@ var Main = PFT.Util.Class({
 		"mouseenter .uploadResultImg" : "onPhotoMouseEnter",
 		"mouseleave .uploadResultImg" : "onPhotoMouseLeave",
 		"click .removePhotoBtn" : "onRemovePhotoBtnClick",
-		"click .saveBtn" : "onFormSubmit"
+		"click .saveBtn" : "onFormSubmit",
+		"click #readwuKa" : "readwuKa"
 	},
 	validator : {},
 	init : function(){
 		this.fid = PFT.Util.UrlParse()["fid"] || "";
 		this.editMode = this.fid!=="undefined" && this.fid!==""; //编辑模式
-
-
-
-
-
 		if(this.editMode){ //如果是编辑模式
 			Query_Info({
 				debug : Debug,
@@ -365,13 +361,27 @@ var Main = PFT.Util.Class({
 
 		},10)
 	},
+	readwuKa : function(e){
+		var helloBossma = document.getElementById("helloBossma");
+		if(!helloBossma){
+			alert("请使用IE浏览器读物理卡号");
+			return false;
+		}
+		if(typeof helloBossma.open!="number" && typeof helloBossma.ICReaderRequest!="string"){
+			alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
+			return false;
+		}
+		helloBossma.open();
+		var val = helloBossma.ICReaderRequest();
+		$("#phy_no_inp").val(val);
+	},
 	onFormSubmit : function(e){
+		e.preventDefault();
 		var tarBtn = $(e.currentTarget);
 		var orignText = tarBtn.text();
 		if(tarBtn.hasClass("disable")) return false;
 
 		var validator = this.validator;
-
 		var canSubmit = true;
 
 		for(var i in validator){
@@ -411,6 +421,7 @@ var Main = PFT.Util.Class({
 
 		Update_Info({
 			cxt : this,
+			params : submitData,
 			loading : function(){
 				tarBtn.text("请稍后...").addClass("disable");
 			},

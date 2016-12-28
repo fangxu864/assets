@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/7/27.
  */
-require("./index.scss")
+require("./index.scss");
 
 var Calendar=require("COMMON/modules/calendar");
 var Pagination=require("COMMON/modules/pagination")
@@ -17,7 +17,6 @@ var no_use_table=$("#no_use_table");
 var nouse_tbody=no_use_table.children("tbody").eq(0);
 var search_keyword_box=document.getElementById("search_keyword_box");
 var search_time_box=document.getElementById("search_time_box");
-
 
 /*日历部分*/
 Date.prototype.Format = function (fmt) { //author: meizz
