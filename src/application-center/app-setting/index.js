@@ -146,6 +146,8 @@ var Main = PFT.Util.Class({
 			return id
 		}else{
 			// console.log("没有id参数");
+			alert("参数错误");
+			window.location = '/new/appcenter_applist.html';
 			return -1
 		}
 	},
