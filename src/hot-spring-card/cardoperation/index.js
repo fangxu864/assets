@@ -32,9 +32,10 @@ var entryCard = function () {
   this.lossConfBtn = $(".m-modal.loss .confirm");
   this.changeConfBtn = $(".m-modal_changeCard .save");
   this.salerInp=$("#saler_inp");
-
+  
   this.bind();
 }
+
 entryCard.prototype = {
   bind: function () {
     var that = this;
@@ -62,7 +63,6 @@ entryCard.prototype = {
 
       that.getCardList(toPage);
     });
-
    // var currentPage=pagination.getCurrentPage();
     //关闭模态框以后重置input框状态
     that.modalBg.on("click", ".close", function () {
@@ -82,11 +82,8 @@ entryCard.prototype = {
 
     //搜索手牌列表
     that.searchBtn.on("click", function (e) {
-      
         that.getCardList(1);
         that.phyInp.val("")
-    
-     
     });
 
     //模态框录入卡号
@@ -181,6 +178,7 @@ entryCard.prototype = {
      that.getCardList(1);
    })
   },
+
   getLid: function (e) {
     var that=this;
     var salerName=$("#saler_inp").attr("data-title");
@@ -402,8 +400,6 @@ entryCard.prototype = {
                   cardInfo += '<td class="crd_status">' + data.status_name + '</td>'
                    + '<td class="crd_paylist">'+data.ordernum+'</td>'
                     + '<td class="crd_operation" data-pn=' + data.physics_no + ' data-vn=' + data.visible_no + ' data-cl=' + data.color + ' data-id='+data.salerid+'  data-preid='+data.id+'>'
-                    + '<td class="crd_paylist"></td>'
-                    + '<td class="crd_operation" >'
                     +'<a class="u-btn_changeCard">换手牌</a>'
                     /* + '<a class="u-btn_paylist">历史账单</a>'*/
                     + ' </td> </tr>';

@@ -4,6 +4,47 @@
             i {
                 font-style: normal;
             }
+            /*radio样式*/
+            
+            input[type="radio"]{
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 0;
+            }
+            #sch_box{
+                display: inline-flex;
+            }
+           #sch_box .u-input_radio{   
+                position: absolute;
+                display: none;
+            }
+            #sch_box .u-input_radio+label{
+                position: relative;
+                display: block;
+                padding: 2px 16px;
+                cursor: pointer;
+                vertical-align: middle;
+            }
+           
+            #sch_box .u-input_radio+label:before{
+                position: absolute;
+                top: 2px;
+                left: 0;
+                border-radius: 50%;
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                content: '';
+                background: url('http://images.12301.cc/icon/check.png')no-repeat;
+                
+            }
+            
+            #sch_box .u-input_radio:checked+label:before{
+                background-position: -14px 0;
+            }
+            
+
             /*录手牌*/
             
             a {
@@ -20,7 +61,7 @@
             .g-hd {
                 border-bottom: 1px solid #E5E5E5;
                 padding-left: 20px;
-                height: 45px;
+                height: 64px;
                 position: relative;
             }
             
@@ -51,7 +92,7 @@
             .g-hd .u-entring_btn {
                 background: #0797D9;
                 position: absolute;
-                top: 6px;
+                top: 17px;
                 right: 10px;
             }
             
@@ -97,10 +138,9 @@
             }
             #saler_inp{
                 width: 300px;
-                margin-top: 11px;
                 border: none;
-                font-size: 19px;
-                //overflow:hidden;
+                font-size: 22px;
+                line-height: 64px;
                 text-overflow:ellipsis;
                 background: #fff;
             }
@@ -122,7 +162,7 @@
                
             }
             .g-content .u-div .clearCardInpBtn{
-                top:77px; 
+                top:95px; 
                 left:282px; 
             }
             .m-modal .u-input_box .clearCardInpBtn{
@@ -135,11 +175,7 @@
                 color:#8c8c8c;
             }
 
-            .g-content .u-div .u-input_radio {
-                vertical-align: middle;
-                margin-left: 17px;
-            }
-            
+     
             .g-index .m-table {
                 margin-top: 10px;
             }
@@ -359,7 +395,20 @@
                 left: -13px;
             }
             //分页
-           /* #paginationWrap {
-            padding: 10px 0 30px 30px;
+            #paginationWrap {
+                float: right;
+                margin: 2px 0;
             }
-            */
+            #paginationWrap .paginationXContainer .navGroup li{
+                width: 30px;
+                height: 30px;
+                border:1px solid #e5e5e5;
+                border-radius: 2px;
+                line-height: 30px;
+            }
+            #paginationWrap .paginationXContainer .navGroup .prevNextBtn.disable, .paginationXContainer .navGroup .prevNextBtn.disable:hover{
+                background: #f3f1f1;
+                border: 1px solid #e5e5e5;
+                color:#9e9e9e;
+            }
+            
