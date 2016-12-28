@@ -6,6 +6,7 @@ var getAppdetail = require("../common/service/appDetail_service.js");
 var Main = PFT.Util.Class({
 
     init : function(){
+        this.initDialog();
         this.getParam();
         this.loadAjax();
     },
@@ -278,9 +279,21 @@ var Main = PFT.Util.Class({
     
     //上级应用提示
     checkIsTop:function (checkData) {
+        this.dialog_topIndex.open();
+        var thisApp = $("#title").text();
+        $("#targetApp").text(thisApp);
+        $("#topApp").text(checkData.topName);
+        $("#topApp2").text(checkData.topName);
+
+        $("#topLink").on("click",function () {
+            window.location.href="appcenter_details.html?module_id="+parseInt(checkData.id);
+        })
+    },
+
+    initDialog:function () {
         var dialog=require("COMMON/modules/dialog-simple");
         //过期模拟部分————————————————————————————————————————————————————————
-        var dialog_topIndex = new dialog({
+        this.dialog_topIndex = new dialog({
             width : 600,
             height : 300,
             closeBtn : true,
@@ -292,18 +305,6 @@ var Main = PFT.Util.Class({
             overlay : true,
             headerHeightMin : 46
         });
-        dialog_topIndex.open();
-
-        var thisApp = $("#title").text();
-        $("#targetApp").text(thisApp);
-        $("#topApp").text(checkData.topName);
-        $("#topApp2").text(checkData.topName);
-
-        $("#topLink").on("click",function () {
-            window.location.href="appcenter_details.html?module_id="+parseInt(checkData.id);
-        })
-
-
 
     },
 
