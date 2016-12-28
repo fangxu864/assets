@@ -142,10 +142,10 @@ var Main = PFT.Util.Class({
 				 			url: 		ajaxUrls.getAccBalance,
 				 			loading: 	{ tag: 'div', id: 'dialogLoading' },
 							success: function(res) {
-								var html = Template.form({ balance: res.data.realWdMoney, fee: fee });
+								var html = Template.form({ balance: res.data, fee: fee });
 			 					$('#' + _this.dom.dialog.accbalance).html(html);
 
-			 					if(_this.compareFloat( res.data.realWdMoney, fee )) {
+			 					if(_this.compareFloat( res.data, fee )) {
 			 						$('#' + _this.dom.dialog.accbalance).append('<div class="t-center"><a id="btnConfirmPay" href="javascript:;" class="btn btn-default">确认支付</a></div>');
 
 			 						$(document).on('click', '#btnConfirmPay', function(){
@@ -154,7 +154,7 @@ var Main = PFT.Util.Class({
 			 								module_id: module_id,
 			 								price_id: price_id,
 			 								success: function ( res ) {
-			 									location.href= 'appcenter_paysuccess.html?ordernum=' + res.data.order_no
+		 										location.href= 'appcenter_paysuccess.html?ordernum=' + res.data.order_no
 			 								}
 			 							});
 			 						})
@@ -191,7 +191,10 @@ var Main = PFT.Util.Class({
 			},
 			loading: { text: '正在处理中' },
 			success: function( res ) {
-				opts.success( res );
+				opts.success && opts.success( res );
+			},
+			error: function( res ) {
+				opts.error && opts.error( res );
 			}
 		});
 	},
@@ -263,6 +266,9 @@ var Main = PFT.Util.Class({
 			 						}
 			 					}
 			 				});
+			 			},
+			 			error: function( res ) {
+			 				dialogQrcode.close();
 			 			}
 			 		})
 		 		// }
@@ -346,7 +352,8 @@ var Main = PFT.Util.Class({
 				if(res.code == 200 || res.code == 'success') {
 					opts.success && opts.success( res );
 				} else {
-					// alert( res.msg );
+					alert( res.msg );
+					opts.error && opts.error( res );
 				}
 			},
 			serverError: function( xhr, txt ) {
@@ -377,7 +384,8 @@ var Main = PFT.Util.Class({
 				if(res.code == 200) {
 					opts.success && opts.success( res );
 				} else {
-					// alert( res.msg );
+					alert( res.msg );
+					opts.error && opts.error( res );
 				}
 			},
 			serverError: function( xhr, txt ) {

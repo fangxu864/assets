@@ -1,23 +1,28 @@
-	
 
 
-var GetListAjax = require("./appList_service.js"); 
+
+var GetListAjax = require("./appList_service.js");
 var loadingHTML = require("COMMON/js/util.loading.pc.js");
 var yingjian_tpl = require("./tpl/yingjian.xtpl");
 // var card_tpl = require("./tpl/cardtpl.xtpl");
 
 var AppList = PFT.Util.Class({
-		
+
 	container : "#section-con",
 
 	EVENTS : {
 		"click .tab-list li" : "onTabBtnClick"
 	},
-			
+
 	init : function(){
 
 		var that = this;
-		
+
+        var url = window.location.href,
+            urlArr = url.split('?'),
+            isCategory = urlArr.length > 1 ? true : false,
+            catId = isCategory ? urlArr[1].split('=')[1] : null;
+
 		this.tempListBox = "";
 		this.tempIndexListBox = ""; //首页缓存
 		this.tempNewOnlineListBox = ""; //新上线缓存
@@ -28,7 +33,7 @@ var AppList = PFT.Util.Class({
 			return that.getAppList(0,1);  //首页，核心功能
 		};
 		var req2 = function(){
-			return that.getAppList(0,2);  //首页，营销推广	
+			return that.getAppList(0,2);  //首页，营销推广
 		};
 		var req3 = function(){
 			return that.getAppList(0,3);  //首页，同业对接
@@ -40,20 +45,50 @@ var AppList = PFT.Util.Class({
 		// 	return that.getAppList(0,5);  //首页，智能硬件
 		// };
 
-		//顺序发请求
-		req1().then(req2).then(req3).then(req4).done(function(xhr){
-			$("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
-		});
-
-
+        switch(catId) {
+            case '1':
+                //分类应用数量不多，暂时把tab切换隐藏
+                $('#tab').hide();
+                req1().done(function(xhr){
+                    $("#tabCon").html(that.tempIndexListBox);
+                });
+                break;
+            case '2':
+                $('#tab').hide();
+                req2().done(function(xhr){
+                    $("#tabCon").html(that.tempIndexListBox);
+                });
+                break;
+            case '3':
+                $('#tab').hide();
+                req3().done(function(xhr){
+                    $("#tabCon").html(that.tempIndexListBox);
+                });
+                break;
+            case '4':
+                $('#tab').hide();
+                req4().done(function(xhr){
+                    $("#tabCon").html(that.tempIndexListBox);
+                });
+                break;
+            case '0':
+                $('#tab').hide();
+                $("#tabCon").html(yingjian_tpl);
+                break;
+            default:
+                //顺序发请求
+                req1().then(req2).then(req3).then(req4).done(function(xhr){
+                    $("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
+                });
+        }
 	},
 
 
-	getAppList : function(type,category){    
+	getAppList : function(type,category){
 
 		var that = this;
 
-		var xhr = GetListAjax({ 
+		var xhr = GetListAjax({
 
 			type : type,
 
@@ -66,9 +101,9 @@ var AppList = PFT.Util.Class({
 				    colspan : 5,
 				    className : "loading"
 				});
-				$("#tabCon").html(loadingHtml);	
+				$("#tabCon").html(loadingHtml);
 
-			},	
+			},
 
 			complete : function(){
 
@@ -207,16 +242,16 @@ var AppList = PFT.Util.Class({
 		if( type == 3 && category == undefined){
 			listTitle = "已开通";
 			ulClassName = "app-list1";
-		}           
+		}
 
         var temp = "";
 
         	temp +=
             //父ul
-			'<div class="tab-con">' + 
+			'<div class="tab-con">' +
                 '<h4 class="app-class mb30">'+listTitle+'</h4>' +
                 '<div class="app-list-wrap">' +
-                    '<ul class="app-list '+ ulClassName +' clearfix">';    
+                    '<ul class="app-list '+ ulClassName +' clearfix">';
 
 
         //子li
@@ -226,7 +261,7 @@ var AppList = PFT.Util.Class({
         	var open_num = list[i].open_num;
         	var icon_url = list[i].icon || "http://static.12301.cc/assets/build/images/appcenter/icons/default.png";
 
-            temp += 
+            temp +=
 
             '<li>' +
                 '<div class="app-item">' +
@@ -252,11 +287,11 @@ var AppList = PFT.Util.Class({
                     	}else if(list[i].button_type == 2){ //使用
                     		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
         		            '<div class="app-btn-w">' +
-        		               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
+        		               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
         				    '</div>' ;
                     	}
 
-        	            
+
 
                     }else if(category == 5){ //智能硬件用静态加，在45行
 
@@ -282,7 +317,7 @@ var AppList = PFT.Util.Class({
     		            	}else if(list[i].button_type == 2){ //使用
     		            		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
     				            '<div class="app-btn-w">' +
-    				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
+    				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
     						    '</div>' ;
     		            	}
 
@@ -306,18 +341,18 @@ var AppList = PFT.Util.Class({
 						               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
 								    '</div>' ;
 								}
-			        		    
+
 							}else if(list[i].button_type == 2){//使用
 			        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'到期</span></div>' +
 					            '<div class="app-btn-w">' +
-					               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + '<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' +
+					               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
 							}
 
-                    	}						
+                    	}
 
 
-                    }    
+                    }
 
 
 	            temp += '</div>' +//app-right结束标签
@@ -338,7 +373,7 @@ var AppList = PFT.Util.Class({
 						temp += '<i class="ico-expired"></i>'+
 							'</li>' ;
                 	}
-                }       
+                }
 
         }
 
@@ -358,8 +393,8 @@ var AppList = PFT.Util.Class({
         	this.tempUnOpendListBox += temp;
         }else if(type == 3 && category == undefined){ //已开通
         	this.tempOpendListBox += temp;
-        }		
-        
+        }
+
 
 
 	},

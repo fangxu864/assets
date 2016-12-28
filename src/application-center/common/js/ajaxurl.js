@@ -35,7 +35,7 @@ module.exports = {
     //支付 - 获取当前时间段对应的某模块资费信息
     getModeList: '/r/AppCenter_ModulePayment/getPriceInfo',
     //支付 - 使用平台账户余额支付
-    getAccBalance: '/r/Finance_WithDraw/withDrawFre',
+    getAccBalance: '/r/AppCenter_ModulePayment/getBalance',
     //支付 - 使用平台账户余额支付
     payViaAccBalance: '/r/AppCenter_ModulePayment/payInPlatform',
     //支付 - 微信二维码生成
