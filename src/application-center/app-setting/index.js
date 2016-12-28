@@ -119,7 +119,7 @@ var Main = PFT.Util.Class({
 				}
 			}
 		});
-		//关联推荐
+		//上级模块
 		new Checkbox({
 			selector: '#parentApp .checkbox',
 			callbacks: {
