@@ -119,6 +119,19 @@ var Main = PFT.Util.Class({
 				}
 			}
 		});
+		//关联推荐
+		new Checkbox({
+			selector: '#parentApp .checkbox',
+			callbacks: {
+				recommendLimited: function (cxt) {
+					// console.log(this.className)
+					if($('#parentApp').children('.checked').length > 1) {
+						cxt.unCheck(this);
+						alert('上级模块只能有一个');
+					}
+				}
+			}
+		});
 
 
 	},
@@ -147,13 +160,16 @@ var Main = PFT.Util.Class({
 		if(freeDays.length == 0){ //不免费的情况
 			freeDays = 0;
 		}
+		//获取推荐模块的id数组
 		var linkModule = [];
 		var labelListChecked = $("#recommendApp label.checked");
 		labelListChecked.each(function(){
 			var checkedId = $(this).attr("data-id");
 			linkModule.push(checkedId);
 		});
-		// console.log(linkModule);
+		//获取父模块的id
+		var parentListChecked = $("#parentApp label.checked");
+		var parentId = parentListChecked.attr("data-id");
 
 		PFT.Util.Ajax( updateModuleAjaxUrl , {
 			params: {
@@ -161,6 +177,7 @@ var Main = PFT.Util.Class({
 				summary : summary,
 				introduce : introduce,
 				free_days : freeDays,
+				parent : parentId,
 				link_module : linkModule
 			},
 			type:"POST",
@@ -230,7 +247,10 @@ var Main = PFT.Util.Class({
 
 			}
 		}
+
+		$("#parentApp").append(temp);
 		$("#recommendApp").append(temp);
+
 
 	},
 
@@ -241,7 +261,8 @@ var Main = PFT.Util.Class({
 			introduce = data.introduce,
 			summary = data.summary,
 			name = data.name,
-			linkInfo = data.link_info;  //关联模块数组
+			linkInfo = data.link_info,  //关联模块数组
+			parent = data.parent;
 		var temp = "";
 
 		$("#moduleName").html(name);
@@ -255,7 +276,7 @@ var Main = PFT.Util.Class({
 			$("#chkboxFreeTrial").addClass('checked');
 			$("#daysFreeTrial").prop("disabled",false).val(free_day);
 		}
-
+		//勾选关联推荐
 		for(var i = 0;i<linkInfo.length;i++){
 			var nowid = linkInfo[i].module_id;
 			var nowlabel = $('#recommendApp label[data-id='+nowid+']');
@@ -263,6 +284,10 @@ var Main = PFT.Util.Class({
 				nowlabel.addClass("checked");
 			}
 		}
+		//勾选上级模块
+		var parentNowId = parent;
+		var parentNowLabel = $('#parentApp label[data-id='+parentNowId+']');
+		parentNowLabel.addClass("checked");
 
 	}
 
