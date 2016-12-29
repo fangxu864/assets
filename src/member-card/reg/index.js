@@ -417,7 +417,11 @@ var Main = PFT.Util.Class({
 			notice_type : $("#sendTypeBox").find("input:checked").val()
 		};
 
-		if(this.fid) submitData["fid"] = this.fid;
+		if(this.fid){
+			submitData["card"] = 0;
+		}else{
+			submitData["card"] = 1;
+		}
 
 		Update_Info({
 			cxt : this,
