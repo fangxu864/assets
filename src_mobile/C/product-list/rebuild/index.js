@@ -14,6 +14,7 @@ var CityData = require("COMMON/js/config.province.city.data2");
 var Main = PFT.Util.Class({
 	__lastPos : 0,
 	__hasInit : false,
+	template  : ItemTpl,
 	init : function(){
 		var that = this;
 		this.listUl = $("#scrollInerCon");
@@ -28,15 +29,20 @@ var Main = PFT.Util.Class({
 
 		this.fetchList( this.params , {
 			complete: function(res){
-				if(that.__hasInit) return false;
+				if( that.__hasInit ) return false;
+
 				that.__hasInit = true;
-				var res = res || {};
-				var code = res.code;
-				var data = res.data;
-				if(code!==200) return false;
-				var citys = data.citys;
-				var themes = data.themes;
-				var type = data.type;
+
+				var res = res || {},
+					code = res.code,
+					data = res.data;
+
+				if( code!==200 ) return false;
+
+				var citys = data.citys,
+					themes = data.themes,
+					type = data.type;
+
 				that.initFilter(type,themes,citys);
 				console.log(res)
 			}
@@ -129,12 +135,13 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
-	render : function(type,data){
+	render : function( type , data ){
 		var html = "";
 		var template = this.template;
 		var listUl = this.listUl;
 		if(type=="success" || type=="successMore"){
-			html = template(data);
+			console.log(data)
+			html = template( data );
 			if(type=="success"){
 				listUl.html(html);
 			}else if(type=="successMore"){
