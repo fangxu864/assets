@@ -1,0 +1,17 @@
+#partnerDynamics_module{
+  #partnerList{
+    li{
+      height: 34px;
+      line-height: 34px;
+      margin-left: 20px;
+      margin-right: 28px;
+      border-bottom: 1px solid map_get($color,border);
+      overflow: hidden;
+      a{
+        float: right;
+        text-decoration: none;
+        clear: right;
+      }
+    }
+  }
+}

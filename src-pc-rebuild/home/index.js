@@ -24,7 +24,7 @@ var Main =  Class({
 
 module.exports = (function(){
     $(function () {
-        new Main()
+        new Main();
     });
 }());
 

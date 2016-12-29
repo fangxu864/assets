@@ -1,0 +1,15 @@
+<div id="markertingApp_module" class="container">
+    <div class="title">营销应用</div>
+    <div class="content">
+        <ul id="appList">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
