@@ -836,6 +836,10 @@
 
                 //return console.log(submitData);
 
+                //从localStorage里取parentId 如果存在此值，表明当前页面是用户从分享链接进来的，parentId即为分享者的id
+                var parentId = window.localStorage.getItem("PFT-MALL-C-FENX");
+                if(parentId) submitData["parentId"] = parentId;
+
 
 
                 //开始提交数据
