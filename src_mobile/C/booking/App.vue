@@ -303,7 +303,7 @@
                         title : title,
                         desc : title,
                         //imgUrl : data.imgpath,  暂时还没有产品图片这个字段，需要后端提供
-                        link : window.location.href
+                        link : GetWXShareLinkUrl()
                     });
 
 
