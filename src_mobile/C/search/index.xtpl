@@ -9,8 +9,8 @@
                     <span class="title"><%=item.title%></span>
                 </div>
                 <div class="col rt">
-                    <span class="jsprice"><i class="yen">¥</i><em class="num"><%=item.jsprice%></em></span>
-                    <span class="tprice">¥<%=item.tprice%></span>
+                    <span class="jsprice" growing-ignore="true"><i class="yen">¥</i><em class="num"><%=item.jsprice%></em></span>
+                    <span class="tprice" growing-ignore="true">¥<%=item.tprice%></span>
                 </div>
             </div>
         </a>

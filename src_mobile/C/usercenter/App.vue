@@ -18,7 +18,7 @@
                     <div>
                         <i class="icon-ecshop-application icon-zhanghaoyue"></i>
                         <span class="t">帐户余额</span>
-                        <i class="yen">&yen;</i><em class="num" v-text="info.remainMoney"></em>
+                        <i class="yen" growing-ignore="true">&yen;</i><em class="num" v-text="info.remainMoney"></em>
                     </div>
 
                 </div>

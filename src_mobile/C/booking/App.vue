@@ -116,7 +116,7 @@
             </input-line>
         </div>
         <div class="totalMoneyFixBar">
-            <div class="con">
+            <div class="con" growing-ignore="true">
                 总金额：<span style="color:#f37138"><i class="yen">&yen;</i><span style="font-size:0.4rem;" v-text="totalMoney"></span></span>
             </div>
             <div id="submitBtn" @click="onSubmitBtnClick" class="submitBtn">提交订单</div>
