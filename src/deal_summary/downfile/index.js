@@ -31,10 +31,11 @@ DownFile.prototype = {
      * @method                   判断下载类型，是否可以直接下载还是需要进入下载中心进行下载
      * @param params    obj      下载文件时需要传输的参数
      * @param type      string   判断下载类型时需要传输的特定数字
-     * @originUrl      string   下载接口
+     * @param originUrl string   下载接口
      * return                     1:直接请求原来的下载
      *                            2:弹出错误
      *                            3:提示用户后台正在打包压缩需下载的文件，此时可引导用户进入下载中心的页面
+     *                            4:后台已生成过该文件，引导用户去下载中心下载
      */
     judgeType : function ( params , type ,originUrl ) {
         var _this = this ;
@@ -54,13 +55,18 @@ DownFile.prototype = {
                 var code = res.code.toString();
                 switch (code) {
                     case "1" :
-                        var downUrl = originUrl + "?" + _this.JsonStringify(params) ;
+                        var downUrl = originUrl + "?" + $.param(params) ;
                         _this.outExcel(downUrl);
                         break ;
                     case "2" :
                         alert(res.msg);
                         break ;
                     case "3" :
+                        $("#to_downcenter_dialog .line1 p").text("您好，由于所下载的文件容量较大，已提交至后台进行打包压缩，压缩完毕后可去应用中心进行下载");
+                        to_downcenter_dialog.open();
+                        break ;
+                    case "4" :
+                        $("#to_downcenter_dialog .line1 p").text("后台已为您生成过该文件，请去下载中心进行下载");
                         to_downcenter_dialog.open();
                         break ;
                     default :
@@ -80,9 +86,11 @@ DownFile.prototype = {
         });
     },
 
+
+
     /**
      * @method                   导出excel
-     * @param downloadUrl
+     * @param downloadUrl        下载url
      */
     outExcel : function (downloadUrl) {
         var iframeName = "iframe" + new Date().getTime();
@@ -90,20 +98,9 @@ DownFile.prototype = {
         window.open(downloadUrl, iframeName);
     },
 
-    /**
-     * @method                   对象序列化
-     * @param obj                json对象
-     * @returns {string}
-     */
-    JsonStringify:function (obj) {
-        var str = "";
-        var arr = [];
-        for(var key in obj){
-            str = key + "=" + obj[key];
-            arr.push(str);
-        }
-        return arr.join("&");
-    }
+
+
+
 
 };
 
