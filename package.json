@@ -129,7 +129,12 @@
     "deal_summary-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/deal_summary/webpack.config.js ",
     "deal_summary-test": "set NODE_ENV=test && webpack --config ./src/deal_summary/webpack.config.js",
     "deal_summary-release": "set NODE_ENV=release && webpack --config ./src/deal_summary/webpack.config.js",
-    "deal_summary-production": "set NODE_ENV=production && webpack --config ./src/deal_summary/webpack.config.js"
+    "deal_summary-production": "set NODE_ENV=production && webpack --config ./src/deal_summary/webpack.config.js",
+
+    "download_center-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/download_center/webpack.config.js ",
+    "download_center-test": "set NODE_ENV=test && webpack --config ./src/download_center/webpack.config.js",
+    "download_center-release": "set NODE_ENV=release && webpack --config ./src/download_center/webpack.config.js",
+    "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js"
   },
   "repository": {
     "type": "git",

@@ -10,6 +10,10 @@ var Pagination = require("COMMON/modules/pagination");
 var Select = require("COMMON/modules/select");
 require("COMMON/modules/DragConOver")($);
 
+var Down = require("./downfile");
+var DownFile = new Down();
+
+
 
 
 var DealSum={
@@ -383,6 +387,19 @@ var DealSum={
 		//导出
 		this.toExcel.on("click",function () {
 
+			// $.ajax({
+			// 	url : "/r/MassData_ExportListen/Judge" ,
+			// 	type : "POST" ,
+			// 	data : {
+			// 		"type" : 1
+			// 	} ,
+			// 	success : function (res) {
+			// 		console.log(res)
+			// 	}
+            //
+			// });
+
+
 			var paramsArr=[];
 			var params={
 				"search_type": _this.dealType,
@@ -390,15 +407,18 @@ var DealSum={
 				"etime":_this.etime_inp.val(),
 				"page":_this.present_page,
 				"searchFid":_this.trader_inp.attr("data-id")||"",
-				"flag":1
+				"flag":1 ,
 			};
-			for(var key in params){
-				var str = key + "=" + params[key];
-				paramsArr.push(str);
-			}
 
-			var url='/r/Finance_TradeRecord/exportExcelTrade/?'+paramsArr.join("&");
-			_this.outExcel(url)
+			DownFile.judgeType(params , "1" ,'/r/Finance_TradeRecord/exportExcelTrade/');
+
+			// for(var key in params){
+			// 	var str = key + "=" + params[key];
+			// 	paramsArr.push(str);
+			// }
+            //
+			// var url='/r/Finance_TradeRecord/exportExcelTrade/?'+paramsArr.join("&");
+			// _this.outExcel(url)
 		})
 	},
 	//处理上表数据
