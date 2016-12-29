@@ -63,6 +63,10 @@ entryCard.prototype = {
 
       that.getCardList(toPage);
     });
+    //更换产品
+    $("#arrowDown").on("click",function(){
+            $("#saler_inp").click();
+        })
    // var currentPage=pagination.getCurrentPage();
     //关闭模态框以后重置input框状态
     that.modalBg.on("click", ".close", function () {
