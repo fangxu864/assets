@@ -303,7 +303,7 @@
                         title : title,
                         desc : title,
                         //imgUrl : data.imgpath,  暂时还没有产品图片这个字段，需要后端提供
-                        link : window.location.href
+                        link : GetWXShareLinkUrl()
                     });
 
 
@@ -326,8 +326,11 @@
                     $("#pui-m-alertBox").find(".alertFoot").trigger("click");
                     $("#mobileInp").focus();
                 }else{
-                    PFT.Util.Ajax("/r/mall_Member/resellerUseSankeAccountLogin/",{
+                    PFT.Util.Ajax("/r/Mall_Member/resellerUseSankeAccountLogin/",{
                         type : "post",
+                        params : {
+                            token : PFT.Util.getToken()
+                        },
                         loading : function(){
                             tarBtn.text("正在请求微信授权，请稍后...");
                         },
@@ -340,7 +343,7 @@
                             var data = res.data;
                             //"code":401,200,  200:成功；401：非法访问/请换号码登录
                             if(code==200){
-                                window.location.href = data.url;
+                                window.location.href = "http://" + data.url;
                             }else if(code==401){
                                 Alert(msg);
                             }
@@ -832,6 +835,10 @@
                 }
 
                 //return console.log(submitData);
+
+                //从localStorage里取parentId 如果存在此值，表明当前页面是用户从分享链接进来的，parentId即为分享者的id
+                var parentId = window.localStorage.getItem("PFT-MALL-C-FENX");
+                if(parentId) submitData["parentId"] = parentId;
 
 
 
