@@ -11,7 +11,8 @@ var Update_Info = require("SERVICE/MemcardReg/Update_Info");
 var Loading = require("COMMON/js/util.loading.pc.js");
 var ProvCity = require("COMMON/Components/ProvCitySelect");
 var Fileupload = require("COMMON/modules/fileupload");
-var Validate = require("COMMON/Components/Validator");
+var Validate = require("COMMON/Components/Validator/v1.0");
+
 var Tpl = {
 	index : PFT.Util.ParseTemplate(require("./Tpl/index.xtpl"))
 };
@@ -30,6 +31,7 @@ var Main = PFT.Util.Class({
 	},
 	validator : {},
 	init : function(){
+
 		this.fid = PFT.Util.UrlParse()["fid"] || "";
 		this.editMode = this.fid!=="undefined" && this.fid!==""; //编辑模式
 		if(this.editMode){ //如果是编辑模式
