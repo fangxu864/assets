@@ -1,6 +1,12 @@
 $color : (
    orange: #f07645,
    border: #e7e7e7,
+   green: #40bc44,
+   lightOrange: #f68b01,
+   gray: #92a0ab,
+   blue: #0797d9,
+   lightBlue : #e4f5fd,
+   red: #e11d2c,
 );
 
 //主功能模块
@@ -17,15 +23,22 @@ $color : (
 @import "side_box/systemNotice_module/index.scss";
 @import "side_box/ad_module/index.scss";
 
+
+
+//基本布局的通用类
 *{
   margin: 0;
   padding: 0;
   list-style: none;
 }
+em{
+  font-style: normal;
+}
 
 #pft_right_box{
   font-family: "微软雅黑";
   color: #6c7882;
+  font-size: 14px;
   //Main_________________________________________________
   .title{
     line-height: 25px;
@@ -34,6 +47,9 @@ $color : (
     padding: 14px 0;
     border-bottom: 1px solid map-get($color,border);
     overflow: hidden;
+    i{
+      font-size: 18px;
+    }
   }
 
   .content{

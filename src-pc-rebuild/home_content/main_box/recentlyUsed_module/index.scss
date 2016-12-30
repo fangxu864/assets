@@ -4,6 +4,7 @@
     flex-wrap: wrap;
     justify-content: space-around;
     li{
+      box-sizing: border-box;
       height: 56px;
       width: 198px;
       border: 1px solid map-get($color,border);
