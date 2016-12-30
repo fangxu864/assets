@@ -39,6 +39,10 @@ em{
   font-family: "微软雅黑";
   color: #6c7882;
   font-size: 14px;
+
+  .red{
+    color: map_get($color,red);
+  }
   //Main_________________________________________________
   .title{
     line-height: 25px;
@@ -49,6 +53,7 @@ em{
     overflow: hidden;
     i{
       font-size: 18px;
+      margin-right: 5px;
     }
   }
 
@@ -85,7 +90,16 @@ em{
     height: 42px;
     line-height: 42px;
     border-bottom: 1px solid map-get($color,border);
-    text-align: center;
+    padding: 0 13px;
+    i{
+      font-size: 16px;
+      margin-right: 3px;
+    }
+    a{
+      float: right;
+      text-decoration: none;
+      color: map_get($color,blue);
+    }
   }
 
   .container_side{

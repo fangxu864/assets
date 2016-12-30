@@ -1,5 +1,8 @@
 <div id="markertingApp_module" class="container">
-    <div class="title">营销应用</div>
+    <div class="title">
+        <i class="icon-Platform-Prompt icon-yingxiaoyingyong"></i>
+        营销应用
+    </div>
     <div class="content">
         <ul id="appList" class="app-list">
             <li class="app-item">
@@ -84,20 +87,7 @@
                 </div>
                 <i class="ico-expired"></i>
             </li>
-            <li class="app-item">
-                <div class="app-left">
-                    <i class="ui-app-ico"></i>
-                    <p class="app-open"><span class="app-usernum c-warning">8888</span>用户<br>已开通</p>
-                </div>
-                <div class="app-right">
-                    <div class="text-ellipsis"> <strong class="app-name">微商城</strong> </div>
-                    <div class="text-ellipsis"> <span class="app-price">222元/季节</span></div>
-                    <div class="app-btn-w">
-                        <a href="javascript:;" class="btn btn-reverse w100">开通</a>
-                    </div>
-                </div>
-                <i class="ico-expired"></i>
-            </li>
+
         </ul>
     </div>
 </div>

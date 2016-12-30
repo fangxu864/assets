@@ -1,5 +1,8 @@
 <div id="wxData_module" class="container">
-    <div class="title">微商城运营数据</div>
+    <div class="title">
+        <i class="icon-Platform-Prompt icon-weishangchengyunyingshuju"></i>
+        微商城运营数据
+    </div>
     <div class="content">
         <h1>暂无数据填充~</h1>
     </div>

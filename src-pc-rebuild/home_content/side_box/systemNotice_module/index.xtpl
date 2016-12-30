@@ -1,5 +1,9 @@
 <div id="systemNotice_module" class="container_side">
-    <div class="title_side">系统通知</div>
+    <div class="title_side">
+        <i class="icon-Platform-Prompt icon-xitongtongzhi"></i>
+        <span>系统通知</span>
+        <a href="">更多></a>
+    </div>
     <div>
         <ul id="systemList">
             <ul id="updataList">
@@ -13,11 +17,11 @@
                 </li>
                 <li>
                     <em>【绑定银行卡】</em>
-                    <span>国庆期间骑马啊啊</span>
+                    <span>国庆期间骑马啊啊asd asd asd </span>
                 </li>
                 <li>
                     <em>【绑定银行卡】</em>
-                    <span>国庆期间骑马啊啊</span>
+                    <span>国庆期间骑马啊啊asds adsa dsad as d</span>
                 </li>
                 <li>
                     <em>【绑定银行卡】</em>

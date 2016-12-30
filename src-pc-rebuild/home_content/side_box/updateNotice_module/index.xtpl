@@ -1,5 +1,9 @@
 <div id="updateNotice_module" class="container_side">
-    <div class="title_side">平台升级公告</div>
+    <div class="title_side">
+        <i class="icon-Platform-Prompt icon-shengjigonggao"></i>
+        <span>平台升级公告</span>
+        <a href="">更多></a>
+    </div>
     <div>
         <ul id="updataList">
             <li>

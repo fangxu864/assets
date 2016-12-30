@@ -1,3 +1,5 @@
+@import "app";
+@import "_base";
 #markertingApp_module{
   background: white;
   #appList{
@@ -5,11 +7,17 @@
     flex-wrap: wrap;
     justify-content: space-around;
     li{
-      height: 56px;
       width: 198px;
-      border: 1px solid map-get($color,border);
+      //border: 1px solid map-get($color,border);
       display: inline-block;
       margin: 0px 13px 22px 13px;
+      a{
+        color:map_get($color,blue);
+        text-decoration: none;
+        &:hover{
+          color: #fff;
+        }
+      }
     }
   }
   

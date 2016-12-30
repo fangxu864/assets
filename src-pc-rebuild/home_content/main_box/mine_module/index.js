@@ -14,6 +14,13 @@ var mine_module=Class({
     init:function(){
         console.log("mine load sucessfully");
          $("#main_box").append(mine_xtpl);
+        var width = $("#mine_module").width();
+        if(width < 688){
+            $("#personalImg").hide();
+        }
+        if(width >= 688){
+            $("#personalImg").show();
+        }
          this.hidePersonalImg()
     },
     hidePersonalImg:function () {
