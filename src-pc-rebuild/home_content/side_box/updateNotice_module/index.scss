@@ -1,0 +1,12 @@
+#updateNotice_module{
+  #updataList{
+    li{
+      height: 34px;
+      line-height: 34px;
+      padding-left: 20px;
+      padding-right: 28px;
+      border-bottom: 1px solid map_get($color,border);
+      overflow: hidden;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div id="recentlyUsed_module" class="container">
+    <div class="title">最近使用</div>
+    <div class="content">
+        <ul id="recentList">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>

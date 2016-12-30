@@ -7,10 +7,11 @@ var pft_left_tpl = require("./index.xtpl");
 var Pft_left = Class({
     container : "#pft_left_box",
     init : function () {
-        $(this.container).html(pft_left_tpl);
-        $(".pft_left_box .menu_box").css("height" , $(".pft_left_box").height() - 60 + "px");
+        var _this = this ;
+        $(_this.container).html(pft_left_tpl);
+        $(_this.container).find(".menu_box").css("height" , $(_this.container).height() - 60 + "px");
         $(window).on("resize",function () {
-            $(".pft_left_box .menu_box").css("height" , $(".pft_left_box").height() - 60 + "px");
+            $(_this.container).find(".menu_box").css("height" , $(_this.container).height() - 60 + "px");
         })
     },
     EVENTS :{

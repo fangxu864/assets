@@ -1,0 +1,56 @@
+<div id="productionDynamics_module" class="container_side">
+    <div class="title_side">7天产品动态</div>
+    <div>
+        <ul id="productionList">
+            <li>
+                <em>36个</em><em>新产品</em><em>上架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>25个</em><em>产品</em><em>下架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>36个</em><em>新产品</em><em>上架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>25个</em><em>产品</em><em>下架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>36个</em><em>新产品</em><em>上架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>25个</em><em>产品</em><em>下架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>36个</em><em>新产品</em><em>上架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>25个</em><em>产品</em><em>下架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>36个</em><em>新产品</em><em>上架</em>
+                <a href="">点击查看</a>
+            </li>
+
+            <li>
+                <em>25个</em><em>产品</em><em>下架</em>
+                <a href="">点击查看</a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<div id="systemNotice_module" class="container_side">
+    <div class="title_side">系统通知</div>
+    <div>
+        <ul id="systemList">
+            <ul id="updataList">
+                <li>
+                    <em>【重要通知】</em>
+                    <span>国庆期间骑马啊啊</span>
+                </li>
+                <li>
+                    <em>【体验版】</em>
+                    <span>国庆期间骑马啊啊</span>
+                </li>
+                <li>
+                    <em>【绑定银行卡】</em>
+                    <span>国庆期间骑马啊啊</span>
+                </li>
+                <li>
+                    <em>【绑定银行卡】</em>
+                    <span>国庆期间骑马啊啊</span>
+                </li>
+                <li>
+                    <em>【绑定银行卡】</em>
+                    <span>国庆期间骑马啊啊</span>
+                </li>
+            </ul>
+        </ul>
+    </div>
+</div>

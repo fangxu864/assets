@@ -1,0 +1,14 @@
+<div id="mine_module" class="container">
+    <div class="personalInfomation">
+        <img  alt="">
+        <div class="information">
+            <div>慢慢的店铺</div>
+            <div>慢慢/133333333333</div>
+            <div>异常待处理订单 <em>13</em></div>
+        </div>
+    </div>
+    <div class="remainMoney">
+        <span>账号余额： <em>$330.00</em>元</span>
+        <span>充值</span>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+#mine_module{
+  padding: 0 26px;
+  .personalInfomation{
+    padding: 26px 0;
+    border-bottom: 1px solid map-get($color,border);
+    overflow: hidden;
+    img{
+      float: left;
+      width: 75px;
+      height: 75px;
+      background: indianred;
+      display: inline-block;
+      border-radius: 100%;
+    }
+    .information{
+      float: left;
+      margin-left: 30px;
+      display: inline-block;
+    }
+  }
+
+  .remainMoney{
+    clear: left;
+    height: 30px;
+    line-height: 30px;
+  }
+}
