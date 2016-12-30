@@ -14,65 +14,112 @@ var Dialog=require("./dialog/dialog.js");
 var ParseTemplate=require("COMMON/js/util.parseTemplate.js");
 //引入tpl
 var loopTip_tpl=require("./loopTip/loopTip.xtpl");
-loopTip_tpl=ParseTemplate(loopTip_tpl)({data:{"host":location.host}});
-
 
 var HeaderWarning={
+    /**
+     * @method 初始化
+     * @returns {boolean}
+     */
     init:function () {
         var _this=this;
-        var judge_of_overTime=$("#judge_of_overTime").val();  //-1(已过期),0(临近过期),1未过期
-        this.judge_of_overTime=judge_of_overTime;
-        var judge_of_dtype=$("#judge_of_dtype").val();  //6会员
-        // var judge_of_overTime=0;  //-1(已过期),0(临近过期),1未过期
-        // var isloopTip=judge_of_overTime=="-1"||judge_of_overTime=="0"?true:false;
-        var isloopTip=judge_of_overTime=="0"||judge_of_dtype=="6"?true:false;
-        // var isloopTip=true;   //过渡期
-        var isDialog=judge_of_dtype=="6" ? false : true;
+        var isLoopTip = this.judge_of_overTime == "0" ? true : false ;
+        var isDialog = this.judge_of_dtype == "6" ? false : true;
         //充值页面不要弹框
-        if(/recharge\.html$/.test(location.href)){
+        if( /recharge\.html$/.test(location.href) ){
             isDialog = false ;
         }
-        if(isloopTip){
-            _this.loopTip();
+
+        //走马灯的判断
+        if( _this.judge_of_overTime == 0 || /201|202|203/.test(_this.judge_of_account_balance) ){
+            //如果账户临近过期
+            if(_this.judge_of_overTime == 0){
+                //平台续费html
+                var xufei_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/new/renewwarning.html">续费</a>'}});
+                _this.loopTip(xufei_tpl , "0")
+            }
+            //如果账户余额接近不足
+            else if(/201|202|203/.test(_this.judge_of_account_balance)){
+                //平台充值的html
+                var charge_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/recharge.html">充值</a>'}});
+                _this.loopTip(charge_tpl , _this.judge_of_account_balance)
+            }
         }
-        if(isDialog){
-            // _this.removeCookie("isDialog");
-            if(judge_of_overTime=="0"){                   //
-            // if(judge_of_overTime=="0"||judge_of_overTime=="-1"){         //过渡期
-                var isDialog_cookie=_this.getCookie("isDialog");
-                if(isDialog_cookie=="false") return false;
+
+        //弹框提示的判断
+        if(false){
+            if(this.judge_of_overTime == "0"){
+                var isDialog_cookie = _this.getCookie("isDialog");
+                if(isDialog_cookie == "false") return false;
                 _this.setCookie("isDialog",false,1000*60*60*12)
             }
-            _this.dialog=new Dialog;
+            _this.dialog = new Dialog;
             _this.dialog.open();
-            _this.dialog.show_dialog_con(_this.dialogCon[judge_of_overTime]);
+            _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
         }
     },
-    loopTip:function () {
+
+    /**
+     * @property判断账户是否过期
+     * -1 已过期
+     * 0  临近过期
+     * 1  未过期
+     */
+    judge_of_overTime : $("#judge_of_overTime").val() ,
+
+
+    /**
+     * @property判断账户余额情况
+     * | 204    |  int   |  超出自定义设置时间  停止使用 只能进入充值页面|
+     * | 203    |  int   |  在欠费时长内继续使用  给前端提示 可以继续使用|
+     * | 202    |  int   |  今日提醒 小于0元 大于-200|
+     * | 201    |  int   |  今日提醒 小于200元 大于0元|
+     * | 200    |  int   |  正常情况无需任何提示|
+     */
+    judge_of_account_balance : $("#judge_of_account_balance").val() ,
+
+
+    /**
+     * @property判断用户类型
+     * 6 为员工账户
+     * 员工账户只有走马灯没有弹框
+     */
+    judge_of_dtype : $("#judge_of_dtype").val(),
+
+
+    /**
+     * @method 展示走马灯
+     * @param whichTpl 显示账户到期的走马灯 或者显示账户余额不足的走马灯
+     * @param code loopTipCon 的键值
+     */
+    loopTip : function (whichTpl , code) {
         var _this=this;
         if ($("#siteLocationBar .subnav").length>0){
-            $("#siteLocationBar .subnav").eq(0).css("position","relative").append(loopTip_tpl)
+            $("#siteLocationBar .subnav").eq(0).css("position","relative").append(whichTpl)
                 .find(".loop_box").css({"top":"-13px"})
                 .find(".xufei_box").css("padding-top","0px")
         }else if($("#special_w").length>0){
-            $("#special_w .subnav").eq(0).css("position","relative").append(loopTip_tpl);
+            $("#special_w .subnav").eq(0).css("position","relative").append(whichTpl);
         }else if($("#siteLocationBar .siteLocationBarCon").length>0){
-            $("#siteLocationBar .siteLocationBarCon").eq(0).css("position","relative").append(loopTip_tpl)
+            $("#siteLocationBar .siteLocationBarCon").eq(0).css("position","relative").append(whichTpl)
                 .find(".loop_box").css({"top":"-2px"})
                 .find(".xufei_box").css("padding-top","0px")
         }
 
-        var loop_tip=new LoopTip({
-            "container":$("#loopTip_box"),
-            "content":_this.loopTipCon[_this.judge_of_overTime]
+        new LoopTip({
+            "container" : $("#loopTip_box"),
+            "content" : _this.loopTipCon[code]
         });
     },
+
+
+    /**
+     * @property弹框的内容
+     */
     dialogCon:{
         "-1":{
             "title":"账户已到期！",
             "content":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）",
             "isBtn_close":false
-            // "isBtn_close":true    //过渡期
         },
         "0":{
             "title":"账户即将到期！",
@@ -80,16 +127,38 @@ var HeaderWarning={
             "isBtn_close":true
         }
     },
+
+
+    /**
+     * @property走马灯文字的内容
+     */
     loopTipCon:{
         "0":"您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
-        "-1":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）"
+        "-1":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）",
+        "201" : "您好，您的账户余额已不足200元，请您及时充值，以免影响使用！",
+        "202" : "您好，您的账户余额已低于0元，请您及时充值，以免影响使用！",
+        "203" : "您好，您的账户余额已欠费，请您及时充值，以免影响使用！"
     },
-    //处理cookie的函数
+
+
+    /**
+     * @method 设置cookie
+     * @param name
+     * @param value
+     * @param time
+     */
     setCookie:function (name, value, time) {
         var oDate=new Date();
         oDate.setTime(oDate.getTime()+time);
         document.cookie=name+'='+encodeURIComponent(value)+';expires='+oDate.toUTCString();
     },
+
+
+    /**
+     * @method 获取cookie
+     * @param name
+     * @returns {*}
+     */
     getCookie:function (name) {
         var arr=document.cookie.split('; ');
         var i=0;
@@ -107,6 +176,12 @@ var HeaderWarning={
 
         return '';
     },
+
+
+    /**
+     * @method 清除cookie
+     * @param name
+     */
     removeCookie:function (name) {
         this.setCookie(name, '1', -1);
     }
