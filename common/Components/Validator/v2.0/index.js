@@ -34,8 +34,14 @@ var form = new Form({
 		}
 	},
 	template : function(){
-		return '<div><%=name%></div>'
-	}
+		return '<div><%=name%></div>';
+	},
+	onSubmitBefore : function(data){},
+	onSubmitLoading : function(){},
+	onSubmitComplete : function(){},
+	onSubmitSuccess : function(){},
+	onSubmitError : function(){},
+	submit : "api.12301.cc/r/c/a"
 });
 
 var result  = form.validate();
