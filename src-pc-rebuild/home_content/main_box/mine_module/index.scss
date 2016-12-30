@@ -5,6 +5,7 @@
     border-bottom: 1px solid map-get($color,border);
     overflow: hidden;
     img{
+      cursor: pointer;
       float: left;
       width: 100px;
       height: 100px;
@@ -101,6 +102,7 @@
   }
   .wrongNum{
     color: map_get($color,red);
+    cursor: pointer;
   }
 
   .remainText{
@@ -123,6 +125,7 @@
     padding: 0 17px;
     border-radius: 3px;
     margin-left: 20px;
+
   }
 
 }
