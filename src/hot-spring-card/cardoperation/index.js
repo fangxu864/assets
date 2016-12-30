@@ -958,7 +958,7 @@ entryCard.prototype = {
      },
      getCookie:function(){
       var cookie=document.cookie.split(";");
-     for(var i=0;i<cookie.length;i++){
+      for(var i=0;i<cookie.length;i++){
        var data={}
         if(cookie[i].indexOf("salerid=")!=-1){
             var salerid=cookie[i].substr(8,6);
