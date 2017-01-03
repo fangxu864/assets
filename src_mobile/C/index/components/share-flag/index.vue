@@ -3,7 +3,7 @@
         <a href="active_welcome.html?parentId={{sessionMemberId}}" id="goToOpenShop" class="goToOpenShop">
             <span class="con"><em class="t">分享</br>互惠</em></span>
         </a>
-        <a href="##" id="goToShareShop" class="goToOpenShop">
+        <a href="share_my_shop.html" id="goToShareShop" class="goToOpenShop">
             <span class="con"><em class="t">分享</br>店铺</em></span>
         </a>
     </div>
@@ -26,7 +26,7 @@
                     var isAllDisMan = data.isAllDisMan; //当前用户是否开过店
 
                     openAllDis = 1;
-                    isAllDisMan = 0;
+                    isAllDisMan = 1;
 
                     if(openAllDis!=1) return false;
                     if(isAllDisMan==1){ //已经开过店
