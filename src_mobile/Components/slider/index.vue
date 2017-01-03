@@ -91,7 +91,7 @@
                 var slide = new iSlider({
                     data: list,
                     dom: document.getElementById("bannerCon"),
-                    isAutoplay : true,
+                    isAutoplay : false,
                     isVertical : false,
                     isLooping: true,
                     animateType: 'default',
