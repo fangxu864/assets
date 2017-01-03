@@ -21,7 +21,7 @@ module.exports = function(opt){
 		},1000)
 	}else{
 		PFT.Util.Ajax(url,{
-			type : "get",
+			type : "post",
 			params : {
 				mobile : mobile
 			},
