@@ -110,7 +110,7 @@ var Main = PFT.Util.Class({
 		if(mobile.length!==11) return false;
 		clearTimeout(KeyupTimeout);
 		KeyupTimeout = setTimeout(function(){
-			if(Validate.Rules.mobile(mobile).isOk==1){ //如果输入的是合法手机号
+			if(Validate.Rules.mobile(mobile).isOk){ //如果输入的是合法手机号
 				Query_MobileLogup({
 					debug : Debug,
 					params : {
@@ -141,7 +141,7 @@ var Main = PFT.Util.Class({
 		var mobileInp = $("#mobileInp");
 		var mobile = $.trim(mobileInp.val());
 		if(!mobile) return alert("请输入手机号");
-		if(Validate.Rules.mobile(mobile).isOk!==1) return alert("请输入正确格式手机号");
+		if(!Validate.Rules.mobile(mobile).isOk) return alert("请输入正确格式手机号");
 		Query_Vcode({
 			debug : Debug,
 			params : {
