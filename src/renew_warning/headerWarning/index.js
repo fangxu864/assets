@@ -22,17 +22,25 @@ var HeaderWarning={
      */
     init:function () {
         var _this=this;
-        var isLoopTip = this.judge_of_overTime == "0" ? true : false ;
+
+        /**
+         * 弹框出现的必须条件
+         * 员工账号没弹框，充值页面没弹框
+         * @type {boolean}
+         */
         var isDialog = this.judge_of_dtype == "6" ? false : true;
         //充值页面不要弹框
         if( /recharge\.html$/.test(location.href) ){
             isDialog = false ;
         }
 
-        //走马灯的判断
+        
+        /**
+         * 走马灯的判断
+         */
         if( _this.judge_of_overTime == 0 || /201|202|203/.test(_this.judge_of_account_balance) ){
             //如果账户临近过期
-            if(_this.judge_of_overTime == 0){
+            if(_this.judge_of_overTime == 0 ){
                 //平台续费html
                 var xufei_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/new/renewwarning.html">续费</a>'}});
                 _this.loopTip(xufei_tpl , "0")
@@ -45,16 +53,38 @@ var HeaderWarning={
             }
         }
 
-        //弹框提示的判断
-        if(false){
-            if(this.judge_of_overTime == "0"){
-                var isDialog_cookie = _this.getCookie("isDialog");
-                if(isDialog_cookie == "false") return false;
-                _this.setCookie("isDialog",false,1000*60*60*12)
+        
+        /**
+         * 弹框提示的判断
+         */
+        if( /0|-1/.test(_this.judge_of_overTime) || /201|202|203/.test(_this.judge_of_account_balance) ){
+            if(isDialog){
+                //账户临近过期设置cookie,一天只提醒一次
+                if(this.judge_of_overTime == "0"){
+                    var isDialog_cookie = _this.getCookie("isDialog_of_judge_of_overTime");
+                    if(isDialog_cookie == "false") return false;
+                    _this.setCookie("isDialog_of_judge_of_overTime",false,1000*60*60*12);
+                    _this.dialog = new Dialog;
+                    _this.dialog.open();
+                    _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
+                }
+                //账户已过期，弹框不能关闭
+                else if(this.judge_of_overTime == "-1"){
+                    _this.dialog = new Dialog;
+                    _this.dialog.open();
+                    _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
+                }
+                //如果账户余额接近不足
+                if(/201|202|203/.test(_this.judge_of_account_balance)){
+                    //弹框每天只提醒一次，使用cookie控制
+                    var isDialog_cookie_ac = _this.getCookie("isDialog_of_judge_account_balance");
+                    if(isDialog_cookie_ac == "false") return false;
+                    _this.setCookie("isDialog_of_judge_account_balance",false,1000*60*60*12);
+                    _this.dialog2 = new Dialog;
+                    _this.dialog2.open();
+                    _this.dialog2.show_dialog_con(_this.dialogCon[_this.judge_of_account_balance]);
+                }
             }
-            _this.dialog = new Dialog;
-            _this.dialog.open();
-            _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
         }
     },
 
@@ -119,12 +149,32 @@ var HeaderWarning={
         "-1":{
             "title":"账户已到期！",
             "content":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）",
-            "isBtn_close":false
+            "isBtn_close":false ,
+            "dialog_type": "xufei"
         },
         "0":{
             "title":"账户即将到期！",
             "content":" 您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
-            "isBtn_close":true
+            "isBtn_close":true ,
+            "dialog_type": "xufei"
+        },
+        "201": {
+            "title":"账户余额提醒",
+            "content":" 您好，您的账户余额已不足200元，请您及时充值，以免影响使用！",
+            "isBtn_close":true ,
+            "dialog_type": "recharge"
+        },
+        "202": {
+            "title":"账户余额提醒",
+            "content":" 您好，您的账户余额已低于0元，请您及时充值，以免影响使用！",
+            "isBtn_close":true ,
+            "dialog_type": "recharge"
+        },
+        "203": {
+            "title":"账户余额提醒",
+            "content":" 您好，您的账户余额已欠费，请您及时充值，以免影响使用！",
+            "isBtn_close":true ,
+            "dialog_type": "recharge"
         }
     },
 
