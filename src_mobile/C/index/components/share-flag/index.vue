@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="/active_welcome.html?parentId=<?=$_SESSION['memberId']?>" id="goToOpenShop" class="goToOpenShop">
+        <a href="active_welcome.html?parentId={{sessionMemberId}}" id="goToOpenShop" class="goToOpenShop">
             <span class="con"><em class="t">分享</br>互惠</em></span>
         </a>
         <a href="##" id="goToShareShop" class="goToOpenShop">
@@ -13,16 +13,21 @@
     export default{
         data(){
             return{
-
+                sessionMemberId : ""
             }
         },
         ready(){
             var shareBtn = $("#goToShareShop");
             var openBtn = $("#goToOpenShop");
+            this.sessionMemberId = $("#Fenx_Session_MemberId").val();
             getStatus({
                 success :(data)=>{
                     var openAllDis = data.openAllDis; //是否开通全民分销
                     var isAllDisMan = data.isAllDisMan; //当前用户是否开过店
+
+                    openAllDis = 1;
+                    isAllDisMan = 0;
+
                     if(openAllDis!=1) return false;
                     if(isAllDisMan==1){ //已经开过店
                         shareBtn.show();
@@ -38,7 +43,7 @@
     }
 </script>
 <style lang="sass">
-    .goToOpenShop{ display:block; position:fixed; bottom:15%; right:5px;}
+    .goToOpenShop{ display:none; position:fixed; bottom:15%; right:5px;}
     .goToOpenShop>.con{ display:block; width:60px; height:60px; font-size:16px; overflow:hidden; text-align:center; background:rgba(18,115,174,0.7); color:#fff;
         border-top-left-radius:50%;
         border-top-right-radius:48%;
