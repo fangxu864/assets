@@ -1,15 +1,36 @@
+
 #recentlyUsed_module{
   #recentList{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     li{
+      cursor: pointer;
+      box-sizing: border-box;
       height: 56px;
+      line-height: 50px;
       width: 198px;
       border: 1px solid map-get($color,border);
       display: inline-block;
       margin: 0px 13px 22px 13px;
-
+      overflow: hidden;
+      &:hover{
+        border: 2px solid map_get($color,blue);
+      }
+      img{
+        margin: 5px 20px;
+      }
+      .icon{
+        float: left;
+        display: inline-block;
+        margin: 10px 14px;
+        width: 33px;
+        height: 33px;
+        background: url("http://static.12301.cc/assets/build/images/home_rebuild_appcenter_ico.png");
+      }
+      .appName{
+        font-size: 20px;
+      }
     }
   }
 }

@@ -1,54 +1,58 @@
 <div id="productionDynamics_module" class="container_side">
-    <div class="title_side">7天产品动态</div>
+    <div class="title_side">
+        <i class="icon-Platform-Prompt icon-chanpindongtai"></i>
+        <span>7天产品动态</span>
+        <a href="">更多></a>
+    </div>
     <div>
         <ul id="productionList">
             <li>
-                <em>36个</em><em>新产品</em><em>上架</em>
+                <em  class="red">36</em>个<em>新产品</em><em>上架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>25个</em><em>产品</em><em>下架</em>
+                <em  class="red">25</em>个<em>产品</em><em>下架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>36个</em><em>新产品</em><em>上架</em>
+                <em  class="red">36</em>个<em>新产品</em><em>上架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>25个</em><em>产品</em><em>下架</em>
+                <em  class="red">25</em>个<em>产品</em><em>下架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>36个</em><em>新产品</em><em>上架</em>
+                <em  class="red">36</em>个<em>新产品</em><em>上架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>25个</em><em>产品</em><em>下架</em>
+                <em  class="red">25</em>个<em>产品</em><em>下架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>36个</em><em>新产品</em><em>上架</em>
+                <em  class="red">36</em>个<em>新产品</em><em>上架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>25个</em><em>产品</em><em>下架</em>
+                <em  class="red">25</em>个<em>产品</em><em>下架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>36个</em><em>新产品</em><em>上架</em>
+                <em  class="red">36</em>个<em>新产品</em><em>上架</em>
                 <a href="">点击查看</a>
             </li>
 
             <li>
-                <em>25个</em><em>产品</em><em>下架</em>
+                <em  class="red">25</em>个<em>产品</em><em>下架</em>
                 <a href="">点击查看</a>
             </li>
         </ul>

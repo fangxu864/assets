@@ -1,15 +1,51 @@
 <div id="recentlyUsed_module" class="container">
-    <div class="title">最近使用</div>
+    <div class="title">
+        <i class="icon-Platform-Prompt icon-zuijinshiyong"></i>
+        最近使用
+    </div>
     <div class="content">
-        <ul id="recentList">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+        <ul id="recentList" class="app-list">
+            <li>
+                <span class="icon"></span>
+                <span class="appName">微商城</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">APP下载</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">B2C商城</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">票券验证</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">计调下单</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">统计分析</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">数据罗盘</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">微商城</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">微商城</span>
+            </li>
+            <li>
+                <span class="icon"></span>
+                <span class="appName">微商城</span>
+            </li>
+
         </ul>
     </div>
 </div>

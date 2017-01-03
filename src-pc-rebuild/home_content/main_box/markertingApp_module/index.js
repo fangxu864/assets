@@ -9,7 +9,9 @@ var markertingApp_module=Class({
     container:"#markertingApp_module",
 
 //绑定事件
-    EVENTS:{},
+    EVENTS:{
+        
+    },
     init:function(){
         console.log("markertingApp_module load sucessfully");
          $("#main_box").append(markertingApp_xtpl)
