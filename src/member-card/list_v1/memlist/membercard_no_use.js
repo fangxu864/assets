@@ -18,15 +18,20 @@ var today = new Date().Format("yyyy-MM-dd");
 var datepicker = new Datepicker();
 var Main = PFT.Util.Class({
     init: function (opt) {
+        console.log(opt)
         var container = this.container = opt.container;
     },
     EVENTS: {
-        "click": {
+       /* "click": {
             "#start_time": "onStartClick",
             "#end_time": "onEndClick",
             "#no_use_search": "onNotUseSchClick",
             "#no_use_btn": "onNotUseBtnClick"
-        }
+        }*/
+        "click #start_time":"onStartClick",
+        "click #end_time":"onEndClick",
+        "click #no_use_search":"onNotUseSchClick",
+        "click #no_use_btn":"onNotUseBtnClick",
     },
     onStartClick: function () {
         console.log(1)
@@ -185,6 +190,10 @@ var Main = PFT.Util.Class({
     }
 
 });
+
+  var main=new Main({
+      container:"#memListContainer"
+  })
 module.exports = Main;
 
 

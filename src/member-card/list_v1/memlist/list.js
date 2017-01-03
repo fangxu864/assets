@@ -1,4 +1,5 @@
 var UtilClass=require("COMMON/js/util.class");
+
 var LimitInpCtrl = UtilClass({
     statics: {
         isPositiveNum: function (count) {
@@ -94,11 +95,11 @@ var List = UtilClass({
         "click .do,.doBtn":"onDobtnClick"
     },
     init: function (opt) {
-       // console.log(tbodyContainer+"+"+pagingContainer+"+"+state);
         var that = this;
         var tbodyContainer = this.tbodyContainer = opt.tbodyContainer;
         var pagingContainer = this.pagingContainer = opt.pagingContainer;
         var loadingMask = this.loadingMask = $("#formLoading");
+        
         var state = this.state = opt.state;
         if (!tbodyContainer || !pagingContainer || typeof state == "undefined") return false;
         //绑定分页的各种点击事件
@@ -428,7 +429,8 @@ var List = UtilClass({
                 setTimeout(function () {
                     LimitInpCtrl && that.limitInpInit(LimitInpCtrl);
                     that.tbodyContainer.find(".tooltip").tooltipster();
-                }, 10)
+                }, 10);
+                console.log(that.tbodyContainer+"4343")
             } else {
                 console && console.log("服务器返回数据格式出错")
             }

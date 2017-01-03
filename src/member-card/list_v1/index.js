@@ -4,13 +4,15 @@
 var UtilClass = require("COMMON/js/util.class");
 var TabSwitch=require("./memlist/membercard.list");
 var List=require("./memlist/list");
+var Nouse=require("./memlist/membercard_no_use");
 
 
-    var list=new List({
+/*    var list=new List({
          container:"#memListContainer",
     });
   var tabswitch=new TabSwitch({
       container:"#memListContainer",
       List:list
-  })
+  });*/
+
    module.exports = Main;    
