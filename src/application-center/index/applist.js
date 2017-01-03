@@ -80,9 +80,7 @@ var AppList = PFT.Util.Class({
                 //顺序发请求
                 req1().then(req2).then(req3).then(req4).done(function(xhr){
                     $("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
-                    console.log("引导开始");
-                    console.log(appIntro);
-                    // appIntro.init();
+                    appIntro.init(that.memberID); //传入会员id用于cookie
                 });
         }
 	},
@@ -261,6 +259,10 @@ var AppList = PFT.Util.Class({
         //子li
         for(var i = 0;i<list.length;i++){
 
+        	if(!this.memberID){
+        		this.memberID = list[i].member_id;	
+        	}
+        	
         	var mid = list[i].module_id;
         	var open_num = list[i].open_num;
         	var icon_url = list[i].icon || "http://static.12301.cc/assets/build/images/appcenter/icons/default.png";
