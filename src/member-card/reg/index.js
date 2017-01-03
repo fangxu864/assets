@@ -290,7 +290,9 @@ var Main = PFT.Util.Class({
 			onCityChange : function(cityId){}
 		})
 		setTimeout(function(){
-			ProvCitySelect.setVal(province,city)
+			if(province){
+				ProvCitySelect.setVal(province,city)
+			}
 		},50)
 
 	},
