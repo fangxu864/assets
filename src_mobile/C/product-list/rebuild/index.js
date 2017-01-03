@@ -3,21 +3,34 @@
  * Date: 2016/12/1 16:00
  * Description: ""
  */
+require('./index.scss');
+
 var Toast = new PFT.Mobile.Toast();
 var Alert = PFT.Mobile.Alert;
 
 var ItemTpl = PFT.Util.ParseTemplate(require("./item.xtpl"));
 var FetchList = require("SERVICE_M/product-list");
 var Filter = require("./filters");
+var Search = require("./search");
+
 var CityData = require("COMMON/js/config.province.city.data2");
 
 var Main = PFT.Util.Class({
 	__lastPos : 0,
 	__hasInit : false,
-	template  : ItemTpl,
+	imgHeight : 115,
+
+	dom: {
+		container: 			'bodyContainer',
+		scrollcontainer: 	'scrollWrap',
+		ul: 				'scrollInerCon',
+		filterbar: 			'filterBar'
+	},
 	init : function(){
 		var that = this;
-		this.listUl = $("#scrollInerCon");
+		this.listUl = $('<ul />', { id: this.dom.ul, class: this.dom.ul });
+
+		this.template = ItemTpl;
 
 		this.params = {
             keyword : "",
@@ -27,47 +40,42 @@ var Main = PFT.Util.Class({
             lastPos : this.__lastPos
         };
 
-		this.fetchList( this.params , {
-			complete: function(res){
-				if( that.__hasInit ) return false;
+		this.initSearch();
+		this.listUl.appendTo($('#'+this.dom.container)).wrap($('<div />', { id: this.dom.scrollcontainer, class: this.dom.scrollcontainer}));
+		this.fetchList( this.params );
 
-				that.__hasInit = true;
-
-				var res = res || {},
-					code = res.code,
-					data = res.data;
-
-				if( code!==200 ) return false;
-
-				var citys = data.citys,
-					themes = data.themes,
-					type = data.type;
-
-				that.initFilter(type,themes,citys);
-				console.log(res)
-			}
-		});
-		// this.on("fetchList.complete",function(res){
-		// 	if(that.__hasInit) return false;
-		// 	that.__hasInit = true;
-		// 	var res = res || {};
-		// 	var code = res.code;
-		// 	var data = res.data;
-		// 	if(code!==200) return false;
-		// 	var citys = data.citys;
-		// 	var themes = data.themes;
-		// 	var type = data.type;
-		// 	that.initFilter(type,themes,citys);
-		// 	console.log(res)
-		// })
-
+		// this.xscroll = new XScroll({
+		//    container: '#scrollWrap',
+		//    content: '#scrollInerCon'
+		// });
+		// xscroll.render();
 	},
 	initFilter : function(type,themes,citys){
 		this.filter = new Filter({
+			container: '#' + this.dom.container,
 			data : {
 				type : type,
 				theme : themes,
 				city : citys
+			}
+		})
+	},
+	initSearch : function(type,themes,citys){
+		this.search = new Search({
+			container: '#' + this.dom.container,
+			callbacks: {
+				input: function( val ) {
+
+				},
+				focus: function( val ) {
+
+				},
+				blur: function( val ) {
+
+				},
+				clear: function() {
+
+				}
 			}
 		})
 	},
@@ -85,10 +93,12 @@ var Main = PFT.Util.Class({
 		this.__lastPos = pos * 1;
 	},
 	fetchList : function( params ){
-		var lastPos = params.lastPos;
-		var render = this.render;
-		var type = "";
-		var paramKeyword = params.keyword;
+		var that = this;
+
+		var lastPos = params.lastPos,
+			type = "",
+			paramKeyword = params.keyword;
+
 		FetchList(params,{
 			loading : () => {
 				if(lastPos==0){
@@ -97,51 +107,62 @@ var Main = PFT.Util.Class({
 					this.disablePullup();
 					this.refreshScroll();
 				}
-				this.trigger('fetchList.loading');
 			},
 			complete : (res) => {
 				Toast.hide();
-				this.trigger('fetchList.complete');
+
+				if(that.__hasInit) return false;
+
+				that.__hasInit = true;
+
+				var res = res || {},
+					code = res.code,
+					data = res.data;
+
+				if(code !== 200) return false;
+
+				var citys = data.citys,
+					themes = data.themes,
+					type = data.type;
+
+				that.initFilter(type,themes,citys);
 			},
 			empty : () => {
 				if(lastPos==0){
 					type = paramKeyword ? "searchEmpty" : "filterEmpty";
-					render(type);
+					this.render(type);
 				}else{
-					render("noMore");
+					this.render("noMore");
 				}
 				this.disablePullup();
 				this.refreshScroll();
-				this.trigger('fetchList.empty');
 			},
 			success : (data) => {
-				console.log(data);
 				var that = this;
-				render(lastPos==0 ? "success" : "successMore",data);
+
+				this.render(lastPos==0 ? "success" : "successMore", data, params);
 				this.enablePullup();
 				this.refreshScroll();
-				this.trigger('fetchList.success');
 			},
 			fail : (msg) => {
 				if(lastPos==0){
-					render("fail");
+					this.render("fail");
 					this.disablePullup();
 					this.refreshScroll();
 				}else{
-					render("failMore");
+					this.render("failMore");
 					Alert(msg);
 				}
-				this.trigger('fetchList.fail');
 			}
 		})
 	},
-	render : function( type , data ){
+	render : function( type , data, params ){
 		var html = "";
 		var template = this.template;
 		var listUl = this.listUl;
+
 		if(type=="success" || type=="successMore"){
-			console.log(data)
-			html = template( data );
+			html = template( { data: data.list, params: params, imgHeight: this.imgHeight } );
 			if(type=="success"){
 				listUl.html(html);
 			}else if(type=="successMore"){
@@ -158,6 +179,7 @@ var Main = PFT.Util.Class({
 		}else if(type=="fail" || type=="failMore"){
 
 		}
+
 		return html;
 	}
 });

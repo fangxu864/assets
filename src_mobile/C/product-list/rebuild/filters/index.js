@@ -4,30 +4,35 @@
  * Description: ""
  */
 require("./index.scss");
-var SheetCore = require("COMMON/modules/sheet-core/v1");
+var SheetCore = require("COMMON/modules/sheet-core/v1.1");
 var City = require("./city");
-var theme = require("./theme");
-var type = require("./ptype");
+var Theme = require("./theme");
+var Type = require("./ptype");
 var Filter = PFT.Util.Class({
 	init : function(opt){
-		var opt = opt || {};
-		var data = opt.data;
-		var container = $('<div id="filterBar" class="filterBar"></div>').appendTo($("body"));
-		container.append('<div class="con ui-flex"></div>');
-		this.theme = new City({SheetCore:SheetCore, data:data.theme, container:container, host:this});
-		this.type = new City({SheetCore:SheetCore, data:data.type, container:container, host:this});
-		this.city = new City({SheetCore:SheetCore, data:data.city, container:container, host:this});
-		this.bindEvents();
+		var opt = opt || {},
+			data = opt.data;
+
+		var that = this;
+
+		that.container = $('<div id="filterBar" class="filterBar ui-filterBar"></div>').appendTo($(opt.container));
+		that.container.append('<div class="con ui-flex"></div>');
+		// this.theme = new Theme({SheetCore: SheetCore, data: data.theme, container: this.container.children('.con'), host: this});
+		// this.type = new Type({SheetCore: SheetCore, data: data.type, container: this.container.children('.con'), host: this});
+		that.city = new City({SheetCore: SheetCore, data: data.city, container: that.container.children('.con'), host: that});
+		that.bindEvents();
 	},
 	bindEvents : function(){
 		var that = this;
-		this.container.on("click",".ui-filterItem-tap",function(e){
+		this.container.on('tap', '.ui-filterItem', function(e){
 			var tarItem = $(e.currentTarget);
 			var filterType = tarItem.attr("data-filter");
+
+			that.container.addClass('hide');
 			that[filterType].show();
-		})
+		});
 	},
-	renderHtml : function(data){
+	renderHtml : function( data ){
 		var html = "";
 		html += '<ul class="actionUl">';
 		for(var i=0; i<data.length; i++){

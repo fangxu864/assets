@@ -1,13 +1,14 @@
-<% _.each( data, function(){ %>
-    <li v-for="item in list" :class="{item:!item.type,itemBox:!item.type,emptyTip:item.type=='empty'}">
-        <a href="pdetail.html?lid={{item.lid}}&ptype={{filterParams.type}}&topic={{filterParams.topic}}" class="con">
+<% _.each( data, function( item, index ){ %>
+    <li class="<%= !item.type ? 'item itemBox' : '' %> <%= item.type == 'empty'? 'emptyTip':'' %>">
+        <a href="pdetail.html?lid=<%=item.lid%>&ptype=<%=params.type%>&topic=<%=params.topic%>" class="con">
             <div class="photoBox">
-                <image-loador :src="item.imgpath" :height="imgHeight" :fixed="true"></image-loador>
-                <p class="title gtextoverflow">{{item.title}}</p>
+                <div class="ui-image-container" style="background-image:url(<%=item.imgpath.indexOf('http')== -1 ? 'http://www.12301.cc/images/defaultThum.jpg' : item.imgpath %>); height:<%=imgHeight%>px;">
+                </div>
+                <p class="title gtextoverflow"><%=item.title%></p>
             </div>
             <div class="bCon">
-                <span class="price"><i class="yen">&yen;</i><span class="num">{{item.jsprice}}</span><i class="qi">起</i></span>
-                <span class="price tprice"><i class="yen">&yen;</i><span class="num">{{item.tprice}}</span></span>
+                <span class="price"><i class="yen">&yen;</i><span class="num"><%=item.jsprice%></span><i class="qi">起</i></span>
+                <span class="price tprice"><i class="yen">&yen;</i><span class="num"><%=item.tprice%></span></span>
             </div>
         </a>
     </li>

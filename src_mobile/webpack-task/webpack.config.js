@@ -15,7 +15,7 @@ var config = require("../../task-webpack/config")({
 		//"mb.search.c" : path.resolve(ROOT_URL,"C/search/index.js"),
 		//"mb.pdetail.c" : path.resolve(ROOT_URL,"C/pdetail/index.es6"),
 		"mb.productlist.c" : path.resolve(ROOT_URL,"C/product-list/index.es6"),
-		"mb.productlist-new.c" : path.resolve(ROOT_URL,"C/product-list/rebuild"),
+		"mb.productlist-new.c" : path.resolve(ROOT_URL,"C/product-list/rebuild/index.js"),
 		//"mb.booking.c" : path.resolve(ROOT_URL,"C/booking/index.es6"),
 		//"mb.select_paymode.c" : path.resolve(ROOT_URL,"C/select-paymode/index.es6"),
 		//"mb.ordersuccess.c" : path.resolve(ROOT_URL,"C/ordersuccess/index.es6"),

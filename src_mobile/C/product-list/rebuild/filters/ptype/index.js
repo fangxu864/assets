@@ -25,7 +25,7 @@ var Ptype = PFT.Util.Class({
 					var key = tarItem.attr("data-key");
 					var value = tarItem.text();
 					tarItem.addClass("selected").siblings().removeClass("selected");
-					that.trigger("select",{key:key,value:value});
+					// that.trigger("select",{key:key,value:value});
 				}
 			}
 		});
