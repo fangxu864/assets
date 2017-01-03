@@ -7,8 +7,7 @@ module.exports = function(opt){
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt || {});
 	var cxt = opt.cxt || null;
 	var debug = opt.debug;
-	//var url = "/call/jh_mem.php?action=chkAndGet2";
-	var url = "/r/product_MemberCardBasic/SendVcode/";
+	var url = "/call/jh_mem.php?action=chkAndGet2";
 	var params = opt.params || {};
 	var mobile = params.mobile;
 	if(!mobile) throw new Error("缺少mobile参数");
