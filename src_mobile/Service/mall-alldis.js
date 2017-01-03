@@ -27,9 +27,9 @@ exports.getStatus = function(opt){
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			var data = res.data;
 			if(code==200){
-				success(data);
+				opt.success(data);
 			}else{
-				fail(msg,code)
+				opt.fail(msg,code)
 			}
 		},
 		serverError : function(){
