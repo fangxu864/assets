@@ -1,5 +1,4 @@
-var UtilClass = require("COMMON/js/util.class");
-
+var UtilClass=require("COMMON/js/util.class");
 var LimitInpCtrl = UtilClass({
     statics: {
         isPositiveNum: function (count) {
@@ -13,21 +12,15 @@ var LimitInpCtrl = UtilClass({
         }
     },
     EVENTS: {
-        "click": {
-            ".saveBtn": "onSaveBtnClick"
-        },
-        "focus": {
-            "input": "onInputFocus"
-        },
-        "blur": {
-            "input": "onInputBlur"
-        },
-        "keyup": {
-            "input": "onInputEnter"
-        }
+   
+        "click .saveBtn":"onSaveBtnClick",
+        "focus input":"onInputFocus",
+        "blur input":"onInputBlur",
+        "keyup input":"onInputEnter",
+        
     },
     init: function (opt) {
-
+        console.log(opt)
         var container = this.container = opt.container || $("body");
         var tarInp = this.tarInp = container.find("input:text");
         var tarBtn = this.tarBtn = container.find(".btn");
@@ -95,13 +88,13 @@ var List = UtilClass({
             return true;
         }
     },
+     
     EVENTS: {
-        "click": {
-            //			".do .guashi" : "onGuashiBtnClick",
-            ".do .doBtn": "onDobtnClick"
-        }
+      
+        "click .do,.doBtn":"onDobtnClick"
     },
     init: function (opt) {
+       // console.log(tbodyContainer+"+"+pagingContainer+"+"+state);
         var that = this;
         var tbodyContainer = this.tbodyContainer = opt.tbodyContainer;
         var pagingContainer = this.pagingContainer = opt.pagingContainer;
@@ -465,6 +458,5 @@ var List = UtilClass({
         }
     }
 });
-
 
 module.exports = List;
