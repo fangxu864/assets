@@ -423,6 +423,8 @@ var Main = PFT.Util.Class({
 
 		if(this.fid){
 			submitData["card"] = 0;
+			submitData["fid"] = this.fid;
+
 		}else{
 			submitData["card"] = 1;
 		}
