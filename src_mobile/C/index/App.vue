@@ -17,6 +17,7 @@
             <ptype-list></ptype-list>
             <product-list :area="city"></product-list>
         </div>
+        <share-flag></share-flag>
     </div>
 </template>
 

@@ -9,13 +9,23 @@
     </div>
 </template>
 <script type="es6">
-    import getStatus from "SERVICE_M/mall-alldis";
+    import {getStatus} from "SERVICE_M/mall-alldis";
     export default{
         data(){
+            return{
 
+            }
         },
         ready(){
-            console.log(getStatus);
+            getStatus({
+                success :(data)=>{
+                    var openAllDis = data.openAllDis; //是否开通全民分销
+                    var isAllDisMan = data.isAllDisMan; //当前用户是否开过店
+                },
+                fail : (msg,code)=>{
+                    console.error(msg)
+                }
+            })
         }
     }
 </script>
