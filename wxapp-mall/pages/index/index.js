@@ -12,6 +12,11 @@ Page({
       url: '../logs/logs'
     })
   },
+  navToBooking : function(){
+      wx.navigateTo({
+        url : "../booking/booking"
+      })
+  },
   onLoad: function () {
     console.log('onLoad')
     var that = this

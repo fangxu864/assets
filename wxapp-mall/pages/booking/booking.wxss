@@ -1,0 +1,32 @@
+/**index.wxss**/
+.body{
+  height: 100%;
+  background: #f5f5f5;
+}
+.box.datepicker{
+  height: 44px;
+  line-height: 44px;
+  flex-direction: row;
+  display:flex;
+  background: #fff;
+  font-size:14px;
+}
+.picker{ height:44px; width:100%}
+
+
+.ticketListUl{ padding:0; margin:10px 0}
+
+.ticketListUl .item{ padding:15px; background:#fff;}
+
+.ticketListUl .item .tit{ font-size:16px; font-weight:bold; margin-bottom:5px}
+.ticketListUl .item .price{ font-size:14px; color:#878787}
+.ticketListUl .item .price .yen,.ticketListUl .item .price .num{ color:#f37138}
+.ticketListUl .item .price .num{ font-size:16px; font-weight:bold}
+
+.ticketListUl .bcon{ display:flex; flex-direction:row; justify-content: space-between; align-items: center;}
+
+.ticketListUl .countBox{ display:flex; flex-direction:row; border:1px solid #258cc9}
+.ticketListUl .countBox .inp{ width:70px; text-align:center; color:#258cc9}
+.ticketListUl .countBox .btn{ width:32px; height:28px; line-height:28px; color:#258cc9; text-align:center}
+.ticketListUl .countBox .btn.add{  border-left:1px solid #258cc9;}
+.ticketListUl .countBox .btn.minus{  border-right:1px solid #258cc9;}

@@ -1,0 +1,31 @@
+<view class="body">
+  <view class="box datepickerBox datepicker">
+      <view><text style="padding-left:10px">游玩时间</text></view>
+      <view style="width:220px; margin-left:20px">
+          <picker style="height:100%; width:300px" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+              <view class="picker">
+                  {{date}}
+              </view>
+          </picker>
+      </view>
+  </view>
+
+
+    <view class="box ticketListUl ticketListBox">
+        <view class="item">
+            <view class="minBox">
+                <view class="tit">票名称</view>
+                <view class="bcon">
+                    <view class="conBox price">单价：<text class="yen">￥</text><text class="num">234</text></view>
+                    <view>
+                        <view class="countBox">
+                            <text class="btn minus">-</text>
+                            <input type="number" class="inp" name="" id="" value="1"/>
+                            <text class="btn add">+</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
