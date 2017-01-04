@@ -40,7 +40,6 @@
 	top: 163px;
     left: 202px;
     cursor: pointer;
-    background: #123456;
 }
 
 /* 第二步 */
@@ -57,49 +56,44 @@
     top: 30px;
     left: 35px;
 }
-#introHelper #introNext2{
-	top : 263px;
-	left : 456px;
+#introNext2{
 	position: absolute;
 	height: 33px;
 	width: 101px;
 	z-index: 999;
     cursor: pointer;
-    background: #123456;
 }
 
-#introHelper2{
-	position: absolute;
-    z-index: 99;
-	height: 35px;
-	width: 68px;
-	background: #fff;
-	left: -165px;	
-	top: 44px;
+#introMask2{
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	opacity: 0;
+	z-index: 105;
 }
+
 #introHelper3{
 	position: absolute;
     z-index: 99;
-	height: 35px;
-	width: 35px;
+	height: 45px;
+	width: 45px;
 	border-radius: 50%;
 	background: #fff;
-	top: 6px;
-	left: 765px;
+	top: 4px;
+	left: 762px;
 }
-
 /* 第三步 */
 
 #introImg3{
 	left: 66px;
 	top: 27px;
 }
-
 #introImgArr3{
 	left: 0px;
 	top: 48px;
 }
-
 #introHelper #introNext3{
 	top : 273px;
 	left : 215px;
@@ -108,9 +102,7 @@
 	width: 110px;
 	z-index: 999;
     cursor: pointer;
-    background: #123456;
 }
-
 #introHelper .introHelper3{
 	height: 30px;
 	width: 100px;
@@ -118,22 +110,18 @@
     z-index: 99;
     background: #fff;
 }
-
 #introHelper4{
 	left: -165px;	
 	top: 44px;
 }
-
 #introHelper5{
 	left: -165px;	
 	top: 137px;
 }
-
 #introHelper6{
 	left: -165px;	
 	top: 257px;
 }
-
 #introHelper7{
 	left: -165px;	
 	top: 375px;

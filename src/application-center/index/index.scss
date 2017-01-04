@@ -23,6 +23,22 @@ body{
     width: 100%;
 }
 
+.topad-wrap #top-ad-close{
+    display : block;
+    width : 36px;
+    height : 36px;
+    background : url(http://static.12301.cc/assets/build/images/appcenter/close.png);
+    position : absolute;
+    left : 741px;
+    top : -17px;
+    cursor : pointer;
+}
+
+.topad-wrap #top-ad-close:hover{
+    background-position: 36px 0px;
+}
+
+
 .tab {
     padding-left: 10px;
     padding-right: 10px;

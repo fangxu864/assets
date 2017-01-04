@@ -83,6 +83,15 @@ var AppList = PFT.Util.Class({
                     appIntro.init(that.memberID); //传入会员id用于cookie
                 });
         }
+
+        $("#top-ad-close").on("click",function(){
+
+        	$(".topad-wrap").remove();
+
+        });
+
+
+
 	},
 
 
