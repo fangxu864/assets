@@ -1,10 +1,39 @@
-<!--index.wxml-->
-<view class="container">
-  <view  bindtap="bindViewTap" class="userinfo">
-    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+<view class="scroll-view-wrap">
+    <scroll-view class="scroll-view" scroll-y="true" bindscrolltolower="scrollToLower">
+        <view class="plist">
+            <block wx:for="{{plist}}" wx:key="pid" wx:for-item="p">
+                <view class="item itemBox">
+                    <view class="con" bindtap="navigateToDetail" data-lid="{{p.lid}}" data-ptype="" data-topic="">
+                        <view class="photoBox">
+                            <image mode="aspectFit" src="{{p.imgpath}}"></image>
+                            <text class="title gtextoverflow">{{p.title}}</text>
+                        </view>
+                        <view class="bCon">
+                            <view class="price">
+                                <text class="yen">¥</text>
+                                <text class="num">{{p.jsprice}}</text>
+                                <text class="qi">起</text>
+                            </view>
+                            <view class="price tprice">
+                                <text class="yen">¥</text>
+                                <text class="num">{{p.tprice}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </block>
+        </view>
+        <view class="load-more-wrap">
+            <block hidden="{{!isLoading}}">
+                <view class="load-content">
+                    <text class="weui-loading"/><text class="loading-text">玩命加载中</text>
+                </view>
+            </block>
+            <block wx:if="{{!hasMore}}">
+                <view class="load-content">
+                    <text>没有更多内容了</text>
+                </view>
+            </block>
+        </view>
+    </scroll-view>
 </view>
