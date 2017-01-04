@@ -13,14 +13,14 @@ var Filter = PFT.Util.Class({
 		var opt = opt || {},
 			data = opt.data;
 
-		var that = this;
+		// var that = this;
 
-		that.container = $('<div id="filterBar" class="filterBar ui-filterBar"></div>').appendTo($(opt.container));
-		that.container.append('<div class="con ui-flex"></div>');
-		// this.theme = new Theme({SheetCore: SheetCore, data: data.theme, container: this.container.children('.con'), host: this});
-		// this.type = new Type({SheetCore: SheetCore, data: data.type, container: this.container.children('.con'), host: this});
-		that.city = new City({SheetCore: SheetCore, data: data.city, container: that.container.children('.con'), host: that});
-		that.bindEvents();
+		this.container = $('<div id="filterBar" class="filterBar ui-filterBar"></div>').appendTo($(opt.container));
+		this.container.append('<div class="con ui-flex"></div>');
+		this.theme = new Theme({SheetCore: SheetCore, data: data.theme, container: this.container.children('.con'), host: this});
+		this.type = new Type({SheetCore: SheetCore, data: data.type, container: this.container.children('.con'), host: this});
+		this.city = new City({SheetCore: SheetCore, data: data.city, container: this.container.children('.con'), host: this});
+		this.bindEvents();
 	},
 	bindEvents : function(){
 		var that = this;

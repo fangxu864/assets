@@ -7,7 +7,7 @@ require("./index.scss");
 var Defaults = function(){
 	return {
 		header : "",
-		height : "auto",
+		maxheight : "auto",
 		content : "",
 		yesBtn : false,
 		noBtn : false,
@@ -19,19 +19,19 @@ var SheetCore = PFT.Util.Class({
 	init : function(opt){
 		var that = this;
 		this.opt = $.extend(Defaults(),opt || {});
-		var header = this.opt.header, content = this.opt.content, height = this.opt.height, yesBtn = this.opt.yesBtn, noBtn = this.opt.noBtn;
+		var header = this.opt.header, content = this.opt.content, maxheight = this.opt.maxheight, yesBtn = this.opt.yesBtn, noBtn = this.opt.noBtn;
 		var zIndex = this.opt.zIndex;
 		var events = this.opt.EVENTS;
 		if(typeof header=="function") header = header();
 		if(typeof content=="function") content = content();
-		if(typeof height=="number") height = height + "px";
-		if(height!=="auto" && height.indexOf("%")<0){
-			if(height.indexOf("px")<0) height = height + "px";
+		if(typeof maxheight=="number") maxheight = maxheight + "px";
+		if(maxheight!=="auto" && maxheight.indexOf("%")<0){
+			if(maxheight.indexOf("px")<0) maxheight = maxheight + "px";
 		}
 
 		var $body = this.$body = $("body");
 		var container = this.container = $('<div class="ui-sheetCoreContainer"></div>').appendTo($body);
-		container.css({height:height,zIndex:zIndex+1});
+		container.css({maxHeight:maxheight,zIndex:zIndex+1});
 		if(header){
 			container.append('<div class="sheet-header">'+header+'</div>');
 			container.addClass("fixHead");

@@ -24,10 +24,12 @@ var Main = PFT.Util.Class({
 		container: 			'bodyContainer',
 		scrollcontainer: 	'scrollWrap',
 		ul: 				'scrollInerCon',
-		filterbar: 			'filterBar'
+		filterbar: 			'filterBar',
+		searchInp: 			'searchInp'
 	},
 	init : function(){
 		var that = this;
+
 		this.listUl = $('<ul />', { id: this.dom.ul, class: this.dom.ul });
 
 		this.template = ItemTpl;
@@ -57,8 +59,22 @@ var Main = PFT.Util.Class({
 				type : type,
 				theme : themes,
 				city : citys
-			}
+			},
+			onFilterParamsChange: this.filterParamsChange
 		})
+	},
+	filterParamsChange: function() {
+		this.__lastPos = 0;
+
+		this.params = {
+            keyword : encodeURIComponent( $('#' + this.dom.searchInp ).val() ),
+            topic : $('#' + this.dom.filterbar ).find('[data-filter=theme]').text(),
+            type : $('#' + this.dom.filterbar ).find('[data-filter=type]').attr('data-type'),
+            city : $('#' + this.dom.filterbar ).find('[data-filter=city]').attr('data-code'),
+            lastPos : this.__lastPos
+        };
+
+        fetchList( this.params );
 	},
 	initSearch : function(type,themes,citys){
 		this.search = new Search({
@@ -104,8 +120,8 @@ var Main = PFT.Util.Class({
 				if(lastPos==0){
 					Toast.show("loading","努力加载中..");
 					this.listUl.html("");
-					this.disablePullup();
-					this.refreshScroll();
+					// this.disablePullup();
+					// this.refreshScroll();
 				}
 			},
 			complete : (res) => {
@@ -125,7 +141,7 @@ var Main = PFT.Util.Class({
 					themes = data.themes,
 					type = data.type;
 
-				that.initFilter(type,themes,citys);
+				that.initFilter( type, themes, citys );
 			},
 			empty : () => {
 				if(lastPos==0){
@@ -134,21 +150,21 @@ var Main = PFT.Util.Class({
 				}else{
 					this.render("noMore");
 				}
-				this.disablePullup();
-				this.refreshScroll();
+				// this.disablePullup();
+				// this.refreshScroll();
 			},
 			success : (data) => {
 				var that = this;
 
 				this.render(lastPos==0 ? "success" : "successMore", data, params);
-				this.enablePullup();
-				this.refreshScroll();
+				// this.enablePullup();
+				// this.refreshScroll();
 			},
 			fail : (msg) => {
 				if(lastPos==0){
 					this.render("fail");
-					this.disablePullup();
-					this.refreshScroll();
+					// this.disablePullup();
+					// this.refreshScroll();
 				}else{
 					this.render("failMore");
 					Alert(msg);

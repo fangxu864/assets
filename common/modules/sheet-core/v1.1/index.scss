@@ -93,24 +93,24 @@ html.sheet-show,body.sheet-show{ overflow:hidden}
         }
 
     }
-    .sheet-content{
-        position:absolute;
-        top:0;
-        right:0;
-        bottom:0;
-        left:0;
-        overflow:auto;
-        overflow-scrolling:touch;
-        -webkit-overflow-scrolling:touch;
+    &.fixHead, &.fixFoot {
+        .sheet-content{
+            overflow:auto;
+            overflow-scrolling:touch;
+            -webkit-overflow-scrolling:touch;
+        }
     }
 
     &.fixHead{
         .sheet-content{
+            top: 0;
+            bottom: 0;
             margin-top:$fixHeight;
         }
     }
     &.fixFoot{
         .sheet-content{
+            bottom: 0;
             margin-bottom:$fixHeight;
         }
     }

@@ -11,7 +11,8 @@ var City = PFT.Util.Class({
         this.togglebtn = $('<a>', {
             class: 'ui-filterItem ui-flex-box',
             href: 'javascript:;',
-            'data-filter': 'city'
+            'data-filter': 'city',
+            'data-code': ''
         }).appendTo( this.container ).append('<i class="filterIcon icon-ecshop-application icon-suoyouchengshi"></i>');
 
         this.title = $('<span>',{
@@ -25,7 +26,7 @@ var City = PFT.Util.Class({
 
         that.SheetCore = new opt.SheetCore({
             header : '<a class="leftBtn" href="javascript:void(0)" slot="left"><i class="uicon uicon-jiantou-sin-left"></i></a><h3 class="fixHeaderTitle" style="text-align:center" slot="center">选择城市</h3>',
-            height : $(window).height(),
+            maxheight : $(window).height(),
             content : cityListHTML,
             yesBtn : {
                 text: that.DEFAULT_TEXT,
@@ -37,10 +38,19 @@ var City = PFT.Util.Class({
             },
             zIndex : 10004,
             EVENTS : {
-                'tap .leftBtn': function() { that.hide(); that.parentObj.container.removeClass('hide'); },
-                'tap .cityItem': function() { that.hide(); that.parentObj.container.removeClass('hide'); }
+                'tap .leftBtn': function(e) {
+                    that.hide();
+                    that.parentObj.container.removeClass('hide');
+                },
+                'tap .cityItem': function(e) {
+                    that.togglebtn.attr( 'data-code', $(e.currentTarget).attr('data-code') );
+                    that.title.html( $(e.currentTarget).html() );
+                    that.hide();
+                    that.parentObj.container.removeClass('hide');
+                }
             }
         });
+        that.SheetCore.close();
     },
     sort: function( data ) {
         var arr = [],
@@ -80,7 +90,7 @@ var City = PFT.Util.Class({
         return html;
     },
     show: function(){
-        this.SheetCore.show()
+        this.SheetCore.show();
     },
     hide: function(){
         this.SheetCore.close();
