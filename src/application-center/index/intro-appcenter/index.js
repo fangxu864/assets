@@ -15,21 +15,21 @@ var appIntro = {
 					'<div id="introHelper"></div>';  
 
 		// cookie部分
-		var visited = Cookie.getCookie("memberIntro2"+mid); 
-		if(visited == ""){
-			console.log("第一次访问");						
-			Cookie.setCookie("memberIntro2"+mid,1,100); //Cookie的名称、值以及过期天数(年)
-			this.step1();		
-		}else{
-			console.log("不是第一次访问，访问memberId为"+mid);
-			return false
-		}
+		// var visited = Cookie.getCookie("memberIntro2"+mid); 
+		// if(visited == ""){
+		// 	console.log("第一次访问");						
+		// 	Cookie.setCookie("memberIntro2"+mid,1,100); //Cookie的名称、值以及过期天数(年)
+		// 	this.step1();		
+		// }else{
+		// 	console.log("不是第一次访问，访问memberId为"+mid);
+		// 	return false
+		// }
 
 		$("#top-ad-close").on("click",function(){
 			$(".topad-wrap").remove();
 		});
 
-		// this.step1();		
+		this.step1();		
 		
 
 	},
@@ -79,6 +79,7 @@ var appIntro = {
 		this.temp2 =  '<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide04.png" id="introImg2">'+
 		             '<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide04-arr.png" id="introImgArr2">'+
 		             '<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide04-tag.png" id="introImgTag2">'+
+		             '<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide04-close.png" id="introImgClose2">'+
 		             '<div id="introHelper3"></div>';
 
 		this.next2 = '<div id="introNext2"></div>'+'<div id="introMask2"></div>';

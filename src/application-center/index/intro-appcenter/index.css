@@ -56,6 +56,10 @@
     top: 30px;
     left: 35px;
 }
+#introHelper #introImgClose2{
+	top: 60px;
+	left: 815px;
+}
 #introNext2{
 	position: absolute;
 	height: 33px;
