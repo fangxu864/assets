@@ -4,7 +4,15 @@ var app = getApp();
 Page({
     data: {
         date : "2016-11-20",
-        title : "产品预订页"
+        title : "产品预订页",
+		ticketList : [{
+			id : "121",
+			title : "票名称",
+			price : 23,
+			store : -1,
+
+
+		}]
     },
     onReady : function(){
         var that = this;
