@@ -1,0 +1,16 @@
+<view class="container">
+    <view class="banner-box">
+        <view class="img-box">
+            <image src="http://www.12301.cc/images/defaultThum.jpg"></image>
+        </view>
+        <view class="info-box">
+            <view><text>杭州白龙潭风景区</text></view>
+            <view><text>在杭州市西南的西湖龙坞景区</text> <icon type="info_circle" size="20"/></view>
+        </view>
+    </view>
+    <view class="tab-title-box">
+        <view class="tab-title">购票</view>
+        <view class="tab-title">预订须知</view>
+        <view class="tab-title active">景区介绍</view>
+    </view>
+</view>
