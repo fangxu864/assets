@@ -13,8 +13,9 @@ Page({
     })
   },
   navToBooking : function(){
+	  console.log("navToBooking")
       wx.navigateTo({
-        url : "../booking/booking"
+        url : "../booking/booking?aid=3385&pid=11138"
       })
   },
   onLoad: function () {

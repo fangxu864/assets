@@ -4,24 +4,12 @@
     "pages/logs/logs",
     "pages/booking/booking"
 ],
-"tabBar": {
-    "color": "#666",
-    "selectedColor": "#268dcd",
-    "borderStyle": "white",
-    "backgroundColor": "#fafafa",
-    "list": [{
-      "pagePath": "pages/index/index",
-      "text": "产品预订"
-    },{
-      "pagePath": "pages/booking/booking",
-      "text": "我的订单"
-    }]
-  },
+
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#268dcd",
     "navigationBarTitleText": "票付通",
     "navigationBarTextStyle":"white"
   },
-    "debug": true
+    "debug": false
 }

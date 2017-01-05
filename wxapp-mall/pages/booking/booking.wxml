@@ -1,31 +1,98 @@
 <view class="body">
-  <view class="box datepickerBox datepicker">
-      <view><text style="padding-left:10px">游玩时间</text></view>
-      <view style="width:220px; margin-left:20px">
-          <picker style="height:100%; width:300px" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
-              <view class="picker">
-                  {{date}}
-              </view>
-          </picker>
-      </view>
-  </view>
+
+    <block wx:if="{{isReady}}">
 
 
-    <view class="box ticketListUl ticketListBox">
-        <view class="item">
-            <view class="minBox">
-                <view class="tit">票名称</view>
-                <view class="bcon">
-                    <view class="conBox price">单价：<text class="yen">￥</text><text class="num">234</text></view>
-                    <view>
-                        <view class="countBox">
-                            <text class="btn minus">-</text>
-                            <input type="number" class="inp" name="" id="" value="1"/>
-                            <text class="btn add">+</text>
+        <scroll-view scroll-y="true" class="mainBody">
+            <view class="box datepickerBox datepicker">
+                <view><text style="padding-left:10px">游玩时间</text></view>
+                <view style="width:220px; margin-left:20px">
+                    <picker style="height:100%; width:300px" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+                        <view class="picker">
+                            {{date}}
+                        </view>
+                    </picker>
+                </view>
+            </view>
+
+            <view class="box ticketListUl ticketListBox">
+                <view class="item" wx:for="{{ticketList}}">
+                    <view class="minBox">
+                        <view class="tit">{{item.title}}</view>
+                        <view class="bcon">
+                            <view class="conBox price">单价：<text class="yen">￥</text><text class="num">{{item.tprice}}</text></view>
+                            <view class="store" wx:if="{{item.store!=-1}}">
+                                库存：<text class="storeNum">{{item.store}}</text>
+                            </view>
+                            <view>
+                                <view class="countBox">
+                                    <text
+                                            bindtap="onCountBtnTap" data-id="{{item.pid+'-'+item.aid}}" data-ismain="{{index==0}}"
+                                            data-buyup="{{item.buy_up}}"
+                                            data-buylow="{{item.buy_low}}"
+                                            data-type="minus"
+                                            data-store="{{item.store}}"
+                                            data-value="{{item.value}}"
+                                            data-ismain="{{index==0}}"
+                                            class="btn minus">-</text>
+                                    <text class="inp">{{item.value}}</text>
+                                    <text
+                                            bindtap="onCountBtnTap" data-id="{{item.pid+'-'+item.aid}}" data-ismain="{{index==0}}"
+                                            data-buyup="{{item.buy_up}}"
+                                            data-buylow="{{item.buy_low}}"
+                                            data-store="{{item.store}}"
+                                            data-value="{{item.value}}"
+                                            data-ismain="{{index==0}}"
+                                            data-type="add" class="btn add">+</text>
+                                </view>
+
+                            </view>
+                        </view>
+                        <view wx:if="{{item.buy_low!=-1 || item.buy_up!=-1}}" style="margin-top:3px; text-align:right; font-size:12px; color:#777777">
+                            <text wx:if="{{item.buy_low!=-1 && item.buy_low!=1}}">{{item.buy_low}}张起买，</text>
+                            <text wx:if="{{item.buy_up!=-1}}">最高限购{{item.buy_up}}张</text>
                         </view>
                     </view>
                 </view>
             </view>
+
+
+
+            <view class="box userInfoBox userInfo">
+                <view class="line" style="margin-bottom:1px">
+                    <view class="lt">联系人</view>
+                    <view class="rt">
+                        <input type="text" name="" class="usernameInp" id="usernameInp" placeholder="取票人姓名"/>
+                    </view>
+                    <view class="errorTip"><text style="color:red">!必填</text></view>
+                    <view class="addUserInfo"><text class="text">+</text></view>
+                </view>
+                <view class="line">
+                    <view class="lt">手机号</view>
+                    <view class="rt"><input type="number" name="" class="mobileInp" id="mobileInp" placeholder="取票人手机号"/></view>
+                    <view class="errorTip" style="margin-right:5px"><text style="color:red">!格式错误</text></view>
+                </view>
+            </view>
+
+        </scroll-view>
+
+
+        <view class="box totalBar">
+            <view class="totalBarCon">
+                <view>
+                    <text class="totalT">总金额：</text>
+                    <text class="totalBox">
+                        <text class="totalYen">￥</text>
+                        <text class="totalNum">{{totalMoney}}</text>
+                    </text>
+                </view>
+                <view class="submitBtn">提交</view>
+            </view>
         </view>
-    </view>
+
+
+    </block>
+
+
+
 </view>
