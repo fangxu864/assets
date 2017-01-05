@@ -130,6 +130,8 @@ var AppList = PFT.Util.Class({
 
 				if( type == 0 && list.length > 0 ){
 					that.CacheList(list,type,category);
+				}else if(type == 0 && list.length == 0 && that.tempIndexListBox == ""){
+					that.tempIndexListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>";	
 				}
 				if( type != 0 ){
 					switch (type){
