@@ -5,10 +5,10 @@
         </view>
         <view class="info-box">
             <view>
-                <text class="land-name">杭州白龙潭风景区</text>
+                <text class="land-name">{{land.title}}</text>
             </view>
             <view>
-                <text class="land-adress">在杭州市西南的西湖龙坞景区</text>
+                <text class="land-adress">{{land.address}}</text>
                 <icon type="info_circle" size="15"/>
             </view>
         </view>
@@ -63,7 +63,7 @@
                     <view>
                         <text class="t-title">成人票</text>
                     </view>
-                    <view>
+                    <view  class="t-desc-box">
                         <text class="t-desc">成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票</text>
                     </view>
                     <view>

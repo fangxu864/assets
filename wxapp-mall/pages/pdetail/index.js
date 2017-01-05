@@ -1,11 +1,14 @@
 //index.js
 //获取应用实例
+var Common = require("../../utils/common.js");
 var app = getApp();
 Page({
     data: {
         scroll_into_view : "" ,
         isfixed : "" ,
-        floor_1_active: "active"
+        floor_1_active: "active" ,
+        title : "产品详情页",
+        land :{}
     },
 
 
@@ -49,15 +52,52 @@ Page({
      * @param e
      */
     onScroll: function (e) {
-        console.log(e);
+        var _this = this ;
         if(e.detail.scrollTop >= 214){
-            this.setData({
+            _this.setData({
                 isfixed : "fixed"
             })
         }else{
-            this.setData({
+            _this.setData({
                 isfixed : ""
             })
         }
-    }
-})
+    },
+
+
+    /**
+     *  初始化页面
+     */
+    onLoad: function() {
+        var _this = this;
+        Common.request({
+            url: "/r/Mall_Product/getLandInfo/",
+            data: {
+                lid: "8264"
+            },
+            loading: function () {
+                Common.showLoading()
+            },
+            complete: function () {
+                Common.hideLoading();
+            },
+            success: function (res) {
+                console.log(res);
+                _this.setData({
+                    land : res.data
+                })
+            }
+        })
+    },
+
+
+    /**
+     * onReady
+     */
+    onReady : function(){
+        let that = this;
+        wx.setNavigationBarTitle({
+            title: that.data.title
+        });
+    },
+});

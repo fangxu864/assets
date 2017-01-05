@@ -106,7 +106,8 @@
 .ticket-list-box .ticket-list-item .lt text.t-desc{
   margin: 10rpx 0;
   font-size: 24rpx;
-  color: #92a0ab
+  color: #92a0ab;
+  text-align: justify;
 }
 .ticket-list-box .ticket-list-item .lt .t-desc-box{
   margin: 10rpx 0;
