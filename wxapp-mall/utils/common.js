@@ -31,14 +31,15 @@ var Common = {
 	 * how to use:
 	 *
 	 * Common.request({
-	 * 		url : "/r/c/a/",
-	 * 		data : {
+	 * 		debug : true,                  //debug==true时 用于脱离后端开发，模拟假数据
+	 * 		url : "/r/c/a/",               //路径写法还是用微商城一样的写法，不需要写api.12301dev.com，这个方法已经为你做好路径转换
+	 * 		data : {                       //传给后端的数据
 	 * 			key : value
 	 * 		},
-	 *		loading : function(){},
-	 *		complete : function(){},
-	 *		success : function(res){},      //服务器成功处理了请求 code==200
-	 *		error : function(msg,code){}    //服务器无法处理该请求或处理时出错  msg:错误消息   code:具体的错误代码
+	 *		loading : function(){},        //请求加载时
+	 *		complete : function(res){},    //请求完成时执行  不论成功或失败都会执行
+	 *		success : function(res){},     //服务器成功处理了请求 code==200
+	 *		error : function(msg,code){}   //服务器无法处理该请求或处理时出错  msg:错误消息   code:具体的错误代码
 	 * })
 	 *
 	 *
@@ -74,7 +75,6 @@ var Common = {
 		}
 
 		opt.header["Small-App"] = this.getAccount();
-		//opt.header["Request-Method "] = "PUT";
 
 		opt.loading();
 
