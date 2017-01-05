@@ -251,7 +251,7 @@ var Query = RichBase.extend({
 			},
 			fail : function(res){
 				navigationBar.render();
-				listUl.html('<tr><td  colspan="6" style="padding:150px 0; text-align:center; background:#fff"><i class="iconfont">&#xe669;</i> <span class="t">请求出错，请稍后重试...</span></td></tr>')
+				listUl.html('<tr><td  colspan="6" style="padding:150px 0; text-align:center; background:#fff"><i class="iconfont">&#xe669;</i> <span class="t">'+res.msg+'</span></td></tr>')
 			},
 			empty : function(res){
 				if(page!=1){
