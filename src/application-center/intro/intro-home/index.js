@@ -15,11 +15,9 @@ var homeIntro = {
 		// cookie部分
 		var visited = Cookie.getCookie("memberIntro1"+this.memberID); 
 		if(visited == ""){
-			console.log("第一次访问");						
 			Cookie.setCookie("memberIntro1"+this.memberID,1,100); //Cookie的名称、值以及过期天数(年)
 			this.step1();		
 		}else{
-			console.log("不是第一次访问，访问memberId为"+this.memberID);
 			return false
 		}			
 
