@@ -1,10 +1,9 @@
 {
   "pages":[
-  "pages/booking/booking",
-    "pages/index/index",
-    "pages/logs/logs"
-
-],
+      "pages/index/index",
+      "pages/booking/booking",
+      "pages/logs/logs"
+  ],
 
   "window":{
     "backgroundTextStyle":"light",

@@ -1,122 +1,81 @@
 //index.js
 //获取应用实例
-var app = getApp()
+var app = getApp(),
+    common = require('../../utils/common.js');
+
 Page({
     data: {
-        plist:[
-            {
-                address:"福州",
-                aid:"3385",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111381",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3386",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111382",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3387",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111383",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3388",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111384",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3389",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111385",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3390",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111386",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3391",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111387",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3385",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111388",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3385",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111389",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            },
-            {
-                address:"福州",
-                aid:"3385",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111380",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            }
-        ],
+        plist: [],
         hasMore: true,
-        isLoading: false
+        isHasMoreHidden: false,
+        isLoading: false,
+        pageSize: 10,
+        lastPos: 0
+    },
+    onLoad: function () {
+        var that = this;
+
+        this.getData({
+            loading: function() {
+                common.showLoading();
+            },
+            complete: function ( res ) {},
+            success: function ( res ) {
+                common.hideLoading();
+
+                that.setData({
+                    plist: res.data.list,
+                    lastPos: res.data.lastPos
+                })
+            }
+        })
+    },
+    getData: function( opt ) {
+        var that = this;
+
+        if (!this.data.hasMore) return;
+
+        if( !this.data.isLoading ) {
+            common.request({
+                url: '/r/Mall_Product/productList/',
+                data: {
+                    keyword: '',
+                    topic: '',
+                    type: 'all',
+                    city: '',
+                    pageSize: this.data.pageSize,
+                    lastPos: this.data.lastPos
+                },
+                debug: false,
+                loading : function(){
+                    if( opt.loading ) {
+
+                        opt.loading();
+
+                    } else {
+
+                        that.setData({
+                            isLoading: true
+                        })
+
+                    }
+                },
+                complete: function( res ) {
+                    opt.complete && opt.complete( res );
+                },
+                success: function( res ) {
+                    if( !opt.loading ) {
+                        that.setData({
+                            isLoading: false
+                        });
+                    }
+
+                    opt.success && opt.success( res );
+                }
+            })
+        } else {
+            console.log('正在请求  请稍后');
+        }
     },
     //事件处理函数
     navigateToDetail: function( e ) {
@@ -128,63 +87,32 @@ Page({
             
         wx.navigateTo({
           url: 'pdetail?lid=' + e.currentTarget.dataset.lid + '&ptype=' + ptype + '&topic=' + topic
-        })
+        });
     },
     scrollToLower: function( e ) {
-        if (!this.data.hasMore) return;
+        var that = this;
 
-        this.setData({
-            isLoading: true
-        })
-        
-        wx.request({
-            url: '',
-            data: {
-                x: '' ,
-                y: ''
-            },
-            method: 'POST',
-            success: function(res) {
-                // console.log(res.data)
-                this.setData({
-                    isLoading: false
+        this.getData({
+            complete: function ( res ) {},
+
+            success: function ( res ) {
+                that.setData({
+                    plist: that.data.plist.concat( res.data.list ),
+                    lastPos: res.data.lastPos
                 })
+
+                if( res.data.lastPos == that.data.lastPos ) {
+                    that.setData({
+                        hasMore: false
+                    });
+
+                    setTimeout(function(){
+                        that.setData({
+                            isHasMoreHidden: true
+                        });
+                    }, 3000);
+                }
             }
         })
-
-        var ajaxData = {
-                address:"福州",
-                aid:"3385",
-                area:"12|381|0",
-                imgpath:"http://images.12301.test//123624/20160425/14615525996392_thumb.jpg",
-                jsprice:"0.02",
-                lid:"6603",
-                pid:"111390",
-                title:"（mm测试）江滨公园",
-                tprice:"0.03"
-            };
-        
-        var plist = this.data.plist;
-        plist.push( ajaxData );
-        
-        this.setData({
-            plist: plist
-        })
-
-        this.setData({
-            isLoading: false
-        })
-
-    },
-    onLoad: function () {
-      console.log('onLoad')
-      var that = this
-      //调用应用实例的方法获取全局数据
-      app.getUserInfo(function(userInfo){
-        //更新数据
-        that.setData({
-          userInfo:userInfo
-        })
-      })
     }
 })
