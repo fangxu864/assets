@@ -38,7 +38,7 @@ var HeaderWarning={
         /**
          * 走马灯的判断
          */
-        if( _this.judge_of_overTime == 0 || /201|202|203/.test(_this.judge_of_account_balance) ){
+        if( _this.judge_of_overTime == 0 || /201|202|203|204/.test(_this.judge_of_account_balance) ){
             //如果账户临近过期
             if(_this.judge_of_overTime == 0 ){
                 //平台续费html
@@ -46,7 +46,7 @@ var HeaderWarning={
                 _this.loopTip(xufei_tpl , "0")
             }
             //如果账户余额接近不足
-            else if(/201|202|203/.test(_this.judge_of_account_balance)){
+            else if(/201|202|203|204/.test(_this.judge_of_account_balance)){
                 //平台充值的html
                 var charge_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/recharge.html">充值</a>'}});
                 _this.loopTip(charge_tpl , _this.judge_of_account_balance)
@@ -160,13 +160,13 @@ var HeaderWarning={
         },
         "201": {
             "title":"账户余额提醒",
-            "content":" 您好，您的账户余额已不足200元，请您及时充值，以免影响使用！",
+            "content":"亲爱的用户,您的票付通平台账户余额已不足200元 ,请及时充值余额, 以免影响您帐号的正常使用",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
         "202": {
             "title":"账户余额提醒",
-            "content":" 您好，您的账户余额已低于0元，请您及时充值，以免影响使用！",
+            "content":"亲爱的用户, 您的票付通平台账户余额已低于0元, 请于7天内及时充值余额, 否则将无法正常使用",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
@@ -185,9 +185,10 @@ var HeaderWarning={
     loopTipCon:{
         "0":"您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
         "-1":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）",
-        "201" : "您好，您的账户余额已不足200元，请您及时充值，以免影响使用！",
-        "202" : "您好，您的账户余额已低于0元，请您及时充值，以免影响使用！",
-        "203" : "您好，您的账户余额已欠费，请您及时充值，以免影响使用！"
+        "201" : "亲爱的用户,您的票付通平台账户余额已不足200元 ,请及时充值余额, 以免影响您帐号的正常使用",
+        "202" : "亲爱的用户, 您的票付通平台账户余额已低于0元, 请于7天内及时充值余额, 否则将无法正常使用",
+        "203" : "您好，您的账户余额已欠费，请您及时充值，以免影响使用！",
+        "204" : "亲爱的用户,您的票付通平台账户余额已欠费，无法正常使用，请您先缴清欠费，谢谢！"
     },
 
 
