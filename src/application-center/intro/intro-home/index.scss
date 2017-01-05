@@ -82,26 +82,6 @@
     background: #fff;
 }
 
-#introHelper2{
-	left: 26px;	
-	top: 44px;
-}
-
-#introHelper3{
-	left: 26px;	
-	top: 105px;
-}
-
-#introHelper4{
-	left: 26px;	
-	top: 226px;
-}
-
-#introHelper5{
-	left: 26px;	
-	top: 345px;
-}
-
 /* 第二步 */
 
 
@@ -123,5 +103,15 @@
     cursor: pointer;
 	z-index : 999;
 }
+
+.introHelper2{
+	height: 30px;
+	width: 140px;
+	position: absolute;
+    z-index: 99;
+    background: #fff;
+}
+
+
 
 

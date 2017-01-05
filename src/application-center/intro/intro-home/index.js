@@ -37,12 +37,9 @@ var homeIntro = {
 				    '<div id="introNext"></div>'+
 				    '<div id="introExit"></div>';
 						
-			this.helpr1 =   '<div class="helper1Wrap">'+
-		 		 			    '<div id="introHelper2" class="introHelper1"></div>'+	
-							    '<div id="introHelper3" class="introHelper1"></div>'+
-				                '<div id="introHelper4" class="introHelper1"></div>'+
-				                '<div id="introHelper5" class="introHelper1"></div>'+
-		                    '</div>';	
+		this.helpr1 =       '<div id="introHelper2" class="introHelper1"></div>'+
+						    '<div id="introHelper3" class="introHelper1"></div>'+
+			                '<div id="introHelper4" class="introHelper1"></div>';
 
 		$("body").append(this.temp);	
 		$("body").append(this.helpr1);		
@@ -57,21 +54,9 @@ var homeIntro = {
 			"top" : top
 		});
 
-		var left_memb = $(".left_memb");
-		var loffset = left_memb.offset();
-		var lleft = loffset.left;
-		var ltop = loffset.top;
-		$(".helper1Wrap").css({
-
-			"left" : lleft,
-			"top" : ltop
-
-		});
-
-		$("a:contains('票券验证')").addClass("introNow");
-		$("a:contains('计调下单')").addClass("introNow");
-		$("a:contains('B2C/微商城')").addClass("introNow");
-		$("a:contains('微信公众号配置')").addClass("introNow");
+		this.setSideBarHL($("a:contains('B2C')"),$("#introHelper2"));
+		this.setSideBarHL($("a:contains('数据罗盘')"),$("#introHelper3"));
+		this.setSideBarHL($("a:contains('微信公众号')"),$("#introHelper4"));
 
 		$("#introExit").on("click",function(){  //退出介绍
 			$("#introMask").remove();
@@ -92,21 +77,52 @@ var homeIntro = {
 					'<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide02-arr.png" id="introImgArr2">'+
 					'<div id="introNext2"></div>'+
 					'<div id="introMask2"></div>';
+		this.helpr2 = '<div id="introHelper6" class="introHelper2"></div>';
 
 		$("#introHelper").empty();
-		$(".helper1Wrap").remove();
+		$("#introHelper2").remove();
+		$("#introHelper3").remove();
+		$("#introHelper4").remove();
 
-		$("a:contains('票券验证')").removeClass("introNow");
-		$("a:contains('计调下单')").removeClass("introNow");
-		$("a:contains('B2C/微商城')").removeClass("introNow");
-		$("a:contains('微信公众号配置')").removeClass("introNow");
+		$("a:contains('B2C')").removeClass("introNow");
+		$("a:contains('数据罗盘')").removeClass("introNow");
+		$("a:contains('微信公众号')").removeClass("introNow");
 
 		$("#introHelper").append(this.temp2);
-		window.scrollTo(0,document.body.scrollHeight);
+		$("body").append(this.helpr2);
+		window.scrollTo(0,document.body.scrollHeight);		
+
+		this.setSideBarHL($("dt:contains('应用中心')"),$("#introHelper6"));
 
 		$("#introNext2").on("click",function(){
 			window.location.href = "new/appcenter.html";
 		});
+
+	},
+
+
+	setSideBarHL : function(a,helper){
+
+		if(a.length > 0){
+			var tagType = a[0].tagName; 
+			a.addClass("introNow");
+			var offset = a.offset();
+			var left = offset.left;
+			var top = offset.top;
+			if(tagType == "A"){
+				helper.css({
+					"left" : left-10,
+					"top" : top-6
+				});
+			}else{
+				helper.css({
+					"left" : left-10,
+					"top" : top
+				});
+			}
+		}else{
+			helper.remove();
+		}
 
 	}
 

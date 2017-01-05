@@ -107,29 +107,14 @@
 	z-index: 999;
     cursor: pointer;
 }
-#introHelper .introHelper3{
+.introHelper3{
 	height: 30px;
-	width: 100px;
+	width: 140px;
 	position: absolute;
     z-index: 99;
     background: #fff;
 }
-#introHelper4{
-	left: -165px;	
-	top: 44px;
-}
-#introHelper5{
-	left: -165px;	
-	top: 137px;
-}
-#introHelper6{
-	left: -165px;	
-	top: 257px;
-}
-#introHelper7{
-	left: -165px;	
-	top: 375px;
-}
+
 
 
 

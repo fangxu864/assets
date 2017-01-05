@@ -117,11 +117,11 @@ var appIntro = {
 	step3 : function(l,t){
 
 		this.temp3 = '<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide05.png" id="introImg3">'+
-					'<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide05-arr.png" id="introImgArr3">'+
-					'<div id="introHelper4" class="introHelper3"></div>'+
-					'<div id="introHelper5" class="introHelper3"></div>'+
-					'<div id="introHelper6" class="introHelper3"></div>'+
-					'<div id="introHelper7" class="introHelper3"></div>';
+					'<img src="http://static.12301.cc/assets/build/images/appcenter/guide/guide05-arr.png" id="introImgArr3">';
+
+		this.helper3 = 	'<div id="introHelper4" class="introHelper3"></div>'+
+						'<div id="introHelper5" class="introHelper3"></div>'+
+						'<div id="introHelper6" class="introHelper3"></div>';		
 
 		$("#introHelper").empty();
 
@@ -132,19 +132,46 @@ var appIntro = {
 		});
 
 		$("#introHelper").append(this.temp3);
+		$("body").append(this.helper3);
 
 		$(".tab-list").removeClass('introNow').css("background","");
 		$(".app-list1 li").eq(0).removeClass("introNow");
 		$("a:contains('团购导码')").removeClass("introNow");
-		$("a:contains('票券验证')").addClass("introNow");
-		$("a:contains('订单查询')").addClass("introNow");
-		$("a:contains('团购配置')").addClass("introNow");
-		$("a:contains('团购导码')").addClass("introNow");
+
+		this.setSideBarHL($("a:contains('B2C')"),$("#introHelper4"));
+		this.setSideBarHL($("a:contains('数据罗盘')"),$("#introHelper5"));
+		this.setSideBarHL($("a:contains('微信公众号')"),$("#introHelper6"));
 
 		$("#introNext2").off("click");
 		$("#introNext2").on("click",function(){
 			window.location.href = "appcenter.html";
 		});
+
+	},
+
+
+	setSideBarHL : function(a,helper){
+
+		if(a.length > 0){
+			var tagType = a[0].tagName; 
+			a.addClass("introNow");
+			var offset = a.offset();
+			var left = offset.left;
+			var top = offset.top;
+			if(tagType == "A"){
+				helper.css({
+					"left" : left,
+					"top" : top-6
+				});
+			}else{
+				helper.css({
+					"left" : left-10,
+					"top" : top
+				});
+			}
+		}else{
+			helper.remove();
+		}
 
 	}
 
