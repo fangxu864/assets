@@ -5,11 +5,13 @@ var app = getApp();
 Page({
     data: {
 		isReady : false,
-        date : "2016-11-20",
+        date : Common.getToday(),
         title : "产品预订页",
 		aid : "",
 		pid : "",
 		totalMoney : 0,
+		contacttel : "",
+		ordername : "",
 		ticketList : [{
 			pid : "",
 			aid : "",
@@ -41,6 +43,18 @@ Page({
           title: that.data.title
         })
 
+		//wx.getStorage({
+		//	key : "SSS",
+		//	success : function(res){
+		//		console.log(res)
+		//	},
+		//	fail : function(err){
+		//		console.log("fail")
+		//		console.log(err)
+		//	}
+		//})
+
+
 		if(pid && aid){
 			this.queryBookingInfo(pid,aid);
 		}else{
@@ -53,8 +67,8 @@ Page({
     },
 	onLoad: function (option) {
 		this.setData({
-			aid : option.aid || "",
-			pid : option.pid || ""
+			aid : option.aid || "3385",
+			pid : option.pid || "11138"
 		})
 	},
 	onShow : function(){ },
@@ -129,6 +143,19 @@ Page({
 
 		this.calTotalMoney();
 
+	},
+	onContacttelInpBlur : function(e){
+		var detail = e.detail;
+		var value = detail.value;
+		if(value.length!=11 && !isNaN(value)){
+
+		}else{
+
+		}
+		console.log(this.data.contacttel)
+	},
+	onOrderNameInpBlur : function(e){
+		console.log(this.data.ordername)
 	},
     bindDateChange : function(result){
 		var date = result.detail.value;

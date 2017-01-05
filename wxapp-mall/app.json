@@ -1,8 +1,9 @@
 {
   "pages":[
+  "pages/booking/booking",
     "pages/index/index",
-    "pages/logs/logs",
-    "pages/booking/booking"
+    "pages/logs/logs"
+
 ],
 
   "window":{

@@ -62,14 +62,14 @@
                 <view class="line" style="margin-bottom:1px">
                     <view class="lt">联系人</view>
                     <view class="rt">
-                        <input type="text" name="" class="usernameInp" id="usernameInp" placeholder="取票人姓名"/>
+                        <input type="text" bindblur="onOrderNameInpBlur" name="" value="{{ordername}}" class="usernameInp" id="usernameInp" placeholder="取票人姓名"/>
                     </view>
                     <view class="errorTip"><text style="color:red">!必填</text></view>
                     <view class="addUserInfo"><text class="text">+</text></view>
                 </view>
                 <view class="line">
                     <view class="lt">手机号</view>
-                    <view class="rt"><input type="number" name="" class="mobileInp" id="mobileInp" placeholder="取票人手机号"/></view>
+                    <view class="rt"><input type="number" bindblur="onContacttelInpBlur" name="" value="{{contacttel}}" class="mobileInp" id="mobileInp" placeholder="取票人手机号"/></view>
                     <view class="errorTip" style="margin-right:5px"><text style="color:red">!格式错误</text></view>
                 </view>
             </view>
