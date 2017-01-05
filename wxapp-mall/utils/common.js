@@ -147,8 +147,6 @@ var Common = {
 			success : function(res){ //如果存在
 				var session = res.data;
 
-				return console.log(res)
-
 				//判断此session是否过期
 				isOverTime(function(result){
 					if(result.isOver){ //已过期,则重新登录去获取session
@@ -244,12 +242,6 @@ var Common = {
 		opt["url"] = host + c + a;
 
 
-		//权限校验中间件
-		this.auth(function(session,expire){
-			console.log(session,expire);
-		})
-
-
 		//complete中间件
 		var _complete = opt.complete;
 		opt["complete"] = function(res){
@@ -288,8 +280,12 @@ var Common = {
 			}
 		}
 
-		return wx.request(opt);
+		//权限校验中间件
+		this.auth(function(session,expire){
+			opt["header"]["Session-Key"] = session;
+			wx.request(opt);
 
+		})
 	},
 	getToday : function(){
 		var date = new Date();
