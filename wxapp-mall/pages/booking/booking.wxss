@@ -53,6 +53,6 @@
 .totalBar .submitBtn{ width:90px; height:100%; line-height:42px; text-align:center; background:#f37138; color:#ffffff}
 
 
-
+.descFlag{ font-size:12px; line-height:22px; padding:2px 4px; color:#2a98da; border:1px solid #2a98da; margin-right:10px}
 
 

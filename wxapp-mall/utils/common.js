@@ -3,13 +3,14 @@
  * Date: 2017/1/4 14:09
  * Description: ""
  */
+var Config = require("./config.js");
 var Common = {
 	appId : "wxd1e8494ae3b6d821",
 	SESSION_STORAGE_KEY : "pft-session-storage",
 	SESSION_STORAGE_EXPIRE_KEY : "pft-session-storage-expire",  //session过期时长的key
 	SESSION_STORAGE_AT_TIME : "pft-session-storage-attime",
 	getAccount : function(){
-		return "123624";
+		return Config.account;
 	},
 	//全局显示loading状态
 	showLoading : function(text){
@@ -36,6 +37,72 @@ var Common = {
 		})
 	},
 	/**
+	 * 登录微信 然后用返回的code去服务器取sessionKey
+	 */
+	login : function(callback){
+		var sessionKey = this.SESSION_STORAGE_KEY;
+		var expireKey = this.SESSION_STORAGE_EXPIRE_KEY;
+		var atTimeKey = this.SESSION_STORAGE_AT_TIME;
+		var showError = this.showError;
+		var account = this.getAccount();
+		console.log("缓存过期，调用登录登录接口重新登录");
+		wx.login({
+			success : function(res){
+				var code = res.code;
+				if(code){
+					wx.request({
+						url : "https://api.12301dev.com/index.php?c=Mall_Member&a=smallAppLogin",
+						method : "POST",
+						header : {
+							"Small-App" : account
+						},
+						data : {
+							code : code
+						},
+						success : function(res){
+							var _res = res.data;
+							var data = _res.data;
+							var code = _res.code;
+							if(code==200){ //由code换session成功后，把session存入本地storage
+								var sessionValue = data.sessionKey;
+								var expireValue = data.expire;
+								wx.setStorage({
+									key : sessionKey,
+									data : sessionValue
+								})
+								wx.setStorage({
+									key : expireKey,
+									data : expireValue
+								})
+								//把当前登录成功后换回session的时间点存下来
+								//用于后面比对是否过期
+								wx.setStorage({
+									key : atTimeKey,
+									data : (+new Date())
+								})
+								callback && callback(sessionValue,expireValue);
+							}else{
+								showError(res.msg);
+							}
+						},
+						fail : function(err){
+							//showError("code换session出错");
+							//showError(JSON.stringify(err));
+							console.log("请求后端接口：https://api.12301dev.com/index.php?c=Mall_Member&a=smallAppLogin");
+							console.log(err);
+							showError("出错出错出错出错");
+						}
+					})
+				}else{
+					showError('获取用户登录态失败！' + res.errMsg)
+				}
+			},
+			fail : function(){
+				showError("微信登录接口调用失败");
+			}
+		})
+	},
+	/**
 	 * 每次发ajax请求给后端时，需要先判断是否已经微信登录
 	 * 如果已登录，接着判断登录session有没有过期，如果过期需重新登录
 	 * 如果未登录，需登录后通过返回的code，请求后端，用code换回session_key，存在本地
@@ -48,6 +115,9 @@ var Common = {
 		var atTimeKey = this.SESSION_STORAGE_AT_TIME;
 		var showError = this.showError;
 		var account = this.getAccount();
+
+
+		// wx.clearStorage();
 
 		//判断是否过期
 		var isOverTime = function(sucCallback,failCallback){
@@ -88,7 +158,7 @@ var Common = {
 		};
 		//登录微信 然后用返回的code去服务器取sessionKey
 		var login = function(callback){
-			console.log("缓存过期，调用登录登录接口重新登录");
+			console.log("缓存过期，调用登录接口重新登录");
 			wx.login({
 				success : function(res){
 					var code = res.code;
@@ -128,8 +198,12 @@ var Common = {
 									showError(res.msg);
 								}
 							},
-							fail : function(){
-								showError("code换session出错");
+							fail : function(err){
+								console.log(err)
+								console.log("请求后端接口：https://api.12301dev.com/index.php?c=Mall_Member&a=smallAppLogin");
+								console.log(JSON.stringify(err));
+								//showError("code换session出错");
+								showError("出错出错出错出错出错");
 							}
 						})
 					}else{
@@ -232,7 +306,7 @@ var Common = {
 		var url = opt.url;
 		if(!url) return false;
 		//index.php?c=Mall_Product&a=productList
-		var host = "https://api.12301dev.com/index.php";
+		var host = "https://api.12301.cc/index.php";
 		var urlArray = [];
 		url.split("/").forEach(function(item){
 			if(item) urlArray.push(item);
@@ -295,6 +369,57 @@ var Common = {
 		if(m<10) m = "0" + m;
 		if(d<10) d = "0" + d;
 		return y+"-"+m+"-"+d;
+	},
+	MinueToDayTime : function(daytime){
+		var day = daytime/(24*60);
+		var day_init = String(day).split(".")[0] * 1;
+		var hour = (day-day_init) * 24;
+		var hour_init = String(hour).split(".")[0] * 1;
+		var mine = (hour-hour_init) * 60;
+		var mine_init = Math.ceil(mine);
+		var day_text = day_init==0 ? "" : (day_init+"天");
+		var hour_text = (day_init==0 && hour_init==0) ? "" : (hour_init+"小时");
+		var mine_text = mine_init!=0 ? (mine_init + "分钟") : "";
+		return day_text+hour_text+mine_text;
+	},
+	//验证身份证
+	validateIDCard : function(code){
+		var city={11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门",91:"国外 "};
+		var tip = "";
+		var pass= true;
+
+		if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
+			tip = "身份证号格式错误";
+			pass = false;
+		}else if(!city[code.substr(0,2)]){
+			tip = "地址编码错误";
+			pass = false;
+		}else{
+			//18位身份证需要验证最后一位校验位
+			if(code.length == 18){
+				code = code.split('');
+				//∑(ai×Wi)(mod 11)
+				//加权因子
+				var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+				//校验位
+				var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+				var sum = 0;
+				var ai = 0;
+				var wi = 0;
+				for (var i = 0; i < 17; i++)
+				{
+					ai = code[i];
+					wi = factor[i];
+					sum += ai * wi;
+				}
+				var last = parity[sum % 11];
+				if(parity[sum % 11] != code[17]){
+					tip = "校验位错误";
+					pass =false;
+				}
+			}
+		}
+		return pass;
 	}
 };
 

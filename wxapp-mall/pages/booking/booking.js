@@ -1,59 +1,41 @@
-//index.js
-//获取应用实例
 var Common = require("../../utils/common.js");
+var MinueToDayTime = Common.MinueToDayTime;
 var app = getApp();
 Page({
     data: {
 		isReady : false,
-        date : Common.getToday(),
-        title : "产品预订页",
+        begintime : Common.getToday(),
 		aid : "",
 		pid : "",
+		isSubmitLoading : false,
 		totalMoney : 0,
 		contacttel : "",
 		ordername : "",
-		ticketList : [{
-			pid : "",
-			aid : "",
-			title : "票名称111",
-			buy_up : "10",
-			buy_low : "1",
-			jsprice : 23,
-			tprice : 23,
-			store : 100,
-			value : 1
-		},{
-			pid : "222",
-			aid : "322",
-			title : "票名称222",
-			buy_up : "4",
-			buy_low : "2",
-			jsprice : 23,
-			tprice : 23,
-			store : 5,
-			value : 0
-		}]
+		sfz : "",
+		needIDErrTipShow : false,
+		contacttelErrTipShow : false,
+		orderNameErrTipShow : false,
+		ticketList : []
     },
     onReady : function(){
         let that = this;
 		let data = this.data;
 		let pid = data.pid;
 		let aid = data.aid;
-        wx.setNavigationBarTitle({
-          title: that.data.title
-        })
 
-		//wx.getStorage({
-		//	key : "SSS",
-		//	success : function(res){
-		//		console.log(res)
-		//	},
-		//	fail : function(err){
-		//		console.log("fail")
-		//		console.log(err)
-		//	}
-		//})
 
+		//var now = +new Date();
+		//var last = 1483606264285;
+		////var last = +new Date();
+		//var date = new Date(last);
+		//var Y = date.getFullYear() + '-';
+		//var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		//var D = date.getDate() + ' ';
+		//var h = date.getHours() + ':';
+		//var m = date.getMinutes() + ':';
+		//var s = date.getSeconds();
+		//console.log(Y+M+D+h+m+s);
+		//console.log((now-last))
 
 		if(pid && aid){
 			this.queryBookingInfo(pid,aid);
@@ -64,11 +46,12 @@ Page({
 				showCancel : false
 			})
 		}
+
     },
 	onLoad: function (option) {
 		this.setData({
 			aid : option.aid || "3385",
-			pid : option.pid || "11138"
+			pid : option.pid || "6698"
 		})
 	},
 	onShow : function(){ },
@@ -147,26 +130,56 @@ Page({
 	onContacttelInpBlur : function(e){
 		var detail = e.detail;
 		var value = detail.value;
-		if(value.length!=11 && !isNaN(value)){
-
+		if(value.length!=11 || isNaN(value)){
+			this.setData({contacttelErrTipShow : true})
 		}else{
-
+			this.setData({contacttelErrTipShow : false})
 		}
-		console.log(this.data.contacttel)
 	},
 	onOrderNameInpBlur : function(e){
-		console.log(this.data.ordername)
+		var detail = e.detail;
+		var value = detail.value;
+		if(!value){
+			this.setData({orderNameErrTipShow : true})
+		}else{
+			this.setData({orderNameErrTipShow : false})
+		}
+	},
+	onContacttelInpChange : function(e){
+		var detail = e.detail;
+		var value = detail.value;
+		this.setData({
+			contacttel : value
+		})
+		if(value.length==11 && !isNaN(value)) this.setData({contacttelErrTipShow : false})
+	},
+	onOrderNameInpChange : function(e){
+		var detail = e.detail;
+		var value = detail.value;
+		this.setData({
+			ordername : value
+		})
+		this.setData({orderNameErrTipShow : value ? false : true})
+	},
+	onIDCardInpBlur : function(e){
+		var detail = e.detail;
+		var value = detail.value;
+		var result = Common.validateIDCard(value);
+		this.setData({needIDErrTipShow : result ? false : true})
+	},
+	onIDCardInpChange : function(e){
+		var detail = e.detail;
+		var value = detail.value;
+		this.setData({sfz:value});
+		if(value.length==18 || value.length==15){
+			var result = Common.validateIDCard(value);
+			this.setData({needIDErrTipShow : result ? false : true})
+		}
 	},
     bindDateChange : function(result){
 		var date = result.detail.value;
-		this.setData({date : date});
-
-		let pids = this.data.ticketList.map(function(item){
-			return item.pid;
-		}).join("-");
-
-		this.queryPriceAndStore(pids,this.data.aid,date);
-
+		this.setData({begintime : date});
+		this.queryPriceAndStore(date);
     },
 	//初始化时请求产品详情
 	queryBookingInfo : function(pid,aid){
@@ -184,15 +197,159 @@ Page({
 				Common.hideLoading();
 			},
 			success : function(res){
+				var data = res.data;
+				var ticketList = [];
+				data.tickets.forEach(function(ticket,index){
+					var buyup = ticket.buy_up;
+					var buylow = ticket.buy_low;
+					var value = 0;
+					if(buyup==0) ticket["buy_up"] = -1; //不限
+					if(index==0){ //如果是第一张票，即主票
+						value = buylow;
+					}
+					ticket["value"] = value;
+					ticket["store"] = -1;   //初始时，库存都为不限 -1
+					ticketList.push(ticket);
+				})
 				that.setData({
+					ticketList : ticketList,
 					isReady : true
 				})
+				wx.setNavigationBarTitle({
+					title: data.title
+				})
+
+				that.adaptInfo(data);
+
+				that.queryPriceAndStore(that.data.begintime);
 			}
 		})
 	},
+
+	adaptInfo : function(data){
+
+		var that = this;
+		var validTime = data.validTime;
+		if(validTime==0){
+			data["validTime"] = "仅当天有效";
+		}else{
+			var pre = data.validType==1 ? "下单后" : "游玩日期后";
+			if(validTime.indexOf("~")<0){
+				data["validTime"] = (pre+validTime+"天内有效");
+			}else{
+				data["validTime"] = (pre+validTime+"内有效");
+			}
+		}
+
+		//验证时间（全天都可验时，不显示）
+		//"verifyTime": -1  -1表示不限验证时间, [0,1,3,4,5,6]表示周一周二周四周五周六周日可验, 2016-08-01~2016-08-10表示此时间段可验
+		var verifyTime = data.verifyTime;
+		var verifyTimeResult = "限";
+		if(verifyTime==-1){
+			data["verifyTime"] = "";
+		}else if(Object.prototype.toString.call(verifyTime)=="[object Array]"){
+			for(var i in verifyTime){
+				var str = {
+					0 : "周日",
+					1 : "周一",
+					2 : "周二",
+					3 : "周三",
+					4 : "周四",
+					5 : "周五",
+					6 : "周六"
+				}[verifyTime[i]];
+				verifyTimeResult += (str + " ");
+			}
+			data["verifyTime"] = (verifyTimeResult + "使用");
+		}else{
+			data["verifyTime"] = "限" + verifyTime + "使用";
+		}
+
+		//2不可退，1游玩日期前可退，0有效期前可退
+		var refund_rule = data.refund_rule;
+		var refund_early_time = MinueToDayTime(data.refund_early_time);
+		if(refund_rule==1){
+			data["refund_rule_text"] = "有效期前"+refund_early_time+"可退";
+		}else if(refund_rule==0){
+			data["refund_rule_text"] = "游玩日期前可退";
+		}else if(refund_rule==2){
+			data["refund_rule_text"] = "不可退";
+		}
+
+
+		var reb = data.reb;
+		var reb_type = data.reb_type;
+		data["reb"] = reb * 1;
+		data["reb_type"] = reb_type * 1;
+
+		var batch_check = data.batch_check;
+		var batch_day = data.batch_day;
+		if(batch_check==1 && batch_day!=0){ //开启分批验证 并且不能设置为不限验证数
+			data["batch_day"] = "本次提交的订单，每日最多使用" + batch_day + "张";
+		}
+
+		var newData = {};
+		for(var i in data){
+			if(i!='tickets' && i!='cancel_cost'){
+				newData[i] = data[i];
+			}
+		}
+
+		this.setData(newData);
+
+	},
+
+	//提交订单
+	onSubmit : function(e){
+		var oData = this.data;
+		var ticketList = oData.ticketList;
+		if(oData.isSubmitLoading) return false;
+		if(oData.needIDErrTipShow || oData.needIDErrTipShow || oData.orderNameErrTipShow) return false;
+		var contacttel = oData.contacttel;
+		var ordername = oData.ordername;
+		var sfz = oData.sfz;
+
+
+		var submitData = {
+			pid : oData.pid,
+			aid : oData.aid,
+			tnum : ticketList[0]["value"],   //主票购买张数
+			begintime : oData.begintime,     //开始时间
+			contacttel : oData.contacttel,   //取票人手机号
+			ordername : oData.ordername      //联系人姓名
+		};
+		if(oData.needID==1) submitData["sfz"] = oData.sfz; //需要一张身份证
+
+		if(contacttel.length!==11 || isNaN(contacttel)) return this.setData({contacttelErrTipShow:true});
+		if(!ordername) return this.setData({orderNameErrTipShow:true});
+		if(oData.needID==1 && !Common.validateIDCard(sfz)) return this.setData({needIDErrTipShow:true});
+
+
+
+		var link = {};
+		ticketList.forEach(function(item,index){
+			if(index!=0){
+				var pid = item.pid;
+				var value = item.value;
+				link[pid] = value;
+			}
+		});
+
+
+
+
+
+
+	},
+
+
 	//请求库存价格
-	queryPriceAndStore : function(pids,aid,date){
+	queryPriceAndStore : function(date){
 		let that = this;
+		let aid = this.data.aid;
+		let pids = this.data.ticketList.map(function(item){
+			return item.pid;
+		}).join("-");
 		Common.request({
 			debug : 1,
 			url : "",
@@ -260,9 +417,14 @@ Page({
 
 	//计算总金额
 	calTotalMoney : function(){
-		var total = this.data.ticketList.reduce(function(prev,current,currentIndex){
-			return (prev.value*1 * prev.tprice*1) + (current.value*1 * current.tprice*1);
-		});
+		var ticketList = this.data.ticketList;
+		//var total = this.data.ticketList.reduce(function(prev,current,currentIndex){
+		//	return (prev.value*1 * prev.tprice*1) + (current.value*1 * current.tprice*1);
+		//});
+		var total = 0;
+		ticketList.forEach(function(item){
+			total += (item.value * item.tprice);
+		})
 		this.setData({totalMoney:total});
 	}
 

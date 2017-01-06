@@ -9,10 +9,18 @@
                 <view style="width:220px; margin-left:20px">
                     <picker style="height:100%; width:300px" mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
                         <view class="picker">
-                            {{date}}
+                            {{begintime}}
                         </view>
                     </picker>
                 </view>
+            </view>
+
+            <view style="margin-left:10px; margin-top:10px; margin-right:10px">
+                <text class="validTime descFlag">{{validTime}}</text>
+                <text class="descFlag verifyTime" wx:if="{{verifyTime!=''}}">{{verifyTime}}</text>
+                <text class="descFlag refund_rule">{{refund_rule_text}}</text>
+                <text class="descFlag batch_check_rule" wx:if="{{batch_day && batch_day!=0}}">{{batch_day}}</text>
+                <text class="descFlag refund_ruleBtn" wx:if="{{refund_rule && refund_rule!=2}}">退票规则</text>
             </view>
 
             <view class="box ticketListUl ticketListBox">
@@ -57,20 +65,24 @@
             </view>
 
 
-
             <view class="box userInfoBox userInfo">
                 <view class="line" style="margin-bottom:1px">
                     <view class="lt">联系人</view>
                     <view class="rt">
-                        <input type="text" bindblur="onOrderNameInpBlur" name="" value="{{ordername}}" class="usernameInp" id="usernameInp" placeholder="取票人姓名"/>
+                        <input type="text" bindblur="onOrderNameInpBlur" bindinput="onOrderNameInpChange" name="" value="{{ordername}}" class="usernameInp" id="usernameInp" placeholder="取票人姓名"/>
                     </view>
-                    <view class="errorTip"><text style="color:red">!必填</text></view>
+                    <view class="errorTip" wx:if="{{orderNameErrTipShow}}"><text style="color:red">!必填</text></view>
                     <view class="addUserInfo"><text class="text">+</text></view>
                 </view>
                 <view class="line">
                     <view class="lt">手机号</view>
-                    <view class="rt"><input type="number" bindblur="onContacttelInpBlur" name="" value="{{contacttel}}" class="mobileInp" id="mobileInp" placeholder="取票人手机号"/></view>
-                    <view class="errorTip" style="margin-right:5px"><text style="color:red">!格式错误</text></view>
+                    <view class="rt"><input type="number" bindblur="onContacttelInpBlur" bindinput="onContacttelInpChange" name="" value="{{contacttel}}" class="mobileInp" id="mobileInp" placeholder="取票人手机号"/></view>
+                    <view class="errorTip" wx:if="{{!!contacttelErrTipShow}}" style="margin-right:5px"><text style="color:red">!格式错误</text></view>
+                </view>
+                <view style="margin-top:1px" class="line">
+                    <view class="lt">身份证</view>
+                    <view class="rt"><input type="text" bindblur="onIDCardInpBlur" bindinput="onIDCardInpChange" name="" value="{{contacttel}}" class="idCardInp" id="idCardInp" placeholder="身份证"/></view>
+                    <view class="errorTip" wx:if="{{!!needIDErrTipShow}}" style="margin-right:5px"><text style="color:red">!格式错误</text></view>
                 </view>
             </view>
 
@@ -86,7 +98,7 @@
                         <text class="totalNum">{{totalMoney}}</text>
                     </text>
                 </view>
-                <view class="submitBtn">提交</view>
+                <view bindtap="onSubmit" class="submitBtn">提交</view>
             </view>
         </view>
 
