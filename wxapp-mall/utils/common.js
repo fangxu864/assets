@@ -274,10 +274,10 @@ var Common = {
 			header : {},
 			loading : function(){},
 			success : function(){},
-			fail : function(){
+			fail : function(err){
 				wx.showModal({
 					title : "出错",
-					content : "请求出错",
+					content : err,
 					showCancel : false
 				})
 			},

@@ -324,8 +324,6 @@ Page({
 		if(!ordername) return this.setData({orderNameErrTipShow:true});
 		if(oData.needID==1 && !Common.validateIDCard(sfz)) return this.setData({needIDErrTipShow:true});
 
-
-
 		var link = {};
 		ticketList.forEach(function(item,index){
 			if(index!=0){
@@ -335,7 +333,23 @@ Page({
 			}
 		});
 
+		submitData["link"] = link;
 
+		console.log(submitData)
+
+		Common.request({
+			url : "/r/Mall_Order/order/",
+			data : submitData,
+			success : function(res){
+				var code = res.code;
+				var msg = res.msg;
+				if(code==200){
+					Common.showError("成功");
+				}else{
+					Common.showError(msg);
+				}
+			}
+		})
 
 
 
