@@ -6,6 +6,7 @@
 var Config = require("./config.js");
 var Common = {
 	appId : "wxd1e8494ae3b6d821",
+	REQUEST_HOST : "https://api.12301dev.com/index.php",
 	SESSION_STORAGE_KEY : "pft-session-storage",
 	SESSION_STORAGE_EXPIRE_KEY : "pft-session-storage-expire",  //session过期时长的key
 	SESSION_STORAGE_AT_TIME : "pft-session-storage-attime",
@@ -306,7 +307,7 @@ var Common = {
 		var url = opt.url;
 		if(!url) return false;
 		//index.php?c=Mall_Product&a=productList
-		var host = "https://api.12301.cc/index.php";
+		var host = this.REQUEST_HOST;
 		var urlArray = [];
 		url.split("/").forEach(function(item){
 			if(item) urlArray.push(item);
