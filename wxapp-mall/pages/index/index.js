@@ -163,7 +163,7 @@ Page({
             topic = dataset.topic;
             
         wx.navigateTo({
-          url: 'pdetail?lid=' + e.currentTarget.dataset.lid + '&ptype=' + ptype + '&topic=' + topic
+          url: '../pdetail/pdetail?lid=' + e.currentTarget.dataset.lid + '&ptype=' + ptype + '&topic=' + topic
         });
     },
     scrollToLower: function( e ) {

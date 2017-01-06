@@ -1,7 +1,8 @@
 {
   "pages":[
-	"pages/index/index",
-      "pages/booking/booking"
+		"pages/index/index",
+		"pages/pdetail/pdetail",
+      	"pages/booking/booking"
 
   ],
 
