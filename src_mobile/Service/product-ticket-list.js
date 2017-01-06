@@ -3,9 +3,11 @@
  * Date: 2016/8/9 16:50
  * Description: ""
  */
-module.exports = function(lid,opt){
+module.exports = function(lid,opt,cxt){
 
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
+
+	cxt = cxt || this;
 
 	if(__DEBUG__){
 		opt.loading()
@@ -74,24 +76,32 @@ module.exports = function(lid,opt){
 	}
 
 	PFT.Util.Ajax(PFT.Api.C.getTicketList(),{
+		type : "post",
 		params : {
-			lid : lid
+			lid : lid,
+			token : PFT.Util.getToken()
 		},
-		loading : opt.loading,
-		complete : opt.complete,
+		loading : function(){
+			opt.loading.call(cxt);
+		},
+		complete : function(){
+			opt.complete.call(cxt);
+		},
 		success : function(res){
 			res = res || {};
 			var code = res.code;
-			var list = res.list;
+			var data = res.data || {};
+			var list = data.list;
+			var type = data.type;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
 				if(list.length){
-					success(list);
+					opt.success.call(cxt,data);
 				}else{
-					empty(list);
+					opt.empty.call(cxt,data);
 				}
 			}else{
-				opt.fail(msg);
+				opt.fail.call(cxt,msg);
 			}
 		}
 	})

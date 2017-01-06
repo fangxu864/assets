@@ -18,6 +18,5 @@ module.exports = function(env,cssname){
 			sourceMap : false
 		}))
 	}
-
 	return plugins;
 }

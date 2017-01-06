@@ -1,4 +1,4 @@
-<template>
+5<template>
     <div class="inputLine" :class="[layout,validatResultCls]" :style="containerStyle">
         <div class="lt" :style="labelStyle"><span class="t" v-text="label"></span></div>
         <div class="rt" :style="rtStyle">
@@ -16,7 +16,7 @@
                    :readonly="readonly"
                    :type="type"/>
             <i class="uicon" :class="'uicon-'+icon" v-if="icon"></i>
-            <span class="errorMsg" v-text="errorMsg"></span>
+            <span class="errorMsg" :class="placeholder=='联系人姓名' ? 'name' : ''" v-text="errorMsg"></span>
         </div>
     </div>
 </template>
@@ -128,7 +128,7 @@
                     width : width,
                     top : 0,
                     bottom : 0,
-                    left : 0
+                    left : "15px"
                 }
             }else{
                 this.layout = "per";
@@ -196,15 +196,16 @@
     }
 </script>
 <style lang="sass">
-    .inputLine{ position:relative; margin:0 15px; overflow:hidden; border-bottom:1px solid rgb(240,240,240)}
+    .inputLine{ position:relative; padding:0 15px; overflow:hidden; border-bottom:1px solid rgb(240,240,240); background:#fff}
     .inputLine .lt{ line-height:48px; font-size:0.35rem;}
     .inputLine .lt .t{ padding-left:3px;}
     .inputLine .rt{ position:relative}
     .inputLine.per .lt,.inputLine.per .rt{ float:left;}
     .inputLine.px .lt{ position:absolute; top:0; bottom:0;}
-    .inputLine .rt .input{ display:block; width:100%; height:22px; line-height:22px; font-size:0.35rem; padding:13px 0; border:0 none;}
+    .inputLine .rt .input{ display:block; width:100%; height:48px; line-height:22px; font-size:0.35rem; padding:13px 12px 13px 0; box-sizing:border-box; border:0 none;}
     .inputLine .rt .input:focus{ color:#f37138}
     .inputLine .rt .uicon{ position:absolute; top:14px; right:0; color:#258cc9}
     .inputLine .errorMsg{ display:none; position:absolute; top:0; bottom:0; right:0; color:red; line-height:48px;}
     .inputLine.error .errorMsg{ display:block;}
+    .inputLine .errorMsg.name{ right:24px}
 </style>

@@ -24,7 +24,7 @@ var Alert = {
 		this._show(title,content,onAfterShow);
 	},
 	hide : function(e){
-		var eventType = this.eventType;
+		var eventType = this.eventType || (this.eventType = this._witchEndEvent());
 		this.alertBox[0].addEventListener(eventType,this._onAlertBoxTransitionEnd,false);
 		this.mask[0].addEventListener(eventType,this._onMaskTransitionEnd,false);
 		this.alertBox.addClass("leave");
@@ -55,6 +55,7 @@ var Alert = {
 		}
 	},
 	_create : function(){
+		var body = $("body");
 		this.container = $('<div id="pftui-alert-container" class="pftui-alert-container"></div>');
 		this.mask = $('<div class="pftui-alert-mask transition" style="display:none"></div>');
 		this.alertBox = $('<div class="pftui-alert-box transition" style="display:none"></div>');
@@ -92,7 +93,6 @@ var Alert = {
 		tit ? this.hd.show().html(tit) : this.hd.hide();
 
 		this.bd.html(con);
-
 		this.alertBox.addClass("enter");
 		this.mask.addClass("enter");
 		setTimeout(function(){

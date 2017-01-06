@@ -1,0 +1,4 @@
+npm run withdraw-bank-start
+npm run withdraw-bank-test
+npm run withdraw-bank-release
+npm run withdraw-bank-production

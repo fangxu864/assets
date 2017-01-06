@@ -27,7 +27,6 @@ function Pagination(opt){
     this.init_content();
     this.bindEvent();
     this.updateYema(this.present_page);
-        
 }
 Pagination.prototype={
     //初始化容器
@@ -212,6 +211,32 @@ Pagination.prototype={
         // _this.callBack(_this.present_page)
 
     },
+    refresh:function(opt){
+        this.data_total_num=opt.data_total_num;//数据总条数
+        this.present_page=opt.present_page;//当前页数
+        this.per_page_num=opt.per_page_num||8;//每页数据条数
+        this.a=parseInt(this.data_total_num/this.per_page_num);//计算用的中间变量
+        this.total_page_num=this.data_total_num%this.per_page_num>0?this.a+1:this.a;//计算出的 数据总页数
+        this.updateYema(this.present_page);
+        //显示总页数的span
+        this.span_total_num=getByClass(this.pag,"total")[0].getElementsByTagName("span")[0];
+        this.span_total_num.innerHTML=this.total_page_num;
+    }
+};
+function getByClass(obj,className) {
+    var arr=[];
+    if(obj.getElementsByClassName){
+        return obj.getElementsByClassName(className);
+    }else{
+        var allEle=obj.getElementsByTagName("*");
+        for(var i=0;i<allEle.length;i++){
+            var cls = allEle[i].getAttribute("class")+"1111";
+            if(cls.search(className)>-1){
+                arr.push(allEle[i]);
+            }
+        }
+    }
+    return arr;
 }
 
 module.exports=Pagination;

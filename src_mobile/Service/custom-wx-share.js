@@ -11,74 +11,25 @@ var WXShare = {
 		pagename = pagename.split(".")[0];
 		return pagename;
 	},
-	init : function(CustomShopConfig){
-		var that = this;
-
-		this.CustomShopConfig = CustomShopConfig;
-
-		//获取店铺配置成功后，开始初始化微信自定义分享
-		this.CustomShopConfig.on("success",function(res){
-
-			var title = res.data.name;
-			var banner = res.data.banner;
-
-			//设置页面标题
-			document.title = title;
-
-			var banner_img = "";
-			for(var i in banner[0]) banner_img = i;
-			var default_imgUrl = banner_img ? banner_img : "http://static.12301.cc/assets/build/images/wx_share_timeline_photo.png";
-			var default_dsec = "全民分销微商城 要么旅行，要么开店，精神和物质，总有一个满足你！";
-
-			var prefix = window.location.search ? "&" : "?";
-			var memberId = $("#wx_share_hidden_inp_memberId").val();
-
-			//需要自定义微信分享的页面
-			var CustomConfigPages = {
-				index : {
-					imgUrl : default_imgUrl,
-					desc : default_dsec
-				},
-				plist : {
-					imgUrl : default_imgUrl,
-					desc : default_dsec
-				},
-				pdetail : {
-					title : $("#productTitle_hiddenInp").val(),
-					imgUrl : $("#imgpath_hiddenInp").val(),
-					desc : $("#productTitle_hiddenInp").val()
-				},
-				share_my_shop : {
-					link : ("http://"+window.location.hostname+"/wx/mall/index.html"+"?parentid=" + memberId)
-				}
-			};
-
-			var curPagename = that.getPagename();
-			var customConfig = CustomConfigPages[curPagename];
-			var link = (customConfig && customConfig["link"]) ? customConfig["link"] : (window.location.href + prefix + "parentid=" + memberId);
-			var imgUrl = (customConfig && customConfig["imgUrl"]) ? customConfig.imgUrl : default_imgUrl;
-			var desc = (customConfig && customConfig["desc"]) ? customConfig.desc : default_dsec;
-			var _title = (customConfig && customConfig.title) ? customConfig.title : title;
-
-			that.initShare({
-				debug : false,
-				title : _title,
-				desc : desc,  //微信分享时的描述文字
-				imgUrl : imgUrl, //分享到朋友圈或发送给朋友时，显示的图片
-				link : link,
-				appId: $("#wx_share_hidden_inp_appId").val(),            //wx jsapi appid       必填
-				timestamp: $("#wx_share_hidden_inp_timestamp").val(),    //时间戳                必填
-				nonceStr: $("#wx_share_hidden_inp_noncestr").val(),      //随机数                必填
-				signature: $("#wx_share_hidden_inp_signature").val()     //签名                  必填
-			})
-
+	init : function(config){
+		config = config || {};
+		this.initShare({
+			debug : config.debug,
+			title : config.title,
+			desc : config.desc,  //微信分享时的描述文字
+			imgUrl : config.imgUrl, //分享到朋友圈或发送给朋友时，显示的图片
+			link : config.link,
+			appId: $("#wx_share_hidden_inp_appId").val(),            //wx jsapi appid       必填
+			timestamp: $("#wx_share_hidden_inp_timestamp").val(),    //时间戳                必填
+			nonceStr: $("#wx_share_hidden_inp_noncestr").val(),      //随机数                必填
+			signature: $("#wx_share_hidden_inp_signature").val()     //签名                  必填
 		})
 	},
 	initShare : function(opt){
 		//默认参数
 		var DEFAULT_OPT = {
 			debug : false,
-			title : "title",
+			title : "微商城",
 			desc : "全民分销微商城 要么旅行，要么开店，精神和物质，总有一个满足你！",  //微信分享时的描述文字
 			imgUrl : "http://static.12301.cc/assets/build/images/wx_share_timeline_photo.png", //分享到朋友圈或发送给朋友时，显示的图片
 			link : window.location.href,
@@ -87,7 +38,7 @@ var WXShare = {
 			nonceStr: "",       //随机数                必填
 			signature: ""      //签名                  必填
 		};
-		if(!wx) return alert("微信jsapi分享至朋友图缺省wx对象");
+		if(typeof wx=="undefined") return console.log("微信jsapi分享至朋友图缺省wx对象");
 		opt = $.extend({},DEFAULT_OPT,opt);
 		wx.config({
 			debug: opt.debug,

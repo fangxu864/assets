@@ -136,8 +136,8 @@ Dialog.prototype = Extend({
 		if(mask.length) return mask;
 		mask = $('<div></div>');
 		mask.attr({
-			id : this.flag + "mask",
-			class : this.flag + "mask"
+			"id" : this.flag + "mask",
+			"class" : this.flag + "mask"
 		}).appendTo($("body"));
 		return mask;
 	},

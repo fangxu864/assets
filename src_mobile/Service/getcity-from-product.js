@@ -8,7 +8,9 @@ module.exports = function(opt){
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
 	PFT.Util.Ajax(PFT.Api.fetchCityFromProduct(),{
+		type : "post",
 		params : {
+			token : PFT.Util.getToken(),
 			action : "area_list"
 		},
 		loading : opt.loading,

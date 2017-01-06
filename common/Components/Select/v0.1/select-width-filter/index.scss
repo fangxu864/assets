@@ -1,0 +1,13 @@
+@import "COMMON/css/base/core/variables";
+@import "COMMON/css/base/mixin/searchBox";
+.pui-select-container .pui-select-ul{ top:47px}
+.pui-select-container .searchBoxContainer{
+    position:absolute;
+    top:5px;
+    left:5px;
+    right:5px;
+}
+.pui-select-container .searchBox{ @include searchBox(); width:auto;}
+.pui-select-container .searchBox .clearSearchBtn{ top:7px}
+.pui-select-container .searchBox .searchBoxCon{ position:relative; height:100%; padding:0 30px; overflow:hidden}
+.pui-select-container .searchBox .searchBoxCon .searchInp{ width:100%; height:22px; line-height:22px; padding:6px 0; background:none; box-shadow:inset 0 0px 0px rgba(0, 0, 0, 0)}

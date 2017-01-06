@@ -1,0 +1,212 @@
+@import "COMMON/css/base/main";
+.vmContainer{ background:#fff; border:1px solid $gray90; border-bottom:0 none;}
+.vmContainer .textInp{
+    display:inline-block;
+    height:22px;
+    width:180px;
+    line-height:22px;
+    padding:5px 8px;
+    border:1px solid $gray90;
+    box-shadow:inset 1px 1px 1px rgba(0,0,0,0.05);
+}
+.vmContainer .timeSelect{
+    width:60px;
+    height:32px;
+    border:1px solid $gray90;
+    box-shadow:inset 1px 1px 1px rgba(0,0,0,0.05);
+    padding-left:5px;
+    &:focus{ outline:none}
+    option:hover,option:active{ outline:none}
+}
+.vmContainer .topHeader{
+    height:56px;
+    line-height:56px;
+    padding-left:20px;
+    font-size:16px;
+    font-weight:bold;
+    border-bottom:1px solid $gray90;
+
+    .switchBox{
+        float:right;
+        display:inline-block;
+        height:12px;
+        width:60px;
+        position:relative;
+        background:$gray80;
+        margin-top:22px;
+        margin-right:22px;
+        margin-left:30px;
+        cursor:pointer;
+        border:1px solid $gray80;
+
+        .tbox{
+            position:absolute;
+            display:inline-block;
+            top:0;
+            bottom:0;
+            left:0;
+            right:50%;
+            width:50%;
+            background:#fff;
+            transition: all 0.15s ease-in;
+        }
+
+        &.on{
+            background:$green;
+            border-color:$green;
+            .tbox{
+                left:50%;
+                right:0;
+            }
+
+        }
+
+    }
+
+}
+
+.vmContainer .filterBox{
+    position:relative;
+    padding:20px;
+    border-bottom:1px solid $gray90;
+    .zhi{ margin:0 10px;}
+    .line{
+        margin-bottom:10px;
+        .lt{
+            margin-right:10px;
+        }
+    }
+    .line:last-child{ margin-bottom:0}
+
+    .setGlobalSetBtn{
+        @include btn-block(80,26);
+        position:absolute;
+        right:20px;
+        top:50px;
+        &.disable{
+            @include btn-disable();
+        }
+    }
+
+}
+
+#addPageBtn{
+    display:block;
+    width:100%;
+    height:38px;
+    line-height:38px;
+    text-align:center;
+    background:#e5f5fc;
+    border-top:1px solid #dae5e9;
+    border-bottom:1px solid #dae5e9;
+}
+#addPageBtn:hover{ background:#dcedf5}
+#submitBtn{
+    @include btn-block(140);
+    margin:20px auto 50px;
+    &.disable{
+        @include btn-disable();
+    }
+}
+
+#ruleContainer{
+    .ruleItem{
+        border-bottom:1px solid $gray90;
+        .checkbox{
+            display:inline-block;
+            width:14px;
+            height:14px;
+            font-size:0;
+            line-height:0;
+            cursor:pointer;
+            margin-right:5px;
+            background:url("http://images.12301.cc/icon/check.png") no-repeat 0 -14px;
+            &.active{
+                background-position:-14px -14px;
+            }
+        }
+        .radio{
+            display:inline-block;
+            width:14px;
+            height:14px;
+            font-size:0;
+            line-height:0;
+            cursor:pointer;
+            margin-right:5px;
+            background:url("http://images.12301.cc/icon/check.png") no-repeat 0 0;
+            &.active{
+                background-position:-14px 0;
+            }
+        }
+        .rTit{
+            position:relative;
+            height:40px;
+            line-height:40px;
+            overflow:hidden;
+            padding:10px 20px 10px;
+
+            .pageNameInp{ width:220px;}
+
+            .doActionGroup{
+                float:right;
+                .btn{ cursor:pointer}
+                .btn:hover .iconfont{ color:$blue}
+                .btn.slide{
+                    margin-right:10px;
+                    .iconfont{ display:none }
+                    .iconfont.down{ display:inline-block}
+                }
+            }
+
+        }
+
+
+        .conBox{
+            display:none;
+            padding:20px;
+            padding-left:44px;
+            border-top:1px solid $gray90;
+            background:$gray99;
+
+            .lt{ margin-right:10px;}
+            .linkAddrInp{ width:500px;}
+            .line{ margin-bottom:10px;}
+            .stopGroup{
+                cursor:pointer;
+                margin-right:15px;
+                .radio{ position:relative; top:2px;}
+            }
+            .setLine{
+                margin-bottom:10px;
+                .checkbox{
+                    position:relative;
+                    top:3px;
+                }
+            }
+            .setLine:last-child{ margin-bottom:0}
+
+            .saveRuleLine{
+                margin-top:25px;
+                .saveBtn{
+                    @include btn-inline();
+                    padding:4px 15px;
+                    &.disable{
+                        @include btn-disable();
+                    }
+                }
+            }
+
+            .configBox{ margin-top:20px;}
+            .configBox.hide{ display:none;}
+
+        }
+
+        &.active{
+            .rTit .doActionGroup .btn.slide .iconfont.up{ display:inline-block; }
+            .rTit .doActionGroup .btn.slide .iconfont.down{ display:none; }
+        }
+
+    }
+    .ruleItem:last-child{ border-bottom:0 none}
+
+}

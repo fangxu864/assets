@@ -77,7 +77,7 @@ var handleApi = (function(){
 		"www.12301.cc" : 1,
 		"www.12301.local" : 1,
 		"www.12301.test" : 1,
-		"www.12301dev.test" : 1
+		"www.12301dev.com" : 1
 	};
 
 	if(__host[window.location.hostname]){ //非独立域名

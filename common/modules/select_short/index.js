@@ -44,14 +44,34 @@ SelectShort.prototype={
         _this.innerHTML=html;
         _this.style.position="relative";
         //给第一层div select_short赋值宽度
-        this.select_short=_this.getElementsByClassName("select_short")[0];
+        this.select_short=getByClass(_this,"select_short")[0];
         this.select_short.style.width=(parseInt(this.getStyle(_this,"width"))+2)+"px";
         //获取_this的高度
         this._this_h=parseInt(this.getStyle(_this,"height"))+1;
 
-        this.cur_con=_this.getElementsByClassName("cur_con")[0];
-        this.opt=_this.getElementsByClassName("opt")[0];
+        this.cur_con=getByClass(_this,"cur_con")[0];
+        this.opt=getByClass(_this,"opt")[0];
+
+        function getByClass(obj,className) {
+            var arr=[];
+            if(obj.getElementsByClassName){
+                return obj.getElementsByClassName(className);
+            }else{
+                var allEle=obj.getElementsByTagName("*");
+                for(var i=0;i<allEle.length;i++){
+                    var cls = allEle[i].getAttribute("class");
+
+                    if(cls.search(className)>-1){
+                        arr.push(allEle[i]);
+                    }
+                }
+            }
+            return arr;
+        }
+
         //往容器里加东西
+        // console.log(this.cur_con);
+        // console.log(this.arr[0]);
         this.cur_con.innerHTML=this.arr[0];
         this.cur_opt=this.arr[0];
         this.callback(this.cur_opt);
@@ -88,7 +108,7 @@ SelectShort.prototype={
             startMove(_this.opt,{"height":0})
             _this.cur_con.className="cur_con fold";
             _this.isFold=1;
-            document.removeEventListener("click",fold)
+            // document.removeEventListener("click",fold)
         }
         //为当前选项添加点击事件
         this.cur_con.onclick=function (ev) {
@@ -102,7 +122,15 @@ SelectShort.prototype={
                 }
                 //展开select
                 unFold();
-                document.addEventListener("click",fold)
+                function addEvent(obj,event,fn){
+                    if(obj.attachEvent){
+                        obj.attachEvent(event,fn)
+                    }else {
+                        obj.addEventListener("on"+event,fn,false)
+                    }
+                }
+                addEvent(document,"click",fold);
+                // document.addEventListener("click",fold)
 //          document.onclick=function () {
 //            fold();
 //            document.onclick=null;
@@ -154,6 +182,9 @@ SelectShort.prototype={
                 return getComputedStyle(obj, false)[name];
             }
         }
+        $(document).on("click",function () {
+            fold();
+        })
     },
     getStyle:function (obj,name) {
         if (obj.currentStyle) {
