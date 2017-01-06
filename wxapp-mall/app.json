@@ -1,5 +1,6 @@
 {
   "pages":[
+      "pages/pdetail/index",
       "pages/index/index",
       "pages/booking/booking",
       "pages/logs/logs"
