@@ -2,7 +2,10 @@
   "pages":[
 		"pages/index/index",
 		"pages/pdetail/pdetail",
-      	"pages/booking/booking"
+		"pages/ordercenter/ordercenter",
+      	"pages/booking/booking",
+      	"pages/pay/pay",
+      	"pages/paysuccess/paysuccess"
   ],
 
   "window":{
@@ -22,7 +25,7 @@
 		"selectedIconPath": "image/ing-active.png",
 		"text": "产品预订"
 	},{
-		"pagePath": "pages/booking/booking",
+		"pagePath": "pages/ordercenter/ordercenter",
 		"iconPath": "image/coming.png",
 		"selectedIconPath": "image/coming-active.png",
 		"text": "我的订单"
