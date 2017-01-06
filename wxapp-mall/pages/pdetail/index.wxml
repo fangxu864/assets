@@ -19,38 +19,28 @@
         <view class="tab-title {{floor_3_active}}" data-type="floor_3">景区介绍</view>
     </view>
     <view class="ticket-list-box"  id="floor_1">
-        <view class="ticket-list-item">
-            <view class="lt">
-                <view>
-                    <text class="t-title">成人票</text>
+        <block wx:for="{{ticketList}}">
+            <view class="ticket-list-item">
+                <view class="lt">
+                    <view>
+                        <text class="t-title">{{item.ticket}}</text>
+                    </view>
+                    <view  class="t-desc-box">
+                        <text class="t-desc">{{item.intro}}</text>
+                    </view>
+                    <view>
+                        <block wx:for="{{item.tags}}">
+                            <text class="t-tag">{{item}}</text>
+                        </block>
+                    </view>
                 </view>
-                <view  class="t-desc-box">
-                    <text class="t-desc">成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票</text>
-                </view>
-                <view>
-                    <text class="t-tag">成人票</text>
-                    <text class="t-tag">成人票</text>
-                     <text class="t-tag">成人票</text>
-                    <text class="t-tag">成人票</text>
-                     <text class="t-tag">成人票</text>
-                    <text class="t-tag">成人票</text>
-                     <text class="t-tag">成人票</text>
-                    <text class="t-tag">成人票</text>
-                     <text class="t-tag">成人票</text>
-                    <text class="t-tag">成人票</text>
-                     <text class="t-tag">成人票</text>
-                    <text class="t-tag">成人票</text>
-                     <text class="t-tag">成人票</text>
-                    <text class="t-tag">成人票</text>
+                <view class="rt">
+                    <view class="original-price">¥{{item.tprice}}</view>
+                    <view class="discount-price">¥{{item.jsprice}}</view>
+                    <view class="btn book-btn">预订</view>
                 </view>
             </view>
-            <view class="rt">
-                <view class="original-price">¥60.00</view>
-                <view class="discount-price">¥60</view>
-                <view class="btn book-btn">预订</view>
-            </view>
-        </view>
-        <view class="more-tickets">更多票类</view>
+        </block>
     </view>
     <view class="taopiao-about">
         <view class="switch-btn">
@@ -64,20 +54,9 @@
                         <text class="t-title">成人票</text>
                     </view>
                     <view  class="t-desc-box">
-                        <text class="t-desc">成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票成人票</text>
+                        <text class="t-desc">fdsfdsf</text>
                     </view>
                     <view>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
                         <text class="t-tag">成人票</text>
                         <text class="t-tag">成人票</text>
                         <text class="t-tag">成人票</text>
@@ -95,58 +74,19 @@
         <view class="desc-title">
             <text>预订须知</text>
         </view>
-        <view class="desc-con">
-            【本产品为内测产品，不对外销售】
-            ★行程中自费景点及娱乐项目客人可自愿参加，遵循少数服从多数的原则，不参与的需在景区门口等候自由活动（请注意安全）；
-
-            ★报名截止：官网上有明确规定。
-
-            ★要有团队合作精神，过于斤斤计较，以自我为中心者谢绝报名。
-
-            ★以上行程我社可根据天气、时间等情况保留改变景点及各地住宿先后顺序的权利；
-
-            ★如因政治因素和不可抗拒因素导致行程变更或取消，我社协助解决，不承担由此造成的损失；
-
-            ★赠送景点或旅游项目如遇特殊原因无法履行，我社有权更改成其它景点或取消，但不做任何退款处理，敬请谅解；
-        </view>
+        <view class="desc-con">{{land.jqts}}</view>
     </view>
     <view class="p-desc-box"  id="floor_3">
         <view class="desc-title">
             <text>产品简介</text>
         </view>
-        <view class="desc-con">
-            【本产品为内测产品，不对外销售】
-            ★行程中自费景点及娱乐项目客人可自愿参加，遵循少数服从多数的原则，不参与的需在景区门口等候自由活动（请注意安全）；
-
-            ★报名截止：官网上有明确规定。
-
-            ★要有团队合作精神，过于斤斤计较，以自我为中心者谢绝报名。
-
-            ★以上行程我社可根据天气、时间等情况保留改变景点及各地住宿先后顺序的权利；
-
-            ★如因政治因素和不可抗拒因素导致行程变更或取消，我社协助解决，不承担由此造成的损失；
-
-            ★赠送景点或旅游项目如遇特殊原因无法履行，我社有权更改成其它景点或取消，但不做任何退款处理，敬请谅解；
-        </view>
+        <view class="desc-con">{{land.bhjq}}</view>
     </view>
     <view class="p-desc-box">
         <view class="desc-title">
             <text>交通指南</text>
         </view>
-        <view class="desc-con">
-            【本产品为内测产品，不对外销售】
-            ★行程中自费景点及娱乐项目客人可自愿参加，遵循少数服从多数的原则，不参与的需在景区门口等候自由活动（请注意安全）；
-
-            ★报名截止：官网上有明确规定。
-
-            ★要有团队合作精神，过于斤斤计较，以自我为中心者谢绝报名。
-
-            ★以上行程我社可根据天气、时间等情况保留改变景点及各地住宿先后顺序的权利；
-
-            ★如因政治因素和不可抗拒因素导致行程变更或取消，我社协助解决，不承担由此造成的损失；
-
-            ★赠送景点或旅游项目如遇特殊原因无法履行，我社有权更改成其它景点或取消，但不做任何退款处理，敬请谅解；
-        </view>
+        <view class="desc-con">{{land.jtzn}}</view>
     </view>
     <view class="footer">
         <icon>p</icon>

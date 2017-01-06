@@ -8,7 +8,8 @@ Page({
         isfixed : "" ,
         floor_1_active: "active" ,
         title : "产品详情页",
-        land :{}
+        land :{} ,
+        ticketList: []
     },
 
 
@@ -73,7 +74,7 @@ Page({
         Common.request({
             url: "/r/Mall_Product/getLandInfo/",
             data: {
-                lid: "8264"
+                lid: "6603"
             },
             loading: function () {
                 Common.showLoading()
@@ -84,7 +85,25 @@ Page({
             success: function (res) {
                 console.log(res);
                 _this.setData({
-                    land : res.data
+                    land : res.data,
+                })
+            }
+        });
+        Common.request({
+            url: "/r/Mall_Product/getTicketList/",
+            data: {
+                lid: "6603"
+            },
+            loading: function () {
+                Common.showLoading()
+            },
+            complete: function () {
+                Common.hideLoading();
+            },
+            success: function (res) {
+                console.log(res);
+                _this.setData({
+                    ticketList : res.data.list,
                 })
             }
         })
