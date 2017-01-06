@@ -28,7 +28,7 @@
                     <view class="minBox">
                         <view class="tit">{{item.title}}</view>
                         <view class="bcon">
-                            <view class="conBox price">单价：<text class="yen">￥</text><text class="num">{{item.tprice}}</text></view>
+                            <view class="conBox price">单价：<text class="yen">¥</text><text class="num">{{item.tprice}}</text></view>
                             <view class="store" wx:if="{{item.store!=-1}}">
                                 库存：<text class="storeNum">{{item.store}}</text>
                             </view>
@@ -94,7 +94,7 @@
                 <view>
                     <text class="totalT">总金额：</text>
                     <text class="totalBox">
-                        <text class="totalYen">￥</text>
+                        <text class="totalYen">¥</text>
                         <text class="totalNum">{{totalMoney}}</text>
                     </text>
                 </view>
