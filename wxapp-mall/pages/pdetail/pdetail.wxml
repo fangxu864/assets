@@ -42,32 +42,34 @@
             </view>
         </block>
     </view>
-    <view class="taopiao-about">
+    <view class="taopiao-about" wx:if="{{isRenderTaoPiaoList}}">
         <view class="switch-btn">
             <text>相关套票</text>
             <icon>x</icon>
         </view>
         <view class="ticket-list-box">
-            <view class="ticket-list-item">
-                <view class="lt">
-                    <view>
-                        <text class="t-title">成人票</text>
+            <block wx:for="{{taoPiaoTicketList}}">
+                <view class="ticket-list-item">
+                    <view class="lt">
+                        <view>
+                            <text class="t-title">{{item.ticket}}</text>
+                        </view>
+                        <view  class="t-desc-box">
+                            <text class="t-desc">{{item.intro}}</text>
+                        </view>
+                        <view>
+                            <block wx:for="{{item.tags}}">
+                                <text class="t-tag">{{item}}</text>
+                            </block>
+                        </view>
                     </view>
-                    <view  class="t-desc-box">
-                        <text class="t-desc">fdsfdsf</text>
-                    </view>
-                    <view>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
-                        <text class="t-tag">成人票</text>
+                    <view class="rt">
+                        <view class="original-price">¥{{item.tprice}}</view>
+                        <view class="discount-price">¥{{item.jsprice}}</view>
+                        <view class="btn book-btn">预订</view>
                     </view>
                 </view>
-                <view class="rt">
-                    <view class="original-price">¥60.00</view>
-                    <view class="discount-price">¥60</view>
-                    <view class="btn book-btn">预订</view>
-                </view>
-            </view>
+            </block>
     </view>
     </view>
     <view class="p-desc-box" id="floor_2">
