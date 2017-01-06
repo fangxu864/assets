@@ -9,7 +9,9 @@ Page({
         floor_1_active: "active" ,
         title : "产品详情页",
         land :{} ,
-        ticketList: []
+        ticketList: [] ,
+        taoPiaoTicketList: [] ,
+        isRenderTaoPiaoList: true
     },
 
 
@@ -69,12 +71,15 @@ Page({
     /**
      *  初始化页面
      */
-    onLoad: function() {
+    onLoad: function( opt ) {
+        console.log(opt);
+        var lid = opt.lid;
         var _this = this;
         Common.request({
             url: "/r/Mall_Product/getLandInfo/",
             data: {
-                lid: "6603"
+                lid: "8264"
+                // lid: lid
             },
             loading: function () {
                 Common.showLoading()
@@ -92,7 +97,8 @@ Page({
         Common.request({
             url: "/r/Mall_Product/getTicketList/",
             data: {
-                lid: "6603"
+                lid: "8264"
+                // lid: lid
             },
             loading: function () {
                 Common.showLoading()
@@ -105,6 +111,30 @@ Page({
                 _this.setData({
                     ticketList : res.data.list,
                 })
+            }
+        });
+        Common.request({
+            url: "/r/Mall_Product/getRelatedPackage/",
+            data: {
+                lid: "8264"
+                // lid: lid
+            },
+            loading: function () {
+                Common.showLoading()
+            },
+            complete: function () {
+                Common.hideLoading();
+            },
+            success: function (res) {
+                console.log(res);
+                _this.setData({
+                    taoPiaoTicketList : res.data
+                });
+                if(res.data.length == 0){
+                    _this.setData({
+                        isRenderTaoPiaoList : false
+                    })
+                }
             }
         })
     },
@@ -119,4 +149,14 @@ Page({
             title: that.data.title
         });
     },
+
+
+    /**
+     * @method  点击预订按钮时
+     */
+    onBookBtnTap: function (e) {
+        wx.navigateTo({
+            url: '../booking/booking?aid=' + e.target.dataset.aid + '&pid=' + e.target.dataset.pid
+        });
+    }
 });
