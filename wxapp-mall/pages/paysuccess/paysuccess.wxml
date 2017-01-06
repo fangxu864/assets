@@ -1,36 +1,36 @@
 <view class="container">
 
     <view class="top-box">
-        <icon type="success_no_circle" size="45" color="green"/>
+        <icon type="success_no_circle" size="45" color="#3eba40"/>
         <text class="tip">下单成功</text>
     </view>
 
     <view class="info-box">
         <view class="landTitle">福建特色景区</view>
         <view class="line">
-            <view class="lt">门票</view>
+            <view class="lt">门票:</view>
             <view class="rt">
-                <text>成人票（周末）*2张</text>
-                <text>儿童特汇票 *1张</text>
+                <view><text>成人票（周末）*2张</text></view>
+                <view><text>成人票（周末）*2张</text></view>
             </view>
         </view>
         <view class="line">
-            <view class="lt">金额</view>
+            <view class="lt">金额:</view>
             <view class="rt">523元</view>
         </view>
         <view class="line">
-            <view class="lt">有效期</view>
+            <view class="lt">有效期:</view>
             <view class="rt">2016-05-06 至2016-06-25</view>
         </view>
         <view class="line">
-            <view class="lt">联系人</view>
+            <view class="lt">联系人:</view>
             <view class="rt">XXX  15664855645</view>
         </view>
     </view>
 
-    <view class="qrcodeContainer">
-        <view class="topt">凭证码</view>
-        <view id="qrcodeBox" class="qrcodeBox">
+    <view class="qrcode-container">
+        <view class="topt">凭证码: <text class="code">123548</text> </view>
+        <view id="qrcodeBox" class="qrcode-box">
 
         </view>
     </view>

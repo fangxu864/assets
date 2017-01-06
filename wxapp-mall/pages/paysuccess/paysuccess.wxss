@@ -12,7 +12,7 @@
     height:160rpx;
     line-height:160rpx;
     text-align:center;
-    color: green;
+    color: #3eba40;
     padding:40rpx;
     border-bottom:1rpx solid #e5e5e5;
 }
@@ -21,9 +21,29 @@
 }
 
 .info-box{
-
+    box-sizing: border-box;
+    margin: 40rpx;
+    background-color: #fafafa;
+    line-height: 40rpx;
+    font-size: 24rpx;
 }
 .info-box .line{
     display: flex;
     flex-direction: row;
+}
+
+.qrcode-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.qrcode-container .code{
+    color :#f5530c;
+    font-size: 36rpx;
+}
+.qrcode-container .qrcode-box{
+    margin-top: 40rpx;
+    width: 300rpx;
+    height: 300rpx;
+    background-color: #e1e4e6;
 }
