@@ -78,8 +78,8 @@ Page({
         Common.request({
             url: "/r/Mall_Product/getLandInfo/",
             data: {
-                lid: "8264"
-                // lid: lid
+                // lid: "2107"
+                lid: lid
             },
             loading: function () {
                 Common.showLoading()
@@ -97,8 +97,8 @@ Page({
         Common.request({
             url: "/r/Mall_Product/getTicketList/",
             data: {
-                lid: "8264"
-                // lid: lid
+                // lid: "2107"
+                lid: lid
             },
             loading: function () {
                 Common.showLoading()
@@ -116,8 +116,8 @@ Page({
         Common.request({
             url: "/r/Mall_Product/getRelatedPackage/",
             data: {
-                lid: "8264"
-                // lid: lid
+                // lid: "2107"
+                lid: lid
             },
             loading: function () {
                 Common.showLoading()

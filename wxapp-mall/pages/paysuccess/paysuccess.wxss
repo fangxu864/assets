@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 750rpx;
+    background-color: #fff;
+    font-size : 24rpx;
+    height: 100%;
+}
+
+.top-box{
+    height:160rpx;
+    line-height:160rpx;
+    text-align:center;
+    color: green;
+    padding:40rpx;
+    border-bottom:1rpx solid #e5e5e5;
+}
+.top-box .tip{
+    font-size:32rpx;
+}
+
+.info-box{
+
+}
+.info-box .line{
+    display: flex;
+    flex-direction: row;
+}
