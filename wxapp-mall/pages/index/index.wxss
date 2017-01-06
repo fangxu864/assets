@@ -1,7 +1,7 @@
 .scroll-view-wrap {
   position: absolute;
   left: 0;
-  top: 0;
+  top: 50px;
   right: 0;
   bottom: 0;
 }
@@ -183,4 +183,30 @@
   padding: 10px 0;
   text-align: center;
   color: #999;
+}
+
+.search {
+  position: relative;
+  padding:10px 10px 0;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 20px;
+}
+.search-inp {
+  display: block;
+  margin: 0 70px 0 0;
+  padding: 5px 0 5px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+}
+.search-btn {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+}
+.nodata {
+  color: #999;
+  text-align: center;
 }
