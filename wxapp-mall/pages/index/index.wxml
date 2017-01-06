@@ -5,7 +5,7 @@
                 <view class="item itemBox">
                     <view class="con" bindtap="navigateToDetail" data-lid="{{p.lid}}" data-ptype="" data-topic="">
                         <view class="photoBox">
-                            <image mode="aspectFit" src="{{p.imgpath}}"></image>
+                            <image mode="aspectFit" src="{{p.imgpath == 'images/defaultThum.jpg' ? 'http://www.12301.cc/' + p.imgpath : p.imgpath}}"></image>
                             <text class="title gtextoverflow">{{p.title}}</text>
                         </view>
                         <view class="bCon">
@@ -24,16 +24,12 @@
             </block>
         </view>
         <view class="load-more-wrap">
-            <block hidden="{{!isLoading}}">
-                <view class="load-content">
-                    <text class="weui-loading"/><text class="loading-text">玩命加载中</text>
-                </view>
-            </block>
-            <block wx:if="{{!hasMore}}">
-                <view class="load-content">
-                    <text>没有更多内容了</text>
-                </view>
-            </block>
+            <view class="load-content" hidden="{{!isLoading}}">
+                <text class="weui-loading"/><text class="loading-text">玩命加载中</text>
+            </view>
+            <view wx:if="{{!hasMore}}" hidden="{{isHasMoreHidden}}" class="no-more">
+                <text>没有更多内容了</text>
+            </view>
         </view>
     </scroll-view>
 </view>
