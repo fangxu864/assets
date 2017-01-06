@@ -78,8 +78,8 @@ Page({
         Common.request({
             url: "/r/Mall_Product/getLandInfo/",
             data: {
-                // lid: "8264"
-                lid: lid
+                lid: "8264"
+                // lid: lid
             },
             loading: function () {
                 Common.showLoading()
@@ -97,8 +97,8 @@ Page({
         Common.request({
             url: "/r/Mall_Product/getTicketList/",
             data: {
-                // lid: "8264"
-                lid: lid
+                lid: "8264"
+                // lid: lid
             },
             loading: function () {
                 Common.showLoading()
@@ -112,12 +112,12 @@ Page({
                     ticketList : res.data.list,
                 })
             }
-        })
+        });
         Common.request({
             url: "/r/Mall_Product/getRelatedPackage/",
             data: {
-                // lid: "8264"
-                lid: lid
+                lid: "8264"
+                // lid: lid
             },
             loading: function () {
                 Common.showLoading()
@@ -128,9 +128,13 @@ Page({
             success: function (res) {
                 console.log(res);
                 _this.setData({
-                    taoPiaoTicketList : res.data ,
-                    // isRenderTaoPiaoList : false
-                })
+                    taoPiaoTicketList : res.data
+                });
+                if(res.data.length == 0){
+                    _this.setData({
+                        isRenderTaoPiaoList : false
+                    })
+                }
             }
         })
     },
@@ -145,4 +149,14 @@ Page({
             title: that.data.title
         });
     },
+
+
+    /**
+     * @method  点击预订按钮时
+     */
+    onBookBtnTap: function (e) {
+        wx.navigateTo({
+            url: '../booking/booking?aid=' + e.target.dataset.aid + '&pid=' + e.target.dataset.pid
+        });
+    }
 });

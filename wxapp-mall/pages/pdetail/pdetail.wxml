@@ -37,7 +37,7 @@
                 <view class="rt">
                     <view class="original-price">¥{{item.tprice}}</view>
                     <view class="discount-price">¥{{item.jsprice}}</view>
-                    <view class="btn book-btn">预订</view>
+                    <view class="btn book-btn" data-aid="{{item.aid}}" data-pid="{{item.pid}}" bindtap="onBookBtnTap">预订</view>
                 </view>
             </view>
         </block>
@@ -66,7 +66,7 @@
                     <view class="rt">
                         <view class="original-price">¥{{item.tprice}}</view>
                         <view class="discount-price">¥{{item.jsprice}}</view>
-                        <view class="btn book-btn">预订</view>
+                        <view class="btn book-btn" data-aid="{{item.aid}}" data-pid="{{item.pid}}" bindtap="onBookBtnTap">预订</view>
                     </view>
                 </view>
             </block>
