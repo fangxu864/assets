@@ -1,10 +1,10 @@
 {
   "pages":[
+	"pages/booking/booking",
 	"pages/pay/pay",
-		"pages/index/index",
-		"pages/pdetail/pdetail",
-		"pages/ordercenter/ordercenter",
-      	"pages/booking/booking",
+	"pages/ordercenter/ordercenter",
+	"pages/index/index",
+	"pages/pdetail/pdetail",
 
       	"pages/paysuccess/paysuccess"
   ],
