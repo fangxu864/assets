@@ -3,7 +3,7 @@
         <view class="img-box">
             <image src="http://www.12301.cc/images/defaultThum.jpg"></image>
         </view>
-        <view class="info-box">
+        <view class="info-box" bindtap="openMap">
             <view>
                 <text class="land-name">{{land.title}}</text>
             </view>

@@ -18,6 +18,7 @@ Page({
         lastSearch: ''
     },
     onLoad: function () {
+    
         var that = this;
 
         this.getData({

@@ -8,18 +8,29 @@
     height: 100%;
 }
 
+
+/*top-box*/
 .top-box{
     height:160rpx;
     line-height:160rpx;
     text-align:center;
-    color: #3eba40;
+    color:#3eba40;
     padding:40rpx;
     border-bottom:1rpx solid #e5e5e5;
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
 }
 .top-box .tip{
-    font-size:32rpx;
+    font-size:40rpx;
+}
+.top-box icon{
+    margin-top: 60rpx;
 }
 
+
+/*info-box*/
 .info-box{
     box-sizing: border-box;
     margin: 40rpx;
@@ -42,8 +53,7 @@
     font-size: 36rpx;
 }
 .qrcode-container .qrcode-box{
-    margin-top: 40rpx;
-    width: 300rpx;
-    height: 300rpx;
-    background-color: #e1e4e6;
+    
+    width: 200px;
+    height: 200px;
 }
