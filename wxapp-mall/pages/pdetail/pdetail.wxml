@@ -84,7 +84,12 @@
         <view class="desc-title">
             <text>产品简介</text>
         </view>
-        <view class="desc-con">{{land.bhjq}}</view>
+        <view class="desc-con">
+            <text>{{land.bhjq}}</text>
+            <block wx:for="{{imgSrcArr}}">
+                <image src="{{item}}"></image>
+            </block>
+        </view>
     </view>
     <view class="p-desc-box">
         <view class="desc-title">

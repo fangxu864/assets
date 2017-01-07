@@ -11,7 +11,8 @@ Page({
         land :{} ,
         ticketList: [] ,
         taoPiaoTicketList: [] ,
-        isRenderTaoPiaoList: true
+        isRenderTaoPiaoList: true ,
+        imgSrcArr :[]
     },
 
 
@@ -89,9 +90,25 @@ Page({
                 Common.hideLoading();
             },
             success: function (res) {
+                //珠江
                  res.data.jqts = res.data.jqts.replace(/\<[^\<\>]+\>/g , "\n" );
                  res.data.jtzn = res.data.jtzn.replace(/\<[^\<\>]+\>/g , "\n" );
-                 res.data.bhjq = res.data.bhjq.replace(/\<[^\<\>]+\>/g , "\n" );
+                
+
+                var imgSrcArr = res.data.bhjq.match(/src\=\"[^\"]+\"/g );
+                var srcarr = [];
+                if(imgSrcArr){
+                     for(var i= 0 ; i<imgSrcArr.length ; i++){
+                        var str = imgSrcArr[i].replace(/src\=\"/g,"")
+                        srcarr.push( str.replace(/\"/g,"") )
+                    }
+                    _this.setData({
+                        imgSrcArr : srcarr,
+                    })
+                }
+                res.data.bhjq = res.data.bhjq.replace(/\<[^\<\>]+\>/g , "" );
+
+
                 _this.setData({
                     land : res.data,
                 })
