@@ -76,7 +76,9 @@
         <view class="desc-title">
             <text>预订须知</text>
         </view>
-        <view class="desc-con">{{land.jqts}}</view>
+        <view class="desc-con">
+            <text>{{land.jqts}}</text>
+        </view>
     </view>
     <view class="p-desc-box"  id="floor_3">
         <view class="desc-title">
@@ -88,7 +90,9 @@
         <view class="desc-title">
             <text>交通指南</text>
         </view>
-        <view class="desc-con">{{land.jtzn}}</view>
+        <view class="desc-con">
+            <text>{{land.jtzn}}</text>
+        </view>
     </view>
     <view class="footer">
         <icon>p</icon>

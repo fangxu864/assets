@@ -90,6 +90,8 @@ Page({
             },
             success: function (res) {
                 console.log(res);
+                var ydTxt = res.data.jqts;
+                
                 _this.setData({
                     land : res.data,
                 })
