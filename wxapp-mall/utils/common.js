@@ -341,7 +341,8 @@ var Common = {
 			if(statusCode==200){
 				var code = _res.code;
 				var msg = _res.msg;
-				if(_res.code==200){
+				var status = _res.status;
+				if(_res.code==200 || status=="ok"){
 					_success(_res);
 				}else{
 					opt.error(msg,code);

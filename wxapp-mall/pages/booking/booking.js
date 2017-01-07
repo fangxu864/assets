@@ -340,11 +340,27 @@ Page({
 		Common.request({
 			url : "/r/Mall_Order/order/",
 			data : submitData,
+			loading : function(){
+				Common.showLoading();
+			},
+			complete : function(){
+				Common.hideLoading();
+			},
 			success : function(res){
 				var code = res.code;
 				var msg = res.msg;
+				var data = res.data;
+				var ordernum = data.ordernum;
+				var paymode = data.paymode;
 				if(code==200){
-					Common.showError("成功");
+					if(paymode==1){
+						wx.navigateTo({url:"../pay/pay?ordernum="+ordernum});
+					}else if(paymode==4){
+						wx.navigateTo({url:"../paysuccess/paysuccess?ordernum="+ordernum});
+					}else{
+						Common.showError("paymode="+paymode);
+					}
+
 				}else{
 					Common.showError(msg);
 				}

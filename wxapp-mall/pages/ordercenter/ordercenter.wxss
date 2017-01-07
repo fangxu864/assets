@@ -1,10 +1,7 @@
 /**index.wxss**/
-.body{
-    height: 100%;
-    background: #f5f5f5;
-    font-size:14px;
-    color:#444444;
-}
+.mainBody{ position:absolute; top:45px; left:0; right:0; bottom:0; background:#fafafa; font-size:14px}
+.scrollWrap{ height:100%;}
+.scrollView{ height:100%}
 
-
+.loadMoreWrap{ height:40px; line-height:40px; text-align:center; }
 
