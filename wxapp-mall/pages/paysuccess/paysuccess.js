@@ -45,7 +45,7 @@ Page({
 		var ordernum = opt.ordernum;
 		console.log(ordernum);
 		if(!ordernum){
-			ordernum = 10000;
+			ordernum = 3317797;
 			console.log("ordernum缺失")
 		}
 		Common.request({
@@ -65,49 +65,49 @@ Page({
 					QR.qrApi.draw(res.data.qrcode,"qrcodeCanvas","200","200");
 					var ptype = res.data.ptype;
 					switch  (ptype){
-						case "A" :
+						case "A" :    //景区
 						 _this.setData({
                     		whitchTemplate : "scenic",
 							infoData : res.data
                 		});
 						break;
-						case "B" :
+						case "B" :    //线路
 						 _this.setData({
                     		whitchTemplate : "route",
 							infoData : res.data
                 		});
 						break;
-						case "C" :
+						case "C" :     //酒店
 						 _this.setData({
                     		whitchTemplate : "hotel",
 							infoData : res.data
                 		});
 						break;
-						case "F" :
+						case "F" :     //套票
 						 _this.setData({
                     		whitchTemplate : "scenic",
 							infoData : res.data
                 		});
 						break;
-						case "H" :
+						case "H" :     //演出
 						 _this.setData({
                     		whitchTemplate : "show",
 							infoData : res.data
                 		});
 						break;
-						case "I" :
+						case "I" :     //年卡
 						 _this.setData({
                     		whitchTemplate : "scenic",
 							infoData : res.data
                 		});
 						break;
-						case "G" :
+						case "G" :     //餐饮
 						 _this.setData({
                     		whitchTemplate : "scenic",
 							infoData : res.data
                 		});
 						break;
-						default :
+						default :      //默认景区
 						 _this.setData({
                     		whitchTemplate : "scenic",
 							infoData : res.data
