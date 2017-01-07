@@ -91,8 +91,12 @@ Page({
             },
             success: function (res) {
                 //珠江
-                 res.data.jqts = res.data.jqts.replace(/\<[^\<\>]+\>/g , "\n" );
-                 res.data.jtzn = res.data.jtzn.replace(/\<[^\<\>]+\>/g , "\n" );
+                //<br/>替换成“\n”,删除其他标签
+                 res.data.jqts = res.data.jqts.replace(/\<br[^\<\>]+\>/g , "\n" );
+                 res.data.jqts = res.data.jqts.replace(/\<[^\<\>]+\>/g , "" );
+                 //<br/>替换成“\n”,删除其他标签
+                 res.data.jtzn = res.data.jtzn.replace(/\<br[^\<\>]+\>/g , "\n" );
+                 res.data.jtzn = res.data.jtzn.replace(/\<[^\<\>]+\>/g , "" );
                 
 
                 var imgSrcArr = res.data.bhjq.match(/src\=\"[^\"]+\"/g );
@@ -106,7 +110,10 @@ Page({
                         imgSrcArr : srcarr,
                     })
                 }
-                res.data.bhjq = res.data.bhjq.replace(/\<[^\<\>]+\>/g , "" );
+                 //<br/>替换成“\n”,删除其他标签
+                 res.data.bhjq = res.data.bhjq.replace(/\<br[^\<\>]+\>/g , "\n" );
+                 res.data.bhjq = res.data.bhjq.replace(/\<[^\<\>]+\>/g , "" );
+            
 
 
                 _this.setData({
