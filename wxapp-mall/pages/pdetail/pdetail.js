@@ -158,5 +158,17 @@ Page({
         wx.navigateTo({
             url: '../booking/booking?aid=' + e.target.dataset.aid + '&pid=' + e.target.dataset.pid
         });
+    },
+
+
+    /**
+     * 打开地图查看位置
+     */
+    openMap: function(){
+         wx.openLocation({
+            latitude: 26.074508,
+            longitude: 119.296494,
+            scale: 28
+        })
     }
 });
