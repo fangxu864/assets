@@ -89,9 +89,9 @@ Page({
                 Common.hideLoading();
             },
             success: function (res) {
-                console.log(res);
-                var ydTxt = res.data.jqts;
-                
+                 res.data.jqts = res.data.jqts.replace(/\<[^\<\>]+\>/g , "\n" );
+                 res.data.jtzn = res.data.jtzn.replace(/\<[^\<\>]+\>/g , "\n" );
+                 res.data.bhjq = res.data.bhjq.replace(/\<[^\<\>]+\>/g , "\n" );
                 _this.setData({
                     land : res.data,
                 })
