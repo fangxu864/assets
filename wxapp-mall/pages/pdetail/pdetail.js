@@ -94,11 +94,13 @@ Page({
                 //<br/>替换成“\n”,删除其他标签
                  res.data.jqts = res.data.jqts.replace(/\<br[^\<\>]+\>/g , "\n" );
                  res.data.jqts = res.data.jqts.replace(/\<[^\<\>]+\>/g , "" );
-                 res.data.jqts = res.data.jqts.replace(/[\n]+/g , "\n" );
+                 res.data.jqts = res.data.jqts.replace(/\n+/g , "1" );
+                 res.data.jqts = res.data.jqts.replace(/1+/g , "\n" );
+                
                  //<br/>替换成“\n”,删除其他标签
                  res.data.jtzn = res.data.jtzn.replace(/\<br[^\<\>]+\>/g , "\n" );
                  res.data.jtzn = res.data.jtzn.replace(/\<[^\<\>]+\>/g , "" );
-                 res.data.jqts = res.data.jqts.replace(/[\n]+/g , "\n" );
+                 res.data.jtzn = res.data.jtzn.replace(/[\n]+/g , "\n" );
 
                 var imgSrcArr = res.data.bhjq.match(/src\=\"[^\"]+\"/g );
                 var srcarr = [];
@@ -114,7 +116,7 @@ Page({
                  //<br/>替换成“\n”,删除其他标签
                  res.data.bhjq = res.data.bhjq.replace(/\<br[^\<\>]+\>/g , "\n" );
                  res.data.bhjq = res.data.bhjq.replace(/\<[^\<\>]+\>/g , "" );
-                 res.data.jqts = res.data.jqts.replace(/[\n]+/g , "\n" );
+                 res.data.bhjq = res.data.bhjq.replace(/[\n]+/g , "\n" );
 
 
                 _this.setData({
