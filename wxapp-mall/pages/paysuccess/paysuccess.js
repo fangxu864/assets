@@ -10,7 +10,7 @@ var app = getApp();
 Page({
 	data : {
 		whitchTemplate : "scenic",
-		infoData :{
+		infoData :{}
 		// 	"ptype" : "A",
 		// 	"landTitle": "微商城演出测试（勿动）",
 		// 	"totalmoney": "1",
