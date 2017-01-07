@@ -53,10 +53,7 @@ Page({
 		var ordernum = dataset.ordernum;
 		var type = dataset.type;
 		var list = this.data.list[type];
-		list.forEach(function(item){
-			var _ordernum = item.ordernum;
-			console.log(_ordernum)
-		})
+
 	},
 	onTabClick : function(e){
 		var that = this;
