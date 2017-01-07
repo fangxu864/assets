@@ -42,6 +42,11 @@ Page({
 	 */
     onLoad: function( opt ) {
 		var ordernum = opt.ordernum;
+		console.log(ordernum);
+		if(!ordernum){
+			ordernum = 10000;
+			console.log("ordernum缺失")
+		}
 		Common.request({
 			url: "/r/Mall_Order/paySuccess/",
 			data: {
