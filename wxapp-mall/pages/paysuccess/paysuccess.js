@@ -41,6 +41,7 @@ Page({
 	 *  初始化页面
 	 */
     onLoad: function( opt ) {
+		var _this = this;
 		var ordernum = opt.ordernum;
 		console.log(ordernum);
 		if(!ordernum){
