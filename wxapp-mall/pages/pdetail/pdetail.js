@@ -75,6 +75,7 @@ Page({
         console.log(opt);
         var lid = opt.lid;
         var _this = this;
+        //banner，景区信息请求
         Common.request({
             url: "/r/Mall_Product/getLandInfo/",
             data: {
@@ -94,6 +95,7 @@ Page({
                 })
             }
         });
+        //票列表请求
         Common.request({
             url: "/r/Mall_Product/getTicketList/",
             data: {
@@ -113,6 +115,7 @@ Page({
                 })
             }
         });
+        //套票数据
         Common.request({
             url: "/r/Mall_Product/getRelatedPackage/",
             data: {

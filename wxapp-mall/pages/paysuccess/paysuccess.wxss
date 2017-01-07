@@ -36,7 +36,7 @@
     margin: 40rpx;
     background-color: #fafafa;
     line-height: 40rpx;
-    font-size: 28rpx;
+    font-size: 24rpx;
 }
 .info-box .line{
     display: flex;
@@ -53,8 +53,7 @@
     font-size: 36rpx;
 }
 .qrcode-container .qrcode-box{
-    margin-top: 40rpx;
-    width: 300rpx;
-    height: 300rpx;
-    background-color: #e1e4e6;
+    
+    width: 200px;
+    height: 200px;
 }
