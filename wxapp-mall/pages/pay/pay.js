@@ -52,14 +52,12 @@ Page({
 				expire_time : payParams.expireTime
 			},
 			loading : function(){ Common.showLoading()},
+			complete : function(){ Common.hideLoading()},
 			success : function(res){
 				var status = res.status;
 				var msg = res.msg;
 				var data = res.data || {};
 
-				data["complete"] = function(res){
-					Common.hideLoading();
-				}
 
 				data["success"] = function(res){
 

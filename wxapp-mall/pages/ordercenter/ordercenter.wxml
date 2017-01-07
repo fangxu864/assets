@@ -1,26 +1,61 @@
-
-
+<view class="tabHead">
+    <view bindtap="onTabClick" data-tab="unuse" class="tab unuse {{currentTab=='unuse' ? 'active' : ''}}">未使用订单</view>
+    <view bindtap="onTabClick" data-tab="history" class="tab history {{currentTab=='history' ? 'active' : ''}}">历史订单</view>
+</view>
 <view class="mainBody">
-
-    <view class="scrollWrap unuse">
+    <view class="scrollWrap unuse {{currentTab=='unuse' ? '' : 'hide'}}">
         <block wx:if="{{unuse_showRefreshLoading}}">
             <text class="loading">努力加载中...</text>
         </block>
+        <block wx:elif="{{list.unuse.length==0}}">
+            <view style="height:300px; line-height:300px; text-align:center; background:#ffffff;">暂无订单</view>
+        </block>
         <block wx:else>
-            <scroll-view class="scrollView" scroll-y="true" bindscrolltolower="scrollToLower">
-                <block wx:for="{{list.unset}}">
-                    <view class="item unset" style="height:100px; text-align:center; line-height:100px; background:#ffffff; margin-top:10px">{{index+1}}</view>
+            <scroll-view class="scrollView" data-type="unuse" scroll-y="true" bindscrolltolower="scrollToLower">
+                <block wx:for="{{list.unuse}}" wx:for-item="order">
+
+                    <view class="item unuse">
+                        <view class="topBox">
+                            <image data-type="unuse" data-ordernum="{{order.ordernum}}" binderror="onImageError" src="{{order.imgpath}}"></image>
+                            <view class="rtTextBox">
+                                <text class="title">{{order.ltitle}}</text>
+                                <block wx:for="{{order.tickets}}" wx:for-item="ticket">
+                                    <view class="ticketLi">
+                                        <text class="ticTitle">{{ticket.title}}</text>
+                                        <text class="star"> * </text>
+                                        <text class="tnum">{{ticket.tnum}}</text>张
+                                    </view>
+                                </block>
+                            </view>
+                        </view>
+                    </view>
+
                 </block>
-                <view class="loadMoreWrap">
-                    <text wx:if="{{unuse_hasMore}}">努力加载中...</text>
+                <view class="loadMoreWrap" wx:if="{{!unuse_showRefreshLoading && list.unuse.length>0}}">
+                    <text wx:if="{{unuse_hasMore}}"><text style="margin-right:3px" class="weui-loading"/>努力加载中...</text>
                     <text wx:else>没有更多了...</text>
                 </view>
             </scroll-view>
         </block>
     </view>
-    <view class="scrollWrap history">
-        <text>历史订单</text>
+    <view class="scrollWrap history {{currentTab=='history' ? '' : 'hide'}}">
+        <block wx:if="{{history_showRefreshLoading}}">
+            <text class="loading">努力加载中...</text>
+        </block>
+        <block wx:elif="{{list.history.length==0}}">
+            <view style="height:300px; line-height:300px; text-align:center; background:#ffffff;">暂无订单</view>
+        </block>
+        <block wx:else>
+            <scroll-view class="scrollView" data-type="history" scroll-y="true" bindscrolltolower="scrollToLower">
+                <block wx:for="{{list.history}}">
+                    <view class="item history" style="height:100px; text-align:center; line-height:100px; background:#ffffff; margin-bottom:10px">{{index+1}}</view>
+                </block>
+                <view class="loadMoreWrap" wx:if="{{!history_showRefreshLoading && list.history.length>0}}">
+                    <text wx:if="{{history_hasMore}}"><text style="margin-right:3px" class="weui-loading"/>努力加载中...</text>
+                    <text wx:else>没有更多了...</text>
+                </view>
+            </scroll-view>
+        </block>
     </view>
-
 </view>
 
