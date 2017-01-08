@@ -6,8 +6,8 @@
 var Config = require("./config.js");
 var Common = {
 	appId : "wxd1e8494ae3b6d821",
-	REQUEST_HOST : "https://api.12301dev.com/index.php",
-	//REQUEST_HOST : "https://api.12301.cc/index.php",
+	//REQUEST_HOST : "https://api.12301dev.com/index.php",
+	REQUEST_HOST : "https://api.12301.cc/index.php",
 	SESSION_STORAGE_KEY : "pft-session-storage",
 	SESSION_STORAGE_EXPIRE_KEY : "pft-session-storage-expire",  //session过期时长的key
 	SESSION_STORAGE_AT_TIME : "pft-session-storage-attime",
@@ -84,6 +84,7 @@ var Common = {
 	 * 登录微信 然后用返回的code去服务器取sessionKey
 	 */
 	login : function(callback){
+		var that = this;
 		var sessionKey = this.SESSION_STORAGE_KEY;
 		var expireKey = this.SESSION_STORAGE_EXPIRE_KEY;
 		var atTimeKey = this.SESSION_STORAGE_AT_TIME;
@@ -95,7 +96,7 @@ var Common = {
 				var code = res.code;
 				if(code){
 					wx.request({
-						url : "https://api.12301dev.com/index.php?c=Mall_Member&a=smallAppLogin",
+						url : that.REQUEST_HOST + "?c=Mall_Member&a=smallAppLogin",
 						method : "POST",
 						header : {
 							"Small-App" : account
@@ -130,11 +131,11 @@ var Common = {
 							}
 						},
 						fail : function(err){
-							//showError("code换session出错");
-							//showError(JSON.stringify(err));
+							console.log(err)
 							console.log("请求后端接口：https://api.12301dev.com/index.php?c=Mall_Member&a=smallAppLogin");
-							console.log(err);
-							showError("出错出错出错出错");
+							console.log(JSON.stringify(err));
+							//showError("code换session出错");
+							showError("出错出错出错出错出错");
 						}
 					})
 				}else{
@@ -154,6 +155,7 @@ var Common = {
 	 * @param callback
 	 */
 	auth : function(callback){
+		var that = this;
 		var sessionKey = this.SESSION_STORAGE_KEY;
 		var expireKey = this.SESSION_STORAGE_EXPIRE_KEY;
 		var atTimeKey = this.SESSION_STORAGE_AT_TIME;
@@ -201,64 +203,6 @@ var Common = {
 			})
 		};
 		//登录微信 然后用返回的code去服务器取sessionKey
-		var login = function(callback){
-			console.log("缓存过期，调用登录接口重新登录");
-			wx.login({
-				success : function(res){
-					var code = res.code;
-					if(code){
-						wx.request({
-							url : "https://api.12301dev.com/index.php?c=Mall_Member&a=smallAppLogin",
-							method : "POST",
-							header : {
-								"Small-App" : account
-							},
-							data : {
-								code : code
-							},
-							success : function(res){
-								var _res = res.data;
-								var data = _res.data;
-								var code = _res.code;
-								if(code==200){ //由code换session成功后，把session存入本地storage
-									var sessionValue = data.sessionKey;
-									var expireValue = data.expire;
-									wx.setStorage({
-										key : sessionKey,
-										data : sessionValue
-									})
-									wx.setStorage({
-										key : expireKey,
-										data : expireValue
-									})
-									//把当前登录成功后换回session的时间点存下来
-									//用于后面比对是否过期
-									wx.setStorage({
-										key : atTimeKey,
-										data : (+new Date())
-									})
-									callback && callback(sessionValue,expireValue);
-								}else{
-									showError(res.msg);
-								}
-							},
-							fail : function(err){
-								console.log(err)
-								console.log("请求后端接口：https://api.12301dev.com/index.php?c=Mall_Member&a=smallAppLogin");
-								console.log(JSON.stringify(err));
-								//showError("code换session出错");
-								showError("出错出错出错出错出错");
-							}
-						})
-					}else{
-						showError('获取用户登录态失败！' + res.errMsg)
-					}
-				},
-				fail : function(){
-					showError("微信登录接口调用失败");
-				}
-			})
-		};
 
 		wx.getStorage({
 			key : sessionKey,
@@ -268,7 +212,7 @@ var Common = {
 				//判断此session是否过期
 				isOverTime(function(result){
 					if(result.isOver){ //已过期,则重新登录去获取session
-						login(function(session,expire){
+						that.login(function(session,expire){
 							callback && callback(session,expire);
 						});
 					}else{ //未过期
@@ -279,7 +223,7 @@ var Common = {
 				})
 			},
 			fail : function(err){ //不存在 则重新登录
-				login(function(session,expire){
+				that.login(function(session,expire){
 					callback && callback(session,expire);
 				});
 			}
@@ -309,6 +253,7 @@ var Common = {
 	 *
 	 */
 	request : function(opt){
+		var that = this;
 		var defaults = {
 			url : "",
 			method : "POST",
@@ -387,6 +332,8 @@ var Common = {
 				var status = _res.status;
 				if(_res.code==200 || status=="ok"){
 					_success(_res);
+				}else if(_res.code==202){
+					opt.error(msg,code);
 				}else{
 					opt.error(msg,code);
 				}
