@@ -191,6 +191,9 @@
 .p-desc-box .desc-con image{
   width:710rpx
 }
+.p-desc-box .desc-con text{
+  text-align:justify
+}
 
 /*footer*/
 .footer{
