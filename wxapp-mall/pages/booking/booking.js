@@ -380,28 +380,23 @@ Page({
 		let pids = this.data.ticketList.map(function(item){
 			return item.pid;
 		}).join("-");
+
 		Common.request({
-			debug : 1,
-			url : "",
+			debug : false,
+			url : "/r/Mall_Product/getPriceAndStorage/",
 			data : {
 				pids : pids,
 				aid : aid,
 				date : date
 			},
 			loading : function(){
-				Common.showLoading("正在请求库存价格..");
+				Common.showLoading("请求库存价格..");
 			},
 			complete : function(){
 				Common.hideLoading();
 			},
 			success : function(res){
-				var data = {
-					111 : {
-						price : "0.34",
-						store : 5
-					}
-				};
-
+				let data = res.data;
 				let ticketList = that.data.ticketList;
 				let newTicketList = [];
 
@@ -453,7 +448,7 @@ Page({
 		//});
 		var total = 0;
 		ticketList.forEach(function(item){
-			total += (item.value * item.tprice);
+			total += (item.value * item.jsprice);
 		})
 		this.setData({totalMoney:total});
 	}

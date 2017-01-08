@@ -320,7 +320,7 @@ var Common = {
 			fail : function(err){
 				wx.showModal({
 					title : "出错",
-					content : err,
+					content : JSON.stringify(err),
 					showCancel : false
 				})
 			},
@@ -393,7 +393,7 @@ var Common = {
 			}else{
 				wx.showModal({
 					title : "出错",
-					content : _res,
+					content : JSON.stringify(_res),
 					showCancel : false
 				})
 			}
