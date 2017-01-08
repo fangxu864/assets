@@ -337,8 +337,8 @@ var Common = {
 				var status = _res.status;
 				if(_res.code==200 || status=="ok"){
 					_success(_res);
-				}else if(_res.code==202){
-					that.login(function(){
+				}else if(_res.code==202){ //如果服务端返回202,但客户端存的session还未过期，则客户端还是要重新登录，去获取新的session
+					that.login(function(session,expire){
 						that.request(opt)
 					})
 				}else{
