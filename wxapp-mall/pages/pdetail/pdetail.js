@@ -94,7 +94,7 @@ Page({
                 //<br/>替换成“\n”,删除其他标签
                  res.data.jqts = res.data.jqts.replace(/\<br[^\<\>]+\>/g , "\n" );
                  res.data.jqts = res.data.jqts.replace(/\<[^\<\>]+\>/g , "" );
-                 var txt = res.data.jqts.replace(/\n+/g , "\n" );
+                 res.data.jqts = res.data.jqts.replace(/\n+/g , "\n" );
                 
                  //<br/>替换成“\n”,删除其他标签
                  res.data.jtzn = res.data.jtzn.replace(/\<br[^\<\>]+\>/g , "\n" );
