@@ -98,7 +98,7 @@
                         <text class="totalNum">{{totalMoney}}</text>
                     </text>
                 </view>
-                <view bindtap="onSubmit" class="submitBtn">提交</view>
+                <view bindtap="onSubmit" data-cansubmit="{{canSubmit}}" class="submitBtn {{canSubmit ? '' : 'disable'}}">提交</view>
             </view>
         </view>
 

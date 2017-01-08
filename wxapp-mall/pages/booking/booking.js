@@ -15,7 +15,8 @@ Page({
 		needIDErrTipShow : false,
 		contacttelErrTipShow : false,
 		orderNameErrTipShow : false,
-		ticketList : []
+		ticketList : [],
+		canSubmit : true
     },
     onReady : function(){
         let that = this;
@@ -335,7 +336,6 @@ Page({
 
 		submitData["link"] = link;
 
-		console.log(submitData)
 
 		Common.request({
 			url : "/r/Mall_Order/order/",
@@ -400,6 +400,24 @@ Page({
 				let ticketList = that.data.ticketList;
 				let newTicketList = [];
 
+				if(Object.prototype.toString.call(data)=="[object Array]" && data.length==0){
+
+					Common.showError("该日期没有库存及价格，请更换日期","提示");
+
+					var newList = [];
+					that.data.ticketList.forEach(function(item){
+						item["jsprice"] = 0;
+						newList.push(item);
+					})
+					that.setData({ticketList:newList});
+					that.setData({canSubmit:false});
+					that.calTotalMoney();
+
+					return false;
+
+				}
+
+				that.setData({canSubmit:true});
 				for(let i in data){
 					let result = data[i];
 					let price = result.price;
@@ -424,7 +442,7 @@ Page({
 	updateTicketPriceStore : function(ticket,price,store){
 		let value = ticket.value;
 
-		ticket["tprice"] = price;  //更新价格
+		ticket["jsprice"] = price;  //更新价格
 		ticket["store"] = store;  //更新库存
 
 		if(store!=-1){
