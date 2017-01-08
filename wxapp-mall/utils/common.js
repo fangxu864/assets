@@ -278,20 +278,25 @@ var Common = {
 			complete : function(){}
 		};
 
+		var newOpt = {};
 		for(var i in defaults){
-			if(typeof opt[i]=="undefined") opt[i] = defaults[i];
+			if(typeof opt[i]=="undefined"){
+				newOpt[i] = defaults[i];
+			}else{
+				newOpt[i] = opt[i];
+			}
 		}
 
-		opt.header["Small-App"] = this.getAccount();
+		newOpt.header["Small-App"] = this.getAccount();
 
-		opt.loading();
+		newOpt.loading();
 
-		if(opt.debug) return setTimeout(function(){
-			opt.complete();
-			opt.success();
+		if(newOpt.debug) return setTimeout(function(){
+			newOpt.complete();
+			newOpt.success();
 		},1000)
 
-		var url = opt.url;
+		var url = newOpt.url;
 		if(!url) return false;
 		//index.php?c=Mall_Product&a=productList
 		var host = this.REQUEST_HOST;
@@ -301,12 +306,12 @@ var Common = {
 		});
 		var c = "?c=" + urlArray[1];
 		var a = "&a=" + urlArray[2];
-		opt["url"] = host + c + a;
+		newOpt["url"] = host + c + a;
 
 
 		//complete中间件
-		var _complete = opt.complete;
-		opt["complete"] = function(res){
+		var _complete = newOpt.complete;
+		newOpt["complete"] = function(res){
 			var _res = res.data;
 			var statusCode = res.statusCode;
 			if(statusCode==200){
@@ -321,8 +326,8 @@ var Common = {
 		}
 
 		//success中间件
-		var _success = opt.success;
-		opt["success"] = function(res){
+		var _success = newOpt.success;
+		newOpt["success"] = function(res){
 			var _res = res.data;
 			var statusCode = res.statusCode;
 			if(statusCode==200){
@@ -332,11 +337,14 @@ var Common = {
 				if(_res.code==200 || status=="ok"){
 					_success(_res);
 				}else if(_res.code==202){
-					opt.error(msg,code);
+					that.login(function(){
+						that.request(opt)
+					})
 				}else{
 					opt.error(msg,code);
 				}
 			}else{
+
 				wx.showModal({
 					title : "出错",
 					content : JSON.stringify(_res),
@@ -347,8 +355,8 @@ var Common = {
 
 		//权限校验中间件
 		this.auth(function(session,expire){
-			opt["header"]["Session-Key"] = session;
-			wx.request(opt);
+			newOpt["header"]["Session-Key"] = session;
+			wx.request(newOpt);
 
 		})
 	},
