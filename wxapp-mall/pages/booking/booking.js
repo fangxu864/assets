@@ -25,19 +25,6 @@ Page({
 		let aid = data.aid;
 
 
-		//var now = +new Date();
-		//var last = 1483606264285;
-		////var last = +new Date();
-		//var date = new Date(last);
-		//var Y = date.getFullYear() + '-';
-		//var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-		//var D = date.getDate() + ' ';
-		//var h = date.getHours() + ':';
-		//var m = date.getMinutes() + ':';
-		//var s = date.getSeconds();
-		//console.log(Y+M+D+h+m+s);
-		//console.log((now-last))
-
 		if(pid && aid){
 			this.queryBookingInfo(pid,aid);
 		}else{
@@ -212,6 +199,8 @@ Page({
 					ticket["store"] = -1;   //初始时，库存都为不限 -1
 					ticketList.push(ticket);
 				})
+
+
 				that.setData({
 					ticketList : ticketList,
 					isReady : true
@@ -409,6 +398,7 @@ Page({
 						item["jsprice"] = 0;
 						newList.push(item);
 					})
+
 					that.setData({ticketList:newList});
 					that.setData({canSubmit:false});
 					that.calTotalMoney();
@@ -427,7 +417,7 @@ Page({
 						if(i==pid){
 							newTicketList.push(that.updateTicketPriceStore(ticket,price,store));
 						}else{
-							newTicketList.push(ticket);
+							//newTicketList.push(ticket);
 						}
 					})
 				}
