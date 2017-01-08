@@ -41,6 +41,11 @@
 .banner-box .info-box text.land-adress{
     font-size: 24rpx;
 }
+.banner-box .info-box icon {
+  float:right;
+  margin-top:10rpx;
+
+}
 
 
 
@@ -182,6 +187,9 @@
   font-size: 24rpx;
   line-height: 60rpx;
   overflow: hidden;
+}
+.p-desc-box .desc-con image{
+  width:710rpx
 }
 
 /*footer*/

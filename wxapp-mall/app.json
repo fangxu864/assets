@@ -7,7 +7,6 @@
 	"pages/paysuccess/paysuccess",
 	"pages/pdetail/pdetail"
   ],
-
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#268dcd",

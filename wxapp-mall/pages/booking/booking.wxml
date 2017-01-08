@@ -15,7 +15,7 @@
                 </view>
             </view>
 
-            <view style="margin-left:10px; margin-top:10px; margin-right:10px">
+            <view style="margin-left:10px; margin-top:10px; margin-right:10px; line-height:1.6">
                 <text class="validTime descFlag">{{validTime}}</text>
                 <text class="descFlag verifyTime" wx:if="{{verifyTime!=''}}">{{verifyTime}}</text>
                 <text class="descFlag refund_rule">{{refund_rule_text}}</text>
@@ -72,7 +72,7 @@
                         <input type="text" bindblur="onOrderNameInpBlur" bindinput="onOrderNameInpChange" name="" value="{{ordername}}" class="usernameInp" id="usernameInp" placeholder="取票人姓名"/>
                     </view>
                     <view class="errorTip" wx:if="{{orderNameErrTipShow}}"><text style="color:red">!必填</text></view>
-                    <view class="addUserInfo"><text class="text">+</text></view>
+                    <!--<view class="addUserInfo"><text class="text">+</text></view>-->
                 </view>
                 <view class="line">
                     <view class="lt">手机号</view>
@@ -98,7 +98,7 @@
                         <text class="totalNum">{{totalMoney}}</text>
                     </text>
                 </view>
-                <view bindtap="onSubmit" class="submitBtn">提交</view>
+                <view bindtap="onSubmit" data-cansubmit="{{canSubmit}}" class="submitBtn {{canSubmit ? '' : 'disable'}}">提交</view>
             </view>
         </view>
 
