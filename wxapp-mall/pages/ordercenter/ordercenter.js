@@ -86,6 +86,48 @@ Page({
 			})
 		}
 	},
+	onPayBtnTap : function(e){
+		var ordernum = e.currentTarget.dataset.ordernum;
+		if(!ordernum) return false;
+		wx.navigateTo({url:"../pay/pay?ordernum="+ordernum});
+	},
+	onCancelBtnTap : function(e){
+		var that = this;
+		var dataset = e.currentTarget.dataset;
+		var ordernum = dataset.ordernum;
+		if(!ordernum || dataset.disable==1) return false;
+		wx.showModal({
+			title : "提示",
+			content : "确定要取消该订单吗？",
+			success : function(res){
+				if(!res.confirm) return false;
+				Common.request({
+					url : "/r/Mall_Member/cancelOrder/",
+					data : {
+						ordernum : ordernum
+					},
+					loading : function(){
+						Common.showLoading("取消中...");
+					},
+					complete : function(){
+						Common.hideLoading();
+					},
+					success : function(res){
+						Common.showError("订单取消成功","成功");
+						var newList = [];
+						that.data.list.unuse.forEach(function(item){
+							if(item.ordernum==ordernum){
+								item["hasCancel"] = true;
+							}
+							newList.push(item);
+						});
+
+						that.setData({"list.unuse":newList});
+					}
+				})
+			}
+		})
+	},
 	scrollToLower : function(e){
 		var that = this;
 		var oData = this.data;
@@ -118,6 +160,7 @@ Page({
 				var page = data.page;
 				var listKey = type=="unuse" ? "list.unuse" : "list.history";
 				var hasMoreKey = type=="unuse" ? "unuse_hasMore" : "history_hasMore";
+				var pageKey = type=="unuse" ? "page.unuse" : "page.history";
 
 				var oldList = oData.list[type];
 				var newList = oldList.concat(list);
@@ -127,9 +170,12 @@ Page({
 				listData[listKey] = newList;
 				var moreData = {};
 				moreData[hasMoreKey] = page>=totalPage ? false : true;
+				var pageData = {};
+				pageData[pageKey] = page;
 
 				that.setData(listData);
 				that.setData(moreData);
+				that.setData(pageData);
 			},
 			empty : function(){},
 			error : function(msg,code){
@@ -141,6 +187,7 @@ Page({
 
 	},
 	queryList : function(opt){
+		var that = this;
 		var fn = function(){};
 		var type = opt.type || "unuse";
 		var page = opt.page || 1;
@@ -176,6 +223,7 @@ Page({
 				var list = data.list;
 				if(code==200){
 					if(list.length>0){
+						data["list"] = that.adaptOrderList(list);
 						success(data);
 					}else{
 						empty(data);
@@ -190,6 +238,15 @@ Page({
 
 
 
+	},
+	adaptOrderList : function(list){
+		list.forEach(function(item){
+			var imgpath = item.imgpath;
+			if(imgpath.indexOf("http")!=0) item["imgpath"] = "http://static.12301.cc/assets/build/images/defaultThum.jpg";
+			item["paystatusText"] = {0:"现场支付",1:"已支付",2:"未支付"}[item.paystatus];
+			item["status_config"] = Common.orderStatus;
+		})
+		return list;
 	},
 	onScroll : function(){
 
