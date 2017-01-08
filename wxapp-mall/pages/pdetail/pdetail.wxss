@@ -188,6 +188,9 @@
   line-height: 60rpx;
   overflow: hidden;
 }
+.p-desc-box .desc-con image{
+  width:710rpx
+}
 
 /*footer*/
 .footer{
