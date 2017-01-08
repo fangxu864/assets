@@ -11,7 +11,8 @@ var Update_Info = require("SERVICE/MemcardReg/Update_Info");
 var Loading = require("COMMON/js/util.loading.pc.js");
 var ProvCity = require("COMMON/Components/ProvCitySelect");
 var Fileupload = require("COMMON/modules/fileupload");
-var Validate = require("COMMON/Components/Validator");
+var Validate = require("COMMON/Components/Validator/v1.0");
+
 var Tpl = {
 	index : PFT.Util.ParseTemplate(require("./Tpl/index.xtpl"))
 };
@@ -30,6 +31,7 @@ var Main = PFT.Util.Class({
 	},
 	validator : {},
 	init : function(){
+
 		this.fid = PFT.Util.UrlParse()["fid"] || "";
 		this.editMode = this.fid!=="undefined" && this.fid!==""; //编辑模式
 		if(this.editMode){ //如果是编辑模式
@@ -108,7 +110,7 @@ var Main = PFT.Util.Class({
 		if(mobile.length!==11) return false;
 		clearTimeout(KeyupTimeout);
 		KeyupTimeout = setTimeout(function(){
-			if(Validate.Rules.mobile(mobile).isOk==1){ //如果输入的是合法手机号
+			if(Validate.Rules.mobile(mobile).isOk){ //如果输入的是合法手机号
 				Query_MobileLogup({
 					debug : Debug,
 					params : {
@@ -139,7 +141,7 @@ var Main = PFT.Util.Class({
 		var mobileInp = $("#mobileInp");
 		var mobile = $.trim(mobileInp.val());
 		if(!mobile) return alert("请输入手机号");
-		if(Validate.Rules.mobile(mobile).isOk!==1) return alert("请输入正确格式手机号");
+		if(!Validate.Rules.mobile(mobile).isOk) return alert("请输入正确格式手机号");
 		Query_Vcode({
 			debug : Debug,
 			params : {
@@ -288,7 +290,9 @@ var Main = PFT.Util.Class({
 			onCityChange : function(cityId){}
 		})
 		setTimeout(function(){
-			ProvCitySelect.setVal(province,city)
+			if(province){
+				ProvCitySelect.setVal(province,city)
+			}
 		},50)
 
 	},
@@ -417,7 +421,13 @@ var Main = PFT.Util.Class({
 			notice_type : $("#sendTypeBox").find("input:checked").val()
 		};
 
-		if(this.fid) submitData["fid"] = this.fid;
+		if(this.fid){
+			submitData["card"] = 0;
+			submitData["fid"] = this.fid;
+
+		}else{
+			submitData["card"] = 1;
+		}
 
 		Update_Info({
 			cxt : this,
