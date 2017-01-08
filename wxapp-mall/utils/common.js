@@ -7,11 +7,54 @@ var Config = require("./config.js");
 var Common = {
 	appId : "wxd1e8494ae3b6d821",
 	REQUEST_HOST : "https://api.12301dev.com/index.php",
+	//REQUEST_HOST : "https://api.12301.cc/index.php",
 	SESSION_STORAGE_KEY : "pft-session-storage",
 	SESSION_STORAGE_EXPIRE_KEY : "pft-session-storage-expire",  //session过期时长的key
 	SESSION_STORAGE_AT_TIME : "pft-session-storage-attime",
 	getAccount : function(){
 		return Config.account;
+	},
+	orderStatus : {
+		0 : {
+			name : "未使用",
+			color:"#3eba40"
+		},
+		1 : {
+			name : "已使用",
+			color:"#f37138"
+		},
+		2 : {
+			name : "已过期",
+			color:"#e12424"
+		},
+		3 : {
+			name : "已取消",
+			color:"#f37138"
+		},
+		4 : {
+			name : "凭证码被替代",
+			color:"#f37138"
+		},
+		5 : {
+			name : "被终端撤销(已取消)",
+			color:"#f37138"
+		},
+		6 : {
+			name : "被终端撤销(已使用)",
+			color:"#f37138"
+		},
+		7 : {
+			name : "已部分使用",
+			color:"#f37138"
+		},
+		9 : {
+			name : "已删除",
+			color:"#f37138"
+		},
+		101 : {
+			name : "退票中",
+			color : "#e12424"
+		}
 	},
 	//全局显示loading状态
 	showLoading : function(text){

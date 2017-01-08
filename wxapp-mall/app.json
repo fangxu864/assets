@@ -1,13 +1,12 @@
 {
   "pages":[
 	"pages/index/index",
+	"pages/ordercenter/ordercenter",
 	"pages/booking/booking",
 	"pages/pay/pay",
 	"pages/paysuccess/paysuccess",
-	"pages/ordercenter/ordercenter",
 	"pages/pdetail/pdetail"
   ],
-
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#268dcd",
