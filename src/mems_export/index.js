@@ -52,7 +52,7 @@ $(function () {
                 timeStamp = new Date(timeStamp).getTime();
                 timeStamp = Math.floor(timeStamp/1000);
                 $.ajax({
-                    url: "/r/cli_ExpenseWarning/editMemberExpense",    //请求的url地址
+                    url: "/r/Member_ExpenseWarning/editMemberExpense",    //请求的url地址
                     dataType: "json",   //返回格式为json
                     async: true, //请求是否异步，默认为异步，这也是ajax重要特性
                     data: {
@@ -141,7 +141,7 @@ $(function () {
     $("body").on("click" , ".accountBalanceSettingBtn" ,function () {
         var fid = $(this).attr("data-id");
         $.ajax({
-            url: "/r/cli_ExpenseWarning/getMemberExpense",    //请求的url地址
+            url: "/r/Member_ExpenseWarning/getMemberExpense",    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true, //请求是否异步，默认为异步，这也是ajax重要特性
             data: { fid : fid},    //参数值
