@@ -4,7 +4,7 @@
  * Description: ""
  */
 require("./index.scss");
-var SheetCore = require("COMMON/modules/sheet-core/v1.1");
+var SheetCore = require("COMMON/modules/sheet-core/v1.1/");
 var City = require("./city");
 var Theme = require("./theme");
 var Type = require("./ptype");

@@ -23,7 +23,6 @@ var City = PFT.Util.Class({
             typeListHTML = that.renderList( this.data );
 
         that.SheetCore = new opt.SheetCore({
-            maxheight : $(window).height(),
             content : typeListHTML,
             noBtn : {
                 handler: function(){

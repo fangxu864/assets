@@ -95,6 +95,7 @@ html.sheet-show,body.sheet-show{ overflow:hidden}
     }
     &.fixHead, &.fixFoot {
         .sheet-content{
+            // position: absolute;
             overflow:auto;
             overflow-scrolling:touch;
             -webkit-overflow-scrolling:touch;
@@ -103,15 +104,21 @@ html.sheet-show,body.sheet-show{ overflow:hidden}
 
     &.fixHead{
         .sheet-content{
-            top: 0;
-            bottom: 0;
             margin-top:$fixHeight;
         }
     }
     &.fixFoot{
         .sheet-content{
-            bottom: 0;
             margin-bottom:$fixHeight;
+        }
+    }
+    &.fixheight {
+        .sheet-content{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
     }
 }

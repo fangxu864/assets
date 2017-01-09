@@ -7,7 +7,7 @@ require("./index.scss");
 var Defaults = function(){
 	return {
 		header : "",
-		maxheight : "auto",
+		height : "auto",
 		content : "",
 		yesBtn : false,
 		noBtn : false,
@@ -19,19 +19,27 @@ var SheetCore = PFT.Util.Class({
 	init : function(opt){
 		var that = this;
 		this.opt = $.extend(Defaults(),opt || {});
-		var header = this.opt.header, content = this.opt.content, maxheight = this.opt.maxheight, yesBtn = this.opt.yesBtn, noBtn = this.opt.noBtn;
-		var zIndex = this.opt.zIndex;
-		var events = this.opt.EVENTS;
+		var header = this.opt.header, content = this.opt.content, height = this.opt.height, yesBtn = this.opt.yesBtn, noBtn = this.opt.noBtn;
+		var zIndex = this.opt.zIndex,
+			events = this.opt.EVENTS,
+			winHeight = $(window).height(),
+			conMaxHeight,
+			headerEle = '.sheet-header',
+			footEle = '.sheet-foot';
+
 		if(typeof header=="function") header = header();
 		if(typeof content=="function") content = content();
-		if(typeof maxheight=="number") maxheight = maxheight + "px";
-		if(maxheight!=="auto" && maxheight.indexOf("%")<0){
-			if(maxheight.indexOf("px")<0) maxheight = maxheight + "px";
+
+		if(typeof height=="number") height = height + "px";
+		if(height!=="auto" && height.indexOf("%")<0){
+			if(height.indexOf("px")<0) height = height + "px";
 		}
+
 
 		var $body = this.$body = $("body");
 		var container = this.container = $('<div class="ui-sheetCoreContainer"></div>').appendTo($body);
-		container.css({maxHeight:maxheight,zIndex:zIndex+1});
+		container.css({ height:height, zIndex:zIndex+1 });
+
 		if(header){
 			container.append('<div class="sheet-header">'+header+'</div>');
 			container.addClass("fixHead");
@@ -84,6 +92,20 @@ var SheetCore = PFT.Util.Class({
 					yesBtn_handler.call(that,e);
 					if(trigger) that.close();
 				})
+			}
+		}
+
+		if( height != 'auto' ) {
+			container.addClass('fixheight');
+		} else {
+			if( header && ( yesBtn || noBtn ) ) {
+				this.content.css({ maxHeight: winHeight - container.find(headerEle).height() - container.find(footEle).height() });
+			} else if( header ) {
+				this.content.css({ maxHeight: winHeight - container.find(headerEle).height() });
+			} else if( yesBtn || noBtn ) {
+				this.content.css({ maxHeight: winHeight - container.find(footEle).height() });
+			} else {
+				this.content.css({ maxHeight: winHeight });
 			}
 		}
 

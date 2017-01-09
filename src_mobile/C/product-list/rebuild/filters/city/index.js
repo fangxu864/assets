@@ -26,11 +26,11 @@ var City = PFT.Util.Class({
 
         that.SheetCore = new opt.SheetCore({
             header : '<a class="leftBtn" href="javascript:void(0)" slot="left"><i class="uicon uicon-jiantou-sin-left"></i></a><h3 class="fixHeaderTitle" style="text-align:center" slot="center">选择城市</h3>',
-            maxheight : $(window).height(),
+            height : $(window).height(),
             content : cityListHTML,
             yesBtn : {
                 text: that.DEFAULT_TEXT,
-                handler: function(){ that.parentObj.container.removeClass('hide'); },
+                handler: function(){ console.log( that ); that.title.html( that.DEFAULT_TEXT ); that.parentObj.container.removeClass('hide'); },
                 trigger: true
             },
             noBtn : {

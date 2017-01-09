@@ -11,7 +11,7 @@ body{ width:100%; background:#fff;}
 }
 #footerRights{ display:none}
 
-    .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:50px; overflow:hidden}
+    .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:50px; overflow:auto; }
 
     .item{ text-align:center; background:#fff; margin-bottom:10px;}
     .item:last-child{ margin-bottom:0}

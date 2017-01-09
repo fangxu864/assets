@@ -22,7 +22,6 @@ var Theme = PFT.Util.Class({
             themeHTML = that.renderList( this.data );
 
         that.SheetCore = new opt.SheetCore({
-            maxheight : $(window).height(),
             content : themeHTML,
             yesBtn : {
                 text: '不限',

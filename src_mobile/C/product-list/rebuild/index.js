@@ -17,12 +17,14 @@ var CityData = require("COMMON/js/config.province.city.data2");
 
 var Main = PFT.Util.Class({
 	__lastPos : 0,
+	__hasMore : true,
 	__hasInit : false,
 	imgHeight : 115,
 
 	dom: {
 		container: 			'bodyContainer',
 		scrollcontainer: 	'scrollWrap',
+		xs_container: 		'xs-container',
 		ul: 				'scrollInerCon',
 		filterbar: 			'filterBar',
 		searchInp: 			'searchInp'
@@ -43,14 +45,108 @@ var Main = PFT.Util.Class({
         };
 
 		this.initSearch();
-		this.listUl.appendTo($('#'+this.dom.container)).wrap($('<div />', { id: this.dom.scrollcontainer, class: this.dom.scrollcontainer}));
+		this.listUl.appendTo($('#'+this.dom.container))
+		this.listUl.wrap($('<div />', { id: this.dom.scrollcontainer, class: this.dom.scrollcontainer}));
+		this.listUl.wrap($('<div />', { id: this.dom.xs_container, class: this.dom.xs_container}));
 		this.fetchList( this.params );
 
-		// this.xscroll = new XScroll({
-		//    container: '#scrollWrap',
-		//    content: '#scrollInerCon'
-		// });
-		// xscroll.render();
+		this.xscroll = new XScroll({
+		   	renderTo: '#' + this.dom.scrollcontainer,
+            lockY:false,
+            container: '#' + this.dom.xs_container,
+            content: '#' + this.dom.ul
+		});
+
+        var infinite = new XScroll.Plugins.Infinite({
+            infiniteElements:'#'+this.dom.container + ' .item',
+            renderHook:function(el,data){
+                el.innerText = data.data.num;
+            }
+        })
+        this.xscroll.plug(infinite);
+
+        var pullup = new XScroll.Plugins.PullUp({
+            upContent:"上拉加载更多 ...",
+            downContent:"放开加载 ...",
+            loadingContent:"加载中 ...",
+            bufferHeight:0
+        });
+
+        this.xscroll.plug(pullup);
+
+        // pullup.on("loading",function(){
+        //     that.fetchList( this.params );
+        //     if( !that.__hasMore ) {
+        //         that.xscroll.unplug(pullup);
+        //         return;
+        //     };
+        //     // infinite.append(0,data);
+        //     that.xscroll.render();
+        //      //loading complete
+        //     pullup.complete();
+        // });
+
+        // getData();
+        console.log(this.xscroll)
+        this.xscroll.render();
+
+	},
+	initScroll: function() {
+		var that = this;
+		that.xscroll = new XScroll({
+		   	renderTo: '#scrollWrap',
+            lockY:false
+		});
+
+        // var infinite = new XScroll.Plugins.Infinite({
+        //     infiniteElements:"#scrollWrap .item",
+        //     renderHook:function(el,data){
+        //         el.innerText = data.data.num;
+        //     }
+        // })
+        // that.xscroll.plug(infinite);
+
+        // var getData = function(){
+        //     if(!pageCache[page]){
+        //         pageCache[page] = 1;
+        //         $.ajax({
+        //             url:"./data.json",
+        //             dataType:"json",
+        //             success:function(data){
+        //                 if(page > totalPage) {
+        //                     //last page
+        //                     // pullup.complete();
+        //                     //destroy plugin
+        //                     xscroll.unplug(pullup);
+        //                     return;
+        //                 };
+        //                 infinite.append(0,data);
+        //                 xscroll.render();
+        //                  //loading complete
+        //                 pullup.complete();
+        //                 page++;
+        //             }
+        //         })
+        //     }
+        // }
+
+
+
+        pullup.on("loading",function(){
+            that.fetchList( this.params );
+            if( !that.__hasMore ) {
+                that.xscroll.unplug(pullup);
+                return;
+            };
+            // infinite.append(0,data);
+            that.xscroll.render();
+             //loading complete
+            pullup.complete();
+        });
+
+        // getData();
+
+        that.xscroll.render();
 	},
 	initFilter : function(type,themes,citys){
 		this.filter = new Filter({
@@ -74,7 +170,7 @@ var Main = PFT.Util.Class({
             lastPos : this.__lastPos
         };
 
-        fetchList( this.params );
+        this.fetchList( this.params );
 	},
 	initSearch : function(type,themes,citys){
 		this.search = new Search({
@@ -111,6 +207,8 @@ var Main = PFT.Util.Class({
 	fetchList : function( params ){
 		var that = this;
 
+		if( !that.__hasMore ) return;
+
 		var lastPos = params.lastPos,
 			type = "",
 			paramKeyword = params.keyword;
@@ -119,7 +217,7 @@ var Main = PFT.Util.Class({
 			loading : () => {
 				if(lastPos==0){
 					Toast.show("loading","努力加载中..");
-					this.listUl.html("");
+					that.listUl.html("");
 					// this.disablePullup();
 					// this.refreshScroll();
 				}
@@ -146,27 +244,30 @@ var Main = PFT.Util.Class({
 			empty : () => {
 				if(lastPos==0){
 					type = paramKeyword ? "searchEmpty" : "filterEmpty";
-					this.render(type);
+					that.render(type);
 				}else{
-					this.render("noMore");
+					that.render("noMore");
 				}
 				// this.disablePullup();
 				// this.refreshScroll();
 			},
 			success : (data) => {
-				var that = this;
-
-				this.render(lastPos==0 ? "success" : "successMore", data, params);
-				// this.enablePullup();
-				// this.refreshScroll();
+				if( data.lastPos == that.getLastPos ) {
+					that.__hasMore = false;
+				} else {
+					that.setLastPos( data.lastPos );
+					that.render(lastPos==0 ? "success" : "successMore", data, params);
+					// this.enablePullup();
+					// this.refreshScroll();
+				}
 			},
 			fail : (msg) => {
 				if(lastPos==0){
-					this.render("fail");
+					that.render("fail");
 					// this.disablePullup();
 					// this.refreshScroll();
 				}else{
-					this.render("failMore");
+					that.render("failMore");
 					Alert(msg);
 				}
 			}
