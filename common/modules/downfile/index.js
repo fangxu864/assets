@@ -96,7 +96,7 @@ DownFile.prototype = {
         var iframeName = "iframe" + new Date().getTime();
         $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
         window.open(downloadUrl, iframeName);
-    },
+    }
 
     
 };
