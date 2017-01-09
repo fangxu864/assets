@@ -1,11 +1,18 @@
+<% var doneCode = {
+        "1" : "未生成",
+        "2" : "生成中",
+        "3" : "已生成",
+        }
+        %>
+
 <% _.each(data,function(item,index){ %>
-<tr>
+<tr class="<%=index%2 == 0 ? '': 'odd'%>">
     <td class="th1"><%=item.excel_type.desc%></td>
     <td class="th2"><%=item.create_time%></td>
-    <td class="th3"><%=item.done == 1? "已生成" : "生成中"%></td>
+    <td class="th3"><%=doneCode[item.done]%></td>
     <td class="th4"><%=item.download%>下载次数</td>
-    <td class="th6 down_href <%=item.done == 1? "" : "disabled"%>">
-        <a class="<%=item.done == 1? "" : "disabled"%>" href="javascript:void(0)">下载</a>
+    <td class="th6">
+        <a class="down_href <%=item.done == 3? '' : 'disabled'%>"  href="javascript:void(0)" data-id="<%=item.id%>">下载</a>
     </td>
 </tr>
 <% } ) %>
