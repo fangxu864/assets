@@ -29,10 +29,6 @@ var HeaderWarning={
          * @type {boolean}
          */
         var isDialog = this.judge_of_dtype == "6" ? false : true;
-        //充值页面不要弹框
-        if( /recharge\.html$/.test(location.href) ){
-            isDialog = false ;
-        }
 
         
         /**
@@ -57,7 +53,7 @@ var HeaderWarning={
         /**
          * 弹框提示的判断
          */
-        if( /0|-1/.test(_this.judge_of_overTime) || /201|202|203/.test(_this.judge_of_account_balance) ){
+        if( /0|-1/.test(_this.judge_of_overTime) || /201|202|203|204/.test(_this.judge_of_account_balance) ){
             if(isDialog){
                 //账户临近过期设置cookie,一天只提醒一次
                 if(this.judge_of_overTime == "0"){
@@ -68,14 +64,14 @@ var HeaderWarning={
                     _this.dialog.open();
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
-                //账户已过期，弹框不能关闭
-                else if(this.judge_of_overTime == "-1"){
+                //账户已过期，弹框不能关闭 ,并且排除充值页面
+                else if(this.judge_of_overTime == "-1" && !/recharge\.html$/.test(location.href)){
                     _this.dialog = new Dialog;
                     _this.dialog.open();
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
                 //如果账户余额接近不足
-                if(/201|202|203/.test(_this.judge_of_account_balance)){
+                if(/201|202|203|204/.test(_this.judge_of_account_balance)){
                     //弹框每天只提醒一次，使用cookie控制
                     var isDialog_cookie_ac = _this.getCookie("isDialog_of_judge_account_balance");
                     if(isDialog_cookie_ac == "false") return false;
@@ -171,6 +167,12 @@ var HeaderWarning={
             "dialog_type": "recharge"
         },
         "203": {
+            "title":"账户余额提醒",
+            "content":" 您好，您的账户余额已欠费，请您及时充值，以免影响使用！",
+            "isBtn_close":true ,
+            "dialog_type": "recharge"
+        },
+        "204": {
             "title":"账户余额提醒",
             "content":" 您好，您的账户余额已欠费，请您及时充值，以免影响使用！",
             "isBtn_close":true ,
