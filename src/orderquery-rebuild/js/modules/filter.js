@@ -157,10 +157,17 @@ var Filter = RichBase.extend({
 					var queryLimitTip = $("#queryLimitTipHidInp").val();
 					var begin_str = +new Date(beginDate);
 					var end_str = +new Date(endDate);
-					if(endDate && beginDate && queryLimit==1){
-						if(end_str-begin_str >= (30*24*60*60*1000)){
-							alert(queryLimitTip || "最多只能查询30天以内数据");
-							tarInp.val(oldVal);
+					if(endDate && beginDate){
+						if(queryLimit==1){
+							if(end_str-begin_str >= (30*24*60*60*1000)){
+								alert(queryLimitTip || "最多只能查询30天以内数据");
+								tarInp.val(oldVal);
+							}
+						}else{
+							if(end_str-begin_str >= (90*24*60*60*1000)){
+								alert(queryLimitTip || "最多只能查询90天以内数据");
+								tarInp.val(oldVal);
+							}
 						}
 					}
 				}
@@ -181,14 +188,22 @@ var Filter = RichBase.extend({
 				onAfter : function(val,oldVal){
 					var endDate = val.substr(0,10);
 					var queryLimit = $("#queryLimitHidInp").val();
-					if(endDate && beginDate && queryLimit==1){
+					if(endDate && beginDate ){
 						var begin_str = +new Date(beginDate);
 						var end_str = +new Date(endDate);
 						var queryLimitTip = $("#queryLimitTipHidInp").val();
-						if(end_str-begin_str >= (30*24*60*60*1000)){
-							alert(queryLimitTip || "最多只能查询30天以内数据");
-							tarInp.val(oldVal);
+						if(queryLimit==1){
+							if(end_str-begin_str >= (30*24*60*60*1000)){
+								alert(queryLimitTip || "最多只能查询30天以内数据");
+								tarInp.val(oldVal);
+							}
+						}else{
+							if(end_str-begin_str >= (90*24*60*60*1000)){
+								alert(queryLimitTip || "最多只能查询90天以内数据");
+								tarInp.val(oldVal);
+							}
 						}
+
 					}
 				}
 			});

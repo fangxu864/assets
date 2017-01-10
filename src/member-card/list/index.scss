@@ -73,3 +73,24 @@
 
 }
 .searchWrap .searchBtn{margin-left: 3px !important;}
+
+
+#searchInp{
+  width: 210px;
+}
+.searchWrap .iconfont.delete {
+  left: 590px;
+}
+.u-label{
+  margin:0 4px;
+}
+#begintime,#endtime{
+  width: 130px;
+  height: 22px;
+  padding: 5px 8px;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
