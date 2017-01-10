@@ -1,7 +1,12 @@
 
 require("./index.scss");
-var loading = require('COMMON/js/util.loading.pc.js');
-var getAppdetail = require("../common/service/appDetail_service.js");
+
+var dialog = require("COMMON/modules/dialog-simple"),
+    loading = require('COMMON/js/util.loading.pc.js'),
+    getAppdetail = require("../common/service/appDetail_service.js"),
+    hardware = require("./tpl/hardware.tpl"),
+    software = require("./tpl/software.tpl"),
+    dialog_topIndex_content = require("./tpl/topIndex.tpl");
 
 var Main = PFT.Util.Class({
 
@@ -26,7 +31,7 @@ var Main = PFT.Util.Class({
         // 获取后台数据
         getAppdetail({module_id:_this.module_id},{
             loading:function () {
-            var html = loading("加载中",{height:800});
+            var html = loading("加载中",{ height: 800 });
                 $(".section-appdetails").append(html)
             },
             complete:function (req) {
@@ -46,7 +51,7 @@ var Main = PFT.Util.Class({
         if(!req.type){
             //硬件详情---------------------------------------------------------
 
-            $(".section-appdetails").empty().append(require("./tpl/hardware.tpl"));
+            $(".section-appdetails").empty().append( hardware );
 
             var hardwareBase = this.hardwareBase;
             var id = this.module_id;
@@ -74,7 +79,7 @@ var Main = PFT.Util.Class({
 
         }else if (req.type){
             //如果是软件详情---------------------------------------------------------------------------------
-            $(".section-appdetails").empty().append(require("./tpl/software.tpl"));
+            $(".section-appdetails").empty().append( software );
 
             $("#title").text(data.name);
             $("#appName").text(data.name);        //app名称
@@ -276,7 +281,7 @@ var Main = PFT.Util.Class({
             window.location.href=$(e.target).attr("data-url");
         });
     },
-    
+
     //上级应用提示
     checkIsTop:function (checkData) {
         this.dialog_topIndex.open();
@@ -291,13 +296,12 @@ var Main = PFT.Util.Class({
     },
 
     initDialog:function () {
-        var dialog=require("COMMON/modules/dialog-simple");
         //过期模拟部分————————————————————————————————————————————————————————
         this.dialog_topIndex = new dialog({
             width : 600,
             height : 300,
             closeBtn : true,
-            content : require("./tpl/topIndex.tpl"),
+            content : dialog_topIndex_content,
             drag : true,
             speed : 200,
             offsetX : 0,
