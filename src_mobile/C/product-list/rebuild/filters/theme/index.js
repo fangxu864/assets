@@ -37,6 +37,7 @@ var Theme = PFT.Util.Class({
                     that.title.html( $(e.currentTarget).html() );
                     that.hide();
                     that.parentObj.container.removeClass('hide');
+                    opt.Page.filterParamsChange();
                 }
             }
         });

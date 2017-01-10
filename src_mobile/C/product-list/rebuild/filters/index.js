@@ -13,13 +13,11 @@ var Filter = PFT.Util.Class({
 		var opt = opt || {},
 			data = opt.data;
 
-		// var that = this;
-
 		this.container = $('<div id="filterBar" class="filterBar ui-filterBar"></div>').appendTo($(opt.container));
 		this.container.append('<div class="con ui-flex"></div>');
-		this.theme = new Theme({SheetCore: SheetCore, data: data.theme, container: this.container.children('.con'), host: this});
-		this.type = new Type({SheetCore: SheetCore, data: data.type, container: this.container.children('.con'), host: this});
-		this.city = new City({SheetCore: SheetCore, data: data.city, container: this.container.children('.con'), host: this});
+		this.theme = new Theme({SheetCore: SheetCore, data: data.theme, container: this.container.children('.con'), host: this, Page: opt.Page});
+		this.type = new Type({SheetCore: SheetCore, data: data.type, container: this.container.children('.con'), host: this, Page: opt.Page});
+		this.city = new City({SheetCore: SheetCore, data: data.city, container: this.container.children('.con'), host: this, Page: opt.Page});
 		this.bindEvents();
 	},
 	bindEvents : function(){
@@ -31,20 +29,6 @@ var Filter = PFT.Util.Class({
 			that.container.addClass('hide');
 			that[filterType].show();
 		});
-	},
-	renderHtml : function( data ){
-		var html = "";
-		html += '<ul class="actionUl">';
-		for(var i=0; i<data.length; i++){
-			var item = data[i];
-			if(Object.prototype.toString.call(item)=="[object Object]"){
-				html += '<li data-key="'+item.identify+'" class="actionItem center">'+item.name+'</li>';
-			}else{
-				html += '<li data-key="'+item+'" class="actionItem center">'+item+'</li>';
-			}
-		}
-		html += '</ul>';
-		return html;
 	}
 });
 module.exports = Filter;

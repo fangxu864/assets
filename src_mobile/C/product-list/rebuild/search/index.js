@@ -19,7 +19,7 @@ var Search = PFT.Util.Class({
                 clearBtn.removeClass('show');
             }
 
-            opts.callbacks.input && opts.callbacks.input( $(this).val() );
+            opts.callbacks.input && opts.callbacks.input( $.trim( $(this).val() ) );
 
         }).on('click', '.clearBtn', function(){
 

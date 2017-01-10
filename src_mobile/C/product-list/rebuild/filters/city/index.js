@@ -30,7 +30,11 @@ var City = PFT.Util.Class({
             content : cityListHTML,
             yesBtn : {
                 text: that.DEFAULT_TEXT,
-                handler: function(){ console.log( that ); that.title.html( that.DEFAULT_TEXT ); that.parentObj.container.removeClass('hide'); },
+                handler: function(){
+                    that.title.html( that.DEFAULT_TEXT );
+                    that.parentObj.container.removeClass('hide');
+                    opt.Page.filterParamsChange();
+                },
                 trigger: true
             },
             noBtn : {
@@ -47,6 +51,7 @@ var City = PFT.Util.Class({
                     that.title.html( $(e.currentTarget).html() );
                     that.hide();
                     that.parentObj.container.removeClass('hide');
+                    opt.Page.filterParamsChange();
                 }
             }
         });

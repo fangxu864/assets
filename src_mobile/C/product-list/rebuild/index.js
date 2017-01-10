@@ -32,10 +32,6 @@ var Main = PFT.Util.Class({
 	init : function(){
 		var that = this;
 
-		this.listUl = $('<ul />', { id: this.dom.ul, class: this.dom.ul });
-
-		this.template = ItemTpl;
-
 		this.params = {
             keyword : "",
             topic : "",
@@ -45,11 +41,20 @@ var Main = PFT.Util.Class({
         };
 
 		this.initSearch();
-		this.listUl.appendTo($('#'+this.dom.container))
+
+		this.listUl = $('<ul />', { id: this.dom.ul, class: this.dom.ul });
+		this.template = ItemTpl;
+		this.listUl.appendTo($('#'+this.dom.container));
 		this.listUl.wrap($('<div />', { id: this.dom.scrollcontainer, class: this.dom.scrollcontainer}));
 		this.listUl.wrap($('<div />', { id: this.dom.xs_container, class: this.dom.xs_container}));
 
 		this.initScroll();
+
+		this.fetchList( this.params );
+	},
+	reInit: function () {
+		if( !this.__hasMore ) this.__hasMore = true;
+		this.setLastPos(0);
 	},
 	initScroll: function() {
 		var that = this;
@@ -61,43 +66,34 @@ var Main = PFT.Util.Class({
 		});
 
         this.pullup = new XScroll.Plugins.PullUp({
-            upContent:"上拉加载更多 ...",
-            downContent:"放开加载 ...",
-            loadingContent:"加载中 ...",
-            bufferHeight:0
+            upContent: 		"上拉加载更多 ...",
+            downContent: 	"放开加载 ...",
+            loadingContent: "加载中 ...",
+            bufferHeight: 	0
         });
 
         this.xscroll.plug( this.pullup );
 
         this.pullup.on("loading",function(){
+
             that.fetchList( that.params );
-            if( !that.__hasMore ) {
-                that.xscroll.unplug( that.pullup );
-                return;
-            };
 
-            that.xscroll.render();
-
-            that.pullup.complete();
         });
-
-		this.fetchList( this.params );
-
-        this.xscroll.render();
 	},
 	initFilter : function(type,themes,citys){
+		console.log(this)
 		this.filter = new Filter({
+			Page: this,
 			container: '#' + this.dom.container,
 			data : {
 				type : type,
 				theme : themes,
 				city : citys
-			},
-			onFilterParamsChange: this.filterParamsChange
+			}
 		})
 	},
 	filterParamsChange: function() {
-		this.__lastPos = 0;
+		this.reInit();
 
 		this.params = {
             keyword : encodeURIComponent( $('#' + this.dom.searchInp ).val() ),
@@ -109,12 +105,17 @@ var Main = PFT.Util.Class({
 
         this.fetchList( this.params );
 	},
-	initSearch : function(type,themes,citys){
+	initSearch : function(){
+		var that = this;
+
 		this.search = new Search({
 			container: '#' + this.dom.container,
 			callbacks: {
 				input: function( val ) {
+					that.reInit();
 
+					that.params.keyword = val;
+					that.fetchList( that.params );
 				},
 				focus: function( val ) {
 
@@ -145,7 +146,11 @@ var Main = PFT.Util.Class({
 	fetchList : function( params ){
 		var that = this;
 
-		if( !that.__hasMore ) return;
+        if( !that.__hasMore ) {
+
+            return;
+
+        };
 
 		var lastPos = params.lastPos,
 			type = "",
@@ -180,37 +185,33 @@ var Main = PFT.Util.Class({
 				that.initFilter( type, themes, citys );
 			},
 			empty : () => {
+				that.__hasMore = false;
+        		that.xscroll.unplug( that.pullup );
+
 				if(lastPos==0){
 					type = paramKeyword ? "searchEmpty" : "filterEmpty";
 					that.render(type);
 				}else{
 					that.render("noMore");
 				}
-				// this.disablePullup();
-				// this.refreshScroll();
 			},
 			success : (data) => {
-				if( data.lastPos == that.getLastPos ) {
-					that.__hasMore = false;
-				} else {
-					that.setLastPos( data.lastPos );
-
-					that.render(lastPos==0 ? "success" : "successMore", data, params);
-					// this.enablePullup();
-					// this.refreshScroll();
-				}
+				that.setLastPos( data.lastPos );
+				that.render(lastPos==0 ? "success" : "successMore", data, params);
+		        that.xscroll.render();
+		        that.pullup.complete();
 			},
 			fail : (msg) => {
 				if(lastPos==0){
 					that.render("fail");
-					// this.disablePullup();
-					// this.refreshScroll();
 				}else{
 					that.render("failMore");
 					Alert(msg);
 				}
 			}
 		})
+
+		console.log( FetchList );
 	},
 	render : function( type , data, params ){
 		var html = "";
@@ -230,6 +231,8 @@ var Main = PFT.Util.Class({
 				filterEmpty : "暂无相关产品",
 				searchEmpty : "查无匹配产品"
 			}[type];
+
+			listUl.html( '<li class="noSearchResult">' + text + '</li>' );
 		}else if(type=="noMore"){
 
 		}else if(type=="fail" || type=="failMore"){
