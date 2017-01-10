@@ -71,7 +71,8 @@ $(function () {
                         if(res.code == 200) {
                             alert("配置成功!");
                             tarBtn.text("确认")
-                                .removeClass("disabled")
+                                .removeClass("disabled");
+                            Dial_account_balance.close();
                         }else{
                             alert(res.code + ":" + res.msg);
                             tarBtn.text("确认")
