@@ -4,7 +4,7 @@
             <div slot="content">
                 <div class="state loading" v-if="state=='loading'">努力加载中...</div>
                 <div class="state error" v-if="state=='error'" v-text="errorMsg"></div>
-                <template v-if="state=='success'">
+                <template v-if="state=='success' || state=='empty'">
                     <div class="calTop">
                         <div class="calTopText" v-text="selected_year+'-'+selected_month"></div>
                         <span @click="onPrevMonth" href="javascript:void(0)" class="navBtn prev prevBtn"><i class="uicon uicon-jiantou-sin-left"></i></span>
@@ -25,7 +25,7 @@
                                          data-price="{{item.price}}"
                                          class="calendar-box">
                                         <span class="day" v-text="item.day"></span>
-                                        <span class="price" v-if="item.price"><i class="yen">&yen;</i><em v-text="item.price"></em></span>
+                                        <span class="price" v-if="typeof item.price!=='undefined'"><i class="yen">&yen;</i><em v-text="item.price"></em></span>
                                     </div>
                                 </flex-item>
                             </flexbox>
@@ -39,12 +39,10 @@
 <script type="es6">
     let CalendarCore = require("COMMON/js/calendarCore");
     let GetCalendarPrice = require("SERVICE_M/calendar-price");
+    let aid = PFT.Util.UrlParse()["aid"] || "";
+    let pid = PFT.Util.UrlParse()["pid"] || "";
     export default {
         props : {
-            pid : {
-                type : String,
-                default : "111"
-            },
             show : {
                 type : Boolean,
                 default : false,
@@ -79,7 +77,8 @@
                 errorMsg : "",
                 dates : [],
                 flex_gutter : 0,
-                minMaxDisableCls : ""
+                minMaxDisableCls : "",
+                prevBtnCls : ""
             }
         },
         ready(){
@@ -92,19 +91,19 @@
                 this.selected_month = arr[1];
                 if(arr.length==3) this.selected_date = val;
                 var _yearmonth = this.selected_year + "-" + this.selected_month;
-                this.switchYearmonth(this.pid,_yearmonth);
+                this.switchYearmonth(pid,_yearmonth);
             },
             min(val){
                 var yearmonth = this.yearmonth;
                 var arr = yearmonth.split("-");
                 var _yearmonth = arr[0] + "-" + arr[1];
-                this.switchYearmonth(this.pid,_yearmonth);
+                this.switchYearmonth(pid,_yearmonth);
             },
             max(val){
                 var yearmonth = this.yearmonth;
                 var arr = yearmonth.split("-");
                 var _yearmonth = arr[0] + "-" + arr[1];
-                this.switchYearmonth(this.pid,_yearmonth);
+                this.switchYearmonth(pid,_yearmonth);
             }
         },
         methods : {
@@ -148,7 +147,7 @@
                 var cache_prices = this.Cache_Prices[yearmonth];
                 if(!cache_dates) cache_dates = this.Cache_Dates[yearmonth] = CalendarCore.outputDate(yearmonth);
                 if(!cache_prices){
-                    GetCalendarPrice(pid,yearmonth,{
+                    GetCalendarPrice(pid,aid,yearmonth,{
                         loading : ()=> {
                             this.state = "loading";
                         },
@@ -158,11 +157,13 @@
                             this.state = "success";
                         },
                         empty : (list)=> {
+                            this.dates = this.mixPricesInDates(cache_dates,list);
+                            this.Cache_Prices[yearmonth] = list;
                             this.state = "empty";
                         },
                         fail : (msg)=> {
                             this.errorMsg = msg;
-                            this.state = "fail";
+                            this.state = "error";
                         }
                     })
                 }else{
@@ -174,7 +175,7 @@
                 dates.forEach(function(date,index){
                     date.forEach(function(_date,_index){
                         var price = prices[_date.date];
-                        if(price && price!=-1) _date["price"] = price;
+                        if((typeof price!=='unedfined') && price!=-1) _date["price"] = price;
                     })
                 })
                 return dates;
@@ -182,7 +183,18 @@
             onNextMonth(){
                 this.yearmonth = CalendarCore.nextMonth(this.yearmonth);
             },
-            onPrevMonth(){
+            onPrevMonth(e){
+                var tarBtn = $(e.target);
+                if(tarBtn.hasClass("uicon")) tarBtn = tarBtn.parent();
+                if(tarBtn.hasClass("disable")) return false;
+                var nowYearMonth = CalendarCore.getnowYearMonth().split("-");
+                var nowYear = nowYearMonth[0] * 1;
+                var nowMonth = nowYearMonth[1] * 1;
+                var selected_year = this.selected_year * 1;
+                var selected_month = this.selected_month * 1;
+                if(selected_year<=nowYear && selected_month<=nowMonth){
+                    return tarBtn.addClass("disable");
+                }
                 this.yearmonth = CalendarCore.prevMonth(this.yearmonth);
             },
             onCalendarBoxClick(e){
@@ -210,23 +222,26 @@
         },
         components : {
             sheetCore : require("COMMON_VUE_COMPONENTS/sheet-core"),
-            flexbox : require("VUX_COMPONENTS/flexbox/index.vue"),
-            flexItem : require("VUX_COMPONENTS/flexbox-item/index.vue")
+            flexbox : require("VUX_COMPONENTS/flexbox/flexbox.vue"),
+            flexItem : require("VUX_COMPONENTS/flexbox/flexbox-item.vue")
         }
     }
 </script>
 <style lang="sass">
+    @import "COMMON/css/base/main";
     .calendarContainer .state{ height:350px; line-height:350px; text-align:center}
     .calendarContainer .calTop{ position:relative}
+    .calendarContainer .calTop .uicon{ color:$blue}
     .calendarContainer .calTopText{ height:43px; line-height:43px; margin:0 60px; text-align:center; font-size:0.35rem; font-weight:bold}
     .calendarContainer .calTop .navBtn{ display:block; position:absolute; width:60px; top:0; bottom:0; line-height:43px; text-align:center}
     .calendarContainer .calTop .navBtn .iconfont{ color:rgb(100,100,100)}
     .calendarContainer .calTop .navBtn.prev{ left:0}
     .calendarContainer .calTop .navBtn.next{ right:0}
+    .calendarContainer .calTop .navBtn.disable .uicon{ color:$gray50}
     .calendarContainer .calContent-head{ background:rgb(240,240,240); height:36px; line-height:36px; border-top:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5;}
     .calendarContainer .calContent-head .vux-flexbox{ text-align:center}
     .calendarContainer .calendar-box{ position:relative; text-align:center; height:40px; padding:7px 0 2px; overflow:hidden; border-right:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5  }
-    .calendarContainer .calendar-box.empty,.calendarContainer .calendar-box.disable,.calendarContainer .calendar-box.disableTodaybefore{ background:rgb(252,252,252)}
+    .calendarContainer .calendar-box.empty,.calendarContainer .calendar-box.disable,.calendarContainer .calendar-box.disableTodaybefore{ background:rgb(247,247,247)}
     .calendarContainer .calendar-box.selected{ background:#f37138; color:#fff}
     .calendarContainer .calendar-box.selected .price{ color:#fff}
     .calendarContainer .calendar-box .day{ display:block; font-size:0.35rem; line-height:1.5}

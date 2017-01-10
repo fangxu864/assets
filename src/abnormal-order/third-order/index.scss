@@ -57,8 +57,9 @@ a.searchBtn:link, a.searchBtn:visited,a.searchBtn:hover{color: #FFFFFF; text-dec
 #tableDom .col_7,#tableDom .col_8{ width:70px;}
 #tableDom .col_3,#tableDom .col_9{ width:100px;}
 //#tableDom .col_3 .showTitle,#tableDom .col_9 .showTitle{ display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
-#tableDom thead .col,#tableDom tbody .col{ padding-right:8px}
+//#tableDom thead .col,#tableDom tbody .col{ padding-right:8px}
 #tableDom tbody .col_8{ padding-right:0}
+#tableDom tbody .col_9{ padding-right:8px;}
 //#tableDom .showTitle{ color:#3E3E3E; cursor:default}
 //#tableDom .showTitle:hover{ color:#3E3E3E; text-decoration:none}
 #tableDom .listItem.even{ background:#fcfcfc}
@@ -67,6 +68,8 @@ a.searchBtn:link, a.searchBtn:visited,a.searchBtn:hover{color: #FFFFFF; text-dec
 #tableDom .col_1,#tableDom .col_2,#tableDom .col_6{ padding-right:10px}
 #tableDom .actionBtn img{ width:20px; vertical-align:middle; margin-right:3px}
 #tableDom .actionBtn .t{ vertical-align:middle}
+
+#tableDom thead tr th {white-space: nowrap;}
 
 
 

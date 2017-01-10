@@ -66,6 +66,10 @@ CustomShopConfig.prototype = PFT.Util.Mixin({
 
 
 		PFT.Util.Ajax(PFT.Api.custom_shop_config(),{
+			type : "post",
+			params : {
+				token : PFT.Util.getToken()
+			},
 			loading : function(){
 				opt.loading();
 				that.fire("loading");

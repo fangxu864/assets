@@ -1,10 +1,6 @@
 /**
  * Author: huangzhiyang
  * Date: 2016/8/9 16:50
- * Description: 个人中心  我的订单 列表  http://123624.12301.local/r/Mall_Member/getOrderList/
- *  page	  int	第几页
- 	pageSize  int	每页几条
- 	type	  string	unuse or history
  */
 
 var UserOrder = {
@@ -14,9 +10,10 @@ var UserOrder = {
 	 * pageSize  int	每页几条
 	 * type	  string	unuse or history
 	*/
-	list : function(params,opt){
+	list : function(params,opt,cxt){
 
 		opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
+		cxt = cxt || this;
 
 		if(__DEBUG__){
 			opt.loading();
@@ -109,9 +106,16 @@ var UserOrder = {
 
 		params = params || {};
 		params["token"] = PFT.Util.getToken();
-
 		PFT.Util.Ajax(PFT.Api.C.userCenterOrderList(),{
-			type : "post",params : params,loading : opt.loading,complete : opt.complete,success : function(res){
+			type : "post",
+			params : params,
+			loading : function(){
+				opt.loading.call(cxt);
+			},
+			complete : function(){
+				opt.complete.call(cxt);
+			},
+			success : function(res){
 				res = res || {};
 				var code = res.code;
 				var data = res.data || {};
@@ -119,12 +123,15 @@ var UserOrder = {
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 				if(code==200 && list){
 					if(list.length){
-						opt.success(data);
+						for(var i=0; i<list.length; i++){
+							list[i]["status_config"] = PFT.Config.orderStatus;
+						}
+						opt.success.call(cxt,data);
 					}else{
-						opt.empty(data);
+						opt.empty.call(cxt,data);
 					}
 				}else{
-					opt.fail(msg);
+					opt.fail.call(cxt,msg,code);
 				}
 			}
 		})
@@ -134,26 +141,57 @@ var UserOrder = {
 	 * 我的订单 _详情 http://123624.12301.local/r/Mall_Member/orderDetail/
 	 * @param ordernumstring	订单号
 	 */
-	detail : function(ordernum,opt){
+	detail : function(ordernum,opt,cxt){
 		opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
-
-		PFT.Util.Ajax(PFT.Api.C.userCenterOrderList(),{
+		cxt = cxt || this;
+		PFT.Util.Ajax(PFT.Api.C.userCenterOrderDetail(),{
 			type : "post",
 			params : {
 				ordernum : ordernum,
 				token : PFT.Util.getToken()
 			},
-			loading : opt.loading,
-			complete : opt.complete,
+			loading : function(){ opt.loading.call(cxt)},
+			complete : function(){ opt.complete.call(cxt)},
 			success : function(res){
 				res = res || {};
 				var code = res.code;
 				var data = res.data || {};
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 				if(code==200){
-					opt.success(data);
+					data["ptype"] = data.ptype || "A";
+					data["imgpath"] = data.imgpath || "";
+					opt.success.call(cxt,data);
 				}else{
-					opt.fail(msg);
+					opt.fail.call(cxt,msg);
+				}
+			}
+		})
+	},
+	/**
+	 * 取消订单  http://123624.12301.local/r/Mall_Member/cancelOrder/
+	 * @param ordernum 订单号
+	 * @param opt
+	 */
+	cancel : function(ordernum,opt,cxt){
+		opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
+		cxt = cxt || this;
+		PFT.Util.Ajax(PFT.Api.C.userCenterOrderCanel(),{
+			type : "post",
+			params : {
+				ordernum : ordernum,
+				token : PFT.Util.getToken()
+			},
+			loading : function(){ opt.loading.call(cxt)},
+			complete : function(){ opt.complete.call(cxt)},
+			success : function(res){
+				res = res || {};
+				var code = res.code;
+				var data = res.data || {};
+				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+				if(code==200 || code==201){
+					opt.success.call(cxt,res,code);
+				}else{
+					opt.fail.call(cxt,msg,code);
 				}
 			}
 		})

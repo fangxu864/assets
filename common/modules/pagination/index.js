@@ -27,7 +27,6 @@ function Pagination(opt){
     this.init_content();
     this.bindEvent();
     this.updateYema(this.present_page);
-        
 }
 Pagination.prototype={
     //初始化容器
@@ -223,7 +222,7 @@ Pagination.prototype={
         this.span_total_num=getByClass(this.pag,"total")[0].getElementsByTagName("span")[0];
         this.span_total_num.innerHTML=this.total_page_num;
     }
-}
+};
 function getByClass(obj,className) {
     var arr=[];
     if(obj.getElementsByClassName){

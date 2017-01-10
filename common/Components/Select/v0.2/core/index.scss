@@ -1,0 +1,65 @@
+@import "COMMON/css/base/mixin/triangle-v2";
+.pui-select-container{
+    display:none;
+    position:absolute;
+    z-index:10002;
+    background:#fff;
+    border:1px solid #e5e5e5;
+    border-top:0 none;
+    .pui-select-ul{
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background:#fff;
+        overflow:auto;
+    }
+    .pui-select-option{
+        padding:0 10px;
+        height:32px;
+        line-height:32px;
+        overflow:hidden;
+        border-bottom:1px solid #e5e5e5;
+        &:last-child{
+            border-bottom:0 none;
+        }
+        cursor:pointer;
+        &.active{
+            background:#f7f7f7;
+        }
+        &:hover{
+            background:#f7f7f7;
+        }
+    }
+
+}
+.pui-select-mask{
+    display:none;
+    position:fixed;
+    z-index:10001;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+}
+
+.pui-select-triangleBtn{
+    position:absolute;
+    top:5px;
+    right:3px;
+    display:block;
+    width:24px;
+    height:24px;
+    line-height:24px;
+    text-align:center;
+    cursor:pointer;
+    &.on i{
+        @include triangle(8px,#333,up);
+        position:relative;
+        top:-6px;
+    }
+    i{
+        @include triangle(8px,#333,down);
+    }
+}

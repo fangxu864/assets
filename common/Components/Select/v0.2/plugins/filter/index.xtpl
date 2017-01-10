@@ -1,0 +1,7 @@
+<div class="searchBox">
+    <div class="searchBoxCon">
+        <input type="text" name="" class="searchInp"/>
+        <i class="iconfont search">&#xe60a;</i>
+        <span class="clearSearchBtn"><i class="iconfont">&#xe674;</i></span>
+    </div>
+</div>

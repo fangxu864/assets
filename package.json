@@ -12,10 +12,10 @@
     "orderquery-test": "set NODE_ENV=test && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-release": "set NODE_ENV=release && webpack --config ./src/orderquery/webpack.config.js",
     "orderquery-production": "set NODE_ENV=production && webpack --config ./src/orderquery/webpack.config.js",
-    "withdraw-bank-start": "set NODE_ENV=develop && webpack --config ./src/withdraw_bank/webpack.config.js -w",
-    "withdraw-bank-test": "set NODE_ENV=test && webpack --config ./src/withdraw_bank/webpack.config.js",
-    "withdraw-bank-release": "set NODE_ENV=release && webpack --config ./src/withdraw_bank/webpack.config.js",
-    "withdraw-bank-production": "set NODE_ENV=production && webpack --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-start": "set NODE_ENV=develop && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js -w",
+    "withdraw-bank-test": "set NODE_ENV=test && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-release": "set NODE_ENV=release && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js",
+    "withdraw-bank-production": "set NODE_ENV=production && webpack --color --progress --config ./src/withdraw_bank/webpack.config.js",
     "register-start": "set NODE_ENV=develop && webpack --config ./src/register/webpack.config.js -w",
     "register-test": "set NODE_ENV=test && webpack --config ./src/register/webpack.config.js",
     "register-release": "set NODE_ENV=release && webpack --config ./src/register/webpack.config.js",
@@ -46,7 +46,7 @@
     "wxconfigsetmenu-test": "set NODE_ENV=test && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-release": "set NODE_ENV=release && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-production": "set NODE_ENV=production && webpack --config ./src/wx_config_setmenu/webpack.config.js",
-    "mobile-server": "set NODE_ENV=server && webpack-dev-server --config ./src_mobile/webpack-task/webpack.config.js --inline",
+    "mobile-server": "set NODE_ENV=server && webpack-dev-server --config --progress --colors  ./src_mobile/webpack-task/webpack.config.js --inline",
     "mobile-start": "set NODE_ENV=develop && webpack --config ./src_mobile/webpack-task/webpack.config.js -w",
     "mobile-test": "set NODE_ENV=test && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-release": "set NODE_ENV=release && webpack --config ./src_mobile/webpack-task/webpack.config.js",
@@ -55,7 +55,6 @@
     "yx-storage-normal-test": "set NODE_ENV=test && webpack --config ./src/yx_storage_normal/webpack.config.js",
     "yx-storage-normal-release": "set NODE_ENV=release && webpack --config ./src/yx_storage_normal/webpack.config.js",
     "yx-storage-normal-production": "set NODE_ENV=production && webpack --config ./src/yx_storage_normal/webpack.config.js",
-
     "canvas-uploadimg-start": "set NODE_ENV=develop && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js -w",
     "canvas-uploadimg-test": "set NODE_ENV=test && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js",
     "canvas-uploadimg-release": "set NODE_ENV=release && webpack --config ./src_mobile/canvas-uploadimg/webpack.config.js",
@@ -68,57 +67,70 @@
     "pftshow-seatround-test": "set NODE_ENV=test && webpack --config ./src/pft_show_seat_round/webpack.config.js",
     "pftshow-seatround-release": "set NODE_ENV=release && webpack --config ./src/pft_show_seat_round/webpack.config.js",
     "pftshow-seatround-production": "set NODE_ENV=production && webpack --config ./src/pft_show_seat_round/webpack.config.js",
-
     "react-dll": "webpack --config ./src/react_test/dll.config.react.js",
-
     "abnormal-order-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/abnormal-order/webpack.config.js",
     "abnormal-order-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/abnormal-order/webpack.config.js",
     "abnormal-order-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/abnormal-order/webpack.config.js",
     "abnormal-order-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/abnormal-order/webpack.config.js",
-
     "vacationmode-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/vacationmode/webpack.config.js",
     "vacationmode-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/vacationmode/webpack.config.js",
     "vacationmode-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/vacationmode/webpack.config.js",
     "vacationmode-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/vacationmode/webpack.config.js",
-
     "orderquery-rebuild-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "orderquery-rebuild-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "orderquery-rebuild-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "orderquery-rebuild-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
-
-
-    "vacationmode-pc-tip-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
-    "vacationmode-pc-tip-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
-    "vacationmode-pc-tip-production" : "set NODE_ENV=production && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
-
-
+    "vacationmode-pc-tip-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
+    "vacationmode-pc-tip-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
+    "vacationmode-pc-tip-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
-
-
     "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
     "report_unAdmin-release": "set NODE_ENV=release && webpack --config ./src/report_unAdmin/webpack.config.js",
     "report_unAdmin-production": "set NODE_ENV=production && webpack --config ./src/report_unAdmin/webpack.config.js",
-
     "sale_reportform-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/sale_reportform/webpack.config.js ",
     "sale_reportform-test": "set NODE_ENV=test && webpack --config ./src/sale_reportform/webpack.config.js",
     "sale_reportform-release": "set NODE_ENV=release && webpack --config ./src/sale_reportform/webpack.config.js",
     "sale_reportform-production": "set NODE_ENV=production && webpack --config ./src/sale_reportform/webpack.config.js",
-
-    "admin_openFunction_config-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/admin_openFunction_config/webpack.config.js ",
-    "admin_openFunction_config-test": "set NODE_ENV=test && webpack --config ./src/admin_openFunction_config/webpack.config.js",
-    "admin_openFunction_config-release": "set NODE_ENV=release && webpack --config ./src/admin_openFunction_config/webpack.config.js",
-    "admin_openFunction_config-production": "set NODE_ENV=production && webpack --config ./src/admin_openFunction_config/webpack.config.js",
-
-
-
+    "renew_warning-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/renew_warning/webpack.config.js ",
+    "renew_warning-test": "set NODE_ENV=test && webpack --config ./src/renew_warning/webpack.config.js",
+    "renew_warning-release": "set NODE_ENV=release && webpack --config ./src/renew_warning/webpack.config.js",
+    "renew_warning-production": "set NODE_ENV=production && webpack --config ./src/renew_warning/webpack.config.js",
+    "sanya-ad-start": "set NODE_ENV=develop && webpack --progress --colors --watch --config ./src/sanya-ad/webpack.config.js",
+    "sanya-ad-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
+    "sanya-ad-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
+    "sanya-ad-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/sanya-ad/webpack.config.js",
+    "channels_conf-start": "set NODE_ENV=develop && webpack --progress --colors --watch --config ./src/channels_conf/webpack.config.js",
+    "channels_conf-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/channels_conf/webpack.config.js",
+    "channels_conf-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/channels_conf/webpack.config.js",
+    "channels_conf-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/channels_conf/webpack.config.js",
+    "account-start": "set NODE_ENV=develop && webpack --progress --colors --watch --config ./src/account/webpack.config.js",
+    "account-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/account/webpack.config.js",
+    "account-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/account/webpack.config.js",
+    "account-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/account/webpack.config.js",
     "distributor_manage-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
     "distributor_manage-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
-    "v-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js"
+    "distributor_manage-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor_manage/webpack.config.js",
+    "mems_export-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+    "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
+    "system-manager-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/system-manager/webpack.config.js",
+    "system-manager-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
+    "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
+    "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
+    "application-center-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/webpack.config.js",
+    "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
+
+    "member-card-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/member-card/webpack.config.js",
+    "member-card-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/member-card/webpack.config.js",
+    "member-card-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/member-card/webpack.config.js",
+    "member-card-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/member-card/webpack.config.js"
+
 
 
   },

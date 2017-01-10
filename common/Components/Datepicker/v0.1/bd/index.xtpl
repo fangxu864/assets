@@ -1,0 +1,12 @@
+<div class="pftui-datepicker-bdCon">
+    <ul class="weekHead">
+        <li class="weekItem week_7 box">日</li>
+        <li class="weekItem week_1 box">一</li>
+        <li class="weekItem week_2 box">二</li>
+        <li class="weekItem week_3 box">三</li>
+        <li class="weekItem week_4 box">四</li>
+        <li class="weekItem week_5 box">五</li>
+        <li style="margin-right:0" class="weekItem week_6 box">六</li>
+    </ul>
+    <ul class="dateBodyContainer"></ul>
+</div>

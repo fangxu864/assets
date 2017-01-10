@@ -1,0 +1,151 @@
+.fl { float:left; }
+.fr { float:right; }
+
+.nodata-wrap { padding:200px 10px; font-size:24px; text-align:center; color:#999; }
+
+.ml35 { margin-left:35px; }
+
+.section { background-color:#fff; border:1px solid #e5e5e5; }
+
+.PageMainBodyContainer:after { content:''; display:block; height:0; font-size:0; visibility:hidden; clear:both;}
+.PageMainBodyContainer { overflow:visible; }
+
+
+.title_box h3.mc_title {
+    height: 60px;
+    line-height: 60px;
+
+    font-size: 22px;
+    font-weight: normal;
+    background: #FFFFFF;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.title_box h3.mc_title span.noactive {
+    display: inline-block;
+    margin: 0 20px;
+}
+.title_box .mc_title .noactive a { color:#303D46; }
+.title_box h3.mc_title span.choose_complete{
+    font-size: 12px;
+    padding-left: 10px;
+}
+.title_box h3.mc_title span.noactive p {
+    color: #303D46;
+}
+
+.title_box h3.mc_title span.active {
+    display: inline-block;
+    border-bottom: 2px solid #0797D9;
+    margin: 0 20px;
+}
+
+.title_box h3.mc_title span.active a {
+    color: #0797D9;
+}
+
+.title_box h3.mc_title .add_poster_btn,
+.title_box h3.mc_title .choose_poster_btn {
+    height: 34px;
+    width: 110px;
+    color: #ffffff;
+    display: inline-block;
+    line-height: 34px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.poster-list {
+    margin-top: 20px;
+    line-height: 30px;
+    font-weight: normal;
+    font-size: 14px;
+}
+ .poster-item {
+     display: inline;
+     float: left;
+     width: 225px;
+     margin: 0 0 30px 35px;
+ }
+ .poster-list .poster-img{
+     text-align: center;
+ }
+.poster-list .poster-img img{
+    display:block;
+    width: 225px;
+    height: 340px;
+}
+
+.poster-name, .poster-supply { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+.poster-list a#posterView{
+   float: right;
+   margin-right: 20px;
+}
+.poster-list .posterShow .posterIntro span.posterEdit, .poster-list .posterShow .posterIntro span.posterDownload
+{
+    height: 34px;
+    width: 110px;
+    display: inline-block;
+    line-height: 34px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.poster-list .posterShow .posterIntro span.posterEdit {
+    background: #0797D9;
+    color: #ffffff;
+}
+ .poster-list .posterShow .posterIntro span.posterDownload {
+    background: #fff;
+    color: #303d46;
+    border: 1px solid #e5e5e5;
+    position: relative;
+    z-index: 999;
+}
+.QRdownload {
+    position: relative;
+    color:#2a98da;
+}
+.QRdownload .iconfont {
+    margin-left: 5px;
+    font-size:14px;
+}
+.QRCode{
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 30px;
+    width: 130px;
+    height: 130px;
+    padding: 10px;
+    background: #fff;
+    border:1px solid #fafafa;
+    box-shadow: 0 0 5px rgba(0,0,0,.1);
+    z-index: 999;
+}
+.QRCode,.QRCode img{
+    width: 130px;
+    height: 130px;
+}
+.posterBtn {
+    text-align: center;
+}
+#paginationWrap {
+    padding: 10px 0 30px 30px;
+}
+
+.title_box h3.mc_title .add_poster_btn a{
+    background: #0797d9;
+    height: 34px;
+    width: 110px;
+    color: #ffffff;
+    margin-left:100px;
+    display: inline-block;
+    line-height: 34px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+}

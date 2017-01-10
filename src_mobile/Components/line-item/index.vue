@@ -1,5 +1,5 @@
 <template>
-    <div class="pftui-line-item" :class="[className]">
+    <div @click="onItemClick" class="pftui-line-item" :class="[className]">
         <slot name="left" class="col"></slot>
         <slot name="right" class="col"></slot>
     </div>
@@ -10,6 +10,16 @@
             className : {
                 type : String,
                 default : ""
+            },
+            link : {
+                type : String,
+                default : ""
+            }
+        },
+        methods : {
+            onItemClick(e){
+                this.$dispatch("item-click",e);
+                if(this.link) window.location.href = this.link;
             }
         }
     }

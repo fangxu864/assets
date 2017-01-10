@@ -3,7 +3,7 @@
         <div id="changciLiContainer" class="changciLiContainer" slot="content">
             <div class="stateText" v-if="state!='success'" v-text="stateText"></div>
             <ul class="changciList" v-if="state=='success'">
-                <li @click="onItemClick(item)" data-venusid="{{item.id}}" data-roundid="{{item.venus_id}}" :class="{'selected':selected_id==item.id}" class="changciItem" v-for="item in list">
+                <li @click="onItemClick(item)" data-venusid="{{item.venus_id}}" data-roundid="{{item.id}}" :class="{'selected':selected_id==item.id}" class="changciItem" v-for="item in list">
                     {{item.round_name+" "+item.bt+"-"+item.et}}
                 </li>
             </ul>
@@ -49,7 +49,7 @@
                 }else if(state=="success"){
                     text = "请求成功";
                 }else if(state=="empty"){
-                    text = "此日期暂无演出";
+                    text = "您选择的当天暂无演出场次信息";
                 }else if(state.indexOf("fail")>-1){
                     text = state.split(":")[1];
                 }
@@ -82,9 +82,11 @@
                     },
                     empty : () => {
                         this.state = "empty";
+                        this.$dispatch("changci-change","empty");
                     },
                     fail : (msg) => {
                         this.state = "fail:"+msg;
+                        this.$dispatch("changci-change","fail",msg);
                     }
                 })
             },
@@ -104,4 +106,5 @@
     .changciLiContainer .changciItem{ height:43px; line-height:43px; padding-left:15px; overflow:hidden; border-bottom:1px solid #e5e5e5}
     .changciLiContainer .changciItem.selected{ color:#258cc9}
     .changciLiContainer .changciItem:last-child{ border-bottom:0 none}
+    .changciLiContainer .stateText{ height:150px; line-height:150px; text-align:center;}
 </style>

@@ -2,7 +2,7 @@
     <div :style="{height:height+'px'}" id="taopiaoListContainer" class="taopiaoListContainer">
         <div class="taoTop" @click="this.on=!on" :class="{'on':on}">
             <span class="t">相关套票</span>
-            <span class="tri"><i class="iconfont icon-fold up"></i><i class="iconfont icon-unfold down"></i></span>
+            <span class="tri"><i class="icon-u-regular icon-fold up"></i><i class="icon-u-regular icon-unfold down"></i></span>
         </div>
         <div :style="{top:-top+'px'}" class="taoList">
             <div class="state" v-if="state!=='success'" v-text="state_text"></div>
@@ -112,9 +112,10 @@
     #taopiaoListContainer .taoTop{ position:relative; z-index:2; height:43px; line-height:43px; border-bottom:1px solid #dbdbdb; padding:0 10px; background:#fff}
     #taopiaoListContainer .taoTop .t{ float:left}
     #taopiaoListContainer .taoTop .tri{ float:right}
-    #taopiaoListContainer .taoTop .iconfont.up{ display:none}
-    #taopiaoListContainer .taoTop.on .iconfont.up{ display:inline}
-    #taopiaoListContainer .taoTop.on .iconfont.down{ display:none}
+    #taopiaoListContainer .taoTop .icon-u-regular{ position:relative; top:3px; color:#555}
+    #taopiaoListContainer .taoTop .icon-u-regular.up{ display:none}
+    #taopiaoListContainer .taoTop.on .icon-u-regular.up{ display:inline}
+    #taopiaoListContainer .taoTop.on .icon-u-regular.down{ display:none}
     #taopiaoListContainer .taoList{ position:relative; z-index:1; background:#fff; transition:top 0.2s}
     #taopiaoListContainer .state{ text-align:center; height:150px; line-height:150px; background:#fff;}
 </style>

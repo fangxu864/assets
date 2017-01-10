@@ -3,7 +3,7 @@
         <div class="rightsTipLine">
             <i class="uicon uicon-pft footlogo"></i>
             <span class="companyName">票付通-技术支持</span>
-            <a class="fankui" href="advice.html" >反馈</a>
+            <!--<a class="fankui" href="advice.html" >反馈</a>-->
         </div>
     </div>
 </template>

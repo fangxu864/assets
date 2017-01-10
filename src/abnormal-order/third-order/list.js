@@ -53,6 +53,12 @@ var List = PFT.Util.Class({
 				this.Search.enable();
 			},
 			success : function(data){
+				var type=data.type;
+				if(type){
+					$(".col.col_5_1").hide()
+				}else{
+					$(".col.col_5_1").show()
+				}
 				var currentPage = data.page;
 				var totalPage = data.totalPage;
 				var html = this.template({data : data.data});

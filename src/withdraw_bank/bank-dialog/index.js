@@ -204,7 +204,7 @@ Main.prototype = {
 		var that = this;
 		name = name || "";
 		page = page || 1;
-		size = size || 200;
+		size = size || 1000;
 		var ifCache = this.__ifCache;
 		var params = this.serializeParams({
 			bank_id : bank_id,
@@ -238,7 +238,7 @@ Main.prototype = {
 						if(!that.subBankSelect){
 							that.subBankSelect = that.initSubBankSelect(list);
 						}else{
-							that.subBankSelect.refresh(list);
+							that.subBankSelect.refresh(list,true);
 						}
 						if(init_subBank_id) that.subBankSelect.setValue(init_subBank_id);
 						if(ifCache) that.__bankCache[params] = list;
@@ -255,6 +255,7 @@ Main.prototype = {
 			trigger : $("#subBranchName"),
 			height : 300,
 			filter : true,
+			positionType : "fixed",
 			data : data,
 			field : {
 				id : "code",

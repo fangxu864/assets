@@ -93,7 +93,6 @@ var Alert = {
 		tit ? this.hd.show().html(tit) : this.hd.hide();
 
 		this.bd.html(con);
-
 		this.alertBox.addClass("enter");
 		this.mask.addClass("enter");
 		setTimeout(function(){
