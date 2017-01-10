@@ -42,7 +42,7 @@ $expendColor:  #ff4050;//支出的颜色
 .dealsumContainer .tb_top_box .rt{width: 835px;height: 122px;float: left;position:relative;overflow: hidden;}
 .dealsumContainer .tb_top_box .rt table{position: absolute;}
 .dealsumContainer .tb_top_box .rt table thead {background-color:#00597b;height:32px;line-height: 32px;color: white;cursor: move; }
-.dealsumContainer .tb_top_box .rt table thead th{padding: 5px 20px;}
+.dealsumContainer .tb_top_box .rt table thead th{padding: 5px 28px;}
 .dealsumContainer .tb_top_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: $incomeColor;}
 .dealsumContainer .tb_top_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: $expendColor;}
 .dealsumContainer .tb_top_box .rt_r{width: 28px;height: 100%;float: left;background-color: #ffffff;}
@@ -72,7 +72,7 @@ $expendColor:  #ff4050;//支出的颜色
 .dealsumContainer .tb_bottom_box .rt{width: 835px;float: left;position:relative;}
 .dealsumContainer .tb_bottom_box .rt table{position: absolute;}
 .dealsumContainer .tb_bottom_box .rt table thead {background-color:#e5e5e5;height:32px;line-height: 32px;color: #737373;cursor:move; }
-.dealsumContainer .tb_bottom_box .rt table thead th{padding: 5px 20px;}
+.dealsumContainer .tb_bottom_box .rt table thead th{padding: 5px 28px;}
 .dealsumContainer .tb_bottom_box .rt table tbody tr:hover{background-color: #fff3f3}
 .dealsumContainer .tb_bottom_box .rt_r{width: 28px;background-color: #ffffff;    float: right;  position: relative;  z-index: 2;}
 .dealsumContainer .tb_bottom_box .rt_r .th{height:42px;line-height: 42px;background-color:#e5e5e5; color:black;}
