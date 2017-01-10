@@ -14,5 +14,4 @@ var Nouse=require("./memlist/membercard_no_use");
       container:"#memListContainer",
       List:list
   });*/
-
    module.exports = Main;    
