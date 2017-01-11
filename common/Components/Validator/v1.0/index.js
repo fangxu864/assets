@@ -6,6 +6,19 @@
  * how to use
  *
  * var Validator = require("COMMON/Components/Validator");  //引入验证器
+ *
+ * console.log(Validator.Rules)  //可以查看下验证器内所有预置的验证规则
+ *
+ * var explam = Validator.Rules.mobile("18309517966");
+ *
+ * if(explam.isOk){
+ * 		console.log("手机号验证通过")
+ * }else{
+ * 		console.log(explam.errMsg || "手机号格式错误")
+ * }
+ *
+ *
+ *
  * var validateMobile = Validate({
 		target : $("#mobileInp"),            						//要验证的input
 		event : "blur",                      						//当blur事件触发时 验证
