@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="col right">
-                    <div v-if="info.remainMoney>1"><a @click="sheetShow=true" href="javascript:void(0)">红包提现</a></div>
+                    <div v-if="info.remainMoney>1 && info.allDisMan"><a @click="sheetShow=true" href="javascript:void(0)">红包提现</a></div>
                 </div>
             </div>
             <div class="line-list">
@@ -78,7 +78,7 @@
                     "saleCenter" : "distri_center.html",
                     "coupon" : "javascript:void(0)",
                     "orderList" : "userorder.html",
-                    "poster" : "javascript:void(0)"
+                    "poster" : "share_my_shop.html"
                 }
             }
         },

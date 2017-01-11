@@ -25,9 +25,6 @@
                     var openAllDis = data.openAllDis; //是否开通全民分销
                     var isAllDisMan = data.isAllDisMan; //当前用户是否开过店
 
-                    openAllDis = 1;
-                    isAllDisMan = 1;
-
                     if(openAllDis!=1) return false;
                     if(isAllDisMan==1){ //已经开过店
                         shareBtn.show();

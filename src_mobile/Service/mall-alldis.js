@@ -122,10 +122,13 @@ exports.cash = function(opt){
 		return false;
 	}
 
+
+	console.log(api("cash"))
+
 	PFT.Util.Ajax(api("cash"),{
-		type : "method",
-		data : {
-			money : money,
+		type : "post",
+		params : {
+			money : opt.money,
 			token : PFT.Util.getToken()
 		},
 		loading : opt.loading,
