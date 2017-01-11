@@ -26,11 +26,6 @@ function Dialog(){
         events : {
             "click .btn_close" : function () {
                 _this.Dialog_simple.close()
-            },
-            "click .btn_charge" : function (e) {
-                var tarBtn = e.currentTarget;
-                if( $(tarBtn).hasClass("disable")) return;
-                _this.pftChargeByBalance();
             }
         },
         onCloseAfter : function () {
@@ -50,12 +45,14 @@ Dialog.prototype={
         this.Dialog_simple.open()
     },
 
+
     /**
      * @method 弹框的关闭
      */
     close:function () {
         this.Dialog_simple.close();
     },
+
 
     /**
      * @method 弹框的渲染、打开
