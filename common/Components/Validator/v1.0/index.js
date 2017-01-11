@@ -2,7 +2,46 @@
  * Author: huangzhiyang
  * Date: 2016/12/26 12:02
  * Description: ""
+ *
+ * how to use
+ *
+ * var Validator = require("COMMON/Components/Validator");  //引入验证器
+ * var validateMobile = Validate({
+		target : $("#mobileInp"),            						//要验证的input
+		event : "blur",                      						//当blur事件触发时 验证
+		rule : ["require","mobile"],         						//验证规则  规则集在目录下的rules.js文件下
+		callback : function(rule,isOk,errMsg,errCode,target,value){ //验证完成后会自动执行里面的代码
+
+		  	//rule：当前验证的是哪条规则，比如在这里，rule有require、mobile这2个，所以callback会被执行2次  第1次执行时,rule=="require" 第2次执行时 rule==mobile
+		  	//isok：针对当前规则，验证是否通过  isok=true/false
+		  	//errMsg： 验证不通过时的提示信息
+		  	//errCode：验证不通过时错误代码
+		  	//target：指向当前被验证的input元素
+		  	//value: 当前input元素的值
+
+		  	if(isOk){
+
+		  	}else{
+
+		  	}
+		}
+	});
+ *
+ *  Validate方法执行后会return一个值
+ *  这里，validateMobile也是一个验证器，可以直接调用
+ *
+ *  var result = validateMobile();
+ *  if(result.isOk){ //require跟mobile规则都验证通过
+ *
+ *  }else{ //只要有一个规则不通过说明对此input的验证就是不通过的，此时表单不能提交
+ *
+ *  }
+ *
+ *
+ *
  */
+
+
 var Rules = require("./rules");
 var Help = require("./help");
 function Validate(opt){
