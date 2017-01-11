@@ -31,6 +31,7 @@ var City = PFT.Util.Class({
             yesBtn : {
                 text: that.DEFAULT_TEXT,
                 handler: function(){
+                    that.togglebtn.attr( 'data-code', '' );
                     that.title.html( that.DEFAULT_TEXT );
                     that.parentObj.container.removeClass('hide');
                     opt.Page.filterParamsChange();
@@ -44,13 +45,13 @@ var City = PFT.Util.Class({
             EVENTS : {
                 'tap .leftBtn': function(e) {
                     that.hide();
-                    that.parentObj.container.removeClass('hide');
                 },
-                'tap .cityItem': function(e) {
+                'click .cityItem': function(e) {
                     that.togglebtn.attr( 'data-code', $(e.currentTarget).attr('data-code') );
                     that.title.html( $(e.currentTarget).html() );
+
                     that.hide();
-                    that.parentObj.container.removeClass('hide');
+
                     opt.Page.filterParamsChange();
                 }
             }
@@ -99,6 +100,7 @@ var City = PFT.Util.Class({
     },
     hide: function(){
         this.SheetCore.close();
+        this.parentObj.container.removeClass('hide');
     }
 })
 

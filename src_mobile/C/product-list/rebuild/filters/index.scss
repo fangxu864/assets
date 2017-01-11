@@ -1,12 +1,12 @@
 .actionUl{
     position:relative;
-    .actionItem{
+    .typeItem, .themeItem {
         height:44px;
         line-height:44px;
         border-bottom:1px solid #e5e5e5;
         text-align:center;
     }
-    .actionItem.selected{
+    .typeItem.selected, .themeItem.selected {
         color:#008fc2;
     }
 }

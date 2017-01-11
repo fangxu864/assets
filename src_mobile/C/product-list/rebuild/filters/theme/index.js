@@ -28,12 +28,13 @@ var Theme = PFT.Util.Class({
                 handler: function(){
                     that.title.html( that.DEFAULT_TEXT );
                     that.parentObj.container.removeClass('hide');
+                    opt.Page.filterParamsChange();
                 },
                 trigger: true
             },
             zIndex : 10004,
             EVENTS : {
-                'tap .actionItem': function(e) {
+                'click .themeItem': function(e) {
                     that.title.html( $(e.currentTarget).html() );
                     that.hide();
                     that.parentObj.container.removeClass('hide');

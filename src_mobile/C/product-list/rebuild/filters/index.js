@@ -18,6 +18,7 @@ var Filter = PFT.Util.Class({
 		this.theme = new Theme({SheetCore: SheetCore, data: data.theme, container: this.container.children('.con'), host: this, Page: opt.Page});
 		this.type = new Type({SheetCore: SheetCore, data: data.type, container: this.container.children('.con'), host: this, Page: opt.Page});
 		this.city = new City({SheetCore: SheetCore, data: data.city, container: this.container.children('.con'), host: this, Page: opt.Page});
+
 		this.bindEvents();
 	},
 	bindEvents : function(){

@@ -32,7 +32,7 @@ var City = PFT.Util.Class({
             },
             zIndex : 10004,
             EVENTS : {
-                'tap .actionItem': function(e) {
+                'click .typeItem': function(e) {
                     that.togglebtn.attr( 'data-type', $(e.currentTarget).attr('data-type') );
                     that.title.html( $(e.currentTarget).html() );
                     that.hide();
@@ -41,6 +41,7 @@ var City = PFT.Util.Class({
                 }
             }
         });
+
         that.SheetCore.close();
     },
     renderList: function( data ){

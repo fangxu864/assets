@@ -20,6 +20,8 @@ var Main = PFT.Util.Class({
 	__hasMore : true,
 	__hasInit : false,
 	imgHeight : 115,
+	scrollDestroy: false,
+	enablePullup: true,
 
 	dom: {
 		container: 			'bodyContainer',
@@ -42,28 +44,30 @@ var Main = PFT.Util.Class({
 
 		this.initSearch();
 
+		/* create dom element */
 		this.listUl = $('<ul />', { id: this.dom.ul, class: this.dom.ul });
-		this.template = ItemTpl;
 		this.listUl.appendTo($('#'+this.dom.container));
 		this.listUl.wrap($('<div />', { id: this.dom.scrollcontainer, class: this.dom.scrollcontainer}));
 		this.listUl.wrap($('<div />', { id: this.dom.xs_container, class: this.dom.xs_container}));
 
+		this.template = ItemTpl;
+
 		this.initScroll();
+
+		this.initPullup();
 
 		this.fetchList( this.params );
 	},
-	reInit: function () {
-		if( !this.__hasMore ) this.__hasMore = true;
-		this.setLastPos(0);
-	},
 	initScroll: function() {
-		var that = this;
 		this.xscroll = new XScroll({
 		   	renderTo: '#' + this.dom.scrollcontainer,
             lockY: false,
             container: '#' + this.dom.xs_container,
             content: '#' + this.dom.ul
 		});
+	},
+	initPullup: function() {
+		var that = this;
 
         this.pullup = new XScroll.Plugins.PullUp({
             upContent: 		"上拉加载更多 ...",
@@ -72,16 +76,15 @@ var Main = PFT.Util.Class({
             bufferHeight: 	0
         });
 
-        this.xscroll.plug( this.pullup );
+        // this.xscroll.plug( this.pullup );
 
         this.pullup.on("loading",function(){
-
             that.fetchList( that.params );
-
         });
+
+		this.xscroll.plug( this.pullup );
 	},
-	initFilter : function(type,themes,citys){
-		console.log(this)
+	initFilter: function(type,themes,citys){
 		this.filter = new Filter({
 			Page: this,
 			container: '#' + this.dom.container,
@@ -92,15 +95,20 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
+	reInit: function () {
+		if( !this.__hasMore ) this.__hasMore = true;
+		// this.setLastPos(0);
+		this.params.lastPos = 0;
+	},
 	filterParamsChange: function() {
 		this.reInit();
 
 		this.params = {
-            keyword : encodeURIComponent( $('#' + this.dom.searchInp ).val() ),
-            topic : $('#' + this.dom.filterbar ).find('[data-filter=theme]').text(),
-            type : $('#' + this.dom.filterbar ).find('[data-filter=type]').attr('data-type'),
-            city : $('#' + this.dom.filterbar ).find('[data-filter=city]').attr('data-code'),
-            lastPos : this.__lastPos
+            keyword : this.getKeyword(),
+            topic : this.getTopic(),
+            type : this.getType(),
+            city : this.getCity(),
+            lastPos : 0
         };
 
         this.fetchList( this.params );
@@ -112,10 +120,7 @@ var Main = PFT.Util.Class({
 			container: '#' + this.dom.container,
 			callbacks: {
 				input: function( val ) {
-					that.reInit();
-
-					that.params.keyword = val;
-					that.fetchList( that.params );
+					that.filterParamsChange();
 				},
 				focus: function( val ) {
 
@@ -129,19 +134,17 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
-	//启动&恢复 上拉加载功能
-	enablePullup : function(){},
-	//禁用上拉加载功能
-	disablePullup : function(){},
-	//刷新scroll插件
-	refreshScroll : function(){},
-
-	getLastPos : function(){
-		return this.__lastPos;
+	getKeyword: function() {
+		return $.trim( $('#' + this.dom.searchInp ).val() );
 	},
-	setLastPos : function(pos){
-		this.__lastPos = pos * 1;
-		this.params.lastPos = pos * 1;
+	getTopic: function() {
+		return $('#' + this.dom.filterbar ).find('[data-filter=theme]').text()=='主题' ? '' : $('#' + this.dom.filterbar ).find('[data-filter=theme]').text();
+	},
+	getType: function() {
+		return $('#' + this.dom.filterbar ).find('[data-filter=type]').attr('data-type');
+	},
+	getCity: function() {
+		return $('#' + this.dom.filterbar ).find('[data-filter=city]').attr('data-code');
 	},
 	fetchList : function( params ){
 		var that = this;
@@ -187,18 +190,40 @@ var Main = PFT.Util.Class({
 			empty : () => {
 				that.__hasMore = false;
         		that.xscroll.unplug( that.pullup );
+        		that.enablePullup = false;
 
 				if(lastPos==0){
 					type = paramKeyword ? "searchEmpty" : "filterEmpty";
 					that.render(type);
+					if( !that.scrollDestroy ) {
+						that.xscroll.destroy();
+						that.scrollDestroy = true;
+					}
 				}else{
 					that.render("noMore");
 				}
 			},
 			success : (data) => {
-				that.setLastPos( data.lastPos );
+				that.params.lastPos = data.lastPos;
+
+				if( lastPos == 0 ) {
+					if( that.scrollDestroy ) {
+						that.initScroll();
+						that.scrollDestroy = false;
+					}
+				}
+
+				if( !that.enablePullup ) {
+					that.xscroll.plug( that.pullup );
+					console.log(that.xscroll)
+					that.xscroll.scrollTop(0, 0);
+				}
+
 				that.render(lastPos==0 ? "success" : "successMore", data, params);
 		        that.xscroll.render();
+				console.log(that.xscroll);
+
+
 		        that.pullup.complete();
 			},
 			fail : (msg) => {
@@ -210,8 +235,6 @@ var Main = PFT.Util.Class({
 				}
 			}
 		})
-
-		console.log( FetchList );
 	},
 	render : function( type , data, params ){
 		var html = "";
