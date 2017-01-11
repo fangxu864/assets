@@ -25,7 +25,7 @@ var HeaderWarning={
 
         /**
          * 弹框出现的必须条件
-         * 员工账号没弹框，充值页面没弹框
+         * 员工账号没弹框
          * @type {boolean}
          */
         var isDialog = this.judge_of_dtype == "6" ? false : true;
