@@ -125,8 +125,7 @@
     "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "application-center-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/webpack.config.js",
     "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
-    "home-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src-pc-rebuild/home/webpack.config.js",
-    "home-test": "set NODE_ENV=test && webpack --progress --colors --config ./src-pc-rebuild/home/webpack.config.js"
+    "pc-rebuild-start" : "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src-pc-rebuild/webpack.config.js"
   },
   "repository": {
     "type": "git",

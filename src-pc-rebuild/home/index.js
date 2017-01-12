@@ -1,31 +1,35 @@
 /**
  * Author: huangzhiyang
- * Date: 2016/12/15 15:24
+ * Date: 2017/1/12 15:44
  * Description: ""
  */
-require ("./index.scss");
+require("./index.scss");
 
-var Pft_header = require("./modules/pft_header_box");
-var Pft_left = require("./modules/pft_left_box");
-var Pft_footer = require("./modules/pft_footer_box");
-var Class = require("COMMON/js/util.class.js");
+var UserInfo = require("./modules/userinfo");
+
+var Main = PFT.Util.Class({
+	container : $("#G_Body"),
+	init : function(){
+
+		this.inContainer = $('<div id="inBodyCon" class="inBodyCon"></div>');
+		this.pageMain = $('<div id="pageMain" class="pageMain"></div>');
+		this.rightBar = $('<div id="rigbtBar" class="rigbtBar"></div>');
+		this.inContainer.append(this.pageMain).append(this.rightBar);
+
+		this.container.append(this.inContainer);
+
+		this.userInfo = UserInfo(this.pageMain);
 
 
-var Main =  Class({
-    container : "#body",
-    init : function () {
-        new Pft_header();
-        new Pft_footer();
-        new Pft_left();
-    },
-    EVENTS :{
-    }
+
+
+	}
 });
 
-module.exports = (function(){
-    $(function () {
-        new Main();
-    });
-}());
 
+$(function(){
+
+	new Main;
+
+})
 

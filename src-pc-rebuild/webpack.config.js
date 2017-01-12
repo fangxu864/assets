@@ -1,6 +1,6 @@
 /**
  * Author: huangzhiyang
- * Date: 2016/7/11 11:17
+ * Date: 2017/1/12 15:44
  * Description: ""
  */
 var env = require("../task-webpack/getNodeENV");
@@ -9,8 +9,7 @@ var plugins = require("../task-webpack/getPlugins")(env);
 var output = require("../task-webpack/getOutput")(env);
 var config = require("../task-webpack/config")({
 	entry : {
-		"pft.common.mb" : "./common/pft.common.mb.js",   //use in mobile
-		"pft.common.pc" : "./common/pft.common.pc.js"    //use in pc
+		"home.pc" : "./src-pc-rebuild/home/index.js"
 	},
 	output : output,
 	plugins : plugins

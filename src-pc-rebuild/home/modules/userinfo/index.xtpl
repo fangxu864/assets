@@ -1,0 +1,26 @@
+<div class="top">
+    <div class="photoBox">
+        <div class="inBox"><img src="" alt=""/></div>
+    </div>
+    <div class="rtBox">
+        <div class="line top">
+            <em class="dname">慢慢的店铺</em>
+            <span class="flag dtype"></span>
+            <span class="flag auth"></span>
+            <span class="flag level"></span>
+            <span class="effectTime">有效期至：<i class="num">2015-12-24</i><a href="" class="xunfeiBtn">续费</a></span>
+        </div>
+        <div class="line mid">
+            <span class="ydname">慢慢的店铺</span> / <span class="mobile">18405597689</span>
+            <a href="" class="modifyMobileBtn"><i class="icon icon-u-bold icon-edit"></i></a>
+        </div>
+        <div class="line abr">
+            异常待处理订单(<a href="" class="abrCount">13</a>)
+            <span style="margin-left:10px">上次登录时间：2016-01-01 01:01:01</span>
+        </div>
+    </div>
+</div>
+<div class="bot">
+    帐户余额：<span class="yuE"><i class="yen">&yen;</i><span class="money">330.2</span></span>
+    <a href="" id="chongzhiBtn" class="chongzhiBtn">充值</a>
+</div>
