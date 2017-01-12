@@ -69,15 +69,38 @@ var DownloadCenter = {
         //给下载按钮添加绑定事件
         $("#table_box").on("click",".down_href",function () {
             if($(this).hasClass("disabled")) return false ;
-            var downUrl = "/r/MassData_StartDown/index?id=" + $(this).attr("data-id");
-            $.get(downUrl,function(res){
-                if(res.code){
-                    PFT.Util.STip("fail",res.msg)
-                }else{
-                    _this.outExcel(downUrl)
-                }
-            })
+            // var downUrl = "download.12301.test/r/MassData_StartDown/index?id=" + $(this).attr("data-id");
+            var downUrl = "http://download."+_this.getDomainName()+"?id=" + $(this).attr("data-id");
+            //  由于存在跨域问题暂时注释掉
+            // $.get(downUrl,function(res){
+            //     if(res.code){
+            //         PFT.Util.STip("fail",res.msg)
+            //     }else{
+            //         _this.outExcel(downUrl)
+            //     }
+            // })
+            _this.outExcel(downUrl)
         })
+    },
+
+
+    /**
+     * @method  获取当前的主域名
+     * @returns {string}返回主域名 如 12301.cc
+     */
+    getDomainName: function () {
+        var host = location.host ;
+        var nameSet = {
+            "local": "12301.local" ,
+            "test" : "12301.test" ,
+            "dev" : "12301dev.com" ,
+            "cc" : "12301.cc"
+        };
+        for (var key in nameSet ){
+            if( host.search(nameSet[key]) > -1){
+                return nameSet[key] ;
+            }
+        }
     },
 
 
