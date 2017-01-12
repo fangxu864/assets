@@ -17,6 +17,14 @@ var CityData = require("COMMON/js/config.province.city.data2");
 
 var Main = PFT.Util.Class({
 	PULLUP_HEIGHT: 40,
+	STATIC_TEXT: {
+		empty : 		"暂无产品",
+		filterEmpty : 	"暂无相关产品",
+		searchEmpty : 	"查无匹配产品",
+		noMore: 		'没有更多内容了',
+		fail: 			'获取数据失败',
+		failMore: 		'获取更多数据失败'
+	},
 	__lastPos : 0,
 	__hasMore : true,
 	__hasInit : false,
@@ -209,7 +217,7 @@ var Main = PFT.Util.Class({
 			empty : () => {
 				that.__hasMore = false;
         		that.xscroll.unplug( that.pullup );
-        		that.xscroll.scrollTop( that.xscroll.getScrollTop() - that.PULLUP_HEIGHT, 100); // XScroll.scrollTop(scrollTop, duration, easing)
+        		// that.xscroll.scrollTop( that.xscroll.getScrollTop() - that.PULLUP_HEIGHT, 100); // XScroll.scrollTop(scrollTop, duration, easing)
         		that.enablePullup = false;
 
 				if(lastPos==0){
@@ -223,6 +231,8 @@ var Main = PFT.Util.Class({
 
 				}else{
 					that.render("noMore");
+
+					that.xscroll.render();
 				}
 			},
 			success : (data) => {
@@ -264,23 +274,26 @@ var Main = PFT.Util.Class({
 		var listUl = this.listUl;
 
 		if(type=="success" || type=="successMore"){
+
 			html = template( { data: data.list, params: params, imgHeight: this.imgHeight } );
+
 			if(type=="success"){
+
 				listUl.html(html);
+
 			}else if(type=="successMore"){
+
 				listUl.append(html);
+
 			}
+
 		}else if(type=="empty" || type=="filterEmpty" || type=="searchEmpty"){
-			var text = {
-				empty : "暂无产品",
-				filterEmpty : "暂无相关产品",
-				searchEmpty : "查无匹配产品"
-			}[type];
 
-			listUl.html( '<li class="noSearchResult">' + text + '</li>' );
-		}else if(type=="noMore"){
+			listUl.html( '<li class="noSearchResult">' + this.STATIC_TEXT[type] + '</li>' );
 
-		}else if(type=="fail" || type=="failMore"){
+		}else if( type=="noMore" || type=="fail" || type=="failMore" ){
+
+			listUl.append('<li class="nomore">' + this.STATIC_TEXT[type] + '</li>');
 
 		}
 
