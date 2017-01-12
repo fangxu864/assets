@@ -164,8 +164,8 @@ var Filter = RichBase.extend({
 								tarInp.val(oldVal);
 							}
 						}else{
-							if(end_str-begin_str >= (90*24*60*60*1000)){
-								alert(queryLimitTip || "最多只能查询90天以内数据");
+							if(end_str-begin_str >= (94*24*60*60*1000)){
+								alert(queryLimitTip || "最多只能查询三个月以内数据");
 								tarInp.val(oldVal);
 							}
 						}
@@ -198,8 +198,8 @@ var Filter = RichBase.extend({
 								tarInp.val(oldVal);
 							}
 						}else{
-							if(end_str-begin_str >= (90*24*60*60*1000)){
-								alert(queryLimitTip || "最多只能查询90天以内数据");
+							if(end_str-begin_str >= (94*24*60*60*1000)){
+								alert(queryLimitTip || "最多只能查询三个月以内数据");
 								tarInp.val(oldVal);
 							}
 						}
