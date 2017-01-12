@@ -10,16 +10,31 @@ var Search = PFT.Util.Class({
 
         this.renderHtml();
 
-        this.container.on('input propertychange', '.searchInp', function(){
-            var clearBtn = _this.container.find('.clearBtn');
+        var cpLock = false;
 
-            if( $.trim( $(this).val() ) ) {
-                clearBtn.addClass('show');
-            } else {
-                clearBtn.removeClass('show');
-            }
+        this.container.on('compositionstart', '.searchInp', function(){
 
-            opts.callbacks.input && opts.callbacks.input( $.trim( $(this).val() ) );
+            cpLock = true;
+
+        }).on('compositionend', '.searchInp', function(){
+
+            cpLock = false;
+
+        }).on('input propertychange', '.searchInp', function(){
+
+            setTimeout(function(){
+                if (!cpLock) {
+                    var clearBtn = _this.container.find('.clearBtn');
+
+                    if( $.trim( $(this).val() ) ) {
+                        clearBtn.addClass('show');
+                    } else {
+                        clearBtn.removeClass('show');
+                    }
+
+                    opts.callbacks.input && opts.callbacks.input( $.trim( $(this).val() ) );
+                }
+            }, 10);
 
         }).on('click', '.clearBtn', function(){
 
@@ -28,6 +43,7 @@ var Search = PFT.Util.Class({
             opts.callbacks.clear && opts.callbacks.clear();
 
         }).find('.searchInp').focus(function(){
+
             var clearBtn = _this.container.find('.clearBtn');
 
             if( $.trim( $(this).val() ) ) {

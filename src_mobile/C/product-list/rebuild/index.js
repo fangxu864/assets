@@ -20,7 +20,7 @@ var Main = PFT.Util.Class({
 	__hasMore : true,
 	__hasInit : false,
 	imgHeight : 115,
-	scrollDestroy: false,
+	isScrollDestroyed: false,
 	enablePullup: true,
 
 	dom: {
@@ -52,6 +52,8 @@ var Main = PFT.Util.Class({
 
 		this.template = ItemTpl;
 
+		this.scrollContainerHeight = $('#' + this.dom.scrollcontainer).height();
+
 		this.initScroll();
 
 		this.initPullup();
@@ -62,6 +64,8 @@ var Main = PFT.Util.Class({
 		this.xscroll = new XScroll({
 		   	renderTo: '#' + this.dom.scrollcontainer,
             lockY: false,
+            scrollbarY: false,
+            scrollbarX: false,
             container: '#' + this.dom.xs_container,
             content: '#' + this.dom.ul
 		});
@@ -96,9 +100,9 @@ var Main = PFT.Util.Class({
 		})
 	},
 	reInit: function () {
-		if( !this.__hasMore ) this.__hasMore = true;
-		// this.setLastPos(0);
-		this.params.lastPos = 0;
+		if( !this.__hasMore ) {
+			this.__hasMore = true;
+		}
 	},
 	filterParamsChange: function() {
 		this.reInit();
@@ -195,9 +199,9 @@ var Main = PFT.Util.Class({
 				if(lastPos==0){
 					type = paramKeyword ? "searchEmpty" : "filterEmpty";
 					that.render(type);
-					if( !that.scrollDestroy ) {
+					if( !that.isScrollDestroyed ) {
 						that.xscroll.destroy();
-						that.scrollDestroy = true;
+						that.isScrollDestroyed = true;
 					}
 				}else{
 					that.render("noMore");
@@ -206,23 +210,23 @@ var Main = PFT.Util.Class({
 			success : (data) => {
 				that.params.lastPos = data.lastPos;
 
+				that.render(lastPos==0 ? "success" : "successMore", data, params);
+
+				// 参数更改时 判断scroll插件是否销毁，是则初始化
 				if( lastPos == 0 ) {
-					if( that.scrollDestroy ) {
+					if( that.isScrollDestroyed ) {
 						that.initScroll();
-						that.scrollDestroy = false;
+						that.isScrollDestroyed = false;
 					}
 				}
 
+				// 判断scroll的上拉加载插件是否被移除， 是则引入插件
 				if( !that.enablePullup ) {
 					that.xscroll.plug( that.pullup );
-					console.log(that.xscroll)
 					that.xscroll.scrollTop(0, 0);
 				}
 
-				that.render(lastPos==0 ? "success" : "successMore", data, params);
 		        that.xscroll.render();
-				console.log(that.xscroll);
-
 
 		        that.pullup.complete();
 			},
