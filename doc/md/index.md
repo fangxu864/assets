@@ -292,6 +292,43 @@ var C = PFT.Util.Class({
 })
 
 
+```
+
+
+### ParseTemplate
+> 1. 模板引擎，从underscore.js中单独提取出来，使用方法同underscore完全一致
+> 2. 目录：./common/js/util.parseTemplate.js
+> 3. 调用：PFT.Util.ParseTemplate(data,cxt);
+
+**此方法非常重要，现在所有的html模板解析都是直接调用此方法**
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|data|object|要传入模板的数据|必填|
+|cxt|object|在模板里也可以执行一些js代码，如<%this.submit()%>，此时this就是cxt传进来的|可省，一般不常用|
+
+```js
+
+//index.xtpl
+<% _.each(list,function(item){
+    <li><%=item.title%></li>
+}) %>
+
+//index.js
+var indexTpl = require("./index.xtpl");           //获取模板(字符串)
+var template = PFT.Util.ParseTemplate(indexTpl);  //预解析模板，缓存在template中   template是一个方法
+var htmlStr = template({
+    list : [{
+        id : 11,
+        title : "标题11"
+    },{
+        id : 22,
+        title : "标题22"
+    }]
+});
+
+$("#container").html(htmlStr);
+
 
 
 
@@ -299,9 +336,5 @@ var C = PFT.Util.Class({
 
 
 ```
-
-
-
-
 
 
