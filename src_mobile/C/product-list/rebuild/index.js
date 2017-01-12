@@ -16,12 +16,14 @@ var Search = require("./search");
 var CityData = require("COMMON/js/config.province.city.data2");
 
 var Main = PFT.Util.Class({
+	PULLUP_HEIGHT: 40,
 	__lastPos : 0,
 	__hasMore : true,
 	__hasInit : false,
 	imgHeight : 115,
 	isScrollDestroyed: false,
 	enablePullup: true,
+	xScrollTop: '',
 
 	dom: {
 		container: 			'bodyContainer',
@@ -31,6 +33,7 @@ var Main = PFT.Util.Class({
 		filterbar: 			'filterBar',
 		searchInp: 			'searchInp'
 	},
+
 	init : function(){
 		var that = this;
 
@@ -60,6 +63,7 @@ var Main = PFT.Util.Class({
 
 		this.fetchList( this.params );
 	},
+
 	initScroll: function() {
 		this.xscroll = new XScroll({
 		   	renderTo: '#' + this.dom.scrollcontainer,
@@ -69,11 +73,15 @@ var Main = PFT.Util.Class({
             container: '#' + this.dom.xs_container,
             content: '#' + this.dom.ul
 		});
+
+		this.isScrollDestroyed = false;
 	},
+
 	initPullup: function() {
 		var that = this;
 
         this.pullup = new XScroll.Plugins.PullUp({
+        	height: 		this.PULLUP_HEIGHT,
             upContent: 		"上拉加载更多 ...",
             downContent: 	"放开加载 ...",
             loadingContent: "加载中 ...",
@@ -88,6 +96,7 @@ var Main = PFT.Util.Class({
 
 		this.xscroll.plug( this.pullup );
 	},
+
 	initFilter: function(type,themes,citys){
 		this.filter = new Filter({
 			Page: this,
@@ -99,11 +108,13 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
+
 	reInit: function () {
 		if( !this.__hasMore ) {
 			this.__hasMore = true;
 		}
 	},
+
 	filterParamsChange: function() {
 		this.reInit();
 
@@ -117,6 +128,7 @@ var Main = PFT.Util.Class({
 
         this.fetchList( this.params );
 	},
+
 	initSearch : function(){
 		var that = this;
 
@@ -138,18 +150,23 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
+
 	getKeyword: function() {
 		return $.trim( $('#' + this.dom.searchInp ).val() );
 	},
+
 	getTopic: function() {
 		return $('#' + this.dom.filterbar ).find('[data-filter=theme]').text()=='主题' ? '' : $('#' + this.dom.filterbar ).find('[data-filter=theme]').text();
 	},
+
 	getType: function() {
 		return $('#' + this.dom.filterbar ).find('[data-filter=type]').attr('data-type');
 	},
+
 	getCity: function() {
 		return $('#' + this.dom.filterbar ).find('[data-filter=city]').attr('data-code');
 	},
+
 	fetchList : function( params ){
 		var that = this;
 
@@ -168,8 +185,6 @@ var Main = PFT.Util.Class({
 				if(lastPos==0){
 					Toast.show("loading","努力加载中..");
 					that.listUl.html("");
-					// this.disablePullup();
-					// this.refreshScroll();
 				}
 			},
 			complete : (res) => {
@@ -194,15 +209,18 @@ var Main = PFT.Util.Class({
 			empty : () => {
 				that.__hasMore = false;
         		that.xscroll.unplug( that.pullup );
+        		that.xscroll.scrollTop( that.xscroll.getScrollTop() - that.PULLUP_HEIGHT, 100); // XScroll.scrollTop(scrollTop, duration, easing)
         		that.enablePullup = false;
 
 				if(lastPos==0){
 					type = paramKeyword ? "searchEmpty" : "filterEmpty";
 					that.render(type);
+
 					if( !that.isScrollDestroyed ) {
 						that.xscroll.destroy();
 						that.isScrollDestroyed = true;
 					}
+
 				}else{
 					that.render("noMore");
 				}
@@ -213,11 +231,10 @@ var Main = PFT.Util.Class({
 				that.render(lastPos==0 ? "success" : "successMore", data, params);
 
 				// 参数更改时 判断scroll插件是否销毁，是则初始化
-				if( lastPos == 0 ) {
-					if( that.isScrollDestroyed ) {
+				if( lastPos == 0 && that.isScrollDestroyed ) {
+
 						that.initScroll();
-						that.isScrollDestroyed = false;
-					}
+
 				}
 
 				// 判断scroll的上拉加载插件是否被移除， 是则引入插件
@@ -240,6 +257,7 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
+
 	render : function( type , data, params ){
 		var html = "";
 		var template = this.template;
