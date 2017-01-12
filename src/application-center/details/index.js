@@ -223,20 +223,21 @@ var Main = PFT.Util.Class({
             var showBox =  $("#message_box_close");
             showBox.find("#topName").text(topName);
             showBox.find("#secondAppName").text(data.name);
-        }else if(topType == 1){
+        }else if(topType == 1 && showextime == 1 ){
             var showBox =  $("#message_box_open");
+            showBox.find('.m-appname').text( data.name );
             showBox.find("#begin_time").text(_this.changeTimeType(data.begin_time));
             showBox.find("#expire_time").text(_this.changeTimeType(data.expire_time))
         }
 
         $("#btn").mouseenter(function () {
-            showBox.show().css({
+            showBox && showBox.show().css({
                 'position':'absolute',
                 'left': btnLeft-showBox.width()/2+btnLeft/2 +'px',
                 'top': btnTop-showBox.height()-20 +'px'
             })
         }).mouseleave(function () {
-            showBox.hide()
+            showBox && showBox.hide()
         });
     },
 

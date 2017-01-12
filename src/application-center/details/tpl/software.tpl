@@ -21,12 +21,12 @@
         <ul class="price_details" id="price">
         </ul>
         <div class="message_box" id="message_box_open">
-            <div class="content"><e style="color:#df3e0a;font-size: 16px;">微商城开通</e></br>有效期：<e style="color:#df3e0a;padding: 0 2px" id="begin_time"></e>至<e style="color:#df3e0a;padding: 0 2px" id="expire_time"></e></div>
+            <div class="content"><em class="m-appname" style="color:#df3e0a;font-size: 16px;">微商城</em>已开通<br/>有效期：<em style="color:#df3e0a;padding: 0 2px" id="begin_time"></em>至<e style="color:#df3e0a;padding: 0 2px" id="expire_time"></e></div>
             <span class="triangle"></span>
             <span class="triangle_back"></span>
         </div>
         <div class="message_box" id="message_box_close">
-            <div class="content">需先免费开通<e id="topName" style="color:#df3e0a;font-size: 16px;"></e></br>后方可开通<e style="color:#df3e0a;padding: 0 2px" id="secondAppName"></e></div>
+            <div class="content">需先开通<em id="topName" style="color:#df3e0a;font-size: 16px;"></em><br/>后方可开通<em style="color:#df3e0a;padding: 0 2px" id="secondAppName"></em></div>
             <span class="triangle"></span>
             <span class="triangle_back"></span>
         </div>
