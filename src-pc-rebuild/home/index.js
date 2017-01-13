@@ -6,6 +6,8 @@
 require("./index.scss");
 
 var UserInfo = require("./modules/userinfo");
+var RecentUse = require("./modules/recent-use");
+
 
 var Main = PFT.Util.Class({
 	container : $("#G_Body"),
@@ -20,7 +22,7 @@ var Main = PFT.Util.Class({
 
 		this.userInfo = UserInfo(this.pageMain);
 
-
+		this.recentUse = RecentUse(this.pageMain);
 
 
 	}

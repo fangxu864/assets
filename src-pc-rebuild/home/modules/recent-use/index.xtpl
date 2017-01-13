@@ -1,0 +1,13 @@
+<ul class="appUl">
+    <% _.each(list,function(item){%>
+        <%
+            var _item = item.split(":");
+            var link = _item[0] + ".html";
+            var text = _item[1];
+            var icon = _item[2] || "icon-yingyongzhongxin";
+        %>
+        <li class="appItem">
+            <a href="<%=link%>" class="link"><i class="icon icon-pc-list <%=icon%>"></i><span class="t"><%=text%></span></a>
+        </li>
+    <% }) %>
+</ul>
