@@ -3,6 +3,17 @@
  * Date: 2017/1/12 15:49
  * Description: ""
  */
+// 引入 ECharts 主模块
+var echarts = require('echarts/lib/echarts');
+// 引入柱状图
+require('echarts/lib/chart/line');
+require('echarts/lib/chart/bar');
+require('echarts/lib/chart/pie');
+// 引入提示框和标题组件
+require('echarts/lib/component/legend');
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
+
 require("./index.scss");
 var Tpl = require("./index.xtpl");
 module.exports = function(parent){
@@ -16,6 +27,8 @@ module.exports = function(parent){
 			console.log(this.container);
 			this.render();
 			this.renderLineEchart();
+			this.renderPieEchart();
+			this.renderBarEchart();
 		},
 		render : function(data){
 			var html = this.template(data || {
@@ -33,15 +46,6 @@ module.exports = function(parent){
 			this.container.html(html);
 		},
 		renderLineEchart : function () {
-			// 引入 ECharts 主模块
-			var echarts = require('echarts/lib/echarts');
-			// 引入柱状图
-			require('echarts/lib/chart/line');
-			// 引入提示框和标题组件
-			require('echarts/lib/component/legend');
-			require('echarts/lib/component/tooltip');
-			require('echarts/lib/component/title');
-
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = echarts.init(document.getElementById('lineEchart'));
 			var option = {
@@ -124,7 +128,109 @@ module.exports = function(parent){
 
 			// 绘制图表
 			myChart.setOption(option);
-		}
+		},
+		renderPieEchart : function () {
+
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('pieEchart'));
+			var option = {
+				tooltip: {
+					trigger: 'item',
+					formatter: "{a} <br/>{b}: {c} ({d}%)"
+				},
+				legend: {
+					orient: 'vertical',
+					x: 'left',
+					data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+				},
+				series: [
+					{
+						name:'访问来源',
+						type:'pie',
+						radius: ['50%', '70%'],
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								show: false,
+								position: 'center'
+							},
+							emphasis: {
+								show: true,
+								textStyle: {
+									fontSize: '30',
+									fontWeight: 'bold'
+								}
+							}
+						},
+						labelLine: {
+							normal: {
+								show: false
+							}
+						},
+						data:[
+							{value:335, name:'直接访问'},
+							{value:310, name:'邮件营销'},
+							{value:234, name:'联盟广告'},
+							{value:135, name:'视频广告'},
+							{value:1548, name:'搜索引擎'}
+						]
+					}
+				]
+			};
+
+			// 绘制图表
+			myChart.setOption(option);
+		},
+		renderBarEchart : function () {
+
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('barEchart'));
+			var option = {
+				title: {
+					text: '世界人口总量',
+					subtext: '数据来自网络'
+				},
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'shadow'
+					}
+				},
+				legend: {
+					data: ['2011年', '2012年']
+				},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					containLabel: true
+				},
+				xAxis: {
+					type: 'value',
+					boundaryGap: [0, 0.01]
+				},
+				yAxis: {
+					type: 'category',
+					data: ['巴西','印尼','美国','印度','中国','世界人口(万)']
+				},
+				series: [
+					{
+						name: '2011年',
+						type: 'bar',
+						data: [18203, 23489, 29034, 104970, 131744, 630230]
+					},
+					{
+						name: '2012年',
+						type: 'bar',
+						data: [19325, 23438, 31000, 121594, 134141, 681807]
+					}
+				]
+			};
+
+
+			// 绘制图表
+			myChart.setOption(option);
+		},
 	});
 
 

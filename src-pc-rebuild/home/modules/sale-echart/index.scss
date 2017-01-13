@@ -58,18 +58,41 @@
     }
     .line2{
         .lineEchartControlBox{
-            margin: 10px auto;
+            margin: 20px auto;
             width: 100%;
+            display: flex;
+            justify-content: center;
             .td{
-                display: inline-block;
+                box-sizing: border-box;
+                display: flex;
                 .btn{
                     padding: 8px 16px;
+                    display: block;
+                    cursor: pointer;
                 }
                 .btn.active{
                     background-color: #0897d9;
                     color : white;
                 }
             }
+            .td1,.td2{ border: 1px solid #e5e5e5;}
+            .td3{
+                margin: 0  20px;
+            }
+            .td3 input{
+                padding-left: 5px;
+                border: 1px solid #e5e5e5;
+                width:88px;
+            }
+        }
+    }
+    .line3{
+        width: 100%;
+       display: flex;
+        justify-content: space-around;
+        .lt , .rt{
+            height: 500px;
+            background-color: #e5e5e5;
         }
     }
 
