@@ -468,7 +468,8 @@ var DealSum={
 				if(tim!=undefined){
 					tim="20"+tim;
 					//20150808
-					tim=tim.substr(0,4)+"-"+tim.substr(4,2)+"-"+tim.substr(6,2);
+					// tim=tim.substr(0,4)+"-"+tim.substr(4,2)+"-"+tim.substr(6,2);
+					tim = tim.replace(/(\d{4})(\d{2})(\d{2})/ , "$1-$2-$3")
 				}else{
 					tim="日期不见了"
 				}

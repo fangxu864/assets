@@ -41,8 +41,21 @@
             overflow: hidden;
           }
           .th1{width:280px;text-align: left ;padding-left: 20px;}
+          a.down_href{
+            color: #fff;
+            padding: 7px 17px;
+            border-radius: 2px;
+            background: #0080ff;
+          }
+          a.down_href:hover{
+            background: #208fff;
+          }
           a.down_href.disabled{
-            color: #cccccc;
+            color: #ccc;
+            background: #fff;
+          }
+          a.down_href.disabled:hover{
+            background: #fff;
           }
         }
         tr:hover{
