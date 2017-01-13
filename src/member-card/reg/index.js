@@ -139,7 +139,7 @@ var Main = PFT.Util.Class({
 		var mobileInp = $("#mobileInp");
 		var mobile = $.trim(mobileInp.val());
 		if(!mobile) return alert("请输入手机号");
-		if(Validate.Rules.mobile(mobile).isOk!==1) return alert("请输入正确格式手机号");
+		if(Validate.Rules.mobile(mobile).isOk!=1) return alert("请输入正确格式手机号");
 		Query_Vcode({
 			debug : Debug,
 			params : {
