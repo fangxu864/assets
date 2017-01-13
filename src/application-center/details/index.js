@@ -159,7 +159,7 @@ var Main = PFT.Util.Class({
             }
         //按钮文字部分
         if(status == 0){
-            $("#btn").text("免费试用").on("click",function () {
+            $("#btn").text("免费试用 ("+ data.free_day +"天)").on("click",function () {
                 if(topType == 2){
                     _this.checkIsTop(checkData);
                     return false
@@ -223,12 +223,13 @@ var Main = PFT.Util.Class({
             var showBox =  $("#message_box_close");
             showBox.find("#topName").text(topName);
             showBox.find("#secondAppName").text(data.name);
-        }else if(topType == 1 && showextime == 1 ){
-            var showBox =  $("#message_box_open");
-            showBox.find('.m-appname').text( data.name );
-            showBox.find("#begin_time").text(_this.changeTimeType(data.begin_time));
-            showBox.find("#expire_time").text(_this.changeTimeType(data.expire_time))
         }
+        // else if(topType == 1 && showextime == 1 ){
+        //     var showBox =  $("#message_box_open");
+        //     showBox.find('.m-appname').text( data.name );
+        //     showBox.find("#begin_time").text(_this.changeTimeType(data.begin_time));
+        //     showBox.find("#expire_time").text(_this.changeTimeType(data.expire_time))
+        // }
 
         $("#btn").mouseenter(function () {
             showBox && showBox.show().css({

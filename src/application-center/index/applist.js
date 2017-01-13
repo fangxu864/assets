@@ -131,7 +131,7 @@ var AppList = PFT.Util.Class({
 				if( type == 0 && list.length > 0 ){
 					that.CacheList(list,type,category);
 				}else if(type == 0 && list.length == 0 && that.tempIndexListBox == ""){
-					that.tempIndexListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>";	
+					that.tempIndexListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>";
 				}
 				if( type != 0 ){
 					switch (type){
@@ -271,9 +271,9 @@ var AppList = PFT.Util.Class({
         for(var i = 0;i<list.length;i++){
 
         	if(!this.memberID){
-        		this.memberID = list[i].member_id;	
+        		this.memberID = list[i].member_id;
         	}
-        	
+
         	var mid = list[i].module_id;
         	var open_num = list[i].open_num;
         	var icon_url = list[i].icon || "http://static.12301.cc/assets/build/images/appcenter/icons/default.png";
@@ -348,7 +348,7 @@ var AppList = PFT.Util.Class({
 							}else if(list[i].button_type == 1){//开通
 
 								if(list[i].flag_expire == 1){  //开通按钮但过期显示过期时间
-				        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'到期</span></div>' +
+                                    temp += '<div class="text-ellipsis"><span class="app-price"><em '+ (list[i].expiresoon?'class="c-warning"':'') +'>'+list[i].expire_time+'</em>到期</span></div>' +
 						            '<div class="app-btn-w">' +
 						               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
 								    '</div>' ;
@@ -360,7 +360,7 @@ var AppList = PFT.Util.Class({
 								}
 
 							}else if(list[i].button_type == 2){//使用
-			        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].expire_time+'到期</span></div>' +
+                                temp += '<div class="text-ellipsis"><span class="app-price"><em '+ (list[i].expiresoon?'class="c-warning"':'') +'>'+list[i].expire_time+'</em>到期</span></div>' +
 					            '<div class="app-btn-w">' +
 					               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
