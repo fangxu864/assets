@@ -120,8 +120,8 @@ var ParseTemplate = function(text, settings, oldSettings){
 		throw e;
 	}
 
-	var template = function(data) {
-		return render.call(this, data, _);
+	var template = function(data,cxt) {
+		return render.call(cxt || this, data, _);
 	};
 
 	// Provide the compiled source as a convenience for precompilation.

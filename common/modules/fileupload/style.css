@@ -12,5 +12,5 @@
 .fileuploadWrap .filebrowseBtn{ /*position:relative; top:11px;*/ overflow:hidden; margin-left:2px; vertical-align:top;}
 .fileuploadWrap .filebrowseBtn .fileuploadFileInp{ position:absolute; display:block; top:0; right:-5px; bottom:0; width:1000px; cursor:pointer; font-size:0; background:none; border:0 none}
 .fileuploadWrap .fileuploadBtn{ background:#f5530c; }
-.fileuploadWrap .fileuploadBtn:hover{ background:#ed4c06}
+.fileuploadWrap .fileuploadBtn:hover{ background:#ed4c06; text-decoration:none}
 .fileuploadWrap .fileuploadBtn.disable,.fileuploadWrap .fileuploadBtn.disable:hover{ background:#818181; cursor:pointer}
