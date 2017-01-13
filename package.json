@@ -125,7 +125,7 @@
     "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "application-center-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/webpack.config.js",
     "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
-    "pc-rebuild-start" : "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src-pc-rebuild/webpack.config.js"
+    "pc-rebuild-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src-pc-rebuild/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -150,6 +150,7 @@
     "compass-mixins": "^0.12.10",
     "css-loader": "^0.23.1",
     "cssnext-loader": "^1.0.1",
+    "echarts": "^3.4.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "fastclick": "^1.0.6",
     "file-loader": "^0.8.5",
