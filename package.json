@@ -4,6 +4,7 @@
   "description": "pft",
   "main": "webpack.config.js",
   "scripts": {
+    "doc" : "cd doc && idoc server",
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
     "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
