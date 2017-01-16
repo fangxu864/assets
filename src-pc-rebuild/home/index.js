@@ -6,14 +6,14 @@
 require("./index.scss");
 
 var UserInfo = require("./modules/userinfo");
-<<<<<<< HEAD
+
 var saleEchart = require("./modules/sale-echart");
 var wxShopData = require("./modules/wxshop-data");
-=======
+
 var RecentUse = require("./modules/recent-use");
 
 var SaleEchart = require("./modules/sale-echart");
->>>>>>> 6c2a1c594d23dc2c0bdb9f76a59266b6388c39ad
+
 
 var Main = PFT.Util.Class({
 	container : $("#G_Body"),
