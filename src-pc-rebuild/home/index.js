@@ -24,9 +24,7 @@ var Main = PFT.Util.Class({
 		this.userInfo = UserInfo(this.pageMain);
 		this.saleEchart = SaleEchart(this.pageMain);
 
-
 		this.recentUse = RecentUse(this.pageMain);
-
 
 	}
 });
