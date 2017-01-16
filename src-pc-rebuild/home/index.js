@@ -16,7 +16,7 @@ var SaleEchart = require("./modules/sale-echart");
 
 var PartnerChange = require("./modules/partner-change");
 
-var UpdateNotice = require("./modules/update-notice");
+var SystemNotice = require("./modules/system-notice");
 
 
 var Main = PFT.Util.Class({
@@ -37,7 +37,7 @@ var Main = PFT.Util.Class({
 		this.wxShopData = wxShopData(this.pageMain);
 		
 		this.partnerChange = PartnerChange(this.rightBar);
-		//this.updateNotice = UpdateNotice(this.rightBar);
+		this.systemNotice = SystemNotice(this.rightBar);
 
 	
 

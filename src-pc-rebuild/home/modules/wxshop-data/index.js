@@ -16,9 +16,7 @@ require('echarts/lib/component/title');
 require("./index.scss");
 var Tpl = require("./index.xtpl");
 module.exports = function(parent){
-
 	var container = $('<div id="wxShopDataBox" class="wxShopDataBox modBox"></div>').appendTo(parent);
-
 	var UserInfo = PFT.Util.Class({
 		container : container,
 		template : PFT.Util.ParseTemplate(Tpl),
