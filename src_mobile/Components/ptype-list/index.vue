@@ -202,6 +202,7 @@
 <style lang="sass">
     @import "COMMON/css/base/core/px2rem";
     @import "COMMON/css/base/iconfont.ptype.scss";
+    @import "COMMON/css/base/flex";
     #ptypeListContainer{ padding:px2rem(30) px2rem(16) 0 px2rem(16); border-bottom:10px solid #e5e5e5; background:#fff; overflow:hidden}
     #ptypeListContainer .state{
         height:3rem;
@@ -213,12 +214,15 @@
         text-align:left;
         font-size:0;
         width:100%;
+        @include flexbox;
+        @include flex-wrap(wrap)
     }
     #ptypeListContainer .ptypeBox{
-        display:inline-block;
+        /*display:inline-block;*/
         width:20%;
         text-align:center;
         margin-bottom:12px;
+
     }
     #ptypeListContainer .ptypeBoxCon{ display:block; width:100%}
     #ptypeListContainer .ptypeBox .iconBox{
