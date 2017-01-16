@@ -27,6 +27,7 @@ var Main = PFT.Util.Class({
 		this.container.append(this.inContainer);
 
 		this.userInfo = UserInfo(this.pageMain);
+		this.recentUse = RecentUse(this.pageMain);
 
 		this.saleEchart = saleEchart(this.pageMain);
 		this.wxShopData = wxShopData(this.pageMain);
@@ -34,10 +35,6 @@ var Main = PFT.Util.Class({
 
 
 
-		this.saleEchart = SaleEchart(this.pageMain);
-
-
-		this.recentUse = RecentUse(this.pageMain);
 
 	}
 });
