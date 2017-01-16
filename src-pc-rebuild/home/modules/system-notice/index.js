@@ -28,6 +28,9 @@ module.exports = function(parent){
             var html = Loading("努力加载中...");
             var container = this.container;
             Common.Ajax(Common.api.Home_HomeNotice.systemNotice,{
+                params : {
+                    size : 8,
+                },
                 loading : function(){
                     container.html(html);
                 },
@@ -38,6 +41,7 @@ module.exports = function(parent){
                     var msg = res.msg;
                     var data = res.data;
                     if(code == 200){
+
                         container.empty().append(Tpl);
                         var ul = $("#noticeList");
                         for(var i in data){

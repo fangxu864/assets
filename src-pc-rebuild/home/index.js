@@ -37,13 +37,6 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = saleEchart(this.pageMain);
 		this.wxShopData = wxShopData(this.pageMain);
-		
-		this.partnerChange = PartnerChange(this.rightBar);
-		this.systemNotice = SystemNotice(this.rightBar);
-
-	
-
-
 
 		this.saleEchart = SaleEchart(this.pageMain);
 
@@ -51,7 +44,10 @@ var Main = PFT.Util.Class({
 		this.recentUse = RecentUse(this.pageMain);
 
 		this.priceChange = PriceChange(this.rightBar);
-		this.priceChange = ProductChange(this.rightBar);
+		this.productChange = ProductChange(this.rightBar);
+
+		this.partnerChange = PartnerChange(this.rightBar);
+		this.systemNotice = SystemNotice(this.rightBar);
 
 
 

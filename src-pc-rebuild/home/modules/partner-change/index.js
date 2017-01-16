@@ -29,6 +29,9 @@ module.exports = function(parent){
             var html = Loading("努力加载中...");
             var container = this.container;
             Common.Ajax(Common.api.Home_HomeNotice.partnerChange,{
+                params : {
+                    size : 8,
+                },
                 loading : function(){
                     container.html(html);
                 },
