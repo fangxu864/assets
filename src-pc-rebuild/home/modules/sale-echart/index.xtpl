@@ -1,0 +1,70 @@
+<div class="title">
+    <i class="icon icon-pc-list icon-tongji"></i>
+    <span class="title-text">订单数据</span>
+</div>
+<div class="line line1">
+    <div class="today-box data-box">
+        <div class="lt">今<br/>日</div>
+        <div class="rt">
+            <table>
+                <tbody>
+                <tr>
+                    <td><span class="key">今日预订金额 : </span><span class="value">11606元</span></td>
+                    <td><span class="key">今日预订人数 : </span><span class="value">110人</span></td>
+                </tr>
+                <tr>
+                    <td><span class="key">今日检票金额 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日退票金额 : </span><span class="value">110人</span></td>
+                </tr>
+                <tr>
+                    <td><span class="key">今日检票数 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日退票数 : </span><span class="value">918</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="yesterday-box data-box">
+        <div class="lt">昨<br/>日</div>
+        <div class="rt">
+            <table>
+                <tbody>
+                <tr>
+                    <td><span class="key">今日预订金额 : </span><span class="value">11606元</span></td>
+                    <td><span class="key">今日预订人数 : </span><span class="value">110人</span></td>
+                </tr>
+                <tr>
+                    <td><span class="key">今日检票金额 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日退票金额 : </span><span class="value">110人</span></td>
+                </tr>
+                <tr>
+                    <td><span class="key">今日检票数 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日退票数 : </span><span class="value">918</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="clear" style="clear: both"></div>
+</div>
+<div class="line line2">
+    <div class="lineEchartControlBox">
+        <div class="td td1">
+            <span class="btn active">票数</span><span class="btn">金额</span>
+        </div>
+        <div class="td td3">
+            <input type="text" readonly="readonly"/>
+            <span style="margin: 0 5px;line-height: 30px;">至</span>
+            <input type="text" readonly="readonly"/>
+            <span class="btn active" style="margin-left: 10px;">确定</span>
+        </div>
+        <div class="td td2">
+            <span class="btn">近7日</span><span class="btn active">近30日</span><span class="btn">近90日</span>
+        </div>
+    </div>
+    <div id="lineEchart" class="lineEchart"></div>
+</div>
+<div class="line line3" >
+    <div class="lt" id="pieEchart" style="height: 500px;width: 500px;"></div>
+    <div class="rt" id="barEchart" style="height: 500px;width: 500px;"></div>
+</div>
