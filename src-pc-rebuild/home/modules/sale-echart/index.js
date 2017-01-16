@@ -34,20 +34,15 @@ module.exports = function(parent){
 			this.renderBarEchart();
 		},
 		EVENTS : {
-			"click #saleEchartBox .lineEchartControlBox .bTimeInp" : "onBTimeInpClick"
+			"click .lineEchartControlBox input" : "onTimeInpClick"
 		},
 		render : function(data){
+			var _this = this ;
+
+
 			var html = this.template(data || {
-					"name": "慢慢的店铺",   //账号名称
-					"cname" : "天地银行",   //公司名称
-					"type" : 1, //账号类型,0供应商,1分销商
-					'hasAuth' : 1, //是否认证
-					"remainMoney": 111,     //余额
-					"expireDate" : "2012-1-1",   //到期时间
-					"mobile": 123123123123,      //手机号
-					"abnormalOrder" : 12,    //异常订单  ,
-					"lastLogin" : "2012-1-1", //上次登陆时间
-					"avatar" : "http://images.12301.cc/123624/1452148699.png" //头像
+					"bTimeInpVal": _this.When.getSomeday(-7),   //账号名称
+					"eTimeInpVal": _this.When.getSomeday(0)
 				});
 			this.container.html(html);
 		},
@@ -223,6 +218,77 @@ module.exports = function(parent){
 			// 绘制图表
 			myChart.setOption(option);
 		},
+
+
+		/**
+		 * @events 时间input点击时间
+		 * @param e
+         */
+		onTimeInpClick : function(e){
+			var tarInp = $( e.currentTarget );
+			var d = new Date();
+			var today = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+			console.log(today);
+			//起始日期input
+			if( tarInp.hasClass("bTimeInp") ){
+				datepicker.show(tarInp.val(),{
+					picker : tarInp,              //必选
+					top : 0,                     //可选，相对偏移量
+					left : 0,                    //可选，相对偏移量
+					// min : "2016-09-10",          //可选，默认为空""
+					max : $(".lineEchartControlBox .eTimeInp").val(),          //可选，默认为空""
+					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
+					todayAfterDisable : false,   //可选，今天之后的日期都不显示
+				})
+			}else if( tarInp.hasClass("eTimeInp") ){
+				datepicker.show(tarInp.val(),{
+					picker : tarInp,              //必选
+					top : 0,                     //可选，相对偏移量
+					left : 0,                    //可选，相对偏移量
+					min : $(".lineEchartControlBox .bTimeInp").val(),          //可选，默认为空""
+					// max : "2016-09-20",          //可选，默认为空""
+					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
+					todayAfterDisable : false,   //可选，今天之后的日期都不显示
+				})
+			}
+			console.log(tarInp)
+
+		},
+
+
+		/**
+		 * @object 获取时间
+		 */
+		When : {
+			/**
+			 * @object 当前时间对象
+			 */
+			date : new Date() ,
+
+			/**
+			 * @method 获取当前时间戳
+			 * @returns {number}
+             */
+			curTimeStamp : function () {
+				return this.date.getTime();
+			},
+
+			/**
+			 * @method 获取某天 0 获取当天 -1获取昨天  1 获取明天
+			 * @param Num
+             * @returns {string}
+             */
+			getSomeday : function ( Num ) {
+				var _this = this ;
+				var dayNum = Number( Num );
+				var timeStamp = _this.curTimeStamp() + dayNum * 1000 * 60 * 60 * 24 ;
+				var date = new Date(timeStamp);
+				var month = ( date.getMonth() + 1 ).toString().length === 2 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1);
+				var day = date.getDate().toString().length === 2 ? date.getDate() : '0' + date.getDate();
+				return date.getFullYear() + '-' + month + '-' + day;
+			}
+		}
+
 	});
 
 

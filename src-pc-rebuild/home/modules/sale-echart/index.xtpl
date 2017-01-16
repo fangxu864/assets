@@ -57,9 +57,9 @@
             <span class="btn active">票数</span><span class="btn">金额</span>
         </div>
         <div class="td td3">
-            <input type="text" readonly="readonly" value="2017-01-03" class="bTimeInp"/>
+            <input type="text" readonly="readonly" value="<%=bTimeInpVal%>" class="bTimeInp"/>
             <span style="margin: 0 5px;line-height: 30px;">至</span>
-            <input type="text" readonly="readonly" value="2017-01-09"  class="eTimeInp"/>
+            <input type="text" readonly="readonly" value="<%=eTimeInpVal%>"  class="eTimeInp"/>
             <span class="btn active" style="margin-left: 10px;">确定</span>
         </div>
         <div class="td td2">
