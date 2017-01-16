@@ -35,161 +35,161 @@ window.iframe_name_index=0;
  * 账户余额设置的代码
  * 2017-01-03
  */
-// $(function () {
-//     var Dial_account_balance=new Dialog({
-//         width : 500,
-//         closeBtn : true,
-//         content : "",
-//         drag : true,
-//         speed : 200,
-//         events:{
-//             "click .btn_yes" : function (e) {
-//                 var tarBtn = $(e.currentTarget);
-//                 if(tarBtn.hasClass("disabled")) return false;
-//                 var fid = Dial_account_balance.container.find(".accountBalanceSettingInp").attr("fid");
-//                 var timeStamp = Dial_account_balance.container.find(".accountBalanceSettingInp").val();
-//                 timeStamp.replace(/\-/g ,'\/');
-//                 timeStamp = new Date(timeStamp).getTime() + 1000*60*60*16-1000;
-//                 timeStamp = Math.floor(timeStamp/1000);
-//                 $.ajax({
-//                     url: "/r/Member_ExpenseWarning/editMemberExpense",    //请求的url地址
-//                     dataType: "json",   //返回格式为json
-//                     async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-//                     data: {
-//                         limitTime : timeStamp ,
-//                         fid : fid
-//                     },    //参数值
-//                     type: "post",   //请求方式
-//                     timeout:10000,   //设置超时 10000毫秒
-//                     beforeSend: function() {
-//                         //请求前的处理
-//                         tarBtn.text("请求中...")
-//                             .addClass("disabled")
-//                     },
-//                     success: function(res) {
-//                         //请求成功时处理
-//                         if(res.code == 200) {
-//                             alert("配置成功!");
-//                             tarBtn.text("确认")
-//                                 .removeClass("disabled");
-//                             Dial_account_balance.close();
-//                         }else{
-//                             alert(res.code + ":" + res.msg);
-//                             tarBtn.text("确认")
-//                                 .removeClass("disabled")
-//                         }
-//                     },
-//                     complete: function(res,status) {
-//                         //请求完成的处理
-//                         if(status=="timeout"){
-//                             alert("请求超时");
-//                             tarBtn.text("确认")
-//                                 .removeClass("disabled")
-//                         }
-//                     },
-//                     error: function() {
-//                         //请求出错处理
-//                         alert("请求出错")
-//                     }
-//                 });
-//             }
-//
-//         }
-//     });
-//     //日历插件部分
-//     var Calendar = require("COMMON/modules/calendar");
-//     //日期的格式化
-//     Date.prototype.Format = function (fmt) {
-//         //输入格式字符串，然后替换字符串，就是这么简单！
-//         var o = {
-//             "M+": this.getMonth() + 1, //月份
-//             "d+": this.getDate(), //日
-//             "h+": this.getHours(), //小时
-//             "m+": this.getMinutes(), //分
-//             "s+": this.getSeconds(), //秒
-//             "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-//             "S": this.getMilliseconds() //毫秒
-//         };
-//         //RegExp.$1第一个 以括号为标志 的 子匹配字符串；
-//         if (/(y+)/i.test(fmt)) {
-//             fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-//         }
-//         for (var k in o){
-//             if (new RegExp("(" + k + ")").test(fmt)){
-//                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-//             }
-//         }
-//         return fmt;
-//     };
-//     var calendar_new = new Calendar();
-//     $("body").on("click", ".accountBalanceSettingInp",function(e){
-//         var _this = $(this);
-//         var initVal = _this.val() ;
-//         if(initVal){
-//             initVal= new Date(Date.parse(initVal.replace(/-/g,'/'))).Format('yyyy-MM-dd');
-//         }
-//         calendar_new.show(initVal,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
-//             picker : _this,              //页面上点击某个picker弹出日历(请使用input[type=text])
-//             top : 0,                       //日历box偏移量
-//             left : 0,                     //日历box偏移量
-//             // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
-//             // max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
-//             onBefore : function(){},     //弹出日历前callback
-//             onAfter : function(){}       //弹出日历后callback
-//         });
-//         return this;
-//     });
-//     $("body").on("click" , ".accountBalanceSettingBtn" ,function () {
-//         var fid = $(this).attr("data-id");
-//         $.ajax({
-//             url: "/r/Member_ExpenseWarning/getMemberExpense",    //请求的url地址
-//             dataType: "json",   //返回格式为json
-//             async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-//             data: { fid : fid},    //参数值
-//             type: "post",   //请求方式
-//             timeout:10000,   //设置超时 10000毫秒
-//             beforeSend: function() {
-//                 //请求前的处理
-//
-//             },
-//             success: function(res) {
-//                 //请求成功时处理
-//                 if(res.code == 200) {
-//                     var endDate ;
-//                     if(res.data){
-//                         endDate = res.data.effectivetime;
-//                         if(endDate == 0){
-//                             endDate = "";
-//                         }else{
-//                             d = new Date(Number(endDate)*1000);
-//                             endDate = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
-//                         }
-//                     }else{
-//                         endDate = "";
-//                     }
-//                     var html = template_of_accountBalance({
-//                         data : {
-//                             endDate :endDate ,
-//                             fid :fid
-//                         }
-//                     });
-//                     Dial_account_balance.container.find(".gSimpleDialog-content").html(html) ;
-//                     Dial_account_balance.open();
-//                 }
-//             },
-//             complete: function(res,status) {
-//                 //请求完成的处理
-//                 if(status=="timeout"){
-//                     alert("请求超时")
-//                 }
-//             },
-//             error: function() {
-//                 //请求出错处理
-//                 alert("请求出错")
-//             }
-//         });
-//     })
-// });
+$(function () {
+    var Dial_account_balance=new Dialog({
+        width : 500,
+        closeBtn : true,
+        content : "",
+        drag : true,
+        speed : 200,
+        events:{
+            "click .btn_yes" : function (e) {
+                var tarBtn = $(e.currentTarget);
+                if(tarBtn.hasClass("disabled")) return false;
+                var fid = Dial_account_balance.container.find(".accountBalanceSettingInp").attr("fid");
+                var timeStamp = Dial_account_balance.container.find(".accountBalanceSettingInp").val();
+                timeStamp.replace(/\-/g ,'\/');
+                timeStamp = new Date(timeStamp).getTime() + 1000*60*60*16-1000;
+                timeStamp = Math.floor(timeStamp/1000);
+                $.ajax({
+                    url: "/r/Member_ExpenseWarning/editMemberExpense",    //请求的url地址
+                    dataType: "json",   //返回格式为json
+                    async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                    data: {
+                        limitTime : timeStamp ,
+                        fid : fid
+                    },    //参数值
+                    type: "post",   //请求方式
+                    timeout:10000,   //设置超时 10000毫秒
+                    beforeSend: function() {
+                        //请求前的处理
+                        tarBtn.text("请求中...")
+                            .addClass("disabled")
+                    },
+                    success: function(res) {
+                        //请求成功时处理
+                        if(res.code == 200) {
+                            alert("配置成功!");
+                            tarBtn.text("确认")
+                                .removeClass("disabled");
+                            Dial_account_balance.close();
+                        }else{
+                            alert(res.code + ":" + res.msg);
+                            tarBtn.text("确认")
+                                .removeClass("disabled")
+                        }
+                    },
+                    complete: function(res,status) {
+                        //请求完成的处理
+                        if(status=="timeout"){
+                            alert("请求超时");
+                            tarBtn.text("确认")
+                                .removeClass("disabled")
+                        }
+                    },
+                    error: function() {
+                        //请求出错处理
+                        alert("请求出错")
+                    }
+                });
+            }
+
+        }
+    });
+    //日历插件部分
+    var Calendar = require("COMMON/modules/calendar");
+    //日期的格式化
+    Date.prototype.Format = function (fmt) {
+        //输入格式字符串，然后替换字符串，就是这么简单！
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        //RegExp.$1第一个 以括号为标志 的 子匹配字符串；
+        if (/(y+)/i.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        for (var k in o){
+            if (new RegExp("(" + k + ")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        return fmt;
+    };
+    var calendar_new = new Calendar();
+    $("body").on("click", ".accountBalanceSettingInp",function(e){
+        var _this = $(this);
+        var initVal = _this.val() ;
+        if(initVal){
+            initVal= new Date(Date.parse(initVal.replace(/-/g,'/'))).Format('yyyy-MM-dd');
+        }
+        calendar_new.show(initVal,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+            picker : _this,              //页面上点击某个picker弹出日历(请使用input[type=text])
+            top : 0,                       //日历box偏移量
+            left : 0,                     //日历box偏移量
+            // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
+            // max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+            onBefore : function(){},     //弹出日历前callback
+            onAfter : function(){}       //弹出日历后callback
+        });
+        return this;
+    });
+    $("body").on("click" , ".accountBalanceSettingBtn" ,function () {
+        var fid = $(this).attr("data-id");
+        $.ajax({
+            url: "/r/Member_ExpenseWarning/getMemberExpense",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: { fid : fid},    //参数值
+            type: "post",   //请求方式
+            timeout:10000,   //设置超时 10000毫秒
+            beforeSend: function() {
+                //请求前的处理
+
+            },
+            success: function(res) {
+                //请求成功时处理
+                if(res.code == 200) {
+                    var endDate ;
+                    if(res.data){
+                        endDate = res.data.effectivetime;
+                        if(endDate == 0){
+                            endDate = "";
+                        }else{
+                            d = new Date(Number(endDate)*1000);
+                            endDate = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+                        }
+                    }else{
+                        endDate = "";
+                    }
+                    var html = template_of_accountBalance({
+                        data : {
+                            endDate :endDate ,
+                            fid :fid
+                        }
+                    });
+                    Dial_account_balance.container.find(".gSimpleDialog-content").html(html) ;
+                    Dial_account_balance.open();
+                }
+            },
+            complete: function(res,status) {
+                //请求完成的处理
+                if(status=="timeout"){
+                    alert("请求超时")
+                }
+            },
+            error: function() {
+                //请求出错处理
+                alert("请求出错")
+            }
+        });
+    })
+});
 
 
 $(".search_form #search_kind a").click(function(){
