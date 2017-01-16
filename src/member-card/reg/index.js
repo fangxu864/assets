@@ -281,7 +281,7 @@ var Main = PFT.Util.Class({
 	},
 	//初始化省市联动
 	initProvCity : function(data){
-		var province = data.province || "";
+		var province = data.province || "1";
 		var city = data.city || "";
 		var ProvCitySelect = this.ProvCitySelect = new ProvCity({
 			provId : "#provSelect",
