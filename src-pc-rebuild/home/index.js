@@ -7,6 +7,7 @@ require("./index.scss");
 
 var UserInfo = require("./modules/userinfo");
 var saleEchart = require("./modules/sale-echart");
+var wxShopData = require("./modules/wxshop-data");
 
 var Main = PFT.Util.Class({
 	container : $("#G_Body"),
@@ -21,6 +22,7 @@ var Main = PFT.Util.Class({
 
 		this.userInfo = UserInfo(this.pageMain);
 		this.saleEchart = saleEchart(this.pageMain);
+		this.wxShopData = wxShopData(this.pageMain);
 
 
 
