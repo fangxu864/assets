@@ -34,9 +34,9 @@ var HeaderWarning={
         /**
          * 走马灯的判断
          */
-        if( _this.judge_of_overTime == 0 || /201|202|203|204/.test(_this.judge_of_account_balance) ){
-            //如果账户临近过期
-            if(_this.judge_of_overTime == 0 ){
+        if( /0|\-1/.test(_this.judge_of_overTime) || /201|202|203|204/.test(_this.judge_of_account_balance) ){
+            //如果账户临近过期或已过期
+            if( /0|\-1/.test(_this.judge_of_overTime) ){
                 //平台续费html
                 var xufei_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/new/renewwarning.html">续费</a>'}});
                 _this.loopTip(xufei_tpl , "0")
@@ -174,8 +174,8 @@ var HeaderWarning={
         },
         "204": {
             "title":"账户余额提醒",
-            "content":" 您好，您的账户余额已欠费，请您及时充值，以免影响使用！",
-            "isBtn_close":true ,
+            "content":" 您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢！",
+            "isBtn_close": false ,
             "dialog_type": "recharge"
         }
     },
@@ -190,7 +190,7 @@ var HeaderWarning={
         "201" : "亲爱的用户,您的票付通平台账户余额已不足200元 ,请及时充值余额, 以免影响您帐号的正常使用",
         "202" : "亲爱的用户, 您的票付通平台账户余额已低于0元, 请于7天内及时充值余额, 否则将无法正常使用",
         "203" : "您好，您的账户余额已欠费，请您及时充值，以免影响使用！",
-        "204" : "亲爱的用户,您的票付通平台账户余额已欠费，无法正常使用，请您先缴清欠费，谢谢！"
+        "204" : " 您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢！"
     },
 
 
