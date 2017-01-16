@@ -319,7 +319,7 @@ var Main = PFT.Util.Class({
 					complete : function(){ tarBtn.text("取消订单").removeClass("disable")},
 					success : function(res,code){
 						var msg = res.msg || "取消成功";
-						this.Detail.clearCache(ordernum);
+						that.Detail.clearCache(ordernum);
 						Alert(msg);
 						var status_text = code==200 ? "已取消" : "退票中";
 						if(type=="detail"){
