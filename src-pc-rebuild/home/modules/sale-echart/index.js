@@ -14,6 +14,9 @@ require('echarts/lib/component/legend');
 require('echarts/lib/component/tooltip');
 require('echarts/lib/component/title');
 
+var Datepicker = require("COMMON/modules/datepicker");
+var datepicker = new Datepicker();
+
 require("./index.scss");
 var Tpl = require("./index.xtpl");
 module.exports = function(parent){
@@ -29,6 +32,9 @@ module.exports = function(parent){
 			this.renderLineEchart();
 			this.renderPieEchart();
 			this.renderBarEchart();
+		},
+		EVENTS : function () {
+			"click #saleEchartBox .lineEchartControlBox" : ""
 		},
 		render : function(data){
 			var html = this.template(data || {
