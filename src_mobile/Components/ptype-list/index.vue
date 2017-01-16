@@ -215,14 +215,13 @@
         font-size:0;
         width:100%;
         @include flexbox;
-        @include flex-wrap(wrap)
+        @include flex-wrap(wrap);
+        @include justify-content(space-around)
     }
     #ptypeListContainer .ptypeBox{
-        /*display:inline-block;*/
         width:20%;
         text-align:center;
         margin-bottom:12px;
-
     }
     #ptypeListContainer .ptypeBoxCon{ display:block; width:100%}
     #ptypeListContainer .ptypeBox .iconBox{

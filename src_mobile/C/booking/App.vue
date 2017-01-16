@@ -12,6 +12,7 @@
                     :click="onBeginTimeInputClick"
                     :label-width="'80px'"
                     :icon="'rili'"
+                    :icon-click="onBeginTimeIconClick"
                     :placeholder="'请选择日期'">
             </input-line>
             <input-line
@@ -405,6 +406,10 @@
             onBeginTimeInputClick(e){
                 this.calendar.show = true;
                 this.calendar.yearmonth = e.target.value;
+            },
+            onBeginTimeIconClick(e){
+                this.calendar.show = true;
+                this.calendar.yearmonth = this.calendar.date;
             },
             onChangciInputClick(e){
                 this.showPuct.sheetShow = true;
