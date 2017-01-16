@@ -47,15 +47,19 @@
     </div>
     <div class="clear" style="clear: both"></div>
 </div>
+<div class="title">
+<i class="icon icon-pc-list icon-tongji"></i>
+<span class="title-text">最近销售趋势</span>
+</div>
 <div class="line line2">
     <div class="lineEchartControlBox">
         <div class="td td1">
             <span class="btn active">票数</span><span class="btn">金额</span>
         </div>
         <div class="td td3">
-            <input type="text" readonly="readonly"/>
+            <input type="text" readonly="readonly" value="2017-01-03" class="bTimeInp"/>
             <span style="margin: 0 5px;line-height: 30px;">至</span>
-            <input type="text" readonly="readonly"/>
+            <input type="text" readonly="readonly" value="2017-01-09"  class="eTimeInp"/>
             <span class="btn active" style="margin-left: 10px;">确定</span>
         </div>
         <div class="td td2">

@@ -46,9 +46,9 @@ module.exports = function(parent){
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = echarts.init(document.getElementById('wxShopLineEchart'));
 			var option = {
-				title: {
-					text: '最近销售趋势'
-				},
+				// title: {
+				// 	text: '最近销售趋势'
+				// },
 				tooltip : {
 					trigger: 'axis'
 				},
