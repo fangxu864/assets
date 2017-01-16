@@ -85,10 +85,14 @@
                 width:88px;
             }
         }
+        .lineEchart{
+            height :500px;
+            width : 100%
+        }
     }
     .line3{
         width: 100%;
-       display: flex;
+        display: flex;
         justify-content: space-around;
         .lt , .rt{
             height: 500px;

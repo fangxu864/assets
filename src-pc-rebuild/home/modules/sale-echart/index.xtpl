@@ -62,7 +62,7 @@
             <span class="btn">近7日</span><span class="btn active">近30日</span><span class="btn">近90日</span>
         </div>
     </div>
-    <div id="lineEchart" style="height: 500px;width: 100%;"></div>
+    <div id="lineEchart" class="lineEchart"></div>
 </div>
 <div class="line line3" >
     <div class="lt" id="pieEchart" style="height: 500px;width: 500px;"></div>
