@@ -1,0 +1,57 @@
+
+
+
+#ProductChangeBox{
+	background : #fff;
+	border:1px solid #e8e8e8;
+	margin-bottom : 24px;
+
+	.infoTop{
+		height : 42px;
+		line-height: 42px;
+		color : #858585;
+		border-bottom: 1px solid #e8e8e8;
+
+		.infoIcon{
+			display : inline-block;
+			height : 15px;
+			width: 15px;
+			margin-left : 10px;
+			background : #123456;
+			vertical-align : middle;
+		}
+		.title{
+			margin-left : 10px;
+		}
+		.moreBtn{
+			float : right;
+			cursor: pointer;
+		}
+	}
+
+	.infoList{
+		.item{
+			height : 40px;
+			line-height : 40px;
+			border-bottom : 1px solid #e8e8e8; 
+			.changeInfo{
+				display : inline-block;
+				width:230px; 
+				white-space:nowrap; 
+				text-overflow:ellipsis; 
+				overflow:hidden;
+				padding-left : 10px;
+				color : #4c4e53;
+			}
+			.upOrDown{
+				margin-right: 10px;
+				margin-top: 12px;
+				display : inline-block;
+				height : 15px;
+				width : 15px;
+				background : #123456;
+				float : right;
+			}
+		}
+	}
+}

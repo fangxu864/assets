@@ -8,16 +8,15 @@ var Tpl = require("./index.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
 module.exports = function(parent){
 
-    var container = $('<div id="PartnerChangeBox" class="PartnerChangeBox barBox"></div>').appendTo(parent);
+    var container = $('<div id="SystemNoticeBox" class="SystemNoticeBox barBox"></div>').appendTo(parent);
     //var container = Tpl.appendTo(parent);
 
-    var PartnerChange = PFT.Util.Class({
+    var SystemNotice = PFT.Util.Class({
         //debug : true,
         container : container,
         //template : PFT.Util.ParseTemplate(Tpl),
         init : function(){
             this.fetch();
-            console.log(this.container)
         },
         render : function(data){
              // var html = this.template(data);
@@ -28,7 +27,7 @@ module.exports = function(parent){
             var that = this;
             var html = Loading("努力加载中...");
             var container = this.container;
-            Common.Ajax(Common.api.Home_HomeNotice.partnerChange,{
+            Common.Ajax(Common.api.Home_HomeNotice.systemNotice,{
                 params : {
                     size : 8,
                 },
@@ -42,18 +41,13 @@ module.exports = function(parent){
                     var msg = res.msg;
                     var data = res.data;
                     if(code == 200){
+
                         container.empty().append(Tpl);
-                        var ul = $("#partnerList");
+                        var ul = $("#noticeList");
                         for(var i in data){
-                            if (i == "toAdd"){
-                                var li =$('<li>您添加了<em class="blue">'+data[i]+'</em>个分销商 <a href="">点击查看</a> </li>')
-                            }else if (i == "toDel"){
-                                var li =$('<li>您删除<em class="orange">'+data[i]+'</em>个分销商 <a href="">点击查看</a> </li>')
-                            }else if (i == "beAdd"){
-                                var li =$('<li><em class="blue">'+data[i]+'</em>个供应商添加了您 <a href="">点击查看</a> </li>')
-                            }else if(i == "beDel"){
-                                var li =$('<li><em class="orange">'+data[i]+'</em>个供应商删除了您 <a href="">点击查看</a> </li>')
-                            }
+                            var li =$('<li><span class="noticeTitle">'+data[i].title+'</span><span class="noticeTime">'+data[i].create_time+'</span></li>')
+                            li.attr("title",data[i].title);
+                            li.attr("id",data[i].id);
                             ul.append(li)
                         }
                     }else{
@@ -66,7 +60,7 @@ module.exports = function(parent){
         }
     });
 
-    return new PartnerChange;
+    return new SystemNotice;
 };
 
 

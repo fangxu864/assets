@@ -1,4 +1,4 @@
-.PartnerChangeBox{
+.SystemNoticeBox{
   background: white;
   display: inline-block;
   float: left;
@@ -6,6 +6,7 @@
   .title{
     i{
       font-weight: normal;
+      font-size: 22px;
     }
     color: #858585;
     font-weight: bold;
@@ -18,7 +19,7 @@
     }
   }
 
-  #partnerList{
+  #noticeList{
     li{
       height: 34px;
       line-height: 34px;
@@ -26,20 +27,17 @@
       overflow: hidden;
       padding-left: 20px;
       padding-right: 26px;
-      a{
+      .noticeTitle{
+        display: inline-block;
+        white-space:nowrap;
+        word-break:keep-all;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        width: 120px;
+      }
+      .noticeTime{
         float: right;
-        text-decoration: none;
-        clear: right;
       }
-      .orange{
-        color: #ff7110;
-        padding: 0 3px;
-      }
-      .blue{
-        color: #0080cc;
-        padding: 0 3px;
-      }
-
     }
   }
 }
