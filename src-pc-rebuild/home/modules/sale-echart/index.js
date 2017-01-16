@@ -33,8 +33,8 @@ module.exports = function(parent){
 			this.renderPieEchart();
 			this.renderBarEchart();
 		},
-		EVENTS : function () {
-			"click #saleEchartBox .lineEchartControlBox" : ""
+		EVENTS : {
+			"click #saleEchartBox .lineEchartControlBox .bTimeInp" : "onBTimeInpClick"
 		},
 		render : function(data){
 			var html = this.template(data || {
