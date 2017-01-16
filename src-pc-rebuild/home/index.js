@@ -14,6 +14,8 @@ var RecentUse = require("./modules/recent-use");
 
 var SaleEchart = require("./modules/sale-echart");
 
+var PriceChange = require("./modules/price-change");
+var ProductChange = require("./modules/product-change");
 var PartnerChange = require("./modules/partner-change");
 
 var SystemNotice = require("./modules/system-notice");
@@ -40,6 +42,16 @@ var Main = PFT.Util.Class({
 		this.systemNotice = SystemNotice(this.rightBar);
 
 	
+
+
+
+		this.saleEchart = SaleEchart(this.pageMain);
+
+
+		this.recentUse = RecentUse(this.pageMain);
+
+		this.priceChange = PriceChange(this.rightBar);
+		this.priceChange = ProductChange(this.rightBar);
 
 
 

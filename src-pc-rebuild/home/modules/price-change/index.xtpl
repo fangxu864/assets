@@ -1,0 +1,13 @@
+<div class="infoTop">
+	<i class="infoIcon"></i>
+	<span class="title">产品价格变动信息</span>
+	<a class="moreBtn">更多》</a>
+</div>
+<ul class="infoList">
+	<% _.each( data, function( item, index ){ %>
+	<li class="item">
+		<a class="changeInfo" title="<%=item.landName%>+<%=item.proName%>+<%=item.time%>"><%=item.landName%>+<%=item.proName%>+<%=item.time%></a>
+		<span class="changePrice" id="changePrice"><%=item.diff%></span>
+	</li>
+	<%})%>
+</ul>
