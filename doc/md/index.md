@@ -1,3 +1,29 @@
+
+## 开发规范
+> 1. 文件夹命名不允许用驼峰或 "_" ，一律采用 "project" 或 "project-name"
+> 2. css命名一律采用驼峰写法：如scrollWrap，不推荐scroll_wrap或scroll-wrap
+> 3. 每一个项目或模块下，默认的入口文件名：index.js，置于项目的根目录下，默认css入口文件：index.scss，默认模板入口文件：index.xtpl
+> 4. require common里的公共组件或方法时，必须写在文件开头且赋值给变量时，首字母必须大写
+
+```js
+//推荐写法：
+var ParseTemplate = PFT.Util.ParseTemplate;
+var ParseTemplate = require("COMMON/js/util.ParseTemplate");
+var Datepicker = require("COMMON/modules/datepicker");
+
+//不推荐写法：
+var parseTemplate = require("COMMON/js/util.ParseTemplate");
+var parse_template = require("COMMON/js/util.ParseTemplate");
+var date-picker = require("COMMON/modules/datepicker");
+
+```
+
+
+
+
+
+
+
 ## 安装
 ### 安装编译环境
 到[nodejs官网](https://nodejs.org/) 下载nodejs并安装,推荐下载v4.x版本，比较稳定。
