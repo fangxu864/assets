@@ -14,6 +14,9 @@ var RecentUse = require("./modules/recent-use");
 
 var SaleEchart = require("./modules/sale-echart");
 
+var PriceChange = require("./modules/price-change");
+var ProductChange = require("./modules/product-change");
+
 
 var Main = PFT.Util.Class({
 	container : $("#G_Body"),
@@ -38,6 +41,11 @@ var Main = PFT.Util.Class({
 
 
 		this.recentUse = RecentUse(this.pageMain);
+
+		this.priceChange = PriceChange(this.rightBar);
+		this.priceChange = ProductChange(this.rightBar);
+
+
 
 	}
 });
