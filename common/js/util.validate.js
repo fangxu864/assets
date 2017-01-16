@@ -1,4 +1,7 @@
 var Validate = {
+	require : function(value){
+		return !!value;
+	},
 	//非空
 	noBlank: function( value ){
 		return !!value;
