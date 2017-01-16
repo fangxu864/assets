@@ -34,7 +34,7 @@ var HeaderWarning={
         /**
          * 走马灯的判断
          */
-        if( /0|\-1/.test(_this.judge_of_overTime) || /201|202|203|204/.test(_this.judge_of_account_balance) ){
+        if( /0|\-1/.test(_this.judge_of_overTime) || /201|202|203|204|205|206/.test(_this.judge_of_account_balance) ){
             //如果账户临近过期或已过期
             if( /0|\-1/.test(_this.judge_of_overTime) ){
                 //平台续费html
@@ -42,7 +42,7 @@ var HeaderWarning={
                 _this.loopTip(xufei_tpl , "0")
             }
             //如果账户余额接近不足
-            else if(/201|202|203|204/.test(_this.judge_of_account_balance)){
+            else if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
                 //平台充值的html
                 var charge_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/recharge.html">充值</a>'}});
                 _this.loopTip(charge_tpl , _this.judge_of_account_balance)
@@ -53,7 +53,7 @@ var HeaderWarning={
         /**
          * 弹框提示的判断
          */
-        if( /0|-1/.test(_this.judge_of_overTime) || /201|202|203|204/.test(_this.judge_of_account_balance) ){
+        if( /0|-1/.test(_this.judge_of_overTime) || /201|202|203|204|205|206/.test(_this.judge_of_account_balance) ){
             if(isDialog){
                 //账户临近过期设置cookie,一天只提醒一次
                 if(this.judge_of_overTime == "0"){
@@ -71,7 +71,7 @@ var HeaderWarning={
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
                 //如果账户余额接近不足
-                if(/201|202|203|204/.test(_this.judge_of_account_balance)){
+                if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
                     //弹框每天只提醒一次，使用cookie控制
                     var isDialog_cookie_ac = _this.getCookie("isDialog_of_judge_account_balance");
                     if(isDialog_cookie_ac == "false") return false;
@@ -95,6 +95,8 @@ var HeaderWarning={
 
     /**
      * @property判断账户余额情况
+     * | 206    |  int   |  欠费超过200元  停止使用 只能进入充值页面|
+     * | 205    |  int   |  欠费超过7天  停止使用 只能进入充值页面|
      * | 204    |  int   |  超出自定义设置时间  停止使用 只能进入充值页面|
      * | 203    |  int   |  在欠费时长内继续使用  给前端提示 可以继续使用|
      * | 202    |  int   |  今日提醒 小于0元 大于-200|
@@ -174,7 +176,19 @@ var HeaderWarning={
         },
         "204": {
             "title":"账户余额提醒",
+            "content":" 您好，您的账户欠费已超过最大时限，无法正常使用，请您先缴清欠费，谢谢！",
+            "isBtn_close": false ,
+            "dialog_type": "recharge"
+        },
+        "205": {
+            "title":"账户余额提醒",
             "content":" 您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢！",
+            "isBtn_close": false ,
+            "dialog_type": "recharge"
+        },
+        "206": {
+            "title":"账户余额提醒",
+            "content":" 您好，您的账户欠费已超过200元达到上限，无法正常使用，请您先缴清欠费，谢谢！",
             "isBtn_close": false ,
             "dialog_type": "recharge"
         }
@@ -190,7 +204,9 @@ var HeaderWarning={
         "201" : "亲爱的用户,您的票付通平台账户余额已不足200元 ,请及时充值余额, 以免影响您帐号的正常使用",
         "202" : "亲爱的用户, 您的票付通平台账户余额已低于0元, 请于7天内及时充值余额, 否则将无法正常使用",
         "203" : "您好，您的账户余额已欠费，请您及时充值，以免影响使用！",
-        "204" : " 您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢！"
+        "204" : " 您好，您的账户欠费已超过最大时限，无法正常使用，请您先缴清欠费，谢谢！",
+        "205" : " 您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢！",
+        "206" : " 您好，您的账户欠费已超过200元达到上限，无法正常使用，请您先缴清欠费，谢谢！"
     },
 
 
