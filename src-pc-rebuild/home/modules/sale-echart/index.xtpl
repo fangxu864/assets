@@ -47,6 +47,10 @@
     </div>
     <div class="clear" style="clear: both"></div>
 </div>
+<div class="title">
+<i class="icon icon-pc-list icon-tongji"></i>
+<span class="title-text">最近销售趋势</span>
+</div>
 <div class="line line2">
     <div class="lineEchartControlBox">
         <div class="td td1">
