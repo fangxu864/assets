@@ -42,9 +42,59 @@ var form = new Form({
 	submit : "api.12301.cc/r/c/a"
 });
 
-var result  = form.validate();
+
+var result  = form.valid();
 if(result.isOk){
 	//submit()
 }else{
 	console.log(result.msg,result,code);
 }
+
+
+
+var d = new Validator({
+	container : $("#form"),
+	field : [{
+		target : textInp,
+		rule : "require,mobile",
+		event : "blur",
+		ok : function(){},
+		fail : function(msg,code){
+
+		}
+	}]
+});
+
+
+
+
+
+function Validator(opt){
+	//无new实例化
+	if(!this instanceof Validator) return new Validator(opt);
+	this.field = opt.field || [];
+	this.container = opt.container || null;
+}
+Validator.prototype = {
+	__init : function(){},
+	__valid : function(opt){
+
+	}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
