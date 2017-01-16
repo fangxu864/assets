@@ -1,0 +1,14 @@
+
+    <div class="title_side">
+        <i class="icon icon-pc-list icon-tongji"></i>
+        <span>7天合作伙伴变动</span>
+        <a href="" class="more">更多></a>
+    </div>
+    <div>
+        <ul id="partnerList">
+            <li>
+                <em  class="red">36</em>个<em>供应商</em><em>添加</em>了您
+                <a href="">点击查看</a>
+            </li>
+        </ul>
+    </div>

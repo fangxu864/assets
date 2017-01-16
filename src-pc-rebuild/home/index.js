@@ -14,6 +14,10 @@ var RecentUse = require("./modules/recent-use");
 
 var SaleEchart = require("./modules/sale-echart");
 
+var PartnerChange = require("./modules/partner-change");
+
+var UpdateNotice = require("./modules/update-notice");
+
 
 var Main = PFT.Util.Class({
 	container : $("#G_Body"),
@@ -31,8 +35,11 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = saleEchart(this.pageMain);
 		this.wxShopData = wxShopData(this.pageMain);
+		
+		this.partnerChange = PartnerChange(this.rightBar);
+		//this.updateNotice = UpdateNotice(this.rightBar);
 
-
+	
 
 
 

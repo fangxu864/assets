@@ -1,0 +1,25 @@
+.PartnerChangeBox{
+  background: white;
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+  .more{
+    float: right;
+  }
+  #partnerList{
+    li{
+      height: 34px;
+      line-height: 34px;
+      margin-left: 20px;
+      margin-right: 28px;
+      border-bottom: 1px solid #e8e8e8;
+      overflow: hidden;
+      a{
+        float: right;
+        text-decoration: none;
+        clear: right;
+      }
+
+    }
+  }
+}
