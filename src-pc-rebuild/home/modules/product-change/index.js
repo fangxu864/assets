@@ -52,9 +52,13 @@ module.exports = function(parent){
 			$("#ProductChangeBox .upOrDown").each(function(){
 				var type = $(this).attr("data-status");
 				if(type == "1"){
-					$(this).css("background","#0796D8");
+					// $(this).css("background","#0796D8");
+					$(this).addClass("icon-shangjia");
+					$(this).css("color","#0396DB");
 				}else if(type == "2"){
-					$(this).css("background","#F37138");
+					$(this).addClass("icon-xiajia");
+					// $(this).css("background","#F37138");
+					$(this).css("color","#EF7743");
 				}
 			});
 		}
