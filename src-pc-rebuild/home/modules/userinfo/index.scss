@@ -15,7 +15,7 @@
     .rtBox{
         float:left;
         .line{ margin-bottom:10px}
-        .line.mid{ margin-bottom:6px}
+        .line.mid{ margin-bottom:7px}
         .line.top{ margin-top:7px }
         .flag{ margin-left:10px}
         .dname{ font-size:14px; font-weight:bold;}
@@ -25,11 +25,19 @@
             &:hover{ background-color:#ec6022}
         }
         .lastLoginTime{ color:lighten(#000,65%); margin-left:10px}
-        .auth,.dtype{ display:inline-block; padding:2px 8px; border-width:1px; border-style:solid}
+        .auth,.dtype{ display:inline-block; padding:2px 5px; border-width:1px; border-style:solid}
+        .dtype{ 
+            padding-left: 0;
+            .fl{ color: #fff; padding:0 2px; margin-right: 5px}
+        }
         .auth_0{ border-color:#e12424; color:#e12424}
         .auth_1{ border-color:#3eba40; color:#3eba40}
-        .dtype_1{ border-color:#f37138; color:#f37138}
-        .dtype_2{ border-color:#258cc9; color:#258cc9}
+        .dtype_0{ border-color:#f37138; color:#f37138; 
+            .fl{ background-color:#f37138; }
+        }
+        .dtype_1{ border-color:#258cc9; color:#258cc9;
+            .fl{ background-color: #258cc9 }
+        }
     }
 
     .bot{

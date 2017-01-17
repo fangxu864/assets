@@ -12,12 +12,11 @@ module.exports = function(parent){
 	var container = $('<div id="UserInfoBox" class="UserInfoBox modBox"></div>').appendTo(parent);
 
 	var UserInfo = PFT.Util.Class({
-		debug : true,
+		debug : false,
 		container : container,
 		template : PFT.Util.ParseTemplate(Tpl),
 		init : function(){
 			this.fetch();
-			console.log(this.container)
 		},
 		render : function(data){
 			var html = this.template(data);
@@ -40,7 +39,7 @@ module.exports = function(parent){
 						"expireDate" : "2012-1-1",   //到期时间
 						"mobile": 123123123123,      //手机号
 						"abnormalOrder" : 12,    //异常订单  ,
-						"lastLogin" : "2012-1-1", //上次登陆时间
+						"lastLoign" : "2012-1-1", //上次登陆时间
 						"avatar" : "http://images.12301.cc/123624/1452148699.png" //头像
 					});
 				},1000);
