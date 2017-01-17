@@ -10,7 +10,7 @@
                 <li>暂无相关通知</li>
             <%}else{%>
                 <% $.each(data,function(index,value){     %>
-                    <li><span class="noticeTitle"><%=value.title%></span><span class="noticeTime"><%=value.create_time%></span></li>
+                    <li><span class="noticeTitle" id="<%=value.id%>" title="<%=value.title%>"><%=value.title%></span><span class="noticeTime"><%=value.create_time%></span></li>
                 <% }) %>
             <%}%>
         </ul>
