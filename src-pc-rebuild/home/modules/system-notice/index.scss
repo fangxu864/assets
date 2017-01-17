@@ -13,9 +13,10 @@
     height: 42px;
     border-bottom: 1px solid #e8e8e8;
     line-height: 42px;
-    padding: 0 10px;
+    padding: 0 0 0 10px;
     .more{
       float: right;
+      font-weight: normal;
     }
   }
 
@@ -25,8 +26,7 @@
       line-height: 34px;
       border-bottom: 1px solid #e8e8e8;
       overflow: hidden;
-      padding-left: 20px;
-      padding-right: 26px;
+      padding: 0 10px;
       .noticeTitle{
         display: inline-block;
         white-space:nowrap;
