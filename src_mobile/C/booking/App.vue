@@ -206,7 +206,7 @@
                 p_type : "",
                 needID : -1,
                 calendar : {
-                    date : CalendarCore.gettoday(),
+                    date : "",
                     yearmonth : "",
                     show : false
                 },
@@ -282,6 +282,10 @@
                          //this.calendar.date=data.validTime.match(/[\d\-]+/)[0]
                     //}
                     this.needID = data.needID;
+
+                    //现在开始日期也从服务端返回 2017-01-17
+                    this.calendar.date = data.startDate;
+
                     this.ticketList = this.adaptListData(data.tickets);
                     if(data.assStation){
                         var assStationMenus = {};
