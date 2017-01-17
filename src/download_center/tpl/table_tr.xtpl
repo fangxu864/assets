@@ -10,7 +10,7 @@
     <td class="th1"><%=item.excel_type.desc%></td>
     <td class="th2"><%=item.create_time%></td>
     <td class="th3"><%=doneCode[item.done]%></td>
-    <td class="th4"><%=item.download%>下载次数</td>
+    <td class="th4"><%=item.download%>次</td>
     <td class="th6">
         <a class="down_href <%=item.done == 3? '' : 'disabled'%>"  href="javascript:void(0)" data-id="<%=item.id%>">下载</a>
     </td>
