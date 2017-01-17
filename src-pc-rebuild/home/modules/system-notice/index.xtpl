@@ -6,6 +6,8 @@
     </div>
     <div>
         <ul id="noticeList">
-
+            <% $.each(data,function(index,value){     %>
+            <li><span class="noticeTitle"><%=value.title%></span><span class="noticeTime"><%=value.create_time%></span></li>
+            <% }) %>
         </ul>
     </div>
