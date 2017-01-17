@@ -16,7 +16,6 @@ module.exports = function(parent){
 		init : function(){
 			this.Size = 10;
 			this.fetch();
-			console.log(this.container);
 		},
 
 		render : function(data){
@@ -52,7 +51,6 @@ module.exports = function(parent){
 		changeStatusColor : function(){
 			$("#ProductChangeBox .upOrDown").each(function(){
 				var type = $(this).attr("data-status");
-				console.log(type);
 				if(type == "1"){
 					$(this).css("background","#0796D8");
 				}else if(type == "2"){
