@@ -50,7 +50,6 @@
                             color: #ff8734;
                             font-size: 16px;
                         }
-
                     }
                 }
             }
@@ -89,6 +88,24 @@
         .lineEchart{
             height :500px;
             width : 100%
+        }
+        .selectBox{
+            display: flex;
+            padding-left: 50px;
+            .td {
+                margin-left: 30px;
+                i.icon{
+                    position: relative;
+                    top: 2px;
+                    cursor: pointer;
+                }
+                i.icon-checkbox.icon-u-bold.icon-checkbox-checked{
+                    color: #3cba3f;
+                }
+                i.icon-checkbox.icon-u-bold{
+                    color: #9fa6ad;
+                }
+            }
         }
     }
     .line3{

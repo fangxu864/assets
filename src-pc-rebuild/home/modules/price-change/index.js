@@ -16,7 +16,6 @@ module.exports = function(parent){
 		init : function(){
 			this.Size = 10;
 			this.fetch();
-			console.log(this.container);
 		},
 
 		render : function(data){
