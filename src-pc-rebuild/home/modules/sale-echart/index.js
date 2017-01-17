@@ -39,6 +39,7 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .typeBtn" : "onTypeBtnClick" ,
 			"click .lineEchartControlBox .okBtn" : "onOkBtnClick" ,
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
+			"click .selectBox .icon" : "onSelectBoxIconClick" ,
 		},
 		render : function(data){
 			var _this = this ;
@@ -289,6 +290,16 @@ module.exports = function(parent){
 			var dataNum = tarBtn.attr("data-num");
 			this.container.find(".lineEchartControlBox .bTimeInp").val( _this.When.getSomeday(dataNum) );
 			this.container.find(".lineEchartControlBox .okBtn").click();
+		},
+
+		/**
+		 * @events 折线图底部select点击
+		 * @param e
+         */
+		onSelectBoxIconClick : function (e) {
+			var _this = this;
+			var tarBtn = $(e.currentTarget) ;
+			tarBtn.toggleClass("icon-checkbox-checked")
 		},
 
 

@@ -67,6 +67,20 @@
         </div>
     </div>
     <div id="lineEchart" class="lineEchart"></div>
+    <div class="selectBox">
+        <div class="td td1">
+            <i class="icon icon-u-bold icon-checkbox"></i>
+            <span>同比(去年同一时期)</span>
+        </div>
+        <div class="td td2">
+            <i class="icon icon-u-bold icon-checkbox "></i>
+            <span>环比(上一周期)</span>
+        </div>
+        <div class="td td3">
+            <i class="icon icon-u-bold icon-checkbox "></i>
+            <span>高亮周末</span>
+        </div>
+    </div>
 </div>
 <div class="line line3" >
     <div class="lt" id="pieEchart" style="height: 500px;width: 500px;"></div>
