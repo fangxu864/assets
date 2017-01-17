@@ -6,8 +6,12 @@
     </div>
     <div>
         <ul id="noticeList">
-            <% $.each(data,function(index,value){     %>
-            <li><span class="noticeTitle"><%=value.title%></span><span class="noticeTime"><%=value.create_time%></span></li>
-            <% }) %>
+            <%if(data.length == 0 && data.length == false){%>
+                <li>暂无相关通知</li>
+            <%}else{%>
+                <% $.each(data,function(index,value){     %>
+                    <li><span class="noticeTitle"><%=value.title%></span><span class="noticeTime"><%=value.create_time%></span></li>
+                <% }) %>
+            <%}%>
         </ul>
     </div>
