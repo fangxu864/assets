@@ -13,6 +13,7 @@ require('echarts/lib/chart/pie');
 require('echarts/lib/component/legend');
 require('echarts/lib/component/tooltip');
 require('echarts/lib/component/title');
+require('echarts/lib/component/dataZoom');
 
 
 var Datepicker = require("COMMON/modules/datepicker");
@@ -30,7 +31,12 @@ module.exports = function(parent){
 		init : function(){
 			console.log(this.container);
 			this.render();
-			this.renderLineEchart();
+			//折线图
+			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
+			// //饼图
+			// this.pieEchart = echarts.init(document.getElementById('pieEchart'));
+			// //条形图
+			// this.barEchart = echarts.init(document.getElementById('barEchart'));
 			this.renderPieEchart();
 			this.renderBarEchart();
 		},
@@ -51,132 +57,111 @@ module.exports = function(parent){
 				});
 			this.container.html(html);
 		},
-		renderLineEchart : function () {
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('lineEchart'));
-			var option = {
-				tooltip : {
-					trigger: 'axis'
-				},
-				legend: {
-					data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-				},
-				toolbox: {
-					feature: {
-						saveAsImage: {}
-					}
-				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					containLabel: true
-				},
-				xAxis : [
-					{
-						type : 'category',
-						boundaryGap : false,
-						data : ['周一','周二','周三','周四','周五','周六','周日']
-					}
-				],
-				yAxis : [
-					{
-						type : 'value'
-					}
-				],
-				series : [
-					{
-						name:'邮件营销',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[120, 132, 101, 134, 90, 230, 210]
-					},
-					{
-						name:'联盟广告',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[220, 182, 191, 234, 290, 330, 310]
-					},
-					{
-						name:'视频广告',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[150, 232, 201, 154, 190, 330, 410]
-					},
-					{
-						name:'直接访问',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[320, 332, 301, 334, 390, 330, 320]
-					},
-					{
-						name:'搜索引擎',
-						type:'line',
-						stack: '总量',
-						label: {
-							normal: {
-								show: true,
-								position: 'top'
-							}
-						},
-						areaStyle: {normal: {}},
-						data:[820, 932, 901, 934, 1290, 1330, 1320]
-					}
-				]
-			};
 
-			// 绘制图表
-			myChart.setOption(option);
-		},
+		// renderLineEchart : function () {
+		// 	// 基于准备好的dom，初始化echarts实例
+		// 	var myChart = echarts.init(document.getElementById('lineEchart'));
+		// 	var option = {
+		// 		tooltip : {
+		// 			trigger: 'axis'
+		// 		},
+		// 		legend: {
+		// 			data:['当前数据','对比数据']
+		// 		},
+		// 		toolbox: {
+		// 			feature: {
+		// 				saveAsImage: {}
+		// 			}
+		// 		},
+		// 		grid: {
+		// 			left: '3%',
+		// 			right: '4%',
+		// 			bottom: '3%',
+		// 			containLabel: true
+		// 		},
+		// 		xAxis : [
+		// 			{
+		// 				type : 'category',
+		// 				boundaryGap : false,
+		// 				data : ['周一','周二','周三','周四','周五','周六','周日']
+		// 			}
+		// 		],
+		// 		yAxis : [
+		// 			{
+		// 				type : 'value'
+		// 			}
+		// 		],
+		// 		series : [
+		// 			{
+		// 				name:'当前数据',
+		// 				type:'line',
+		// 				stack: '总量',
+		// 				smooth : true ,
+		// 				areaStyle: {normal: { color : "#77cfdd"}},
+		// 				lineStyle : { normal : { color : '#c6cad3'}},
+		// 				data:[120, 132, 101, 134, 90, 230, 210]
+		// 			},
+		// 			{
+		// 				name:'对比数据',
+		// 				type:'line',
+		// 				stack: '总量',
+		// 				smooth : true ,
+		// 				areaStyle: {normal: { color : "#e8e9ed" }},
+		// 				lineStyle : { normal : { color : '#c6cad3'}},
+		// 				data:[220, 182, 191, 234, 290, 330, 310]
+		// 			}
+		// 		]
+		// 	};
+        //
+		// 	// 绘制图表
+		// 	myChart.setOption(option);
+		// },
 		renderPieEchart : function () {
 
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = echarts.init(document.getElementById('pieEchart'));
-			var option = {
-				title : {
-					text: '7天产品使用排行',
-					subtext: '纯属虚构',
-					x:'center'
-				},
-				tooltip : {
-					trigger: 'item',
-					formatter: "{a} <br/>{b} : {c} ({d}%)"
-				},
-				legend: {
-					orient: 'vertical',
-					left: 'left',
-					data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-				},
-				series : [
-					{
-						name: '访问来源',
-						type: 'pie',
-						radius : '55%',
-						center: ['50%', '60%'],
-						data:[
-							{value:335, name:'直接访问'},
-							{value:310, name:'邮件营销'},
-							{value:234, name:'联盟广告'},
-							{value:135, name:'视频广告'},
-							{value:1548, name:'搜索引擎'}
-						],
-						itemStyle: {
-							emphasis: {
-								shadowBlur: 10,
-								shadowOffsetX: 0,
-								shadowColor: 'rgba(0, 0, 0, 0.5)'
-							}
-						}
-					}
-				]
-			};
+			// var option = {
+			// 	title : {
+			// 		text: '7天产品使用排行',
+			// 		subtext: '纯属虚构',
+			// 		x:'center'
+			// 	},
+			// 	tooltip : {
+			// 		trigger: 'item',
+			// 		formatter: "{a} <br/>{b} : {c} ({d}%)"
+			// 	},
+			// 	legend: {
+			// 		orient: 'vertical',
+			// 		left: 'left',
+			// 		data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+			// 	},
+			// 	series : [
+			// 		{
+			// 			name: '访问来源',
+			// 			type: 'pie',
+			// 			radius : '55%',
+			// 			center: ['50%', '60%'],
+			// 			data:[
+			// 				{value:335, name:'直接访问'},
+			// 				{value:310, name:'邮件营销'},
+			// 				{value:234, name:'联盟广告'},
+			// 				{value:135, name:'视频广告'},
+			// 				{value:1548, name:'搜索引擎'}
+			// 			],
+			// 			itemStyle: {
+			// 				emphasis: {
+			// 					shadowBlur: 10,
+			// 					shadowOffsetX: 0,
+			// 					shadowColor: 'rgba(0, 0, 0, 0.5)'
+			// 				}
+			// 			}
+			// 		}
+			// 	]
+			// };
 
 			// 绘制图表
-			myChart.setOption(option);
+			// myChart.setOption(option);
+			myChart.showLoading()
 		},
 		renderBarEchart : function () {
 
@@ -275,7 +260,118 @@ module.exports = function(parent){
 		 * @param e
          */
 		onOkBtnClick : function (e) {
-			console.log("点击了")
+			var _this = this ;
+			var params = {
+				search_type :  _this.container.find(".lineEchartControlBox .typeBtn.active").attr("data-type") ,
+				begin_time  :  _this.container.find(".lineEchartControlBox .bTimeInp").val() ,
+				end_time  :  _this.container.find(".lineEchartControlBox .eTimeInp").val() ,
+				compare_type  :  _this.container.find(".selectBox .compare.icon-checkbox-checked").attr("data-type")
+			};
+			_this.lineEchart.showLoading();
+			$.ajax({
+				url: "/r/Home_HomeOrder/saleTrends",    //请求的url地址
+				dataType: "json",   //返回格式为json
+				async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+				data: params,    //参数值
+				type: "POST",   //请求方式
+				timeout:10000,   //设置超时 10000毫秒
+				beforeSend: function() {
+					//请求前的处理
+				},
+				success: function(res) {
+					//请求成功时处理
+					console.log(res);
+					_this.lineEchart.hideLoading();
+					var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k;
+
+					for( i in res.data.new){
+						newArr.push(res.data.new[i])
+					}
+					for( j in res.data.old ){
+						oldArr.push(res.data.old[j])
+					}
+					for( k in res.data.timeLine ){
+						xAxisArr.push( res.data.timeLine[k]["time"])
+					}
+
+					var option = {
+							tooltip : {
+								trigger: 'axis'
+							},
+							legend: {
+								data:['当前数据','对比数据']
+							},
+							toolbox: {
+								feature: {
+									saveAsImage: {}
+								}
+							},
+						dataZoom: [
+							{
+								type: 'slider',
+								show: true,
+								xAxisIndex: [0],
+								start: 0,
+								end: 100
+							},
+							// {
+							// 	type: 'inside',
+							// 	xAxisIndex: [0],
+							// 	start: 1,
+							// 	end: 35
+							// },
+						],
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '10%',
+								containLabel: true
+							},
+							xAxis : [
+								{
+									type : 'category',
+									boundaryGap : false,
+									data : xAxisArr
+								}
+							],
+							yAxis : [
+								{
+									type : 'value'
+								}
+							],
+							series : [
+								{
+									name:'当前数据',
+									type:'line',
+									stack: '总量',
+									smooth : true ,
+									areaStyle: {normal: { color : "#77cfdd"}},
+									lineStyle : { normal : { color : '#c6cad3'}},
+									data: newArr
+								},
+								{
+									name:'对比数据',
+									type:'line',
+									stack: '总量',
+									smooth : true ,
+									areaStyle: {normal: { color : "#e8e9ed" }},
+									lineStyle : { normal : { color : '#c6cad3'}},
+									data: oldArr
+								}
+							]
+						};
+					_this.lineEchart.setOption(option)
+				},
+				complete: function(res,status) {
+					//请求完成的处理
+					if(status=="timeout"){
+						alert("请求超时")
+					}
+				},
+				error: function() {
+					//请求出错处理
+				}
+			});
 		},
 
 		/**
@@ -289,6 +385,7 @@ module.exports = function(parent){
 				.siblings().removeClass("active");
 			var dataNum = tarBtn.attr("data-num");
 			this.container.find(".lineEchartControlBox .bTimeInp").val( _this.When.getSomeday(dataNum) );
+			this.container.find(".lineEchartControlBox .eTimeInp").val( _this.When.getSomeday(0) );
 			this.container.find(".lineEchartControlBox .okBtn").click();
 		},
 
@@ -299,7 +396,16 @@ module.exports = function(parent){
 		onSelectBoxIconClick : function (e) {
 			var _this = this;
 			var tarBtn = $(e.currentTarget) ;
-			tarBtn.toggleClass("icon-checkbox-checked")
+			//同比和环比
+			if(tarBtn.hasClass("compare")){
+				tarBtn.toggleClass("icon-checkbox-checked") ;
+				tarBtn.parent().siblings(".td").find(".compare").toggleClass("icon-checkbox-checked");
+				this.container.find(".lineEchartControlBox .okBtn").click();
+			}
+			//高亮周末
+			else if ( tarBtn.hasClass("weekend") ){
+				tarBtn.toggleClass("icon-checkbox-checked");
+			}
 		},
 
 
