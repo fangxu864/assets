@@ -13,6 +13,7 @@ require('echarts/lib/chart/pie');
 require('echarts/lib/component/legend');
 require('echarts/lib/component/tooltip');
 require('echarts/lib/component/title');
+require('echarts/lib/component/dataZoom');
 
 
 var Datepicker = require("COMMON/modules/datepicker");
@@ -30,7 +31,9 @@ module.exports = function(parent){
 		init : function(){
 			console.log(this.container);
 			this.render();
-			this.renderLineEchart();
+			//折线图
+			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
+			this.container.find(".lineEchartControlBox .okBtn").click();
 			this.renderPieEchart();
 			this.renderBarEchart();
 		},
@@ -51,177 +54,168 @@ module.exports = function(parent){
 				});
 			this.container.html(html);
 		},
-		renderLineEchart : function () {
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('lineEchart'));
-			var option = {
-				tooltip : {
-					trigger: 'axis'
-				},
-				legend: {
-					data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-				},
-				toolbox: {
-					feature: {
-						saveAsImage: {}
-					}
-				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					containLabel: true
-				},
-				xAxis : [
-					{
-						type : 'category',
-						boundaryGap : false,
-						data : ['周一','周二','周三','周四','周五','周六','周日']
-					}
-				],
-				yAxis : [
-					{
-						type : 'value'
-					}
-				],
-				series : [
-					{
-						name:'邮件营销',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[120, 132, 101, 134, 90, 230, 210]
-					},
-					{
-						name:'联盟广告',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[220, 182, 191, 234, 290, 330, 310]
-					},
-					{
-						name:'视频广告',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[150, 232, 201, 154, 190, 330, 410]
-					},
-					{
-						name:'直接访问',
-						type:'line',
-						stack: '总量',
-						areaStyle: {normal: {}},
-						data:[320, 332, 301, 334, 390, 330, 320]
-					},
-					{
-						name:'搜索引擎',
-						type:'line',
-						stack: '总量',
-						label: {
-							normal: {
-								show: true,
-								position: 'top'
-							}
-						},
-						areaStyle: {normal: {}},
-						data:[820, 932, 901, 934, 1290, 1330, 1320]
-					}
-				]
-			};
 
-			// 绘制图表
-			myChart.setOption(option);
-		},
+
+		/**
+		 * @method 渲染饼图
+		 */
 		renderPieEchart : function () {
 
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = echarts.init(document.getElementById('pieEchart'));
-			var option = {
-				title : {
-					text: '7天产品使用排行',
-					subtext: '纯属虚构',
-					x:'center'
+			$.ajax({
+				url: "/r/Home_HomeOrder/productUseRank",    //请求的url地址
+				dataType: "json",   //返回格式为json
+				async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+				data: {},    //参数值
+				type: "POST",   //请求方式
+				timeout:10000,   //设置超时 10000毫秒
+				beforeSend: function() {
+					//请求前的处理
+					myChart.showLoading();
 				},
-				tooltip : {
-					trigger: 'item',
-					formatter: "{a} <br/>{b} : {c} ({d}%)"
-				},
-				legend: {
-					orient: 'vertical',
-					left: 'left',
-					data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-				},
-				series : [
-					{
-						name: '访问来源',
-						type: 'pie',
-						radius : '55%',
-						center: ['50%', '60%'],
-						data:[
-							{value:335, name:'直接访问'},
-							{value:310, name:'邮件营销'},
-							{value:234, name:'联盟广告'},
-							{value:135, name:'视频广告'},
-							{value:1548, name:'搜索引擎'}
-						],
-						itemStyle: {
-							emphasis: {
-								shadowBlur: 10,
-								shadowOffsetX: 0,
-								shadowColor: 'rgba(0, 0, 0, 0.5)'
-							}
+				success: function(res) {
+					//请求成功时处理
+					myChart.hideLoading();
+
+					if( res.code == 200 ){
+						var nameArr = [] , valueArr = [] , dataArr = [];
+						for( var key in res.data.rank ){
+							nameArr.push(res.data.rank[key]["name"]);
+							dataArr.push({ value : res.data.rank[key]["total_money"] ,name : res.data.rank[key]["name"] })
 						}
+						var option = {
+							color : [ '#60bfeb' , '#f38f2c' ,'#3270b9' ,'#64b966' ,'#e7403a'],
+							title : {
+								text: '7天产品使用排行',
+								// subtext: '纯属虚构',
+								x:'center'
+							},
+							tooltip : {
+								trigger: 'item',
+								formatter: "{a} <br/>{b} : {c} ({d}%)"
+							},
+							legend: {
+								orient: 'vertical',
+								left: 'left',
+								data: nameArr
+							},
+							series : [
+								{
+									name: '产品名称',
+									type: 'pie',
+									radius : '55%',
+									center: ['50%', '60%'],
+									data : dataArr,
+									itemStyle: {
+										emphasis: {
+											shadowBlur: 10,
+											shadowOffsetX: 0,
+											shadowColor: 'rgba(0, 0, 0, 0.5)'
+										}
+									}
+								}
+							]
+						};
+						myChart.setOption(option)
+					}else {
+						alert(res.msg)
 					}
-				]
-			};
 
-			// 绘制图表
-			myChart.setOption(option);
+
+				},
+				complete: function(res,status) {
+					//请求完成的处理
+					if(status=="timeout"){
+						alert("饼图数据请求超时")
+					}
+				},
+				error: function() {
+					//请求出错处理
+					alert("饼图数据请求出错")
+				}
+			});
 		},
-		renderBarEchart : function () {
 
+		/**
+		 * @method 渲染条形图
+		 */
+		renderBarEchart : function () {
 			// 基于准备好的dom，初始化echarts实例
 			var myChart = echarts.init(document.getElementById('barEchart'));
-			var option = {
-				title: {
-					text: '7天渠道排行',
-					subtext: '数据来自网络'
+			$.ajax({
+				url: "/r/Home_HomeOrder/saleRank",    //请求的url地址
+				dataType: "json",   //返回格式为json
+				async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+				data: {},    //参数值
+				type: "POST",   //请求方式
+				timeout:10000,   //设置超时 10000毫秒
+				beforeSend: function() {
+					//请求前的处理
+					myChart.showLoading();
 				},
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'shadow'
+				success: function(res) {
+					//请求成功时处理
+					myChart.hideLoading();
+					if( res.code == 200 ){
+						var yAxisArr = [] , seriesDataArr = [] ;
+						for( var key in res.data ){
+							yAxisArr.unshift( res.data[key]["name"]);
+							seriesDataArr.unshift( res.data[key]["total_money"])
+						}
+						var option = {
+							color : ['#2889e1'],
+							title: {
+								text: '7天渠道排行',
+								// subtext: '数据来自网络'
+							},
+							tooltip: {
+								trigger: 'axis',
+								axisPointer: {
+									type: 'shadow'
+								}
+							},
+							// legend: {
+							// 	data: ['2011年', '2012年']
+							// },
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+							},
+							xAxis: {
+								type: 'value',
+								boundaryGap: [0, 0.01]
+							},
+							yAxis: {
+								type: 'category',
+								data: yAxisArr
+							},
+							series: [
+								{
+									name: '订单数',
+									type: 'bar',
+									data: seriesDataArr ,
+								}
+							]
+						};
+						myChart.setOption(option)
+					}else{
+						alert(res.msg)
 					}
 				},
-				// legend: {
-				// 	data: ['2011年', '2012年']
-				// },
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					containLabel: true
-				},
-				xAxis: {
-					type: 'value',
-					boundaryGap: [0, 0.01]
-				},
-				yAxis: {
-					type: 'category',
-					data: ['美团','宝中旅游','微商城','飞猪','同程','途牛','XXX分销商']
-				},
-				series: [
-					{
-						name: '订单数',
-						type: 'bar',
-						data: [18203, 23489, 29034, 104970, 131744, 30230,55141]
+				complete: function(res,status) {
+					//请求完成的处理
+					if(status=="timeout"){
+						alert("饼图数据请求超时")
 					}
-				]
-			};
-
-
-			// 绘制图表
-			myChart.setOption(option);
+				},
+				error: function() {
+					//请求出错处理
+					alert("饼图数据请求出错")
+				}
+			});
 		},
 
 
@@ -230,6 +224,7 @@ module.exports = function(parent){
 		 * @param e
          */
 		onTimeInpClick : function(e){
+			var _this = this ;
 			var tarInp = $( e.currentTarget );
 			//起始日期input
 			if( tarInp.hasClass("bTimeInp") ){
@@ -250,7 +245,7 @@ module.exports = function(parent){
 					top : 0,                     //可选，相对偏移量
 					left : 0,                    //可选，相对偏移量
 					min : $(".lineEchartControlBox .bTimeInp").val(),          //可选，默认为空""
-					// max : "2016-09-20",          //可选，默认为空""
+					max : _this.When.getSomeday(0),          //可选，默认为空""
 					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
 					todayAfterDisable : false,   //可选，今天之后的日期都不显示
 				})
@@ -275,7 +270,119 @@ module.exports = function(parent){
 		 * @param e
          */
 		onOkBtnClick : function (e) {
-			console.log("点击了")
+			var _this = this ;
+			var params = {
+				search_type :  _this.container.find(".lineEchartControlBox .typeBtn.active").attr("data-type") ,
+				begin_time  :  _this.container.find(".lineEchartControlBox .bTimeInp").val() ,
+				end_time  :  _this.container.find(".lineEchartControlBox .eTimeInp").val() ,
+				compare_type  :  _this.container.find(".selectBox .compare.icon-checkbox-checked").attr("data-type")
+			};
+			$.ajax({
+				url: "/r/Home_HomeOrder/saleTrends",    //请求的url地址
+				dataType: "json",   //返回格式为json
+				async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+				data: params,    //参数值
+				type: "POST",   //请求方式
+				timeout:10000,   //设置超时 10000毫秒
+				beforeSend: function() {
+					//请求前的处理
+					_this.lineEchart.showLoading();
+				},
+				success: function(res) {
+					//请求成功时处理
+					_this.lineEchart.hideLoading();
+					var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k;
+
+					for( i in res.data.new){
+						newArr.push(res.data.new[i])
+					}
+					for( j in res.data.old ){
+						oldArr.push(res.data.old[j])
+					}
+					//格式化日期，返回20170102  -->  2017/01/02
+					for( k in res.data.timeLine ){
+						xAxisArr.push( res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/") );
+					}
+
+					var option = {
+							tooltip : {
+								trigger: 'axis'
+							},
+							legend: {
+								data:['当前数据','对比数据']
+							},
+							toolbox: {
+								feature: {
+									saveAsImage: {}
+								}
+							},
+						dataZoom: [
+							{
+								type: 'slider',
+								show: true,
+								xAxisIndex: [0],
+								start: 0,
+								end: 100
+							},
+							// {
+							// 	type: 'inside',
+							// 	xAxisIndex: [0],
+							// 	start: 1,
+							// 	end: 35
+							// },
+						],
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '10%',
+								containLabel: true
+							},
+							xAxis : [
+								{
+									type : 'category',
+									boundaryGap : false,
+									data : xAxisArr
+								}
+							],
+							yAxis : [
+								{
+									type : 'value'
+								}
+							],
+							series : [
+								{
+									name:'当前数据',
+									type:'line',
+									stack: '总量',
+									smooth : true ,
+									areaStyle: {normal: { color : "#77cfdd"}},
+									lineStyle : { normal : { color : '#c6cad3'}},
+									data: newArr
+								},
+								{
+									name:'对比数据',
+									type:'line',
+									stack: '总量',
+									smooth : true ,
+									areaStyle: {normal: { color : "#e8e9ed" }},
+									lineStyle : { normal : { color : '#c6cad3'}},
+									data: oldArr
+								}
+							]
+						};
+					_this.lineEchart.setOption(option)
+				},
+				complete: function(res,status) {
+					//请求完成的处理
+					if(status=="timeout"){
+						alert("折线图一请求超时")
+					}
+				},
+				error: function() {
+					//请求出错处理
+					alert("折线图一请求出错")
+				}
+			});
 		},
 
 		/**
@@ -289,6 +396,7 @@ module.exports = function(parent){
 				.siblings().removeClass("active");
 			var dataNum = tarBtn.attr("data-num");
 			this.container.find(".lineEchartControlBox .bTimeInp").val( _this.When.getSomeday(dataNum) );
+			this.container.find(".lineEchartControlBox .eTimeInp").val( _this.When.getSomeday(0) );
 			this.container.find(".lineEchartControlBox .okBtn").click();
 		},
 
@@ -299,7 +407,16 @@ module.exports = function(parent){
 		onSelectBoxIconClick : function (e) {
 			var _this = this;
 			var tarBtn = $(e.currentTarget) ;
-			tarBtn.toggleClass("icon-checkbox-checked")
+			//同比和环比
+			if(tarBtn.hasClass("compare")){
+				tarBtn.toggleClass("icon-checkbox-checked") ;
+				tarBtn.parent().siblings(".td").find(".compare").toggleClass("icon-checkbox-checked");
+				this.container.find(".lineEchartControlBox .okBtn").click();
+			}
+			//高亮周末
+			else if ( tarBtn.hasClass("weekend") ){
+				tarBtn.toggleClass("icon-checkbox-checked");
+			}
 		},
 
 
