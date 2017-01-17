@@ -38,10 +38,6 @@ var Main = PFT.Util.Class({
 		this.saleEchart = saleEchart(this.pageMain);
 		this.wxShopData = wxShopData(this.pageMain);
 
-		this.saleEchart = SaleEchart(this.pageMain);
-
-
-		this.recentUse = RecentUse(this.pageMain);
 
 		this.priceChange = PriceChange(this.rightBar);
 		this.productChange = ProductChange(this.rightBar);
