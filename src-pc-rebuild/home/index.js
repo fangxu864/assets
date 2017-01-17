@@ -46,7 +46,6 @@ var Main = PFT.Util.Class({
 		this.systemNotice = SystemNotice(this.rightBar);
 
 
-
 	}
 });
 
