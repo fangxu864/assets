@@ -14,6 +14,7 @@ require('echarts/lib/component/legend');
 require('echarts/lib/component/tooltip');
 require('echarts/lib/component/title');
 
+
 var Datepicker = require("COMMON/modules/datepicker");
 var datepicker = new Datepicker();
 
@@ -34,14 +35,17 @@ module.exports = function(parent){
 			this.renderBarEchart();
 		},
 		EVENTS : {
-			"click .lineEchartControlBox input" : "onTimeInpClick"
+			"click .lineEchartControlBox input" : "onTimeInpClick" ,
+			"click .lineEchartControlBox .typeBtn" : "onTypeBtnClick" ,
+			"click .lineEchartControlBox .okBtn" : "onOkBtnClick" ,
+			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 		},
 		render : function(data){
 			var _this = this ;
 
 
 			var html = this.template(data || {
-					"bTimeInpVal": _this.When.getSomeday(-7),   //账号名称
+					"bTimeInpVal": _this.When.getSomeday(-6),   //账号名称
 					"eTimeInpVal": _this.When.getSomeday(0)
 				});
 			this.container.html(html);
@@ -226,9 +230,6 @@ module.exports = function(parent){
          */
 		onTimeInpClick : function(e){
 			var tarInp = $( e.currentTarget );
-			var d = new Date();
-			var today = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
-			console.log(today);
 			//起始日期input
 			if( tarInp.hasClass("bTimeInp") ){
 				datepicker.show(tarInp.val(),{
@@ -240,7 +241,9 @@ module.exports = function(parent){
 					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
 					todayAfterDisable : false,   //可选，今天之后的日期都不显示
 				})
-			}else if( tarInp.hasClass("eTimeInp") ){
+			}
+			//结束日期Inp
+			else if( tarInp.hasClass("eTimeInp") ){
 				datepicker.show(tarInp.val(),{
 					picker : tarInp,              //必选
 					top : 0,                     //可选，相对偏移量
@@ -253,6 +256,39 @@ module.exports = function(parent){
 			}
 			console.log(tarInp)
 
+		},
+
+		/**
+		 * @events 类型按钮点击 1--票数  2--金额
+		 * @param e
+         */
+		onTypeBtnClick : function (e) {
+			var tarBtn = $( e.currentTarget );
+			tarBtn.addClass("active")
+				.siblings().removeClass("active");
+			this.container.find(".lineEchartControlBox .okBtn").click();
+		},
+
+		/**
+		 * @events 确定按钮点击
+		 * @param e
+         */
+		onOkBtnClick : function (e) {
+			console.log("点击了")
+		},
+
+		/**
+		 * @events 快速选择日期按钮点击
+		 * @param e
+         */
+		onQuickDateBtnClick : function (e) {
+			var _this = this;
+			var tarBtn = $(e.currentTarget) ;
+			tarBtn.addClass("active")
+				.siblings().removeClass("active");
+			var dataNum = tarBtn.attr("data-num");
+			this.container.find(".lineEchartControlBox .bTimeInp").val( _this.When.getSomeday(dataNum) );
+			this.container.find(".lineEchartControlBox .okBtn").click();
 		},
 
 
