@@ -1,0 +1,127 @@
+
+
+
+// 要把px都改成rem 
+
+#productDetailBox{
+	.product_detail_gap{
+		height: 16px;
+		background: #f0f3f5;
+	}
+	.product_detail_header{
+		padding: 32px;
+		display: flex;
+		display: -webkit-flex;
+		background: #e5f5fc;
+	}
+	.product_detail_header .header_spot_img{
+		width: 200px;
+		height: 150px;
+		background: #123456;
+	}
+	.product_detail_header .header_right{
+		padding-left: 20px;
+		line-height: 43px;
+		color: #262d37;
+	}
+	.product_detail_header .header_right .header_spot_name{
+		font-size: 32px;
+	}	
+	.product_detail_header .header_right .header_supplier_text,
+	.product_detail_header .header_right .header_spot_loca{
+		font-size: 28px;
+	}
+
+	.product_detail_list{
+	}
+	.product_detail_list .product_detail_ticket{
+		padding: 10px 32px 32px 32px ;
+		display: flex;
+		display: -webkit-flex;
+	}
+	.product_detail_list .product_detail_ticket.non_first_ticket{
+		border-top: 2px solid #e8ebed;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left{
+		line-height: 60px;
+		width: 500px;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_title{
+		font-size: 32px;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_title .VIP_ticket{
+		color: #0797d9 ;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_price{
+		font-size: 28px;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_price .j_price{
+		margin-left: 32px;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_price .j_price_number{
+		color: #f07845;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .only_weekend{
+		color: #9e9e9e;
+		font-size: 28px;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_tips{
+		display: flex;
+		display: -webkit-flex;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_tips .ticket_tip{
+		flex-grow: 1;
+		height: 48px;
+		font-size: 24px;
+		background: #f0f3f5;
+		color: #3dba3f;
+		line-height: 48px;
+		text-align: center;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_tips .ticket_tip2,
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_tips .ticket_tip3{
+		margin-left: 15px;
+	}
+	.product_detail_list .product_detail_ticket .ticket_left .ticket_detail_son{
+		font-size: 28px;
+	}
+	.product_detail_list .product_detail_ticket .ticket_right{
+		flex-grow: 1;
+	}
+	.product_detail_list .product_detail_ticket .ticket_right .order_btn{
+		display: block;
+		height: 64px;
+		width: 128px;
+		line-height: 64px;
+		font-size: 32px;
+		background: #f07845;
+		color: #fff;
+		text-align: center;
+		border-radius: 35px;
+		float: right;
+		margin-top: 55px;
+	}
+	.product_detail_order_info{
+		margin: 0 32px;
+	}
+	.product_detail_order_info .order_info_title{
+		font-size: 32px;
+		color: #262d37;
+		margin: 32px 0;
+	}
+	.product_detail_order_info .order_info_title .order_info_title_img{
+		width: 32px;
+		height: 32px;
+		display: inline-block;
+		background: #123456;
+		margin-right: 10px;
+	}
+	.product_detail_order_info .order_info_content{
+		width: 100%;
+		word-wrap : break-word ;
+	}
+}
+
+
+
+
