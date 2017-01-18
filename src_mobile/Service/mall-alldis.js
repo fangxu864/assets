@@ -136,7 +136,7 @@ exports.cash = function(opt){
 		success : function(res){
 			var code = res.code;
 			if(code==200){
-				opt.success(data);
+				opt.success(res.data);
 			}else{
 				opt.fail(res.msg,code);
 			}
