@@ -34,7 +34,7 @@ var HeaderWarning={
         /**
          * 走马灯的判断
          */
-        if( /0|\-1/.test(_this.judge_of_overTime) || /201|202|203|204|205|206|207/.test(_this.judge_of_account_balance) ){
+        if( /0|\-1/.test(_this.judge_of_overTime) || /201|202|203|204|205|206/.test(_this.judge_of_account_balance) ){
             //如果账户临近过期或已过期
             if( /0|\-1/.test(_this.judge_of_overTime) ){
                 //平台续费html
@@ -42,7 +42,7 @@ var HeaderWarning={
                 _this.loopTip(xufei_tpl , "0")
             }
             //如果账户余额接近不足
-            else if(/201|202|203|204|205|206|207/.test(_this.judge_of_account_balance)){
+            else if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
                 //平台充值的html
                 var charge_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/recharge.html">充值</a>'}});
                 _this.loopTip(charge_tpl , _this.judge_of_account_balance)
@@ -53,7 +53,7 @@ var HeaderWarning={
         /**
          * 弹框提示的判断
          */
-        if( /0|-1/.test(_this.judge_of_overTime) || /201|202|203|204|205|206|207/.test(_this.judge_of_account_balance) ){
+        if( /0|-1/.test(_this.judge_of_overTime) || /201|202|203|204|205|206/.test(_this.judge_of_account_balance) ){
             if(isDialog){
                 //账户临近过期设置cookie,一天只提醒一次
                 if(this.judge_of_overTime == "0"){
@@ -71,7 +71,7 @@ var HeaderWarning={
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
                 //如果账户余额接近不足
-                if(/201|202|203|204|205|206|207/.test(_this.judge_of_account_balance)){
+                if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
                     //弹框每天只提醒一次，使用cookie控制
                     var isDialog_cookie_ac = _this.getCookie("isDialog_of_judge_account_balance");
                     if(isDialog_cookie_ac == "false") return false;
@@ -95,7 +95,6 @@ var HeaderWarning={
 
     /**
      * @property判断账户余额情况
-     * | 207    |  int   |  欠费超过200元  过渡期可以继续使用
      * | 206    |  int   |  欠费超过200元  停止使用 只能进入充值页面|
      * | 205    |  int   |  欠费超过7天  停止使用 只能进入充值页面|
      * | 204    |  int   |  超出自定义设置时间  停止使用 只能进入充值页面|
@@ -199,12 +198,6 @@ var HeaderWarning={
             // "isBtn_close": false ,
             "isBtn_close": true ,
             "dialog_type": "recharge"
-        },
-        "207": {
-            "title":"账户余额提醒",
-            "content":"您好，票付通平台将于2017年2月17日起，将对平台账户余额低于0元的用户，进行使用限制，为保障您的正常使用，请及时对平台账户进行充值",
-            "isBtn_close": true ,
-            "dialog_type": "recharge"
         }
     },
 
@@ -224,8 +217,7 @@ var HeaderWarning={
         "203" : "您好，票付通平台将于2017年2月17日起，将对平台账户余额低于0元的用户，进行使用限制，为保障您的正常使用，请及时对平台账户进行充值",
         "204" : "您好，票付通平台将于2017年2月17日起，将对平台账户余额低于0元的用户，进行使用限制，为保障您的正常使用，请及时对平台账户进行充值",
         "205" : "您好，票付通平台将于2017年2月17日起，将对平台账户余额低于0元的用户，进行使用限制，为保障您的正常使用，请及时对平台账户进行充值",
-        "206" : "您好，票付通平台将于2017年2月17日起，将对平台账户余额低于0元的用户，进行使用限制，为保障您的正常使用，请及时对平台账户进行充值",
-        "207" : "您好，票付通平台将于2017年2月17日起，将对平台账户余额低于0元的用户，进行使用限制，为保障您的正常使用，请及时对平台账户进行充值"
+        "206" : "您好，票付通平台将于2017年2月17日起，将对平台账户余额低于0元的用户，进行使用限制，为保障您的正常使用，请及时对平台账户进行充值"
     },
 
 
