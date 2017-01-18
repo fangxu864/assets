@@ -6,7 +6,19 @@
 require("./index.scss");
 
 var UserInfo = require("./modules/userinfo");
+
+var saleEchart = require("./modules/sale-echart");
+var wxShopData = require("./modules/wxshop-data");
+
 var RecentUse = require("./modules/recent-use");
+
+var SaleEchart = require("./modules/sale-echart");
+
+var PriceChange = require("./modules/price-change");
+var ProductChange = require("./modules/product-change");
+var PartnerChange = require("./modules/partner-change");
+
+var SystemNotice = require("./modules/system-notice");
 
 
 var Main = PFT.Util.Class({
@@ -15,14 +27,24 @@ var Main = PFT.Util.Class({
 
 		this.inContainer = $('<div id="inBodyCon" class="inBodyCon"></div>');
 		this.pageMain = $('<div id="pageMain" class="pageMain"></div>');
-		this.rightBar = $('<div id="rigbtBar" class="rigbtBar"></div>');
+		this.rightBar = $('<div id="rightBar" class="rightBar"></div>');
 		this.inContainer.append(this.pageMain).append(this.rightBar);
 
 		this.container.append(this.inContainer);
 
 		this.userInfo = UserInfo(this.pageMain);
-
 		this.recentUse = RecentUse(this.pageMain);
+
+		this.saleEchart = saleEchart(this.pageMain);
+		this.wxShopData = wxShopData(this.pageMain);
+
+
+		this.priceChange = PriceChange(this.rightBar);
+		this.productChange = ProductChange(this.rightBar);
+
+		this.partnerChange = PartnerChange(this.rightBar);
+		this.systemNotice = SystemNotice(this.rightBar);
+
 
 
 	}

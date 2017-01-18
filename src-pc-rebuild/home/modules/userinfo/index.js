@@ -43,7 +43,7 @@ module.exports = function(parent){
 						"lastLogin" : "2012-1-1", //上次登陆时间
 						"avatar" : "http://images.12301.cc/123624/1452148699.png" //头像
 					});
-				},1000)
+				},1000);
 				return false;
 			}
 
