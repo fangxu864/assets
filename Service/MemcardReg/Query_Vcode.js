@@ -7,7 +7,7 @@ module.exports = function(opt){
 	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt || {});
 	var cxt = opt.cxt || null;
 	var debug = opt.debug;
-	var url = "/call/jh_card.php?action=code";
+	var url = "/r/product_MemberCardBasic/SendVcode/";
 	var params = opt.params || {};
 	var mobile = params.mobile;
 	if(!mobile) throw new Error("缺少mobile参数");
@@ -21,7 +21,7 @@ module.exports = function(opt){
 		},1000)
 	}else{
 		PFT.Util.Ajax(url,{
-			type : "get",
+			type : "post",
 			params : {
 				mobile : mobile
 			},

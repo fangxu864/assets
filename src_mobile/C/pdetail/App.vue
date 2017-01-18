@@ -103,7 +103,7 @@
                             title : title,
                             desc : title,
                             imgUrl : data.imgpath,
-                            link : window.location.href
+                            link : GetWXShareLinkUrl()
                         });
 
                         for(var i in data) this.info[i] = data[i];
