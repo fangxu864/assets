@@ -87,7 +87,7 @@
     <div class="tri"><div class="triCon" style="display: none">》</div></div>
 </a>
 
-<div class="box">
+<div class="box" style="margin-bottom: 60px;">
     <div class="line">
         <span class="lt">订单金额：</span>
         <span class="rt totalMoney"><i class="yen">&yen;</i><i class="num"><%=totalmoney%></i></span>
