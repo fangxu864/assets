@@ -193,6 +193,18 @@ var CalendarCore={
 	},
 	//获取前一天
 	prevDay : function(date){
+		//把2016-10-20 改成2016/10/20   ie8下 new Date("2016-10-20")会得出null   只能new Date("2016/10-20")
+		if(date){
+			var _date = +new Date(date);
+			if(!_date){
+				date = date.replace(/\-/g,"/");
+				date = +new Date(date);
+			}else{
+				date = _date;
+			}
+		}else{
+			date = +new Date();
+		}
 		date = date ? (+new Date(date)) : (+new Date());
 		var yestoday = date-(24*60*60*1000);
 		yestoday = new Date(yestoday);
@@ -245,13 +257,29 @@ var CalendarCore={
 	},
 	//获取后一天
 	nextDay : function(date){
+		if(date){
+			var _date = +new Date(date);
+			if(!_date){
+				date = date.replace(/\-/g,"/");
+				date = +new Date(date);
+			}else{
+				date = _date;
+			}
+		}else{
+			date = +new Date();
+		}
 		date = date ? (+new Date(date)) : (+new Date());
 		var nextDay = date+(24*60*60*1000);
 		nextDay = new Date(nextDay);
+
+		var _day = nextDay.getDate();
+		if(_day<10) _day = "0" + _day;
+		var _month = nextDay.getMonth()+1;
+		if(_month<10) _month = "0" + _month;
 		return[
 			nextDay.getFullYear(),
-			nextDay.getMonth()+1,
-			nextDay.getDate()
+			_month,
+			_day
 		].join("-")
 	},
 	/**

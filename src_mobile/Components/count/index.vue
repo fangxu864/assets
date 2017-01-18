@@ -54,7 +54,10 @@
         },
         methods : {
             onPlus(e){
-                if(e.target.classList.contains("disable")) return false;
+                if(e.target.classList.contains("disable")){
+                    this.$dispatch("beyond-max",this.id,this.value);
+                    return false;
+                }
                 this.value += 1;
                 //setTimeout(()=>{ this.$dispatch("plus",this.value) },60);
             },

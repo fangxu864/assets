@@ -4,18 +4,30 @@
  * Description: ""
  */
 var Select = require("COMMON/Components/Select/v0.2");
-
+var FilterSelect = require("COMMON/Components/Select/v0.2/plugins/filter");
+var AjaxSelect = require("COMMON/Components/Select/v0.2/plugins/ajax");
 var s = new Select({
-	triggerElem:$("#triggerInp"),
+	triggerElem : $("#triggerInp"),
 	options : function(){
+		var to = 30;
 		var data = [];
-		for(var i=0; i<20; i++){
-			var json = {};
-			json[i*1+1] = "选项"+(i*1+1);
-			data.push(json)
+		for(var i=1; i<to; i++){
+			var json = {}
+			json[i] = "选项"+i;
+			data.push(json);
 		}
 		return data;
-	}
+	},
+	plugins : [{
+		//加入ajax功能
+		ajax : function(host){
+			return new AjaxSelect(host)
+		}
+	}]
 });
+
+
+
+
 
 

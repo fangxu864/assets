@@ -169,6 +169,13 @@ module.exports = function(pid,aid,opt){
 				data["reb"] = reb * 1;
 				data["reb_type"] = reb_type * 1;
 
+				var batch_check = data.batch_check;
+				var batch_day = data.batch_day;
+				if(batch_check==1 && batch_day!=0){ //开启分批验证 并且不能设置为不限验证数
+					data["batch_day"] = "本次提交的订单，每日最多使用" + batch_day + "张";
+				}
+
+
 				opt.success(data);
 
 			}else{

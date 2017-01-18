@@ -1,0 +1,25 @@
+<div class="top clearfix">
+    <div class="photoBox">
+        <div class="inBox"><img src="<%=avatar%>" onerror="this.src='http://static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" alt=""/></div>
+    </div>
+    <div class="rtBox">
+        <div class="line top">
+            <em class="dname"><%=name%></em>
+            <span class="flag dtype dtype_<%=type%>"><%=type==0 ? '供应商' : '分销商'%></span>
+            <span class="flag auth auth_<%=hasAuth%>"><%=hasAuth==1 ? '已认证' : '未认证'%></span>
+            <span class="effectTime">有效期至：<i class="num"><%=expireDate%></i><a href="" class="xunfeiBtn">续费</a></span>
+        </div>
+        <div class="line mid">
+            <span class="ydname"><%=cname%></span> / <span class="mobile"><%=mobile%></span>
+            <a href="" class="modifyMobileBtn"><i class="icon icon-u-bold icon-edit"></i></a>
+        </div>
+        <div class="line abr">
+            异常待处理订单(<a href="" class="abrCount"><%=abnormalOrder%></a>)
+            <span class="lastLoginTime">上次登录时间：<%=lastLogin%></span>
+        </div>
+    </div>
+</div>
+<div class="bot">
+    帐户余额：<span class="yuE"><i class="yen">&yen;</i><span class="money"><%=remainMoney%></span></span>
+    <a href="" id="chongzhiBtn" class="chongzhiBtn">充值</a>
+</div>

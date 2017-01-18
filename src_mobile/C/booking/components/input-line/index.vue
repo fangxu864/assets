@@ -1,4 +1,4 @@
-<template>
+5<template>
     <div class="inputLine" :class="[layout,validatResultCls]" :style="containerStyle">
         <div class="lt" :style="labelStyle"><span class="t" v-text="label"></span></div>
         <div class="rt" :style="rtStyle">
@@ -128,7 +128,7 @@
                     width : width,
                     top : 0,
                     bottom : 0,
-                    left : 0
+                    left : "15px"
                 }
             }else{
                 this.layout = "per";
@@ -196,7 +196,7 @@
     }
 </script>
 <style lang="sass">
-    .inputLine{ position:relative; margin:0 15px; overflow:hidden; border-bottom:1px solid rgb(240,240,240)}
+    .inputLine{ position:relative; padding:0 15px; overflow:hidden; border-bottom:1px solid rgb(240,240,240); background:#fff}
     .inputLine .lt{ line-height:48px; font-size:0.35rem;}
     .inputLine .lt .t{ padding-left:3px;}
     .inputLine .rt{ position:relative}

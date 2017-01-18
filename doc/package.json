@@ -1,0 +1,21 @@
+{
+    "name": "pft-fe-doc",
+    "version": "0.0.1",
+    "description": "票付通web前端接口文档",
+    "keywords": [
+        ""
+    ],
+    "homepage": "http://JSLite.io",
+    "author": "huangzy <huangzhiyang166@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "licenses": "MIT",
+    "idoc": {
+        "theme": "doc",
+        "md": [
+            "index.md"
+        ]
+    }
+}

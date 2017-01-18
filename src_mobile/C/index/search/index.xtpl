@@ -4,8 +4,8 @@
     </ul>
     <div class="historyContainer">
         <div class="topLine">
-            <span class="lt">搜索记录</span>
-            <span class="rBtn deleteAllBtn">删除</span>
+            <span class="lt">最近搜索</span>
+            <span class="rBtn deleteAllBtn"><i class="icon-u-regular icon-shanchu"></i>删除</span>
         </div>
         <div class="historyList"></div>
     </div>

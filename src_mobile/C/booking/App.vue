@@ -1,7 +1,7 @@
 <template>
     <div id="bodyContainer" class="bodyContainer" v-if="!!pageReady">
         <div class="prodTtile pad15"><span class="t" v-text="orderInfo.title"></span></div>
-        <div class="modBox">
+        <div class="modBox attr">
             <input-line
                     v-if="p_type!=='C'"
                     :id="'beginTimeInp'"
@@ -52,6 +52,7 @@
                 <span class="validTime descFlag" v-text="orderInfo.validTime"></span>
                 <span class="descFlag verifyTime" v-if="orderInfo.verifyTime!=''" v-text="orderInfo.verifyTime"></span>
                 <span class="descFlag refund_rule" v-text="orderInfo.refund_rule_text"></span>
+                <span class="descFlag batch_check_rule" v-if="orderInfo.batch_day && orderInfo.batch_day!=0" v-text="orderInfo.batch_day"></span>
                 <span @click="refundRuleShow=true" class="descFlag refund_ruleBtn" v-if="orderInfo.refund_rule && orderInfo.refund_rule!=2">退票规则</span>
             </div>
         </div>
@@ -176,6 +177,25 @@
     let SubmitOrder = require("SERVICE_M/booking-submit-order");
     let NumberToFixed = require("COMMON/js/util.numberToFixed");
     let CalendarCore = require("COMMON/js/calendarCore");
+
+    //2016-12-09新增需求  http://bug.12301.test/index.php?m=task&f=view&taskID=278
+    var AlertTipWhenMobileIsFenxiao = function(){
+        //判断是否在微信内置浏览器内
+        var isWXBrowser = /micromessenger/.test(navigator.userAgent.toLowerCase());
+        if(isWXBrowser){ //如果在微信内
+            PFT.Mobile.Alert(function(){
+                var html = "";
+                html += '<div class="tipBtnGroup">';
+                html += '<a class="tipBtn goon" javascript:void(0)>以散客身份继续购票</a>';
+                html += '<a class="tipBtn replace" javascript:void(0)>更换手机号</a>';
+                html += '</div>';
+                return html;
+            },"您所填写的手机号已绑定为平台用户，您可以选择：");
+        }else{
+            PFT.Mobile.Alert("您所填写的手机号已绑定为平台用户，请更换手机号");
+        }
+    };
+
     export default {
         data(){
             return {
@@ -239,6 +259,12 @@
             }
         },
         ready(){
+
+
+
+
+
+
             this.toast = new Toast();
             GetOrderInfo(this.pid,this.aid,{
                 loading : ()=>{
@@ -269,9 +295,66 @@
                     }else{
                         this.onCalendarSwitchDay({date:this.calendar.date});
                     }
+
+                    //微信自定义分享
+                    var title = data.title;
+                    document.title = title;
+                    PFT.CustomWXShare.init({
+                        title : title,
+                        desc : title,
+                        //imgUrl : data.imgpath,  暂时还没有产品图片这个字段，需要后端提供
+                        link : GetWXShareLinkUrl()
+                    });
+
+
+
+
+
+
                 },
                 fail : (msg)=>{
                     Alert(msg);
+                }
+            });
+
+
+            //2016-12-09新增需求  http://bug.12301.test/index.php?m=task&f=view&taskID=278
+            $(document).on("click",".tipBtnGroup .tipBtn",function(e){
+                var tarBtn = $(e.currentTarget);
+                var orignText = tarBtn.text();
+                if(tarBtn.hasClass("replace")){
+                    $("#pui-m-alertBox").find(".alertFoot").trigger("click");
+                    $("#mobileInp").focus();
+                }else{
+                    PFT.Util.Ajax("/r/Mall_Member/resellerUseSankeAccountLogin/",{
+                        type : "post",
+                        params : {
+                            token : PFT.Util.getToken()
+                        },
+                        loading : function(){
+                            tarBtn.text("正在请求微信授权，请稍后...");
+                        },
+                        complete : function(){
+                            tarBtn.text(orignText);
+                        },
+                        success : function(res){
+                            var code = res.code;
+                            var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+                            var data = res.data;
+                            //"code":401,200,  200:成功；401：非法访问/请换号码登录
+                            if(code==200){
+                                window.location.href = "http://" + data.url;
+                            }else if(code==401){
+                                Alert(msg);
+                            }
+                        },
+                        tiemout : function(){
+                            Alert(PFT.AJAX_TIMEOUT_TEXT);
+                        },
+                        serverError : function(){
+                            Alert(PFT.AJAX_ERROR_TEXT);
+                        }
+                    })
                 }
             })
         },
@@ -753,6 +836,10 @@
 
                 //return console.log(submitData);
 
+                //从localStorage里取parentId 如果存在此值，表明当前页面是用户从分享链接进来的，parentId即为分享者的id
+                var parentId = window.localStorage.getItem("PFT-MALL-C-FENX");
+                if(parentId) submitData["parentId"] = parentId;
+
 
 
                 //开始提交数据
@@ -784,14 +871,16 @@
                     fail : (code,msg) => {
                         if(code>=400){ //重复下单  这种情况下页面不允许再提交订单，提交按钮需禁用
                             Alert(msg);
-                        }else{ //一般错误
-                            Alert(msg);
+                        }else{
+                            if(code==205){ //如果所填写的手机号是分销商
+                                AlertTipWhenMobileIsFenxiao();
+                            }else{ //一般错误
+                                Alert(msg);
+                            }
                             submitBtn.classList.remove("disable");
                         }
                     }
                 })
-
-
             }
         },
         components : {
@@ -827,6 +916,26 @@
             &:active{
                 background:$gray90;
             }
+        }
+    }
+    .modBox.attr{
+        margin-top:10px;
+        background:#f5f5f5;
+        border-top:1px solid #e5e5e5;
+    }
+    .tipBtnGroup{
+        .tipBtn{
+            display:block;
+            width:180px;
+            height:32px;
+            line-height:32px;
+            color:$blue;
+            border:1px solid $blue;
+            margin:0 auto;
+            &:first-child{
+                margin-top:10px;
+                 margin-bottom:15px;
+             }
         }
     }
 </style>
