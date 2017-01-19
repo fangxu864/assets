@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="active_welcome.html?parentId={{sessionMemberId}}" id="goToOpenShop" class="goToOpenShop">
+        <a href="active_welcome.html?parentId={{parentId}}" id="goToOpenShop" class="goToOpenShop">
             <span class="con"><em class="t">分享</br>互惠</em></span>
         </a>
         <a href="share_my_shop.html" id="goToShareShop" class="goToOpenShop">
@@ -13,13 +13,13 @@
     export default{
         data(){
             return{
-                sessionMemberId : ""
+                parentId : ""
             }
         },
         ready(){
             var shareBtn = $("#goToShareShop");
             var openBtn = $("#goToOpenShop");
-            this.sessionMemberId = $("#Fenx_Session_MemberId").val();
+            this.parentId = localStorage.getItem("PFT-MALL-C-FENX") || "";
             getStatus({
                 success :(data)=>{
                     var openAllDis = data.openAllDis; //是否开通全民分销
