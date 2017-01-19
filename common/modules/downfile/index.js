@@ -55,7 +55,7 @@ DownFile.prototype = {
                 var code = res.code.toString();
                 switch (code) {
                     case "1" :
-                        $("#to_downcenter_dialog .line1 p").text("您好，由于所下载的文件容量较大，已提交至后台进行打包压缩，压缩完毕后可去应用中心进行下载");
+                        $("#to_downcenter_dialog .line1 p").text("您好，由于所下载的文件容量较大，已提交至后台进行打包压缩，压缩完毕后可去数据报表中心进行下载");
                         to_downcenter_dialog.open();
                         break ;
                     case "2" :
@@ -66,7 +66,7 @@ DownFile.prototype = {
                         _this.outExcel(downUrl);
                         break ;
                     case "4" :
-                        $("#to_downcenter_dialog .line1 p").text("后台已为您生成过该文件，请去下载中心进行下载");
+                        $("#to_downcenter_dialog .line1 p").text("后台已为您生成过该文件，请去数据报表中心进行下载");
                         to_downcenter_dialog.open();
                         break ;
                     default :
