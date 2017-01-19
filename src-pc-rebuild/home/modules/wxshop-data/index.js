@@ -15,18 +15,51 @@ require('echarts/lib/component/title');
 
 require("./index.scss");
 var Tpl = require("./index.xtpl");
+var conLtTpl = require("./conbox_lt.xtpl");
 module.exports = function(parent){
 	var container = $('<div id="wxShopDataBox" class="wxShopDataBox modBox"></div>').appendTo(parent);
 	var UserInfo = PFT.Util.Class({
 		container : container,
-		template : PFT.Util.ParseTemplate(Tpl),
+		conLtTemplate : PFT.Util.ParseTemplate(conLtTpl),
 		init : function(){
-			console.log(this.container);
+			this.container.html(Tpl);
 			this.render();
 			this.renderWxShopLineEchart()
 		},
-		render : function(data){
-			var html = this.template(data || {
+		renderConLeft : function(data){
+			var curContainer = this.container.find(".conBox .lt");
+			$.ajax({
+				url: "/r/Home_HomeApp/getMicroMallStatistics/",    //请求的url地址
+				dataType: "json",   //返回格式为json
+				async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+				data: {},    //参数值
+				type: "POST",   //请求方式
+				timeout:10000,   //设置超时 10000毫秒
+				beforeSend: function() {
+					//请求前的处理
+					myChart.showLoading();
+				},
+				success: function(res) {
+					//请求成功时处理
+					console.log(res);
+					if( res.code == 200 ){
+
+					}else{
+						alert(res.msg)
+					}
+				},
+				complete: function(res,status) {
+					//请求完成的处理
+					if(status=="timeout"){
+						alert("微商城运营数据请求超时")
+					}
+				},
+				error: function() {
+					//请求出错处理
+					alert("微商城运营数据请求出错")
+				}
+			});
+			var html = this.conLtTemplate(data || {
 					"name": "慢慢的店铺",   //账号名称
 					"cname" : "天地银行",   //公司名称
 					"type" : 1, //账号类型,0供应商,1分销商
