@@ -72,7 +72,6 @@ var DownloadCenter = {
             // var downUrl = "download.12301.test/r/MassData_StartDown/index?id=" + $(this).attr("data-id");
             var idStr = $(this).attr("data-id");
             var downUrl = "http://download."+_this.getDomainName()+"?id=" + encodeURIComponent( idStr );
-            console.log(downUrl);
             //  由于存在跨域问题暂时注释掉
             // $.get(downUrl,function(res){
             //     console.log(res)
@@ -82,7 +81,15 @@ var DownloadCenter = {
             //         _this.outExcel(downUrl)
             //     }
             // });
-            _this.outExcel(downUrl)
+            _this.outExcel(downUrl);
+            setTimeout(function () {
+                _this.ajaxGetTabData({
+                    "params":_this.filterParamsBox,
+                    "isCacheData":true,
+                    "cacheKey":$.param(_this.filterParamsBox),
+                    "isInitPagination":false
+                });
+            },200);
         })
     },
 
