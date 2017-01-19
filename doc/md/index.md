@@ -469,7 +469,7 @@ console.log(urlParams)  // urlParams => {page:1, pageSize:15}
 
 ```
 
-### LoadingPc
+## LoadingPc
 > 1. 生成loading图及文字，用于pc端
 > 2. 目录：./common/js/util.loading.pc.js
 > 3. 调用：不在全局PFT.Util下，需要自行require
@@ -515,9 +515,156 @@ PFT.Util.Ajax(url,{
 
 ```
 
-## Toast
+## Validator
+> 1. 表单验证器
+> 2. 目录：./common/Components/Validator/v2.0
+> 3. 调用：Validator(opt)
+
+opt参数如下：
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|container|string|容器,只能传css选择器,建议用id选择器|""|
+|field|array|要验证的项,必填|[]|
+
+field参数必须是一个对象数组：如下
+```js
+[{
+  target : ".textInp",
+  value : function(target){
+    return target.val()
+  },
+  event : "blur", //或者 ["blur"]
+  rule : ["require","mobile"],
+  ok : function(result){},
+  fail : function(result){}
+},{
+  target : ".textInp",
+  value : function(target){
+    return target.val()
+  },
+  event : "blur,input",  //或者["blur","input"]
+  rule : ["require","mobile"],
+  ok : function(result){},
+  fail : function(result){}
+}]
+
+//rule数组内的一个item，即是对一个dom进行验证设置
+//形式如下：rule:[{..},{..},{..}]
+//数组内的每一项即为一个js对象opt
+//opt格式如下：
+opt = {
+    target : ".textInp",             //css选择器
+    rule : ["require"],              //验证规则  支持多个规则
+    event : "blur,input",            //触发验证的事件
+    value : function(target){        //要验证的目标dom元素的值  可选
+      return target.val();
+    },
+    ok : function(result){},         //所有规则都验通过后
+    fail : function(result){}        //只要有一个规则验证不通过，即代表对此dom元素的验证不通过
+  };
+
+//opt.rule有以下几种形式：
+
+rule = ["require,mobile"]
+
+rule = "require,mobile"   //等同于上面的写法
+
+rule = ["require","mobile",{ //自定义规则，规则名为customRule,后面跟的fn即是此验证规则的实现
+  "customRule" : function(value){   
+    var result = {   //result固定是这个格式
+      isOk : true,
+      errMsg : "",
+      errCode : ""
+    };
+
+    if(value.length>10){
+      result["isOk"] = false;
+      result["errMsg"] = "不能超过10个字符";
+      result["errCode"] = 5;  //errCode自定
+    }else{
+      result["isOk"] = true;
+    }
+
+    return result;   //注意：这里必须把result return出去，否则会报错
+
+  }
+}]
+
+```
+
+用法示例：
+
+```js
+
+//index.html
+<div id="formContainer">
+    <input type="text" name="" id="" class="textInp">
+    <input type="text" name="" id="" class="idCardInp">
+</div>
+<a href="##" id="submitBtn">提交</a>
+
+
+var Validator = require("COMMON/Components/Validator/v2.0");
+
+//注意：组件内部已经实现无new实例化了，这里就不需要new了
+
+var myValidator = Validator({
+    container : "#formContainer",
+    field : [{
+        target : ".textInp",
+        rule : ["require","mobile"],
+        event : ["blur","input"],
+        ok : function(result){
+
+        },
+        fail : function(result){
+
+        }
+    },{
+        target : ".idCardInp",
+        event : ["blur","input"],
+        rule : ["require","idcard",{
+            "maxLenght" : function(value){
+                var result = {   //result固定是这个格式
+                  isOk : true,
+                  errMsg : "",
+                  errCode : ""
+                };
+
+                if(value.length>10){
+                  result["isOk"] = false;
+                  result["errMsg"] = "不能超过10个字符";
+                  result["errCode"] = 5;  //errCode自定
+                }else{
+                  result["isOk"] = true;
+                }
+
+                return result;   //注意：这里必须把result return出去，否则会报错   
+            }
+        }]
+    }]
+})
+
+$("#submitBtn").on("click",function(e){
+    var result = myValidator.valid();
+    if(result.isOk){
+        //提交
+    }else{
+        //验证不通过
+    }
+})
+
+
+
+
+```
+
+
+
+## Toast (mobile)
 > 1. 页面上弹出loading或者操作成功，只能用于移动端
-> 2. 目录：./common/modules/Toast
+> 2. 目录：./common/Components/Toast-Mobile/v1.0
 > 3. 调用：不在全局PFT.Util下，需要自行require
 
 **Toast是一个模块，需要new一个实例，然后才能调用实例的show方法及hide方法**
@@ -532,7 +679,7 @@ show方法参数
 |callback|function|回调|functon|
 
 ```js
-var Toast = require("COMMON/modules/Toast");
+var Toast = require("COMMON/Components/Toast-Mobile/v1.0");
 var toast = new Toast();
 
 //可以这么写，简易写法
@@ -550,4 +697,64 @@ toast.show("loading","努力加载中...");
 toast.hide();
 
 ```
+
+
+## Alert (mobile)
+> 1. 模拟window.alert，在手机端，如果需要alert，请用此模块替代原生window.alert;
+> 2. 目录：./common/Components/Alert-Mobile/v1.0
+> 3. 调用：不在全局PFT.Util下，需要自行require
+
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|content|string|要alert的文字|""|
+|title|string|alert弹出窗的头部标题，可选|"提示"|
+
+```js
+
+var Alert = require("COMMON/Components/Alert-Mobile/v1.0");
+
+Alert("您的帐号登录状态已过期，请重新登录");
+
+Alert("您的帐号登录状态已过期 请重新登录","温馨提示");
+
+
+```
+
+## Confirm (mobile)
+> 1. 模拟window.confirm，在手机端，如果需要confirm，请用此模块替代原生window.confirm;
+> 2. 目录：./common/Components/Confirm-Mobile/v1.0
+> 3. 调用：不在全局PFT.Util下，需要自行require
+
+Confirm(title,callback,opt);
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|title|string|confirm时的描述文字,必填|""|
+|callback|fn|用户点击确定或取消时，执行回调,可选|fn|
+|opt|object|附加自定义设置,可选|{}|
+|opt.header|string|confirm时的标题|""|
+|opt.yesText|string|确定按钮的描述文字|"确定"|
+|opt.cancelText|string|取消按钮的描述文字|"取消"|
+
+```js
+
+var Confirm = require("COMMON/Components/Confirm-Mobile/v1.0");
+
+Confirm("您的帐号登录状态已过期，是否重新登录？",function(result){
+    if(result){ //当用户点击了"去登录"按钮
+      do something..
+    }else{ //当用户点击"稍后再说"按钮
+      do something..
+    }
+},{
+    header : "温馨提示",
+    yesText : "去登录",
+    cancelText : "稍后再说"
+})
+
+
+```
+
+
 
