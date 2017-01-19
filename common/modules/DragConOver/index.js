@@ -6,7 +6,7 @@ module.exports=function($){
         /*
          * jQuery拖动插件，容器内物体超出范围可拖动
          * 使用需引用jq
-         * cursor:fangxu
+         * author:fangxu
          * 使用说明：
          * $(selector).DragConOver({
          * direction:"x",                     //可以移动的方向，参数有三个："x","y","xy"分别代表只能x轴方向移动，只能y轴方向移动，x和y轴方向均可移动
