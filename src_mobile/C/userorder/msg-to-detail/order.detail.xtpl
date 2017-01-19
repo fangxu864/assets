@@ -52,7 +52,6 @@
     <%}%>
 
 
-    <p style="margin-top:15px"></p>
 
     <%if(ptype=="H"){%>
         <p class="line">

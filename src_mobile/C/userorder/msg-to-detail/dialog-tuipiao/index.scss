@@ -15,7 +15,7 @@
   }
   .dialog_con {
     position: fixed;
-    height: 200px;
+    height: 180px;
     width: 100%;
     bottom:-200px;
     background-color: white;
@@ -47,18 +47,18 @@
       color:#f37138
     }
     .line2{
-      border-bottom: 1px solid #f0f0f0;
+      margin-top: 16px;
+      border-bottom: 1px solid transparent;
       .td2 {
         margin-left: 10px;
         input{
-          display: block;
-          height: 48px;
           width: 100px;
-          line-height: 22px;
+          border: 1px solid #e5e5e5;
           font-size: .35rem;
-          padding: 13px 12px 13px 0;
+          //padding: 13px 12px 13px 0;
           box-sizing: border-box;
-          border: 0 none;
+          padding:10px 10px;
+          margin-right: 10px;
         }
         input:focus{
           color:#f37138;
@@ -72,14 +72,17 @@
           border: 1px solid #0797d9;
         }
         .btn.disabled{
-          color: #cccccc;
-          border-color: #ccc;
+          color: #ccc;
+          border-color: #e5e5e5;
         }
       }
     }
     .line4{
       height: 30px;
       line-height: 30px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 12px;
+      color:#f37138;
       span.tip_error{
         color: #f37138 ;
       }
@@ -91,6 +94,7 @@
       display: flex;
       height: 30px;
       line-height: 30px;
+      margin-top: 20px;
       justify-content:space-around;
       .btn{
         width: 37%;
