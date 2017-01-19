@@ -75,7 +75,9 @@ var Dialog_tuipiao=PFT.Util.Class({
                     PFT.Mobile.Alert("退票成功！");
                     Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_success">*退票成功</span>');
                     _this.close();
-                    window.location.reload();
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2500)
                 }else{
                     Con.find("#dialog_tuipiao .dialog_con .line4").html('');
                     setTimeout(function () {
