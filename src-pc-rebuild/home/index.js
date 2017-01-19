@@ -20,7 +20,6 @@ var PartnerChange = require("./modules/partner-change");
 
 var SystemNotice = require("./modules/system-notice");
 
-var Validate = require("./modules/form-validate-test");
 
 
 var Main = PFT.Util.Class({
@@ -39,9 +38,6 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = saleEchart(this.pageMain);
 		this.wxShopData = wxShopData(this.pageMain);
-
-		this.Validate = Validate(this.pageMain);
-		
 
 
 		this.priceChange = PriceChange(this.rightBar);

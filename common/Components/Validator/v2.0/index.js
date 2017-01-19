@@ -61,6 +61,40 @@ Validator.prototype = {
 		errCode : ""
 	},
 	__valid : function(opt){
+
+		// opt = {
+		// 	target : ".textInp",             //css选择器
+		// 	rule : ["require"],              //验证规则  支持多个规则
+		// 	value : function(target){        //要验证的目标dom元素的值  可选
+		// 		return target.val();
+		// 	},
+		// 	ok : function(result){},         //所有规则都验通过后
+		// 	fail : function(result){}        //只要有一个规则验证不通过，即代表对此dom元素的验证不通过
+		// }
+		// opt.rule有以下几种形式：
+		// rule = ["require,mobile"]
+		// rule = "require,mobile"   //等同于上面的写法
+		// rule = ["require","mobile",{    //自定义规则，规则名为customRule,后面跟的fn即是此验证规则的实现
+		// 	"customRule" : function(value){   
+		// 		var result = {   //result固定是这个格式
+		// 			isOk : true,
+		// 			errMsg : "",
+		// 			errCode : ""
+		// 		};
+
+		// 		if(value.length>10){
+		// 			result["isOk"] = false;
+		// 			result["errMsg"] = "不能超过10个字符";
+		// 			result["errCode"] = 5;  //errCode自定
+		// 		}else{
+		// 			result["isOk"] = true;
+		// 		}
+
+		// 		return result;   //注意：这里必须把result return出去，否则会报错
+
+		// 	}
+		// }]
+
 		opt = opt || {};
 		var that = this;
 		var container = this.container;
