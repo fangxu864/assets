@@ -29,13 +29,21 @@ module.exports = function(parent){
 		container : container,
 		template : PFT.Util.ParseTemplate(Tpl),
 		init : function(){
-			console.log(this.container);
+			var _this = this ;
 			this.render();
 			//折线图
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
+			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
+			this.barEchart = echarts.init(document.getElementById('barEchart'));
 			this.container.find(".lineEchartControlBox .okBtn").click();
 			this.renderPieEchart();
 			this.renderBarEchart();
+
+			$(window).on("resize" , function () {
+				_this.lineEchart.resize();
+				_this.pieEchart.resize();
+				_this.barEchart.resize();
+			})
 		},
 		EVENTS : {
 			"click .lineEchartControlBox input" : "onTimeInpClick" ,
@@ -60,9 +68,8 @@ module.exports = function(parent){
 		 * @method 渲染饼图
 		 */
 		renderPieEchart : function () {
+			var _this = this ;
 
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('pieEchart'));
 			$.ajax({
 				url: "/r/Home_HomeOrder/productUseRank",    //请求的url地址
 				dataType: "json",   //返回格式为json
@@ -72,11 +79,11 @@ module.exports = function(parent){
 				timeout:10000,   //设置超时 10000毫秒
 				beforeSend: function() {
 					//请求前的处理
-					myChart.showLoading();
+					_this.pieEchart.showLoading();
 				},
 				success: function(res) {
 					//请求成功时处理
-					myChart.hideLoading();
+					_this.pieEchart.hideLoading();
 
 					if( res.code == 200 ){
 						var nameArr = [] , valueArr = [] , dataArr = [];
@@ -117,7 +124,7 @@ module.exports = function(parent){
 								}
 							]
 						};
-						myChart.setOption(option)
+						_this.pieEchart.setOption(option)
 					}else {
 						alert(res.msg)
 					}
@@ -141,8 +148,7 @@ module.exports = function(parent){
 		 * @method 渲染条形图
 		 */
 		renderBarEchart : function () {
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('barEchart'));
+			var _this = this ;
 			$.ajax({
 				url: "/r/Home_HomeOrder/saleRank",    //请求的url地址
 				dataType: "json",   //返回格式为json
@@ -152,11 +158,11 @@ module.exports = function(parent){
 				timeout:10000,   //设置超时 10000毫秒
 				beforeSend: function() {
 					//请求前的处理
-					myChart.showLoading();
+					_this.barEchart.showLoading();
 				},
 				success: function(res) {
 					//请求成功时处理
-					myChart.hideLoading();
+					_this.barEchart.hideLoading();
 					if( res.code == 200 ){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
@@ -200,7 +206,7 @@ module.exports = function(parent){
 								}
 							]
 						};
-						myChart.setOption(option)
+						_this.barEchart.setOption(option)
 					}else{
 						alert(res.msg)
 					}

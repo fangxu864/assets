@@ -16,66 +16,59 @@ require('echarts/lib/component/title');
 require("./index.scss");
 var Tpl = require("./index.xtpl");
 var conLtTpl = require("./conbox_lt.xtpl");
+
+var LoadingPC = require("COMMON/js/util.loading.pc.js");
 module.exports = function(parent){
 	var container = $('<div id="wxShopDataBox" class="wxShopDataBox modBox"></div>').appendTo(parent);
 	var UserInfo = PFT.Util.Class({
 		container : container,
 		conLtTemplate : PFT.Util.ParseTemplate(conLtTpl),
 		init : function(){
+			var _this = this ;
 			this.container.html(Tpl);
-			this.render();
-			this.renderWxShopLineEchart()
+			this.wxShopLineEchart = echarts.init(document.getElementById('wxShopLineEchart'));
+			this.renderConLeft();
+			this.renderWxShopLineEchart();
+			$(window).on("resize", function () {
+				_this.wxShopLineEchart.resize()
+			})
 		},
-		renderConLeft : function(data){
-			var curContainer = this.container.find(".conBox .lt");
-			$.ajax({
-				url: "/r/Home_HomeApp/getMicroMallStatistics/",    //请求的url地址
-				dataType: "json",   //返回格式为json
-				async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-				data: {},    //参数值
-				type: "POST",   //请求方式
-				timeout:10000,   //设置超时 10000毫秒
-				beforeSend: function() {
-					//请求前的处理
-					myChart.showLoading();
-				},
-				success: function(res) {
-					//请求成功时处理
-					console.log(res);
-					if( res.code == 200 ){
 
+		/**
+		 * @method  渲染微商城数据左边部分
+         */
+		renderConLeft : function(){
+			var _this = this ;
+			var curContainer = this.container.find(".conBox .lt");
+			var LoadingStr = LoadingPC("正在加载...",{
+				tag : "tr",
+				colspan : 6,
+				width : 500,
+				height : 200
+			});
+			PFT.Util.Ajax("/r/Home_HomeApp/getMicroMallStatistics/",{
+				type : "get",
+				params : {},
+				loading : function(){
+					curContainer.html(LoadingStr);
+				},
+				complete : function(res){
+					if( res.code == 200 ){
+						var html = _this.conLtTemplate({ data : res.data });
+						curContainer.html(html);
 					}else{
-						alert(res.msg)
+						curContainer.html( res.msg );
 					}
-				},
-				complete: function(res,status) {
-					//请求完成的处理
-					if(status=="timeout"){
-						alert("微商城运营数据请求超时")
-					}
-				},
-				error: function() {
-					//请求出错处理
-					alert("微商城运营数据请求出错")
+
 				}
 			});
-			var html = this.conLtTemplate(data || {
-					"name": "慢慢的店铺",   //账号名称
-					"cname" : "天地银行",   //公司名称
-					"type" : 1, //账号类型,0供应商,1分销商
-					'hasAuth' : 1, //是否认证
-					"remainMoney": 111,     //余额
-					"expireDate" : "2012-1-1",   //到期时间
-					"mobile": 123123123123,      //手机号
-					"abnormalOrder" : 12,    //异常订单  ,
-					"lastLogin" : "2012-1-1", //上次登陆时间
-					"avatar" : "http://images.12301.cc/123624/1452148699.png" //头像
-				});
-			this.container.html(html);
 		},
+
+		/**
+		 * @method  渲染微商城数据右边图表
+		 */
 		renderWxShopLineEchart : function () {
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('wxShopLineEchart'));
+			var _this = this ;
 
 			$.ajax({
 				url: "/r/Home_HomeOrder/saleRank",    //请求的url地址
@@ -86,12 +79,12 @@ module.exports = function(parent){
 				timeout:10000,   //设置超时 10000毫秒
 				beforeSend: function() {
 					//请求前的处理
-					myChart.showLoading();
+					_this.wxShopLineEchart.showLoading();
 				},
 				success: function(res) {
 					//请求成功时处理
 					console.log(res);
-					myChart.hideLoading();
+					_this.wxShopLineEchart.hideLoading();
 					if( res.code == 200 ){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
@@ -141,7 +134,7 @@ module.exports = function(parent){
 								}
 							]
 						};
-						myChart.setOption(option)
+						_this.wxShopLineEchart.setOption(option)
 					}else{
 						alert(res.msg)
 					}
