@@ -1,13 +1,13 @@
 <div id="dialog_tuipiao">
     <div class="mask"></div>
     <div class="dialog_con">
-        <div class="line line1">*为保障票务安全需要验证联系人手机</div>
+
         <div class="line line2">
             <div class="td td1">验证码</div>
             <div class="td td2"><input type="text" class="vcode" placeholder="请输入验证码"/></div>
             <div class="td td3"><span class="btn btn_sendCode">发送验证码</span></div>
         </div>
-        <div class="line line4"></div>
+        <div class="line line4"><span>*为保障票务安全需要验证联系人手机</span></div>
         <div class="line line3">
             <span class="btn btn_yes">确定</span>
             <span class="btn btn_no">取消</span>
