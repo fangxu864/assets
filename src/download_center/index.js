@@ -70,15 +70,18 @@ var DownloadCenter = {
         $("#table_box").on("click",".down_href",function () {
             if($(this).hasClass("disabled")) return false ;
             // var downUrl = "download.12301.test/r/MassData_StartDown/index?id=" + $(this).attr("data-id");
-            var downUrl = "http://download."+_this.getDomainName()+"?id=" + $(this).attr("data-id");
+            var idStr = $(this).attr("data-id");
+            var downUrl = "http://download."+_this.getDomainName()+"?id=" + encodeURIComponent( idStr );
+            console.log(downUrl);
             //  由于存在跨域问题暂时注释掉
             // $.get(downUrl,function(res){
+            //     console.log(res)
             //     if(res.code){
             //         PFT.Util.STip("fail",res.msg)
             //     }else{
             //         _this.outExcel(downUrl)
             //     }
-            // })
+            // });
             _this.outExcel(downUrl)
         })
     },
