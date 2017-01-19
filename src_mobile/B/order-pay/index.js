@@ -1,22 +1,22 @@
 
 require("./index.scss");
 
+var Order_pay = PFT.Util.Class({
 
-var Product_detail = PFT.Util.Class({
-
-	container : $("#productOrderBox"),
+	container : $("#orderPayBox"),
 	EVENTS : {                    
 	},
 	init : function(opt){         
 		
-			
+		console.log("填写订单");
+		
 	}
 
 });
 
 
 $(function(){
-	new Product_detail();
+	new Order_pay();
 });
 
 
