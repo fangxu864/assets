@@ -130,7 +130,14 @@
     "member-card-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/member-card/webpack.config.js",
     "member-card-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/member-card/webpack.config.js",
     "member-card-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/member-card/webpack.config.js",
-    "member-card-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/member-card/webpack.config.js"
+    "member-card-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/member-card/webpack.config.js",
+
+    "recharge-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/recharge/webpack.config.js",
+    "recharge-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/recharge/webpack.config.js",
+    "recharge-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/recharge/webpack.config.js",
+    "recharge-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/recharge/webpack.config.js"
+
+
   },
   "repository": {
     "type": "git",
