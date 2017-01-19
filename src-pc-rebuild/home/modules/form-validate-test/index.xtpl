@@ -1,0 +1,6 @@
+<form id="testFormContainer" action="">
+	<input type="text" name="" id="" class="textInp">
+	<input type="text" name="" id="" class="mobileInp">
+	<input type="text" name="" id="" class="idCardInp">
+	<a class="btn" href="javascript:void(0)">验证</a>
+</form>

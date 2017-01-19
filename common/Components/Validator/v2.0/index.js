@@ -40,9 +40,13 @@ var Rules = require("./rules.js");
 
 function Validator(opt){
 	//无new实例化
-	if(!this instanceof Validator) return new Validator(opt);
+	if(!(this instanceof Validator)) return new Validator(opt);
 	this.field = opt.field || [];
 	this.container = opt.container || null;
+	if(typeof this.container==="string"){
+		this.container = $(this.container);
+	}
+
 
 	this.__mapEvents();
 
@@ -56,7 +60,6 @@ Validator.prototype = {
 		errMsg : "",
 		errCode : ""
 	},
-	__init : function(){},
 	__valid : function(opt){
 		opt = opt || {};
 		var that = this;
@@ -80,6 +83,8 @@ Validator.prototype = {
 		var ok = opt.ok || function(){};
 		var fail = opt.fail || function(){};
 
+		var isOk = true;
+
 		//开始验证
 		for(var i=0,len=rule.length; i<len; i++){
 			var _rule = rule[i];
@@ -91,11 +96,12 @@ Validator.prototype = {
 					res = _valid(value);
 					res["rule"] = _rule;
 					res["value"] = value;
-					res.isOk ? ok(res) : fail(res);
 					if(!res.isOk){
 						that.__validResult.isOk = false;
 						that.__validResult.errMsg = res.errMsg;
 						that.__validResult.erCode = res.errCode;
+						isOk = false;
+						fail(res);
 						break;
 					}
 				}else{
@@ -106,16 +112,21 @@ Validator.prototype = {
 					res = _rule[k](value);
 					res["rule"] = k;
 					res["value"] = value;
-					res.isOk ? ok(res) : fail(res);
 					if(!res.isOk){
 						that.__validResult.isOk = false;
 						that.__validResult.errMsg = res.errMsg;
 						that.__validResult.erCode = res.errCode;
-						break;
+						isOk = false;
+						fail(res);
 					}
 				}
+				if(!isOk) break;
 			}
 		}
+
+		//如果所有规则都被验证通过
+		if(isOk) ok({isOk:true,value:value,rule:rule});
+
 	},
 	__mapEvents : function(){
 		var that = this;
@@ -127,10 +138,8 @@ Validator.prototype = {
 				var event = field.event;
 				if(typeof event=="string"){
 					event = event.replace(","," ");
-					console.log("event="+event);
 				}else if(Object.prototype.toString.call(event)=="[object Array]" && event.length>0){
 					event = event.join(" ");
-					console.log("event="+event);
 				}
 				var target = field.target;
 				if(container){
