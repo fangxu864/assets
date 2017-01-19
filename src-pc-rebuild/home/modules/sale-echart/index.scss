@@ -1,0 +1,125 @@
+#saleEchartBox{
+    position:relative;
+
+    /*title*/
+    .title{
+        line-height: 42px;
+        font-size: 16px;
+        font-weight: bold;
+        border-bottom: 1px solid #e5e5e5;
+        span.title-text{ margin-left: 10px;}
+    }
+    .line{
+        overflow: hidden;
+
+    }
+    .line1{
+        display: table;
+        border-spacing: 20px 10px;
+        width: 100%;
+        .data-box{
+            display: table-cell;
+            position: relative;
+            height: 153px;
+            border: 1px solid #e5e5e5;
+            max-height: 153px;
+            overflow: hidden;
+            white-space: nowrap;
+            .lt{
+                color: #5f5e64;
+                float: left;
+                width: 10%;
+                height: 153px;
+                background-color: #eef0f2;
+                font-size: 18px;
+                font-weight: bold;
+                padding-top: 52px;
+                box-sizing: border-box;
+                text-align: center;
+            }
+            .rt{
+                float: right;
+                width: 90%;
+                table{
+                    width: 100%;
+                    text-align: center;
+                    font-size: 14px;
+                    tr{
+                        line-height: 50px;
+                        td span.value{
+                            color: #ff8734;
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .line2{
+        .lineEchartControlBox{
+            margin: 20px auto;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            .td{
+                box-sizing: border-box;
+                display: flex;
+                .btn{
+                    padding: 8px 16px;
+                    display: block;
+                    cursor: pointer;
+                }
+                .btn.active{
+                    background-color: #0897d9;
+                    color : white;
+                }
+            }
+            .td1,.td2{ border: 1px solid #e5e5e5;}
+            .td3{
+                margin-left: 100px;
+                margin-right: 20px;
+            }
+            .td3 input{
+                padding-left: 5px;
+                border: 1px solid #e5e5e5;
+                width:88px;
+            }
+        }
+        .lineEchart{
+            height :500px;
+            width : 100%
+        }
+        .selectBox{
+            display: flex;
+            padding-left: 50px;
+            .td {
+                margin-left: 30px;
+                i.icon{
+                    position: relative;
+                    top: 2px;
+                    cursor: pointer;
+                }
+                i.icon-checkbox.icon-u-bold.icon-checkbox-checked{
+                    color: #3cba3f;
+                }
+                i.icon-checkbox.icon-u-bold{
+                    color: #9fa6ad;
+                }
+            }
+        }
+    }
+    .line3{
+        margin-top: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        .lt , .rt{
+            height: 500px;
+            background-color: #e5e5e5;
+        }
+    }
+
+
+
+
+}
