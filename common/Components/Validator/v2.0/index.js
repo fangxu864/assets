@@ -3,70 +3,31 @@
  * Date: 2016/12/29 15:39
  * Description: ""
  */
-var form = new Form({
-	container : $("#form"),
-	field : {
-		name : {
-			value : "sdfdf",
-			validate : {
-				rule : "require,mobile",
-				event : "blur",
-				ok : function(){},
-				error : function(msg,code){
 
-				}
-			}
-		},
-		mobile : {
-			value : "12445234234",
-			validate : {
-				rule : ["require","mobile",{
-					"isChar" : function(val){
-
-					}
-				}],
-				event : "blur",
-				ok : function(){},
-				error : function(msg,code){
-
-				}
-			}
-		}
-	},
-	template : function(){
-		return '<div><%=name%></div>'
-	},
-	methods : {
-
-	},
-	submit : "api.12301.cc/r/c/a"
-});
-
-
-var result  = form.valid();
-if(result.isOk){
-	//submit()
-}else{
-	console.log(result.msg,result,code);
-}
+// var result  = form.valid();
+// if(result.isOk){
+// 	//submit()
+// }else{
+// 	console.log(result.msg,result,code);
+// }
 
 
 
-var d = new Validator({
-	container : $("#form"),
-	field : [{
-		target : ".selector",
-		value : function(target){
+// var d = new Validator({
+// 	container : $("#form"),
+// 	field : [{
+// 		target : ".selector",
+// 		value : function(target){
 
-		},
-		rule : "require,mobile",
-		event : "blur",
-		ok : function(){},
-		fail : function(msg,code){
+// 		},
+// 		rule : "require,mobile",
+// 		event : "blur",
+// 		ok : function(result){},
+// 		fail : function(result){
 
-		}
-	}]
-});
+// 		}
+// 	}]
+// });
 
 
 
@@ -82,6 +43,9 @@ function Validator(opt){
 	if(!this instanceof Validator) return new Validator(opt);
 	this.field = opt.field || [];
 	this.container = opt.container || null;
+
+	this.__mapEvents();
+
 }
 
 Validator.Rules = Rules;
@@ -185,23 +149,29 @@ Validator.prototype = {
      * 验证全部或验证某一项
 	 */
 	valid(index){
-
+		var that = this;
 		this.__validResult = {
 			isOk : true,
 			errMsg : "",
 			errCode : ""
 		};
-		
+
 		var field = this.field;
 		if(typeof index==="number" && field[index]){
-
+			this.__valid(index);
 		}else{
-
+			for(var i=0,len=field.length; i<len; i++){
+				that.__valid(field[i]);
+			}
 		}
+
+		return this.__validResult;
 
 	}
 };
 
+
+module.exports = Validator;
 
 
 
