@@ -161,7 +161,8 @@
                     for(var i=0; i<data.length; i++){
                         var item = data[i];
                         var name = item.name;
-                        if(!filterTheme[name]) newData.push(item);
+                        var identify = item.identify;
+                        if(!filterTheme[name] || identify!=="theme") newData.push(item);
                     }
                     this.$nextTick(()=>{
                         this.render(newData);
