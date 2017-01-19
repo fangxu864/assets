@@ -15,7 +15,7 @@ function Dialog(){
     this.Dialog_simple=new DialogSimple({
         width : 500,
         closeBtn : false,
-        content : "<div id='dialog_box_headerWarning'></div>",
+        content : "",
         drag : true,
         speed : 200,
         offsetX : 0,
@@ -28,7 +28,7 @@ function Dialog(){
             }
         }
     });
-    this.Dialog_box=$("#dialog_box_headerWarning")
+    this.Dialog_box=this.Dialog_simple.container.find(".gSimpleDialog-content")
 }
 
 Dialog.prototype={
@@ -37,7 +37,7 @@ Dialog.prototype={
     },
     show_dialog_con:function (data) {
         var list=data;
-        list["host"]=location.host;
+        // list["host"]=location.host;
         var _this=this;
         var html=_this.template({data:list});
         this.Dialog_box.html(html);

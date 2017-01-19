@@ -515,6 +515,39 @@ PFT.Util.Ajax(url,{
 
 ```
 
+## Toast
+> 1. 页面上弹出loading或者操作成功，只能用于移动端
+> 2. 目录：./common/modules/Toast
+> 3. 调用：不在全局PFT.Util下，需要自行require
 
+**Toast是一个模块，需要new一个实例，然后才能调用实例的show方法及hide方法**
 
+show方法参数
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|type|string|"loading"或"success"二者选其一|"success"|
+|content|string|显示的文字|当type=="loading"时，content默认"请稍后...",当type=="success"时，content默认"操作成功"|
+|duration|number|当type==success时，经过多少时间自动消失弹窗|1500|
+|callback|function|回调|functon|
+
+```js
+var Toast = require("COMMON/modules/Toast");
+var toast = new Toast();
+
+//可以这么写，简易写法
+toast.show();  
+
+//当某项操作成功后，给用户反馈操作的结果
+toast.show("success","操作成功",2000,function(){
+    console.log(2秒后自动消失，并且执行回调函数);
+})
+
+//当发起网络请求时
+toast.show("loading","努力加载中...");
+
+//当网络请求完成时
+toast.hide();
+
+```
 

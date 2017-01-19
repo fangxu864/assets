@@ -21,6 +21,7 @@ var PartnerChange = require("./modules/partner-change");
 var SystemNotice = require("./modules/system-notice");
 
 
+
 var Main = PFT.Util.Class({
 	container : $("#G_Body"),
 	init : function(){
@@ -44,7 +45,6 @@ var Main = PFT.Util.Class({
 
 		this.partnerChange = PartnerChange(this.rightBar);
 		this.systemNotice = SystemNotice(this.rightBar);
-
 
 
 	}

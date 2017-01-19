@@ -291,7 +291,7 @@ module.exports = function(parent){
 				success: function(res) {
 					//请求成功时处理
 					_this.lineEchart.hideLoading();
-					var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k;
+					var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
 
 					for( i in res.data.new){
 						newArr.push(res.data.new[i])
@@ -299,9 +299,17 @@ module.exports = function(parent){
 					for( j in res.data.old ){
 						oldArr.push(res.data.old[j])
 					}
-					//格式化日期，返回20170102  -->  2017/01/02
+					//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
 					for( k in res.data.timeLine ){
-						xAxisArr.push( res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/") );
+						timeStr = res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/");
+						if( /0|6/.test( new Date(timeStr).getDay()) ){
+							if( new Date(timeStr).getDay() === 0 ){
+								timeStr = "周日" ;
+							}else{
+								timeStr = "周六" ;
+							}
+						}
+						xAxisArr.push( timeStr );
 					}
 
 					var option = {
