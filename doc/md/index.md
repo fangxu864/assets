@@ -784,7 +784,7 @@ var selectPop = new SheetCore({
 
       content : Tpl,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
 
-      height : "auto",      //弹层占整个手机屏幕的高度
+      height : "auto",      //自动，内容多高就显示多高
       height : 300,         //设置高度为300
       height : "50%"        //设置高度为50%
 
