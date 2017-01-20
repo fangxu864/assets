@@ -71,7 +71,7 @@ var HeaderWarning={
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
                 //如果账户余额接近不足
-                if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
+                else if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
                     //弹框每天只提醒一次，使用cookie控制
                     var isDialog_cookie_ac = _this.getCookie("isDialog_of_judge_account_balance");
                     if(isDialog_cookie_ac == "false") return false;

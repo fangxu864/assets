@@ -76,21 +76,21 @@ Validator.prototype = {
 		// rule = "require,mobile"   //等同于上面的写法
 		// rule = ["require","mobile",{    //自定义规则，规则名为customRule,后面跟的fn即是此验证规则的实现
 		// 	"customRule" : function(value){   
-		// 		var result = {   //result固定是这个格式
-		// 			isOk : true,
-		// 			errMsg : "",
-		// 			errCode : ""
-		// 		};
+				// var result = {   //result固定是这个格式
+				// 	isOk : true,
+				// 	errMsg : "",
+				// 	errCode : ""
+				// };
 
-		// 		if(value.length>10){
-		// 			result["isOk"] = false;
-		// 			result["errMsg"] = "不能超过10个字符";
-		// 			result["errCode"] = 5;  //errCode自定
-		// 		}else{
-		// 			result["isOk"] = true;
-		// 		}
+				// if(value.length>10){
+				// 	result["isOk"] = false;
+				// 	result["errMsg"] = "不能超过10个字符";
+				// 	result["errCode"] = 5;  //errCode自定
+				// }else{
+				// 	result["isOk"] = true;
+				// }
 
-		// 		return result;   //注意：这里必须把result return出去，否则会报错
+				// return result;   //注意：这里必须把result return出去，否则会报错
 
 		// 	}
 		// }]
