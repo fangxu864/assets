@@ -756,5 +756,78 @@ Confirm("您的帐号登录状态已过期，是否重新登录？",function(res
 
 ```
 
+## Select (mobile)
+> 1. 手机端专用Select选择组件
+> 2. 目录：./common/Components/Sheet-Core/v1.0
+> 3. 原则上，在手机端，需要呼出弹层并让用户在弹层内做一些相关操作的，都可以用这个组件
+
+```js
+var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
+
+
+var Tpl = require("./selectPop.xtpl");
+
+
+var selectPop = new SheetCore({
+
+      header : "标题",      //弹层头部标题 可选
+
+      //也可以这样
+      header : function(){
+          var html = "";
+          html += '<div class="mySelect">';
+          html += '<span>标题</span>';
+          html += '</div>';
+          //必须把html return出去
+          return html;
+      },
+
+      content : Tpl,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+
+      height : "auto",      //弹层占整个手机屏幕的高度
+      height : 300,         //设置高度为300
+      height : "50%"        //设置高度为50%
+
+
+      yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
+      yesBtn : true,        //显示，且使用默认文字
+      yesBtn : "确定提交",  //显示且设置文字为"确定提交"
+
+      yesBtn : function(e){ //显示且设置被点击时的事件回调,文字使用默认
+          console.log("点击时执行")
+      },
+      yesBtn : {            //显示，且设置文字为"确定提交",设置事件回调
+        text : "确定提交",   
+        handler : function(e){
+          console.log("点击时执行")
+        }
+      },
+      
+      noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
+
+      zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
+
+
+      EVENTS : {            //弹层上面绑定的所有事件放在这里
+        "click .linkBtn" : function(e){
+          console.log(e);
+        }
+      }
+
+});
+
+
+//new SheetCore后得到的实例selectPop暴露以下4个方法：
+
+selectPop.show();               //从底部弹出弹层
+
+selectPop.hide();               //关闭弹层
+
+selectPop.find();               //选择selectPop弹层里的某个dom元素
+
+selectPop.setContent(html);     //动态设置selectPop弹层的content内容(一般不常用)
+
+
+```
 
 
