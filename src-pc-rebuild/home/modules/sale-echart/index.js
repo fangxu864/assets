@@ -348,7 +348,7 @@ module.exports = function(parent){
 							grid: {
 								left: '3%',
 								right: '4%',
-								bottom: '10%',
+								bottom: '15%',
 								containLabel: true
 							},
 							xAxis : [
