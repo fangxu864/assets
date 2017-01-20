@@ -8,7 +8,7 @@ var Order_pay = PFT.Util.Class({
 	},
 	init : function(opt){         
 		
-		console.log("填写订单");
+		console.log("支付");
 		
 	}
 

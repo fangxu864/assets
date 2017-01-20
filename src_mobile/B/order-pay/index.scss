@@ -1,5 +1,76 @@
 
+@import "COMMON/css/base/main";
 
 #orderPayBox{
-	
+	margin:px2rem(50) px2rem(32);
+	line-height : px2rem(60);
+	.payInfo{
+		color: #3dba3f;
+		font-size: px2rem(48); 
+	}
+	.cancelInfo{
+		font-size : px2rem(28);
+		color : #5f5e63;
+		line-height : px2rem(60);
+		.deadlineTime{
+			color : #EF7039;
+		}
+	}
+	.orderInfo{
+		padding : px2rem(16); 
+		background: #f5f5f5;
+		font-size : px2rem(28);
+		color : #5f5e63;
+		margin-bottom: px2rem(32);
+	}
+	h2.payWayT{
+		font-size : px2rem(36);
+		color : #262d37;
+		margin-bottom : px2rem(20);
+		.payTotalMoney{
+			color : #EF7039;
+		}
+	}
+	.restMoney{
+		height: px2rem(200);
+		display: -webkit-flex; 
+		display: flex;
+		margin-bottom : px2rem(16);
+		.accountMoney{
+			flex-grow :1;
+			border : 1px solid #e8ebed;
+			text-align: center;
+			padding-top: 0.4rem;
+		}
+		.creditMoney{
+			flex-grow :1;
+			margin-left: px2rem(20);
+			border : 1px solid #e8ebed;
+			text-align: center;
+			padding-top: 0.4rem;
+		}
+	}
+	.payWay{
+		height: px2rem(200);
+		display: -webkit-flex; 
+		display: flex;
+		.payWayItem{
+			flex-grow :1;
+			margin-left: px2rem(20);
+			border : 1px solid #e8ebed;
+			text-align: center;
+			line-height : px2rem(40);
+			.payWayItemImg{
+				display : inline-block;
+				height : px2rem(100);
+				width : px2rem(100);	
+				background : #123456;
+				border-radius: 10px;
+				margin-top: px2rem(30);
+			}
+		}
+		.aliPay{
+			margin-left: 0;	
+		}
+	}
 }
