@@ -12,10 +12,8 @@ var Plist = PFT.Util.Class({
 	},
 	init : function(opt){         
 		
-				
 		
-
-
+		
 	}
 
 });
