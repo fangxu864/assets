@@ -1,0 +1,55 @@
+body{
+    padding:0;
+}
+@import "../common/scss/base";
+@import "./scss/app-item";
+
+#PageMainRightContainer{
+    background:#efefef;
+}
+
+.section {
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+}
+.section-appadmin .section-con {
+    padding: 35px 50px;
+}
+
+.app-panel {
+    margin-bottom: 15px;
+}
+.app-panel .app-panel-header:after {
+    content:'';
+    display: table;
+    clear: both;
+}
+.app-panel .app-panel-header {
+    border-bottom: 2px solid #2a97d8;
+}
+.app-panel .app-panel-header .app-panel-title {
+    float: left;
+    padding: 6px 20px;
+    background-color: #2a97d8;
+    font-size: 18px;
+    font-weight: normal;
+    color: #fff;
+    line-height: 30px;
+}
+.app-panel .app-panel-con {
+    padding: 30px;
+    background-color: #efefef;
+    line-height: 1.5;
+}
+.form-charge {
+    min-height: 235px;
+}
+.form-charge .form-group {
+    width: 370px;
+}
+.double-line {
+    border-top: 1px solid #c9c9c9;
+    height: 1px;
+    background-color: #fff;
+    font-size: 0;
+}

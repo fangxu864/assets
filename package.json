@@ -88,6 +88,12 @@
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
+
+    "common-pc-style-start" : "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-test" : "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-release" : "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-production" : "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
+
     "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
     "report_unAdmin-release": "set NODE_ENV=release && webpack --config ./src/report_unAdmin/webpack.config.js",
@@ -143,6 +149,12 @@
     "download_center-test": "set NODE_ENV=test && webpack --config ./src/download_center/webpack.config.js",
     "download_center-release": "set NODE_ENV=release && webpack --config ./src/download_center/webpack.config.js",
     "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js"
+    "application-center-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+
+    "expired-text-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/expiredText/webpack.config.js",
+    "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js"
   },
   "repository": {
     "type": "git",
