@@ -193,6 +193,7 @@
 		position: absolute;
 		width: 100%;
 	    top: 2.2rem;
+	   	bottom : 0;  //用xscroll插件的时候必须要有
 	    .productOrderSpot{
 	    	padding: 0;
 			margin-top: 0;
