@@ -1,0 +1,15 @@
+
+<div class="cityWrap">
+	<input type="" name="" id="citySearch">
+	<div class="allCityBtn">全部城市</div>
+	<h1>A</h1>
+	<li>城市</li>
+	<li>城市</li>
+	<li>城市</li>
+	<h1>B</h1>
+	<li>城市</li>
+	<li>城市</li>
+	<li>城市</li>
+</div>
+
+

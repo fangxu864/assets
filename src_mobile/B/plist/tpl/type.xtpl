@@ -1,0 +1,3 @@
+<% for(var type in list) { %>
+    <li class="typeBtn" data-type="<%=type%>"><%=list[type]%></li>
+<% } %>

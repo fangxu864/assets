@@ -145,7 +145,7 @@
 		top: 0;
 		left: 0;
 		right: 0;
-		z-index: 500;
+		z-index: 100;
 		.inputWrap{
 			margin: px2rem(24) px2rem(16) ;
 			padding-left: px2rem(75);
@@ -267,6 +267,80 @@
 		line-height: px2rem(50);
 		text-align: center;
 		font-size: px2rem(32);
+	}
+}
+
+
+
+.ui-sheetCoreContainer{
+	.sheet-content{
+		li{
+			height : 43px;
+			list-style-type : none;
+			line-height : 43px;
+			padding-left : 20px;
+			border-bottom: 1px solid #e5e5e5;
+		}
+	}
+}
+// 选择城市弹窗部分
+.cityWrap{
+	margin : px2rem(32) px2rem(32) 0 px2rem(32);
+	display: flex;
+	display: -webkit-flex;
+	flex-direction : column ;
+	#citySearch{
+		height : px2rem(88);
+		border : 1px solid #dcdcdc;
+		border-radius : 4px;
+		font-size : px2rem(32);
+		color : #262d37;
+		padding-left : px2rem(50);
+		margin-bottom : px2rem(45);
+		&:focus{
+			border : 1px solid #0797d9;
+		}
+	}
+	.allCityBtn{
+		height : px2rem(88);
+		background : #f3f1f1;
+		font-size : px2rem(32);
+		line-height : px2rem(88);
+		margin-bottom : px2rem(45);
+		text-align : center;
+	}
+}
+
+// 搜索弹窗部分
+
+#allSearch{
+	display: flex;
+	display: -webkit-flex;
+	height : px2rem(112);
+	line-height : px2rem(112);
+	background: #e5f5fc;	
+	align-items : center ;
+	.returnBtn{
+		flex-grow : 1;	
+		height : px2rem(50);
+		width : px2rem(50);
+		background : #123546;
+		margin : 0 px2rem(20);
+		color : #fff;
+	}
+	.searchInput{
+		flex-grow : 10;
+		height : px2rem(64);
+		border-radius : 4px; 
+		font-size : px2rem(28);
+		padding-left : px2rem(30);
+		border : none;
+	}
+	.searchBtn{
+		flex-grow : 1;
+		font-size : px2rem(36);
+		color : #0797d9;
+		margin : 0 px2rem(20);
 	}
 }
 

@@ -1,0 +1,5 @@
+<div id="allSearch">
+	<div class="returnBtn"></div>
+	<input class="searchInput"></input>
+	<div class="searchBtn">搜索</div>
+</div>
