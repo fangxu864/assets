@@ -9,16 +9,16 @@
             <table>
                 <tbody>
                 <tr>
-                    <td><span class="key">今日预订金额 : </span><span class="value">11606元</span></td>
-                    <td><span class="key">今日预订人数 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日预订金额 : </span><span class="value">...</span></td>
+                    <td><span class="key">今日预订人数 : </span><span class="value">...</span></td>
                 </tr>
                 <tr>
-                    <td><span class="key">今日检票金额 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票金额 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日检票金额 : </span><span class="value">...</span></td>
+                    <td><span class="key">今日退票金额 : </span><span class="value">...</span></td>
                 </tr>
                 <tr>
-                    <td><span class="key">今日检票数 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票数 : </span><span class="value">918</span></td>
+                    <td><span class="key">今日检票数 : </span><span class="value">...</span></td>
+                    <td><span class="key">今日退票数 : </span><span class="value">...</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -27,24 +27,7 @@
     </div>
     <div class="yesterday-box data-box">
         <div class="lt">昨<br/>日</div>
-        <div class="rt">
-            <table>
-                <tbody>
-                <tr>
-                    <td><span class="key">今日预订金额 : </span><span class="value">11606元</span></td>
-                    <td><span class="key">今日预订人数 : </span><span class="value">110人</span></td>
-                </tr>
-                <tr>
-                    <td><span class="key">今日检票金额 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票金额 : </span><span class="value">110人</span></td>
-                </tr>
-                <tr>
-                    <td><span class="key">今日检票数 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票数 : </span><span class="value">918</span></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="rt"></div>
     </div>
     <div class="clear" style="clear: both"></div>
 </div>
