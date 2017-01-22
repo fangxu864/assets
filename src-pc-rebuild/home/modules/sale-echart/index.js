@@ -42,13 +42,19 @@ module.exports = function(parent){
 			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
 			this.barEchart = echarts.init(document.getElementById('barEchart'));
 			this.container.find(".lineEchartControlBox .okBtn").click();
-			this.renderPieEchart();
-			this.renderBarEchart();
 			//窗口resize时 ，echarts重新渲染
 			$(window).on("resize" , function () {
 				_this.lineEchart.resize();
 				_this.pieEchart.resize();
 				_this.barEchart.resize();
+			});
+			//数据懒加载，当出现在视窗中才开始加载
+			$("#G_Body").on("scroll.renderPie-Bar" , function (e) {
+				if( _this.container.find(".line3").offset().top < 1000 ){
+					_this.renderPieEchart();
+					_this.renderBarEchart();
+					$(this).off("scroll.renderPie-Bar")
+				}
 			})
 		},
 		EVENTS : {

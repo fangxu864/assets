@@ -27,10 +27,17 @@ module.exports = function(parent){
 			var _this = this ;
 			this.container.html(Tpl);
 			this.wxShopLineEchart = echarts.init(document.getElementById('wxShopLineEchart'));
-			this.renderConLeft();
-			this.renderWxShopLineEchart();
+			//窗口变化时，echart重新渲染
 			$(window).on("resize", function () {
 				_this.wxShopLineEchart.resize()
+			});
+			//数据懒加载，当出现在视窗中才开始加载
+			$("#G_Body").on("scroll.wxShopLineEchart" , function (e) {
+				if( _this.container.offset().top < 1000 ){
+					_this.renderConLeft();
+					_this.renderWxShopLineEchart();
+					$(this).off("scroll.wxShopLineEchart")
+				}
 			})
 		},
 
