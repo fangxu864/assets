@@ -33,7 +33,7 @@ module.exports = function(parent){
 			});
 			//数据懒加载，当出现在视窗中才开始加载
 			$("#G_Body").on("scroll.wxShopLineEchart" , function (e) {
-				if( _this.container.offset().top < 1000 ){
+				if( _this.container.offset().top < $(window).height() ){
 					_this.renderConLeft();
 					_this.renderWxShopLineEchart();
 					$(this).off("scroll.wxShopLineEchart")

@@ -41,7 +41,6 @@ module.exports = function(parent){
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
 			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
 			this.barEchart = echarts.init(document.getElementById('barEchart'));
-			this.container.find(".lineEchartControlBox .okBtn").click();
 			//窗口resize时 ，echarts重新渲染
 			$(window).on("resize" , function () {
 				_this.lineEchart.resize();
@@ -50,10 +49,15 @@ module.exports = function(parent){
 			});
 			//数据懒加载，当出现在视窗中才开始加载
 			$("#G_Body").on("scroll.renderPie-Bar" , function (e) {
-				if( _this.container.find(".line3").offset().top < 1000 ){
+				if( _this.container.find(".line3").offset().top < $(window).height() ){
 					_this.renderPieEchart();
 					_this.renderBarEchart();
 					$(this).off("scroll.renderPie-Bar")
+				}
+			}).on("scroll.renderLineEchart" , function () {
+				if( _this.container.offset().top < $(window).height() ){
+					_this.container.find(".lineEchartControlBox .okBtn").click();
+					$(this).off("scroll.renderLineEchart")
 				}
 			})
 		},
