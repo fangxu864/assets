@@ -10,7 +10,7 @@
     "react-dom": "^15.3.2"
   },
   "devDependencies": {
-    "atool-build": "^0.9.0",
+    "atool-build": "^0.7.6",
     "atool-test-mocha": "^0.1.5",
     "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-dva-hmr": "^0.2.0",

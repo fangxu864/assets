@@ -3,7 +3,7 @@
  * Date: 2016/12/19 14:06
  * Description: ""
  */
-import request from "../../utils/request";
+import request from "../../utils/request.js";
 async function fetchInfo(){
     return request("/r/UserInfo/getUserInfo/");
 }

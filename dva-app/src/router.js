@@ -8,7 +8,7 @@ export default function({ history }) {
   return (
     <Router history={history}>
       <Route path="/" component={IndexPage} />
-      <Route path="terminal" component={TerminalPage} />
+      <Route path="/terminal" component={TerminalPage} />
     </Router>
   );
 };

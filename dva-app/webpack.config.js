@@ -5,9 +5,9 @@ const precss = require("precss");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 module.exports = function(webpackConfig, env) {
-  webpackConfig.babel.plugins.push('transform-runtime');
 
-  // webpackConfig.babel.babelrc = false;
+  webpackConfig.babel.babelrc = false;
+  webpackConfig.babel.plugins.push('transform-runtime');
   webpackConfig.babel.plugins.push(['import', {
     libraryName: 'antd',
     style: 'css'  // if true, use less
@@ -16,7 +16,7 @@ module.exports = function(webpackConfig, env) {
 
   // Support hmr
   if (env === 'development') {
-    webpackConfig.devtool = '#eval';
+    // webpackConfig.devtool = '#eval';
     webpackConfig.babel.plugins.push('dva-hmr');
   } else {
     webpackConfig.babel.plugins.push('dev-expression');

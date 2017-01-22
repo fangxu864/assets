@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 
