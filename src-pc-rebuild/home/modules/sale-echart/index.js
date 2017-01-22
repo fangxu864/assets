@@ -21,6 +21,8 @@ var datepicker = new Datepicker();
 
 require("./index.scss");
 var Tpl = require("./index.xtpl");
+var oD_yesterday_tpl = require("./orderdata-yesterday.xtpl");
+var oD_today_tpl = require("./orderdata-today.xtpl");
 module.exports = function(parent){
 
 	var container = $('<div id="saleEchartBox" class="saleEchartBox modBox"></div>').appendTo(parent);
@@ -28,9 +30,13 @@ module.exports = function(parent){
 	var saleEchart = PFT.Util.Class({
 		container : container,
 		template : PFT.Util.ParseTemplate(Tpl),
+		template_yesterday_od : PFT.Util.ParseTemplate(oD_yesterday_tpl),
+		template_today_od : PFT.Util.ParseTemplate(oD_today_tpl),
 		init : function(){
 			var _this = this ;
 			this.render();
+			this.renderOrderData_today();
+			this.renderOrderData_yesterday();
 			//折线图
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
 			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
@@ -38,7 +44,7 @@ module.exports = function(parent){
 			this.container.find(".lineEchartControlBox .okBtn").click();
 			this.renderPieEchart();
 			this.renderBarEchart();
-
+			//窗口resize时 ，echarts重新渲染
 			$(window).on("resize" , function () {
 				_this.lineEchart.resize();
 				_this.pieEchart.resize();
@@ -52,15 +58,39 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 			"click .selectBox .icon" : "onSelectBoxIconClick" ,
 		},
+
+
+		/**
+		 * @method 渲染基础dom
+		 * @param data
+         */
 		render : function(data){
 			var _this = this ;
-
-
 			var html = this.template(data || {
-					"bTimeInpVal": _this.When.getSomeday(-6),   //账号名称
+					"bTimeInpVal": _this.When.getSomeday(-6),
 					"eTimeInpVal": _this.When.getSomeday(0)
 				});
 			this.container.html(html);
+		},
+
+
+		/**
+		 * @method 渲染今天订单数据
+		 */
+		renderOrderData_today : function () {
+			var _this = this ;
+			var html = _this.template_today_od( );
+			_this.container.find(".line1 .today-box .rt table").html( html )
+		},
+
+
+		/**
+		 * @method 渲染昨天天订单数据
+		 */
+		renderOrderData_yesterday : function () {
+			var _this = this ;
+			var html = _this.template_yesterday_od( );
+			_this.container.find(".line1 .yesterday-box .rt").html( html )
 		},
 
 
@@ -143,6 +173,7 @@ module.exports = function(parent){
 				}
 			});
 		},
+
 
 		/**
 		 * @method 渲染条形图
@@ -260,6 +291,7 @@ module.exports = function(parent){
 
 		},
 
+
 		/**
 		 * @events 类型按钮点击 1--票数  2--金额
 		 * @param e
@@ -270,6 +302,7 @@ module.exports = function(parent){
 				.siblings().removeClass("active");
 			this.container.find(".lineEchartControlBox .okBtn").click();
 		},
+
 
 		/**
 		 * @events 确定按钮点击
@@ -399,6 +432,7 @@ module.exports = function(parent){
 			});
 		},
 
+
 		/**
 		 * @events 快速选择日期按钮点击
 		 * @param e
@@ -413,6 +447,7 @@ module.exports = function(parent){
 			this.container.find(".lineEchartControlBox .eTimeInp").val( _this.When.getSomeday(0) );
 			this.container.find(".lineEchartControlBox .okBtn").click();
 		},
+
 
 		/**
 		 * @events 折线图底部select点击
