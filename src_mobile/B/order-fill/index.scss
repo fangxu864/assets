@@ -1,0 +1,190 @@
+@import "COMMON/css/base/main";
+
+.orderFill{
+  font-size: px2rem(28);
+  background: #f0f3f5;
+  color: #5f5e63;
+  .green{
+    color: #3dba3f;
+  }
+  .blue{
+    color: #0797d9;
+  }
+  .gray{
+    color: #5f5e63 ;
+  }
+  .orange{
+    color: #f07845;
+  }
+  .ticketInfo{
+    padding: px2rem(32);
+    background: #fff;
+    p{
+      margin-bottom: px2rem(16);
+    }
+    .place_text{
+      font-size: px2rem(32);
+      color: #262d37;
+      margin-bottom: px2rem(16);
+      font-weight: bold;
+    }
+    .playDateContainer{
+      position: relative;
+      .playDate{
+        margin-bottom: px2rem(16);
+        display: inline-block;
+        height: px2rem(88);
+        width: 100%;
+        line-height: px2rem(88);
+        border: #dcdcdc px2rem(1) solid;
+        border-radius: px2rem(4);
+        text-indent: px2rem(20);
+        &:focus{
+          border: #0797D9 px2rem(1) solid;
+        }
+      }
+      i{
+        font-size: px2rem(40);
+        position: absolute;
+        right: px2rem(20);
+        top: px2rem(30);
+        color: #5f5e63;
+      }
+
+    }
+
+  }
+
+  .ticketNum{
+    margin-top:  px2rem(16);
+    background: #e5f5fc;
+    overflow: hidden;
+    li{
+      padding: px2rem(32);
+      overflow: hidden;
+      border-bottom: 1px solid #fff;
+    }
+    li:last-child{
+      border-bottom: none;
+    }
+    .ticketName{
+      font-weight: bold;
+      font-size: px2rem(32);
+      color: #262d37;
+      margin-bottom: px2rem(16);
+    }
+    .ticketContent{
+      span{
+        margin-right: px2rem(10);
+      }
+    }
+    .left{
+      float: left;
+      display: inline-block;
+      width: 40%;
+      p{
+        margin-bottom:  px2rem(20);
+      }
+
+    }
+    .right{
+      padding-top: px2rem(30) ;
+      float: right;
+      display: inline-block;
+      i,input{
+        float: left;
+      }
+      i{
+        display: inline-block;
+      }
+      .delBtn,.addBtn{
+        border: 2px solid #0797d9;
+        color: #0797d9;
+        width: px2rem(73);
+        height: px2rem(73);
+        line-height: px2rem(60) ;
+        text-align: center;
+        border-radius: 5px;
+        font-weight: normal;
+        font-size: px2rem(80);
+        margin-top: px2rem(5);
+      }
+      .numBox{
+        display: inline-block;
+        width: px2rem(120);
+        height: px2rem(88);
+        margin: 0 px2rem(20);
+        text-align: center;
+        border-radius: 5px;
+        border: 1px solid #5f5e63;
+      }
+
+    }
+    .details{
+      float: left;
+      p{
+        margin-bottom: px2rem(20);
+      }
+      .ticketSon{
+        line-height: px2rem(40);
+      }
+    }
+  }
+
+  .personalInformation{
+    margin-top: px2rem(16) ;
+    background: #fff;
+    padding: px2rem(32);
+    position: relative;
+    input{
+      margin-bottom: px2rem(16);
+      display: block;
+      height: px2rem(88);
+      width: 100%;
+      line-height: px2rem(88);
+      border: #dcdcdc px2rem(1) solid;
+      border-radius: px2rem(4);
+      text-indent: px2rem(20);
+    }
+    i{
+      font-size: px2rem(40);
+      position: absolute;
+      right: px2rem(45);
+      top: px2rem(60);
+      color: #5f5e63;
+    }
+    .checkPhone{
+      color: #e11d2c;
+      font-size: px2rem(24);
+      margin-bottom: px2rem(16);
+    }
+
+    .saveContact{
+      color: #0797d9;
+      font-size: px2rem(24);
+      margin-bottom: px2rem(16);
+    }
+  }
+
+  .buttonBox{
+    .total{
+      width: 68.5%;
+      display: inline-block;
+      color: #f07845;
+      background: #e5e5e5;
+      height: px2rem(96);
+      line-height: px2rem(96);
+      text-align: left;
+      text-indent: px2rem(40);
+    }
+    .submit{
+      width: 30%;
+      display: inline-block;
+      color: #fff;
+      background: #f07845;
+      height: px2rem(96);
+      line-height: px2rem(96);
+      text-align: center;
+    }
+  }
+}
