@@ -304,7 +304,7 @@ var AppList = PFT.Util.Class({
                     	}else if(list[i].button_type == 2){ //使用
                     		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
         		            '<div class="app-btn-w">' +
-        		               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+        		               '<a href="'+list[i].url+'" class="btn btn-default mr10" >使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
         				    '</div>' ;
                     	}
 
@@ -334,7 +334,7 @@ var AppList = PFT.Util.Class({
     		            	}else if(list[i].button_type == 2){ //使用
     		            		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
     				            '<div class="app-btn-w">' +
-    				               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+    				               '<a href="'+list[i].url+'" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
     						    '</div>' ;
     		            	}
 
@@ -362,7 +362,7 @@ var AppList = PFT.Util.Class({
 							}else if(list[i].button_type == 2){//使用
                                 temp += '<div class="text-ellipsis"><span class="app-price"><em '+ (list[i].expiresoon?'class="c-warning"':'') +'>'+list[i].expire_time+'</em>到期</span></div>' +
 					            '<div class="app-btn-w">' +
-					               '<a href="javascript:;" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+					               '<a href="'+list[i].url+'" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
 							}
 
