@@ -217,6 +217,14 @@
 			border-top: px2rem(2) solid #e8ebed;
 		}
 	}
+
+	.moreTicket{
+		height : px2rem(96);
+		font-size : px2rem(32);
+		text-align : center;
+		line-height : px2rem(96);
+		border-top : 1px solid #e8ebed;
+	}
 	.productDetailOrderInfo{
 		margin: 0 px2rem(32);
 		.orderInfoTitle{

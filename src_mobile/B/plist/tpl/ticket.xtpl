@@ -1,0 +1,9 @@
+<% _.each(list,function(item){ %>
+<li class="spotTicket">
+	<a href="" class="writeOrderLink">
+		<span class="spotTicketName"><%=item.p_name%></span>
+		<span class="spotTicketPrice"><%=item.tprice%>元</span>
+		<i class="spotTicketArr">></i>
+	</a>
+</li>
+<% }) %>

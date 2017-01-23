@@ -11,6 +11,7 @@ var ThemeTpl = require("./tpl/theme.xtpl");
 var CityTpl = require("./tpl/city.xtpl");
 var SearchTpl = require("./tpl/search.xtpl");
 var ListTpl = require("./tpl/list.xtpl");
+var TicketTpl = require("./tpl/ticket.xtpl");
 
 var Plist = PFT.Util.Class({
 
@@ -25,16 +26,25 @@ var Plist = PFT.Util.Class({
 	init : function(opt){       
 
 		this.typeTemplate = PFT.Util.ParseTemplate(TypeTpl);  
-
 		this.themeTemplate = PFT.Util.ParseTemplate(ThemeTpl);  
-
 		this.cityTemplate = PFT.Util.ParseTemplate(CityTpl);  
-
 		this.searchTemplate = PFT.Util.ParseTemplate(SearchTpl);  
-
 		this.listTemplate = PFT.Util.ParseTemplate(ListTpl);  
+		this.ticketTemplate = PFT.Util.ParseTemplate(TicketTpl);  
+
+
+		// 产品列表参数
+		this.lastListLid = 0;
+		this.lastListProPos = 0;
+		this.ptype = "A";//景区类型[A,B,C,F,H]之一
+		this.keyword = "";
+		this.topic = "";
+		this.city = "";
+		this.pageSize = 4;   //默认一页4个产品
 
 		this.renderScroll();
+
+		
 		
 	},
 
@@ -64,6 +74,7 @@ var Plist = PFT.Util.Class({
 
 	},
 
+	//景区类型
 	onTypeSelect : function(){
 
 		var that = this;
@@ -128,7 +139,7 @@ var Plist = PFT.Util.Class({
 				EVENTS : {      
 					"click .typeBtn" : function(e){
 						// var type = $(e.target).attr("data-type");
-					 //  	that.changeType($(e.target),type);
+					    // that.changeType($(e.target),type);
 					 	$(e.target).css("background","#123456").addClass("selectNow");
 					 	$(e.target).siblings().removeClass("selectNow").css("background","");
 					}
@@ -141,6 +152,7 @@ var Plist = PFT.Util.Class({
 
 	changeType : function(obj,type){
 		var text = obj.text();
+		this.ptype = type;
 		$("#typeText").text(text);
 		$("#typeText").attr("data-type",type);
         this.typeSelect.close();	
@@ -163,7 +175,6 @@ var Plist = PFT.Util.Class({
 		        //请求完成
 		    },
 		    success : function(res){
-		    	console.log(res);
 		        var code = res.code;
 		        if(code==200){
 		        	that.themeHandler(res);
@@ -229,6 +240,7 @@ var Plist = PFT.Util.Class({
 
 	changeTheme : function(obj){
 		var text = obj.text();
+		this.topic = text;
 		$("#themeText").text(text);
         // this.themeSelect.close();
 	},
@@ -266,12 +278,24 @@ var Plist = PFT.Util.Class({
 		this.citySelect = new SheetCore({
 			content : cityHtml,       
 			height : "100%",    
-			yesBtn : false,
-			noBtn : false,      
+			yesBtn : {            
+				text : "确定提交",   
+				handler : function(e){
+					var nowSel = $(".cityBtn.selectNow");
+				}
+			},
+			noBtn : {            
+			  text : "取消",   
+			  handler : function(e){
+			    console.log("点击时执行")
+			  }
+			},       
 			zIndex : 200,       
 			EVENTS : {      
-				"click .themeBtn" : function(e){
+				"click .cityBtn" : function(e){
 				  	// that.changeTheme($(e.target));
+				  	$(e.target).css("background","#123456").addClass("selectNow");
+				  	$(e.target).siblings().removeClass("selectNow").css("background","");
 				}
 			}
 		});
@@ -315,11 +339,25 @@ var Plist = PFT.Util.Class({
 
 		var that = this;
 
+		// if(!this.lastListLid){
+		// 	this.lastListLid = 0;
+		// }
+		// if(!this.lastListProPos){
+		// 	this.lastListProPos = 0;
+		// }
+
 		PFT.Util.Ajax("/r/MicroPlat_Product/getProductList/",{
 		    dataType : "json",
 			type : "POST",
 		    params : {
-		    	token : PFT.Util.getToken()
+		    	token : PFT.Util.getToken(),
+		    	lastLid : that.lastListLid,
+		    	lastProPos : that.lastListProPos,
+		    	ptype : that.ptype,
+		    	keyword : that.keyword,
+		    	topic : that.topic,
+		    	city : that.city,
+		    	pageSize : that.pageSize
 		    },
 		    loading : function(){
 		        //正在请中...
@@ -331,6 +369,8 @@ var Plist = PFT.Util.Class({
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
+		        	that.lastListLid = data.lastLid;
+		        	that.lastListProPos = data.lastProPos;
 		        	that.renderList(data);
 		        }else{
 		            alert(res.msg || PFT.AJAX_ERROR)
@@ -344,11 +384,11 @@ var Plist = PFT.Util.Class({
 
 	renderList : function(data){
 
-		console.log(data);
-
+		var list = data.list;
+		if(list.length == 0){
+			alert("没有更多了");
+		}
 		var listHtml = this.listTemplate(data);
-
-		console.log(listHtml);
 
 		$("#xContent").append(listHtml);
 
@@ -357,7 +397,10 @@ var Plist = PFT.Util.Class({
 
 	},
 
-	recommendTicket : function(){
+	recommendTicket : function(e){
+
+		var target = e.target;
+		var lid = $(target).attr("data-id");
 
 		var that = this;
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
@@ -365,7 +408,7 @@ var Plist = PFT.Util.Class({
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken(),
-		    	lid : "6603"
+		    	lid : lid
 		    },
 		    loading : function(){
 
@@ -378,7 +421,7 @@ var Plist = PFT.Util.Class({
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
-		        	that.renderTicketList(data);
+		        	that.renderTicketList(data,target);
 		        }else{
 		            alert(res.msg || PFT.AJAX_ERROR)
 		        }
@@ -390,9 +433,12 @@ var Plist = PFT.Util.Class({
 	},
 
 
-	renderTicketList : function(data){
-
-		console.log(data);
+	renderTicketList : function(data,target){
+		
+		var ticketHtml = this.ticketTemplate(data);
+		target = $(target).parent();
+		$(ticketHtml).insertBefore(target);
+		target.hide();
 
 	}
 
