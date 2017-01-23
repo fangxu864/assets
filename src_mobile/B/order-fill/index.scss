@@ -109,6 +109,10 @@
         font-size: px2rem(80);
         margin-top: px2rem(5);
       }
+      .delBtn[active=false],.addBtn[active=false]{
+        border-color: #e8e8e8;
+        color: #e8e8e8;
+      }
       .numBox{
         display: inline-block;
         width: px2rem(120);

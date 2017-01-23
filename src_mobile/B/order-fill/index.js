@@ -1,13 +1,16 @@
 
 require("./index.scss");
 
+var GetPriceAndStorage = require("./getPriceAndStorage_Service.js");
+var placeTicket = require("./ticketTemplate/placeTicket.xtpl");
+
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
 var contact = require("./addContact.xtpl");
+var Validate = require("COMMON/js/util.validate.js");
 
 var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
-
 
 
 var Order_fill = PFT.Util.Class({
@@ -19,9 +22,12 @@ var Order_fill = PFT.Util.Class({
 		"click #visitorInformation":"showVisitor",
 		"click .addBtn":"addNum",
 		"click .delBtn":"delNum",
+		"blur .numBox":"checkInput",
+		"click #regularBtn":"regularToggle"
 	},
 	init : function(){
-		this.componentsInit()
+		this.componentsInit();
+		this.GetPriceAndStorage();
 
 	},
 	componentsInit : function () {
@@ -110,25 +116,100 @@ var Order_fill = PFT.Util.Class({
 	},
 
 	addNum : function (e) {
-		var num = parseInt($(e.target).parent().find(".numBox").attr("value"));
-		$(e.target).parent().find(".numBox").attr("value",num+1);
-		this.changeTotal();
+		var storage = $(e.target).parent().parent().find(".left .num").text();
+
+		if($(e.target).attr("active") == "true"){
+			var num = parseInt($(e.target).parent().find(".numBox").val());
+			if(num >= storage){
+				$(e.target).attr("active",false)
+				return false
+			}else if(num >= 0){
+				$(e.target).parent().find(".delBtn").attr("active",true)
+			}
+			num += 1;
+
+			if(num == storage){
+				$(e.target).attr("active","false")
+			}
+			$(e.target).parent().find(".numBox").val(num);
+			this.changeTotal();
+
+		}else{
+			return false
+		}
+
 	},
 
 	delNum : function (e) {
-		var num = parseInt($(e.target).parent().find(".numBox").attr("value"));
-		$(e.target).parent().find(".numBox").attr("value",num-1);
-		this.changeTotal();
+		var storage = $(e.target).parent().parent().find(".left .num").text();
+
+		if($(e.target).attr("active") == "true"){
+			var num = parseInt($(e.target).parent().find(".numBox").val());
+			if(num <= 0){
+				$(e.target).attr("active","false");
+				return false
+			}else if(num <= storage){
+				$(e.target).parent().find(".addBtn").attr("active",true)
+			}
+			num = num - 1;
+			if(num == 0){
+				$(e.target).attr("active","false")
+			}
+			$(e.target).parent().find(".numBox").val(num);
+			this.changeTotal();
+		}else{
+			return false
+		}
+
 	},
 	
 	changeTotal : function () {
 		var sum = 0;
 		$("#ticketList li").each(function (index,element) {
 			var money = parseInt(($(element).find(".money").text()));
-			var num = parseInt(($(element).find(".numBox").attr("value")));
+			var num = parseInt(($(element).find(".numBox").val()));
 			sum += money * num;
 		});
 		$("#totalMoney").text(sum)
+	},
+
+	checkInput : function (e) {
+		var input = ($(e.target).val());
+		var storage = $(e.target).parent().parent().find(".left .num").text();
+		var error = "";
+		if(!Validate.typeNum(input)) {
+			alert("请输入正确的数值");
+			($(e.target)).val(0)
+		}else{
+			if(parseInt(input) > parseInt(storage)){
+				($(e.target)).val(storage);
+				alert("最大库存为"+storage)
+			}
+
+			if(parseInt(input) < 0){
+				($(e.target)).val(0);
+				alert("数量不能为负数")
+			}
+		}
+		this.changeTotal();
+	},
+
+	regularToggle : function (e) {
+		$("#regular").toggle();
+	},
+
+	GetPriceAndStorage : function (param) {
+		var params = param || "";
+		GetPriceAndStorage(params,{
+			loading:function () {},
+			success:function (data) {
+				var template = PFT.Util.ParseTemplate(placeTicket);
+				var htmlStr = template({data:data});
+				$("#ticketList").empty().append(htmlStr)
+			},
+			complete:function () {}
+		});
+
 	}
 	
 
