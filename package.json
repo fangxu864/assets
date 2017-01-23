@@ -148,7 +148,7 @@
     "download_center-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/download_center/webpack.config.js ",
     "download_center-test": "set NODE_ENV=test && webpack --config ./src/download_center/webpack.config.js",
     "download_center-release": "set NODE_ENV=release && webpack --config ./src/download_center/webpack.config.js",
-    "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js"
+    "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js",
     "application-center-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/application-center/webpack.config.js",
     "application-center-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/application-center/webpack.config.js",
     "application-center-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/application-center/webpack.config.js",
