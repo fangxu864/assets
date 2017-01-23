@@ -69,6 +69,7 @@ var Plist = PFT.Util.Class({
 		var that = this;
 
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTypeList/",{
+			type : "POST",
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken()	
@@ -109,13 +110,27 @@ var Plist = PFT.Util.Class({
 				header : "标题",
 				content : typeHtml,       
 				height : "auto",    
-				yesBtn : false,
-				noBtn : false,      
+				yesBtn : {            
+					text : "确定提交",   
+					handler : function(e){
+						var nowSel = $(".typeBtn.selectNow");
+					  	var type = nowSel.attr("data-type");
+					  	that.changeType(nowSel,type);
+					}
+				},
+				noBtn : {            
+				  text : "取消",   
+				  handler : function(e){
+				    console.log("点击时执行")
+				  }
+				},     
 				zIndex : 200,       
 				EVENTS : {      
 					"click .typeBtn" : function(e){
-						var type = $(e.target).attr("data-type");
-					  	that.changeType($(e.target),type);
+						// var type = $(e.target).attr("data-type");
+					 //  	that.changeType($(e.target),type);
+					 	$(e.target).css("background","#123456").addClass("selectNow");
+					 	$(e.target).siblings().removeClass("selectNow").css("background","");
 					}
 				}
 			});
@@ -135,6 +150,7 @@ var Plist = PFT.Util.Class({
 		var that = this;
 		var type = $("#typeText").attr("data-type");
 		PFT.Util.Ajax("/r/MicroPlat_Product/getThemes",{
+			type : "POST",
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken(),
@@ -184,12 +200,25 @@ var Plist = PFT.Util.Class({
 				header : "标题",
 				content : themeHtml,       
 				height : "auto",    
-				yesBtn : false,
-				noBtn : false,      
+				yesBtn : {            
+					text : "确定提交",   
+					handler : function(e){
+						var nowSel = $(".themeBtn.selectNow");
+					  	that.changeTheme(nowSel);
+					}
+				},
+				noBtn : {            
+				  text : "取消",   
+				  handler : function(e){
+				    console.log("点击时执行")
+				  }
+				},       
 				zIndex : 200,       
 				EVENTS : {      
 					"click .themeBtn" : function(e){
-					  that.changeTheme($(e.target));
+					  // that.changeTheme($(e.target));
+					  $(e.target).css("background","#123456").addClass("selectNow");
+					  $(e.target).siblings().removeClass("selectNow").css("background","");
 					}
 				}
 			});
@@ -201,13 +230,14 @@ var Plist = PFT.Util.Class({
 	changeTheme : function(obj){
 		var text = obj.text();
 		$("#themeText").text(text);
-        this.themeSelect.close();
+        // this.themeSelect.close();
 	},
 
 	onCitySelect : function(){
 
 		var that = this;
 		PFT.Util.Ajax("/r/MicroPlat_Product/getAreaList",{
+			type : "POST",
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken(),
@@ -287,6 +317,7 @@ var Plist = PFT.Util.Class({
 
 		PFT.Util.Ajax("/r/MicroPlat_Product/getProductList/",{
 		    dataType : "json",
+			type : "POST",
 		    params : {
 		    	token : PFT.Util.getToken()
 		    },
@@ -361,7 +392,7 @@ var Plist = PFT.Util.Class({
 
 	renderTicketList : function(data){
 
-
+		console.log(data);
 
 	}
 
