@@ -54,7 +54,7 @@
                  }else {
                      var seq = i;
                  }
-                 var newLi = $('<li> <span>'+seq+'、</span> <span> <em style="padding: 0 5px">'+value.name+'</em>将于<em class="etime">'+value.expire_time+'</em>到期。</span> <span class="renew" data-id="'+value.module_id+'">续费</span> </li>')
+                 var newLi = $('<li> <span>'+seq+'、</span> <span> <em style="padding: 0 5px">'+value[0].name+'</em>将于<em class="etime">'+value[0].expire_time+'</em>到期。</span> <span class="renew" data-id="'+value[0].module_id+'">续费</span> </li>')
                  $("#appBox_expired").append(newLi)
              });
              $(".renew").on("click",function (e) {
