@@ -1,16 +1,16 @@
-<% _.each(data,function(item){
-    <li class="placeTicket">
+<% for(var i in data){%>
+    <li class="placeTicket" data-id="<%=i%>">
         <div class="left">
             <p class="ticketName">成人票</p>
             <p class="ticketContent">
-            <p class="price">
-                <span>结算价：</span>
-                <span class="orange money">1230</span>
-            </p>
-            <p class="storage">
-                <span>库存：</span>
-                <span class="num">13</span>
-            </p>
+                <p class="price">
+                    <span>结算价：</span>
+                    <span class="orange money"><%=data[i].price%></span>
+                </p>
+                <p class="storage">
+                    <span>库存：</span>
+                    <span class="num"><%=data[i].store%></span>
+                </p>
             </p>
         </div>
         <div class="right">
@@ -18,12 +18,11 @@
             <input type="text" class="numBox" value=0>
             <i class="addBtn" active="true">+</i>
         </div>
-        <div class="details">
+        <div class="details" style="display: none">
             <p>包含子票：</p>
             <p class="ticketSon">
                 福建泉州+福建漳州+福建福州+福建漳州+福建福州+福建漳州+福建福州+福建漳州+福建福州
             </p>
         </div>
     </li>
-}) %>
-
+<%}%>

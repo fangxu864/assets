@@ -2,7 +2,8 @@
 require("./index.scss");
 
 var GetPriceAndStorage = require("./getPriceAndStorage_Service.js");
-var placeTicket = require("./ticketTemplate/placeTicket.xtpl");
+var GetBookInfo = require("./getBookInfo_Service.js");
+var placeTicket = require("./TicketTemplate/placeTicket.xtpl");
 
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
 var contact = require("./addContact.xtpl");
@@ -27,14 +28,14 @@ var Order_fill = PFT.Util.Class({
 	},
 	init : function(){
 		this.componentsInit();
-		this.GetPriceAndStorage();
+		this.getPriceAndStorage();
 
 	},
 	componentsInit : function () {
 		var This = this;
 
 		//日历
-		this.Calendar = new Calendar();
+		this.calendarBox = new Calendar();
 		//常用联系人
 		this.ContactBox =  new SheetCore({
 
@@ -97,8 +98,7 @@ var Order_fill = PFT.Util.Class({
 	},
 	
 	getDate : function () {
-		var This = this;
-		This.Calendar.show("",{
+		this.calendarBox.show("",{
 			picker : $("#playDate"),
 			top : 0,
 			left : 0,
@@ -166,7 +166,7 @@ var Order_fill = PFT.Util.Class({
 	changeTotal : function () {
 		var sum = 0;
 		$("#ticketList li").each(function (index,element) {
-			var money = parseInt(($(element).find(".money").text()));
+			var money = parseFloat(($(element).find(".money").text()));
 			var num = parseInt(($(element).find(".numBox").val()));
 			sum += money * num;
 		});
@@ -176,7 +176,6 @@ var Order_fill = PFT.Util.Class({
 	checkInput : function (e) {
 		var input = ($(e.target).val());
 		var storage = $(e.target).parent().parent().find(".left .num").text();
-		var error = "";
 		if(!Validate.typeNum(input)) {
 			alert("请输入正确的数值");
 			($(e.target)).val(0)
@@ -192,24 +191,66 @@ var Order_fill = PFT.Util.Class({
 			}
 		}
 		this.changeTotal();
+
+		//变灰
+		var storage = $(e.target).parent().parent().find(".left .num").text();
+		var num = parseInt($(e.target).parent().find(".numBox").val());
+		if(num == 0){
+			$(e.target).parent().find(".delBtn").attr("active","false");
+			$(e.target).parent().find(".addBtn").attr("active","true");
+		}
+		if(num == storage){
+			$(e.target).parent().find(".addBtn").attr("active","false");
+			$(e.target).parent().find(".delBtn").attr("active","true");
+
+		}
 	},
 
 	regularToggle : function (e) {
 		$("#regular").toggle();
 	},
 
-	GetPriceAndStorage : function (param) {
+	getPriceAndStorage : function (param) {
+		var This = this;
 		var params = param || "";
 		GetPriceAndStorage(params,{
 			loading:function () {},
-			success:function (data) {
+			success:function (req) {
 				var template = PFT.Util.ParseTemplate(placeTicket);
-				var htmlStr = template({data:data});
-				$("#ticketList").empty().append(htmlStr)
+				var htmlStr = template({data:req.data});
+				$("#ticketList").empty().append(htmlStr);
+
+				This.getBookInfo()
+
 			},
 			complete:function () {}
 		});
 
+	},
+
+	getBookInfo : function () {
+
+		$("#ticketList li").each(function (index,value) {
+			var id = $(value).attr("data-id");
+			GetBookInfo({},{
+				loading:function () {},
+				success:function (req) {
+					var tickets = req.data.tickets;
+					$(value).find(".ticketName").text(req.data.title);
+					if(tickets){
+						var html="";
+						for(var i in tickets){
+							html += "+"+tickets[i].title
+						}
+
+						$(value).find(".details").show();
+						$(value).find(".ticketSon").text(html)
+					}
+				},
+				complete:function () {}
+			})
+
+		});
 	}
 	
 
