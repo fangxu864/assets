@@ -243,6 +243,7 @@ module.exports = function(parent){
 								{
 									name: '订单数',
 									type: 'bar',
+									barMaxWidth: 40 ,
 									data: seriesDataArr ,
 								}
 							]
