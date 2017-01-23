@@ -25,7 +25,9 @@ body {
     color: #7a7a7a;
 }
 
-
+a:hover {
+    color:#f07845;
+}
 
 /* margin + padding */
 .ml5 {
@@ -140,6 +142,7 @@ body {
 }
 .btn-default:hover {
     background-color: #0f7cb7;
+    color:#fff;
 }
 
 .btn-default-reverse {
@@ -149,6 +152,7 @@ body {
 }
 .btn-default-reverse:hover {
     background-color: #e5f5fc;
+    color:#0797D9;
 }
 
 .btn-warning {
@@ -158,6 +162,7 @@ body {
 }
 .btn-warning:hover {
     background-color: #e4632d;
+    color: #fff;
 }
 
 .btn-warning-reverse {
