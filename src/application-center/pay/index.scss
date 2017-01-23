@@ -1,0 +1,82 @@
+body{
+    padding:0;
+}
+@import "../common/scss/base";
+@import "./scss/app-item";
+
+#PageMainRightContainer{
+    background:#efefef;
+}
+
+.section {
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+}
+.section-appadmin .section-con {
+    padding: 35px 50px;
+}
+
+.mode-list li {
+    position: relative;
+    float: left;
+    width: 140px;
+    height: 36px;
+    margin-right: 30px;
+    background-color:#fff;
+    border:1px solid #0797D9;
+    color: #0797D9;
+    line-height: 36px;
+    text-align: center;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    -webkit-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+}
+.mode-list li.active {
+    width: 138px;
+    height: 34px;
+    background: #fff url(http://static.12301.cc/assets/build/images/appcenter/chosed.gif) no-repeat right bottom;
+    border: 2px solid #d21010;
+    line-height: 34px;
+}
+.paymethod .pay-item {
+    float: left;
+    min-width: 140px;
+    height: 24px;
+    margin-right: 30px;
+    padding: 6px 10px;
+    background-color:#fff;
+    border:1px solid #0797D9;
+    line-height: 24px;
+    text-align: center;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.ico-wepay,
+.ico-alipay {
+    display: inline-block;
+    height: 24px;
+    margin-right: 5px;
+    background: url(http://static.12301.cc/assets/build/images/appcenter/pay-method.png) no-repeat;
+    line-height: 0;
+    vertical-align: top;
+}
+.ico-wepay {
+    width: 27px;
+}
+.ico-alipay {
+    width: 71px;
+    background-position: 0 -24px;
+}
+
+.ico-success {
+    display: inline-block;
+    width: 37px;
+    height: 32px;
+    margin-right: 10px;
+    background: url(http://static.12301.cc/assets/build/images/appcenter/success.gif) no-repeat;
+    line-height: 0;
+    vertical-align: top;
+}

@@ -3,12 +3,14 @@ require("./index.scss");
 
 var XScroll = require("NODE_MODULES/vux/node_modules/vux-xscroll/build/cmd/xscroll");
 var PullUp = require("NODE_MODULES/vux/node_modules/vux-xscroll/build/cmd/plugins/pullup");
+
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
 
 var TypeTpl = require("./tpl/type.xtpl");	
 var ThemeTpl = require("./tpl/theme.xtpl");
 var CityTpl = require("./tpl/city.xtpl");
 var SearchTpl = require("./tpl/search.xtpl");
+var ListTpl = require("./tpl/list.xtpl");
 
 var Plist = PFT.Util.Class({
 
@@ -17,7 +19,8 @@ var Plist = PFT.Util.Class({
 		"click .typeSelect" : "onTypeSelect",              
 		"click .themeSelect" : "onThemeSelect",              
 		"click .citySelect" : "onCitySelect",          
-		"focus .productNameSearch" : "focusAllInput"
+		"focus .productNameSearch" : "focusAllInput",
+		"click .spotTicketMore" : "recommendTicket"
 	},
 	init : function(opt){       
 
@@ -29,13 +32,36 @@ var Plist = PFT.Util.Class({
 
 		this.searchTemplate = PFT.Util.ParseTemplate(SearchTpl);  
 
-		// $(".productNameSearch")[0].addListener(type, listener);	
+		this.listTemplate = PFT.Util.ParseTemplate(ListTpl);  
 
-
-		// this.onCitySelect();//调试用
-
-		// this.focusAllInput();  //调试用			
+		this.renderScroll();
 		
+	},
+
+	renderScroll : function(){
+
+		var that = this;
+
+		this.xscroll = new XScroll({
+			renderTo:"#xScroll",
+			lockY:false,
+			container:"#xContainer",
+			content:"#xContent"
+		});
+		this.pullup = new PullUp({
+			upContent:"上拉加载更多...",
+			downContent:"释放以加载更多...",
+			loadingContent:"加载中...",
+			bufferHeight:0,
+			height : 50
+		});
+		this.xscroll.plug(that.pullup);
+		this.pullup.on("loading",function(){
+			that.renderSearch();
+		});
+
+		that.renderSearch();
+
 	},
 
 	onTypeSelect : function(){
@@ -233,7 +259,6 @@ var Plist = PFT.Util.Class({
 		    this.searchSelect.show();
     	}else{
 			this.searchSelect = new SheetCore({
-				// header : "标题",
 				content : searchHtml,       
 				height : "100%",    
 				yesBtn : false,
@@ -246,20 +271,96 @@ var Plist = PFT.Util.Class({
 					"click .searchBtn" : function(e){
 						var inputText = $(".searchInput").val(); 
 						$(".productNameSearch").val(inputText);
+						that.renderSearch();
 					    that.searchSelect.close();
 					}
 				}
 			});
 		    this.searchSelect.show();
     	}
-		
+
+	},
+
+	renderSearch : function(){
+
+		var that = this;
+
+		PFT.Util.Ajax("/r/MicroPlat_Product/getProductList/",{
+		    dataType : "json",
+		    params : {
+		    	token : PFT.Util.getToken()
+		    },
+		    loading : function(){
+		        //正在请中...
+		    },
+		    complete : function(){
+		        //请求完成
+		    },
+		    success : function(res){
+		        var code = res.code;
+		        var data = res.data;
+		        if(code==200){
+		        	that.renderList(data);
+		        }else{
+		            alert(res.msg || PFT.AJAX_ERROR)
+		        }
+		    },
+		    timeout : function(){ alert("请求超时") },
+		    serverError : function(){ alert("请求出错")}
+		})
+
+	},
+
+	renderList : function(data){
+
+		console.log(data);
+
+		var listHtml = this.listTemplate(data);
+
+		console.log(listHtml);
+
+		$("#xContent").append(listHtml);
+
+		this.xscroll.render();
+		this.pullup.complete();
+
+	},
+
+	recommendTicket : function(){
+
+		var that = this;
+		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
+			type : "POST",
+		    dataType : "json",
+		    params : {
+		    	token : PFT.Util.getToken(),
+		    	lid : "6603"
+		    },
+		    loading : function(){
+
+		    },
+		    complete : function(){
+
+		    },
+		    success : function(res){
+		    	console.log(res);
+		        var code = res.code;
+		        var data = res.data;
+		        if(code==200){
+		        	that.renderTicketList(data);
+		        }else{
+		            alert(res.msg || PFT.AJAX_ERROR)
+		        }
+		    },
+		    timeout : function(){ alert("请求超时") },
+		    serverError : function(){ alert("请求出错")}
+		})
 
 	},
 
 
-	onInputValChange : function(){
+	renderTicketList : function(data){
 
-		console.log("input值改变了");
 
 
 	}
