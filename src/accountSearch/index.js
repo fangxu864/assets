@@ -307,8 +307,12 @@ var accountSearch={
         var _this=this;
         var list= data.data;
         var sum=data.sum;
+        var listNew = [];
         var totalHtml=' <dl> <dt>合计</dt> <dd>商户数：'+sum.shopSum+'</dd> <dd>总余额：'+sum.lmoneySum+'元</dd> </dl>';
-        var tableHtml=_this.template({data:list});
+        for (var key in list ){
+            listNew.push(list[key]);
+        }
+        var tableHtml=_this.template({data:listNew});
         this.tableCon_box.find("tbody").html(tableHtml);
         this.total_box.find(".total").html(totalHtml);
         _this.total_box.fadeIn(200);
