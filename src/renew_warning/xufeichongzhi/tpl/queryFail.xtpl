@@ -1,0 +1,11 @@
+<div class="queryFail">
+    <div class="line line1">
+        续费失败！
+    </div>
+    <div class="line line2">
+        网络中断！
+    </div>
+    <div class="line line3">
+        <span class="btn">重新续费</span>
+    </div>
+</div>

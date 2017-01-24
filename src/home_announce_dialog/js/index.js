@@ -8,7 +8,7 @@ var EasyDialog = require("COMMON/modules/easydialog");
 var Ajax = require("COMMON/js/util.ajax");
 var WinWidthHeight = require("COMMON/js/util.window.width.height");
 var Main = {
-	api : "route/?c=MsgNotify_notice&a=get_nts",
+	api : "/r/MsgNotify_notice/get_nts/",
 	init : function(){
 		var that = this;
 		var WH = WinWidthHeight();

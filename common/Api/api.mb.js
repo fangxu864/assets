@@ -68,7 +68,17 @@ var Api_Mb = {
 		},
 		//下单成功，选择支付方式
 		selectPaymode : function(){
-			return Mall_Order("pay");
+			var hostname = window.location.hostname;
+			var isWXFirst = hostname.split(".")[0]=="wx";
+			if(isWXFirst){ //如果是wx开头的
+				return "/api/index.php?c=Mall_Order&a=pay"
+			}else{
+				return Mall_Order("pay");
+			}
+		},
+		//下单成功，请求微信支付二维码
+		selectPaymode_wx_qrcode : function(){
+			return "/api/index.php?c=pay_WxPay&a=order";
 		},
 		//下单成功，订单&支付详情
 		ordersuccess : function(){

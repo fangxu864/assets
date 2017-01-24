@@ -53,7 +53,6 @@ function test(project_name){
 }
 
 
-var Deferred = require('./common/js/util.promise.js');
 
 function asyncJob1(param, isOk) {
 	var defer = Deferred();
@@ -82,5 +81,87 @@ function asyncJob2(param, isOk) {
 }
 
 
-var getEntry = require("./task-webpack/getEntry");
-console.log(getEntry("src","terminal"));
+var http = require("http");
+//var querystring = require("querystring");
+//var postData = querystring.stringify({
+//	'msg' : 'Hello World!'
+//});
+//var options = {
+//	hostname: 'www.google.com',
+//	port: 80,
+//	path: '/upload',
+//	method: 'POST',
+//	headers: {
+//		'Content-Type': 'application/x-www-form-urlencoded',
+//		'Content-Length': postData.length
+//	}
+//};
+//var req = http.request(options, function(res) {
+//	console.log('STATUS: ' + res.statusCode);
+//	console.log('HEADERS: ' + JSON.stringify(res.headers));
+//	res.setEncoding('utf8');
+//	res.on('data', function (chunk) {
+//		console.log('BODY: ' + chunk);
+//	});
+//});
+//
+//req.on('error', function(e) {
+//	console.log('problem with request: ' + e.message);
+//});
+
+
+function query(){
+	return new Promise(function(resolve,reject){
+		http.request({
+			hostname: '123624.12301.cc',
+			path: '/r/Mall_Product/getTypeList/',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		},function(res){
+			if(res.code==200){
+				resolve(res);
+			}else{
+				reject(res);
+			}
+		})
+	})
+}
+
+//let res = query().then(function(data){
+//	console.log(data);
+//}).catch(function(data){
+//	console.log(data);
+//})
+
+
+var promisify = function promisify(fn, receiver) {
+	return function () {
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return new Promise(function (resolve, reject) {
+			fn.apply(receiver, [].concat(args, [function (err, res) {
+				return err ? reject(err) : resolve(res);
+			}]));
+		});
+	};
+};
+
+
+readFile("file.json","utf-8",function(err,data){
+
+})
+
+
+var fs = require('fs');
+var readFilePromise = promisify(fs.readFile, fs); //包装为 Promise 接口
+readFilePromise('package.json', 'utf8').then(function(content){
+	console.log(content);
+	//正常情况
+}).catch(function(err){
+	//异常情况
+	console.log(err);
+})

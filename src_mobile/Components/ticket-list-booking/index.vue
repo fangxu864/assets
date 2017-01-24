@@ -3,7 +3,12 @@
         <ul id="ticketListUl" class="ticketListUl">
             <li id="{{$index==0? 'mainTicketItem' : ''}}" data-pid="{{item.pid}}" data-zoneid="{{item.zone_id}}" class="item" v-for="item in list">
                 <div class="minBox">
-                    <div class="ptitle"><span class="t" v-text="item.title"></span></div>
+                    <div class="ptitle">
+                        <span class="t">
+                            <span v-if="item.zone_name" class="zoneName">{{'【'+item.zone_name+'】'}}</span>
+                            <span class="tit" v-text="item.title"></span>
+                        </span>
+                    </div>
                     <div class="bcon">
                         <div class="bbCon">
                             <span class="conBox price">单价：<i class="yen">&yen;</i><span class="num" v-text="item.jsprice"></span></span>
@@ -17,6 +22,7 @@
                                    :max="item.max"
                                    :min="item.min"
                                    :can_0="item.can_0"
+                                   v-on:beyond-max="onBeyondMax"
                                    v-on:count-change="onCountChange">
                             </count>
                             <p class="buyLimitTip" v-if="(item.buy_low!=-1) || (item.buy_up!=-1)">
@@ -82,6 +88,29 @@
                     this.list[index]["tourMsg"] = newTourMsg;
                 })
             },
+            onBeyondMax(id,count){
+                var list = this.list;
+                var s = list.map(function(item){
+                    var _id = item.pid + "-" + item.tid;
+                    var storage = item.storage;
+                    var max = item.max;
+                    if(_id==id){
+                        return {
+                            storage : storage,
+                            max : max
+                        }
+                    }
+                });
+                if(s && s[0]){
+                    var storage = s[0].storage;
+                    var max = s[0].max;
+                    if(storage>max){
+                        PFT.Mobile.Alert("最高限买"+max+"张");
+                    }else{
+                        PFT.Mobile.Alert("库存不足");
+                    }
+                }
+            },
             adaptListData(list){
                 var result = [];
                 list.forEach((item,index) => {
@@ -129,17 +158,65 @@
 <style lang="sass">
     @import "COMMON/css/base/core/variables";
     $countBoxWidth : 120px;
+    /* iphone6 */
+    @media only screen
+        and (min-device-width: 375px)
+        and (max-device-width: 667px)
+        and (-webkit-min-device-pixel-ratio: 2) {
+        $countBoxWidth : 150px;
+    }
+    /* iphone6+ */
+    @media only screen
+        and (min-device-width: 414px)
+        and (max-device-width: 736px)
+        and (-webkit-min-device-pixel-ratio: 3) {
+        $countBoxWidth : 150px;
+    }
     .ticketListUl{ padding:0}
     .ticketListUl .item{  border-bottom:1px solid #e5e5e5;}
     .ticketListUl .item .minBox{ padding:25px 15px 23px; overflow:hidden; background:#fff}
     .ticketListUl .item:last-child{ border-bottom:0 none}
     .ticketListUl .item .ptitle{ font-size:0.35rem; font-weight:bold; margin-bottom:3px;  line-height:1.5}
-    .ticketListUl .item .bcon{ position:relative; min-height:26px; padding-right:$countBoxWidth}
+    .ticketListUl .item .bcon{ position:relative; min-height:26px;
+        padding-right:$countBoxWidth;
+        /* iphone6 */
+        @media only screen
+            and (min-device-width: 375px)
+            and (max-device-width: 667px)
+            and (-webkit-min-device-pixel-ratio: 2) {
+                padding-right:150px;
+        }
+        /* iphone6+ */
+        @media only screen
+            and (min-device-width: 414px)
+            and (max-device-width: 736px)
+            and (-webkit-min-device-pixel-ratio: 3) {
+                padding-right:150px;
+        }
+    }
     .ticketListUl .item .bbCon{ line-height:26px;}
     .ticketListUl .item .conBox{ display:inline-block}
-    .ticketListUl .item .countBox{ position:absolute; top:0; right:0; width:$countBoxWidth;}
+    .ticketListUl .item .countBox{
+        position:absolute; top:0; right:0;
+        width:$countBoxWidth;
+        /* iphone6 */
+        @media only screen
+            and (min-device-width: 375px)
+            and (max-device-width: 667px)
+            and (-webkit-min-device-pixel-ratio: 2) {
+                width:150px;
+        }
+        /* iphone6+ */
+        @media only screen
+            and (min-device-width: 414px)
+            and (max-device-width: 736px)
+            and (-webkit-min-device-pixel-ratio: 3) {
+                width:150px;
+        }
+    }
     .ticketListUl .item .conBox.price .num{ font-size:0.4rem; color:#f37138}
     .ticketListUl .item .conBox.price .yen{ color:#f37138}
+    .ticketListUl .item .zoneName{ color:$blue}
     .ticketListUl .item .buyLimitTip{ color:#258cc9; font-size:0.3rem; text-align:right; padding-top:3px;}
     .ticketListUl .sonTicketBox{ padding:10px 15px 20px; background:#fafafa; font-size:0.30rem; line-height:1.6; border-top:1px solid $gray96}
 </style>

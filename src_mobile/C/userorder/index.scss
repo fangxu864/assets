@@ -16,7 +16,7 @@ body{ background:$gray98}
     top:0;
     left:0;
     right:0;
-    z-index:1;
+    z-index:10;
     height:$tabHeight;
     line-height:$tabHeight;
     overflow:hidden;
@@ -66,6 +66,9 @@ body{ background:$gray98}
     left:0;
     right:0;
     overflow:hidden;
+}
+.tabPannel.historyPannel .scrollWrap{
+    top:45px;
 }
 
 @mixin prodInfoBox{
@@ -205,7 +208,7 @@ body{ background:$gray98}
 
 .detailPage{
     position:fixed;
-    z-index:2;
+    z-index:20;
     left:0;
     right:0;
     top:0;
@@ -213,6 +216,11 @@ body{ background:$gray98}
     background:$gray98;
     transition:transform 0.3s;
     transform:translate3d(0px,2000px,0);
+
+    .detailInfoContainer{
+        height:100%;
+        overflow:auto;
+    }
 
     .line{
         width:100%;
@@ -248,7 +256,7 @@ body{ background:$gray98}
     .codeContainer{
 
         width:160px;
-        margin:7px auto;
+        margin:7px auto 0;
         text-align:center;
 
         .codeNum{ color:$orange; font-size:14px; font-weight:bold}
@@ -265,13 +273,78 @@ body{ background:$gray98}
 
     }
 
+    .detailBtnGroup{
+        position:fixed;
+        z-index:10;
+        left:0;
+        right:0;
+        bottom:0;
+        height:40px;
+        text-align:center;
+        background:#e5f5fc;
+
+        .btn{
+            display:inline-block;
+            height:100%;
+            line-height:40px;
+            margin-right:40px;
+            color:#1488bb;
+            padding:0 15px;
+            &:active{
+                background:#cce6f1;
+            }
+            &:last-child{ margin-right:0}
+        }
+
+    }
 
 }
 
 
 
+#history-searchBar{
+    height:42px;
+    line-height:42px;
+    padding:0 0 0 15px;
+    overflow:hidden;
+
+    .searchBtn{
+        float:right;
+        display:block;
+        height:100%;
+        width:50px;
+        text-align:center;
+        .uicon.uicon-sousuo{
+            position:relative;
+            top:-2px;
+            font-size:18px;
+            color:$blue;
+        }
+        &:active{
+            background:$gray90;
+        }
+    }
+
+    .searchText{
+        float:left;
+    }
+
+    .clearBtn{
+        position:relative;
+        top:-1px;
+        display:none;
+        width:18px;
+        height:18px;
+        line-height:15px;
+        background:$gray85;
+        text-align:center;
+        margin-left:10px;
+        border-radius:50%;
+        font-size:12px;
+    }
 
 
+}
 
 
 

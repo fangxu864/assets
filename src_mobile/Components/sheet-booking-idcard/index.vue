@@ -1,5 +1,5 @@
 <template>
-    <sheet-core :show.sync="show" :height="'80%'">
+    <sheet-core :show.sync="show" :height="'100%'">
         <div id="tourMsgContainer" class="tourMsgContainer" slot="content">
             <div class="topTip">请正确填写，因信息不完整、填写不正确造成的额外损失，需由客人自行承担</div>
             <div class="listCon">

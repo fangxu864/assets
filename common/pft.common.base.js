@@ -84,6 +84,10 @@ module.exports = function(PFT){
 		9 : {
 			name : "已删除",
 			color:"#f37138"
+		},
+		101 : {
+			name : "退票中",
+			color : "#e12424"
 		}
 	};
 

@@ -8,13 +8,13 @@ var Tpl = require("./index.xtpl");
 var Service = require("SERVICE_M/ordersuccess");
 var Alert = PFT.Mobile.Alert;
 var Toast = new PFT.Mobile.Toast();
+var QRAlert = require("./qr-alert");
 var Main = PFT.Util.Class({
 	container : "#bodyContainer",
 	template : PFT.Util.ParseTemplate(Tpl),
 	init : function(){
-		var urlParams = PFT.Util.UrlParse();
-		this.ordernum = urlParams["ordernum"] || "";
-		this.paymode = urlParams["paymode"] || "";
+		this.ordernum = $("#ordernumHidInp").val() || "";
+		this.paymode = $("#paymode").val() || "";
 		document.title = this.paymode==1 ? "支付成功" : "下单成功";
 		Service(this.ordernum,{
 			loading : ()=>{
@@ -28,9 +28,19 @@ var Main = PFT.Util.Class({
 				var html = this.template(data);
 				this.container.html(html);
 				this.createQRcode(data.qrcode);
+
+				//购票后弹出公众号关注的功能
+				if(data.alert==1){
+					new QRAlert({
+						qrcodeUrl : data.qrcode_url,
+						nickName : data.nick_name
+					})
+				}
+
+
 			},
 			fail : (msg)=>{
-				Alert("提示",msg);
+				Alert(msg);
 			}
 		})
 	},

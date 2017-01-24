@@ -1,0 +1,15 @@
+<ul class="appUl">
+    <% _.each(list,function(item,index){%>
+        <%
+            var _item = item.split(":");
+            var link = _item[0] + ".html";
+            var text = _item[1];
+            var icon = _item[2] || "icon-yingyongzhongxin";
+        %>
+        <li class="appItem <%=(index+1)%5==0 ? 'fany5' : ''%>">
+            <div class="con">
+                <a href="<%=link%>" class="link"><i class="icon icon-pc-list <%=icon%>"></i><span class="t"><%=text%></span></a>
+            </div>
+        </li>
+    <% }) %>
+</ul>

@@ -16,7 +16,7 @@ var config = require("../../task-webpack/config")({
 		//"annual_card_storage" : "./src/annual_card/page/storage/index.js",
 		//"annual_card_ordersuccess" : "./src/annual_card/page/ordersuccess/index.js",
 		//"annual_card_active" : "./src/annual_card/page/active/index.js",
-		//"annual_memdetail" : "./src/annual_card/page/memdetail/index.js",
+		"annual_memdetail" : "./src/annual_card/page/memdetail/index.js",
 		//"annual_card_mclist" : "./src/annual_card/page/mclist/index.js"
 	},
 	output : output,

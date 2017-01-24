@@ -1,0 +1,107 @@
+@import "COMMON/css/base/main";
+@import "COMMON/css/base/flex";
+body{ background:$gray97}
+$containerHeight:90;
+#indexPageFixHeader{
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    height:px2rem($containerHeight);
+    background:#f5f5f5;
+    padding:8px 0 8px 10px;
+    box-sizing:border-box;
+    z-index:10;
+    .con{
+        position:relative;
+        padding-left:30px;
+        height:100%;
+    }
+    .searchBox{
+        display:block;
+        position:relative;
+        height:100%;
+        background:#fff;
+        margin-right:60px;
+        padding-left:5px;
+        .searchInp{
+            width:100%;
+            height:100%;
+            line-height:22px;
+            background:none;
+            border:0 none;
+            padding:0;
+            &:focus{
+                color:$orange;
+            }
+        }
+    }
+    .searchBtn{
+        display:block;
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:5px;
+        box-sizing:border-box;
+        width:50px;
+        text-align:center;
+        .text{
+            display:block;
+            height:100%;
+            line-height:29px;
+            background:$blue;
+            color:#fff;
+        }
+        &.hide{ display:none}
+    }
+}
+
+#goBackBtn{
+    display:block;
+    position:absolute;
+    top:8px;
+    left:5px;
+    bottom:8px;
+    width:30px;
+    line-height:px2rem(67);
+    text-align:center;
+
+    i{
+        font-size:22px;
+    }
+
+}
+
+
+#indexPageFixHeader .searchBox .iconfont{ font-size:0.48rem; margin-right:3px; top:1px;}
+
+#listUl{
+    margin-top:px2rem($containerHeight);
+    .itemRow{ margin-bottom:10px;}
+    .itemRow > .con{ display:block; position:relative; overflow:hidden;}
+    .itemRow .botBox{ width:100%; height:50px; overflow:hidden; background:#fff}
+    .itemRow .botBox .col.lt{ float:left; width:70%; line-height:50px; overflow:hidden; font-size:0.35rem; color:rgba(0,0,0,0.8)}
+    .itemRow .botBox .col.lt .title{ padding-left:5px;}
+    .itemRow .botBox .col.rt{ float:right; width:30%; line-height:50px; overflow:hidden; text-align:right;}
+    .itemRow .botBox .col.rt .jsprice{ color:#f37138}
+    .itemRow .botBox .col.rt .tprice{ color:rgba(0,0,0,0.5); text-decoration:line-through; font-size:0.3rem; margin-right:3px}
+    .itemRow .botBox .col.rt .yen{ font-size:0.3rem; margin-right:1px;}
+    .itemRow .botBox .col.rt .num{ font-size:0.45rem; margin-right:5px}
+    .status{ height:150px; line-height:150px; text-align:center; background:#fff}
+    .ui-image-container{
+        height:150px; position:relative; width:100%; overflow:hidden; font-size:0; transition:height 0.2s;
+        @include flexbox;
+        @include align-items(center);
+    }
+    .ui-image-container img{
+        width:100%;
+    }
+
+    .sta{
+        height:150px;
+        line-height:150px;
+        background:#fff;
+        text-align:center;
+    }
+
+}

@@ -1,0 +1,286 @@
+
+
+    .title_box h3.mc_title {
+        height: 60px;
+        line-height: 60px;
+       
+        font-size: 22px;
+        font-weight: normal;
+        background: #FFFFFF;
+        border: 1px solid #E5E5E5;
+    }
+    
+    
+    .title_box h3.mc_title span.noactive {
+        display: inline-block;
+         margin: 0 20px;
+    }
+    
+    
+    .title_box h3.mc_title span.noactive p {
+        color: #303D46;
+    }
+    
+    .title_box h3.mc_title span.active {
+        display: inline-block;
+        border-bottom: 2px solid #0797D9;
+        margin: 0 20px;
+    }
+    
+    .title_box h3.mc_title span.active a {
+        color: #0797D9;
+    }
+    
+    .title_box h3.mc_title .add_poster_btn {
+        background: #0797d9;
+        height: 34px;
+        width: 110px;
+        color: #ffffff;        
+        margin-left:550px;
+        display: inline-block;
+        line-height: 34px;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .posterContent {
+        text-align: center;
+        line-height: 30px;
+        padding-left: 10px;
+        font-weight: normal;
+        font-size: 14px;
+        background: #FFFFFF;
+        border: 1px solid #E5E5E5;
+        padding: 0 auto;
+    }
+  .posterShow{
+         padding: 10px;
+         // width: 450px;
+         margin: 10px;
+         display: inline-block;
+     }
+    .posterContent .posterImg{
+        width: 400px;
+        margin: 5px;
+        background: #e5e5e5;
+    }
+    .posterIntro{
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .editPoster{ 
+        width: 500px;      
+        display: inline-block;
+    }
+    .posterContent .posterEidtImg{
+        width: 400px;
+        height: 600px;
+        background: #e5e5e5;
+    }
+    .posterContent p.posterProduct,.posterContent span.posterPrice,.posterContent span.posterRetail{
+        padding-left: 10px;
+    }
+    .posterContent a#posterView{
+       float: right;
+       margin-right: 20px;
+    }
+    .posterContent .posterShow .posterIntro a.posterEdit,.posterContent .posterShow .posterIntro span.posterDownload
+    {        
+        height: 34px;
+        width: 110px;         
+        display: inline-block;
+        line-height: 34px;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+    .posterContent .posterShow .posterIntro a.posterEdit {
+        background: #0797D9;
+        color: #ffffff;       
+    }
+    .posterContent .posterShow .posterIntro a.posterEdit:active {
+        background: #0f7cb7;
+        color: #ffffff;       
+    }
+   .posterContent .posterShow .posterIntro span.posterDownload {
+        background: #fff;
+        color: #0797d9;
+        border: 1px solid #0797d9;
+        position: relative;
+    }
+    .posterContent .posterShow .posterIntro span.posterDownload:active {
+        
+    }
+   
+    .posterProduct, .posterPrice,.posterRetail{
+        margin-left: 15px
+    }
+   
+   
+    .piccon{
+        width: 500px;
+        overflow: hidden;
+        margin: 20px auto;
+        position: relative;
+        font-size:0;
+    }
+
+    .piccon .defaultpic{
+        vertical-align: top;
+        width: 100%;
+    }
+
+
+    .piccon .QRcode{
+        height: 150px;
+        width: 150px;
+        position: absolute;
+        top: 310px;
+        left: 170px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        cursor: move;
+    }
+    .inputposterlabel{
+        text-align: center;
+        font-size: 14px;
+        height: 35px;
+        line-height: 35px;
+        width: 100px;
+        background: #0797d9;
+        color: #fff;
+        position: absolute;
+        top: 15px;
+        left: 620px;
+    }
+    .inputposter{
+        display: none;
+    }
+    .crop{
+        background: #0797D9;
+        color: #ffffff; 
+        height: 34px;
+        width: 110px;         
+        display: inline-block;
+        line-height: 34px;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 5px;
+        border-top-style: none;
+        border-right-style: none;
+        border-bottom-style: none;
+        border-left-style: none;
+    }
+    .crop:active{
+        background:#0f7cb7;            
+    }
+
+
+
+
+
+
+
+    // index.html
+
+
+     .title_box h3.mc_title {
+         height: 60px;
+         line-height: 60px;
+        
+         font-size: 22px;
+         font-weight: normal;
+         background: #FFFFFF;
+         border: 1px solid #E5E5E5;
+     }
+    .posterContent {
+         line-height: 30px;
+         padding-left: 10px;
+         font-weight: normal;
+         font-size: 14px;
+         background: #FFFFFF;
+         border: 1px solid #E5E5E5;         
+     }
+     .title_box h3.mc_title span.noactive {
+         display: inline-block;
+          margin: 0 20px;
+     } 
+     .title_box h3.mc_title span.noactive a {
+         color: #303D46;
+     }    
+     .title_box h3.mc_title span.active {
+         display: inline-block;
+         border-bottom: 2px solid #0797D9;
+         margin: 0 20px;
+     }  
+     .title_box h3.mc_title span.active a {
+         color: #0797D9;
+     }
+     .title_box h3.mc_title .add_poster_btn {
+         background: #0797d9;
+         height: 34px;
+         width: 110px;
+         color: #ffffff; 
+         margin-left:100px;
+         display: inline-block;
+         line-height: 34px;
+         text-align: center;
+         font-size: 14px;
+         cursor: pointer;
+     }
+      
+     .posterIntro{
+         text-align: center
+     }
+     
+     .posterContent .posterImg{
+         width: 400px;
+         height: 600px;
+         margin: 5px;
+         background: #e5e5e5;
+     }
+     .posterContent p.posterProduct,.posterContent span.posterPrice,.posterContent span.posterRetail{
+         padding-left: 10px;
+     }
+     .posterContent a#posterView{
+        float: right;
+        margin-right: 20px;
+     }
+     .posterContent .posterShow .posterIntro a.posterEdit,.posterContent .posterShow .posterIntro span.posterDownload
+     {        
+         height: 34px;
+         width: 110px;         
+         display: inline-block;
+         line-height: 34px;
+         text-align: center;
+         font-size: 14px;
+         cursor: pointer;
+         margin-left: 10px;
+     }
+     .posterContent .posterShow .posterIntro a.posterEdit {
+         background: #0797D9;
+         color: #ffffff;       
+     }
+    .posterContent .posterShow .posterIntro span.posterDownload {
+         background: #fff;
+         color: #303d46;
+         border: 1px solid #e5e5e5;
+         position: relative;
+     }
+     .posterShow{
+         margin: 20px auto;
+     } 
+     .posterProduct{
+         text-align: center;
+     } 
+     .QRCode{
+         display: none;
+         width: 127px;
+         height: 127px;
+         position: absolute;
+         background: #e5e5e5;
+         left: 112px;
+         top:-1px;
+     }

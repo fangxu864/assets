@@ -6,7 +6,6 @@
 require("./index.scss");
 var Tpl = require("./order.item.html");
 var AdaptOrder = require("./adaptOrder");
-var Api = require("COMMON/busi/terminal/core/api");
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
 	height : 300
@@ -161,7 +160,8 @@ var Terminal = PFT.Util.Class({
 			params : {
 				orderid : orderid,
 				companyid : companyid,
-				chk:1
+				chk:1,
+				flag:1
 			},
 			loading : function(){ listUl.html(Loading_Text);},
 			complete : function(){ listUl.html("");},
@@ -307,7 +307,7 @@ var Terminal = PFT.Util.Class({
 		var listUl = this.listUl;
 		var html = "";
 		if(type=="loading"){
-			html = '<li class="sta loading"><img class="loadingImg" src="'+Api.LOADING_IMG+'" alt=""/><span class="t">请稍后...</span></li>';
+			html = '<li class="sta loading"><img class="loadingImg" src="'+PFT.LOADING_IMG_GIF+'" alt=""/><span class="t">请稍后...</span></li>';
 			listUl.html(html);
 		}else if(type=="removeLoading"){
 			listUl.html("");

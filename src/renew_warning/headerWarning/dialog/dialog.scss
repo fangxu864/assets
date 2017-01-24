@@ -1,0 +1,46 @@
+.dialog_box_headerWarning{
+  width: 500px;
+  padding-bottom: 20px;
+  .dialog_con{
+    .line{
+      line-height: 40px;
+      border: none;
+      font-size: 14px;
+    }
+    .line1{
+      h3{
+        line-height: 70px;
+        text-align: center;
+        font-size: 20px;
+        color: #F07845 ;
+      }
+    }
+    .line2{
+      p{
+        padding: 0 30px 20px 30px;
+        line-height: 30px;
+        font-size: 16px;
+        text-align: justify;
+        text-indent: 2em;
+      }
+    }
+    .line3{
+      padding-left: 0;
+      text-align: center;
+      span.btn{
+        padding:8px 30px;
+        border: 1px solid #0797D9;
+        color: #0797D9;
+        font-size: 14px;
+        background-color: #ffffff;
+        transition:   background-color 0.5s;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+      span.btn:hover{
+        color: white;
+        background-color: #0797D9;
+      }
+    }
+  }
+}

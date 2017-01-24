@@ -61,6 +61,7 @@ var Api = {
 					var count = res.data.count*1 || 0;
 					res.data["page"] = params.currentPage;
 					res.data["totalPage"] = Math.ceil(count/params.pageSize);
+					var type = res.data.type;
 					var ifAdmin = res.data.ifAdmin;
 					var list = res.data.data;
 					var len = list.length;
@@ -74,6 +75,7 @@ var Api = {
 							}
 							list[i]["handleStatus_ext"] = Status[list[i]["handleStatus"]] || {};
 							list[i]["ifAdmin"] = ifAdmin;
+							list[i]["type"] = type;  //判断是否是分销商，true显示分销商列，false，不显示
 						}
 						opt.success.call(cxt,res.data);
 					}else{

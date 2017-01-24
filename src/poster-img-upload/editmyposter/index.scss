@@ -1,0 +1,401 @@
+ .title_box h3.mc_title {
+     height: 60px;
+     line-height: 60px;
+     position: relative;
+     font-size: 22px;
+     font-weight: normal;
+     background: #FFFFFF;
+     border: 1px solid #E5E5E5;
+ }
+ 
+ .title_box h3.mc_title span.noactive {
+     display: inline-block;
+     margin: 0 20px;
+ }
+ .title_box h3.mc_title span.choose_complete{
+     font-size: 12px;
+     padding-left: 10px;
+ }
+ .title_box h3.mc_title span.noactive p {
+     color: #303D46;
+ }
+ 
+ .title_box h3.mc_title span.active {
+     display: inline-block;
+     border-bottom: 2px solid #0797D9;
+     margin: 0 20px;
+ }
+ 
+ .title_box h3.mc_title span.active a {
+     color: #0797D9;
+ }
+ 
+ .title_box h3.mc_title .add_poster_btn,
+ .title_box h3.mc_title .choose_poster_btn {
+     height: 34px;
+     width: 110px;
+     color: #ffffff;
+     display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+ }
+ 
+ .add_poster_btn {
+     background: #0797d9;
+     margin-left: 450px;
+ }
+ 
+ .choose_poster_btn {
+     background: #0797d9;
+     margin-left: 50px;
+ }
+
+ .choose_poster_btn:active {
+     background: #0f7cb7;
+ }
+ 
+ .posterContent {
+     line-height: 30px;
+     padding-left: 10px;
+     font-weight: normal;
+     font-size: 14px;
+     background: #FFFFFF;
+     border: 1px solid #E5E5E5;
+     padding: 0 auto;
+     height: auto;
+ }
+ 
+ .posterShow {
+     padding: 10px;
+     margin: 10px;
+     display: inline-block;
+     position: relative;
+ }
+ 
+ .posterContent .posterImg {
+     width: 400px;
+     height: 600px;
+     margin: 5px;
+     background: #e5e5e5;
+ }
+ 
+ .posterIntro {
+     text-align: center;
+ }
+ 
+ .editPoster {
+     display: inline-block;
+ }
+ 
+ .posterContent .posterEidtImg {
+     width: 400px;
+     height: 600px;
+     background: #e5e5e5;
+ }
+ 
+ .posterContent p.posterProduct,
+ .posterContent span.posterPrice,
+ .posterContent span.posterRetail {
+     padding-left: 10px;
+ }
+ 
+ .posterContent a#posterView {
+     float: right;
+     margin-right: 20px;
+ }
+ 
+ .posterContent .posterShow .posterIntro a.posterEdit,
+ .posterContent .posterShow .posterIntro span.posterDownload,#productChoose .posterBtn .posterEdit,#productChoose .posterBtn .btnClose {
+     height: 34px;
+     width: 110px;
+     display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+     margin-left: 5px;
+ }
+ 
+ .posterContent .posterShow .posterIntro a.posterEdit,#productChoose .posterBtn .posterEdit {
+     background: #0797D9;
+     color: #ffffff;
+ }
+ 
+ .posterContent .posterShow .posterIntro span.posterDownload,#productChoose .posterBtn .btnClose {
+     background: #fff;
+     color: #303d46;
+     border: 1px solid #e5e5e5;
+     position: relative;
+ }
+ 
+ .posterProduct,
+ .posterPrice,
+ .posterRetail {
+     margin-left: 15px
+ }
+ /*页面遮罩*/
+ 
+ #overlay {
+     background: rgba(0, 0, 0, 0.1);
+     position: absolute;
+     top: 0px;
+     left: 0px;
+     width: 100%;
+     height: 100%;
+     z-index: 100;
+     /* 此处的图层要大于页面 */
+     display: none;
+ }
+ #productChoose{
+     width: 500px;
+     height: 350px;
+     background:#fff;
+     position: absolute;
+     left: 230px;
+     top:150px;
+     z-index: 101;
+ }
+ 
+ #productChoose .choose_title_box span.close{
+     width: 25px;
+     height: 20px;
+     padding: 5px;
+     color: #000;
+     float: right;
+     display: block;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+ }
+ #productChoose span.close:hover,#productChoose span.close:active{
+     color: #fff;
+     background: #d35c29;
+ }
+
+#productChoose .choose_title_box{
+    height: 30px;
+}
+#productChoose .choose_content{
+    text-align:center;
+    padding-top: 60px;
+}
+#productChoose .choose_span{
+    display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     margin-right: 10px;
+}
+
+#productChoose .selectbox{
+     height: 200px;
+     width: 200px;
+     margin: 0 auto;
+     background: pink;
+     overflow: auto;
+
+}
+
+#productChoose .selectbox .item{
+     height: 50px;
+     width: 190px;
+     float: left;
+     margin: 5px auto;
+     background: black;
+     list-style-type: none;
+     color: #FFF;
+}
+
+#productChoose .selectbox .item:hover{
+     background: green;
+     color: #000;
+}
+
+
+
+ 
+
+
+ .piccon{
+     width: 500px;
+     height: auto;
+     overflow: hidden;
+     margin: 50px auto;
+     position: relative;
+     font-size:0;
+ }
+
+ .piccon .defaultpic{
+     vertical-align: top;
+     width: 100%;
+ }
+
+
+ .piccon .QRcode{
+     height: 150px;
+     width: 150px;
+     position: absolute;
+     top: 310px;
+     left: 170px;
+     background: rgba(0, 0, 0, 0.5);
+     color: #fff;
+     cursor: move;
+ }
+ 
+ .inputposter{
+     display: none;
+ }
+ .crop{
+     background: #0797D9;
+     color: #ffffff; 
+     height: 34px;
+     width: 110px;         
+     display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+     margin-left: 5px;
+     border-top-style: none;
+     border-right-style: none;
+     border-bottom-style: none;
+     border-left-style: none;
+ }
+ .crop:active{
+     background:#0f7cb7;            
+ }
+
+
+ .inputposterlabel{
+     position: absolute;
+     text-align: center; 
+     top: 18px;
+     left: 660px;
+     font-size: 14px;
+     height: 34px;
+     width: 110px;
+     line-height: 34px;
+     background: #0797d9 ;
+     color: #fff;
+     cursor: pointer;
+ }
+
+ .inputposterlabel:active{
+     background: #0f7cb7;
+ }
+ 
+
+
+ /* 选择框样式 */
+ .selectwrap{
+     height: 485px;
+     width: 550px;
+     position: relative;
+     margin: 100px auto;
+
+ }
+
+ #selectInput{
+     position:absolute;
+     top:50px;
+     left:124px;
+     display: block;
+     width: 300px;
+     height:30px;
+ }
+ .selectText{
+     position:absolute;
+     top:10px;
+     left:125px;
+     display: block;
+     height: 30px;
+     line-height: 30px;
+     font-size: 15px;
+     margin-right: 10px;
+ }
+ .selectBtn{
+     height: 34px;
+     width: 110px;
+     border-radius: 2px;
+     background: #0797d9;
+     border-top-style: none;
+     border-right-style: none;
+     border-bottom-style: none;
+     border-left-style: none;
+ }
+ .selectEnter.selectBtn{
+     position:absolute;
+     bottom:20px;
+     right:10px;
+     color: #FFF;
+ }
+ .selectEnter.selectBtn:active{
+     background: #0f7cb7;
+ }
+ .selectCancel.selectBtn{
+     color: #0797d9;
+     background: #fff;
+     border: 1px solid #0797d9;
+     position:absolute;
+     bottom:20px;
+     right:142px;
+ }
+ .selectCancel.selectBtn:active{
+     background: #0f7cb7;
+     border: none;
+     color: #fff;
+ }
+ .savechange{
+     height: 34px;
+     width: 110px;
+     display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+     margin-left: 5px;
+     background: #0797D9;
+     color: #ffffff;
+ }
+ 
+ .savechange:active{
+     background: #0f7cb7;
+     color: #fff;
+ }
+
+ .cancelchange{
+     height: 34px;
+     width: 110px;
+     display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+     margin-left: 5px;
+     border: 1px solid #0797D9;
+     background: #fff;
+     color: #0797D9;
+ }
+
+ .tip{
+     height:140px;
+     width:100%;
+ }    
+
+ .tip1{
+     background: #0797d9;
+     margin:50px 20px 0 250px;
+     height: 34px;
+     width: 110px;
+     color: #ffffff;
+     display: inline-block;
+     line-height: 34px;
+     text-align: center;
+     font-size: 14px;
+     cursor: pointer;
+ }
+ .tip1:active{
+     background: #0f7cb7;
+ }

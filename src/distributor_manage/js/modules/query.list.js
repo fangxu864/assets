@@ -8,6 +8,10 @@ var api = new Api();
 var Filter = require("./filter.js");
 var PaginationX = require("COMMON/modules/pagination-x");
 var NavigationBar = require("./navigationbar.js");
+
+var Down = require("COMMON/modules/downfile");
+var DownFile = new Down();
+
 var QueryDisList = RichBase.extend({
 	EVENTS : {
 		"change" : {
@@ -88,14 +92,20 @@ var QueryDisList = RichBase.extend({
 	},
 	upload_local : function(){
 		var data = this.filter.getParams();
-		PFT.Ajax({
-				url : "admin/pppp.php",
-				type : "get",
-				dataType : "json",
-				data : data
-		},function(res){
-			window.open('partner.php?act=get_distributors&do=load_excel&'+res.lists+'', '_blank');
-		})
+		var obj = {
+			"act" : "get_distributors" ,
+			"do" : "load_excel"
+		};
+		var newData = $.extend(data,obj);
+		// PFT.Ajax({
+		// 		url : "admin/pppp.php",
+		// 		type : "get",
+		// 		dataType : "json",
+		// 		data : data
+		// },function(res){
+		// 	window.open('partner_dt.php?act=get_distributors&do=load_excel&'+res.lists+'', '_blank');
+		// });
+		DownFile.judgeType(newData , "2" ,'partner_dt.php');
 	},
 	
 	che_all : function(that,e){
@@ -262,7 +272,7 @@ var QueryDisList = RichBase.extend({
 			},
 			removeLoading : function(){
 				that.renderList("removeLoading");
-				that.navigationBar.show();
+				// that.navigationBar.show();
 			},
 			success : function(res){
 				

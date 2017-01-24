@@ -1,16 +1,14 @@
 <template>
     <div id="bodyContainer" class="bodyContainer">
         <div id="indexPageFixHeader">
-            <fix-header>
-                <!--<a class="leftBtn" href="javascript:void(0)" @click="citySwitchor.show=true" slot="left">-->
-                    <!--<i class="uicon uicon-dizhi"></i>-->
-                    <!--<span class="t" v-text="city"></span>-->
-                <!--</a>-->
-                <div class="centerBox" slot="center">
-                    <a href="javascript:void(0)" class="searchBox"><i class="iconfont icon-search"></i><span class="t">产品名称</span></a>
+            <div class="con">
+                <a href="javascript:window.history.back()" class="topGobackBtn" id="topGobackBtn"><i class="icon-u-regular icon-jiantou"></i></a>
+                <div class="searchBox">
+                    <input @click="onSearchInpFocus" type="text" name="" placeholder="输入关键词搜索" id="searchInp" class="searchInp"/>
                 </div>
-                <a class="rightBtn" href="usercenter.html" slot="right"><i class="uicon uicon-yonghu"></i></a>
-            </fix-header>
+                <a id="userBtn" class="rightBtn" href="usercenter.html" slot="right"><i class="uicon uicon-yonghu"></i></a>
+                <div id="searchBtn" class="searchBtn hide"><i class="text">搜索</i></div>
+            </div>
         </div>
         <div id="bodyMainCon" class="bodyMainCon">
             <div class="sliderModule">
@@ -18,20 +16,12 @@
             </div>
             <ptype-list></ptype-list>
             <product-list :area="city"></product-list>
-            <page-footer></page-footer>
         </div>
-        <!--<city-switchor-->
-                <!--:geo-location="citySwitchor.GeoLocation"-->
-                <!--:show="citySwitchor.show"-->
-                <!--v-on:switch="onCitySwitch"-->
-                <!--v-on:close="citySwitchor.show=false">-->
-        <!--</city-switchor>-->
     </div>
 </template>
 
 <script type="es6">
-    import "./index.scss";
-    let GeoLocation = require("COMMON/modules/geo-location");
+    let Search = require("./search");
     export default {
         data(){
             return {
@@ -41,11 +31,11 @@
                 //    GeoLocation : GeoLocation,
                 //    show : false
                 //},
-                slideInitHeight : 150
+                slideInitHeight : 200
             }
         },
         ready(){
-
+            this.Search = new Search();
         },
         methods : {
             openCitySwitchor(){
@@ -55,35 +45,118 @@
                 this.city = data.cityname;
                 this.city_id = data.id;
                 this.citySwitchor.show = false;
+            },
+            onSearchInpFocus(e){
+                this.Search.router.navigate("result",{trigger: true});
+
             }
         },
         components : {
             slider : require("COMMON_VUE_COMPONENTS/slider"),
-            fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
+            //fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
             productList : require("./components/product-list"),
             //citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor"),
-            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list"),
-            pageFooter : require("COMMON_VUE_COMPONENTS/page-footer")
+            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list")
         }
     }
 </script>
 <style lang="sass">
-    @import "COMMON/css/base/core/px2rem";
-    #indexPageFixHeader .gFixHeader .leftBtn{ width:90px; padding-left:10px; text-align:left; overflow:hidden}
-    #indexPageFixHeader .gFixHeader .leftBtn .t{ font-size:0.35rem}
-    #indexPageFixHeader .gFixHeader .rightBtn .uicon{ font-size:22px}
-    $height : 65;
-    $marginTop : 12.25;
-    #indexPageFixHeader .gFixHeader .searchBox{ display:block; width:70%; height:px2rem($height); line-height:px2rem($height); margin:px2rem($marginTop) auto 0; background:#e5f5fc; color:#92a0ab; border-radius:3px}
-    #indexPageFixHeader .gFixHeader .searchBox .iconfont{ font-size:0.48rem; margin-right:3px; top:1px;}
-    #bodyContainer .gFixHeader .centerBox{
-        margin-left:15px;
-    }
-    #bodyContainer #indexPageFixHeader .gFixHeader .searchBox{
-        width:100%;
-        padding-left:10px;
+    @import "COMMON/css/base/main";
+    #bodyMainCon{ background:#fff;}
+    $containerHeight:90;
+    #indexPageFixHeader{
+        position:fixed;
+        left:0;
+        right:0;
+        top:0;
+        height:px2rem($containerHeight);
+        background:#fff;
+        padding:8px 0 8px 10px;
         box-sizing:border-box;
-        text-align:left;
+        /*box-shadow:0 1px 1px rgba(0,0,0,0.1);*/
+        z-index:10;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+        .con{
+            height:100%;
+        }
+        .searchBox{
+            display:block;
+            position:relative;
+            height:100%;
+            background:#fff;
+            margin-right:60px;
+            padding-left:7px;
+            border-radius:25px;
+            .searchInp{
+                width:100%;
+                height:100%;
+                line-height:22px;
+                background:none;
+                border:0 none;
+                padding:0;
+                &:focus{
+                    color:$orange;
+                }
+            }
+        }
+        .rightBtn{
+            display:block;
+            position:absolute;
+            top:0;
+            right:0;
+            height:px2rem($containerHeight);
+            width:60px;
+            text-align:center;
+            line-height:px2rem($containerHeight);
+            .uicon{
+                font-size:22px;
+                color:#fff;
+            }
+            &.hide{ display:none}
+        }
+        .searchBtn{
+            display:block;
+            position:absolute;
+            top:0;
+            right:5px;
+            height:px2rem($containerHeight);
+            box-sizing:border-box;
+            padding:8px 0;
+            width:50px;
+            text-align:center;
+            .text{
+                display:block;
+                height:100%;
+                line-height:29px;
+                background:$blue;
+                color:#fff;
+            }
+            &.hide{ display:none}
+        }
+    }
+    #indexPageFixHeader .searchBox .iconfont{ font-size:0.48rem; margin-right:3px; top:1px;}
+    #indexPageFixHeader .searchBox.onFocus{
+        border-radius:0;
+        margin-left:36px;
+    }
+    #indexPageFixHeader .topGobackBtn{
+        display:none;
+        width:36px;
+        height:33px;
+        line-height:33px;
+        text-align:center;
+        .icon-jiantou{
+            position:relative;
+            top:-1px;
+            font-size:20px;
+        }
+    }
+    #indexPageFixHeader.onFocus{
+        background:#f5f5f5;
+    }
+    #indexPageFixHeader.onFocus .topGobackBtn{
+        display:block;
+        float:left;
     }
 
 </style>

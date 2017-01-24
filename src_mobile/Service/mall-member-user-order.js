@@ -106,7 +106,6 @@ var UserOrder = {
 
 		params = params || {};
 		params["token"] = PFT.Util.getToken();
-
 		PFT.Util.Ajax(PFT.Api.C.userCenterOrderList(),{
 			type : "post",
 			params : params,
@@ -124,12 +123,15 @@ var UserOrder = {
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 				if(code==200 && list){
 					if(list.length){
+						for(var i=0; i<list.length; i++){
+							list[i]["status_config"] = PFT.Config.orderStatus;
+						}
 						opt.success.call(cxt,data);
 					}else{
 						opt.empty.call(cxt,data);
 					}
 				}else{
-					opt.fail.call(cxt,msg);
+					opt.fail.call(cxt,msg,code);
 				}
 			}
 		})
@@ -186,10 +188,10 @@ var UserOrder = {
 				var code = res.code;
 				var data = res.data || {};
 				var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-				if(code==200){
-					opt.success.call(cxt,res);
+				if(code==200 || code==201){
+					opt.success.call(cxt,res,code);
 				}else{
-					opt.fail.call(cxt,msg);
+					opt.fail.call(cxt,msg,code);
 				}
 			}
 		})

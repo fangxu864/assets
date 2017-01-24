@@ -1,5 +1,5 @@
 <%_.each(data,function(item,index){%>
-<li data-ordernum="<%=item.ordernum%>" class="historyItem">
+<li id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="historyItem">
     <a class="itemCon" href="#/detail/<%=item.ordernum%>">
         <h4 class="landTitle"><%=item.ltitle%></h4>
         <ul>

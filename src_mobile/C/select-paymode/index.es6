@@ -6,10 +6,12 @@
 require("./index.scss");
 var Tpl = require("./index.xtpl");
 var Service = require("SERVICE_M/select-paymode-info");
+var ServiceQRcode = require("SERVICE_M/select-paymode-wx-qrcode");
 var Alert = PFT.Mobile.Alert;
 var Toast = new PFT.Mobile.Toast();
 var PayCore = require("SERVICE_M/pft-pay-core");
 var Main = PFT.Util.Class({
+	__interval : null,
 	container : "#bodyContainer",
 	template : PFT.Util.ParseTemplate(Tpl),
 	EVENTS : {
@@ -21,7 +23,7 @@ var Main = PFT.Util.Class({
 	init : function(){
 		var urlParams = PFT.Util.UrlParse();
 		this.ordernum = urlParams["ordernum"] || "";
-		this.host = location.hostname.split(".")[0];
+		this.host = urlParams["h"].split(".")[0];
 		Service(this.ordernum,this.host,{
 			loading : ()=>{
 				Toast.show("loading","努力加载中...");
@@ -30,20 +32,104 @@ var Main = PFT.Util.Class({
 				Toast.hide("loading","努力加载中...");
 			},
 			success : (data)=>{
+				var that = this;
 				this.__CacheData = data;
+				data["payDomain"] = $("#paydomainHinInp").val();
 				var html = this.template(data);
 				this.container.html(html);
+				this.ajaxToQueryCode(data);
+				setTimeout(function(){
+					that.setLoop();
+				},10)
 			},
 			fail : (msg)=>{
-				Alert("提示",msg);
+				Alert(msg);
 			}
 		})
 	},
+	setLoop : function(){
+		var that = this;
+		var ordernum = PFT.Util.UrlParse()["ordernum"];
+		//if(that.__interval) return false;
+		//if(!ordernum) return false;
+		//that.__interval = setInterval(function(){
+		//	that.loopToGetPaySuccess(ordernum);
+		//},3 * 1000);
+		//
+		//return false;
+		if(!ordernum) return false;
+		that.__interval = setInterval(function(){
+			that.loopToGetPaySuccess(ordernum);
+		},3 * 1000);
+	},
+	//当用户选择长按二维码支付时，微信支付在支付成功后无法通知当前页面刷新，需要页面轮询后端，才能获知是否支付完成
+	loopToGetPaySuccess : function(ordernum){
+		var that = this;
+		PFT.Util.Ajax("/api/index.php?c=Mall_Order&a=isPayComplete",{
+			type : "post",
+			params : {
+				ordernum : ordernum,
+				token : PFT.Util.getToken()
+			},
+			success : function(res){
+				res = res || {};
+				if(res.code==200){
+					var data = res.data;
+					var payStatus = data.payStatus;
+					if(payStatus==1){ //已支付  支付成功就是跳往支付成功面页面
+						clearInterval(that.__interval);
+						var host = PFT.Util.UrlParse()["h"];
+						host = host.indexOf("wx")>-1 ? host : host+"/wx";
+						var link = "http://"+host+"/c/ordersuccess.html?ordernum="+ordernum;
+						window.location.href = link;
+					}
+				}
+			},
+			tiemout : function(){
+				clearInterval(that.__interval);
+			},
+			serverError : function(){
+				clearInterval(that.__interval);
+			}
+		})
+	},
+
+	//请求二维码
+	ajaxToQueryCode : function(data){
+		var that = this;
+		var payParams = data.payParams;
+		var ordernum = payParams.outTradeNo;
+		var subject = payParams.subject;
+		ServiceQRcode(ordernum,subject,{
+			loading : ()=> {},
+			complete : ()=> {},
+			success : (data)=> {
+				that.createQRcode(data);
+			},
+			fail : (msg)=> {
+				Alert(msg);
+			}
+		})
+	},
+	createQRcode : function(code){
+		//code = "weixin://wxpay/bizpayurl?pr=irJUNA8";
+		var box = $("#wxQRcodeBox");
+		var qrcode = new QRCode("wxQRcodeBox", {
+			text: code,
+			width: box.width(),
+			height: box.width(),
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
+	},
+
+
 	//微信支付
 	onWXPayBtnClick : function(e){
 		var that = this;
 		var tarBtn = $(e.currentTarget);
-		if(tarBtn.hasClass("disable")) return Alert("提示","此订单尚不支持微信支付");
+		if(tarBtn.hasClass("disable")) return Alert("此订单尚不支持微信支付");
 		var payParams = this.__CacheData.payParams || {};
 		var params = {
 			appid : payParams.appid,
@@ -53,8 +139,6 @@ var Main = PFT.Util.Class({
 			expire_time : payParams.expireTime
 		};
 
-		console.log(params);
-
 		PayCore.Wx({
 			WeixinJSBridge : WeixinJSBridge,
 			data : params,
@@ -62,20 +146,31 @@ var Main = PFT.Util.Class({
 				Toast.show("loading","请稍后...");
 			},
 			complete : function(){
-				Toast.hide();
+
 			},
 			success : function(res){},
-			error : function(msg){ Alert("提示",msg)},
+			error : function(msg){
+				Toast.hide();
+				Alert(msg);
+			},
 			//请求超时
-			timeout : function(){},
+			timeout : function(){
+				Toast.hide();
+				Alert(PFT.AJAX_TIMEOUT_TEXT)
+			},
 			//请求服务器出错
-			serverError : function(){},
+			serverError : function(){
+				Toast.hide();
+				Alert(PFT.AJAX_ERROR_TEXT);
+			},
 
 			//微信WeixinJSBridge.invoke也是异步操作
 			//开始支付
 			loading_wx : function(){},
 			//完成支付
-			complete_wx : function(){},
+			complete_wx : function(){
+				Toast.hide();
+			},
 			//支付成功
 			success_wx : function(res){
 				var payParams = that.__CacheData.payParams;

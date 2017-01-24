@@ -82,9 +82,11 @@
                     },
                     empty : () => {
                         this.state = "empty";
+                        this.$dispatch("changci-change","empty");
                     },
                     fail : (msg) => {
                         this.state = "fail:"+msg;
+                        this.$dispatch("changci-change","fail",msg);
                     }
                 })
             },
