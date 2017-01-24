@@ -1,15 +1,15 @@
 
     <tbody>
     <tr>
-        <td><span class="key">昨日预订金额 : </span><span class="value">11606元</span></td>
-        <td><span class="key">昨日预订人数 : </span><span class="value">110人</span></td>
+        <td><span class="key">昨日预订票数 : </span><span class="value"><%=data.bookOrderNum%>张</span></td>
+        <td><span class="key">昨日预订金额 : </span><span class="value"><%=data.bookSaleMoney%>元</span></td>
     </tr>
     <tr>
-        <td><span class="key">昨日检票金额 : </span><span class="value">110人</span></td>
-        <td><span class="key">昨日退票金额 : </span><span class="value">110人</span></td>
+        <td><span class="key">昨日验证票数 : </span><span class="value"><%=data.chTicketNum%>张</span></td>
+        <td><span class="key">昨日验证金额 : </span><span class="value"><%=data.chSaleMoney%>元</span></td>
     </tr>
     <tr>
-        <td><span class="key">昨日检票数 : </span><span class="value">110人</span></td>
-        <td><span class="key">昨日退票数 : </span><span class="value">918</span></td>
+        <td><span class="key">昨日退票数 : </span><span class="value"><%=data.reCancelMoney%>张</span></td>
+        <td><span class="key">昨日退票金额 : </span><span class="value"><%=data.reCancelMoney%>人</span></td>
     </tr>
     </tbody>

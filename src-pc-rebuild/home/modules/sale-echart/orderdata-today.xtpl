@@ -9,7 +9,7 @@
         <td><span class="key">今日验证金额 : </span><span class="value"><%=data.check_money / 100 %>元</span></td>
     </tr>
     <tr>
-        <td><span class="key">今日检票数 : </span><span class="value">110人</span></td>
-        <td><span class="key">今日退票数 : </span><span class="value">918</span></td>
+        <td><span class="key">今日退票数 : </span><span class="value">110张</span></td>
+        <td><span class="key">今日退票金额 : </span><span class="value">918</span></td>
     </tr>
     </tbody>

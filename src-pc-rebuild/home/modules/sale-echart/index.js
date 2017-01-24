@@ -169,20 +169,19 @@ module.exports = function(parent){
 				height : 150
 			});
 
-			PFT.Util.Ajax("/r/Home_HomeOrder/todayInfo/",{
+			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
 				type : "POST",
-				params : {  is_flush : 1 },
+				params : {},
 				loading : function(){
 					curContainer.html(LoadingStr);
 				},
 				complete : function(res){
 					if( res.code == 200 ){
 						console.log(res);
-						var html = _this.template_yesterday_od( );
+						var html = _this.template_yesterday_od( { data : res.data.data } );
 						curContainer.html( html )
 					}else{
-						var html = _this.template_yesterday_od( );
-						curContainer.html( html )
+						curContainer.html( res.msg )
 					}
 
 				}
