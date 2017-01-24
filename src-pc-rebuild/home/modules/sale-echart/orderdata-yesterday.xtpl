@@ -1,4 +1,4 @@
-<table>
+
     <tbody>
     <tr>
         <td><span class="key">昨日预订金额 : </span><span class="value">11606元</span></td>
@@ -13,4 +13,3 @@
         <td><span class="key">昨日退票数 : </span><span class="value">918</span></td>
     </tr>
     </tbody>
-</table>
