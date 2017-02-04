@@ -254,10 +254,10 @@ module.exports = function(parent){
 						};
 						_this.pieEchart.setOption(option)
 					}else {
-						alert(res.msg)
+						_this.pieEchart.showLoading({
+							text : '饼图暂无数据'
+						});
 					}
-
-
 				},
 				complete: function(res,status) {
 					//请求完成的处理
@@ -338,7 +338,9 @@ module.exports = function(parent){
 						};
 						_this.barEchart.setOption(option)
 					}else{
-						alert(res.msg)
+						_this.barEchart.showLoading({
+							text : '条形图暂无数据'
+						});
 					}
 				},
 				complete: function(res,status) {
@@ -437,29 +439,30 @@ module.exports = function(parent){
 				},
 				success: function(res) {
 					//请求成功时处理
-					_this.lineEchart.hideLoading();
-					var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
+					if( res.code == 200 ){
+						_this.lineEchart.hideLoading();
+						var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
 
-					for( i in res.data.new){
-						newArr.push(res.data.new[i])
-					}
-					for( j in res.data.old ){
-						oldArr.push(res.data.old[j])
-					}
-					//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
-					for( k in res.data.timeLine ){
-						timeStr = res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/");
-						if( /0|6/.test( new Date(timeStr).getDay()) ){
-							if( new Date(timeStr).getDay() === 0 ){
-								timeStr = "周日" ;
-							}else{
-								timeStr = "周六" ;
-							}
+						for( i in res.data.new){
+							newArr.push(res.data.new[i])
 						}
-						xAxisArr.push( timeStr );
-					}
+						for( j in res.data.old ){
+							oldArr.push(res.data.old[j])
+						}
+						//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
+						for( k in res.data.timeLine ){
+							timeStr = res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/");
+							if( /0|6/.test( new Date(timeStr).getDay()) ){
+								if( new Date(timeStr).getDay() === 0 ){
+									timeStr = "周日" ;
+								}else{
+									timeStr = "周六" ;
+								}
+							}
+							xAxisArr.push( timeStr );
+						}
 
-					var option = {
+						var option = {
 							tooltip : {
 								trigger: 'axis'
 							},
@@ -471,21 +474,21 @@ module.exports = function(parent){
 									saveAsImage: {}
 								}
 							},
-						dataZoom: [
-							{
-								type: 'slider',
-								show: true,
-								xAxisIndex: [0],
-								start: 0,
-								end: 100
-							},
-							// {
-							// 	type: 'inside',
-							// 	xAxisIndex: [0],
-							// 	start: 1,
-							// 	end: 35
-							// },
-						],
+							dataZoom: [
+								{
+									type: 'slider',
+									show: true,
+									xAxisIndex: [0],
+									start: 0,
+									end: 100
+								},
+								// {
+								// 	type: 'inside',
+								// 	xAxisIndex: [0],
+								// 	start: 1,
+								// 	end: 35
+								// },
+							],
 							grid: {
 								left: '3%',
 								right: '4%',
@@ -525,7 +528,13 @@ module.exports = function(parent){
 								}
 							]
 						};
-					_this.lineEchart.setOption(option)
+						_this.lineEchart.setOption(option)
+					}else{
+						_this.lineEchart.showLoading({
+							text : '折线图暂无数据'
+						});
+					}
+
 				},
 				complete: function(res,status) {
 					//请求完成的处理

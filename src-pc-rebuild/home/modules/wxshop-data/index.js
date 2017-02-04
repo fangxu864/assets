@@ -143,7 +143,9 @@ module.exports = function(parent){
 						};
 						_this.wxShopLineEchart.setOption(option)
 					}else{
-						alert(res.msg)
+						_this.wxShopLineEchart.showLoading({
+							text : '微商城暂无数据'
+						});
 					}
 				},
 				complete: function(res,status) {
