@@ -1,0 +1,18 @@
+<div class="title_box" id="title_box">数据报表中心</div>
+<div class="table_box" id="table_box">
+    <table class="total_table">
+    <thead>
+    <tr>
+        <th class="th1">名称</th>
+        <th class="th2">创建时间</th>
+        <th class="th3">生成状态</th>
+        <th class="th4">下载次数</th>
+        <th class="th6">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+</div>
+<div id="pagination_box"></div>
+<div class="query_state_box" id="query_state_box"></div>
