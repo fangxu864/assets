@@ -3,7 +3,7 @@
 		<li class="themeBtn"><%=item%></li>
 	<% }) %>
 <% }else{ %>
-	<li class="themeBtn">无</li>
+	<li class="themeBtn">无主题</li>
 <% } %>
 
 

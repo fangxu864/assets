@@ -41,6 +41,9 @@ var Plist = PFT.Util.Class({
 		this.city = "";
 		this.pageSize = 4;   //默认一页4个产品
 
+		//搜索城市关键字
+		this.cityKeyWord = "";
+
 		this.renderScroll();		
 		
 	},
@@ -245,9 +248,7 @@ var Plist = PFT.Util.Class({
         // this.themeSelect.close();
 	},
 
-	onCitySelect : function(kw){
-
-		// console.log(keyWord);
+	onCitySelect : function(){
 
 		var that = this;
 		PFT.Util.Ajax("/r/MicroPlat_Product/getAreaList",{
@@ -255,7 +256,7 @@ var Plist = PFT.Util.Class({
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken(),
-		    	// keyword : kw 
+		    	keyword : that.cityKeyWord 
 		    },
 		    loading : function(){
 		        //正在请中...
@@ -264,7 +265,6 @@ var Plist = PFT.Util.Class({
 		        //请求完成
 		    },
 		    success : function(res){
-		    	console.log(res);
 		        var code = res.code;
 		        if(code==200){
 		        	that.cityHandler(res);
@@ -282,10 +282,13 @@ var Plist = PFT.Util.Class({
 
 	cityHandler : function(res){
 
+		var data = {};
     	var cityList = this.dealCityList(res);		
-    	console.log(cityList);
+    	data.list = res.data;
 
-    	var cityHtml = this.cityTemplate();
+    	console.log(data);
+
+    	var cityHtml = this.cityTemplate(data);
 
 		this.citySelect = new SheetCore({
 			content : cityHtml,       
@@ -319,14 +322,19 @@ var Plist = PFT.Util.Class({
 
 	},
 
+
+	//处理城市列表的数据
 	dealCityList : function(res){
 
 		var data = res.data;
 		var cityList = [];
-		for(var i in data){
-			cityList.push(data[i]);
+		for(var i=0;i<data.length;i++){
+			for(var j=0;j<data[i].length;j++){
+				data[i].pin = data[i][0].pin;
+			}
 		}
-		return cityList; 
+		return data; 
+
 	},
 
 
@@ -352,6 +360,8 @@ var Plist = PFT.Util.Class({
 						var inputText = $(".searchInput").val(); 
 						$(".productNameSearch").val(inputText);
 						that.keyword = inputText;
+						that.lastListLid = 0;
+						that.lastListProPos = 0;
 						that.renderSearch();
 					    that.searchSelect.close();
 					}
