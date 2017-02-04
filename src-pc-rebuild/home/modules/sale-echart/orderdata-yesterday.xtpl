@@ -8,8 +8,4 @@
         <td><span class="key">昨日验证票数 : </span><span class="value"><%=data.chTicketNum%>张</span></td>
         <td><span class="key">昨日验证金额 : </span><span class="value"><%=data.chSaleMoney%>元</span></td>
     </tr>
-    <tr>
-        <td><span class="key">昨日退票数 : </span><span class="value"><%=data.reCancelMoney%>张</span></td>
-        <td><span class="key">昨日退票金额 : </span><span class="value"><%=data.reCancelMoney%>人</span></td>
-    </tr>
     </tbody>
