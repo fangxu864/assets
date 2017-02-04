@@ -1,0 +1,8 @@
+<div class="querying">
+    <div class="line line1">
+        <img src="http://static.12301.cc/assets/build/images/gloading.gif" alt="查询中"/>
+    </div>
+    <div class="line line2">
+        <span>请稍候...</span>
+    </div>
+</div>

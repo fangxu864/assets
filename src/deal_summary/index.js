@@ -10,6 +10,10 @@ var Pagination = require("COMMON/modules/pagination");
 var Select = require("COMMON/modules/select");
 require("COMMON/modules/DragConOver")($);
 
+var Down = require("COMMON/modules/downfile");
+var DownFile = new Down();
+
+
 
 
 var DealSum={
@@ -33,7 +37,6 @@ var DealSum={
 		this.trader_inp=$("#trader");
 		this.clear_btn=$(".clear_trader_box");
 		this.toExcel=$("#to_excel");
-		this.iframe_index=0;//定义iframe的索引；
 		this.present_page=1;
 		//日历部分
 		//扩展日期对象，新增格式化方法
@@ -118,7 +121,6 @@ var DealSum={
 				//请求前的处理
 			},
 			success: function(req) {
-				console.log(req.code);
 				if(req.code==0){
 					$(".dealsumContainer .dealTimeBox .line1").css("display","block");
 					var select=new Select({
@@ -264,6 +266,12 @@ var DealSum={
 				type: "GET",                               //请求方式
 				beforeSend: function() {
 					//请求前的处理
+					$(".dealSumBox").hide();
+					$(".tb_top_box").hide();
+					$(".day_detail_box").hide();
+					$(".tb_bottom_box").hide();
+					$("#pag_box").hide();
+					$(".query_state_box").show();
 				},
 				success: function(req) {
 					_this.dealDataTB1(req)
@@ -284,9 +292,14 @@ var DealSum={
 						type: "GET",                               //请求方式
 						beforeSend: function() {
 							//请求前的处理
+
 						},
 						success: function(req) {
 							_this.dealDataTB2(req)
+							$(".dealSumBox").show();
+							$(".tb_top_box").show();
+							$(".day_detail_box").show();
+							$(".query_state_box").hide();
 						},
 						complete: function() {
 							//请求完成的处理
@@ -359,21 +372,12 @@ var DealSum={
 
 
 		});
-		// this.trader_inp.on("input propertychange",function(){
-		// 	console.log("bianhuale")
-		// 	if($(this).val()!=""){
-		// 		_this.clear_btn.css("display","block");
-		// 	}else{
-		// 		_this.clear_btn.css("display","none");
-		// 	}
-		// });
 		this.clear_btn.on("click",function () {
 			_this.trader_inp.val("");
 			_this.trader_inp.attr("data-id","")
 		});
 		//导出
 		this.toExcel.on("click",function () {
-
 			var paramsArr=[];
 			var params={
 				"search_type": _this.dealType,
@@ -381,22 +385,10 @@ var DealSum={
 				"etime":_this.etime_inp.val(),
 				"page":_this.present_page,
 				"searchFid":_this.trader_inp.attr("data-id")||"",
-				"flag":1
+				"flag":1 ,
 			};
-			for(var key in params){
-				var str=key+"="+params[key];
-				paramsArr.push(str);
-			}
-			console.log(paramsArr);
-			console.log(paramsArr.join("&"));
 
-
-			var url='/r/Finance_TradeRecord/exportExcelTrade/?'+paramsArr.join("&");
-			_this.iframe_index++;
-			var name='iframe'+_this.iframe_index;
-			var html='<iframe class="iframe_downfile" name="'+name+'"></iframe>';
-			$(".iframe_wrap").append(html);
-			window.open(url,name)
+			DownFile.judgeType(params , "1" ,'/r/Finance_TradeRecord/exportExcelTrade/');
 		})
 	},
 	//处理上表数据
@@ -476,7 +468,8 @@ var DealSum={
 				if(tim!=undefined){
 					tim="20"+tim;
 					//20150808
-					tim=tim.substr(0,4)+"-"+tim.substr(4,2)+"-"+tim.substr(6,2);
+					// tim=tim.substr(0,4)+"-"+tim.substr(4,2)+"-"+tim.substr(6,2);
+					tim = tim.replace(/(\d{4})(\d{2})(\d{2})/ , "$1-$2-$3")
 				}else{
 					tim="日期不见了"
 				}
@@ -541,6 +534,12 @@ var DealSum={
 		var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
 		var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
 		return  dates;
+	},
+	//导出excel
+	outExcel:function (downloadUrl) {
+		var iframeName="iframe"+new Date().getTime();
+		$("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+		window.open(downloadUrl, iframeName);
 	}
 };
 $(function ($) {
