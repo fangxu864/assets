@@ -61,7 +61,7 @@ var Product_detail = PFT.Util.Class({
 		    serverError : function(){ alert("请求出错")}
 		})
 
-		this.getTicketInfo();
+		this.getTicketList();
 
 	},
 
@@ -77,7 +77,7 @@ var Product_detail = PFT.Util.Class({
 
 	},
 
-	getTicketInfo : function(){
+	getTicketList : function(){
 
 		var that = this;
 
@@ -89,8 +89,9 @@ var Product_detail = PFT.Util.Class({
 		    	lid : that.lid,
 		    	// lastTid : that.lastTid,
 		    	// lastTicketPos : that.lastTicketPos,
-		    	lastTid : 0,  //先用0测试
-		    	lastTicketPos : 0	//先用0测试	
+		    	//先用0测试,因为会没有更多票了
+		    	lastTid : 0,  
+		    	lastTicketPos : 0		
 		    },
 		    loading : function(){
 		        //正在请中...
@@ -138,7 +139,7 @@ var Product_detail = PFT.Util.Class({
 
 	onMoreTicket : function(){
 
-		this.getTicketInfo();
+		this.getTicketList();
 
 	}
 

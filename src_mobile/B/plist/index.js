@@ -32,7 +32,6 @@ var Plist = PFT.Util.Class({
 		this.listTemplate = PFT.Util.ParseTemplate(ListTpl);  
 		this.ticketTemplate = PFT.Util.ParseTemplate(TicketTpl);  
 
-
 		// 产品列表参数
 		this.lastListLid = 0;
 		this.lastListProPos = 0;
@@ -42,9 +41,7 @@ var Plist = PFT.Util.Class({
 		this.city = "";
 		this.pageSize = 4;   //默认一页4个产品
 
-		this.renderScroll();
-
-		
+		this.renderScroll();		
 		
 	},
 
@@ -99,11 +96,11 @@ var Plist = PFT.Util.Class({
 		        	that.handlerType(data);
 
 		        }else{
-		            alert(res.msg || PFT.AJAX_ERROR)
+		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
 		    },
-		    timeout : function(){ alert("请求超时") },
-		    serverError : function(){ alert("请求出错")}
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
 	},
@@ -112,7 +109,6 @@ var Plist = PFT.Util.Class({
 		var that = this;
 
     	var typeHtml = this.typeTemplate(data);
-
 
     	if(this.typeSelect){
 		    this.typeSelect.show();	
@@ -161,6 +157,7 @@ var Plist = PFT.Util.Class({
 	onThemeSelect : function(){
 		var that = this;
 		var type = $("#typeText").attr("data-type");
+
 		PFT.Util.Ajax("/r/MicroPlat_Product/getThemes",{
 			type : "POST",
 		    dataType : "json",
@@ -179,34 +176,37 @@ var Plist = PFT.Util.Class({
 		        if(code==200){
 		        	that.themeHandler(res);
 		        }else{
-		            alert(res.msg || PFT.AJAX_ERROR)
+		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
 		    },
-		    timeout : function(){ alert("请求超时") },
-		    serverError : function(){ alert("请求出错")}
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 	},
 
 	themeHandler : function(res){
 		var that = this;
 		var data = {};
-		var type = "A";
-		if(type == "A"){
-			data.list = res.data.A;
-		}else if(type == "B"){
-			data.list = res.data.B;
-		}else if(type == "C"){
-			data.list = res.data.C;
-		}else if(type == "F"){
-			data.list = res.data.F;
-		}else if(type == "H"){
-			data.list = res.data.H;
-		}
+		// var type = "A";
+		// if(type == "A"){
+		// 	data.list = res.data.A;
+		// }else if(type == "B"){
+		// 	data.list = res.data.B;
+		// }else if(type == "C"){
+		// 	data.list = res.data.C;
+		// }else if(type == "F"){
+		// 	data.list = res.data.F;
+		// }else if(type == "H"){
+		// 	data.list = res.data.H;
+		// }
+
+		data.list = res.data;
+		
     	var themeHtml = this.themeTemplate(data);
 
-    	if(this.themeSelect){
-    		this.themeSelect.show();	
-    	}else{
+    	// if(this.themeSelect){
+    	// 	this.themeSelect.show();	
+    	// }else{
 			this.themeSelect = new SheetCore({
 				header : "标题",
 				content : themeHtml,       
@@ -234,7 +234,7 @@ var Plist = PFT.Util.Class({
 				}
 			});
 		    this.themeSelect.show();
-    	}
+    	// }
 
 	},
 
@@ -245,7 +245,9 @@ var Plist = PFT.Util.Class({
         // this.themeSelect.close();
 	},
 
-	onCitySelect : function(){
+	onCitySelect : function(kw){
+
+		// console.log(keyWord);
 
 		var that = this;
 		PFT.Util.Ajax("/r/MicroPlat_Product/getAreaList",{
@@ -253,6 +255,7 @@ var Plist = PFT.Util.Class({
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken(),
+		    	// keyword : kw 
 		    },
 		    loading : function(){
 		        //正在请中...
@@ -264,14 +267,23 @@ var Plist = PFT.Util.Class({
 		    	console.log(res);
 		        var code = res.code;
 		        if(code==200){
-		        	// that.themeHandler(res);
+		        	that.cityHandler(res);
 		        }else{
-		            alert(res.msg || PFT.AJAX_ERROR)
+		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
 		    },
-		    timeout : function(){ alert("请求超时") },
-		    serverError : function(){ alert("请求出错")}
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
+
+   			
+
+	},
+
+	cityHandler : function(res){
+
+    	var cityList = this.dealCityList(res);		
+    	console.log(cityList);
 
     	var cityHtml = this.cityTemplate();
 
@@ -293,14 +305,28 @@ var Plist = PFT.Util.Class({
 			zIndex : 200,       
 			EVENTS : {      
 				"click .cityBtn" : function(e){
-				  	// that.changeTheme($(e.target));
 				  	$(e.target).css("background","#123456").addClass("selectNow");
 				  	$(e.target).siblings().removeClass("selectNow").css("background","");
+				},
+
+				"input #citySearch" : function(e){
+					var cityKeyWord = $(e.target).val();	
+					console.log(cityKeyWord);
 				}
 			}
 		});
 	    this.citySelect.show();
 
+	},
+
+	dealCityList : function(res){
+
+		var data = res.data;
+		var cityList = [];
+		for(var i in data){
+			cityList.push(data[i]);
+		}
+		return cityList; 
 	},
 
 
@@ -325,6 +351,7 @@ var Plist = PFT.Util.Class({
 					"click .searchBtn" : function(e){
 						var inputText = $(".searchInput").val(); 
 						$(".productNameSearch").val(inputText);
+						that.keyword = inputText;
 						that.renderSearch();
 					    that.searchSelect.close();
 					}
@@ -332,6 +359,8 @@ var Plist = PFT.Util.Class({
 			});
 		    this.searchSelect.show();
     	}
+
+    	$(".searchInput").focus();
 
 	},
 
@@ -373,11 +402,11 @@ var Plist = PFT.Util.Class({
 		        	that.lastListProPos = data.lastProPos;
 		        	that.renderList(data);
 		        }else{
-		            alert(res.msg || PFT.AJAX_ERROR)
+		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
 		    },
-		    timeout : function(){ alert("请求超时") },
-		    serverError : function(){ alert("请求出错")}
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
 	},
@@ -386,7 +415,7 @@ var Plist = PFT.Util.Class({
 
 		var list = data.list;
 		if(list.length == 0){
-			alert("没有更多了");
+			PFT.Mobile.Alert("没有更多了");
 		}
 		var listHtml = this.listTemplate(data);
 
@@ -423,11 +452,11 @@ var Plist = PFT.Util.Class({
 		        if(code==200){
 		        	that.renderTicketList(data,target);
 		        }else{
-		            alert(res.msg || PFT.AJAX_ERROR)
+		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
 		    },
-		    timeout : function(){ alert("请求超时") },
-		    serverError : function(){ alert("请求出错")}
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
 	},
@@ -448,8 +477,3 @@ var Plist = PFT.Util.Class({
 $(function(){
 	new Plist();
 });
-
-
-
-
-
