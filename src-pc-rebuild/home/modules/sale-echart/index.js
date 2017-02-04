@@ -23,6 +23,13 @@ require("./index.scss");
 var Tpl = require("./index.xtpl");
 var oD_yesterday_tpl = require("./orderdata-yesterday.xtpl");
 var oD_today_tpl = require("./orderdata-today.xtpl");
+
+var LoadingPC = require("COMMON/js/util.loading.pc.js");
+
+var tips = require("COMMON/modules/tips/index.js");
+var Tips = new tips ();
+
+
 module.exports = function(parent){
 
 	var container = $('<div id="saleEchartBox" class="saleEchartBox modBox"></div>').appendTo(parent);
@@ -35,7 +42,7 @@ module.exports = function(parent){
 		init : function(){
 			var _this = this ;
 			this.render();
-			this.renderOrderData_today();
+			this.renderOrderData_today( true );
 			this.renderOrderData_yesterday();
 			//折线图
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
@@ -67,6 +74,7 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .okBtn" : "onOkBtnClick" ,
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 			"click .selectBox .icon" : "onSelectBoxIconClick" ,
+			"click .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconClick" ,
 		},
 
 
@@ -85,22 +93,102 @@ module.exports = function(parent){
 
 
 		/**
-		 * @method 渲染今天订单数据
+		 * @method 渲染今日订单数据
 		 */
-		renderOrderData_today : function () {
+		renderOrderData_today : function ( isInit ) {
 			var _this = this ;
-			var html = _this.template_today_od( );
-			_this.container.find(".line1 .today-box .rt table").html( html )
+			var curContainer = _this.container.find(".line1 .today-box .rt table");
+			var icon = _this.container.find(".line1 .today-box .rt .icon");
+			var params ;
+			if( isInit ){
+				params = {}
+			}else{
+				params = { is_flush : 1}
+			}
+			var LoadingStr = LoadingPC("努力加载中...",{
+				tag : "tr",
+				colspan : 6,
+				width : 500,
+				height : 150
+			});
+
+			PFT.Util.Ajax("/r/Home_HomeOrder/todayInfo/",{
+				type : "POST",
+				params : params,
+				loading : function(){
+					if( isInit ){
+						curContainer.html(LoadingStr);
+					}else{
+						icon.addClass("rotateInfinite");
+					}
+				},
+				complete : function(res){
+					if( res.code == 200 ){
+						console.log(res);
+						var html = _this.template_today_od({data : res.data});
+						curContainer.html( html );
+						if( isInit ){
+							icon.show();
+						}else{
+							Tips.show({
+								lifetime : 1500 ,
+								direction : top,
+								hostObj : icon ,
+								content : "刷新成功",
+								bgcolor : "#3eba40"
+							})
+						}
+						icon.removeClass("rotateInfinite");
+					}else{
+						icon.removeClass("rotateInfinite");
+						Tips.show({
+							lifetime : 1500 ,
+							direction : top,
+							hostObj : icon ,
+							content : "亲,距上次刷新五分钟后可以再次刷新"
+						})
+					}
+				}
+			});
+			// var html = _this.template_today_od( );
+			// _this.container.find(".line1 .today-box .rt table").html( html )
 		},
 
 
 		/**
-		 * @method 渲染昨天天订单数据
+		 * @method 渲染昨日订单数据
 		 */
 		renderOrderData_yesterday : function () {
 			var _this = this ;
-			var html = _this.template_yesterday_od( );
-			_this.container.find(".line1 .yesterday-box .rt").html( html )
+
+			var curContainer = _this.container.find(".line1 .yesterday-box .rt table");
+			var LoadingStr = LoadingPC("努力加载中...",{
+				tag : "tr",
+				colspan : 6,
+				width : 500,
+				height : 150
+			});
+
+			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
+				type : "POST",
+				params : {},
+				loading : function(){
+					curContainer.html(LoadingStr);
+				},
+				complete : function(res){
+					if( res.code == 200 ){
+						console.log(res);
+						var html = _this.template_yesterday_od( { data : res.data.data } );
+						curContainer.html( html )
+					}else{
+						curContainer.html( res.msg )
+					}
+
+				}
+			});
+
+			// var html = _this.template_yesterday_od( );
+			// _this.container.find(".line1 .yesterday-box .rt").html( html )
 		},
 
 
@@ -264,6 +352,15 @@ module.exports = function(parent){
 					alert("饼图数据请求出错")
 				}
 			});
+		},
+
+
+		/**
+		 * @events 今日订单数据刷新按钮点击事件
+		 */
+		onShuaXinIconClick :function (e) {
+			var _this = this ;
+			_this.renderOrderData_today( false );
 		},
 
 
