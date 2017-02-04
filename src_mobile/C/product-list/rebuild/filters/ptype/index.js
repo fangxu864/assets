@@ -1,34 +1,64 @@
-/**
- * Author: huangzhiyang
- * Date: 2016/12/2 15:47
- * Description: ""
- */
-var Ptype = PFT.Util.Class({
-	init : function(opt){
-		this.host = opt.host;
-		this.container = opt.container;
-		this.data = opt.data;
-		var item = '<a id="switchPtypeBtn" data-filter="type" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype" style="color:#fff"><span class="t"></span></a>';
-		this.container.children(".con").append(item);
-		this.initSheet();
-	},
-	initSheet : function(){
-		var that = this;
-		var data = this.data;
-		var content = this.host.renderHtml(data);
-		this.sheet = new opt.SheetCore({
-			content : content,
-			noBtn : true,
-			EVENTS : {
-				"click .actionItem" : function(e){
-					var tarItem = $(e.currentTarget);
-					var key = tarItem.attr("data-key");
-					var value = tarItem.text();
-					tarItem.addClass("selected").siblings().removeClass("selected");
-					that.trigger("select",{key:key,value:value});
-				}
-			}
-		});
-	}
-});
-module.exports = Ptype;
+var typeitem = PFT.Util.ParseTemplate(require("./typeitem.xtpl"));
+
+var City = PFT.Util.Class({
+    DEFAULT_TEXT: '景区',
+
+    init: function( opt ){
+        this.data = opt.data;
+        this.parentObj = opt.host;
+        this.container = opt.container;
+
+        this.togglebtn = $('<a>', {
+            class: 'ui-filterItem ui-flex-box',
+            href: 'javascript:;',
+            'data-filter': 'type',
+            'data-type': 'A'
+        }).appendTo( this.container ).append('<i class="filterIcon icon-u-regular icon-dizhi"></i>');
+
+        this.title = $('<span>',{
+            class: 't'
+        }).appendTo(this.togglebtn).html( this.DEFAULT_TEXT );
+
+        var that = this,
+            typeListHTML = that.renderList( this.data );
+
+        that.SheetCore = new opt.SheetCore({
+            content : typeListHTML,
+            noBtn : {
+                handler: function(){
+                	that.parentObj.container.removeClass('hide');
+                },
+                trigger: true
+            },
+            zIndex : 10004,
+            EVENTS : {
+                'click .typeItem': function(e) {
+                    that.togglebtn.attr( 'data-type', $(e.currentTarget).attr('data-type') );
+                    that.title.html( $(e.currentTarget).html() );
+                    that.hide();
+                    that.parentObj.container.removeClass('hide');
+                    opt.Page.filterParamsChange();
+                }
+            }
+        });
+
+        that.SheetCore.close();
+    },
+    renderList: function( data ){
+        var html = '';
+
+        html += '<ul class="actionUl">';
+        html += typeitem({ data : data });
+        html += '</ul>';
+
+        return html;
+    },
+    show: function(){
+        this.SheetCore.show();
+    },
+    hide: function(){
+        this.SheetCore.close();
+    }
+})
+
+module.exports = City;

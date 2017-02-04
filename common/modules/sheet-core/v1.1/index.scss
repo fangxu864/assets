@@ -1,0 +1,143 @@
+@import "COMMON/css/base/main";
+$height : 42px;
+$fixHeight : 43px;
+html.sheet-show,body.sheet-show{ overflow:hidden}
+.ui-sheetMask{
+    display:none;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background: rgba(0,0,0,0);
+    transition:background .5s;
+    backface-visibility: hidden;
+}
+.ui-sheetMask.show{
+    display:block;
+    background: rgba(0,0,0,.6);
+}
+.ui-sheetCoreContainer{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    background:#fff;
+    transform:translateY(100%);
+    transition:-webkit-transform .2s;
+    backface-visibility: hidden;
+
+    &.show{ transform:translateY(0); }
+
+
+
+
+    .sheet-header{
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        height:$height;
+        line-height:$height;
+        text-align:center;
+        overflow:hidden;
+        border-bottom:1px solid $gray90;
+
+        .leftBtn, .rightBtn {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            line-height: 1.2rem;
+            color: #258cc9;
+            text-align: center;
+        }
+
+        .leftBtn {
+            left: 0;
+        }
+    }
+    .sheet-foot{
+        position:absolute;
+        bottom:0;
+        left:0;
+        right:0;
+        height:$height;
+        line-height:$height;
+        text-align:center;
+        overflow:hidden;
+        border-top:1px solid $gray90;
+
+        .btn{
+            position:relative;
+            display:inline-block;
+            width:50%;
+            height:$height;
+            line-height:$height;
+            text-align:center;
+            color:$blue;
+            &:last-child:before{
+                content:"";
+                position:absolute;
+                top:0;
+                bottom:0;
+                left:0;
+                width:1px;
+                font-size:0;
+                background:$gray90;
+            }
+            &:nth-child(2n+1):before{
+                display:none;
+            }
+        }
+
+    }
+    &.fixHead, &.fixFoot {
+        .sheet-content{
+            // position: absolute;
+            overflow:auto;
+            overflow-scrolling:touch;
+            -webkit-overflow-scrolling:touch;
+        }
+    }
+
+    &.fixHead{
+        .sheet-content{
+            margin-top:$fixHeight;
+        }
+    }
+    &.fixFoot{
+        .sheet-content{
+            margin-bottom:$fixHeight;
+        }
+    }
+    &.fixheight {
+        .sheet-content{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
