@@ -251,7 +251,8 @@ var Plist = PFT.Util.Class({
 	onCitySelect : function(){
 
 		var that = this;
-		PFT.Util.Ajax("/r/MicroPlat_Product/getAreaList",{
+
+		this.cityReq = PFT.Util.Ajax("/r/MicroPlat_Product/getAreaList",{
 			type : "POST",
 		    dataType : "json",
 		    params : {
@@ -267,7 +268,11 @@ var Plist = PFT.Util.Class({
 		    success : function(res){
 		        var code = res.code;
 		        if(code==200){
-		        	that.cityHandler(res);
+		        	if(that.cityKeyWord == ""){
+		        		that.cityHandler(res);
+		        	}else{
+		        		that.citySearch(res);
+		        	}
 		        }else{
 		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
@@ -282,44 +287,56 @@ var Plist = PFT.Util.Class({
 
 	cityHandler : function(res){
 
+		var that = this;
+
 		var data = {};
     	var cityList = this.dealCityList(res);		
     	data.list = res.data;
 
-    	console.log(data);
-
     	var cityHtml = this.cityTemplate(data);
 
-		this.citySelect = new SheetCore({
-			content : cityHtml,       
-			height : "100%",    
-			yesBtn : {            
-				text : "确定提交",   
-				handler : function(e){
-					var nowSel = $(".cityBtn.selectNow");
-				}
-			},
-			noBtn : {            
-			  text : "取消",   
-			  handler : function(e){
-			    console.log("点击时执行")
-			  }
-			},       
-			zIndex : 200,       
-			EVENTS : {      
-				"click .cityBtn" : function(e){
-				  	$(e.target).css("background","#123456").addClass("selectNow");
-				  	$(e.target).siblings().removeClass("selectNow").css("background","");
+    	if(this.citySelect){
+			$(".sheet-content").html(cityHtml);
+    	}else{
+			this.citySelect = new SheetCore({
+				content : cityHtml,       
+				height : "100%",    
+				yesBtn : {            
+					text : "确定提交",   
+					handler : function(e){
+						var nowSel = $(".cityBtn.selectNow");
+					}
 				},
+				noBtn : {            
+				  	text : "取消",   
+				  	handler : function(e){
+				  		// that.cityState = "close";
+				    	console.log("点击时执行");
+				  	}
+				},       
+				zIndex : 200,       
+				EVENTS : {      
+					"click .cityBtn" : function(e){
+					  	$(e.target).css("background","#123456").addClass("selectNow");
+					  	$(e.target).siblings().removeClass("selectNow").css("background","");
+					},
 
-				"input #citySearch" : function(e){
-					var cityKeyWord = $(e.target).val();	
-					console.log(cityKeyWord);
+					"input #citySearch" : function(e){
+						var cityKeyWord = $(e.target).val();	
+						var State = that.cityReq.readyState; 
+						if(State == 4){
+							that.cityKeyWord = cityKeyWord; 
+							that.onCitySelect();
+						}else{
+							return false;
+						}
+					}
 				}
-			}
-		});
-	    this.citySelect.show();
+			});
+		    this.citySelect.show();
+    	}
 
+    	
 	},
 
 
@@ -337,6 +354,23 @@ var Plist = PFT.Util.Class({
 
 	},
 
+	citySearch : function(res){
+
+		console.log(res);
+		var list = res.data;
+		var listHtml = "";
+		var emptyHtml = '<li class="cityBtn">未搜索到相关城市</li>';
+		for(var i = 0;i<list.length;i++){	
+			listHtml += '<li class="cityBtn">'+list[i].name+'</li>';		
+		}
+		if(list.length == 0){	
+			$("#allCityWrap").html(emptyHtml);
+		}else{
+			$("#allCityWrap").html(listHtml);
+		}
+		// this.cityKeyWord = "";
+
+	},
 
 	focusAllInput : function(){
 
@@ -456,7 +490,6 @@ var Plist = PFT.Util.Class({
 
 		    },
 		    success : function(res){
-		    	console.log(res);
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){

@@ -13,7 +13,6 @@ var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
 
-
 var Order_fill = PFT.Util.Class({
 
 	container : $("#orderFill"),
@@ -27,10 +26,78 @@ var Order_fill = PFT.Util.Class({
 		"click #regularBtn":"regularToggle"
 	},
 	init : function(){
+
+		var id = this.getId();
+		this.aid = id.aid;
+		this.pid = id.pid;
+		this.type = id.type;
+		console.log("aid="+this.aid+"&pid="+this.pid+"&type="+this.type);
+
 		this.componentsInit();
-		this.getPriceAndStorage();
+
+		this.getBookInfo();
+
+		// this.getPriceAndStorage();
 
 	},
+	getId : function(){
+
+		var url = window.location.href;
+		var ids = url.split("?");
+		var id = ids[1].split("&");
+		var aid = id[0].split("=");
+		var pid = id[1].split("=");
+		var type = id[2].split("=");
+		return {
+			aid : aid[1],
+			pid : pid[1],
+			type : type[1]
+		}
+
+	},
+	getBookInfo : function () {
+
+		// $("#ticketList li").each(function (index,value) {
+			// var id = $(value).attr("data-id");
+
+			var that = this;
+
+			var params = {
+				token : PFT.Util.getToken(),
+				aid : this.aid,
+				pid : this.pid
+			};
+			GetBookInfo(params,{
+				loading:function () {},
+				success:function (req) {
+
+					that.handleBookInfo(req);
+					
+					// var tickets = req.data.tickets;
+					// $(value).find(".ticketName").text(req.data.title);
+					// if(tickets){
+					// 	var html="";
+					// 	for(var i in tickets){
+					// 		html += "+"+tickets[i].title
+					// 	}
+
+					// 	$(value).find(".details").show();
+					// 	$(value).find(".ticketSon").text(html)
+					// }
+
+				},
+				complete:function () {}
+			})
+
+		// });
+	},
+
+	handleBookInfo : function(res){
+
+		console.log(res);
+
+	},
+
 	componentsInit : function () {
 		var This = this;
 
@@ -216,6 +283,7 @@ var Order_fill = PFT.Util.Class({
 		GetPriceAndStorage(params,{
 			loading:function () {},
 			success:function (req) {
+				console.log(req);
 				var template = PFT.Util.ParseTemplate(placeTicket);
 				var htmlStr = template({data:req.data});
 				$("#ticketList").empty().append(htmlStr);
@@ -226,31 +294,6 @@ var Order_fill = PFT.Util.Class({
 			complete:function () {}
 		});
 
-	},
-
-	getBookInfo : function () {
-
-		$("#ticketList li").each(function (index,value) {
-			var id = $(value).attr("data-id");
-			GetBookInfo({},{
-				loading:function () {},
-				success:function (req) {
-					var tickets = req.data.tickets;
-					$(value).find(".ticketName").text(req.data.title);
-					if(tickets){
-						var html="";
-						for(var i in tickets){
-							html += "+"+tickets[i].title
-						}
-
-						$(value).find(".details").show();
-						$(value).find(".ticketSon").text(html)
-					}
-				},
-				complete:function () {}
-			})
-
-		});
 	}
 	
 

@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<div class="ticketRight">
-		<a href="" class="orderBtn">预定</a>
+		<a href="order_fill.html?aid=<%=item.aid%>&pid=<%=item.pid%>&type=<%=item.p_type%>" class="orderBtn">预定</a>
 	</div>
 </div>
 
