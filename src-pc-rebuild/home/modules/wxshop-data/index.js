@@ -90,7 +90,6 @@ module.exports = function(parent){
 				},
 				success: function(res) {
 					//请求成功时处理
-					console.log(res);
 					_this.wxShopLineEchart.hideLoading();
 					if( res.code == 200 ){
 						var yAxisArr = [] , seriesDataArr = [] ;
