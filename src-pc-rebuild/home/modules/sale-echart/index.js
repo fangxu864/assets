@@ -124,7 +124,6 @@ module.exports = function(parent){
 				},
 				complete : function(res){
 					if( res.code == 200 ){
-						console.log(res);
 						var html = _this.template_today_od({data : res.data});
 						curContainer.html( html );
 						if( isInit ){
@@ -177,7 +176,6 @@ module.exports = function(parent){
 				},
 				complete : function(res){
 					if( res.code == 200 ){
-						console.log(res);
 						var html = _this.template_yesterday_od( { data : res.data.data } );
 						curContainer.html( html )
 					}else{
@@ -397,7 +395,6 @@ module.exports = function(parent){
 					todayAfterDisable : false,   //可选，今天之后的日期都不显示
 				})
 			}
-			console.log(tarInp)
 
 		},
 

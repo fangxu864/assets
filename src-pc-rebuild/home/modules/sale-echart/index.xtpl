@@ -63,7 +63,7 @@
             <i class="icon icon-u-bold icon-checkbox compare" data-type="2"></i>
             <span>环比(上一周期)</span>
         </div>
-        <div class="td td3">
+        <div class="td td3" style="display: none">
             <i class="icon icon-u-bold icon-checkbox weekend" data-type="3"></i>
             <span>高亮周末</span>
         </div>
