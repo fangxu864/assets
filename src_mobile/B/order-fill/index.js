@@ -1,23 +1,29 @@
 
 require("./index.scss");
-
-var GetPriceAndStorage = require("./getPriceAndStorage_Service.js");
-var GetBookInfo = require("./getBookInfo_Service.js");
-var placeTicket = require("./TicketTemplate/placeTicket.xtpl");
-
-var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
-var contact = require("./addContact.xtpl");
-var Validate = require("COMMON/js/util.validate.js");
-
-var Calendar = require("COMMON/modules/calendar");
+//服务层
+var GetPriceAndStorage = require("./service/getPriceAndStorage_Service.js");
+var GetBookInfo = require("./service/getBookInfo_Service.js");
+var GetCalendarPrice = require("./service/getCalendarPrice.js");
+//tpl
+var placeTicket = require("./tpl/placeTicket.xtpl");
+var contact = require("./tpl/addContact.xtpl");
+//组件模块
+var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
+var Validate = require("COMMON/js/util.validate.js"); //验证
+// var Calendar = require("COMMON/modules/calendar"); //日历
 var When=require("COMMON/js/when.js");
 var when=new When();
+
+
+//自己写日历
+
+var Calendar = require("./calendar/index.js");
 
 var Order_fill = PFT.Util.Class({
 
 	container : $("#orderFill"),
 	EVENTS : {
-		"click #playDate":"getDate",
+		"click #playDate":"testCalendar", //日历插件测试
 		"click #contact":"showContact",
 		"click #visitorInformation":"showVisitor",
 		"click .addBtn":"addNum",
@@ -25,17 +31,124 @@ var Order_fill = PFT.Util.Class({
 		"blur .numBox":"checkInput",
 		"click #regularBtn":"regularToggle"
 	},
+
+
+	getNowDate : function(){
+
+		var date=new Date;
+		var year=date.getFullYear(); 
+		var month=date.getMonth()+1;
+		// month =(month<10 ? "0"+month:month); 
+		var day = date.getDate(); 
+
+		var dateGroup = {
+			year : year,
+			month : month,
+			day : day,
+			nowDate : (year.toString()+'-'+month.toString())
+		}
+
+		this.nowYearFlag = parseInt(dateGroup.year);
+		this.nowMonthFlag = parseInt(dateGroup.month);
+		this.nowDayFlag = parseInt(dateGroup.day);
+
+		return dateGroup;
+
+	},
+
+
+	testCalendar : function(){
+
+		var that = this;
+
+		var dateGroup = this.getNowDate();	
+		var nowDate = dateGroup.nowDate;
+
+		var allHtml = Calendar.init(nowDate);
+
+		var html = allHtml.html;
+		var listHtml = allHtml.listHtml;
+
+		this.CalendarBox =  new SheetCore({
+			
+			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+
+			height : "auto",      //弹层占整个手机屏幕的高度
+			
+			yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
+			
+			noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
+
+			zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
+			
+			EVENTS : {            //弹层上面绑定的所有事件放在这里
+				"click .prev" : function(e){
+					that.changeCal("prev");
+				},
+				"click .next" : function(e){
+					that.changeCal("next");
+				}				
+			}
+		});
+
+		this.CalendarBox.show();
+
+		$(".ui-sheetMask").on("click",function(){
+			that.CalendarBox.close();			
+		});
+
+		$(".calContentCon").html(listHtml);
+
+	},
+
+	changeCal : function(dir){
+
+		if(dir == "prev"){
+			if(this.nowMonthFlag > 1){
+				this.nowMonthFlag -= 1; 
+			}else{
+				this.nowMonthFlag = 12;
+				this.nowYearFlag -= 1;
+			}
+		}else if(dir == "next"){
+			if(this.nowMonthFlag < 12){
+				this.nowMonthFlag += 1; 
+			}else{
+				this.nowMonthFlag = 1;
+				this.nowYearFlag += 1;
+			}
+		}
+
+		var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
+		console.log(date);
+
+		Calendar.change(date); //改变日历状态
+
+	},
+
 	init : function(){
+
+		//日历插件测试
+		this.testCalendar();
+
+		
 
 		var id = this.getId();
 		this.aid = id.aid;
 		this.pid = id.pid;
 		this.type = id.type;
-		console.log("aid="+this.aid+"&pid="+this.pid+"&type="+this.type);
 
-		this.componentsInit();
+		this.getCalPrice();
+		// if(this.aid == undefined ||this.pid == undefined ||this.type == undefined ){
+		// 	console.log("缺少id参数");	
+		// }else{
+			// console.log("aid="+this.aid+"&pid="+this.pid+"&type="+this.type);
+		// }
 
-		this.getBookInfo();
+		// this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
+
+		// this.componentsInit();
+		// this.getBookInfo();
 
 		// this.getPriceAndStorage();
 
@@ -43,18 +156,59 @@ var Order_fill = PFT.Util.Class({
 	getId : function(){
 
 		var url = window.location.href;
-		var ids = url.split("?");
-		var id = ids[1].split("&");
-		var aid = id[0].split("=");
-		var pid = id[1].split("=");
-		var type = id[2].split("=");
-		return {
-			aid : aid[1],
-			pid : pid[1],
-			type : type[1]
+		var index = url.indexOf("?");
+
+		if( index > 0 ){
+			var ids = url.split("?");
+			var id = ids[1].split("&");
+			var aid = id[0].split("=");
+			var pid = id[1].split("=");
+			var type = id[2].split("=");
+			return {
+				aid : aid[1],
+				pid : pid[1],
+				type : type[1]
+			}	
+		}else{
+			return false
 		}
 
 	},
+
+	getCalPrice : function(date){
+
+		var that = this;
+
+		date = '2017-01-26';//先写死
+
+		var params = {
+			token : PFT.Util.getToken(),
+			aid : this.aid,
+			pid : this.pid,
+			date : date
+		};
+
+		GetCalendarPrice(params,{
+			loading:function () {},
+			success:function (res) {
+
+				that.handleCalPrice(res);
+
+			},
+			complete:function () {}
+		});
+
+	},	
+
+	handleCalPrice : function(){
+
+
+
+
+	},
+
+
+
 	getBookInfo : function () {
 
 		// $("#ticketList li").each(function (index,value) {
@@ -95,14 +249,24 @@ var Order_fill = PFT.Util.Class({
 	handleBookInfo : function(res){
 
 		console.log(res);
+		var ticketList = res.tickets;
+		this.renderTicketList(ticketList); 
+		$("#placeText").text(res.title);
 
+	},
+
+	renderTicketList : function(list){
+		var data = {};
+		data.list = list;
+		var ticketsHtml = this.ticketTemplate(data);	
+		$("#ticketList").html(ticketsHtml);
 	},
 
 	componentsInit : function () {
 		var This = this;
 
 		//日历
-		this.calendarBox = new Calendar();
+		this.calendar = new Calendar();
 		//常用联系人
 		this.ContactBox =  new SheetCore({
 

@@ -1,15 +1,16 @@
-<% for(var i in data){%>
-    <li class="placeTicket" data-id="<%=i%>">
+
+<%for(var i=0;i<list.length;i++){%>
+    <li class="placeTicket" >
         <div class="left">
             <p class="ticketName">成人票</p>
             <p class="ticketContent">
                 <p class="price">
                     <span>结算价：</span>
-                    <span class="orange money"><%=data[i].price%></span>
+                    <span class="orange money"><%=list[i].jsprice%></span>
                 </p>
                 <p class="storage">
                     <span>库存：</span>
-                    <span class="num"><%=data[i].store%></span>
+                    <span class="num"><%=list[i].tprice%></span>
                 </p>
             </p>
         </div>
@@ -26,3 +27,6 @@
         </div>
     </li>
 <%}%>
+    
+
+    
