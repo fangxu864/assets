@@ -10,11 +10,11 @@ var calendar = {
 
 	init : function(nowDate){
 
-		console.log(nowDate);
+		// console.log(nowDate);
 
 		var arr = CalendarCore.outputDate(nowDate);   
 
-		console.log(arr);
+		// console.log(arr);
 
 		var data = {};
 		data.list = arr;

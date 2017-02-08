@@ -11,19 +11,24 @@ var contact = require("./tpl/addContact.xtpl");
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
 // var Calendar = require("COMMON/modules/calendar"); //日历 //不是这个
-var When=require("COMMON/js/when.js");
-var when=new When();
+// var When=require("COMMON/js/when.js");
+// var when=new When();
 
 
 //自己写日历
-
 var Calendar = require("./calendar/index.js");
+
+
+
+
+
+
 
 var Order_fill = PFT.Util.Class({
 
 	container : $("#orderFill"),
 	EVENTS : {
-		"click #playDate":"testCalendar", //日历插件测试
+		"click #playDate":"Calendar", //自己做日历功能
 		"click #contact":"showContact",
 		"click #visitorInformation":"showVisitor",
 		"click .addBtn":"addNum",
@@ -32,6 +37,33 @@ var Order_fill = PFT.Util.Class({
 		"click #regularBtn":"regularToggle"
 	},
 
+	init : function(){		
+
+		var id = this.getId();
+		this.aid = id.aid;
+		this.pid = id.pid;
+		this.type = id.type;
+		if(this.aid == undefined ||this.pid == undefined ||this.type == undefined ){
+			console.log("缺少id参数");	
+		}
+
+
+
+		// this.Calendar();
+		// this.getCalPrice();
+
+
+		
+
+		this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
+
+		this.getBookInfo(); //根据不同类型分辨
+
+		// this.componentsInit();
+
+		// this.getPriceAndStorage();
+
+	},
 
 	getNowDate : function(){
 
@@ -57,7 +89,7 @@ var Order_fill = PFT.Util.Class({
 	},
 
 
-	testCalendar : function(){
+	Calendar : function(){
 
 		var that = this;
 
@@ -97,6 +129,8 @@ var Order_fill = PFT.Util.Class({
 			that.CalendarBox.close();			
 		});
 
+		this.getCalPrice();
+
 		$(".calContentCon").html(listHtml);
 
 	},
@@ -126,33 +160,7 @@ var Order_fill = PFT.Util.Class({
 
 	},
 
-	init : function(){
-
-		//日历插件测试
-		this.testCalendar();
-
-		
-
-		var id = this.getId();
-		this.aid = id.aid;
-		this.pid = id.pid;
-		this.type = id.type;
-
-		this.getCalPrice();
-		// if(this.aid == undefined ||this.pid == undefined ||this.type == undefined ){
-		// 	console.log("缺少id参数");	
-		// }else{
-			// console.log("aid="+this.aid+"&pid="+this.pid+"&type="+this.type);
-		// }
-
-		// this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
-
-		// this.componentsInit();
-		// this.getBookInfo();
-
-		// this.getPriceAndStorage();
-
-	},
+	
 	getId : function(){
 
 		var url = window.location.href;
@@ -198,7 +206,7 @@ var Order_fill = PFT.Util.Class({
 			loading:function () {},
 			success:function (res) {
 
-				that.handleCalPrice(res,day);
+				that.handleCalPrice(res,DG);
 
 			},
 			complete:function () {}
@@ -206,22 +214,29 @@ var Order_fill = PFT.Util.Class({
 
 	},	
 
-	handleCalPrice : function(res,day){
+	handleCalPrice : function(res,DG){
 
 		console.log(res);
-		console.log(day);
 
 		var PG = $("span.price");
-		var arr = [];
+		for( var i in res){
+			for(var j = 0;j<PG.length;j++){
+				var data_day = PG.eq(j).attr("data-day");
+				DG.month = parseInt(DG.month);
+				DG.month =(DG.month<10 ? "0"+DG.month:DG.month);
+				var data_date = DG.year+ "-" +DG.month+ "-" +data_day;
+				if(data_date == i){
+					PG.eq(j).find("em").text(res[i]);
+				}
+			}
+		}		
+		var items = $(".calConItem"); 
 
-		for( var i = day-1;i<PG.length;i++){
-			arr.push($(PG[i]));   //arr为一个jq元素的数组，只存当前天数以后的天数
-		}
+		for(var j = 0;j<items.length;j++){
 
-		for(var j = 0;j<arr.length;j++){
-
-			var em = arr[j].find('em');
-
+			if(items.eq(j).find('em').text() == ""){
+				console.log(PG[j]);
+			}
 
 		}
 
@@ -270,8 +285,34 @@ var Order_fill = PFT.Util.Class({
 
 		console.log(res);
 		var ticketList = res.tickets;
-		this.renderTicketList(ticketList); 
 		$("#placeText").text(res.title);
+
+		var type = this.type;
+
+		// A:景区,B:线路,F:套票,H:演出,C:酒店
+		// G:餐饮 //餐饮是后面加的
+
+		var type = "A"; //先模拟
+
+		if(type == "A" || type == "F"){  //景区和套票是一起的?
+			$("#ticketDate").css("display","block");
+		} 		
+		if(type == "C"){ //酒店
+			$("#ticketDate").css("display","block");
+		}
+		if(type == "B"){ //线路
+			$("#lineDate").css("display","block");
+			$("#lineLoca").css("display","block");
+		}
+		if(type == "H"){ //演出
+			$("#showDate").css("display","block");
+			$("#playTime").css("display","block");
+		}
+		if(type == "G"){ //餐饮
+			$("#mealDate").css("display","block");
+		}
+
+		this.renderTicketList(ticketList); 
 
 	},
 
@@ -286,7 +327,7 @@ var Order_fill = PFT.Util.Class({
 		var This = this;
 
 		//日历
-		this.calendar = new Calendar();
+		// this.calendar = new Calendar();
 		//常用联系人
 		this.ContactBox =  new SheetCore({
 
