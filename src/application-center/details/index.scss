@@ -150,6 +150,9 @@ body{
 .app-list .app-item .app-right {
     margin-left: 83px;
 }
+.app-list .app-item .app-right .text-ellipsis{
+    text-align : left;
+}
 .app-list .app-item .app-name {
     font-size: 18px;
     font-weight: normal;

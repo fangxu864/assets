@@ -66,6 +66,7 @@
 
             h4{
                 font-size: 14px;
+                font-weight : bold;
                 color: #3e3e3e;
             }
             p{
@@ -130,13 +131,12 @@
         margin-bottom: 16px;
         margin-top: 16px;
         h2{
-            font-size: 18px;
             font-weight: normal;
             width: 120px;
-            height: 45px;
-            line-height: 45px;
+            height: 34px;
+            line-height: 34px;
             text-align: center;
-            font-size: 18px;
+            font-size: 14px;
             color: white;
             background: map-get($Color,blur);
         }
@@ -146,6 +146,7 @@
             background: #f0f3f5;
             line-height: 20px;
             font-weight: normal;
+            text-indent: 24px;
             color: #3e3e3e ;
             .title{
                 font-size: 15px;
@@ -166,10 +167,10 @@
             font-size: 18px;
             font-weight: normal;
             width: 120px;
-            height: 45px;
-            line-height: 45px;
+            height: 34px;
+            line-height: 34px;
             text-align: center;
-            font-size: 18px;
+            font-size: 14px;
             color: white;
             background: map-get($Color,blur);
         }
