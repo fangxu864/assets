@@ -10,7 +10,7 @@ var contact = require("./tpl/addContact.xtpl");
 //组件模块
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
-// var Calendar = require("COMMON/modules/calendar"); //日历
+// var Calendar = require("COMMON/modules/calendar"); //日历 //不是这个
 var When=require("COMMON/js/when.js");
 var when=new When();
 
@@ -48,7 +48,7 @@ var Order_fill = PFT.Util.Class({
 			nowDate : (year.toString()+'-'+month.toString())
 		}
 
-		this.nowYearFlag = parseInt(dateGroup.year);
+		this.nowYearFlag = parseInt(dateGroup.year);   //用于日历加减月份
 		this.nowMonthFlag = parseInt(dateGroup.month);
 		this.nowDayFlag = parseInt(dateGroup.day);
 
@@ -93,7 +93,7 @@ var Order_fill = PFT.Util.Class({
 
 		this.CalendarBox.show();
 
-		$(".ui-sheetMask").on("click",function(){
+		this.CalendarBox.mask.on("click",function(){
 			that.CalendarBox.close();			
 		});
 
@@ -175,11 +175,17 @@ var Order_fill = PFT.Util.Class({
 
 	},
 
-	getCalPrice : function(date){
+	getCalPrice : function(){
 
 		var that = this;
 
-		date = '2017-01-26';//先写死
+		var DG = this.getNowDate();
+
+		var day = DG.day; 
+		var month = DG.month; 
+		var year = DG.year; 
+
+		var date = year.toString() + "-" + month.toString() + "-" + day.toString();
 
 		var params = {
 			token : PFT.Util.getToken(),
@@ -192,7 +198,7 @@ var Order_fill = PFT.Util.Class({
 			loading:function () {},
 			success:function (res) {
 
-				that.handleCalPrice(res);
+				that.handleCalPrice(res,day);
 
 			},
 			complete:function () {}
@@ -200,10 +206,24 @@ var Order_fill = PFT.Util.Class({
 
 	},	
 
-	handleCalPrice : function(){
+	handleCalPrice : function(res,day){
+
+		console.log(res);
+		console.log(day);
+
+		var PG = $("span.price");
+		var arr = [];
+
+		for( var i = day-1;i<PG.length;i++){
+			arr.push($(PG[i]));   //arr为一个jq元素的数组，只存当前天数以后的天数
+		}
+
+		for(var j = 0;j<arr.length;j++){
+
+			var em = arr[j].find('em');
 
 
-
+		}
 
 	},
 

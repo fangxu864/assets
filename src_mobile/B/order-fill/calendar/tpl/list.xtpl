@@ -4,7 +4,7 @@
 			<%if(list[i][j].date){%>
 				<div class="calConItem column">
 					<span class="day"><%=list[i][j].day%></span>
-					<span class="price">
+					<span class="price" data-day="<%=list[i][j].day%>">
 						<i class="yen"></i>
 						<em></em>
 					</span>

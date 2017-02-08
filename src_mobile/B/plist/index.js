@@ -144,7 +144,13 @@ var Plist = PFT.Util.Class({
 					}
 				}
 			});
+
+			this.typeSelect.mask.on("click",function(){
+				that.typeSelect.close();	
+			});
+			
 		    this.typeSelect.show();	
+
     	}
     	
 	},
@@ -210,6 +216,7 @@ var Plist = PFT.Util.Class({
     	// if(this.themeSelect){
     	// 	this.themeSelect.show();	
     	// }else{
+    		var that = this;
 			this.themeSelect = new SheetCore({
 				header : "标题",
 				content : themeHtml,       
@@ -235,6 +242,9 @@ var Plist = PFT.Util.Class({
 					  $(e.target).siblings().removeClass("selectNow").css("background","");
 					}
 				}
+			});
+			this.themeSelect.mask.on("click",function(){
+				that.themeSelect.close();
 			});
 		    this.themeSelect.show();
     	// }
