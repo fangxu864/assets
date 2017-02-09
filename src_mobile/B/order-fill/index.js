@@ -26,7 +26,7 @@ var Order_fill = PFT.Util.Class({
 
 	container : $("#orderFill"),
 	EVENTS : {
-		"click #playDate":"Calendar", //自己做日历功能
+		"click #playDate":"initCalendar", //自己做日历功能
 		"click #contact":"showContact",
 		"click #visitorInformation":"showVisitor",
 		"click .addBtn":"addNum",
@@ -80,7 +80,7 @@ var Order_fill = PFT.Util.Class({
 	},
 
 
-	Calendar : function(){
+	initCalendar : function(){
 
 		var that = this;
 
@@ -92,39 +92,80 @@ var Order_fill = PFT.Util.Class({
 		var html = allHtml.html;
 		var listHtml = allHtml.listHtml;
 
-		this.CalendarBox =  new SheetCore({
+		if(this.CalendarBox){
+			this.CalendarBox.show();
+		}else{
+			this.CalendarBox =  new SheetCore({
+				
+				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+
+				height : "auto",      //弹层占整个手机屏幕的高度
+				
+				yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
+				
+				noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
+
+				zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
+				
+				EVENTS : {            //弹层上面绑定的所有事件放在这里
+					"click .prev" : function(e){
+						that.changeCal("prev");
+					},
+					"click .next" : function(e){
+						that.changeCal("next");
+					},
+
+					"click .calConItem.column" : function(e){
+
+						that.calDaySelect(e); //日历天数选择
+						that.CalendarBox.close();
+						
+					}				
+				}
+			});
+			this.CalendarBox.mask.on("click",function(){
+				that.CalendarBox.close();			
+			});
+			this.CalendarBox.show();
+			this.getCalPrice();
+			$(".calContentCon").html(listHtml);
 			
-			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
-
-			height : "auto",      //弹层占整个手机屏幕的高度
-			
-			yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
-			
-			noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
-
-			zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
-			
-			EVENTS : {            //弹层上面绑定的所有事件放在这里
-				"click .prev" : function(e){
-					that.changeCal("prev");
-				},
-				"click .next" : function(e){
-					that.changeCal("next");
-				}				
-			}
-		});
-
-		this.CalendarBox.show();
-
-		this.CalendarBox.mask.on("click",function(){
-			that.CalendarBox.close();			
-		});
-
-		this.getCalPrice();
-
-		$(".calContentCon").html(listHtml);
+		}
+		
 
 	},
+
+
+	calDaySelect : function(e){
+		var target = $(e.target);
+		var tagName = target.attr("tagName");
+		if(tagName != "DIV"){
+			target = target.parent();
+			tagName = target.attr("tagName");
+			if(tagName != "DIV"){
+				target = target.parent();
+			}
+		}
+		target.addClass("select");
+		var nowTargetDate = target.find('.day').text();
+		var list = $(".calConItem.column");
+		for( var i = 0;i<list.length;i++){
+			var className = list[i].className;
+			if( className.indexOf("disable") < 0 ){//除去disable
+				
+				var t = list.eq(i).find('.day').text();
+				if(t != nowTargetDate ){
+					list.eq(i).removeClass('select');
+				}
+			}
+		}
+
+		console.log(nowTargetDate);
+		return nowTargetDate; //返回当前被选中的天数
+
+	},
+
+
 
 	changeCal : function(dir){
 

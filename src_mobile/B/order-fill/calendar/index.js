@@ -28,6 +28,7 @@ var calendar = {
 		var listHtml = this.listTemplate(data);
 		var html = this.Template(date);
 
+
 		return {
 			html : html,
 			listHtml : listHtml 
