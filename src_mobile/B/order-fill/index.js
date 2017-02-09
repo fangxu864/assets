@@ -15,12 +15,9 @@ var Validate = require("COMMON/js/util.validate.js"); //验证
 // var when=new When();
 
 
+
 //自己写日历
 var Calendar = require("./calendar/index.js");
-
-
-
-
 
 
 
@@ -47,13 +44,6 @@ var Order_fill = PFT.Util.Class({
 			console.log("缺少id参数");	
 		}
 
-
-
-		// this.Calendar();
-		// this.getCalPrice();
-
-
-		
 
 		this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
 
@@ -154,9 +144,10 @@ var Order_fill = PFT.Util.Class({
 		}
 
 		var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
-		console.log(date);
 
 		Calendar.change(date); //改变日历状态
+
+		this.getCalPrice("change");
 
 	},
 
@@ -183,59 +174,90 @@ var Order_fill = PFT.Util.Class({
 
 	},
 
-	getCalPrice : function(){
+	getCalPrice : function(change){
 
 		var that = this;
 
-		var DG = this.getNowDate();
 
-		var day = DG.day; 
-		var month = DG.month; 
-		var year = DG.year; 
+		if(change == "change"){
 
-		var date = year.toString() + "-" + month.toString() + "-" + day.toString();
+			var dateGroup = {};
+			console.log("change");
 
-		var params = {
-			token : PFT.Util.getToken(),
-			aid : this.aid,
-			pid : this.pid,
-			date : date
-		};
+			dateGroup.year = this.nowYearFlag;
+			dateGroup.month = this.nowMonthFlag;
+			dateGroup.day = 0;
+
+			var date = dateGroup.year + "-" + dateGroup.month;
+
+			var params = {
+				token : PFT.Util.getToken(),
+				aid : this.aid,
+				pid : this.pid,
+				date : date
+			};
+
+			console.log(dateGroup.year);
+			console.log(dateGroup.month);
+			console.log(dateGroup.day);
+
+
+		}else{
+
+			var dateGroup = this.getNowDate();
+			var day = dateGroup.day; 
+			var month = dateGroup.month; 
+			var year = dateGroup.year; 
+			var date = year.toString() + "-" + month.toString() + "-" + day.toString();
+			var params = {
+				token : PFT.Util.getToken(),
+				aid : this.aid,
+				pid : this.pid,
+				date : date
+			};
+				
+
+		}
+
 
 		GetCalendarPrice(params,{
 			loading:function () {},
 			success:function (res) {
 
-				that.handleCalPrice(res,DG);
+				that.handleCalPrice(res,dateGroup);
 
 			},
 			complete:function () {}
-		});
+		});	
+
+		
 
 	},	
 
-	handleCalPrice : function(res,DG){
+	handleCalPrice : function(res,dateGroup){
 
 		console.log(res);
+		console.log(dateGroup);
 
 		var PG = $("span.price");
 		for( var i in res){
 			for(var j = 0;j<PG.length;j++){
 				var data_day = PG.eq(j).attr("data-day");
-				DG.month = parseInt(DG.month);
-				DG.month =(DG.month<10 ? "0"+DG.month:DG.month);
-				var data_date = DG.year+ "-" +DG.month+ "-" +data_day;
+				dateGroup.month = parseInt(dateGroup.month);
+				dateGroup.month =(dateGroup.month<10 ? "0"+dateGroup.month:dateGroup.month);
+				var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
 				if(data_date == i){
 					PG.eq(j).find("em").text(res[i]);
 				}
 			}
 		}		
-		var items = $(".calConItem"); 
+		var items = $(".calConItem.column"); 
 
 		for(var j = 0;j<items.length;j++){
 
 			if(items.eq(j).find('em').text() == ""){
-				console.log(PG[j]);
+				items.eq(j).find('.yen').text("");
+				items.eq(j).addClass('disable');
 			}
 
 		}
@@ -356,6 +378,7 @@ var Order_fill = PFT.Util.Class({
 					This.ContactBox.close();
 				}
 			}
+			
 		});
 		//游客信息
 		this.VisitorInformation =  new SheetCore({
