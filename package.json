@@ -155,6 +155,12 @@
     "recharge-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/recharge/webpack.config.js",
 
 
+    "book-add-wxpay-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
+    "book-add-wxpay-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
+    "book-add-wxpay-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
+    "book-add-wxpay-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
+
+
     "download_center-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/download_center/webpack.config.js ",
     "download_center-test": "set NODE_ENV=test && webpack --config ./src/download_center/webpack.config.js",
     "download_center-release": "set NODE_ENV=release && webpack --config ./src/download_center/webpack.config.js",
