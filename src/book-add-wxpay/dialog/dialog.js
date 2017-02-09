@@ -29,7 +29,7 @@ function Dialog(){
             }
         },
         onCloseAfter : function () {
-            _this.setInterval_own.clear()
+            clearInterval(_this.loopAjaxTimer);
         }
     });
 
@@ -97,17 +97,22 @@ Dialog.prototype={
             success: function(res) {
                 //请求成功时处理
                 if(res.status == "ok"){
-                    $("#payCode_box").html("");
-                    new QRCode("payCode_box",{
-                        text:res.data,
-                        width:200,
-                        height:200,
-                        colorDark:"#000000",
-                        colorLight:"#ffffff",
-                        correctLevel:QRCode.CorrectLevel.H
-                    });
-                    _this.setInterval_own.clear();
-                    _this.setInterval_own.count(_this.ajaxLoop , res.data.outTradeNo , _this , 1000);
+                    if(res.data){
+                        $("#payCode_box").html("");
+                        new QRCode("payCode_box",{
+                            text:res.data,
+                            width:200,
+                            height:200,
+                            colorDark:"#000000",
+                            colorLight:"#ffffff",
+                            correctLevel:QRCode.CorrectLevel.H
+                        });
+                        clearInterval(_this.loopAjaxTimer);
+                        _this.loopAjaxTimer = setInterval(_this.ajaxLoop , 1000)
+                    }else{
+                        alert("生成微信二维码的链接没返回");
+                        _this.close()
+                    }
                 }else{
                     alert(res.msg)
                 }
@@ -142,7 +147,8 @@ Dialog.prototype={
             success: function(res) {
                 //请求成功时处理
                 if(res == 1 ){
-                    _this.setInterval_own.clear();
+                    // _this.setInterval_own.clear();
+                    clearInterval(_this.loopAjaxTimer) ;
                     alert("支付成功！");
                     window.location.reload();
                 }
@@ -155,25 +161,6 @@ Dialog.prototype={
         });
     },
 
-
-    /**
-     * @method 自定义的setInterval函数
-     */
-    setInterval_own:{
-        timer:-1,
-        count:function(func,data,that,time){
-            var _this=this;
-            _this.clear();
-            this.timer=setTimeout(function () {
-                func.call(that,data);
-                _this.count(func,data,that,time)
-            },time);
-        },
-        clear:function () {
-            var _this=this;
-            clearTimeout(_this.timer)
-        }
-    }
 };
 
 module.exports=Dialog;
