@@ -95,7 +95,7 @@
     "admin_qingfen-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
-    "admin_qingfen-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js"
+    "admin_qingfen-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
 
     "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
@@ -167,7 +167,12 @@
     "download_center-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/download_center/webpack.config.js ",
     "download_center-test": "set NODE_ENV=test && webpack --config ./src/download_center/webpack.config.js",
     "download_center-release": "set NODE_ENV=release && webpack --config ./src/download_center/webpack.config.js",
-    "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js"
+    "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js",
+
+    "admin-fees-config-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/admin-fees-config/webpack.config.js ",
+    "admin-fees-config-test": "set NODE_ENV=test && webpack --config ./src/admin-fees-config/webpack.config.js",
+    "admin-fees-config-release": "set NODE_ENV=release && webpack --config ./src/admin-fees-config/webpack.config.js",
+    "admin-fees-config-production": "set NODE_ENV=production && webpack --config ./src/admin-fees-config/webpack.config.js"
 
   },
   "repository": {
