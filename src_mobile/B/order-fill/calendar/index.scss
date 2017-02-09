@@ -70,6 +70,14 @@
 				.calConItem.column.disable{
 					background : #f7f7f7;					
 				}
+				.calConItem.column.select{
+					background : #f37138;
+					color : #fff;
+				}
+				.calConItem.column.select .yen,
+				.calConItem.column.select em{
+					color : #fff;
+				}
 			}
 		}
 	}

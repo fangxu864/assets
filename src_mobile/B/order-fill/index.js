@@ -21,6 +21,7 @@ var Calendar = require("./calendar/index.js");
 
 
 
+
 var Order_fill = PFT.Util.Class({
 
 	container : $("#orderFill"),
@@ -239,6 +240,7 @@ var Order_fill = PFT.Util.Class({
 		console.log(res);
 		console.log(dateGroup);
 
+
 		var PG = $("span.price");
 		for( var i in res){
 			for(var j = 0;j<PG.length;j++){
@@ -251,6 +253,7 @@ var Order_fill = PFT.Util.Class({
 				}
 			}
 		}		
+
 		var items = $(".calConItem.column"); 
 
 		for(var j = 0;j<items.length;j++){
@@ -260,6 +263,18 @@ var Order_fill = PFT.Util.Class({
 				items.eq(j).addClass('disable');
 			}
 
+		}
+
+		var today = (dateGroup.day<10 ? "0"+dateGroup.day:dateGroup.day); 	
+
+		var days = $(".calConItem.column .day");
+
+		for(var n = 0;n<days.length;n++){
+			var t = days.eq(n).text(); 
+			if( t == today){
+				var pItem = days.eq(n).parent();
+				pItem.addClass('select');
+			}
 		}
 
 	},
