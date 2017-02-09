@@ -6,9 +6,9 @@ module.exports = function(params,opt){
     PFT.Util.Ajax("/r/MicroPlat_Product/getBookInfo",{
         type : "post",
         params : {
-            token : PFT.Util.getToken(),
-            aid : this.aid,
-            pid : this.pid
+            token : params.token,
+            aid : params.aid,
+            pid : params.pid
         },
         loading : opt.loading,
         complete : opt.complete,

@@ -29,8 +29,10 @@ var Order_fill = PFT.Util.Class({
 		"click #playDate":"initCalendar", //自己做日历功能
 		"click #contact":"showContact",
 		"click #visitorInformation":"showVisitor",
-		"click .addBtn":"addNum",
-		"click .delBtn":"delNum",
+
+		"click .addBtn":"addNum",  //加数字 
+		"click .delBtn":"delNum",  //减数字
+
 		"blur .numBox":"checkInput",
 		"click #regularBtn":"regularToggle"
 	},
@@ -52,7 +54,7 @@ var Order_fill = PFT.Util.Class({
 
 		// this.componentsInit();
 
-		// this.getPriceAndStorage();
+		// this.getPriceAndStorage();   //点击日历的时候用
 
 	},
 
@@ -71,9 +73,17 @@ var Order_fill = PFT.Util.Class({
 			nowDate : (year.toString()+'-'+month.toString())
 		}
 
-		this.nowYearFlag = parseInt(dateGroup.year);   //用于日历加减月份
-		this.nowMonthFlag = parseInt(dateGroup.month);
-		this.nowDayFlag = parseInt(dateGroup.day);
+
+		//用于日历加减月份	//如果不存在赋予今天的初始日期
+		if(!this.nowYearFlag){
+			this.nowYearFlag = parseInt(dateGroup.year);
+		}
+		if(!this.nowMonthFlag){
+			this.nowMonthFlag = parseInt(dateGroup.month);
+		}
+		if(!this.nowDayFlag){
+			this.nowDayFlag = parseInt(dateGroup.day);
+		}
 
 		return dateGroup;
 
@@ -109,6 +119,7 @@ var Order_fill = PFT.Util.Class({
 				
 				EVENTS : {            //弹层上面绑定的所有事件放在这里
 					"click .prev" : function(e){
+						//往前需要判断不能低于当前月份当天
 						that.changeCal("prev");
 					},
 					"click .next" : function(e){
@@ -117,9 +128,13 @@ var Order_fill = PFT.Util.Class({
 
 					"click .calConItem.column" : function(e){
 
-						that.calDaySelect(e); //日历天数选择
-						that.CalendarBox.close();
+						var selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
+
+						if(selectedDay != "disable"){
+							that.CalendarBox.close();
+						}
 						
+						that.getPriceAndStorage(selectedDay);
 					}				
 				}
 			});
@@ -146,6 +161,11 @@ var Order_fill = PFT.Util.Class({
 				target = target.parent();
 			}
 		}
+
+		if(target[0].className.indexOf("disable")>0){
+			return "disable"
+		}
+
 		target.addClass("select");
 		var nowTargetDate = target.find('.day').text();
 		var list = $(".calConItem.column");
@@ -160,11 +180,9 @@ var Order_fill = PFT.Util.Class({
 			}
 		}
 
-		console.log(nowTargetDate);
 		return nowTargetDate; //返回当前被选中的天数
 
 	},
-
 
 
 	changeCal : function(dir){
@@ -220,8 +238,7 @@ var Order_fill = PFT.Util.Class({
 
 		var that = this;
 
-
-		if(change == "change"){
+		if(change == "change"){   
 
 			var dateGroup = {};
 			console.log("change");
@@ -278,10 +295,6 @@ var Order_fill = PFT.Util.Class({
 
 	handleCalPrice : function(res,dateGroup){
 
-		console.log(res);
-		console.log(dateGroup);
-
-
 		var PG = $("span.price");
 		for( var i in res){
 			for(var j = 0;j<PG.length;j++){
@@ -306,17 +319,34 @@ var Order_fill = PFT.Util.Class({
 
 		}
 
-		var today = (dateGroup.day<10 ? "0"+dateGroup.day:dateGroup.day); 	
+		
+
+		var today = (dateGroup.day < 10&&dateGroup.day != 0 ? "0" + dateGroup.day : dateGroup.day); 	
 
 		var days = $(".calConItem.column .day");
 
-		for(var n = 0;n<days.length;n++){
-			var t = days.eq(n).text(); 
-			if( t == today){
-				var pItem = days.eq(n).parent();
-				pItem.addClass('select');
-			}
+		if( dateGroup.day == 0 ){//日历改变月份
+			
+			for( var n = 0 ; n<days.length ; n++){
+				var t = days.eq(n).text(); 
+				if( t == "01"){
+					var pItem = days.eq(n).parent();
+					pItem.addClass('select');
+				}
+			}	
+				
+		}else{
+
+			for( var n = 0 ; n<days.length ; n++){
+				var t = days.eq(n).text(); 
+				if( t == today){
+					var pItem = days.eq(n).parent();
+					pItem.addClass('select');
+				}
+			}	
+
 		}
+
 
 	},
 
@@ -334,6 +364,15 @@ var Order_fill = PFT.Util.Class({
 				aid : this.aid,
 				pid : this.pid
 			};
+
+			
+			//2017/2/9
+			//后端提供调试pid
+			// 线路 = 57958, 58111
+			// 酒店 = 26397, 26398
+
+			params.pid = 26398; //先写死
+
 			GetBookInfo(params,{
 				loading:function () {},
 				success:function (req) {
@@ -363,6 +402,9 @@ var Order_fill = PFT.Util.Class({
 
 		console.log(res);
 		var ticketList = res.tickets;
+		if(ticketList.length == 0){
+			console.log("无票");
+		}
 		$("#placeText").text(res.title);
 
 		var type = this.type;
@@ -372,6 +414,7 @@ var Order_fill = PFT.Util.Class({
 
 		var type = "A"; //先模拟
 
+		//根据type不同分别判断显示
 		if(type == "A" || type == "F"){  //景区和套票是一起的?
 			$("#ticketDate").css("display","block");
 		} 		
@@ -390,6 +433,10 @@ var Order_fill = PFT.Util.Class({
 			$("#mealDate").css("display","block");
 		}
 
+		//pids产品ID集合,用于获取价格和库存
+		console.log(ticketList);
+
+
 		this.renderTicketList(ticketList); 
 
 	},
@@ -401,7 +448,70 @@ var Order_fill = PFT.Util.Class({
 		$("#ticketList").html(ticketsHtml);
 	},
 
+
+	getPriceAndStorage : function (selectedDay) { //传入被选中的天数
+
+
+		if( selectedDay != "disable"){
+
+
+			var that = this;
+			var month = (this.nowMonthFlag<10 ? "0"+this.nowMonthFlag:this.nowMonthFlag); 
+			var date = this.nowYearFlag + "-" + month + "-" + selectedDay;
+			console.log(date);
+
+			// var params = {
+			// 	token : PFT.Util.getToken(),
+			// 	aid : this.aid,
+			// 	date : date,
+			// 	pids : 
+			// };
+
+
+			// GetPriceAndStorage(params,{
+			// 	loading:function () {},
+			// 	success:function (req) {
+			// 		console.log(req);
+			// 		var template = PFT.Util.ParseTemplate(placeTicket);
+			// 		var htmlStr = template({data:req.data});
+			// 		$("#ticketList").empty().append(htmlStr);
+
+			// 		This.getBookInfo()
+
+			// 	},
+			// 	complete:function () {}
+			// });	
+
+
+		}
+		
+
+	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//这以下是家燊写的*************************************************************************************************************************
+
+	//我自己理解的注释
+	//有些看不懂
+
+	//初始化组件
 	componentsInit : function () {
+		
 		var This = this;
 
 		//日历
@@ -468,24 +578,28 @@ var Order_fill = PFT.Util.Class({
 		});
 	},
 	
-	getDate : function () {
-		this.calendarBox.show("",{
-			picker : $("#playDate"),
-			top : 0,
-			left : 0,
-			onBefore : function(){},
-			onAfter : function(){}
-		})
-	},
 
-	showContact : function () {
-		this.ContactBox.show();
-	},
 
-	showVisitor : function () {
-		this.VisitorInformation.show();
-	},
+	// getDate : function () {
+	// 	this.calendarBox.show("",{
+	// 		picker : $("#playDate"),
+	// 		top : 0,
+	// 		left : 0,
+	// 		onBefore : function(){},
+	// 		onAfter : function(){}
+	// 	})
+	// },
 
+	// showContact : function () {
+	// 	this.ContactBox.show();
+	// },
+
+	// showVisitor : function () {
+	// 	this.VisitorInformation.show();
+	// },
+
+
+	//加
 	addNum : function (e) {
 		var storage = $(e.target).parent().parent().find(".left .num").text();
 
@@ -511,6 +625,7 @@ var Order_fill = PFT.Util.Class({
 
 	},
 
+	//减
 	delNum : function (e) {
 		var storage = $(e.target).parent().parent().find(".left .num").text();
 
@@ -579,26 +694,9 @@ var Order_fill = PFT.Util.Class({
 
 	regularToggle : function (e) {
 		$("#regular").toggle();
-	},
-
-	getPriceAndStorage : function (param) {
-		var This = this;
-		var params = param || "";
-		GetPriceAndStorage(params,{
-			loading:function () {},
-			success:function (req) {
-				console.log(req);
-				var template = PFT.Util.ParseTemplate(placeTicket);
-				var htmlStr = template({data:req.data});
-				$("#ticketList").empty().append(htmlStr);
-
-				This.getBookInfo()
-
-			},
-			complete:function () {}
-		});
-
 	}
+
+	
 	
 
 });
