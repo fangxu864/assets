@@ -1,0 +1,108 @@
+<script type="text/javascript">
+    $("body").addClass("layout_2")
+</script>
+
+<link rel="stylesheet" href="http://www.12301.cc/tpl/distributor/css/distributor.css"/>
+
+    <div class="topBox">
+        <p class="title">分销商管理</p>
+        <div id="searchWrap" class="searchBox">
+            <input id="searchInp" class="ui-textInp ui-radius shadow w240 "  type="text" placeholder="分销商名称/账号/手机/联系人" onfocus="this.placeholder=''" onblur="this.placeholder='分销商名称/账号/手机/联系人'" />
+            <div id="area">
+                <input value="<?=$area?>" type="hidden"/>
+                <select name="d_province" id="d_province" class="pSelect d_province selectBsae_ ui-radius ml5"></select>
+                <select name="d_city" id="d_city" class="pSelect d_city selectBsae_ ui-radius ml5"></select>
+			</div>
+            <button id="searchBtn" class="ui-btn ui-radius searchBtn ml5">搜索</button>
+            <span id="suchBtn" class="ui-btn-such ui-radius searchBtn_such ml5">还原</span>
+            <div id="checkBoxGroup" class="checkWrap">
+                <span class="leader">分销商类型：</span>
+                <label class="checkBox"><input class="checkList" name="ctype" type="checkbox" value="旅行社" />旅行社 </label>
+                <label class="checkBox"><input class="checkList" name="ctype" type="checkbox" value="加盟门店" />加盟门店 </label>
+                <label class="checkBox"><input class="checkList" name="ctype" type="checkbox" value="电商" />电商 </label>
+                <label class="checkBox"><input class="checkList" name="ctype" type="checkbox" value="团购网" />团购网 </label>
+                <label class="checkBox"><input class="checkList" name="ctype" type="checkbox" value="淘宝/天猫" />淘宝/天猫 </label>
+                <label class="checkBox"><input class="checkList" name="ctype" type="checkbox" value="其他" />其它</label>
+            </div>
+        </div>
+        <div class="newGroupWrap">
+            <a href="javascript:void(0)">
+                <span class="iconBase"></span>
+                <a target="_blank" href="distributor_add.html">添加分销商</a>
+            </a>
+            <a href="javascript:void(0)">
+                <span class="iconBase newIcon"></span>
+                <span class="groupAdd">新建分组</span>
+            </a>
+            <a href="javascript:void(0)">
+                <span class="iconBase exIcon"></span>
+                <span id="upload_">导出数据</span>
+            </a>
+        </div>
+        <div class="tbManageBox">
+          <table id="listContainer" class="tbManage" border="0" cellpadding="0" cellspacing="0">
+			<thead> 
+			  <tr class="">
+				<th class="w240 ltText">组名/成员（ID）</th>
+				<th class="w170 ltText">联系人/手机号</th>
+				<th class="w120">信用可用额度</th>
+				<th class="rtText">操作</th>
+			  </tr>
+			</thead>
+          </table>
+        </div>
+    </div>
+    <? include "./tpl/distributor/tpl/dis/navigationbar_tpl.html" ?>
+    <div id="navigationBar" class="navigationBar"></div>
+<? include "./tpl/distributor/tpl/dis/list_tpl_test.html" ?>
+<? include "./tpl/distributor/tpl/dis/page_list_tpl.html" ?> 
+
+<!-- <script type="text/javascript" src="http://wx.12301.cc/public/js/plugins/underscore-min.js"></script> -->
+<script type="text/javascript" src="http://wx.12301.cc/public/js/plugins/underscore-min.js"></script>
+<script type="text/javascript" src="http://www.12301.cc/tpl/distributor/js/build/distributor.manager.all_v3.js"></script>
+<div class="alertBox" id="alertBox" style="display:none">
+    <div class="title">
+       <span class="leaderTitle">正在为 <em class="change_name"></em> 更换分组</span>
+      <a class="closeBtn" href="javascript:void(0)">X</a>
+   </div>
+   <div class="con" id="groud_list" did="">
+		<? include "./tpl/distributor/tpl/dis/group_tpl.html" ?>
+	</div>
+</div>
+<div class="NameBox" id="NameBox" did="" style="display:none">
+    <div class="title">
+       <span class="leaderTitle" id="leaderName">更改组名称</span>
+	</div>
+	<div class="con" id="groud_name" did="">
+		<input class="groud_input ui-textInp ui-radius shadow w300" maxlength="20" id="groud_input" value="">
+	</div>
+	<div class="btn_con">
+		<span class="line"></span>
+		<span class="cancel name_btn">取消</span>
+		<span class="submit name_btn">确定</span>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

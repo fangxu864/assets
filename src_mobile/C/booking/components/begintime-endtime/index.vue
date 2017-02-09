@@ -54,7 +54,7 @@
             ticketList : {
                 type : Array,
                 twoway : true,
-                detault : function(){ return[]}
+                default : function(){ return[]}
             },
             switchor : {
                 type : String,
@@ -90,7 +90,7 @@
                      }
                      this.begintime = date;
                  }else{ //切换的是离店时间
-                     if(date_s<=begintime_s) return alert("离店时间必须晚于入住时间");
+                     if(date_s<=begintime_s) return Alert("离店时间必须晚于入住时间");
                      this.endtime = date;
                  }
                  var daycount = +new Date(this.endtime) - (+new Date(this.begintime));
@@ -126,6 +126,7 @@
             },
             //修改入住时间或离店时间都会重新请求一次价格跟库存
             queryStoragePrice(){
+                console.log("queryStoragePrice")
                 var pid = this.pid;
                 var aid = this.aid;
                 var beginDate = this.begintime;
@@ -169,7 +170,6 @@
                                     storeText : ""
                                 }
                             }else{ //预订1天以上
-
                                 //在多天中只要有一天库存为0(没有库存)，即视为用户选择的时间段内没有库存，无法下单
                                 //有问题请 @产品-詹必魁
                                 if(storeMin==0){
@@ -203,7 +203,7 @@
                     },
                     fail : (msg) => {
                         this.toast.hide();
-                        alert(msg);
+                        Alert(msg);
                     }
                 })
             }
@@ -211,7 +211,7 @@
     }
 </script>
 <style lang="sass">
-    .beginEndTimeContainer{ padding:10px 25px; border-bottom:1px solid #e5e5e5}
+    .beginEndTimeContainer{ padding:10px 25px; border-bottom:1px solid #e5e5e5; background:#fff}
     .beginEndTimeContainer > .con{ position:relative; height:50px; line-height:50px; text-align:center;}
     .beginEndTimeContainer .box{ position:absolute; top:0; bottom:0; line-height:1.5; padding-top:5px; font-size:0.35rem;}
     .beginEndTimeContainer .box.beginBox{ left:0}

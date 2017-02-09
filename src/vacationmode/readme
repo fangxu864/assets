@@ -21,3 +21,11 @@ npm run orderquery-rebuild-start
 npm run orderquery-rebuild-test
 npm run orderquery-rebuild-release
 npm run orderquery-rebuild-production
+
+
+
+
+## 要发布时，请执行：
+npm run vacationmode-pc-tip-test
+npm run vacationmode-pc-tip-release
+npm run vacationmode-pc-tip-production

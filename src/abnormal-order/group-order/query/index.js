@@ -4,8 +4,8 @@
  * Description: ""
  */
 require("./index.scss");
-var Calendar = require("COMMON/modules/calendar");
-var Service = require("../api.service").Query;
+
+var Service = require("./api.service").Query;
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
 	tag : "tr",
@@ -26,7 +26,7 @@ var Query = PFT.Util.Class({
 		"mouseleave .showTitle" : "onShowTitleMouseleave"
 	},
 	template : PFT.Util.ParseTemplate(Tpl),
-	init : function(){
+	init : function(opt){
 		var that = this;
 		this.beginTimeInp = $("#query-beginTimeInp");
 		this.endTimeInp = $("#query-endTimeInp");
@@ -36,7 +36,8 @@ var Query = PFT.Util.Class({
 
 		this.offsetTop = $("#rtWrap").offset().top;
 
-		this.datepicker = new Calendar();
+		this.datepicker = opt.datepicker;
+		this.Datepicker = opt.Datepicker;
 
 		this.datepicker.on("select",function(data){});
 
@@ -52,13 +53,13 @@ var Query = PFT.Util.Class({
 			jump : true
 		})
 		that.pagination.on("page.switch",function(toPage,current,total){
-			that.query(1);
+			that.query(toPage);
 		})
 		//that.searchBtn.trigger("click");
 	},
 	//页面初始化时，日期默认显示近7天
 	getDefaultDate : function(){
-		var core = Calendar.Core;
+		var core = this.Datepicker.CalendarCore;
 		var today = core.gettoday();
 		var day_7_ago = core.prevDays(today,7)[6]; //7天前是哪一天
 		return{
@@ -68,9 +69,10 @@ var Query = PFT.Util.Class({
 	},
 	getParmas : function(){
 		return{
-			beginTime : this.beginTimeInp.val(),
-			endTime : this.endTimeInp.val(),
-			ordernum : $.trim(this.orderInp.val())
+			bDate : this.beginTimeInp.val(),
+			eDate : this.endTimeInp.val(),
+			orderid : $.trim(this.orderInp.val()),
+			pageSize : 15
 		};
 	},
 	onShowTitleMouseenter : function(e){
@@ -99,6 +101,7 @@ var Query = PFT.Util.Class({
 		$("#tooltipContainer").hide();
 	},
 	onOrderInpKeyup : function(e){
+		if(e.keyCode!==13) return false;
 		this.searchBtn.trigger("click");
 	},
 	onSearchBtnClick : function(e){
@@ -126,8 +129,9 @@ var Query = PFT.Util.Class({
 		toPage = toPage || 1;
 		var params = this.getParmas();
 		params["currentPage"] = toPage;
+
 		Service.query(params,{
-			debug : true,
+			debug : false,
 			loading : function(){
 				this.searchBtn.addClass("disable");
 				this.pagination.render(null);
@@ -146,7 +150,9 @@ var Query = PFT.Util.Class({
 				this.tbody.html(html);
 				this.pagination.render({current:currentPage,total:totalPage});
 			},
-			empty : function(){}
+			empty : function(){
+				this.tbody.html("<td colspan='7'style='text-align: center;height: 500px;line-height: 500px;background-color: white'>未查询到任何数据...</td>");
+			}
 		},this)
 	},
 	disable : function(){
@@ -154,7 +160,6 @@ var Query = PFT.Util.Class({
 		this.container.hide();
 	},
 	enable : function(){
-		console.log("enable")
 		var currentPage = this.pagination.getCurrentPage();
 		var totalPage = this.pagination.getTotalPage();
 		if(totalPage && totalPage>=1) this.pagination.render({current:currentPage,total:totalPage});

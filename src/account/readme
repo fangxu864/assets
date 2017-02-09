@@ -1,0 +1,11 @@
+## 三亚先行广告推广项目
+
+需求文档：http://bug.12301.test/index.php?m=task&f=view&task=147
+
+
+
+### 构建：
+npm run account-start：     本地开发环境
+npm run account-test：      内网测试环境
+npm run account-release：   预发布环境
+npm run account-production：生产环境

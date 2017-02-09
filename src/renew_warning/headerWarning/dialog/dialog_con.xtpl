@@ -1,0 +1,20 @@
+<div class='dialog_box_headerWarning'>
+    <div class="dialog_con">
+    <div class="line line1">
+        <h3><%=data.title%></h3>
+    </div>
+    <div class="line line2">
+        <p><%=data.content%></p>
+    </div>
+    <div class="line line3">
+        <%if(data.isBtn_close){%>
+        <span class="btn btn_close">关闭</span>
+        <%}%>
+        <%if(data.dialog_type == "xufei"){%>
+        <a href="/new/renewwarning.html"><span class="btn btn_xufei">续费</span></a>
+        <% } else if (data.dialog_type == "recharge") {%>
+        <a href="/recharge.html"><span class="btn btn_xufei">充值</span></a>
+        <%}%>
+    </div>
+    </div>
+</div>

@@ -1,16 +1,21 @@
 <% _.each(data,function(item,index){ %>
 	<tr class="listItem <%=index%2==0 ? 'odd' : 'even'%>">
 		<td class="col col_1"><%=item.cTime%></td>
-		<td class="col col_2"><%=item.pftOrder%></td>
+		<td class="col col_2 " style="display: table-cell"><%=item.pftOrder%></td>
 		<td class="col col_3"><a class="showTitle transition" href="javascript:void(0)" data-title="<%=item.ticketName%>"><%=item.ticketName%></a></td>
 		<td class="col col_4"><%=item.oStnum%></td>
 		<td class="col col_5"><%=item.name%></td>
+		<%if(!item.type){%>
+		<td class="col col_5_1"><a class="showTitle transition" href="javascript:void(0)" data-title="<%=item.fname%>"><%=item.fname%></a></td>
+		<%}%>
 		<td class="col col_6"><%=item.apiOrder%></td>
 		<td class="col col_7"><span class="handleStatus_<%=item.handleStatus%>"><%=item.handleStatus_ext.text%></span></td>
 		<td class="col col_8">
 			<%if(!item.ifAdmin){%>
-				<% if(item.handleStatus==1 || item.handleStatus==2){ %>
-					<a href="module/api/ThirdSystemRepairOrder.php?tempOrder=<%=item.apiOrder%>"><%=item.handleStatus_ext.actionText%></a>
+				<% if( item.handleStatus==2){ %>
+					<a href="module/api/ThirdSystemRepairOrder.php?tempOrder=<%=item.pftOrder%>"><%=item.handleStatus_ext.actionText%></a>
+			    <% }else if(item.handleStatus==1){ %>
+		         	--
 				<% }else{ %>
 					<a data-mode="<%=item.handleStatus_ext.mode%>" data-ordernum="<%=item.pftOrder%>" data-tnum="<%=item.oStnum%>" class="actionBtn <%=item.handleStatus_ext.action%>" href="javascript:void(0)"><%=item.handleStatus_ext.actionText%></a>
 				<% } %>

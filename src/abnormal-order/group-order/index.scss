@@ -7,4 +7,4 @@
 .rtContainer .tabHead .tabItem{ float:left; height:36px; line-height:36px; padding:0 40px; font-size:14px; font-weight:bold; margin-right:30px; border:1px solid transparent; border-bottom:1px solid $gray90; cursor:pointer}
 .rtContainer .tabHead .tabItem.active{ height:35px; line-height:35px; background:#fff; color:$blue; border:1px solid $gray90; border-top:2px solid $blue; border-bottom:1px solid #fff}
 .tabPannel{ display:none}
-.tabPannelContainer{ border:1px solid $gray90; margin-top:-1px; background:#fff}
+.tabPannelContainer .tabPannel{  margin-top:-1px; }

@@ -62,6 +62,72 @@ var Query = RichBase.extend({
 	refresh : function(page,data){
 
 
+		//if(data){
+		//	if(data.select_type!="1"&&data.select_type!="5"){
+		//		if(data.etime==""||data.btime==""||data.select_text==undefined){
+		//			var text={
+		//				"6":"取票人手机",
+		//				"2":"产品名称",
+		//				"4":"取票人姓名",
+		//				"7":"优惠券名称"
+		//			};
+		//			if(data.btime==""){
+		//				layer.tips('请输入起始时间', '#datetimepicker_begin', {
+		//					tips: [1, '#f07845'],
+		//					time: 1000,
+		//					tipsMore: true
+		//				});
+		//
+		//			}
+		//			if(data.etime==""){
+		//				layer.tips('请输入结束时间', '#datetimepicker_end', {
+		//					tips: [1, '#f07845'],
+		//					time: 1000,
+		//					tipsMore: true
+		//				});
+		//			}
+		//			if(data.select_text==undefined){
+		//				layer.tips("请输入"+text[data.select_type], '#keywordInp', {
+		//					tips: [3, '#f07845'],
+		//					time: 1000,
+		//					tipsMore: true
+		//				});
+		//			}
+		//			return false;
+		//		}
+		//	}else{
+		//		if(data.etime=="" && data.btime=="" && data.select_text==undefined && data.amid=="") {
+		//			var text={
+		//				"1":"订单号",
+		//				"5":"远程订单号"
+		//			};
+		//
+		//				layer.tips('请输入起始时间', '#datetimepicker_begin', {
+		//					tips: [1, '#f07845'],
+		//					time: 1000,
+		//					tipsMore: true
+		//				});
+		//
+		//
+         //
+		//				layer.tips('请输入结束时间', '#datetimepicker_end', {
+		//					tips: [1, '#f07845'],
+		//					time: 1000,
+		//					tipsMore: true
+		//				});
+		//
+		//
+		//				layer.tips("请输入"+text[data.select_type], '#keywordInp', {
+		//					tips: [3, '#f07845'],
+		//					time: 1000,
+		//					tipsMore: true
+		//				});
+		//
+		//			return false;
+		//		}
+		//	}
+		//}
+
 		if(data){
 			if(data.select_type!="1"&&data.select_type!="5"){
 				if(data.etime==""||data.btime==""||data.select_text==undefined){
@@ -69,7 +135,8 @@ var Query = RichBase.extend({
 						"6":"取票人手机",
 						"2":"产品名称",
 						"4":"取票人姓名",
-						"7":"优惠券名称"
+						"7":"优惠券名称",
+						"8":"第三方订单号"
 					};
 					if(data.btime==""){
 						layer.tips('请输入起始时间', '#datetimepicker_begin', {
@@ -96,37 +163,38 @@ var Query = RichBase.extend({
 					return false;
 				}
 			}else{
-				if(data.etime=="" && data.btime=="" && data.select_text==undefined && data.amid=="") {
-					var text={
+				if(data.etime=="" && data.btime=="" && data.select_text==undefined && (data.amid==""||data.amid==undefined)) {
+					var txt={
 						"1":"订单号",
 						"5":"远程订单号"
 					};
 
-						layer.tips('请输入起始时间', '#datetimepicker_begin', {
-							tips: [1, '#f07845'],
-							time: 1000,
-							tipsMore: true
-						});
+					layer.tips('请输入起始时间', '#datetimepicker_begin', {
+						tips: [1, '#f07845'],
+						time: 1000,
+						tipsMore: true
+					});
 
 
-                        
-						layer.tips('请输入结束时间', '#datetimepicker_end', {
-							tips: [1, '#f07845'],
-							time: 1000,
-							tipsMore: true
-						});
+
+					layer.tips('请输入结束时间', '#datetimepicker_end', {
+						tips: [1, '#f07845'],
+						time: 1000,
+						tipsMore: true
+					});
 
 
-						layer.tips("请输入"+text[data.select_type], '#keywordInp', {
-							tips: [3, '#f07845'],
-							time: 1000,
-							tipsMore: true
-						});
+					layer.tips("请输入"+txt[data.select_type], '#keywordInp', {
+						tips: [3, '#f07845'],
+						time: 1000,
+						tipsMore: true
+					});
 
 					return false;
 				}
 			}
 		}
+
 
 
 		var that = this;
@@ -183,7 +251,7 @@ var Query = RichBase.extend({
 			},
 			fail : function(res){
 				navigationBar.render();
-				listUl.html('<tr><td  colspan="6" style="padding:150px 0; text-align:center; background:#fff"><i class="iconfont">&#xe669;</i> <span class="t">请求出错，请稍后重试...</span></td></tr>')
+				listUl.html('<tr><td  colspan="6" style="padding:150px 0; text-align:center; background:#fff"><i class="iconfont">&#xe669;</i> <span class="t">'+res.msg+'</span></td></tr>')
 			},
 			empty : function(res){
 				if(page!=1){

@@ -2,11 +2,11 @@
     <div class="ui-searchBox">
         <input autocomplete="off" class="searchInp" type="text"
                v-model="value"
-               :autofocus="isFocus"
+               @focus="onInputFocus"
+               @blur="onInputBlur"
                :placeholder="placeholder"
                :debounce="debounce" />
         <i class="uicon search uicon-sousuo"></i>
-        <i class="iconfont loading"></i>
         <div @click="onClearBtnClick" class="clearBtn" :class="{'show':clearBtnShow}"><i class="iconfont clear icon-shanchu2"></i></div>
     </div>
 </template>
@@ -30,6 +30,12 @@
         methods : {
             onClearBtnClick(e){
                 this.value = "";
+            },
+            onInputFocus(e){
+                this.$dispatch("focus",e);
+            },
+            onInputBlur(e){
+                this.$dispatch("blur",e);
             }
         },
         watch : {

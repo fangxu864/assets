@@ -1,4 +1,6 @@
-
+@import "COMMON/css/base/core";
+$btn_color:#f07845;
+$btnHover_color:#d35c29;
 
 
 .select_down_pages{
@@ -92,6 +94,61 @@
   .iframe_wrap{
     iframe.iframe_down{
       display: none;
+    }
+  }
+}
+
+.accountBalance_endTime_inp{
+  padding-left: 5px;
+  width: 90px;
+}
+
+.accountBalanceSettingBox{
+  margin-bottom: 20px;
+  .title{
+    font-size: 18px;
+    line-height: 46px;
+    padding-left: 20px;
+  }
+  .line{
+    height: 60px;
+    line-height: 60px;
+    padding-left: 20px;
+    .td{
+      float: left;
+    }
+  }
+  .line1{
+    .td1{
+      font-size: 14px;
+    }
+    .td2{
+      padding: 13px;
+      input.accountBalanceSettingInp{
+        @include textInp(266,5);
+      }
+      input.accountBalanceSettingInp:focus{
+        outline: none;
+      }
+    }
+  }
+  .line2{
+    margin-top: 20px;
+    padding-left: 0;
+    text-align: center;
+    span.btn{
+      padding:8px 30px;
+      border: 1px solid #0797D9;
+      color: #0797D9;
+      font-size: 14px;
+      background-color: #ffffff;
+      transition:   background-color 0.5s;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    span.btn:hover{
+      color: white;
+      background-color: #0797D9;
     }
   }
 }

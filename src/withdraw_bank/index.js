@@ -8,6 +8,8 @@ require("./index.scss")
 var sDialog = require("COMMON/modules/dialog-simple");
 var Dialog = require("./bank-dialog");
 var Checkor = require("./bank_card");
+//2016-11-01添加建议提现金额计算
+var CalculateMoney = require("./bank-calculate-money");
 var that = this;
 var BankManager = function(){
     this.bankListUl = $("#bankListUl");
@@ -164,4 +166,6 @@ BankManager.prototype = {
 
 $(function(){
 	new BankManager();
+	//2016-11-01添加建议提现金额计算
+	CalculateMoney.init();
 })

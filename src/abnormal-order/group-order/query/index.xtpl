@@ -1,11 +1,11 @@
 <% _.each(data,function(item,index){ %>
 	<tr class="listItem <%=index%2==0 ? 'odd' : 'even'%>">
-		<td class="col col_1"><%=item.ordernum%></td>
-		<td class="col col_2"><a class="showTitle transition" href="javascript:void(0)" data-title="<%=item.prodMsg%>"><%=item.prodMsg%></a></td>
-		<td class="col col_3"><%=item.buss%></td>
-		<td class="col col_4"><%=item.time%></td>
-		<td class="col col_5"><%=item.tnum%></td>
-		<td data-status="<%=item.status%>" class="col col_6"><%=item.status_text%></td>
+		<td class="col col_1"><%=item.pftOrder%></td>
+		<td class="col col_2"><a class="showTitle transition" href="javascript:void(0)" data-title="<%=item.ticketName%>"><%=item.ticketName%></a></td>
+		<td class="col col_3"><%=item.shopType%></td>
+		<td class="col col_4"><%=item.cTime%></td>
+		<td class="col col_5"><%=item.oStnum%></td>
+		<td data-status="<%=item.status%>" class="col col_6"><%=item.handleStatus_ext.text%></td>
 		<td class="col col_7"><a class="showTitle transition" href="javascript:void(0)" data-title="<%=item.errormsg%>"><%=item.errormsg%></a></td>
 	</tr>
 <% }) %>

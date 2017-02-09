@@ -262,6 +262,8 @@
 //表格内容
 .tablecon_box{
   background-color: #ffffff;
+  border:1px solid #e5e5e5;
+  border-top:none;
   table.con_tb{
     width: 100%;
     .th1{
@@ -323,9 +325,9 @@
   border-top:none ;
   display: none;
   .querying{
-     height: 200px;
-     line-height: 200px;
-     text-align: center;
+      height: 200px;
+      text-align: center;
+      padding-top: 30px;
    }
   .queryerror{
     height: 200px;
@@ -339,10 +341,6 @@
   }
 }
 
-
-
-
-
 #pagination_wrap{
   height: 66px;
   line-height: 100px;
@@ -352,7 +350,6 @@
     display: inline-block;
   }
 }
-
 
 .calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{color: #dedede !important;}
 .calendar-table .calendar-td.day:hover{background-color: #00a0e9}
