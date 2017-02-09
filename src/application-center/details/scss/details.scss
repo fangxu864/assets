@@ -132,7 +132,7 @@
         margin-top: 16px;
         h2{
             font-weight: normal;
-            width: 120px;
+            width: 100px;
             height: 34px;
             line-height: 34px;
             text-align: center;
@@ -141,7 +141,7 @@
             background: map-get($Color,blur);
         }
         .content_details{
-            border-top: 2px solid map-get($Color,blur) ;
+            border-top: 1px solid map-get($Color,blur) ;
             padding: 22px;
             background: #f0f3f5;
             line-height: 20px;
@@ -166,7 +166,7 @@
         h2{
             font-size: 18px;
             font-weight: normal;
-            width: 120px;
+            width: 100px;
             height: 34px;
             line-height: 34px;
             text-align: center;
@@ -175,7 +175,7 @@
             background: map-get($Color,blur);
         }
         .content_details{
-            border-top: 2px solid map-get($Color,blur) ;
+            border-top: 1px solid map-get($Color,blur) ;
             padding: 32px 6px 32px 6px;
             background: #f0f3f5;
             line-height: 18px;

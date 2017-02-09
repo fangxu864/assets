@@ -132,8 +132,8 @@ var Main = PFT.Util.Class({
                     newLi.find(".app-summary").text(detail.summary);
                     newLi.find(".app-summary").attr("title",detail.summary);
 
-                    if(data.icon){
-                        newLi.find(".ui-app-ico img").attr("src",data.icon);
+                    if(detail.icon){
+                        newLi.find(".ui-app-ico img").attr("src",detail.icon);
                     }
 
                     $("#app-list").append(newLi);
