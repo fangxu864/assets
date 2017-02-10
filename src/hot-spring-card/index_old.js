@@ -85,6 +85,7 @@ entryCard.prototype = {
     })
 
     //搜索手牌列表
+    that.searchBtn.off("click");
     that.searchBtn.on("click", function (e) {
         that.getCardList(1);
         that.phyInp.val("")
@@ -174,6 +175,7 @@ entryCard.prototype = {
     that.changeConfBtn.on("click", function (e) {
       that.onChangeCardSubmit(e);
     })
+    $("#gSelectDownBox_1").off("click");
    $("#gSelectDownBox_1").on("click","li",function(){
      var saler_inp=$("#saler_inp");
      var salerid=saler_inp.attr("data-id");
