@@ -1,3 +1,78 @@
 <div id="signingStaff">
+    <div class="title">签单人员</div>
+    <div class="quickTab">
+        <span>签约信息</span>
+        <span>费用配置</span>
+        <span>开通应用</span>
+    </div>
+    <div class="scroll-view">
+        <div class="signInfo">
+            <div class="title-two"><span>签约信息</span></div>
+
+            <div class="line line1">
+                <div class="td td1">企业名称</div>
+                <div class="td td2">
+                    <input type="text">
+                </div>
+            </div>
+
+            <div class="line line2">
+                <div class="td td1">合作模式</div>
+                <div class="td td2">
+                    <select name="" id="">
+                        <option value="套餐">套餐</option>
+                        <option value="订单">订单</option>
+                        <option value="票务">票务</option>
+                    </select>
+                </div>
+                <div class="td td3">
+                    <input type="checkbox"><span>是否回款</span>
+                </div>
+
+            </div>
+
+            <div class="line line3">
+                <div class="td td1">合同编号</div>
+                <div class="td td2">
+                    <input type="text">
+                </div>
+            </div>
+
+            <div class="line line4">
+                <div class="td td1">协议日期</div>
+                <div class="td td2">
+                    <input type="text">
+                </div>
+                <div class="td">
+                    <span>至</span>
+                </div>
+                <div class="td td3">
+                    <input type="text">
+                </div>
+            </div>
+
+            <div class="line line3">
+                <div class="td td1">协议价</div>
+                <div class="td td2">
+                    <input type="text">
+                </div>
+                <span>元</span>
+            </div>
+
+            <div class="line line3">
+                <div class="td td1">协议标准</div>
+                <div class="td td2">
+                    <textarea name="" id="" cols="80" rows="5"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="feeConfig">
+             <div class="title-two"><span>签约信息</span></div>
+
+        </div>
+
+    </div>
+   
 
 </div>
