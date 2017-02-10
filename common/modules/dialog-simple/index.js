@@ -9,26 +9,28 @@ var Drag = require("COMMON/js/util.drag.js");
 var PubSub = require("COMMON/js/util.pubsub.js");
 var Extend = require("COMMON/js/util.extend.js");
 var fn = new Function();
-var Defaults = {
-	width : "",
-	height : "",
-	closeBtn : true,
-	content : "",
-	drag : false,
-	speed : 200,
-	offsetX : 0,
-	offsetY : 0,
-	overlay : true,
-	headerHeightMin : 46,
-	events : {},
-	onReady : fn,
-	onOpenBefore : fn,
-	onOpenAfter : fn,
-	onCloseBefore : fn,
-	onCloseAfter : fn,
-	onDragBefore : fn,
-	onDrag : fn,
-	onDragAfter : fn
+var Defaults = function () {
+	return {
+		width : "",
+		height : "",
+		closeBtn : true,
+		content : "",
+		drag : false,
+		speed : 200,
+		offsetX : 0,
+		offsetY : 0,
+		overlay : true,
+		headerHeightMin : 46,
+		events : {},
+		onReady : fn,
+		onOpenBefore : fn,
+		onOpenAfter : fn,
+		onCloseBefore : fn,
+		onCloseAfter : fn,
+		onDragBefore : fn,
+		onDrag : fn,
+		onDragAfter : fn
+	}
 };
 var getUid = (function(){
 	var uid = 0;
@@ -38,7 +40,7 @@ var getUid = (function(){
 })();
 var Dialog = function(opt){
 	var that = this;
-	var opt = this.opt = $.extend(Defaults,opt||{});
+	var opt = this.opt = $.extend( Defaults(),opt||{});
 	this.uid = getUid();
 	this.flag = "gSimpleDialog-";
 	this.id = this.flag + this.uid + "-";

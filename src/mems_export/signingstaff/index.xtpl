@@ -12,7 +12,7 @@
             <div class="line line1">
                 <div class="td td1">企业名称</div>
                 <div class="td td2">
-                    <input type="text">
+                    <input type="text" readonly="readonly" value="<%=data.com_name%>"/>
                 </div>
             </div>
 
@@ -31,6 +31,24 @@
 
             </div>
 
+            <div class="line line2-1">
+                <div class="td td1">签单人</div>
+                <div class="td td2">
+                    <select name="" id="" class="salerSelect">
+                        <%=data.signingStaff_tpl%>
+                    </select>
+                </div>
+            </div>
+
+            <div class="line line2-2">
+                <div class="td td1">客服</div>
+                <div class="td td2">
+                    <select name="" id="" class="kefuSelect">
+                        <%=data.kefu_tpl%>
+                    </select>
+                </div>
+            </div>
+
             <div class="line line3">
                 <div class="td td1">合同编号</div>
                 <div class="td td2">
@@ -41,17 +59,17 @@
             <div class="line line4">
                 <div class="td td1">协议日期</div>
                 <div class="td td2">
-                    <input type="text">
+                    <input type="text" class="protocol_start"/>
                 </div>
                 <div class="td">
                     <span>至</span>
                 </div>
                 <div class="td td3">
-                    <input type="text">
+                    <input type="text" class="protocol_end"/>
                 </div>
             </div>
 
-            <div class="line line3">
+            <div class="line line5">
                 <div class="td td1">协议价</div>
                 <div class="td td2">
                     <input type="text">
@@ -59,20 +77,172 @@
                 <span>元</span>
             </div>
 
-            <div class="line line3">
+            <div class="line line6">
                 <div class="td td1">协议标准</div>
                 <div class="td td2">
-                    <textarea name="" id="" cols="80" rows="5"></textarea>
+                    <textarea name="" id="" cols="80" rows="3"></textarea>
                 </div>
             </div>
 
         </div>
         <div class="feeConfig">
-             <div class="title-two"><span>签约信息</span></div>
+             <div class="title-two"><span>费用配置</span></div>
+             <div class="line line1">
+                 <div class="td td1">提现手续费率</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_bank"/>
+                 </div>
+                 <span>%</span>
+             </div>
+             <div class="line line2">
+                 <div class="td td1">凭证费</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_code"/>
+                 </div>
+                 <span>元/单</span>
+             </div>
+
+              <div class="line line2">
+                 <div class="td td1">短信费</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_sms"/>
+                 </div>
+                 <span>元/条</span>
+             </div>
+
+              <div class="line line2">
+                 <div class="td td1">平台使用费</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_platform"/>
+                 </div>
+                 <span>元/人</span>
+             </div>
 
         </div>
+        <div class="openApp">
+             <div class="title-two">
+                 <span>开通应用</span>
+                 <input type="checkbox">
+                 <span>全选</span>
+                 </div>
+             <div class="line line1">
+                 <div class="td">
+                      <input type="checkbox">
+                      <span>微商城</span>
 
+                 </div>
+                 <div class="td">
+                      <input type="checkbox">
+                      <span>微商城</span>
+                      <span>（自）</span>
+                 </div>
+                 <div class="td">
+                      <input type="checkbox">
+                      <span>微商城</span>
+                      <span>（自）</span>
+                 </div>
+                 <div class="td">
+                      <input type="checkbox">
+                      <span>微商城</span>
+                      <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+                 <div class="td">
+                     <input type="checkbox">
+                     <span>微商城</span>
+                     <span>（自）</span>
+                 </div>
+             </div>
+
+        </div>
     </div>
-   
-
+    <div class="bottom">
+        <div class="center">
+            <span class="btn yesBtn">确认</span><span class="btn noBtn">取消</span>
+        </div>
+    </div>
 </div>

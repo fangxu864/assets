@@ -1,6 +1,24 @@
 #signingStaff{
+    input ,textarea {
+        border: 1px solid #e5e5e5;
+        padding-left: 3px;
+    }
+    input[type=checkbox]{
+        position:relative;
+        top:3px;
+    }
+    textarea{
+        width: 499px;
+        max-width: 499px;
+    }
     padding: 20px;
     padding-top: 0;
+    .scroll-view{
+        height: 500px;
+        overflow-y:auto;
+        overflow-x:hidden;
+        box-shadow: -1px -1px 5px #e5e5e5 inset;
+    }
     .title{
         line-height: 46px;
         font-size:20px;
@@ -10,20 +28,22 @@
         color: #4CAF50;
         font-size: 16px;
         cursor: pointer;
+        display: none;
     }
     box-sizing: border-box;
     .title-two{
         float:left;
         position: relative;
         font-size: 16px;
-        line-height: 20px;
+        line-height: 38px;
+        margin-left: 8px;
     }
     .title-two::before{
         content: "";
         display: block;
         position: absolute;
         left: -8px;
-        top: 3px;
+        top: 12px;
         height: 14px;
         width: 5px;
         background-color: #c72525;
@@ -34,9 +54,45 @@
     .line{
         width: 100%;
         margin: 5px 0;
+        margin-left: 8px;
         .td1{
-            width: 60px;
+            width: 90px;
         }
     }
+    .openApp{
+        .td{
+            margin-right: 20px;
+            margin-top: 5px;
+            width: 136px;
+        }
+    }
+    .bottom{
+        clear: both;
+        margin-top: 15px;
+        .center{
+            width: 146px;
+            margin: 0 auto;
+            .btn{
+                padding: 5px 20px;
+                background-color:#00a0e9;
+                color:#fff;
+                font-size:14px;
+                cursor: pointer;
+            }
+            .btn:hover{
+                background-color: #048ac7;
+            }
+            .btn.noBtn{
+                margin-left: 10px;
+            }
+        }
 
+
+    }
+    .signInfo .line2 .td3{
+        margin-left: 20px;
+    }
+    .signInfo .line1 .td2 input{
+        width: 360px;
+    }
 }

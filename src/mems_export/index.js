@@ -516,10 +516,20 @@ $(function(){
      * @events 点击‘签单人员’
      */
     $('#mem_list_tbd').on('click','a.saleID',function(e){
+        var Data = {};
+        var d_this = $(e.currentTarget);
+        //fid
+        Data["fid"]   = d_this.parent().siblings('.mid').attr('data-mid');
+        //企业名称
+        Data["com_name"]   = d_this.parents("tr").find(".com_name").text();
+        //签单人员列表tpl
+        Data["signingStaff_tpl"] = $("select[name = salesID]").html();
+        //客服人员列表tpl
+        Data["kefu_tpl"] = $("select[name = kefuID]").html();
         //发布一个‘签单人员’点击事件
-        $.publish("signingStaffClick");
-//         var d_this = $(e.currentTarget);
-//         var union_id   = d_this.parent().siblings('.mid').attr('data-mid');
+        $.publish("signingStaffClick",Data);
+       
+        
 //         $("input[name='z_salesID']")[0].value=union_id;
 //         $(".black").css({
 //             "width":$(window).width()+"px",
