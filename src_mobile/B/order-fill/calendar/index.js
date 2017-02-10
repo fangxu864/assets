@@ -49,7 +49,6 @@ var Calendar = PFT.Util.Class({
 				"click .next" : function(e){
 					that.changeCal("next");
 				},
-
 				"click .calConItem.column" : function(e){
 
 					var selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
@@ -108,9 +107,6 @@ var Calendar = PFT.Util.Class({
 
 	handleCalPrice : function(date,list){
 
-		console.log(date);
-
-
 		// console.log("price:"+date)
 
 		var date = date.split("-");		
@@ -132,8 +128,6 @@ var Calendar = PFT.Util.Class({
 			}
 
 		}
-
-
 
 		//将所有em塞入价格
 		var PG = $("span.price");
@@ -189,9 +183,6 @@ var Calendar = PFT.Util.Class({
 
 
 	},
-
-
-
 
 	//选择日期
 	calDaySelect : function(e){
@@ -258,19 +249,15 @@ var Calendar = PFT.Util.Class({
 	changeCal : function(dir){
 		
 		if(dir == "prev"){
-
-
 			if(this.nowMonthFlag > 1){
 				this.nowMonthFlag -= 1; 
 			}else{
 				this.nowMonthFlag = 12;
 				this.nowYearFlag -= 1;
 			}
-
-			console.log(this.nowMonthFlag);
-			console.log(this.nowMonth);
 			if(this.nowMonthFlag < this.nowMonth){
-				
+				this.nowMonthFlag = this.nowMonthFlag+1;
+				return false
 			}
 		}else if(dir == "next"){
 			if(this.nowMonthFlag < 12){
@@ -283,8 +270,6 @@ var Calendar = PFT.Util.Class({
 
 		var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
 		this.change(date); //改变日历状态
-
-		
 
 	},
 
