@@ -71,6 +71,8 @@ var Main = PFT.Util.Class({
             $("#appDetails").append($(hardwareBase.introduce[id]));   //应用详情
             $("#picture").attr("src",hardwareBase.pictures[id]);
 
+            $("#appDetails").addClass("yingjian");
+
             for(var i = 0 ; i < link.length ; i++){
                 var newLi = $(' <li style="margin-left: 62px" class="yingjian link" data-id="'+link[i]+'"> <h4 class="yingjian_name">'+hardwareBase.name[link[i]]+'</h4> <a href="appcenter_details.html?module_id='+link[i]+'"> <img src='+hardwareBase.link[link[i]]+' alt='+hardwareBase.name[link[i]]+'> </a> </li>');
                 $("#app-list").append(newLi);
