@@ -102,6 +102,13 @@ var Calendar = PFT.Util.Class({
 
 		var date = date.split("-");
 
+		var dateGroup = {
+			year : parseInt(date[0]),
+			month : parseInt(date[1]),
+			day : parseInt(date[2])
+		}
+
+
 		if(date.length == 2){//2017-2格式
 			// this.nowYearFlag = parseInt(date[0]);
 			// this.nowMonthFlag = parseInt(date[1]);
@@ -121,30 +128,58 @@ var Calendar = PFT.Util.Class({
 
 
 
-		// var PG = $("span.price");
+		var PG = $("span.price");
+		for( var i in list){
+			for(var j = 0;j<PG.length;j++){
+				var data_day = PG.eq(j).attr("data-day");
+				dateGroup.month = parseInt(dateGroup.month);
+				dateGroup.month =(dateGroup.month<10 ? "0"+dateGroup.month:dateGroup.month);
+				var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
+				if(data_date == i){
+					PG.eq(j).find("em").text(list[i]);
+				}
+			}
+		}		
 
-		// for( var i in res){
-		// 	for(var j = 0;j<PG.length;j++){
-		// 		var data_day = PG.eq(j).attr("data-day");
-		// 		dateGroup.month = parseInt(dateGroup.month);
-		// 		dateGroup.month =(dateGroup.month<10 ? "0"+dateGroup.month:dateGroup.month);
-		// 		var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
-		// 		if(data_date == i){
-		// 			PG.eq(j).find("em").text(res[i]);
-		// 		}
-		// 	}
-		// }		
+		var items = $(".calConItem.column"); 
 
-		// var items = $(".calConItem.column"); 
+		for(var j = 0;j<items.length;j++){
 
-		// for(var j = 0;j<items.length;j++){
+			if(items.eq(j).find('em').text() == ""){
+				items.eq(j).find('.yen').text("");
+				items.eq(j).addClass('disable');
+			}
 
-		// 	if(items.eq(j).find('em').text() == ""){
-		// 		items.eq(j).find('.yen').text("");
-		// 		items.eq(j).addClass('disable');
-		// 	}
+		}
 
-		// }
+		
+
+
+
+		var today = (dateGroup.day < 10&&dateGroup.day != 0 ? "0" + dateGroup.day : dateGroup.day); 	
+		var days = $(".calConItem.column .day");
+
+		if( dateGroup.day == 0 ){//日历改变月份
+			
+			for( var n = 0 ; n<days.length ; n++){
+				var t = days.eq(n).text(); 
+				if( t == "01"){
+					var pItem = days.eq(n).parent();
+					pItem.addClass('select');
+				}
+			}	
+				
+		}else{
+
+			for( var n = 0 ; n<days.length ; n++){
+				var t = days.eq(n).text(); 
+				if( t == today){
+					var pItem = days.eq(n).parent();
+					pItem.addClass('select');
+				}
+			}	
+
+		}
 
 
 

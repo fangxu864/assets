@@ -41,26 +41,26 @@ module.exports = function(parent){
 
 
 
-			var dateGroup = this.getNowDate();
-			var day = dateGroup.day; 
-			var month = dateGroup.month; 
-			var year = dateGroup.year; 
-			var date = year.toString() + "-" + month.toString() ;
-			var params = {
-				token : PFT.Util.getToken(),
-				aid : this.aid,
-				pid : this.pid,
-				date : date
-			};	
-			GetCalendarPrice(params,{
-				loading:function () {},
-				success:function (res) {
+			// var dateGroup = this.getNowDate();
+			// var day = dateGroup.day; 
+			// var month = dateGroup.month; 
+			// var year = dateGroup.year; 
+			// var date = year.toString() + "-" + month.toString() ;
+			// var params = {
+			// 	token : PFT.Util.getToken(),
+			// 	aid : this.aid,
+			// 	pid : this.pid,
+			// 	date : date
+			// };	
+			// GetCalendarPrice(params,{
+			// 	loading:function () {},
+			// 	success:function (res) {
 
-					that.handleCalPrice(res,dateGroup);
+			// 		that.handleCalPrice(res,dateGroup);
 
-				},
-				complete:function () {}
-			});	
+			// 	},
+			// 	complete:function () {}
+			// });	
 
 
 
