@@ -117,7 +117,7 @@ var Main = RichBase.extend({
                 $("#CounterFee").val("4");
                 break;
                 default:
-                $("#CounterFee").val("0");
+                // $("#CounterFee").val("0");
             }
     },
     noselect : function(that,e){
