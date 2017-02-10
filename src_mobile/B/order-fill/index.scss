@@ -52,6 +52,70 @@
       }
 
     }
+    
+
+
+
+
+
+    //酒店类型
+    .inputItem#hotelDate{
+      border-bottom : 1px solid #e5e5e5;
+      height : 100px;
+      margin-bottom : 15px;
+      display: -webkit-flex;
+      display: flex;
+      .inHotel{
+        width : 40%;
+        height : 100%;
+      }
+      .hotelDay{
+        width : 30%;
+        height : 100%;
+        position : relative;
+        .hotelDayTag{
+          position : absolute;
+          left : 50%;
+          top : 50%;
+          width : 50px;
+          height : 25px;
+          line-height : 25px;
+          text-align : center ;
+          margin-top : -13px;
+          margin-left : -25px;
+          border-radius : 25px;
+          border : 1px solid #e5e5e5;
+        }
+      }
+      .outHotel{
+        width : 40%;
+        height : 100%;
+      }
+      .dateSelect{
+        padding-top : 25px;
+        .dateSelectText{
+          text-align : center;
+          font-size : 16px;
+        }
+        .dateSelect{
+          font-size : 18px;
+          text-align : center;
+          color : #0797d9;
+          .dateSelectWeek{
+            font-size : 16px;
+            margin-left : 5px;
+          }
+        }
+      }
+    }
+
+
+
+
+
+
+
+
 
   }
 

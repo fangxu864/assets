@@ -1,0 +1,14 @@
+<!-- 酒店 -->
+<div class="inputItem" id="hotelDate">
+	<div class="inHotel dateSelect">
+		<div class="dateSelectText">入住</div>
+		<div class="dateSelect">5月6日<span class="dateSelectWeek">周二</span></div>
+	</div>
+	<div class="hotelDay">
+		<div class="hotelDayTag">2晚</div>
+	</div>
+	<div class="outHotel dateSelect">
+		<div class="dateSelectText">入住</div>
+		<div class="dateSelect">5月6日<span class="dateSelectWeek">周二</span></div>
+	</div>
+</div>	

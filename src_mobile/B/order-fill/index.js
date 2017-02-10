@@ -21,12 +21,31 @@ var Calendar = require("./calendar/index.js");
 
 
 
+//各个类型模块
+
+var parent = $(".topInputGroup");
+// 酒店
+
+// var Hotel = require("./hotel/index.js");
+// Hotel(parent);
+
+// 景区套票  //调试日历分离 //type为A
+
+var Land = require("./land/index.js"); 
+Land(parent);
+
+
+
+
+
+
+
 
 var Order_fill = PFT.Util.Class({
 
 	container : $("#orderFill"),
 	EVENTS : {
-		"click #playDate":"initCalendar", //自己做日历功能
+		// "click #playDate":"initCalendar", //自己做日历功能
 		"click #contact":"showContact",
 		"click #visitorInformation":"showVisitor",
 
@@ -288,7 +307,6 @@ var Order_fill = PFT.Util.Class({
 			},
 			complete:function () {}
 		});	
-
 		
 
 	},	
@@ -372,6 +390,8 @@ var Order_fill = PFT.Util.Class({
 			// 酒店 = 26397, 26398
 
 			params.pid = 26398; //先写死
+			this.type = "A"; //先写死成对应类型
+
 
 			GetBookInfo(params,{
 				loading:function () {},
@@ -400,7 +420,6 @@ var Order_fill = PFT.Util.Class({
 
 	handleBookInfo : function(res){
 
-		console.log(res);
 		var ticketList = res.tickets;
 		if(ticketList.length == 0){
 			console.log("无票");
@@ -412,14 +431,15 @@ var Order_fill = PFT.Util.Class({
 		// A:景区,B:线路,F:套票,H:演出,C:酒店
 		// G:餐饮 //餐饮是后面加的
 
-		var type = "A"; //先模拟
+		// console.log(type);
 
 		//根据type不同分别判断显示
 		if(type == "A" || type == "F"){  //景区和套票是一起的?
-			$("#ticketDate").css("display","block");
+			// $("#ticketDate").css("display","block");
+
 		} 		
 		if(type == "C"){ //酒店
-			$("#ticketDate").css("display","block");
+			$("#hotelDate").css("display","flex");
 		}
 		if(type == "B"){ //线路
 			$("#lineDate").css("display","block");
@@ -434,7 +454,7 @@ var Order_fill = PFT.Util.Class({
 		}
 
 		//pids产品ID集合,用于获取价格和库存
-		console.log(ticketList);
+		// console.log(ticketList);
 
 
 		this.renderTicketList(ticketList); 
