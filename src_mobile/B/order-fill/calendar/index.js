@@ -9,6 +9,9 @@ var tpl = require("./tpl/index.xtpl");
 var listTpl = require("./tpl/list.xtpl");
 
 
+var GetCalendarPrice = require("../service/getCalendarPrice.js"); 
+
+
 var Calendar = PFT.Util.Class({
 
 	init : function(nowDate){//如2017-2或2017-2-9
@@ -51,13 +54,11 @@ var Calendar = PFT.Util.Class({
 
 					var selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
 
-					console.log(selectedDay);
-
 					if(selectedDay != "disable"){
 						that.CalendarBox.close();
 					}
+
 					
-					// that.getPriceAndStorage(selectedDay); //获取价格和库存
 				}				
 			}
 
@@ -70,64 +71,71 @@ var Calendar = PFT.Util.Class({
 		$(".calContentCon").html(listHtml);
 
 
-
-		this.handleCalPrice(nowDate);
+		this.getCalPrice(date.nowDate);//第一次获取
 
 
 		this.show();
-
 
 		return this;
 
 	},
 
 
+	getCalPrice : function(date){
+
+		var that = this;
+
+		var params = {
+			token : PFT.Util.getToken(),
+			aid : 3385, //先写死
+			pid : 58052, //先写死
+			date : date
+		};
+
+		GetCalendarPrice(params,{
+			loading:function () {},
+			success:function (list) {
+
+				that.handleCalPrice(date,list);
+
+			},
+			complete:function () {}
+		});	
+
+
+	},
+
+
 	handleCalPrice : function(date,list){
 
-		//从10号开始，有天数的
-		date = '2017-2-10';
-		var list = '{"code":200,"data":{"2017-02-10":2,"2017-02-11":2,"2017-02-12":2,"2017-02-13":2,"2017-02-14":2,"2017-02-15":2,"2017-02-16":2,"2017-02-17":2,"2017-02-18":2,"2017-02-19":2,"2017-02-20":2,"2017-02-21":2,"2017-02-22":2,"2017-02-23":2,"2017-02-24":2,"2017-02-25":2,"2017-02-26":2,"2017-02-27":2,"2017-02-28":2},"msg":""}';
-		list = JSON.parse(list);
-		list = list.data;
-		console.log(list);
+		console.log(date);
 
-		//没有天数的，从1号开始
-		// date = '2017-2';
-		// var list = '{"code":200,"data":{"2017-02-01":2,"2017-02-02":2,"2017-02-03":2,"2017-02-04":2,"2017-02-05":2,"2017-02-06":2,"2017-02-07":2,"2017-02-08":2,"2017-02-09":2,"2017-02-10":2,"2017-02-11":2,"2017-02-12":2,"2017-02-13":2,"2017-02-14":2,"2017-02-15":2,"2017-02-16":2,"2017-02-17":2,"2017-02-18":2,"2017-02-19":2,"2017-02-20":2,"2017-02-21":2,"2017-02-22":2,"2017-02-23":2,"2017-02-24":2,"2017-02-25":2,"2017-02-26":2,"2017-02-27":2,"2017-02-28":2},"msg":""}';
-		// list = JSON.parse(list);
-		// list = list.data;
-		// console.log(list);
 
-		console.log("price:"+date)
+		// console.log("price:"+date)
 
-		var date = date.split("-");
-
-		var dateGroup = {
-			year : parseInt(date[0]),
-			month : parseInt(date[1]),
-			day : parseInt(date[2])
-		}
-
+		var date = date.split("-");		
 
 		if(date.length == 2){//2017-2格式
-			// this.nowYearFlag = parseInt(date[0]);
-			// this.nowMonthFlag = parseInt(date[1]);
-			// this.nowDayFlag = 1;
 
-
+			var dateGroup = {
+				year : parseInt(date[0]),
+				month : parseInt(date[1]),
+				day : 0
+			}
 
 		}else if(date.length == 3){//2017-2-9格式
-			// this.nowYearFlag = parseInt(date[0]);
-			// this.nowMonthFlag = parseInt(date[1]);
-			// this.nowDayFlag = parseInt(date[2]);
 
-
-
+			var dateGroup = {
+				year : parseInt(date[0]),
+				month : parseInt(date[1]),
+				day : parseInt(date[2])
+			}
 
 		}
 
 
 
+		//将所有em塞入价格
 		var PG = $("span.price");
 		for( var i in list){
 			for(var j = 0;j<PG.length;j++){
@@ -140,9 +148,8 @@ var Calendar = PFT.Util.Class({
 				}
 			}
 		}		
-
+		//em没有价格的加入disable，并清空yen
 		var items = $(".calConItem.column"); 
-
 		for(var j = 0;j<items.length;j++){
 
 			if(items.eq(j).find('em').text() == ""){
@@ -152,20 +159,19 @@ var Calendar = PFT.Util.Class({
 
 		}
 
-		
-
-
-
+		//初始化被选中的天数，没有天数就选一个月的第一天
 		var today = (dateGroup.day < 10&&dateGroup.day != 0 ? "0" + dateGroup.day : dateGroup.day); 	
 		var days = $(".calConItem.column .day");
-
 		if( dateGroup.day == 0 ){//日历改变月份
-			
+
 			for( var n = 0 ; n<days.length ; n++){
-				var t = days.eq(n).text(); 
-				if( t == "01"){
+				var pItem = days.eq(n).parent();
+				var className = pItem[0].className; 
+				var index = className.indexOf("disable");
+				if( index < 0){
 					var pItem = days.eq(n).parent();
 					pItem.addClass('select');
+					return false
 				}
 			}	
 				
@@ -180,14 +186,6 @@ var Calendar = PFT.Util.Class({
 			}	
 
 		}
-
-
-
-
-
-
-
-
 
 
 	},
@@ -234,7 +232,9 @@ var Calendar = PFT.Util.Class({
 
 
 		var date = date.split("-");
-		console.log(date);
+		// console.log(date);
+
+		this.nowMonth = parseInt(date[1]);
 
 		if(date.length == 2){//2017-2格式
 			this.nowYearFlag = parseInt(date[0]);
@@ -258,11 +258,19 @@ var Calendar = PFT.Util.Class({
 	changeCal : function(dir){
 		
 		if(dir == "prev"){
+
+
 			if(this.nowMonthFlag > 1){
 				this.nowMonthFlag -= 1; 
 			}else{
 				this.nowMonthFlag = 12;
 				this.nowYearFlag -= 1;
+			}
+
+			console.log(this.nowMonthFlag);
+			console.log(this.nowMonth);
+			if(this.nowMonthFlag < this.nowMonth){
+				
 			}
 		}else if(dir == "next"){
 			if(this.nowMonthFlag < 12){
@@ -276,6 +284,8 @@ var Calendar = PFT.Util.Class({
 		var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
 		this.change(date); //改变日历状态
 
+		
+
 	},
 
 	//改变日历状态(重新渲染)
@@ -287,6 +297,8 @@ var Calendar = PFT.Util.Class({
 		data.list = arr;  
 		var listHtml = this.listTemplate(data);
 		$(".calContentCon").html(listHtml);
+
+		this.getCalPrice(date);
 
 	},
 

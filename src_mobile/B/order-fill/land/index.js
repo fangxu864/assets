@@ -36,16 +36,6 @@ module.exports = function(parent){
 
 
 
-
-			
-
-
-
-
-
-
-
-
 			//日历分离测试
 
 			if(this.calendar){
@@ -56,15 +46,7 @@ module.exports = function(parent){
 
 
 
-
-
-
-
-
-
-
-
-
+				
 
 
 

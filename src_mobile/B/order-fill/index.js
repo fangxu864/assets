@@ -66,6 +66,9 @@ var Order_fill = PFT.Util.Class({
 			console.log("缺少id参数");	
 		}
 
+		console.log(this.aid);
+		console.log(this.pid);
+
 
 		this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
 
