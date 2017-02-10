@@ -12,6 +12,15 @@ var homeIntro = {
 
 		this.memberID = $("#memberId").attr("data-id");			
 
+
+		// 0不是散客1是散客
+		var sanke = $("#sanke").val();
+
+		if( sanke == 1){//散客没有应用中心权限
+			return false
+		}
+
+
 		// cookie部分
 		var visited = Cookie.getCookie("memberIntro1"+this.memberID); 
 		if(visited == ""){
