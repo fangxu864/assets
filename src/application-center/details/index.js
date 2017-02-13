@@ -126,8 +126,13 @@ var Main = PFT.Util.Class({
                     }
                     else if(state == 3){
                         var newLi = $('<li><div class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">去看看</a> </div> </div></div><i class="ico-expired"></i></li>')
+                    }else if(state == -2){
+                        // var newLi = $('<li><div class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">去看看</a> </div> </div></div><i class="ico-expired"></i></li>')
+                        var newLi = $('<li><div class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 open" data-id = "'+detail.module_id+'">开通</a> </div> </div></div></li>')
+                        console.log(newLi);
+                        newLi.find('.btn').css("display","none");
+                        newLi.find(".app-item").css("height","97px");
                     }
-
 
                     newLi.find(".app-usernum").text(detail.open_num);
                     newLi.find(".app-name").text(detail.name);
@@ -137,6 +142,8 @@ var Main = PFT.Util.Class({
                     if(detail.icon){
                         newLi.find(".ui-app-ico img").attr("src",detail.icon);
                     }
+
+
 
                     $("#app-list").append(newLi);
 
@@ -218,6 +225,8 @@ var Main = PFT.Util.Class({
             $("#btn").text("去看看").on("click",function () {
                 window.location.href="appcenter_details.html?module_id="+_this.module_id
             })
+        }else if(status == -2){
+            $("#btn").css("display","none");
         }
 
 
