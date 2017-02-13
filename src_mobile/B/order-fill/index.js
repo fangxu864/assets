@@ -311,22 +311,56 @@ var Order_fill = PFT.Util.Class({
 		//flag : 1为入店 2为离店
 
 		var arr = selectedDay.split("-");
-		var day = arr[0];
+		var day = arr[2];
 		var month = arr[1];
-		var year = arr[2];
+		var year = arr[0];
 
 
 		if( flag == 1 ){
 
-			console.log(this.calendar1.nowSelectWeek);
 			var dateSelectText = month + "月" + day + "日";
-			console.log(dateSelectText);
+			$(".inHotel .dateSelectDay").text(dateSelectText);
+			var weekText = "";
+			if(this.calendar1.nowSelectWeek == 0){
+				weekText = "日";
+			}else if(this.calendar1.nowSelectWeek == 1){
+				weekText = "一";				
+			}else if(this.calendar1.nowSelectWeek == 2){
+				weekText = "二";				
+			}else if(this.calendar1.nowSelectWeek == 3){
+				weekText = "三";				
+			}else if(this.calendar1.nowSelectWeek == 4){
+				weekText = "四";				
+			}else if(this.calendar1.nowSelectWeek == 5){
+				weekText = "五";				
+			}else if(this.calendar1.nowSelectWeek == 6){
+				weekText = "六";				
+			}
+			var tpl = '<span class="dateSelectWeek">周'+ weekText +'</span>';
+			$(".inHotel .dateSelectDay").append(tpl);
 
 		}else if( flag == 2 ){
 
-			console.log(this.calendar2.nowSelectWeek);
 			var dateSelectText = month + "月" + day + "日";
-			console.log(dateSelectText);
+			$(".outHotel .dateSelectDay").text(dateSelectText);
+			var weekText = "";
+			if(this.calendar2.nowSelectWeek == 0){
+				weekText = "日";
+			}else if(this.calendar2.nowSelectWeek == 1){
+				weekText = "一";				
+			}else if(this.calendar2.nowSelectWeek == 2){
+				weekText = "二";				
+			}else if(this.calendar2.nowSelectWeek == 3){
+				weekText = "三";				
+			}else if(this.calendar2.nowSelectWeek == 4){
+				weekText = "四";				
+			}else if(this.calendar2.nowSelectWeek == 5){
+				weekText = "五";				
+			}else if(this.calendar2.nowSelectWeek == 6){
+				weekText = "六";				
+			}
+			var tpl = '<span class="dateSelectWeek">周'+ weekText +'</span>';
+			$(".outHotel .dateSelectDay").append(tpl);
 
 		} 
 
