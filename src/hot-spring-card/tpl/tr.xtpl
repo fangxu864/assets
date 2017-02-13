@@ -1,0 +1,43 @@
+<tr>
+    <td class="countColor" colspan="6"><span class="u-span_countAll">共 <%=data.num%>个</span> <span class="u-span_countBlue">蓝 <%=data.blue%>个</span> <span class="u-span_countPink">粉 <%=data.pink%>个</span> </td>
+</tr>
+<% _.each(data.list,function(arr,i){ %>
+<tr>
+    <td class="crd_card_no"><%=arr.visible_no%></td>
+    <td class="crd_phy_no"><%=arr.physics_no%></td>
+    <td class="crd_color"><%=arr.color_name%></td>
+    <td class="crd_status"><%=arr.status_name%> </td>
+    
+        <%switch(arr.status){
+        case "1" :%>
+        <td class="crd_paylist"></td>
+        <td class="crd_operation" data-pn="<%=arr.physics_no%>" data-vn="<%=arr.visible_no%>" data-cl="<%=arr.color%>" data-id="<%=arr.salerid%>" data-preid="<%=arr.id%>" >
+         <a class="u-btn_edit" >编辑</a>
+         <a class="u-btn_rl status" data-status="3">挂失</a>
+         <a class="u-btn_disable status" data-status="4">禁用</a>
+         <a class="u-btn_del" >删除</a>
+        </td> 
+        <%break;
+        case "2":%>
+        <td class="crd_paylist"><%=arr.ordernum%></td>
+        <td class="crd_operation" data-pn="<%=arr.physics_no%>" data-vn="<%=arr.visible_no%>" data-cl="<%=arr.color%>" data-id="<%=arr.salerid%>" data-preid="<%=arr.id%>" >
+         <a class="u-btn_changeCard">换手牌</a>
+        </td> 
+        <%break;
+        case "3":%>
+        <td class="crd_paylist"></td>
+        <td class="crd_operation" data-pn="<%=arr.physics_no%>" data-vn="<%=arr.visible_no%>" data-cl="<%=arr.color%>" data-id="<%=arr.salerid%>" data-preid="<%=arr.id%>" >
+         <a class="u-btn_fillCard" >补卡</a>
+         <a class="u-btn_unloss status" data-status="1">取消挂失</a>
+         <a class="u-btn_del" >删除</a>
+        </td> 
+        <%break;
+        case "4":%>
+        <td class="crd_paylist"></td>
+        <td class="crd_operation" data-pn="<%=arr.physics_no%>" data-vn="<%=arr.visible_no%>" data-cl="<%=arr.color%>" data-id="<%=arr.salerid%>" data-preid="<%=arr.id%>" >
+         <a class="u-btn_undisable status" data-status="1">解除禁用</a>
+        </td> 
+        <% break;} %>
+
+</tr>
+<%})%>
