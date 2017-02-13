@@ -227,6 +227,9 @@ var Main = PFT.Util.Class({
                 success: function (res) {
                     if (res.code == 200) {
                         _this.renderCardList(res.data);
+                         _this.cardEdit(request);
+                         _this.pagination.render({ current: toPage ,topage:toPage,total:res.data.total});
+                         page.attr("data-curr",_this.pagination.getCurrentPage())
 
                     } else {
                         tbody.html("<tr><td colspan='6'>" + res.msg + "</td></tr>")
@@ -236,12 +239,10 @@ var Main = PFT.Util.Class({
     },
     //获取卡片列表及渲染数据
     renderCardList: function (list) {
-        var tbody = $(this.dom.table.tbody),
-            _this = this,
-            request = "查询";
+        var tbody = $(this.dom.table.tbody);
         var cardList = Template.tr({ data: list });
         tbody.html(cardList);
-        _this.cardEdit(request);
+       
     },
     //手牌编辑模态框
     cardEdit: function (request) {
@@ -260,7 +261,7 @@ var Main = PFT.Util.Class({
             var presuming_id = parent.attr("data-preid");
             var phyInp = $(_this.dom.inp.editPhy_inp);
             var cardInp = $(_this.dom.inp.cardInp);
-            var cardModal = $(_this.dom.modal.editModal);
+            var editModal = $(_this.dom.modal.editModal);
             var cardBg = $(_this.dom.modal.editModal + " .cardBg");
             var url;
             if (that.hasClass("u-btn_fillCard")) {
@@ -273,7 +274,7 @@ var Main = PFT.Util.Class({
                 url = "editCard";
             }
             editSaveBtn.attr({ "data-oldpn": phy_no, "data-oldcolor": color, "data-oldcrd": card_no, "data-preid": presuming_id, "data-req": request, "data-url": url })
-            cardModal.show();
+            editModal.show();
             phyInp.val(phy_no);
             cardInp.val(card_no);
             if (color == "1") {
@@ -291,7 +292,29 @@ var Main = PFT.Util.Class({
             reg = /^[0-9a-zA-Z]+$/,
             phy_no = $(this.dom.inp.editPhy_inp),
             card_no = $(this.dom.inp.editCard_inp),
-            colorBg = $(this.dom.modal.editModal)
+            colorBg = $(this.dom.modal.editModal),
+            editSaveBtn=$(this.dom.btn.editSaveBtn);
+            oldPhyVal=editSaveBtn.attr("data-oldpn"),
+            oldColor=editSaveBtn.attr("data-oldcolor"),
+            oldCard=editSaveBtn.attr("data-oldcrd"),
+            req=editSaveBtn.attr("data-req"),
+            presuming_id=editSaveBtn.attr("data-preid"),
+            url=editSaveBtn.attr("data-url"),
+            lid=$(this.dom.inp.saler_inp).attr("data-id"),
+            phyVal=phy_no.val(),
+            cardVal=card_no.val(),
+            color=colorBg.val(),
+            sch_inp=$(this.dom.inp.sch_inp),
+            sch_inpVal=sch_inp.val(),
+            currentPage=$("#paginationWrap").attr("data-curr");
+        (req=="edit") ? sch_inp.val(phyVal) : _this.onSearchclearBtn();
+        if(reg.test(phyVal.cardVal)){
+            PFT.Util.Ajax(
+            "/r/product_HotSpringCard/"+url,
+            {
+
+            })
+        }
 
     },
   
