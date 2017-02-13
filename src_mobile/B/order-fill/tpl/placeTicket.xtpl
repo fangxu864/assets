@@ -2,7 +2,7 @@
 <%for(var i=0;i<list.length;i++){%>
     <li class="placeTicket" >
         <div class="left">
-            <p class="ticketName">成人票</p>
+            <p class="ticketName"><%=list[i].title%></p>
             <p class="ticketContent">
                 <p class="price">
                     <span>结算价：</span>

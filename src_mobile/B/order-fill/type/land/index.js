@@ -2,13 +2,13 @@
 
 var tpl = require("./index.xtpl");
 
-var Calendar = require("../calendar/index.js");
+var Calendar = require("../../calendar/index.js");
 
-var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
+// var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 
-var GetCalendarPrice = require("../service/getCalendarPrice.js");
+// var GetCalendarPrice = require("../../service/getCalendarPrice.js");
 
-module.exports = function(parent){
+module.exports = function(parent,aid,pid){
 
 
 	var container = $(tpl).appendTo(parent);
@@ -16,33 +16,40 @@ module.exports = function(parent){
 	var Land = PFT.Util.Class({
 		container : container,
 		EVENTS : {
-			"click #playDate":"initCalendar"
+			"click #playDate":"showCalendar"
 		},
 		init : function(){
-
-		},
-
-		initCalendar : function(){
-
-			console.log("景区模块中的");
 
 			var that = this;
 
 			var dateGroup = this.getNowDate();	
-			var nowDate = dateGroup.nowDate ; //没有天数的
 			var nowDate = dateGroup.nowDate + "-" +dateGroup.day; //有天数的
 
+			this.calendar = new Calendar(nowDate,aid,pid);
+		},
+
+		showCalendar : function(){
+
+			// var that = this;
+
+			// var dateGroup = this.getNowDate();	
+			// // var nowDate = dateGroup.nowDate ; //没有天数的
+			// var nowDate = dateGroup.nowDate + "-" +dateGroup.day; //有天数的
 
 
 
 
-			//日历分离测试
+
+			//日历分离测试//暂时无法完全分离
 
 			if(this.calendar){
 				this.calendar.show();
-			}else{
-				this.calendar = new Calendar(nowDate);
 			}
+
+
+			
+
+			//后面的代码都没有运行
 
 
 
@@ -126,6 +133,34 @@ module.exports = function(parent){
 			return dateGroup;
 
 		},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 这之后的代码没有运行**********************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		getCalPrice : function(change){

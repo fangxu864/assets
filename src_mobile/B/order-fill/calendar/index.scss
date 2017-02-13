@@ -1,5 +1,5 @@
 
-#calendarWrap{
+.calendarWrap{
 	.calTop{
 		position: relative;
 		.navBtn{
@@ -9,13 +9,16 @@
 			bottom: 0;
 			line-height: 43px;
 			text-align : center;
-			i{
-				color : #000;
+			i.icon{
+				color : #0797d9;
 				font-size: 24px;
 			}
 		}
 		.prev{
 			left : 0;
+		}
+		.prev i.icon {
+			color: #dddce1;
 		}
 		.next{
 			right: 0;

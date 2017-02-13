@@ -1,4 +1,3 @@
-<!-- 景区套票 -->
 <div class="inputItem" id="ticketDate" >
 	<input id="playDate" class="topinput" type="text" placeholder="*游玩日期">
 	<i class="icon icon-pc-prompt icon-chanpinshangxiajia"></i>

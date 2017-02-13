@@ -1,0 +1,8 @@
+<div class="inputItem" id="showDate">
+	<input id="showDate" class="topinput" type="text" placeholder="*演出日期">
+	<i class="icon icon-pc-prompt icon-chanpinshangxiajia"></i>
+</div>
+<div class="inputItem" id="playTime">
+	<input id="playTimeInput" class="topinput" type="text" placeholder="*场次时间">
+	<i class="icon icon-pc-prompt icon-chanpinshangxiajia"></i>
+</div>

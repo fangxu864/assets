@@ -8,36 +8,24 @@ var GetCalendarPrice = require("./service/getCalendarPrice.js");
 var placeTicket = require("./tpl/placeTicket.xtpl");
 var contact = require("./tpl/addContact.xtpl");
 //组件模块
-var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
+// var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
 // var Calendar = require("COMMON/modules/calendar"); //日历 //不是这个
 // var When=require("COMMON/js/when.js");
 // var when=new When();
 
 
-
 //自己写日历
 var Calendar = require("./calendar/index.js");
 
 
-
 //各个类型模块
 
-var parent = $(".topInputGroup");
-// 酒店
-
-// var Hotel = require("./hotel/index.js");
-// Hotel(parent);
-
-// 景区套票  //调试日历分离 //type为A
-
-var Land = require("./land/index.js"); 
-Land(parent);
-
-
-
-
-
+var Land = require("./type/land/index.js");  //景区
+var Hotel = require("./type/hotel/index.js"); //酒店
+var Line = require("./type/line/index.js"); //线路
+var Play = require("./type/play/index.js");//演出
+var Food = require("./type/food/index.js");//餐饮
 
 
 
@@ -66,10 +54,6 @@ var Order_fill = PFT.Util.Class({
 			console.log("缺少id参数");	
 		}
 
-		console.log(this.aid);
-		console.log(this.pid);
-
-
 		this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
 
 		this.getBookInfo(); //根据不同类型分辨
@@ -80,6 +64,29 @@ var Order_fill = PFT.Util.Class({
 
 	},
 
+	//获取id与type
+	getId : function(){
+
+		var url = window.location.href;
+		var index = url.indexOf("?");
+
+		if( index > 0 ){
+			var ids = url.split("?");
+			var id = ids[1].split("&");
+			var aid = id[0].split("=");
+			var pid = id[1].split("=");
+			var type = id[2].split("=");
+			return {
+				aid : aid[1],
+				pid : pid[1],
+				type : type[1]
+			}	
+		}else{
+			return false
+		}
+
+	},
+	//获取当天的日期
 	getNowDate : function(){
 
 		var date=new Date;
@@ -111,6 +118,258 @@ var Order_fill = PFT.Util.Class({
 
 	},
 
+
+	getBookInfo : function () {
+
+		// $("#ticketList li").each(function (index,value) {
+			// var id = $(value).attr("data-id");
+
+			var that = this;
+
+			var params = {
+				token : PFT.Util.getToken(),
+				aid : this.aid,
+				pid : this.pid
+			};
+
+			
+			//2017/2/9
+			//后端提供调试pid
+			// 线路 = 57958, 58111
+			// 酒店 = 26397, 26398
+			// 演出 = 58004, 58114
+			// 餐饮 = 58004, 58114
+			// 套票 = 58105, 58107
+			// 景区 = 25267, 26398
+
+			// A:景区,B:线路,F:套票,H:演出,C:酒店
+			// G:餐饮 //餐饮是后面加的
+
+			params.pid = 26397; //先写死
+			this.type = "C";
+
+
+			GetBookInfo(params,{
+				loading:function () {},
+				success:function (req) {
+
+					that.handleBookInfo(req);
+					
+					// var tickets = req.data.tickets;
+					// $(value).find(".ticketName").text(req.data.title);
+					// if(tickets){
+					// 	var html="";
+					// 	for(var i in tickets){
+					// 		html += "+"+tickets[i].title
+					// 	}
+
+					// 	$(value).find(".details").show();
+					// 	$(value).find(".ticketSon").text(html)
+					// }
+
+				},
+				complete:function () {}
+			})
+
+		// });
+	},
+
+	handleBookInfo : function(res){
+
+		var ticketList = res.tickets;
+		if(ticketList.length == 0){
+			console.log("无票");
+		}
+		$("#placeText").text(res.title);
+
+		var type = this.type;
+
+		// A:景区,B:线路,F:套票,H:演出,C:酒店
+		// G:餐饮 //餐饮是后面加的
+
+		var parent = $(".topInputGroup");
+
+		//根据type不同分别判断显示Input
+		if(type == "A" || type == "F"){  //景区
+			this.InputGroup = Land(parent,this.aid,this.pid);
+		} 		
+		if(type == "C"){ //酒店
+			this.InputGroup = Hotel(parent,this.aid,this.pid);
+		}
+		if(type == "B"){ //线路
+			this.InputGroup = Line(parent,this.aid,this.pid);
+		}
+		if(type == "H"){ //演出
+			this.InputGroup = Play(parent,this.aid,this.pid);
+		}
+		if(type == "G"){ //餐饮
+			this.InputGroup = Food(parent,this.aid,this.pid);
+		}
+
+		//处理票
+		this.renderTicketList(ticketList); 
+
+	},
+
+	renderTicketList : function(list){
+
+		var that = this;
+
+		var data = {};
+		data.list = list;
+		var ticketsHtml = this.ticketTemplate(data);	
+
+		//获取pids
+		var pids = "";
+		for(var i = 0;i<list.length;i++){
+
+			if( i == 0){
+				pids = list[i].pid;
+			}else{
+				pids += "-" +list[i].pid  ;
+			}
+
+		}
+
+		$("#ticketList").html(ticketsHtml);
+
+		//获取日历对象
+
+		if( this.type == "C"){ //酒店有两个
+			this.calendar1 = this.InputGroup.calendar1;		
+			this.calendar2 = this.InputGroup.calendar2;					
+			//入住
+			this.calendar1.on("next",function(){
+				console.log("点击了前进按钮1");	
+			});
+			this.calendar1.on("prev",function(){
+				console.log("点击了后退按钮1");	
+			});
+			this.calendar1.on("daySelect",function(){
+				var selectedDay = that.calendar1.selectedDay;
+				that.hotelDateChange(1,selectedDay);
+				// that.getPriceAndStorage(selectedDay,pids);
+			});
+			//离店
+			this.calendar2.on("next",function(){
+				console.log("点击了前进按钮2");	
+			});
+			this.calendar2.on("prev",function(){
+				console.log("点击了后退按钮2");	
+			});
+			this.calendar2.on("daySelect",function(){
+				var selectedDay = that.calendar2.selectedDay;
+				that.hotelDateChange(2,selectedDay);				
+				// that.getPriceAndStorage(selectedDay,pids);
+			});
+		}else{
+			this.calendar = this.InputGroup.calendar;		
+			// 发布订阅
+			this.calendar.on("next",function(){
+				console.log("点击了前进按钮");	
+			});
+			this.calendar.on("prev",function(){
+				console.log("点击了后退按钮");	
+			});
+			this.calendar.on("daySelect",function(){
+				var selectedDay = that.calendar.selectedDay;
+				that.getPriceAndStorage(selectedDay,pids);
+			});
+		}
+		
+
+	},
+
+
+	getPriceAndStorage : function(selectedDay,pids){
+
+		var params = {
+			token : PFT.Util.getToken(),
+			aid : this.aid,
+			date : selectedDay,
+			pids : pids 
+		};
+
+		GetPriceAndStorage(params,{
+			loading:function () {},
+			success:function (res) {
+
+				console.log(res);
+				if(res.length == 0){
+					console.log("接口暂时还不能用");
+				}
+
+			},
+			complete:function () {}
+		});	
+
+	},
+
+
+	hotelDateChange : function(flag,selectedDay){
+
+		//flag : 1为入店 2为离店
+
+		var arr = selectedDay.split("-");
+		var day = arr[0];
+		var month = arr[1];
+		var year = arr[2];
+
+
+		if( flag == 1 ){
+
+			console.log(this.calendar1.nowSelectWeek);
+			var dateSelectText = month + "月" + day + "日";
+			console.log(dateSelectText);
+
+		}else if( flag == 2 ){
+
+			console.log(this.calendar2.nowSelectWeek);
+			var dateSelectText = month + "月" + day + "日";
+			console.log(dateSelectText);
+
+		} 
+
+
+
+
+
+
+	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//以下代码为多余*******************************************************************************************************************************************
 
 	initCalendar : function(){
 
@@ -233,28 +492,6 @@ var Order_fill = PFT.Util.Class({
 
 	},
 
-	
-	getId : function(){
-
-		var url = window.location.href;
-		var index = url.indexOf("?");
-
-		if( index > 0 ){
-			var ids = url.split("?");
-			var id = ids[1].split("&");
-			var aid = id[0].split("=");
-			var pid = id[1].split("=");
-			var type = id[2].split("=");
-			return {
-				aid : aid[1],
-				pid : pid[1],
-				type : type[1]
-			}	
-		}else{
-			return false
-		}
-
-	},
 
 	getCalPrice : function(change){
 
@@ -373,143 +610,49 @@ var Order_fill = PFT.Util.Class({
 
 
 
-	getBookInfo : function () {
+	
 
-		// $("#ticketList li").each(function (index,value) {
-			// var id = $(value).attr("data-id");
-
-			var that = this;
-
-			var params = {
-				token : PFT.Util.getToken(),
-				aid : this.aid,
-				pid : this.pid
-			};
-
-			
-			//2017/2/9
-			//后端提供调试pid
-			// 线路 = 57958, 58111
-			// 酒店 = 26397, 26398
-
-			params.pid = 26398; //先写死
-			this.type = "A"; //先写死成对应类型
+	
 
 
-			GetBookInfo(params,{
-				loading:function () {},
-				success:function (req) {
-
-					that.handleBookInfo(req);
-					
-					// var tickets = req.data.tickets;
-					// $(value).find(".ticketName").text(req.data.title);
-					// if(tickets){
-					// 	var html="";
-					// 	for(var i in tickets){
-					// 		html += "+"+tickets[i].title
-					// 	}
-
-					// 	$(value).find(".details").show();
-					// 	$(value).find(".ticketSon").text(html)
-					// }
-
-				},
-				complete:function () {}
-			})
-
-		// });
-	},
-
-	handleBookInfo : function(res){
-
-		var ticketList = res.tickets;
-		if(ticketList.length == 0){
-			console.log("无票");
-		}
-		$("#placeText").text(res.title);
-
-		var type = this.type;
-
-		// A:景区,B:线路,F:套票,H:演出,C:酒店
-		// G:餐饮 //餐饮是后面加的
-
-		// console.log(type);
-
-		//根据type不同分别判断显示
-		if(type == "A" || type == "F"){  //景区和套票是一起的?
-			// $("#ticketDate").css("display","block");
-
-		} 		
-		if(type == "C"){ //酒店
-			$("#hotelDate").css("display","flex");
-		}
-		if(type == "B"){ //线路
-			$("#lineDate").css("display","block");
-			$("#lineLoca").css("display","block");
-		}
-		if(type == "H"){ //演出
-			$("#showDate").css("display","block");
-			$("#playTime").css("display","block");
-		}
-		if(type == "G"){ //餐饮
-			$("#mealDate").css("display","block");
-		}
-
-		//pids产品ID集合,用于获取价格和库存
-		// console.log(ticketList);
+	// getPriceAndStorage : function (selectedDay) { //传入被选中的天数
 
 
-		this.renderTicketList(ticketList); 
-
-	},
-
-	renderTicketList : function(list){
-		var data = {};
-		data.list = list;
-		var ticketsHtml = this.ticketTemplate(data);	
-		$("#ticketList").html(ticketsHtml);
-	},
+	// 	if( selectedDay != "disable"){
 
 
-	getPriceAndStorage : function (selectedDay) { //传入被选中的天数
+	// 		var that = this;
+	// 		var month = (this.nowMonthFlag<10 ? "0"+this.nowMonthFlag:this.nowMonthFlag); 
+	// 		var date = this.nowYearFlag + "-" + month + "-" + selectedDay;
+	// 		console.log(date);
+
+	// 		// var params = {
+	// 		// 	token : PFT.Util.getToken(),
+	// 		// 	aid : this.aid,
+	// 		// 	date : date,
+	// 		// 	pids : 
+	// 		// };
 
 
-		if( selectedDay != "disable"){
+	// 		// GetPriceAndStorage(params,{
+	// 		// 	loading:function () {},
+	// 		// 	success:function (req) {
+	// 		// 		console.log(req);
+	// 		// 		var template = PFT.Util.ParseTemplate(placeTicket);
+	// 		// 		var htmlStr = template({data:req.data});
+	// 		// 		$("#ticketList").empty().append(htmlStr);
+
+	// 		// 		This.getBookInfo()
+
+	// 		// 	},
+	// 		// 	complete:function () {}
+	// 		// });	
 
 
-			var that = this;
-			var month = (this.nowMonthFlag<10 ? "0"+this.nowMonthFlag:this.nowMonthFlag); 
-			var date = this.nowYearFlag + "-" + month + "-" + selectedDay;
-			console.log(date);
-
-			// var params = {
-			// 	token : PFT.Util.getToken(),
-			// 	aid : this.aid,
-			// 	date : date,
-			// 	pids : 
-			// };
-
-
-			// GetPriceAndStorage(params,{
-			// 	loading:function () {},
-			// 	success:function (req) {
-			// 		console.log(req);
-			// 		var template = PFT.Util.ParseTemplate(placeTicket);
-			// 		var htmlStr = template({data:req.data});
-			// 		$("#ticketList").empty().append(htmlStr);
-
-			// 		This.getBookInfo()
-
-			// 	},
-			// 	complete:function () {}
-			// });	
-
-
-		}
+	// 	}
 		
 
-	},
+	// },
 
 
 

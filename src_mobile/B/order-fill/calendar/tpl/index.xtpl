@@ -1,9 +1,9 @@
-<div class="calendarWrap" id="calendarWrap">
+<div class="calendarWrap" id="<%=data.id%>">
 	<div class="calTop">
 		<div class="navBtn prev">
 			<i class="icon icon-u-regular icon-jiantou"></i>
 		</div>
-		<div class="calTopText"><%=nowDate%></div>
+		<div class="calTopText"><%=data.nowDate%></div>
 		<div class="navBtn next">
 			<i class="icon icon-u-regular icon-youjiantou"></i>
 		</div>

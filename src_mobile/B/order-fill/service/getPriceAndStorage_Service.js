@@ -4,8 +4,10 @@ module.exports = function(params,opt){
     PFT.Util.Ajax("/r/MicroPlat_Product/getPriceAndStorage",{
         type : "post",
         params : {
-            module_id : params.module_id,
-            ptypeApp : params.ptypeApp,
+            token : params.token,
+            aid : params.aid,
+            date : params.date,
+            pids : params.pids
         },
         loading : opt.loading,
         complete : opt.complete,
