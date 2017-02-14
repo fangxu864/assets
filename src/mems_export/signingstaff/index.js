@@ -150,11 +150,15 @@ var SigningStaff = {
         var template = ParseTemplate(con_tpl);
         var html = template({data: data});
         this.container.html(html);
-        data.contract_model = "3";
         //初始化签约信息
         //合作模式
         if(data.contract_model){
-            his.container.find(".contract_model option[value = "+data.contract_model+"]").attr("selected","true");
+            this.container.find(".contract_model option[value = "+data.contract_model+"]").attr("selected","true");
+        }
+        //是否回款
+        if(data.is_pay == 1){
+            
+
         }
         //客服和签单人
         this.container.find(".salerSelect option[value = "+data.salesID+"]").attr("selected","true");
