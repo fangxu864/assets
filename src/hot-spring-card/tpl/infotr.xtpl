@@ -1,9 +1,5 @@
 
-<tr>
-    <td class="countColor" colspan="6"><span class="u-span_countAll">共 <%=data.num%>个</span> <span class="u-span_countBlue">蓝 <%=data.blue%>个</span> <span class="u-span_countPink">粉 <%=data.pink%>个</span> </td>
-</tr>
 
-<% _.each(data.list,function(arr,i){ %>
 <tr>
     <td class="crd_card_no"><%=arr.visible_no%></td>
     <td class="crd_phy_no"><%=arr.physics_no%></td>
@@ -40,6 +36,4 @@
          <a class="u-btn_undisable status" data-status="1">解除禁用</a>
         </td> 
         <% break;} %>
-
 </tr>
-<%})%>

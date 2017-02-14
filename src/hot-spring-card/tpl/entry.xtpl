@@ -10,7 +10,7 @@
                             </div>
                             <div class="u-input_box">
                                 <span class="u-span">手牌号：</span>
-                                <input type="text" name="visibleNo" class="u-input card_no"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
+                                <input type="text" name="visibleNo" data-type="entry" class="u-input card_no"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
                             </div>
                             <div class="u-input_box">
                                 <span class="u-span">手牌背景色：</span> <select name="color" class="cardBg">
@@ -40,7 +40,7 @@
                             </div>
                             <div class="u-input_box">
                                 <span class="u-span">手牌号：</span>
-                                <input type="text" name="visibleNo" class="u-input card_no"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
+                                <input type="text" name="visibleNo" data-type="edit" class="u-input card_no"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
                             </div>
                             <div class="u-input_box">
                                 <span class="u-span">手牌背景色：</span> <select name="color" class="cardBg">
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="m-modal_bg loss">
+                <div class="m-modal_bg loss" id="lossModal">
                     <div class="m-modal loss">
                         <div class="u-modal_content"></div>
                         <div class="u-modal_btnBox">
@@ -86,7 +86,7 @@
                         <div class="u-modal_inpBox">
                             <div class="u-input_box">
                                 <span class="u-span">新手牌：</span>
-                                <input type="text" name="visibleNo" class="u-input card_no"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
+                                <input type="text" name="visibleNo" data-type="change" class="u-input card_no"><span class="u-span_des card_no">使用箱号或手牌上印制的卡号</span>
 
                             </div>
                             <div class="u-input_box">
