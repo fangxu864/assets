@@ -149,11 +149,27 @@ var SigningStaff = {
     renderCon :  function (data) {
         var template = ParseTemplate(con_tpl);
         var html = template({data: data});
-        console.log(this.container);
+        console.log(typeof data.module)
         this.container.html(html);
-        //初始化客服和签单人
+        //初始化签约信息
+        //客服和签单人
         this.container.find(".salerSelect option[value = "+data.salesID+"]").attr("selected","true");
         this.container.find(".kefuSelect option[value = "+data.kefuID+"]").attr("selected","true");
+        //协议日期
+        if(data.protocol_start != '0000-00-00'){
+            this.container.find(".signInfo .protocol_start").val(data.protocol_start);
+        }
+        if(data.protocol_end != '0000-00-00'){
+            this.container.find(".signInfo .protocol_end").val(data.protocol_end);
+        }
+        //合同编号
+        this.container.find(".signInfo .contract_num").val(data.contract_num);
+        //协议标准
+        this.container.find(".signInfo .protocol_main").val(data.protocol_main);
+        //协议价格
+        this.container.find(".signInfo .protocol_meal").val(data.protocol_meal);
+        
+
         //初始化费用配置
         this.container.find(".feeConfig .fee_platform").val(data.fee_platform);
         this.container.find(".feeConfig .fee_sms").val(data.fee_sms);

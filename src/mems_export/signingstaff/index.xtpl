@@ -52,7 +52,7 @@
             <div class="line line3">
                 <div class="td td1">合同编号</div>
                 <div class="td td2">
-                    <input type="text">
+                    <input type="text" class="contract_num"/>
                 </div>
             </div>
 
@@ -67,12 +67,15 @@
                 <div class="td td3">
                     <input type="text" class="protocol_end"/>
                 </div>
+                <div class="td td4" style="color: red">
+                    日期格式必须是"xxxx-xx-xx"
+                </div>
             </div>
 
             <div class="line line5">
-                <div class="td td1">协议价</div>
+                <div class="td td1">协议价格</div>
                 <div class="td td2">
-                    <input type="text">
+                    <input type="text" class="protocol_meal"/>
                 </div>
                 <span>元</span>
             </div>
@@ -80,7 +83,7 @@
             <div class="line line6">
                 <div class="td td1">协议标准</div>
                 <div class="td td2">
-                    <textarea name="" id="" cols="80" rows="3"></textarea>
+                    <textarea name="" id="" cols="80" rows="3" class="protocol_main"></textarea>
                 </div>
             </div>
 
