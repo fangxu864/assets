@@ -322,13 +322,14 @@ var Main = PFT.Util.Class({
 		var headphoto = data.headphoto;
 		if(headphoto){
 			setTimeout(function(){
-				container.append('<div class="uploadResultImg"><img src="'+headphoto+'"/></div>');
+				var def = "//static.12301.cc/assets/build/images/defaultThum.jpg";
+				container.append('<div class="uploadResultImg"><img onerror="this.src=\'//static.12301.cc/assets/build/images/defaultThum.jpg\'; this.onerror=null" src="'+headphoto+'"/></div>');
 			},20)
 		}
 	},
 	render : function(data){
 		var that = this;
-		data = $.extend({
+		var _data = $.extend({
 			fid : this.fid,
 			mobile : "",                 //手机号
 			id_card_no : "",             //身份证
@@ -345,15 +346,18 @@ var Main = PFT.Util.Class({
 			open_name : "",
 			sex : "M"
 		},data || {});
-		var html = Tpl.index(data);
+
+		_data["editMode"] = this.editMode;
+
+		var html = Tpl.index(_data);
 		this.container.html(html);
 		setTimeout(function(){
-			that.initProvCity(data);
-			that.initImgUpload(data);
+			that.initProvCity(_data);
+			that.initImgUpload(_data);
 			if($("#mobileInp").attr("readonly")!=="readonly"){
 				that.validator["mobile"] = that.validateMobile();
 			}
-			that.validator["vcode"] = that.validateVCode();
+			if(!that.editMode) that.validator["vcode"] = that.validateVCode();
 			if($("#idcardInp").attr("readonly")!=="readonly"){
 				that.validator["idcard"] = that.validateIDCard();
 			}
@@ -406,7 +410,6 @@ var Main = PFT.Util.Class({
 
 		var submitData = {
 			mobile : $.trim($("#mobileInp").val()),
-			vcode : $.trim($("#checkmaInp").val()),
 			id_card_no : $.trim($("#idcardInp").val()),
 			card_no : $.trim($("#card_no_inp").val()),
 			phy_no : $.trim($("#phy_no_inp").val()),
@@ -420,6 +423,10 @@ var Main = PFT.Util.Class({
 			remarks : $("#remarksTextarea").val(),
 			notice_type : $("#sendTypeBox").find("input:checked").val()
 		};
+
+		if(!this.editMode){ //新建模式需要vcode  编辑模式不需要vcode 
+			submitData["vcode"] = $.trim($("#checkmaInp").val());
+		}
 
 		if(this.fid){
 			submitData["card"] = 0;
