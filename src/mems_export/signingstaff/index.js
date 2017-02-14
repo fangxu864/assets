@@ -125,6 +125,8 @@ var SigningStaff = {
                     _this.container.find(".feeConfig .fee_code").val(1);
                     _this.container.find(".openApp").hide();
                     break;
+                default :
+                    _this.container.find(".openApp").show();
             }
         });
 
@@ -195,6 +197,11 @@ var SigningStaff = {
         var template = ParseTemplate(con_tpl);
         var html = template({data: data});
         this.container.html(html);
+        //初始化开通应用初始数据
+        for(var i= 0 ; i < data.module.length ; i++){
+            this.openAppInitialData[data.module[i]["id"]] = data.module[i]["open"]
+        }
+        console.log(this.openAppInitialData);
         //合作模式
         if(data.contract_model){
             this.container.find(".signInfo .contract_model option[value = "+data.contract_model+"]").attr("selected","true");
@@ -255,11 +262,15 @@ var SigningStaff = {
 
         //初始化开通应用
 
-    }
+    },
+
+    /**
+     * 初始的开通应用的数据
+     */
+    openAppInitialData : {}
 };
 
 $.subscribe("signingStaffClick",function () {
     var Data = arguments[1];
-    console.log(SigningStaff.Dial);
     SigningStaff.init(Data)
 });
