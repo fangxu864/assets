@@ -33,7 +33,7 @@ var Recharge={
                 "url":"/r/pay_WxPay/order/",
                 "title":"微信二维码支付",
                 "account":"票付通",
-                "money": $(".totalPay .orange").text().match(/\d+\.\d+/)[0]
+                "money": $(".totalPay .orange").text().match(/[\d\.]+/)[0]
             });
         });
         // //重新登录
