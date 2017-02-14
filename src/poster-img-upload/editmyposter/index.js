@@ -125,8 +125,8 @@ productposter.prototype = {
                 }
             });
 
-        }); 
-        //Select插件随滚动条滚动bug解决   
+        });
+        //Select插件随滚动条滚动bug解决
 
         $("#selectInput").on("focus",function(e){
            var gSim=$(".gSimpleDialog-container");
@@ -134,7 +134,7 @@ productposter.prototype = {
            var h=$(this)[0].scrollHeight;
            var Y=$(this).offset().top+h;
             $("#gSelectDownBox_1").css("top",Y+"px");
-                      
+
         });
 
         //确定产品
@@ -184,17 +184,17 @@ productposter.prototype = {
             that.dialog.close();  //关闭dialog
         })
 
-        
+
         //获取自定义海报文件
         this.inputposter.change(function(){
-            
+
             var file = this.files[0];
             var reader=new FileReader();
             reader.readAsDataURL(file);
             reader.onload=function(){
 
                 var url=reader.result;
-                
+
                 that.selpic.css("max-width","100%");
                 that.selpic.attr("src",url);
 
@@ -267,47 +267,47 @@ productposter.prototype = {
                 "y":qry
             }
 
+            if(that.idBox.length == 2){
 
-            //先保存产品 海报背景图请求   //手动传，不和保存产品海报一起
-            var url2 = "/r/Mall_Poster/saveProPosterBg/";
-            // that.submitImgformData(formbgdata,url2);
-            if(window.FormData){
-                var xhr1 = new XMLHttpRequest();
-                xhr1.open("POST",url2);
-                var url = "";
-                xhr1.onload = function(e){
-                    var e = e? e : window.e;
-                    var target = e.srcElement ? e.srcElement : e.target;
-                    if(xhr1.status==200){
-                        res = target.responseText;
-                        res = JSON.parse(res);
-                        var code = res.code;
-                        var data = res.data || {};
-                        url = data.url;
-                        var msg = res.msg
-                        if(code==200 && url){
+                //先保存产品 海报背景图请求   //手动传，不和保存产品海报一起
+                var url2 = "/r/Mall_Poster/saveProPosterBg/" + '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
+                // that.submitImgformData(formbgdata,url2);
+                if(window.FormData){
+                    var xhr1 = new XMLHttpRequest();
+                    xhr1.open("POST",url2);
+                    var url = "";
+                    xhr1.onload = function(e){
+                        var e = e? e : window.e;
+                        var target = e.srcElement ? e.srcElement : e.target;
+                        if(xhr1.status==200){
+                            res = target.responseText;
+                            res = JSON.parse(res);
+                            var code = res.code;
+                            var data = res.data || {};
+                            url = data.url;
+                            var msg = res.msg
+                            if(code==200 && url){
 
-                            that.urlsave.push(url);
+                                that.urlsave.push(url);
 
-                            //在海报背景图保存成功以后保存产品海报
-                            var url1 = "/r/Mall_Poster/saveProPoster/";
-                            that.submitImgformData(formcanvasdata,url1,qrdata);
+                                //在海报背景图保存成功以后保存产品海报
+                                var url1 = "/r/Mall_Poster/saveProPoster/" + '?lid='+that.idBox[0]+'&sid='+that.idBox[1];
+                                that.submitImgformData(formcanvasdata,url1,qrdata);
 
+                            }else{
+                                alert(msg);
+                            }
+                        }else if(xhr.status==413){
+                            alert("您上传的图片过大");
                         }else{
-                            alert(msg);
+                            alert(xhr.status);
                         }
-                    }else if(xhr.status==413){
-                        alert("您上传的图片过大");
-                    }else{
-                        alert(xhr.status);
                     }
+                    xhr1.send(formbgdata);
+                }else{
+                    alert("您的浏览器不支持FormData对象");
                 }
-                xhr1.send(formbgdata);
-            }else{
-                alert("您的浏览器不支持FormData对象");
             }
-
-
         });
 
         //取消修改  （单纯的刷新页面）
