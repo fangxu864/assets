@@ -55,6 +55,7 @@ var SigningStaff = {
     bind : function () {
         var _this = this;
         //日期
+        this.container.off();
         this.container.on("click" , ".protocol_start" ,function () {
             var _this = $(this);
             var initVal = _this.val() ;
@@ -129,6 +130,26 @@ var SigningStaff = {
                     _this.container.find(".openApp").show();
             }
         });
+        //确认按钮点击
+        this.container.on("click",".bottom .center .yesBtn",function () {
+            var openAppDataArr = [];
+            $(".openApp .line1 input").each(function (i) {
+                openAppDataArr.push( $(this).attr("data-id") + "-" + $(this).get(0).checked )
+            });
+            var addArr = [];//新增的数组
+            var diffArr = [];//移除的数组
+            for( var i = 0 ; i < openAppDataArr.length ; i++ ){
+                if( openAppDataArr[i] !== _this.openAppInitialData[i]){
+                    if(/true/.test(openAppDataArr[i])){
+                        addArr.push(openAppDataArr[i].match(/[\d]+/)[0])
+                    }else{
+                        diffArr.push( _this.openAppInitialData[i].match(/[\d]+/)[0] )
+                    }
+                }
+            }
+            console.log(addArr);
+            console.log(diffArr)
+        })
 
     },
 
@@ -198,8 +219,9 @@ var SigningStaff = {
         var html = template({data: data});
         this.container.html(html);
         //初始化开通应用初始数据
+        this.openAppInitialData = [] ;
         for(var i= 0 ; i < data.module.length ; i++){
-            this.openAppInitialData[data.module[i]["id"]] = data.module[i]["open"]
+            this.openAppInitialData.push( [data.module[i]["id"]] + "-" + data.module[i]["open"] )
         }
         console.log(this.openAppInitialData);
         //合作模式
@@ -267,7 +289,7 @@ var SigningStaff = {
     /**
      * 初始的开通应用的数据
      */
-    openAppInitialData : {}
+    openAppInitialData : []
 };
 
 $.subscribe("signingStaffClick",function () {
