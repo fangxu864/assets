@@ -111,11 +111,14 @@ var Main = RichBase.extend({
             tarBtn.parents(".dropWrap").find(".moreIcon").html("&#xe673;");
             switch(type){
                 case "1":
-                $("#CounterFee").val("5");
-                break;
+                    $("#CounterFee").val("5");
+                    break;
                 case "2":
-                $("#CounterFee").val("4");
-                break;
+                    $("#CounterFee").val("4");
+                    break;
+                case "3":
+                    $("#CounterFee").val("0");
+                    break;
                 default:
                 // $("#CounterFee").val("0");
             }
