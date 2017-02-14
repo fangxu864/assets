@@ -49,7 +49,12 @@ var SigningStaff = {
 
     } ,
 
+    /**
+     * @method 绑定事件
+     */
     bind : function () {
+        var _this = this;
+        //日期
         this.container.on("click" , ".protocol_start" ,function () {
             var _this = $(this);
             var initVal = _this.val() ;
@@ -81,7 +86,47 @@ var SigningStaff = {
                 onBefore : function(){},     //弹出日历前callback
                 onAfter : function(){}       //弹出日历后callback
             });
-        })
+        });
+        //全选事件
+        this.container.on("click" ,".openApp .selectAll", function (e) {
+            if($(this).get(0).checked){
+                _this.container.find(".openApp .line1 input.notSelf[type = checkbox]").attr("checked",true);
+            }else{
+                _this.container.find(".openApp .line1 input.notSelf[type = checkbox]").attr("checked",false);
+            }
+        });
+        //含“自”checkbox 不予点击
+        this.container.on("click" ,".openApp .line1 input.self",function(){
+            return false;
+        });
+        //给合作模式select添加事件
+        this.container.on("change" ,".signInfo .contract_model",function(){
+            switch ($(this).find("option:selected").val()){
+                /**
+                 * 1 套餐  2 票务  3 订单
+                 * 当合作模式为套餐时，凭证费=平台手续费=0 ，允许配置开通应用
+                 * 票务时，凭证费 = 0,不允许配置开通应用
+                 * 订单时，凭证费 = 1，不允许配置开通应用
+                 */
+                case "1" :
+                    //平台使用费
+                    _this.container.find(".feeConfig .fee_platform").val(0);
+                    //凭证费
+                    _this.container.find(".feeConfig .fee_code").val(0);
+                    _this.container.find(".openApp").show();
+                    break;
+                case "2" :
+                    //凭证费
+                    _this.container.find(".feeConfig .fee_code").val(0);
+                    _this.container.find(".openApp").hide();
+                    break;
+                case "3" :
+                    //凭证费
+                    _this.container.find(".feeConfig .fee_code").val(1);
+                    _this.container.find(".openApp").hide();
+                    break;
+            }
+        });
 
     },
 
@@ -150,39 +195,66 @@ var SigningStaff = {
         var template = ParseTemplate(con_tpl);
         var html = template({data: data});
         this.container.html(html);
-        //初始化签约信息
         //合作模式
         if(data.contract_model){
-            this.container.find(".contract_model option[value = "+data.contract_model+"]").attr("selected","true");
+            this.container.find(".signInfo .contract_model option[value = "+data.contract_model+"]").attr("selected","true");
         }
-        //是否回款
-        if(data.is_pay == 1){
-            
-
+        switch (data.contract_model){
+            /**
+             * 1 套餐  2 票务  3 订单
+             * 当合作模式为套餐时，凭证费=平台手续费=0 ，允许配置开通应用
+             * 票务时，凭证费 = 0,不允许配置开通应用
+             * 订单时，凭证费 = 1，不允许配置开通应用
+             */
+            case 1 :
+                //平台使用费
+                this.container.find(".feeConfig .fee_platform").val(0);
+                //凭证费
+                this.container.find(".feeConfig .fee_code").val(0);
+                this.container.find(".openApp").show();
+                break;
+            case 2 :
+                //凭证费
+                this.container.find(".feeConfig .fee_code").val(0);
+                this.container.find(".openApp").hide();
+                break;
+            case 3 :
+                //凭证费
+                this.container.find(".feeConfig .fee_code").val(1);
+                this.container.find(".openApp").hide();
+                break;
         }
         //客服和签单人
-        this.container.find(".salerSelect option[value = "+data.salesID+"]").attr("selected","true");
-        this.container.find(".kefuSelect option[value = "+data.kefuID+"]").attr("selected","true");
+        this.container.find(".signInfo .salerSelect option[value = "+data.salesID+"]").attr("selected","true");
+        this.container.find(".signInfo .kefuSelect option[value = "+data.kefuID+"]").attr("selected","true");
+        //是否回款
+        // if(data.is_pay == 1){
+        //     this.container.find(".signInfo .is_pay").attr("checked","true");
+        // }
+
         //协议日期
-        if(data.protocol_start != '0000-00-00'){
-            this.container.find(".signInfo .protocol_start").val(data.protocol_start);
-        }
-        if(data.protocol_end != '0000-00-00'){
-            this.container.find(".signInfo .protocol_end").val(data.protocol_end);
-        }
-        //合同编号
-        this.container.find(".signInfo .contract_num").val(data.contract_num);
-        //协议标准
-        this.container.find(".signInfo .protocol_main").val(data.protocol_main);
-        //协议价格
-        this.container.find(".signInfo .protocol_meal").val(data.protocol_meal);
+        // if(data.protocol_start != '0000-00-00'){
+        //     this.container.find(".signInfo .protocol_start").val(data.protocol_start);
+        // }
+        // if(data.protocol_end != '0000-00-00'){
+        //     this.container.find(".signInfo .protocol_end").val(data.protocol_end);
+        // }
+        // //合同编号
+        // this.container.find(".signInfo .contract_num").val(data.contract_num);
+        // //协议标准
+        // this.container.find(".signInfo .protocol_main").val(data.protocol_main);
+        // //协议价格
+        // this.container.find(".signInfo .protocol_meal").val(data.protocol_meal);
         
 
         //初始化费用配置
-        this.container.find(".feeConfig .fee_platform").val(data.fee_platform);
-        this.container.find(".feeConfig .fee_sms").val(data.fee_sms);
-        this.container.find(".feeConfig .fee_code").val(data.fee_code);
-        this.container.find(".feeConfig .fee_bank").val(data.fee_bank)
+        // this.container.find(".feeConfig .fee_platform").val(data.fee_platform);
+        // this.container.find(".feeConfig .fee_sms").val(data.fee_sms);
+        // this.container.find(".feeConfig .fee_code").val(data.fee_code);
+        // this.container.find(".feeConfig .fee_bank").val(data.fee_bank)
+
+        //初始化开通应用
+
     }
 };
 

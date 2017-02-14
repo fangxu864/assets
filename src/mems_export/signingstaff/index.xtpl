@@ -27,7 +27,7 @@
                     </select>
                 </div>
                 <div class="td td3">
-                    <input type="checkbox"><span>是否回款</span>
+                    <input type="checkbox" class="is_pay" checked="<%=data.is_pay == 1 ? true : false%>"/><span>是否回款</span>
                 </div>
 
             </div>
@@ -53,20 +53,20 @@
             <div class="line line3">
                 <div class="td td1">合同编号</div>
                 <div class="td td2">
-                    <input type="text" class="contract_num"/>
+                    <input type="text" class="contract_num" value="<%=data.contract_num%>"/>
                 </div>
             </div>
 
             <div class="line line4">
                 <div class="td td1">协议日期</div>
                 <div class="td td2">
-                    <input type="text" class="protocol_start"/>
+                    <input type="text" class="protocol_start" value="<%=data.protocol_start != '0000-00-00' ? protocol_start : ''%>"/>
                 </div>
                 <div class="td">
                     <span>至</span>
                 </div>
                 <div class="td td3">
-                    <input type="text" class="protocol_end"/>
+                    <input type="text" class="protocol_end" value="<%=data.protocol_end != '0000-00-00' ? protocol_end : ''%>"/>
                 </div>
                 <div class="td td4" style="color: red">
                     日期格式必须是"xxxx-xx-xx"
@@ -76,7 +76,7 @@
             <div class="line line5">
                 <div class="td td1">协议价格</div>
                 <div class="td td2">
-                    <input type="text" class="protocol_meal"/>
+                    <input type="text" class="protocol_meal" value="<%=data.protocol_meal%>"/>
                 </div>
                 <span>元</span>
             </div>
@@ -84,7 +84,7 @@
             <div class="line line6">
                 <div class="td td1">协议标准</div>
                 <div class="td td2">
-                    <textarea name="" id="" cols="80" rows="3" class="protocol_main"></textarea>
+                    <textarea name=""  cols="80" rows="3" class="protocol_main"><%=data.protocol_main%></textarea>
                 </div>
             </div>
 
@@ -94,14 +94,14 @@
              <div class="line line1">
                  <div class="td td1">提现手续费率</div>
                  <div class="td td2">
-                     <input type="text" class="fee_bank"/>
+                     <input type="text" class="fee_bank" value="<%=data.fee_bank%>"/>
                  </div>
                  <span>%</span>
              </div>
              <div class="line line2">
                  <div class="td td1">凭证费</div>
                  <div class="td td2">
-                     <input type="text" class="fee_code"/>
+                     <input type="text" class="fee_code" value="<%=data.fee_code%>"/>
                  </div>
                  <span>元/单</span>
              </div>
@@ -109,7 +109,7 @@
               <div class="line line2">
                  <div class="td td1">短信费</div>
                  <div class="td td2">
-                     <input type="text" class="fee_sms"/>
+                     <input type="text" class="fee_sms" value="<%=data.fee_sms%>"/>
                  </div>
                  <span>元/条</span>
              </div>
@@ -117,7 +117,7 @@
               <div class="line line2">
                  <div class="td td1">平台使用费</div>
                  <div class="td td2">
-                     <input type="text" class="fee_platform"/>
+                     <input type="text" class="fee_platform" value="<%=data.fee_platform%>"/>
                  </div>
                  <span>元/人</span>
              </div>
@@ -126,127 +126,24 @@
         <div class="openApp">
              <div class="title-two">
                  <span>开通应用</span>
-                 <input type="checkbox">
+                 <input type="checkbox" class="selectAll"/>
                  <span>全选</span>
                  </div>
              <div class="line line1">
-                 <div class="td">
-                      <input type="checkbox">
-                      <span>微商城</span>
-
-                 </div>
-                 <div class="td">
-                      <input type="checkbox">
-                      <span>微商城</span>
-                      <span>（自）</span>
-                 </div>
-                 <div class="td">
-                      <input type="checkbox">
-                      <span>微商城</span>
-                      <span>（自）</span>
-                 </div>
-                 <div class="td">
-                      <input type="checkbox">
-                      <span>微商城</span>
-                      <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
-                 <div class="td">
-                     <input type="checkbox">
-                     <span>微商城</span>
-                     <span>（自）</span>
-                 </div>
+                 <% _.each(data.module,function(item,index){ %>
+                     <div class="td">
+                         <input type="checkbox" data-id="<%=item.id%>" class="<%=item.self == true ? 'self' : 'notSelf' %>" <%=item.open == true ? "checked" : "" %> />
+                         <span><%=item.name%></span>
+                         <span style="color: red"><%=item.self == true ? "(自)" : "" %></span>
+                     </div>
+                 <% }) %>
              </div>
 
         </div>
     </div>
     <div class="bottom">
         <div class="center">
-            <span class="btn yesBtn">确认</span><span class="btn noBtn">取消</span>
+            <span class="btn yesBtn">确认</span>
         </div>
     </div>
 </div>
