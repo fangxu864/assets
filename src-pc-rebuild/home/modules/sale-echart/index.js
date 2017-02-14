@@ -3,17 +3,17 @@
  * Date: 2017/1/12 15:49
  * Description: ""
  */
-// 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/line');
-require('echarts/lib/chart/bar');
-require('echarts/lib/chart/pie');
-// 引入提示框和标题组件
-require('echarts/lib/component/legend');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
-require('echarts/lib/component/dataZoom');
+// // 引入 ECharts 主模块
+// var echarts = require('echarts/lib/echarts');
+// // 引入柱状图
+// require('echarts/lib/chart/line');
+// require('echarts/lib/chart/bar');
+// require('echarts/lib/chart/pie');
+// // 引入提示框和标题组件
+// require('echarts/lib/component/legend');
+// require('echarts/lib/component/tooltip');
+// require('echarts/lib/component/title');
+// require('echarts/lib/component/dataZoom');
 
 
 var Datepicker = require("COMMON/modules/datepicker");
@@ -228,11 +228,11 @@ module.exports = function(parent){
 								trigger: 'item',
 								formatter: "{a} <br/>{b} : {c} ({d}%)"
 							},
-							legend: {
-								orient: 'vertical',
-								left: 'left',
-								data: nameArr
-							},
+							// legend: {
+							// 	orient: 'vertical',
+							// 	left: 'left',
+							// 	data: nameArr
+							// },
 							series : [
 								{
 									name: '产品名称',
@@ -440,11 +440,11 @@ module.exports = function(parent){
 						_this.lineEchart.hideLoading();
 						var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
 
-						for( i in res.data.new){
-							newArr.push(res.data.new[i])
+						for( i in res.data["new"]){
+							newArr.push(res.data["new"][i])
 						}
-						for( j in res.data.old ){
-							oldArr.push(res.data.old[j])
+						for( j in res.data["old"] ){
+							oldArr.push(res.data["old"][j])
 						}
 						//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
 						for( k in res.data.timeLine ){
@@ -468,7 +468,7 @@ module.exports = function(parent){
 							},
 							toolbox: {
 								feature: {
-									saveAsImage: {}
+									saveAsImage: false
 								}
 							},
 							dataZoom: [
