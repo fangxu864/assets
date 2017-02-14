@@ -19,10 +19,11 @@
             <div class="line line2">
                 <div class="td td1">合作模式</div>
                 <div class="td td2">
-                    <select name="" id="">
-                        <option value="套餐">套餐</option>
-                        <option value="订单">订单</option>
-                        <option value="票务">票务</option>
+                    <select name="" id="" class="contract_model">
+                        <option value="请选择">请选择</option>
+                        <option value="1">套餐</option>
+                        <option value="2">票务</option>
+                        <option value="3">订单</option>
                     </select>
                 </div>
                 <div class="td td3">

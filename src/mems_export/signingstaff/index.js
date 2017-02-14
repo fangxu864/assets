@@ -149,9 +149,13 @@ var SigningStaff = {
     renderCon :  function (data) {
         var template = ParseTemplate(con_tpl);
         var html = template({data: data});
-        console.log(typeof data.module)
         this.container.html(html);
+        data.contract_model = "3";
         //初始化签约信息
+        //合作模式
+        if(data.contract_model){
+            his.container.find(".contract_model option[value = "+data.contract_model+"]").attr("selected","true");
+        }
         //客服和签单人
         this.container.find(".salerSelect option[value = "+data.salesID+"]").attr("selected","true");
         this.container.find(".kefuSelect option[value = "+data.kefuID+"]").attr("selected","true");
