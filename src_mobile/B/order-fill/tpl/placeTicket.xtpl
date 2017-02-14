@@ -1,6 +1,6 @@
 
 <%for(var i=0;i<list.length;i++){%>
-    <li class="placeTicket" >
+    <li class="placeTicket" data-pid="<%=list[i].pid%>">
         <div class="left">
             <p class="ticketName"><%=list[i].title%></p>
             <p class="ticketContent">

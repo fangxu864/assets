@@ -4,6 +4,7 @@
   font-size: px2rem(28);
   background: #f0f3f5;
   color: #5f5e63;
+  margin-bottom: 60px;
   .green{
     color: #3dba3f;
   }
@@ -246,7 +247,7 @@
       text-align: left;
       text-indent: px2rem(40);
     }
-    .submit{
+    .submitOrder{
       width: 30%;
       display: inline-block;
       color: #fff;
@@ -276,5 +277,29 @@
     font-size: px2rem(32);
     overflow: hidden;
     padding:  0 px2rem(32);
+  }
+}
+
+
+
+//固定底端提交按钮
+.buttonBox{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 49px;
+  display: flex;
+  .total{
+    flex-grow : 1;
+  }
+  .submitOrder{
+    flex-grow : 1;    
+  }
+}
+
+.personalInformation{
+  input:focus{
+    border: #0797d9 1px solid;
   }
 }
