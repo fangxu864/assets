@@ -37,7 +37,7 @@
         case "4":%>
         <td class="crd_paylist"></td>
         <td class="crd_operation" data-pn="<%=arr.physics_no%>" data-vn="<%=arr.visible_no%>" data-cl="<%=arr.color%>" data-id="<%=arr.salerid%>" data-preid="<%=arr.id%>" >
-         <a class="u-btn_undisable status" data-status="1">解除禁用</a>
+         <a class="u-btn_undisable status" data-status="2">解除禁用</a>
         </td> 
         <% break;} %>
 

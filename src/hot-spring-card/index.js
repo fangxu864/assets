@@ -26,17 +26,18 @@ var Main = PFT.Util.Class({
             searchBtn: '#sch_btn',
             clearBtn: '#content .clearCardInpBtn',
             modalClearBtn: '.clearCardInpBtn',
-             readCardBtn: '.m-modal .readCard',
+            readCardBtn: '.m-modal .readCard',
             saveBtn: '#entry_modal .save',
             saveNewBtn: '#entryModal .saveNew',
             editSaveBtn: '#editModal .save',
             editBtn: '#tbody .crd_operation .u-btn_edit',
             fillCardBtn: '#tbody .crd_operation .u-btn_fillCard',
             delBtn: '#tbody .crd_operation .u-btn_del',
+            changeBtn: '#tbody .crd_operation .u-btn_changeCard',
+            changeConfBtn: '#changeModal .save',
             statusBtn: '#tbody .crd_operation .status',
             delConfBtn: '#delModal .confirm',
             lossConfBtn: '.m-modal.loss .confirm',
-            changeConfBtn: '#changeModal .save',
             setStatusBtn: '#lossModal .confirm',
 
 
@@ -49,7 +50,8 @@ var Main = PFT.Util.Class({
             entryModalbg: '#entryModal',
             editModal: '#editModal',
             statusModal: '#lossModal',
-            delModal: '#delModal'
+            delModal: '#delModal',
+            changeModal: '#changeModal'
         },
         inp: {
             phyInp: '.u-input_box .u-input.phy_no',
@@ -58,9 +60,11 @@ var Main = PFT.Util.Class({
             entryCard_inp: '#entryModal .u-input.card_no',
             editPhy_inp: '#editModal .phy_no',
             editCard_inp: '#editModal .u-input.card_no',
+            changeCard_inp: '#changeModal .u-input.card_no',
             sch_inp: '#sch_inp',
             modalUInp: '.m-modal_bg .u-input',
             saler_inp: '#saler_inp',
+            oldCrdInp: '#oldCrdInp'
 
         }
     },
@@ -87,6 +91,7 @@ var Main = PFT.Util.Class({
         });
         _this.onChangePro();
         _this.onSchInpKeyUp();
+        _this.onClickClearBtn();
         _this.onModalCardInpKeyup();
         _this.checkReplaceVisible();
     },
@@ -102,13 +107,12 @@ var Main = PFT.Util.Class({
         'click #entryModal .saveNew': 'saveNewEntry',
         'click #editModal .save': 'onModalEditSubmit',
 
-
     },
     //物理卡号搜索
     onSchInpKeyUp: function () {
         var _this = this;
         $(this.dom.inp.sch_inp).on("keyup", function (e) {
-            var tarInp = $(e.currentPage);
+            var tarInp = $(e.currentTarget);
             var tarInpVal = tarInp.val();
             var clearBtn = tarInp.siblings(".clearCardInpBtn");
             var keycode = e.keyCode;
@@ -117,6 +121,17 @@ var Main = PFT.Util.Class({
             _this.getCardInfo();
 
         })
+    },
+    //点击清除按钮
+    onClickClearBtn: function () {
+        $(this.dom.btn.clearBtn).off("click");
+        $(this.dom.btn.clearBtn).on("click", function (e) {
+            var modalClearBtn = $(e.currentTarget);
+            modalClearBtn.siblings(".phy_no").focus().val("");
+            modalClearBtn.siblings("a").text("");
+            modalClearBtn.hide();
+        });
+
     },
     //模态框中物理卡号检测唯一性
     onModalCardInpKeyup: function () {
@@ -239,8 +254,8 @@ var Main = PFT.Util.Class({
         var phyVal = $(this.dom.inp.entryPhy_inp).val();
         var carVal = $(this.dom.inp.entryCard_inp).val();
         var color = colorBg.val();
-        var currentPage = $("#paginationWrap").attr("data-curr");
-        if (!currentPage) currentPage = 1;
+        var curr = $("#paginationWrap").attr("data-curr");
+        (!curr) ? 1 : curr;
         if (reg.test(phyVal, carVal)) {
             PFT.Util.Ajax(
                 "/r/product_HotSpringCard/createHotSpringCard",
@@ -256,7 +271,7 @@ var Main = PFT.Util.Class({
                         if (res.code == 200) {
                             PFT.Util.STip("success", res.msg, 4000);
                             _this.onCloseModalClean();
-                            _this.getCardList(currentPage);
+                            _this.getCardList(curr);
                         } else {
                             PFT.Util.STip("fail", res.msg, 4000);
 
@@ -330,7 +345,8 @@ var Main = PFT.Util.Class({
             color = colorBg.val(),
             sch_inp = $(this.dom.inp.sch_inp),
             sch_inpVal = sch_inp.val(),
-            currentPage = $("#paginationWrap").attr("data-curr");
+            curr = $("#paginationWrap").attr("data-curr");
+        (!curr) ? 1 : curr;
         (req == "edit") ? sch_inp.val(phyVal) : _this.onSearchClearBtn();
         if (reg.test(phyVal.cardVal)) {
             PFT.Util.Ajax(
@@ -352,7 +368,7 @@ var Main = PFT.Util.Class({
                             $(_this.dom.modal.editModal).hide();
                             _this.onCloseModalClean();
                             PFT.Util.STip("success", res.msg, 4000);
-                            _this.getCardList(currentPage);
+                            _this.getCardList(curr);
                         } else {
                             PFT.Util.STip("fail", res.msg, 4000);
                         }
@@ -361,7 +377,6 @@ var Main = PFT.Util.Class({
         } else {
             return PFT.Util.STip("fail", "添加失败,请检查是否有字段为空", 4000)
         }
-
     },
 
     //更新产品状态(挂失,取消挂失等)
@@ -378,11 +393,11 @@ var Main = PFT.Util.Class({
             switch (status) {
                 case "1":
                     //取消挂失
-                    url = "recoverForbid";
+                    url = "recoverCard";
                     break;
                 case "2":
                     //解除禁用
-                    url = "recoverCard";
+                    url = "recoverForbid";
                     break;
                 case "3":
                     //挂失
@@ -420,6 +435,7 @@ var Main = PFT.Util.Class({
     subStatusUpdate: function (opt) {
         var _this = this;
         var curr = $("#paginationWrap").attr("data-curr");
+        (!curr) ? 1 : curr;
         // console.log(opt.request)
         PFT.Util.Ajax(
             "/r/product_HotSpringCard/" + opt.url,
@@ -461,11 +477,12 @@ var Main = PFT.Util.Class({
     //提交删除手牌请求
     confDel: function () {
         var _this = this;
-         var delConfBtn = $(_this.dom.btn.delConfBtn);
+        var delConfBtn = $(_this.dom.btn.delConfBtn);
         var curr = $("#paginationWrap").attr("data-curr");
+        (!curr) ? 1 : curr;
         delConfBtn.off("click");
         delConfBtn.on("click", function (e) {
-            var tarBtn=$(e.currentTarget);
+            var tarBtn = $(e.currentTarget);
             var preid = tarBtn.attr("data-preid");
             PFT.Util.Ajax(
                 "/r/product_HotSpringCard/deleteCard",
@@ -487,6 +504,61 @@ var Main = PFT.Util.Class({
                 })
         })
 
+    },
+    //换手牌
+    changeCard: function () {
+        var _this = this;
+        $(this.dom.btn.changeBtn).on("click", function (e) {
+            var tarBtn = $(e.currentTarget);
+            var tarParent = tarBtn.parent();
+            var oldVsiNo = tarParent.attr("data-vn");
+            var preid = tarParent.attr("data-preid");
+            $(_this.dom.inp.oldCrdInp).val(oldVsiNo);
+            $(_this.dom.modal.changeModal).show();
+            $(_this.dom.btn.changeConfBtn).attr({ "data-vn": oldVsiNo, "data-preid": preid });
+        });
+        _this.confChange();
+    },
+    //提交更换手牌请求
+    confChange: function () {
+        var _this = this;
+        var reg = /^[0-9a-zA-Z]+$/;
+        var changeConfBtn = $(this.dom.btn.changeConfBtn);
+        var curr = $("#paginationWrap").attr("data-curr");
+        (!curr) ? 1 : curr;
+        changeConfBtn.off("click");
+        changeConfBtn.on("click", function (e) {
+            var tartBtn = $(e.currentTarget);
+            var lid = $(_this.dom.inp.saler_inp).attr("data-id");
+            var vsiVal = $(_this.dom.inp.changeCard_inp).val();
+            var preid = tartBtn.attr("data-preid");
+            var oldVsiVal = tartBtn.attr("data-vn");
+            if (reg.test(vsiVal)) {
+                PFT.Util.Ajax(
+                    "/r/product_HotSpringCard/replaceVisible",
+                    {
+                        type: "POST",
+                        dataType: "json",
+                        params: {
+                            "new_visible": vsiVal,
+                            "old_visible": oldVsiVal,
+                            "presuming_id": preid
+                        },
+                        success: function (res) {
+                            if (res.code == 200) {
+                                $(_this.dom.modal.changeModal).hide();
+                                _this.onCloseModalClean();
+                                PFT.Util.STip("success", res.msg, 3000);
+                                _this.getCardList(curr);
+                            } else {
+                                return PFT.Util.STip("fail", res.msg, 3000);
+                            }
+                        }
+                    })
+            } else {
+                return PFT.Util.STip("fail", "添加失败,请检查是否有字段为空", 3000);
+            }
+        })
     },
     //刷卡获取卡片信息
     getCardInfo: function () {
@@ -512,6 +584,7 @@ var Main = PFT.Util.Class({
                         _this.renderGetCardInfo(res.data);
                         _this.cardEdit();
                         _this.delCard();
+                        _this.changeCard();
                         _this.statusUpdate(request);
                     } else {
                         tbody.html("<tr><td colspan='6'>" + res.msg + "</td></tr>")
@@ -671,6 +744,7 @@ var Main = PFT.Util.Class({
                         _this.cardEdit(request);
                         _this.statusUpdate(request);
                         _this.delCard();
+                        _this.changeCard();
                         _this.pagination.render({ current: toPage, topage: toPage, total: res.data.total });
                         page.attr("data-curr", _this.pagination.getCurrentPage())
 
@@ -685,15 +759,6 @@ var Main = PFT.Util.Class({
         var tbody = $(this.dom.table.tbody);
         var cardList = Template.tr({ data: list });
         tbody.html(cardList);
-    },
-    //点击搜索框清除按钮
-    onSearchClearBtn: function () {
-        $(this.dom.inp.sch_inp).focus().val("");
-        $(this.dom.btn.clearBtn).hide();
-    },
-    //模态框中的搜索框点击清除按钮
-    onModalClearBtn: function(){
-        
     }
 })
 
