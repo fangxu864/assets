@@ -19,8 +19,8 @@
             <div class="line line2">
                 <div class="td td1">合作模式</div>
                 <div class="td td2">
-                    <select name="" id="" class="contract_model">
-                        <option value="请选择">请选择</option>
+                    <select name="" class="contract_model">
+                        <option value="">请选择</option>
                         <option value="1">套餐</option>
                         <option value="2">票务</option>
                         <option value="3">订单</option>
@@ -127,7 +127,8 @@
              <div class="title-two">
                  <span>开通应用</span>
                  <input type="checkbox" class="selectAll"/>
-                 <span>全选</span>
+                 <span style="color: green; font-size: 12px; ">全选</span>
+                 <span style="color: red ; font-size: 12px; margin-left: 20px;">(注：含“自”为用户自己开通，不可更改)</span>
                  </div>
              <div class="line line1">
                  <% _.each(data.module,function(item,index){ %>

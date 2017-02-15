@@ -41,10 +41,11 @@ var SigningStaff = {
      */
     init : function (Data) {
         var _this = this ;
+        this.fid = Data.fid;
         //弹框的container
         this.container = $(_this.Dial.container).find(".gSimpleDialog-content");
         _this.getInitInfo(Data);
-        _this.open();
+        _this.Dial.open();
         this.bind()
 
     } ,
@@ -143,14 +144,74 @@ var SigningStaff = {
                     if(/true/.test(openAppDataArr[i])){
                         addArr.push(openAppDataArr[i].match(/[\d]+/)[0])
                     }else{
-                        diffArr.push( _this.openAppInitialData[i].match(/[\d]+/)[0] )
+                        diffArr.push( openAppDataArr[i].match(/[\d]+/)[0] )
                     }
                 }
             }
-            console.log(addArr);
-            console.log(diffArr)
-        })
+            var postData = {};
+            //模式
+            postData.contract_model = _this.container.find(".signInfo .contract_model option:selected").val();
+            //合同编号
+            postData.contract_num_model = _this.container.find(".signInfo .contract_num").val();
+            //会员ID
+            postData.fid_model = _this.fid;
+            //是否回款
+            postData.is_pay_model = _this.container.find(".signInfo .is_pay").get(0).checked ? 1 : 0;
+            //客服ID,签单人ID
+            postData.contract_kefuID =  _this.container.find(".signInfo .kefuSelect option:selected").val();
+            postData.salesID = _this.container.find(".signInfo .salerSelect option:selected").val();
+            //协议开始时间和结束时间
+            postData.protocal_start_model = _this.container.find(".signInfo .protocol_start").val();
+            postData.protocal_end = _this.container.find(".signInfo .protocol_end").val();
+            //协议价格
+            postData.protocal_protocol_meal = _this.container.find(".signInfo .protocol_meal").val();
+            //协议标准
+            postData.protocol_main = _this.container.find(".signInfo .protocol_main").val();
+            //平台使用费
+            postData.fee_platform = _this.container.find(".feeConfig .fee_platform").val();
+            //短信使用费
+            postData.fee_sms = _this.container.find(".feeConfig .fee_sms").val();
+            //凭证费
+            postData.fee_code = _this.container.find(".feeConfig .fee_code").val();
+            //提现手续费
+            postData.fee_bank = _this.container.find(".feeConfig .fee_bank").val();
+            //新开通模块
+            postData.new_module = addArr;
+            //取消模块
+            postData.cancel_module = diffArr;
 
+            $.ajax({
+                url: "/r/Member_MemberConfig/setMemberConfigInfo/",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: postData,    //参数值
+                type: "post",   //请求方式
+                timeout:10000,   //设置超时 10000毫秒
+                beforeSend: function() {
+                    //请求前的处理
+
+                },
+                success: function(res) {
+                    //请求成功时处理
+                    if(res.code == 200 ){
+                        PFT_GLOBAL.U.Alert("success",'<p style="width:120px;">设置成功</p>');
+                        _this.Dial.close();
+                    }else{
+                        PFT_GLOBAL.U.Alert("fail",'<p style="width:120px;">'+res.msg+',请重试</p>');
+                    }
+                },
+                complete: function(res,status) {
+                    //请求完成的处理
+                    if(status=="timeout"){
+                        alert("请求超时")
+                    }
+                },
+                error: function() {
+                    //请求出错处理
+                    alert("请求出错")
+                }
+            });
+        })
     },
 
     /**
@@ -166,13 +227,6 @@ var SigningStaff = {
         onCloseAfter : function(){
         }
     }),
-
-    /**
-     * @method 打开弹框
-     */
-    open : function () {
-        this.Dial.open();
-    },
 
     /**
      * @method 获取初始信息 ，用于构建对话框内容
