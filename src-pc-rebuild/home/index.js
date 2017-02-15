@@ -18,7 +18,7 @@ var PartnerChange = require("./modules/partner-change");
 
 var SystemNotice = require("./modules/system-notice");
 
-
+var ScrollManager = PFT.Util.MainBodyScrollManager;
 
 var Main = PFT.Util.Class({
 	container : $("#G_Body"),
@@ -43,6 +43,9 @@ var Main = PFT.Util.Class({
 
 		this.partnerChange = PartnerChange(this.rightBar);
 		this.systemNotice = SystemNotice(this.rightBar);
+
+
+		
 
 
 	}
