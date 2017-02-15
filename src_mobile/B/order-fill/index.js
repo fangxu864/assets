@@ -4,14 +4,21 @@ require("./index.scss");
 var GetPriceAndStorage = require("./service/getPriceAndStorage_Service.js");
 var GetBookInfo = require("./service/getBookInfo_Service.js");
 var GetCalendarPrice = require("./service/getCalendarPrice.js");
+var GetShowInfo = require("./service/getShowInfo");//演出场次信息
 //tpl
 var placeTicket = require("./tpl/placeTicket.xtpl");
 var contact = require("./tpl/addContact.xtpl");
 var lineTpl = require("./tpl/lineMeetPlace.xtpl");
 var payModeTpl = require("./tpl/payMode.xtpl");
+var showTimeTpl = require("./tpl/showTime.xtpl");//演出时间
 //组件模块
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
+
+// var Loading = require("COMMON/modules/loading-mobile");//弃用
+
+var Toast = require("COMMON/modules/Toast");
+
 // var Calendar = require("COMMON/modules/calendar"); //日历 //不是这个
 // var When=require("COMMON/js/when.js");
 // var when=new When();
@@ -54,7 +61,6 @@ var Order_fill = PFT.Util.Class({
 		"click #regularBtn":"regularToggle", //退票规则
 
 		"click .submitOrder" : "submitOrder"//提交订单
-
 		
 	},
 
@@ -68,7 +74,11 @@ var Order_fill = PFT.Util.Class({
 			console.log("缺少id参数");	
 		}
 
+		this.toast = new Toast();//初始化toast
+
+
 		this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
+
 
 		this.getBookInfo(); //根据不同类型分辨
 
@@ -78,6 +88,26 @@ var Order_fill = PFT.Util.Class({
 
 		//处理付款方式
 		this.handlePayMode();
+
+	},
+	//处理顶端提示
+	handleTips : function(res){
+
+		console.log(res);
+
+		//有效时间
+		var validType = res.validType;
+		var validTime = res.validTime;
+		//分批验证
+		var batchCheck = res.batch_check;
+		var batchDay = res.batch_day;
+		//退票
+		var refundRule = res.refund_rule;
+		var refundEarlyTime = res.refund_early_time;
+		//退房扣费
+		var reb = res.reb;
+		var rebType = res.reb_type;
+
 
 	},
 	//提交订单
@@ -106,11 +136,7 @@ var Order_fill = PFT.Util.Class({
 			return false
 		}
 
-		//付款方式
-
-
 	},
-
 
 	//处理付款方式
 
@@ -130,6 +156,17 @@ var Order_fill = PFT.Util.Class({
 			EVENTS : {            //弹层上面绑定的所有事件放在这里
 				"click .payItem" : function(e){
 					var item = $(e.target);
+					var t = item.text();
+					var way = item.attr("data-way");
+					console.log(way);
+					console.log(t);
+					if(way){
+						$("#payMode").val("付款方式: " + t).attr("data-way",way);	
+						that.PayModeBox.close();
+					}
+				},
+				"click .icon-jiantou" : function(){
+					that.PayModeBox.close();		
 				}
 			}
 		});
@@ -140,7 +177,6 @@ var Order_fill = PFT.Util.Class({
 		$("#payMode").on("click",function(){
 			that.PayModeBox.show();		
 		});
-
 
 	},
 
@@ -254,16 +290,25 @@ var Order_fill = PFT.Util.Class({
 			// A:景区,B:线路,F:套票,H:演出,C:酒店
 			// G:餐饮 //餐饮是后面加的
 
+			// params.pid = 25267; //景区			
+			// params.pid = 26397; //酒店
+			// params.pid = 57958; //线路			
 			// params.pid = 58004; //演出
-			// params.pid = 57958; //线路
-			params.pid = 25267; //景区
+			params.pid = 57921; //餐饮
 
 
 			GetBookInfo(params,{
-				loading:function () {},
-				success:function (req) {
+				loading:function () {
+					that.toast.show("loading");
+				},
+				success:function (res) {
 
-					that.handleBookInfo(req);
+					that.toast.hide();
+
+					that.handleTips(res);//处理有效期退票等信息							
+
+					that.handleBookInfo(res);
+
 					
 					// var tickets = req.data.tickets;
 					// $(value).find(".ticketName").text(req.data.title);
@@ -278,12 +323,16 @@ var Order_fill = PFT.Util.Class({
 					// }
 
 				},
-				complete:function () {}
+				complete:function () {},
+				fail : function(msg){
+					PFT.Mobile.Alert(msg);
+				}
 			})
 
 		// });
 	},
 
+	//处理基础信息
 	handleBookInfo : function(res){
 
 		var ticketList = res.tickets;
@@ -300,6 +349,16 @@ var Order_fill = PFT.Util.Class({
 			}else{
 				pids += "-" +ticketList[i].pid  ;
 			}
+		}
+		//needID//是否需要输入身份证
+		var needID = res.needID;
+		if( needID == "0"){
+			$("#idCardBox").css("display","none");
+		}else if(needID == "1"){
+			$("#visitorInformation").css("display","none");
+		}else if(needID == "2"){
+			$("#idCardBox #checkIdInput").css("display","none");
+			$("#idCardBox #checkIdCard").css("display","none");
 		}
 
 		var type = res.p_type;
@@ -357,19 +416,85 @@ var Order_fill = PFT.Util.Class({
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
 			that.selectedDay = selectedDay; 
-			console.log(selectedDay);
 			$("#showDateInput").val("*演出日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
+			that.getShowInfo(selectedDay);
 		});	
+		$("#playTimeInput").on("click",function(){
+			if(that.showTimeBox){
+				that.showTimeBox.show();
+			}else{
+				PFT.Mobile.Alert("请选择日期");
+			}
+		});
 
-		//场次时间弹窗
+	},
+	//演出场次信息
+	getShowInfo : function(selectedDay){
+		var that = this;
+		console.log(selectedDay);
+		var params = {
+			token : PFT.Util.getToken(),
+			date : selectedDay,
+			aid : this.aid,
+			pid : this.pid
+		}
+		GetShowInfo(params,{
+			loading:function(){
+				that.toast.show("loading");
+			},
+			success:function(res){
+				that.toast.hide();
+				that.handleShowInfo(res);
+			},
+			complete:function(){},
+			fail : function(msg){
+				PFT.Mobile.Alert(msg);				
+			}
+		});
+	},
+	//处理演出场次信息
+	handleShowInfo : function(res){
+		var that = this;
 
+		if(this.showTimeBox){
+			var list = res;
+			var html = "";
+			for( var i = 0;i<list.length;i++){
+				html += '<div class="showItem">'+ list[i].round_name + " " +list[i].bt +'</div>';   
+			}
+			$("#showCon").html(html);
+		}else{
+			var data = {};
+			data.list = res;
+			var showTemplate = PFT.Util.ParseTemplate(showTimeTpl); 
+			var html = showTemplate(data);
+			this.showTimeBox =  new SheetCore({
+				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+				height : "auto",      //弹层占整个手机屏幕的高度
+				yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
+				noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
+				zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
+				EVENTS : {            //弹层上面绑定的所有事件放在这里
+					"click .icon-jiantou" : function(){
+						that.showTimeBox.close();
+					},
+					"click .showItem" : function(e){
+						var item = $(e.target);
+						var t = item.text();
+						$("#playTimeInput").val(t);
+						that.showTimeBox.close();					
+					}
+				}
+			});
+			this.showTimeBox.mask.on("click",function(){
+				that.showTimeBox.close();			
+			});
+
+		}
 
 
 	},
-
-
-
 	//处理线路
 	handleLine : function(pids,list){
 
@@ -448,8 +573,6 @@ var Order_fill = PFT.Util.Class({
 	//处理餐饮
 	handleFood : function(pids){
 
-		console.log(pids);
-
 		var that = this;
 
 		//获得日历
@@ -464,13 +587,9 @@ var Order_fill = PFT.Util.Class({
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
 			that.selectedDay = selectedDay; 			
-			console.log(selectedDay);
 			$("#mealDateInput").val("*用餐时间 "+selectedDay);
-			console.log($("#mealDate"));
 			that.getPriceAndStorage(selectedDay,pids);
 		});
-
-
 
 	},
 
@@ -518,7 +637,6 @@ var Order_fill = PFT.Util.Class({
 		$("#ticketList").html(ticketsHtml);
 	},
 
-
 	getPriceAndStorage : function(selectedDay,pids){
 
 		var that = this;
@@ -531,11 +649,17 @@ var Order_fill = PFT.Util.Class({
 		};
 
 		GetPriceAndStorage(params,{
-			loading:function () {},
+			loading:function () {
+				that.toast.show("loading");
+			},
 			success:function (res) {
+				that.toast.hide();				
 				that.handlePriceAndStorage(res);
 			},
-			complete:function () {}
+			complete:function () {},
+			fail : function(msg){
+				PFT.Mobile.Alert(msg);
+			}			
 		});	
 
 	},

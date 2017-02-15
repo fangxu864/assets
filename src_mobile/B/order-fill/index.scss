@@ -22,6 +22,7 @@
     background: #fff;
     p{
       margin-bottom: px2rem(16);
+      margin-top: px2rem(16);
     }
     .placeText{
       font-size: px2rem(32);
@@ -302,4 +303,26 @@
   input:focus{
     border: #0797d9 1px solid;
   }
+}
+
+#payModeBox{
+
+  .payModeTop{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    .icon-jiantou{
+      position: absolute;
+      left: 20px;
+      font-size: 25px;
+    }
+  }
+  .payItem{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-left: 20px;
+  }
+
 }
