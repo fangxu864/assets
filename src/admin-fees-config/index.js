@@ -3,6 +3,10 @@
  */
 var Filter = require("./modules/filter.js");
 var List = require("./modules/list.js");
+
+var Down = require("COMMON/modules/downfile");
+var DownFile = new Down();
+
 var Main = RichBase.extend({
 	EVENTS : {
 		"click" : {
@@ -11,7 +15,8 @@ var Main = RichBase.extend({
             ".dropWrap .dropBox li" : "selectli",
             "html:not(.dropBox)" : "noselect",
             "#open" : "open",
-            ".radioBox" : "radioBox"
+            ".radioBox" : "radioBox",
+            "#downExcel" : "onDownExcelClick"
 		},
 		"blur": {
             ".searchfid" : "hideadmin",
@@ -209,10 +214,26 @@ var Main = RichBase.extend({
         var tarBtn = $(e.currentTarget);
         tarBtn.addClass("active");
         tarBtn.siblings().removeClass("active");
+    },
+
+    /**
+     * @method 下载按钮点击时执行的方法
+     * @param that
+     * @param e
+     */
+    onDownExcelClick: function (that,e) {
+        var postData = {};
+        var data = $("#feesForm").serialize();
+        var arr = data.split('&');
+        for(var i = 0 ; i < arr.length ; i++){
+            postData[ arr[i].split("=")[0] ] = arr[i].split("=")[1];
+        }
+        DownFile.judgeType(postData , "3" ,'/r/report_FeesConfig/exportExcel');
+        e.preventDefault()
     }
-})
+});
 
 
 $(function(){
 	new Main();
-})
+});
