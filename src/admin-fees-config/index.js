@@ -4,7 +4,7 @@
 var Filter = require("./modules/filter.js");
 var List = require("./modules/list.js");
 
-var Down = require("COMMON/modules/downfile");
+var Down = require("COMMON/modules/downfile/v1.0");
 var DownFile = new Down();
 
 var Main = RichBase.extend({
