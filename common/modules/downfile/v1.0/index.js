@@ -17,7 +17,7 @@ function DownFile () { }
 
 DownFile.prototype = {
     /**
-     * @method                   判断下载类型，是否可以直接下载还是需要进入下载中心进行下载
+     * @method 判断下载类型，是否可以直接下载还是需要进入下载中心进行下载
      * @param params    obj      下载文件时需要传输的参数
      * @param type      string   判断下载类型时需要传输的特定数字
      * @param originUrl string   下载接口
@@ -77,7 +77,7 @@ DownFile.prototype = {
     },
 
     /**
-     * @method                   导出excel
+     * @method 导出excel
      * @param downloadUrl        下载url
      */
     outExcel : function (downloadUrl) {
@@ -87,7 +87,7 @@ DownFile.prototype = {
     },
 
     /**
-     * dialog
+     * dialog 弹框实例
      */
     to_downcenter_dialog : new DialogSimple({
         width : 500,
@@ -101,7 +101,6 @@ DownFile.prototype = {
         headerHeightMin : 46,
         events : {}
     })
-
 
 };
 
