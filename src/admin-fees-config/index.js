@@ -226,7 +226,7 @@ var Main = RichBase.extend({
         var data = $("#feesForm").serialize();
         var arr = data.split('&');
         for(var i = 0 ; i < arr.length ; i++){
-            postData[ arr[i].split("=")[0] ] = arr[i].split("=")[1];
+            postData[ arr[i].split("=")[0] ] = decodeURIComponent ( arr[i].split("=")[1] );
         }
         DownFile.judgeType(postData , "3" ,'/r/report_FeesConfig/exportExcel');
         e.preventDefault()
