@@ -3,15 +3,15 @@
  * Date: 2017/1/12 15:49
  * Description: ""
  */
-// 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/line');
-
-// 引入提示框和标题组件
-require('echarts/lib/component/legend');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
+// // 引入 ECharts 主模块
+// var echarts = require('echarts/lib/echarts');
+// // 引入柱状图
+// require('echarts/lib/chart/line');
+//
+// // 引入提示框和标题组件
+// require('echarts/lib/component/legend');
+// require('echarts/lib/component/tooltip');
+// require('echarts/lib/component/title');
 
 require("./index.scss");
 var Tpl = require("./index.xtpl");
@@ -90,7 +90,6 @@ module.exports = function(parent){
 				},
 				success: function(res) {
 					//请求成功时处理
-					console.log(res);
 					_this.wxShopLineEchart.hideLoading();
 					if( res.code == 200 ){
 						var yAxisArr = [] , seriesDataArr = [] ;
@@ -110,7 +109,7 @@ module.exports = function(parent){
 							},
 							toolbox: {
 								feature: {
-									saveAsImage: {}
+									saveAsImage: false
 								}
 							},
 							grid: {
@@ -143,7 +142,9 @@ module.exports = function(parent){
 						};
 						_this.wxShopLineEchart.setOption(option)
 					}else{
-						alert(res.msg)
+						_this.wxShopLineEchart.showLoading({
+							text : '微商城暂无数据'
+						});
 					}
 				},
 				complete: function(res,status) {
