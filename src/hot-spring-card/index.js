@@ -347,7 +347,7 @@ var Main = PFT.Util.Class({
             sch_inpVal = sch_inp.val(),
             curr = $("#paginationWrap").attr("data-curr");
         (!curr) ? 1 : curr;
-        (req == "edit") ? sch_inp.val(phyVal) : _this.onSearchClearBtn();
+        (req == "edit") ? sch_inp.val(phyVal) : _this.onClickClearBtn();
         if (reg.test(phyVal.cardVal)) {
             PFT.Util.Ajax(
                 "/r/product_HotSpringCard/" + url,
