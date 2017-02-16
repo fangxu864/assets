@@ -1,0 +1,20 @@
+<table class="con_tb">
+    <thead>
+    <tr>
+        <th class="th1">清算时间</th>
+        <th class="th2">结算方式</th>
+        <th class="th3">预计提现金额(元)</th>
+        <th class="th4">转账金额(元)</th>
+        <th class="th5">状态</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td class="th1">2016-05-20 18:20:30</td>
+    <td class="th2">周结</td>
+    <td class="th3">15145</td>
+    <td class="th4">1000</td>
+    <td class="th5">转账成功</td>
+    </tr>
+    </tbody>
+</table>

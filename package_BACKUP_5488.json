@@ -47,8 +47,13 @@
     "wxconfigsetmenu-test": "set NODE_ENV=test && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-release": "set NODE_ENV=release && webpack --config ./src/wx_config_setmenu/webpack.config.js",
     "wxconfigsetmenu-production": "set NODE_ENV=production && webpack --config ./src/wx_config_setmenu/webpack.config.js",
+<<<<<<< HEAD
+    "mobile-server": "set NODE_ENV=server && webpack-dev-server --config ./src_mobile/webpack-task/webpack.config.js --inline",
     "mobile-start": "set NODE_ENV=develop && webpack --progress --colors --config ./src_mobile/webpack-task/webpack.config.js -w",
+=======
     "mobile-server": "set NODE_ENV=server && webpack-dev-server --config --progress --colors  ./src_mobile/webpack-task/webpack.config.js --inline",
+    "mobile-start": "set NODE_ENV=develop && webpack --config ./src_mobile/webpack-task/webpack.config.js -w",
+>>>>>>> master
     "mobile-test": "set NODE_ENV=test && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-release": "set NODE_ENV=release && webpack --config ./src_mobile/webpack-task/webpack.config.js",
     "mobile-production": "set NODE_ENV=production && webpack --config ./src_mobile/webpack-task/webpack.config.js",
@@ -81,22 +86,25 @@
     "orderquery-rebuild-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "orderquery-rebuild-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "orderquery-rebuild-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
+<<<<<<< HEAD
 
 
+=======
     "vacationmode-pc-tip-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "vacationmode-pc-tip-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
     "vacationmode-pc-tip-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/vacationmode/webpack.config.js && webpack --progress --colors --config ./src/orderquery-rebuild/webpack.config.js",
+>>>>>>> master
     "common-start": "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.js",
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
-
+<<<<<<< HEAD
 
     "admin_qingfen-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
-    "admin_qingfen-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
-
+    "admin_qingfen-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js"
+=======
     "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
     "report_unAdmin-release": "set NODE_ENV=release && webpack --config ./src/report_unAdmin/webpack.config.js",
@@ -153,7 +161,6 @@
     "deal_summary-release": "set NODE_ENV=release && webpack --config ./src/deal_summary/webpack.config.js",
     "deal_summary-production": "set NODE_ENV=production && webpack --config ./src/deal_summary/webpack.config.js",
     "pc-rebuild-start" : "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src-pc-rebuild/webpack.config.js",
-    "pc-rebuild-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src-pc-rebuild/webpack.config.js",
     "member-card-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/member-card/webpack.config.js",
     "member-card-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/member-card/webpack.config.js",
     "member-card-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/member-card/webpack.config.js",
@@ -165,22 +172,11 @@
     "recharge-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/recharge/webpack.config.js",
 
 
-    "book-add-wxpay-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
-    "book-add-wxpay-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
-    "book-add-wxpay-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
-    "book-add-wxpay-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/book-add-wxpay/webpack.config.js",
-
-
     "download_center-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/download_center/webpack.config.js ",
     "download_center-test": "set NODE_ENV=test && webpack --config ./src/download_center/webpack.config.js",
     "download_center-release": "set NODE_ENV=release && webpack --config ./src/download_center/webpack.config.js",
-    "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js",
-
-    "admin-fees-config-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/admin-fees-config/webpack.config.js ",
-    "admin-fees-config-test": "set NODE_ENV=test && webpack --config ./src/admin-fees-config/webpack.config.js",
-    "admin-fees-config-release": "set NODE_ENV=release && webpack --config ./src/admin-fees-config/webpack.config.js",
-    "admin-fees-config-production": "set NODE_ENV=production && webpack --config ./src/admin-fees-config/webpack.config.js"
-
+    "download_center-production": "set NODE_ENV=production && webpack --config ./src/download_center/webpack.config.js"
+>>>>>>> master
   },
   "repository": {
     "type": "git",
