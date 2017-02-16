@@ -111,6 +111,9 @@ var Calendar = PFT.Util.Class({
 			},
 			success:function (list) {
 				that.toast.hide();
+
+				that.MonthList = list;
+
 				that.handleCalPrice(date,list);
 
 			},
