@@ -12,15 +12,15 @@
     }
     .conBox{
         height: 200px;
-        display: flex;
-        justify-content: center;
         .lt{
+            float:left;
             font-size: 14px;
             font-weight: bold;
             width: 20%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
+            p{
+                line-height: 52px;
+
+            }
             p span.value{
                 color: #ff8734;
                 font-size: 16px;
@@ -28,6 +28,8 @@
         }
         .rt{
             width: 76%;
+            height: 90%;
+            float: right;
         }
     }
 }

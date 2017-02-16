@@ -20,37 +20,60 @@
         .data-box{
             display: table-cell;
             position: relative;
-            height: 153px;
             border: 1px solid #e5e5e5;
-            max-height: 153px;
             overflow: hidden;
+            width: 50%;
             white-space: nowrap;
             .lt{
                 color: #5f5e64;
                 float: left;
                 width: 10%;
-                height: 153px;
+                height: 109px;
                 background-color: #eef0f2;
                 font-size: 18px;
                 font-weight: bold;
-                padding-top: 52px;
+                padding-top: 35px;
                 box-sizing: border-box;
                 text-align: center;
             }
             .rt{
                 float: right;
                 width: 90%;
+                position: relative;
                 table{
                     width: 100%;
                     text-align: center;
                     font-size: 14px;
                     tr{
-                        line-height: 50px;
+                        line-height: 53px;
                         td span.value{
                             color: #ff8734;
                             font-size: 16px;
                         }
                     }
+                }
+                @keyframes rotate360 {
+                    from {
+                        transform : rotateZ(0deg) ;
+                    } to {
+                        transform : rotateZ(360deg) ;
+                    }
+                }
+                .icon-shuaxin {
+                    right: 3px;
+                    top : 3px ;
+                    font-size: 20px;
+                    position :absolute;
+                    cursor: pointer;
+                    color :#9d9d9d ;
+                }
+                .icon-shuaxin.rotateInfinite {
+                    animation-duration: 1s;
+                    animation-iteration-count: infinite;
+                    animation-name: rotate360;
+                    transform-origin: center center;
+                    animation-timing-function: linear;
+                    color :#40bc42 ;
                 }
             }
         }
@@ -58,15 +81,18 @@
     .line2{
         .lineEchartControlBox{
             margin: 20px auto;
-            width: 100%;
-            display: flex;
-            justify-content: center;
+            height: 60px;
+            width: 687px;
+            //display: flex;
+            //justify-content: center;
             .td{
                 box-sizing: border-box;
-                display: flex;
+                float:left;
+                //display: flex;
                 .btn{
                     padding: 8px 16px;
                     display: block;
+                    float: left;
                     cursor: pointer;
                 }
                 .btn.active{
@@ -74,26 +100,34 @@
                     color : white;
                 }
             }
+            .td1{
+                width: 114px;
+            }
             .td1,.td2{ border: 1px solid #e5e5e5;}
             .td3{
-                margin-left: 100px;
+                margin-left: 50px;
                 margin-right: 20px;
             }
             .td3 input{
                 padding-left: 5px;
                 border: 1px solid #e5e5e5;
                 width:88px;
+                height: 27px;
+            }
+            .okBtn.btn{
+                float: right;
+                margin-top: 1px;
             }
         }
         .lineEchart{
-            height :500px;
+            height :380px;
             width : 100%
         }
         .selectBox{
-            display: flex;
             padding-left: 50px;
             .td {
                 margin-left: 30px;
+                float: left;
                 i.icon{
                     position: relative;
                     top: 2px;
@@ -110,12 +144,16 @@
     }
     .line3{
         margin-top: 50px;
-        width: 100%;
-        display: flex;
-        justify-content: space-around;
         .lt , .rt{
             height: 500px;
-            background-color: #e5e5e5;
+        }
+        .lt{
+            width: 50%;
+            float: left;
+        }
+        .rt{
+            width: 50%;
+            float: right;
         }
     }
 

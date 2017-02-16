@@ -1,5 +1,5 @@
 <div class="title">
-    <i class="icon icon-pc-list icon-tongji"></i>
+    <i class="icon icon-pc-prompt icon-dingdanshuju1"></i>
     <span class="title-text">订单数据</span>
 </div>
 <div class="line line1">
@@ -9,46 +9,33 @@
             <table>
                 <tbody>
                 <tr>
-                    <td><span class="key">今日预订金额 : </span><span class="value">11606元</span></td>
-                    <td><span class="key">今日预订人数 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日预订金额 : </span><span class="value">...</span></td>
+                    <td><span class="key">今日预订人数 : </span><span class="value">...</span></td>
                 </tr>
                 <tr>
-                    <td><span class="key">今日检票金额 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票金额 : </span><span class="value">110人</span></td>
+                    <td><span class="key">今日检票金额 : </span><span class="value">...</span></td>
+                    <td><span class="key">今日退票金额 : </span><span class="value">...</span></td>
                 </tr>
                 <tr>
-                    <td><span class="key">今日检票数 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票数 : </span><span class="value">918</span></td>
+                    <td><span class="key">今日检票数 : </span><span class="value">...</span></td>
+                    <td><span class="key">今日退票数 : </span><span class="value">...</span></td>
                 </tr>
                 </tbody>
             </table>
+            <!--<i class="icon icon-pc-prompt icon-shuaxin rotateInfinite" style="display: none"></i>-->
+            <i class="icon icon-pc-prompt icon-shuaxin " style="display: none"></i>
         </div>
     </div>
     <div class="yesterday-box data-box">
         <div class="lt">昨<br/>日</div>
         <div class="rt">
-            <table>
-                <tbody>
-                <tr>
-                    <td><span class="key">今日预订金额 : </span><span class="value">11606元</span></td>
-                    <td><span class="key">今日预订人数 : </span><span class="value">110人</span></td>
-                </tr>
-                <tr>
-                    <td><span class="key">今日检票金额 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票金额 : </span><span class="value">110人</span></td>
-                </tr>
-                <tr>
-                    <td><span class="key">今日检票数 : </span><span class="value">110人</span></td>
-                    <td><span class="key">今日退票数 : </span><span class="value">918</span></td>
-                </tr>
-                </tbody>
-            </table>
+            <table></table>
         </div>
     </div>
     <div class="clear" style="clear: both"></div>
 </div>
 <div class="title">
-<i class="icon icon-pc-list icon-tongji"></i>
+<i class="icon icon-pc-prompt icon-zuijinxiaoshouqushi"></i>
 <span class="title-text">最近销售趋势</span>
 </div>
 <div class="line line2">
@@ -76,13 +63,13 @@
             <i class="icon icon-u-bold icon-checkbox compare" data-type="2"></i>
             <span>环比(上一周期)</span>
         </div>
-        <div class="td td3">
+        <div class="td td3" style="display: none">
             <i class="icon icon-u-bold icon-checkbox weekend" data-type="3"></i>
             <span>高亮周末</span>
         </div>
     </div>
 </div>
 <div class="line line3" >
-    <div class="lt" id="pieEchart" style="height: 500px;width: 500px;"></div>
-    <div class="rt" id="barEchart" style="height: 500px;width: 500px;"></div>
+    <div class="lt" id="pieEchart"></div>
+    <div class="rt" id="barEchart"></div>
 </div>

@@ -3,12 +3,20 @@ const path = require("path");
 const autoprefixer = require("autoprefixer");
 const precss = require("precss");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 module.exports = function(webpackConfig, env) {
+
+  webpackConfig.babel.babelrc = false;
   webpackConfig.babel.plugins.push('transform-runtime');
+  webpackConfig.babel.plugins.push(['import', {
+    libraryName: 'antd',
+    style: 'css'  // if true, use less
+  }]);
+
 
   // Support hmr
   if (env === 'development') {
-    webpackConfig.devtool = '#eval';
+    // webpackConfig.devtool = '#eval';
     webpackConfig.babel.plugins.push('dva-hmr');
   } else {
     webpackConfig.babel.plugins.push('dev-expression');
@@ -40,10 +48,17 @@ module.exports = function(webpackConfig, env) {
     }
   });
 
-    webpackConfig["externals"] = {
-        "react": "React",
-        "dva" : "dva"
-    }
+    // webpackConfig["externals"] = {
+    //     "react": "React",
+    //     "dva" : "dva"
+    // }
+    var entry = webpackConfig.entry;
+    entry["libs.all"] = ["react","dva","antd"];
+
+    var plugins = webpackConfig.plugins;
+    plugins.unshift(
+      new CommonsChunkPlugin({names:["libs.all"]})
+    )
 
     webpackConfig["resolve"] = webpackConfig["resolve"] || {};
     let alias = webpackConfig["resolve"]["alias"] = webpackConfig["resolve"]["alias"] || {};

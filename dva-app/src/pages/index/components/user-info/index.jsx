@@ -1,4 +1,5 @@
-require("./index.scss");
+import "./index.scss";
+import React from "react";
 import Loading from "COMPONENTS/loading";
 function UserInfo(props){
     const {info,isLoading,code,msg,dispatch} = props;

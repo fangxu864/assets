@@ -3,17 +3,17 @@
  * Date: 2017/1/12 15:49
  * Description: ""
  */
-// 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/line');
-require('echarts/lib/chart/bar');
-require('echarts/lib/chart/pie');
-// 引入提示框和标题组件
-require('echarts/lib/component/legend');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
-require('echarts/lib/component/dataZoom');
+// // 引入 ECharts 主模块
+// var echarts = require('echarts/lib/echarts');
+// // 引入柱状图
+// require('echarts/lib/chart/line');
+// require('echarts/lib/chart/bar');
+// require('echarts/lib/chart/pie');
+// // 引入提示框和标题组件
+// require('echarts/lib/component/legend');
+// require('echarts/lib/component/tooltip');
+// require('echarts/lib/component/title');
+// require('echarts/lib/component/dataZoom');
 
 
 var Datepicker = require("COMMON/modules/datepicker");
@@ -21,6 +21,15 @@ var datepicker = new Datepicker();
 
 require("./index.scss");
 var Tpl = require("./index.xtpl");
+var oD_yesterday_tpl = require("./orderdata-yesterday.xtpl");
+var oD_today_tpl = require("./orderdata-today.xtpl");
+
+var LoadingPC = require("COMMON/js/util.loading.pc.js");
+
+var tips = require("COMMON/modules/tips/index.js");
+var Tips = new tips ();
+
+
 module.exports = function(parent){
 
 	var container = $('<div id="saleEchartBox" class="saleEchartBox modBox"></div>').appendTo(parent);
@@ -28,14 +37,36 @@ module.exports = function(parent){
 	var saleEchart = PFT.Util.Class({
 		container : container,
 		template : PFT.Util.ParseTemplate(Tpl),
+		template_yesterday_od : PFT.Util.ParseTemplate(oD_yesterday_tpl),
+		template_today_od : PFT.Util.ParseTemplate(oD_today_tpl),
 		init : function(){
-			console.log(this.container);
+			var _this = this ;
 			this.render();
+			this.renderOrderData_today( true );
+			this.renderOrderData_yesterday();
 			//折线图
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
-			this.container.find(".lineEchartControlBox .okBtn").click();
-			this.renderPieEchart();
-			this.renderBarEchart();
+			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
+			this.barEchart = echarts.init(document.getElementById('barEchart'));
+			//窗口resize时 ，echarts重新渲染
+			$(window).on("resize" , function () {
+				_this.lineEchart.resize();
+				_this.pieEchart.resize();
+				_this.barEchart.resize();
+			});
+			//数据懒加载，当出现在视窗中才开始加载
+			$("#G_Body").on("scroll.renderPie-Bar" , function (e) {
+				if( _this.container.find(".line3").offset().top < $(window).height() ){
+					_this.renderPieEchart();
+					_this.renderBarEchart();
+					$(this).off("scroll.renderPie-Bar")
+				}
+			}).on("scroll.renderLineEchart" , function () {
+				if( _this.container.offset().top < $(window).height() ){
+					_this.container.find(".lineEchartControlBox .okBtn").click();
+					$(this).off("scroll.renderLineEchart")
+				}
+			})
 		},
 		EVENTS : {
 			"click .lineEchartControlBox input" : "onTimeInpClick" ,
@@ -43,13 +74,18 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .okBtn" : "onOkBtnClick" ,
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 			"click .selectBox .icon" : "onSelectBoxIconClick" ,
+			"click .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconClick" ,
 		},
+
+
+		/**
+		 * @method 渲染基础dom
+		 * @param data
+         */
 		render : function(data){
 			var _this = this ;
-
-
 			var html = this.template(data || {
-					"bTimeInpVal": _this.When.getSomeday(-6),   //账号名称
+					"bTimeInpVal": _this.When.getSomeday(-6),
 					"eTimeInpVal": _this.When.getSomeday(0)
 				});
 			this.container.html(html);
@@ -57,12 +93,109 @@ module.exports = function(parent){
 
 
 		/**
+		 * @method 渲染今日订单数据
+		 */
+		renderOrderData_today : function ( isInit ) {
+			var _this = this ;
+			var curContainer = _this.container.find(".line1 .today-box .rt table");
+			var icon = _this.container.find(".line1 .today-box .rt .icon");
+			var params ;
+			if( isInit ){
+				params = {}
+			}else{
+				params = { is_flush : 1}
+			}
+			var LoadingStr = LoadingPC("努力加载中...",{
+				tag : "tr",
+				colspan : 6,
+				width : 500,
+				height : 150
+			});
+
+			PFT.Util.Ajax("/r/Home_HomeOrder/todayInfo/",{
+				type : "POST",
+				params : params,
+				loading : function(){
+					if( isInit ){
+						curContainer.html(LoadingStr);
+					}else{
+						icon.addClass("rotateInfinite");
+					}
+				},
+				complete : function(res){
+					if( res.code == 200 ){
+						var html = _this.template_today_od({data : res.data});
+						curContainer.html( html );
+						if( isInit ){
+							icon.show();
+						}else{
+							Tips.show({
+								lifetime : 1500 ,
+								direction : top,
+								hostObj : icon ,
+								content : "刷新成功",
+								bgcolor : "#3eba40"
+							})
+						}
+						icon.removeClass("rotateInfinite");
+					}else{
+						icon.removeClass("rotateInfinite");
+						Tips.show({
+							lifetime : 1500 ,
+							direction : top,
+							hostObj : icon ,
+							content : "亲,距上次刷新五分钟后可以再次刷新"
+						})
+					}
+				}
+			});
+			// var html = _this.template_today_od( );
+			// _this.container.find(".line1 .today-box .rt table").html( html )
+		},
+
+
+		/**
+		 * @method 渲染昨日订单数据
+		 */
+		renderOrderData_yesterday : function () {
+			var _this = this ;
+
+			var curContainer = _this.container.find(".line1 .yesterday-box .rt table");
+			var LoadingStr = LoadingPC("努力加载中...",{
+				tag : "tr",
+				colspan : 6,
+				width : 500,
+				height : 150
+			});
+
+			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
+				type : "POST",
+				params : {},
+				loading : function(){
+					curContainer.html(LoadingStr);
+				},
+				complete : function(res){
+					if( res.code == 200 ){
+						var html = _this.template_yesterday_od( { data : res.data.data } );
+						curContainer.html( html )
+					}else{
+						curContainer.html( res.msg )
+					}
+
+				}
+			});
+
+			// var html = _this.template_yesterday_od( );
+			// _this.container.find(".line1 .yesterday-box .rt").html( html )
+		},
+
+
+		/**
 		 * @method 渲染饼图
 		 */
 		renderPieEchart : function () {
+			var _this = this ;
 
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('pieEchart'));
 			$.ajax({
 				url: "/r/Home_HomeOrder/productUseRank",    //请求的url地址
 				dataType: "json",   //返回格式为json
@@ -72,11 +205,11 @@ module.exports = function(parent){
 				timeout:10000,   //设置超时 10000毫秒
 				beforeSend: function() {
 					//请求前的处理
-					myChart.showLoading();
+					_this.pieEchart.showLoading();
 				},
 				success: function(res) {
 					//请求成功时处理
-					myChart.hideLoading();
+					_this.pieEchart.hideLoading();
 
 					if( res.code == 200 ){
 						var nameArr = [] , valueArr = [] , dataArr = [];
@@ -95,11 +228,11 @@ module.exports = function(parent){
 								trigger: 'item',
 								formatter: "{a} <br/>{b} : {c} ({d}%)"
 							},
-							legend: {
-								orient: 'vertical',
-								left: 'left',
-								data: nameArr
-							},
+							// legend: {
+							// 	orient: 'vertical',
+							// 	left: 'left',
+							// 	data: nameArr
+							// },
 							series : [
 								{
 									name: '产品名称',
@@ -117,12 +250,12 @@ module.exports = function(parent){
 								}
 							]
 						};
-						myChart.setOption(option)
+						_this.pieEchart.setOption(option)
 					}else {
-						alert(res.msg)
+						_this.pieEchart.showLoading({
+							text : '饼图暂无数据'
+						});
 					}
-
-
 				},
 				complete: function(res,status) {
 					//请求完成的处理
@@ -137,12 +270,12 @@ module.exports = function(parent){
 			});
 		},
 
+
 		/**
 		 * @method 渲染条形图
 		 */
 		renderBarEchart : function () {
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('barEchart'));
+			var _this = this ;
 			$.ajax({
 				url: "/r/Home_HomeOrder/saleRank",    //请求的url地址
 				dataType: "json",   //返回格式为json
@@ -152,11 +285,11 @@ module.exports = function(parent){
 				timeout:10000,   //设置超时 10000毫秒
 				beforeSend: function() {
 					//请求前的处理
-					myChart.showLoading();
+					_this.barEchart.showLoading();
 				},
 				success: function(res) {
 					//请求成功时处理
-					myChart.hideLoading();
+					_this.barEchart.hideLoading();
 					if( res.code == 200 ){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
@@ -196,13 +329,16 @@ module.exports = function(parent){
 								{
 									name: '订单数',
 									type: 'bar',
+									barMaxWidth: 40 ,
 									data: seriesDataArr ,
 								}
 							]
 						};
-						myChart.setOption(option)
+						_this.barEchart.setOption(option)
 					}else{
-						alert(res.msg)
+						_this.barEchart.showLoading({
+							text : '条形图暂无数据'
+						});
 					}
 				},
 				complete: function(res,status) {
@@ -216,6 +352,15 @@ module.exports = function(parent){
 					alert("饼图数据请求出错")
 				}
 			});
+		},
+
+
+		/**
+		 * @events 今日订单数据刷新按钮点击事件
+		 */
+		onShuaXinIconClick :function (e) {
+			var _this = this ;
+			_this.renderOrderData_today( false );
 		},
 
 
@@ -250,9 +395,9 @@ module.exports = function(parent){
 					todayAfterDisable : false,   //可选，今天之后的日期都不显示
 				})
 			}
-			console.log(tarInp)
 
 		},
+
 
 		/**
 		 * @events 类型按钮点击 1--票数  2--金额
@@ -264,6 +409,7 @@ module.exports = function(parent){
 				.siblings().removeClass("active");
 			this.container.find(".lineEchartControlBox .okBtn").click();
 		},
+
 
 		/**
 		 * @events 确定按钮点击
@@ -290,29 +436,30 @@ module.exports = function(parent){
 				},
 				success: function(res) {
 					//请求成功时处理
-					_this.lineEchart.hideLoading();
-					var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
+					if( res.code == 200 ){
+						_this.lineEchart.hideLoading();
+						var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
 
-					for( i in res.data.new){
-						newArr.push(res.data.new[i])
-					}
-					for( j in res.data.old ){
-						oldArr.push(res.data.old[j])
-					}
-					//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
-					for( k in res.data.timeLine ){
-						timeStr = res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/");
-						if( /0|6/.test( new Date(timeStr).getDay()) ){
-							if( new Date(timeStr).getDay() === 0 ){
-								timeStr = "周日" ;
-							}else{
-								timeStr = "周六" ;
-							}
+						for( i in res.data["new"]){
+							newArr.push(res.data["new"][i])
 						}
-						xAxisArr.push( timeStr );
-					}
+						for( j in res.data["old"] ){
+							oldArr.push(res.data["old"][j])
+						}
+						//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
+						for( k in res.data.timeLine ){
+							timeStr = res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/");
+							if( /0|6/.test( new Date(timeStr).getDay()) ){
+								if( new Date(timeStr).getDay() === 0 ){
+									timeStr = "周日" ;
+								}else{
+									timeStr = "周六" ;
+								}
+							}
+							xAxisArr.push( timeStr );
+						}
 
-					var option = {
+						var option = {
 							tooltip : {
 								trigger: 'axis'
 							},
@@ -321,28 +468,28 @@ module.exports = function(parent){
 							},
 							toolbox: {
 								feature: {
-									saveAsImage: {}
+									saveAsImage: false
 								}
 							},
-						dataZoom: [
-							{
-								type: 'slider',
-								show: true,
-								xAxisIndex: [0],
-								start: 0,
-								end: 100
-							},
-							// {
-							// 	type: 'inside',
-							// 	xAxisIndex: [0],
-							// 	start: 1,
-							// 	end: 35
-							// },
-						],
+							dataZoom: [
+								{
+									type: 'slider',
+									show: true,
+									xAxisIndex: [0],
+									start: 0,
+									end: 100
+								},
+								// {
+								// 	type: 'inside',
+								// 	xAxisIndex: [0],
+								// 	start: 1,
+								// 	end: 35
+								// },
+							],
 							grid: {
 								left: '3%',
 								right: '4%',
-								bottom: '10%',
+								bottom: '15%',
 								containLabel: true
 							},
 							xAxis : [
@@ -378,7 +525,13 @@ module.exports = function(parent){
 								}
 							]
 						};
-					_this.lineEchart.setOption(option)
+						_this.lineEchart.setOption(option)
+					}else{
+						_this.lineEchart.showLoading({
+							text : '折线图暂无数据'
+						});
+					}
+
 				},
 				complete: function(res,status) {
 					//请求完成的处理
@@ -392,6 +545,7 @@ module.exports = function(parent){
 				}
 			});
 		},
+
 
 		/**
 		 * @events 快速选择日期按钮点击
@@ -407,6 +561,7 @@ module.exports = function(parent){
 			this.container.find(".lineEchartControlBox .eTimeInp").val( _this.When.getSomeday(0) );
 			this.container.find(".lineEchartControlBox .okBtn").click();
 		},
+
 
 		/**
 		 * @events 折线图底部select点击

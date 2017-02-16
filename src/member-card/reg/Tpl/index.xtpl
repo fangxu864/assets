@@ -7,12 +7,14 @@
             <span id="mobileInpErrorTxt" class="errortip mobile"><i class="iconfont">&#xe654;</i><i class="t">手机号格式错误</i></span>
             <p style="display:none" id="mobileExistTxt" class="mobileExistTxt"><span style="color:#7e828a" class="t">此帐号已注册</span></p>
         </div>
-        <div class="line">
-            <span class="lt"><i class="star">*</i>验证码</span>
-            <input type="text" class="formInp checkmaInp valifyInp" data-validate="require vcode" name="vcode" id="checkmaInp" placeholder="请先输入手机号，再获取验证码"/>
-            <a id="getCheckmaBtn" class="getCheckmaBtn setHeight" href="###">获取验证码</a>
-            <span class="errortip ma"><i class="iconfont">&#xe654;</i><i class="t">请输入6位数验证码</i></span>
-        </div>
+        <% if(!editMode){ %>
+            <div class="line">
+                <span class="lt"><i class="star">*</i>验证码</span>
+                <input type="text" class="formInp checkmaInp valifyInp" data-validate="require vcode" name="vcode" id="checkmaInp" placeholder="请先输入手机号，再获取验证码"/>
+                <a id="getCheckmaBtn" class="getCheckmaBtn setHeight" href="###">获取验证码</a>
+                <span class="errortip ma"><i class="iconfont">&#xe654;</i><i class="t">请输入6位数验证码</i></span>
+            </div>
+        <%}%>
         <div class="line">
             <span class="lt"><i class="star">*</i>身份证</span>
             <input type="text" class="formInp idcardInp valifyInp" value="<%=id_card_no%>" <%=fid? 'readonly' : ''%> data-validate="require idCard" name="id_card_no" id="idcardInp" placeholder="请输入身份证号码"/>

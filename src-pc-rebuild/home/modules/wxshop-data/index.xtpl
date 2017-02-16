@@ -1,14 +1,9 @@
 
 <div class="title">
-    <i class="icon icon-pc-list icon-tongji"></i>
+    <i class="icon icon-pc-prompt icon-weishangchengyunyingshuju"></i>
     <span class="title-text">微商城运营数据</span>
 </div>
 <div class="conBox">
-    <div class="lt">
-        <p>昨日PV : <span class="value">3366589</span></p>
-        <p>昨日UV : <span class="value">3366589</span></p>
-        <p>昨日新绑定用户数 : <span class="value">3366589</span></p>
-        <p>昨日错误次数 : <span class="value">3366589</span></p>
-    </div>
+    <div class="lt"></div>
     <div class="rt" id="wxShopLineEchart"></div>
 </div>

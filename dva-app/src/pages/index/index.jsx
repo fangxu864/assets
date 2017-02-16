@@ -12,6 +12,9 @@ function IndexPage({location,dispatch,userInfo,appUsed}) {
     return(
         <div id="indexPage" className="page index indexPage">
             <UserInfo {...userInfoProp}></UserInfo>
+
+            <Link to="/terminal">票券验证</Link>
+
         </div>
     );
 }

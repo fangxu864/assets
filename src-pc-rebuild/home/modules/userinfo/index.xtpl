@@ -23,5 +23,5 @@
 </div>
 <div class="bot">
     帐户余额：<span class="yuE"><i class="yen">&yen;</i><span class="money"><%=remainMoney%></span></span>
-    <a href="" id="chongzhiBtn" class="chongzhiBtn">充值</a>
+    <a href="recharge.html" id="chongzhiBtn" class="chongzhiBtn">充值</a>
 </div>

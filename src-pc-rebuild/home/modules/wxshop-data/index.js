@@ -3,46 +3,79 @@
  * Date: 2017/1/12 15:49
  * Description: ""
  */
-// 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/line');
-
-// 引入提示框和标题组件
-require('echarts/lib/component/legend');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
+// // 引入 ECharts 主模块
+// var echarts = require('echarts/lib/echarts');
+// // 引入柱状图
+// require('echarts/lib/chart/line');
+//
+// // 引入提示框和标题组件
+// require('echarts/lib/component/legend');
+// require('echarts/lib/component/tooltip');
+// require('echarts/lib/component/title');
 
 require("./index.scss");
 var Tpl = require("./index.xtpl");
+var conLtTpl = require("./conbox_lt.xtpl");
+
+var LoadingPC = require("COMMON/js/util.loading.pc.js");
 module.exports = function(parent){
 	var container = $('<div id="wxShopDataBox" class="wxShopDataBox modBox"></div>').appendTo(parent);
 	var UserInfo = PFT.Util.Class({
 		container : container,
-		template : PFT.Util.ParseTemplate(Tpl),
+		conLtTemplate : PFT.Util.ParseTemplate(conLtTpl),
 		init : function(){
-			console.log(this.container);
-			this.render();
-			this.renderWxShopLineEchart()
+			var _this = this ;
+			this.container.html(Tpl);
+			this.wxShopLineEchart = echarts.init(document.getElementById('wxShopLineEchart'));
+			//窗口变化时，echart重新渲染
+			$(window).on("resize", function () {
+				_this.wxShopLineEchart.resize()
+			});
+			//数据懒加载，当出现在视窗中才开始加载
+			$("#G_Body").on("scroll.wxShopLineEchart" , function (e) {
+				if( _this.container.offset().top < $(window).height() ){
+					_this.renderConLeft();
+					_this.renderWxShopLineEchart();
+					$(this).off("scroll.wxShopLineEchart")
+				}
+			})
 		},
-		render : function(data){
-			var html = this.template(data || {
-					"name": "慢慢的店铺",   //账号名称
-					"cname" : "天地银行",   //公司名称
-					"type" : 1, //账号类型,0供应商,1分销商
-					'hasAuth' : 1, //是否认证
-					"remainMoney": 111,     //余额
-					"expireDate" : "2012-1-1",   //到期时间
-					"mobile": 123123123123,      //手机号
-					"abnormalOrder" : 12,    //异常订单  ,
-					"lastLogin" : "2012-1-1", //上次登陆时间
-					"avatar" : "http://images.12301.cc/123624/1452148699.png" //头像
-				});
-			this.container.html(html);
+
+		/**
+		 * @method  渲染微商城数据左边部分
+         */
+		renderConLeft : function(){
+			var _this = this ;
+			var curContainer = this.container.find(".conBox .lt");
+			var LoadingStr = LoadingPC("正在加载...",{
+				tag : "tr",
+				colspan : 6,
+				width : 500,
+				height : 200
+			});
+			PFT.Util.Ajax("/r/Home_HomeApp/getMicroMallStatistics/",{
+				type : "get",
+				params : {},
+				loading : function(){
+					curContainer.html(LoadingStr);
+				},
+				complete : function(res){
+					if( res.code == 200 ){
+						var html = _this.conLtTemplate({ data : res.data });
+						curContainer.html(html);
+					}else{
+						curContainer.html( res.msg );
+					}
+
+				}
+			});
 		},
+
+		/**
+		 * @method  渲染微商城数据右边图表
+		 */
 		renderWxShopLineEchart : function () {
-			// 基于准备好的dom，初始化echarts实例
-			var myChart = echarts.init(document.getElementById('wxShopLineEchart'));
+			var _this = this ;
 
 			$.ajax({
 				url: "/r/Home_HomeOrder/saleRank",    //请求的url地址
@@ -53,12 +86,11 @@ module.exports = function(parent){
 				timeout:10000,   //设置超时 10000毫秒
 				beforeSend: function() {
 					//请求前的处理
-					myChart.showLoading();
+					_this.wxShopLineEchart.showLoading();
 				},
 				success: function(res) {
 					//请求成功时处理
-					console.log(res);
-					myChart.hideLoading();
+					_this.wxShopLineEchart.hideLoading();
 					if( res.code == 200 ){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
@@ -77,7 +109,7 @@ module.exports = function(parent){
 							},
 							toolbox: {
 								feature: {
-									saveAsImage: {}
+									saveAsImage: false
 								}
 							},
 							grid: {
@@ -108,9 +140,11 @@ module.exports = function(parent){
 								}
 							]
 						};
-						myChart.setOption(option)
+						_this.wxShopLineEchart.setOption(option)
 					}else{
-						alert(res.msg)
+						_this.wxShopLineEchart.showLoading({
+							text : '微商城暂无数据'
+						});
 					}
 				},
 				complete: function(res,status) {
