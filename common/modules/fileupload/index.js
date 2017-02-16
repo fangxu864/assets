@@ -5,6 +5,7 @@
  */
 require("./style.css");
 var tpl = require("./tpl.html");
+var Browser = require("COMMON/js/util.platform.js");
 /**
  * 文件(图片)上传组件
  * 内嵌iframe，解决无刷新文件上传问题，使用此组件需要跟后端约定好上传结束后数据处理方式
@@ -76,7 +77,6 @@ Fileupload.prototype = {
 
 		container.append(iframe);
 		container.append(tpl);
-
 		container.find(".fileuploadForm").append(extraInput)
 
 		this.form = container.find(".fileuploadForm");
@@ -85,7 +85,9 @@ Fileupload.prototype = {
 		this.browseBtn = container.find(".filebrowseBtn");
 		this.submitBtn = container.find(".fileuploadBtn");
 		this.callbackHidInp = container.find(".callbackHidInp");
-
+		if(Browser.ie){
+			this.fileInp.addClass("ie_"+Browser.ieVersion);
+		}
 		this.form.attr("target","iframefileupload_"+id);
 		this.form.attr("action",action);
 		this.fileInp.attr("id","fileuploadFileInp_"+id);

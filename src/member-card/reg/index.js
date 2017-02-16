@@ -447,6 +447,7 @@ var Main = PFT.Util.Class({
 			},
 			success : function(data){
 				PFT.Util.STip("success",this.fid ? "修改成功" : "开卡成功");
+				window.location.href = "mcard_list.html";
 			},
 			error : function(msg,code){
 				alert(msg);
