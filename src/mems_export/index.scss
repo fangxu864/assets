@@ -1,0 +1,154 @@
+@import "COMMON/css/base/core";
+$btn_color:#f07845;
+$btnHover_color:#d35c29;
+
+
+.select_down_pages{
+  background-color: white;
+  border-radius: 5px;
+  .title{
+    height:46px;
+    line-height: 46px;
+    text-align: center;
+    font-size: 18px;
+    //background-color: gainsboro;
+  }//标题部分
+  .pages_wrap{
+    padding:10px 10px;
+    .clear{
+      clear:both;
+    }
+    .page{
+      width:58px ;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      margin: 10px;
+      border: 1px solid grey;
+      border-radius:3px;
+      float: left;
+      cursor:pointer;
+      background: rgba(255,255,255,1);
+      transition:background 0.1s;
+    }
+    .no_down:hover{
+      background: rgba(240,240,240,1);
+    }
+    .downed{
+      border: 1px solid gainsboro;
+      color: gainsboro;
+    }
+    .active{
+      background-color: #00a0e9;
+      color:white;
+    }
+    .active:hover{
+      background-color: #00a0e9;
+      color:white;
+    }
+  }//页码容器
+  .btn_wrap{
+    height:60px;
+    padding:0 20px;
+    .lt{
+      height: 40px;
+      line-height: 40px;
+      padding:0 10px;
+      font-size: 12px;
+      color: #8c8c8c;
+      float: left;
+    }
+    .clickable{
+      height: 40px;
+      line-height: 40px;
+      //margin-top: 9px;
+      font-size: 16px;
+      text-align: center;
+      float: right;
+      padding:0 10px;
+      border: 1px solid grey;
+      border-radius: 3px;
+      cursor:pointer;
+    }
+    .clickable:active{
+      background-color:#00a0e9;
+      color:white;
+    }
+    .notclick{
+      height: 40px;
+      line-height: 40px;
+      //margin-top: 9px;
+      font-size: 16px;
+      text-align: center;
+      float: right;
+      padding:0 10px;
+      border: 1px solid gainsboro;
+      color: gainsboro;
+      border-radius: 3px;
+      cursor:pointer;
+    }
+    .all_btn{
+      margin-right: 10px;
+    }
+  }//底部按钮容器
+  .iframe_wrap{
+    iframe.iframe_down{
+      display: none;
+    }
+  }
+}
+
+.accountBalance_endTime_inp{
+  padding-left: 5px;
+  width: 90px;
+}
+
+.accountBalanceSettingBox{
+  margin-bottom: 20px;
+  .title{
+    font-size: 18px;
+    line-height: 46px;
+    padding-left: 20px;
+  }
+  .line{
+    height: 60px;
+    line-height: 60px;
+    padding-left: 20px;
+    .td{
+      float: left;
+    }
+  }
+  .line1{
+    .td1{
+      font-size: 14px;
+    }
+    .td2{
+      padding: 13px;
+      input.accountBalanceSettingInp{
+        @include textInp(266,5);
+      }
+      input.accountBalanceSettingInp:focus{
+        outline: none;
+      }
+    }
+  }
+  .line2{
+    margin-top: 20px;
+    padding-left: 0;
+    text-align: center;
+    span.btn{
+      padding:8px 30px;
+      border: 1px solid #0797D9;
+      color: #0797D9;
+      font-size: 14px;
+      background-color: #ffffff;
+      transition:   background-color 0.5s;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    span.btn:hover{
+      color: white;
+      background-color: #0797D9;
+    }
+  }
+}

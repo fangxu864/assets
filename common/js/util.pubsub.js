@@ -4,13 +4,13 @@
  * Description: 订阅发布模型
  */
 var E = {
-	fn : {},
+	___fn : {},
 	on : function(type,fn){
-		var fns = this.fn[type] || (this.fn[type]=[]);
+		var fns = this.___fn[type] || (this.___fn[type]=[]);
 		fns.push(fn);
 	},
 	fire : function(type){
-		var fns = this.fn[type];
+		var fns = this.___fn[type];
 		if(!fns) return false;
 		var args = arguments;
 		var len = args.length;

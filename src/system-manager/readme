@@ -1,0 +1,20 @@
+## 平台系统管理相关业务模块都放置在这里
+npm run system-manager-start：开发环境
+npm run system-manager-test：内网环境
+npm run system-manager-release：预发布环境
+npm run system-manager-production：生产环境
+
+
+
+主入口为 ./index.js
+
+## 相关模块：(与后端的接口文档在：./modify.api.md)
+modify-mobile: 修改绑定手机号
+modify-alipay: 修改支付宝帐号（包括支付宝验证）
+
+以上两块业务合在一个入口文件里：./mobile.alipay.index.js
+
+
+
+
+

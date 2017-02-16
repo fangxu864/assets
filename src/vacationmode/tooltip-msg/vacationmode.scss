@@ -1,0 +1,10 @@
+@import "./tooltip.scss";
+#datetimepicker_begin,#datetimepicker_end{ cursor:pointer}
+#exportExeclBtn{ cursor:default}
+#exportExeclBtn.disable a{
+    color:#A7A9AA;
+    cursor:default;
+    &:hover{
+        text-decoration:none;
+    }
+}

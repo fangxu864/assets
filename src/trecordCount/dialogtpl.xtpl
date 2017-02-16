@@ -1,0 +1,22 @@
+<div class="detail_box">
+    <div class="title"><span class="trader_name" id="dialog_title_trader_name">三亚先行</span>-交易明细</div>
+    <div class="detail_table_box">
+        <table class="detail_table">
+            <thead>
+            <tr>
+                <th class="th1">交易类型</th>
+                <th class="th2">收入(元)</th>
+                <th class="th3">支出(元)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--<tr>-->
+                <!--<td class="th1">总值</td>-->
+                <!--<td class="th2">+45821</td>-->
+                <!--<td class="th3">-66</td>-->
+            <!--</tr>-->
+            </tbody>
+        </table>
+    </div>
+
+</div>

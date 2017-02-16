@@ -1,0 +1,72 @@
+<div class="topBox">
+    <h3 class="sucTopTip">订单提交成功</h3>
+    <p class="desc"><span class="autoCancel"><%=payParams.expireTime%></span>分钟内未支付，系统将自动取消订单</p>
+</div>
+<div class="infoBox">
+    <p class="landTitle"><%=detail.landTitle%></p>
+    <ul class="ticketList">
+        <%_.each(detail.tickets,function(item,index){%>
+        <li class="ticketItem">
+            <span class="ttitle"><%=item.title%></span>
+            <i class="star">*</i>
+            <span class="tnum"><%=item.num%></span>张
+        </li>
+        <%})%>
+    </ul>
+    <% if(ptype=="A" || ptype=="F"){ %>
+        <p class="effectTime line">有效期：<%=detail.extra.date%></p>
+    <%}else if(ptype=="B"){%>
+        <p class="line">集合日期：<%=detail.extra.date%></p>
+        <p class="line">集合地点：<%=detail.extra.station%></p>
+    <%}else if(ptype=="C"){%>
+        <p class="line">住店时间：<%=detail.extra.date%> 共<span class="nightCount"><%=detail.extra.days%></span>晚</p>
+    <%}else if(ptype=="H"){%>
+        <p class="line">演出时间：<%=detail.extra.date%></p>
+        <p class="line">座位<i class="vhidden">位位</i>：<%=detail.extra.seat%></p>
+    <%}%>
+
+    <p class="ordername">联系人：<%=detail.ordername%> <%=detail.ordertel%></p>
+</div>
+<h4 class="selectPaymodeTop">请选择支付方式（需支付<span class="totalMoney">&yen;<%=detail.totalmoney%></span>）</h4>
+<ul id="paymodeList" class="paymodeList">
+    <li id="alipayBtn" data-typetext="支付宝支付" class="paymodeItem <%=payWay.ali==1 ? '' : 'disable'%>">
+        <div class="imgBox">
+            <form id="pay_form_alipay" action="<%=payParams.domain%>/wx/pay/alipay_v3.3/pay_iframe.html" method="post">
+                <input name="pay_action" type="hidden" value="1"/>
+                <input name="out_trade_no" value="<%=payParams.outTradeNo%>" type="hidden"/>
+                <input name="subject" value="<%=payParams.subject%>" type="hidden"/>
+                <input name="buy_id" value="<%=payParams.buyId%>" type="hidden"/>
+                <input name="expire_time" value="<%=payParams.expireTime%>" type="hidden"/>
+                <input name="domain" value="<%=payParams.domain%>" type="hidden"/>
+                <input name="success_back_notify" value="mall" type="hidden"/>
+                <input name="from" value="new" type="hidden"/>
+            </form>
+            <img src="http://static.12301.cc/assets/build/images/wx_paymode/zhifubao<%=payWay.ali==1 ? '' : '_disable'%>.png" alt="支付宝支付"/>
+        </div>
+    </li>
+    <li id="wxPayBtn" data-typetext="微信支付" class="paymodeItem wxPayBtn <%=payWay.wx==1 ? '' : 'disable'%>">
+        <div class="imgBox">
+            <img src="http://static.12301.cc/assets/build/images/wx_paymode/weixin<%=payWay.wx==1 ? '' : '_disable'%>.png" alt="微信支付"/>
+        </div>
+    </li>
+    <li id="unipayBtn" data-typetext="银联支付" class="paymodeItem <%=payWay.uni==1 ? '' : 'disable'%>" style="display:none">
+        <div class="imgBox">
+            <form id="pay_form_unipay" action="<%=payDomain%>order/union_api.php" method="post">
+                <input name="out_trade_no" value="<%=payParams.outTradeNo%>" type="hidden"/>
+                <input name="subject" value="<%=payParams.subject%>" type="hidden"/>
+                <input name="expire_time" value="<%=payParams.expireTime%>" type="hidden"/>
+                <input name="domain" value="<%=payParams.domain%>" type="hidden"/>
+                <input name="success_back_notify" value="mall" type="hidden"/>
+                <input name="from" value="new" type="hidden"/>
+            </form>
+            <img src="http://static.12301.cc/assets/build/images/wx_paymode/yinlian<%=payWay.uni==1 ? '' : '_disable'%>.png" alt="银联支付"/>
+        </div>
+    </li>
+</ul>
+<div id="wxQRcodeContainer">
+    <p class="topTit">微信二维码支付</p>
+    <div class="qrcodeBox">
+        <div id="wxQRcodeBox"></div>
+    </div>
+    <p class="tip">长按二维码识别</p>
+</div>

@@ -1,0 +1,75 @@
+
+
+<div class="trecordCount">
+    <div class="nav_title">
+        <ul>
+            <li class="active"><a href="trecordCount.html">交易记录统计</a></li>
+            <li><a href="accountSearch.html" class="not_active">账户余额查询</a></li>
+        </ul>
+    </div>
+    <div class="filter">
+        <div class="line line1">
+            <div class="lt">
+            <span>交易时间：</span><input type="text" class="datePickerInp begin" id="start_time" readonly="readonly"/><span class="zhi">至</span><input type="text" class="datePickerInp end" id="end_time" readonly="readonly"/>
+            </div>
+            <div class="rt">
+            <ul class="time_area">
+                <!--<li id="today_btn">今天</li>-->
+                <li id="yestoday_btn">昨天</li>
+                <li id="thisweek_btn">本周</li>
+                <li id="lastweek_btn">上周</li>
+                <li id="thismonth_btn">本月</li>
+                <li id="lastmonth_btn">上月</li>
+            </ul>
+            </div>
+        </div>
+        <div class="line line2">
+           <!-- <div class="fll td1">
+                <span>交易商户：</span><input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入交易商户名称"/>
+                <i class="clear_trader_inp">&#xe674;</i>
+            </div>-->
+            <div class="fll td1">
+                <div id="search_type_select" class="search_type_select"></div>
+            </div>
+            <div class="fll td3">
+                <input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入商户名称/ID"/>
+                <i class="clear_trader_inp">&#xe674;</i>
+            </div>
+            <div class="fll td2">
+                <div class="box count_dot_btn_box">
+                    <span class="cell selected" data_type="1">正式账户</span>
+                    <span class="cell selected" data_type="2">测试账户</span>
+                </div>
+            </div>
+            <div class="fll btn1">
+                <span class="query_btn">查询</span>
+            </div>
+            <div class="fll btn2">
+                <span class="excel_btn" id="excel_btn">导出数据</span>
+            </div>
+        </div>
+    </div>
+    <div class="table_box">
+        <table class="total_table">
+            <thead>
+            <tr>
+                <th class="th1">交易商户</th>
+                <th class="th7">ID</th>
+                <th class="th2">期初余额(元)</th>
+                <th class="th3">收入(元)</th>
+                <th class="th4">支出(元)</th>
+                <th class="th5">期末余额(元)</th>
+                <th class="th6">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    dfsdfds
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

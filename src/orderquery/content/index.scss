@@ -1,0 +1,156 @@
+.siteTopBanner{ position:relative; top:12px;}
+.pageRightArea{ position:relative;}
+.filterWrap{ border-bottom:1px solid #dbdbdb; margin-bottom:10px;}
+.filterWrap .oldVersion{position: absolute; top: 35px; right: 10px;}
+.filterWrap .ui-h1{ padding-left:15px; position: relative;background-color: #ffffff;    border: 1px solid #e5e5e5;
+    border-bottom: none;}
+.oldBox{ height: 30px; line-height: 30px; position: absolute; top: 18px; right: 10px; font-size: 12px; color: #FFFFFF; background: #3DBA3F; padding: 0 15px;}
+.oldBox a:link, .oldBox  a:visited,.oldBox  a:hover {color: #FFFFFF; text-decoration: none;}
+.filterCon{ padding:15px;}
+.filterWrap .line{ width:100%; margin-bottom:5px;}
+.filterWrap .line:last-child{ margin-bottom:0}
+.filterWrap .mluSelectBox{ float:left;}
+.filterWrap .mluSelectBox.keyword{ margin-right:10px}
+.filterWrap .mluSelectBox .lt{ float:left; width:120px; height:34px; line-height:34px; background:#f5f5f5; border:1px solid #e5e5e5;}
+.filterWrap .mluSelectBox .lt .t{ padding-left:7px;}
+.filterWrap .mluSelectBox .lt .triBtn{ float:right; margin-right:3px; cursor:pointer}
+.filterWrap .mluSelectBox .lt .triBtn .iconfont{ font-size:22px; }
+.filterWrap .mluSelectBox .lt .triBtn .iconfont.up{ display:none }
+.filterWrap .mluSelectBox .lt .triBtn.on .iconfont.up{ display:inline-block}
+.filterWrap .mluSelectBox .lt .triBtn.on .iconfont.down{ display:none}
+.filterWrap .mluSelectBox.fs .lt{ width:100px;}
+.filterWrap .mluSelectBox .rt{  float:left; width:393px; height:34px; padding:0; border:1px solid #e5e5e5; border-left:0 none;}
+/*.filterWrap .mluSelectBox .rt.time{ padding:0}*/
+.filterWrap .mluSelectBox.keyword .rt{ position:relative; width:auto; padding-right:0; padding-left:0; border:0 none}
+.filterWrap .mluSelectBox.fs .rt{ position:relative; width:auto; padding-right:0; padding-left:0; border:0 none}
+.filterWrap .mluSelectBox.fs .triBtn{ position:absolute; top:7px; right:2px; cursor:pointer}
+.filterWrap .mluSelectBox.fs .triBtn .iconfont{ font-size:22px;}
+.filterWrap .mluSelectBox.fs .triBtn .iconfont.down{ display:inline-block}
+.filterWrap .mluSelectBox.fs .triBtn .iconfont.up{ display:none}
+.filterWrap .mluSelectBox.fs .rt.active .triBtn .iconfont.down{ display:none}
+.filterWrap .mluSelectBox.fs .rt.active .triBtn .iconfont.up{ display:inline-block}
+.filterWrap .timeNodeBox{ float:left; height:34px; line-height:34px;}
+.filterWrap .timeNodeBox .timenode{ margin-left:8px;}
+.filterWrap .timeNodeBox .clear{ color:#f07845;}
+.filterWrap .timeNodeBox .clear:hover{ color:#f07845; text-decoration:underline}
+.filterWrap .searchBtn{ display:block; float:left; width:85px; height:34px; line-height:34px; margin-top:1px; margin-left:8px; text-align:center; color:#fff; background:#f07845}
+.filterWrap .searchBtn:hover{ text-decoration:none; background:#e06e3d}
+.filterWrap .keywordInp{ width:190px; padding-left:13px; padding-top:6px; padding-right:33px; padding-bottom:6px; border-left:0 none;}
+.filterWrap .keywordInp.fs{ width:215px; padding-left:6px; padding-right:16px;}
+.filterWrap .keywordInp:focus{ border-color:#dbdbdb}
+.filterWrap .calcadBox{ position:relative; width:185px; height:100%; line-height:34px;}
+.filterWrap .calcadBox .t{  width:170px; height:22px; line-height:23px; padding:6px 8px; font-family:arial; font-size:14px; border:0 none; background:none}
+.filterWrap .calcadBox.left{ float:left;}
+.filterWrap .calcadBox.right{ float:right; margin-right:6px;}
+.filterWrap .calcadBox .triBtn{ position:absolute; top:-2px; right:0; z-index:1; cursor:pointer;}
+.filterWrap .calcadBox .triBtn .iconfont{ top:1px; font-size:22px; color:#0797d9}
+.filterWrap .zhi{ position:relative; top:4px; left:2px; font-size:26px; color:#a9a9a9}
+.filterWrap .line.radioGroup{ padding:3px 0 5px;}
+.filterWrap .line.radioGroup .lt{ padding-left:8px; margin-right:10px;}
+.filterWrap .radioGroup{ position:relative; top:1px; margin-right:15px;}
+.filterWrap .radioGroup label{ margin-left:2px; cursor:pointer}
+.filterWrap .radioGroup input{ position:relative; top:2px;}
+.filterWrap .clearSearchBtn{ display:none; position:absolute; top:4px; right:7px; width:26px; height:26px; line-height:26px; text-align:center; cursor:pointer; color:#c5c5c5}
+.filterWrap .clearSearchBtn:hover{ text-decoration:none}
+.filterWrap .clearSearchBtn .iconfont{ font-size:22px;}
+.selectPop{ display:none; position:absolute; left:15px; width:120px; background:#fff; border-top:0 none}
+.selectPop .select-item{ height:34px; line-height:34px; border-bottom:1px solid #dbdbdb; padding-left:5px; cursor:pointer}
+.selectPop .select-item:hover,.selectPop .select-item.active{ background:#fcfcfc}
+.selectPop.time{ top:117px;}
+.selectPop.name{ top:158px;}
+
+.sortBar{ position:relative; overflow:hidden; background:#fff; padding-left:10px; border-bottom:1px solid #dbdbdb;}
+.sortBar .sortItem{ float:left; height:34px; line-height:34px; padding:0 10px; border-right:1px solid #dbdbdb; cursor:pointer}
+.sortBar .sortItem.bookingtime{ padding-left:5px;}
+.sortBar .sortItem .iconfont.up{ display:none}
+.sortBar .sortItem.on .iconfont.up{ display:none}
+.sortBar .sortItem.on .iconfont.down{ display:inline-block}
+.sortBar .sortItem.on{ color:#f07845}
+.sortBar .sortItem.on.asc .up{ display:inline-block}
+.sortBar .sortItem.on.asc .down{ display:none}
+.sortBar .sortItem.on.desc .up{ display:none}
+.sortBar .sortItem.on.desc .down{ display:inline-block}
+.sortBar .exportExeclBtn{ position:absolute; top:0; right:90px; bottom:0; width:80px; line-height:34px; text-align:center; cursor:pointer}
+.sortBar .countBtn{position: absolute; top: 0; right: 10px; line-height:34px;}
+.sortBar .excelIcon{ position:relative; top:4px; margin-right:2px;}
+.sortBar .countCon{line-height: 35px; margin-left: 180px;}
+.sortBar .countCon .list{margin-right: 10px;}
+.yen{ font-style:normal}
+.table,.colUl{ table-layout:fixed;}
+.table .col{ text-align:center}
+.table .col.alignLeft{ text-align:left; padding-left:10px;}
+.table .col_1{ width:265px;}
+.table .col_2{ width:100px;}
+.table .col_3{ width:150px;}
+.table .col_4{ width:165px;}
+.table .col_5{ width:70px;}
+.table .col_6{ width:85px;}
+.table thead .col{ font-size:12px; font-weight:normal;}
+.table .colUl{ margin-bottom:10px; background:#fff;}
+.table .listItem .col{ border-bottom:1px solid #dbdbdb; border-right:1px solid #dbdbdb;}
+.table .listItem .col .tdCon{ padding:12px 0;}
+.table .listItem .col_6{ border-right:0;}
+.table thead .col{ height:34px; line-height:34px; background:#f0f0f0}
+.table .ltop{ height:34px; line-height:34px; overflow:hidden; border-bottom:1px solid #dbdbdb}
+.table .ltop .lt{ float:left; padding-left:15px;}
+.table .ltop .lt .od{ margin-right:10px}
+.table .ltop .lt .od .ordernum{ margin-left:2px}
+.table .ltop .rt{ float:right; padding-right:15px;}
+.table .listItem:hover .colUl{ background:#f6fcff}
+.table .ticLi{ line-height:1.8}
+.table .ticLi .star{ position:relative; top:3px;}
+.table .ticLi .tnum{ color:#f07845;}
+.table .ticLi .prices{ color:#f07845; margin-left:5px;}
+.table .ticLi .prices .ver{ margin:0 4px;}
+.table .ticLi .hasTerminal{ margin-left:2px; font-style:normal}
+.table .ticLi .hasTerminalNum{ font-size:14px; font-family:arial; margin:0 2px; color:#f07845;}
+.table .doBtn{ display: inline-block; padding: 2px; line-height:1.5}
+.table .totalMoneyLine{ line-height:1.5}
+.table .totalMoneyLine .num,.table .aidLine .num{ font-weight:bold; color:#f07845; font-size:14px;}
+.table .totalMoneyLine .num .yen,.table .aidLine .num .yen{ font-style:normal; font-weight:normal; font-size:12px;}
+.table .aidLine{ line-height:1.5; width:100%; height:20px; overflow:hidden;}
+.table .listItem.disable .colUl{ background:#fcfcfc}
+.table .listItem.disable .ticLi .prices,.table .listItem.disable .ticLi .tnum,.table .listItem.disable .totalMoneyLine .num, .table .listItem.disable .aidLine .num{
+    color:#646464;
+}
+.table .status{ line-height:1.5}
+.table .listItem.disable .landTit{ color:#646464}
+
+.thead_fixed{position:fixed;z-index:2;top:0px;width:835px;}
+.hover-cursor{ cursor:default;}
+
+#navigationBar{ width:100%; margin-top:10px; clear:both;    background-color: white;padding: 15px 0;}
+#navigationBar .navCon{ float:right; position:relative; padding:0 120px; background:#fff; border-bottom:1px solid #dbdbdb }
+#navigationBar .navCon .navBtn{ display:block; position:absolute; top:0; bottom:0; right:0; width:75px; line-height:49px; text-align:center; cursor:pointer; background:#fff; color:#333}
+#navigationBar .navCon .navBtn.next{ right:0; border-left:1px solid #dbdbdb;}
+#navigationBar .navCon .navBtn.prev{ left:0; border-right:1px solid #dbdbdb}
+#navigationBar .navCon .navBtn:hover{ text-decoration:none; color:#0797d9}
+#navigationBar .navCon .navBtn.disable,#navigationBar .navCon .navBtn.disable:hover{ color:#989898; background:#f2f2f2; cursor:default}
+#navigationBar .which{ height:50px; line-height:50px;}
+#navigationBar .pagenum{ position:relative; top:2px; font-family:arial; font-size:16px; font-weight:bold}
+#navigationBar .var{ position:relative; top:-1px;}
+#navigationBar .tip{ clear:both; text-align:right; margin-right:2px; padding-top:8px; color:#A7A9AA}
+.ui-tooltip-wrap .tooltipCon{ padding:12px;}
+.ui-tooltip-wrap .timeTip{ width:210px; line-height:1.5}
+.tooltipCon.price{ width:110px;}
+.tooltipCon.price.admin{ width:auto;}
+.tooltipCon.price .priceTit{ padding-left:2px; font-weight:bold; padding-bottom:6px; margin-bottom:3px; border-bottom:1px solid #dbdbdb}
+.tooltipCon.price .priceLine{ line-height:1.5; padding:0 2px;}
+.tooltipCon.price .priceLine .yen,.tooltipCon.price .priceLine .num{ font-size:12px; font-style:normal; color:#f07845}
+.tooltipCon.price .priceLine .num{ font-size:14px;}
+.tooltipCon.price .aidLine{ line-height:1.5}
+
+#distorSelectPop{ top:158px; left:485px; width:237px; height:300px; overflow:auto}
+#distorSelectPop .group{ }
+#distorSelectPop .group .line{ padding:0 8px 0 8px; overflow:hidden; border-bottom:1px solid #dbdbdb;}
+#distorSelectPop .group .line.letter{ height:32px; line-height:32px; background:#fafafa; color:#333; font-family:arial; font-weight:bold}
+#distorSelectPop .group .line.distorItem{ height:35px; line-height:35px; cursor:pointer; overflow:hidden}
+#distorSelectPop .group .line.distorItem:hover{ background:#fcfcfc;}
+
+.colorGreen{color: #3DBA3F}
+.colorOrange{color: #F07845}
+.boxfoot{border-top:1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; background: #FFFFFF;}
+.boxfoot li{display:inline-block;line-height:35px;margin:5px 0px 5px 20px;}
+.boxfoot  em{font-size:18px; padding: 0 2px;}
+
+#sale_mode_select{ position:relative; top:2px; height:28px; line-height:28; border:1px solid #ccc; border-radius:3px; cursor:pointer}

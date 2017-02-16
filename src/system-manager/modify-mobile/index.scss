@@ -1,0 +1,107 @@
+*{
+    font-family: "微软雅黑";
+    margin: 0;
+    padding: 0;
+    color: rgb(48, 61, 70);
+}
+
+#mobile_modify{
+    width: 600px;
+    height: 315px;
+    overflow: hidden;
+    position: relative;
+}
+
+
+#title_modify{
+    height: 40px;
+    line-height: 40px;
+    text-indent: 1rem;
+    background: rgba(240, 243, 245, 1);
+    font-size: 16px;
+}
+
+#content_modify{
+    margin: 40px 0 0 90px;
+    font-size: 14px;
+
+}
+
+.line1,.line2{
+    margin-top: 20px;
+}
+
+#mobile_modify input{
+    width: 180px;
+    height: 23px;
+    line-height: 36px;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-indent: 10px;
+    margin-left: 5px;
+}
+#oldPhone{
+    background: rgba(240, 243, 245, 1);
+}
+
+.line1 .getVCodeBtn{
+    display: inline-block;
+    height: 23px;
+    line-height: 23px;
+    border: 1px solid #0797d9;
+    border-radius: 5px;
+    color: #0797d9;
+    margin-left: 15px;
+    width: 70px;
+    text-align: center;
+    padding: 5px 10px;
+}
+.line1 .getVCodeBtn:hover{
+    background: #0f7cb7;
+    color: white;
+}
+
+
+
+.line1 .getVCodeBtn:hover{
+    cursor: pointer;
+}
+
+.button_modify{
+    font-size: 14px;
+    width: 110px;
+    height: 36px;
+    background: #0797d9;
+    border-radius: 5px;
+    color: white;
+    line-height: 36px;
+    text-align: center;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 20px;
+    left: 245px;
+}
+.button_modify:hover{
+    background: #0f7cb7;
+    cursor: pointer
+}
+
+#mobile_modify .disable{
+    color: #6c7882;
+    cursor: default;
+    background: #a6a6a6;
+    border-color:#a6a6a6 ;
+    text-decoration: none;
+}
+
+
+.successPrompt{
+    color: #3DBA3F;
+    font-size: 14px;
+    margin: 100px;
+    text-align: center;
+}

@@ -1,0 +1,141 @@
+.pft-tips{
+    padding: 10px;
+    line-height: 20px;
+    background-color: #FF5722;
+    color:white;
+    position: absolute;
+    z-index: 1;
+    border-radius: 3px;
+    max-width: 200px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.12);
+    text-align: justify;
+}
+
+.pft-tips-right i.arrow{
+    display: block;
+    position: absolute;
+    border-right: 8px solid #FF5722;
+    border-bottom: 0px solid transparent;
+    border-top: 8px solid transparent;
+    left: -8px;
+    top: 10px;
+}
+.pft-tips-right{
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: fadeInRight;
+}
+
+.pft-tips-left i.arrow{
+    display: block;
+    position: absolute;
+    border-left: 8px solid #FF5722;
+    border-bottom: 0px solid transparent;
+    border-top: 8px solid transparent;
+    right: -8px;
+    top: 10px;
+}
+.pft-tips-left{
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: fadeInLeft;
+}
+
+.pft-tips-top i.arrow{
+    display: block;
+    position: absolute;
+    border-top: 8px solid #FF5722;
+    border-left: 0px solid transparent;
+    border-right: 8px solid transparent;
+    bottom: -8px;
+    left:10px;
+}
+.pft-tips-top{
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: fadeInDown;
+}
+
+.pft-tips-bottom i.arrow{
+    content: "";
+    display: block;
+    position: absolute;
+    border-bottom: 8px solid #FF5722;
+    border-right: 0px solid transparent;
+    border-left: 8px solid transparent;
+    top: -8px;
+    left:10px;
+}
+.pft-tips-bottom{
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: fadeInUp;
+}
+
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(20%, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-20%, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -20%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20%, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.fadeOut {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: fadeOut;
+}
+
+
+

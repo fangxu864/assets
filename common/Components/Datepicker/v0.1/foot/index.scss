@@ -1,0 +1,32 @@
+@import "COMMON/css/base/main";
+.pftui-datepicker-footCon{
+    width:100%;
+    position:relative;
+    overflow:hidden;
+
+    .fBtn{
+        display:block;
+        position:relative;
+        float:left;
+        width:33.33%;
+        height:38px;
+        line-height:38px;
+        text-align:center;
+        color:$blue;
+        border-top:1px solid $gray90;
+        cursor:pointer;
+        &:hover{ font-weight:bold}
+        &.cannel:before,&.current:before{
+            content : "";
+            position:absolute;
+            width:1px;
+            top:0;
+            bottom:0;
+            right:0;
+            font-size:0;
+            background:$gray90;
+        }
+    }
+
+
+}

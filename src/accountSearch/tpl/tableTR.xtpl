@@ -1,0 +1,6 @@
+<% _.each(data,function(item,index){ %>
+<tr class="<%=index%2==0?'':'gray' %>">
+<td class="th1"><%=item.dname%>(<%=item.fid%>)</td>
+<td class="th2"><%=item.lmoney%></td>
+</tr>
+<%})%>

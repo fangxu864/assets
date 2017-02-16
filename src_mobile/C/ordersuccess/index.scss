@@ -1,0 +1,81 @@
+@import "COMMON/css/base/main";
+@import "COMMON/css/base/flex";
+#bodyContainer{
+
+    position:relative;
+
+    .topBox{
+        height:80px;
+        line-height:80px;
+        text-align:center;
+        color:$green;
+        padding:20px;
+        border-bottom:1px solid $gray90;
+        .sucTopTip{
+            font-size:16px;
+        }
+    }
+
+    .infoBox{
+        padding:10px;
+        background:$gray98;
+        line-height:1.7;
+        font-size:14px;
+        margin:15px;
+        .tnum{ color:$orange; font-weight:bold}
+    }
+
+    .qrcodeContainer{
+        width:160px;
+        margin:20px auto 0;
+        text-align:center;
+        .qrcode{ font-size:16px; color:$orange}
+
+        .qrcodeBox{
+            width:100%;
+            margin-top:10px;
+            font-size:0;
+            text-align:center;
+            overflow:hidden;
+        }
+
+    }
+
+
+    .fixFoot{
+        position:fixed;
+        left:0;
+        right:0;
+        bottom:0;
+        height:34px;
+        line-height:34px;
+        padding:5px 20px;
+        background:#e4f5fc;
+        overflow:hidden;
+
+        .tlink{ font-size:14px}
+        .tlink.lt{ float:left}
+        .tlink.rt{ float:right}
+
+        .buyBtn{
+            position:absolute;
+            top:6px;
+            bottom:6px;
+            left:50%;
+            width:110px;
+            margin-left:-55px;
+            background:$blue;
+            color:#fff;
+            text-align:center;
+            &:active{ background:#0c83bc}
+        }
+
+    }
+
+
+    .vhidden{ visibility:hidden}
+
+
+
+
+}

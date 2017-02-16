@@ -1,0 +1,101 @@
+<% _.each(data,function(item,index){ %>
+<% var STATUS={
+    0 : { text:"未使用",           color:"#3eba40"},
+    1 : { text:"已使用",           color:"#f37138"},
+    2 : { text:"已过期",           color:"#e12424"},
+    3 : { text:"已取消",           color:"#f37138"},
+    4 : { text:"凭证码被替代",      color:"#f37138"},
+    5 : { text:"被终端撤销(已取消)", color:"#f37138"},
+    6 : { text:"被终端撤销(已使用)", color:"#f37138"},
+    7 : { text:"已部分使用",        color:"#f37138"}
+};%>
+<li class="orderItem" id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>">
+    <div class="oTit">
+        联系人：<span class="contactor"><%=item.ordername%></span><span class="mobile">电话：<%=item.ordertel%></span>
+        <span class="flag pmode_<%=item.paystatus%>"><%={
+            0 : "景区到付",
+            1 : "已支付",
+            2 : "未支付"
+        }[item.paystatus]%></span>
+    </div>
+    <div class="itemCon">
+        <div class="ltCon">
+            <p class="line">
+                <span class="lt">订单号：<span class="vhidden">订</span></span>
+                <span class="rt"><%=item.ordernum%></span>
+            </p>
+            <p class="line">
+                <span class="lt">下单时间：</span>
+                <span class="rt"><%=item.ordertime%></span>
+            </p>
+            <p class="line">
+                <span class="lt">游玩时间：</span>
+                <span class="rt"><%=item.begintime%></span>
+            </p>
+            <p class="line">
+                <span class="lt">团购订单号：</span>
+                <span class="rt"><%=item.apiOrder%></span>
+            </p>
+        </div>
+        <div class="inCon">
+            <% if(item.tip){ %>
+                <p style="text-align:right; margin-bottom:5px; color:#e12424" class="refundTip">*<%=item.tip%></p>
+            <% } %>
+            <% var tickets=item.tickets;%>
+            <% if(tickets && tickets.length){ %>
+                <ul class="ticketUl">
+                    <% _.each(tickets,function(ticket,ind){ %>
+                        <li class="ticketLi clearfix">
+                            <div class="inpCtrol">
+                                <!-- readonly=readonly:退票需审核，不能修改票数 -->
+                                <!-- readonly="":退票不需审核，可以修改票数 -->
+                                <input class="tinp countInp" type="text" value="<%=ticket.tnum%>"
+                                       <%=item.readonly%>
+                                       data-ptype="A"
+                                       data-maxnum="<%=ticket.tnum%>"
+                                       data-mainordernum="<%=tickets[0].ordernum%>"
+                                       data-ordernum="<%=ticket.ordernum%>"/>
+                                <span class="zhang">张</span>
+                            </div>
+                            <div class="trnameCol">
+                                <p class="tname">【<%=ticket.name%>】</p>
+                                <p class="bt" style="display: none;">
+                                    共<em class="tnum total_tnum"><%=ticket.tnum_s%></em>张
+                                    <i class="vt"></i>
+                                    <%
+                                        var has_terminal=ticket.tnum_s-ticket.tnum;
+                                        if(has_terminal<0) has_terminal=0;
+                                    %>
+                                    <span class="flag status_<%=ticket.status%>" style="background-color:<%=STATUS[ticket.status]["color"]%>"><%=STATUS[ticket.status]["text"]%></span>
+                                    <% var dcls = ticket.status!=3 ? "inline" : "none"; %>
+                                    <span style="display:none">已使用<em class="tnum has_terminal_tnum"><%=has_terminal%></em>张</span>
+                                    <i class="vt"></i>
+                                    待验证<em class="tnum un_terminal_tnum"><%=ticket.tnum%></em>张
+                                </p>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+                <div style="display:none" class="checkMethodBox">
+                    <!-- 如果支持分批验证，则默认选中保留余票 -->
+                    <!-- 如果不支持分批验证，则默认选中取消余票 -->
+                    <input type="radio" <%=item.batch_check ? "" : "checked"%> name="check_method" value="0" id="check_method_<%=item.ordernum%>_0"/><label style="margin-right:15px" for="check_method_<%=item.ordernum%>_0">取消余票</label>
+                    <input type="radio" <%=item.batch_check ? "checked" : ""%> name="check_method" value="1" id="check_method_<%=item.ordernum%>_1"/><label for="check_method_<%=item.ordernum%>_1">保留余票</label>
+                </div>
+                <div class="doActionBox">
+                    <a class="checkBtn <%=item.can_check ? '' : 'disable'%>" data-salerid="<%=item.salerid%>" data-ptype="<%=item.ptype%>" href="javascript:void(0)" data-mainordernum="<%=tickets[0].ordernum%>">
+                        <%=item.is_audit ? '退 票 中...' : '核 销'%>
+                    </a>
+                    <% if(item.endtime){ %>
+                        <span class="termTimeWrap" style="display: none"><input data-nowtime="<%=item.endtime%>" data-terminaltime="<%=item.ordertime%>" readonly class="termTimeInp" type="text" value="<%=item.endtime%>"/><i class="iconfont">&#xe65b;</i></span>
+                    <% } %>
+                    <span class="errorTip"></span>
+                </div>
+                <% if(item.pmode==4){ %>
+                    <p class="payTypeTip">请先确认游客已现场付费，然后给予验证</p>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+</li>
+<% }) %>

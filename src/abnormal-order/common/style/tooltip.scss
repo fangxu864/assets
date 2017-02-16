@@ -1,0 +1,25 @@
+@import "COMMON/css/base/mixin/triangle";
+$bgColor: #f3fbff;
+$borderColor: #bfd9e8;
+#tooltipContainer{ position:absolute; padding-bottom:7px;}
+#tooltipContainer .con{ max-width:240px; word-wrap: break-word; line-height:1.4em; padding:6px 10px; color:#0c789e; background:$bgColor; border:1px solid $borderColor;  box-shadow:1px 1px 1px rgba(0,0,0,0.1)}
+#tooltipContainer {
+    &:after {
+        @include triangle(12px,$borderColor,$bgColor,down,false,false);
+        z-index: 1;
+        bottom:1px;
+    }
+    &:before {
+        @include triangle(12px,$bgColor,$bgColor,down,false,false);
+        margin-left:0;
+        z-index: 2;
+        bottom:2px;
+    }
+}
+#tooltipContainer:before,#tooltipContainer:after{
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    position:absolute; top:auto; left:50%; transform:translateX(-50%);
+}

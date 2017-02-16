@@ -1,4 +1,7 @@
 var Validate = {
+	require : function(value){
+		return !!value;
+	},
 	//非空
 	noBlank: function( value ){
 		return !!value;
@@ -19,13 +22,15 @@ var Validate = {
 	},
 	typeCN : function(str){
 		var result = true;
-		var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/g;
-		for(var i= 0,len=str.length; i<len; i++){
-			if(!reg.test(str)){
-				result = false;
-				break;
-			}
-		}
+		// var reg = /[\u4E00-\u9FA5\uF900-\uFA2D\(\（\)\）]/g;
+		// for(var i= 0,len=str.length; i<len; i++){
+		// 	if(!reg.test(str)){
+		// 		result = false;
+		// 		break;
+		// 	}
+		// }
+		var re=/^([\u4e00-\u9fa5]+)?([\(\（])?[\u4e00-\u9fa5]+([\）\)])?([\u4e00-\u9fa5]+)?$/g;
+		result = re.test(str);
 		return result;
 	},
 	//中文、英文
@@ -47,6 +52,11 @@ var Validate = {
 	//只能大小写英文字母
 	typeEe : function(value){
 		return /^[a-zA-Z]+$/g.test(value);
+	},
+	typeChina : function(string){
+		var reg = /[^\u0000-\u00FF]/;
+		if(!reg.test(string)) return false;
+		return true;
 	},
 	//数字
 	typeNum: function( value ){
@@ -77,7 +87,7 @@ var Validate = {
 		var tip = "";
 		var pass= true;
 
-		if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
+		if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)){
 			tip = "身份证号格式错误";
 			pass = false;
 		}else if(!city[code.substr(0,2)]){
@@ -195,6 +205,24 @@ var Validate = {
 			var level = getCheckLevel(pwd);
 			return{error:"",level:level};
 		}
+	},
+
+	//2016-08-17
+	//新的验证api
+	mobile : function(val){
+		var result = {};
+		var reg = /^1[0-9]{10}$/;
+		if(!val){
+			result["code"] = -1;
+			result["error"] = "手机号不能为空";
+		}else if(reg.test(val)){
+			result["code"] = 0;
+			result["error"] = "手机号格式错误";
+		}else{
+			result["code"] = 1;
+			result["error"] = "";
+		}
+		return result;
 	}
 };
 module.exports = Validate;

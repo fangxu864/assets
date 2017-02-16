@@ -1,0 +1,92 @@
+<div id="menuActionDialogContainer" class="menuActionDialogContainer">
+    <a href="javascript:void(0)" id="menuActionClaseBtn" class="menuActionClaseBtn">×</a>
+    <h5 class="title">选择菜单 【<em id="menuActionTitleText" class="title_text"></em>】 要执行的操作</h5>
+    <div class="mcCon">
+        <dl class="line-list">
+            <dt class="chead">适用于游客的菜单</dt>
+            <dd class="ccon">
+                <label class="actionBox" for="1">
+                    <input class="radioInp" type="radio" name="a" id="1"/>
+                    <span class="t">微商城</span>
+                </label>
+                <label class="actionBox" for="2">
+                    <input class="radioInp" type="radio" name="a" id="2"/>
+                    <span class="t">本季主推</span>
+                </label>
+                <label class="actionBox" for="3">
+                    <input class="radioInp" type="radio" name="a" id="3"/>
+                    <span class="t">微商城</span>
+                </label>
+                <label class="actionBox" for="4">
+                    <input class="radioInp" type="radio" name="a" id="4"/>
+                    <span class="t">本季主推</span>
+                </label>
+                <label class="actionBox" for="5">
+                    <input class="radioInp" type="radio" name="a" id="5"/>
+                    <span class="t">微商城</span>
+                </label>
+                <label class="actionBox" for="6">
+                    <input class="radioInp" type="radio" name="a" id="6"/>
+                    <span class="t">本季主推</span>
+                </label>
+            </dd>
+        </dl>
+        <dl class="line-list">
+            <dt class="chead">适用于游客的菜单</dt>
+            <dd class="ccon">
+                <label class="actionBox" for="1">
+                    <input class="radioInp" type="radio" name="a" id="1"/>
+                    <span class="t">微商城</span>
+                </label>
+                <label class="actionBox" for="2">
+                    <input class="radioInp" type="radio" name="a" id="2"/>
+                    <span class="t">本季主推</span>
+                </label>
+                <label class="actionBox" for="3">
+                    <input class="radioInp" type="radio" name="a" id="3"/>
+                    <span class="t">微商城</span>
+                </label>
+                <label class="actionBox" for="4">
+                    <input class="radioInp" type="radio" name="a" id="4"/>
+                    <span class="t">本季主推</span>
+                </label>
+                <label class="actionBox" for="5">
+                    <input class="radioInp" type="radio" name="a" id="5"/>
+                    <span class="t">微商城</span>
+                </label>
+                <label class="actionBox" for="6">
+                    <input class="radioInp" type="radio" name="a" id="6"/>
+                    <span class="t">本季主推</span>
+                </label>
+            </dd>
+        </dl>
+        <dl class="line-list">
+            <dt class="chead">自定义菜单</dt>
+            <dd style="margin-top:10px" class="ccon">
+                <div class="customSetLine keyword">
+                    <lable class="actionBox">
+                        <input class="radioInp" type="radio" name="" id=""/>
+                        <span class="t">自定义关键字</span>
+                    </lable>
+                    <input name="action" id="customInp-keyword" class="customInp keyword actionRadioInp form-control" type="text" placeholder="请输入自定义关键字">
+                </div>
+                <div class="customSetLine link">
+                    <lable class="actionBox">
+                        <input class="radioInp" type="radio" name="" id=""/>
+                        <span class="t">自定义键接</span>
+                    </lable>
+                    <input name="action" id="customInp-link" class="customInp keyword actionRadioInp form-control" type="text">
+                </div>
+                <div class="customSetLine link">
+                    <lable class="actionBox"></lable>
+                    <span class="tip">指定点击此菜单时要跳转的链接（注：链接需加http://）</span>
+                </div>
+            </dd>
+        </dl>
+    </div>
+    <div class="footerBtnGroup">
+        <a href="javascript:void(0)" class="menuActionDialogBtn no">取消</a>
+        <a href="javascript:void(0)" class="menuActionDialogBtn yes">确定</a>
+    </div>
+</div>
+<div id="menuActionDialogMask" class="menuActionDialogMask"></div>

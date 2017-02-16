@@ -1,0 +1,272 @@
+/**
+ * Created by Administrator on 2016/10/28.
+ */
+
+//引入css
+require("./dialog.scss");
+//引入tpl
+var dialog_con_tpl=require("./dialog_con.xtpl");
+var dialog_con_pft_tpl=require("./dialog_con_pft.xtpl");
+var dialog_querying_tpl=require("./dialog_querying.xtpl");
+var querySuccess_tpl=require("../tpl/querySuccess.xtpl");
+querySuccess_tpl=PFT.Util.ParseTemplate(querySuccess_tpl)({data:{"host":location.host}});
+//引入插件
+var DialogSimple=require("COMMON/modules/dialog-simple");
+
+function Dialog(){
+    var _this=this;
+    this.Dialog_simple=new DialogSimple({
+        width : 500,
+        closeBtn : true,
+        content : "<div id='dialog_box'></div>",
+        drag : true,
+        speed : 200,
+        offsetX : 0,
+        offsetY : 0,
+        overlay : true,
+        headerHeightMin : 46,
+        events : {
+            "click .btn_close" : function () {
+                _this.Dialog_simple.close()
+            },
+            "click .btn_charge" : function (e) {
+                var tarBtn = e.currentTarget;
+                if( $(tarBtn).hasClass("disable")) return;
+                _this.pftChargeByBalance();
+            }
+        },
+        onCloseAfter : function () {
+            _this.setInterval_own.clear()
+        }
+    });
+    this.Dialog_box=$("#dialog_box")
+}
+Dialog.prototype={
+
+    /**
+     * @function 弹框的打开
+     */
+    open:function () {
+        this.Dialog_simple.open()
+    },
+
+    /**
+     * @function 弹框的关闭
+     */
+    close:function () {
+        this.Dialog_simple.close();
+    },
+
+    /**
+     * @function 弹框的渲染、打开
+     * @param data
+     */
+    show_dialog_con:function (data) {
+        var list=data;
+        var _this=this;
+        var html=_this.template({data:list});
+        this.Dialog_box.html(html);
+        this.open();
+        _this.ajaxGetVcode(list)
+    },
+
+    /**
+     * @function 选择票付通余额支付时，弹框的渲染、打开
+     * @param data
+     */
+    show_dialog_con_pft:function (data) {
+        var list=data;
+        var _this=this;
+        var html=_this.template_pft({data:list});
+        this.Dialog_box.html(html);
+        this.open();
+        _this.ajaxGetBalance(list)
+    },
+
+    /**
+     * @function 微信和支付宝支付时弹框内容模板
+     */
+    template:PFT.Util.ParseTemplate(dialog_con_tpl),
+
+    /**
+     * @function 票付通余额支付时弹框内容模板
+     */
+    template_pft:PFT.Util.ParseTemplate(dialog_con_pft_tpl),
+
+
+    /**
+     * @function 获取微信或支付宝二维码
+     * @param data
+     */
+    ajaxGetVcode:function (data) {
+        var _this=this;
+        $.ajax({
+            url: data.url,    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: { "meal": data.typeid },    //参数值
+            type: "post",   //请求方式
+            beforeSend: function() {
+                //请求前的处理
+            },
+            success: function(res) {
+                //请求成功时处理
+                if(res.code==200){
+                    $("#payCode_box").html("");
+                    new QRCode("payCode_box",{
+                        text:res.data.qrUrl,
+                        width:200,
+                        height:200,
+                        colorDark:"#000000",
+                        colorLight:"#ffffff",
+                        correctLevel:QRCode.CorrectLevel.H
+                    });
+                    _this.setInterval_own.clear();
+                    _this.setInterval_own.count(_this.ajaxLoop , res.data.outTradeNo , _this , 1000);
+                }else{
+                    alert(res.msg)
+                }
+            },
+            complete: function() {
+            },
+            error: function() {
+                //请求出错处理
+            }
+        });
+    },
+
+
+    /**
+     * @function 票付通余额支付时，获取账户余额
+     * @param data
+     */
+    ajaxGetBalance : function(data){
+        var _this=this;
+        $.ajax({
+            url: data.url,    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: { "meal": data.typeid },    //参数值
+            type: "post",   //请求方式
+            beforeSend: function() {
+                //请求前的处理
+            },
+            success: function(res) {
+                //请求成功时处理
+                if( res.code == 200 ){
+                    $(".pft_balance").text(Number(res.data.balance) / 100);
+                    if( res.data.enough == 0){
+                        $(".dialog_con_pft .line4").html('<a href="/recharge.html"><span class="btn">余额不足去充值</span></a>')
+                            .show()
+                    }else{
+                        $(".dialog_con_pft .line4").html('<span class="btn btn_charge">确认充值</span>')
+                            .show()
+                    }
+                }else{
+                    alert(res.msg)
+                }
+
+            },
+            complete: function() {
+            },
+            error: function() {
+                //请求出错处理
+            }
+        });
+
+    },
+
+
+    /**
+     * @function 票付通余额支付时, 余额充值
+     */
+    pftChargeByBalance : function(){
+        var _this=this;
+        $.ajax({
+            url: "/r/Member_Renew/renewByBalance",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: { "meal": $(".dialog_con_pft").attr("typeid") },    //参数值
+            type: "post",   //请求方式
+            beforeSend: function() {
+                //请求前的处理
+                $(".dialog_con_pft .line4").html('<span class="btn btn_charge disable">充值中,请稍候...</span>')
+            },
+            success: function(res) {
+                //请求成功时处理
+                if( res.code == 200 ){
+                    _this.close();
+                    $(".con_box").hide();
+                    $(".queryState_box").html(querySuccess_tpl).show();
+                }else {
+                    $(".dialog_con_pft .line4").html('<span class="btn btn_charge">确认充值</span>');
+                    alert(res.msg);
+                }
+            },
+            complete: function() {
+            },
+            error: function() {
+                //请求出错处理
+            }
+        });
+
+    },
+
+
+    /**
+     * @function 微信和支付宝支付时的轮询
+     * @param data
+     */
+    ajaxLoop:function (data) {
+        var _this=this;
+        $.ajax({
+            url: "/r/Member_Renew/isRenewComplete",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: { "outTradeNo": data },    //参数值
+            type: "post",   //请求方式
+            beforeSend: function() {
+                //请求前的处理
+            },
+            success: function(res) {
+                //请求成功时处理
+                if(res.code==200){
+                    if(res.data.payStatus==1) {
+                        _this.setInterval_own.clear();
+                        // $("#payCode_box").html("");
+                        _this.close();
+                        $(".con_box").hide();
+                        $(".queryState_box").html(querySuccess_tpl).show();
+                    }
+                }
+            },
+            complete: function() {
+            },
+            error: function() {
+                //请求出错处理
+            }
+        });
+    },
+
+
+    /**
+     * @function 自定义的setInterval函数
+     */
+    setInterval_own:{
+        timer:-1,
+        count:function(func,data,that,time){
+            var _this=this;
+            _this.clear();
+            this.timer=setTimeout(function () {
+                func.call(that,data);
+                _this.count(func,data,that,time)
+            },time);
+        },
+        clear:function () {
+            var _this=this;
+            clearTimeout(_this.timer)
+        }
+    }
+};
+
+module.exports=Dialog;

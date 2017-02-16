@@ -1,0 +1,13 @@
+
+<div class="accountBalanceSettingBox">
+    <div class="title">账户欠费设置</div>
+    <div class="line line1">
+        <div class="td td1">欠费截止日期 :</div>
+        <div class="td td2">
+            <input type="text" class="accountBalanceSettingInp" id="accountBalanceSettingInp" readonly="readonly" value="<%=data.endDate%>" fid="<%=data.fid%>"/>
+        </div>
+    </div>
+    <div class="line line2">
+        <span class="btn btn_yes">确认</span>
+    </div>
+</div>

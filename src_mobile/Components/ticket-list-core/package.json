@@ -1,0 +1,4 @@
+{
+    "name" : "ticket-list",
+    "main" : "./index.vue"
+}

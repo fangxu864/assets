@@ -1,0 +1,24 @@
+<div id="mobile_modify_ali">
+    <div id="title_modify_ali">
+        更改支付宝
+    </div>
+    <div id="content_modify_ali">
+        <div class="stepTip_ali">
+            1. 安全验证当前绑定的手机号
+        </div>
+        <div class="line1_ali">
+            <span id="promptOld_ali">当前手机号：</span>
+            <input id="oldPhone_ali" type="text" readonly="true" >
+            <span id="getCodeOld_ali" class="getVCodeBtn_ali">获取验证码</span>
+        </div>
+        <div class="line2_ali">
+            <span id="promptCode_ali">短信验证码：</span>
+            <input type="text" id="VcodeOld_ali">
+        </div>
+    </div>
+    <div class="button_modify_ali" id="next_ali">
+        下一步
+    </div>
+</div>
+
+
