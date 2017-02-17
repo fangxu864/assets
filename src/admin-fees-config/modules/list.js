@@ -270,6 +270,9 @@ var List = RichBase.extend({
             $("#manner").html("日结");
             $("#manner").attr("type","1");
             $("#ddaystime").html(close_time);
+            $(".days").show();
+            $(".week").hide();
+            $(".mouth").hide();
             $(".days").find(".selected").attr("in",close_time);
         }else if(mode=="2"){
             $("#manner").html("周结");
