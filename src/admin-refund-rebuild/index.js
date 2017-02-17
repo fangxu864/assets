@@ -1,18 +1,33 @@
 /**
  * Created by Administrator on 2017/2/17.
  */
+require("./index.scss");
+var Class = require("COMMON/js/util.class.js");
+var baseContainerTpl = require("./baseContainer.xtpl");
 
-var tpl = require("./index.xtpl");
+var Refund = Class({
+    container : $("#refundApplyWrap") ,
+    init :function () {
+        this.container.html(baseContainerTpl)
+    }
+
+});
+
 $(function () {
-
-    frame = document.createElement('IFRAME');
-    document.body.appendChild(frame);
-
-    frame.contentWindow.document.write(tpl);
-    frame.contentWindow.document.close();
-    frame.contentWindow.close();
-    frame.contentWindow.focus();
-    frame.contentWindow.print();
+    new Refund()
 })
+// var tpl = require("./index.xtpl");
+// $(function () {
+//
+//     frame = document.createElement('IFRAME');
+//     $(frame).hide();
+//     document.body.appendChild(frame);
+//
+//     frame.contentWindow.document.write(tpl);
+//     frame.contentWindow.document.close();
+//     frame.contentWindow.close();
+//     frame.contentWindow.focus();
+//     frame.contentWindow.print();
+// })
 
 
