@@ -563,9 +563,9 @@ $(function(){
                 $('#protocal_meal').css("background","#eee");
             }else{
 // <<<<<<< HEAD
-                $('#protocal_meal').removeAttr("disabled");
-                $('#protocal_meal').attr("value","");
-                $('#protocal_meal').css("background","#ffffff");
+                // $('#protocal_meal').removeAttr("disabled");
+                // $('#protocal_meal').attr("value","");
+                // $('#protocal_meal').css("background","#ffffff");
 // =======
                 $('#protocal_meal').attr("disabled",false);
 // >>>>>>> feature/management
