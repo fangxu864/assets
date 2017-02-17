@@ -15,7 +15,7 @@ function Dialog(){
     var _this=this;
     this.Dialog_simple=new DialogSimple({
         width : 500,
-        closeBtn : true,
+        closeBtn : false,
         content : "",
         drag : true,
         speed : 200,
@@ -26,10 +26,14 @@ function Dialog(){
         events : {
             "click .btn_close" : function () {
                 _this.Dialog_simple.close()
+            },
+            "click .btn_ok" : function () {
+                _this.Dialog_simple.close();
+                window.location.reload();
             }
         },
         onCloseAfter : function () {
-            _this.setInterval_own.clear()
+            clearTimeout(_this.loopAjaxTimer);
         }
     });
 
@@ -101,8 +105,7 @@ Dialog.prototype={
                         colorLight:"#ffffff",
                         correctLevel:QRCode.CorrectLevel.H
                     });
-                    _this.setInterval_own.clear();
-                    _this.setInterval_own.count(_this.ajaxLoop , res.data.outTradeNo , _this , 1000);
+                    _this.ajaxLoop( res.data.outTradeNo);
                 }else{
                     alert(res.msg)
                 }
@@ -122,52 +125,37 @@ Dialog.prototype={
      */
     ajaxLoop:function (data) {
         var _this=this;
-        $.ajax({
-            url: "/r/Member_Renew/isRenewComplete",    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-            data: { "outTradeNo": data },    //参数值
-            type: "post",   //请求方式
-            beforeSend: function() {
-                //请求前的处理
-            },
-            success: function(res) {
-                //请求成功时处理
-                if(res.code==200){
-                    if(res.data.payStatus==1) {
-                        _this.setInterval_own.clear();
-                        alert("充值成功！");
-                        window.location.reload();
+        _this.loopAjaxTimer = setTimeout(function () {
+            $.ajax({
+                url: "/r/Member_Renew/isRenewComplete",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: { "outTradeNo": data },    //参数值
+                type: "post",   //请求方式
+                beforeSend: function() {
+                    //请求前的处理
+                },
+                success: function(res) {
+                    //请求成功时处理
+                    if(res.code==200){
+                        if(res.data.payStatus==1) {
+                            $("#payCode_box").html('<div class="payOk">支付成功！</div>');
+                            _this.Dialog_box.find(".dialog_con .line.line5").html('<span class="btn btn_ok">确认</span>')
+                        }else if(res.data.payStatus==0){
+                            _this.ajaxLoop(data);
+                        }else{
+                            alert(res);
+                        }
                     }
+                },
+                complete: function() {
+                },
+                error: function() {
+                    //请求出错处理
                 }
-            },
-            complete: function() {
-            },
-            error: function() {
-                //请求出错处理
-            }
-        });
+            });
+        },3000)
     },
-
-
-    /**
-     * @method 自定义的setInterval函数
-     */
-    setInterval_own:{
-        timer:-1,
-        count:function(func,data,that,time){
-            var _this=this;
-            _this.clear();
-            this.timer=setTimeout(function () {
-                func.call(that,data);
-                _this.count(func,data,that,time)
-            },time);
-        },
-        clear:function () {
-            var _this=this;
-            clearTimeout(_this.timer)
-        }
-    }
 };
 
 module.exports=Dialog;

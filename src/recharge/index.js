@@ -29,11 +29,13 @@ var Recharge={
         //支付类型
         //微信
         $.subscribe("onWxPay",function () {
+            var money = $("#ali_money").val();
+            money = Number( money ).toFixed(2);
             _this.Dialoga.show_dialog_con({
                 "url":"/r/pay_WxPay/rewxnew/",
                 "title":"微信二维码支付",
                 "account":"票付通",
-                "money": money=$("#ali_money").val()
+                "money": money
             });
         });
         // //重新登录
