@@ -12,6 +12,7 @@ var ROOT_URL = "./src_mobile";
 var config = require("../../task-webpack/config")({
 	entry : {
 
+
 		//"mb.plist.b" : path.resolve(ROOT_URL,"B/plist/index.js"),
 
 		// "mb.plist.b" : path.resolve(ROOT_URL,"B/plist/index.js"),
