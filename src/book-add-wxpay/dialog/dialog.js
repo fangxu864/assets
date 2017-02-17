@@ -15,7 +15,7 @@ function Dialog(){
     var _this=this;
     this.Dialog_simple=new DialogSimple({
         width : 500,
-        closeBtn : true,
+        closeBtn : false,
         content : "",
         drag : true,
         speed : 200,
@@ -26,10 +26,14 @@ function Dialog(){
         events : {
             "click .btn_close" : function () {
                 _this.Dialog_simple.close()
+            },
+            "click .btn_ok" : function () {
+                _this.Dialog_simple.close();
+                window.location.reload();
             }
         },
         onCloseAfter : function () {
-            clearInterval(_this.loopAjaxTimer);
+            clearTimeout(_this.loopAjaxTimer);
         }
     });
 
@@ -107,11 +111,9 @@ Dialog.prototype={
                             colorLight:"#ffffff",
                             correctLevel:QRCode.CorrectLevel.H
                         });
-                        clearInterval(_this.loopAjaxTimer);
-                        _this.loopAjaxTimer = setInterval(_this.ajaxLoop , 1000)
+                        _this.ajaxLoop();
                     }else{
-                        alert("生成微信二维码的链接没返回");
-                        _this.close()
+                        $("#payCode_box").html('<div class="error">*生成微信二维码的链接没返回</div>');
                     }
                 }else{
                     alert(res.msg)
@@ -132,33 +134,37 @@ Dialog.prototype={
      */
     ajaxLoop:function (data) {
         var _this=this;
-        $.ajax({
-            url: "/call/jh_prod.php",    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-            data: {
-                "action" : "CheckOrderPay" ,
-                "orderid": location.href.match(/ordernum\=(\d+)/)[1]
-            },    //参数值
-            type: "get",   //请求方式
-            beforeSend: function() {
-                //请求前的处理
-            },
-            success: function(res) {
-                //请求成功时处理
-                if(res == 1 ){
-                    // _this.setInterval_own.clear();
-                    clearInterval(_this.loopAjaxTimer) ;
-                    alert("支付成功！");
-                    window.location.reload();
+        _this.loopAjaxTimer = setTimeout(function () {
+            $.ajax({
+                url: "/call/jh_prod.php",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: {
+                    "action" : "CheckOrderPay" ,
+                    "orderid": location.href.match(/ordernum\=(\d+)/)[1]
+                },    //参数值
+                type: "get",   //请求方式
+                beforeSend: function() {
+                    //请求前的处理
+                },
+                success: function(res) {
+                    //请求成功时处理
+                    if(res == 1 ){   //如果成功
+                        $("#payCode_box").html('<div class="payOk">支付成功！</div>');
+                        _this.Dialog_box.find(".dialog_con .line.line5").html('<span class="btn btn_ok">确认</span>')
+                    }else if( res == 0 ){  //尚未成功,继续轮询
+                        _this.ajaxLoop();
+                    }else{   //返回其它
+                        alert(res);
+                    }
+                },
+                complete: function() {
+                },
+                error: function() {
+                    //请求出错处理
                 }
-            },
-            complete: function() {
-            },
-            error: function() {
-                //请求出错处理
-            }
-        });
+            });
+        },3000)
     },
 
 };

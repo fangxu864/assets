@@ -34,11 +34,22 @@
             width: 150px;
           }
         }
+        .payOk{
+            padding-top: 45px;
+            color: #00c100;
+            font-size: 27px;
+        }
+        .error{
+          padding-top: 45px;
+          font-size: 14px;
+          color: orangered;
+
+        }
 
       }
       span.tip{
         font-size: 12px;
-        margin-left: 171px;
+        margin-left: 123px;
         color: #F07845;
       }
     }
