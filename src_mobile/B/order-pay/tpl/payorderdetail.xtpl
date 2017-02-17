@@ -1,0 +1,85 @@
+  <h1 class="payInfo">订单已提交</h1>
+<span class="cancelInfo"><span class="deadlineTime"><%=data.payParams.expireTime%></span>分钟内未支付，系统将自动取消订单</span>
+ 
+<div class="orderInfo">
+      <p><%=data.detail.landTitle%> </p>
+    <%switch(data.detail.ptype){ 
+        case "A" :
+     _.each(data.detail.tickets,function(arr,i){%>
+        <p><%=arr.title%> * <%=arr.num%>张</p>
+        <%});%>
+        <p>有效期: <%=data.detail.extra.date%></p>
+       <% break;
+        case "G":    
+    _.each(data.detail.tickets,function(arr,i){%>
+        <p><%=arr.title%> * <%=arr.num%>张</p>
+    <%});%>
+    <p>有效期: <%=data.detail.extra.date%></p>
+        <%break;
+          case "B" :
+      _.each(data.detail.tickets,function(arr,i){%>
+        <p><%=arr.title%> * <%=arr.num%>张</p>
+    <%})%>
+    <p>集合日期: <%=data.extra.date%></p>
+    <p>集合地点:  <%=data.extra.station%></p>
+        <%break;
+            case "H" : 
+            _.each(data.detail.tickets,function(arr,i){%>
+        <p><%=arr.title%> * <%=arr.num%>张</p>
+            <%})%>
+        <p>演出时间: <%=data.extra.date%></p>
+        <p>座位: <%=data.extra.seat%></p>
+
+        <%break;
+        case "C" : 
+        _.each(data.detail.tickets,function(arr,i){%>
+        <p><%=arr.title%> * <%=arr.num%>间</p>
+        <%})%>
+        <p>住店时间: <%=data.extra.date%> <%=data.extra.days%> 晚</p>
+        <% break;}%>
+
+    <p>联系人: <%=data.detail.ordername%> <%=data.ordertel%></p>
+</div>
+<h2 class="payWayT">选择支付方式：(需支付<span class="payTotalMoney"><%=data.detail.totalmoney%></span>元)</h2>
+<div class="payWay">
+		<div class="aliPay payWayItem">
+        <%if(data.payWay.ali==0) { %>
+            <div class="aliPayImgDis payWayItemImg"></div>
+            <p>支付宝</p>
+        <%}else{%>
+           
+            <form id="pay_form_alipay" action="http://124078.12301.cc//wx/pay/alipay_v3.3/pay_iframe.html" method="post" >
+            <input name="out_trade_no" value="<%=data.payParams.outTradeNo%>" type="hidden" growing-ignore="true">
+            <input name="subject" value="<%=data.payParams.subject%>" type="hidden" growing-ignore="true">
+            <input name="expire_time" value="<%=data.payParams.expireTime%>" type="hidden" growing-ignore="true">
+            <input name="buy_id" value="<%=data.payParams.buyId%>" type="hidden" growing-ignore="true">
+            <input name="domain" value="<%=data.payParams.domain%>" type="hidden" growing-ignore="true">
+            <input name="pay_action" type="hidden" value="1" growing-ignore="true">
+            
+            <input name="success_back_notify" value="mall" type="hidden" growing-ignore="true">
+            <input name="from" value="new" type="hidden" growing-ignore="true">
+             <div id="aliPayImg" class="aliPayImg payWayItemImg"></div><p>支付宝</p>
+             <input type="submit" class="sub_inp" value="" >
+        </form>
+
+        <%}%>
+        </div>
+		<div class="weiPay payWayItem">
+         <%if(data.payWay.wx==0) { %>
+            <div id="weiPayImg" class="weiPayImgDis payWayItemImg"></div>
+            <p>微信支付</p>
+        <%}else{%>
+            <div id="weiPayImg" class="weiPayImg payWayItemImg"></div>
+            <p>微信支付</p>
+         <%}%>
+        </div>
+		<div class="bankPay payWayItem">
+         <%if(data.payWay.uni==0) { %>
+            <div id="bankPayImg" class="bankPayImgDis payWayItemImg"></div>
+            <p>银联</p>
+         <%}else{%>
+            <div id="bankPayImg" class="bankPayImg payWayItemImg"></div>
+            <p>银联</p>
+         <%}%>
+        </div>
+</div>

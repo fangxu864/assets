@@ -9,14 +9,38 @@
 		font-size: px2rem(48); 
 	}
 	.payBackInfo{
-		height: px2rem(160);
-		padding: px2rem(60) 0;
+		height: px2rem(260);
+		padding: px2rem(90) 0;
 		text-align: center;
 	}
-	.pay-success{
-		color: #3dba3f;
+	.pay-info{
 		font-size: px2rem(60); 
-	}	
+	}
+	.pay-info-success{
+		color: #3dba3f;
+	}
+	.pay-info-fail{
+		color : #EF7039;
+	}
+	.btn{
+		height: px2rem(80);
+		background: #f3f1f1;
+		display: block;
+		line-height: px2rem(80);
+		padding: 0 20px;
+		border-radius: 3px;
+		color: #262d37;
+		border: 1px solid #e5e5e5;
+		text-align: center;
+		margin-top: px2rem(10);
+		cursor: pointer;
+		text-decoration: none;
+	}
+	.btn-primary{
+		background: #0797d9;
+		color: #fff;
+	}
+	
 	.cancelInfo{
 		font-size : px2rem(28);
 		color : #5f5e63;
@@ -73,9 +97,42 @@
 				display : inline-block;
 				height : px2rem(100);
 				width : px2rem(100);	
-				background : #123456;
 				border-radius: 10px;
 				margin-top: px2rem(30);
+				
+			}
+			.aliPayImg{
+				background: url("http://static.12301.cc/assets/build/images/wx_paymode/zhifubao.png") no-repeat;
+				background-size:100%;
+			}
+			.aliPayImgDis{
+				background: url("http://static.12301.cc/assets/build/images/wx_paymode/zhifubao_disable.png") no-repeat;				
+				background-size:100%;
+			}
+			.weiPayImg{
+				background: url("http://static.12301.cc/assets/build/images/wx_paymode/weixin.png") no-repeat;
+				background-size:100%;
+			}
+			.weiPayImgDis{
+				background: url("http://static.12301.cc/assets/build/images/wx_paymode/weixin_disable.png") no-repeat;				
+				background-size:100%;
+			}
+			.bankPayImg{
+				background: url("http://static.12301.cc/assets/build/images/wx_paymode/yinlian.png") no-repeat;
+				background-size:100%;
+			}
+			.bankPayImgDis{
+				background: url("http://static.12301.cc/assets/build/images/wx_paymode/yinlian_disable.png") no-repeat;				
+				background-size:100%;
+			}
+			.sub_inp{
+				border: none;
+				background: none;
+				width: 100%; 
+				height: 100px;
+				position: relative;
+				top: -90px;
+				left: 0;
 			}
 		}
 		.aliPay{
