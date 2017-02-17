@@ -1,0 +1,7 @@
+### 平台会员卡相关
+
+list：会员卡列表页
+reg：会员卡开卡、编辑修改页
+
+
+npm run member-card-start

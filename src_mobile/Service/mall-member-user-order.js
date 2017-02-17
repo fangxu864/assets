@@ -106,7 +106,6 @@ var UserOrder = {
 
 		params = params || {};
 		params["token"] = PFT.Util.getToken();
-
 		PFT.Util.Ajax(PFT.Api.C.userCenterOrderList(),{
 			type : "post",
 			params : params,

@@ -9,7 +9,7 @@
         </div>
         <div id="scrollWrap" class="scrollWrap">
             <scroller
-                    v-if="ready"
+                    v-if="isReady"
                     v-ref:scroller
                     :height="scrollerHeight"
                     :lock-x="true"
@@ -25,15 +25,12 @@
                             <template v-if="!item.type">
                                 <a href="pdetail.html?lid={{item.lid}}&ptype={{filterParams.type}}&topic={{filterParams.topic}}" class="con">
                                     <div class="photoBox">
-                                        <image-loador :src="item.imgpath" :height="100" :fixed="true"></image-loador>
+                                        <image-loador :src="item.imgpath" :height="imgHeight" :fixed="true"></image-loador>
+                                        <p class="title gtextoverflow">{{item.title}}</p>
                                     </div>
                                     <div class="bCon">
-                                        <p class="title gtextoverflow">{{item.title}}</p>
-                                        <div class="bb">
-                                            <span class="price"><i class="yen">&yen;</i><span class="num">{{item.jsprice}}</span><i class="qi">起</i></span>
-                                            <span class="price tprice"><i class="yen">&yen;</i><span class="num">{{item.tprice}}</span></span>
-                                            <span style="display:none" class="ui-recFlag hui orign">惠</span>
-                                        </div>
+                                        <span class="price"><i class="yen">&yen;</i><span class="num">{{item.jsprice}}</span><i class="qi">起</i></span>
+                                        <span class="price tprice"><i class="yen">&yen;</i><span class="num">{{item.tprice}}</span></span>
                                     </div>
                                 </a>
                             </template>
@@ -50,13 +47,16 @@
         </div>
         <div id="filterBar" class="filterBar ui-filterBar" :class="{hide:filterBarHide}">
             <div class="con ui-flex">
-                <a id="switchTopicBtn" @click="onSwitchTopicBtnClick" href="javascript:void(0)" style="display:block; color:#fff" class="ui-filterItem ui-filterItem-tap ui-filterItem-topic ui-flex-box topic">
+                <a id="switchTopicBtn" @click="onSwitchTopicBtnClick" href="javascript:void(0)" style="display:block;" class="ui-filterItem ui-filterItem-tap ui-filterItem-topic ui-flex-box topic">
+                    <i class="filterIcon icon-ecshop-application icon-zhuti"></i>
                     <span class="t" v-text="topicName"></span>
                 </a>
-                <a id="switchPtypeBtn" @click="onSwitchPtypeBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype" style="color:#fff">
+                <a id="switchPtypeBtn" @click="onSwitchPtypeBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-ptype ptype">
+                    <i class="filterIcon icon-u-regular icon-dizhi"></i>
                     <span class="t" v-text="ptypeName"></span>
                 </a>
-                <a id="switchCityBtn" @click="onSwitchCityBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-city city" style="color:#fff">
+                <a id="switchCityBtn" @click="onSwitchCityBtnClick" href="javascript:void(0)" class="ui-filterItem ui-flex-box ui-filterItem-city city">
+                    <i class="filterIcon icon-ecshop-application icon-suoyouchengshi"></i>
                     <span class="t" v-text="cityName"></span>
                 </a>
             </div>
@@ -104,20 +104,32 @@
     let Toast = new PFT.Mobile.Toast();
     let Alert = PFT.Mobile.Alert;
     let CityData = require("COMMON/js/config.province.city.data2");
-    let Ptype = PFT.Util.UrlParse()["ptype"] || "A";
+    let Ptype = PFT.Util.UrlParse()["ptype"];
+    let theme = PFT.Util.UrlParse()["theme"];
+    if(Ptype){
+        Ptype = decodeURIComponent(Ptype);
+    }else{
+        Ptype = "all";
+    }
+    if(theme){
+        theme = decodeURIComponent(theme);
+    }else{
+        theme = "";
+    }
     export default{
         data(){
             return{
-                ready : false,
+                isReady : false,
                 filterBarHide : false,
                 winHeight : 0,
                 scrollerHeight : "",
                 currentPage : 0,
                 totalPage : 0,
+                imgHeight : 115,
                 //搜索条件
                 filterParams : {
                     keyword : "",
-                    topic : "",
+                    topic : theme,
                     type : Ptype,
                     city : "",
                     lastPos : ""
@@ -176,7 +188,7 @@
         },
         computed : {
             ptypeName(){
-                return this.ptypeList[this.filterParams.type] || "景区门票";
+                return this.ptypeList[this.filterParams.type];
             },
             topicName(){
                 return this.filterParams.topic ? this.filterParams.topic : "主题"
@@ -264,11 +276,30 @@
                     complete : () => {
                         Toast.hide();
                     },
-                    empty : () => {
+                    empty : (data) => {
                         this.disableScroll();
+                        if(!this.isReady) this.isReady = true;
                         if(this.filterParams.lastPos==""){
+                            if(data.citys) this.$set("cityList",data.citys);
+                            var themes = data.themes;
+                            var type = data.type;
+                            if(type){
+                                var adaptType = {};
+                                for(var i=0; i<type.length; i++){
+                                    var ptype = type[i]["identify"];
+                                    var ptypeName = type[i]["name"];
+                                    adaptType[ptype] = ptypeName;
+                                }
+                                this.ptypeList = adaptType;
+                            }
+                            if(themes){
+                                var __themes = {};
+                                for(var i in themes) __themes[i] = themes[i];
+                                this.$set("topicList",__themes);
+                            }
                             //Alert("提示","查无匹配条件的产品..");
-                            this.list.push({type:"no-search-result"});
+
+                            this.list = [{type:"no-search-result"}];
                         }else{
                             Alert("没有更多匹配条件的产品了..");
                             this.list.push({type:"empty"});
@@ -291,16 +322,15 @@
                             }
                             this.ptypeList = adaptType;
                         }
-
                         if(themes){
                             var __themes = {};
                             for(var i in themes) __themes[i] = themes[i];
                             this.$set("topicList",__themes);
                         }
                         this.$set("list",this.list.concat(data.list));
-                        if(!this.ready){
+                        if(!this.isReady){
                             this.scrollerHeight = String(this.scrollWrap.height())+"px";
-                            this.ready = true;
+                            this.isReady = true;
                         }
                         this.$nextTick(()=>{
                             if(this.filterParams.lastPos==""){
@@ -323,19 +353,25 @@
             },
             disableScroll(){
                 if(this.scrollStatus=="disable") return false;
-                this.$broadcast('pullup:disable', this.$refs.scroller.uuid);
+                if(this.$refs.scroller && this.$refs.scroller.uuid){
+                    this.$broadcast('pullup:disable', this.$refs.scroller.uuid);
+                }
                 this.scrollStatus = "disable";
             },
             enableScroll(){
                 if(this.scrollStatus=="enable") return false;
-                this.$broadcast('pullup:enable', this.$refs.scroller.uuid);
+                if(this.$refs.scroller && this.$refs.scroller.uuid){
+                    this.$broadcast('pullup:enable', this.$refs.scroller.uuid);
+                }
                 this.scrollStatus = "enable";
             },
             resetPullup(){
-                this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
+                if(this.$refs.scroller && this.$refs.scroller.uuid){
+                    this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
+                }
             },
             resetScroll(){
-                this.$refs.scroller.reset();
+                this.$refs.scroller && this.$refs.scroller.reset();
             }
         },
         components : {
@@ -351,23 +387,28 @@
 <style lang="sass">
     @import "COMMON/css/base/main";
     body{ background:$bgColor}
-    .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:47px; overflow:hidden}
+    .scrollWrap{ position:absolute; top:52px; left:0; right:0; bottom:50px; overflow:hidden}
 
-    .item{ height:150px; line-height:150px; text-align:center; background:#fff; margin-bottom:10px;}
+    .item{ text-align:center; background:#fff; margin-bottom:10px;}
     .item:last-child{ margin-bottom:0}
 
-    .ui-filterBar{ position:fixed; left:0; right:0; bottom:0; height:40px; z-index:10003; transition:all 0.4s; background:rgba(40,56,71,.90)}
+    .ui-filterBar{
+        position:fixed;
+        left:0; right:0; bottom:0; height:44px;
+        z-index:10003;
+        transition:all 0.4s;
+        /*background:rgba(40,56,71,.90)*/
+        background:#f0f4f5;
+        box-shadow:0 -1px 3px rgba(0,0,0,0.2);
+    }
     .ui-filterBar.hide{ bottom:-100px;}
-    .ui-filterBar > .con{ width:100%; height:100%; position:relative; overflow:hidden; color:#fff}
-    .ui-filterBar .ui-filterItem{ height:100%; line-height:50px; text-align:center; font-size:14px;}
+    .ui-filterBar > .con{ width:100%; height:100%; position:relative; overflow:hidden;}
+    .ui-filterBar .ui-filterItem{ height:100%; padding-top:6px; text-align:center; font-size:14px; color:#777}
     .ui-filterBar .ui-filterItem.today .iconfont.checked{ display:none}
     .ui-filterBar .ui-filterItem.today.active .iconfont{ display:none}
     .ui-filterBar .ui-filterItem.today.active .iconfont.checked{ display:inline-block}
-    .ui-filterBar .ui-filterItem .iconfont{ vertical-align:middle; margin-right:2px}
-    .ui-filterBar .ui-filterItem .t{ position:relative; top:1px; vertical-align:middle;}
-    .ui-filterBar .ui-filterItem.today .iconfont{ margin-right:0; top:1px}
-    .ui-filterBar .ui-filterItem.topic .iconfont{ margin-right:3px}
-    .ui-filterBar .ui-filterItem{ line-height:40px;}
+    .ui-filterBar .ui-filterItem .filterIcon{ }
+    .ui-filterBar .ui-filterItem .t{ position:relative; display:block; margin-top:3px}
     .ui-flex{ width:100%;
         display:-webkit-box;
         display:-webkit-flex;
@@ -504,19 +545,30 @@
         }
         .itemBox:nth-child(2n+1){ margin-right:3%;}
         .itemBox > .con{ display:block; width:100%;}
-        .itemBox .photoBox{width:100%; height:100px; overflow:hidden; background-position: center; background-size: cover;
+        .itemBox .photoBox{ position:relative; width:100%; overflow:hidden; background-position: center; background-size: cover;
             font-size:0; background-position: center; background-repeat: no-repeat;}
         .itemBox .photoBox table{ width:100%; height:100%; text-align:center}
         .itemBox .photoBox table,.itemBox .photoBox table tr,.itemBox .photoBox table td{ width:100%; height:100%; font-size:0}
         .itemBox .photoBox img{width: 100%;}
-        .itemBox .title{ text-align:left; font-size:12px; line-height:1.4; color:#323131}
-        .itemBox .bCon{padding: 2px 6px 10px 10px; height: 36px;}
-        .itemBox .bb{ width:100%; line-height:1.4; overflow:hidden}
+        .itemBox .title{
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0;
+            height:26px;
+            line-height:26px;
+            text-align:left;
+            font-size:12px;
+            color:#fff;
+            padding-left:5px;
+            background:rgba(0,0,0,0.5);
+        }
+        .itemBox .bCon{padding:0 5px; height:30px; line-height:30px; overflow:hidden; background:#f0f4f5}
         .itemBox .price{ float:left;}
         .itemBox .price.tprice{ float:right; text-decoration:line-through; color:#999}
         .itemBox .price.tprice .yen{ color:#999}
         .itemBox .ui-recFlag{width: 14px; height: 14px; font-size: 12px; float:right; margin-left:3px;  -webkit-transform: scale(0.95);}
-        .itemBox .price{ font-size:16px; margin-top: 2px; color:#F07845; padding-left:1px}
+        .itemBox .price{ font-size:16px; color:#F07845; padding-left:1px}
         .itemBox .price .yen{ font-size:12px; color: #F07845; margin-right: 2px;}
         .itemBox .price .qi{ font-size:14px; color: #8a8a8a; margin-left: 2px;}
 

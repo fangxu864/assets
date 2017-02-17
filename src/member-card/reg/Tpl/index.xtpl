@@ -1,0 +1,100 @@
+<div class="formContainer">
+<form id="registerForm">
+    <div class="formBox mobile">
+        <div class="line">
+            <span class="lt"><i class="star">*</i>手机号</span>
+            <input type="text" name="mobile" value="<%=mobile%>" <%=fid ? 'readonly' : ''%> data-validate="require mobile" class="formInp valifyInp mobileInp" id="mobileInp" placeholder="手机号"/>
+            <span id="mobileInpErrorTxt" class="errortip mobile"><i class="iconfont">&#xe654;</i><i class="t">手机号格式错误</i></span>
+            <p style="display:none" id="mobileExistTxt" class="mobileExistTxt"><span style="color:#7e828a" class="t">此帐号已注册</span></p>
+        </div>
+        <% if(!editMode){ %>
+            <div class="line">
+                <span class="lt"><i class="star">*</i>验证码</span>
+                <input type="text" class="formInp checkmaInp valifyInp" data-validate="require vcode" name="vcode" id="checkmaInp" placeholder="请先输入手机号，再获取验证码"/>
+                <a id="getCheckmaBtn" class="getCheckmaBtn setHeight" href="###">获取验证码</a>
+                <span class="errortip ma"><i class="iconfont">&#xe654;</i><i class="t">请输入6位数验证码</i></span>
+            </div>
+        <%}%>
+        <div class="line">
+            <span class="lt"><i class="star">*</i>身份证</span>
+            <input type="text" class="formInp idcardInp valifyInp" value="<%=id_card_no%>" <%=fid? 'readonly' : ''%> data-validate="require idCard" name="id_card_no" id="idcardInp" placeholder="请输入身份证号码"/>
+            <span class="errortip"><i class="iconfont">&#xe654;</i><i class="t">请输入身份证号码</i></span>
+        </div>
+        <div class="horLine"></div>
+    </div>
+    <div class="formCon">
+        <div class="formBox ">
+            <div class="line setLineBox">
+                <div id="famleWrap" class="famleWrap">
+                    <span class="fe lte M <%=sex=='M' ? 'active' : ''%>" data-type="M">男</span><span class="fe rte F <%=sex=='F' ? 'active' : ''%>" data-type="F">女</span>
+                </div>
+                <span class="lt"><i class="star">*</i>联系人姓名</span>
+                <input type="text" data-validate="require" value="<%=dname%>" <%=fid ? 'readonly' : ''%> id="cnameInp" class="formInp valifyInp nameInp setInp" name="dname" placeholder="必填"/>
+                <span class="errortip name setML"><i class="iconfont">&#xe654;</i><i class="t">必填项</i></span>
+            </div>
+
+            <div class="new_add">
+                <div class="line">
+                    <span class="lt cur_area">所在地区</span>
+                    <select name="province" id="provSelect" class="provCitySelect"></select>
+                    <select name="city" id="citySelect" class="provCitySelect"></select>
+                </div>
+                <div class="line">
+                    <span class="lt">详细地址</span>
+                    <input type="text" id="addressInp" class="formInp" value="<%=address%>" name="address"/>
+                </div>
+                <div class="line" style="width:100%; overflow:hidden">
+                    <span style="float:left; position:relative; top:11px;" class="lt">持卡人照片</span>
+                    <div style="float:left; margin-left:4px" id="up_img_box">
+                    </div>
+                    <input id="photo_src_hidden_input" type="hidden" name="headphoto" value="<%=headphoto%>">
+                </div>
+                <div class="line" style="width:100%; margin:18px 0">
+                    <span style="position:relative; top:0" class="lt car_info_l">车辆信息</span>
+                    <span id="carInfoBox" class="carInfoBox">
+                        <label for="car_min_5"><input checked type="radio" name="car" value="0" id="car_min_5" <%=car==0 ? 'checked' : ''%> /><span class="t">5座以内(包含5座)</span></label>
+                        <label for="car_max_5"><input type="radio" name="car" id="car_max_5" value="1" <%=car==1 ? 'checked' : ''%> /><span class="t">5座以上</span></label>
+                    </span>
+                </div>
+                <div class="line">
+                    <span class="lt beizhu">备注</span>
+                    <textarea id="remarksTextarea" class="textarea" name="remarks"><%=remarks%></textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top:40px; margin-bottom:40px" class="horLine"></div>
+
+        <div id="requireFormBox" class="formBox requireFormBox">
+            <div class="line">
+                <span class="lt"><i class="star">*</i>卡号</span>
+                <input type="text" class="formInp card_no_inp valifyInp" name="card_no" value="<%=card_no%>" id="card_no_inp" placeholder="必填"/>
+                <span class="errortip"><i class="star">*</i><i class="t">必填</i></span>
+            </div>
+            <div class="line">
+                <span class="lt"><i class="star">*</i>物理卡号</span>
+                <input type="text" readonly="readonly" value="<%=phy_no%>" class="formInp phy_no_inp valifyInp" name="phy_no" id="phy_no_inp"/>
+                <object  classid="clsid:b1ee5c7f-5cd3-4cb8-b390-f9355defe39a" width="0" height="0" id="helloBossma"></object>
+                <a id="readwuKa" class="readwuKa" href="javascript:void(0)">读取物理卡号</a>
+                <span class="errortip"><i class="star">*</i><i class="t">必填</i></span>
+            </div>
+            <div class="line sendType">
+                <span class="lt">消息通知</span>
+					<span id="sendTypeBox">
+						<label class="group" for="msg_type_weixin"><input type="radio" class="noticeTypeRadio" name="notice_type" value="1" <%=notice_type==1 ? 'checked' : ''%> id="msg_type_weixin"/><span class="t">微信</span></label>
+						<label class="group" for="msg_type_duanxin"><input type="radio" class="noticeTypeRadio" name="notice_type" value="2" <%=notice_type==2 ? 'checked' : ''%> id="msg_type_duanxin"/><span class="t">短信</span></label>
+						<label class="group" for="msg_type_no"><input type="radio" class="noticeTypeRadio" name="notice_type" value="0" <%=notice_type==0 ? 'checked' : ''%> id="msg_type_no"/><span class="t">不通知</span></label>
+					</span>
+            </div>
+        </div>
+
+        <div class="formBox buttonW">
+            <div class="line">
+                <span class="lt" style="visibility:hidden"></span>
+                <a id="saveBtn" class="saveBtn" href="###"><%=fid ? '保存' : '开卡'%></a>
+            </div>
+        </div>
+    </div>
+</form>
+</div>

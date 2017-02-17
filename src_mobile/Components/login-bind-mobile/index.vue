@@ -21,23 +21,24 @@
             <div id="botTipBox" class="botTipBox">
                 <p class="p2"><i style="margin-right:2px; vertical-align:middle" class="uicon uicon-pft"></i><span class="t">票付通-技术支持</span></p>
             </div>
-            <div class="dialog_mask" v-if="dialogStatus" @click="onDialogMaskClick"></div>
+            <div class="dialog_mask" v-if="dialogStatus"></div>
             <div class="dialog_con"  v-if="dialogStatus">
                 <p class="tips">微商城仅开放给散客进行快速购票，您手机绑定的是平台用户，您可以选择：</p>
-                <a href="index.html"><p class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p></a>
+                <p v-if="isWXBrowser" @click="onWxTest" class="href">无需登录以散客身份继续购票<span class="arrow">》</span></p>
                 <a href="../mall/login.html"><p class="href">使用账号密码登录到个人中心<span class="arrow">》</span></p></a>
+                <p class="btn_close" @click="onDialogMaskClick" style="text-align: center">关闭</p>
             </div>
         </div>
     </div>
 </template>
-<!--<script type="es6">-->
-<script>
+<script type="es6">
     const Login = require("SERVICE_M/mall-member-smslogin");
     const VCODE_INTER_TIME = 60; //验证码获取时间间隔60s
     let timer = null;
     export default {
         data(){
             return{
+                isWXBrowser : /micromessenger/.test(navigator.userAgent.toLowerCase()),  //是否为微信内置浏览器
                 mobile : "",
                 code : "",
                 time : -1,
@@ -70,13 +71,10 @@
         },
         methods : {
             onDialogMaskClick(){
-                console.log("fdsf")
                 this.dialogStatus=false
             },
-
             onMobileInpBlur(){
                 var _this=this;
-                console.log("fsdfsf");
                 var Alert = this.Alert;
                 var mobile = this.mobile;
                 if(!mobile) return Alert("请填写手机号");
@@ -121,11 +119,52 @@
                 }
             });
             },
+            onWxTest(e){
+                var tarBtn = e.target;
+                var Alert = this.Alert;
+                $.ajax({
+                url: "/r/Mall_Member/resellerUseSankeAccountLogin/",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+                data: {
+                    token : PFT.Util.getToken()
+                },    //参数值
+                type: "POST",   //请求方式
+                timeout:10000,   //设置超时 10000毫秒
+                beforeSend: function() {
+                    //请求前的处理
+                    $(tarBtn).html("跳转中，请稍候..." + "<span class='arrow'>》</span>")
+                },
+                success: function(res) {
+                    //请求成功时处理
+                    if(res.code == 200){
+                        if( res.data.url && res.data.url != "" ){
+                            window.location.href = "http://"+res.data.url ;
+                        }else{
+                             Alert(res.msg);
+                        }
+                    }else if(res.code == 401){
+                        Alert(res.msg)
+                        $(tarBtn).html("无需登录以散客身份继续购票" + "<span class='arrow'>》</span>")
+                    }
+                },
+                complete: function(res,status) {
+                    //请求完成的处理
+                    if(status=="timeout"){
+                        Alert("请求超时")
+                    }
+                },
+                error: function() {
+                    //请求出错处理
+                      Alert("请求出错")
+                }
+            });
+            },
             onSubmit(e){
                 var submitBtn = e.target;
                 var Alert = this.Alert;
                 if(submitBtn.classList.contains("disable")) return false;
-//                var mobile = this.mobile;
+                var mobile = this.mobile;
                 var code = this.code;
 //                if(!mobile) return Alert("请填写手机号");
 //                if(!PFT.Util.Validate.typePhone(mobile)) return Alert("手机号格式有误");
@@ -236,10 +275,9 @@
         left: 0;
     }
     .dialog_con{
-        height: 200px;
         width: 100%;
         bottom: 0;
-        background-color: white;
+        background-color: #fff;
         position: fixed;
         left: 0;
         p.tips{
@@ -257,6 +295,14 @@
             span.arrow{
                 float:right
             }
+        }
+        p.btn_close{
+            font-size: 14px;
+            line-height: 30px;
+            color: #0f7cb7;
+            margin: 20px 35%;
+            border: 1px solid  #0f7cb7;
+            width: 30%;
         }
     }
 

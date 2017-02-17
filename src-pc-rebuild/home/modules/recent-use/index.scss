@@ -1,0 +1,19 @@
+#RecentUseBox{
+    position:relative;
+	padding:20px 0 5px 20px;
+	.appUl{ width:100%; overflow:hidden; }
+
+	.appItem{
+		width:20%;
+		float:left;
+
+		.con{ height: 42px; line-height: 42px; margin-bottom: 15px; margin-right:20px; border: 1px solid #e5e5e5; padding-left: 15px}
+
+		.link{ 
+			display: block; 
+			.t{ font-size: 14px; color: #555; font-weight: bold; margin-left: 5px }
+		}
+
+	}
+
+}

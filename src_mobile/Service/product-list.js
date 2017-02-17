@@ -98,8 +98,8 @@ module.exports = function(params,opt,cxt){
 		loading : function(){
 			opt.loading.call(cxt);
 		},
-		complete : function(){
-			opt.complete.call(cxt);
+		complete : function(res){
+			opt.complete.call(cxt,res);
 		},
 		success : function(res){
 			res = res || {};
@@ -110,6 +110,21 @@ module.exports = function(params,opt,cxt){
 				//citys = [{name:"福州",code:382,pin:"f"},{name:"厦门",code:384,pin:"x"}]
 				//以上是后端返回的citys字段格式，这里前端需要自己按首字母分组
 				if(data.citys) data["citys"] = adaptCity(data.citys);
+				if(data.type) data["type"] = (function(type){
+					var newType = [];
+					for(var i=0; i<type.length; i++){
+						var item = type[i];
+						var identify = item.identify;
+						if(identify!=="theme"){
+							newType.push(item);
+						}
+					}
+					newType.push({
+						name : "全部",
+						identify : "all"
+					})
+					return newType;
+				})(data.type);
 				if(list.length){
 					opt.success.call(cxt,data);
 				}else{

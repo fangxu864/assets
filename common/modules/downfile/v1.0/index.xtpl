@@ -1,0 +1,9 @@
+<div class="to_downcenter_dialog" id="to_downcenter_dialog">
+    <div class="title">下载提示</div>
+    <div class="line line1">
+        <p>您好，由于所下载的文件容量较大，已提交至后台进行打包压缩，压缩完毕后可去应用中心进行下载</p>
+    </div>
+    <div class="line line2">
+        <a href="/new/downloadcenter.html"><span class="btn">去数据报表中心</span></a>
+    </div>
+</div>
