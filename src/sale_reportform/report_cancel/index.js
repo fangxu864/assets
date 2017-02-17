@@ -83,7 +83,7 @@ var Book_form={
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
             var max_day=_this.etime_inp.val();
-            max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.stime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#start_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -97,7 +97,7 @@ var Book_form={
         });
         this.etime_inp.on("click",function(e){
             var min_day=_this.stime_inp.val();
-            min_day=moment( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // min_day=moment( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#end_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -112,6 +112,8 @@ var Book_form={
             var inputId=data.picker[0].id;
             var startDate=_this.stime_inp.val();
             var endDate=_this.etime_inp.val();
+            _this.setCookie("start_time",startDate,1000*60*60);
+            _this.setCookie("end_time",endDate,1000*60*60);
             var dateDiff=GetDateDiff(startDate,endDate);
             var curDate;
             if(dateDiff>90){
@@ -451,6 +453,88 @@ var Book_form={
         $(".total_box .total dl").html(html);
         _this.total_box.fadeIn(200);
     },
+    //处理分销商与票类表情况
+    resellerAndTicket : function(data){
+        var _this=this,
+            list=data.list,
+            sum=data.sum,
+            theadHtml="",
+            listHtml="" ;
+
+
+        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3">订单数</th> <th class="th4">退票数</th> <th class="th5">退票收入(元)</th> <th class="th6">退票支出元)</th> <th class="th7">退票手续费收入(元)</th><th class="th7">退票手续费支出(元)</th> ';
+        $(".tablecon_box .con_tb thead tr").html(theadHtml);
+        listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
+            '<td class="th3">'+sum.orderNum+'</td>'+
+            '<td class="th4">'+sum.ticketNum+'</td>'+
+            '<td class="th5">'+sum.costMoney+'</td>'+
+            '<td class="th6">'+sum.cancelMoney+'</td>'+
+            '<td class="th7">'+sum.serviceMoneyIn+'</td>'+
+            '<td class="th8">'+sum.serviceMoneyOut+'</td>'+
+            '</tr>';
+        for(var i=0;i<list.length;i++){
+
+            listHtml+='<tr> <td class="th1">'+list[i].reseller_title+'</td>'+
+                '<td class="th2"></td>'+
+                '<td class="th3">'+list[i].order_num+'</td>'+
+                '<td class="th4">'+list[i].ticket_num+'</td>'+
+                '<td class="th5">'+list[i].cost_money+'</td>'+
+                '<td class="th6">'+list[i].cancel_money+'</td>'+
+                '<td class="th7">'+list[i].service_money_in+'</td>'+
+                '<td class="th8">'+list[i].service_money_out+'</td>'+
+                '</tr>';
+            for(var j=0;j<list[i].tickets.length;j++){
+                listHtml+='<tr> <td class="th1"></td>'+
+                    '<td class="th2">'+list[i].tickets[j].title+'</td>'+
+                    '<td class="th3">'+list[i].tickets[j].order_num+'</td>'+
+                    '<td class="th4">'+list[i].tickets[j].ticket_num+'</td>'+
+                    '<td class="th5">'+list[i].tickets[j].cost_money+'</td>'+
+                    '<td class="th6">'+list[i].tickets[j].cancel_money+'</td>'+
+                    '<td class="th7">'+list[i].tickets[j].service_money_in+'</td>'+
+                    '<td class="th7">'+list[i].tickets[j].service_money_out+'</td>'+
+                    '</tr>';
+
+            }
+
+        }
+        $(".tablecon_box .con_tb tbody").html(listHtml);
+        $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
+        $(".tablecon_box .con_tb tbody .th5").css("color","#3DBA3F");
+        $(".tablecon_box .con_tb tbody .th6").css("color","#F07845");
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
+    },
+    //处理其他表
+    otherform : function(data,kindsTitle){
+        var _this=this,
+            list=data.list,
+            sum=data.sum,
+            theadHtml="",
+            listHtml="" ;
+
+
+        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
+        $(".tablecon_box .con_tb thead tr").html(theadHtml);
+        listHtml+='<tr> <td class="th1 heji">合计:</td>'+
+            '<td class="th2">'+sum.orderNum+'</td>'+
+            '<td class="th3">'+sum.ticketNum+'</td>'+
+            '<td class="th4">'+sum.costMoney+'</td>'+
+            '<td class="th5">'+sum.cancelMoney+'</td>'+
+            '<td class="th6">'+sum.serviceMoneyIn+'</td>'+
+            '<td class="th7">'+sum.serviceMoneyOut+'</td>'+
+            '</tr>';
+        for(var i=0;i<list.length;i++){
+            listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
+                '<td class="th2">'+list[i].order_num+'</td>'+
+                '<td class="th3">'+list[i].ticket_num+'</td>'+
+                '<td class="th4">'+list[i].cost_money+'</td>'+
+                '<td class="th5">'+list[i].cancel_money+'</td>'+
+                '<td class="th6">'+list[i].service_money_in+'</td>'+
+                '<td class="th7">'+list[i].service_money_out+'</td>'+
+                '</tr>'
+        }
+        $(".tablecon_box .con_tb tbody").html(listHtml);
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
+    },
     //处理表
     dealTablecon:function (data) {
         var _this=this,
@@ -458,7 +542,6 @@ var Book_form={
             sum=data.sum,
             theadHtml="",
             listHtml="" ;
-
         var thead={
             "title" : "名称",
             "order_num" : "订单数",
@@ -478,47 +561,18 @@ var Book_form={
         };
         var kindsTitle=titleName[_this.filterParamsBox.count_way];
         if(list[0]["service_money_out"]!==undefined){    //非景区账号
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
-            $(".tablecon_box .con_tb thead tr").html(theadHtml);
-            listHtml+='<tr> <td class="th1 heji">合计:</td>'+
-                '<td class="th2">'+sum.orderNum+'</td>'+
-                '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.costMoney+'</td>'+
-                '<td class="th5">'+sum.cancelMoney+'</td>'+
-                '<td class="th6">'+sum.serviceMoneyIn+'</td>'+
-                '<td class="th7">'+sum.serviceMoneyOut+'</td>'+
-                '</tr>';
-            for(var i=0;i<list.length;i++){
-                listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
-                    '<td class="th2">'+list[i].order_num+'</td>'+
-                    '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].cost_money+'</td>'+
-                    '<td class="th5">'+list[i].cancel_money+'</td>'+
-                    '<td class="th6">'+list[i].service_money_in+'</td>'+
-                    '<td class="th7">'+list[i].service_money_out+'</td>'+
-                    '</tr>'
+            if(kindsTitle == "分销商/票类"){     //分销商票类页面单独渲染
+                this.resellerAndTicket(data);
+            }else{
+                this.otherform(data,kindsTitle);
             }
-            $(".tablecon_box .con_tb tbody").html(listHtml);
         }else{
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th> <th class="th4">退票收入(元)</th><th class="th5">退票手续费收入(元)</th> ';
-            $(".tablecon_box .con_tb thead tr").html(theadHtml);
-            listHtml+='<tr> <td class="th1 heji">合计:</td>'+
-                '<td class="th2">'+sum.orderNum+'</td>'+
-                '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.costMoney+'</td>'+
-                '<td class="th5">'+sum.serviceMoneyIn+'</td>'+
-                '</tr>';
-            for(var i=0;i<list.length;i++){
-                listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
-                    '<td class="th2">'+list[i].order_num+'</td>'+
-                    '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].cost_money+'</td>'+
-                    '<td class="th5">'+list[i].service_money_in+'</td>'+
-                    '</tr>'
+            if(kindsTitle == "分销商/票类"){     //分销商票类页面单独渲染
+                this.resellerAndTicket(data);
+            }else{
+                this.otherform(data,kindsTitle);
             }
-            $(".tablecon_box .con_tb tbody").html(listHtml);
         }
-        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
         _this.tablecon_box.fadeIn(200);
     },
     //处理分页器
