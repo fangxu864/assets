@@ -1,5 +1,7 @@
 
 
+require("./index.scss");	
+
 var tpl = require("./index.xtpl");
 
 var Calendar = require("../../calendar/index.js");

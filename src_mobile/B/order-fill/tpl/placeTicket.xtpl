@@ -15,8 +15,8 @@
             </p>
         </div>
         <div class="right">
-            <i class="delBtn" active="false">-</i>
-            <input type="text" class="numBox" value=0>
+            <i class="delBtn" active="true">-</i>
+            <input type="text" class="numBox" value="1">
             <i class="addBtn" active="true">+</i>
         </div>
         <div class="details" style="display: none">

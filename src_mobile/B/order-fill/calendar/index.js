@@ -4,6 +4,8 @@ require("./index.scss");
 var CalendarCore = require("COMMON/js/calendarCore.js");
 
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
+var Toast = require("COMMON/modules/Toast");
+
 
 var tpl = require("./tpl/index.xtpl");
 var listTpl = require("./tpl/list.xtpl");
@@ -12,12 +14,16 @@ var listTpl = require("./tpl/list.xtpl");
 var GetCalendarPrice = require("../service/getCalendarPrice.js"); 
 
 
+
+
 var Calendar = PFT.Util.Class({
 
 	init : function(nowDate,aid,pid){//如2017-2或2017-2-9
 
 		this.aid = aid;
 		this.pid = pid;
+
+		this.toast = new Toast();
 
 		//随机id以供标识
 		this.onlyId = "id" + parseInt(Math.random()*100000); 
@@ -100,13 +106,21 @@ var Calendar = PFT.Util.Class({
 		};
 
 		GetCalendarPrice(params,{
-			loading:function () {},
+			loading:function () {
+				that.toast.show("loading");
+			},
 			success:function (list) {
+				that.toast.hide();
+
+				that.MonthList = list;
 
 				that.handleCalPrice(date,list);
 
 			},
-			complete:function () {}
+			complete:function () {},
+			fail : function(msg){
+				PFT.Mobile.Alert(msg);
+			}
 		});	
 
 

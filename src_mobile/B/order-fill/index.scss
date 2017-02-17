@@ -22,6 +22,7 @@
     background: #fff;
     p{
       margin-bottom: px2rem(16);
+      margin-top: px2rem(16);
     }
     .placeText{
       font-size: px2rem(32);
@@ -216,12 +217,17 @@
       border-radius: px2rem(4);
       text-indent: px2rem(20);
     }
-    i{
-      font-size: px2rem(40);
+
+    #checkContact{
       position: absolute;
       right: px2rem(45);
       top: px2rem(60);
-      color: #5f5e63;
+      height : px2rem(45); 
+      width : px2rem(45);
+      i{
+        font-size: px2rem(40);  
+        color: #5f5e63;
+      }
     }
     .checkPhone{
       color: #e11d2c;
@@ -231,8 +237,8 @@
 
     .saveContact{
       color: #0797d9;
-      font-size: px2rem(24);
-      margin-bottom: px2rem(16);
+      font-size: px2rem(40);
+      margin-bottom: px2rem(30);
     }
   }
 
@@ -301,5 +307,61 @@
 .personalInformation{
   input:focus{
     border: #0797d9 1px solid;
+  }
+}
+
+#payModeBox{
+
+  .payModeTop{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    .icon-jiantou{
+      position: absolute;
+      left: 20px;
+      font-size: 25px;
+    }
+  }
+  .payItem{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-left: 20px;
+  }
+
+}
+
+
+//联系人
+
+#LinkmanBox{
+    .LinkmanTop{
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    .icon-jiantou{
+      position: absolute;
+      left: 20px;
+      font-size: 25px;
+    }
+  }
+  .LinkmanItem{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-left: 20px;
+    display : flex;
+    .LinkmanName{
+      width: 150px;
+    }
+    .LinkmanTel{
+    }
+    i.icon-yaojiucuo{
+      position: absolute;
+      right: 20px;
+      font-size: 22px;
+    }
   }
 }

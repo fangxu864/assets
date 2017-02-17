@@ -25,8 +25,52 @@ module.exports = function(parent,aid,pid){
 			this.calendar1 = new Calendar(nowDate,aid,pid);
 			this.calendar2 = new Calendar(nowDate,aid,pid);
 
+			this.setDate();//初始化时间
 		},
 
+		setDate : function(){
+
+			var date = this.getNowDate();
+			//有天数的
+			var dateDay = date.nowDate + "-" +date.day;
+			var dateSelectText = date.month + "月" + date.day + "日";
+			$(".inHotel .dateSelectDay").text(dateSelectText);
+			$(".inHotel .dateSelectDay").attr("data-year",date.year).attr("data-month",date.month).attr("data-day",date.day);
+			$(".outHotel .dateSelectDay").text(dateSelectText);
+			$(".outHotel .dateSelectDay").attr("data-year",date.year).attr("data-month",date.month).attr("data-day",date.day);
+
+			var day = (parseInt(date.day)<10 ? "0"+date.day:date.day);
+
+			var con = this.calendar1.CalendarBox.container;
+			var columns = con.find(".calConItem.column");
+
+			for( var i = 0;i<columns.length;i++){
+				var col = columns.eq(i).find(".day").text();
+				if(col == day){
+					var nowSelectWeek = parseInt(columns.eq(i).attr("data-week"));
+				}
+			}
+			var weekText = "";
+			if(nowSelectWeek == 0){
+				weekText = "日";
+			}else if(nowSelectWeek == 1){
+				weekText = "一";				
+			}else if(nowSelectWeek== 2){
+				weekText = "二";				
+			}else if(nowSelectWeek== 3){
+				weekText = "三";				
+			}else if(nowSelectWeek== 4){
+				weekText = "四";				
+			}else if(nowSelectWeek == 5){
+				weekText = "五";				
+			}else if(nowSelectWeek== 6){
+				weekText = "六";				
+			}
+			var tpl = '<span class="dateSelectWeek">周'+ weekText +'</span>';
+			$(".inHotel .dateSelectDay").append(tpl);
+			$(".outHotel .dateSelectDay").append(tpl);
+			
+		},
 
 		showCalendar1 : function(){
 

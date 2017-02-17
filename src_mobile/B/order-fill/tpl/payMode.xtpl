@@ -1,13 +1,6 @@
 <div id="payModeBox">
-
     <div class="payModeTop"><i class="icon icon-u-regular icon-jiantou"></i>付款方式</div>
     <div class="payItem" data-way="0">账户余额</div>
-    <div class="payItem" data-way="1">支付宝</div>
     <div class="payItem" data-way="2">授信支付</div>
-    <div class="payItem" data-way="3">产品自销</div>
-    <div class="payItem" data-way="4">现场支付</div>
-    <div class="payItem" data-way="5">微信支付</div>
-    <div class="payItem" data-way="7">银联支付</div>
-    <div class="payItem" data-way="9">现金支付</div>
-
+    <div class="payItem" data-way="1">在线支付</div>    
 </div>
