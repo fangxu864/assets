@@ -277,7 +277,6 @@ var SigningStaff = {
         for(var i= 0 ; i < data.module.length ; i++){
             this.openAppInitialData.push( [data.module[i]["id"]] + "-" + data.module[i]["open"] )
         }
-        console.log(this.openAppInitialData);
         //合作模式
         if(data.contract_model){
             this.container.find(".signInfo .contract_model option[value = "+data.contract_model+"]").attr("selected","true");

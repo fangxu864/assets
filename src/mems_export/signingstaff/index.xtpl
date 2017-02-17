@@ -27,7 +27,7 @@
                     </select>
                 </div>
                 <div class="td td3">
-                    <input type="checkbox" class="is_pay" checked="<%=data.is_pay == 1 ? true : false%>"/><span>是否回款</span>
+                    <input type="checkbox" class="is_pay" <%=data.is_pay == 1 ? "checked" : ""%>/><span>是否回款</span>
                 </div>
 
             </div>
@@ -60,13 +60,13 @@
             <div class="line line4">
                 <div class="td td1">协议日期</div>
                 <div class="td td2">
-                    <input type="text" class="protocol_start" value="<%=data.protocol_start != '0000-00-00' ? protocol_start : ''%>"/>
+                    <input type="text" class="protocol_start" value="<%=data.protocol_start != '0000-00-00' ? data.protocol_start : ''%>"/>
                 </div>
                 <div class="td">
                     <span>至</span>
                 </div>
                 <div class="td td3">
-                    <input type="text" class="protocol_end" value="<%=data.protocol_end != '0000-00-00' ? protocol_end : ''%>"/>
+                    <input type="text" class="protocol_end" value="<%=data.protocol_end != '0000-00-00' ? data.protocol_end : ''%>"/>
                 </div>
                 <div class="td td4" style="color: red">
                     日期格式必须是"xxxx-xx-xx"
