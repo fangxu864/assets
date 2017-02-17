@@ -8,6 +8,7 @@ module.exports = function(params,opt){
             token : params.token,
             ordername : params.ordername,
             ordertel : params.ordertel,
+            idcard : params.idcard,
             type : params.type
         },
         loading : opt.loading,

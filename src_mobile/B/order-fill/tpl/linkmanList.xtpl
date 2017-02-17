@@ -4,7 +4,7 @@
         <%for( var i = 0;i<list.length;i++){%>
             <div class="LinkmanItem">
                 <div class="LinkmanName"><%=list[i].name%></div>
-                <div class="LinkmanTel"><%=list[i].tel%></div>
+                <div class="LinkmanTel" data-IDcard="<%=list[i].idcard%>"><%=list[i].tel%></div>
                 <i class="icon icon-u-regular icon-yaojiucuo"></i>
             </div>   
         <%}%>

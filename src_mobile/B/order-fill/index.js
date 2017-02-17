@@ -8,6 +8,7 @@ var GetShowInfo = require("./service/getShowInfo");//演出场次信息
 var UpdateLinkman = require("./service/updateLinkman");
 var GetLinkman = require("./service/getLinkman");//获取常用联系人信息
 var GetHotelPrice = require("./service/getHotelPriceAndStorage");//获取酒店价格和库存
+var PostSubmitOrder = require("./service/submitOrder");
 //tpl
 var placeTicket = require("./tpl/placeTicket.xtpl");
 var contact = require("./tpl/addContact.xtpl");
@@ -51,7 +52,7 @@ var Order_fill = PFT.Util.Class({
 
 		"input #checkPhoneInput" : "validTel",//验证电话号码
 		"input #checkIdInput" : "validIdCard",//验证身份证号码
-		"click #contact" : "handleContact",//处理联系人
+		// "click #contact" : "handleContact",//处理联系人
 		"click #saveContact" : "handleSaveContact",//保存联系人
 
 		"click #checkContact" : "contactList",//常用联系人列表
@@ -83,6 +84,24 @@ var Order_fill = PFT.Util.Class({
 		if(this.aid == undefined ||this.pid == undefined ||this.type == undefined ){
 			console.log("缺少id参数");	
 		}
+
+		//2017/2/9
+		//后端提供调试pid
+		// 线路 = 57958, 58111
+		// 酒店 = 26397, 26398
+		// 演出 = 58004, 58114
+		// 餐饮 = 57921, 58115
+		// 套票 = 58105, 58107
+		// 景区 = 25267, 26398
+
+		// A:景区,B:线路,F:套票,H:演出,C:酒店
+		// G:餐饮 //餐饮是后面加的
+
+		// this.pid = 25267; //景区			
+		// this.pid = 26397; //酒店
+		// this.pid = 57958; //线路			
+		// this.pid = 58004; //演出
+		// this.pid = 57921; //餐饮
 
 		this.toast = new Toast();//初始化toast
 
@@ -133,6 +152,9 @@ var Order_fill = PFT.Util.Class({
 	},
 	//提交订单
 	submitOrder : function(e){
+
+		var that = this;
+
 		//防止跳转
 		e.preventDefault();
 		console.log("提交订单");
@@ -145,7 +167,20 @@ var Order_fill = PFT.Util.Class({
 			var aid = this.aid; 		
 		}
 
-		// var tnum = //购票数量，好几种票怎么办
+		var Tlist = $("#ticketList .placeTicket");
+		var link = {};
+		for( var i = 0;i<Tlist.length;i++){
+			if(Tlist.eq(i).attr("data-pid") == this.paramspid){ //this.paramspid为暂时用
+				var mainT = Tlist.eq(i);
+				var tnum = Tlist.eq(i).find(".right .numBox").val();   //获得主票的数量
+			}else{
+
+				var relatedT = Tlist.eq(i);
+				var pid = relatedT.attr("data-pid");
+				link[pid] = relatedT.find(".right .numBox").val();
+
+			}
+		}
 
 		if(this.selectedDay){
 			var begintime = this.selectedDay;			
@@ -165,8 +200,6 @@ var Order_fill = PFT.Util.Class({
 			return false
 		}
 
-		console.log($("#payMode").attr("data-way"));
-
 		if($("#payMode").attr("data-way")){
 			var paymode = $("#payMode").attr("data-way");
 		}else{
@@ -175,23 +208,41 @@ var Order_fill = PFT.Util.Class({
 		}
 
 
-
 		var params = {
             token : token,
             pid : pid,
             aid : aid,
-            // tnum : tnum,
+            tnum : tnum,
             begintime : begintime, //游玩日期
             contacttel : contacttel,
             ordername : ordername,
-            // paymode : paymode,
-            // idcards : idcards, 
-            // tourists : tourists,
-            // link : link
+            paymode : paymode,
+            // idcards : idcards, //游客身份证号 //可选 
+            // tourists : tourists, //游客姓名  //可选
+			// zoneid : zoneid, //分区ID 演出必填
+			// roundid : roundid, //场次ID 演出必填
+			// venusid : venusid, //场馆ID 演出必填
+            // link : link //联票数组 //可选
 
         }
 
 
+		PostSubmitOrder(params,{
+
+			loading:function () {
+				that.toast.show("loading");
+			},
+			success:function (res) {
+				console.log(res);
+			},
+			complete:function () {
+				that.toast.hide();				
+			},
+			fail : function(msg){
+				PFT.Mobile.Alert(msg);
+			}
+
+		})
 
 
 	},
@@ -216,8 +267,6 @@ var Order_fill = PFT.Util.Class({
 					var item = $(e.target);
 					var t = item.text();
 					var way = item.attr("data-way");
-					console.log(way);
-					console.log(t);
 					if(way){
 						$("#payMode").val("付款方式: " + t).attr("data-way",way);	
 						that.PayModeBox.close();
@@ -263,7 +312,7 @@ var Order_fill = PFT.Util.Class({
 		}
 	},
 
-
+	//保存联系人
 	handleSaveContact : function(){
 
 		console.log("保存联系人");
@@ -300,7 +349,9 @@ var Order_fill = PFT.Util.Class({
 					that.toast.hide();
 				}
 			},
-			complete:function () {},
+			complete:function () {
+				that.toast.hide();
+			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);
 			}
@@ -323,11 +374,21 @@ var Order_fill = PFT.Util.Class({
 				that.toast.show("loading");
 			},
 			success:function (res) {
+				console.log(res);
+				var code = res.code;
+				var msg = res.msg;
+				if( code == 201){
+					that.toast.hide();
+					PFT.Mobile.Alert(msg);
+					return false
+				}
 				var list = res.data.info;
 				that.toast.hide();
 				handleLinkmanList(list);
 			},
-			complete:function () {},
+			complete:function () {
+				that.toast.hide();
+			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);
 			}
@@ -344,7 +405,7 @@ var Order_fill = PFT.Util.Class({
 				for( var i = 0;i<list.length;i++){
 			    listHtml += '<div class="LinkmanItem">' + 
 								'<div class="LinkmanName">'+list[i].name+'</div>' +
-								'<div class="LinkmanTel">'+list[i].tel+'</div>' +
+								'<div class="LinkmanTel" data-IDcard="'+list[i].idcard+'">'+list[i].tel+'</div>' +
 								'<i class="icon icon-u-regular icon-yaojiucuo"></i>' +
 							'</div>';   
 				}
@@ -374,13 +435,11 @@ var Order_fill = PFT.Util.Class({
 							if(item[0].className != "LinkmanItem"){
 								item = item.parent();
 							}
-							console.log(item);
 							var name = item.find(".LinkmanName").text();
 							var tel = item.find(".LinkmanTel").text();
-							console.log(name);
-							console.log(tel);
 							$("#contact").val(name);
 							$("#checkPhoneInput").val(tel);
+							that.validTel();//验证号码
 							that.linkManBox.close();					
 						},
 						"click .icon-yaojiucuo" : function(e){
@@ -404,10 +463,12 @@ var Order_fill = PFT.Util.Class({
 
 				var name = item.find(".LinkmanName").text();
 				var tel = item.find(".LinkmanTel").text();
+				var idcard = item.find(".LinkmanTel").attr("data-idcard");
 				var params = {
 					token : PFT.Util.getToken(),
 					ordername : name,
 					ordertel : tel,
+					idcard : idcard,
 					type : "del"
 				}
 				UpdateLinkman(params,{
@@ -420,7 +481,9 @@ var Order_fill = PFT.Util.Class({
 							that.toast.hide();
 						}
 					},
-					complete:function () {},
+					complete:function () {
+						that.toast.hide();
+					},
 					fail : function(msg){
 						PFT.Mobile.Alert(msg);
 					}
@@ -502,25 +565,8 @@ var Order_fill = PFT.Util.Class({
 				pid : this.pid
 			};
 
-			
-			//2017/2/9
-			//后端提供调试pid
-			// 线路 = 57958, 58111
-			// 酒店 = 26397, 26398
-			// 演出 = 58004, 58114
-			// 餐饮 = 57921, 58115
-			// 套票 = 58105, 58107
-			// 景区 = 25267, 26398
 
-			// A:景区,B:线路,F:套票,H:演出,C:酒店
-			// G:餐饮 //餐饮是后面加的
-
-			// params.pid = 25267; //景区			
-			// params.pid = 26397; //酒店
-			// params.pid = 57958; //线路			
-			// params.pid = 58004; //演出
-			params.pid = 57921; //餐饮
-
+			this.paramspid = params.pid;//在支付时用的pid 
 
 			GetBookInfo(params,{
 				loading:function () {
@@ -533,11 +579,12 @@ var Order_fill = PFT.Util.Class({
 					that.handleTips(res);//处理有效期退票等信息							
 
 					that.handleBookInfo(res);
-
 					
 
 				},
-				complete:function () {},
+				complete:function () {
+					that.toast.hide();
+				},
 				fail : function(msg){
 					PFT.Mobile.Alert(msg);
 				}
@@ -552,6 +599,8 @@ var Order_fill = PFT.Util.Class({
 		var ticketList = res.tickets;
 		if(ticketList.length == 0){
 			console.log("无票");
+		}else{
+			this.ticketList = ticketList;
 		}
 		$("#placeText").text(res.title);
 		//获取pids
@@ -564,8 +613,14 @@ var Order_fill = PFT.Util.Class({
 				pids += "-" +ticketList[i].pid  ;
 			}
 		}
+
 		//needID//是否需要输入身份证
 		var needID = res.needID;
+
+		//模拟needID
+		needID = "1"
+
+		
 		if( needID == "0"){
 			$("#idCardBox").css("display","none");
 		}else if(needID == "1"){
@@ -574,6 +629,7 @@ var Order_fill = PFT.Util.Class({
 			$("#idCardBox #checkIdInput").css("display","none");
 			$("#idCardBox #checkIdCard").css("display","none");
 		}
+
 
 		var type = res.p_type;
 
@@ -661,7 +717,9 @@ var Order_fill = PFT.Util.Class({
 				that.toast.hide();
 				that.handleShowInfo(res);
 			},
-			complete:function(){},
+			complete:function(){
+				that.toast.hide();
+			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);				
 			}
@@ -870,7 +928,9 @@ var Order_fill = PFT.Util.Class({
 				that.toast.hide();				
 				that.handlePriceAndStorage(res);
 			},
-			complete:function () {},
+			complete:function () {
+				that.toast.hide();
+			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);
 			}			
@@ -1008,8 +1068,7 @@ var Order_fill = PFT.Util.Class({
 		var nights = DateDiff(inDate,outDate);
 		$(".hotelDay .hotelDayTag").text(nights + "晚");
 
-
-		//跨月份太难了
+		//处理两天之间是否有空的//太麻烦了，等后期再做
 		// this.handleBetweenTwoDay(inYear,inDate,outDate,parseInt(inMonth),parseInt(outMonth),nights,parseInt(inDay));
 
 		var params = {
@@ -1029,7 +1088,9 @@ var Order_fill = PFT.Util.Class({
 				handleHotelRes(res);//处理res
 				that.toast.hide();
 			},
-			complete:function(){},
+			complete:function(){
+				that.toast.hide();
+			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);				
 			}	
@@ -1052,20 +1113,8 @@ var Order_fill = PFT.Util.Class({
 		}
 
 	},
-	//处理两天之间
+	//处理两天之间是否有空的//未完成
 	handleBetweenTwoDay : function(inYear,inDate,outDate,inMonth,outMonth,nights,inDay){
-
-		console.log(inDate);
-		console.log(outDate);
-		console.log(nights);
-
-		console.log("inMonth:"+inMonth);
-		console.log("outMonth:"+outMonth);		
-
-		console.log(inDay);//入住的天数
-
-		console.log(this.calendar1.MonthList);
-		console.log(this.calendar2.MonthList);
 
 		var list1 = this.calendar1.MonthList;
 		var list2 = this.calendar2.MonthList;
@@ -1095,400 +1144,7 @@ var Order_fill = PFT.Util.Class({
 	},	
 
 
-
-
-
-
-
-
-
-	//以下代码为多余*******************************************************************************************************************************************
-
-	// initCalendar : function(){
-
-	// 	var that = this;
-
-	// 	var dateGroup = this.getNowDate();	
-	// 	var nowDate = dateGroup.nowDate;
-
-	// 	var allHtml = Calendar.init(nowDate);
-
-	// 	var html = allHtml.html;
-	// 	var listHtml = allHtml.listHtml;
-
-	// 	if(this.CalendarBox){
-	// 		this.CalendarBox.show();
-	// 	}else{
-	// 		this.CalendarBox =  new SheetCore({
-				
-	// 			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
-
-	// 			height : "auto",      //弹层占整个手机屏幕的高度
-				
-	// 			yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
-				
-	// 			noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
-
-	// 			zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
-				
-	// 			EVENTS : {            //弹层上面绑定的所有事件放在这里
-	// 				"click .prev" : function(e){
-	// 					//往前需要判断不能低于当前月份当天
-	// 					that.changeCal("prev");
-	// 				},
-	// 				"click .next" : function(e){
-	// 					that.changeCal("next");
-	// 				},
-
-	// 				"click .calConItem.column" : function(e){
-
-	// 					var selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
-
-	// 					if(selectedDay != "disable"){
-	// 						that.CalendarBox.close();
-	// 					}
-						
-	// 					that.getPriceAndStorage(selectedDay);
-	// 				}				
-	// 			}
-	// 		});
-	// 		this.CalendarBox.mask.on("click",function(){
-	// 			that.CalendarBox.close();			
-	// 		});
-	// 		this.CalendarBox.show();
-	// 		this.getCalPrice();
-	// 		$(".calContentCon").html(listHtml);
-			
-	// 	}
-		
-
-	// },
-
-
-	// calDaySelect : function(e){
-	// 	var target = $(e.target);
-	// 	var tagName = target.attr("tagName");
-	// 	if(tagName != "DIV"){
-	// 		target = target.parent();
-	// 		tagName = target.attr("tagName");
-	// 		if(tagName != "DIV"){
-	// 			target = target.parent();
-	// 		}
-	// 	}
-
-	// 	if(target[0].className.indexOf("disable")>0){
-	// 		return "disable"
-	// 	}
-
-	// 	target.addClass("select");
-	// 	var nowTargetDate = target.find('.day').text();
-	// 	var list = $(".calConItem.column");
-	// 	for( var i = 0;i<list.length;i++){
-	// 		var className = list[i].className;
-	// 		if( className.indexOf("disable") < 0 ){//除去disable
-				
-	// 			var t = list.eq(i).find('.day').text();
-	// 			if(t != nowTargetDate ){
-	// 				list.eq(i).removeClass('select');
-	// 			}
-	// 		}
-	// 	}
-
-	// 	return nowTargetDate; //返回当前被选中的天数
-
-	// },
-
-
-	// changeCal : function(dir){
-
-	// 	if(dir == "prev"){
-	// 		if(this.nowMonthFlag > 1){
-	// 			this.nowMonthFlag -= 1; 
-	// 		}else{
-	// 			this.nowMonthFlag = 12;
-	// 			this.nowYearFlag -= 1;
-	// 		}
-	// 	}else if(dir == "next"){
-	// 		if(this.nowMonthFlag < 12){
-	// 			this.nowMonthFlag += 1; 
-	// 		}else{
-	// 			this.nowMonthFlag = 1;
-	// 			this.nowYearFlag += 1;
-	// 		}
-	// 	}
-
-	// 	var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
-
-	// 	Calendar.change(date); //改变日历状态
-
-	// 	this.getCalPrice("change");
-
-	// },
-
-
-	// getCalPrice : function(change){
-
-	// 	var that = this;
-
-	// 	if(change == "change"){   
-
-	// 		var dateGroup = {};
-	// 		console.log("change");
-
-	// 		dateGroup.year = this.nowYearFlag;
-	// 		dateGroup.month = this.nowMonthFlag;
-	// 		dateGroup.day = 0;
-
-	// 		var date = dateGroup.year + "-" + dateGroup.month;
-
-	// 		var params = {
-	// 			token : PFT.Util.getToken(),
-	// 			aid : this.aid,
-	// 			pid : this.pid,
-	// 			date : date
-	// 		};
-
-	// 		console.log(dateGroup.year);
-	// 		console.log(dateGroup.month);
-	// 		console.log(dateGroup.day);
-
-
-	// 	}else{
-
-	// 		var dateGroup = this.getNowDate();
-	// 		var day = dateGroup.day; 
-	// 		var month = dateGroup.month; 
-	// 		var year = dateGroup.year; 
-	// 		var date = year.toString() + "-" + month.toString() + "-" + day.toString();
-	// 		var params = {
-	// 			token : PFT.Util.getToken(),
-	// 			aid : this.aid,
-	// 			pid : this.pid,
-	// 			date : date
-	// 		};
-				
-
-	// 	}
-
-
-	// 	GetCalendarPrice(params,{
-	// 		loading:function () {},
-	// 		success:function (res) {
-
-	// 			that.handleCalPrice(res,dateGroup);
-
-	// 		},
-	// 		complete:function () {}
-	// 	});	
-		
-
-	// },	
-
-	// handleCalPrice : function(res,dateGroup){
-
-	// 	var PG = $("span.price");
-	// 	for( var i in res){
-	// 		for(var j = 0;j<PG.length;j++){
-	// 			var data_day = PG.eq(j).attr("data-day");
-	// 			dateGroup.month = parseInt(dateGroup.month);
-	// 			dateGroup.month =(dateGroup.month<10 ? "0"+dateGroup.month:dateGroup.month);
-	// 			var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
-	// 			if(data_date == i){
-	// 				PG.eq(j).find("em").text(res[i]);
-	// 			}
-	// 		}
-	// 	}		
-
-	// 	var items = $(".calConItem.column"); 
-
-	// 	for(var j = 0;j<items.length;j++){
-
-	// 		if(items.eq(j).find('em').text() == ""){
-	// 			items.eq(j).find('.yen').text("");
-	// 			items.eq(j).addClass('disable');
-	// 		}
-
-	// 	}
-
-		
-
-	// 	var today = (dateGroup.day < 10&&dateGroup.day != 0 ? "0" + dateGroup.day : dateGroup.day); 	
-
-	// 	var days = $(".calConItem.column .day");
-
-	// 	if( dateGroup.day == 0 ){//日历改变月份
-			
-	// 		for( var n = 0 ; n<days.length ; n++){
-	// 			var t = days.eq(n).text(); 
-	// 			if( t == "01"){
-	// 				var pItem = days.eq(n).parent();
-	// 				pItem.addClass('select');
-	// 			}
-	// 		}	
-				
-	// 	}else{
-
-	// 		for( var n = 0 ; n<days.length ; n++){
-	// 			var t = days.eq(n).text(); 
-	// 			if( t == today){
-	// 				var pItem = days.eq(n).parent();
-	// 				pItem.addClass('select');
-	// 			}
-	// 		}	
-
-	// 	}
-
-
-	// },
-
-
-	// getPriceAndStorage : function (selectedDay) { //传入被选中的天数
-
-
-	// 	if( selectedDay != "disable"){
-
-
-	// 		var that = this;
-	// 		var month = (this.nowMonthFlag<10 ? "0"+this.nowMonthFlag:this.nowMonthFlag); 
-	// 		var date = this.nowYearFlag + "-" + month + "-" + selectedDay;
-	// 		console.log(date);
-
-	// 		// var params = {
-	// 		// 	token : PFT.Util.getToken(),
-	// 		// 	aid : this.aid,
-	// 		// 	date : date,
-	// 		// 	pids : 
-	// 		// };
-
-
-	// 		// GetPriceAndStorage(params,{
-	// 		// 	loading:function () {},
-	// 		// 	success:function (req) {
-	// 		// 		console.log(req);
-	// 		// 		var template = PFT.Util.ParseTemplate(placeTicket);
-	// 		// 		var htmlStr = template({data:req.data});
-	// 		// 		$("#ticketList").empty().append(htmlStr);
-
-	// 		// 		This.getBookInfo()
-
-	// 		// 	},
-	// 		// 	complete:function () {}
-	// 		// });	
-
-
-	// 	}
-		
-
-	// },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	//这以下是家燊写的*************************************************************************************************************************
-
-	//我自己理解的注释
-
-	//初始化组件
-	// componentsInit : function () {
-		
-	// 	var This = this;
-
-	// 	//日历
-	// 	// this.calendar = new Calendar();
-	// 	//常用联系人
-	// 	this.ContactBox =  new SheetCore({
-
-	// 		// header : "选择常用联系人",      //弹层头部标题 可选
-	// 		header : function(){
-	// 			var html = '<div class="title"><span class="back"><</span>常用联系人</div>';
-	// 			//必须把html return出去
-	// 			return html;
-	// 		},
-			
-	// 		content : contact,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
-
-	// 		height : "100%",      //弹层占整个手机屏幕的高度
-			
-	// 		yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
-			
-	// 		noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
-
-	// 		zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
-			
-	// 		EVENTS : {            //弹层上面绑定的所有事件放在这里
-	// 			"click .usualContact li" : function(){
-	// 				This.ContactBox.close();
-	// 			},
-	// 			"click .back" : function () {
-	// 				This.ContactBox.close();
-	// 			}
-	// 		}
-			
-	// 	});
-	// 	//游客信息
-	// 	this.VisitorInformation =  new SheetCore({
-
-	// 		// header : "选择常用联系人",      //弹层头部标题 可选
-	// 		header : function(){
-	// 			var html = '<div class="title"><span class="back"><</span>常用联系人</div>';
-	// 			//必须把html return出去
-	// 			return html;
-	// 		},
-
-	// 		content : contact,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件
-
-	// 		height : "100%",      //弹层占整个手机屏幕的高度
-
-	// 		yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
-
-	// 		noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
-
-	// 		zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
-
-	// 		EVENTS : {            //弹层上面绑定的所有事件放在这里
-	// 			"click .usualContact li" : function(){
-	// 				This.VisitorInformation.close();
-	// 			},
-	// 			"click .back" : function () {
-	// 				This.VisitorInformation.close();
-	// 			}
-	// 		}
-
-	// 	});
-	// },
-	
-
-
-	// getDate : function () {
-	// 	this.calendarBox.show("",{
-	// 		picker : $("#playDate"),
-	// 		top : 0,
-	// 		left : 0,
-	// 		onBefore : function(){},
-	// 		onAfter : function(){}
-	// 	})
-	// },
-
-	// showContact : function () {
-	// 	this.ContactBox.show();
-	// },
-
-	// showVisitor : function () {
-	// 	this.VisitorInformation.show();
-	// },
 
 
 	//加

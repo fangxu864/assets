@@ -14,7 +14,11 @@ module.exports = function(params,opt){
             paymode : params.paymode,
             idcards : params.idcards, 
             tourists : params.tourists,
+            zoneid : params.zoneid,
+            roundid : params.roundid,
+            venusid : params.venusid,
             link : params.link
+
         },
         loading : opt.loading,
         complete : opt.complete,
