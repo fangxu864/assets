@@ -1,0 +1,10 @@
+<style>
+    .test{
+        width: 30px;
+        margin: 0 auto;
+        color: red;
+    }
+</style>
+<div class="test">
+1212
+</div>
