@@ -16,6 +16,7 @@ var lineTpl = require("./tpl/lineMeetPlace.xtpl");
 var payModeTpl = require("./tpl/payMode.xtpl");
 var showTimeTpl = require("./tpl/showTime.xtpl");//演出时间
 var linkmanList = require("./tpl/linkmanList.xtpl");
+var visitInfoTpl = require("./tpl/VisitInfo.xtpl");
 //组件模块
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
@@ -61,7 +62,6 @@ var Order_fill = PFT.Util.Class({
 
 		// "click #payMode" : "handlePayMode", //处理付款方式
 
-
 		// "click #contact":"showContact",
 		// "click #visitorInformation":"showVisitor",
 
@@ -84,6 +84,8 @@ var Order_fill = PFT.Util.Class({
 		if(this.aid == undefined ||this.pid == undefined ||this.type == undefined ){
 			console.log("缺少id参数");	
 		}
+
+
 
 		//2017/2/9
 		//后端提供调试pid
@@ -111,6 +113,10 @@ var Order_fill = PFT.Util.Class({
 
 		//处理付款方式
 		this.handlePayMode();
+
+
+		
+		
 
 	},
 	//处理顶端提示
@@ -208,6 +214,30 @@ var Order_fill = PFT.Util.Class({
 		}
 
 
+		//身份证	
+		var idcards = $("#checkIdInput").val();
+		var idcardValid = $("#checkIdCard").attr("data-valid");
+
+		if($("#checkIdInput").css("display") == "none" || $("#idCardBox").css("display") == "none" ){
+			idcards = "";
+		}else if(idcards == "" && idcardValid == "false"){ 
+			PFT.Mobile.Alert("请填写身份证");
+		}else if(idcards != "" && idcardValid == "false"){
+			PFT.Mobile.Alert("身份证格式错误，请核对");
+		}else if(idcardValid == "true"){
+			idcards = idcards;
+		}
+
+		//演出的id
+		zoneid = this.zone_id;
+		roundid = this.round_id;
+		venusid = this.venus_id;
+
+		if( this.type == "H" && roundid == undefined && venusid == undefined){
+			PFT.Mobile.Alert("请选择场次时间");
+			return false
+		}
+
 		var params = {
             token : token,
             pid : pid,
@@ -217,13 +247,12 @@ var Order_fill = PFT.Util.Class({
             contacttel : contacttel,
             ordername : ordername,
             paymode : paymode,
-            // idcards : idcards, //游客身份证号 //可选 
+            idcards : idcards, //游客身份证号 //可选 
             // tourists : tourists, //游客姓名  //可选
-			// zoneid : zoneid, //分区ID 演出必填
-			// roundid : roundid, //场次ID 演出必填
-			// venusid : venusid, //场馆ID 演出必填
+			zoneid : zoneid, //分区ID 演出必填
+			roundid : roundid, //场次ID 演出必填
+			venusid : venusid, //场馆ID 演出必填
             // link : link //联票数组 //可选
-
         }
 
 
@@ -496,7 +525,64 @@ var Order_fill = PFT.Util.Class({
 	handleContact : function(){
 		console.log("处理联系人");
 	},
+
+
+	//处理游客信息
+
 	handleVisitInfo : function(){
+
+		console.log("游客信息");
+		var that = this;
+
+		var list = this.ticketList;
+		var tlist = $("#ticketList .placeTicket");
+		for( var i =0;i<list.length;i++){
+			list[i].num = tlist.eq(i).find(".numBox").val();
+			list[i].Ttitle = tlist.eq(i).find(".ticketName").text();
+		}
+		var data = {};
+		data.list = list;
+		var visitInfoTemplate = PFT.Util.ParseTemplate(visitInfoTpl); 
+		var html = visitInfoTemplate(data);
+
+		if(this.visitInfoBox){
+			this.visitInfoBox.show();
+			//需要动态生成list	
+		}else{
+
+			this.visitInfoBox = new SheetCore({
+				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+				height : "100%",      //弹层占整个手机屏幕的高度
+				yesBtn : function(){
+
+					console.log("获取联系人身份证列表");
+
+					var idCardList = [];
+
+					var ticketGroupList = $("#visitInfo .ticketGroup");
+					console.log(ticketGroupList);
+
+					
+
+
+
+
+				},       //弹层底部是否显示确定按钮,为false时不显示
+				noBtn : true,        //弹层底部是否显示取消按钮,格式同yesBtn
+				zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
+				EVENTS : {            //弹层上面绑定的所有事件放在这里
+					
+				}
+			});
+
+			this.visitInfoBox.show();
+
+			this.visitInfoBox.mask.on("click",function(){
+				that.visitInfoBox.close();			
+			});
+
+		}
+
 	},
 	//获取id与type
 	getId : function(){
@@ -565,7 +651,6 @@ var Order_fill = PFT.Util.Class({
 				pid : this.pid
 			};
 
-
 			this.paramspid = params.pid;//在支付时用的pid 
 
 			GetBookInfo(params,{
@@ -614,12 +699,14 @@ var Order_fill = PFT.Util.Class({
 			}
 		}
 
+
+		this.zone_id = ticketList[0].zone_id; //演出的分区ID
+
 		//needID//是否需要输入身份证
 		var needID = res.needID;
 
 		//模拟needID
-		needID = "1"
-
+		needID = "2"
 		
 		if( needID == "0"){
 			$("#idCardBox").css("display","none");
@@ -628,10 +715,12 @@ var Order_fill = PFT.Util.Class({
 		}else if(needID == "2"){
 			$("#idCardBox #checkIdInput").css("display","none");
 			$("#idCardBox #checkIdCard").css("display","none");
+			$("#visitorInformation").val("*游客信息 "+"已编辑0/"+ticketList.length);
 		}
 
 
-		var type = res.p_type;
+		this.type = res.p_type;
+		var type = this.type; 
 
 		// A:景区,B:线路,F:套票,H:演出,C:酒店
 		// G:餐饮 //餐饮是后面加的
@@ -667,6 +756,10 @@ var Order_fill = PFT.Util.Class({
 			this.renderTicketList(ticketList);
 			this.handleFood(pids);
 		}
+
+
+
+		// this.handleVisitInfo();//测试游客信息
 
 		
 
@@ -729,6 +822,8 @@ var Order_fill = PFT.Util.Class({
 	handleShowInfo : function(res){
 		var that = this;
 
+		console.log(res);
+
 		if(this.showTimeBox){
 			var list = res;
 			var html = "";
@@ -753,6 +848,11 @@ var Order_fill = PFT.Util.Class({
 					},
 					"click .showItem" : function(e){
 						var item = $(e.target);
+						console.log(item);
+
+						that.venus_id = item.attr("data-venus_id");//场馆id
+						that.round_id = item.attr("data-round_id");//场次id
+
 						var t = item.text();
 						$("#playTimeInput").val(t);
 						that.showTimeBox.close();					
@@ -1146,7 +1246,6 @@ var Order_fill = PFT.Util.Class({
 
 	//这以下是家燊写的*************************************************************************************************************************
 
-
 	//加
 	addNum : function (e) {
 		var storage = $(e.target).parent().parent().find(".left .num").text();
@@ -1214,6 +1313,18 @@ var Order_fill = PFT.Util.Class({
 			sum = 0;
 		}
 		$("#totalMoney").text(sum)
+
+		var tList = $("#ticketList .placeTicket");
+		var num = 0;
+		for(var i = 0;i<tList.length;i++){
+			var numBox = tList.eq(i).find(".right .numBox");
+			num += parseInt(numBox.val());
+		}
+		if(num >0){
+			$("#visitorInformation").val("*游客信息 已编辑0/"+num);
+		}
+
+
 	},
 
 	checkInput : function (e) {
@@ -1248,8 +1359,9 @@ var Order_fill = PFT.Util.Class({
 		if(num == storage){
 			$(e.target).parent().find(".addBtn").attr("active","false");
 			$(e.target).parent().find(".delBtn").attr("active","true");
-
 		}
+
+
 	},
 
 	regularToggle : function (e) {
