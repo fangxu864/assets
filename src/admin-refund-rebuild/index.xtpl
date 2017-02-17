@@ -1,10 +1,6 @@
-<style>
-    .test{
-        width: 30px;
-        margin: 0 auto;
-        color: red;
-    }
-</style>
-<div class="test">
-1212
+<div id="refundApplyWrap">
+    <div class="topTitleBox">提现申请列表</div>
+    <div class="filterBox"></div>
+    <div class="conBox"></div>
+    <div class="paginationBox"></div>
 </div>
