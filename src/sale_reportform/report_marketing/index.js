@@ -3,18 +3,18 @@
  */
 
 
-require("../index.scss");
+require("./index.scss");
 var SelectShort=require("COMMON/modules/select_short");
 var Calendar = require("COMMON/modules/calendar");
 var When=require("COMMON/js/when.js");
 var when=new When();
 // var title_tpl=require("../tpl/title.xtpl");
-var filter_tpl=require("../tpl/filter.xtpl");
+var filter_tpl=require("./tpl/filter.xtpl");
 // var total_tpl=require("../tpl/total.xtpl");
-var tablecon_tpl=require("../tpl/tablecon.xtpl");
-var querying_tpl=require("../tpl/querying.xtpl");
-var queryerror_tpl=require("../tpl/queryerror.xtpl");
-var querynodata_tpl=require("../tpl/querynodata.xtpl");
+var tablecon_tpl=require("./tpl/tablecon.xtpl");
+var querying_tpl=require("./tpl/querying.xtpl");
+var queryerror_tpl=require("./tpl/queryerror.xtpl");
+var querynodata_tpl=require("./tpl/querynodata.xtpl");
 var Select = require("COMMON/modules/select");
 var Pagination = require("COMMON/modules/pagination-x");
 
@@ -35,50 +35,19 @@ var Book_form={
         // this.title_box.html(title_tpl);
         // this.total_box.html(total_tpl);
 
-        $(".mctit_6").addClass("active");
+        $(".mctit_7").addClass("active");
         this.filter_box.html(filter_tpl);
         this.tablecon_box.html(tablecon_tpl);
 
-        if(_this.isAdmin==1){
-            $(".filter_box .filter .line1").show();
-
-            //交易商户搜索框
-            var select1=new Select({
-                source : "/call/jh_mem.php",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-                ajaxType : "get",
-                ajaxParams : {
-                    action : "fuzzyGetDname_c",
-                    dtype : "1",
-                    danme : ""
-                },
-                isFillContent:false,
-
-                filterType : "ajax",  //指定过滤方式为ajax
-
-
-
-
-                field : {
-                    id : "id",
-                    name : "dname",
-                    keyword : "dname"
-                },
-                trigger : $("#trader_inp"),
-
-                filter : true,
-                adaptor : function(res){
-                    var reslut = { code:200};
-                    reslut["data"] = res;
-                    return reslut;
-                }
-            });
-        }
         //获取元素
         this.stime_inp=$("#start_time");
         this.etime_inp=$("#end_time");
         //初始化input内容
-        _this.stime_inp.val(_this.getCookie("start_time")!==""?_this.getCookie("start_time"):when.week()[0]);
-        _this.etime_inp.val(_this.getCookie("end_time")!==""?_this.getCookie("end_time"):when.week()[1]);
+        // _this.stime_inp.val(_this.getCookie("start_time")!==""?_this.getCookie("start_time"):when.week()[0]);
+        // _this.etime_inp.val(_this.getCookie("end_time")!==""?_this.getCookie("end_time"):when.week()[1]);
+        _this.stime_inp.val(when.week()[0]);
+        // _this.etime_inp.val(when.week()[1]);
+        _this.etime_inp.val(when.today());
         //日历插件部分
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
@@ -103,7 +72,7 @@ var Book_form={
                 top : 0,                       //日历box偏移量
                 left : 0,                     //日历box偏移量
                 min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
-                // max : when.today(),          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                max : when.today(),          //2016-07-10往后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
                 onAfter : function(){}       //弹出日历后callback
             })
@@ -116,14 +85,14 @@ var Book_form={
             _this.setCookie("end_time",endDate,1000*60*60);
             var dateDiff=GetDateDiff(startDate,endDate);
             var curDate;
-            if(dateDiff>90){
+            if(dateDiff>30){
                 if(inputId==="start_time"){
-                    curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    curDate=moment( Date.parse(startDate.replace(/-/g,'/'))+30*24 * 3600 * 1000 ).format('YYYY-MM-DD');
                     _this.etime_inp.val(curDate);
                     _this.setCookie("start_time",startDate,1000*60*60);
                     _this.setCookie("end_time",curDate,1000*60*60)
                 }else if(inputId==="end_time"){
-                    curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-90*24 * 3600 * 1000 ).format('YYYY-MM-DD');
+                    curDate=moment( Date.parse(endDate.replace(/-/g,'/'))-30*24 * 3600 * 1000 ).format('YYYY-MM-DD');
                     _this.stime_inp.val(curDate);
                     _this.setCookie("start_time",curDate,1000*60*60);
                     _this.setCookie("end_time",endDate,1000*60*60)
@@ -135,129 +104,6 @@ var Book_form={
                 var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
                 var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
                 return  dates;
-            }
-        });
-
-
-        //产品名称搜索框
-        this.ajaxParams={"search_id":""};
-        if(_this.isAdmin==1){
-            this.select2=new Select({
-                source : "/r/report_statistics/searchLands/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-                ajaxType : "post",
-
-                ajaxParams : _this.ajaxParams,
-                filterType : "ajax",  //指定过滤方式为ajax
-                field : {
-                    id : "id",
-                    name : "name",
-                    keyword : "keyword"
-                },
-                trigger : $("#product_name_inp"),
-                isFillContent:false,
-
-                filter : true,
-                adaptor : function(res){
-                    var reslut = {};
-                    reslut["code"]=200;
-                    reslut["msg"]=res.msg;
-                    var arr=[];
-                    var data=res.data;
-                    for(var i in data){
-                        arr.push(data[i]);
-                    }
-                    reslut["data"] =arr;
-                    return reslut;
-                }
-            });
-        }else{
-            this.select2=new Select({
-                source : "/r/report_statistics/getLandList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-                ajaxType : "get",
-
-                ajaxParams : {
-                    action : "fuzzyGetDname_c",
-                    dtype : "1",
-                    danme : ""
-                },
-                filterType : "",  //指定过滤方式为ajax
-                field : {
-                    id : "id",
-                    name : "title",
-                    keyword : "title"
-                },
-                trigger : $("#product_name_inp"),
-                isFillContent:false,
-
-                filter : true,
-                adaptor : function(res){
-                    var reslut = {};
-                    reslut["code"]=res.code;
-                    reslut["msg"]=res.msg;
-                    var arr=[];
-                    var data=res.data;
-                    for(var i in data){
-                        arr.push(data[i]);
-                    }
-                    reslut["data"] =arr;
-                    return reslut;
-                }
-            });
-        }
-
-        //分销商供应商选择
-        var select_fg=new SelectShort({
-            id:"select_fg",
-            arr:["分销商","供应商"],
-            callback:function (cur_opt){}
-        });
-        //分销商搜索框
-       this.select3=new Select({
-            source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-            isFillContent:false,
-
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "",  //指定过滤方式为ajax
-            field : {
-                id : "id",
-                name : "name",
-                keyword : "name"
-            },
-            trigger : $("#fenxiaoshang_name_inp"),
-
-            filter : true,
-            adaptor : function(res){
-                var reslut = {};
-                reslut["code"]=res.code;
-                reslut["msg"]=res.msg;
-                var arr=[];
-                var data=res.data;
-                for(var i in data){
-                    arr.push(data[i]);
-                }
-                reslut["data"] =arr;
-                return reslut;
-            }
-        });
-        //产品类型选择框
-        var select_huizong_type=new SelectShort({
-            id:"huizong_type",
-            arr:["按产品汇总","按门票汇总","按日期汇总","按分销商汇总","按预定渠道汇总","按分销商+票类汇总"],
-            callback:function (cur_opt){
-                var data={
-                    "按产品汇总":"product",
-                    "按门票汇总":"ticket",
-                    "按日期汇总":"date",
-                    "按分销商汇总":"reseller",
-                    "按预定渠道汇总":"channel",
-                    "按分销商+票类汇总":"resellerAndTicket"
-                };
-                $("#huizong_type").attr("count_way",data[cur_opt]);
             }
         });
 
@@ -311,9 +157,9 @@ var Book_form={
                 }break;
                 case "thisweek_btn":{
                     _this.stime_inp.val(when.week()[0]);
-                    _this.etime_inp.val(when.week()[1]);
+                    _this.etime_inp.val(when.today());
                     _this.setCookie("start_time",when.week()[0],1000*60*60);
-                    _this.setCookie("end_time",when.week()[1],1000*60*60)
+                    _this.setCookie("end_time",when.today(),1000*60*60)
                 }break;
                 case "lastweek_btn":{
                     _this.stime_inp.val(when.lastweek()[0]);
@@ -323,9 +169,9 @@ var Book_form={
                 }break;
                 case "thismonth_btn":{
                     _this.stime_inp.val(when.month()[0]);
-                    _this.etime_inp.val(when.month()[1]);
+                    _this.etime_inp.val(when.today());
                     _this.setCookie("start_time",when.month()[0],1000*60*60);
-                    _this.setCookie("end_time",when.month()[1],1000*60*60)
+                    _this.setCookie("end_time",when.today(),1000*60*60)
                 }break;
                 case "lastmonth_btn":{
                     _this.stime_inp.val(when.lastmonth()[0]);
@@ -359,16 +205,16 @@ var Book_form={
                 "cacheKey":cacheKey,
                 "isInitPagination":true      //是否初始化分页器
             });
-        })
+        });
         //导出按钮
         $(".excel_btn").on("click",function () {
-            var api="/r/report_statistics/unpaidList/";
+            var api="/r/report_statistics/marketingList/";
             if(_this.isAdmin=="1"){
-                api="/r/report_statistics/adminUnpaidList/";
+                api="/r/report_statistics/marketingList/";
             }
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
-        })
+        });
         //管理员账号时，点击分销商搜索框时更新此框数据
         if(_this.isAdmin==1){
             $("#fenxiaoshang_name_inp").on("focus",function () {
@@ -416,23 +262,6 @@ var Book_form={
         params["size"]=_this.perPageNum;
         params["begin_date"]=_this.stime_inp.val();
         params["end_date"]=_this.etime_inp.val();
-        params["count_way"]= $("#huizong_type").attr("count_way");
-        if($("#product_name_inp").attr("data-id")){
-            params["land_id"]=$("#product_name_inp").attr("data-id");
-        }
-        if($("#fenxiaoshang_name_inp").attr("data-id")){
-            params["reseller_id"]=$("#fenxiaoshang_name_inp").attr("data-id");
-        }
-        if(_this.isAdmin==1){
-            if($("#trader_inp").attr("data-id")){
-                params["merchant_id"]=$("#trader_inp").attr("data-id");
-            }
-            if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
-                params["exclude_test"]=1;
-            }else{
-                params["exclude_test"]=0;
-            }
-        }
         return params;
     },
     //处理合计数据
@@ -453,6 +282,85 @@ var Book_form={
         $(".total_box .total dl").html(html);
         _this.total_box.fadeIn(200);
     },
+    //处理分销商与票类情况
+    resellerAndTicket : function(data){
+        var _this=this,
+            list=data.list,
+            sum=data.sum,
+            theadHtml="",
+            listHtml="" ;
+
+        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3">订单数</th> <th class="th4">票数</th> <th class="th5">收入(元)</th> <th class="th6">支出(元)</th> <th class="th7">优惠券数量</th> <th class="th8">优惠金额(元)</th>';
+        $(".tablecon_box .con_tb thead tr").html(theadHtml);
+        listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
+            '<td class="th3">'+sum.orderNum+'</td>'+
+            '<td class="th4">'+sum.ticketNum+'</td>'+
+            '<td class="th5">'+sum.saleMoney+'</td>'+
+            '<td class="th6">'+sum.costMoney+'</td>'+
+            '<td class="th7">'+sum.couPonNum+'</td>'+
+            '<td class="th8">'+sum.couPonMoney+'</td>'+
+            '</tr>';
+        for(var i=0;i<list.length;i++){
+
+            listHtml+='<tr> <td class="th1">'+list[i].reseller_title+'</td>'+
+            '<td class="th2"></td>'+
+            '<td class="th3">'+list[i].order_num+'</td>'+
+            '<td class="th4">'+list[i].ticket_num+'</td>'+
+            '<td class="th5">'+list[i].sale_money+'</td>'+
+            '<td class="th6">'+list[i].cost_money+'</td>'+
+            '<td class="th7">'+list[i].coupon_num+'</td>'+
+            '<td class="th8">'+list[i].coupon_money+'</td>'+
+            '</tr>';
+            for(var j=0;j<list[i].tickets.length;j++){
+                listHtml+='<tr> <td class="th1"></td>'+
+                '<td class="th2">'+list[i].tickets[j].title+'</td>'+
+                '<td class="th3">'+list[i].tickets[j].order_num+'</td>'+
+                '<td class="th4">'+list[i].tickets[j].ticket_num+'</td>'+
+                '<td class="th5">'+list[i].tickets[j].sale_money+'</td>'+
+                '<td class="th6">'+list[i].tickets[j].cost_money+'</td>'+
+                '<td class="th7">'+list[i].tickets[j].coupon_num+'</td>'+
+                '<td class="th8">'+list[i].tickets[j].coupon_money+'</td>'+
+                '</tr>';
+                
+            }
+
+        }    
+        $(".tablecon_box .con_tb tbody").html(listHtml);    
+        $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
+    },     
+    //处理其他表
+    otherform : function(data,kindsTitle){
+        var _this=this,
+            list=data.list,
+            sum=data.sum,
+            theadHtml="",
+            listHtml="" ;
+
+
+        theadHtml='<th class="th1">'+'日期'+'</th> <th class="th2">景区名称</th> <th class="th3">客源分类</th> <th class="th4">渠道来源</th> <th class="th5">购买票种</th> <th class="th6">付款方式</th> <th class="th7">购票数量</th>';
+        $(".tablecon_box .con_tb thead tr").html(theadHtml);
+        // listHtml+='<tr> <td class="th1 heji">合计:</td>'+
+        //     '<td class="th2">'+sum.orderNum+'</td>'+
+        //     '<td class="th3">'+sum.ticketNum+'</td>'+
+        //     '<td class="th4">'+sum.saleMoney+'</td>'+
+        //     '<td class="th5">'+sum.costMoney+'</td>'+
+        //     '<td class="th6">'+sum.couPonNum+'</td>'+
+        //     '<td class="th7">'+sum.couPonMoney+'</td>'+
+        //     '</tr>';
+        for(var i=0;i<list.length;i++){
+            listHtml+='<tr> <td class="th1">'+list[i].order_date+'</td>'+
+            '<td class="th2">'+list[i].land+'</td>'+
+            '<td class="th3">'+list[i].c_type+'</td>'+
+            '<td class="th4">'+list[i].channel+'</td>'+
+            '<td class="th5">'+list[i].ticket+'</td>'+
+            '<td class="th6">'+list[i].p_mode+'</td>'+
+            '<td class="th7">'+list[i].ticket_num+'</td>'+
+            '</tr>'
+        }
+        $(".tablecon_box .con_tb tbody").html(listHtml);
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
+    },
     //处理表
     dealTablecon:function (data) {
         var _this=this,
@@ -460,6 +368,8 @@ var Book_form={
             sum=data.sum,
             theadHtml="",
             listHtml="" ;
+
+            // console.log(data);
 
         var thead={
             "title" : "名称",
@@ -480,41 +390,20 @@ var Book_form={
         };
         var kindsTitle=titleName[_this.filterParamsBox.count_way];
         if(list[0]["cost_money"]!==undefined){    //非景区账号
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th><th class="th4">预计收入(元)</th> <th class="th5">预计支出(元)</th>';
-            $(".tablecon_box .con_tb thead tr").html(theadHtml);
-            listHtml+='<tr> <td class="th1 heji">合计:</td>'+
-                '<td class="th2">'+sum.orderNum+'</td>'+
-                '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.saleMoney+'</td>'+
-                '<td class="th5">'+sum.costMoney+'</td>'+
-                '</tr>';
-            for(var i=0;i<list.length;i++){
-                listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
-                    '<td class="th2">'+list[i].order_num+'</td>'+
-                    '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].sale_money+'</td>'+
-                    '<td class="th5">'+list[i].cost_money+'</td>'+
-                    '</tr>'
+            if(kindsTitle == "分销商/票类"){     //分销商票类页面单独渲染
+                this.resellerAndTicket(data);
+            }else{
+                this.otherform(data,kindsTitle);
             }
-            $(".tablecon_box .con_tb tbody").html(listHtml);
         }else{
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th><th class="th4">预计收入(元)</th> ';
-            $(".tablecon_box .con_tb thead tr").html(theadHtml);
-            listHtml+='<tr> <td class="th1 heji">合计:</td>'+
-                '<td class="th2">'+sum.orderNum+'</td>'+
-                '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.saleMoney+'</td>'+
-                '</tr>';
-            for(var i=0;i<list.length;i++){
-                listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
-                    '<td class="th2">'+list[i].order_num+'</td>'+
-                    '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].sale_money+'</td>'+
-                    '</tr>'
+            if(kindsTitle == "分销商/票类"){
+                this.resellerAndTicket(data);
+            }else{
+                this.otherform(data,kindsTitle);
             }
-            $(".tablecon_box .con_tb tbody").html(listHtml);
+            
         }
-        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
+        
         _this.tablecon_box.fadeIn(200);
     },
     //处理分页器
@@ -528,9 +417,9 @@ var Book_form={
     //ajax获取数据
     ajaxGetData:function (data) {
         var _this=this;
-        var api="/r/report_statistics/unpaidList/";
+        var api="/r/report_statistics/marketingList/";
         if(_this.isAdmin=="1"){
-            api="/r/report_statistics/adminUnpaidList/";
+            api="/r/report_statistics/marketingList/";
         }
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
@@ -570,7 +459,6 @@ var Book_form={
                 else{
                     $(".querying").text(req.msg);
                 }
-
             },
             complete: function() {
                 //请求完成的处理
@@ -594,9 +482,9 @@ var Book_form={
     },
     //导出excel
     outExcel:function (downloadUrl) {
-        var iframeName="iframe"+new Date().getTime();
-        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
-        window.open(downloadUrl, iframeName);
+            var iframeName="iframe"+new Date().getTime();
+            $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+            window.open(downloadUrl, iframeName);
     },
     //定义一个filter参数暂存容器，只有当查询按钮点击时才会更新此容器
     filterParamsBox:{},
@@ -616,30 +504,31 @@ var Book_form={
     },
     //处理cookie的函数
     setCookie:function (name, value, time) {
-        var oDate=new Date();
-        oDate.setTime(oDate.getTime()+time);
-        document.cookie=name+'='+encodeURIComponent(value)+';expires='+oDate;
+    var oDate=new Date();
+    oDate.setTime(oDate.getTime()+time);
+    document.cookie=name+'='+encodeURIComponent(value)+';expires='+oDate;
     },
     getCookie:function (name) {
-        var arr=document.cookie.split('; ');
-        var i=0;
-        for(i=0;i<arr.length;i++)
+    var arr=document.cookie.split('; ');
+    var i=0;
+    for(i=0;i<arr.length;i++)
+    {
+        //arr2->['username', 'abc']
+        var arr2=arr[i].split('=');
+
+        if(arr2[0]==name)
         {
-            //arr2->['username', 'abc']
-            var arr2=arr[i].split('=');
-
-            if(arr2[0]==name)
-            {
-                var getC = decodeURIComponent(arr2[1]);
-                return getC;
-            }
+            var getC = decodeURIComponent(arr2[1]);
+            return getC;
         }
+    }
 
-        return '';
+    return '';
     },
     removeCookie:function (name) {
-        setCookie(name, '1', -1);
+    setCookie(name, '1', -1);
     }
+
 };
 
 
