@@ -56,7 +56,7 @@ var MainView = Backbone.View.extend({
 		this.fileupload = new Fileupload({
 			container : "#imgUploadBox",
 			id : 1,
-			extra     : { identify: "productCreate" },
+			extra     : { identify : "annualActive" },
 			action : Api.Url.PublishCardProd.uploadFile,
 			loading : function(formControls){},
 			complete : function(res){
