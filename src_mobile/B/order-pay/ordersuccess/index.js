@@ -8,7 +8,7 @@ var Main=PFT.Util.Class({
     template:PFT.Util.ParseTemplate(Tpl),
     init: function(){
         this.ordernum=$("#ordernumHidInp").val() || "";
-        this.paymode=$("#paymode").val() || "";
+        this.paymode=$("#paymodeHidInp").val() || "";
         console.log(this.paymode)
         document.title=this.paymode==1? "支付成功":"下单成功";
         Service(this.ordernum,{
