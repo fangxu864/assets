@@ -15,9 +15,9 @@
             </p>
         </div>
         <div class="right">
-            <i class="delBtn" active="true">-</i>
-            <input type="text" class="numBox" value="1">
-            <i class="addBtn" active="true">+</i>
+            <i class="delBtn" active="false" data-buy_low="<%=list[i].buy_low%>">-</i>
+            <input type="text" class="numBox" value="<%=list[i].buy_low%>">
+            <i class="addBtn" active="true" data-buy_up="<%=list[i].buy_up%>">+</i>
         </div>
         <div class="details" style="display: none">
             <p>包含子票：</p>
