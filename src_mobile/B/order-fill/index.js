@@ -20,28 +20,18 @@ var visitInfoTpl = require("./tpl/VisitInfo.xtpl");
 //组件模块
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
-
-// var Loading = require("COMMON/modules/loading-mobile");//弃用
-
 var CalendarCore = require("COMMON/js/calendarCore.js");//用outputdate计算酒店几晚
-
 var Toast = require("COMMON/modules/Toast");
-
-// var Calendar = require("COMMON/modules/calendar"); //日历 //不是这个
-// var When=require("COMMON/js/when.js");
-// var when=new When();
-
-
 //自己写日历
 var Calendar = require("./calendar/index.js");
-
 //各个类型模块
-
 var Land = require("./type/land/index.js");  //景区
 var Hotel = require("./type/hotel/index.js"); //酒店
 var Line = require("./type/line/index.js"); //线路
 var Play = require("./type/play/index.js");//演出
 var Food = require("./type/food/index.js");//餐饮
+
+
 
 
 var Order_fill = PFT.Util.Class({
@@ -80,11 +70,10 @@ var Order_fill = PFT.Util.Class({
 		var id = this.getId();
 		this.aid = id.aid;
 		this.pid = id.pid;
-		this.type = id.type;
-		if(this.aid == undefined ||this.pid == undefined ||this.type == undefined ){
+		// this.type = id.type;
+		if(this.aid == undefined ||this.pid == undefined ){
 			console.log("缺少id参数");	
 		}
-
 
 
 		//2017/2/9
@@ -113,9 +102,6 @@ var Order_fill = PFT.Util.Class({
 
 		//处理付款方式
 		this.handlePayMode();
-
-
-		
 		
 
 	},
@@ -126,9 +112,9 @@ var Order_fill = PFT.Util.Class({
 
 		//有效时间
 		var validType = res.validType;
-		var validTime = res.validTime; //已经处理过了
+		var validTime = res.validTime;  //在服务层已处理
 		//验证时间
-		var verifyTime = res.verifyTime;//已处理
+		var verifyTime = res.verifyTime;
 		//分批验证
 		var batchCheck = res.batch_check; // 是否分批验证 0不分批 1分批
 		var batchDay = res.batch_day; // 分批验证一天N张 0不限
@@ -160,7 +146,6 @@ var Order_fill = PFT.Util.Class({
 	submitOrder : function(e){
 
 		var that = this;
-
 		//防止跳转
 		e.preventDefault();
 		console.log("提交订单");
@@ -174,17 +159,15 @@ var Order_fill = PFT.Util.Class({
 		}
 
 		var Tlist = $("#ticketList .placeTicket");
-		var link = {};
+		var link = new Object();
 		for( var i = 0;i<Tlist.length;i++){
 			if(Tlist.eq(i).attr("data-pid") == this.paramspid){ //this.paramspid为暂时用
 				var mainT = Tlist.eq(i);
 				var tnum = Tlist.eq(i).find(".right .numBox").val();   //获得主票的数量
 			}else{
-
 				var relatedT = Tlist.eq(i);
 				var pid = relatedT.attr("data-pid");
 				link[pid] = relatedT.find(".right .numBox").val();
-
 			}
 		}
 
@@ -213,19 +196,40 @@ var Order_fill = PFT.Util.Class({
 			return false
 		}
 
-
 		//身份证	
-		var idcards = $("#checkIdInput").val();
+		var sfz = $("#checkIdInput").val();
 		var idcardValid = $("#checkIdCard").attr("data-valid");
 
 		if($("#checkIdInput").css("display") == "none" || $("#idCardBox").css("display") == "none" ){
-			idcards = "";
-		}else if(idcards == "" && idcardValid == "false"){ 
+			sfz = "";
+		}else if(sfz == "" && idcardValid == "false"){ 
 			PFT.Mobile.Alert("请填写身份证");
-		}else if(idcards != "" && idcardValid == "false"){
+		}else if(sfz != "" && idcardValid == "false"){
 			PFT.Mobile.Alert("身份证格式错误，请核对");
 		}else if(idcardValid == "true"){
-			idcards = idcards;
+			sfz = sfz;
+		}
+
+		//多个联系人的情况
+		if( $("#visitorInformation").css("display") == "block" ){
+
+			var item = $(".visitInfoItem");
+			var idcards = [];
+			var tourists = [];
+
+			for( var n = 0;n<item.length;n++){
+				var visitName = item.eq(n).find(".visit").val();
+				var idcardVal = item.eq(n).find(".idCard").val();
+
+				if( visitName == "" || idcardVal == ""){
+					PFT.Mobile.Alert("请将联系人填写完整");			
+					return false
+				}else{
+					tourists.push(visitName);
+					idcards.push(idcardVal);
+				}
+
+			}
 		}
 
 		//演出的id
@@ -238,21 +242,29 @@ var Order_fill = PFT.Util.Class({
 			return false
 		}
 
+		//酒店情况
+		if(this.type == "C"){
+			var begintime = this.beginDate ;
+			var endtime = this.endDate ;
+		}
+		
 		var params = {
             token : token,
             pid : pid,
             aid : aid,
             tnum : tnum,
             begintime : begintime, //游玩日期
+			endtime : endtime,
             contacttel : contacttel,
             ordername : ordername,
             paymode : paymode,
-            idcards : idcards, //游客身份证号 //可选 
-            // tourists : tourists, //游客姓名  //可选
+			sfz : sfz, //单个身份证 //string
+            idcards : idcards, //游客身份证号 //可选 //array
+            tourists : tourists, //游客姓名(联系人姓名)  //可选 //array
 			zoneid : zoneid, //分区ID 演出必填
 			roundid : roundid, //场次ID 演出必填
 			venusid : venusid, //场馆ID 演出必填
-            // link : link //联票数组 //可选
+            link : link //联票数组 //可选 ['pid' => num,..]
         }
 
 
@@ -527,11 +539,9 @@ var Order_fill = PFT.Util.Class({
 	},
 
 
-	//处理游客信息
-
+	//处理游客信息 //多个身份证的情况
 	handleVisitInfo : function(){
 
-		console.log("游客信息");
 		var that = this;
 
 		var list = this.ticketList;
@@ -545,28 +555,54 @@ var Order_fill = PFT.Util.Class({
 		var visitInfoTemplate = PFT.Util.ParseTemplate(visitInfoTpl); 
 		var html = visitInfoTemplate(data);
 
+		var sum = 0;
+		$("#ticketList li.placeTicket").each(function (index,element) {
+			var num = parseInt(($(element).find(".numBox").val()));
+			sum += num;
+		});
+
+		if(!this.numBoxValFlag){
+			this.numBoxValFlag = sum;
+		}else{
+			if(this.numBoxValFlag == sum){  //票数没有变动并且再次打开的情况下
+				this.visitInfoBox.show();
+				return false
+			}else{
+				this.numBoxValFlag = sum;
+			}
+		}
+
 		if(this.visitInfoBox){
-			this.visitInfoBox.show();
+			
 			//需要动态生成list	
+			console.log(list);
+			var html = "";
+			for( var i = 0;i<list.length;i++){
+
+         html += '<div class="ticketGroup">'+
+                    '<span class="ticketName">'+list[i].Ttitle+'</span>'+
+                    '<ul>';
+
+                        for( var j = 0;j<parseInt(list[i].num);j++){
+							var y = j+1;
+                     html += '<li class="visitInfoItem">'+
+                                '<input type="text" class="visit" placeholder="联系人'+y+'">'+
+                                '<input type="text" class="idCard" placeholder="身份证">'+
+                            '</li>';
+                        }        
+            html += '</ul>'+
+                '</div>';
+
+            }
+			$(".ticketGroupList").html(html);
+			this.visitInfoBox.show();
+
 		}else{
 
 			this.visitInfoBox = new SheetCore({
 				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
 				height : "100%",      //弹层占整个手机屏幕的高度
 				yesBtn : function(){
-
-					console.log("获取联系人身份证列表");
-
-					var idCardList = [];
-
-					var ticketGroupList = $("#visitInfo .ticketGroup");
-					console.log(ticketGroupList);
-
-					
-
-
-
-
 				},       //弹层底部是否显示确定按钮,为false时不显示
 				noBtn : true,        //弹层底部是否显示取消按钮,格式同yesBtn
 				zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
@@ -595,11 +631,11 @@ var Order_fill = PFT.Util.Class({
 			var id = ids[1].split("&");
 			var aid = id[0].split("=");
 			var pid = id[1].split("=");
-			var type = id[2].split("=");
+			// var type = id[2].split("=");
 			return {
 				aid : aid[1],
 				pid : pid[1],
-				type : type[1]
+				// type : type[1]
 			}	
 		}else{
 			return false
@@ -621,7 +657,6 @@ var Order_fill = PFT.Util.Class({
 			day : day,
 			nowDate : (year.toString()+'-'+month.toString())
 		}
-
 
 		//用于日历加减月份	//如果不存在赋予今天的初始日期
 		if(!this.nowYearFlag){
@@ -699,20 +734,21 @@ var Order_fill = PFT.Util.Class({
 			}
 		}
 
-
-		this.zone_id = ticketList[0].zone_id; //演出的分区ID
+		if(ticketList.length != 0){
+			this.zone_id = ticketList[0].zone_id; //演出的分区ID		
+		}
 
 		//needID//是否需要输入身份证
-		var needID = res.needID;
+		this.needID = res.needID;
 
 		//模拟needID
-		needID = "2"
+		// needID = "2"
 		
-		if( needID == "0"){
+		if( this.needID == "0"){
 			$("#idCardBox").css("display","none");
-		}else if(needID == "1"){
+		}else if(this.needID == "1"){
 			$("#visitorInformation").css("display","none");
-		}else if(needID == "2"){
+		}else if(this.needID == "2"){
 			$("#idCardBox #checkIdInput").css("display","none");
 			$("#idCardBox #checkIdCard").css("display","none");
 			$("#visitorInformation").val("*游客信息 "+"已编辑0/"+ticketList.length);
@@ -983,7 +1019,6 @@ var Order_fill = PFT.Util.Class({
 			var selectedDay = that.calendar1.selectedDay;
 			that.selectedDay = selectedDay; 			
 			that.hotelDateChange(1,selectedDay);
-			// that.getPriceAndStorage(selectedDay,pids);
 		});
 		//离店
 		this.calendar2.on("next",function(){
@@ -995,7 +1030,6 @@ var Order_fill = PFT.Util.Class({
 		this.calendar2.on("daySelect",function(){
 			var selectedDay = that.calendar2.selectedDay;
 			that.hotelDateChange(2,selectedDay);				
-			// that.getPriceAndStorage(selectedDay,pids);
 		});
 
 
@@ -1040,18 +1074,26 @@ var Order_fill = PFT.Util.Class({
 
 
 	handlePriceAndStorage : function(res){
-
+		
 		var ticketList = $("#ticketList li.placeTicket");
 		for(var i in res){
 			renderPrice(i);			
 		}
 		function renderPrice(i){
-			var nowTicket = ticketList.attr("data-pid",i);
-			var price = nowTicket.find(".price");
-			var storage = nowTicket.find(".storage");
-			var data = res[i];
-			price.find(".money").text(data.price);
-			storage.find(".num").text(data.store);
+			for( var j = 0;j<ticketList.length;j++){
+				if( ticketList.eq(j).attr("data-pid") == i){
+					var nowTicket = ticketList.eq(j);
+					var price = nowTicket.find(".price");
+					var storage = nowTicket.find(".storage");
+					var data = res[i];
+					price.find(".money").text(data.price);
+					if( data.store == -1){
+						storage.find(".num").text("无限");
+					}else{
+						storage.find(".num").text(data.store);												
+					}
+				}
+			}
 		}
 	},
 
@@ -1065,7 +1107,6 @@ var Order_fill = PFT.Util.Class({
 		var day = arr[2];
 		var month = arr[1];
 		var year = arr[0];
-
 
 		if( flag == 1 ){
 
@@ -1179,6 +1220,9 @@ var Order_fill = PFT.Util.Class({
             pid : this.pid
 		}
 
+		this.beginDate = inDate;
+		this.endDate = outDate;
+
 		GetHotelPrice(params,{
 			loading:function(){
 				that.toast.show("loading");
@@ -1219,7 +1263,6 @@ var Order_fill = PFT.Util.Class({
 		var list1 = this.calendar1.MonthList;
 		var list2 = this.calendar2.MonthList;
 
-
 		if( inMonth == outMonth){ //没有跨月份
 
 			var list = this.calendar1.MonthList;
@@ -1243,15 +1286,19 @@ var Order_fill = PFT.Util.Class({
 
 	},	
 
-
-	//这以下是家燊写的*************************************************************************************************************************
-
 	//加
 	addNum : function (e) {
 		var storage = $(e.target).parent().parent().find(".left .num").text();
-
+		var buyUp = $(e.target).attr("data-buy_up");
+		if(buyUp == "0" || buyUp == "-1" ){
+			buyUp = "无限";
+		}
 		if($(e.target).attr("active") == "true"){
 			var num = parseInt($(e.target).parent().find(".numBox").val());
+			if(num == storage || num == buyUp){
+				$(e.target).attr("active","false")
+				return false
+			}
 			if(isNaN(num)){
 				num = 0;
 			}
@@ -1262,10 +1309,6 @@ var Order_fill = PFT.Util.Class({
 				$(e.target).parent().find(".delBtn").attr("active",true)
 			}
 			num += 1;
-
-			if(num == storage){
-				$(e.target).attr("active","false")
-			}
 			$(e.target).parent().find(".numBox").val(num);
 			this.changeTotal();
 
@@ -1278,9 +1321,15 @@ var Order_fill = PFT.Util.Class({
 	//减
 	delNum : function (e) {
 		var storage = $(e.target).parent().parent().find(".left .num").text();
+		var buyLow = $(e.target).attr("data-buy_low");
+		buyLow = parseInt(buyLow);
 
 		if($(e.target).attr("active") == "true"){
 			var num = parseInt($(e.target).parent().find(".numBox").val());
+			if(num == 0 || num == buyLow ){
+				$(e.target).attr("active","false")
+				return false
+			}
 			if(isNaN(num)){
 				num = 1;
 			}
@@ -1291,9 +1340,6 @@ var Order_fill = PFT.Util.Class({
 				$(e.target).parent().find(".addBtn").attr("active",true)
 			}
 			num = num - 1;
-			if(num == 0){
-				$(e.target).attr("active","false")
-			}
 			$(e.target).parent().find(".numBox").val(num);
 			this.changeTotal();
 		}else{
@@ -1301,7 +1347,7 @@ var Order_fill = PFT.Util.Class({
 		}
 
 	},
-	
+	//总金额
 	changeTotal : function () {
 		var sum = 0;
 		$("#ticketList li").each(function (index,element) {
@@ -1330,6 +1376,7 @@ var Order_fill = PFT.Util.Class({
 	checkInput : function (e) {
 		var input = ($(e.target).val());
 		var storage = $(e.target).parent().parent().find(".left .num").text();
+		var buyLow = $(e.target).parent().find(".delBtn").attr("data-buy_low");
 		if(!Validate.typeNum(input)) {
 			PFT.Mobile.Alert("请输入正确的数值");
 			($(e.target)).val(0);
@@ -1338,9 +1385,9 @@ var Order_fill = PFT.Util.Class({
 				($(e.target)).val(storage);
 				PFT.Mobile.Alert("最大库存为"+storage);
 			}
-			if(parseInt(input) < 0){
-				($(e.target)).val(0);
-				PFT.Mobile.Alert("数量不能为负数");
+			if(parseInt(input) < buyLow){
+				($(e.target)).val(buyLow);
+				PFT.Mobile.Alert("数量不能小于"+buyLow);
 			}
 			if(parseInt(input)>0 && parseInt(input)<parseInt(storage)){
 				$(".delBtn").attr("active",true);	
@@ -1367,8 +1414,6 @@ var Order_fill = PFT.Util.Class({
 	regularToggle : function (e) {
 		$("#regular").toggle();
 	}
-
-	
 	
 
 });

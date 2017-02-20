@@ -1,9 +1,12 @@
-<% if(list.length>0){ %> 
-	<% _.each(list,function(item){ %>
-		<li class="themeBtn"><%=item%></li>
-	<% }) %>
-<% }else{ %>
-	<li class="themeBtn">无主题</li>
-<% } %>
+<ul id="themeWrap">
+	<% if(list.length>0){ %> 
+		<% _.each(list,function(item){ %>
+			<li class="themeBtn"><%=item%></li>
+		<% }) %>
+	<% }else{ %>
+		<li class="themeBtn">无主题</li>
+	<% } %>
+</ul>
+
 
 

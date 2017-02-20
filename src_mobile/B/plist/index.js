@@ -6,6 +6,8 @@ var PullUp = require("NODE_MODULES/vux/node_modules/vux-xscroll/build/cmd/plugin
 
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
 
+var Toast = require("COMMON/modules/Toast");
+
 var TypeTpl = require("./tpl/type.xtpl");	
 var ThemeTpl = require("./tpl/theme.xtpl");
 var CityTpl = require("./tpl/city.xtpl");
@@ -17,11 +19,11 @@ var Plist = PFT.Util.Class({
 
 	container : $("#productOrderBox"),
 	EVENTS : {      
-		"click .typeSelect" : "onTypeSelect",              
-		"click .themeSelect" : "onThemeSelect",              
-		"click .citySelect" : "onCitySelect",          
-		"focus .productNameSearch" : "focusAllInput",
-		"click .spotTicketMore" : "recommendTicket"
+		"click .typeSelect" : "onTypeSelect",   //类型           
+		"click .themeSelect" : "onThemeSelect",  //主题            
+		"click .citySelect" : "onCitySelect",   //城市        
+		"focus .productNameSearch" : "focusAllInput",  //产品类型搜索
+		"click .spotTicketMore" : "recommendTicket"   //推荐票类
 	},
 	init : function(opt){       
 
@@ -43,6 +45,8 @@ var Plist = PFT.Util.Class({
 
 		//搜索城市关键字
 		this.cityKeyWord = "";
+		
+		this.toast = new Toast();
 
 		this.renderScroll();		
 		
@@ -86,18 +90,16 @@ var Plist = PFT.Util.Class({
 		    	token : PFT.Util.getToken()	
 		    },
 		    loading : function(){
-		        //正在请中...
+		        that.toast.show("loading");
 		    },
 		    complete : function(){
-		        //请求完成
+		        that.toast.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
-
 		        	that.handlerType(data);
-
 		        }else{
 		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
@@ -117,30 +119,37 @@ var Plist = PFT.Util.Class({
 		    this.typeSelect.show();	
     	}else{
 			this.typeSelect = new SheetCore({
-				header : "标题",
+				header : "类型",
 				content : typeHtml,       
 				height : "auto",    
-				yesBtn : {            
-					text : "确定提交",   
-					handler : function(e){
-						var nowSel = $(".typeBtn.selectNow");
-					  	var type = nowSel.attr("data-type");
-					  	that.changeType(nowSel,type);
-					}
-				},
-				noBtn : {            
-				  text : "取消",   
-				  handler : function(e){
-				    console.log("点击时执行")
-				  }
-				},     
+				// yesBtn : {            
+				// 	text : "确定提交",   
+				// 	handler : function(e){
+				// 		var nowSel = $(".typeBtn.selectNow");
+				// 	  	var type = nowSel.attr("data-type");
+				// 	  	that.changeType(nowSel,type);
+				// 	}
+				// },
+				// noBtn : {            
+				//   text : "取消",   
+				//   handler : function(e){
+				//     console.log("点击时执行")
+				//   }
+				// },     
+				yesBtn : false,
+				noBtn : false,
 				zIndex : 200,       
 				EVENTS : {      
 					"click .typeBtn" : function(e){
-						// var type = $(e.target).attr("data-type");
-					    // that.changeType($(e.target),type);
-					 	$(e.target).css("background","#123456").addClass("selectNow");
-					 	$(e.target).siblings().removeClass("selectNow").css("background","");
+						var target = $(e.target);	 
+						var type = target.attr("data-type");
+					    that.changeType(target,type);
+
+						that.lastListLid = 0;
+						that.lastListProPos = 0;
+						that.renderSearch();
+
+						that.typeSelect.close();
 					}
 				}
 			});
@@ -175,10 +184,10 @@ var Plist = PFT.Util.Class({
 		    	type : type
 		    },
 		    loading : function(){
-		        //正在请中...
+		        that.toast.show("loading");
 		    },
 		    complete : function(){
-		        //请求完成
+		        that.toast.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
@@ -196,50 +205,46 @@ var Plist = PFT.Util.Class({
 	themeHandler : function(res){
 		var that = this;
 		var data = {};
-		// var type = "A";
-		// if(type == "A"){
-		// 	data.list = res.data.A;
-		// }else if(type == "B"){
-		// 	data.list = res.data.B;
-		// }else if(type == "C"){
-		// 	data.list = res.data.C;
-		// }else if(type == "F"){
-		// 	data.list = res.data.F;
-		// }else if(type == "H"){
-		// 	data.list = res.data.H;
-		// }
-
 		data.list = res.data;
-		
     	var themeHtml = this.themeTemplate(data);
-
-    	// if(this.themeSelect){
-    	// 	this.themeSelect.show();	
-    	// }else{
+    	if(this.themeSelect){
+			//动态改变
+			var list = res.data;
+			var html = "";
+			if(list.length > 0){
+				for( var i = 0;i<list.length;i++ ){
+					html += '<li class="themeBtn">'+list[i]+'</li>';
+				}
+			}else{
+				html += '<li class="themeBtn">无主题</li>';
+			}
+			$("#themeWrap").html(html);
+    		this.themeSelect.show();	
+    	}else{
     		var that = this;
 			this.themeSelect = new SheetCore({
-				header : "标题",
+				header : "主题",
 				content : themeHtml,       
 				height : "auto",    
-				yesBtn : {            
-					text : "确定提交",   
-					handler : function(e){
-						var nowSel = $(".themeBtn.selectNow");
-					  	that.changeTheme(nowSel);
-					}
-				},
-				noBtn : {            
-				  text : "取消",   
-				  handler : function(e){
-				    console.log("点击时执行")
-				  }
-				},       
+				// yesBtn : {            
+				// 	text : "确定提交",   
+				// 	handler : function(e){
+				// 		var nowSel = $(".themeBtn.selectNow");
+				// 	  	that.changeTheme(nowSel);
+				// 	}
+				// },
+				// noBtn : {            
+				//   text : "取消",   
+				//   handler : function(e){
+				//     console.log("点击时执行")
+				//   }
+				// },       
+				yesBtn : false,
+				noBtn : false,
 				zIndex : 200,       
 				EVENTS : {      
 					"click .themeBtn" : function(e){
-					  // that.changeTheme($(e.target));
-					  $(e.target).css("background","#123456").addClass("selectNow");
-					  $(e.target).siblings().removeClass("selectNow").css("background","");
+					  that.changeTheme($(e.target));
 					}
 				}
 			});
@@ -247,7 +252,7 @@ var Plist = PFT.Util.Class({
 				that.themeSelect.close();
 			});
 		    this.themeSelect.show();
-    	// }
+    	}
 
 	},
 
@@ -255,7 +260,12 @@ var Plist = PFT.Util.Class({
 		var text = obj.text();
 		this.topic = text;
 		$("#themeText").text(text);
-        // this.themeSelect.close();
+
+		this.lastListLid = 0;
+		this.lastListProPos = 0;
+		this.renderSearch();
+
+        this.themeSelect.close();
 	},
 
 	onCitySelect : function(){
@@ -270,10 +280,10 @@ var Plist = PFT.Util.Class({
 		    	keyword : that.cityKeyWord 
 		    },
 		    loading : function(){
-		        //正在请中...
+		        that.toast.show("loading");
 		    },
 		    complete : function(){
-		        //请求完成
+		        that.toast.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
@@ -307,28 +317,44 @@ var Plist = PFT.Util.Class({
 
     	if(this.citySelect){
 			$(".sheet-content").html(cityHtml);
+		    this.citySelect.show();			
     	}else{
 			this.citySelect = new SheetCore({
 				content : cityHtml,       
 				height : "100%",    
-				yesBtn : {            
-					text : "确定提交",   
-					handler : function(e){
-						var nowSel = $(".cityBtn.selectNow");
-					}
-				},
-				noBtn : {            
-				  	text : "取消",   
-				  	handler : function(e){
-				  		// that.cityState = "close";
-				    	console.log("点击时执行");
-				  	}
-				},       
+				// yesBtn : {            
+				// 	text : "确定提交",   
+				// 	handler : function(e){
+				// 		var nowSel = $(".cityBtn.selectNow");
+				// 	}
+				// },
+				// noBtn : {            
+				//   	text : "取消",   
+				//   	handler : function(e){
+				//   		// that.cityState = "close";
+				//     	console.log("点击时执行");
+				//   	}
+				// },       
+				yesBtn : false,
+				noBtn : true,
 				zIndex : 200,       
 				EVENTS : {      
 					"click .cityBtn" : function(e){
-					  	$(e.target).css("background","#123456").addClass("selectNow");
-					  	$(e.target).siblings().removeClass("selectNow").css("background","");
+					  	// $(e.target).css("background","#123456").addClass("selectNow");
+					  	// $(e.target).siblings().removeClass("selectNow").css("background","");
+
+						  var target = $(e.target);
+						  var t = target.text();
+						  $("#cityText").text(t);
+
+						  this.city = t;
+
+						  this.lastListLid = 0;
+						  this.lastListProPos = 0;
+						  this.renderSearch();
+
+						  that.citySelect.close();
+
 					},
 
 					"input #citySearch" : function(e){
@@ -443,17 +469,16 @@ var Plist = PFT.Util.Class({
 		    	pageSize : that.pageSize
 		    },
 		    loading : function(){
-		        //正在请中...
+		        that.toast.show("loading");
 		    },
 		    complete : function(){
-		        //请求完成
+		        that.toast.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
-		        	that.lastListLid = data.lastLid;
-		        	that.lastListProPos = data.lastProPos;
+		        	
 		        	that.renderList(data);
 		        }else{
 		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
@@ -470,10 +495,18 @@ var Plist = PFT.Util.Class({
 		var list = data.list;
 		if(list.length == 0){
 			PFT.Mobile.Alert("没有更多了");
+			return false
 		}
 		var listHtml = this.listTemplate(data);
 
-		$("#xContent").append(listHtml);
+		if(this.lastListLid == 0 && this.lastListProPos == 0){
+			$("#xContent").html(listHtml);
+		}else{
+			$("#xContent").append(listHtml);
+		}
+		
+		this.lastListLid = data.lastLid;
+		this.lastListProPos = data.lastProPos;
 
 		this.xscroll.render();
 		this.pullup.complete();
@@ -494,10 +527,10 @@ var Plist = PFT.Util.Class({
 		    	lid : lid
 		    },
 		    loading : function(){
-
+				that.toast.show("loading");
 		    },
 		    complete : function(){
-
+				that.toast.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
