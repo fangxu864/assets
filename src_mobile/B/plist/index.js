@@ -144,6 +144,11 @@ var Plist = PFT.Util.Class({
 						var target = $(e.target);	 
 						var type = target.attr("data-type");
 					    that.changeType(target,type);
+
+						that.lastListLid = 0;
+						that.lastListProPos = 0;
+						that.renderSearch();
+
 						that.typeSelect.close();
 					}
 				}
@@ -255,6 +260,11 @@ var Plist = PFT.Util.Class({
 		var text = obj.text();
 		this.topic = text;
 		$("#themeText").text(text);
+
+		this.lastListLid = 0;
+		this.lastListProPos = 0;
+		this.renderSearch();
+
         this.themeSelect.close();
 	},
 
@@ -336,6 +346,13 @@ var Plist = PFT.Util.Class({
 						  var target = $(e.target);
 						  var t = target.text();
 						  $("#cityText").text(t);
+
+						  this.city = t;
+
+						  this.lastListLid = 0;
+						  this.lastListProPos = 0;
+						  this.renderSearch();
+
 						  that.citySelect.close();
 
 					},
@@ -461,8 +478,7 @@ var Plist = PFT.Util.Class({
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
-		        	that.lastListLid = data.lastLid;
-		        	that.lastListProPos = data.lastProPos;
+		        	
 		        	that.renderList(data);
 		        }else{
 		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
@@ -479,10 +495,18 @@ var Plist = PFT.Util.Class({
 		var list = data.list;
 		if(list.length == 0){
 			PFT.Mobile.Alert("没有更多了");
+			return false
 		}
 		var listHtml = this.listTemplate(data);
 
-		$("#xContent").append(listHtml);
+		if(this.lastListLid == 0 && this.lastListProPos == 0){
+			$("#xContent").html(listHtml);
+		}else{
+			$("#xContent").append(listHtml);
+		}
+		
+		this.lastListLid = data.lastLid;
+		this.lastListProPos = data.lastProPos;
 
 		this.xscroll.render();
 		this.pullup.complete();
