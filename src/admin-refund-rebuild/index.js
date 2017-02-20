@@ -6,16 +6,18 @@ var Class = require("COMMON/js/util.class.js");
 var baseContainerTpl = require("./baseContainer.xtpl");
 
 var Refund = Class({
-    container : $("#refundApplyWrap") ,
+    container : 'refundApplyWrap' ,
     init :function () {
-        this.container.html(baseContainerTpl)
+        console.log($("#refundApplyWrap"));
+        console.log(this.container[0].id);
+        this.container.append(baseContainerTpl)
     }
 
 });
 
 $(function () {
-    new Refund()
-})
+    new Refund
+});
 // var tpl = require("./index.xtpl");
 // $(function () {
 //
