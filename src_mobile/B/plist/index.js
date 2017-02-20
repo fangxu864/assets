@@ -115,6 +115,11 @@ var Plist = PFT.Util.Class({
 
     	var typeHtml = this.typeTemplate(data);
 
+		if(this.topic != ""){
+			this.topic = "";
+			$("#themeText").text("全部主题");
+		}
+
     	if(this.typeSelect){
 		    this.typeSelect.show();	
     	}else{
@@ -258,6 +263,9 @@ var Plist = PFT.Util.Class({
 
 	changeTheme : function(obj){
 		var text = obj.text();
+		if(text == "无主题"){
+			return false
+		}
 		this.topic = text;
 		$("#themeText").text(text);
 
@@ -347,11 +355,11 @@ var Plist = PFT.Util.Class({
 						  var t = target.text();
 						  $("#cityText").text(t);
 
-						  this.city = t;
+						  that.city = t;
 
-						  this.lastListLid = 0;
-						  this.lastListProPos = 0;
-						  this.renderSearch();
+						  that.lastListLid = 0;
+						  that.lastListProPos = 0;
+						  that.renderSearch();
 
 						  that.citySelect.close();
 
@@ -495,7 +503,12 @@ var Plist = PFT.Util.Class({
 		var list = data.list;
 		if(list.length == 0){
 			PFT.Mobile.Alert("没有更多了");
+			this.pullup.pluginDestructor();
 			return false
+		}
+		if(list.length < 4){
+			this.pullup.pluginDestructor();
+			$("#xContainer").css("transform","translate(0px, 0px) translateZ(0px)");//回到顶部
 		}
 		var listHtml = this.listTemplate(data);
 
@@ -504,12 +517,13 @@ var Plist = PFT.Util.Class({
 		}else{
 			$("#xContent").append(listHtml);
 		}
-		
+
 		this.lastListLid = data.lastLid;
 		this.lastListProPos = data.lastProPos;
 
 		this.xscroll.render();
 		this.pullup.complete();
+		
 
 	},
 

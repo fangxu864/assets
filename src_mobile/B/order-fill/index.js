@@ -102,6 +102,7 @@ var Order_fill = PFT.Util.Class({
 
 		//处理付款方式
 		this.handlePayMode();
+
 		
 
 	},
@@ -170,6 +171,8 @@ var Order_fill = PFT.Util.Class({
 				link[pid] = relatedT.find(".right .numBox").val();
 			}
 		}
+
+		console.log(this.selectedDay);
 
 		if(this.selectedDay){
 			var begintime = this.selectedDay;			
@@ -658,17 +661,6 @@ var Order_fill = PFT.Util.Class({
 			nowDate : (year.toString()+'-'+month.toString())
 		}
 
-		//用于日历加减月份	//如果不存在赋予今天的初始日期
-		if(!this.nowYearFlag){
-			this.nowYearFlag = parseInt(dateGroup.year);
-		}
-		if(!this.nowMonthFlag){
-			this.nowMonthFlag = parseInt(dateGroup.month);
-		}
-		if(!this.nowDayFlag){
-			this.nowDayFlag = parseInt(dateGroup.day);
-		}
-
 		return dateGroup;
 
 	},
@@ -766,6 +758,7 @@ var Order_fill = PFT.Util.Class({
 		//根据type不同分别判断显示Input
 		if(type == "A" || type == "F"){  //景区
 			this.InputGroup = Land(parent,this.aid,this.pid);
+			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期
 			this.renderTicketList(ticketList); 
 			this.handleLand(pids);
 		} 		
@@ -776,6 +769,7 @@ var Order_fill = PFT.Util.Class({
 		}
 		if(type == "B"){ //线路
 			this.InputGroup = Line(parent,this.aid,this.pid);
+			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期			
 			this.renderTicketList(ticketList);
 			if(res.assStation){
 				var staList = res.assStation; 
@@ -784,11 +778,13 @@ var Order_fill = PFT.Util.Class({
 		}
 		if(type == "H"){ //演出
 			this.InputGroup = Play(parent,this.aid,this.pid);
+			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期						
 			this.renderTicketList(ticketList);
 			this.handlePlay(pids);
 		}
 		if(type == "G"){ //餐饮
 			this.InputGroup = Food(parent,this.aid,this.pid);
+			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期						
 			this.renderTicketList(ticketList);
 			this.handleFood(pids);
 		}
@@ -819,17 +815,20 @@ var Order_fill = PFT.Util.Class({
 			that.getPriceAndStorage(selectedDay,pids);
 			that.getShowInfo(selectedDay);
 		});	
+		//第一次获取价格和库存
+		that.getPriceAndStorage(that.selectedDay,pids);
 		$("#playTimeInput").on("click",function(){
 			if(that.showTimeBox){
 				that.showTimeBox.show();
 			}else{
-				PFT.Mobile.Alert("请选择日期");
+				that.getShowInfo(that.selectedDay,true); //第一次
 			}
+			
 		});
 
 	},
 	//演出场次信息
-	getShowInfo : function(selectedDay){
+	getShowInfo : function(selectedDay,first){
 		var that = this;
 		console.log(selectedDay);
 		var params = {
@@ -844,7 +843,7 @@ var Order_fill = PFT.Util.Class({
 			},
 			success:function(res){
 				that.toast.hide();
-				that.handleShowInfo(res);
+				that.handleShowInfo(res,first);
 			},
 			complete:function(){
 				that.toast.hide();
@@ -855,10 +854,8 @@ var Order_fill = PFT.Util.Class({
 		});
 	},
 	//处理演出场次信息
-	handleShowInfo : function(res){
+	handleShowInfo : function(res,first){
 		var that = this;
-
-		console.log(res);
 
 		if(this.showTimeBox){
 			var list = res;
@@ -899,6 +896,10 @@ var Order_fill = PFT.Util.Class({
 				that.showTimeBox.close();			
 			});
 
+			if(first == true){
+				that.showTimeBox.show();
+			}
+
 		}
 
 
@@ -924,6 +925,8 @@ var Order_fill = PFT.Util.Class({
 			$("#meetDate").val("*集合日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 		});	
+		//第一次获取价格和库存
+		that.getPriceAndStorage(that.selectedDay,pids);
 		//集合地点弹窗
 		var data = {};
 		data.list = list;
@@ -976,6 +979,8 @@ var Order_fill = PFT.Util.Class({
 			$("#playDate").val("*游玩日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 		});
+		//第一次获取价格和库存
+		that.getPriceAndStorage(that.selectedDay,pids);
 
 	},	
 	//处理餐饮
@@ -998,6 +1003,8 @@ var Order_fill = PFT.Util.Class({
 			$("#mealDateInput").val("*用餐时间 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 		});
+		//第一次获取价格和库存
+		that.getPriceAndStorage(that.selectedDay,pids);
 
 	},
 
@@ -1075,17 +1082,25 @@ var Order_fill = PFT.Util.Class({
 
 	handlePriceAndStorage : function(res){
 		
+		var that = this;
+
+		that.firstTotalSum = 0;
+
 		var ticketList = $("#ticketList li.placeTicket");
 		for(var i in res){
 			renderPrice(i);			
 		}
+		$("#totalMoney").text(that.firstTotalSum);
 		function renderPrice(i){
 			for( var j = 0;j<ticketList.length;j++){
 				if( ticketList.eq(j).attr("data-pid") == i){
 					var nowTicket = ticketList.eq(j);
+					var num = parseInt(nowTicket.find(".numBox").val());
 					var price = nowTicket.find(".price");
 					var storage = nowTicket.find(".storage");
 					var data = res[i];
+					//初始化金额
+					that.firstTotalSum += data.price*num;
 					price.find(".money").text(data.price);
 					if( data.store == -1){
 						storage.find(".num").text("无限");
