@@ -136,7 +136,7 @@ var Main = PFT.Util.Class({
     //模态框中物理卡号检测唯一性
     onModalCardInpKeyup: function () {
         var _this = this;
-        $("#content .phy_no").on("keyup", function (e) {
+        $("#content .m-modal .phy_no").on("keyup", function (e) {
             var tarInp = $(e.currentTarget);
             var clearBtn = tarInp.siblings(".clearCardInpBtn");
             var tarInpVal = tarInp.val();
