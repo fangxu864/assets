@@ -133,6 +133,7 @@ var Main = PFT.Util.Class({
         });
 
     },
+    
     //模态框中物理卡号检测唯一性
     onModalCardInpKeyup: function () {
         var _this = this;
@@ -565,8 +566,7 @@ var Main = PFT.Util.Class({
         var _this = this,
             physicsNo = $(this.dom.inp.sch_inp).val(),
             request = "edit",
-            tbody = $("#tbody"),
-            salerid = $(this.dom.inp.saler_inp).attr("data-id");
+            tbody = $("#tbody");
         $("#paginationWrap").hide();
         PFT.Util.Ajax(
             "/r/product_HotSpringCard/getCardInfo",
@@ -575,6 +575,7 @@ var Main = PFT.Util.Class({
                 dataType: "json",
                 params: {
                     "physics_no": physicsNo,
+                    
                 },
                 loading: function () {
                     tbody.html("<tr><td colspan='6'>加载中,请稍后...</td></tr>");
@@ -598,6 +599,7 @@ var Main = PFT.Util.Class({
         var tbody = $(this.dom.table.tbody);
         var cardInfo = Template.info({ arr: arr });
         tbody.html(cardInfo);
+       $(this.dom.inp.saler_inp).attr({"data-id":arr.salerid,"data-title":arr.saler_name}).val(arr.saler_name);
     },
     //初始化产品列表
     getMoreLid: function () {
