@@ -67,15 +67,6 @@ var Order_fill = PFT.Util.Class({
 
 	init : function(){		
 
-
-		
-
-
-
-
-
-
-
 		var id = this.getId();
 		this.aid = id.aid;
 		this.pid = id.pid;
@@ -83,7 +74,6 @@ var Order_fill = PFT.Util.Class({
 		if(this.aid == undefined ||this.pid == undefined ){
 			console.log("缺少id参数");	
 		}
-
 
 		//2017/2/9
 		//后端提供调试pid
@@ -292,18 +282,19 @@ var Order_fill = PFT.Util.Class({
 				
 				//提交订单成功
 				PFT.Mobile.Alert("提交订单成功");
-				// PFT.Mobile.Alert("ordernum:" + res.ordernum+"+paymode:"+res.paymode);
 
 				var host = window.location.host;
 				host = host.split(".");
 				host = host[0];
 
-				var ordernum = "4003823";
+				// var ordernum = res.ordernum;
+				var ordernum = "4003823";//写死的
 
 				var url = "order_pay.html?h="+host+"&"+"ordernum="+ordernum;
 
 				//跳转支付页面
-				window.location.href = url;
+				console.log(url);
+				// window.location.href = url;
 
 
 			},
