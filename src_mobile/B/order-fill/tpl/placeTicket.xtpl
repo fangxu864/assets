@@ -6,11 +6,11 @@
             <p class="ticketContent">
                 <p class="price">
                     <span>结算价：</span>
-                    <span class="orange money"><%=list[i].jsprice%></span>
+                    <span class="orange money"></span>
                 </p>
                 <p class="storage">
                     <span>库存：</span>
-                    <span class="num"><%=list[i].tprice%></span>
+                    <span class="num"></span>
                 </p>
             </p>
         </div>

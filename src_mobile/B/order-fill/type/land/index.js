@@ -26,18 +26,13 @@ module.exports = function(parent,aid,pid){
 			var nowDate = dateGroup.nowDate + "-" +dateGroup.day; //有天数的
 
 			this.calendar = new Calendar(nowDate,aid,pid);
+			//初始化日期
+			$("#playDate").val("*游玩日期 "+nowDate);
+			this.calendar.selectedDay = nowDate;
+
 		},
 
 		showCalendar : function(){
-
-			// var that = this;
-
-			// var dateGroup = this.getNowDate();	
-			// // var nowDate = dateGroup.nowDate ; //没有天数的
-			// var nowDate = dateGroup.nowDate + "-" +dateGroup.day; //有天数的
-
-
-
 
 
 			//日历分离测试//暂时无法完全分离
@@ -45,72 +40,7 @@ module.exports = function(parent,aid,pid){
 			if(this.calendar){
 				this.calendar.show();
 			}
-
-
 			
-
-			//后面的代码都没有运行
-
-
-
-				
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			// var html = allHtml.html;
-			// var listHtml = allHtml.listHtml;
-
-			// if(this.CalendarBox){
-			// 	this.CalendarBox.show();
-			// }else{
-			// 	this.CalendarBox =  new SheetCore({
-					
-			// 		content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
-			// 		height : "auto",      //弹层占整个手机屏幕的高度
-			// 		yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
-			// 		noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
-			// 		zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
-			// 		EVENTS : {            //弹层上面绑定的所有事件放在这里
-			// 			"click .prev" : function(e){
-			// 				//往前需要判断不能低于当前月份当天
-			// 				that.changeCal("prev");
-			// 			},
-			// 			"click .next" : function(e){
-			// 				that.changeCal("next");
-			// 			},
-
-			// 			"click .calConItem.column" : function(e){
-
-			// 				var selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
-
-			// 				if(selectedDay != "disable"){
-			// 					that.CalendarBox.close();
-			// 				}
-							
-			// 				// that.getPriceAndStorage(selectedDay); //获取价格和库存
-			// 			}				
-			// 		}
-			// 	});
-			// 	this.CalendarBox.mask.on("click",function(){
-			// 		that.CalendarBox.close();			
-			// 	});
-			// 	this.CalendarBox.show();
-			// 	this.getCalPrice();
-			// 	$(".calContentCon").html(listHtml);
-				
-			// }
 
 
 		},
@@ -159,183 +89,179 @@ module.exports = function(parent,aid,pid){
 
 
 
+		// getCalPrice : function(change){
+
+		// 	var that = this;
+
+		// 	if(change == "change"){   
+
+		// 		var dateGroup = {};
+		// 		console.log("change");
+
+		// 		dateGroup.year = this.nowYearFlag;
+		// 		dateGroup.month = this.nowMonthFlag;
+		// 		dateGroup.day = 0;
+
+		// 		var date = dateGroup.year + "-" + dateGroup.month;
+
+		// 		var params = {
+		// 			token : PFT.Util.getToken(),
+		// 			aid : this.aid,
+		// 			pid : this.pid,
+		// 			date : date
+		// 		};
+
+		// 		console.log(dateGroup.year);
+		// 		console.log(dateGroup.month);
+		// 		console.log(dateGroup.day);
 
 
+		// 	}else{
 
-
-		getCalPrice : function(change){
-
-			var that = this;
-
-			if(change == "change"){   
-
-				var dateGroup = {};
-				console.log("change");
-
-				dateGroup.year = this.nowYearFlag;
-				dateGroup.month = this.nowMonthFlag;
-				dateGroup.day = 0;
-
-				var date = dateGroup.year + "-" + dateGroup.month;
-
-				var params = {
-					token : PFT.Util.getToken(),
-					aid : this.aid,
-					pid : this.pid,
-					date : date
-				};
-
-				console.log(dateGroup.year);
-				console.log(dateGroup.month);
-				console.log(dateGroup.day);
-
-
-			}else{
-
-				var dateGroup = this.getNowDate();
-				var day = dateGroup.day; 
-				var month = dateGroup.month; 
-				var year = dateGroup.year; 
-				var date = year.toString() + "-" + month.toString() + "-" + day.toString();
-				var params = {
-					token : PFT.Util.getToken(),
-					aid : this.aid,
-					pid : this.pid,
-					date : date
-				};
+		// 		var dateGroup = this.getNowDate();
+		// 		var day = dateGroup.day; 
+		// 		var month = dateGroup.month; 
+		// 		var year = dateGroup.year; 
+		// 		var date = year.toString() + "-" + month.toString() + "-" + day.toString();
+		// 		var params = {
+		// 			token : PFT.Util.getToken(),
+		// 			aid : this.aid,
+		// 			pid : this.pid,
+		// 			date : date
+		// 		};
 					
 
-			}
+		// 	}
 
 
-			GetCalendarPrice(params,{
-				loading:function () {},
-				success:function (res) {
+		// 	GetCalendarPrice(params,{
+		// 		loading:function () {},
+		// 		success:function (res) {
 
-					that.handleCalPrice(res,dateGroup);
+		// 			that.handleCalPrice(res,dateGroup);
 
-				},
-				complete:function () {}
-			});	
+		// 		},
+		// 		complete:function () {}
+		// 	});	
 			
 
-		},
+		// },
 
-		handleCalPrice : function(res,dateGroup){
+		// handleCalPrice : function(res,dateGroup){
 
-			var PG = $("span.price");
-			for( var i in res){
-				for(var j = 0;j<PG.length;j++){
-					var data_day = PG.eq(j).attr("data-day");
-					dateGroup.month = parseInt(dateGroup.month);
-					dateGroup.month =(dateGroup.month<10 ? "0"+dateGroup.month:dateGroup.month);
-					var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
-					if(data_date == i){
-						PG.eq(j).find("em").text(res[i]);
-					}
-				}
-			}		
+		// 	var PG = $("span.price");
+		// 	for( var i in res){
+		// 		for(var j = 0;j<PG.length;j++){
+		// 			var data_day = PG.eq(j).attr("data-day");
+		// 			dateGroup.month = parseInt(dateGroup.month);
+		// 			dateGroup.month =(dateGroup.month<10 ? "0"+dateGroup.month:dateGroup.month);
+		// 			var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
+		// 			if(data_date == i){
+		// 				PG.eq(j).find("em").text(res[i]);
+		// 			}
+		// 		}
+		// 	}		
 
-			var items = $(".calConItem.column"); 
+		// 	var items = $(".calConItem.column"); 
 
-			for(var j = 0;j<items.length;j++){
+		// 	for(var j = 0;j<items.length;j++){
 
-				if(items.eq(j).find('em').text() == ""){
-					items.eq(j).find('.yen').text("");
-					items.eq(j).addClass('disable');
-				}
+		// 		if(items.eq(j).find('em').text() == ""){
+		// 			items.eq(j).find('.yen').text("");
+		// 			items.eq(j).addClass('disable');
+		// 		}
 
-			}
+		// 	}
 
 			
 
 
 
-			var today = (dateGroup.day < 10&&dateGroup.day != 0 ? "0" + dateGroup.day : dateGroup.day); 	
-			var days = $(".calConItem.column .day");
+		// 	var today = (dateGroup.day < 10&&dateGroup.day != 0 ? "0" + dateGroup.day : dateGroup.day); 	
+		// 	var days = $(".calConItem.column .day");
 
-			if( dateGroup.day == 0 ){//日历改变月份
+		// 	if( dateGroup.day == 0 ){//日历改变月份
 				
-				for( var n = 0 ; n<days.length ; n++){
-					var t = days.eq(n).text(); 
-					if( t == "01"){
-						var pItem = days.eq(n).parent();
-						pItem.addClass('select');
-					}
-				}	
+		// 		for( var n = 0 ; n<days.length ; n++){
+		// 			var t = days.eq(n).text(); 
+		// 			if( t == "01"){
+		// 				var pItem = days.eq(n).parent();
+		// 				pItem.addClass('select');
+		// 			}
+		// 		}	
 					
-			}else{
+		// 	}else{
 
-				for( var n = 0 ; n<days.length ; n++){
-					var t = days.eq(n).text(); 
-					if( t == today){
-						var pItem = days.eq(n).parent();
-						pItem.addClass('select');
-					}
-				}	
+		// 		for( var n = 0 ; n<days.length ; n++){
+		// 			var t = days.eq(n).text(); 
+		// 			if( t == today){
+		// 				var pItem = days.eq(n).parent();
+		// 				pItem.addClass('select');
+		// 			}
+		// 		}	
 
-			}
+		// 	}
 
-		},
+		// },
 
-		calDaySelect : function(e){
-			var target = $(e.target);
-			var tagName = target.attr("tagName");
-			if(tagName != "DIV"){
-				target = target.parent();
-				tagName = target.attr("tagName");
-				if(tagName != "DIV"){
-					target = target.parent();
-				}
-			}
+		// calDaySelect : function(e){
+		// 	var target = $(e.target);
+		// 	var tagName = target.attr("tagName");
+		// 	if(tagName != "DIV"){
+		// 		target = target.parent();
+		// 		tagName = target.attr("tagName");
+		// 		if(tagName != "DIV"){
+		// 			target = target.parent();
+		// 		}
+		// 	}
 
-			if(target[0].className.indexOf("disable")>0){
-				return "disable"
-			}
+		// 	if(target[0].className.indexOf("disable")>0){
+		// 		return "disable"
+		// 	}
 
-			target.addClass("select");
-			var nowTargetDate = target.find('.day').text();
-			var list = $(".calConItem.column");
-			for( var i = 0;i<list.length;i++){
-				var className = list[i].className;
-				if( className.indexOf("disable") < 0 ){//除去disable
+		// 	target.addClass("select");
+		// 	var nowTargetDate = target.find('.day').text();
+		// 	var list = $(".calConItem.column");
+		// 	for( var i = 0;i<list.length;i++){
+		// 		var className = list[i].className;
+		// 		if( className.indexOf("disable") < 0 ){//除去disable
 					
-					var t = list.eq(i).find('.day').text();
-					if(t != nowTargetDate ){
-						list.eq(i).removeClass('select');
-					}
-				}
-			}
+		// 			var t = list.eq(i).find('.day').text();
+		// 			if(t != nowTargetDate ){
+		// 				list.eq(i).removeClass('select');
+		// 			}
+		// 		}
+		// 	}
 
-			return nowTargetDate; //返回当前被选中的天数
+		// 	return nowTargetDate; //返回当前被选中的天数
 
-		},
+		// },
 
-		changeCal : function(dir){
+		// changeCal : function(dir){
 
-			if(dir == "prev"){
-				if(this.nowMonthFlag > 1){
-					this.nowMonthFlag -= 1; 
-				}else{
-					this.nowMonthFlag = 12;
-					this.nowYearFlag -= 1;
-				}
-			}else if(dir == "next"){
-				if(this.nowMonthFlag < 12){
-					this.nowMonthFlag += 1; 
-				}else{
-					this.nowMonthFlag = 1;
-					this.nowYearFlag += 1;
-				}
-			}
+		// 	if(dir == "prev"){
+		// 		if(this.nowMonthFlag > 1){
+		// 			this.nowMonthFlag -= 1; 
+		// 		}else{
+		// 			this.nowMonthFlag = 12;
+		// 			this.nowYearFlag -= 1;
+		// 		}
+		// 	}else if(dir == "next"){
+		// 		if(this.nowMonthFlag < 12){
+		// 			this.nowMonthFlag += 1; 
+		// 		}else{
+		// 			this.nowMonthFlag = 1;
+		// 			this.nowYearFlag += 1;
+		// 		}
+		// 	}
 
-			var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
+		// 	var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
 
-			Calendar.change(date); //改变日历状态
+		// 	Calendar.change(date); //改变日历状态
 
-			this.getCalPrice("change");
+		// 	this.getCalPrice("change");
 
-		}
+		// }
 
 	});
 

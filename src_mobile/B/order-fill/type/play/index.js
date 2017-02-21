@@ -23,6 +23,9 @@ module.exports = function(parent,aid,pid){
 			var nowDate = dateGroup.nowDate + "-" +dateGroup.day; //有天数的
 
 			this.calendar = new Calendar(nowDate,aid,pid);
+			//初始化日期
+			$("#showDateInput").val("*演出日期 "+nowDate);
+			this.calendar.selectedDay = nowDate;
 		},
 
 		showCalendar : function(){
