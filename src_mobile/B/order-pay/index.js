@@ -76,12 +76,13 @@ var Order_pay = PFT.Util.Class({
 						host=host.indexOf("wx")>-1 ? host : host+"/wx";
 						var link ="http://"+host+"/b/order_pay_success.html?ordernum"+ordernum;
 						window.location.href=link;
-						
+
 					}
 				}
 			},
 			timeout: function(){
 				clearInterval(that.__interval);
+				Alert("支付超时，请检查网络并完成支付。");
 			},
 			serverError: function(){
 				clearInterval(that.__interval);
