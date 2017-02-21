@@ -70,7 +70,7 @@ var Order_fill = PFT.Util.Class({
 		var id = this.getId();
 		this.aid = id.aid;
 		this.pid = id.pid;
-		// this.type = id.type;
+		// this.type = id.type; 
 		if(this.aid == undefined ||this.pid == undefined ){
 			console.log("缺少id参数");	
 		}
@@ -109,7 +109,6 @@ var Order_fill = PFT.Util.Class({
 	//处理顶端提示
 	handleTips : function(res){
 
-		console.log(res);
 
 		//有效时间
 		var validType = res.validType;
@@ -149,7 +148,6 @@ var Order_fill = PFT.Util.Class({
 		var that = this;
 		//防止跳转
 		e.preventDefault();
-		console.log("提交订单");
 
 		var token = PFT.Util.getToken();
 		if(this.pid){
@@ -172,7 +170,6 @@ var Order_fill = PFT.Util.Class({
 			}
 		}
 
-		console.log(this.selectedDay);
 
 		if(this.selectedDay){
 			var begintime = this.selectedDay;			
@@ -278,8 +275,6 @@ var Order_fill = PFT.Util.Class({
 			},
 			success:function (res) {
 				
-				console.log(res);
-				
 				//提交订单成功
 				PFT.Mobile.Alert("提交订单成功");
 
@@ -293,7 +288,6 @@ var Order_fill = PFT.Util.Class({
 				var url = "order_pay.html?h="+host+"&"+"ordernum="+ordernum;
 
 				//跳转支付页面
-				console.log(url);
 				// window.location.href = url;
 
 
@@ -378,7 +372,6 @@ var Order_fill = PFT.Util.Class({
 	//保存联系人
 	handleSaveContact : function(){
 
-		console.log("保存联系人");
 
 		var that = this;
 
@@ -425,7 +418,6 @@ var Order_fill = PFT.Util.Class({
 	//常用联系人列表
 	contactList : function(){
 
-		console.log("常用联系人列表");
 
 		var that = this;
 
@@ -437,7 +429,6 @@ var Order_fill = PFT.Util.Class({
 				that.toast.show("loading");
 			},
 			success:function (res) {
-				console.log(res);
 				var code = res.code;
 				var msg = res.msg;
 				if( code == 201){
@@ -459,7 +450,6 @@ var Order_fill = PFT.Util.Class({
 
 		function handleLinkmanList(list){
 
-			console.log(list);
 
 			if(that.linkManBox){
 				var con = $("#LinkmanCon");
@@ -522,7 +512,6 @@ var Order_fill = PFT.Util.Class({
 
 
 			function delContactMan(item){
-				console.log(item);
 
 				var name = item.find(".LinkmanName").text();
 				var tel = item.find(".LinkmanTel").text();
@@ -597,7 +586,6 @@ var Order_fill = PFT.Util.Class({
 		if(this.visitInfoBox){
 			
 			//需要动态生成list	
-			console.log(list);
 			var html = "";
 			for( var i = 0;i<list.length;i++){
 
@@ -903,8 +891,7 @@ var Order_fill = PFT.Util.Class({
 					},
 					"click .showItem" : function(e){
 						var item = $(e.target);
-						console.log(item);
-
+						
 						that.venus_id = item.attr("data-venus_id");//场馆id
 						that.round_id = item.attr("data-round_id");//场次id
 
@@ -1061,8 +1048,6 @@ var Order_fill = PFT.Util.Class({
 			that.hotelDateChange(2,selectedDay);				
 		});
 
-		console.log(this.calendar1.selectedDay);
-		console.log(this.calendar2.selectedDay);
 
 		//第一次获取当日的结算价和库存
 		var params = {
@@ -1200,7 +1185,6 @@ var Order_fill = PFT.Util.Class({
 			$(".inHotel .dateSelectDay").text(dateSelectText);
 			$(".inHotel .dateSelectDay").attr("data-year",year).attr("data-month",month).attr("data-day",day);
 			var weekText = "";
-			console.log(this.calendar1);
 			if(this.calendar1.nowSelectWeek == 0){
 				weekText = "日";
 			}else if(this.calendar1.nowSelectWeek == 1){
@@ -1316,7 +1300,6 @@ var Order_fill = PFT.Util.Class({
 				that.toast.show("loading");
 			},
 			success:function(res){
-				console.log(res);
 				handleHotelRes(res);//处理res
 				that.toast.hide();
 			},
