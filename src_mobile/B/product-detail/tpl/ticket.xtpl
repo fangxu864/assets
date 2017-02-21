@@ -4,24 +4,27 @@
 
 <div class="productDetailTicket nonFirstTicket">
 	<div class="ticketLeft">
-		<div class="ticketDetailTitle"><span class="VIPTicket">[VIP]</span><%=item.title%></div>
+		<div class="ticketDetailTitle"><span class="VIPTicket" style="display: none">[VIP]</span><%=item.p_name%></div>
 		<div class="ticketDetailPrice">
 			<span class="lPrice">零售价：<span class="lPriceNumber"><%=item.lprice%>元</span></span>
 			<span class="jPrice">结算价：<span class="jPriceNumber"><%=item.tprice%>元</span></span>	
 		</div>
-		<span class="onlyWeekend">限仅周末使用</span>
+		<span class="onlyWeekend" style="display: none">限仅周末使用</span>
 		<div class="ticketDetailTips">
 			<% _.each(item.tags,function(tagsItem,i){ %>
 			<div class="ticketTip<%=i+1%> ticketTip"><%=tagsItem%></div>
 			<% }) %>
 		</div>
-		<div class="ticketDetailSon">
-			<span>包含子票:</span><br>
-			<span>福建景区成人票1张+舒服酒店标准间1间+三坊七巷成人票1张</span>
-		</div>
+		<%if(item.sonTickets){%>
+			<div class="ticketDetailSon" >
+				<span>包含子票:</span><br>
+				<span class="sonTicket">
+				</span>
+			</div>
+		<%}%>
 	</div>
 	<div class="ticketRight">
-		<a href="order_fill.html?aid=<%=item.aid%>&pid=<%=item.pid%>&type=<%=item.p_type%>" class="orderBtn">预定</a>
+		<a href="order_fill.html?aid=<%=item.aid%>&pid=<%=item.pid%>" class="orderBtn">预定</a>
 	</div>
 </div>
 

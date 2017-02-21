@@ -33,6 +33,11 @@ module.exports = function(parent,aid,pid){
 			var date = this.getNowDate();
 			//有天数的
 			var dateDay = date.nowDate + "-" +date.day;
+
+			//初始化日期以供外部
+			this.calendar1.selectedDay = dateDay;
+			this.calendar2.selectedDay = dateDay;
+
 			var dateSelectText = date.month + "月" + date.day + "日";
 			$(".inHotel .dateSelectDay").text(dateSelectText);
 			$(".inHotel .dateSelectDay").attr("data-year",date.year).attr("data-month",date.month).attr("data-day",date.day);

@@ -1,4 +1,5 @@
 <ul id="themeWrap">
+	<li id="allThemeBtn">全部主题</li>
 	<% if(list.length>0){ %> 
 		<% _.each(list,function(item){ %>
 			<li class="themeBtn"><%=item%></li>
