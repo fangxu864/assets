@@ -1,6 +1,6 @@
 require("./index.scss");
 var Tpl=require("./tpl/index.xtpl");
-var Service=require("./service-success");
+var Service=require("./service-success.js");
 var Alert=PFT.Mobile.Alert;
 var Toast=new PFT.Mobile.Toast();
 var Main=PFT.Util.Class({

@@ -76,7 +76,7 @@ var Order_pay = PFT.Util.Class({
 						host=host.indexOf("wx")>-1 ? host : host+"/wx";
 						var link ="http://"+host+"/b/order_pay_success.html?ordernum"+ordernum;
 						window.location.href=link;
-						
+
 					}
 				}
 			},
