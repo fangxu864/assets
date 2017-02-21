@@ -130,7 +130,7 @@ var Main = PFT.Util.Class({
                         // var newLi = $('<li><div class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 show" data-id = "'+detail.module_id+'">去看看</a> </div> </div></div><i class="ico-expired"></i></li>')
                         var newLi = $('<li><div class="app-item"> <div class="app-left"> <i class="ui-app-ico"><img src="http://static.12301.cc/assets/build/images/appcenter/icons/default.png" alt=""></i> <p class="app-open"><span class="app-usernum c-warning"></span>用户<br>已开通</p> </div> <div class="app-right"> <div class="text-ellipsis"> <strong class="app-name">未知</strong> </div> <div class="text-ellipsis"> <span class="app-price app-summary">未知</span></div> <div class="app-btn-w"> <a href="javascript:;" class="btn btn-reverse w100 open" data-id = "'+detail.module_id+'">开通</a> </div> </div></div></li>')
                         console.log(newLi);
-                        newLi.find('.btn').css("display","none");
+                        newLi.css("display","none");
                         newLi.find(".app-item").css("height","97px");
                     }
 
@@ -161,7 +161,8 @@ var Main = PFT.Util.Class({
             topName = data.checkData.topName,
             checkData = data.checkData,
             moduleFree = data.checkData.moduleFree,
-            showextime = data.checkData.showextime;
+            showextime = data.checkData.showextime,
+            show_hide = data.checkData.show_hide;
 
         //是否显示到期时间
             if(showextime == 0 ){
@@ -216,11 +217,14 @@ var Main = PFT.Util.Class({
             }else(
                 console.log("none")
             )
-        }else if(status == 2){
-            $("#btn").text("使用").on("click",function () {
-                window.location.href="appcenter_details.html?module_id="+_this.module_id
-
-            })
+        }else if( status == 2 ){
+            if ( show_hide == 0 ) {
+                $("#btn").text("使用").on("click",function () {
+                    window.location.href="appcenter_details.html?module_id="+_this.module_id
+                })
+            } else {
+                $("#btn").css("display","none");
+            }
         }else if(status == 3){
             $("#btn").text("去看看").on("click",function () {
                 window.location.href="appcenter_details.html?module_id="+_this.module_id
