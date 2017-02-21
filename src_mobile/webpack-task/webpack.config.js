@@ -21,6 +21,7 @@ var config = require("../../task-webpack/config")({
 		// "mb.order_pay.b" : path.resolve(ROOT_URL,"B/order-pay/index.js"),
 		// "mb.order_pay_success.b":path.resolve(ROOT_URL,"B/order-pay/orderysuccess/index.js"),
 		"mb.order_fill.b" : path.resolve(ROOT_URL,"B/order-fill/index.js"),
+		"mb.transit.b" : path.resolve(ROOT_URL,"B/transit/index.js"),
 		
 
 		// "mb.index.c" : path.resolve(ROOT_URL,"C/index/index.es6"),

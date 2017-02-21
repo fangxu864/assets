@@ -9,7 +9,11 @@
 			<span class="lPrice">零售价：<span class="lPriceNumber"><%=item.lprice%>元</span></span>
 			<span class="jPrice">结算价：<span class="jPriceNumber"><%=item.tprice%>元</span></span>	
 		</div>
-		<span class="onlyWeekend" style="display: none">限仅周末使用</span>
+		<%if(item.notes != ""){%>
+			<span class="onlyWeekend" >
+				<%=item.notes%>
+			</span>
+		<%}%>
 		<div class="ticketDetailTips">
 			<% _.each(item.tags,function(tagsItem,i){ %>
 			<div class="ticketTip<%=i+1%> ticketTip"><%=tagsItem%></div>
