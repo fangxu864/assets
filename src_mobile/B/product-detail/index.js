@@ -5,7 +5,7 @@ var InfoTpl = require("./tpl/info.xtpl");
 var InfoBottomTpl = require("./tpl/infoBottom.xtpl");	
 var TicketTpl = require("./tpl/ticket.xtpl");	
 
-
+var Toast = require("COMMON/modules/Toast");
 
 var Product_detail = PFT.Util.Class({
 
@@ -14,8 +14,17 @@ var Product_detail = PFT.Util.Class({
 		"click .moreTicket" : "onMoreTicket"               
 	},
 	init : function(opt){      
+		//lid
+		var url = window.location.href;
+		url = url.split("?");
+		lid = url[1].split("=");
+		lid = lid[1];
+		this.lid = lid;
 
-		this.lid = "6603";  
+		//ctx,ctype
+		this.ctx = 0;//默认为0
+		this.ctype = 1;//默认为1
+
 		var that = this;
 
 		this.infoTemplate = PFT.Util.ParseTemplate(InfoTpl);  
@@ -24,6 +33,8 @@ var Product_detail = PFT.Util.Class({
 
 		this.lastTid = 0;
 		this.lastTicketPos = 0;
+
+		this.toast = new Toast();
 
 		this.getInfo();
 			
@@ -41,10 +52,10 @@ var Product_detail = PFT.Util.Class({
 		    	lid : that.lid	
 		    },
 		    loading : function(){
-		        //正在请中...
+		        that.toast.show("loading");
 		    },
 		    complete : function(){
-		        //请求完成
+		        that.toast.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
@@ -54,11 +65,11 @@ var Product_detail = PFT.Util.Class({
 		        	that.handleInfo(res);
 
 		        }else{
-		            alert(res.msg || PFT.AJAX_ERROR)
+		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
 		    },
-		    timeout : function(){ alert("请求超时") },
-		    serverError : function(){ alert("请求出错")}
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
 		this.getTicketList();
@@ -87,17 +98,17 @@ var Product_detail = PFT.Util.Class({
 		    params : {
 		    	token : PFT.Util.getToken(),
 		    	lid : that.lid,
-		    	// lastTid : that.lastTid,
-		    	// lastTicketPos : that.lastTicketPos,
+		    	lastTid : that.lastTid,
+		    	lastTicketPos : that.lastTicketPos,
 		    	//先用0测试,因为会没有更多票了
-		    	lastTid : 0,  
-		    	lastTicketPos : 0		
+		    	// lastTid : 0,  
+		    	// lastTicketPos : 0		
 		    },
 		    loading : function(){
-		        //正在请中...
+		        that.toast.show("loading");
 		    },
 		    complete : function(){
-		        //请求完成
+		        that.toast.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
@@ -107,11 +118,11 @@ var Product_detail = PFT.Util.Class({
 		        	that.handleTicket(res);
 
 		        }else{
-		            alert(res.msg || PFT.AJAX_ERROR)
+		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
 		    },
-		    timeout : function(){ alert("请求超时") },
-		    serverError : function(){ alert("请求出错")}
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
 
@@ -125,7 +136,8 @@ var Product_detail = PFT.Util.Class({
 		var list = data.list;
 		console.log(list);
 		if(list.length == 0){
-			alert("没有更多票了");//应该用移动端专用的alert
+			PFT.Mobile.Alert("没有更多票了");
+			$("#moreTicket").css("display","none");
 		}
 		var ticketHtml = this.ticketTemplate(data);
 
@@ -134,6 +146,21 @@ var Product_detail = PFT.Util.Class({
 
 		$("#productDetailList").append(ticketHtml);
 
+		for(var i = 0;i<list.length;i++){
+			if(list[i].sonTickets){
+				var pList = $("#productDetailList .productDetailTicket");
+				var sonT = pList.eq(i).find(".sonTicket");
+				var sonHtml = "";
+				for(var j = 0;j<list[i].sonTickets.length;j++){
+					if( j == list[i].sonTickets.length - 1){
+						sonHtml += list[i].sonTickets[j].title + list[i].sonTickets[j].num + "张";
+					}else{
+						sonHtml += list[i].sonTickets[j].title + list[i].sonTickets[j].num + "张 + ";
+					}
+				}
+				sonT.append(sonHtml);
+			}
+		}
 
 	},
 

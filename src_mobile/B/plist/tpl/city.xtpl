@@ -9,12 +9,12 @@
 				<%if(list[i].pin != null){%>
 					<h1><%=list[i].pin%></h1>
 					<% for(var j=0;j<list[i].length;j++){ %>
-						<li class="cityBtn"><%=list[i][j].name%></li>
+						<li class="cityBtn" data-code="<%=list[i][j].code%>"><%=list[i][j].name%></li>
 					<% } %>	
 				<%}else{%>
 					<h1>其他</h1>
 					<% for(var j=0;j<list[i].length;j++){ %>
-						<li class="cityBtn"><%=list[i][j].name%></li>
+						<li class="cityBtn" data-code="<%=list[i][j].code%>"><%=list[i][j].name%></li>
 					<% } %>	
 				<%}%>
 			<%}%>

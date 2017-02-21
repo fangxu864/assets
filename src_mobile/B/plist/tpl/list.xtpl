@@ -2,7 +2,7 @@
 <ul class="productOrderSpot">
 	<li class="spotTitle">
 		<a href="product_detail.html?lid=<%=item.lid%>" class="productDetailLink" >
-			<img class="spotImg" src=""></img>
+			<img class="spotImg" src="<%=item.imgpath%>"></img>
 			<div class="spotRight">
 				<span class="spotName"><%=item.title%></span><br>
 				<span class="spotInfo"><%=item.addr%></span>

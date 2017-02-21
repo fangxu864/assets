@@ -93,6 +93,7 @@ var Order_fill = PFT.Util.Class({
 		// this.pid = 57958; //线路			
 		// this.pid = 58004; //演出
 		// this.pid = 57921; //餐饮
+		// this.pid = 58105; //套票
 
 		this.toast = new Toast();//初始化toast
 
@@ -277,7 +278,13 @@ var Order_fill = PFT.Util.Class({
 				that.toast.show("loading");
 			},
 			success:function (res) {
+				
 				console.log(res);
+				
+				//提交订单成功
+				PFT.Mobile.Alert("提交订单成功");
+				// PFT.Mobile.Alert("ordernum:" + res.ordernum+"+paymode:"+res.paymode);
+
 			},
 			complete:function () {
 				that.toast.hide();				
@@ -710,7 +717,8 @@ var Order_fill = PFT.Util.Class({
 
 		var ticketList = res.tickets;
 		if(ticketList.length == 0){
-			console.log("无票");
+			PFT.Mobile.Alert("无票");
+			return false
 		}else{
 			this.ticketList = ticketList;
 		}
@@ -756,7 +764,7 @@ var Order_fill = PFT.Util.Class({
 		var parent = $(".topInputGroup");
 
 		//根据type不同分别判断显示Input
-		if(type == "A" || type == "F"){  //景区
+		if(type == "A" || type == "F"){  //景区  //套票
 			this.InputGroup = Land(parent,this.aid,this.pid);
 			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期
 			this.renderTicketList(ticketList); 
@@ -815,6 +823,7 @@ var Order_fill = PFT.Util.Class({
 			that.getPriceAndStorage(selectedDay,pids);
 			that.getShowInfo(selectedDay);
 		});	
+
 		//第一次获取价格和库存
 		that.getPriceAndStorage(that.selectedDay,pids);
 		$("#playTimeInput").on("click",function(){
@@ -1039,6 +1048,37 @@ var Order_fill = PFT.Util.Class({
 			that.hotelDateChange(2,selectedDay);				
 		});
 
+		console.log(this.calendar1.selectedDay);
+		console.log(this.calendar2.selectedDay);
+
+		//第一次获取当日的结算价和库存
+		var params = {
+			token : PFT.Util.getToken(),
+            beginDate : this.calendar1.selectedDay,
+            endDate : this.calendar2.selectedDay,
+            aid : this.aid,
+            pid : this.pid
+		}
+
+		GetHotelPrice(params,{
+			loading:function(){
+				that.toast.show("loading");
+			},
+			success:function(res){
+
+				$(".price").find(".orange.money").text(res.jsprice);
+				$(".storage").find(".num").text(res.minStore);
+				$("#totalMoney").text(res.jsprice);
+
+			},
+			complete:function(){
+				// that.toast.hide();
+			},
+			fail : function(msg){
+				PFT.Mobile.Alert(msg);				
+			}	
+		});
+
 
 	},
 
@@ -1048,6 +1088,24 @@ var Order_fill = PFT.Util.Class({
 		data.list = list;
 		var ticketsHtml = this.ticketTemplate(data);	
 		$("#ticketList").html(ticketsHtml);
+
+		//生成子票(套票only)
+		for(var i = 0;i<list.length;i++){
+			if(list[i].sonTickets){
+				var pList = $(".placeTicket");
+				var sonT = pList.eq(i).find(".ticketSon");
+				var sonHtml = "";
+				for(var j = 0;j<list[i].sonTickets.length;j++){
+					if( j == list[i].sonTickets.length - 1){
+						sonHtml += list[i].sonTickets[j].title + list[i].sonTickets[j].num + "张";
+					}else{
+						sonHtml += list[i].sonTickets[j].title + list[i].sonTickets[j].num + "张 + ";
+					}
+				}
+				sonT.append(sonHtml);
+			}
+		}
+
 	},
 
 	getPriceAndStorage : function(selectedDay,pids){
@@ -1231,6 +1289,8 @@ var Order_fill = PFT.Util.Class({
 			token : PFT.Util.getToken(),
             beginDate : inDate,
             endDate : outDate,
+			// beginDate : "2017-02-21", //写死
+            // endDate : "2017-02-21",//写死
             aid : this.aid,
             pid : this.pid
 		}

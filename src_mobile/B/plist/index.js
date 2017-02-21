@@ -25,7 +25,11 @@ var Plist = PFT.Util.Class({
 		"focus .productNameSearch" : "focusAllInput",  //产品类型搜索
 		"click .spotTicketMore" : "recommendTicket"   //推荐票类
 	},
-	init : function(opt){       
+	init : function(opt){   
+
+		//ctx,ctype
+		this.ctx = 0;//默认为0
+		this.ctype = 1;//默认为1
 
 		this.typeTemplate = PFT.Util.ParseTemplate(TypeTpl);  
 		this.themeTemplate = PFT.Util.ParseTemplate(ThemeTpl);  
@@ -115,7 +119,8 @@ var Plist = PFT.Util.Class({
 
     	var typeHtml = this.typeTemplate(data);
 
-		if(this.topic != ""){
+		//主题要基于类型
+		if(this.topic != ""){ 
 			this.topic = "";
 			$("#themeText").text("全部主题");
 		}
@@ -216,6 +221,7 @@ var Plist = PFT.Util.Class({
 			//动态改变
 			var list = res.data;
 			var html = "";
+			html += '<li id="allThemeBtn">全部主题</li>';
 			if(list.length > 0){
 				for( var i = 0;i<list.length;i++ ){
 					html += '<li class="themeBtn">'+list[i]+'</li>';
@@ -250,6 +256,21 @@ var Plist = PFT.Util.Class({
 				EVENTS : {      
 					"click .themeBtn" : function(e){
 					  that.changeTheme($(e.target));
+					},
+
+					"click #allThemeBtn" : function(e){
+
+						var target = $(e.target);
+
+						that.topic = "";
+						$("#themeText").text("全部主题");
+
+						that.lastListLid = 0;
+						that.lastListProPos = 0;
+						that.renderSearch();
+
+						that.themeSelect.close();	
+
 					}
 				}
 			});
@@ -353,9 +374,10 @@ var Plist = PFT.Util.Class({
 
 						  var target = $(e.target);
 						  var t = target.text();
+						  var code = target.attr("data-code");
 						  $("#cityText").text(t);
 
-						  that.city = t;
+						  that.city = code;
 
 						  that.lastListLid = 0;
 						  that.lastListProPos = 0;
@@ -364,7 +386,16 @@ var Plist = PFT.Util.Class({
 						  that.citySelect.close();
 
 					},
+					"click .allCityBtn" : function(){
+						that.city = "";
+						$("#cityText").text("全部城市");
 
+						that.lastListLid = 0;
+						that.lastListProPos = 0;
+						that.renderSearch();
+
+						that.citySelect.close();
+					},
 					"input #citySearch" : function(e){
 						var cityKeyWord = $(e.target).val();	
 						var State = that.cityReq.readyState; 
@@ -474,7 +505,9 @@ var Plist = PFT.Util.Class({
 		    	keyword : that.keyword,
 		    	topic : that.topic,
 		    	city : that.city,
-		    	pageSize : that.pageSize
+		    	pageSize : that.pageSize,
+				ctx : that.ctx,
+				ctype : that.ctype
 		    },
 		    loading : function(){
 		        that.toast.show("loading");
@@ -568,6 +601,9 @@ var Plist = PFT.Util.Class({
 		target = $(target).parent();
 		$(ticketHtml).insertBefore(target);
 		target.hide();
+
+		this.xscroll.render();
+		this.pullup.complete();
 
 	}
 
