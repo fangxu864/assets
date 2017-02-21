@@ -82,6 +82,7 @@ var Order_pay = PFT.Util.Class({
 			},
 			timeout: function(){
 				clearInterval(that.__interval);
+				Alert("支付超时，请检查网络并完成支付。");
 			},
 			serverError: function(){
 				clearInterval(that.__interval);
