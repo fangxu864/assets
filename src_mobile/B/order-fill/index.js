@@ -67,6 +67,15 @@ var Order_fill = PFT.Util.Class({
 
 	init : function(){		
 
+
+		
+
+
+
+
+
+
+
 		var id = this.getId();
 		this.aid = id.aid;
 		this.pid = id.pid;
@@ -284,6 +293,18 @@ var Order_fill = PFT.Util.Class({
 				//提交订单成功
 				PFT.Mobile.Alert("提交订单成功");
 				// PFT.Mobile.Alert("ordernum:" + res.ordernum+"+paymode:"+res.paymode);
+
+				var host = window.location.host;
+				host = host.split(".");
+				host = host[0];
+
+				var ordernum = "4003823";
+
+				var url = "order_pay.html?h="+host+"&"+"ordernum="+ordernum;
+
+				//跳转支付页面
+				window.location.href = url;
+
 
 			},
 			complete:function () {
@@ -717,7 +738,8 @@ var Order_fill = PFT.Util.Class({
 
 		var ticketList = res.tickets;
 		if(ticketList.length == 0){
-			PFT.Mobile.Alert("无票");
+			PFT.Mobile.Alert("暂无产品");
+			$("#ticketList").html(' <li class="placeTicket noproduct" style="height:60px;text-align:center;line-height:60px">暂无产品</li>');
 			return false
 		}else{
 			this.ticketList = ticketList;
@@ -1160,7 +1182,7 @@ var Order_fill = PFT.Util.Class({
 					//初始化金额
 					that.firstTotalSum += data.price*num;
 					price.find(".money").text(data.price);
-					if( data.store == -1){
+					if( data.store == -1 || data.store == 0){
 						storage.find(".num").text("无限");
 					}else{
 						storage.find(".num").text(data.store);												
