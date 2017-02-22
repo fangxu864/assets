@@ -719,6 +719,7 @@ var Order_fill = PFT.Util.Class({
 		if(ticketList.length == 0){
 			PFT.Mobile.Alert("暂无产品");
 			$("#ticketList").html(' <li class="placeTicket noproduct" style="height:60px;text-align:center;line-height:60px">暂无产品</li>');
+			$(".personalInformation").css("display","none");
 			return false
 		}else{
 			this.ticketList = ticketList;
