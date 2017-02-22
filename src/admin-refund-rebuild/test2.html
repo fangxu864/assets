@@ -30,7 +30,7 @@
 
         pub : function (events , arg) {
             var arr =  this.storage[events];
-            var len = arr.length;
+            var len = Array.isArray(arr) ? arr.length : 0;
             if( arr ){
                 for( var i= 0 ; i< arr.length ; i++ ){
                     arr[i](arg);
@@ -45,10 +45,11 @@
         }
 
     };
-    pubSub.sub("say",function (arg) {
+    pubSub.sub("say.say",function (arg) {
         console.log(arg)
     });
-    pubSub.pub("say","4556")
+    pubSub.pub("say","4556");
+    console.log(pubSub)
 </script>
 
 </body>
