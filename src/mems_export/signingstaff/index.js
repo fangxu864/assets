@@ -92,9 +92,9 @@ var SigningStaff = {
         //全选事件
         this.container.on("click" ,".openApp .selectAll", function (e) {
             if($(this).get(0).checked){
-                _this.container.find(".openApp .line1 input.notSelf[type = checkbox]").attr("checked",true);
+                _this.container.find(".openApp .line1 input.notSelf[type = checkbox]").prop("checked",true);
             }else{
-                _this.container.find(".openApp .line1 input.notSelf[type = checkbox]").attr("checked",false);
+                _this.container.find(".openApp .line1 input.notSelf[type = checkbox]").prop("checked",false);
             }
         });
         //含“自”checkbox 不予点击
@@ -249,6 +249,8 @@ var SigningStaff = {
                 //请求成功时处理
                 if(res.code == 200 ){
                     _this.renderCon($.extend(true ,{} ,Data , res.data));
+                }else{
+                    PFT_GLOBAL.U.Alert("fail",'<p style="">'+res.msg+'</p>');
                 }
             },
             complete: function(res,status) {
@@ -279,7 +281,7 @@ var SigningStaff = {
         }
         //合作模式
         if(data.contract_model){
-            this.container.find(".signInfo .contract_model option[value = "+data.contract_model+"]").attr("selected","true");
+            this.container.find(".signInfo .contract_model option[value = "+data.contract_model+"]").prop("selected","true");
         }
         switch (data.contract_model){
             /**
@@ -307,8 +309,8 @@ var SigningStaff = {
                 break;
         }
         //客服和签单人
-        this.container.find(".signInfo .salerSelect option[value = "+data.salesID+"]").attr("selected","true");
-        this.container.find(".signInfo .kefuSelect option[value = "+data.kefuID+"]").attr("selected","true");
+        this.container.find(".signInfo .salerSelect option[value = "+data.salesID+"]").prop("selected","true");
+        this.container.find(".signInfo .kefuSelect option[value = "+data.kefuID+"]").prop("selected","true");
         //是否回款
         // if(data.is_pay == 1){
         //     this.container.find(".signInfo .is_pay").attr("checked","true");
