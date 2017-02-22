@@ -115,17 +115,21 @@ var SigningStaff = {
                     _this.container.find(".feeConfig .fee_platform").val(0);
                     //凭证费
                     _this.container.find(".feeConfig .fee_code").val(0);
+                    _this.container.find(".protocol_meal").removeProp("readonly").css("background-color","#fff");
                     _this.container.find(".openApp").show();
                     break;
                 case "2" :
                     //凭证费
                     _this.container.find(".feeConfig .fee_code").val(0);
                     _this.container.find(".openApp").hide();
+                    _this.container.find(".protocol_meal").removeProp("readonly").css("background-color","#fff");
+
                     break;
                 case "3" :
                     //凭证费
                     _this.container.find(".feeConfig .fee_code").val(1);
                     _this.container.find(".openApp").hide();
+                    _this.container.find(".protocol_meal").prop("readonly",true).css("background-color","#ececec").val("");
                     break;
                 default :
                     _this.container.find(".openApp").show();
@@ -194,10 +198,10 @@ var SigningStaff = {
                 success: function(res) {
                     //请求成功时处理
                     if(res.code == 200 ){
-                        PFT_GLOBAL.U.Alert("success",'<p style="width:120px;">设置成功</p>');
+                        PFT_GLOBAL.U.Alert("success",'<p style="width: auto;">设置成功</p>');
                         _this.Dial.close();
                     }else{
-                        PFT_GLOBAL.U.Alert("fail",'<p style="width:120px;">'+res.msg+',请重试</p>');
+                        PFT_GLOBAL.U.Alert("fail",'<p style="width: auto;">'+res.msg+',请重试</p>');
                     }
                 },
                 complete: function(res,status) {
@@ -283,29 +287,33 @@ var SigningStaff = {
         if(data.contract_model){
             this.container.find(".signInfo .contract_model option[value = "+data.contract_model+"]").prop("selected","true");
         }
-        switch (data.contract_model){
+        var model = data.contract_model.toString();
+        switch (model){
             /**
              * 1 套餐  2 票务  3 订单
              * 当合作模式为套餐时，凭证费=平台手续费=0 ，允许配置开通应用
              * 票务时，凭证费 = 0,不允许配置开通应用
              * 订单时，凭证费 = 1，不允许配置开通应用
              */
-            case 1 :
+            case "1" :
                 //平台使用费
-                this.container.find(".feeConfig .fee_platform").val(0);
+                // this.container.find(".feeConfig .fee_platform").val(0);
                 //凭证费
-                this.container.find(".feeConfig .fee_code").val(0);
+                // this.container.find(".feeConfig .fee_code").val(0);
+                this.container.find(".protocol_meal").removeProp("readonly").css("background-color","#fff");
                 this.container.find(".openApp").show();
                 break;
-            case 2 :
+            case "2" :
                 //凭证费
-                this.container.find(".feeConfig .fee_code").val(0);
+                // this.container.find(".feeConfig .fee_code").val(0);
+                this.container.find(".protocol_meal").removeProp("readonly").css("background-color","#fff");
                 this.container.find(".openApp").hide();
                 break;
-            case 3 :
+            case "3" :
                 //凭证费
-                this.container.find(".feeConfig .fee_code").val(1);
+                // this.container.find(".feeConfig .fee_code").val(1);
                 this.container.find(".openApp").hide();
+                this.container.find(".protocol_meal").prop("readonly",true).css("background-color","#ececec").val("");
                 break;
         }
         //客服和签单人

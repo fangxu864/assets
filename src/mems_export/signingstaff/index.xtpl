@@ -20,7 +20,7 @@
                 <div class="td td1">合作模式</div>
                 <div class="td td2">
                     <select name="" class="contract_model">
-                        <option value="">请选择</option>
+                        <!--<option value="">请选择</option>-->
                         <option value="1">套餐</option>
                         <option value="2">票务</option>
                         <option value="3">订单</option>
@@ -79,6 +79,7 @@
                     <input type="text" class="protocol_meal" value="<%=data.protocol_meal%>"/>
                 </div>
                 <span>元</span>
+                <span style="color: red">(*注：订单模式时，协议价格为0，且不可填)</span>
             </div>
 
             <div class="line line6">
@@ -96,14 +97,14 @@
                  <div class="td td2">
                      <input type="text" class="fee_bank" value="<%=data.fee_bank%>"/>
                  </div>
-                 <span>%</span>
+                 <span class="unit">‰</span>
              </div>
              <div class="line line2">
                  <div class="td td1">凭证费</div>
                  <div class="td td2">
                      <input type="text" class="fee_code" value="<%=data.fee_code%>"/>
                  </div>
-                 <span>元/单</span>
+                 <span class="unit">元/单</span>
              </div>
 
               <div class="line line2">
@@ -111,7 +112,7 @@
                  <div class="td td2">
                      <input type="text" class="fee_sms" value="<%=data.fee_sms%>"/>
                  </div>
-                 <span>元/条</span>
+                 <span class="unit">元/条</span>
              </div>
 
               <div class="line line2">
@@ -119,7 +120,7 @@
                  <div class="td td2">
                      <input type="text" class="fee_platform" value="<%=data.fee_platform%>"/>
                  </div>
-                 <span>元/人</span>
+                 <span class="unit">元/人</span>
              </div>
 
         </div>
