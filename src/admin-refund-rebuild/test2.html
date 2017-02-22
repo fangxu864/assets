@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var dataStructure = {
+
+        events1 :{
+            nameSpace1 : [],
+            nameSpace2 : [],
+            nameSpace3 : []
+        },
+
+        events2 :{
+            nameSpace1 : [],
+            nameSpace2 : [],
+            nameSpace3 : []
+        }
+
+    };
+
+    var str  = "123456789";
+    var pubSub = {
+        storage : {} ,
+
+        pub : function (events , arg) {
+            var arr =  this.storage[events];
+            var len = arr.length;
+            if( arr ){
+                for( var i= 0 ; i< arr.length ; i++ ){
+                    arr[i](arg);
+                }
+            }
+        } ,
+
+        sub : function (events ,fn) {
+            if(!this.storage[events])
+                this.storage[events] = [];
+                this.storage[events].push(fn)
+        }
+
+    };
+    pubSub.sub("say",function (arg) {
+        console.log(arg)
+    });
+    pubSub.pub("say","4556")
+</script>
+
+</body>
+</html>
