@@ -22,7 +22,7 @@ var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
 var CalendarCore = require("COMMON/js/calendarCore.js");//用outputdate计算酒店几晚
 var Toast = require("COMMON/modules/Toast");
-//自己写日历
+//日历
 var Calendar = require("./calendar/index.js");
 //各个类型模块
 var Land = require("./type/land/index.js");  //景区
@@ -31,38 +31,20 @@ var Line = require("./type/line/index.js"); //线路
 var Play = require("./type/play/index.js");//演出
 var Food = require("./type/food/index.js");//餐饮
 
-
-
-
 var Order_fill = PFT.Util.Class({
 
 	container : $("#orderFill"),
 	EVENTS : {
-		// "click #playDate":"initCalendar", //自己做日历功能
-
-
 		"input #checkPhoneInput" : "validTel",//验证电话号码
 		"input #checkIdInput" : "validIdCard",//验证身份证号码
-		// "click #contact" : "handleContact",//处理联系人
 		"click #saveContact" : "handleSaveContact",//保存联系人
-
 		"click #checkContact" : "contactList",//常用联系人列表
-
 		"click #visitorInformation" : "handleVisitInfo",//处理游客信息
-
-		// "click #payMode" : "handlePayMode", //处理付款方式
-
-		// "click #contact":"showContact",
-		// "click #visitorInformation":"showVisitor",
-
 		"click .addBtn":"addNum",  //加数字 
 		"click .delBtn":"delNum",  //减数字
-
 		"input .numBox":"checkInput", //处理手动输入预定数量
 		"click #regularBtn":"regularToggle", //退票规则
-
 		"click .submitOrder" : "submitOrder"//提交订单
-		
 	},
 
 	init : function(){		
@@ -287,6 +269,8 @@ var Order_fill = PFT.Util.Class({
 
 				var url = "order_pay.html?h="+host+"&"+"ordernum="+ordernum;
 
+				console.log(url);
+				
 				//跳转支付页面
 				// window.location.href = url;
 
@@ -450,7 +434,6 @@ var Order_fill = PFT.Util.Class({
 
 		function handleLinkmanList(list){
 
-
 			if(that.linkManBox){
 				var con = $("#LinkmanCon");
 				var listHtml = "";
@@ -545,10 +528,6 @@ var Order_fill = PFT.Util.Class({
 		}
 
 	},
-	handleContact : function(){
-		console.log("处理联系人");
-	},
-
 
 	//处理游客信息 //多个身份证的情况
 	handleVisitInfo : function(){
@@ -613,8 +592,27 @@ var Order_fill = PFT.Util.Class({
 				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
 				height : "100%",      //弹层占整个手机屏幕的高度
 				yesBtn : function(){
+
+					//计算已编辑	
+					var list = $("#visitInfo .visitInfoItem");
+					var count = 0; 
+					for( var i = 0;i<list.length;i++){
+						var item = list.eq(i);
+						var visit = item.find(".visit").val();
+						var idCard = item.find(".idCard").val();
+						if(visit != "" && idCard != ""){
+							count += 1;
+						}
+
+					}
+					var info = $("#visitorInformation").val();
+					var orNum = info.split("/");
+					orNum = orNum[1];
+					$("#visitorInformation").val("*游客信息 已编辑" + count + "/" + orNum);
+
 				},       //弹层底部是否显示确定按钮,为false时不显示
-				noBtn : true,        //弹层底部是否显示取消按钮,格式同yesBtn
+				noBtn : function(){
+				},        //弹层底部是否显示取消按钮,格式同yesBtn
 				zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
 				EVENTS : {            //弹层上面绑定的所有事件放在这里
 					
@@ -798,10 +796,6 @@ var Order_fill = PFT.Util.Class({
 			this.renderTicketList(ticketList);
 			this.handleFood(pids);
 		}
-
-
-
-		// this.handleVisitInfo();//测试游客信息
 
 		
 
@@ -1058,7 +1052,6 @@ var Order_fill = PFT.Util.Class({
             aid : this.aid,
             pid : this.pid
 		}
-
 		GetHotelPrice(params,{
 			loading:function(){
 				that.toast.show("loading");
@@ -1071,7 +1064,7 @@ var Order_fill = PFT.Util.Class({
 
 			},
 			complete:function(){
-				// that.toast.hide();
+				that.toast.hide();
 			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);				
@@ -1313,13 +1306,13 @@ var Order_fill = PFT.Util.Class({
 		});
 
 		//计算天数差的函数 
-		function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2006-12-18格式  
-			var  aDate,  oDate1,  oDate2,  iDays  
-			aDate  =  sDate1.split("-")  
-			oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为12-18-2006格式  
-			aDate  =  sDate2.split("-")  
-			oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])  
-			iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数  
+		function  DateDiff(sDate1,  sDate2){    
+			var  aDate,  oDate1,  oDate2,  iDays  ;
+			aDate  =  sDate1.split("-")  ;
+			oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);      
+			aDate  =  sDate2.split("-")  ;
+			oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);  
+			iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24);    
 			return  iDays  
 		}   
 		function handleHotelRes(res){
@@ -1494,8 +1487,4 @@ var Order_fill = PFT.Util.Class({
 $(function(){
 	new Order_fill();
 });
-
-
-
-
 

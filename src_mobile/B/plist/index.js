@@ -345,7 +345,7 @@ var Plist = PFT.Util.Class({
     	var cityHtml = this.cityTemplate(data);
 
     	if(this.citySelect){
-			$(".sheet-content").html(cityHtml);
+			// $(".sheet-content").html(cityHtml);
 		    this.citySelect.show();			
     	}else{
 			this.citySelect = new SheetCore({
@@ -533,6 +533,8 @@ var Plist = PFT.Util.Class({
 
 	renderList : function(data){
 
+		var that = this;
+
 		var list = data.list;
 		if(list.length == 0){
 			PFT.Mobile.Alert("没有更多了");
@@ -543,6 +545,11 @@ var Plist = PFT.Util.Class({
 			this.pullup.pluginDestructor();
 			$("#xContainer").css("transform","translate(0px, 0px) translateZ(0px)");//回到顶部
 		}
+
+		if(list.length >= 4){
+			that.xscroll.plug(that.pullup);
+		}
+
 		var listHtml = this.listTemplate(data);
 
 		if(this.lastListLid == 0 && this.lastListProPos == 0){
