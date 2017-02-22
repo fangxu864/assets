@@ -229,6 +229,11 @@ var Order_fill = PFT.Util.Class({
 			var begintime = this.beginDate ;
 			var endtime = this.endDate ;
 		}
+
+		//线路集合地点
+		if($("#meetPlace").length != 0 ){
+			var assembly = parseInt($("#meetPlace").attr("value")); 
+		}
 		
 		var params = {
             token : token,
@@ -246,7 +251,8 @@ var Order_fill = PFT.Util.Class({
 			zoneid : zoneid, //分区ID 演出必填
 			roundid : roundid, //场次ID 演出必填
 			venusid : venusid, //场馆ID 演出必填
-            link : link //联票数组 //可选 ['pid' => num,..]
+            link : link, //联票数组 //可选 ['pid' => num,..]
+			assembly : assembly
         }
 
 
@@ -264,16 +270,13 @@ var Order_fill = PFT.Util.Class({
 				host = host.split(".");
 				host = host[0];
 
-				// var ordernum = res.ordernum;
-				var ordernum = "4003823";//写死的
+				var ordernum = res.ordernum;
+				// var ordernum = "4003823";//写死的
 
 				var url = "order_pay.html?h="+host+"&"+"ordernum="+ordernum;
 
-				console.log(url);
-				
 				//跳转支付页面
 				// window.location.href = url;
-
 
 			},
 			complete:function () {
@@ -931,6 +934,7 @@ var Order_fill = PFT.Util.Class({
 		});	
 		//第一次获取价格和库存
 		that.getPriceAndStorage(that.selectedDay,pids);
+		$("#meetPlace").val("*集合地点 "+list[0]).attr("value","0");
 		//集合地点弹窗
 		var data = {};
 		data.list = list;
@@ -949,7 +953,8 @@ var Order_fill = PFT.Util.Class({
 				"click .linePlItem" : function(e){
 					var item = $(e.target);
 					var t = item.text();
-					$("#meetPlace").val(t);
+					var value = item.attr("value");
+					$("#meetPlace").val("*集合地点 "+t).attr("value",value);
 					that.lineBox.close();					
 				}
 			}

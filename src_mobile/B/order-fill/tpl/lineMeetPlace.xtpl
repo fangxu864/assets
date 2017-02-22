@@ -2,6 +2,6 @@
 <div id="lineMeetPlace">
     <div class="lineTop"><i class="icon icon-u-regular icon-jiantou"></i>集合地点</div>
     <%for(var i = 0;i<list.length;i++){%>
-        <div class="linePlItem"><%=list[i]%></div>    
+        <div class="linePlItem" value="<%=i%>"><%=list[i]%></div>    
     <%}%>
 </div>

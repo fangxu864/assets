@@ -19,7 +19,8 @@ module.exports = function(params,opt){
             zoneid : params.zoneid,
             roundid : params.roundid,
             venusid : params.venusid,
-            link : params.link
+            link : params.link,
+            assembly : params.assembly
 
         },
         loading : opt.loading,

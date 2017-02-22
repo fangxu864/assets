@@ -3,7 +3,6 @@
 require("./index.scss");
 var Toast = require("COMMON/modules/Toast");
 
-
 var Transit = PFT.Util.Class({
 
 	container : $("#transitWrap"),
@@ -16,9 +15,6 @@ var Transit = PFT.Util.Class({
 		
 		console.log("中转页");
 		this.toast = new Toast();
-
-
-
 
 		PFT.Util.Ajax("/r/MicroPlat_Member/loginChoose",{
 			type : "POST",
@@ -67,7 +63,8 @@ var Transit = PFT.Util.Class({
 			$(".CountdownSecond").text(down + "s");			
 
 			if(down == 0){
-				PFT.Mobile.Alert("跳转");
+				// PFT.Mobile.Alert("跳转");
+				window.location.href = "plist.html";
 			}
 
 		},1000);
@@ -111,15 +108,7 @@ var Transit = PFT.Util.Class({
 		})
 
 
-
-
-
-
-
 	}
-
-
-
 
 
 
