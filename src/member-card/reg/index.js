@@ -342,7 +342,7 @@ var Main = PFT.Util.Class({
 			remarks : "",
 			phy_no : "",
 			card_no : "",
-			notice_type	 : "",
+			notice_type	 : "1",
 			open_name : "",
 			sex : "M"
 		},data || {});
