@@ -4,7 +4,9 @@
     <div class="line line1">
         <div class="td td1">欠费截止日期 :</div>
         <div class="td td2">
-            <input type="text" class="accountBalanceSettingInp" id="accountBalanceSettingInp" readonly="readonly" value="<%=data.endDate%>" fid="<%=data.fid%>"/>
+            <input type="text" class="accountBalanceSettingInp" id="accountBalanceSettingInp"  value="<%=data.endDate%>" fid="<%=data.fid%>"/>
+            <i class="delete-btn accountBalanceSettingInpDel">x</i>
+            <span style="color:red;margin-left: 10px;">日期格式必须是XXXX-XX-XX</span>
         </div>
     </div>
     <div class="line line2">

@@ -48,9 +48,13 @@ $(function () {
                 if(tarBtn.hasClass("disabled")) return false;
                 var fid = Dial_account_balance.container.find(".accountBalanceSettingInp").attr("fid");
                 var timeStamp = Dial_account_balance.container.find(".accountBalanceSettingInp").val();
-                timeStamp.replace(/\-/g ,'\/');
-                timeStamp = new Date(timeStamp).getTime() + 1000*60*60*16-1000;
-                timeStamp = Math.floor(timeStamp/1000);
+                if( timeStamp != ""){
+                    timeStamp.replace(/\-/g ,'\/');
+                    timeStamp = new Date(timeStamp).getTime() + 1000*60*60*16-1000;
+                    timeStamp = Math.floor(timeStamp/1000);
+                }else{
+                    timeStamp = 0
+                }
                 $.ajax({
                     url: "/r/Member_ExpenseWarning/editMemberExpense",    //请求的url地址
                     dataType: "json",   //返回格式为json
@@ -92,6 +96,9 @@ $(function () {
                         alert("请求出错")
                     }
                 });
+            },
+            "click .accountBalanceSettingInpDel": function () {
+                $("#accountBalanceSettingInp").val("")
             }
 
         }
