@@ -464,7 +464,6 @@ $(function(){
                     });
                     function downFile(excel_page) {
                         window.iframe_name_index++;
-                        console.log( window.iframe_name_index);
                         var iframe_name="iframe"+ window.iframe_name_index;
                         var iframe_html=' <iframe class="iframe_down" name="'+iframe_name+'"></iframe>';
                         $(".select_down_pages .iframe_wrap").append(iframe_html);
@@ -538,7 +537,6 @@ $(function(){
 //            res.protocal_start = '2015-12-20';
 //            res.protocal_end   = '2015-12-31';
 //            res.protocol_main  = '年费9800,协议截止日期为2016年12月31日';
-            console.log(res);
             $("#protocol_start").val(res.protocol_start);
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);
