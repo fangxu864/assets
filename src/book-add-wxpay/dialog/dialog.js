@@ -87,12 +87,14 @@ Dialog.prototype={
         $.ajax({
             url: data.url,    //请求的url地址
             dataType: "json",   //返回格式为json
-            async: true, //请求是否异步
-            data: {   //参数值
-                "money": data.money ,
-                "pay_type": 2 ,
-                "qr_pay": 1
-            },
+            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data: {
+                "out_trade_no": location.href.match(/ordernum\=(\d+)/)[1] ,
+                "is_qr" : 1 ,
+                "subject": $("#pNameText").text(),
+                "pay_type":2
+
+            },    //参数值
             type: "post",   //请求方式
             beforeSend: function() {
                 //请求前的处理
@@ -100,15 +102,19 @@ Dialog.prototype={
             success: function(res) {
                 //请求成功时处理
                 if(res.code==200){
-                    $("#payCode_box").html("");
+                    var payCodeBox = $("#payCode_box");
+                    payCodeBox.html("");
                     new QRCode("payCode_box",{
                         text:res.data.qrUrl,
                         width:200,
                         height:200,
                         colorDark:"#000000",
                         colorLight:"#ffffff",
-                        correctLevel:QRCode.CorrectLevel.H
+                        correctLevel:QRCode.CorrectLevel.H,
+                        src : "//staticfile.12301.cc/weixinpay.png"
                     });
+                    //二维码中间增加微信小图标
+                    payCodeBox.append("<div class='center-img-wx'></div>");
                     _this.ajaxLoop( res.data.outTradeNo , 15000);
                 }else{
                     alert(res.msg)
@@ -146,10 +152,8 @@ Dialog.prototype={
                 success: function(res) {
                     //请求成功时处理
                     if(res.code == 200){
-                        if(res.data.payStatus==1) {
-                            $("#payCode_box").html('<div class="payOk">支付成功！</div>');
-                            _this.Dialog_box.find(".dialog_con .line.line5").html('<span class="btn btn_ok">确认</span>')
-                        }
+                        $("#payCode_box").html('<div class="payOk">支付成功！</div>');
+                        _this.Dialog_box.find(".dialog_con .line.line5").html('<span class="btn btn_ok">确认</span>')
                     }else if(res.code == 400){
                         _this.ajaxLoop(ordernum ,3000);
                     }

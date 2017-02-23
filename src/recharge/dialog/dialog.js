@@ -100,7 +100,8 @@ Dialog.prototype={
             success: function(res) {
                 //请求成功时处理
                 if(res.code==200){
-                    $("#payCode_box").html("");
+                    var payCodeBox = $("#payCode_box");
+                    payCodeBox.html("");
                     new QRCode("payCode_box",{
                         text:res.data.qrUrl,
                         width:200,
@@ -109,6 +110,8 @@ Dialog.prototype={
                         colorLight:"#ffffff",
                         correctLevel:QRCode.CorrectLevel.H
                     });
+                    //二维码中间增加微信小图标
+                    payCodeBox.append("<div class='center-img-wx'></div>");
                     _this.ajaxLoop( res.data.outTradeNo , 15000);
                 }else{
                     alert(res.msg)
