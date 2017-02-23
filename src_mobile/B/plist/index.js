@@ -15,6 +15,8 @@ var SearchTpl = require("./tpl/search.xtpl");
 var ListTpl = require("./tpl/list.xtpl");
 var TicketTpl = require("./tpl/ticket.xtpl");
 
+var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
+
 var Plist = PFT.Util.Class({
 
 	container : $("#productOrderBox"),
@@ -23,13 +25,28 @@ var Plist = PFT.Util.Class({
 		"click .themeSelect" : "onThemeSelect",  //主题            
 		"click .citySelect" : "onCitySelect",   //城市        
 		"focus .productNameSearch" : "focusAllInput",  //产品类型搜索
-		"click .spotTicketMore" : "recommendTicket"   //推荐票类
-	},
+		"click .spotTicketMore" : "recommendTicket",   //推荐票类
+		"click .writeOrderLink" : "onclickLink" //点击票类 
+ 	},
 	init : function(opt){   
 
-		//ctx,ctype
-		this.ctx = 0;//默认为0
-		this.ctype = 1;//默认为1
+		this.toast = new Toast();
+
+		this.checkMemberType();
+
+		var url = window.location.href;
+		var urlPara = Parse(url);
+
+		if(urlPara.ctx){
+			this.ctx = urlPara.ctx;		
+		}else{
+			this.ctx = 0;//默认为0
+		}
+		if(urlPara.ctype){
+			this.ctype = urlPara.ctype;		
+		}else{
+			this.ctype = 1;//默认为1
+		}
 
 		this.typeTemplate = PFT.Util.ParseTemplate(TypeTpl);  
 		this.themeTemplate = PFT.Util.ParseTemplate(ThemeTpl);  
@@ -50,12 +67,51 @@ var Plist = PFT.Util.Class({
 		//搜索城市关键字
 		this.cityKeyWord = "";
 		
-		this.toast = new Toast();
-
 		this.renderScroll();		
 		
 	},
 
+	//判断登陆类型
+	checkMemberType : function(){
+
+		var that = this;
+
+		PFT.Util.Ajax("/r/MicroPlat_Member/checkMemberType/",{
+			type : "POST",
+		    dataType : "json",
+		    params : {
+		    	token : PFT.Util.getToken()	
+		    },
+		    loading : function(){
+		        that.toast.show("loading");
+		    },
+		    complete : function(){
+		        that.toast.hide();
+		    },
+		    success : function(res){
+				var code = res.code;
+				var msg = res.msg;
+				var data = res.data;
+				if( code == 200){
+					console.log("登陆成功")
+					return true
+				}else if( code == 201){
+					console.log("请先登录");
+					// window.location.href = "login.html";					
+				}else if( code == 202){
+					console.log("跳转到中转页面");					
+					// window.location.href = "transit.html";
+				}else if( code == 203){
+					console.log("跳转到url");
+					// window.location.href = data.url;					
+				}
+		    },
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
+		})
+
+
+	},
 	renderScroll : function(){
 
 		var that = this;
@@ -317,6 +373,7 @@ var Plist = PFT.Util.Class({
 		    success : function(res){
 		        var code = res.code;
 		        if(code==200){
+
 		        	if(that.cityKeyWord == ""){
 		        		that.cityHandler(res);
 		        	}else{
@@ -345,43 +402,38 @@ var Plist = PFT.Util.Class({
     	var cityHtml = this.cityTemplate(data);
 
     	if(this.citySelect){
-			// $(".sheet-content").html(cityHtml);
+
+			var con = this.citySelect.container.find(".sheet-content");
+			con.html(cityHtml);
 		    this.citySelect.show();			
     	}else{
 			this.citySelect = new SheetCore({
 				content : cityHtml,       
-				height : "100%",    
-				// yesBtn : {            
-				// 	text : "确定提交",   
-				// 	handler : function(e){
-				// 		var nowSel = $(".cityBtn.selectNow");
-				// 	}
-				// },
-				// noBtn : {            
-				//   	text : "取消",   
-				//   	handler : function(e){
-				//   		// that.cityState = "close";
-				//     	console.log("点击时执行");
-				//   	}
-				// },       
+				height : "100%",     
 				yesBtn : false,
 				noBtn : true,
 				zIndex : 200,       
 				EVENTS : {      
 					"click .cityBtn" : function(e){
-					  	// $(e.target).css("background","#123456").addClass("selectNow");
-					  	// $(e.target).siblings().removeClass("selectNow").css("background","");
 
 						  var target = $(e.target);
+						  var value = target.attr("value");
+						  if(value == "1"){
+							  return false
+						  }
 						  var t = target.text();
 						  var code = target.attr("data-code");
 						  $("#cityText").text(t);
+
+						  console.log(code);
 
 						  that.city = code;
 
 						  that.lastListLid = 0;
 						  that.lastListProPos = 0;
 						  that.renderSearch();
+
+						  that.cityKeyWord = ""; 
 
 						  that.citySelect.close();
 
@@ -431,12 +483,11 @@ var Plist = PFT.Util.Class({
 
 	citySearch : function(res){
 
-		console.log(res);
 		var list = res.data;
 		var listHtml = "";
-		var emptyHtml = '<li class="cityBtn">未搜索到相关城市</li>';
+		var emptyHtml = '<li class="cityBtn" value="1" >未搜索到相关城市</li>';
 		for(var i = 0;i<list.length;i++){	
-			listHtml += '<li class="cityBtn">'+list[i].name+'</li>';		
+			listHtml += '<li class="cityBtn" data-code=' + list[i].code + '>'+list[i].name+'</li>';		
 		}
 		if(list.length == 0){	
 			$("#allCityWrap").html(emptyHtml);
@@ -612,7 +663,22 @@ var Plist = PFT.Util.Class({
 		this.xscroll.render();
 		this.pullup.complete();
 
+	},
+	onclickLink : function(e){
+		if(this.ctype == 4){
+			return false
+		}
+		var target = $(e.target);	
+		if(target.attr("class") != "writeOrderLink"){
+			target = target.parent();
+		}
+		var pid = target.attr("data-pid");
+		var aid = target.attr("data-aid");
+		var url = "order_fill.html?aid=" + aid + "&" + "pid=" + pid; 
+		window.location.href = url;
 	}
+
+
 
 });
 

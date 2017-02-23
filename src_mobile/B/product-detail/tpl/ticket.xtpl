@@ -28,7 +28,7 @@
 		<%}%>
 	</div>
 	<div class="ticketRight">
-		<a href="order_fill.html?aid=<%=item.aid%>&pid=<%=item.pid%>" class="orderBtn">预定</a>
+		<a href="javascript:;" data-aid="<%=item.aid%>" data-pid="<%=item.pid%>" class="orderBtn">预定</a>
 	</div>
 </div>
 

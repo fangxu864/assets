@@ -7,23 +7,33 @@ var TicketTpl = require("./tpl/ticket.xtpl");
 
 var Toast = require("COMMON/modules/Toast");
 
+var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
+
 var Product_detail = PFT.Util.Class({
 
 	container : $("#productDetailBox"),
 	EVENTS : {     
-		"click .moreTicket" : "onMoreTicket"               
+		"click .moreTicket" : "onMoreTicket",
+		"click .orderBtn" : "onclickOrderBtn"
+
 	},
 	init : function(opt){      
-		//lid
+		
 		var url = window.location.href;
-		url = url.split("?");
-		lid = url[1].split("=");
-		lid = lid[1];
-		this.lid = lid;
+		var urlPara = Parse(url);
 
-		//ctx,ctype
-		this.ctx = 0;//默认为0
-		this.ctype = 1;//默认为1
+		if(urlPara.ctx){
+			this.ctx = urlPara.ctx;		
+		}else{
+			this.ctx = 0;//默认为0
+		}
+		if(urlPara.ctype){
+			this.ctype = urlPara.ctype;		
+		}else{
+			this.ctype = 1;//默认为1
+		}
+
+		this.lid = urlPara.lid;
 
 		var that = this;
 
@@ -100,6 +110,8 @@ var Product_detail = PFT.Util.Class({
 		    	lid : that.lid,
 		    	lastTid : that.lastTid,
 		    	lastTicketPos : that.lastTicketPos,
+				ctx : that.ctx,
+				ctype : that.ctype
 		    	//先用0测试,因为会没有更多票了
 		    	// lastTid : 0,  
 		    	// lastTicketPos : 0		
@@ -168,8 +180,16 @@ var Product_detail = PFT.Util.Class({
 
 		this.getTicketList();
 
-	}
+	},
 
+	onclickOrderBtn : function(e){
+		if(this.ctype == 4){
+			$(".orderBtn").css("display","none");
+			return false
+		}
+		var target = $(e.target);
+		window.location.href = "order_fill.html?aid=" + target.attr("data-aid") + "&pid=" + target.attr("data-pid");
+	}
 
 
 });

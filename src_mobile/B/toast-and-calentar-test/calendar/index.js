@@ -3,26 +3,20 @@ require("./index.scss");
 
 var CalendarCore = require("COMMON/js/calendarCore.js");
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
-var Toast = require("COMMON/modules/Toast");
 
 var tpl = require("./tpl/index.xtpl");
 var listTpl = require("./tpl/list.xtpl");
 
-var GetCalendarPrice = require("../service/getCalendarPrice.js"); 
-
 var Calendar = PFT.Util.Class({
 
-	init : function(nowDate,aid,pid){//如2017-2或2017-2-9
-
-		this.aid = aid;
-		this.pid = pid;
-
-		this.toast = new Toast();
-
-		//随机id以供标识
-		this.onlyId = "id" + parseInt(Math.random()*100000); 
+	init : function(){
 
 		var that = this;
+
+		this.dateGroup =  this.getNowDate();
+		var nowDate = this.dateGroup.nowDate;
+		//随机id以供标识
+		this.onlyId = "id" + parseInt(Math.random()*10000); 
 
 		var yearMonth = this.handleDate(nowDate);//获取年月//立日期flag
 
@@ -41,10 +35,8 @@ var Calendar = PFT.Util.Class({
 		this.listTemplate = PFT.Util.ParseTemplate(listTpl);
 		var listHtml = this.listTemplate(data);
 		var html = this.Template(date);
-
 		//new出弹窗
 		this.CalendarBox =  new SheetCore({
-			
 			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
 			height : "auto",      //弹层占整个手机屏幕的高度
 			yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
@@ -52,7 +44,6 @@ var Calendar = PFT.Util.Class({
 			zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
 			EVENTS : {            //弹层上面绑定的所有事件放在这里
 				"click .prev" : function(e){
-					//往前需要判断不能低于当前月份当天
 					that.changeCal("prev");
 					that.trigger("prev"); //发布订阅，运行外部的回调					
 				},
@@ -61,144 +52,42 @@ var Calendar = PFT.Util.Class({
 					that.trigger("next"); //发布订阅，运行外部的回调
 				},
 				"click .calConItem.column" : function(e){
-
 					that.selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
-
 					if(that.selectedDay != "disable"){
 						that.trigger("daySelect"); //发布订阅，运行外部的回调					
 						that.CalendarBox.close();
 					}
-					
-					
 				}				
 			}
-
 		});
-
 		this.CalendarBox.mask.on("click",function(){
 			that.CalendarBox.close();			
 		});
-
+		this.container = $("#"+that.onlyId);
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
-
-		this.getCalPrice(date.data.nowDate);//第一次获取
 		
 		return this;
 
 	},
 
+	//获取现在日期
+	getNowDate : function(){
 
-	getCalPrice : function(date){
+		var date=new Date;
+		var year=date.getFullYear(); 
+		var month=date.getMonth()+1;
+		month =(month<10 ? "0"+month:month); 
+		var day = date.getDate(); 
+		day =(day<10 ? "0"+day:day); 
 
-		var that = this;
-
-		var params = {
-			token : PFT.Util.getToken(),
-			aid : this.aid, 
-			pid : this.pid, 
-			date : date
-		};
-
-		GetCalendarPrice(params,{
-			loading:function () {
-				that.toast.show("loading");
-			},
-			success:function (list) {
-				that.toast.hide();
-
-				that.MonthList = list;
-
-				that.handleCalPrice(date,list);
-
-			},
-			complete:function () {},
-			fail : function(msg){
-				PFT.Mobile.Alert(msg);
-			}
-		});	
-
-
-	},
-
-
-	handleCalPrice : function(date,list){
-
-		// console.log("price:"+date)
-
-		var that = this;
-
-		var date = date.split("-");		
-
-		if(date.length == 2){//2017-2格式
-
-			var dateGroup = {
-				year : parseInt(date[0]),
-				month : parseInt(date[1]),
-				day : 0
-			}
-
-		}else if(date.length == 3){//2017-2-9格式
-
-			var dateGroup = {
-				year : parseInt(date[0]),
-				month : parseInt(date[1]),
-				day : parseInt(date[2])
-			}
-
+		var dateGroup = {
+			year : year,
+			month : month,
+			day : day,
+			nowDate : (year.toString()+'-'+month.toString()+'-'+day.toString())
 		}
 
-		//将所有em塞入价格
-		var PG = $("#"+that.onlyId+" span.price");
-		for( var i in list){
-			for(var j = 0;j<PG.length;j++){
-				var data_day = PG.eq(j).attr("data-day");
-				dateGroup.month = parseInt(dateGroup.month);
-				dateGroup.month =(dateGroup.month<10 ? "0"+dateGroup.month:dateGroup.month);
-				var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
-				if(data_date == i){
-					PG.eq(j).find("em").text(list[i]);
-				}
-			}
-		}		
-		//em没有价格的加入disable，并清空yen
-		var items = $("#"+that.onlyId+" .calConItem.column"); 
-		for(var j = 0;j<items.length;j++){
-
-			if(items.eq(j).find('em').text() == ""){
-				items.eq(j).find('.yen').text("");
-				items.eq(j).addClass('disable');
-			}
-
-		}
-
-		//初始化被选中的天数，没有天数就选一个月的第一天
-		var today = (dateGroup.day < 10&&dateGroup.day != 0 ? "0" + dateGroup.day : dateGroup.day); 	
-		var days = $("#"+that.onlyId+" .calConItem.column .day");
-		if( dateGroup.day == 0 ){//日历改变月份
-
-			for( var n = 0 ; n<days.length ; n++){
-				var pItem = days.eq(n).parent();
-				var className = pItem[0].className; 
-				var index = className.indexOf("disable");
-				if( index < 0){
-					var pItem = days.eq(n).parent();
-					pItem.addClass('select');
-					return false
-				}
-			}	
-				
-		}else{
-
-			for( var n = 0 ; n<days.length ; n++){
-				var t = days.eq(n).text(); 
-				if( t == today){
-					var pItem = days.eq(n).parent();
-					pItem.addClass('select');
-				}
-			}	
-
-		}
-
+		return dateGroup;
 
 	},
 
@@ -287,10 +176,10 @@ var Calendar = PFT.Util.Class({
 				this.nowYearFlag -= 1;
 			}
 			//再小就直接返回
-			if(this.nowMonthFlag < this.nowMonth){
-				this.nowMonthFlag = this.nowMonthFlag+1;
-				return false
-			}
+			// if(this.nowMonthFlag < this.nowMonth){
+			// 	this.nowMonthFlag = this.nowMonthFlag+1;
+			// 	return false
+			// }
 			//回到当前月份当前天数的情况
 			if(this.nowMonthFlag == this.nowMonth){
 				$("#"+that.onlyId+" .calTop .prev i.icon").css("color","#dddce1");
@@ -326,8 +215,6 @@ var Calendar = PFT.Util.Class({
 		data.list = arr;  
 		var listHtml = this.listTemplate(data);
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
-
-		this.getCalPrice(dayDate);
 
 	},
 

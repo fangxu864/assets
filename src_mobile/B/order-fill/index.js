@@ -21,7 +21,11 @@ var visitInfoTpl = require("./tpl/VisitInfo.xtpl");
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
 var CalendarCore = require("COMMON/js/calendarCore.js");//用outputdate计算酒店几晚
-var Toast = require("COMMON/modules/Toast");
+// var Toast = require("COMMON/modules/Toast");
+var Toast = require("./Toast/index");//改造后
+
+var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
+
 //日历
 var Calendar = require("./calendar/index.js");
 //各个类型模块
@@ -77,6 +81,7 @@ var Order_fill = PFT.Util.Class({
 		// this.pid = 58105; //套票
 
 		this.toast = new Toast();//初始化toast
+		this.toast2 = new Toast(); //用于酒店第一次获取价格和库存请求
 
 		this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
 
@@ -84,7 +89,6 @@ var Order_fill = PFT.Util.Class({
 
 		//处理付款方式
 		this.handlePayMode();
-
 		
 
 	},
@@ -1048,8 +1052,8 @@ var Order_fill = PFT.Util.Class({
 			that.hotelDateChange(2,selectedDay);				
 		});
 
-
 		//第一次获取当日的结算价和库存
+
 		var params = {
 			token : PFT.Util.getToken(),
             beginDate : this.calendar1.selectedDay,
@@ -1057,19 +1061,17 @@ var Order_fill = PFT.Util.Class({
             aid : this.aid,
             pid : this.pid
 		}
-		GetHotelPrice(params,{
+		this.cityReq = GetHotelPrice(params,{
 			loading:function(){
-				that.toast.show("loading");
+				that.toast2.show("loading");
 			},
 			success:function(res){
-
 				$(".price").find(".orange.money").text(res.jsprice);
 				$(".storage").find(".num").text(res.minStore);
 				$("#totalMoney").text(res.jsprice);
-
 			},
 			complete:function(){
-				that.toast.hide();
+				that.toast2.hide();
 			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);				

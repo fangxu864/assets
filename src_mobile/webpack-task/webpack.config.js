@@ -20,9 +20,10 @@ var config = require("../../task-webpack/config")({
 		// "mb.order_pay.b" : path.resolve(ROOT_URL,"B/order-pay/index.js"),
 		// "mb.order_pay_success.b":path.resolve(ROOT_URL,"B/order-pay/ordersuccess/index.js"),
 		"mb.order_fill.b" : path.resolve(ROOT_URL,"B/order-fill/index.js"),
-		"mb.transit.b" : path.resolve(ROOT_URL,"B/transit/index.js"),		
+		// "mb.transit.b" : path.resolve(ROOT_URL,"B/transit/index.js"),		
 		// "mb.login.b" : path.resolve(ROOT_URL,"B/login/login.js"),
 		// "mb.jump.b" : path.resolve(ROOT_URL,"B/jump/index.js"),
+		"mb.test.b" : path.resolve(ROOT_URL,"B/toast-and-calentar-test/index.js"),
 
 
 		// "mb.index.c" : path.resolve(ROOT_URL,"C/index/index.es6"),
