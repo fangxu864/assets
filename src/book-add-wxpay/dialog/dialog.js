@@ -87,34 +87,29 @@ Dialog.prototype={
         $.ajax({
             url: data.url,    //请求的url地址
             dataType: "json",   //返回格式为json
-            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-            data: {
-                "out_trade_no": location.href.match(/ordernum\=(\d+)/)[1] ,
-                "is_qr" : 1 ,
-                "subject": $("#pNameText").text()
-
-            },    //参数值
+            async: true, //请求是否异步
+            data: {   //参数值
+                "money": data.money ,
+                "pay_type": 2 ,
+                "qr_pay": 1
+            },
             type: "post",   //请求方式
             beforeSend: function() {
                 //请求前的处理
             },
             success: function(res) {
                 //请求成功时处理
-                if(res.status == "ok"){
-                    if(res.data){
-                        $("#payCode_box").html("");
-                        new QRCode("payCode_box",{
-                            text:res.data,
-                            width:200,
-                            height:200,
-                            colorDark:"#000000",
-                            colorLight:"#ffffff",
-                            correctLevel:QRCode.CorrectLevel.H
-                        });
-                        _this.ajaxLoop();
-                    }else{
-                        $("#payCode_box").html('<div class="error">*生成微信二维码的链接没返回</div>');
-                    }
+                if(res.code==200){
+                    $("#payCode_box").html("");
+                    new QRCode("payCode_box",{
+                        text:res.data.qrUrl,
+                        width:200,
+                        height:200,
+                        colorDark:"#000000",
+                        colorLight:"#ffffff",
+                        correctLevel:QRCode.CorrectLevel.H
+                    });
+                    _this.ajaxLoop( res.data.outTradeNo , 15000);
                 }else{
                     alert(res.msg)
                 }
@@ -130,32 +125,33 @@ Dialog.prototype={
 
     /**
      * @method 微信和支付宝支付时的轮询
-     * @param data
+     * @param ordernum 交易订单流水号
+     * @param time 请求的间隔时间
      */
-    ajaxLoop:function (data) {
+    ajaxLoop:function (ordernum , time) {
         var _this=this;
         _this.loopAjaxTimer = setTimeout(function () {
             $.ajax({
-                url: "/call/jh_prod.php",    //请求的url地址
+                url: "http://" + location.host + "/r/pay_MobilePay/payResultCheck/",    //请求的url地址
                 dataType: "json",   //返回格式为json
                 async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-                data: {
-                    "action" : "CheckOrderPay" ,
-                    "orderid": location.href.match(/ordernum\=(\d+)/)[1]
-                },    //参数值
-                type: "get",   //请求方式
+                data: {  //参数值
+                    "ordernum": ordernum ,
+                    "pay_scen": 1
+                },
+                type: "post",   //请求方式
                 beforeSend: function() {
                     //请求前的处理
                 },
                 success: function(res) {
                     //请求成功时处理
-                    if(res == 1 ){   //如果成功
-                        $("#payCode_box").html('<div class="payOk">支付成功！</div>');
-                        _this.Dialog_box.find(".dialog_con .line.line5").html('<span class="btn btn_ok">确认</span>')
-                    }else if( res == 0 ){  //尚未成功,继续轮询
-                        _this.ajaxLoop();
-                    }else{   //返回其它
-                        alert(res);
+                    if(res.code == 200){
+                        if(res.data.payStatus==1) {
+                            $("#payCode_box").html('<div class="payOk">支付成功！</div>');
+                            _this.Dialog_box.find(".dialog_con .line.line5").html('<span class="btn btn_ok">确认</span>')
+                        }
+                    }else if(res.code == 400){
+                        _this.ajaxLoop(ordernum ,3000);
                     }
                 },
                 complete: function() {
@@ -164,9 +160,8 @@ Dialog.prototype={
                     //请求出错处理
                 }
             });
-        },3000)
+        },time)
     },
-
 };
 
 module.exports=Dialog;
