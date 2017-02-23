@@ -70,12 +70,18 @@ var HeaderWarning={
                     _this.dialog.open();
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
-                //如果账户余额接近不足
-                else if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
+                //如果账户余额接近不足 201/202/203每天提示一次
+                else if(/201|202|203/.test(_this.judge_of_account_balance)){
                     //弹框每天只提醒一次，使用cookie控制
                     var isDialog_cookie_ac = _this.getCookie("isDialog_of_judge_account_balance");
                     if(isDialog_cookie_ac == "false") return false;
                     _this.setCookie("isDialog_of_judge_account_balance",false,1000*60*60*12);
+                    _this.dialog2 = new Dialog;
+                    _this.dialog2.open();
+                    _this.dialog2.show_dialog_con(_this.dialogCon[_this.judge_of_account_balance]);
+                }
+                //如果账户余额接近不足 204/205/206刷新就提醒
+                else if(/204|205|206/.test(_this.judge_of_account_balance)){
                     _this.dialog2 = new Dialog;
                     _this.dialog2.open();
                     _this.dialog2.show_dialog_con(_this.dialogCon[_this.judge_of_account_balance]);
@@ -157,39 +163,39 @@ var HeaderWarning={
             "dialog_type": "xufei"
         },
         "201": {
-            "title":"账户余额温馨提示",
+            "title":"温馨提示",
             "content":"亲爱的用户，您的票付通平台账户余额已不足200元，敬请您关注账户资金变动，以免因欠费影响您帐号的正常使用！",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
         "202": {
-            "title":"账户余额温馨提示",
+            "title":"温馨提示",
             "content":"账户余额温馨提示：亲爱的用户，您的票付通平台账户余额已低于0元，为了确保您帐号的正常使用，避免欠费给您带来的不便，建议您尽快充值！",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
         "203": {
-            "title":"账户余额温馨提示",
+            "title":"温馨提示",
             "content":"您好，您的账户余额已欠费，请您及时充值，以免影响使用",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
         "204": {
-            "title":"账户余额温馨提示",
+            "title":"温馨提示",
             "content":"您好，您的账户欠费已超过最大时限，无法正常使用，请您先缴清欠费，谢谢",
-            "isBtn_close": false ,
+            "isBtn_close": true ,
             "dialog_type": "recharge"
         },
         "205": {
-            "title":"账户余额温馨提示",
+            "title":"温馨提示",
             "content":"您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢",
-            "isBtn_close": false ,
+            "isBtn_close": true ,
             "dialog_type": "recharge"
         },
         "206": {
-            "title":"账户余额温馨提示",
+            "title":"温馨提示",
             "content":"您好，您的账户欠费已超过200元达到上限，无法正常使用，请您先缴清欠费，谢谢",
-            "isBtn_close": false ,
+            "isBtn_close": true ,
             "dialog_type": "recharge"
         }
     },
@@ -201,8 +207,8 @@ var HeaderWarning={
     loopTipCon:{
         "0":"您好，您的票付通账户将于"+$("#value_of_overTime").val()+"到期，为避免影响您的正常使用，请提前续费或联系客服。（电话：18065144515）",
         "-1":" 您好，您的票付通账户已到期，系统将于2016年12月01日起对到期账户进行功能使用限制，为避免影响您的正常使用，请尽快续费或联系客服。（电话：18065144515   QQ：2853986222）",
-        "201" : "账户余额温馨提示：亲爱的用户，您的票付通平台账户余额已不足200元，敬请您关注账户资金变动，以免因欠费影响您帐号的正常使用！",
-        "202" : "账户余额温馨提示：亲爱的用户，您的票付通平台账户余额已低于0元，为了确保您帐号的正常使用，避免欠费给您带来的不便，建议您尽快充值！",
+        "201" : "温馨提示：亲爱的用户，您的票付通平台账户余额已不足200元，敬请您关注账户资金变动，以免因欠费影响您帐号的正常使用！",
+        "202" : "温馨提示：亲爱的用户，您的票付通平台账户余额已低于0元，为了确保您帐号的正常使用，避免欠费给您带来的不便，建议您尽快充值！",
         "203" : "您好，您的账户余额已欠费，请您及时充值，以免影响使用",
         "204" : "您好，您的账户欠费已超过最大时限，无法正常使用，请您先缴清欠费，谢谢",
         "205" : "您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢",
