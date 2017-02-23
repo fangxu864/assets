@@ -135,7 +135,7 @@ Dialog.prototype={
         var _this=this;
         _this.loopAjaxTimer = setTimeout(function () {
             $.ajax({
-                url: "http://" + location.host + "/r/pay_MobilePay/payResultCheck/",    //请求的url地址
+                url: "http://" + _this.getHost() + "/r/pay_MobilePay/payResultCheck/",    //请求的url地址
                 dataType: "json",   //返回格式为json
                 async: true, //请求是否异步，默认为异步，这也是ajax重要特性
                 data: {  //参数值
@@ -165,6 +165,22 @@ Dialog.prototype={
             });
         },time)
     },
+
+    /**
+     * @method 获取host
+     */
+    getHost: function () {
+        var host = {
+            "12301.test" : "www.12301.test",
+            "12301dev.com" : "www.12301dev.com",
+            "12301.cc" : "api.12301.cc"
+        };
+        for( var key in host ){
+            if( location.host.search(key) > -1 ){
+                return host[key];
+            }
+        }
+    }
 };
 
 module.exports=Dialog;
