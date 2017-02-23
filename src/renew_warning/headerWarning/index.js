@@ -157,37 +157,37 @@ var HeaderWarning={
             "dialog_type": "xufei"
         },
         "201": {
-            "title":"账户余额温馨提示：",
+            "title":"账户余额温馨提示",
             "content":"亲爱的用户，您的票付通平台账户余额已不足200元，敬请您关注账户资金变动，以免因欠费影响您帐号的正常使用！",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
         "202": {
-            "title":"账户余额温馨提示：",
+            "title":"账户余额温馨提示",
             "content":"账户余额温馨提示：亲爱的用户，您的票付通平台账户余额已低于0元，为了确保您帐号的正常使用，避免欠费给您带来的不便，建议您尽快充值！",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
         "203": {
-            "title":"账户余额温馨提示：",
+            "title":"账户余额温馨提示",
             "content":"您好，您的账户余额已欠费，请您及时充值，以免影响使用",
             "isBtn_close":true ,
             "dialog_type": "recharge"
         },
         "204": {
-            "title":"账户余额温馨提示：",
+            "title":"账户余额温馨提示",
             "content":"您好，您的账户欠费已超过最大时限，无法正常使用，请您先缴清欠费，谢谢",
             "isBtn_close": false ,
             "dialog_type": "recharge"
         },
         "205": {
-            "title":"账户余额温馨提示：",
+            "title":"账户余额温馨提示",
             "content":"您好，您的账户欠费已超过7天，无法正常使用，请您先缴清欠费，谢谢",
             "isBtn_close": false ,
             "dialog_type": "recharge"
         },
         "206": {
-            "title":"账户余额温馨提示：",
+            "title":"账户余额温馨提示",
             "content":"您好，您的账户欠费已超过200元达到上限，无法正常使用，请您先缴清欠费，谢谢",
             "isBtn_close": false ,
             "dialog_type": "recharge"
