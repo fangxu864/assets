@@ -6,22 +6,13 @@
 </head>
 <body>
 <script>
-    var dataStructure = {
-
-        events1 :{
-            nameSpace1 : [],
-            nameSpace2 : [],
-            nameSpace3 : []
-        },
-
-        events2 :{
-            nameSpace1 : [],
-            nameSpace2 : [],
-            nameSpace3 : []
-        }
-
-    };
-
+//    var dataStructure = {
+//       moduleEvents : [fn1, fn2 ],
+//       moduleEvents2 : [fn1, fn2 ],
+//       moduleEvents3 : [fn1, fn2 ],
+//       moduleEvents4 : [fn1, fn2 ]
+//    };
+//
     var str  = "123456789";
 
     var pubSub = {
@@ -42,14 +33,26 @@
             if(!this.storage[events])
                 this.storage[events] = [];
                 this.storage[events].push(fn)
+        },
+
+        removeSub : function (events) {
+            delete this.storage[events]  ;
         }
 
     };
     pubSub.sub("say.say",function (arg) {
         console.log(arg)
     });
-    pubSub.pub("say","4556");
-    console.log(pubSub)
+    pubSub.sub("say.say",function (arg) {
+        console.log(arg)
+    });
+    pubSub.removeSub("say.say");
+    pubSub.pub("say.say","1212");
+    console.log(pubSub);
+
+    (function (s) {
+        console.log(s)
+    })("12123")
 </script>
 
 </body>

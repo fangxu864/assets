@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    function makeCounter() {
+        // 只能在makeCounter内部访问i
+        var i = 0;
+
+        return function () {
+            console.log(++i);
+        };
+    }
+
+    // 注意，counter和counter2是不同的实例，分别有自己范围内的i。
+
+    var counter = makeCounter();
+    counter(); // logs: 1
+    counter(); // logs: 2
+
+    var counter2 = makeCounter();
+    counter2(); // logs: 1
+    counter2(); // logs: 2
+</script>
+</body>
+</html>
