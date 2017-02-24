@@ -30,7 +30,7 @@
          var today = new Date().getDate();
          if(today == lastDate){
              console.log("Cookie存在,但是相等");
-             return false
+             // return false
          }else{
              console.log("Cookie存在,但是不相等");
 
@@ -63,12 +63,12 @@
                });
                $(".renew").on("click",function (e) {
                    window.location.href="new/appcenter_pay.html?appid="+$(e.target).attr("data-id");
-               })  
+               })
 
              }else{
               console.log("无过期应用");
-             } 
-             
+             }
+
          }else{
              console.log(res.msg)
          }
