@@ -1,4 +1,14 @@
 require("./index.scss");
+require("COMMON/modules/select");
+var Main= PFT.Util.Class({
+	init:function(){
+		PFT.Util.STip("success","加载成功")
+	}
+})
+
+$(function(){
+	new Main();
+})
 /*
 jQuery(document).ready(function($){
 	var did = $("#did").val();

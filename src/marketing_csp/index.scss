@@ -1,3 +1,71 @@
-*{
-    margin: 0 auto;
+#bodyContainer {
+    position: relative;
+    float: left;
+    width: 800px;
+    min-height: 500px;
+    height: auto;
+    border: 1px solid #e1e1e1;
 }
+    
+    #bodyContainer .con {
+        width: 100%;
+        padding: 4px 4px 4px 35px;
+        float: left;
+    }
+    
+    #bodyContainer .con .inp-t {
+        height: 22px;
+        line-height: 22px;
+        padding: 5px 8px;
+        background: #fff;
+        border-radius: 3px;
+        border: 1px solid #dbdbdb;
+        outline: none;
+    }
+    
+    #bodyContainer .con .inp-t:focus {
+        border-color: #0797d9;
+    }
+    
+    #bodyContainer .con .inp-r {
+        vertical-align: middle;
+    }
+    
+    #bodyContainer .con .u-span {
+        display: inline-block;
+        width: 110px;
+    }
+    
+    #bodyContainer .con .u-span_to {
+        margin: 0 5px;
+    }
+    
+    .ml-20 {
+        margin-left: 20px;
+    }
+    
+    .w-60 {
+        width: 60px;
+    }
+    
+    .w-400 {
+        width: 400px;
+    }
+    
+    .tabHead {
+        padding-left: 15px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #EFEFEF;
+    }
+    
+    .tabHead li {
+        font-size: 1.5em;
+        color: black;
+        float: left;
+        height: 50px;
+        line-height: 50px;
+        cursor: pointer;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+    }
