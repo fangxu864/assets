@@ -156,13 +156,13 @@ var Main = PFT.Util.Class({
         var _this = this;
         var btnLeft = $("#btn").position().left;
         var btnTop = $("#btn").position().top;
-        var status = data.checkData.showType,
-            topType = data.checkData.topType,
-            topName = data.checkData.topName,
-            checkData = data.checkData,
-            moduleFree = data.checkData.moduleFree,
-            showextime = data.checkData.showextime,
-            show_hide = data.checkData.show_hide;
+        var checkData = data.checkData,
+            status = checkData.showType,
+            topType = checkData.topType,
+            topName = checkData.topName,
+            moduleFree = checkData.moduleFree,
+            showextime = checkData.showextime,
+            show_hide = checkData.show_hide;
 
         //是否显示到期时间
             if(showextime == 0 ){
@@ -220,7 +220,7 @@ var Main = PFT.Util.Class({
         }else if( status == 2 ){
             if ( show_hide == 0 ) {
                 $("#btn").text("使用").on("click",function () {
-                    window.location.href="appcenter_details.html?module_id="+_this.module_id
+                    window.location.href= checkData.url ? checkData.url : "appcenter_details.html?module_id="+_this.module_id;
                 })
             } else {
                 $("#btn").css("display","none");
