@@ -220,7 +220,7 @@ var Main = PFT.Util.Class({
         }else if( status == 2 ){
             if ( show_hide == 0 ) {
                 $("#btn").text("使用").on("click",function () {
-                    window.location.href= checkData.url ? checkData.url : "appcenter_details.html?module_id="+_this.module_id;
+                    window.location.href= checkData.url ? '/' + checkData.url : "appcenter_details.html?module_id="+_this.module_id;
                 })
             } else {
                 $("#btn").css("display","none");
