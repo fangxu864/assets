@@ -42,6 +42,14 @@ var Main =PFT.Util.Class({
             success: function(res){
                 if(res.code!=200){
                     Alert(res.msg);
+                }else{
+                    var Url=res.data.url;
+                    var Nurl="plist.html";
+                    if(Url.length>1){
+                        window.location.href=Url;
+                    }else{
+                       window.location.href=Nurl;
+                    }
                 }
             }
         })
