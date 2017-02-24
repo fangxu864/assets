@@ -123,13 +123,33 @@ $btnHover_color:#d35c29;
       font-size: 14px;
     }
     .td2{
-      padding: 13px;
+      margin-left: 10px;
+      position: relative;
       input.accountBalanceSettingInp{
-        @include textInp(266,5);
+        @include textInp(150,5);
       }
       input.accountBalanceSettingInp:focus{
         outline: none;
       }
+    }
+    .delete-btn{
+      display: block;
+      position: absolute;
+      top: 17px;
+      cursor: pointer;
+      font-size: 20px;
+      right: 172px;
+      line-height: 22px;
+      width: 27px;
+      height: 27px;
+      text-align: center;
+      background: #e5e5e5;
+      font-style: normal;
+      border-radius: 17px;
+      color: #8e8e8e;
+    }
+    .delete-btn:active{
+      color: #272727;
     }
   }
   .line2{

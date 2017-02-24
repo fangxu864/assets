@@ -48,9 +48,13 @@ $(function () {
                 if(tarBtn.hasClass("disabled")) return false;
                 var fid = Dial_account_balance.container.find(".accountBalanceSettingInp").attr("fid");
                 var timeStamp = Dial_account_balance.container.find(".accountBalanceSettingInp").val();
-                timeStamp.replace(/\-/g ,'\/');
-                timeStamp = new Date(timeStamp).getTime() + 1000*60*60*16-1000;
-                timeStamp = Math.floor(timeStamp/1000);
+                if( timeStamp != ""){
+                    timeStamp.replace(/\-/g ,'\/');
+                    timeStamp = new Date(timeStamp).getTime() + 1000*60*60*16-1000;
+                    timeStamp = Math.floor(timeStamp/1000);
+                }else{
+                    timeStamp = 0
+                }
                 $.ajax({
                     url: "/r/Member_ExpenseWarning/editMemberExpense",    //请求的url地址
                     dataType: "json",   //返回格式为json
@@ -92,6 +96,9 @@ $(function () {
                         alert("请求出错")
                     }
                 });
+            },
+            "click .accountBalanceSettingInpDel": function () {
+                $("#accountBalanceSettingInp").val("")
             }
 
         }
@@ -464,7 +471,6 @@ $(function(){
                     });
                     function downFile(excel_page) {
                         window.iframe_name_index++;
-                        console.log( window.iframe_name_index);
                         var iframe_name="iframe"+ window.iframe_name_index;
                         var iframe_html=' <iframe class="iframe_down" name="'+iframe_name+'"></iframe>';
                         $(".select_down_pages .iframe_wrap").append(iframe_html);
@@ -538,7 +544,6 @@ $(function(){
 //            res.protocal_start = '2015-12-20';
 //            res.protocal_end   = '2015-12-31';
 //            res.protocol_main  = '年费9800,协议截止日期为2016年12月31日';
-            console.log(res);
             $("#protocol_start").val(res.protocol_start);
             $("#protocol_end").val(res.protocol_end);
             $("#protocol_main").val(res.protocol_main);

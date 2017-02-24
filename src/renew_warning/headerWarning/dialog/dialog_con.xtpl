@@ -12,7 +12,7 @@
         <%}%>
         <%if(data.dialog_type == "xufei"){%>
         <a href="/new/renewwarning.html"><span class="btn btn_xufei">续费</span></a>
-        <% } else if (data.dialog_type == "recharge") {%>
+        <% } else if (data.dialog_type == "recharge" && !/recharge\.html$/.test(location.href) ) {%>
         <a href="/recharge.html"><span class="btn btn_xufei">充值</span></a>
         <%}%>
     </div>
