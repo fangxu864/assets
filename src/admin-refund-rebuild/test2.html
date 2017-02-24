@@ -13,46 +13,53 @@
 //       moduleEvents4 : [fn1, fn2 ]
 //    };
 //
-    var str  = "123456789";
+//    var str  = "123456789";
+//
+//    var pubSub = {
+//
+//        storage : {} ,
+//
+//        pub : function (events , arg) {
+//            var arr =  this.storage[events];
+//            var len = Array.isArray(arr) ? arr.length : 0;
+//            if( arr ){
+//                for( var i= 0 ; i< arr.length ; i++ ){
+//                    arr[i](arg);
+//                }
+//            }
+//        } ,
+//
+//        sub : function (events ,fn) {
+//            if(!this.storage[events])
+//                this.storage[events] = [];
+//                this.storage[events].push(fn)
+//        },
+//
+//        removeSub : function (events) {
+//            delete this.storage[events]  ;
+//        }
+//
+//    };
+//    pubSub.sub("say.say",function (arg) {
+//        console.log(arg)
+//    });
+//    pubSub.sub("say.say",function (arg) {
+//        console.log(arg)
+//    });
+//    pubSub.removeSub("say.say");
+//    pubSub.pub("say.say","1212");
+//    console.log(pubSub);
+//
+//    (function (s) {
+//        console.log(s)
+//    })("12123")
 
-    var pubSub = {
+(function (d) {
+   console.log(d)
+}(1212455454))
 
-        storage : {} ,
 
-        pub : function (events , arg) {
-            var arr =  this.storage[events];
-            var len = Array.isArray(arr) ? arr.length : 0;
-            if( arr ){
-                for( var i= 0 ; i< arr.length ; i++ ){
-                    arr[i](arg);
-                }
-            }
-        } ,
 
-        sub : function (events ,fn) {
-            if(!this.storage[events])
-                this.storage[events] = [];
-                this.storage[events].push(fn)
-        },
-
-        removeSub : function (events) {
-            delete this.storage[events]  ;
-        }
-
-    };
-    pubSub.sub("say.say",function (arg) {
-        console.log(arg)
-    });
-    pubSub.sub("say.say",function (arg) {
-        console.log(arg)
-    });
-    pubSub.removeSub("say.say");
-    pubSub.pub("say.say","1212");
-    console.log(pubSub);
-
-    (function (s) {
-        console.log(s)
-    })("12123")
 </script>
 
 </body>
