@@ -32,6 +32,8 @@ var Jump =PFT.Util.Class({
     loadingReq:function(){
         var urlParams = PFT.Util.UrlParse();
         var params={
+                c:'MicroPlat_Member',
+                a:'friendWx',
                 token:PFT.Util.getToken(),
                 appid:urlParams["appid"],
                 fid:urlParams["fid"],
@@ -54,7 +56,11 @@ var Jump =PFT.Util.Class({
             success: function(res){
                 if(res.code==200){
                 var url=res.data.url;
-                window.location.href=url;
+                var search=window.location.search;
+                //Nurl=url+search;
+                //return console.log(Nurl,res.code);
+                
+                 window.location.href=url;
                 }else{
                     Alert(res.msg);
                 }

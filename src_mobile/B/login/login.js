@@ -44,11 +44,12 @@ var Main =PFT.Util.Class({
                     Alert(res.msg);
                 }else{
                     var Url=res.data.url;
-                    var Nurl="plist.html";
+                    var search=window.location.search;
+                    var Nurl="plist.html"; 
                     if(Url.length>1){
-                        window.location.href=Url;
+                        window.location.href=Url+search;
                     }else{
-                       window.location.href=Nurl;
+                       window.location.href=Nurl+search;
                     }
                 }
             }
