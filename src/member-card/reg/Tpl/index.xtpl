@@ -49,12 +49,11 @@
                     </div>
                     <input id="photo_src_hidden_input" type="hidden" name="headphoto" value="<%=headphoto%>">
                 </div>
-                <div class="line" style="width:100%; margin:18px 0">
+                <div id="carLineWrap" class="line clearfix" style="width:100%; margin:18px 0; overflow: hidden;">
                     <span style="position:relative; top:0" class="lt car_info_l">车辆信息</span>
-                    <span id="carInfoBox" class="carInfoBox">
-                        <label for="car_min_5"><input checked type="radio" name="car" value="0" id="car_min_5" <%=car==0 ? 'checked' : ''%> /><span class="t">5座以内(包含5座)</span></label>
-                        <label for="car_max_5"><input type="radio" name="car" id="car_max_5" value="1" <%=car==1 ? 'checked' : ''%> /><span class="t">5座以上</span></label>
-                    </span>
+                    <div id="carInfoBox" class="carInfoBox">
+                        <span class="carListLoading"><img src="http://static.12301.cc/assets/build/images/gloading.gif"/><i class="t">正在请求车辆信息...</i></span>
+                    </div>
                 </div>
                 <div class="line">
                     <span class="lt beizhu">备注</span>

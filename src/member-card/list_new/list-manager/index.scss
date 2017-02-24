@@ -1,0 +1,20 @@
+#listContainer{
+    margin-top: 10px;
+    .containerTable{
+        width: 100%;
+
+        
+        .col{ height: 38px; text-align: left; background:#fff; border-bottom:1px solid #e5e5e5}
+        .col.dname{ padding-left: 15px;}
+        .col.th{ height: 42px; font-size:14px; font-weight: bold}
+
+        .lineTr.even .col{ background:#fcfcfc}
+        
+        .col.do a{ margin-right: 15px;}
+        .col.do a:last-child{ margin-right: 0}
+
+    }
+
+}
+
+#paginationContainer{ float:right; margin-top: 10px;}

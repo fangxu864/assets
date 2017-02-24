@@ -7,6 +7,7 @@ var Debug = false;
 var Query_Info = require("SERVICE/MemcardReg/Query_Info");
 var Query_MobileLogup = require("SERVICE/MemcardReg/Query_MobileLogup");
 var Query_Vcode = require("SERVICE/MemcardReg/Query_Vcode");
+var Query_CarList = require("SERVICE/MemcardReg/Query_car_list");
 var Update_Info = require("SERVICE/MemcardReg/Update_Info");
 var Loading = require("COMMON/js/util.loading.pc.js");
 var ProvCity = require("COMMON/Components/ProvCitySelect");
@@ -30,8 +31,8 @@ var Main = PFT.Util.Class({
 		"click #readwuKa" : "readwuKa"
 	},
 	validator : {},
+	CarList : "5座 7座 9座 11座 15座 15座以上 飞马出租 弘瑞出租 天行出租 盛捷出租 海棠湾出租 智慧快的出租",
 	init : function(){
-
 		this.fid = PFT.Util.UrlParse()["fid"] || "";
 		this.editMode = this.fid!=="undefined" && this.fid!==""; //编辑模式
 		if(this.editMode){ //如果是编辑模式
@@ -327,8 +328,34 @@ var Main = PFT.Util.Class({
 			},20)
 		}
 	},
+	//请求车辆信息列表
+	fetchCarList : function(select_car_id){
+		Query_CarList({
+			debug : false,
+			cxt : this,
+			loading : function(){},
+			complete : function(){ 
+				$("#carInfoBox").html("");
+			},
+			success : function(data){
+				var select = $('<select id="carListSelect" class="carListSelect" name="car"></select>');
+				var option = "";
+				for(var i=0, len=data.length; i<len; i++){
+					var car = data[i];
+					var selected = (select_car_id && car.type==select_car_id) ? "selected" : "";
+					option += '<option value="'+car.type+'" '+selected+'>'+car.name+'</option>';
+				}
+				select.append(option);
+				$("#carInfoBox").html("").append(select);
+			},
+			error : function(code,msg){
+				alert(msg);
+			}
+		})
+	},
 	render : function(data){
 		var that = this;
+		var carList = this.carList;
 		var _data = $.extend({
 			fid : this.fid,
 			mobile : "",                 //手机号
@@ -366,6 +393,8 @@ var Main = PFT.Util.Class({
 			}
 
 			that.validator["cardNo"] = that.validateCardNo();
+
+			that.fetchCarList(_data.car);
 
 		},10)
 	},
@@ -419,7 +448,7 @@ var Main = PFT.Util.Class({
 			city : $("#citySelect").val(),
 			address : $.trim($("#addressInp").val()),
 			headImg : $("#up_img_box").find(".uploadResultImg img").attr("src") || "",
-			carInfo : $("#carInfoBox").find("input:checked").val(),
+			carInfo : $("#carListSelect").val(),
 			remarks : $("#remarksTextarea").val(),
 			notice_type : $("#sendTypeBox").find("input:checked").val()
 		};

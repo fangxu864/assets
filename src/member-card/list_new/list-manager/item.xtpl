@@ -1,0 +1,13 @@
+<% _.each(list,function(item,index){ %>
+    <tr class="lineTr <%=index%2==0 ? 'even' : ''%>">
+        <td class="col td dname">
+            <a href="member_card.html?fid=<%=item.did%>"><%=item.dname%></a>
+        </td>
+        <td class="col td last_time"><%=item.ordertime%></td>
+        <td class="col td state"><%=item.status_text%></td>
+        <td class="col td do"><%=item.doBtn%></td>
+    </tr>
+<% }) %>
+
+
+
