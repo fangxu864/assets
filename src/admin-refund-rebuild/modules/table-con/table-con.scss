@@ -1,0 +1,44 @@
+#refundApplyWrap {
+
+  /* filter的公共样式*/
+  .tableCon{
+    .mainTable{
+      margin-top: 10px;
+      width: 100%;
+      thead tr th{
+        text-align: center;
+        line-height: 40px;
+        border: 1px solid #e5e5e5;
+        background-color: #F3F3F3;
+      }
+      tbody{
+        .tr1{height: 10px}
+        .tr2{
+          height: 60px;
+          td{
+            padding:0 20px;
+            border: 1px solid #e5e5e5;
+            background-color: #F3F3F3;
+            .line{
+              line-height: 30px;
+            }
+          }
+        }
+        .tr3{
+          height: 115px;
+          td{
+            border: 1px solid #e5e5e5;
+            padding:0 20px;
+            .line{
+              line-height: 30px;
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+
+
+}

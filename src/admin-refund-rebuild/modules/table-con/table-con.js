@@ -2,19 +2,18 @@
  * Created by Administrator on 2017/2/24.
  */
 
-require("./filter.scss");
-var tpl = require("./filter.xtpl");
+require("./table-con.scss");
+var tpl = require("./table-con.xtpl");
 
 
-var Filter = {
-    container: $("<div class='filterBox'></div>"),
+var tableCon = {
+    container: $("<div class='tableCon'></div>"),
     init: function (State) {
         var _this = this;
         $("#refundApplyWrap ").append(_this.container);
         this.container.html( tpl );
-        console.log(++State.common)
+        console.log(++State.common);
 
-    
 
     }
 
@@ -24,4 +23,4 @@ var Filter = {
 
 };
 
-module.exports = Filter;
+module.exports = tableCon;
