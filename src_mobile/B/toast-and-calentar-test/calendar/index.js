@@ -17,7 +17,7 @@ var Calendar = PFT.Util.Class({
 		var nowDate = this.dateGroup.nowDate;
 		//随机id以供标识
 		this.onlyId = "calendar" + parseInt(Math.random()*10000); 
-		var yearMonth = this.handleDate(nowDate);//获取年月//立日期flag
+		var yearMonth = this.handleDate(nowDate);//分别获取年月//立日期flag
 		var arr = CalendarCore.outputDate(yearMonth);//返回当月数据 //传入年月  
 
 		//tpl数据
@@ -51,9 +51,7 @@ var Calendar = PFT.Util.Class({
 					that.trigger("next"); //发布消息,运行外部的回调
 				},
 				"click .calConItem.column" : function(e){
-
 					that.selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
-
 					if(that.selectedDay != "disable"){
 						that.trigger("daySelect"); //发布消息,运行外部的回调					
 						that.CalendarBox.close();
@@ -68,10 +66,29 @@ var Calendar = PFT.Util.Class({
 		this.container = $("#"+that.onlyId);
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
 
+		//初始化select
+		this.daySelect(this.dateGroup.nowDate);
+
 		return this;
 
 	},
-
+	//高亮天数(改变月份的时候)
+	daySelect : function(date){
+		
+		var list = this.getNowMonthList();
+		var dateArr = date.split("-");
+		if(dateArr.length == 3 ){//xxxx-xx-xx
+			list.each(function(index,item){
+				item = $(item);
+				if(item.attr("data-date") == date){
+					item.addClass("select");
+				}
+			});
+		}else if( dateArr.length == 2 ){//xxxx-xx
+			list.eq(0).addClass("select");
+		}
+		
+	},	
 	//获取现在日期
 	getNowDate : function(){
 
@@ -92,22 +109,15 @@ var Calendar = PFT.Util.Class({
 		return dateGroup;
 
 	},
-
 	//获得当月的list
-
 	getNowMonthList : function(){
-
 		var items = this.container.find(".calConItem.column[data-date]");
-
 		return items
-
 	},
 
 	//选择日期
 	calDaySelect : function(e){
-
 		var that = this;
-
 		var target = $(e.target);
 		var tagName = target.attr("tagName");
 		if(tagName != "DIV"){
@@ -117,13 +127,10 @@ var Calendar = PFT.Util.Class({
 				target = target.parent();
 			}
 		}
-
 		this.nowSelectWeek = target.attr("data-week");
-
 		if(target[0].className.indexOf("disable")>0){
 			return "disable"
 		}
-
 		target.addClass("select");
 		var nowTargetDate = target.find('.day').text();
 		var list = $("#"+that.onlyId+" .calConItem.column");
@@ -137,44 +144,26 @@ var Calendar = PFT.Util.Class({
 				}
 			}
 		}
-
 		var nowMonth = $("#"+that.onlyId+" .calTopText").text();
 		var nowMonthArr = nowMonth.split("-");
 		if( nowMonthArr.length ){
 			nowTargetDate = nowMonthArr[0] + "-" + nowMonthArr[1] + "-" + nowTargetDate;  
 		}
-
-		this.nowTarget = target;
-
+		this.nowTarget = target; //当前被选中的格子
 		return nowTargetDate; //返回当前被选中的天数
 
 	},
 
 	handleDate : function(date){
-
-
 		var date = date.split("-");
-		// console.log(date);
-
-		this.nowMonth = parseInt(date[1]);
-
-		if(date.length == 2){//2017-2格式
-			this.nowYearFlag = parseInt(date[0]);
-			this.nowMonthFlag = parseInt(date[1]);
-			this.nowDayFlag = 1;
-
-			return this.nowYearFlag + "-" + this.nowMonthFlag;
-
-		}else if(date.length == 3){//2017-2-9格式
-			this.nowYearFlag = parseInt(date[0]);
-			this.nowMonthFlag = parseInt(date[1]);
-			this.nowDayFlag = parseInt(date[2]);
-			this.nowStaticDay = parseInt(date[2]);
-
-			return this.nowYearFlag + "-" + this.nowMonthFlag;
-
-		}
-
+		//固定不变的当天
+		this.nowYear = parseInt(date[0]);//当年
+		this.nowMonth = parseInt(date[1]);//当月
+		this.nowday = parseInt(date[2]);//当日		
+		//flag用于加减
+		this.nowYearFlag = parseInt(date[0]);
+		this.nowMonthFlag = parseInt(date[1]);
+		this.nowDayFlag = parseInt(date[2]);
 	},
 
 	//月份变化
@@ -189,18 +178,8 @@ var Calendar = PFT.Util.Class({
 				this.nowMonthFlag = 12;
 				this.nowYearFlag -= 1;
 			}
-			//再小就直接返回
-			// if(this.nowMonthFlag < this.nowMonth){
-			// 	this.nowMonthFlag = this.nowMonthFlag+1;
-			// 	return false
-			// }
-			//回到当前月份当前天数的情况
-			if(this.nowMonthFlag == this.nowMonth){
-				$("#"+that.onlyId+" .calTop .prev i.icon").css("color","#dddce1");
-				var monthDate = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString()); 
-				var dayDate = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString()+ '-' +this.nowStaticDay.toString());
-				this.change(monthDate,dayDate); //改变日历状态 //分别传入月份的date和天数的date
-				return false
+			if(this.nowMonthFlag != this.nowday){
+				this.nowDayFlag = 1;	
 			}
 		}else if(dir == "next"){
 			$("#"+that.onlyId+" .calTop .prev i.icon").css("color","#0797d9");
@@ -210,9 +189,19 @@ var Calendar = PFT.Util.Class({
 				this.nowMonthFlag = 1;
 				this.nowYearFlag += 1;
 			}
+			if(this.nowMonthFlag != this.nowday){
+				this.nowDayFlag = 1;	
+			}
 		}
-
-
+		//回到当前月份当前天数的情况
+		if(this.nowMonthFlag == this.nowMonth && this.nowYearFlag == this.nowYear){
+			var month = (this.nowMonthFlag < 10 ? "0"+this.nowMonthFlag:this.nowMonthFlag);
+			var day = (this.nowday < 10 ? "0"+this.nowday:this.nowday);
+			var monthDate = (this.nowYearFlag.toString()+'-'+month); 
+			var dayDate = (this.nowYearFlag.toString()+'-'+ month + '-' + day );
+			this.change(monthDate,dayDate); //改变日历状态 //分别传入月份的date和天数的date
+			return false
+		}
 		var date = (this.nowYearFlag.toString()+'-'+this.nowMonthFlag.toString());
 		this.change(date,date); //改变日历状态//两个参数是一样的
 
@@ -230,8 +219,9 @@ var Calendar = PFT.Util.Class({
 		var listHtml = this.listTemplate(data);
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
 
-	},
+		this.daySelect(dayDate);
 
+	},
 
 	show : function(){
 		this.CalendarBox.show()
@@ -242,27 +232,5 @@ var Calendar = PFT.Util.Class({
 
 
 module.exports = Calendar;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
