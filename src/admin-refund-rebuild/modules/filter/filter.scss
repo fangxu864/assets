@@ -8,6 +8,7 @@
     .td{
       float: left;
       margin-right: 10px;
+      position: relative;
     }
     .td1{
       margin-left: 20px;
@@ -34,6 +35,15 @@
     .line1{
       input[type=text]{
         width: 160px;
+      }
+      .td{
+        .icon-u-regular{
+          position: absolute;
+          font-size: 26px;
+          right: 1px;
+          top: 2px;
+          color: #ababab;
+        }
       }
       .td5{
         select{
@@ -85,6 +95,9 @@
       }
       .btn:hover{
         background-color: #e06e3d;
+      }
+      .btn_print{
+        display: none;
       }
     }
   }

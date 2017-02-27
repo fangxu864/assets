@@ -1,0 +1,16 @@
+#refundApplyWrap {
+
+  /* filter的公共样式*/
+  .queryStateBox {
+    border: 1px solid #e5e5e5;
+    border-top: none;
+    display: none;
+    height: 300px;
+  }
+  .queryStateBox .querying{
+    text-align: center;
+    .line1{padding-top: 110px}
+    .line2{padding-top: 10px}
+  }
+
+}
