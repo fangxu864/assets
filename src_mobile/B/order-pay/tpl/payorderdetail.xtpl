@@ -56,7 +56,7 @@
                 <input name="subject" value="<%=payParams.subject%>" type="hidden"/>
                 <input name="expire_time" value="<%=payParams.expireTime%>" type="hidden"/>
                 <input name="domain" value="<%=payParams.domain%>" type="hidden"/>
-                <input name="success_back_notify" value="mall" type="hidden"/>
+                <input name="success_back_notify" value="microPlat" type="hidden"/>
                 <input name="from" value="new" type="hidden"/>
             </form>
             <img src="http://static.12301.cc/assets/build/images/wx_paymode/yinlian<%=payWay.uni==1 ? '' : '_disable'%>.png" alt="银联支付"/>
