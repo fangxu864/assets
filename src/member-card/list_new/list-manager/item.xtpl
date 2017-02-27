@@ -5,7 +5,15 @@
         </td>
         <td class="col td last_time"><%=item.ordertime%></td>
         <td class="col td state"><%=item.status_text%></td>
-        <td class="col td do"><%=item.doBtn%></td>
+        <td data-status="<%=item.status%>" data-cid="<%=item.cid%>" data-did=<%=item.did%> class="col td do">
+        <%_.each(item.action,function(act,index){%>
+            <%if(typeof act.status=="undefined"){%>
+                <a href="<%=act.link%><%=item.did%>"><%=act.text%></a>
+            <%}else{%>
+                <a class="doBtn" data-tostate="<%=act.status%>" href="javascript:void(0)"><%=act.text%></a>
+            <%}%>
+        <%})%>
+        </td>
     </tr>
 <% }) %>
 

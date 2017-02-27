@@ -1,30 +1,25 @@
 require("./index.scss");
 var Common = require("../common.js");
+var Status = Common.Status;
 var LoadingText = PFT.Util.LoadingPc("努力加载中...",{
     tag : "tr",
-    height : 300
+    colspan : 5,
+    height : 300,
+    css : {
+        "background-color" : "#fff"
+    }
 });
-var Pagination = require("COMMON/Components/Pagination");
 var ContainerTpl = require("./container.xtpl");
 var ListTpl = require("./item.xtpl");
 var List = PFT.Util.Class({
     container : $("#listContainer"),
-    EVENT : {
+    EVENTS : {
         "click .lineTr .doBtn" : "onDoBtnClick"
     },
     init : function(){
         this.container.html(ContainerTpl);
         this.listBodyContainer = $("#listBodyContainer");
 
-        var pagination = this.pagination = new Pagination({
-            container : "#paginationContainer",  //必须，组件容器id
-            count : 7,                //可选  连续显示分页数 建议奇数7或9
-            showTotal : true,         //可选  是否显示总页数
-            jump : true	              //可选  是否显示跳到第几页
-        });
-
-
-        this.fetchList();
     },
     state : {
         isLoading : false
@@ -38,36 +33,34 @@ var List = PFT.Util.Class({
     },
     onDoBtnClick : function(e){
         var tarBtn = $(e.currentTarget);
-        
+        //只有4种动作  挂失  恢复  禁用  启用
+        //只有禁用不需要输入用户密码 
+        var parent = tarBtn.parents("td");
+        var cid = parent.attr("data-cid");
+        var did = parent.attr("data-did");
+        var status = parent.attr("data-status");
+
+        if(status!=2){ //只有禁用不需要输入用户密码 
+            var password = prompt("请输入此会员的消费密码");
+            if(!password) return false;
+            alert(cid+" "+did+ " "+status)
+        }else{
+            var result = window.confirm("确定要禁用此会员吗？");
+            if(!result) return false;
+            alert(cid+" "+did+ " "+status)
+        }
+
+
+
     },
     //适配转换后端返回来的数据
     adaptListData : function(data){
 
-        var Status = {
-            0 : "正常",
-            1 : "挂失", 
-            2 : "禁用",
-            3 : "冻结", 
-            4 : "废弃"
-        };
-
         for(var i=0,len=data.length; i<len; i++){
             var item = data[i];
-            var did = item.did;
             var status = item.status;
-
-            var doBtn = "";
-            if(status == 0){
-                doBtn = '<a href="repayment.html?did=' + did + '">授信/预存</a><a class="doBtn guashi" data-toState="1" href="javascript:void(0)">挂失</a><a class="doBtn jinyong" data-toState="2" href="javascript:void(0)">禁用</a>';
-            }else if(status == 1){
-                doBtn = '<a href="repayment.html?did=' + did + '">授信/预存</a><a class="buka" href="member_card.html?fid=' + did + '">补卡</a><a data-toState="0" class="doBtn huifu" href="javascript:void(0)">恢复</a>';
-            }else if(status == 2){
-                doBtn = '<a href="repayment.html?did=' + did + '">授信/预存</a><a class="doBtn qiyong"  data-toState="0" href="javascript:void(0)">启用</a>';
-            }
-
-            item["status_text"] = Status[status];
-            item["doBtn"] = doBtn;
-
+            item["status_text"] = Status[status].text;
+            item["action"] = Status[status].action;
         }
 
         return data;
@@ -96,11 +89,12 @@ var List = PFT.Util.Class({
             loading : function(){
                 that.setState("isLoading",true);
                 container.html(LoadingText);
-                pagination.render(null); //loading的时间先隐藏分页器
+                that.trigger("loading");
             },
             complete : function(){
                 that.setState("isLoading",false);
                 container.html("");
+                that.trigger("loading");
             },
             success : function(res){
                 if(PFT.Util.isObject(res)){
@@ -110,9 +104,9 @@ var List = PFT.Util.Class({
                     if(!PFT.Util.isArray(list)) return alert(PFT.AJAX_ERROR_TEXT);
                     if(list.length){
                         container.html(template({list:list}));
-                        pagination.render({current:currentPage,total:totalPage});
+                        that.trigger("success",res)
                     }else{
-                        container.html('<tr><td colspan="4" style="padding:150px 0; text-align:center">暂无匹配会员...</td></tr>');
+                        container.html('<tr><td colspan="5" style="background:#fff; padding:150px 0; text-align:center">暂无匹配会员...</td></tr>');
                     }
                 }else{
                     alert(PFT.AJAX_ERROR_TEXT);

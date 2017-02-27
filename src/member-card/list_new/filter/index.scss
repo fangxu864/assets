@@ -1,0 +1,37 @@
+#filterHeader{
+    background: #fff; border:1px solid #f2f2f2; border-top: 0 none;
+    .tabHeader{
+        padding: 18px 0 18px 15px;
+        .tabItem{
+            padding:6px 22px;
+            margin-right: 20px;
+            cursor:pointer;
+            font-weight: bold;
+            &:hover{ text-decoration: underline; color:#2A98DA}
+            &::last-child{ margin-right: 0}
+            &.active{ background: #3eba40; color: #fff;}
+            &.active:hover{ text-decoration: none; color:#fff}
+        }
+    }
+    .paramContainer{
+        padding: 0 0 15px 15px;
+
+        .gInp{ height: 22px; line-height: 22px; width: 160px; padding: 5px; border:1px solid #e5e5e5; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)}
+        .gInp:focus{ border-color:#2A98DA; color: #2A98DA}
+        .dnameInp{ width: 240px; margin-left: 10px;}
+        .unuseDayInp{ width: 80px;}
+
+        .label{ margin-right: 5px;}
+        .label.zhi{ margin-right: 0}
+        .label.unuseDays{ margin-left: 10px;}
+
+        .line.carType{ margin-top: 8px}
+        .carTypeSelect{ height:34px; width: 363px;}
+
+        .btnLine{ margin: 20px 0 10px 0;}
+        .btn{ padding: 8px 30px; margin-right: 10px; cursor: pointer;}
+        .btn.search{ background: #3eba40; color: #fff; margin-left: 57px;}
+        .btn.export{ background: #2A98DA; color: #fff}
+
+    }
+}
