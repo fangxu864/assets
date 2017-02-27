@@ -1,38 +1,36 @@
 
 require("./index.scss");
-
 var CalendarCore = require("COMMON/js/calendarCore.js");
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
-
 var tpl = require("./tpl/index.xtpl");
 var listTpl = require("./tpl/list.xtpl");
-
 var Calendar = PFT.Util.Class({
+	Template : PFT.Util.ParseTemplate(tpl),
+	listTemplate : PFT.Util.ParseTemplate(listTpl),
 
-	init : function(){
+	// opt : {
+	// 	date : false, //初始天数,默认为当天
+	// 	maxDate : false, //最大天数
+	// 	minDate : false, //最小天数
+	// 	disableTodayBefore : false, //是否今天之前都为disable
+	// }
+
+	init : function(opt){
 
 		var that = this;
 
 		this.dateGroup =  this.getNowDate();
 		var nowDate = this.dateGroup.nowDate;
 		//随机id以供标识
-		this.onlyId = "calendar" + parseInt(Math.random()*10000); 
+		this.onlyId = "calendar" + parseInt(Math.random()*1000); 
 		var yearMonth = this.handleDate(nowDate);//分别获取年月//立日期flag
 		var arr = CalendarCore.outputDate(yearMonth);//返回当月数据 //传入年月  
 
-		//tpl数据
-		var data = {};
-		data.list = arr;
-		var date = {};
-		date.data = {
+		var listHtml = this.listTemplate({list:arr});
+		var html = this.Template({data : {
 			nowDate : nowDate,
 			id : that.onlyId
-		};
-		//处理tpl
-		this.Template = PFT.Util.ParseTemplate(tpl);
-		this.listTemplate = PFT.Util.ParseTemplate(listTpl);
-		var listHtml = this.listTemplate(data);
-		var html = this.Template(date);
+		}});
 
 		//new出弹窗
 		this.CalendarBox =  new SheetCore({
@@ -206,27 +204,21 @@ var Calendar = PFT.Util.Class({
 		this.change(date,date); //改变日历状态//两个参数是一样的
 
 	},
-
 	//改变日历状态(重新渲染)
 	change : function(monthDate,dayDate){  
-
 		var that = this;
-
 		$("#"+that.onlyId+" .calTopText").text(dayDate);
 		var arr = CalendarCore.outputDate(monthDate); 
-		var data = {};
-		data.list = arr;  
-		var listHtml = this.listTemplate(data);
+		var listHtml = this.listTemplate({list:arr});
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
-
 		this.daySelect(dayDate);
-
 	},
-
 	show : function(){
-		this.CalendarBox.show()
+		this.CalendarBox.show();
+	},
+	close : function(){	
+		this.CalendarBox.close();
 	}
-
 
 });
 
