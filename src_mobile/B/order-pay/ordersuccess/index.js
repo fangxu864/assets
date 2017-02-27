@@ -9,7 +9,7 @@ var Main=PFT.Util.Class({
     init: function(){
         this.ordernum=$("#ordernumHidInp").val() || "";
         this.paymode=$("#paymodeHidInp").val() || "";
-        console.log(this.paymode)
+        //console.log(this.paymode)
         document.title=this.paymode==1? "支付成功":"下单成功";
         Service(this.ordernum,{
             loading:()=>{
