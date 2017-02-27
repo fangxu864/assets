@@ -1,7 +1,7 @@
 <% _.each(list,function(item){ %>
 <li class="spotTicket">
 	<a href="javascript:;" data-pid="<%=item.pid%>" data-aid="<%=item.aid%>" class="writeOrderLink">
-		<span class="spotTicketName"><%=item.p_name%></span>
+		<span class="spotTicketName"><%=item.title%></span>
 		<span class="spotTicketPrice"><%=item.tprice%>元</span>
 		<i class="spotTicketArr">></i>
 	</a>

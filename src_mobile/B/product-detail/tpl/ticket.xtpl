@@ -4,7 +4,7 @@
 
 <div class="productDetailTicket nonFirstTicket">
 	<div class="ticketLeft">
-		<div class="ticketDetailTitle"><span class="VIPTicket" style="display: none">[VIP]</span><%=item.p_name%></div>
+		<div class="ticketDetailTitle"><span class="VIPTicket" style="display: none">[VIP]</span><%=item.title%></div>
 		<div class="ticketDetailPrice">
 			<span class="lPrice">零售价：<span class="lPriceNumber"><%=item.lprice%>元</span></span>
 			<span class="jPrice">结算价：<span class="jPriceNumber"><%=item.tprice%>元</span></span>	
