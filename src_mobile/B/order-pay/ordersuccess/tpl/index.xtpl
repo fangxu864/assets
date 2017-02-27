@@ -6,8 +6,8 @@
 
 <div class="footBox">
     <a href="order_fill.html?aid=<%=aid%>&pid=<%=pid%>" class="btn btn-primary buyBtn">继续购买</a>
-    <a href="index.html" class="btn">产品首页</a>
-    <a href="usercenter.html" class="btn">商户中心</a>
+    <a href="product_detail.html?lid=<%=lid%>" class="btn">产品首页</a>
+    <!--<a href="usercenter.html" class="btn">商户中心</a>-->
 </div>
 
 
