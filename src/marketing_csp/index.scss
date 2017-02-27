@@ -39,7 +39,24 @@
     #bodyContainer .con .u-span_to {
         margin: 0 5px;
     }
-    
+    .btn{
+        width: 120px;
+        border: none;
+        display: inline-block;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 20px;
+        background: #0797D9;
+        color: #fff;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .txt-a-c{
+        text-align: center;
+    }
+    .u-span_req{
+        color: red;
+    }
     .ml-20 {
         margin-left: 20px;
     }
@@ -69,3 +86,25 @@
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
     }
+
+//分享图片
+.share_img{
+    position: relative;
+}
+.u-span_share_img{
+    float: left;
+}
+.uploadImg{
+     position: absolute;
+    right: 50px;
+    width: 340px;
+    top: 5px;
+    padding: 40px 0 40px 8px;
+    border-left: 1px dashed #999;
+}
+#content{
+    display: inline-block;
+    width: 600px;
+    height: 200px;
+}
+

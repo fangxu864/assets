@@ -1,12 +1,29 @@
 require("./index.scss");
 require("COMMON/modules/select");
-var Main= PFT.Util.Class({
-	init:function(){
-		PFT.Util.STip("success","加载成功")
-	}
+var Main = PFT.Util.Class({
+	init: function () {
+		PFT.Util.STip("success", "加载成功");
+		this.initUeditor();
+	},
+	//初始化富文本编辑器
+	initUeditor: function () {
+		window.UEDITOR_CONFIG.initialFrameWidth = 600;
+		ue = UE.getEditor('content');
+	},
+	//加载活动名称等
+	loadActivity: function () {
+		PFT.Util.Ajax('', {
+			type: 'POST',
+			dataType: 'JSON',
+			success: function () {
+
+			}
+		})
+	},
+
 })
 
-$(function(){
+$(function () {
 	new Main();
 })
 /*
