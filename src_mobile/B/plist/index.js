@@ -93,17 +93,13 @@ var Plist = PFT.Util.Class({
 				var msg = res.msg;
 				var data = res.data;
 				if( code == 200){
-					console.log("登陆成功")
 					return true
 				}else if( code == 201){
-					console.log("请先登录");
-					// window.location.href = "login.html";					
+					window.location.href = "login.html";					
 				}else if( code == 202){
-					console.log("跳转到中转页面");					
-					// window.location.href = "transit.html";
+					window.location.href = "transit.html";
 				}else if( code == 203){
-					console.log("跳转到url");
-					// window.location.href = data.url;					
+					window.location.href = data.url;					
 				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
@@ -600,6 +596,9 @@ var Plist = PFT.Util.Class({
 		if(list.length >= 4){
 			that.xscroll.plug(that.pullup);
 		}
+
+		data.ctx = this.ctx;
+		data.ctype = this.ctype;
 
 		var listHtml = this.listTemplate(data);
 

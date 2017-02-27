@@ -67,12 +67,6 @@ var Calendar = PFT.Util.Class({
 		});
 		this.container = $("#"+that.onlyId);
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
-		
-		
-		
-		
-		this.dayItemList = this.getNowMonthList();
-
 
 		return this;
 
@@ -103,11 +97,9 @@ var Calendar = PFT.Util.Class({
 
 	getNowMonthList : function(){
 
+		var items = this.container.find(".calConItem.column[data-date]");
 
-
-
-
-
+		return items
 
 	},
 
