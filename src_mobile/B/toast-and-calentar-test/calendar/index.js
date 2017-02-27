@@ -16,10 +16,8 @@ var Calendar = PFT.Util.Class({
 		this.dateGroup =  this.getNowDate();
 		var nowDate = this.dateGroup.nowDate;
 		//随机id以供标识
-		this.onlyId = "id" + parseInt(Math.random()*10000); 
-
+		this.onlyId = "calendar" + parseInt(Math.random()*10000); 
 		var yearMonth = this.handleDate(nowDate);//获取年月//立日期flag
-
 		var arr = CalendarCore.outputDate(yearMonth);//返回当月数据 //传入年月  
 
 		//tpl数据
@@ -35,6 +33,7 @@ var Calendar = PFT.Util.Class({
 		this.listTemplate = PFT.Util.ParseTemplate(listTpl);
 		var listHtml = this.listTemplate(data);
 		var html = this.Template(date);
+
 		//new出弹窗
 		this.CalendarBox =  new SheetCore({
 			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
@@ -45,18 +44,21 @@ var Calendar = PFT.Util.Class({
 			EVENTS : {            //弹层上面绑定的所有事件放在这里
 				"click .prev" : function(e){
 					that.changeCal("prev");
-					that.trigger("prev"); //发布订阅，运行外部的回调					
+					that.trigger("prev"); //发布消息,运行外部的回调					
 				},
 				"click .next" : function(e){
 					that.changeCal("next");
-					that.trigger("next"); //发布订阅，运行外部的回调
+					that.trigger("next"); //发布消息,运行外部的回调
 				},
 				"click .calConItem.column" : function(e){
+
 					that.selectedDay = that.calDaySelect(e); //日历天数选择//返回被选中的天数
+
 					if(that.selectedDay != "disable"){
-						that.trigger("daySelect"); //发布订阅，运行外部的回调					
+						that.trigger("daySelect"); //发布消息,运行外部的回调					
 						that.CalendarBox.close();
 					}
+
 				}				
 			}
 		});
@@ -66,6 +68,12 @@ var Calendar = PFT.Util.Class({
 		this.container = $("#"+that.onlyId);
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
 		
+		
+		
+		
+		this.dayItemList = this.getNowMonthList();
+
+
 		return this;
 
 	},
@@ -88,6 +96,18 @@ var Calendar = PFT.Util.Class({
 		}
 
 		return dateGroup;
+
+	},
+
+	//获得当月的list
+
+	getNowMonthList : function(){
+
+
+
+
+
+
 
 	},
 
@@ -131,6 +151,8 @@ var Calendar = PFT.Util.Class({
 		if( nowMonthArr.length ){
 			nowTargetDate = nowMonthArr[0] + "-" + nowMonthArr[1] + "-" + nowTargetDate;  
 		}
+
+		this.nowTarget = target;
 
 		return nowTargetDate; //返回当前被选中的天数
 

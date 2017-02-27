@@ -9,6 +9,8 @@ var main = {
 
     init : function(){
 
+        var that = this;
+
         this.toast1 = new Toast();
         this.toast2 = new Toast();
 
@@ -23,6 +25,7 @@ var main = {
         this.bind();
 
         //调试
+        console.log(this.calendar);        
         this.calendar.show();
         
     },
@@ -49,7 +52,7 @@ var main = {
         //测试日历
         $("#btn2").on("click",function(){
 
-            console.log(that.calendar);
+            // console.log(that.calendar);
 
             that.calendar.show();
 
