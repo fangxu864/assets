@@ -31,7 +31,7 @@ var Main = PFT.Util.Class({
 			only_member: ""
 		};
 
-		(spid.length < 1) ? data = emptyData : data = getSpidActivity(spid);
+		(spid.length < 1) ? data = emptyData : data = _this.getSpidActivity(spid);
 		console.log(data);
 		_this.renderActivityPage(data);
 
