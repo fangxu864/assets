@@ -3,7 +3,8 @@
  */
 
 require("./table-con.scss");
-var tpl = require("./table-con.xtpl");
+var tableConTpl = require("./table-con.xtpl");
+var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 
 /**
  * 本模块为数据显示模块
@@ -20,18 +21,48 @@ var tableCon = {
 
     bind: function () {
         var _this = this;
-        this.CR.pubSub.sub("tableConBox.render",function () {
-            
-            _this.container.html( tpl ).hide().fadeIn();
+        this.CR.pubSub.sub("tableConBox.render",function ( res ) {
+            _this.render(res);
         });
         this.CR.pubSub.sub("tableConBox.close",function () {
             _this.close();
+        });
+        this.container.on("click" ,".btnPrint" ,function () {
+            var html = $(this).parents("tbody").html();
+            _this.CR.pubSub.pub("print.printOne",html)
         })
     },
 
     close: function () {
         this.container.hide();
-    }
+    },
+
+    /**
+     * @method 渲染表格内容
+     */
+    render: function ( res ) {
+        var _this = this;
+        var ConfigJson = {
+            statusInfo: {
+                0 : '申请提现',
+                1 : '同意提现',
+                2 : '成功提现',
+                3 : '取消提现',
+                4 : '拒绝提现',
+                5 : '自动转账中'
+            }
+        };
+        var newData = $.extend({} , res.data , ConfigJson );
+        var html = _this.tableConTemplate({data : newData});
+        _this.container.html(html).show();
+    },
+
+    /**
+     * @method 解析模板
+     */
+    tableConTemplate: ParseTemplate( tableConTpl )
+
+
 
 
 

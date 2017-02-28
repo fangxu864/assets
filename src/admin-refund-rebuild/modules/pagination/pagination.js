@@ -31,6 +31,11 @@ var Pag = {
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
             _this.pagination.render({current:toPage,total:totalPage});
+            var params = {};
+            //设置初始化分页器的条件为true
+            // params["isInitPagination"] = true ;
+            params["page"] = toPage ;
+            _this.CR.pubSub.pub("filterBox.dataCenter" , params);
             // _this.filterParamsBox["page"]=toPage;
             // var cacheKey=_this.JsonStringify(_this.filterParamsBox);
             // if(_this.dataContainer[cacheKey]){
@@ -45,9 +50,14 @@ var Pag = {
             // }
         });
         this.CR.pubSub.sub("paginationBox.initRender",function( obj ){
-            console.log(obj)
             _this.initRender ( obj.currentPage ,obj.totalPage)
-        })
+        });
+        this.CR.pubSub.sub("paginationBox.close",function(){
+            _this.close();
+        });
+        this.CR.pubSub.sub("paginationBox.open",function(){
+            _this.open();
+        });
 
     },
 
@@ -56,6 +66,20 @@ var Pag = {
      */
     initRender: function ( currentPage ,totalPage) {
         this.pagination.render({current:currentPage,total:totalPage});
+    },
+
+    /**
+     * @method 关闭分页器
+     */
+    close: function () {
+        this.container.hide();
+    },
+
+    /**
+     * @method 显示分页器
+     */
+    open: function () {
+        this.container.show();
     }
 };
 

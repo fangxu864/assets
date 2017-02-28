@@ -4,7 +4,10 @@
  */
 
 require("./query-state.scss");
-var querying = require("./querying.xtpl");
+var queryingTpl = require("./querying.xtpl");
+var errorTpl = require("./error.xtpl");
+var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
+
 
 
 /**
@@ -25,6 +28,9 @@ var QueryState = {
         this.CR.pubSub.sub("queryStateBox.querying",function () {
             _this.showQuerying();
         });
+        this.CR.pubSub.sub("queryStateBox.showError",function (text) {
+            _this.showError(text);
+        });
         this.CR.pubSub.sub("queryStateBox.close",function () {
             _this.close();
         })
@@ -41,8 +47,18 @@ var QueryState = {
      * @method 查询中...
      */
     showQuerying: function () {
-        this.container.html(querying).fadeIn();
-    }
+        this.container.html(queryingTpl).show();
+    },
+
+    /**
+     * @method 错误情况下
+     */
+    showError: function (text) {
+        var errorHtml = this.errorTemplate({data : { errorText:text }});
+        console.log(errorHtml);
+        this.container.html(errorHtml).show();
+    },
+    errorTemplate: ParseTemplate(errorTpl)
 
 
 

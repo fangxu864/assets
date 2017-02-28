@@ -4,6 +4,9 @@
  */
 
 var tpl = require("./print.xtpl");
+var onePrintTpl = require("./onePrint.xtpl");
+var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
+
 
 
 /**
@@ -21,16 +24,25 @@ var Print = {
 
     bind: function () {
         var _this = this;
-        _this.CR.pubSub.sub("print.print" , function () {
-            _this.print();
+        this.CR.pubSub.sub("print.printOne" , function (innerHtml) {
+            _this.printOne(innerHtml);
         })
-
     },
+
+    /**
+     * @method 打印一项
+     */
+    printOne: function (innerHtml) {
+        var html = this.onePrintTplTemplate({ data:{ innerHtml:innerHtml } });
+        console.log(html);
+        this.print(html);
+    },
+    onePrintTplTemplate: ParseTemplate(onePrintTpl),
 
     /**
      * @method 打印iframe内容;
      */
-    print: function () {
+    print: function (tpl) {
         var frame = this.container.get(0);
         frame.contentWindow.document.write(tpl);
         frame.contentWindow.document.close();

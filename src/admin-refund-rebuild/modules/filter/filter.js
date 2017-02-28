@@ -20,35 +20,47 @@ var Filter = {
         this.CR.mainBox.append(_this.container);
         this.container.html( tpl );
         this.initDatepicker();
-        this.bind()
+        this.bind();
+        this.container.find(".btn_query").trigger("click");
     },
 
     bind: function () {
         var _this = this;
+        //点击确认按钮
         this.container.on("click", ".btn_query" ,function () {
-            _this.CR.pubSub.pub("queryStateBox.querying");
-            var params =  _this.deSerialize (_this.container.find("#filterForm").serialize() );
+            var params = {};
+            //设置初始化分页器的条件为true
             params["isInitPagination"] = true ;
-            _this.ajaxGetData( params );
+            params["page"] = 1 ;
+            _this.CR.pubSub.pub("filterBox.dataCenter" , params);
         });
+        //点击导出
         this.container.on("click", ".btn_excel" ,function () {
             _this.CR.pubSub.pub("queryStateBox.close");
             _this.CR.pubSub.pub("tableConBox.render");
         });
+        //点击打印按钮
         this.container.on("click", ".btn_print" ,function () {
             _this.CR.pubSub.pub("print.print");
         });
+        //点击状态
         this.container.on("click", ".line4 input[type=radio]" ,function () {
             if( $(this).hasClass("radioResolved")){
                 _this.container.find(".btn_print").show();
             }else{
                 _this.container.find(".btn_print").hide();
             }
+        });
+        //请求数据中心
+        this.CR.pubSub.sub("filterBox.dataCenter",function (params) {
+            var filterParams =  _this.deSerialize ( _this.container.find("#filterForm").serialize() );
+            var newParams = $.extend({} , params , filterParams );
+            _this.dataCenter( newParams )
         })
     },
 
     /**
-     * @method  初始化日历
+     * @method 初始化日历
      */
     initDatepicker : function(){
         var _this = this;
@@ -95,20 +107,26 @@ var Filter = {
     },
 
     /**
-     * @method 获取数据
+     * @method 数据中心
      */
-    ajaxGetData: function ( params ) {
+    dataCenter: function ( params ) {
+        console.log(params);
         var _this = this;
+        //显示查询状态
+        _this.CR.pubSub.pub("queryStateBox.querying");
+        //关闭tableCon
+        _this.CR.pubSub.pub("tableConBox.close");
+        //关闭pagination
+        _this.CR.pubSub.pub("paginationBox.close");
         $.ajax({
             url: "/r/Admin_Refund/getRefundInfo/",    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true, //请求是否异步，默认为异步
-            data: { "page": 1 },    //参数值
+            data: params,    //参数值
             type: "POST",   //请求方式
             timeout:5000,   //设置超时 5000毫秒
             beforeSend: function() {
                 //请求前的处理
-                _this.CR.pubSub.pub("queryStateBox.querying");
             },
             success: function(res) {
                 //请求成功时处理
@@ -119,12 +137,15 @@ var Filter = {
                     }
                     //通知table模块render
                     _this.CR.pubSub.pub("tableConBox.render", res );
-                    _this.CR.pubSub.pub("tableConBox.render", res );
+                    //是否初始化分页器
                     if( params.isInitPagination){
                         _this.CR.pubSub.pub("paginationBox.initRender", {currentPage: res.data.page , totalPage: res.data.total } )
                     }
+                    //通知pagination模块打开
+                    _this.CR.pubSub.pub("paginationBox.open");
                 }else{
-                    alert(res.msg)
+                    //通知queryState模块显示错误信息
+                    _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
                 }
             },
             complete: function(res,status) {
@@ -138,10 +159,6 @@ var Filter = {
             }
         });
     }
-
-
-
-
 
 };
 

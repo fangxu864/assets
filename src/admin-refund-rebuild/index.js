@@ -65,10 +65,10 @@ var Main = {
         Filter.init(CR);
         //tableCon
         TableCon.init(CR);
-        //pagination
-        Pagination.init(CR);
         //queryState
         QueryState.init(CR);
+        //pagination
+        Pagination.init(CR);
         //print
         Print.init(CR);
     }
