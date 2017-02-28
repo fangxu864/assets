@@ -14,43 +14,26 @@
 </div>
 <div class="con" id="typeBox">
     <span class="u-span">分享类型:</span>
-    <% switch(data.share_type){
-        case 1:
-        %>
-    <label><input type="radio" name="shareType" class="inp-r " value="1" checked>分享送优惠券</label>
-    <label><input type="radio" name="shareType" class="inp-r ml-20" value="2">分享送微信红包</label>
-    <label><input type="radio" name="shareType" class="inp-r ml-20" value="3">购买即送优惠券</label>
-        <%
-        break;
-        case 2:
-        %>
-    <label><input type="radio" name="shareType" class="inp-r " value="1" >分享送优惠券</label>
-    <label><input type="radio" name="shareType" class="inp-r ml-20" value="2" checked>分享送微信红包</label>
-    <label><input type="radio" name="shareType" class="inp-r ml-20" value="3">购买即送优惠券</label>
-        <%
-        break;
-        case 3:
-        }%>
-         <label><input type="radio" name="shareType" class="inp-r " value="1" >分享送优惠券</label>
-    <label><input type="radio" name="shareType" class="inp-r ml-20" value="2" >分享送微信红包</label>
-    <label><input type="radio" name="shareType" class="inp-r ml-20" value="3" checked>购买即送优惠券</label>
-    <%break;
-    }%>
+  
+    <label><input type="radio" name="shareType" class="inp-r " value="1" <%=(data.share_type==1) ? "checked" : ""%>>分享送优惠券</label>
+    <label><input type="radio" name="shareType" class="inp-r ml-20" value="2" <%=(data.share_type==2) ? "checked" : ""%>>分享送微信红包</label>
+    <label><input type="radio" name="shareType" class="inp-r ml-20" value="3" <%=(data.share_type==3) ? "checked" : ""%>>购买即送优惠券</label>
+    
 </div>
 <div class="con">
     <span class="u-span">限会员卡用户:</span>
-    <label><input type="radio" name="limit" class="inp-r ">不限</label>
-    <label><input type="radio" name="limit" class="inp-r ml-20">仅限会员卡</label>
+    <label><input type="radio" name="limit" class="inp-r " <%=(data.only_member==0) ? "checked" : "" %>>不限</label>
+    <label><input type="radio" name="limit" class="inp-r ml-20" <%=(data.only_member==1) ? "checked" : ""%>>仅限会员卡</label>
 </div>
 <div id="contentDiv">
-    <div id="share_type_1" class="share_type">
+    <div id="share_type_1" class="share_type" style= " display: <%=(data.share_type==1) ? "block" : "none" %> ">
         <div class="con">
             <span class="u-span">优惠券ID:</span>
-            <input type="text" id="couponId" class="inp-t w-400" placeholder="请搜索优惠券" readonly>
+            <input type="text" id="couponId" class="inp-t w-400" placeholder="请搜索优惠券" readonly value="">
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <input type="number" id="couponNum" class="inp-t" min="1" value="1">
+            <input type="number" id="couponNum" class="inp-t" min="1" autocomplete="off" value="1">
         </div>
 
         <div class="con ">
@@ -65,7 +48,7 @@
             <div class="share_img">
 
                 <a class="lnk_prv" target="_blank" title="点击查看原图">
-                    <img style="width:240px;height:160px;" src="http://www.12301.cc/images/defaultThum.jpg" class="preview" />
+                    <img  src="http://www.12301.cc/images/defaultThum.jpg" class="preview" />
                 </a>
                 <div class="uploadImg">
                     <p class="title">重新上传缩略图：</p>
@@ -80,10 +63,10 @@
         </div>
 
     </div>
-    <div id="share_type_2" class="share_type">
+    <div id="share_type_2" class="share_type" style= " display: <%=(data.share_type==2) ? "block" : "none" %> ">
         <div class="con">
             <span class="u-span">红包金额:</span>
-            <input type="number" id="redPackMoney" class="inp-t" min="0" value="0">
+            <input type="number" id="redPackMoney" class="inp-t" min="0" autocomplete="off" value="0">
         </div>
 
         <div class="con ">
@@ -98,7 +81,7 @@
             <div class="share_img">
 
                 <a class="lnk_prv" target="_blank" title="点击查看原图">
-                    <img style="width:240px;height:160px;" src="http://www.12301.cc/images/defaultThum.jpg" />
+                    <img  src="http://www.12301.cc/images/defaultThum.jpg" />
                 </a>
                 <div class="uploadImg">
                     <p class="title">重新上传缩略图：</p>
@@ -113,14 +96,14 @@
         </div>
 
     </div>
-    <div id="share_type_3" class="share_type">
+    <div id="share_type_3" class="share_type" style= " display: <%=(data.share_type==3) ? "block" : "none" %> ">
         <div class="con">
             <span class="u-span">优惠券ID:</span>
             <input type="text" id="couponIdInp" class="inp-t w-400" placeholder="请搜索优惠券" readonly>
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <label><input type="radio" class="inp-r" name="couponNum"><input type="number" min="1" id="couponNumber" class="inp-t ml-20 w-60"></label>
+            <label><input type="radio" class="inp-r" name="couponNum"><input type="number"  autocomplete="off" min="1" id="couponNumber" class="inp-t ml-20 w-60"></label>
             <label><input type="radio" class="inp-r ml-20" name="couponNum"> 购买票数（限购买即送优惠券活动）</label>
         </div>
         <div class="con">

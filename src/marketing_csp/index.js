@@ -16,24 +16,29 @@ var Main = PFT.Util.Class({
 		var _this = this;
 		var urlParams = PFT.Util.UrlParse();
 		var spid = urlParams["did"] || "";
-		var data = {};
+
 		var emptyData = {
 			title: "",
-			share_type: "",
+			share_type: "1",
 			coupon_id: "",
 			relation_pid: "",
 			content: "",
 			image_path: "",
-			red_pack_money: "",
+			red_pack_money: "0",
 			mkid: "",
 			beginDate: "",
 			endDate: "",
-			only_member: ""
+			only_member: "0"
 		};
 
-		(spid.length < 1) ? data = emptyData : data = _this.getSpidActivity(spid);
-		console.log(data);
-		_this.renderActivityPage(data);
+		if (spid.length < 1) {
+
+			_this.renderActivityPage(emptyData);
+		} else {
+			_this.getSpidActivity(spid);
+
+		}
+
 
 	},
 	//初始化富文本编辑器
@@ -43,6 +48,7 @@ var Main = PFT.Util.Class({
 	},
 	//根据spid获取活动详细
 	getSpidActivity: function (spid) {
+		var _this = this;
 		PFT.Util.Ajax('/r/product_Coupon/marketingListSp', {
 			type: 'POST',
 			dataType: 'JSON',
@@ -51,7 +57,8 @@ var Main = PFT.Util.Class({
 			},
 			success: function (res) {
 				if (res.code == 200) {
-					return res.data;
+					_this.renderActivityPage(res.data.data[0]);
+
 				} else {
 					STip("fail", res.msg);
 				}
@@ -63,14 +70,14 @@ var Main = PFT.Util.Class({
 	},
 	//时间戳转换
 	formatTimeStamp: function (timestamp) {
-		var time = new Date(timestamp * 1000);
-		var y = time.getFullYear()+'-';
-		var m = time.getMonth() + 1;
-		var d = time.getDate() +'';
-		var h=time.getHours() +':';
-		var m=time.getMinutes() +':';
-		var s=time.getSeconds();
-		var dateTime = y+m+d+h+m+s;
+		var date = new Date(timestamp * 1000);
+		Y = date.getFullYear() + '-';
+		M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+		D = date.getDate() + ' ';
+		h = date.getHours() + ':';
+		m = date.getMinutes() + ':';
+		s = date.getSeconds();
+		var dateTime=Y + M + D + h + m + s;
 		return dateTime;
 	},
 	//渲染活动页面
@@ -97,6 +104,7 @@ var Main = PFT.Util.Class({
 		$("#share_type_" + tarNum).show().siblings(".share_type").hide();
 
 	},
+
 
 })
 

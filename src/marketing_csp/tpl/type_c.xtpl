@@ -1,0 +1,13 @@
+<div class="con">
+            <span class="u-span">优惠券ID:</span>
+            <input type="text" id="couponIdInp" class="inp-t w-400" placeholder="请搜索优惠券" readonly>
+        </div>
+        <div class="con">
+            <span class="u-span">赠券张数:</span>
+            <label><input type="radio" class="inp-r" name="couponNum"><input type="number" min="1" id="couponNumber" class="inp-t ml-20 w-60"></label>
+            <label><input type="radio" class="inp-r ml-20" name="couponNum"> 购买票数（限购买即送优惠券活动）</label>
+        </div>
+        <div class="con">
+            <span class="u-span">活动产品:</span>
+            <input type="text" id="schProInp" class="inp-t w-400" placeholder="请搜索产品" readonly>
+        </div>
