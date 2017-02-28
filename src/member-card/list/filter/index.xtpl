@@ -3,7 +3,7 @@
     <span class="tabItem" data-status="0">正常</span>
     <span class="tabItem" data-status="1">挂失中</span>
     <span class="tabItem" data-status="2">禁用</span>
-    <span class="tabItem" data-status="4">未使用</span>
+    <span class="tabItem" data-status="4">未使用天数</span>
 </div>
 <div id="paramContainer" class="paramContainer">
     <div class="line normalLine normal">
@@ -24,11 +24,11 @@
         <input readonly type="text" name="" id="unuseBeginTimeInp" class="gInp unuse begin timeInp unuseBeginTimeInp" placeholder="起始时间">
         <span class="label zhi">至</span>
         <input readonly type="text" name="" id="unuseEndTimeInp" class="gInp unuse end timeInp unuseEndTimeInp" placeholder="截止时间">
-        <span class="label unuseDays">未使用天数</span>
+        <span class="label unuseDays">未使用天数大于</span>
         <input type="text" name="" id="unuseDayInp" class="gInp unuseDayInp" placeholder="请输入天数">
     </div>
     <div class="line btnLine">
         <span class="btn search searchBtn" id="searchBtn">搜索</span>
-        <span class="btn export exportBtn" id="exportBtn">导出</span>
+        <a href="###" class="btn export exportBtn" id="exportBtn">导出</a>
     </div>
 </div>

@@ -7,7 +7,8 @@ var Filter = PFT.Util.Class({
     EVENTS : {
         "click .tabItem" : "onTabItemClick",
         "click .timeInp" : "onTimeInpClick",
-        "click .searchBtn" : "onSearchBtnClick"
+        "click .searchBtn" : "onSearchBtnClick",
+        "click .exportBtn" : "onExportBtnClick"
     },
     init : function(){
         var that = this;
@@ -52,8 +53,17 @@ var Filter = PFT.Util.Class({
             unuseLine.hide();
         }
 
+
         $("#searchBtn").trigger("click");
 
+    },
+    onExportBtnClick : function(e){
+        e.preventDefault();
+        var params = this.getParams();
+        var errorMsg = this.validateParams(params);
+        if(errorMsg) return alert(errorMsg);
+        var link = this.getExportLink(params);
+        window.open(link,"_blank");
     },
     onSearchBtnClick : function(e){
         var params = this.getParams();
@@ -61,27 +71,9 @@ var Filter = PFT.Util.Class({
         var searchBtn = $("#searchBtn");
         if(searchBtn.hasClass("disable")) return false;
 
-        if(params.status==4 && params.days!=="" && !PFT.Util.Validate.typeInit(params.days)) return alert("未使用天数，请输入正整数");
+        var errorMsg = this.validateParams(params);
 
-
-        var beginTime = params.begin;
-        var endTime = params.end;
-
-        if(beginTime && endTime){
-            var beginDate = beginTime.substring(0,10);
-            var endDate = endTime.substring(0,10);
-            var beginHour = beginTime.substring(11,13);
-            var endHour = endTime.substring(11,13);
-            var beginStr = new Date(beginDate).getTime();
-            var endStr = new Date(endDate).getTime()
-            if(beginStr>endStr){
-                return alert("起始时间不能晚于截止时间");
-            }else if((beginStr>endStr) && (beginHour>endHour)){
-                return alert("起始时间不能晚于截止时间");
-            }else if((beginStr==endStr) && (beginHour==endHour)){
-                return alert("起始时间不能与截止时间相等");
-            }
-        }
+        if(errorMsg) return alert(errorMsg);
 
         this.trigger("search",params);
     },
@@ -90,7 +82,7 @@ var Filter = PFT.Util.Class({
         var tarInp = $(e.currentTarget);
         var CalendarCore = Datepicker.CalendarCore;
         var date = tarInp.val();
-        var time = tarInp.hasClass("begin") ? "10" : "23";
+        var time = tarInp.hasClass("begin") ? "00" : "23";
         if(!date){
             date = CalendarCore.gettoday() + " " + time;
         }
@@ -101,6 +93,35 @@ var Filter = PFT.Util.Class({
             todayBeforeDisable : false,  //可选，今天之前的日期都不显示
             todayAfterDisable : false    //可选，今天之后的日期都不显示
         })
+    },
+    //判断搜索条件是否违规，比如，设置开始时间晚于结束时间，设置搜索天数为一个非整数或负数等
+    validateParams : function(params){
+        var beginTime = params.begin;
+        var endTime = params.end;
+        if(params.status==4 && params.days!=="" && !PFT.Util.Validate.typeInit(params.days)) return "未使用天数，请输入正整数";
+        if(beginTime && endTime){
+            var beginDate = beginTime.substring(0,10);
+            var endDate = endTime.substring(0,10);
+            var beginHour = beginTime.substring(11,13);
+            var endHour = endTime.substring(11,13);
+            var beginStr = new Date(beginDate).getTime();
+            var endStr = new Date(endDate).getTime()
+            if(beginStr>endStr){
+                return "起始时间不能晚于截止时间";
+            }else if((beginStr>endStr) && (beginHour>endHour)){
+                return "起始时间不能晚于截止时间";
+            }else if((beginStr==endStr) && (beginHour==endHour)){
+                return "起始时间不能与截止时间相等";
+            }
+        }
+    },
+    getExportLink : function(params){
+        var exportLink = "/mcard_list.html?act=loadExcel&";
+        var params = params || this.getParams();
+        var paramsArr = [];
+        for(var i in params) paramsArr.push(i+"="+params[i]);
+
+        return exportLink + paramsArr.join("&");
 
     },
     initCarType : function(){

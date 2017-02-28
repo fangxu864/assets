@@ -6,7 +6,7 @@ module.exports = {
             return "call/jh_card.php?action=list";
         },
         changeState : function(){
-            return "call/jh_card.php?action=chstatus"
+            return "call/jh_card.php"
         }
     },
     Status : {

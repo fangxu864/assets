@@ -1,6 +1,7 @@
 require("./index.scss");
 var Common = require("../common.js");
 var Status = Common.Status;
+var STip = require("COMMON/js/util.simple.tip");
 var LoadingText = PFT.Util.LoadingPc("努力加载中...",{
     tag : "tr",
     colspan : 5,
@@ -32,23 +33,53 @@ var List = PFT.Util.Class({
         this.state[key] = value;
     },
     onDoBtnClick : function(e){
+        var that = this;
         var tarBtn = $(e.currentTarget);
+        var orignText = tarBtn.html();
         //只有4种动作  挂失  恢复  禁用  启用
         //只有禁用不需要输入用户密码 
         var parent = tarBtn.parents("td");
         var cid = parent.attr("data-cid");
         var did = parent.attr("data-did");
-        var status = parent.attr("data-status");
+        var toState = tarBtn.attr("data-tostate");
+        var params = {
+            action : "chstatus",
+            cid : cid,
+            did : did,
+            status : toState
+        };
 
-        if(status!=2){ //只有禁用不需要输入用户密码 
+        if(toState!=2){ //只有禁用不需要输入用户密码 
             var password = prompt("请输入此会员的消费密码");
             if(!password) return false;
-            alert(cid+" "+did+ " "+status)
+            params["password"] = password;
         }else{
             var result = window.confirm("确定要禁用此会员吗？");
             if(!result) return false;
-            alert(cid+" "+did+ " "+status)
         }
+
+
+        PFT.Util.Ajax(Common.Api.changeState(),{
+            type : "post",
+            params : params,
+            ttimeout : 10 * 1000,
+            loading : function(){
+                tarBtn.addClass("disable").html("请稍后..");
+            },
+            complete : function(){ 
+                tarBtn.removeClass("disable").html(orignText);
+            },
+            success : function(res){
+                var status = res.status;
+                var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+                if(status=="success"){
+                    STip("success","操作成功");
+                    that.trigger("refresh");
+                }else{
+                    alert(msg);
+                }
+            }
+        })
 
 
 
