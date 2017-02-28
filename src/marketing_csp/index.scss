@@ -50,6 +50,7 @@
         color: #fff;
         cursor: pointer;
         text-decoration: none;
+        margin: 3px 0;
     }
     .txt-a-c{
         text-align: center;
@@ -86,7 +87,9 @@
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
     }
-
+#share_type_2,#share_type_3{
+    display: none;
+}
 //分享图片
 .share_img{
     position: relative;
@@ -102,7 +105,7 @@
     padding: 40px 0 40px 8px;
     border-left: 1px dashed #999;
 }
-#content{
+#content_1,#content_2{
     display: inline-block;
     width: 600px;
     height: 200px;

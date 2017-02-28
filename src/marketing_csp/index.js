@@ -1,14 +1,21 @@
 require("./index.scss");
 require("COMMON/modules/select");
+var STip=require("COMMON/js/util.simple.tip");
+var ListTpl =require("./index.xtpl");
 var Main = PFT.Util.Class({
+	container:"#bodyContainer",
 	init: function () {
-		PFT.Util.STip("success", "加载成功");
-		this.initUeditor();
+		STip("success", "加载成功");
+		this.initUeditor(1);//初始化默认富文本编辑器
+		this.initUeditor(2);//初始化默认富文本编辑器
+	},
+	EVENTS:{
+		"click #typeBox label":"changeShareType"
 	},
 	//初始化富文本编辑器
-	initUeditor: function () {
+	initUeditor: function (id) {
 		window.UEDITOR_CONFIG.initialFrameWidth = 600;
-		ue = UE.getEditor('content');
+		ue = UE.getEditor('content_'+id);
 	},
 	//加载活动名称等
 	loadActivity: function () {
@@ -19,6 +26,26 @@ var Main = PFT.Util.Class({
 
 			}
 		})
+	},
+	//查询优惠活动详细信息
+	getActivityDetail: function(){
+		var _this=this;
+		var urlParams = PFT.Util.UrlParse();
+		var spid = urlParams["did"] || "";
+		if(spid.length<1) return false;
+		PFT.Util.Ajax("/r/product_Coupon/marketingListSp",{
+			
+		})
+	},
+	//切换分享类型
+	changeShareType: function(e){
+		var _this=this;
+		var tarLabel=$(e.currentTarget);
+		var tarRadio=tarLabel.children(".inp-r");
+		if(tarRadio.prop("checked")) return false;
+		var tarNum=tarRadio.attr("value");
+		$("#share_type_"+tarNum).show().siblings(".share_type").hide();
+		
 	},
 
 })
