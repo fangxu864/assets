@@ -1,51 +1,101 @@
 require("./index.scss");
 require("COMMON/modules/select");
-var STip=require("COMMON/js/util.simple.tip");
-var ListTpl =require("./index.xtpl");
+var STip = require("COMMON/js/util.simple.tip");
+var ListTpl = require("./index.xtpl");
 var Main = PFT.Util.Class({
-	container:"#bodyContainer",
+	container: "#bodyContainer",
 	init: function () {
 		STip("success", "加载成功");
-		this.initUeditor(1);//初始化默认富文本编辑器
-		this.initUeditor(2);//初始化默认富文本编辑器
+		this.initPage();
 	},
-	EVENTS:{
-		"click #typeBox label":"changeShareType"
+	EVENTS: {
+		"click #typeBox label": "changeShareType"
+	},
+	//初始化页面显示
+	initPage: function () {
+		var _this = this;
+		var urlParams = PFT.Util.UrlParse();
+		var spid = urlParams["did"] || "";
+		var data = {};
+		var emptyData = {
+			title: "",
+			share_type: "",
+			coupon_id: "",
+			relation_pid: "",
+			content: "",
+			image_path: "",
+			red_pack_money: "",
+			mkid: "",
+			beginDate: "",
+			endDate: "",
+			only_member: ""
+		};
+
+		(spid.length < 1) ? data = emptyData : data = getSpidActivity(spid);
+		console.log(data);
+		_this.renderActivityPage(data);
+
 	},
 	//初始化富文本编辑器
 	initUeditor: function (id) {
 		window.UEDITOR_CONFIG.initialFrameWidth = 600;
-		ue = UE.getEditor('content_'+id);
+		ue = UE.getEditor('content_' + id);
 	},
-	//加载活动名称等
-	loadActivity: function () {
-		PFT.Util.Ajax('', {
+	//根据spid获取活动详细
+	getSpidActivity: function (spid) {
+		PFT.Util.Ajax('/r/product_Coupon/marketingListSp', {
 			type: 'POST',
 			dataType: 'JSON',
-			success: function () {
-
+			params: {
+				spid: spid
+			},
+			success: function (res) {
+				if (res.code == 200) {
+					return res.data;
+				} else {
+					STip("fail", res.msg);
+				}
+			},
+			fail: function () {
+				STip("fail", res.msg);
 			}
 		})
 	},
-	//查询优惠活动详细信息
-	getActivityDetail: function(){
-		var _this=this;
-		var urlParams = PFT.Util.UrlParse();
-		var spid = urlParams["did"] || "";
-		if(spid.length<1) return false;
-		PFT.Util.Ajax("/r/product_Coupon/marketingListSp",{
-			
-		})
+	//时间戳转换
+	formatTimeStamp: function (timestamp) {
+		var time = new Date(timestamp * 1000);
+		var y = time.getFullYear()+'-';
+		var m = time.getMonth() + 1;
+		var d = time.getDate() +'';
+		var h=time.getHours() +':';
+		var m=time.getMinutes() +':';
+		var s=time.getSeconds();
+		var dateTime = y+m+d+h+m+s;
+		return dateTime;
+	},
+	//渲染活动页面
+	renderActivityPage: function (data) {
+		var _this = this;
+		var render = PFT.Util.ParseTemplate(ListTpl);
+		var html = "";
+		var beginDate = _this.formatTimeStamp(data.activity_bt);
+		var endDate = _this.formatTimeStamp(data.activity_et);
+		data["beginDate"] = beginDate;
+		data["endDate"] = endDate;
+		html = render({ data: data });
+		_this.container.html(html);
+		_this.initUeditor(1);//初始化默认富文本编辑器
+		_this.initUeditor(2);
 	},
 	//切换分享类型
-	changeShareType: function(e){
-		var _this=this;
-		var tarLabel=$(e.currentTarget);
-		var tarRadio=tarLabel.children(".inp-r");
-		if(tarRadio.prop("checked")) return false;
-		var tarNum=tarRadio.attr("value");
-		$("#share_type_"+tarNum).show().siblings(".share_type").hide();
-		
+	changeShareType: function (e) {
+		var _this = this;
+		var tarLabel = $(e.currentTarget);
+		var tarRadio = tarLabel.children(".inp-r");
+		if (tarRadio.prop("checked")) return false;
+		var tarNum = tarRadio.attr("value");
+		$("#share_type_" + tarNum).show().siblings(".share_type").hide();
+
 	},
 
 })
