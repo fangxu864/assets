@@ -88,7 +88,7 @@ var Order_fill = PFT.Util.Class({
 		this.getBookInfo(); //根据不同类型分辨
 
 		//处理付款方式
-		this.handlePayMode();
+		// this.handlePayMode();
 		
 
 	},
@@ -280,7 +280,7 @@ var Order_fill = PFT.Util.Class({
 				var url = "order_pay.html?h="+host+"&"+"ordernum="+ordernum;
 
 				//跳转支付页面
-				// window.location.href = url;
+				window.location.href = url;
 
 			},
 			complete:function () {
@@ -297,41 +297,53 @@ var Order_fill = PFT.Util.Class({
 
 	//处理付款方式
 
-	handlePayMode : function(){
+	handlePayMode : function(res){
 
 		var that = this;
+		var selfSupply = res.selfSupply;
 
-		var payTemplate = PFT.Util.ParseTemplate(payModeTpl); 
-		var html = payTemplate();
+		if(selfSupply == 0){
 
-		this.PayModeBox =  new SheetCore({
-			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
-			height : "auto",      //弹层占整个手机屏幕的高度
-			yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
-			noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
-			zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
-			EVENTS : {            //弹层上面绑定的所有事件放在这里
-				"click .payItem" : function(e){
-					var item = $(e.target);
-					var t = item.text();
-					var way = item.attr("data-way");
-					if(way){
-						$("#payMode").val("付款方式: " + t).attr("data-way",way);	
-						that.PayModeBox.close();
+			var payTemplate = PFT.Util.ParseTemplate(payModeTpl); 
+			var html = payTemplate();
+
+			this.PayModeBox =  new SheetCore({
+				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+				height : "auto",      //弹层占整个手机屏幕的高度
+				yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
+				noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
+				zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
+				EVENTS : {            //弹层上面绑定的所有事件放在这里
+					"click .payItem" : function(e){
+						var item = $(e.target);
+						var t = item.text();
+						var way = item.attr("data-way");
+						if(way){
+							$("#payMode").val("付款方式: " + t).attr("data-way",way);	
+							that.PayModeBox.close();
+						}
+					},
+					"click .icon-jiantou" : function(){
+						that.PayModeBox.close();		
 					}
-				},
-				"click .icon-jiantou" : function(){
-					that.PayModeBox.close();		
 				}
-			}
-		});
+			});
 
-		this.PayModeBox.mask.on("click",function(){
-			that.PayModeBox.close();			
-		});
-		$("#payMode").on("click",function(){
-			that.PayModeBox.show();		
-		});
+			this.PayModeBox.mask.on("click",function(){
+				that.PayModeBox.close();			
+			});
+			$("#payMode").on("click",function(){
+				that.PayModeBox.show();		
+			});
+
+
+		}else if( selfSupply == 1 ){
+
+			$("#payMode").val("付款方式: 预定自供产品，无需支付").attr("data-way","3");
+			$("#payMode").attr("disabled","true");
+
+		}
+		
 
 	},
 
@@ -703,6 +715,8 @@ var Order_fill = PFT.Util.Class({
 					that.handleTips(res);//处理有效期退票等信息							
 
 					that.handleBookInfo(res);
+
+					that.handlePayMode(res);
 					
 
 				},
@@ -1430,8 +1444,12 @@ var Order_fill = PFT.Util.Class({
 		if(isNaN(sum)){
 			sum = 0;
 		}
-		$("#totalMoney").text(sum)
 
+		sum = parseInt(sum*100);
+		sum = sum/100;
+		$("#totalMoney").text(sum);
+
+		//游客信息	
 		var tList = $("#ticketList .placeTicket");
 		var num = 0;
 		for(var i = 0;i<tList.length;i++){

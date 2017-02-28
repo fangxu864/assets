@@ -52,7 +52,6 @@ var Transit = PFT.Util.Class({
 
 	Countdown : function(){
 
-
 		var down = 10;
 
 		setInterval(function(){
@@ -63,7 +62,6 @@ var Transit = PFT.Util.Class({
 			$(".CountdownSecond").text(down + "s");			
 
 			if(down == 0){
-				// PFT.Mobile.Alert("跳转");
 				window.location.href = "plist.html";
 			}
 

@@ -1,7 +1,7 @@
 <% _.each(list,function(item){ %>
 <ul class="productOrderSpot">
 	<li class="spotTitle">
-		<a href="product_detail.html?lid=<%=item.lid%>" class="productDetailLink" >
+		<a href="product_detail.html?lid=<%=item.lid%>&ctx=<%=ctx%>&ctype=<%=ctype%>" class="productDetailLink" >
 			<img class="spotImg" src="<%=item.imgpath%>"></img>
 			<div class="spotRight">
 				<span class="spotName"><%=item.title%></span><br>

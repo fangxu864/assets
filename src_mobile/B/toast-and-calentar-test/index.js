@@ -16,17 +16,27 @@ var main = {
 
         this.calendar = new Calendar();
 
-        $("#btn1").on("a",function(){
-            
-            console.log("订阅");
-
-        });
-
         this.bind();
 
-        //调试
+
+        //调试日历
         console.log(this.calendar);        
-        this.calendar.show();
+        // this.calendar.show();
+        //订阅
+        this.calendar.on("prev",function(){
+            console.log("prev"); //do something
+            var list = that.calendar.getNowMonthList();            
+            console.log(list); //用于遍历
+        });
+        this.calendar.on("next",function(){
+            console.log("next");//do something
+            var list = that.calendar.getNowMonthList();
+            console.log(list); //用于遍历
+        });
+        this.calendar.on("daySelect",function(){
+            console.log(that.calendar.selectedDay);
+            console.log(that.calendar.nowTarget);
+        });
         
     },
 
@@ -37,47 +47,28 @@ var main = {
 
         //测试loading
         $("#btn1").on("click",function(){
-
             that.toast1.show("loading");            
-
+            
             setTimeout(function(){
-
-                that.toast2.hide();   
-
+                that.toast2.hide();   //toast2的隐藏对toast1无影响   
             },1000);
 
+            setTimeout(function(){
+                that.toast1.hide();   
+            },2000);
 
         });
-
         //测试日历
         $("#btn2").on("click",function(){
-
-            // console.log(that.calendar);
-
             that.calendar.show();
-
         });
-
-        //测试jq发布订阅
-        $("#btn3").on("click",function(){
-            $("#btn1").trigger("a");
-        });
-        
-
-
 
     }
 
-
-
 }
 
-
 $(function(){
-
     main.init();    
-
-
 });
 
 
