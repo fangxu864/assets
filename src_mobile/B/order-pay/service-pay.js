@@ -85,6 +85,8 @@ module.exports = function(ordernum,host,opt){
 					window.location.href=data.url+search;
 				}
 				opt.success(data);
+			}else if(code==205){
+				window.location.href="order_pay_success.html?ordernum="+ordernum;
 			}else{
 				opt.fail(msg);
 			}
