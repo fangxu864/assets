@@ -51,7 +51,7 @@ var Main = PFT.Util.Class({
 					var data = res.data ;
 
 					$('#' + dom.sucText).html( _this.successText );
-					$('#' + dom.btn.gotoApp).attr('href', data.url );
+					$('#' + dom.btn.gotoApp).attr('href', '/' + data.url );
 					$('#' + dom.btn.gotoIndex).attr('href', 'appcenter_index.html');
 
 					var data = {
