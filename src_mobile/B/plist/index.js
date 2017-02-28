@@ -184,20 +184,6 @@ var Plist = PFT.Util.Class({
 				header : "类型",
 				content : typeHtml,       
 				height : "auto",    
-				// yesBtn : {            
-				// 	text : "确定提交",   
-				// 	handler : function(e){
-				// 		var nowSel = $(".typeBtn.selectNow");
-				// 	  	var type = nowSel.attr("data-type");
-				// 	  	that.changeType(nowSel,type);
-				// 	}
-				// },
-				// noBtn : {            
-				//   text : "取消",   
-				//   handler : function(e){
-				//     console.log("点击时执行")
-				//   }
-				// },     
 				yesBtn : false,
 				noBtn : false,
 				zIndex : 200,       
@@ -288,20 +274,7 @@ var Plist = PFT.Util.Class({
 			this.themeSelect = new SheetCore({
 				header : "主题",
 				content : themeHtml,       
-				height : "auto",    
-				// yesBtn : {            
-				// 	text : "确定提交",   
-				// 	handler : function(e){
-				// 		var nowSel = $(".themeBtn.selectNow");
-				// 	  	that.changeTheme(nowSel);
-				// 	}
-				// },
-				// noBtn : {            
-				//   text : "取消",   
-				//   handler : function(e){
-				//     console.log("点击时执行")
-				//   }
-				// },       
+				height : "auto",      
 				yesBtn : false,
 				noBtn : false,
 				zIndex : 200,       
@@ -420,8 +393,6 @@ var Plist = PFT.Util.Class({
 						  var t = target.text();
 						  var code = target.attr("data-code");
 						  $("#cityText").text(t);
-
-						  console.log(code);
 
 						  that.city = code;
 
