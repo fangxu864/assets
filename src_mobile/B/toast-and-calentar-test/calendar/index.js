@@ -8,19 +8,25 @@ var Calendar = PFT.Util.Class({
 	Template : PFT.Util.ParseTemplate(tpl),
 	listTemplate : PFT.Util.ParseTemplate(listTpl),
 
-	// opt : {
-	// 	date : false, //初始天数,默认为当天
-	// 	maxDate : false, //最大天数
-	// 	minDate : false, //最小天数
-	// 	disableTodayBefore : false, //是否今天之前都为disable
-	// }
-
+	//可选配置还未做完
+	opt : {
+		date : false, //初始天数,默认为当天,格式如"2017-02-15"
+		maxDate : false, //最大天数
+		minDate : false, //最小天数
+		disableTodayBefore : false, //是否今天之前都为disable
+	},
 	init : function(opt){
 
 		var that = this;
 
+		opt = $.extend({},this.opt,opt);
+
 		this.dateGroup =  this.getNowDate();
-		var nowDate = this.dateGroup.nowDate;
+		if( typeof opt.date == "string"){
+			var nowDate = opt.date ;
+		}else{
+			var nowDate = this.dateGroup.nowDate;
+		}
 		//随机id以供标识
 		this.onlyId = "calendar" + parseInt(Math.random()*1000); 
 		var yearMonth = this.handleDate(nowDate);//分别获取年月//立日期flag
@@ -65,7 +71,7 @@ var Calendar = PFT.Util.Class({
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
 
 		//初始化select
-		this.daySelect(this.dateGroup.nowDate);
+		this.daySelect(nowDate);
 
 		return this;
 
@@ -212,7 +218,17 @@ var Calendar = PFT.Util.Class({
 		var listHtml = this.listTemplate({list:arr});
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
 		this.daySelect(dayDate);
+
+		this.renderdisable();
+
 	},
+
+	renderdisable : function(){
+
+		
+
+	},
+
 	show : function(){
 		this.CalendarBox.show();
 	},

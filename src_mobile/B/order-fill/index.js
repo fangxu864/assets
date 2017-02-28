@@ -20,7 +20,7 @@ var visitInfoTpl = require("./tpl/VisitInfo.xtpl");
 //组件模块
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");  //列表弹窗
 var Validate = require("COMMON/js/util.validate.js"); //验证
-var CalendarCore = require("COMMON/js/calendarCore.js");//用outputdate计算酒店几晚
+// var CalendarCore = require("COMMON/js/calendarCore.js");//用outputdate计算酒店几晚
 // var Toast = require("COMMON/modules/Toast");
 var Toast = require("./Toast/index");//改造后
 
@@ -61,35 +61,12 @@ var Order_fill = PFT.Util.Class({
 			console.log("缺少id参数");	
 		}
 
-		//2017/2/9
-		//后端提供调试pid
-		// 线路 = 57958, 58111
-		// 酒店 = 26397, 26398
-		// 演出 = 58004, 58114
-		// 餐饮 = 57921, 58115
-		// 套票 = 58105, 58107
-		// 景区 = 25267, 26398
-
-		// A:景区,B:线路,F:套票,H:演出,C:酒店
-		// G:餐饮 //餐饮是后面加的
-
-		// this.pid = 25267; //景区			
-		// this.pid = 26397; //酒店
-		// this.pid = 57958; //线路			
-		// this.pid = 58004; //演出
-		// this.pid = 57921; //餐饮
-		// this.pid = 58105; //套票
-
 		this.toast = new Toast();//初始化toast
 		this.toast2 = new Toast(); //用于酒店第一次获取价格和库存请求
 
 		this.ticketTemplate = PFT.Util.ParseTemplate(placeTicket);
 
 		this.getBookInfo(); //根据不同类型分辨
-
-		//处理付款方式
-		// this.handlePayMode();
-		
 
 	},
 	//处理顶端提示
@@ -780,7 +757,7 @@ var Order_fill = PFT.Util.Class({
 		var type = this.type; 
 
 		// A:景区,B:线路,F:套票,H:演出,C:酒店
-		// G:餐饮 //餐饮是后面加的
+		// G:餐饮 
 
 		var parent = $(".topInputGroup");
 
@@ -828,10 +805,8 @@ var Order_fill = PFT.Util.Class({
 		this.calendar = this.InputGroup.calendar;		
 		// 发布订阅
 		this.calendar.on("next",function(){
-			console.log("点击了前进按钮");	
 		});
 		this.calendar.on("prev",function(){
-			console.log("点击了后退按钮");	
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
@@ -856,7 +831,6 @@ var Order_fill = PFT.Util.Class({
 	//演出场次信息
 	getShowInfo : function(selectedDay,first){
 		var that = this;
-		console.log(selectedDay);
 		var params = {
 			token : PFT.Util.getToken(),
 			date : selectedDay,
@@ -938,15 +912,12 @@ var Order_fill = PFT.Util.Class({
 		this.calendar = this.InputGroup.calendar;		
 		// 发布订阅
 		this.calendar.on("next",function(){
-			console.log("点击了前进按钮");	
 		});
 		this.calendar.on("prev",function(){
-			console.log("点击了后退按钮");	
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
 			that.selectedDay = selectedDay; 			
-			console.log(selectedDay);
 			$("#meetDate").val("*集合日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 		});	
@@ -994,15 +965,12 @@ var Order_fill = PFT.Util.Class({
 		this.calendar = this.InputGroup.calendar;		
 		// 发布订阅
 		this.calendar.on("next",function(){
-			console.log("点击了前进按钮");	
 		});
 		this.calendar.on("prev",function(){
-			console.log("点击了后退按钮");	
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
 			that.selectedDay = selectedDay; 			
-			console.log(selectedDay);
 			$("#playDate").val("*游玩日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 		});
@@ -1019,10 +987,8 @@ var Order_fill = PFT.Util.Class({
 		this.calendar = this.InputGroup.calendar;		
 		// 发布订阅
 		this.calendar.on("next",function(){
-			console.log("点击了前进按钮");	
 		});
 		this.calendar.on("prev",function(){
-			console.log("点击了后退按钮");	
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
@@ -1044,10 +1010,8 @@ var Order_fill = PFT.Util.Class({
 		this.calendar2 = this.InputGroup.calendar2;					
 		//入住
 		this.calendar1.on("next",function(){
-			console.log("点击了前进按钮1");	
 		});
 		this.calendar1.on("prev",function(){
-			console.log("点击了后退按钮1");	
 		});
 		this.calendar1.on("daySelect",function(){
 			var selectedDay = that.calendar1.selectedDay;
@@ -1056,10 +1020,8 @@ var Order_fill = PFT.Util.Class({
 		});
 		//离店
 		this.calendar2.on("next",function(){
-			console.log("点击了前进按钮2");	
 		});
 		this.calendar2.on("prev",function(){
-			console.log("点击了后退按钮2");	
 		});
 		this.calendar2.on("daySelect",function(){
 			var selectedDay = that.calendar2.selectedDay;

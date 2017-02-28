@@ -14,7 +14,14 @@ var main = {
         this.toast1 = new Toast();
         this.toast2 = new Toast();
 
-        this.calendar = new Calendar();
+        this.calendar = new Calendar({
+
+            date : "2017-02-17", //初始天数,默认为当天
+            maxDate : false, //最大天数
+            minDate : false, //最小天数
+            disableTodayBefore : false, //是否今天之前都为disable
+
+        });
 
         this.bind();
 
@@ -37,6 +44,8 @@ var main = {
             console.log(that.calendar.selectedDay);
             console.log(that.calendar.nowTarget);
         });
+
+        
         
     },
 

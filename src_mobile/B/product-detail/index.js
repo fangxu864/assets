@@ -90,7 +90,6 @@ var Product_detail = PFT.Util.Class({
 
 		var infoHtml = this.infoTemplate(res);
 		var infoBottomHtml = this.infoBottomTemplate(res);
-		// console.log(infoHtml);
 
 		$("#productDetailHeader").append(infoHtml);
 		$("#orderInfoContent").append(infoBottomHtml);
@@ -112,9 +111,6 @@ var Product_detail = PFT.Util.Class({
 		    	lastTicketPos : that.lastTicketPos,
 				ctx : that.ctx,
 				ctype : that.ctype
-		    	//先用0测试,因为会没有更多票了
-		    	// lastTid : 0,  
-		    	// lastTicketPos : 0		
 		    },
 		    loading : function(){
 		        that.toast.show("loading");
@@ -142,11 +138,8 @@ var Product_detail = PFT.Util.Class({
 
 	handleTicket : function(res){
 
-		console.log(res);
-
 		var data = res.data;
 		var list = data.list;
-		console.log(list);
 		if(list.length == 0){
 			PFT.Mobile.Alert("没有更多票了");
 			$("#moreTicket").css("display","none");
