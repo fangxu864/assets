@@ -33,7 +33,7 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <input type="text" id="couponNum" class="inp-t" value="<%(data.share_type==1&&data.coupon_num!= '') ? data.coupon_num : '1' %>">
+            <input type="text" id="couponNum" class="inp-t" value="<%=(data.share_type==1&&data.coupon_num.length>1) ? data.coupon_num : 1 %>">
         </div>
 
         <div class="con ">
@@ -101,9 +101,9 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <label><input type="radio" class="inp-r" id="couponNumRadio" name="couponNum" <%=(data.share_type==3&&data.coupon_num) ? "checked" : ""%>>
+            <label><input type="radio" class="inp-r" id="couponNumRadio" name="couponNum" <%=(data.share_type==3&&data.coupon_num) ? "checked" : "checked"%>>
                    <input type="text"  id="couponNumber" class="inp-t ml-20 w-60" value="<%=(data.share_type==3&&data.coupon_num) ? data.coupon_num : ''%>"></label>
-            <label><input type="radio" class="inp-r ml-20" name="couponNum" value="<%=(data.share_type==3&&data.coupon_num==-1) ? "checked" : ""%>"> 购买票数（限购买即送优惠券活动）</label>
+            <label><input type="radio" class="inp-r ml-20" name="couponNum" value="-1" <%=(data.share_type==3&&data.coupon_num==-1) ? "checked" : ""%>"> 购买票数（限购买即送优惠券活动）</label>
         </div>
         <div class="con">
             <span class="u-span">活动产品:</span>

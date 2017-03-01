@@ -9,17 +9,14 @@ var Main = PFT.Util.Class({
 	EVENTS: {
 		"click #typeBox label": "changeShareType",
 		"focus #couponNumber": "checkCouponNum",
-		"click .inp-date":"initDatePicker"
+		"click .inp-date":"initDatePicker",
+		"click #saveBtn":"saveAddNewActivity"
 	},
 	init: function () {
 		STip("success", "加载成功");
 		this.initPage();
 		this.datepicker = new Datepicker();
-
 		
-
-
-
 	},
 	
 	//初始化页面显示
@@ -33,6 +30,7 @@ var Main = PFT.Util.Class({
 			title: "",
 			share_type: "1",
 			coupon_id: "",
+			coupon_num:"",
 			relation_pid: "",
 			content: "",
 			image_path: "",
@@ -55,8 +53,16 @@ var Main = PFT.Util.Class({
 	},
 	//初始化富文本编辑器
 	initUeditor: function (id) {
+
 		window.UEDITOR_CONFIG.initialFrameWidth = 600;
-		ue = UE.getEditor('content_' + id);
+		switch(id){
+			case 1:
+			this.ue1=UE.getEditor('content_1');
+			break;
+			case 2:
+			this.ue2=UE.getEditor('content_2');
+			break;
+		}
 	},
 	//初始化日历
 	initDatePicker: function (e) {
@@ -171,16 +177,18 @@ var Main = PFT.Util.Class({
 		_this.initGetCouponId("couponId");//初始化获取优惠券列表
 		_this.initGetCouponId("couponIdInp");
 		_this.initImgUpload();//初始化图片上传插件
+		$(" .fileuploadWrap .fileuploadTextInp").css("width","160px");//重置图片上传input框宽度
 	},
 	//切换分享类型
 	changeShareType: function (e) {
+		//alert(1)
 		var _this = this;
 		var tarLabel = $(e.currentTarget);
 		var tarRadio = tarLabel.children(".inp-r");
-		if (tarRadio.prop("checked")) return false;
 		var tarNum = tarRadio.attr("value");
+		console.log(tarNum)
 		$("#share_type_" + tarNum).show().siblings(".share_type").hide();
-
+		$("#saveBtn").attr("data-type",tarNum);
 	},
 	//获取产品列表
 	getActivityList: function () {
@@ -209,7 +217,7 @@ var Main = PFT.Util.Class({
 				for (var i = 0; i < list.length; i++) {
 
 					newList.push({
-						id: list[i].fid,
+						id: list[i].pid,
 						title: list[i].ltitle
 					});
 				}
@@ -219,7 +227,7 @@ var Main = PFT.Util.Class({
 			},
 		});
 	},
-	//获取优惠券id 初始化富文本编辑器
+	//获取优惠券id 
 	initGetCouponId: function (id) {
 		var selectId = new Select({
 			source: "/r/product_Coupon/getCoupon",
@@ -261,10 +269,89 @@ var Main = PFT.Util.Class({
 		$("#couponNumRadio").prop("checked", true);
 	},
 	//保存新增优惠活动
-	saveAddNewActivity: function(){
-
+	saveAddNewActivity: function(e){
+		var _this=this;
+		var tarBtn=$(e.currentTarget);
+		var type=tarBtn.attr("data-type");
+		var param;
+		switch(type){
+			case '1':
+			param=_this.getTypeAParam();
+			break;
+			case '2':
+			param=_this.getTypeBParam();
+			break;
+			case '3':
+			param=_this.getTypeCParam();
+			break;
+		}
+		_this.saveReq(param);
+		//window.location.href="marketing_share_list.html";
 	},
-
+	//类别1参数
+	getTypeAParam:function(){
+		var couponId=$("#couponId").attr("data-id");
+		var couponNum=$("#couponNum").val();
+		var uecontent=this.ue1.getContent();
+		var imgPath=$("#image_path").attr("data-path");
+		var reg=/^([1-9]\d{0,5}|999999)$/;
+		var param;
+		if(!couponId) return PFT.Util.STip("fail","优惠券ID不为空!",4000);
+		if(!reg.test(couponNum)) return PFT.Util.STip("fail","赠券张数在1~999999之间!",4000);
+		param={
+			coupon_id:couponId,
+			coupon_num:couponNum,
+			content:uecontent,
+			thumb:imgPath || ""
+		}
+		return param;
+	},
+	//类别2参数
+	getTypeBParam:function(){
+		var red_pack_money=$("#redPackMoney").val();
+		var uecontent=this.ue2.getContent();
+		var imgPath=$("#imagePath_2").attr("data-path");
+		var param;
+		var reg=/^([0-9]\d{0,9}|1000000000)$/; 
+		if(!reg.test(red_pack_money)) return PFT.Util.STip("fail","红包金额在0~10亿之间!",4000);
+		param={
+			red_pack_money:red_pack_money,
+			content:uecontent,
+			thumb:imgPath || ""
+		}
+		return param;
+	},
+	//类别3参数
+	getTypeCParam: function(){
+		var couponIdInp=$("#couponIdInp").attr("data-id");
+		var coupon_num;
+		var couponNum=$("#couponNumber").val();
+		var proInp=$("#schProInp").attr("data-id");
+		var param;
+		var reg=/^([1-9]\d{0,5}|999999)$/;
+		if(!reg.test(couponNum)) return PFT.Util.STip("fail","赠券张数在1~999999之间!",4000);
+		coupon_num=($("input[name='couponNum']:checked").val()==-1) ? -1 : couponNum;
+		if(!couponIdInp) return PFT.Util.STip("fail","优惠券ID不为空!",4000);
+		if(!proInp) return PFT.Util.STip("fail","活动产品不为空!",4000);
+		
+		param={
+			coupon_id:couponIdInp,
+			coupon_num:couponNum,
+			spid:proInp
+		}
+		return param;
+	},
+	//保存数据请求
+	saveReq: function(param){
+		PFT.Util.Ajax('/r/product_Coupon/CreateShare',{
+			type:"POST",
+			dataType:"json",
+			params:param,
+			success: function(res){
+				PFT.Util.STip("success","保存成功!",4000);
+			}
+		})
+	}
 })
 
 $(function () {
