@@ -100,6 +100,8 @@ var Plist = PFT.Util.Class({
 					window.location.href = "transit.html";
 				}else if( code == 203){
 					window.location.href = data.url;					
+				}else if( code == 205){
+					window.location.href = "noauth.html";
 				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },

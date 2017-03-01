@@ -714,23 +714,27 @@ var Order_fill = PFT.Util.Class({
 		var ticketList = res.tickets;
 		if(ticketList.length == 0){
 			PFT.Mobile.Alert("暂无产品");
-			$("#ticketList").html(' <li class="placeTicket noproduct" style="height:60px;text-align:center;line-height:60px">暂无产品</li>');
-			$(".personalInformation").css("display","none");
-			return false
+			pids = this.pid;
+			// $("#ticketList").html(' <li class="placeTicket noproduct" style="height:60px;text-align:center;line-height:60px">暂无产品</li>');
+			// $(".personalInformation").css("display","none");
+			// return false
 		}else{
 			this.ticketList = ticketList;
+			//获取pids
+			var pids = "";
+			for(var i = 0;i<ticketList.length;i++){
+
+				if( i == 0){
+					pids = ticketList[i].pid;
+				}else{
+					pids += "-" +ticketList[i].pid  ;
+				}
+
+			}
+
 		}
 		$("#placeText").text(res.title);
-		//获取pids
-		var pids = "";
-		for(var i = 0;i<ticketList.length;i++){
-
-			if( i == 0){
-				pids = ticketList[i].pid;
-			}else{
-				pids += "-" +ticketList[i].pid  ;
-			}
-		}
+		
 
 		if(ticketList.length != 0){
 			this.zone_id = ticketList[0].zone_id; //演出的分区ID		
@@ -1135,7 +1139,7 @@ var Order_fill = PFT.Util.Class({
 					//初始化金额
 					that.firstTotalSum += data.price*num;
 					price.find(".money").text(data.price);
-					if( data.store == -1 || data.store == 0){
+					if( data.store == -1 ){
 						storage.find(".num").text("无限");
 					}else{
 						storage.find(".num").text(data.store);												

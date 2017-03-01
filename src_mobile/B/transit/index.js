@@ -36,8 +36,8 @@ var Transit = PFT.Util.Class({
 
 		        	var account = data.account;
 					$(".account").text(account);
-
-					that.Countdown();
+					var url = data.url;
+					that.Countdown(url);
 
 
 		        }else{
@@ -51,7 +51,7 @@ var Transit = PFT.Util.Class({
 	},
 
 
-	Countdown : function(){
+	Countdown : function(url){
 
 		var down = 10;
 
@@ -63,7 +63,7 @@ var Transit = PFT.Util.Class({
 			$(".CountdownSecond").text(down + "s");			
 
 			if(down == 0){
-				// window.location.href = "plist.html";
+				window.location.href = url;
 			}
 
 		},1000);
