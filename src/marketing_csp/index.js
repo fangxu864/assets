@@ -2,23 +2,33 @@ require("./index.scss");
 var Select = require("COMMON/modules/select");
 var STip = require("COMMON/js/util.simple.tip");
 var Datepicker = require("COMMON/modules/datepicker");
+var Fileupload =require("COMMON/modules/fileupload");
 var ListTpl = require("./index.xtpl");
 var Main = PFT.Util.Class({
 	container: "#bodyContainer",
+	EVENTS: {
+		"click #typeBox label": "changeShareType",
+		"focus #couponNumber": "checkCouponNum",
+		"click .inp-date":"initDatePicker"
+	},
 	init: function () {
 		STip("success", "加载成功");
 		this.initPage();
+		this.datepicker = new Datepicker();
+
+		
+
+
+
 	},
-	EVENTS: {
-		"click #typeBox label": "changeShareType",
-		"focus #couponNumber": "checkCouponNum"
-	},
+	
 	//初始化页面显示
 	initPage: function () {
 		var _this = this;
 		var urlParams = PFT.Util.UrlParse();
 		var spid = urlParams["did"] || "";
-
+		var CalendarCore = Datepicker.CalendarCore;
+		var date = CalendarCore.gettoday() + " ";
 		var emptyData = {
 			title: "",
 			share_type: "1",
@@ -34,13 +44,13 @@ var Main = PFT.Util.Class({
 		};
 
 		if (spid.length < 1) {
-
 			_this.renderActivityPage(emptyData);
+			console.log(emptyData["beginDate"])
 		} else {
 			_this.getSpidActivity(spid);
 
 		}
-
+		
 
 	},
 	//初始化富文本编辑器
@@ -49,24 +59,64 @@ var Main = PFT.Util.Class({
 		ue = UE.getEditor('content_' + id);
 	},
 	//初始化日历
-	initDatePicker: function () {
-		var dateBegin = new Datepicker();
-		console.log(dateBegin)
-		var dateEnd=new Datepicker();
-		dateBegin.show(date, {
-			picker: "#beginDate",              //必选
-			top: 0,                     //可选，相对偏移量
-			left: 0,                    //可选，相对偏移量
-			todayBeforeDisable: false,  //可选，今天之前的日期都不显示
-			todayAfterDisable: false,   //可选，今天之后的日期都不显示
-		});
-		dateEnd.show(date, {
-			picker: "#endDate",              //必选
-			top: 0,                     //可选，相对偏移量
-			left: 0,                    //可选，相对偏移量
-			todayBeforeDisable: false,  //可选，今天之前的日期都不显示
-			todayAfterDisable: false,   //可选，今天之后的日期都不显示
-		})
+	initDatePicker: function (e) {
+		var datepicker = this.datepicker;
+        var tarInp = $(e.currentTarget);
+        var CalendarCore = Datepicker.CalendarCore;
+        var date = tarInp.val();
+        var time = tarInp.hasClass("begin") ? "00:00" : "23:00";
+        if(!date){
+            date = CalendarCore.gettoday() + " " + time;
+        }
+			console.log(date,time)
+        datepicker.show(date,{
+            picker : tarInp,              //必选
+            top : 0,                     //可选，相对偏移量
+            left : 0,                    //可选，相对偏移量
+            todayBeforeDisable : false,  //可选，今天之前的日期都不显示
+            todayAfterDisable : false    //可选，今天之后的日期都不显示
+        })
+
+	},
+	//初始化图片上传插件
+	initImgUpload: function(){
+		var uploader = new Fileupload({
+            container : '#imgUploadWrap',
+            id        : 1,  //唯一
+            extra     : { identify: "coupon" },
+            action    : '/r/Resource_ImageUpload/upload',
+            loading   : function(formControls){
+                	PFT.Util.STip("success",'<p style="width:160px;">正在上传图片,请稍后</p>',4000);
+            },
+            complete  : function(res){
+                if( res.code == 200 ) {
+                    $('#imagePath').attr({"src": res.data.src,"data-path":res.data.src} ).css({"width":"240px","height":"160px"});;
+                    PFT.Util.STip("success",'<p style="width:160px;">上传图片成功</p>');
+                } else {
+                    PFT.Util.STip("fail",'<p style="width:220px;">' + res.msg + '</p>');
+                }
+            }
+        });
+
+		var uploader_2 = new Fileupload({
+            container : '#imgUploadWrap_2',
+            id        : 2,  //唯一
+            extra     : { identify: "coupon" },
+            action    : '/r/Resource_ImageUpload/upload',
+            loading   : function(formControls){
+					PFT.Util.STip("success",'<p style="width:160px;">正在上传图片,请稍后</p>',4000);
+            },
+            complete  : function(res){
+               
+                if( res.code == 200 ) {
+                    $('#imagePath_2').attr({"src": res.data.src,"data-path":res.data.src} ).css({"width":"240px","height":"160px"});
+                    PFT.Util.STip("success",'<p style="width:160px;">上传图片成功</p>');
+                } else {
+                    PFT.Util.STip("fail",'<p style="width:220px;">' + res.msg + '</p>');
+                }
+            }
+        });
+
 
 	},
 	//根据spid获取活动详细
@@ -98,9 +148,9 @@ var Main = PFT.Util.Class({
 		M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
 		D = date.getDate() + ' ';
 		h = date.getHours() + ':';
-		m = date.getMinutes() + ':';
-		s = date.getSeconds();
-		var dateTime = Y + M + D + h + m + s;
+		m = date.getMinutes();
+		
+		var dateTime = Y + M + D + h + m ;
 		return dateTime;
 	},
 	//渲染活动页面
@@ -108,18 +158,19 @@ var Main = PFT.Util.Class({
 		var _this = this;
 		var render = PFT.Util.ParseTemplate(ListTpl);
 		var html = "";
-		var beginDate = _this.formatTimeStamp(data.activity_bt);
-		var endDate = _this.formatTimeStamp(data.activity_et);
+		
+		var beginDate = data.activity_bt ? _this.formatTimeStamp(data.activity_bt) : "";
+		var endDate =data.activity_et ? _this.formatTimeStamp(data.activity_et) : "";
 		data["beginDate"] = beginDate;
 		data["endDate"] = endDate;
 		html = render({ data: data });
 		_this.container.html(html);
-		_this.initDatePicker();
 		_this.initUeditor(1);//初始化默认富文本编辑器
 		_this.initUeditor(2);
 		_this.getActivityList();//初始化活动产品
 		_this.initGetCouponId("couponId");//初始化获取优惠券列表
 		_this.initGetCouponId("couponIdInp");
+		_this.initImgUpload();//初始化图片上传插件
 	},
 	//切换分享类型
 	changeShareType: function (e) {
@@ -162,8 +213,9 @@ var Main = PFT.Util.Class({
 						title: list[i].ltitle
 					});
 				}
-
-				return newList;
+				//console.log(newList)
+				result["data"]=newList;
+				return result;
 			},
 		});
 	},
@@ -190,23 +242,28 @@ var Main = PFT.Util.Class({
 					return result;
 				}
 
-				var newList = [];
+				var newCouList = [];
 				for (var i = 0; i < list.length; i++) {
 
-					newList.push({
+					newCouList.push({
 						id: list[i].pid,
 						title: list[i].coupon_name
 					});
 				}
-
-				return newList;
+				// console.log(newList)
+				result["data"]=newCouList;
+				return result;
 			},
 		});
 	},
 	//票券张数输入时选中radio
 	checkCouponNum: function () {
 		$("#couponNumRadio").prop("checked", true);
-	}
+	},
+	//保存新增优惠活动
+	saveAddNewActivity: function(){
+
+	},
 
 })
 

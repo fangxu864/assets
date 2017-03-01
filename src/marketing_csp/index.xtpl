@@ -8,9 +8,9 @@
 </div>
 <div class="con">
     <span class="u-span">活动时间:</span>
-    <input type="text" id="beginDate" class="inp-t w-175" value="<%=data.beginDate%>" readonly>
+    <input type="text" id="beginDate" class="inp-t inp-date begin w-175" value="<%=data.beginDate%>" readonly>
     <span class="u-span_to">至</span>
-    <input type="text" id="endDate" class="inp-t w-175" value="<%=data.endDate%>" readonly>
+    <input type="text" id="endDate" class="inp-t inp-date w-175" value="<%=data.endDate%>" readonly>
 </div>
 <div class="con" id="typeBox">
     <span class="u-span">分享类型:</span>
@@ -33,7 +33,7 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <input type="text" id="couponNum" class="inp-t" min="1" autocomplete="off" value="1">
+            <input type="text" id="couponNum" class="inp-t" value="<%(data.share_type==1&&data.coupon_num!= '') ? data.coupon_num : '1' %>">
         </div>
 
         <div class="con ">
@@ -48,16 +48,15 @@
             <div class="share_img">
 
                 <a class="lnk_prv" target="_blank" title="点击查看原图">
-                    <img  src="http://www.12301.cc/images/defaultThum.jpg" class="preview" />
+                    <img id="imagePath" src="<%=(data.share_type==1&&data.image_path) ? data.image_path : "http://www.12301.cc/images/defaultThum.jpg"%>" />
                 </a>
                 <div class="uploadImg">
                     <p class="title">重新上传缩略图：</p>
-                    <input type="file" id="imgUpload_inpFile" name="image" />
-                    <input type="button" id="submitImgUploadBtn" value="上传" class="btn up-btn" />
+                    <div id="imgUploadWrap">
+                       
+                   </div>
                     <p class="ui-form-explain">点击上传小于1M的JPG或GIF格式的图片,<br/>建议图片尺寸：宽300像素，高300像素</p>
-                    <p class="waitingUpload" class="ui-form-other"></p>
-                    <div id="uploadResultCon"></div>
-                    <div id="uploadFailTip"></div>
+                    
                 </div>
             </div>
         </div>
@@ -66,7 +65,7 @@
     <div id="share_type_2" class="share_type" style= " display: <%=(data.share_type==2) ? "block" : "none" %> ">
         <div class="con">
             <span class="u-span">红包金额:</span>
-            <input type="text" id="redPackMoney" class="inp-t" min="0" autocomplete="off" value="0">
+            <input type="text" id="redPackMoney" class="inp-t"  value="<%=(data.share_type==2&&data.red_pack_money>0) ? data.red_pack_money : 0%>">
         </div>
 
         <div class="con ">
@@ -81,16 +80,15 @@
             <div class="share_img">
 
                 <a class="lnk_prv" target="_blank" title="点击查看原图">
-                    <img  src="http://www.12301.cc/images/defaultThum.jpg" />
+                    <img id="imagePath_2" src="<%=(data.share_type==2&&data.image_path) ? data.image_path : "http://www.12301.cc/images/defaultThum.jpg"%>" />
                 </a>
                 <div class="uploadImg">
                     <p class="title">重新上传缩略图：</p>
-                    <input type="file" id="imgUpload_inpFile" name="image" />
-                    <input type="button" id="submitImgUploadBtn" value="上传" class="btn up-btn " />
+                   <div id="imgUploadWrap_2">
+                       
+                   </div>
                     <p class="ui-form-explain">点击上传小于1M的JPG或GIF格式的图片,<br/>建议图片尺寸：宽300像素，高300像素</p>
-                    <p class="waitingUpload" class="ui-form-other"></p>
-                    <div id="uploadResultCon"></div>
-                    <div id="uploadFailTip"></div>
+                    
                 </div>
             </div>
         </div>
@@ -103,8 +101,9 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <label><input type="radio" class="inp-r" id="couponNumRadio" name="couponNum"><input type="text"  id="couponNumber" class="inp-t ml-20 w-60"></label>
-            <label><input type="radio" class="inp-r ml-20" name="couponNum"> 购买票数（限购买即送优惠券活动）</label>
+            <label><input type="radio" class="inp-r" id="couponNumRadio" name="couponNum" <%=(data.share_type==3&&data.coupon_num) ? "checked" : ""%>>
+                   <input type="text"  id="couponNumber" class="inp-t ml-20 w-60" value="<%=(data.share_type==3&&data.coupon_num) ? data.coupon_num : ''%>"></label>
+            <label><input type="radio" class="inp-r ml-20" name="couponNum" value="<%=(data.share_type==3&&data.coupon_num==-1) ? "checked" : ""%>"> 购买票数（限购买即送优惠券活动）</label>
         </div>
         <div class="con">
             <span class="u-span">活动产品:</span>
@@ -114,5 +113,5 @@
 </div>
 
 <div class="con ">
-    <button class="btn save-btn" id="saveBtn">保存</button>
+    <button class="btn save-btn" id="saveBtn" data-type="<%=data.share_type ? data.share_type : 1%>">保存</button>
 </div>
