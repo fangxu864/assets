@@ -135,6 +135,7 @@ var Filter = PFT.Util.Class({
 			},
 			success : function(data){
 				var option = "";
+                option += '<option value="">全部</option>';
 				for(var i=0, len=data.length; i<len; i++){
 					var car = data[i];
 					option += '<option value="'+car.type+'">'+car.name+'</option>';
@@ -160,9 +161,8 @@ var Filter = PFT.Util.Class({
             begin : status!=4 ? beginTime : unuseBeginTime,
             end : status!=4 ? endTime : unuseEndTime
         };
-
         if(status=="" || status=="0"){ //全部，正常这两个状态  需要添加车辆信息参数搜索
-            params["car_type"] = $("#carTypeSelect").val() || "0";  //默认请求5座的 值为0
+            params["car_type"] = $("#carTypeSelect").val() || "";  //默认请求5座的 值为0
         }else if(status=="4"){ //未使用状态  需要添加未使用天数搜索
             params["days"] = $.trim($("#unuseDayInp").val());
         }
