@@ -2,7 +2,11 @@
  * Created by Administrator on 16-2-3.
  */
 var Api = {
-	api : "/route/?c=product_storage",
+	//api : "/route/?c=product_storage",
+	api : function(action){
+		var _api = "/r/product_storage/";
+		return action ? (_api+action+"/") : _api;
+	},
 	fn : new Function,
 	AJAX_TIMEOUT : 60*1000,
 	AJAX_TIMEOUT_TEXT : "请求超时，请稍后重试",
@@ -24,7 +28,8 @@ var Api = {
 	//获取分销商列表
 	fetchList : function(venus_id,area_id,opt){
 		var that = this;
-		var api = that.api+"&a=getListDefault";
+		//var api = that.api+"&a=getListDefault";
+		var api = that.api("getListDefault");
 		var opt = opt || {};
 		var fn = that.fn;
 		var ajax_timeout = that.AJAX_TIMEOUT;
@@ -72,7 +77,8 @@ var Api = {
 		var that = this;
 		var venus_id = this.getVenusId();
 		if(!venus_id) return alert('缺少venus_id');
-		var api = that.api+"&a=getConfigDefault";
+		//var api = that.api+"&a=getConfigDefault";
+		var api = that.api("getConfigDefault");
 		var opt = opt || {};
 		var fn = that.fn;
 		var ajax_timeout = that.AJAX_TIMEOUT;
@@ -113,7 +119,8 @@ var Api = {
 		var area_id = this.getAreaId();
 		if(!area_id) return alert('area_id');
 		var action = type=="open" ? "openDefault" : "closeDefault";
-		var api = that.api+"&a="+action;
+		//var api = that.api+"&a="+action;
+		var api = that.api(action);
 		var opt = opt || {};
 		var fn = that.fn;
 		var ajax_timeout = that.AJAX_TIMEOUT;
@@ -151,7 +158,8 @@ var Api = {
 	 */
 	submit : function(data,opt){
 		var that = this;
-		var api = that.api+"&a=setListDefault";
+		//var api = that.api+"&a=setListDefault";
+		var api = that.api("setListDefault");
 		var opt = opt || {};
 		var fn = that.fn;
 		var ajax_timeout = that.AJAX_TIMEOUT;

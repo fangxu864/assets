@@ -1,0 +1,152 @@
+@import "COMMON/css/base/core";
+
+$incomeColor: #8fc390;//收入的颜色
+$expendColor:  #ff4050;//支出的颜色
+.dealsumContainer table{  border-collapse: collapse;border-spacing: 0;}
+.dealsumContainer{ border:1px solid #e5e5e5; background:white; overflow:hidden; position:relative;}
+.dealsumContainer .title{ line-height:56px; font-size:18px; font-weight:600; border-bottom:1px solid #e5e5e5; padding-left:18px;}
+.dealsumContainer .title .titleSum{ color:#0797d9; margin-left:10px;}
+
+.dealsumContainer  .trecordTitle ul {  background: none;  padding-left: 20px;  height: 60px;border-bottom: 1px solid #e5e5e5;  }
+.dealsumContainer  .trecordTitle ul li {  padding: 19px 3px 17px 3px;  margin: 0 50px 0 0;  float: left; font-size: 22px; }
+.dealsumContainer  .trecordTitle ul li a{color: #303D46}
+.dealsumContainer  .trecordTitle ul li.acct{border-bottom: 2px solid #0797D9;}
+.dealsumContainer  .trecordTitle ul li.acct a{color: #0797D9; }
+
+
+.dealsumContainer .dealTimeBox{      border-bottom: 1px solid #e5e5e5;  padding:0 18px;}
+.dealsumContainer .dealTimeBox .line{height: 60px;line-height: 60px;}
+.dealsumContainer .dealTimeBox .line1{display: none;}
+.dealsumContainer .dealTimeBox .line1 .rt{margin-left: 3px;}
+.dealsumContainer .dealTimeBox .line1 .rt input{@include textInp(160,5);}
+//.clear_trader_box{display: none;}
+.dealsumContainer .dealTimeBox .datePickerInp{@include textInp(160,5);}
+.dealsumContainer .dealTimeBox .dealTime{ margin-left:8px;}
+.calendar-pop-contaienr{width:212px !important;}
+.dealsumContainer .dealTimeBox .lt{float: left;}
+.dealsumContainer .dealTimeBox .rt{float: left;}
+
+.dealsumContainer .dealTypeBox{display:inline-block; height:32px;border:1px solid #e5e5e5;margin-left:44px; line-height:30px; padding: 0 10px;}
+.dealsumContainer .dealTypeBox .radioBox{ margin-right:20px;}
+.dealsumContainer .dealTypeBox .radioDeal{ vertical-align:middle;}
+.dealsumContainer .queryBtn{@include btn-inline-block(87,28,#f60); font-size:14px; margin:-3px 0 0 8px;}
+.dealsumContainer .queryBtn.disable{ @include btn-disable();}
+
+.dealsumContainer .dealSumBox{ font-size:18px; padding-left:18px; line-height:66px;border-bottom:1px solid #e5e5e5;}
+.dealsumContainer .dealSumBox .totalIncome{ color:$incomeColor; margin-right:32px;}
+.dealsumContainer .dealSumBox .totalExpend{ color:$expendColor;}
+.dealsumContainer .tb_top_box{width: 100%;overflow: hidden;border-bottom: 1px solid #e5e5e5;text-align: center;white-space:nowrap;}
+.dealsumContainer .tb_top_box .lt{width: 135px;height: 122px;float: left;position:relative;background-color: #ffffff;}
+.dealsumContainer .tb_top_box .lt .th{height:42px;line-height: 42px;text-align: center;background-color:#00597b; }
+.dealsumContainer .tb_top_box .lt .tr{height:40px;line-height: 40px;text-align: left;padding-left: 18px; }
+.dealsumContainer .tb_top_box .rt{width: 835px;height: 122px;float: left;position:relative;overflow: hidden;}
+.dealsumContainer .tb_top_box .rt table{position: absolute;}
+.dealsumContainer .tb_top_box .rt table thead {background-color:#00597b;height:32px;line-height: 32px;color: white;cursor: move; }
+.dealsumContainer .tb_top_box .rt table thead th{padding: 5px 28px;}
+.dealsumContainer .tb_top_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: $incomeColor;}
+.dealsumContainer .tb_top_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: $expendColor;}
+.dealsumContainer .tb_top_box .rt_r{width: 28px;height: 100%;float: left;background-color: #ffffff;}
+.dealsumContainer .tb_top_box .rt_r .th{height:42px;line-height: 42px;text-align: center;background-color:#00597b; }
+
+
+
+.dealsumContainer .day_detail_box{height: 50px;width: 100%;overflow: hidden;padding-left: 18px;line-height: 50px;border-bottom: 1px solid #e5e5e5;font-size: 12px;}
+.dealsumContainer .day_detail_box .day_detail_btn1{position: relative;font-size: 14px;color:#0797d9;cursor:pointer;}
+.dealsumContainer .day_detail_box .day_detail_btn1:after{  content: "";  display: block;  position:absolute;  border-top: 10px solid #0797d9;  border-left:5px solid transparent;  border-right:5px solid transparent;  top: 5px;  right: -17px;  }
+
+.dealsumContainer .day_detail_box .day_detail_btn2{position: relative;font-size: 14px;color:#0797d9;cursor:pointer;}
+.dealsumContainer .day_detail_box .day_detail_btn2:after{  content: "";  display: block;  position:absolute;  border-bottom: 10px solid #0797d9;  border-left:5px solid transparent;  border-right:5px solid transparent;  top: 5px;  right: -17px;  }
+
+
+.dealsumContainer .tb_bottom_box{width: 100%;white-space:nowrap;position: relative;overflow: visible;}
+
+.dealsumContainer .tb_bottom_box .lt{width: 135px;float: left;position:relative;z-index: 1;background-color: #ffffff;}
+.dealsumContainer .tb_bottom_box .lt .th{height:42px;line-height: 42px;background-color:#e5e5e5; color:black;padding-left: 18px;}
+.dealsumContainer .tb_bottom_box .lt .th .lt{float: left;width: 0px;}
+
+.dealsumContainer .tb_bottom_box .lt .tr_time{height:30px;line-height: 30px;padding-left: 18px;color:#0797d9;}
+.dealsumContainer .tb_bottom_box .lt .tr_income{height:25px;line-height: 25px;padding-left: 18px;color: $incomeColor;}
+.dealsumContainer .tb_bottom_box .lt .tr_expend{height:25px;line-height: 25px; border-bottom: 1px solid #eceaea;padding-left: 18px;color:$expendColor;}
+
+
+.dealsumContainer .tb_bottom_box .rt{width: 835px;float: left;position:relative;}
+.dealsumContainer .tb_bottom_box .rt table{position: absolute;}
+.dealsumContainer .tb_bottom_box .rt table thead {background-color:#e5e5e5;height:32px;line-height: 32px;color: #737373;cursor:move; }
+.dealsumContainer .tb_bottom_box .rt table thead th{padding: 5px 28px;}
+.dealsumContainer .tb_bottom_box .rt table tbody tr:hover{background-color: #fff3f3}
+.dealsumContainer .tb_bottom_box .rt_r{width: 28px;background-color: #ffffff;    float: right;  position: relative;  z-index: 2;}
+.dealsumContainer .tb_bottom_box .rt_r .th{height:42px;line-height: 42px;background-color:#e5e5e5; color:black;}
+.dealsumContainer .tb_bottom_box .rt_r .con .tr{height: 80px;width:28px;border-bottom:  1px solid #eceaea;}
+.dealsumContainer  .roll_right{height:42px;width: 28px;line-height: 42px;text-align:center;font-size: 20px;cursor:pointer;}
+.dealsumContainer  .roll_left{height:42px;width: 20px;line-height: 42px;text-align:center;font-size: 20px;cursor:pointer;float: right;}
+
+
+.dealsumContainer  .roll_right:active , .dealsumContainer  .roll_left:active{color:red !important;}
+
+
+
+.dealsumContainer .tb_bottom_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: $incomeColor;text-align: center;}
+
+.dealsumContainer .tb_bottom_box .rt table tbody tr.expend{height: 40px;line-height:40px;color:$expendColor;text-align: center; border-bottom: 1px solid #eceaea;}
+.dealsumContainer .tb_bottom_box .nodata{    top: 66px;  left: 460px;    position: absolute;display: none;  }
+
+ul.pagination li.total, li.goto {  line-height: 3.5em !important;  color: #999999;  }
+
+ul.pagination{margin-left: 200px;display: block;}
+
+ul.pagination{margin: 0 auto;}
+
+.calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{color: #dedede !important;}
+.calendar-table .calendar-td.day:hover{background-color: #00a0e9}
+
+.calendar-td.selected.disable{background-color: #008fc2 !important;color:#ffffff !important;}
+.zero_data_td{color: #e0e0e0 !important;}
+
+.PageHeaderContainer .logoBannerBox .logoBox img{    width: 280px;  height: 66px;  }
+
+.dealsumContainer .iframe_wrap{display: none;}
+.query_state_box{
+  .querying{
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    img{
+      position:relative;
+      top : 10px;
+    }
+  }
+}
+
+
+
+
+//.dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%;text-align:center;}
+//.dealsumContainer .dealSumTable thead tr{ background:#00597b; color:white; line-height:32px; position:relative;}
+//.dealsumContainer .dealSumTable td,.dealsumContainer .sumDetailTable td{ white-space:nowrap; padding:0 22px;}
+//.dealsumContainer .income td{ padding-top:8px;}
+//.dealsumContainer .expend td{ padding-bottom:8px;}
+
+//.dealsumContainer .dealSumTable .dealSumList{ padding:8px 0;}
+//.dealsumContainer .dealSumTable .dealSumList tr,.detailList tr{ line-height:30px; position:relative; z-index:5px;}
+//.dealsumContainer .dealSumTable .dealSumList .income{ color:red; position:relative;}
+//.dealsumContainer .dealSumTable .dealSumList .expend{ color:green; position:relative;}
+//.dealsumContainer .dealSumTable .dealSumList .income td:first-of-type,.dealsumContainer .dealSumTable .dealSumList .expend td:first-of-type{ color:black;}
+//
+//.dealsumContainer .summaryDetailLine{border-top:1px solid #e5e5e5;}
+//.dealsumContainer .summaryDetailBtn{ font-size:14px; line-height:50px; padding-left:18px;}
+//.dealsumContainer .sumDetailTable{ width:100%; display:none;}
+//.dealsumContainer .sumDetailTable thead tr{ background:#e5e5e5; color:#6c7882;line-height:32px;}
+//.dealsumContainer .detailList tr:nth-child(4n-1),.dealsumContainer .detailList tr:nth-child(4n){ background:#f5f5f5;}
+//.dealsumContainer .detailList .income{ color:red;}
+//.dealsumContainer .detailList .expend{ color:green;border-bottom:1px solid #e5e5e5;}
+//.dealsumContainer .detailList .income td:nth-of-type(1){ color:black;}
+//
+//.dealsumContainer .paginationContainer{ height:64px;}
+//
+//.dealsumContainer .btn{background:#00597b; display: inline-block; height: 32px;text-align: center; color: white; font-weight: bolder;text-decoration: none;cursor: pointer; line-height: 32px;}
+//.dealsumContainer .leftBtn{ position: absolute; z-index: 99px; top:181px; left:0px; text-align: right; width:68px; text-align:right;}
+//.dealsumContainer .rightBtn{ position: absolute; z-index: 99px; top:181px; right:0px;width:20px; }
+//.dealsumContainer .incomeText,.expendText{ position: absolute; top:213px; left:0; z-index:99; display: inline-block; height:32px;text-align: center;color: black; background: white; line-height: 32px;}
+//.dealsumContainer .expendText{top:248px; left:0;}
+//
+//.dealsumContainer .bgBlue{ width:3998px; height:32px; background:#00597b; position:absolute;top:181px; left:0px; z-index:-1;}

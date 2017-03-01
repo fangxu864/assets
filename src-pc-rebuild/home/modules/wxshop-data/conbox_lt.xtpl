@@ -1,0 +1,4 @@
+<p>昨日PV : <span class="value"><%= data.pv%></span></p>
+<p>昨日UV : <span class="value"><%= data.uv%></span></p>
+<p>昨日新绑定用户数 : <span class="value"><%= data.bind%></span></p>
+<p>昨日错误次数 : <span class="value"><%= data.error%></span></p>

@@ -11,6 +11,7 @@ if(env.trim){
 }
 var ENV_STR = {
 	develop : "local",          //开发环境编译到/build/local
+	server : "server",          //用于webpack-dev-server
 	production : "production",  //生产环境编译到/build/prodduction
 	test : "test",              //测试环境编译到/build/test
 	release : "release"         //预发布环境编译到/build/release

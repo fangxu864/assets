@@ -182,6 +182,9 @@ SelectShort.prototype={
                 return getComputedStyle(obj, false)[name];
             }
         }
+        $(document).on("click",function () {
+            fold();
+        })
     },
     getStyle:function (obj,name) {
         if (obj.currentStyle) {

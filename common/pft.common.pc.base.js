@@ -49,12 +49,12 @@ function init(){
 
 	// 页面ready时，计算leftbar的高度
 	// 如果main body的height小于leftbar height则 将leftbar height 赋值给 main body
-	setLeftBarHeightToMainBody();
+	//setLeftBarHeightToMainBody();
 }
 //登出
 var logout = function(){
 	$.ajax({
-		"url":"/call/handle.php",
+		"url":handleApi,
 		"data":{"from":"logout"},
 		"dataType":"json",
 		"success":function(data){
@@ -70,10 +70,32 @@ var logout = function(){
 	});
 };
 
+
+var handleApi = (function(){
+	var api = "";
+	var __host = {
+		"www.12301.cc" : 1,
+		"www.12301.local" : 1,
+		"www.12301.test" : 1,
+		"www.12301dev.com" : 1
+	};
+
+	if(__host[window.location.hostname]){ //非独立域名
+		api = "/call/handle.php";
+	}else{ //独立域名
+		api = "/new/d/call/handle.php";
+	}
+
+	return api;
+
+})();
+
+
+
 //异步获取未读信息数量
 var getunReadMsg = function() {
 	$.ajax({
-		"url":"/call/handle.php",
+		"url":handleApi,
 		"data":{"from":"getUnReadMsgNum"},
 		"dataType":"json",
 		"success":function(data){

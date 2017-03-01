@@ -1,8 +1,8 @@
-.con{
-    box-shadow:1px 1px 1px rgba(0,0,0,0.7);
-    transform:translateX(50%);
-    display:flex;
-}
-.con > div{
-    flex:1
+@import "COMMON/css/base/core/px2rem";
+body{ width:100%; background:#f0f4f5;}
+.bodyContainer{ width:100%; overflow-x:hidden;}
+
+.sliderModule{
+    padding:0;
+    background:#fff;
 }

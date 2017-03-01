@@ -28,10 +28,11 @@ var MainView = Backbone.View.extend({
 		});
 		this.fileupload = new Fileupload({
 			container : "#imgUploadBox",
-			id : 1,
-			action : Api.Url.PublishCardProd.uploadFile,
-			loading : function(formControls){},
-			complete : function(res){
+			id 		  : 1,
+			extra     : {identify: "productCreate"},
+			action    : Api.Url.PublishCardProd.uploadFile,
+			loading   : function(formControls){},
+			complete  : function(res){
 				that.onImgUploadComplete(res);
 			}
 		});

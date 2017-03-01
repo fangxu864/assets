@@ -1,0 +1,8 @@
+<script id="GroupTpl" type="text/template">
+	<select class="selectBsae ui-radius w340">
+		<option value="-1">请选择分组</option>
+		<% _.each(res.data,function(group){ %>
+           <option value="<%=group.group_id%>"><%=group.group_name%></option>
+		<% }) %>
+	</select>
+</script>

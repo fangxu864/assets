@@ -1,0 +1,67 @@
+<div class="dialog_con">
+    <div class="title">
+        <ul>
+            <li>清算时间：2016-05-08 18:00:00</li>
+            <li>合计：5524.366</li>
+        </ul>
+    </div>
+    <div class="table_con">
+        <table class="dialog_tb">
+            <thead>
+            <tr>
+                <th>订单号</th>
+                <th>产品</th>
+                <th>未使用票数</th>
+                <th>金额(元)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>548451</td>
+                <td>【测试】联票订单测试-优惠票</td>
+                <td>548451</td>
+                <td>548451</td>
+            </tr>
+            <tr>
+                <td>548451</td>
+                <td>【测试】联票订单测试-优惠票</td>
+                <td>548451</td>
+                <td>548451</td>
+            </tr>
+            <tr>
+                <td>548451</td>
+                <td>【测试】联票订单测试-优惠票</td>
+                <td>548451</td>
+                <td>548451</td>
+            </tr>
+            <tr>
+                <td>548451</td>
+                <td>【测试】联票订单测试-优惠票</td>
+                <td>548451</td>
+                <td>548451</td>
+            </tr>
+            <tr>
+                <td>548451</td>
+                <td>【测试】联票订单测试-优惠票</td>
+                <td>548451</td>
+                <td>548451</td>
+            </tr>
+            <tr>
+                <td>548451</td>
+                <td>【测试】联票订单测试-优惠票</td>
+                <td>548451</td>
+                <td>548451</td>
+            </tr>
+            <tr>
+                <td>548451</td>
+                <td>【测试】联票订单测试-优惠票</td>
+                <td>548451</td>
+                <td>548451</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="pagination_wrap_dialog">
+    </div>
+    <div class="queryState_box"></div>
+</div>

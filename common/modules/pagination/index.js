@@ -27,7 +27,6 @@ function Pagination(opt){
     this.init_content();
     this.bindEvent();
     this.updateYema(this.present_page);
-        
 }
 Pagination.prototype={
     //初始化容器
@@ -37,24 +36,40 @@ Pagination.prototype={
         //初始化盒子内容
         this.pag_box.innerHTML=tpl;
         //分页器
-        this.pag=this.pag_box.getElementsByClassName("pagination")[0];
+        this.pag=getByClass(this.pag_box,'pagination')[0];
         //显示总页数的span
-        this.span_total_num=this.pag.getElementsByClassName("total")[0].getElementsByTagName("span")[0];
+        this.span_total_num=getByClass(this.pag,"total")[0].getElementsByTagName("span")[0];
         this.span_total_num.innerHTML=this.total_page_num;
         //装页码yema的盒子
-        this.yema_box=this.pag.getElementsByClassName("yema")[0].getElementsByTagName("ul")[0];
+        this.yema_box=getByClass(this.pag,"yema")[0].getElementsByTagName("ul")[0];
         //上一页按钮
-        this.prev=this.pag.getElementsByClassName("prev")[0];
+        this.prev=getByClass(this.pag,"prev")[0];
         //下一页按钮
-        this.next=this.pag.getElementsByClassName("next")[0];
+        this.next=getByClass(this.pag,"next")[0];
         //首页按钮
-        this.first=this.pag.getElementsByClassName("first")[0];
+        this.first=getByClass(this.pag,"first")[0];
         //末页按钮
-        this.last=this.pag.getElementsByClassName("last")[0];
+        this.last=getByClass(this.pag,"last")[0];
         //GO按钮
-        this.go_btn=this.pag.getElementsByClassName("go_btn")[0];
+        this.go_btn=getByClass(this.pag,"go_btn")[0];
         //输入框中go_num
-        this.go_num=this.pag.getElementsByClassName("go_num")[0];
+        this.go_num=getByClass(this.pag,"go_num")[0];
+
+        function getByClass(obj,className) {
+            var arr=[];
+            if(obj.getElementsByClassName){
+                return obj.getElementsByClassName(className);
+            }else{
+                var allEle=obj.getElementsByTagName("*");
+                for(var i=0;i<allEle.length;i++){
+                    var cls = allEle[i].getAttribute("class")+"1111";
+                    if(cls.search(className)>-1){
+                        arr.push(allEle[i]);
+                    }
+                }
+            }
+            return arr;
+        }
 
 
     },
@@ -183,7 +198,7 @@ Pagination.prototype={
         }
 
         var _this=this;
-        _this.go_num.value=null;
+        _this.go_num.value="";
         this.yema_box.innerHTML=content;
         var arr_li=this.yema_box.getElementsByTagName("li");
         for(var j=0;j<arr_li.length;j++){
@@ -196,6 +211,32 @@ Pagination.prototype={
         // _this.callBack(_this.present_page)
 
     },
+    refresh:function(opt){
+        this.data_total_num=opt.data_total_num;//数据总条数
+        this.present_page=opt.present_page;//当前页数
+        this.per_page_num=opt.per_page_num||8;//每页数据条数
+        this.a=parseInt(this.data_total_num/this.per_page_num);//计算用的中间变量
+        this.total_page_num=this.data_total_num%this.per_page_num>0?this.a+1:this.a;//计算出的 数据总页数
+        this.updateYema(this.present_page);
+        //显示总页数的span
+        this.span_total_num=getByClass(this.pag,"total")[0].getElementsByTagName("span")[0];
+        this.span_total_num.innerHTML=this.total_page_num;
+    }
+};
+function getByClass(obj,className) {
+    var arr=[];
+    if(obj.getElementsByClassName){
+        return obj.getElementsByClassName(className);
+    }else{
+        var allEle=obj.getElementsByTagName("*");
+        for(var i=0;i<allEle.length;i++){
+            var cls = allEle[i].getAttribute("class")+"1111";
+            if(cls.search(className)>-1){
+                arr.push(allEle[i]);
+            }
+        }
+    }
+    return arr;
 }
 
 module.exports=Pagination;

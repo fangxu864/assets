@@ -2,14 +2,39 @@
  * Author: huangzhiyang
  * Date: 2016/6/14 11:14
  * Description: 项目时间紧迫，主体功能先实现，更多功能后续会慢慢增加
+ *
+ *
+ * var select = new Select({
+ * 		source : "/call/handler.php",
+ * 		ajaxType : "post",
+ * 		ajaxParams : {
+ * 			lid : "12341",
+ * 			dtype : "d"
+ * 		},
+ * 		filterType : "ajax",  指定过滤方式为ajax
+ * 		field : {
+ * 			id : "lid",
+ * 			name : "text",
+ * 			keyword : "val"
+ * 		}
+ * })
+ *
+ *
+ *
+ *
  */
 require("./index.scss");
 var Defaults = {
+
+	isFillContent:true,  //初始化时是否在input中填入内容，
+
+
 	trigger : null,
 
 	field : {
 		id : "id",
-		name : "name"
+		name : "name",
+		keyword : "keyword"
 	},
 
 	//是否支持搜索过滤 默认为true(支持)
@@ -17,15 +42,21 @@ var Defaults = {
 	//true(支持)  false(不支持)  function自定义过滤规则，如：function(data,keyword){ return[{key:value}] }
 	filter : true,
 
+	filterType : "",
+
 	height : 200,
 
 	source : "", //ajax请求的数据源
+	ajaxParams : {},
+	ajaxType : "type",
 
 	offset : { //偏移量
 		top : 0,
 		left : 0,
 		width : 0 //一般情况下，下拉框的宽度会取trigger的宽度，但程序获取trigger宽度有时会存在几个px的误差，此时，offset.width可让使用者来手动调整
 	},
+
+	positionType : "absolute",
 
 	defaultVal : "",  //初始化时默认选中的值
 
@@ -36,10 +67,7 @@ var Defaults = {
 	//适配器，用于适配从后端请求回来的数据为如下格式
 	//[{key1:value1,key2:value2}]
 	adaptor : function(res){
-		res = res || {};
-		var code = res.code;
-		var data = res.data || [];
-		return data;
+		return res;
 	},
 
 	//若需要传入自定义的静态data数据,
@@ -54,6 +82,7 @@ var __uuid = (function(){
 })();
 function Select(opt){
 	var opt = this.opt = $.extend({},Defaults,opt);
+	this.xhr = null;
 	this.init(opt);
 }
 Select.prototype = {
@@ -74,7 +103,6 @@ Select.prototype = {
 		this.searchInp = this.selectBox.find(".gSelectSearchInp");
 		this.clearSearchBtn = this.selectBox.find(".clearSearchBtn");
 		this.listUl = this.selectBox.find(".selectOptionUl");
-		this.position();
 		this.bindEvents();
 		if(opt.data){
 			this.__cacheData = opt.data;
@@ -85,6 +113,7 @@ Select.prototype = {
 		}
 		if(!opt.filter) this.selectBox.addClass("no-search");
 	},
+
 	bindEvents : function(){
 		var that = this;
 		this.trigger.on("click",function(e){
@@ -95,10 +124,15 @@ Select.prototype = {
 				that.close();
 			}
 		})
+
 		this.mask.on("click",function(){
 			that.close();
 		})
-		this.searchInp.on("keyup",function(e){
+		//this.searchInp.on("keyup",function(e){
+		//	if(!that.opt.filter) return false;
+		//	that.onSearchInpChange(e);
+		//})
+		this.searchInp.on("input propertychange",function(e){
 			if(!that.opt.filter) return false;
 			that.onSearchInpChange(e);
 		})
@@ -141,11 +175,19 @@ Select.prototype = {
 		clearTimeout(this.keyupTimer);
 		this.keyupTimer = setTimeout(function(){
 			var keyword = $.trim($(e.currentTarget).val());
-			var result = that.filter(keyword);
 			keyword=="" ? that.clearSearchBtn.hide() : that.clearSearchBtn.show();
-			var html = that.renderListHtml(result);
-			that.listUl.html(html);
+			if(that.opt.filterType=="ajax"){
+				that.filterByAjax(keyword);
+			}else{
+				var result = that.filter(keyword);
+				var html = that.renderListHtml(result);
+				that.listUl.html(html);
+			}
 		},200)
+	},
+	//过滤 by ajax
+	filterByAjax : function(keyword){
+		this.fetchData(this.opt.source,keyword);
 	},
 	//过滤
 	filter : function(keyword){
@@ -184,16 +226,22 @@ Select.prototype = {
 		$("body").append(this.mask);
 		return this.mask;
 	},
-	updateListUl : function(data){
+	updateListUl : function(data,type){
 		var html = this.renderListHtml(data);
 		this.listUl.html(html);
 		var defaultVal = this.opt.defaultVal;
 		if(data=="loading" || data=="error" || data==null) return false;
-		if(defaultVal){
-
-			this.selectDefaultVal();
-		}else{
+		if(type){
 			this.listUl.children().first().trigger("click");
+			return false;
+		}
+		if(defaultVal){
+			this.selectDefaultVal();
+		}
+		else{
+			if(this.isFillContent){
+				(this.opt.filterType!=="ajax") && this.listUl.children().first().trigger("click");
+			}
 		}
 	},
 	//初始化时选中默认值
@@ -243,18 +291,28 @@ Select.prototype = {
 		var selectBox = this.createSelectBox();
 		var of = trigger.offset();
 		var offset = this.opt.offset;
-		var scrollTop = $(window).scrollTop();
+		//var _scrollTop = $(window).scrollTop();
 		var trigger_h = trigger.outerHeight(true);
+		var positionType = this.opt.positionType;
+
+		var top = of.top;
+		if(positionType=="fixed") top = top - ($(window).scrollTop());
+
 		selectBox.css({
+			position : positionType,
 			left : of.left + (offset.left || 0),
-			top : (of.top-scrollTop) + trigger_h + (offset.top || 0)
+			top : top + trigger_h + (offset.top || 0)
 		})
 	},
-	fetchData : function(source){
+	fetchData : function(source,keyword){
 		var that = this;
-		PFT.Util.Ajax(source,{
-			type : "get",
+		var ajaxType = this.opt.ajaxType;
+		var ajaxParams = this.opt.ajaxParams;
+		if(typeof keyword!=="undefined") ajaxParams[this.opt.field.keyword] = keyword;
+		this.xhr = PFT.Util.Ajax(source,{
+			type : ajaxType,
 			dataType : "json",
+			params : ajaxParams,
 			loading : function(){
 				that.opt.__cacheData = "loading";
 				that.updateListUl("loading");
@@ -265,11 +323,12 @@ Select.prototype = {
 			},
 			success : function(res){
 				res = res || {};
-				var code = res.code;
 				var data = that.opt.adaptor(res);
+				var code = data.code;
+				var list = data.data;
 				if(code==200){
-					that.__cacheData = data;
-					that.updateListUl(data);
+					that.__cacheData = list;
+					that.updateListUl(list);
 				}else{
 					that.__cacheData = "error";
 					that.updateListUl("error");
@@ -291,6 +350,7 @@ Select.prototype = {
 		this.createSelectBox().show().css({zIndex:504});
 		this.position();
 		this.trigger.addClass("select-on");
+		this.selectBox.find(".gSelectSearchInp").focus();
 		PFT.Util.PubSub.trigger("open");
 		callback && callback();
 	},
@@ -319,9 +379,9 @@ Select.prototype = {
 		callback = typeof callback=="function" ? callback : function(){};
 		PFT.Util.PubSub.on(type,callback);
 	},
-	refresh : function(data){
+	refresh : function(data,trigger){
 		this.__cacheData = data;
-		this.listUl.html(this.updateListUl(data));
+		this.updateListUl(data,trigger);
 	}
 };
 

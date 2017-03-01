@@ -21,20 +21,25 @@
                 <li class="status empty" style="height:150px; line-height:150px;">暂无产品...</li>
             </template>
             <template v-if="listFail">
-                <li class="status fail" style="height:150px; line-height:150px;">listFail</li>
+                <li class="status fail" style="height:150px; line-height:150px;">errorMsg</li>
             </template>
         </ul>
     </div>
 </template>
 
 <script type="es6">
-    import Toast from "COMMON/modules/Toast";
-    let toast = new Toast();
+    let GetProductHot = require("SERVICE_M/getproduct-hot-c");
     export default {
-        props: ["area"],
+        props: {
+            area : {
+                type : String,
+                default : "全国"
+            }
+        },
         data(){
             return {
                 list : [],
+                error_msg : "",
                 status_loading : true,
                 status_fail : false,
                 status_empty : false
@@ -42,63 +47,53 @@
         },
         computed : {
             listSuccess(){
-                return !this.loading && !this.status_fail && !this.status_empty;
+                return !this.status_loading && !this.status_fail && !this.status_empty;
             },
             listEmpty(){
-                return !this.loading && !this.status_fail && this.status_empty;
+                return !this.status_loading && !this.status_fail && this.status_empty;
             },
             listFail(){
-                return !this.loading && this.status_fail && !this.status_empty;
+                return !this.status_loading && this.status_fail && !this.status_empty;
             }
         },
         ready(){
-            //this.request();
+            this.request();
         },
         methods : {
-            getApi(){
-                return "/wx/api/v0.0.3/order.php";
-            },
             request(){
                 let area = this.area;
-                PFT.Util.Ajax(this.getApi(),{
-                    params : {
-                        action : "hot_list",
-                        area : area
-                    },
-                    loading : function(){
-                        toast.show("loading","努力加载中");
+                GetProductHot({
+                    area : area,
+                    loading : () => {
                         this.status_loading = true;
                         this.list = [];
-                    }.bind(this),
-                    complete : function(){
-                        toast.hide();
+                    },
+                    complete : () => {
                         this.status_loading = false;
-                    }.bind(this),
-                    success : function(res){
+                    },
+                    success : res => {
                         res = res || {};
-                        var list = res.list;
-                        if(list){
-                            if(list.length){
-                                this.list = list;
-                                this.status_empty = false;
-                                this.status_fail = false;
-                            }else{
-                                this.list = [];
-                                this.status_empty = true;
-                                this.status_fail = false;
-                            }
-                        }else{
-                            this.status_fail = true;
-                            this.status_empty = false;
-                            this.list = [];
-                        }
-                    }.bind(this)
+                        this.list = res.data.list;
+                        this.status_empty = false;
+                        this.status_fail = false;
+                    },
+                    empty : res => {
+                        this.list = [];
+                        this.status_empty = true;
+                        this.status_fail = false;
+                    },
+                    fail : res => {
+                        this.status_fail = true;
+                        this.status_empty = false;
+                        this.list = [];
+                        this.errorMsg = res.msg || PFT.AJAX_ERROR_TEXT;
+                    }
                 })
             }
         }
     }
 </script>
-<style lang="sass" scope>
+<style lang="sass">
     #productListUl .itemRow{ margin-bottom:10px;}
     #productListUl .itemRow > .con{ display:block; position:relative; overflow:hidden;}
     #productListUl .itemRow .photoBox{ height:170px; text-align:center; font-size:0; overflow:hidden; background-color:#fff; background-position:center center; background-size:cover; background-repeat:no-repeat}

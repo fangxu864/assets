@@ -1,0 +1,290 @@
+@import "COMMON/css/base/core";
+$btn_color:#f07845;
+$btnHover_color:#d35c29;
+body{
+  background-color: #f8f9fb;
+}
+
+.openFunction_config{
+  //标题title
+  .title_box{
+    border: 1px solid #e5e5e5;
+    height: 60px;
+    line-height: 60px;
+    padding-left: 20px;
+    font-size: 20px;
+    background-color: #ffffff;
+  }
+  //filter
+  .filter_box{
+    .filter_con{
+      border: 1px solid #E5E5E5;
+      border-top: none;
+      background-color: #ffffff;
+      .line{
+        height: 60px;
+        line-height: 60px;
+        padding-left:20px;
+        .td{
+          float: left;
+          span.btn{
+            padding: 8px 20px;
+            background-color: $btn_color;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+            margin-left: 20px;
+          }
+          span.btn:hover{
+            background-color: $btnHover_color;
+          }
+        }
+      }
+      .line1{
+        .td2{
+          margin-left: 10px;
+          .open_function_select{
+            margin-top:13px ;
+            height: 32px;
+            width: 180px;
+            line-height: 32px;
+            border: 1px solid #e5e5e5;
+            position: relative;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          }
+        }
+        .td4{
+          margin-left: 10px;
+          .search_type_select{
+            margin-top:13px ;
+            height: 32px;
+            width: 80px;
+            line-height: 32px;
+            border: 1px solid #e5e5e5;
+            position: relative;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+          }
+        }
+        .td3{
+          margin-left: 20px;
+        }
+        .td5{
+          position: relative;
+          .search_inp{
+            margin-top: 13px;
+            @include textInp(266,5);
+          }
+          i.clear_inp{
+            position: absolute;
+            font-family: "iconfont";
+            font-size: 17px;
+            right: 6px;
+            top: 14px;
+            color: #bfbfbf;
+            cursor: pointer;
+            line-height: 30px;
+          }
+          i.clear_inp:active{
+            color: orangered;
+          }
+        }
+      }
+    }
+  }
+  //表格内容
+  .tableCon_box{
+    background-color: #ffffff;
+    border:1px solid #e5e5e5;
+    border-top:none;
+    table.con_tb{
+      width: 100%;
+      .th1{
+
+        text-align: left;
+        padding-left: 20px;
+      }
+      .th2,.th3,.th4{
+        text-align: center;
+        padding-right: 20px;
+      }
+      thead{
+        tr{
+          white-space: nowrap;
+          th{
+            font-weight: 300;
+          }
+          height: 36px;
+          line-height: 36px;
+          background-color: #f0f0f0;
+        }
+        th:last-child{
+          padding-right: 20px;
+        }
+      }
+      tbody{
+        tr{
+          height: 45px;
+          line-height: 45px;
+          border-bottom: 1px solid #e5e5e5;
+          td:last-child{
+            padding-right: 20px;
+          }
+          td{
+            a.disabled{
+              color: #989898;
+            }
+          }
+
+        }
+        tr.gray{
+          background-color: #fcfcfc;
+        }
+        tr:hover{
+          background-color: #fafafa;
+        }
+        tr:last-child{border-bottom: none;}
+      }
+    }
+
+  }
+  //pagination_box
+  #pagination_box{
+    height: 66px;
+    line-height: 100px;
+    width: 1000px;
+    text-align: center;
+    padding-top: 20px;
+    .paginationXContainer {
+      display: inline-block;
+    }
+  }
+  //查询状态
+  //查询状态
+  .queryState_box{
+    background-color: white;
+    border: 1px solid #E5E5E5;
+    border-top:none ;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    display: none;
+    .querying{
+      height: 200px;
+      line-height: 20px;
+      text-align: center;
+      padding-top: 30px;
+    }
+    .queryerror{
+      height: 200px;
+      line-height: 200px;
+      text-align: center;
+    }
+    .querynodata{
+      height: 200px;
+      line-height: 200px;
+      text-align: center;
+    }
+  }
+}
+.add_right{
+  .title{
+    height: 46px;
+    line-height: 46px;
+    font-size: 16px;
+    padding-left: 20px;
+  }
+  .line{
+    height: 60px;
+    line-height: 60px;
+    padding-left:20px;
+    .td{
+      float: left;
+      span.btn{
+        padding: 8px 20px;
+        background-color: $btn_color;
+        font-size: 14px;
+        color: white;
+        cursor: pointer;
+        margin-left: 20px;
+      }
+      span.btn:hover{
+        background-color: $btnHover_color;
+      }
+    }
+  }
+  .line1{
+    .td2{
+      margin-left: 10px;
+      .search_type_select_dialog{
+        margin-top:13px ;
+        height: 32px;
+        width: 80px;
+        line-height: 32px;
+        border: 1px solid #e5e5e5;
+        position: relative;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+      }
+    }
+    .td3{
+      position: relative;
+      .search_inp_dialog{
+        margin-top: 13px;
+        @include textInp(220,5);
+      }
+      i.clear_inp{
+        position: absolute;
+        font-family: "iconfont";
+        font-size: 17px;
+        right: 6px;
+        top: 14px;
+        color: #bfbfbf;
+        cursor: pointer;
+        line-height: 30px;
+      }
+      i.clear_inp:active{
+        color: orangered;
+      }
+    }
+  }
+  .line2{
+    .td2{
+      margin-left: 10px;
+      .open_function_select_dialog{
+        margin-top:13px ;
+        height: 32px;
+        width: 180px;
+        line-height: 32px;
+        border: 1px solid #e5e5e5;
+        position: relative;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      }
+    }
+  }
+  .line3{
+    padding-left: 300px;
+  }
+
+
+}
+
+.gSimpleDialog-container{
+  overflow: visible !important;
+}

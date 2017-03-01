@@ -3,11 +3,12 @@ var autoprefixer = require("autoprefixer");
 var precss = require("precss");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require("path");
+var env = require("./getNodeENV");
 module.exports = function(opt){
 	var entry = opt.entry;
 	var output = opt.output;
 	var plugins = opt.plugins;
-	return {
+	var config = {
 		debug : true,
 		entry : entry,
 		output : output,
@@ -31,7 +32,7 @@ module.exports = function(opt){
 				test: /\.vue$/,
 				loader: "vue"
 			},{
-				test: /\.es6$/,
+				test: /\.(es|es6)$/,
 				loader: 'babel',
 				exclude: /node_modules/
 			},{
@@ -74,12 +75,23 @@ module.exports = function(opt){
 		resolve : {
 			alias : {
 				COMMON : path.resolve("./common"),
-				COMMON_VUE_COMPONENTS : path.resolve("./src/Mobile/Components"),
-				COMMON_VUE_COMPONENTS_B : path.resolve("./src/Mobile/B/Components"),
-				COMMON_VUE_COMPONENTS_C : path.resolve("./src/Mobile/C/Components"),
+				CSS_CORE : path.resolve("./common/css/base/core"),
+				CSS_MIXIN : path.resolve("./common/css/base/mixin"),
+				COMMON_VUE_COMPONENTS : path.resolve("./src_mobile/Components"),
+				COMMON_VUE_COMPONENTS_B : path.resolve("./src_mobile/B/Components"),
+				COMMON_VUE_COMPONENTS_C : path.resolve("./src_mobile/C/Components"),
+				SERVICE_M : path.resolve("./src_mobile/Service"),
+				SERVICE : path.resolve("./Service"),
+				VUX_COMPONENTS : path.resolve("./node_modules/vux/src/components"),
 				NODE_MODULES : path.resolve("./node_modules")
 			}
 		},
 		devtool : "#source-map"
 	};
+
+	// if(env=="local") config["watch"] = true;
+
+
+	return config;
+
 }

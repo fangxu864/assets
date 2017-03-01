@@ -1,0 +1,75 @@
+@import "../common/style/reset.scss";
+@import "../common/style/tooltip.scss";
+@import "../common/style/table_list";
+//.tbThirdOrder .tbCon{table-layout: fixed; width: 100%; text-align:left}
+//.tbThirdOrder .tbCon th{height: 35px; line-height: 35px; color: #6C7882; background: #E5E5E5;}
+//.tbThirdOrder .tbCon td{line-height: 1.4; word-wrap: break-word; word-break: normal; border-bottom: 1px solid #E5E5E5; padding: 15px 0; text-align: left;}
+//.tbThirdOrder .tbCon tr:last-child td{ border-bottom:0 none}
+//.tbThirdOrder .tbCon .ltTxt{text-align: left; padding-left: 20px;}
+//.tbThirdOrder .tbCon .rtTxt{text-align: right; padding-right: 20px;}
+//.tbThirdOrder .tbCon tbody tr:hover{background: #FAFAFA;}
+.tbThirdOrder .tbCon{
+    @include tableList();
+}
+.fenyeiWrap{margin-right: 10px;}
+.colorBlue{color: #0797D9;}
+.colorOrange{color: #F07845;}
+.colorRed{color: #E91515;}
+
+/***团购订单*******************/
+.searchBox{padding: 20px;}
+a.searchBtn:link, a.searchBtn:visited,a.searchBtn:hover{color: #FFFFFF; text-decoration: none;}
+.searchBox .list{margin-bottom: 10px;}
+.searchBox .list .leaderTitle{display: inline-block; width: 80px; color: #6C7882;}
+.searchBox .list .searchBtn{margin-left: 84px;}
+.rowOverflow{cursor: pointer; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+#box{ z-index:99; background: #FFFFFF; border:1px solid #E5E5E5; padding: 5px 8px; font-size:12px;position:absolute;}
+
+.tCancel{position: relative; background: #BFE7F9; padding: 20px;}
+.tCancel .dropWrap{position: relative;}
+.tCancel .selectBox{position: relative; display: inline-block; width: 100px; height: 30px; background: #F5F5F5; line-height: 30px; font-size: 14px; cursor: pointer; border: 1px solid #C9C9C9;  border-right: 0 none; border-radius: 3px 0 0 3px; -moz-border-radius: 3px 0 0 3px; color: #6C7882; z-index: 99;}
+.tCancel .selectBox .selected{padding-left: 10px;}
+.tCancel .dropWrap .dropBox{display: none; width: 100px; position: absolute; top: 22px; left: 0;  background: #FFFFFF; border: 1px solid #C9C9C9;}
+.tCancel .dropWrap.active .dropBox{display: block;}
+.tCancel .dropWrap .dropBox li{height: 30px; line-height: 30px; padding-left: 10px; cursor: pointer;}
+.tCancel .moreIcon{display: inline-block; width: 30px; height: 30px; position: absolute; top: 0; right: 0; font-size: 25px; line-height: 30px; text-align: center; }
+.tCancel .baseInp{position: absolute; left: 209px; top: 20px; -moz-border-radius: 0 3px 3px 0; border-radius: 0 3px 3px 0; }
+.tCancel .cancelBtn{position: absolute; top: 20px; left: 535px; display: inline-block; width: 80px; height: 32px; text-align: center; line-height: 32px;  background: #0797D9; color: #FFFFFF; border-radius: 3px; -moz-border-radius: 3px;  }
+.tCancel .cancelBtn:hover{text-decoration: none;}
+.tCancel .tipMsg{margin: 5px 0 0 90px; color: #6C7882;}
+.tCancel .tipMsg .colorRed{vertical-align: middle; font-size: 18px; margin-right: 2px;}
+.w300{width: 300px;}
+.w140{width: 140px;}
+.w120{width: 120px;}
+.w100{width: 100px;}
+.w80{width: 80px;}
+.w70{width: 70px;}
+
+.searchBox .list .asbs{ margin-left:15px}
+.searchBox .list .zhi{ }
+
+.tbThirdOrder .tbCon .listLoadingTr td{ border-bottom:0 none}
+.tbThirdOrder .tbCon .listLoadingTr:hover{ background:#fff}
+
+#tableDom{ table-layout:fixed}
+#tableDom .col_1{ width:80px; padding-left:15px;}
+#tableDom .col_4{ width:60px; text-align:center}
+#tableDom .col_7,#tableDom .col_8{ width:70px;}
+#tableDom .col_3,#tableDom .col_9{ width:100px;}
+//#tableDom .col_3 .showTitle,#tableDom .col_9 .showTitle{ display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
+//#tableDom thead .col,#tableDom tbody .col{ padding-right:8px}
+#tableDom tbody .col_8{ padding-right:0}
+#tableDom tbody .col_9{ padding-right:8px;}
+//#tableDom .showTitle{ color:#3E3E3E; cursor:default}
+//#tableDom .showTitle:hover{ color:#3E3E3E; text-decoration:none}
+#tableDom .listItem.even{ background:#fcfcfc}
+#tableDom .handleStatus_1,#tableDom .handleStatus_2,#tableDom .handleStatus_6,#tableDom .handleStatus_7{ color:#e12424}
+
+#tableDom .col_1,#tableDom .col_2,#tableDom .col_6{ padding-right:10px}
+#tableDom .actionBtn img{ width:20px; vertical-align:middle; margin-right:3px}
+#tableDom .actionBtn .t{ vertical-align:middle}
+
+#tableDom thead tr th {white-space: nowrap;}
+
+
+

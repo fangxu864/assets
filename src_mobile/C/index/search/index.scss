@@ -1,0 +1,107 @@
+@import "COMMON/css/base/main";
+%fixed{
+    position:fixed;
+    padding-top:px2rem(90);
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:3;
+    background:#fff;
+    transform:translate3d(0px,2000px,0);
+}
+#searchPage{
+    display:none;
+    @extend %fixed;
+
+    .searchListContainer{
+        display:none;
+        @extend %fixed;
+        top:0;
+    }
+    .sta{
+        height:150px;
+        line-height:150px;
+        text-align:center;
+        color:$gray50;
+    }
+
+
+}
+#searchListContainer{
+    display:none;
+    @extend %fixed;
+    top:0;
+}
+.historyContainer{
+    padding:10px;
+    .topLine{
+        width:100%;
+        overflow:hidden;
+        .lt{ float:left; color:$gray50}
+        .rBtn{ float:right; color:$blue}
+    }
+    .historyList{
+        margin-top:10px;
+        font-size:0;
+    }
+    .historyItem{
+        $height:16px;
+        display:inline-block;
+        height:$height;
+        line-height:$height;
+        border:1px solid $blue;
+        margin:0 8px 8px 0;
+        .t{
+            font-size:12px;
+            padding:0 9px;
+            color:$blue;
+        }
+        .deleteBtn{
+            display:inline-block;
+            height:100%;
+            line-height:$height;
+            width:24px;
+            text-align:center;
+            background:$blue;
+            color:#fff;
+            font-size:12px;
+        }
+    }
+
+
+    .icon-shanchu{
+        position:relative;
+        top:1px;
+        margin-right:2px;
+    }
+
+}
+
+.searchResultContainer{
+
+    .searchResultLi{
+
+        height:43px;
+        line-height:43px;
+        padding:0 15px;
+        border-bottom:1px solid $gray90;
+        overflow:hidden;
+        .t{ float:left; color:#666;}
+        .rt{ float:right; color:#666}
+
+        .con{
+            display:block;
+            width:100%;
+            overflow:hidden;
+        }
+        &:active{
+            background:$gray98;
+        }
+
+    }
+
+
+
+
+}

@@ -3,11 +3,11 @@
 @import "./layout/index";
 
 /*右边二维码*/
-.siteMaBox{position:fixed;bottom:36px;right:20px;background-color:#FFF;width:48px;height:48px;border:1px solid #E5E5E5;z-index:99999;}
+.siteMaBox{position:fixed;bottom:36px;right:20px;background-color:#FFF;width:48px;height:48px;border:1px solid #E5E5E5;z-index:1;}
 .siteMaBox span{display:block;width:48px;height:48px;text-align:center;line-height:48px;font-size:20px;cursor:pointer;}
 .siteMaBox .code_img{display:none;max-width:150px;border:1px solid #E5E5E5;position:absolute;bottom:-1px;right:48px;}
 
 /* 返回到顶部 */
-#siteGotopBtn{ display:block; width:48px; height:48px; line-height:48px; position: fixed; z-index:99; bottom:85px;right:20px; background:#FFF; border:1px solid #E5E5E5; text-align:center}
+#siteGotopBtn{ display:block; width:48px; height:48px; line-height:48px; position: fixed; z-index:1; bottom:85px;right:20px; background:#FFF; border:1px solid #E5E5E5; text-align:center}
 #siteGotopBtn .iconfont{ font-size:22px; font-weight:bold; color:#555}
 #siteGotopBtn:hover .iconfont{ color:#258cc9}
