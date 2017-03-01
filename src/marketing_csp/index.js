@@ -1,6 +1,7 @@
 require("./index.scss");
-var Select=require("COMMON/modules/select");
+var Select = require("COMMON/modules/select");
 var STip = require("COMMON/js/util.simple.tip");
+var Datepicker = require("COMMON/modules/datepicker");
 var ListTpl = require("./index.xtpl");
 var Main = PFT.Util.Class({
 	container: "#bodyContainer",
@@ -10,7 +11,7 @@ var Main = PFT.Util.Class({
 	},
 	EVENTS: {
 		"click #typeBox label": "changeShareType",
-		"focus #couponNumber":"checkCouponNum"
+		"focus #couponNumber": "checkCouponNum"
 	},
 	//初始化页面显示
 	initPage: function () {
@@ -47,6 +48,27 @@ var Main = PFT.Util.Class({
 		window.UEDITOR_CONFIG.initialFrameWidth = 600;
 		ue = UE.getEditor('content_' + id);
 	},
+	//初始化日历
+	initDatePicker: function () {
+		var dateBegin = new Datepicker();
+		console.log(dateBegin)
+		var dateEnd=new Datepicker();
+		dateBegin.show(date, {
+			picker: "#beginDate",              //必选
+			top: 0,                     //可选，相对偏移量
+			left: 0,                    //可选，相对偏移量
+			todayBeforeDisable: false,  //可选，今天之前的日期都不显示
+			todayAfterDisable: false,   //可选，今天之后的日期都不显示
+		});
+		dateEnd.show(date, {
+			picker: "#endDate",              //必选
+			top: 0,                     //可选，相对偏移量
+			left: 0,                    //可选，相对偏移量
+			todayBeforeDisable: false,  //可选，今天之前的日期都不显示
+			todayAfterDisable: false,   //可选，今天之后的日期都不显示
+		})
+
+	},
 	//根据spid获取活动详细
 	getSpidActivity: function (spid) {
 		var _this = this;
@@ -78,7 +100,7 @@ var Main = PFT.Util.Class({
 		h = date.getHours() + ':';
 		m = date.getMinutes() + ':';
 		s = date.getSeconds();
-		var dateTime=Y + M + D + h + m + s;
+		var dateTime = Y + M + D + h + m + s;
 		return dateTime;
 	},
 	//渲染活动页面
@@ -92,6 +114,7 @@ var Main = PFT.Util.Class({
 		data["endDate"] = endDate;
 		html = render({ data: data });
 		_this.container.html(html);
+		_this.initDatePicker();
 		_this.initUeditor(1);//初始化默认富文本编辑器
 		_this.initUeditor(2);
 		_this.getActivityList();//初始化活动产品
@@ -108,82 +131,82 @@ var Main = PFT.Util.Class({
 		$("#share_type_" + tarNum).show().siblings(".share_type").hide();
 
 	},
-	 //获取产品列表
-	    getActivityList: function () {
-	        var select = new Select({
-	            source: "/r/product_Coupon/getProducts",
-	            ajaxType: "POST",
-	            ajaxParams: {
-	            },
-	            isFillContent: false,
-	            filterType: "ajax",  //指定过滤方式为ajax
-	            field: {
-	                id: "id",
-	                name: "title",
-	            },
-	            trigger: $("#schProInp"),
-	            filter: false,
-	            adaptor: function (res) {
-	                $(".selectOptionUl").css("padding-left", 0);
-	                var result = { code: 200 };
-	                var list = res.data;
-	                if (!list) {
-	                    return result;
-	                }
-					
-	                var newList = [];
-	                for (var i = 0; i < list.length; i++) {
-	                    
-	                    newList.push({
-							id:list[i].fid,
-							title:list[i].ltitle
-						});
-	                }
-	                
-	                return newList;
-	            },
-	        });
-	    },
-		//获取优惠券id 初始化富文本编辑器
-		initGetCouponId: function(id){
-			 var selectId = new Select({
-	            source: "/r/product_Coupon/getCoupon",
-	            ajaxType: "POST",
-	            ajaxParams: {
-	            },
-	            isFillContent: false,
-	            filterType: "ajax",  //指定过滤方式为ajax
-	            field: {
-	                id: "id",
-	                name: "title",
-	            },
-	            trigger: $("#"+id),
-	            filter: false,
-	            adaptor: function (res) {
-	                $(".selectOptionUl").css("padding-left", 0);
-	                var result = { code: 200 };
-	                var list = res.data.data;
-	                if (!list) {
-	                    return result;
-	                }
-					
-	                var newList = [];
-	                for (var i = 0; i < list.length; i++) {
-	                    
-	                    newList.push({
-							id:list[i].pid,
-							title:list[i].coupon_name
-						});
-	                }
-	                
-	                return newList;
-	            },
-	        });
-		},
-		//票券张数输入时选中radio
-		checkCouponNum: function(){
-			$("#couponNumRadio").prop("checked",true);
-		}
+	//获取产品列表
+	getActivityList: function () {
+		var select = new Select({
+			source: "/r/product_Coupon/getProducts",
+			ajaxType: "POST",
+			ajaxParams: {
+			},
+			isFillContent: false,
+			filterType: "ajax",  //指定过滤方式为ajax
+			field: {
+				id: "id",
+				name: "title",
+			},
+			trigger: $("#schProInp"),
+			filter: false,
+			adaptor: function (res) {
+				$(".selectOptionUl").css("padding-left", 0);
+				var result = { code: 200 };
+				var list = res.data;
+				if (!list) {
+					return result;
+				}
+
+				var newList = [];
+				for (var i = 0; i < list.length; i++) {
+
+					newList.push({
+						id: list[i].fid,
+						title: list[i].ltitle
+					});
+				}
+
+				return newList;
+			},
+		});
+	},
+	//获取优惠券id 初始化富文本编辑器
+	initGetCouponId: function (id) {
+		var selectId = new Select({
+			source: "/r/product_Coupon/getCoupon",
+			ajaxType: "POST",
+			ajaxParams: {
+			},
+			isFillContent: false,
+			filterType: "ajax",  //指定过滤方式为ajax
+			field: {
+				id: "id",
+				name: "title",
+			},
+			trigger: $("#" + id),
+			filter: false,
+			adaptor: function (res) {
+				$(".selectOptionUl").css("padding-left", 0);
+				var result = { code: 200 };
+				var list = res.data.data;
+				if (!list) {
+					return result;
+				}
+
+				var newList = [];
+				for (var i = 0; i < list.length; i++) {
+
+					newList.push({
+						id: list[i].pid,
+						title: list[i].coupon_name
+					});
+				}
+
+				return newList;
+			},
+		});
+	},
+	//票券张数输入时选中radio
+	checkCouponNum: function () {
+		$("#couponNumRadio").prop("checked", true);
+	}
 
 })
 
