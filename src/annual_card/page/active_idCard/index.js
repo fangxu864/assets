@@ -51,12 +51,16 @@ var MainView = Backbone.View.extend({
 
 		var CertCtl = document.getElementById("CertCtl");
 
-		var result = CertCtl.connect();
-		
+		var connectResult = CertCtl.connect();
 
-		var result = CertCtl.readCert();
 
-		console.log(result);
+		console.log(connectResult);	
+
+		var readResult = CertCtl.readCert();
+
+
+
+		console.log(readResult);
 
 
 	},
