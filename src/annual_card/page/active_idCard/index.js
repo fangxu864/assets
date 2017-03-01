@@ -20,9 +20,11 @@ var MainView = Backbone.View.extend({
 		//"blur .textInp" : "onTextInpBlur",
 		"focus .textInp" : "onTextInpFocus",
 		"keyup #cardInp" : "onCardInpKeyup",
-		"click #clearCardInpBtn" : "onClearCardInpBtnClick"
+		"click #clearCardInpBtn" : "onClearCardInpBtnClick",
+		"click #getIdCardInfo" : "handleIdCard"   //身份证阅读器
 	},
 	initialize : function(){
+
 		var that = this;
 		this.cardInp = $("#cardInp");
 		this.readCardBtn = $("#readCardBtn");
@@ -42,6 +44,23 @@ var MainView = Backbone.View.extend({
 		this.initSelect();
 		this.initFileupload();
 	},
+
+	handleIdCard : function(){
+
+		console.log("身份证阅读器");
+
+		var CertCtl = document.getElementById("CertCtl");
+
+		var result = CertCtl.connect();
+		
+
+		var result = CertCtl.readCert();
+
+		console.log(result);
+
+
+	},
+
 	initSelect : function(){
 		this.provCitySelect = new ProvCitySelect({
 			provId : "#provSelect",
