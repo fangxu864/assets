@@ -80,7 +80,7 @@ module.exports = function(ordernum,host,opt){
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			var search=window.location.search;
 			if(code==200){
-				data["ptype"] = data["ptype"].toUpperCase();
+				//data["ptype"] = data["ptype"].toUpperCase();
 				if(data.url.length>1){
 					window.location.href=data.url+search;
 				}
