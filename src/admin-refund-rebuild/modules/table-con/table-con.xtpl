@@ -56,8 +56,8 @@
                 <!--未处理-->
                 <% if(item.wd_status == 0 ){%>
                     <div class="wd_status0">
-                        <p><span class="operableBtn"><%=item.btn_ok%></span></p>
-                        <p><span class="operableBtn"><%=item.btn_deny%></span></p>
+                        <p><span class="operableBtn btnOk" data-id="<%=item.id%>" data-status="<%=item.status_ok%>"><%=item.btn_ok%></span></p>
+                        <p><span class="operableBtn btnDeny" data-id="<%=item.id%>" data-deny="<%=item.status_deny%>" data-aid="<%=item.fid%>"><%=item.btn_deny%></span></p>
                         <p><span class="operableBtn btnPrint">打印</span></p>
                     </div>
                 <%} else{ %>

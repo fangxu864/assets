@@ -34,7 +34,6 @@ var Print = {
      */
     printOne: function (innerHtml) {
         var html = this.onePrintTplTemplate({ data:{ innerHtml:innerHtml } });
-        console.log(html);
         this.print(html);
     },
     onePrintTplTemplate: ParseTemplate(onePrintTpl),

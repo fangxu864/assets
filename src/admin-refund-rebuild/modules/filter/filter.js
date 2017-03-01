@@ -36,8 +36,9 @@ var Filter = {
         });
         //点击导出
         this.container.on("click", ".btn_excel" ,function () {
-            _this.CR.pubSub.pub("queryStateBox.close");
-            _this.CR.pubSub.pub("tableConBox.render");
+            var params = _this.container.find("#filterForm").serialize() + "&Export=1";
+            var downLoadUrl = "/r/Admin_Refund/getRefundInfo/?" + params;
+            _this.outExcel(downLoadUrl);
         });
         //点击打印按钮
         this.container.on("click", ".btn_print" ,function () {
@@ -110,7 +111,6 @@ var Filter = {
      * @method 数据中心
      */
     dataCenter: function ( params ) {
-        console.log(params);
         var _this = this;
         //显示查询状态
         _this.CR.pubSub.pub("queryStateBox.querying");
@@ -158,7 +158,16 @@ var Filter = {
                 //请求出错处理
             }
         });
-    }
+    },
+
+    /**
+     * @method导出excel
+     */
+    outExcel:function (downloadUrl) {
+        var iframeName="iframe"+new Date().getTime();
+        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+        window.open(downloadUrl, iframeName);
+    },
 
 };
 

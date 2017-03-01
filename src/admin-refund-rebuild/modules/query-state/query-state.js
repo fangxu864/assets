@@ -55,7 +55,6 @@ var QueryState = {
      */
     showError: function (text) {
         var errorHtml = this.errorTemplate({data : { errorText:text }});
-        console.log(errorHtml);
         this.container.html(errorHtml).show();
     },
     errorTemplate: ParseTemplate(errorTpl)

@@ -1,0 +1,46 @@
+
+.adminRefundDialogCon{
+  .line1{
+    line-height: 80px;
+    font-size: 18px;
+    padding-left: 50px;
+  }
+  .line2{
+    text-align: center;
+    textarea{
+      height: 220px;
+      padding: 10px;
+      width: 79%;
+      max-width: 79%;
+      font-size: 14px;
+    }
+  }
+  .line3{
+    text-align: center;
+    font-size: 16px;
+    line-height: 50px;
+    input[type = checkbox]{
+      position: relative;
+      top: 1px;
+      right: 6px;    }
+  }
+  .line4{
+    text-align: center;
+    height: 55px;
+    .btnOk{
+      background-color: #2087da;
+      color: #ffffff;
+      display: block;
+      width: 132px;
+      margin: 0 auto;
+      line-height: 14px;
+      padding: 10px 40px;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btnOk:hover{
+      background-color: #2196F3;
+    }
+  }
+}
