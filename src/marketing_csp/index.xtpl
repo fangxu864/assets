@@ -103,7 +103,7 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <label><input type="radio" class="inp-r" name="couponNum"><input type="text"  autocomplete="off" min="1" id="couponNumber" class="inp-t ml-20 w-60"></label>
+            <label><input type="radio" class="inp-r" id="couponNumRadio" name="couponNum"><input type="text"  id="couponNumber" class="inp-t ml-20 w-60"></label>
             <label><input type="radio" class="inp-r ml-20" name="couponNum"> 购买票数（限购买即送优惠券活动）</label>
         </div>
         <div class="con">

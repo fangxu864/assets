@@ -9,7 +9,8 @@ var Main = PFT.Util.Class({
 		this.initPage();
 	},
 	EVENTS: {
-		"click #typeBox label": "changeShareType"
+		"click #typeBox label": "changeShareType",
+		"focus #couponNumber":"checkCouponNum"
 	},
 	//初始化页面显示
 	initPage: function () {
@@ -94,6 +95,8 @@ var Main = PFT.Util.Class({
 		_this.initUeditor(1);//初始化默认富文本编辑器
 		_this.initUeditor(2);
 		_this.getActivityList();//初始化活动产品
+		_this.initGetCouponId("couponId");//初始化获取优惠券列表
+		_this.initGetCouponId("couponIdInp");
 	},
 	//切换分享类型
 	changeShareType: function (e) {
@@ -107,8 +110,6 @@ var Main = PFT.Util.Class({
 	},
 	 //获取产品列表
 	    getActivityList: function () {
-	        var that = this;
-	        var pro_inp = $("#schProInp");
 	        var select = new Select({
 	            source: "/r/product_Coupon/getProducts",
 	            ajaxType: "POST",
@@ -132,16 +133,57 @@ var Main = PFT.Util.Class({
 					
 	                var newList = [];
 	                for (var i = 0; i < list.length; i++) {
-	                    list[i].id = list[i].fid;
-	                    list[i].title = list[i].ltitle;
-	                    newList.push(list[i]);
+	                    
+	                    newList.push({
+							id:list[i].fid,
+							title:list[i].ltitle
+						});
 	                }
-	                result["data"] = newList;
-					console.log(result)
-	                return result;
+	                
+	                return newList;
 	            },
 	        });
 	    },
+		//获取优惠券id 初始化富文本编辑器
+		initGetCouponId: function(id){
+			 var selectId = new Select({
+	            source: "/r/product_Coupon/getCoupon",
+	            ajaxType: "POST",
+	            ajaxParams: {
+	            },
+	            isFillContent: false,
+	            filterType: "ajax",  //指定过滤方式为ajax
+	            field: {
+	                id: "id",
+	                name: "title",
+	            },
+	            trigger: $("#"+id),
+	            filter: false,
+	            adaptor: function (res) {
+	                $(".selectOptionUl").css("padding-left", 0);
+	                var result = { code: 200 };
+	                var list = res.data.data;
+	                if (!list) {
+	                    return result;
+	                }
+					
+	                var newList = [];
+	                for (var i = 0; i < list.length; i++) {
+	                    
+	                    newList.push({
+							id:list[i].pid,
+							title:list[i].coupon_name
+						});
+	                }
+	                
+	                return newList;
+	            },
+	        });
+		},
+		//票券张数输入时选中radio
+		checkCouponNum: function(){
+			$("#couponNumRadio").prop("checked",true);
+		}
 
 })
 
