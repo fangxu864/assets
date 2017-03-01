@@ -71,8 +71,42 @@ var MainView = Backbone.View.extend({
 					var idNum = con.certNumber;
 					var pic = con.identityPic;
 					
-					$("#idNum").val(idNum);
 					console.log(pic);
+
+					$("#idNum").val(idNum);
+					// $(".fileuploadTextInp").val(pic);
+
+					$("#tsetImg").attr("src",'data:image/bmp;base64,' + pic);
+
+
+
+					// 'data:image/jpeg;base64,' + rdcard.JPGBuffer;
+
+
+					//组件
+					// this.fileupload2 = new Fileupload({
+					// 	container : "#imgUploadBox",
+					// 	id : 1,
+					// 	extra     : { identify : "annualActive" },
+					// 	action : Api.Url.PublishCardProd.uploadFile,
+					// 	loading : function(formControls){},
+					// 	complete : function(res){
+					// 		that.onImgUploadComplete(res);
+					// 	}
+					// });
+
+
+					PFT.Util.Ajax(Api.Url.PublishCardProd.uploadFile,{
+						type : "post",
+						params : {
+						},
+						loading : function(){
+						},
+						complete : function(){
+						}
+					})
+
+					
 
 				}else{
 
