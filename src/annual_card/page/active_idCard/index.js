@@ -50,18 +50,44 @@ var MainView = Backbone.View.extend({
 		console.log("身份证阅读器");
 
 		var CertCtl = document.getElementById("CertCtl");
+		if(CertCtl.connect){
 
-		var connectResult = CertCtl.connect();
+			var connectResult = CertCtl.connect();
 
+			
+			connectResult = JSON.parse(connectResult);	
 
-		console.log(connectResult);	
+			if( connectResult.resultFlag == 0 ){
 
-		var readResult = CertCtl.readCert();
+				var readResult = CertCtl.readCert();
+				console.log(readResult);
+				readResult = JSON.parse(readResult);	
+				if(readResult.resultFlag == "0"){
 
+					console.log("成功");
 
+					var con = readResult.resultContent;
 
-		console.log(readResult);
+					var idNum = con.certNumber;
+					var pic = con.identityPic;
+					
+					$("#idNum").val(idNum);
+					console.log(pic);
 
+				}else{
+
+					alert("身份证信息获取失败，请将身份证放置在读卡器上再点击读取");
+
+				}
+				
+			}else{
+				alert("无法连接读卡器，请打开读卡器开关并插入USB口");
+			}
+
+		}else{
+			alert("请使用IE浏览器或重新安装插件");
+			return false
+		}
 
 	},
 
