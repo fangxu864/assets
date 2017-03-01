@@ -47,6 +47,7 @@ var Plist = PFT.Util.Class({
 		}else{
 			this.ctype = 1;//默认为1
 		}
+		
 
 		this.typeTemplate = PFT.Util.ParseTemplate(TypeTpl);  
 		this.themeTemplate = PFT.Util.ParseTemplate(ThemeTpl);  
@@ -63,6 +64,28 @@ var Plist = PFT.Util.Class({
 		this.topic = "";
 		this.city = "";
 		this.pageSize = 4;   //默认一页4个产品
+
+		if(urlPara.ptype){
+			this.ptype = urlPara.ptype;	
+		}else{
+			this.ptype = "A";//默认为A
+		}
+		$("#typeText").attr("data-type",this.ptype);
+		if( this.ptype == "A"){
+			$("#typeText").text("景区");
+		}else if( this.ptype == "B" ){
+			$("#typeText").text("线路");
+		}else if( this.ptype == "C" ){
+			$("#typeText").text("酒店");
+		}else if( this.ptype == "F" ){
+			$("#typeText").text("套票");
+		}else if( this.ptype == "G" ){
+			$("#typeText").text("餐饮");
+		}else if( this.ptype == "H" ){
+			$("#typeText").text("演出");
+		}else if( this.ptype == "I" ){
+			$("#typeText").text("年卡");
+		}
 
 		//搜索城市关键字
 		this.cityKeyWord = "";
@@ -100,6 +123,8 @@ var Plist = PFT.Util.Class({
 					window.location.href = "transit.html";
 				}else if( code == 203){
 					window.location.href = data.url;					
+				}else if( code == 205){
+					window.location.href = "noauth.html";
 				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
@@ -570,6 +595,7 @@ var Plist = PFT.Util.Class({
 
 		data.ctx = this.ctx;
 		data.ctype = this.ctype;
+		data.ptype = this.ptype;
 
 		var listHtml = this.listTemplate(data);
 

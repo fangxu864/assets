@@ -47,6 +47,11 @@ var Product_detail = PFT.Util.Class({
 		this.toast = new Toast();
 
 		this.getInfo();
+
+		if(this.ctype == 4){
+			$(".orderBtn").css("display","none");
+			return false
+		}
 			
 	},
 
@@ -176,10 +181,6 @@ var Product_detail = PFT.Util.Class({
 	},
 
 	onclickOrderBtn : function(e){
-		if(this.ctype == 4){
-			$(".orderBtn").css("display","none");
-			return false
-		}
 		var target = $(e.target);
 		window.location.href = "order_fill.html?aid=" + target.attr("data-aid") + "&pid=" + target.attr("data-pid");
 	}
