@@ -34,6 +34,7 @@ var tableCon = {
         //客服登录时，点击表格中的同意
         this.container.on("click" ,".tr3 .td3 .wd_status0 .btnOk" ,function () {
             var tbody = $(this).parents("tbody");
+            console.log(tbody);
             var id = $(this).attr("data-id");
             var refund_status = $(this).attr("data-status");
             _this.cs.agree(tbody,id,refund_status);
@@ -43,6 +44,7 @@ var tableCon = {
             var tbody = $(this).parents("tbody");
             console.log(tbody);
             var params = {
+                tbody:tbody,
                 type: "csDeny",
                 title: "请填写拒绝申请的原因",
                 id : tarBtn.attr("data-id"),

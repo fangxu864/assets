@@ -32,6 +32,8 @@ var DialogModule = {
     bind: function () {
         var _this = this;
         this.CR.pubSub.sub("dialog.csDeny" , function (params) {
+            //客服拒绝申请时需要删除的tbody
+            _this.csDenyTbody = params.tbody;
             var html = _this.dialogTemplate({ data: params});
             _this.container.html(html);
             _this.dial.open();
@@ -46,7 +48,7 @@ var DialogModule = {
                 aid: tarBtn.attr("data-aid"),
                 refund_status: tarBtn.attr("data-refund_status"),
                 sendsmsType: _this.container.find(".isMsg").prop("checked") ? 1 : 0,
-                input_txt: _this.container.find(".contentTextarea").val(),
+                input_txt: _this.container.find(".contentTextarea").val()
             };
             $.ajax({
                 url: "/module/withdraw/handler.php",    //请求的url地址
@@ -60,10 +62,10 @@ var DialogModule = {
                 },
                 success: function(res) {
                     //请求成功时处理
-                    console.log(res);
                     if(res.outcome == 1){
                         PFT.Util.STip("success",res.msg);
-                        location.reload();
+                        _this.csDenyTbody.remove();
+                        _this.csDenyTbody = null;
                         _this.dial.close();
                     }else{
                         PFT.Util.STip("fail",res.msg)
