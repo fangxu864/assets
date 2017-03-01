@@ -17,6 +17,7 @@
     .line4{
       padding-left: 0;
       .img_box{
+        position: relative;
         text-align: center;
         margin: 7px auto;
         //border: 1px solid #e5e5e5;
@@ -44,6 +45,28 @@
           font-size: 14px;
           color: orangered;
 
+        }
+        .center-img-wx{
+          position: absolute;
+          height: 50px;
+          top: 75px;
+          width: 50px;
+          left: 75px;
+          background: url(//staticfile.12301.cc/weixinpay.png) no-repeat 50%;
+          background-size: 50px 50px;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+        .center-img-ali{
+          position: absolute;
+          height: 50px;
+          top: 75px;
+          width: 50px;
+          left: 75px;
+          background: url(//staticfile.12301.cc/alipay.png) no-repeat 50%;
+          background-size: 50px 50px;
+          background-color: #fff;
+          border-radius: 5px;
         }
 
       }

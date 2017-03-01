@@ -30,7 +30,7 @@ var Recharge={
         //微信
         $.subscribe("onWxPay",function () {
             _this.Dialoga.show_dialog_con({
-                "url":"/r/pay_WxPay/order/",
+                "url": "http://" + _this.Dialoga.getHost() + "/r/pay_MobilePay/order/",
                 "title":"微信二维码支付",
                 "account":"票付通",
                 "money": $(".totalPay .orange").text().match(/[\d\.]+/)[0]
@@ -41,6 +41,7 @@ var Recharge={
         //     $("#siteLogoutBtn").click();
         // })
     },
+
 
 };
 $(function(){

@@ -32,7 +32,7 @@ var Recharge={
             var money = $("#ali_money").val();
             money = Number( money ).toFixed(2);
             _this.Dialoga.show_dialog_con({
-                "url":"/r/pay_WxPay/rewxnew/",
+                "url": "http://" + _this.Dialoga.getHost() + "/r/pay_MobilePay/recharge/",
                 "title":"微信二维码支付",
                 "account":"票付通",
                 "money": money
@@ -43,7 +43,7 @@ var Recharge={
         //     $("#siteLogoutBtn").click();
         // })
     },
-
+    
 };
 $(function(){
     Recharge.init()
