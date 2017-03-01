@@ -7,7 +7,8 @@ var Transit = PFT.Util.Class({
 
 	container : $("#transitWrap"),
 	EVENTS : {       
-		"click #gotoLogin" : "ongotoLogin"             
+		"click #gotoLogin" : "ongotoLogin",
+		"click #gotoMall" : "ongotoMall"            
 	},
 	init : function(opt){         
 
@@ -62,7 +63,7 @@ var Transit = PFT.Util.Class({
 			$(".CountdownSecond").text(down + "s");			
 
 			if(down == 0){
-				window.location.href = "plist.html";
+				// window.location.href = "plist.html";
 			}
 
 		},1000);
@@ -105,6 +106,12 @@ var Transit = PFT.Util.Class({
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
+
+	},
+
+	ongotoMall : function(){
+
+		window.location.href = "";
 
 	}
 
