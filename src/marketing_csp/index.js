@@ -1,5 +1,5 @@
 require("./index.scss");
-require("COMMON/modules/select");
+var Select=require("COMMON/modules/select");
 var STip = require("COMMON/js/util.simple.tip");
 var ListTpl = require("./index.xtpl");
 var Main = PFT.Util.Class({
@@ -93,6 +93,7 @@ var Main = PFT.Util.Class({
 		_this.container.html(html);
 		_this.initUeditor(1);//初始化默认富文本编辑器
 		_this.initUeditor(2);
+		_this.getActivityList();//初始化活动产品
 	},
 	//切换分享类型
 	changeShareType: function (e) {
@@ -104,7 +105,43 @@ var Main = PFT.Util.Class({
 		$("#share_type_" + tarNum).show().siblings(".share_type").hide();
 
 	},
-
+	 //获取产品列表
+	    getActivityList: function () {
+	        var that = this;
+	        var pro_inp = $("#schProInp");
+	        var select = new Select({
+	            source: "/r/product_Coupon/getProducts",
+	            ajaxType: "POST",
+	            ajaxParams: {
+	            },
+	            isFillContent: false,
+	            filterType: "ajax",  //指定过滤方式为ajax
+	            field: {
+	                id: "id",
+	                name: "title",
+	            },
+	            trigger: $("#schProInp"),
+	            filter: false,
+	            adaptor: function (res) {
+	                $(".selectOptionUl").css("padding-left", 0);
+	                var result = { code: 200 };
+	                var list = res.data;
+	                if (!list) {
+	                    return result;
+	                }
+					
+	                var newList = [];
+	                for (var i = 0; i < list.length; i++) {
+	                    list[i].id = list[i].fid;
+	                    list[i].title = list[i].ltitle;
+	                    newList.push(list[i]);
+	                }
+	                result["data"] = newList;
+					console.log(result)
+	                return result;
+	            },
+	        });
+	    },
 
 })
 

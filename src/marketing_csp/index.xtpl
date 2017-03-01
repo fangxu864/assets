@@ -33,7 +33,7 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <input type="number" id="couponNum" class="inp-t" min="1" autocomplete="off" value="1">
+            <input type="text" id="couponNum" class="inp-t" min="1" autocomplete="off" value="1">
         </div>
 
         <div class="con ">
@@ -66,7 +66,7 @@
     <div id="share_type_2" class="share_type" style= " display: <%=(data.share_type==2) ? "block" : "none" %> ">
         <div class="con">
             <span class="u-span">红包金额:</span>
-            <input type="number" id="redPackMoney" class="inp-t" min="0" autocomplete="off" value="0">
+            <input type="text" id="redPackMoney" class="inp-t" min="0" autocomplete="off" value="0">
         </div>
 
         <div class="con ">
@@ -103,7 +103,7 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <label><input type="radio" class="inp-r" name="couponNum"><input type="number"  autocomplete="off" min="1" id="couponNumber" class="inp-t ml-20 w-60"></label>
+            <label><input type="radio" class="inp-r" name="couponNum"><input type="text"  autocomplete="off" min="1" id="couponNumber" class="inp-t ml-20 w-60"></label>
             <label><input type="radio" class="inp-r ml-20" name="couponNum"> 购买票数（限购买即送优惠券活动）</label>
         </div>
         <div class="con">
