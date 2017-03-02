@@ -175,7 +175,8 @@ Dialog.prototype={
         var host = {
             "12301.test" : "www.12301.test",
             "12301dev.com" : "www.12301dev.com",
-            "12301.cc" : "api.12301.cc"
+            "12301.cc" : location.host
+            // "12301.cc" : "api.12301.cc"
         };
         for( var key in host ){
             if( location.host.search(key) > -1 ){

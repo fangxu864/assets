@@ -344,7 +344,8 @@ var Main = PFT.Util.Class({
 			card_no : "",
 			notice_type	 : "1",
 			open_name : "",
-			sex : "M"
+			sex : "M",
+			cid : ""
 		},data || {});
 
 		_data["editMode"] = this.editMode;
@@ -408,6 +409,7 @@ var Main = PFT.Util.Class({
 		var phy_no = $("#phy_no_inp").val();
 		if(!phy_no) return alert("物理卡号为必填项，请用读卡器请取物理卡号");
 
+
 		var submitData = {
 			mobile : $.trim($("#mobileInp").val()),
 			id_card_no : $.trim($("#idcardInp").val()),
@@ -423,6 +425,10 @@ var Main = PFT.Util.Class({
 			remarks : $("#remarksTextarea").val(),
 			notice_type : $("#sendTypeBox").find("input:checked").val()
 		};
+
+		//2017-03-02 添加cid参数  编辑时传   开卡时不传
+		var cid = tarBtn.attr("data-cid");
+		if(cid!="") submitData["cid"] = cid; 
 
 		if(!this.editMode){ //新建模式需要vcode  编辑模式不需要vcode 
 			submitData["vcode"] = $.trim($("#checkmaInp").val());
