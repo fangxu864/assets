@@ -81,12 +81,11 @@ module.exports = function(ordernum,host,opt){
 			var search=window.location.search;
 			if(code==200){
 				//data["ptype"] = data["ptype"].toUpperCase();
-				if(data.url.length>1){
-					window.location.href=data.url+search;
-				}
 				opt.success(data);
 			}else if(code==205){
 				window.location.href="order_pay_success.html?ordernum="+ordernum;
+			}else if(code==206){
+				window.location.href="data.url+search;"
 			}else{
 				opt.fail(msg);
 			}
