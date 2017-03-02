@@ -29,7 +29,7 @@
                 <div class="line line1">收款账户(户名)：</div>
                 <div class="line line2"><%=item.bank_name%></div>
                 <div class="line line3">
-                    <span class="account-number"><%=item.bank_accuont%></span>
+                    <span class="account-number" data-clipboard-text="<%=item.bank_accuont%>"><%=item.bank_accuont%></span>
                     <span><%=item.wd_name%></span>
                 </div>
             </td>

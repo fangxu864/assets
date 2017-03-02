@@ -6,6 +6,7 @@ require("./table-con.scss");
 var tableConTpl = require("./table-con.xtpl");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 var Tip = require("COMMON/modules/tips");
+var Tips = new Tip();
 
 /**
  * 本模块为数据显示模块
@@ -86,7 +87,46 @@ var tableCon = {
                 refund_status: tarBtn.attr("data-deny")
             };
             _this.finance.transfer.call( _this ,params);
-        })
+        });
+
+        //mouseover到账号时，显示点击复制
+        this.container.on("mouseover",".tr3 .td1 .line3 .account-number" ,function () {
+            var curNumber = $(this);
+            Tips.closeAllTips();
+            Tips.show({
+                lifetime : 1500 ,
+                direction : top,
+                hostObj : curNumber ,
+                content : "点击复制",
+                bgcolor : "orange"
+            })
+        });
+
+        //点击复制代码
+        var clipboard = new Clipboard('.account-number');
+        clipboard.on('success', function(e) {
+            var curNumber = $(e.trigger);
+            Tips.closeAllTips();
+            Tips.show({
+                lifetime : 1500 ,
+                direction : top,
+                hostObj : curNumber ,
+                content : "复制成功",
+                bgcolor : "#3eba40"
+            })
+        });
+        clipboard.on('error', function(e) {
+            var curNumber = $(e.trigger);
+            Tips.closeAllTips();
+            Tips.show({
+                lifetime : 1500 ,
+                direction : top,
+                hostObj : curNumber ,
+                content : "复制失败，请手动复制",
+                bgcolor : "red"
+            })
+        });
+
     },
 
     close: function () {
@@ -111,6 +151,7 @@ var tableCon = {
         var newData = $.extend({} , res.data , ConfigJson );
         var html = _this.tableConTemplate({data : newData});
         _this.container.html(html).show();
+
     },
 
     /**

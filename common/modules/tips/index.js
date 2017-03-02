@@ -85,7 +85,7 @@ Tips.prototype={
 	 * @tip         tip JQ对象
 	 */
 	configDirection:function (tip , hostObj ,direction) {
-		var direct=direction
+		var direct = direction;
 		//判断方向
 		//找出可用方向数组
 		var host_H = hostObj.offset().top - $(window).scrollTop(); //依托对象相对窗口的Top值
