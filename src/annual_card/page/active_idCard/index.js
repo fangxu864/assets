@@ -50,34 +50,51 @@ var MainView = Backbone.View.extend({
 		console.log("身份证阅读器");
 
 		var CertCtl = document.getElementById("CertCtl");
-		console.log("1");
 		if(CertCtl.connect){
-			console.log("2");
 			var connectResult = CertCtl.connect();
-
 			
 			connectResult = JSON.parse(connectResult);	
 
 			if( connectResult.resultFlag == 0 ){
 
 				var readResult = CertCtl.readCert();
-				console.log(readResult);
 				readResult = JSON.parse(readResult);	
 				if(readResult.resultFlag == "0"){
 
-					console.log("成功");
+					console.log("读取成功");
 
 					var con = readResult.resultContent;
 
 					var idNum = con.certNumber;
 					var pic = con.identityPic;
-					
-					console.log(pic);
+					// pic = undefined;//调试失败状态
 
 					$("#idNum").val(idNum);
 					$(".fileuploadTextInp").val(pic);
 
-					$("#tsetImg").attr("src",'data:image/bmp;base64,' + pic);
+					$("#ImgUpLoadIdCardBox").css("display","none");
+					$("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
+
+					setTimeout(function(){
+
+						if(pic){
+
+							//上传成功
+							//移除原来的box以免id重复
+							$("#ImgUpLoadIdCardBox").remove();
+							$("#idCardReaderBox").html('<img id="uploadPhotoImg" src="data:image/bmp;base64,'+ pic +'" ></img>');
+							alert("身份证头像上传成功");
+
+						}else{
+
+							$("#ImgUpLoadIdCardBox").css("display","block");
+							$("#idCardReaderBox").css("display","none");
+							alert("身份证头像上传失败");
+
+						}
+
+					},2000);
+
 
 					//上传图片
 					// PFT.Util.Ajax(Api.Url.PublishCardProd.uploadFile,{
