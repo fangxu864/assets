@@ -48,7 +48,7 @@
             <div class="share_img">
 
                 <a class="lnk_prv" target="_blank" title="点击查看原图">
-                    <img id="imagePath" src="<%=(data.share_type==1&&data.image_path) ? data.image_path : "http://www.12301.cc/images/defaultThum.jpg"%>" />
+                    <img id="imagePath" src="<%=(data.share_type==1&&data.image_path) ? data.image_path : "http://www.12301.cc/images/defaultThum.jpg"%>" style="width:240px;height:160px" />
                 </a>
                 <div class="uploadImg">
                     <p class="title">重新上传缩略图：</p>
@@ -80,7 +80,7 @@
             <div class="share_img">
 
                 <a class="lnk_prv" target="_blank" title="点击查看原图">
-                    <img id="imagePath_2" src="<%=(data.share_type==2&&data.image_path) ? data.image_path : "http://www.12301.cc/images/defaultThum.jpg"%>" />
+                    <img id="imagePath_2" src="<%=(data.share_type==2&&data.image_path) ? data.image_path : "http://www.12301.cc/images/defaultThum.jpg"%>" style="width:240px;height:160px"/>
                 </a>
                 <div class="uploadImg">
                     <p class="title">重新上传缩略图：</p>
@@ -101,9 +101,9 @@
         </div>
         <div class="con">
             <span class="u-span">赠券张数:</span>
-            <label><input type="radio" class="inp-r" id="couponNumRadio" name="couponNum" <%=(data.share_type==3&&data.coupon_num) ? "checked" : ""%>>
-                   <input type="text"  id="couponNumber" class="inp-t ml-20 w-60" value="<%=(data.share_type==3&&data.coupon_num) ? data.coupon_num : ''%>"></label>
-            <label><input type="radio" class="inp-r ml-20" name="couponNum" value="-1" <%=(data.share_type==3&&data.coupon_num==-1) ? "checked" : ""%>"> 购买票数（限购买即送优惠券活动）</label>
+            <label><input type="radio" class="inp-r" id="couponNumRadio" name="couponNum" <%=(data.share_type==3&&data.coupon_num!=-1) ? "checked" : ""%>>
+                   <input type="text"  id="couponNumber" class="inp-t ml-20 w-60" value="<%=(data.share_type==3&&data.coupon_num!=-1) ? data.coupon_num : ''%>"></label>
+            <label><input type="radio" class="inp-r ml-20" name="couponNum" value="-1" <%=(data.share_type==3&&data.coupon_num==-1) ? "checked" : ""%>> 购买票数（限购买即送优惠券活动）</label>
         </div>
         <div class="con">
             <span class="u-span">活动产品:</span>
