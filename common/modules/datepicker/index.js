@@ -199,6 +199,7 @@ var Datepicker = PFT.Util.Class({
 				}
 			}
 		}
+		result["picker"] = this.__cacheOpt.picker;
 		return result;
 	},
 	position : function(tarDom){
