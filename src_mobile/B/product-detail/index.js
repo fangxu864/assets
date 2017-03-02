@@ -23,14 +23,14 @@ var Product_detail = PFT.Util.Class({
 		var urlPara = Parse(url);
 
 		if(urlPara.ctx){
-			this.ctx = urlPara.ctx;		
+			this.ctx = parseInt(urlPara.ctx);		
 		}else{
 			this.ctx = 0;//默认为0
 		}
 		if(urlPara.ctype){
-			this.ctype = urlPara.ctype;		
+			this.ctype = parseInt(urlPara.ctype);		
 		}else{
-			this.ctype = 1;//默认为1
+			this.ctype = 0;//默认为0
 		}
 
 		this.lid = urlPara.lid;
@@ -48,10 +48,7 @@ var Product_detail = PFT.Util.Class({
 
 		this.getInfo();
 
-		if(this.ctype == 4){
-			$(".orderBtn").css("display","none");
-			return false
-		}
+		
 			
 	},
 
@@ -171,6 +168,14 @@ var Product_detail = PFT.Util.Class({
 				sonT.append(sonHtml);
 			}
 		}
+
+
+		//ctype大于0隐藏
+		if(this.ctype > 0){
+			$(".orderBtn").css("display","none");
+			return false
+		}
+
 
 	},
 

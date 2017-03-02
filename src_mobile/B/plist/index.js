@@ -45,7 +45,7 @@ var Plist = PFT.Util.Class({
 		if(urlPara.ctype){
 			this.ctype = urlPara.ctype;		
 		}else{
-			this.ctype = 1;//默认为1
+			this.ctype = 0;//默认为0
 		}
 		
 
