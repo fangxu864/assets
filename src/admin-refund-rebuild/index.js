@@ -27,7 +27,7 @@ function createCR( mainBox ) {
 
             pub: function (events, arg) {
                 var arr = this.storage[events];
-                var len = Array.isArray(arr) ? arr.length : 0;
+                var len = Object.prototype.toString.call(arr) === '[object Array]' ? arr.length : 0;
                 if (arr) {
                     for (var i = 0; i < arr.length; i++) {
                         arr[i](arg);

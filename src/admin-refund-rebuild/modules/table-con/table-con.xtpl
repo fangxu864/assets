@@ -14,7 +14,7 @@
         <tr class="tr2">
             <td colspan="2">
                 <div class="line">
-                    <span style="margin-right: 10px"><%=data.statusInfo[item.statusInfo]%></span>
+                    <span style="margin-right: 10px;color: #ff6600"><%=data.statusInfo[item.statusInfo]%></span>
                     <span> [ID:<%=item.id%>]-[帐号:<%=item.fid%>]-[账户名称:<%=item.dname%>]-[企业名称:<%=item.cname%>]</span>
                 </div>
                 <div class="line">
@@ -34,22 +34,22 @@
                 </div>
             </td>
             <td class="td2">
-                <div class="line">
+                <div class="line line1">
                     <span>申请提现金额：</span>
-                    <span>¥<%=item.withdraw_deposit%></span>
+                    <span class="money">¥<%=item.withdraw_deposit%></span>
                 </div>
-                <div class="line">
+                <div class="line line2">
                     <span>手续费：</span>
-                    <span>¥<%=item.tfee%></span>
+                    <span class="money">¥<%=item.tfee%></span>
                     <% if(item.cut_from == 1){%>
                     <span>(提现金额扣除)</span>
                     <%}else if(item.cut_from == 0){%>
                     <span>(账户余额扣除)</span>
                     <%}%>
                 </div>
-                <div class="line">
+                <div class="line line3">
                     <span>应转账金额：</span>
-                    <span>¥<%=item.transfer_money%></span>
+                    <span class="money money-last">¥<%=item.transfer_money%></span>
                 </div>
             </td>
             <td class="td3">

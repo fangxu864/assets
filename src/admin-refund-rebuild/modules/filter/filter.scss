@@ -62,6 +62,15 @@
           height: 30px;
         }
       }
+      .td6{
+        .clearBtn{
+          cursor: pointer;
+          color: #2087da
+        }
+        .clearBtn:active{
+          color: orangered
+        }
+      }
     }
     .line2{
       input[type=text]{

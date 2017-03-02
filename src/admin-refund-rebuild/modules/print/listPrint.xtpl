@@ -87,11 +87,13 @@
     </tr>
     </thead>
     <!--民生-->
+    <% if(data.minsheng.length > 0){%>
     <tbody>
     <tr>
         <td colspan="3" style="text-align: center;font-size: 20px;line-height: 60px;height: 60px">-------民生银行------</td>
     </tr>
     </tbody>
+    <%}%>
     <% _.each(data.minsheng,function(item,index){ %>
     <tbody id="tobdy-<%=index%>">
     <tr class="tr1">
@@ -168,12 +170,16 @@
     </tr>
     </tbody>
     <% } ) %>
+
+
     <!--支付宝-->
+    <% if(data.alipay.length > 0){%>
     <tbody>
         <tr>
             <td colspan="3" style="text-align: center;font-size: 20px;line-height: 60px;height: 60px">-------支付宝------</td>
         </tr>
     </tbody>
+    <%}%>
     <% _.each(data.alipay,function(item,index){ %>
     <tbody id="tobdy-<%=index%>">
     <tr class="tr1">
@@ -250,12 +256,16 @@
     </tr>
     </tbody>
     <% } ) %>
+
+
     <!--银行-->
+    <% if(data.bank.length > 0){%>
     <tbody>
     <tr>
         <td colspan="3" style="text-align: center;font-size: 20px;line-height: 60px;height: 60px">-------银行------</td>
     </tr>
     </tbody>
+    <%}%>
     <% _.each(data.bank,function(item,index){ %>
     <tbody id="tobdy-<%=index%>">
     <tr class="tr1">

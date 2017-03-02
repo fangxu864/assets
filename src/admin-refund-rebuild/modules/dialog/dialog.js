@@ -54,13 +54,18 @@ var DialogModule = {
         this.container.on("click" ,".csDeny_btnOk" ,function () {
             var tarBtn = $(this);
             var curTbodyId = tarBtn.attr("data-tbodyId");
+            var textareaCon = _this.container.find(".contentTextarea").val();
+            if( textareaCon == ""){
+                PFT.Util.STip("fail","请填写内容");
+                return false;
+            }
             var params = {
                 action: "refund",
                 id : tarBtn.attr("data-id"),
                 aid: tarBtn.attr("data-aid"),
                 refund_status: tarBtn.attr("data-refund_status"),
                 sendsmsType: _this.container.find(".isMsg").prop("checked") ? 1 : 0,
-                input_txt: _this.container.find(".contentTextarea").val()
+                input_txt: textareaCon
             };
             $.ajax({
                 url: "/module/withdraw/handler.php",    //请求的url地址
@@ -98,13 +103,18 @@ var DialogModule = {
         this.container.on("click" ,".financeDeny_btnOk" ,function () {
             var tarBtn = $(this);
             var curTbodyId = tarBtn.attr("data-tbodyId");
+            var textareaCon = _this.container.find(".contentTextarea").val();
+            if( textareaCon == ""){
+                PFT.Util.STip("fail","请填写内容");
+                return false;
+            }
             var params = {
                 action: "refund",
                 id : tarBtn.attr("data-id"),
                 aid: tarBtn.attr("data-aid"),
                 refund_status: tarBtn.attr("data-refund_status"),
                 sendsmsType: _this.container.find(".isMsg").prop("checked") ? 1 : 0,
-                input_txt: _this.container.find(".contentTextarea").val()
+                input_txt: textareaCon
             };
             $.ajax({
                 url: "/module/withdraw/handler.php",    //请求的url地址
@@ -142,13 +152,18 @@ var DialogModule = {
         this.container.on("click" ,".financeTransfer_btnOk" ,function () {
             var tarBtn = $(this);
             var curTbodyId = tarBtn.attr("data-tbodyId");
+            var textareaCon = _this.container.find(".contentTextarea").val();
+            if( textareaCon == ""){
+                PFT.Util.STip("fail","请填写内容");
+                return false;
+            }
             var params = {
                 action: "refund",
                 id : tarBtn.attr("data-id"),
                 aid: tarBtn.attr("data-aid"),
                 refund_status: tarBtn.attr("data-refund_status"),
                 sendsmsType: _this.container.find(".isMsg").prop("checked") ? 1 : 0,
-                input_txt: _this.container.find(".contentTextarea").val()
+                input_txt: textareaCon
             };
             $.ajax({
                 url: "/module/withdraw/handler.php",    //请求的url地址

@@ -10,6 +10,9 @@
         <div class="td td2 bTimeInpBox"><input type="text" class="bTimeInp" readonly="readonly" name="btime"/><i class="icon-u-regular icon-rili"></i></div>
         <div class="td td3">至</div>
         <div class="td td4 eTimeInpBox"><input type="text" class="eTimeInp" readonly="readonly" name="etime"/><i class="icon-u-regular icon-rili"></i></div>
+        <div class="td td6">
+            <span class="clearBtn" onclick="javascript:$(this).parents('.line1').find('input[type = text]').val('')">清除</span>
+        </div>
     </div>
     <div class="line line2">
         <div class="td td1">分销商名称:</div>

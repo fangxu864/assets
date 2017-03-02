@@ -94,10 +94,10 @@ var tableCon = {
             var curNumber = $(this);
             Tips.closeAllTips();
             Tips.show({
-                lifetime : 1500 ,
+                lifetime : 1000 ,
                 direction : top,
                 hostObj : curNumber ,
-                content : "点击复制",
+                content : "点我复制",
                 bgcolor : "orange"
             })
         });
@@ -108,10 +108,10 @@ var tableCon = {
             var curNumber = $(e.trigger);
             Tips.closeAllTips();
             Tips.show({
-                lifetime : 1500 ,
+                lifetime : 1000 ,
                 direction : top,
                 hostObj : curNumber ,
-                content : "复制成功",
+                content : "复制成功！",
                 bgcolor : "#3eba40"
             })
         });
@@ -119,7 +119,7 @@ var tableCon = {
             var curNumber = $(e.trigger);
             Tips.closeAllTips();
             Tips.show({
-                lifetime : 1500 ,
+                lifetime : 1000 ,
                 direction : top,
                 hostObj : curNumber ,
                 content : "复制失败，请手动复制",
