@@ -148,7 +148,7 @@ var DialogModule = {
             });
         });
 
-        //财务手工的弹框，点击确定按钮时
+        //财务手工转账的弹框，点击确定按钮时
         this.container.on("click" ,".financeTransfer_btnOk" ,function () {
             var tarBtn = $(this);
             var curTbodyId = tarBtn.attr("data-tbodyId");

@@ -58,7 +58,6 @@ var Pag = {
         this.CR.pubSub.sub("paginationBox.open",function(){
             _this.open();
         });
-
     },
 
     /**

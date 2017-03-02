@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2017/2/17.
+ * Created by fx on 2017/2/17.
  */
 require("./index.scss");
 
@@ -22,9 +22,9 @@ function createCR( mainBox ) {
         mainBox: container,
         //公用的观察者
         pubSub: {
-
+            
             storage: {},
-
+            
             pub: function (events, arg) {
                 var arr = this.storage[events];
                 var len = Object.prototype.toString.call(arr) === '[object Array]' ? arr.length : 0;
@@ -34,13 +34,13 @@ function createCR( mainBox ) {
                     }
                 }
             },
-
+            
             sub: function (events, fn) {
                 if (!this.storage[events])
                     this.storage[events] = [];
                 this.storage[events].push(fn)
             },
-
+            
             removeSub: function (events) {
                 delete this.storage[events];
             }
