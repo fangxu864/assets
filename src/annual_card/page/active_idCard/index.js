@@ -50,8 +50,9 @@ var MainView = Backbone.View.extend({
 		console.log("身份证阅读器");
 
 		var CertCtl = document.getElementById("CertCtl");
+		console.log("1");
 		if(CertCtl.connect){
-
+			console.log("2");
 			var connectResult = CertCtl.connect();
 
 			
@@ -74,37 +75,20 @@ var MainView = Backbone.View.extend({
 					console.log(pic);
 
 					$("#idNum").val(idNum);
-					// $(".fileuploadTextInp").val(pic);
+					$(".fileuploadTextInp").val(pic);
 
 					$("#tsetImg").attr("src",'data:image/bmp;base64,' + pic);
 
-
-
-					// 'data:image/jpeg;base64,' + rdcard.JPGBuffer;
-
-
-					//组件
-					// this.fileupload2 = new Fileupload({
-					// 	container : "#imgUploadBox",
-					// 	id : 1,
-					// 	extra     : { identify : "annualActive" },
-					// 	action : Api.Url.PublishCardProd.uploadFile,
-					// 	loading : function(formControls){},
-					// 	complete : function(res){
-					// 		that.onImgUploadComplete(res);
+					//上传图片
+					// PFT.Util.Ajax(Api.Url.PublishCardProd.uploadFile,{
+					// 	type : "post",
+					// 	params : {
+					// 	},
+					// 	loading : function(){
+					// 	},
+					// 	complete : function(){
 					// 	}
-					// });
-
-
-					PFT.Util.Ajax(Api.Url.PublishCardProd.uploadFile,{
-						type : "post",
-						params : {
-						},
-						loading : function(){
-						},
-						complete : function(){
-						}
-					})
+					// })
 
 					
 
