@@ -69,43 +69,53 @@ var MainView = Backbone.View.extend({
 					var pic = con.identityPic;
 					// pic = undefined;//调试失败状态
 
-					$("#idNum").val(idNum);
-					$(".fileuploadTextInp").val(pic);
+					// $("#idNum").val(idNum);
+					// $(".fileuploadTextInp").val(pic);
 
-					$("#ImgUpLoadIdCardBox").css("display","none");
-					$("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
+					// $("#ImgUpLoadIdCardBox").css("display","none");
+					// $("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
 
-					setTimeout(function(){
+					// setTimeout(function(){
 
-						if(pic){
+					// 	if(pic){
 
-							//上传成功
-							//移除原来的box以免id重复
-							$("#ImgUpLoadIdCardBox").remove();
-							$("#idCardReaderBox").html('<img id="uploadPhotoImg" src="data:image/bmp;base64,'+ pic +'" ></img>');
-							alert("身份证头像上传成功");
+					// 		//上传成功
+					// 		//移除原来的box以免id重复
+					// 		$("#ImgUpLoadIdCardBox").remove();
+					// 		$("#idCardReaderBox").html('<img id="uploadPhotoImg" src="data:image/bmp;base64,'+ pic +'" ></img>');
+					// 		alert("身份证头像上传成功");
 
-						}else{
+					// 	}else{
 
-							$("#ImgUpLoadIdCardBox").css("display","block");
-							$("#idCardReaderBox").css("display","none");
-							alert("身份证头像上传失败");
+					// 		$("#ImgUpLoadIdCardBox").css("display","block");
+					// 		$("#idCardReaderBox").css("display","none");
+					// 		alert("身份证头像上传失败");
 
-						}
-
-					},2000);
-
-
-					//上传图片
-					// PFT.Util.Ajax(Api.Url.PublishCardProd.uploadFile,{
-					// 	type : "post",
-					// 	params : {
-					// 	},
-					// 	loading : function(){
-					// 	},
-					// 	complete : function(){
 					// 	}
-					// })
+
+					// },2000);
+
+
+
+					console.log("123456");
+					//上传图片
+					PFT.Util.Ajax('/r/Resource_ImageUpload/uploadIdCard',{
+						type : "post",
+						params : {
+							id : idNum,
+							data : pic
+						},
+						loading : function(){
+						},
+						success : function(res){
+							console.log(res);
+						},
+						complete : function(){
+						},
+						fail : function(res){
+							console.log(res);
+						}
+					})
 
 					
 
