@@ -59,7 +59,16 @@ var Main = {
         //CR(Common resource)公共资源，即各个模块的公用资源
         var CR = createCR("#refundApplyWrap");
         //title
-        CR.mainBox.append('<div class="topTitleBox">提现申请列表</div>');
+        if(/chrome/i.test(navigator.userAgent)){
+            CR.mainBox.append('<div class="topTitleBox"><span>提现申请列表</span></div>');
+        }else{
+            CR.mainBox.append(
+                '<div class="topTitleBox">' +
+                '<span>提现申请列表</span>' +
+                '<span class="tip">* 操作本页建议使用chrome(谷歌)浏览器,可以进行打印预览</span>' +
+                '</div>'
+            );
+        }
         //filter
         Filter.init(CR);
         //tableCon
