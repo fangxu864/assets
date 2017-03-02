@@ -52,7 +52,7 @@
         }
         .mainTable tbody .tr3 .td3 .wd_statusNot0 {
             padding: 10px;
-            line-height: 30px;
+            line-height: 20px;
         }
         .mainTable tbody .tr3 .td3 .wd_statusNot0 p span {
             cursor: pointer;
@@ -73,6 +73,7 @@
         .mainTable tbody .tr3 .td3 .operableBtn:hover {
             color: #129aff;
         }
+
 
     </style>
 </head>

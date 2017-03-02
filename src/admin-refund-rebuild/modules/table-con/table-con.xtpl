@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <% _.each(data.list,function(item,index){ %>
-    <tbody>
+    <tbody id="tobdy-<%=index%>">
         <tr class="tr1">
             <td colspan="3"></td>
         </tr>
@@ -26,10 +26,10 @@
         </tr>
         <tr class="tr3">
             <td class="td1">
-                <div class="line">收款账户(户名)：</div>
-                <div class="line"><%=item.bank_name%></div>
-                <div class="line">
-                    <span><%=item.bank_accuont%></span>
+                <div class="line line1">收款账户(户名)：</div>
+                <div class="line line2"><%=item.bank_name%></div>
+                <div class="line line3">
+                    <span class="account-number"><%=item.bank_accuont%></span>
                     <span><%=item.wd_name%></span>
                 </div>
             </td>
@@ -69,8 +69,8 @@
                         <%}%>
                         <% if(item.wd_status != 2 ){%>
                             <p class="line line4">
-                                <span class="operableBtn"><%=item.btn_ok%></span>
-                                <span class="operableBtn"><%=item.btn_deny%></span>
+                                <span class="operableBtn btnTransfer" data-id="<%=item.id%>" data-deny="<%=item.status_deny%>" data-aid="<%=item.fid%>"><%=item.btn_ok%></span>
+                                <span class="operableBtn btnDeny" data-id="<%=item.id%>" data-deny="<%=item.status_deny%>" data-aid="<%=item.fid%>"><%=item.btn_deny%></span>
                                 <span class="operableBtn btnPrint">打印</span>
                             </p>
                         <%}else{%>

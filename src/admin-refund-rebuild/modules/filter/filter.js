@@ -40,9 +40,12 @@ var Filter = {
             var downLoadUrl = "/r/Admin_Refund/getRefundInfo/?" + params;
             _this.outExcel(downLoadUrl);
         });
-        //点击打印按钮
+        //点击打印提现清单按钮
         this.container.on("click", ".btn_print" ,function () {
-            _this.CR.pubSub.pub("print.print");
+            var filterParams =  _this.deSerialize ( _this.container.find("#filterForm").serialize() );
+            var newParams = $.extend({}  , filterParams );
+            delete newParams.type;
+            _this.getPrintListData( newParams );
         });
         //点击状态
         this.container.on("click", ".line4 input[type=radio]" ,function () {
@@ -147,6 +150,43 @@ var Filter = {
                     //通知queryState模块显示错误信息
                     _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
                 }
+            },
+            complete: function(res,status) {
+                //请求完成的处理
+                if(status=="timeout"){
+                    alert("请求超时")
+                }
+            },
+            error: function() {
+                //请求出错处理
+            }
+        });
+    },
+
+    /**
+     * @method 获取打印清单数据
+     */
+    getPrintListData: function ( params ) {
+        var _this = this;
+        $.ajax({
+            url: "/r/Admin_Refund/getPrintInfo/",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步
+            data: params,    //参数值
+            type: "POST",   //请求方式
+            timeout:5000,   //设置超时 5000毫秒
+            beforeSend: function() {
+                //请求前的处理
+            },
+            success: function(res) {
+                //请求成功时处理
+                if(res.code == 200 ){
+                    _this.CR.pubSub.pub("print.printList", res)
+                }else{
+                    PFT.Util.STip("fail",res.msg)
+                }
+
+
             },
             complete: function(res,status) {
                 //请求完成的处理

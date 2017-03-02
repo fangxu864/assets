@@ -9,6 +9,10 @@
 </div>
 <div class="line line4">
     <% if(data.type == "csDeny"){%>
-    <span class="btn csDeny_btnOk" data-refund_status="<%=data.refund_status%>"  data-id="<%=data.id%>"  data-aid="<%=data.aid%>">确定</span>
+    <span class="btn csDeny_btnOk" data-refund_status="<%=data.refund_status%>"  data-id="<%=data.id%>"  data-aid="<%=data.aid%>" data-tbodyId="<%=data.tbodyId%>">确定拒绝</span>
+    <% } else if(data.type == "financeDeny"){%>
+    <span class="btn financeDeny_btnOk" data-refund_status="<%=data.refund_status%>"  data-id="<%=data.id%>"  data-aid="<%=data.aid%>" data-tbodyId="<%=data.tbodyId%>">确定撤回</span>
+    <% } else if(data.type == "financeTransfer"){%>
+    <span class="btn financeTransfer_btnOk" data-refund_status="<%=data.refund_status%>"  data-id="<%=data.id%>"  data-aid="<%=data.aid%>" data-tbodyId="<%=data.tbodyId%>">确定转账</span>
     <% }%>
 </div>

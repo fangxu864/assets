@@ -83,7 +83,7 @@
     .line5{
       padding-left: 100px;
       .btn{
-        background-color: #f07845;
+        background-color: #2087da;
         color: #ffffff;
         display: block;
         margin-top: 13px;
@@ -94,7 +94,8 @@
         cursor: pointer;
       }
       .btn:hover{
-        background-color: #e06e3d;
+        background-color: #2196F3;
+        box-shadow: 0 0 3px #2196F3;
       }
       .btn_print{
         display: none;

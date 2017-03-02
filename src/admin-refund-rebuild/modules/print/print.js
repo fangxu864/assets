@@ -5,6 +5,7 @@
 
 var tpl = require("./print.xtpl");
 var onePrintTpl = require("./onePrint.xtpl");
+var listPrintTpl = require("./listPrint.xtpl");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 
 
@@ -26,6 +27,9 @@ var Print = {
         var _this = this;
         this.CR.pubSub.sub("print.printOne" , function (innerHtml) {
             _this.printOne(innerHtml);
+        });
+        this.CR.pubSub.sub("print.printList" , function (res) {
+            _this.printList(res);
         })
     },
 
@@ -37,6 +41,26 @@ var Print = {
         this.print(html);
     },
     onePrintTplTemplate: ParseTemplate(onePrintTpl),
+
+    /**
+     * @method 打印清单
+     */
+    printList: function (res) {
+        var ConfigJson = {
+            statusInfo: {
+                0 : '申请提现',
+                1 : '同意提现',
+                2 : '成功提现',
+                3 : '取消提现',
+                4 : '拒绝提现',
+                5 : '自动转账中'
+            }
+        };
+        var newData = $.extend({} , res.data , ConfigJson );
+        var html = this.listPrintTplTemplate({ data : newData });
+        this.print(html);
+    },
+    listPrintTplTemplate: ParseTemplate(listPrintTpl),
 
     /**
      * @method 打印iframe内容;
