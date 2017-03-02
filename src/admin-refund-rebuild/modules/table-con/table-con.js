@@ -5,6 +5,7 @@
 require("./table-con.scss");
 var tableConTpl = require("./table-con.xtpl");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
+var Tip = require("COMMON/modules/tips");
 
 /**
  * 本模块为数据显示模块

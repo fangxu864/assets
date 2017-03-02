@@ -25,6 +25,10 @@ Tips.prototype={
 		    color=opt.color || "white";           //字体颜色
 		var tip=this.create();
 		tip.html(content+"<i class='arrow'></i>");
+		//页面滚动时，关闭tips
+		$(document).on("mousewheel DOMMouseScroll", function (e) {
+			$(".pft-tips").remove()
+		});
 		$("body").append(tip);
 		//智能转换方向
 		direction = this.configDirection(tip , hostObj , direction);
