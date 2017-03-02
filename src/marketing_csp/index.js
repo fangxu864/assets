@@ -246,7 +246,7 @@ var Main = PFT.Util.Class({
 
 					newList.push({
 						id: list[i].pid,
-						title: list[i].ltitle,
+						title: list[i].ltitle+' - '+list[i].ttitle,
 
 					});
 				}
