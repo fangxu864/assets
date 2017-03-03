@@ -9,6 +9,9 @@ var ReadPhysicsCard = require("../../common/readPhysicsCard.js");
 var CheckExistDialog = require("../../common/check-exist-dialog");
 var ProvCitySelect = require("COMMON/js/component.city.select.js");
 var Fileupload = require("COMMON/modules/fileupload");
+
+var Mock = require("mockjs");	
+
 var MainView = Backbone.View.extend({
 	time : 60,  //获取验证码的间隔时间 60s
 	timer : null,
@@ -49,6 +52,7 @@ var MainView = Backbone.View.extend({
 
 		console.log("身份证阅读器");
 
+		//开始链接控件
 		var CertCtl = document.getElementById("CertCtl");
 		if(CertCtl.connect){
 			var connectResult = CertCtl.connect();
@@ -61,68 +65,47 @@ var MainView = Backbone.View.extend({
 				readResult = JSON.parse(readResult);	
 				if(readResult.resultFlag == "0"){
 
-					console.log("读取成功");
-
 					var con = readResult.resultContent;
 
 					var idNum = con.certNumber;
 					var pic = con.identityPic;
-					// pic = undefined;//调试失败状态
 
-					// $("#idNum").val(idNum);
-					// $(".fileuploadTextInp").val(pic);
+					$("#idNum").val(idNum);
+					$(".fileuploadTextInp").val(pic);
+					$("#ImgUpLoadIdCardBox").css("display","none");
+					$("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
 
-					// $("#ImgUpLoadIdCardBox").css("display","none");
-					// $("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
-
-					// setTimeout(function(){
-
-					// 	if(pic){
-
-					// 		//上传成功
-					// 		//移除原来的box以免id重复
-					// 		$("#ImgUpLoadIdCardBox").remove();
-					// 		$("#idCardReaderBox").html('<img id="uploadPhotoImg" src="data:image/bmp;base64,'+ pic +'" ></img>');
-					// 		alert("身份证头像上传成功");
-
-					// 	}else{
-
-					// 		$("#ImgUpLoadIdCardBox").css("display","block");
-					// 		$("#idCardReaderBox").css("display","none");
-					// 		alert("身份证头像上传失败");
-
-					// 	}
-
-					// },2000);
-
-
-
-					console.log("123456");
 					//上传图片
 					PFT.Util.Ajax('/r/Resource_ImageUpload/uploadIdCard',{
 						type : "post",
 						params : {
 							id : idNum,
+							identify :"annualActive",
 							data : pic
 						},
 						loading : function(){
 						},
 						success : function(res){
-							console.log(res);
+							var code = res.code;
+							var msg = res.msg;
+							var data = res.data;
+							var src = data.src;
+							console.log(src);
+							$("#ImgUpLoadIdCardBox").remove();
+							$("#idCardReaderBox").html('<img id="uploadPhotoImg" src="'+ src +'" ></img>');
+							alert("身份证头像上传成功");
 						},
 						complete : function(){
 						},
 						fail : function(res){
-							console.log(res);
+							$("#ImgUpLoadIdCardBox").css("display","block");
+							$("#idCardReaderBox").css("display","none");
+							alert("身份证头像上传失败");
 						}
 					})
 
-					
-
 				}else{
-
 					alert("身份证信息获取失败，请将身份证放置在读卡器上再点击读取");
-
 				}
 				
 			}else{
