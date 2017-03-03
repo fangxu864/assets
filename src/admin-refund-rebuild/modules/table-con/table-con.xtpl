@@ -69,7 +69,7 @@
                         <%}%>
                         <% if(item.wd_status != 2 ){%>
                             <p class="line line4">
-                                <span class="operableBtn btnTransfer" data-id="<%=item.id%>" data-deny="<%=item.status_deny%>" data-aid="<%=item.fid%>"><%=item.btn_ok%></span>
+                                <span class="operableBtn btnTransfer" data-id="<%=item.id%>" data-deny="<%=item.status_ok%>" data-aid="<%=item.fid%>"><%=item.btn_ok%></span>
                                 <span class="operableBtn btnDeny" data-id="<%=item.id%>" data-deny="<%=item.status_deny%>" data-aid="<%=item.fid%>"><%=item.btn_deny%></span>
                                 <span class="operableBtn btnPrint">打印</span>
                             </p>
