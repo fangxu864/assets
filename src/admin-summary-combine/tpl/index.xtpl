@@ -1,0 +1,13 @@
+<%_.each(data,function(arr,i)){%>
+<tr>
+    <td class="b-r">微信</td>
+    <td <%=(arr.chayi!=0) ? class="back-y":" " %>><%=arr.xx%></td>
+    <td <%=(arr.chayi!=0) ? class="back-y":" " %>><%=arr.xx%></td>
+    <td <%=(arr.chayi!=0) ? class="back-y":" " %>><%=arr.xx%></td>
+    <td class="b-r  <%=(arr.chayi!=0) ? "back-y error":" " %>"><%=arr.xx%></td>
+    <td <%=(arr.chayi!=0) ? class="back-y":" " %>><%=arr.xx%></td>
+    <td <%=(arr.chayi!=0) ? class="back-y":" " %>><%=arr.xx%></td>
+    <td <%=(arr.chayi!=0) ? class="back-y":" " %>><%=arr.xx%></td>
+    <td class="b-r  <%=(arr.chayi!=0) ? "back-y error":" " %>"><%=arr.xx%></td>
+</tr>
+<%}%>
