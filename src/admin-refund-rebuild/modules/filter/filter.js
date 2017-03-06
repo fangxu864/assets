@@ -5,6 +5,8 @@
 require("./filter.scss");
 var tpl = require("./filter.xtpl");
 var DatePicker = require("COMMON/modules/datepicker");
+var Tip = require("COMMON/modules/tips");
+var Tips = new Tip();
 
 
 
@@ -42,6 +44,42 @@ var Filter = {
         });
         //点击打印提现清单按钮
         this.container.on("click", ".btn_print" ,function () {
+            //判断结束起始时间是否填写
+            var beginInp = _this.container.find(".bTimeInp");
+            var endInp = _this.container.find(".eTimeInp");
+            if(!beginInp.val() || !endInp.val()){
+                if( !beginInp.val() ){
+                    Tips.closeAllTips();
+                    Tips.show({
+                        lifetime : 1000 ,
+                        direction : top,
+                        hostObj : beginInp ,
+                        content : "打印需要输入起始时间",
+                        bgcolor : "orange"
+                    });
+                }else{
+                    Tips.closeAllTips();
+                    Tips.show({
+                        lifetime : 1000 ,
+                        direction : top,
+                        hostObj : endInp ,
+                        content : "打印需要输入结束时间",
+                        bgcolor : "orange"
+                    })
+                }
+                return false;
+            }
+            //打印时间跨度不能超过30天
+            if(_this.GetDateDiff(beginInp.val(), endInp.val()) > 30){
+                Tips.show({
+                    lifetime : 1000 ,
+                    direction : top,
+                    hostObj : endInp ,
+                    content : "打印时间跨度不能超过30天",
+                    bgcolor : "orange"
+                });
+                return false;
+            }
             var filterParams =  _this.deSerialize ( _this.container.find("#filterForm").serialize() );
             var newParams = $.extend({}  , filterParams );
             delete newParams.type;
@@ -68,13 +106,17 @@ var Filter = {
      */
     initDatepicker : function(){
         var _this = this;
+        var beginInp = _this.container.find(".bTimeInp");
+        var endInp = _this.container.find(".eTimeInp");
+        var today = DatePicker.CalendarCore.gettoday();
+        beginInp.val(today);
+        endInp.val(today);
         var datepicker = this.datepicker = new DatePicker();
         this.container.on("click",".bTimeInpBox",function(e){
             var tarInp = $(this).find(".bTimeInp");
-            var endInp = _this.container.find(".eTimeInp");
             var endtime = endInp.val();
             var date = tarInp.val();
-            if(!date) date = DatePicker.CalendarCore.gettoday() ;
+            if(!date) date = today ;
             var max = endtime ? endtime.substr(0,10) : "";
             datepicker.open(date,{
                 picker : tarInp,
@@ -84,11 +126,10 @@ var Filter = {
         });
         this.container.on("click",".eTimeInpBox",function(e){
             var tarInp = $(this).find(".eTimeInp");
-            var beginInp = _this.container.find(".bTimeInp");
             var beingTime = beginInp.val();
             var beginDate = beingTime.substr(0,10);
             var date = tarInp.val();
-            if(!date) date = DatePicker.CalendarCore.gettoday() ;
+            if(!date) date = today ;
             var min = beingTime ? beingTime.substr(0,10) : "";
             datepicker.open(date,{
                 picker : tarInp,
@@ -208,6 +249,14 @@ var Filter = {
         $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
         window.open(downloadUrl, iframeName);
     },
+
+    //计算两个日期间的天数
+    GetDateDiff: function(startDate,endDate) {
+        var startTime = new Date(Date.parse(startDate.replace(/-/g,   "/"))).getTime();
+        var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
+        var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
+        return  dates;
+    }
 
 };
 
