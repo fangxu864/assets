@@ -46,9 +46,9 @@ var CalculatMoney = {
 			},
 			complete : function(){},
 			success : function(money){
-
-				this.reCalculateWait(tarBtn,orignText);
+				// this.reCalculateWait(tarBtn,orignText);
 				this.moneyInp.val(money);
+				tarBtn.text('最大可提现：' +money+ '元');
 				//计算
 				this.calculate(money);
 
