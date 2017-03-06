@@ -40,7 +40,7 @@
     </div>
     <div class="tb_top_box" style="display: none;">
         <div class="lt">
-            <div class="th"><div class="roll_left" style="color: white;"><</div></div>
+            <div class="th"><div class="roll_left" style="color: black;"><</div></div>
             <div class="tr">收入</div>
             <div class="tr">支出</div>
         </div>
@@ -56,7 +56,7 @@
             </table>
         </div>
         <div class="rt_r">
-            <div class="th"><div class="roll_right" style="color: white;">></div></div>
+            <div class="th"><div class="roll_right" style="color: black;">></div></div>
         </div>
 
     </div>

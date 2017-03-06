@@ -37,16 +37,16 @@ $expendColor:  #ff4050;//支出的颜色
 .dealsumContainer .dealSumBox .totalExpend{ color:$expendColor;}
 .dealsumContainer .tb_top_box{width: 100%;overflow: hidden;border-bottom: 1px solid #e5e5e5;text-align: center;white-space:nowrap;}
 .dealsumContainer .tb_top_box .lt{width: 135px;height: 122px;float: left;position:relative;background-color: #ffffff;}
-.dealsumContainer .tb_top_box .lt .th{height:42px;line-height: 42px;text-align: center;background-color:#00597b; }
+.dealsumContainer .tb_top_box .lt .th{height:42px;line-height: 42px;text-align: center;background-color:#e5e5e5; }
 .dealsumContainer .tb_top_box .lt .tr{height:40px;line-height: 40px;text-align: left;padding-left: 18px; }
 .dealsumContainer .tb_top_box .rt{width: 835px;height: 122px;float: left;position:relative;overflow: hidden;}
 .dealsumContainer .tb_top_box .rt table{position: absolute;}
-.dealsumContainer .tb_top_box .rt table thead {background-color:#00597b;height:32px;line-height: 32px;color: white;cursor: move; }
+.dealsumContainer .tb_top_box .rt table thead {background-color:#e5e5e5;height:32px;line-height: 32px;color: #737373;cursor: move; }
 .dealsumContainer .tb_top_box .rt table thead th{padding: 5px 28px;}
 .dealsumContainer .tb_top_box .rt table tbody tr.income{height: 40px;line-height: 40px; color: $incomeColor;}
 .dealsumContainer .tb_top_box .rt table tbody tr.expend{height: 40px;line-height:40px;color: $expendColor;}
 .dealsumContainer .tb_top_box .rt_r{width: 28px;height: 100%;float: left;background-color: #ffffff;}
-.dealsumContainer .tb_top_box .rt_r .th{height:42px;line-height: 42px;text-align: center;background-color:#00597b; }
+.dealsumContainer .tb_top_box .rt_r .th{height:42px;line-height: 42px;text-align: center;background-color:#e5e5e5; }
 
 
 
@@ -73,7 +73,7 @@ $expendColor:  #ff4050;//支出的颜色
 .dealsumContainer .tb_bottom_box .rt table{position: absolute;}
 .dealsumContainer .tb_bottom_box .rt table thead {background-color:#e5e5e5;height:32px;line-height: 32px;color: #737373;cursor:move; }
 .dealsumContainer .tb_bottom_box .rt table thead th{padding: 5px 28px;}
-.dealsumContainer .tb_bottom_box .rt table tbody tr:hover{background-color: #fff3f3}
+.dealsumContainer .tb_bottom_box .rt table tbody tr:hover{background-color: #f1f1f1}
 .dealsumContainer .tb_bottom_box .rt_r{width: 28px;background-color: #ffffff;    float: right;  position: relative;  z-index: 2;}
 .dealsumContainer .tb_bottom_box .rt_r .th{height:42px;line-height: 42px;background-color:#e5e5e5; color:black;}
 .dealsumContainer .tb_bottom_box .rt_r .con .tr{height: 80px;width:28px;border-bottom:  1px solid #eceaea;}
@@ -117,7 +117,69 @@ ul.pagination{margin: 0 auto;}
   }
 }
 
-
+.dealsumContainer {
+  width: 100% !important;
+  min-width: 1000px;
+}
+.dealsumContainer .tb_top_box , .dealsumContainer .tb_bottom_box{position: relative;    height: 122px;}
+.dealsumContainer .tb_top_box .lt {
+  width: 135px;
+  height: 122px;
+  z-index: 122;
+  float: left;
+  position: absolute;
+  background-color: #ffffff;
+}
+.dealsumContainer .tb_top_box .rt {
+  width: auto;
+  height: 122px;
+  /* float: left; */
+  position: absolute;
+  right: 28px;
+  left: 135px;
+  /* margin-right: 28px; */
+  /* margin-left: 135px; */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.dealsumContainer .tb_top_box .rt table,.dealsumContainer .tb_bottom_box .rt table{
+  width: 100%;
+}
+.dealsumContainer .tb_top_box .rt_r {
+  width: 28px;
+  height: 100%;
+  /* float: left; */
+  position: absolute;
+  right: 0px;
+  background-color: #ffffff;
+}
+.dealsumContainer .tb_bottom_box .lt {
+  width: 135px;
+  /* float: left; */
+  position: absolute;
+  z-index: 1;
+  background-color: #ffffff;
+}
+.dealsumContainer .tb_bottom_box .rt {
+  width: auto;
+  /* float: left; */
+  height: 20px;
+  /* margin-left: 135px; */
+  left: 135px;
+  right: 28px;
+  position: absolute;
+  /* position: absolute; */
+  /* margin-right: 28px; */
+  box-sizing: border-box;
+}
+.dealsumContainer .tb_bottom_box .rt_r {
+  width: 28px;
+  background-color: #ffffff;
+  float: right;
+  position: relative;
+  z-index: 2;
+}
+#pag_box{width: auto !important;}
 
 
 //.dealsumContainer .dealSumTable,.dealsumContainer .sumDetailTable{ width:100%;text-align:center;}
