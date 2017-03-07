@@ -209,7 +209,6 @@ var Book_form={
             id:"select_fg",
             arr:["分销商","供应商"],
             callback:function (cur_opt){
-                console.log(cur_opt);
                 var Data = {
                     "分销商" : 0 ,
                     "供应商" : 1
