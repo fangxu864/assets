@@ -846,7 +846,11 @@ selectPop.setContent(html);     //动态设置selectPop弹层的content内容(�
 // npm install --save pft-component-select
 
 //index.js
-var SelectLight = require("pft-component-select/Light");
+var SelectLight = require("pft-component-select/light");
+
+// 注意：这个省市联动选择器组件使用前，html页面必须先引入省市字典表 pft.province.city.data.js
+// <script type="text/javascript" src="//static.12301.cc/assets/build/lib/pft.province.city.data.js"></script>
+var SelectProvinceCity = require("pft-component-select/provincecity");
 var select = new SelectLight(opt);
 
 ```
@@ -882,7 +886,7 @@ var s2 = new SelectProvinceCity(opt);
 ```
 
 
-### SelectLight
+### Select.Light
 轻量select，模拟select标签的常规行为
 
 |参数|类型|说明|默认值|
@@ -902,7 +906,7 @@ var s2 = new SelectProvinceCity(opt);
 
 ```js
 //commonjs 
-var SelectLight = requrie("pft-component-select/Light");
+var SelectLight = requrie("pft-component-select/light");
 //或者
 var SelectLight = PFT.Component.Light;
 
@@ -960,6 +964,66 @@ select.reset([{
 select.on("select",function(data){
     console.log(data)
 })    
+
+
+```
+
+
+### Select.ProvinceCity
+省市联动选择器
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|container|object|容器,一个object对象|{}|
+|container.province|string|字符串，只能传css选择器，建议用id选择器|""|
+|container.city|string|字符串，只能传css选择器，建议用id选择器|""|
+|name|object|提交给后端的参数名,一个object对象|{}|
+|name.province|string|提交给后端的参数名|""|
+|name.city|string|提交给后端的参数名|""|
+|placeholder|object|placeholder,一个object对象|{}|
+|placeholder.province|string|不显示任何值时，默认显示placeholder|"请选择省份"|
+|placeholder.city|string|不显示任何值时，默认显示placeholder|"请选择市(区)"|
+|position|string|下拉列表的定位方式,可选值：absolute,fix|"absolute"|
+|zIndex|number|下拉列表的zIndex值|1|
+|height|number|下拉列表的最大高度|300|
+|offsetX|number|下拉列表的相对偏移X轴位置,一般取默认值即可，特殊情况下，程序定位有误差时，此参数可用于手动调整|0|
+|offsetY|number|下拉列表的相对偏移Y轴位置,一般取默认值即可，特殊情况下，程序定位有误差时，此参数可用于手动调整|0|
+
+```js
+
+//commonjs 
+var SelectProvinceCity = requrie("pft-component-select/provincecity");
+//或者
+var SelectProvinceCity = PFT.Component.ProvinceCity;
+
+
+var select = new SelectProvinceCity({
+    container : {
+        province : "#provinceInputContainer",
+        city : "#cityInputContainer"
+    },
+    name : {
+        province : "province",
+        city : "city"
+    },
+    
+    placeholder : {
+        province : "请选择省份",
+        city : "请选择市(区)"
+    },
+    position : "absolute",
+    zIndex : 1,
+    height : 300,
+    offsetY : 0,
+    offsetX : 0
+})
+
+var val = select.getValue();  //1,2   1代表省份id  2代表市id
+
+
+select.setValue(1,2)  //设置省id为1  市id为2
+
+select.setValue(1)    //只设置省id  市默认
 
 
 
