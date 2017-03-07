@@ -1433,6 +1433,7 @@ var Order_fill = PFT.Util.Class({
 		var input = ($(e.target).val());
 		var storage = $(e.target).parent().parent().find(".left .num").text();
 		var buyLow = $(e.target).parent().find(".delBtn").attr("data-buy_low");
+		var buyUp = $(e.target).parent().find(".addBtn").attr("data-buy_up");
 		if(!Validate.typeNum(input)) {
 			PFT.Mobile.Alert("请输入正确的数值");
 			($(e.target)).val(0);
@@ -1440,6 +1441,10 @@ var Order_fill = PFT.Util.Class({
 			if(parseInt(input) > parseInt(storage)){
 				($(e.target)).val(storage);
 				PFT.Mobile.Alert("最大库存为"+storage);
+			}
+			if(parseInt(input) > buyUp){
+				($(e.target)).val(buyUp);
+				PFT.Mobile.Alert("数量不能大于"+buyUp);
 			}
 			if(parseInt(input) < buyLow){
 				($(e.target)).val(buyLow);
