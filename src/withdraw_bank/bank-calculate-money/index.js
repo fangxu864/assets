@@ -53,9 +53,11 @@ var CalculatMoney = {
 				//计算
 				this.calculate(money);
 			},
-			below:function(){
-				alert("您所能提现的金额小于200");
-				this.reCalculateWait(tarBtn,orignText);
+			below:function(money){
+				tarBtn.text('最大可提现：' +money+ '元，小于200元，不可提现');
+				this.moneyInp.val("").prop("readonly","readonly").css("background-color","#e5e5e5");
+				$("#nextbut").addClass("not-allowed");
+				// this.reCalculateWait(tarBtn,orignText);
 			},
 			fail : function(msg,code){
 				tarBtn.removeClass("disable");
@@ -105,7 +107,7 @@ var CalculatMoney = {
 					if(wdMoney>=200){
 						success.call(cxt,wdMoney);
 					}else{
-						below.call(cxt);
+						below.call(cxt,wdMoney);
 					}
 				}else if(data==0){
 					fail.call(cxt,msg,code);
