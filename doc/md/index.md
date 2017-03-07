@@ -830,4 +830,204 @@ selectPop.setContent(html);     //动态设置selectPop弹层的content内容(�
 
 ```
 
+## Select (pc端)
+> 1. pc端专用select组件
+> 2. Select组件下包含子组件：SelectLight、ProvinceCity
 
+
+两种方式引入此组件：
+> 1. 方法一：通过requrie引入
+
+如果你的项目刚好是一个nodejs项目，例如：assets，使用如下：
+
+```js
+
+// 通过npm先install已发布在npm平台上的pft-component-select包
+// npm install --save pft-component-select
+
+//index.js
+var SelectLight = require("pft-component-select/light");
+
+// 注意：这个省市联动选择器组件使用前，html页面必须先引入省市字典表 pft.province.city.data.js
+// <script type="text/javascript" src="//static.12301.cc/assets/build/lib/pft.province.city.data.js"></script>
+var SelectProvinceCity = require("pft-component-select/provincecity");
+var select = new SelectLight(opt);
+
+```
+
+> 2. 方法二：直接在html页面引入已构建好的最终js,css文件
+
+```html
+
+<!-- 注意：pft.base.pc.js必须先引入 -->
+<script type="text/javascript" src="//static.12301dev.com/assets/build/js/common/pft.base.pc.js"></script>
+
+
+<!-- 如果要使用SelectLight -->
+<link rel="stylesheet" href="//static.12301.cc/assets/build/components/select.light.all.css"/>
+<script type="text/javascript" src="//static.12301.cc/assets/build/components/select.light.all.js"></script>
+
+<!-- 如果要使用省市联动select(Select.ProvinceCity)需要多引入省市字典表 pft.province.city.data.js -->
+<link rel="stylesheet" href="//static.12301.cc/assets/build/components/select.province.city.all.css"/>
+<script type="text/javascript" src="//static.12301.cc/assets/build/lib/pft.province.city.data.js"></script>
+<script type="text/javascript" src="//static.12301.cc/assets/build/components/select.province.city.all.js"></script>
+
+```
+
+```js
+// index.js
+// 这种方式引入的所有组件，今后都统一挂载到PFT.Component命名空间下
+var SelectLight = PFT.Component.SelectLight;
+var SelectProvinceCity = PFT.Component.ProvinceCity;
+
+var s1 = new SelectLight(opt);
+var s2 = new SelectProvinceCity(opt);
+
+```
+
+
+### Select.Light
+轻量select，模拟select标签的常规行为
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|container|string|容器,只能传css选择器,建议用id选择器|""|
+|name|string|提交给后端的参数名|""|
+|option|array|一个包含多个item对象的数组,[{id:123,text:"选项一"}]|[]|
+|placeholder|string|不显示任何值时，默认显示placeholder|"请选择"|
+|position|string|下拉列表的定位方式,可选值：absolute,fix|"absolute"|
+|zIndex|number|下拉列表的zIndex值|1|
+|height|number|下拉列表的最大高度|300|
+|offsetX|number|下拉列表的相对偏移X轴位置,一般取默认值即可，特殊情况下，程序定位有误差时，此参数可用于手动调整|0|
+|offsetY|number|下拉列表的相对偏移Y轴位置,一般取默认值即可，特殊情况下，程序定位有误差时，此参数可用于手动调整|0|
+
+
+
+
+```js
+//commonjs 
+var SelectLight = requrie("pft-component-select/light");
+//或者
+var SelectLight = PFT.Component.Light;
+
+var select = new SelectLight({
+    container : "#selectInputContainer",
+    name : "dtype",
+    placeholder : "请选择商家类型",
+    position : "absolute",
+    zIndex : 100,
+    offsetX : 0,
+    offsetY : 0,
+    option : [{
+        id : 1,
+        text : "选项1"
+    },{
+        id : 2,
+        text : "选项2"
+    },{
+        id : 3,
+        text : "选项3"
+    },{
+        id : 4,
+        text : "选项4"
+    },{
+        id : 5,
+        text : "选项5"
+    }]
+});
+
+select.setValue(2);  //设置第2项被选中
+
+var currentValue = select.getValue();
+var currentText = select.getText();
+
+//重新设置所有选项
+select.reset([{
+        id : 1,
+        text : "选项1"
+    },{
+        id : 2,
+        text : "选项2"
+    },{
+        id : 3,
+        text : "选项3"
+    },{
+        id : 4,
+        text : "选项4"
+    },{
+        id : 5,
+        text : "选项5"
+    }]);
+
+
+//当select切换选项时
+select.on("select",function(data){
+    console.log(data)
+})    
+
+
+```
+
+
+### Select.ProvinceCity
+省市联动选择器
+
+|参数|类型|说明|默认值|
+|:----|:----|:----|:----|
+|container|object|容器,一个object对象|{}|
+|container.province|string|字符串，只能传css选择器，建议用id选择器|""|
+|container.city|string|字符串，只能传css选择器，建议用id选择器|""|
+|name|object|提交给后端的参数名,一个object对象|{}|
+|name.province|string|提交给后端的参数名|""|
+|name.city|string|提交给后端的参数名|""|
+|placeholder|object|placeholder,一个object对象|{}|
+|placeholder.province|string|不显示任何值时，默认显示placeholder|"请选择省份"|
+|placeholder.city|string|不显示任何值时，默认显示placeholder|"请选择市(区)"|
+|position|string|下拉列表的定位方式,可选值：absolute,fix|"absolute"|
+|zIndex|number|下拉列表的zIndex值|1|
+|height|number|下拉列表的最大高度|300|
+|offsetX|number|下拉列表的相对偏移X轴位置,一般取默认值即可，特殊情况下，程序定位有误差时，此参数可用于手动调整|0|
+|offsetY|number|下拉列表的相对偏移Y轴位置,一般取默认值即可，特殊情况下，程序定位有误差时，此参数可用于手动调整|0|
+
+```js
+
+//commonjs 
+var SelectProvinceCity = requrie("pft-component-select/provincecity");
+//或者
+var SelectProvinceCity = PFT.Component.ProvinceCity;
+
+
+var select = new SelectProvinceCity({
+    container : {
+        province : "#provinceInputContainer",
+        city : "#cityInputContainer"
+    },
+    name : {
+        province : "province",
+        city : "city"
+    },
+    
+    placeholder : {
+        province : "请选择省份",
+        city : "请选择市(区)"
+    },
+    position : "absolute",
+    zIndex : 1,
+    height : 300,
+    offsetY : 0,
+    offsetX : 0
+})
+
+var val = select.getValue();  //1,2   1代表省份id  2代表市id
+
+
+select.setValue(1,2)  //设置省id为1  市id为2
+
+select.setValue(1)    //只设置省id  市默认
+
+
+
+
+
+
+```

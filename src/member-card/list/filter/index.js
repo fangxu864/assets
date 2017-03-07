@@ -18,6 +18,12 @@ var Filter = PFT.Util.Class({
 
         //初始化一个日历插件
         this.datepicker = new Datepicker();
+        this.datepicker.on("switch",function(data){
+            var dateTime = data.picker.val();
+            if(!dateTime) return false;
+            dateTime  += (data.picker.hasClass("begin") ? ":00:00" : ":59:59");
+            data.picker.val(dateTime);
+        })
 
         this.initCarType();
 
@@ -90,9 +96,13 @@ var Filter = PFT.Util.Class({
             picker : tarInp,              //必选
             top : 0,                     //可选，相对偏移量
             left : 0,                    //可选，相对偏移量
+            onAfter : function(data){
+                
+            },
             todayBeforeDisable : false,  //可选，今天之前的日期都不显示
             todayAfterDisable : false    //可选，今天之后的日期都不显示
         })
+        
     },
     //判断搜索条件是否违规，比如，设置开始时间晚于结束时间，设置搜索天数为一个非整数或负数等
     validateParams : function(params){
@@ -135,6 +145,7 @@ var Filter = PFT.Util.Class({
 			},
 			success : function(data){
 				var option = "";
+                option += '<option value="">全部</option>';
 				for(var i=0, len=data.length; i<len; i++){
 					var car = data[i];
 					option += '<option value="'+car.type+'">'+car.name+'</option>';
@@ -156,16 +167,19 @@ var Filter = PFT.Util.Class({
         var unuseEndTime = $("#unuseEndTimeInp").val();
         var params = {
             status : status,
-            keyword : keyword,
             begin : status!=4 ? beginTime : unuseBeginTime,
             end : status!=4 ? endTime : unuseEndTime
         };
-
-        if(status=="" || status=="0"){ //全部，正常这两个状态  需要添加车辆信息参数搜索
-            params["car_type"] = $("#carTypeSelect").val() || "0";  //默认请求5座的 值为0
-        }else if(status=="4"){ //未使用状态  需要添加未使用天数搜索
+        if(status=="" || status=="0"){ //全部，正常这两个状态  需要添加车辆信息参数搜索 跟keyword
+            params["car_type"] = $("#carTypeSelect").val() || "";  //默认请求5座的 值为0
+        }else if(status=="4"){ //未使用状态  需要添加未使用天数搜索  不需要keyword
             params["days"] = $.trim($("#unuseDayInp").val());
         }
+
+        if(status!="4"){ //未使用状态时  keyword传空或不传  其它都传
+            params["keyword"] = keyword;
+        }
+
 
         return params;
 

@@ -91,7 +91,7 @@
         <div class="formBox buttonW">
             <div class="line">
                 <span class="lt" style="visibility:hidden"></span>
-                <a id="saveBtn" class="saveBtn" href="###"><%=fid ? '保存' : '开卡'%></a>
+                <a data-cid="<%=cid%>" id="saveBtn" class="saveBtn" href="###"><%=fid ? '保存' : '开卡'%></a>
             </div>
         </div>
     </div>
