@@ -10,8 +10,6 @@ var CheckExistDialog = require("../../common/check-exist-dialog");
 var ProvCitySelect = require("COMMON/js/component.city.select.js");
 var Fileupload = require("COMMON/modules/fileupload");
 
-var Mock = require("mockjs");	
-
 var MainView = Backbone.View.extend({
 	time : 60,  //获取验证码的间隔时间 60s
 	timer : null,
