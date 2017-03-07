@@ -2,6 +2,6 @@
 <img class="headerSpotImg" src="<%=data.imgpath%>"></img>
 <div class="headerRight">
 	<span class="headerSpotName"><%=data.title%></span><br>
-	<span class="headerSupplierText">供应商：<%=data.apply_did%></span><br>
+	<span class="headerSupplierText">供应商：<%=data.apply_name%></span><br>
 	<span class="headerSpotLoca"><%=data.address%></span>
 </div>
