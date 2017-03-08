@@ -47,7 +47,7 @@ var CalculatMoney = {
 			complete : function(){},
 			success : function(money){
 				// this.reCalculateWait(tarBtn,orignText);
-				this.moneyInp.val(money);
+				this.moneyInp.val(money).trigger("keyup");
 				tarBtn.text('最大可提现：' +money+ '元');
 				$("#nextbut").attr("data-maxMoney",money);
 				//计算
