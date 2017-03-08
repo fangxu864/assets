@@ -1,5 +1,12 @@
 
 
+.input{
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #e5e5e5;
+    border-bottom : 1px solid #e5e5e5;
+}
+
 
 
 #cardTouristsListWrap{
@@ -39,17 +46,11 @@
                 .actTimein{
                     height: 30px;
                     margin-left: 0;
-                    border-left: none;
-                    border-right: none;
-                    border-top: 1px solid #e5e5e5;
-                    border-bottom : 1px solid #e5e5e5;
+                    width: 200px;
                 }
                 .actTimeout{
                     height: 30px;
-                    border-left: none;
-                    border-right: 1px solid #e5e5e5;
-                    border-top: 1px solid #e5e5e5;
-                    border-bottom : 1px solid #e5e5e5;
+                    width: 200px;
                 }
                 .actTimeoutT{
                     position: absolute;
