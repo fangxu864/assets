@@ -5,7 +5,7 @@ var plugins = require("../../task-webpack/getPlugins")(env);
 var output = require("../../task-webpack/getOutput")(env);
 var config = require("../../task-webpack/config")({
 	entry : {
-		"car-tourists-list" : "./src/car-tourists-list/index"
+		"car-tourists-list" : "./src/card-tourists-list/index"
 	},
 	output : output,
 	plugins : plugins

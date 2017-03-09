@@ -186,10 +186,10 @@
     "poster-img-upload-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
 
-    "car-tourists-list-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/car-tourists-list/webpack.config.js",
-    "car-tourists-list-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/car-tourists-list/webpack.config.js",
-    "car-tourists-list-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/car-tourists-list/webpack.config.js",
-    "car-tourists-list-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/car-tourists-list/webpack.config.js"
+    "card-tourists-list-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/card-tourists-list/webpack.config.js",
+    "card-tourists-list-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
+    "card-tourists-list-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
+    "card-tourists-list-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js"
   },
   "repository": {
     "type": "git",
