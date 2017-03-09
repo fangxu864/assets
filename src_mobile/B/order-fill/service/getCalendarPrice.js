@@ -1,7 +1,7 @@
 
 module.exports = function(params,opt){
 
-    PFT.Util.Ajax("/r/MicroPlat_Product/getCalendarPrice",{
+    var xhr = PFT.Util.Ajax("/r/MicroPlat_Product/getCalendarPrice",{
         type : "post",
         params : {
             token : params.token,
@@ -27,6 +27,8 @@ module.exports = function(params,opt){
             }
         }
     })
+
+    return xhr
 
 }
 

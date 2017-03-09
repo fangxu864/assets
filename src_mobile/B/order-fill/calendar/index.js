@@ -123,6 +123,8 @@ var Calendar = PFT.Util.Class({
 			}
 		});	
 
+		console.log(this.getPrice);
+
 
 	},
 
