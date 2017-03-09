@@ -184,7 +184,7 @@
     "admin-refund-rebuild-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/admin-refund-rebuild/webpack.config.js ",
     "admin-refund-rebuild-test": "set NODE_ENV=test && webpack --config ./src/admin-refund-rebuild/webpack.config.js",
     "admin-refund-rebuild-release": "set NODE_ENV=release && webpack --config ./src/admin-refund-rebuild/webpack.config.js",
-    "admin-refund-rebuild-production": "set NODE_ENV=production && webpack --config ./src/admin-refund-rebuild/webpack.config.js"
+    "admin-refund-rebuild-production": "set NODE_ENV=production && webpack --config ./src/admin-refund-rebuild/webpack.config.js",
 
     "poster-img-upload-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
