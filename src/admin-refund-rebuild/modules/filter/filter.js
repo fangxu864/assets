@@ -146,7 +146,7 @@ var Filter = {
         var arr = str.split("&");
         var obj = {};
         for( var i= 0 ; i< arr.length ;i++ ){
-            obj[ arr[i].split("=")[0] ] = arr[i].split("=")[1]
+            obj[ arr[i].split("=")[0] ] = decodeURIComponent( arr[i].split("=")[1] )
         }
         return obj;
     },
