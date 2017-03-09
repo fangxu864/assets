@@ -260,7 +260,9 @@ var Book_form={
                                 // },
                                 data: _this.select3_cache_data["Reseller"]
                             });
-                            _this.select3.refresh(res.data);
+                            if( _this.isAdmin != 1){
+                                _this.select3.refresh(res.data);
+                            }
                         });
                     }
                 }else if(cur_opt == "供应商"){
@@ -270,7 +272,9 @@ var Book_form={
                     }else{
                         $.post("/r/report_statistics/getSupplierList" , function (res) {
                             _this.select3_cache_data["Supplier"] = res.data;
-                            _this.select3.refresh(res.data)
+                            if( _this.isAdmin != 1){
+                                _this.select3.refresh(res.data);
+                            }
                         })
                     }
                 }
@@ -406,7 +410,12 @@ var Book_form={
         if(_this.isAdmin==1){
             $("#fenxiaoshang_name_inp").on("focus",function () {
                 var member_id=_this.getParams()["merchant_id"]?_this.getParams()["merchant_id"]:"";
-                var api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                var api = '';
+                if($("#select_fg").attr("search_type") == 0){
+                    api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }else{
+                    api="/r/report_statistics/getSupplierList?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }
                 $.ajax({
                     url: api,                                //请求的url地址"/r/report_statistics/orderList/"
                     dataType: "json",                            //返回格式为json
