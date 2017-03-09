@@ -8,7 +8,7 @@ var simulate = {
 
 
         //模拟后端数据
-        Mock.mock('http://g.cn', {
+        Mock.mock('http://1.cn', {
             'name'	   : '[@name](/user/name)()',
             'age|1-100': 100,
             'color'	   : '[@color](/user/color)'
