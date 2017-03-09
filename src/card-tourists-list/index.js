@@ -9,7 +9,7 @@ var Pagination = require("COMMON/modules/pagination-x");
 var Calendar = require("COMMON/modules/calendar");
 
 
-var Select = require("COMMON/modules/select_scroll");
+var Select = require("./select_scroll");
 
 var Main = PFT.Util.Class({
 
@@ -20,22 +20,15 @@ var Main = PFT.Util.Class({
 
 		var select = new Select({
 			id:"div1",
-			arr:["星期一","星期二","星期三","星期四","星期五","星期六","星期日"],
+			arr:["操作员","星期一","星期二","星期三","星期四","星期五","星期六","星期日"],
 			callback:function(){}
 		});
 
 		console.log(select);
 
-
-		
-
-
-
 		var calendar = new Calendar();
 
 		var $input = $(".actTimein");
-
-		console.log(calendar);
 
 		$(".actTimein").on("click",function(){
 
@@ -116,7 +109,7 @@ var Main = PFT.Util.Class({
 			complete : function(){
 			},
 			success : function(res){
-				console.log(res);
+				// console.log(res);
 			},
 			timeout : function(){ alert("请求起时") },
 			serverError : function(){ alert("请求出错")}

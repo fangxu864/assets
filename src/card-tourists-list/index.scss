@@ -77,18 +77,28 @@
                     border-left: 1px solid #e5e5e5;
                     border-right: 1px solid #e5e5e5;
                 }
-                .operator{
-                    width: 83px;
+                // .operator{
+                //     width: 83px;
+                //     height: 30px;
+                //     padding-left: 55px;
+                //     border-left: 1px solid #e5e5e5;
+                //     border-right: 1px solid #e5e5e5;
+                //     margin-left: 10px;
+                //     position: relative;
+                //     line-height: 30px;
+                // }
+                #operator{
+
                     height: 30px;
-                    padding-left: 55px;
-                    border-left: 1px solid #e5e5e5;
-                    border-right: 1px solid #e5e5e5;
-                    margin-left: 10px;
-                    position: relative;
+                    width: 150px;
                     line-height: 30px;
+                    border:1px solid #CCCCCC;
+                    position: relative;
+
                 }
                 .unfoldBox{
-                    display: inline-block;
+                    // display: inline-block;
+                    display: none;
                     height: 30px;
                     border: 1px solid #e5e5e5;
                     margin-left: -4px;
@@ -179,9 +189,11 @@
 
 #div1{
     height: 30px;
-    width: 50px;
+    width: 150px;
     line-height: 30px;
     border:1px solid #CCCCCC;
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
