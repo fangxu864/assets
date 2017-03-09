@@ -1,0 +1,19 @@
+#refundApplyWrap{
+  float: left;
+  width: 800px;
+  background: #fff;
+}
+#refundApplyWrap {
+
+  .topTitleBox{
+    border: 1px solid #e5e5e5;
+    line-height: 60px;
+    font-size: 22px;
+    padding-left: 20px;
+    span.tip{
+      font-size: 14px;
+      color: orangered;
+      margin-left: 20px;
+    }
+  }
+}
