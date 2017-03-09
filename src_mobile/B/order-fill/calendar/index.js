@@ -105,7 +105,7 @@ var Calendar = PFT.Util.Class({
 			date : date
 		};
 
-		this.getPrice = GetCalendarPrice(params,{
+		GetCalendarPrice(params,{
 			loading:function () {
 				that.toast.show("loading");
 			},
@@ -116,14 +116,14 @@ var Calendar = PFT.Util.Class({
 
 				that.handleCalPrice(date,list);
 
+				that.trigger("done");
+
 			},
 			complete:function () {},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);
 			}
 		});	
-
-		console.log(this.getPrice);
 
 
 	},
