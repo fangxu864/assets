@@ -16,9 +16,9 @@ var Main =PFT.Util.Class({
         var regx= /\S/;
         var regxx=/^[1-9]\d*$/;
         if(regx.test(loginInpVal)&&regx.test(pwdInpVal)){
-           if(!regxx.test(loginInpVal)){
-               return Alert("请输入正确的手机号!");
-            }
+        //    if(!regxx.test(loginInpVal)){
+        //        return Alert("请输入正确的手机号!");
+        //     }
             _this.subLoginReq($.trim(loginInpVal),$.trim(pwdInpVal));
         }else{
              Alert("账号和密码不能为空!")

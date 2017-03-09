@@ -1032,31 +1032,36 @@ var Order_fill = PFT.Util.Class({
 			that.hotelDateChange(2,selectedDay);				
 		});
 
+		//第一次不发请求设置默认值
+		$(".price").find(".orange.money").text("0");
+		$(".storage").find(".num").text("0");
+		$(".numBox").val("0");
+		
 		//第一次获取当日的结算价和库存
-
-		var params = {
-			token : PFT.Util.getToken(),
-            beginDate : this.calendar1.selectedDay,
-            endDate : this.calendar2.selectedDay,
-            aid : this.aid,
-            pid : this.pid
-		}
-		this.cityReq = GetHotelPrice(params,{
-			loading:function(){
-				that.toast2.show("loading");
-			},
-			success:function(res){
-				$(".price").find(".orange.money").text(res.jsprice);
-				$(".storage").find(".num").text(res.minStore);
-				$("#totalMoney").text(res.jsprice);
-			},
-			complete:function(){
-				that.toast2.hide();
-			},
-			fail : function(msg){
-				PFT.Mobile.Alert(msg);				
-			}	
-		});
+		//第一次不用？
+		// var params = {
+		// 	token : PFT.Util.getToken(),
+        //     beginDate : this.calendar1.selectedDay,
+        //     endDate : this.calendar2.selectedDay,
+        //     aid : this.aid,
+        //     pid : this.pid
+		// }
+		// this.cityReq = GetHotelPrice(params,{
+		// 	loading:function(){
+		// 		that.toast2.show("loading");
+		// 	},
+		// 	success:function(res){
+		// 		$(".price").find(".orange.money").text(res.jsprice);
+		// 		$(".storage").find(".num").text(res.minStore);
+		// 		$("#totalMoney").text(res.jsprice);
+		// 	},
+		// 	complete:function(){
+		// 		that.toast2.hide();
+		// 	},
+		// 	fail : function(msg){
+		// 		PFT.Mobile.Alert(msg);				
+		// 	}	
+		// });
 
 
 	},
@@ -1305,7 +1310,28 @@ var Order_fill = PFT.Util.Class({
 		function handleHotelRes(res){
 			//酒店只有一个票
 			$(".price").find(".orange.money").text(res.jsprice);
-			$(".storage").find(".num").text(res.minStore);
+
+			if(res.minStore == "-1"){
+				$(".storage").find(".num").text("无限");
+			}else{
+				$(".storage").find(".num").text(res.minStore);
+			}
+
+			if( parseInt(res.minStore) > 0 ){
+
+				var buyLow = $(".numBox").attr("data-buy_low");
+				$(".numBox").val(buyLow);
+
+				$(".addBtn").attr("active","true");
+
+				var tMoney = parseInt(res.jsprice) * parseInt(buyLow);
+
+				$("#totalMoney").text(tMoney);
+
+			}
+
+
+			
 		}
 
 	},
@@ -1441,6 +1467,9 @@ var Order_fill = PFT.Util.Class({
 			if(parseInt(input) > parseInt(storage)){
 				($(e.target)).val(storage);
 				PFT.Mobile.Alert("最大库存为"+storage);
+			}
+			if(buyUp == "-1"){
+				buyUp = "无限";
 			}
 			if(parseInt(input) > buyUp){
 				($(e.target)).val(buyUp);

@@ -25,14 +25,24 @@ module.exports = function(parent,aid,pid){
 			this.calendar1 = new Calendar(nowDate,aid,pid);
 			this.calendar2 = new Calendar(nowDate,aid,pid);
 
+			console.log("123");
+			console.log(this.calendar1.getPrice);
+			
 			this.setDate();//初始化时间
 		},
 
 		setDate : function(){
 
+			var that = this;
+
 			var date = this.getNowDate();
 			//有天数的
 			var dateDay = date.nowDate + "-" +date.day;
+
+			var list1 = that.calendar1.getNowMonthList();
+			var list2 = that.calendar2.getNowMonthList();
+			console.log(list1);
+			console.log(list2);
 
 			//初始化日期以供外部
 			this.calendar1.selectedDay = dateDay;

@@ -68,7 +68,8 @@ var Plist = PFT.Util.Class({
 		if(urlPara.ptype){
 			this.ptype = urlPara.ptype;	
 		}else{
-			this.ptype = "A";//默认为A
+			// this.ptype = "A";//默认为A
+			this.ptype = "";//默认为空
 		}
 		$("#typeText").attr("data-type",this.ptype);
 		if( this.ptype == "A"){

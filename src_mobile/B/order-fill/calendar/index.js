@@ -82,9 +82,15 @@ var Calendar = PFT.Util.Class({
 		$("#"+that.onlyId+" .calContentCon").html(listHtml);
 
 		this.getCalPrice(date.data.nowDate);//第一次获取
-		
+
 		return this;
 
+	},
+	//获得当月的list
+	getNowMonthList : function(){
+		this.container = $("#"+this.onlyId);
+		var items = this.container.find(".calConItem.column[data-date]");
+		return items
 	},
 
 
@@ -99,7 +105,7 @@ var Calendar = PFT.Util.Class({
 			date : date
 		};
 
-		GetCalendarPrice(params,{
+		this.getPrice = GetCalendarPrice(params,{
 			loading:function () {
 				that.toast.show("loading");
 			},
@@ -157,6 +163,7 @@ var Calendar = PFT.Util.Class({
 				var data_date = dateGroup.year+ "-" +dateGroup.month+ "-" +data_day;
 				if(data_date == i){
 					PG.eq(j).find("em").text(list[i]);
+					PG.eq(j).parent().attr("data-date",data_date);
 				}
 			}
 		}		
