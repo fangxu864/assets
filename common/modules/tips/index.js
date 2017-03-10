@@ -73,12 +73,14 @@ Tips.prototype={
 			},210)
 		},lifetime)
 	},
+
 	/**
 	 * tips的生成方法
 	 */
 	create:function () {
 		return $("<div class='pft-tips'></div>");
 	},
+
 	/**
 	 * 确定Tip的显示方位
 	 * @hostObj    依托的JQ对象
@@ -117,6 +119,7 @@ Tips.prototype={
 		}
 		return direct;
 	},
+
 	/**
 	 * 关闭所有tips
 	 */
