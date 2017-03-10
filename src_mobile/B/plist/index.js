@@ -559,7 +559,8 @@ var Plist = PFT.Util.Class({
 						that.keyword = inputText;
 						that.lastListLid = 0;
 						that.lastListProPos = 0;
-						that.renderSearch();
+						var noneType = "";
+						that.renderSearch(noneType);
 					    that.searchSelect.close();
 					}
 				}
@@ -571,7 +572,7 @@ var Plist = PFT.Util.Class({
 
 	},
 
-	renderSearch : function(){
+	renderSearch : function(Type){
 
 		var that = this;
 
@@ -582,6 +583,11 @@ var Plist = PFT.Util.Class({
 		// 	this.lastListProPos = 0;
 		// }
 
+		var typeFlag = "";
+		if(Type != ""){
+			typeFlag = this.ptype;
+		}
+
 		PFT.Util.Ajax("/r/MicroPlat_Product/getProductList/",{
 		    dataType : "json",
 			type : "POST",
@@ -589,7 +595,7 @@ var Plist = PFT.Util.Class({
 		    	token : PFT.Util.getToken(),
 		    	lastLid : that.lastListLid,
 		    	lastProPos : that.lastListProPos,
-		    	ptype : that.ptype,
+		    	ptype : typeFlag,
 		    	keyword : that.keyword,
 		    	topic : that.topic,
 		    	city : that.city,
