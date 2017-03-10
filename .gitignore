@@ -6,3 +6,4 @@
 *.map
 node_modules/
 build/
+.vscode

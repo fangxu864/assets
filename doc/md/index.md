@@ -19,6 +19,32 @@ var date-picker = require("COMMON/modules/datepicker");
 ```
 
 
+## pft-fe-kit使用
+这是一个前端开发手脚架，能帮你快速搭建好一个项目的开发环境及最后的部署
+
+提供的功能：
+> 1. 可以自主选择你擅长的技术栈：less,sass,jquery,react,vue任选
+> 2. 本地mock数据，完全脱离后端，并行开发
+> 3. 一键构建部署资源到test,dev,production
+
+如果何用：
+```js
+
+npm install pft-fe-kit -g   //全局安装
+
+//新建一个项目
+//cmd到你项目要放置的目录下
+cmd执行：pft-fe-kit i
+
+
+
+
+
+```
+
+
+
+
 
 
 
@@ -1024,9 +1050,6 @@ var val = select.getValue();  //1,2   1代表省份id  2代表市id
 select.setValue(1,2)  //设置省id为1  市id为2
 
 select.setValue(1)    //只设置省id  市默认
-
-
-
 
 
 
