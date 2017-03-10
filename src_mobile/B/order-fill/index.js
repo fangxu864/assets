@@ -1324,7 +1324,7 @@ var Order_fill = PFT.Util.Class({
 
 				$(".addBtn").attr("active","true");
 
-				var tMoney = parseInt(res.jsprice) * parseInt(buyLow);
+				var tMoney = parseFloat(res.jsprice) * parseFloat(buyLow);
 
 				$("#totalMoney").text(tMoney);
 

@@ -53,6 +53,17 @@ module.exports = function(parent,aid,pid){
 
 			var solidDate1 = list1.eq(0);
 			var solidDate2 = list2.eq(0);
+			
+			var allList1 = that.calendar1.container.find(".calConItem.column");
+			allList1.each(function(i,item){
+				$(item).removeClass("select");
+			});
+			solidDate1.addClass("select");
+			var allList2 = that.calendar2.container.find(".calConItem.column");
+			allList2.each(function(i,item){
+				$(item).removeClass("select");
+			});
+			solidDate2.addClass("select");
 
 			var dateDay1 = solidDate1.attr("data-date");
 			var dateDay2 = solidDate2.attr("data-date");
