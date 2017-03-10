@@ -8,23 +8,25 @@ var Pagination = require("COMMON/modules/pagination-x");
 
 var Calendar = require("COMMON/modules/calendar");
 
+var operatorTpl = require("./tpl/operator.xtpl");
 
 var Select = require("./select_scroll");
 
 var Main = PFT.Util.Class({
 
+	container : $("#cardTouristsListWrap"),
+	EVENTS : {
+		"click #operator" : "onOperatorClick"  //操作员
+	},
 	init : function(){
 
 		//在发送请求之前拦截请求,模拟数据
 		simulate.init();
 
-		var select = new Select({
-			id:"div1",
-			arr:["操作员","星期一","星期二","星期三","星期四","星期五","星期六","星期日"],
-			callback:function(){}
-		});
 
-		console.log(select);
+		this.handleOperator(); 
+
+		this.handleStatus();
 
 		var calendar = new Calendar();
 
@@ -42,9 +44,7 @@ var Main = PFT.Util.Class({
 				onAfter : function(){}       //弹出日历后callback
 			})
 
-
 		});
-
 
 		$(".actTimeout").on("click",function(){
 
@@ -110,12 +110,85 @@ var Main = PFT.Util.Class({
 			},
 			success : function(res){
 				// console.log(res);
+
+
+
 			},
 			timeout : function(){ alert("请求起时") },
 			serverError : function(){ alert("请求出错")}
 		})
 
-		
+
+	},
+
+
+	handleStatus : function(){
+
+		$(".statusItem").on("click",function(){
+
+			console.log($(this));
+
+			$(this).siblings().find(".statusItemCircle").removeClass("selected");
+
+			$(this).find(".statusItemCircle").addClass("selected");
+
+			var status = $(this).attr("data-status");
+
+			console.log(status);
+			
+		});
+
+
+
+	},
+
+	handleOperator : function(){
+
+		PFT.Util.Ajax("http://operator.cn",{
+			dataType : "json",
+			params : {
+			},
+			loading : function(){
+			},
+			complete : function(){
+			},
+			success : function(res){
+				var code = res.code;
+				var msg = res.msg;
+				var list = res.data.list;
+				var operatorTemplate = PFT.Util.ParseTemplate(operatorTpl);
+				var operatorHtml = operatorTemplate({ list : list });
+				$("#operatorListBox").append(operatorHtml);
+
+				$(".operatorItem").on("click",function(){
+
+					$("#operatorListBox").css("display","none");
+					$(".unfoldBox i").removeClass("icon-fold").addClass("icon-unfold");
+					$("#operator").val($(this).text());
+
+				});
+
+			},
+			timeout : function(){ alert("请求起时") },
+			serverError : function(){ alert("请求出错")}
+		})
+
+
+
+
+	},
+
+	onOperatorClick : function(){
+		var display = $("#operatorListBox").css("display");	
+		if( display == "none" ){
+			$("#operatorListBox").css("display","block");
+			$(".unfoldBox i").removeClass("icon-unfold").addClass("icon-fold");
+		}else if( display == "block" ){
+			$("#operatorListBox").css("display","none");
+			$(".unfoldBox i").removeClass("icon-fold").addClass("icon-unfold");
+		}
+
+
 
 	}
 

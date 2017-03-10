@@ -77,28 +77,28 @@
                     border-left: 1px solid #e5e5e5;
                     border-right: 1px solid #e5e5e5;
                 }
-                // .operator{
-                //     width: 83px;
-                //     height: 30px;
-                //     padding-left: 55px;
-                //     border-left: 1px solid #e5e5e5;
-                //     border-right: 1px solid #e5e5e5;
-                //     margin-left: 10px;
-                //     position: relative;
-                //     line-height: 30px;
-                // }
-                #operator{
-
+                .operator{
+                    width: 83px;
                     height: 30px;
-                    width: 150px;
-                    line-height: 30px;
-                    border:1px solid #CCCCCC;
+                    padding-left: 55px;
+                    border-left: 1px solid #e5e5e5;
+                    border-right: 1px solid #e5e5e5;
+                    margin-left: 10px;
                     position: relative;
-
+                    line-height: 30px;
                 }
+                // #operator{
+
+                //     height: 30px;
+                //     width: 150px;
+                //     line-height: 30px;
+                //     border:1px solid #CCCCCC;
+                //     position: relative;
+
+                // }
                 .unfoldBox{
-                    // display: inline-block;
-                    display: none;
+                    display: inline-block;
+                    // display: none;
                     height: 30px;
                     border: 1px solid #e5e5e5;
                     margin-left: -4px;
@@ -106,7 +106,32 @@
                     .icon-unfold{
                         margin-left: 8px;
                     }
+                    .icon-fold{
+                        margin-left: 8px;
+                    }
                 }
+
+                #operatorListBox{
+                    position: absolute;
+                    left: 321px;
+                    top:143px;
+                    max-height: 100px;
+                    width: 172px;
+                    background: #fff;
+                    border: 1px solid #e5e5e5;
+                    overflow: auto;
+                    .operatorItem{
+                        // border-bottom: 1px solid #e5e5e5;
+                        padding-left: 10px;
+                        height: 30px;
+                    }
+                    .operatorItem:hover{
+                        background: #f3f3f1;
+                    }
+                }
+
+
+
                 .btn{
                     display: inline-block;
                     width: 81px;
