@@ -1,0 +1,70 @@
+.appPackageWrap {
+
+  /* first_packPickBox的公共样式*/
+  .first_packPickBox {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .first_packPickBox{
+    .package-block{
+      width: 49%;
+      padding: 20px;
+      box-sizing: border-box;
+      float: left;
+    }
+    .package-block {
+      .con:hover{
+        border: 1px solid  #f07844;
+      }
+      .con{
+        border: 1px solid #e5e5e5;
+        .line1{
+          height: 60px;
+          line-height: 60px;
+          background: #f1f1f1;
+          text-align: center;
+          font-size: 18px;
+          color: #504f4f;
+        }
+        .line2{
+          padding: 20px;
+          text-indent: 2em;
+          font-size: 14px;
+          line-height: 20px;
+          color: #909090;
+        }
+        .line3{
+          text-align: center;
+          padding: 20px;
+          position: relative;
+          .money{
+            font-size: 19px;
+            color: orangered;
+            .rmb{
+              margin-right: 5px;
+            }
+          }
+          .btn{
+            padding: 10px 20px;
+            position: absolute;
+            right: 20px;
+            bottom: 15px;
+            cursor: pointer;
+            color: #fff;
+            background-color: #f07844;
+          }
+          .btn:hover{
+            background-color: #f7895a;
+            box-shadow: 0 0 5px #f7895a;
+          }
+
+        }
+      }
+    }
+  }
+
+
+}
+.PageMainBodyContainer{
+  width: 100%;
+}
