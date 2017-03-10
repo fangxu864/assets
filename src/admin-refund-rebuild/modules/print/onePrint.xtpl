@@ -1,0 +1,93 @@
+<head>
+    <title>提现清单</title>
+    <style>
+        table{
+            font-size: 12px;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        .mainTable {
+            margin-top: 10px;
+            width: 100%;
+        }
+        .mainTable thead tr th {
+            text-align: center;
+            line-height: 40px;
+            border: 1px solid #e5e5e5;
+            background-color: #F3F3F3;
+        }
+        .mainTable tbody .tr1 {
+            height: 10px;
+        }
+        .mainTable tbody .tr2 {
+            height: 60px;
+        }
+        .mainTable tbody .tr2 td {
+            padding: 0 20px;
+            border: 1px solid #e5e5e5;
+            background-color: #F3F3F3;
+        }
+        .mainTable tbody .tr2 td .line {
+            line-height: 30px;
+        }
+        .mainTable tbody .tr3 {
+            height: 115px;
+        }
+        .mainTable tbody .tr3 td {
+            border: 1px solid #e5e5e5;
+            padding: 0 20px;
+        }
+        .mainTable tbody .tr3 td .line {
+            line-height: 30px;
+        }
+        .mainTable tbody .tr3 .td3 {
+            padding: 0;
+        }
+        .mainTable tbody .tr3 .td3 .wd_status0 {
+            text-align: center;
+            line-height: 30px;
+        }
+        .mainTable tbody .tr3 .td3 .wd_status0 p span {
+            cursor: pointer;
+        }
+        .mainTable tbody .tr3 .td3 .wd_statusNot0 {
+            padding: 10px;
+            line-height: 20px;
+        }
+        .mainTable tbody .tr3 .td3 .wd_statusNot0 p span {
+            cursor: pointer;
+        }
+        .mainTable tbody .tr3 .td3 .wd_statusNot0 .line4, .mainTable tbody .tr3 .td3 .wd_statusNot0 .line2 {
+            text-align: center;
+        }
+        .mainTable tbody .tr3 .td3 .wd_statusNot0 .line1 {
+            text-indent: 2em;
+            word-break: break-all;
+        }
+        .mainTable tbody .tr3 .td3 .wd_statusNot0 .line4 .operableBtn {
+            margin: 0 10px;
+        }
+        .mainTable tbody .tr3 .td3 .operableBtn {
+            color: #007ad4;
+        }
+        .mainTable tbody .tr3 .td3 .operableBtn:hover {
+            color: #129aff;
+        }
+
+
+    </style>
+</head>
+<body>
+    <table class="mainTable">
+        <thead>
+        <tr>
+            <th style="width: 40%">账户</th>
+            <th style="width: 30%">金额</th>
+            <th style="width: 30%">操作</th>
+        </tr>
+        </thead>
+        <tbody><%=data.innerHtml%></tbody>
+    </table>
+</body>
+
+

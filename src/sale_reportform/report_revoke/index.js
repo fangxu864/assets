@@ -209,7 +209,13 @@ var Book_form={
         var select_fg=new SelectShort({
             id:"select_fg",
             arr:["分销商","供应商"],
-            callback:function (cur_opt){}
+            callback:function (cur_opt){
+                var Data = {
+                    "分销商" : 0 ,
+                    "供应商" : 1
+                };
+                $("#select_fg").attr("search_type" , Data[cur_opt]);
+            }
         });
         //分销商搜索框
         this.select3=new Select({
@@ -416,6 +422,7 @@ var Book_form={
         params["size"]=_this.perPageNum;
         params["begin_date"]=_this.stime_inp.val();
         params["end_date"]=_this.etime_inp.val();
+        params["search_type"] = $("#select_fg").attr("search_type");
         params["count_way"]= $("#huizong_type").attr("count_way");
         if($("#product_name_inp").attr("data-id")){
             params["land_id"]=$("#product_name_inp").attr("data-id");
