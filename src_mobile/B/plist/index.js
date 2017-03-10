@@ -28,7 +28,9 @@ var Plist = PFT.Util.Class({
 		"click .spotTicketMore" : "recommendTicket",   //推荐票类
 		"click .writeOrderLink" : "onclickLink" //点击票类 
  	},
-	init : function(opt){   
+	init : function(opt){ 
+
+		var that = this;  
 
 		this.toast = new Toast();
 
@@ -67,10 +69,57 @@ var Plist = PFT.Util.Class({
 
 		if(urlPara.ptype){
 			this.ptype = urlPara.ptype;	
+			this.initType();
 		}else{
 			// this.ptype = "A";//默认为A
-			this.ptype = "";//默认为空
+			// this.ptype = "";//默认为空
+
+			PFT.Util.Ajax("/r/MicroPlat_Product/getTypeList/",{
+				type : "POST",
+				dataType : "json",
+				params : {
+					token : PFT.Util.getToken()	
+				},
+				loading : function(){
+					that.toast.show("loading");
+				},
+				complete : function(){
+					that.toast.hide();
+				},
+				success : function(res){
+					var code = res.code;
+					var data = res.data;
+					if(code==200){
+						var list = data.list;
+						var arr = [];
+						for(var i in list){
+							if(i){
+								this.ptype = i;
+								that.initType();
+								return true
+							}
+						}
+					}else{
+						PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+					}
+				},
+				timeout : function(){ PFT.Mobile.Alert("请求超时") },
+				serverError : function(){ PFT.Mobile.Alert("请求出错")}
+			})
+
 		}
+
+		
+
+		//搜索城市关键字
+		this.cityKeyWord = "";
+		
+		this.renderScroll();		
+		
+	},
+
+	initType : function(){
+
 		$("#typeText").attr("data-type",this.ptype);
 		if( this.ptype == "A"){
 			$("#typeText").text("景区");
@@ -88,11 +137,6 @@ var Plist = PFT.Util.Class({
 			$("#typeText").text("年卡");
 		}
 
-		//搜索城市关键字
-		this.cityKeyWord = "";
-		
-		this.renderScroll();		
-		
 	},
 
 	//判断登陆类型
