@@ -39,7 +39,7 @@
     }
     .midCon{
         min-height:45px;
-        margin-left:85px;
+        //margin-left:85px;
         margin-right:5px;
         .landTitle{
             font-size:14px;
@@ -86,6 +86,16 @@
         .tri{ padding-bottom:15px}
         padding-bottom:15px;
         margin-bottom:7px;
+        display: flex;
+        justify-content: space-between;
+        .midCon{ width: 75%}
+        .rtCon{
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-around;
+        }
     }
 
     .days{ color:$orange; font-weight:bold; margin:0 2px}
@@ -102,7 +112,7 @@
         margin:7px auto 0;
         text-align:center;
 
-        .codeNum{ color:$orange; font-size:14px; font-weight:bold}
+        .codeNum{ color:$orange; font-size:20px; font-weight:bold}
 
         .codeBox{
             width:100%;
@@ -122,16 +132,17 @@
         left:0;
         right:0;
         bottom:0;
-        height:40px;
+        height:50px;
+        line-height: 50px;
         text-align:center;
-        background:#e5f5fc;
+        background:#f07845;
 
         .btn{
             display:inline-block;
             height:100%;
             line-height:40px;
             margin-right:40px;
-            color:#1488bb;
+            color:#fff;
             padding:0 15px;
             &:active{
                 background:#cce6f1;

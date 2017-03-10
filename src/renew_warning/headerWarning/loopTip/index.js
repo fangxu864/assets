@@ -24,12 +24,12 @@ LoopTip.prototype={
     },
     loop:function () {
         var _this=this;
-        _this.setInterval_own.clear();
-        _this.setInterval_own.count(function () {
+        clearInterval(_this.timer);
+        _this.timer = setInterval(function () {
             _this.wrap.css("left",(parseInt(_this.wrap.css("left"))-1)+"px");
-            if(Math.abs(parseInt(_this.wrap.css("left")))>=_this.wrap.width()){
-                _this.setInterval_own.clear();
-                _this.wrap.css("left",500+"px");
+            if(parseInt(_this.wrap.css("right")) >= parseInt(_this.container.width())){
+                clearInterval(_this.timer);
+                _this.wrap.css("left",parseInt(_this.container.width())+"px");
                 _this.loop()
             }
         },30)
@@ -37,7 +37,7 @@ LoopTip.prototype={
     bind:function () {
         var _this=this;
         _this.wrap.on("mouseover",function(){
-            _this.setInterval_own.clear();
+            clearInterval(_this.timer);
         });
         _this.wrap.on("mouseout",function(){
             _this.loop()
@@ -47,7 +47,7 @@ LoopTip.prototype={
         timer:-1,
         count:function(func,time){
             var _this=this;
-            _this.clear()
+            _this.clear();
             this.timer=setTimeout(function () {
                 func();
                 _this.count(func,time)

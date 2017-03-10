@@ -203,9 +203,9 @@ var Datepicker = PFT.Util.Class({
 		var before = opt.onBefore || function(){};
 		var after = opt.onAfter || function(){};
 		var picker = opt.picker;
-		var hour = date.substr(11,2);
-		var minu = date.substr(14,2);
-		var second = date.substr(17,2);
+		var hour = date.substr(11,2) || "";
+		var minu = date.substr(14,2) || "";
+		var second = date.substr(17,2) || "";
 		if(date.length<=10){
 			this.timepicker.hide();
 			this.ft.hide();

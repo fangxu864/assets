@@ -1,0 +1,19 @@
+<div id='dialog_box'>
+    <div class="dialog_con">
+        <div class="title"><%=data.title%></div>
+        <div class="line line1">收款账户：<%=data.account%></div>
+        <div class="line line2">金额：<span style="color:#F07845"><%=data.money%> 元</span></div>
+        <div class="line line3">请用手机扫码支付：</div>
+        <div class="line line4">
+            <div class="img_box" id="payCode_box">
+                <!--<img class="code" src="http://www.12301.cc/u/images/code.png" alt=""/>-->
+                <div class="img_box_loading"><img class="loading" src="http://static.12301.cc/images/icons/gloading.gif" alt=""/></div>
+                <div>支付二维码获取中，请稍后...</div>
+            </div>
+            <span class="tip">*扫码过程中尚未提示支付成功时请勿关闭弹框！</span>
+        </div>
+        <div class="line line5">
+            <span class="btn btn_close">关闭</span>
+        </div>
+    </div>
+</div>

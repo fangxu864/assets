@@ -81,7 +81,7 @@ var Distors = RichBase.extend({
 				type : "get",
 				dataType : "json",
 				data : {
-					action : "fuzzyGetDname_c",
+					action : "fuzzyGetDname_o",
 					dname : keyword,
 					dtype : 1
 				},

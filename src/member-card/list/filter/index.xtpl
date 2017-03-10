@@ -1,0 +1,34 @@
+<div id="tabHeader" class="tabHeader">
+    <span class="tabItem" data-status="">全部</span>
+    <span class="tabItem" data-status="0">正常</span>
+    <span class="tabItem" data-status="1">挂失中</span>
+    <span class="tabItem" data-status="2">禁用</span>
+    <span class="tabItem" data-status="4">未使用天数</span>
+</div>
+<div id="paramContainer" class="paramContainer">
+    <div class="line normalLine normal">
+        <span class="label">开卡日期</span>
+        <input readonly type="text" name="" id="beginTimeInp" class="gInp timeInp begin beginTimeInp" placeholder="起始时间">
+        <span class="label zhi">至</span>
+        <input readonly type="text" name="" id="endTimeInp" class="gInp timeInp end endTimeInp" placeholder="截止时间">
+        <input type="text" name="" id="dnameInp" class="gInp dnameInp" placeholder="会员名称/卡号/手机号/联系人姓名">
+    </div>
+    <div class="line carType carTypeLine">
+        <span class="label carType">车辆信息</span>
+        <select name="" id="carTypeSelect" class="carTypeSelect gInp">
+            <option value="">正在请求车辆信息，请稍后...</option>
+        </select>
+    </div>
+    <div class="unuseLine line unuse">
+        <span class="label">选择时间</span>
+        <input readonly type="text" name="" id="unuseBeginTimeInp" class="gInp unuse begin timeInp unuseBeginTimeInp" placeholder="起始时间">
+        <span class="label zhi">至</span>
+        <input readonly type="text" name="" id="unuseEndTimeInp" class="gInp unuse end timeInp unuseEndTimeInp" placeholder="截止时间">
+        <span class="label unuseDays">未使用天数大于</span>
+        <input type="text" name="" id="unuseDayInp" class="gInp unuseDayInp" placeholder="请输入天数">
+    </div>
+    <div class="line btnLine">
+        <span class="btn search searchBtn" id="searchBtn">搜索</span>
+        <a href="###" class="btn export exportBtn" id="exportBtn">导出</a>
+    </div>
+</div>

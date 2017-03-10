@@ -38,7 +38,7 @@
     .paymodeList{
         margin-top:15px;
         @extend %flexbox;
-        @include justify-content(space-between);
+        @include justify-content(space-around);
         .paymodeItem{
             width:55px;
             padding:15px;

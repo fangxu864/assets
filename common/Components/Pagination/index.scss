@@ -1,0 +1,37 @@
+@import "COMMON/css/base/main";
+$height:38px;
+.paginationXContainer{ position:relative; overflow:hidden;}
+.paginationXContainer .navGroup,.paginationXContainer .totalBox,.paginationXContainer .jumpBox{
+    float:left;
+    overflow:hidden;
+}
+.paginationXContainer .totalBox.hide,.paginationXContainer .jumpBox.hide{ display:none}
+.paginationXContainer .navGroup li{
+    float:left;
+    width:40px;
+    height:$height;
+    line-height:$height;
+    text-align:center;
+    background:#fff;
+    margin-right:4px;
+}
+.paginationXContainer .navGroup .nav.page,.paginationXContainer .navGroup .prevNextBtn{ cursor:pointer}
+.paginationXContainer .navGroup .nav.page,.paginationXContainer .navGroup .prevNextBtn:hover{ color:$blue}
+.paginationXContainer .navGroup .nav.current{ background:$blue; color:#fff}
+.paginationXContainer .navGroup .prevNextBtn.disable,.paginationXContainer .navGroup .prevNextBtn.disable:hover{
+    cursor:default; background:$gray92; color:$gray50
+}
+
+.paginationXContainer .totalBox{ height:$height; line-height:$height; margin-left:3px;}
+.paginationXContainer .totalBox .totalNum{ font-weight:bold; margin:0 2px;}
+
+.paginationXContainer .jumpBox{ height:$height; line-height:$height; margin-left:5px}
+.paginationXContainer .jumpBox .col{ float:left; margin-right:3px}
+.paginationXContainer .whichPageBox{ width:50px; overflow:hidden; border:1px solid $gray95; margin-top:5px}
+.paginationXContainer .whichPageBox.focus{ border-color:$orange}
+.paginationXContainer .whichCon{ width:94px; overflow:hidden;}
+.paginationXContainer .whichPageInp{
+    float:left; width:50px; height:22px; line-height:22px; padding:2px 0; text-align:center; border:0 none;
+}
+.paginationXContainer .toWhichBtn{ float:left; display:block; width:44px; height:26px; line-height:26px; text-align:center; background:$orange; color:#fff}
+.paginationXContainer .whichPageBox .whichCon,.paginationXContainer .whichPageBox .toWhichBtn{ float:left; height:100%; cursor:pointer}

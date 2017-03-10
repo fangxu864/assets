@@ -271,9 +271,30 @@
       text-align: left;
       padding-left: 20px;
     }
-    .th2,.th3,.th4,.th5,.th6,.th7{
+    .th2,.th3,.th4,.th5,.th6,.th7,.th8{
       text-align: right;
       padding-right: 20px;
+    }
+    //分销商/票类样式
+    .th4.resellerAndTicket{
+      color:#000;
+    }
+    .th1.resellerAndTicket{
+      width: 12%;
+    }
+    .resellerAndTicket.heji.th2{
+      text-align: right;
+    }
+    .th2.resellerAndTicket{
+      width: 30%;
+      text-align: left;
+      padding-left: 30px;
+    }
+    tbody .th5.resellerAndTicket{
+      color: #3DBA3F;
+    }
+    tbody .th6.resellerAndTicket{
+      color: #F07845;
     }
     thead{
       tr{
@@ -300,7 +321,7 @@
           text-align: right;
           padding-right: 20px;
         }
-        .th4,.th7{
+        .th4{
           color: #3DBA3F;
         }
         .th5{
@@ -341,10 +362,6 @@
   }
 }
 
-
-
-
-
 #pagination_wrap{
   height: 66px;
   line-height: 100px;
@@ -354,7 +371,6 @@
     display: inline-block;
   }
 }
-
 
 .calendar-table .calendar-td.empty, .calendar-table .calendar-td.noPrice, .calendar-table .calendar-td.day.disable{color: #dedede !important;}
 .calendar-table .calendar-td.day:hover{background-color: #00a0e9}
