@@ -6,6 +6,7 @@ require("./index.scss");
 var AdBoxModule = require("./modules/adBox/adBox.js");
 var ProgressModule = require("./modules/progress/progress.js");
 var First_packPickModule = require("./modules/first_packPick/first_packPick.js");
+var Second_packDetailModule = require("./modules/second_packDetail/second_packDetail.js");
 
 /**
  * @method 创建各子模块公共资源的方法
@@ -61,6 +62,8 @@ var Main = {
         ProgressModule.init(CR);
         // first_packPick 第一步中的套餐选择模块
         First_packPickModule.init(CR);
+        // second_packDetailModule 第二步中的套餐详情模块
+        Second_packDetailModule.init(CR);
 
     }
 };

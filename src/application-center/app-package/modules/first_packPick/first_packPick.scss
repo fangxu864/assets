@@ -7,9 +7,7 @@
   }
   .first_packPickBox{
     .package-block{
-      width: 49%;
-      padding: 20px;
-      box-sizing: border-box;
+      width: 50%;
       float: left;
     }
     .package-block {
@@ -17,6 +15,7 @@
         border: 1px solid  #f07844;
       }
       .con{
+        margin: 20px;
         border: 1px solid #e5e5e5;
         .line1{
           height: 60px;
@@ -25,6 +24,17 @@
           text-align: center;
           font-size: 18px;
           color: #504f4f;
+          position: relative;
+        }
+        .line1:after{
+          content: "";
+          display: block;
+          border-top:10px solid #f1f1f1 ;
+          border-left:10px solid transparent;
+          border-right:10px solid transparent;
+          position: absolute;
+          border-bottom: -10px;
+          left: 49%;
         }
         .line2{
           padding: 20px;
@@ -64,7 +74,4 @@
   }
 
 
-}
-.PageMainBodyContainer{
-  width: 100%;
 }

@@ -1,0 +1,123 @@
+<div class="title">套餐详情</div>
+<table class="detail-table">
+<thead>
+    <tr>
+        <th>分类</th>
+        <th>应用模块</th>
+        <th>中级版</th>
+        <th>高级版</th>
+    </tr>
+</thead>
+<tbody>
+    <!--基础模块-->
+    <tr>
+        <td rowspan="5">基础模块</td>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <!--产品模块-->
+    <tr>
+        <td rowspan="5">产品模块</td>
+        <td>产品模块</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <!--应用中心模块-->
+    <tr>
+        <td rowspan="5">应用中心模块</td>
+        <td>产品模块</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class=""></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class=""></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class=""></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <tr>
+        <td>产品预订</td>
+        <td><span class="ok-icon"></span></td>
+        <td><span class="ok-icon"></span></td>
+    </tr>
+    <!--计算价格和操作-->
+    <tr>
+        <td rowspan="3"></td>
+        <td></td>
+        <td class="gray">
+            <p>小计: <span class="line-through">¥12000</span></p>
+            <p>立省: <span>¥2000</span></p>
+        </td>
+        <td  class="gray">
+            <p>小计: <span class="line-through">¥22000</span></p>
+            <p>立省: <span>¥2000</span></p>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td ><span class="price">¥10000</span></td>
+        <td><span class="price">¥20000</span></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td  style="padding: 10px 0"><span class="btn">立即订购</span></td>
+        <td  style="padding: 10px 0"><span class="btn">立即订购</span></td>
+    </tr>
+
+
+
+
+</tbody>
+</table>
+<div class="bottom">若您对订购有任何疑问，请咨询客服：15659329936</div>
+
