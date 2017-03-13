@@ -55,10 +55,16 @@ module.exports = function(parent){
 					var code = res.code;
 					var msg = res.msg;
 					if(code==200){
+						var unread = res.data.unread;
+						$("#unReadMsgCount").text(0);
 						that.render(res.data);
 					}else{
+						$("#unReadMsgCount").text("");
 						alert(msg);
 					}
+				},
+				serverError : function(){
+					alert(PFT.AJAX_ERROR_TEXT);
 				}
 			})
 

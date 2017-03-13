@@ -3,6 +3,7 @@
 require("./index.scss");
 var Common = require("../../common");
 var Tpl = require("./index.xtpl");
+var ItemTpl = require("./item.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
 
 module.exports = function(parent){
@@ -12,15 +13,17 @@ module.exports = function(parent){
 	var PriceChange = PFT.Util.Class({
 
 		container : container,
-		template : PFT.Util.ParseTemplate(Tpl),
+		template : PFT.Util.ParseTemplate(ItemTpl),
 		init : function(){
 			this.Size = 10;
+			container.html(Tpl);
+			this.listUl = container.find(".infoList");
 			this.fetch();
 		},
 
 		render : function(data){
-			var html = this.template(data);
-			this.container.html(html);
+			var html = this.template({data:data});
+			this.listUl.html(html);
 			this.changePriceColor(data);
 		},
 
@@ -28,20 +31,25 @@ module.exports = function(parent){
 			var that = this;
 			var html = Loading("努力加载中...");
 			var container = this.container;
-
+			var listUl = this.listUl;
 			Common.Ajax(Common.api.Home_HomeNotice.priceChange,{
 				params : {
 				    size : that.Size,
 				},
 				loading : function(){
-					container.html(html);
+					listUl.html(html);
 				},
-				// complete : function(){ container.html("")},
+				complete : function(){ listUl.html("")},
 				success : function(res){
 					var code = res.code;
 					var msg = res.msg;
+					var data = res.data || [];
 					if(code==200){
-						that.render(res);
+						if(data.length==0){
+							container.find(".infoList").html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品价格变动..</li>')
+						}else{
+							that.render(data);
+						}
 					}else{
 						alert(msg);
 					}

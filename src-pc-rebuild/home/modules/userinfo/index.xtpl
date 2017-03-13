@@ -1,6 +1,6 @@
 <div class="top clearfix">
     <div class="photoBox">
-        <div class="inBox"><img src="<%=avatar%>" onerror="this.src='http://static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" alt=""/></div>
+        <a href="account_info.html" class="inBox"><img src="<%=avatar%>" onerror="this.src='http://static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" alt=""/></a>
     </div>
     <div class="rtBox">
         <div class="line top">
@@ -13,10 +13,10 @@
         </div>
         <div class="line mid">
             <span class="ydname"><%=cname%></span> / <span class="mobile"><%=mobile%></span>
-            <a href="" class="modifyMobileBtn"><i class="icon icon-u-bold icon-edit"></i></a>
+            <a href="enterprise_info.html" class="modifyMobileBtn"><i class="icon icon-u-bold icon-edit"></i></a>
         </div>
         <div class="line abr">
-            异常待处理订单(<a href="" class="abrCount"><%=abnormalOrder%></a>)
+            异常待处理订单(<a href="terchange.html" class="abrCount"><%=abnormalOrder%></a>)
             <span class="lastLoginTime">上次登录时间：<%=lastLoign%></span>
         </div>
     </div>

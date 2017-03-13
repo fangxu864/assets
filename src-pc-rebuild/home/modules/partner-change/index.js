@@ -17,7 +17,6 @@ module.exports = function(parent){
         template : PFT.Util.ParseTemplate(Tpl),
         init : function(){
             this.fetch();
-            console.log(this.container)
         },
         render : function(data){
              var html = this.template(data);
@@ -35,6 +34,7 @@ module.exports = function(parent){
                     container.html(html);
                 },
                 complete : function(){
+                   container.html("html");
                 },
                 success : function(res){
                     var code = res.code;
@@ -43,12 +43,10 @@ module.exports = function(parent){
                     if(code == 200){
                         that.render({data:data})
                     }else{
-                        console.log(msg)
+                        alert(msg || PFT.AJAX_ERROR_TEXT) 
                     }
                 }
             })
-
-
         }
     });
 

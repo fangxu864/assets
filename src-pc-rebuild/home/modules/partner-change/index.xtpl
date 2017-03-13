@@ -2,7 +2,7 @@
     <div class="title">
         <i class="icon icon-pc-prompt icon-hezuohuobanbiandong"></i>
         <span>7天合作伙伴变动</span>
-        <a href="" class="more">更多》</a>
+        <a style="display: none" href="" class="more">更多》</a>
     </div>
     <div>
         <ul id="partnerList">
@@ -11,13 +11,13 @@
             <%}else{%>
                 <% for(var i in data){%>
                     <%if(i == "toAdd"){%>
-                        <li>您添加了<em class="blue"><%=data[i]%></em>个分销商 <a href="">点击查看</a> </li>
+                        <li>您添加了<em class="blue"><%=data[i]%></em>个分销商 <a class="moreBtn" href="">点击查看</a> </li>
                     <%}else if (i == "toDel"){%>
-                        <li>您删除<em class="orange"><%=data[i]%></em>个分销商 <a href="">点击查看</a> </li>
+                        <li>您删除<em class="orange"><%=data[i]%></em>个分销商 <a class="moreBtn" href="">点击查看</a> </li>
                     <%}else if (i == "beAdd"){%>
-                         <li><em class="blue"><%=data[i]%></em>个供应商添加了您 <a href="">点击查看</a> </li>
+                         <li><em class="blue"><%=data[i]%></em>个供应商添加了您 <a class="moreBtn" href="">点击查看</a> </li>
                     <%}else if (i == "beDel"){%>
-                        <li><em class="orange"><%=data[i]%></em>个供应商删除了您 <a href="">点击查看</a> </li>
+                        <li><em class="orange"><%=data[i]%></em>个供应商删除了您 <a class="moreBtn" href="">点击查看</a> </li>
                     <%}%>
                 <%}%>
             <%}%>

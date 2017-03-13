@@ -154,6 +154,7 @@
     "deal_summary-production": "set NODE_ENV=production && webpack --config ./src/deal_summary/webpack.config.js",
     "pc-rebuild-start" : "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src-pc-rebuild/webpack.config.js",
     "pc-rebuild-test" : "set NODE_ENV=test && webpack --progress --colors --config ./src-pc-rebuild/webpack.config.js",
+    "pc-rebuild-release" : "set NODE_ENV=release && webpack --progress --colors --config ./src-pc-rebuild/webpack.config.js",
     "member-card-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/member-card/webpack.config.js",
     "member-card-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/member-card/webpack.config.js",
     "member-card-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/member-card/webpack.config.js",

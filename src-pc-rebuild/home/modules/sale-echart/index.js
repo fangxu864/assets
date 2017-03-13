@@ -74,7 +74,7 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .okBtn" : "onOkBtnClick" ,
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 			"click .selectBox .icon" : "onSelectBoxIconClick" ,
-			"click .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconClick" ,
+			"click .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconClick"
 		},
 
 
@@ -299,7 +299,7 @@ module.exports = function(parent){
 						var option = {
 							color : ['#2889e1'],
 							title: {
-								text: '7天渠道排行',
+								text: '7天渠道排行'
 								// subtext: '数据来自网络'
 							},
 							tooltip: {
@@ -330,7 +330,7 @@ module.exports = function(parent){
 									name: '订单数',
 									type: 'bar',
 									barMaxWidth: 40 ,
-									data: seriesDataArr ,
+									data: seriesDataArr
 								}
 							]
 						};
@@ -380,7 +380,7 @@ module.exports = function(parent){
 					// min : "2016-09-10",          //可选，默认为空""
 					max : $(".lineEchartControlBox .eTimeInp").val(),          //可选，默认为空""
 					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
-					todayAfterDisable : false,   //可选，今天之后的日期都不显示
+					todayAfterDisable : false   //可选，今天之后的日期都不显示
 				})
 			}
 			//结束日期Inp
@@ -392,7 +392,7 @@ module.exports = function(parent){
 					min : $(".lineEchartControlBox .bTimeInp").val(),          //可选，默认为空""
 					max : _this.When.getSomeday(0),          //可选，默认为空""
 					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
-					todayAfterDisable : false,   //可选，今天之后的日期都不显示
+					todayAfterDisable : false   //可选，今天之后的日期都不显示
 				})
 			}
 
