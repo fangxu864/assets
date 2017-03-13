@@ -237,7 +237,7 @@ module.exports = function(parent){
 								{
 									name: '产品名称',
 									type: 'pie',
-									radius : '55%',
+									radius : '40%',
 									center: ['50%', '60%'],
 									data : dataArr,
 									itemStyle: {

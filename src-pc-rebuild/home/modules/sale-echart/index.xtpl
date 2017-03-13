@@ -57,11 +57,11 @@
     <div class="selectBox">
         <div class="td td1">
             <i class="icon icon-u-bold icon-checkbox icon-checkbox-checked compare" data-type="1"></i>
-            <span>同比(去年同一时期)</span>
+            <span>同比</span>
         </div>
         <div class="td td2">
             <i class="icon icon-u-bold icon-checkbox compare" data-type="2"></i>
-            <span>环比(上一周期)</span>
+            <span>环比</span>
         </div>
         <div class="td td3" style="display: none">
             <i class="icon icon-u-bold icon-checkbox weekend" data-type="3"></i>
