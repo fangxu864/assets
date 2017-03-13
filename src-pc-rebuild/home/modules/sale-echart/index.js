@@ -329,7 +329,7 @@ module.exports = function(parent){
 								{
 									name: '订单数',
 									type: 'bar',
-									barMaxWidth: 40 ,
+									barMaxWidth: 20 ,
 									data: seriesDataArr ,
 								}
 							]
