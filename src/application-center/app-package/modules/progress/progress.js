@@ -17,7 +17,7 @@ var ProgressModule = {
         this.CR.mainBox.append(_this.container);
         this.container.html( progressTpl );
         this.bind();
-        this.CR.pubSub.pub("progressModule.second");
+        this.CR.pubSub.pub("progressModule.last");
 
     },
     

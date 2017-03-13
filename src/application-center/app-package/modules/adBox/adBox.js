@@ -16,6 +16,7 @@ var AdBoxModule = {
         this.CR = CR;
         this.CR.mainBox.append(_this.container);
         this.container.html( adBoxTpl );
+        this.container.hide();
     }
     
 
