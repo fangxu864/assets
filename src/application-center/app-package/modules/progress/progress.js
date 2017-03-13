@@ -17,12 +17,18 @@ var ProgressModule = {
         this.CR.mainBox.append(_this.container);
         this.container.html( progressTpl );
         this.bind();
-        this.CR.pubSub.pub("progressModule.last");
 
     },
     
     bind: function () {
         var _this = this;
+        //第一步
+        this.CR.pubSub.sub("progressModule.first" , function () {
+            _this.container.find(".line1").removeClass("active");
+            _this.container.find(".circle1").removeClass("ok");
+            _this.container.find(".circle2").removeClass("active");
+
+        });
         //第2步
         this.CR.pubSub.sub("progressModule.second" , function () {
             _this.container.find(".line1").addClass("active");

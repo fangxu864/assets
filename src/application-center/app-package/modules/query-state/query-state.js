@@ -19,17 +19,19 @@ var QueryState = {
     init: function (CR) {
         var _this = this;
         this.CR = CR;
-        this.CR.mainBox.append(_this.container);
+        // this.CR.mainBox.append(_this.container);
         this.bind()
     },
     
     bind: function () {
         var _this = this;
-        this.CR.pubSub.sub("queryStateBox.querying",function () {
+        this.CR.pubSub.sub("queryStateBox.querying",function (data) {
+            _this.container.insertAfter(data.dom);
             _this.showQuerying();
         });
-        this.CR.pubSub.sub("queryStateBox.showError",function (text) {
-            _this.showError(text);
+        this.CR.pubSub.sub("queryStateBox.showError",function (data) {
+            _this.container.insertAfter(data.dom);
+            _this.showError(data.text);
         });
         this.CR.pubSub.sub("queryStateBox.close",function () {
             _this.close();

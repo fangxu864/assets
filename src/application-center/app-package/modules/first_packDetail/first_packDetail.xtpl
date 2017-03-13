@@ -110,8 +110,8 @@
     </tr>
     <tr>
         <td></td>
-        <td  style="padding: 10px 0"><span class="btn">立即订购</span></td>
-        <td  style="padding: 10px 0"><span class="btn">立即订购</span></td>
+        <td  style="padding: 10px 0"><span class="btn btn-book">立即订购</span></td>
+        <td  style="padding: 10px 0"><span class="btn btn-book">立即订购</span></td>
     </tr>
 
 

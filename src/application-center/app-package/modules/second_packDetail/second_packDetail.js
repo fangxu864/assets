@@ -7,7 +7,7 @@ var second_packDetailModuleTpl = require("./second_packDetail.xtpl");
 
 
 /**
- * 本模块为第一步的套餐详情模块
+ * 本模块为第2步的套餐详情模块
  */
 var Second_packDetailModule = {
     container: $("<div class='second_packDetailBox'></div>"),
@@ -15,15 +15,25 @@ var Second_packDetailModule = {
         var _this = this;
         this.CR = CR;
         this.CR.mainBox.append(_this.container);
-        this.container.html( second_packDetailModuleTpl );
         this.bind();
-        // this.container.hide();
-
-
     },
 
     bind: function () {
         var _this = this;
+        this.CR.pubSub.sub("Second_packDetailModule.render" , function () {
+            _this.render();
+        });
+        this.container.on("click" , ".pre-btn" ,function () {
+            _this.container.hide();
+            _this.CR.pubSub.pub("progressModule.first");
+            _this.CR.mainBox.find(".first_packPickBox ").show();
+            _this.CR.mainBox.find(".first_packDetailBox ").show()
+        })
+    },
+
+    render: function () {
+        this.container.html( second_packDetailModuleTpl );
+        this.container.show();
     }
 
 

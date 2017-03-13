@@ -24,6 +24,17 @@ var First_packDetailModule = {
 
     bind: function () {
         var _this = this;
+        this.CR.pubSub.sub("First_packDetailModule.close",function () {
+            _this.container.hide();
+        });
+        //点击立即购
+        this.container.on("click" , ".btn-book" , function () {
+            //进行到第二步
+            _this.CR.pubSub.pub("progressModule.second");
+            _this.container.hide();
+            _this.CR.pubSub.pub("First_packDetailModule.close");
+            _this.CR.pubSub.pub("Second_packDetailModule.render");
+        })
     }
 
 

@@ -11,13 +11,19 @@ var paySuccessModule = {
         var _this = this;
         this.CR = CR;
         this.CR.mainBox.append(_this.container);
-        this.container.html( paySuccessModuleTpl );
-        // this.container.hide();
         this.bind();
     },
 
     bind: function () {
         var _this = this;
+        this.CR.pubSub.sub("paySuccessModule.render" , function () {
+            _this.render();
+        })
+    },
+
+    render: function () {
+        this.container.html( paySuccessModuleTpl );
+        this.container.show();
     }
 
 

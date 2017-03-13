@@ -10,6 +10,7 @@ var First_packPickModule = require("./modules/first_packPick/first_packPick.js")
 var First_packDetailModule = require("./modules/first_packDetail/first_packDetail.js");
 var Second_packDetailModule = require("./modules/second_packDetail/second_packDetail.js");
 var PaySuccessModuleModule = require("./modules/paySuccess/paySuccess.js");
+var QueryStateModule = require("./modules/query-state/query-state.js");
 
 /**
  * @method 创建各子模块公共资源的方法
@@ -61,6 +62,8 @@ var Main = {
         var CR = createCR("#appPackageWrap");
         //dataCenter
         DC.init(CR);
+        //qurery-State
+        QueryStateModule.init(CR);
         //adBox
         AdBoxModule.init(CR);
         //progress  进度模块

@@ -127,7 +127,7 @@
     </tbody>
 </table>
 <p class="line line1">应付: <span class="price">10000元</span></p>
-<p class="line line2"><span class="btn">立即付款</span></p>
+<p class="line line2"><span class="btn">立即付款</span><a href="javascript:void(0)" class="pre-btn" style="margin-left: 20px">上一步</a></p>
 <p class="line line3">点击付款即代表您已阅读并同意<a href="">《票付通代理销售和结算协议》</a></p>
 
 
