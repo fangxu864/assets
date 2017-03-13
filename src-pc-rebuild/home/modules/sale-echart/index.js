@@ -66,7 +66,13 @@ module.exports = function(parent){
 					_this.container.find(".lineEchartControlBox .okBtn").click();
 					$(this).off("scroll.renderLineEchart")
 				}
-			})
+			});
+			//侧边栏折叠伸展时重新渲染echarts ,由于折叠是动态过程，故定时至折叠完后重新渲染
+			PFT.LeftBarSwitchManager.on("switch",function(state){
+				setTimeout(function () {
+					$(window).trigger("resize");
+				},300);
+			});
 		},
 		EVENTS : {
 			"click .lineEchartControlBox input" : "onTimeInpClick" ,
