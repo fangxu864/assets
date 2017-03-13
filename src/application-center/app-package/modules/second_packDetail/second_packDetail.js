@@ -17,7 +17,7 @@ var Second_packDetailModule = {
         this.CR.mainBox.append(_this.container);
         this.container.html( second_packDetailModuleTpl );
         this.bind();
-        this.container.hide();
+        // this.container.hide();
 
 
     },

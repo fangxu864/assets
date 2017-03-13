@@ -16,7 +16,7 @@ var First_packPickModule = {
         this.CR = CR;
         this.CR.mainBox.append(_this.container);
         this.container.html( first_packPickModuleTpl );
-        this.container.hide();
+        // this.container.hide();
         this.bind();
     },
 

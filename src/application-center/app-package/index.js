@@ -3,6 +3,7 @@
  */
 require("./index.scss");
 
+var DC = require("./modules/dataCenter/dataCenter.js");
 var AdBoxModule = require("./modules/adBox/adBox.js");
 var ProgressModule = require("./modules/progress/progress.js");
 var First_packPickModule = require("./modules/first_packPick/first_packPick.js");
@@ -58,6 +59,8 @@ var Main = {
     init : function () {
         //CR(Common resource)公共资源，即各个模块的公用资源
         var CR = createCR("#appPackageWrap");
+        //dataCenter
+        DC.init(CR);
         //adBox
         AdBoxModule.init(CR);
         //progress  进度模块
