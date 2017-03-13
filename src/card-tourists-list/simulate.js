@@ -7,7 +7,6 @@ var simulate = {
     init : function(){
 
         //模拟操作员列表
-
         Mock.mock('http://operator.cn', {
             "code|200" : 1,
             "data" : {
@@ -17,19 +16,37 @@ var simulate = {
             },
             "msg" : "" 
         });
-
-
-
-
-
-        //模拟后端数据
-        Mock.mock('http://1.cn', {
-            'name'	   : '[@name](/user/name)()',
-            'age|1-100': 100,
-            'color'	   : '[@color](/user/color)'
+        //模拟列表数据
+        Mock.mock('http://List.cn', {
+            "code|200" : 1,
+            "data" : {
+                "list|15" : [{
+                    "id" : function(){
+                        var id = parseInt( Math.random()*100000000 );
+                        return id
+                    }, //账户id
+                    "solidID" : function(){
+                        var solidID = parseInt( Math.random()*10000000000000 );
+                        return solidID
+                    }, //绑定的物理卡号
+                    "activeTime" : "2016-08-09 15:00:11/小小", //激活时间/操作员
+                    "chargeMoney|500-5000" : 1, //充值金额
+                    "chargeTime|1-5" : ["2016-08-09 15:00:11/小小"], //充值时间/操作员
+                    "remainder|1-500" : 1, //余额
+                    "status" : function(){
+                        var status = Math.random()*100;
+                        if(status > 50){
+                            status = "使用中";
+                        }else{
+                            status = "已退卡"
+                        }
+                        return status
+                    }
+                }]
+            },
+            "msg" : "" 
         });
 
-        
 
     }
 

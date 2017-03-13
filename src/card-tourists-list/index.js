@@ -1,16 +1,20 @@
 require("./index.scss");
 
-// var Mock = require("mockjs");	
-
+//组件
 var simulate = require("./simulate");
-
 var Pagination = require("COMMON/modules/pagination-x");
-
 var Calendar = require("COMMON/modules/calendar");
-
-var operatorTpl = require("./tpl/operator.xtpl");
-
 var Select = require("./select_scroll");
+
+//tpl
+var operatorTpl = require("./tpl/operator.xtpl");
+var listTpl = require("./tpl/list.xtpl");
+
+//service层
+var GetList = require("./service/GetList_service.js");
+
+//loading组件
+var Loading = require("COMMON/js/util.loading.pc.js") 
 
 var Main = PFT.Util.Class({
 
@@ -20,20 +24,21 @@ var Main = PFT.Util.Class({
 	},
 	init : function(){
 
+		var that = this;
 		//在发送请求之前拦截请求,模拟数据
 		simulate.init();
 
-
+		//处理操作员
 		this.handleOperator(); 
-
+		//处理状态
 		this.handleStatus();
 
+		//处理列表
+		this.handleList();
+
+		//日历组件部分
 		var calendar = new Calendar();
-
-		var $input = $(".actTimein");
-
 		$(".actTimein").on("click",function(){
-
 			calendar.show("2017-03-09",{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
 				picker : $(".actTimein"),             //页面上点击某个picker弹出日历(请使用input[type=text])
 				top : 0,                     //日历box偏移量
@@ -43,11 +48,8 @@ var Main = PFT.Util.Class({
 				onBefore : function(){},     //弹出日历前callback
 				onAfter : function(){}       //弹出日历后callback
 			})
-
 		});
-
 		$(".actTimeout").on("click",function(){
-
 			calendar.show("2017-03-09",{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
 				picker : $(".actTimeout"),             //页面上点击某个picker弹出日历(请使用input[type=text])
 				top : 0,                     //日历box偏移量
@@ -57,24 +59,12 @@ var Main = PFT.Util.Class({
 				onBefore : function(){},     //弹出日历前callback
 				onAfter : function(){}       //弹出日历后callback
 			})
-
 		});
-
 		calendar.on("select",function(data){
 			console.log(data)
 		})
 
-
-		$(".operator").on("focus",function(){
-
-
-
-
-		});
-
-
-
-
+		//分页器组件部分
 		var Pagination = require("COMMON/modules/pagination-x");
 		var pagination = new Pagination({
 			container : "#pagCon",  //必须，组件容器id
@@ -82,7 +72,6 @@ var Main = PFT.Util.Class({
 			showTotal : true,         //可选  是否显示总页数
 			jump : true	              //可选  是否显示跳到第几页
 		});
-		
 		pagination.on("page.switch",function(toPage,currentPage,totalPage){
 
 			// toPage :      要switch到第几页
@@ -92,56 +81,58 @@ var Main = PFT.Util.Class({
 			// console.log(toPage);
 			// console.log(currentPage);
 			// console.log(totalPage);
+			that.handleList();
 
 			pagination.render({current:toPage,total:10});
 
 		})
-		
 		// 主方法：(也是唯一对外显露的方法) 把分页器当前状态渲染到页面上
 		pagination.render({current:1,total:10});
 
-		PFT.Util.Ajax("http://1.cn",{
-			dataType : "json",
-			params : {
-			},
+
+	},
+
+	handleList : function(){
+		
+		var html = Loading("请稍等");
+		var that = this;
+
+		GetList({},{
 			loading : function(){
+				$("table.accountList").html(html);
 			},
 			complete : function(){
 			},
 			success : function(res){
-				// console.log(res);
-
-
-
+				that.renderList(res);  //渲染列表
 			},
-			timeout : function(){ alert("请求起时") },
-			serverError : function(){ alert("请求出错")}
-		})
-
+			//200但无数据
+			empty : function(){
+			},
+			//不是200
+			fail : function(){
+			}
+		});
 
 	},
-
-
+	renderList : function(res){
+		var data = res.data;
+		var list = data.list;
+		var ListTemplate = PFT.Util.ParseTemplate(listTpl);
+		var listHtml = ListTemplate({ list : list});		
+		$("table.accountList").html(listHtml);
+	},
+	//处理状态
 	handleStatus : function(){
 
 		$(".statusItem").on("click",function(){
-
-			console.log($(this));
-
 			$(this).siblings().find(".statusItemCircle").removeClass("selected");
-
 			$(this).find(".statusItemCircle").addClass("selected");
-
 			var status = $(this).attr("data-status");
-
-			console.log(status);
-			
 		});
 
-
-
 	},
-
+	//处理操作员
 	handleOperator : function(){
 
 		PFT.Util.Ajax("http://operator.cn",{
@@ -159,22 +150,15 @@ var Main = PFT.Util.Class({
 				var operatorTemplate = PFT.Util.ParseTemplate(operatorTpl);
 				var operatorHtml = operatorTemplate({ list : list });
 				$("#operatorListBox").append(operatorHtml);
-
 				$(".operatorItem").on("click",function(){
-
 					$("#operatorListBox").css("display","none");
 					$(".unfoldBox i").removeClass("icon-fold").addClass("icon-unfold");
 					$("#operator").val($(this).text());
-
 				});
-
 			},
 			timeout : function(){ alert("请求起时") },
 			serverError : function(){ alert("请求出错")}
 		})
-
-
-
 
 	},
 
@@ -187,8 +171,6 @@ var Main = PFT.Util.Class({
 			$("#operatorListBox").css("display","none");
 			$(".unfoldBox i").removeClass("icon-fold").addClass("icon-unfold");
 		}
-
-
 
 	}
 
