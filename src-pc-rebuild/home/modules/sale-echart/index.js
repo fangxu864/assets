@@ -75,6 +75,7 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 			"click .selectBox .icon" : "onSelectBoxIconClick" ,
 			"click .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconClick" ,
+			"mouseover .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconHover"
 		},
 
 
@@ -129,6 +130,7 @@ module.exports = function(parent){
 						if( isInit ){
 							icon.show();
 						}else{
+							Tips.closeAllTips();
 							Tips.show({
 								lifetime : 1500 ,
 								direction : top,
@@ -140,6 +142,7 @@ module.exports = function(parent){
 						icon.removeClass("rotateInfinite");
 					}else{
 						icon.removeClass("rotateInfinite");
+						Tips.closeAllTips();
 						Tips.show({
 							lifetime : 1500 ,
 							direction : top,
@@ -361,6 +364,17 @@ module.exports = function(parent){
 		onShuaXinIconClick :function (e) {
 			var _this = this ;
 			_this.renderOrderData_today( false );
+		},
+		onShuaXinIconHover: function (e) {
+			var tarBtn = $( e.currentTarget );
+			Tips.closeAllTips();
+			Tips.show({
+				lifetime : 1500 ,
+				direction : top,
+				hostObj : tarBtn ,
+				content : "点我刷新",
+				bgcolor : "#ff8734"
+			})
 		},
 
 
