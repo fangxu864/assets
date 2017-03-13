@@ -128,8 +128,8 @@ var Order_fill = PFT.Util.Class({
 				var tnum = Tlist.eq(i).find(".right .numBox").val();   //获得主票的数量
 			}else{
 				var relatedT = Tlist.eq(i);
-				var pid = relatedT.attr("data-pid");
-				link[pid] = relatedT.find(".right .numBox").val();
+				var apid = relatedT.attr("data-pid");
+				link[apid] = relatedT.find(".right .numBox").val();
 			}
 		}
 
