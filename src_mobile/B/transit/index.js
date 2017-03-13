@@ -7,14 +7,12 @@ var Transit = PFT.Util.Class({
 
 	container : $("#transitWrap"),
 	EVENTS : {       
-		"click #gotoLogin" : "ongotoLogin",
-		"click #gotoMall" : "ongotoMall"            
+		"click #gotoLogin" : "ongotoLogin"
 	},
 	init : function(opt){         
 
 		var that = this;
 		
-		console.log("中转页");
 		this.toast = new Toast();
 
 		PFT.Util.Ajax("/r/MicroPlat_Member/loginChoose",{
@@ -33,47 +31,36 @@ var Transit = PFT.Util.Class({
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
-
 		        	var account = data.account;
 					$(".account").text(account);
 					var url = data.url;
 					that.Countdown(url);
 
+					$("#gotoMall").on("click",function(){
+						window.location.href = url;
+					});
 
+		        }else if(code==201){
+		            window.location.href = "login.html";
 		        }else{
-		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
-		        }
+					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
 	},
-
-
 	Countdown : function(url){
-
 		var down = 10;
-
 		setInterval(function(){
-
 			down -= 1;
-			console.log(down);
-
 			$(".CountdownSecond").text(down + "s");			
-
 			if(down == 0){
 				window.location.href = url;
 			}
-
 		},1000);
-
-
-
-
 	},
-
-
 	ongotoLogin : function(){
 
 		var that = this;
@@ -95,26 +82,17 @@ var Transit = PFT.Util.Class({
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
-
 					console.log(res);
-
+					window.location.href = "login.html";
 		        }else{
-		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
-		        }
+					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
-
-	},
-
-	ongotoMall : function(){
-
-		window.location.href = "";
-
 	}
-
 
 
 });

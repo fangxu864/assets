@@ -6,7 +6,7 @@ var PullUp = require("NODE_MODULES/vux/node_modules/vux-xscroll/build/cmd/plugin
 
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
 
-var Toast = require("COMMON/modules/Toast");
+var Toast = require("./Toast");
 
 var TypeTpl = require("./tpl/type.xtpl");	
 var ThemeTpl = require("./tpl/theme.xtpl");
@@ -49,7 +49,6 @@ var Plist = PFT.Util.Class({
 		}else{
 			this.ctype = 0;//默认为0
 		}
-		
 
 		this.typeTemplate = PFT.Util.ParseTemplate(TypeTpl);  
 		this.themeTemplate = PFT.Util.ParseTemplate(ThemeTpl);  
@@ -108,8 +107,6 @@ var Plist = PFT.Util.Class({
 			})
 
 		}
-
-		
 
 		//搜索城市关键字
 		this.cityKeyWord = "";
@@ -189,6 +186,7 @@ var Plist = PFT.Util.Class({
 			content:"#xContent"
 		});
 		this.pullup = new PullUp({
+			content : '<div id="pullupUndefined">暂无产品</div>',
 			upContent:"上拉加载更多...",
 			downContent:"释放以加载更多...",
 			loadingContent:"加载中...",
@@ -199,9 +197,8 @@ var Plist = PFT.Util.Class({
 		this.pullup.on("loading",function(){
 			that.renderSearch();
 		});
-
 		that.renderSearch();
-
+		
 	},
 
 	//景区类型
@@ -576,6 +573,8 @@ var Plist = PFT.Util.Class({
 
 		var that = this;
 
+		this.toast2 = new Toast();
+
 		// if(!this.lastListLid){
 		// 	this.lastListLid = 0;
 		// }
@@ -604,10 +603,10 @@ var Plist = PFT.Util.Class({
 				ctype : that.ctype
 		    },
 		    loading : function(){
-		        that.toast.show("loading");
+		        that.toast2.show("loading");
 		    },
 		    complete : function(){
-		        that.toast.hide();
+		        that.toast2.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
