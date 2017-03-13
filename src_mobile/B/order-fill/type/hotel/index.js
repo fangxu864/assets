@@ -4,8 +4,7 @@ var tpl = require("./index.xtpl");
 
 var Calendar = require("../../calendar/index.js");
 
-module.exports = function(parent,aid,pid){
-
+module.exports = function(parent,aid,pid,ddays){
 
 	var container = $(tpl).appendTo(parent);
 	
@@ -22,6 +21,8 @@ module.exports = function(parent,aid,pid){
 			this.pid = pid;
 
 			var dateGroup = this.getNowDate();	
+			ddays = parseInt(ddays);
+			dateGroup.day = dateGroup.day + ddays;
 			var nowDate = dateGroup.nowDate + "-" +dateGroup.day; //有天数的
 
 			this.calendar1 = new Calendar(nowDate,aid,pid);

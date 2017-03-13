@@ -687,6 +687,8 @@ var Order_fill = PFT.Util.Class({
 				},
 				success:function (res) {
 
+					that.ddays = res.tickets[0].ddays;
+
 					that.toast.hide();
 
 					that.handleTips(res);//处理有效期退票等信息							
@@ -694,7 +696,6 @@ var Order_fill = PFT.Util.Class({
 					that.handleBookInfo(res);
 
 					that.handlePayMode(res);
-					
 
 				},
 				complete:function () {
@@ -767,18 +768,18 @@ var Order_fill = PFT.Util.Class({
 
 		//根据type不同分别判断显示Input
 		if(type == "A" || type == "F"){  //景区  //套票
-			this.InputGroup = Land(parent,this.aid,this.pid);
+			this.InputGroup = Land(parent,this.aid,this.pid,this.ddays);
 			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期
 			this.renderTicketList(ticketList); 
 			this.handleLand(pids);
 		} 		
 		if(type == "C"){ //酒店
-			this.InputGroup = Hotel(parent,this.aid,this.pid);
+			this.InputGroup = Hotel(parent,this.aid,this.pid,this.ddays);
 			this.renderTicketList(ticketList);
 			this.handleHotel();
 		}
 		if(type == "B"){ //线路
-			this.InputGroup = Line(parent,this.aid,this.pid);
+			this.InputGroup = Line(parent,this.aid,this.pid,this.ddays);
 			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期			
 			this.renderTicketList(ticketList);
 			if(res.assStation){
@@ -787,18 +788,17 @@ var Order_fill = PFT.Util.Class({
 			this.handleLine(pids,staList);
 		}
 		if(type == "H"){ //演出
-			this.InputGroup = Play(parent,this.aid,this.pid);
+			this.InputGroup = Play(parent,this.aid,this.pid,this.ddays);
 			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期						
 			this.renderTicketList(ticketList);
 			this.handlePlay(pids);
 		}
 		if(type == "G"){ //餐饮
-			this.InputGroup = Food(parent,this.aid,this.pid);
+			this.InputGroup = Food(parent,this.aid,this.pid,this.ddays);
 			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期						
 			this.renderTicketList(ticketList);
 			this.handleFood(pids);
 		}
-
 		
 
 	},
