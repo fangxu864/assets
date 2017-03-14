@@ -21,7 +21,8 @@ var datepicker = new Datepicker();
 
 require("./index.scss");
 var Tpl = require("./index.xtpl");
-var oD_yesterday_tpl = require("./orderdata-yesterday.xtpl");
+var oD_seven_tpl = require("./orderdata-seven.xtpl");
+var oD_month_tpl = require("./orderdata-month.xtpl");
 var oD_today_tpl = require("./orderdata-today.xtpl");
 
 var LoadingPC = require("COMMON/js/util.loading.pc.js");
@@ -37,13 +38,15 @@ module.exports = function(parent){
 	var saleEchart = PFT.Util.Class({
 		container : container,
 		template : PFT.Util.ParseTemplate(Tpl),
-		template_yesterday_od : PFT.Util.ParseTemplate(oD_yesterday_tpl),
+		template_seven_od : PFT.Util.ParseTemplate(oD_seven_tpl),
+		template_month_od : PFT.Util.ParseTemplate(oD_month_tpl),
 		template_today_od : PFT.Util.ParseTemplate(oD_today_tpl),
 		init : function(){
 			var _this = this ;
 			this.render();
 			this.renderOrderData_today( true );
-			this.renderOrderData_yesterday();
+			this.renderOrderData_seven();
+			this.renderOrderData_month();
 			//折线图
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
 			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
@@ -164,12 +167,12 @@ module.exports = function(parent){
 
 
 		/**
-		 * @method 渲染昨日订单数据
+		 * @method 渲染近七日订单数据
 		 */
-		renderOrderData_yesterday : function () {
+		renderOrderData_seven : function () {
 			var _this = this ;
 
-			var curContainer = _this.container.find(".line1 .yesterday-box .rt table");
+			var curContainer = _this.container.find(".line1 .seven-box table");
 			var LoadingStr = LoadingPC("努力加载中...",{
 				tag : "tr",
 				colspan : 6,
@@ -179,13 +182,51 @@ module.exports = function(parent){
 
 			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
 				type : "POST",
-				params : {},
+				params : {is_seven:1},
 				loading : function(){
 					curContainer.html(LoadingStr);
 				},
 				complete : function(res){
+					console.log(res)
 					if( res.code == 200 ){
-						var html = _this.template_yesterday_od( { data : res.data.data } );
+						var html = _this.template_seven_od( { data : res.data.data } );
+						curContainer.html( html )
+					}else{
+						curContainer.html( res.msg )
+					}
+
+				}
+			});
+
+			// var html = _this.template_yesterday_od( );
+			// _this.container.find(".line1 .yesterday-box .rt").html( html )
+		},
+
+
+		/**
+		 * @method 渲染近30日订单数据
+		 */
+		renderOrderData_month : function () {
+			var _this = this ;
+
+			var curContainer = _this.container.find(".line1 .month-box table");
+			var LoadingStr = LoadingPC("努力加载中...",{
+				tag : "tr",
+				colspan : 6,
+				width : 500,
+				height : 150
+			});
+
+			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
+				type : "POST",
+				params : {is_seven:2},
+				loading : function(){
+					curContainer.html(LoadingStr);
+				},
+				complete : function(res){
+					console.log(res)
+					if( res.code == 200 ){
+						var html = _this.template_month_od( { data : res.data.data } );
 						curContainer.html( html )
 					}else{
 						curContainer.html( res.msg )
@@ -262,7 +303,7 @@ module.exports = function(parent){
 						_this.pieEchart.setOption(option)
 					}else {
 						_this.pieEchart.showLoading({
-							text : '饼图暂无数据'
+							text : '7天产品使用排行暂无数据'
 						});
 					}
 				},
@@ -303,7 +344,7 @@ module.exports = function(parent){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
 							yAxisArr.unshift( res.data[key]["name"]);
-							seriesDataArr.unshift( res.data[key]["total_money"])
+							seriesDataArr.unshift( res.data[key]["total_money"] / 100)
 						}
 						var option = {
 							color : ['#2889e1'],
@@ -336,7 +377,7 @@ module.exports = function(parent){
 							},
 							series: [
 								{
-									name: '订单数',
+									name: '订单金额',
 									type: 'bar',
 									barMaxWidth: 20 ,
 									data: seriesDataArr ,
@@ -346,7 +387,7 @@ module.exports = function(parent){
 						_this.barEchart.setOption(option)
 					}else{
 						_this.barEchart.showLoading({
-							text : '条形图暂无数据'
+							text : '7天渠道排行暂无数据'
 						});
 					}
 				},
