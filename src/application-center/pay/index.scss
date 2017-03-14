@@ -80,3 +80,95 @@ body{
     line-height: 0;
     vertical-align: top;
 }
+
+.progressBox {
+    display: none;
+    position: relative;
+    height: 100px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.progressBox .line {
+    width: 33.33%;
+    position: absolute;
+    height: 6px;
+    top: 47px;
+    background-color: #b6b6b6;
+}
+.progressBox .line.active {
+    background-color: #09ba07;
+}
+.progressBox .line1, .progressBox .circle1 {
+    left: 0;
+}
+.progressBox .line2, .progressBox .circle2 {
+    left: 33.33%;
+}
+.progressBox .circle3 {
+    right: 33.33%;
+}
+.progressBox .line3, .progressBox .circle4 {
+    right: 0;
+}
+.progressBox .circle {
+    width: 46px;
+    height: 46px;
+    position: absolute;
+    top: 25px;
+    background-image: url("http://static.12301.cc/assets/build/images/appcenter/apppackage/small.png");
+}
+.progressBox .circle:after {
+    color: #adadad;
+    font-size: 14px;
+    position: absolute;
+    display: block;
+    top: 53px;
+}
+.progressBox .circle.active:after {
+    color: black;
+}
+.progressBox .circle1 {
+    background-position: 0 -18px;
+}
+.progressBox .circle1:after {
+    content: "选择套餐";
+    width: 60px;
+    left: -6px;
+}
+.progressBox .circle2 {
+    background-position: -46px -18px;
+}
+.progressBox .circle2:after {
+    content: "确认订购信息";
+    width: 88px;
+    left: -19px;
+}
+.progressBox .circle2.active {
+    background-position: -46px -64px;
+}
+.progressBox .circle3:after {
+    content: "确认付款";
+    width: 60px;
+    left: -6px;
+}
+.progressBox .circle3 {
+    background-position: -92px -18px;
+}
+.progressBox .circle3.active {
+    background-position: -92px -64px;
+}
+.progressBox .circle4 {
+    background-position: -138px -18px;
+}
+.progressBox .circle4:after {
+    content: "订购成功";
+    width: 60px;
+    left: -6px;
+}
+.progressBox .circle4.active {
+    background-position: -138px -64px;
+}
+.progressBox .circle.ok {
+    background-position: 0px -64px;
+}

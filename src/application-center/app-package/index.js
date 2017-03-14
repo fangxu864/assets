@@ -28,13 +28,15 @@ function createCR( mainBox ) {
             storage: {},
             
             pub: function (events, arg) {
+                var result;
                 var arr = this.storage[events];
                 var len = Object.prototype.toString.call(arr) === '[object Array]' ? arr.length : 0;
                 if (arr) {
                     for (var i = 0; i < arr.length; i++) {
-                        arr[i](arg);
+                        result = arr[i](arg);
                     }
                 }
+                return result;
             },
             
             sub: function (events, fn) {

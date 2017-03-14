@@ -4,7 +4,7 @@
 
 require("./second_packDetail.scss");
 var second_packDetailModuleTpl = require("./second_packDetail.xtpl");
-
+var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 
 /**
  * 本模块为第2步的套餐详情模块
@@ -20,19 +20,23 @@ var Second_packDetailModule = {
 
     bind: function () {
         var _this = this;
-        this.CR.pubSub.sub("Second_packDetailModule.render" , function () {
-            _this.render();
+        this.CR.pubSub.sub("Second_packDetailModule.render" , function (moduleId) {
+            var data =  _this.CR.pubSub.pub("DC.getSecondPackageDetail",moduleId) ;
+            _this.render(data);
         });
         this.container.on("click" , ".pre-btn" ,function () {
             _this.container.hide();
             _this.CR.pubSub.pub("progressModule.first");
             _this.CR.mainBox.find(".first_packPickBox ").show();
-            _this.CR.mainBox.find(".first_packDetailBox ").show()
+            _this.CR.mainBox.find(".first_packDetailBox ").show();
+            $("#G_Body").animate({"scrollTop":0},200,"swing")
         })
     },
 
-    render: function () {
-        this.container.html( second_packDetailModuleTpl );
+    template: ParseTemplate(second_packDetailModuleTpl),
+    render: function (data) {
+        var html = this.template({data:data});
+        this.container.html(html);
         this.container.show();
     }
 

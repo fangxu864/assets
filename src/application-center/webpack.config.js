@@ -25,9 +25,9 @@ var config = require("../../task-webpack/config")({
         // "appcenter_appstatistics" : "./src/application-center/app-statistics/index.js",
         // //应用中心 - 开通统计详情
         // "appcenter_appstatisticsdetail" : "./src/application-center/app-statisticsdetail/index.js",
-        // //应用中心 - 支付
-        // "appcenter_pay" : "./src/application-center/pay/index.js",
-        // "appcenter_paysuccess" : "./src/application-center/pay/success.js",
+        //应用中心 - 支付
+        "appcenter_pay" : "./src/application-center/pay/index.js",
+        "appcenter_paysuccess" : "./src/application-center/pay/success.js",
         // //应用中心 - 过期提示
         // "appcenter_expiredText" : "./src/application-center/expiredText/index.js",
         // //应用中心 - 上线引导

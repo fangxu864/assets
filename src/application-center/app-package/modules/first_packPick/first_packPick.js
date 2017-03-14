@@ -30,18 +30,25 @@ var First_packPickModule = {
         });
         //点击立即购
         this.container.on("click" , ".btn-book" , function () {
+            var moduleId = $(this).attr("data-moduleId");
             //进行到第二步
             _this.CR.pubSub.pub("progressModule.second");
             _this.container.hide();
             _this.CR.pubSub.pub("First_packDetailModule.close");
-            _this.CR.pubSub.pub("Second_packDetailModule.render");
+            _this.CR.pubSub.pub("Second_packDetailModule.render",moduleId);
+            _this.CR.mainBox.find(".first_packPickBox ").hide();
+            $("#G_Body").animate({"scrollTop": 0}, 200, "swing")
         })
     },
 
     template: ParseTemplate(first_packPickModuleTpl),
     render: function (data) {
+        var newData = $.extend( {} , data );
+        for(var key in newData ){
+            newData[key]["moduleId"] = key;
+        }
         var _this = this;
-        var html = this.template({data: data});
+        var html = this.template({data: newData});
         this.container.html(html);
     }
 
