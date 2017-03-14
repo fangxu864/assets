@@ -29,12 +29,12 @@
         <span id="balanceNoticeBox" class="balanceNoticeBox">
             <span class="label">余额预警开关</span>
             <span class="switchBox <%=warning>0 ? 'on' : ''%>"><i class="btn"></i><i class="text"><%=warning>0 ? '已开' : '已关'%></i></span>
-            <span class="tipBox <%=warning>0 ? '' : 'hidden'%>">预警阀值为<i class="fazhi"><%=warning%></i><span class="modifyBtn">修改</span></span>
+            <span class="tipBox <%=warning>0 ? '' : 'hidden'%>">预警阀值为<i class="fazhi"><%=warning*1%></i><span class="modifyBtn">修改</span></span>
         </span>
     </div>
 </div>
 <div class="maBoxContainer">
     <div class="maBox"></div>
-    <p id="copyMaLink" data-link="http://123624.12301.cc" class="link"><a href="###">复制链接</a></p>
+    <p id="copyMaLink" data-link="<%=mallLink%>" class="link copyMaLink"><a href="###">复制链接</a></p>
     <p class="tip">扫码进入商家店铺</p>
 </div>

@@ -8,6 +8,7 @@ var Common = require("../../common");
 var Tpl = require("./index.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
 var Message = require("pft-ui-component/Message");
+var numberToFixed = PFT.Util.numberToFixed;
 module.exports = function(parent){
 
 	var container = $('<div id="UserInfoBox" class="UserInfoBox modBox"></div>').appendTo(parent);
@@ -27,19 +28,20 @@ module.exports = function(parent){
 		initMaBox : function(){
 			var maImg = $("#homeMaImg").clone().show();
 			this.container.children(".maBoxContainer").find(".maBox").append(maImg);
-			console.log($("#copyMaLink"))
-			//复制二维码链接
-			$("#copyMaLink").zclip({
-				path: "wx_public/zclip/ZeroClipboard.swf",
-				copy: function(){
-					console.log($(this))
-					return $(this).attr("data-link");
-				},
-				deforeCopy : function(){},
-				afterCopy : function(){
-					Message.success("已复制到剪贴板");
-				}
-			});
+			setTimeout(function(){
+				//复制二维码链接
+				$("#copyMaLink").zclip({
+					path: "wx_public/zclip/ZeroClipboard.swf",
+					copy: function(){
+						return "1223423423"
+						return $(this).attr("data-link");
+					},
+					deforeCopy : function(){},
+					afterCopy : function(){
+						Message.success("已复制到剪贴板");
+					}
+				});
+			},2000)
 		},
 		onSwitchBoxClick : function(e){
 			var that = this;
@@ -82,7 +84,7 @@ module.exports = function(parent){
 			Common.Ajax(Common.api.Home_HomeMember.setRemainWaring,{
 				type : "post",
 				params : {
-					val : value
+					val : value * 100
 				},
 				loading : function(){
 					if(tarBtn) tarBtn.addClass("disable").text("请稍后");
@@ -122,8 +124,11 @@ module.exports = function(parent){
 				success : function(res){
 					var code = res.code;
 					var msg = res.msg;
+					var data= res.data;
 					if(code==200){
 						var unread = res.data.unread;
+						data["remainMoney"] = numberToFixed(data.remainMoney/100,2);
+						data["warning"] = numberToFixed(data.warning/100,2);
 						that.render(res.data);
 						that.initMaBox();
 					}else{

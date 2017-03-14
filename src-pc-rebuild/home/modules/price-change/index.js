@@ -5,7 +5,7 @@ var Common = require("../../common");
 var Tpl = require("./index.xtpl");
 var ItemTpl = require("./item.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
-
+var numberToFixed = PFT.Util.numberToFixed;
 module.exports = function(parent){
 
 	var container = $('<div id="PriceChangeBox" class="PriceChangeBox"></div>').appendTo(parent);
@@ -48,6 +48,11 @@ module.exports = function(parent){
 						if(data.length==0){
 							container.find(".infoList").html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品价格变动..</li>')
 						}else{
+							//涉及到价格的，后端现在统一返回分为单位，前端需要转化为元
+							for(var i=0,len=data.length; i<len; i++){
+								data[i]["diff"] = numberToFixed(data[i].diff/100,2);
+							}
+							console.log(data);
 							that.render(data);
 						}
 					}else{
