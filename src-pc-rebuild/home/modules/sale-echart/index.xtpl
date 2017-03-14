@@ -54,8 +54,7 @@
             <span class="btn active quickDateBtn" data-num="-6">近7日</span><span class="btn quickDateBtn"  data-num="-29">近30日</span><span class="btn quickDateBtn"  data-num="-89">近90日</span>
         </div>
     </div>
-    <div id="lineEchart" class="lineEchart"></div>
-    <div class="selectBox">
+    <div class="selectBox clearfix">
         <div class="td td1">
             <i class="icon icon-u-bold icon-checkbox icon-checkbox-checked compare" data-type="1"></i>
             <span>同比</span>
@@ -69,6 +68,8 @@
             <span>高亮周末</span>
         </div>
     </div>
+    <div id="lineEchart" class="lineEchart"></div>
+
 </div>
 <div class="line line3" >
     <div class="lt" id="pieEchart"></div>
