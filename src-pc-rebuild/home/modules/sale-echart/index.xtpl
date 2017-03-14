@@ -1,38 +1,47 @@
 <div class="title">
     <i class="icon icon-pc-prompt icon-dingdanshuju1"></i>
     <span class="title-text">订单数据</span>
+   <i class="icon icon-pc-prompt icon-shuaxin rotateInfinite"></i>
 </div>
-<div class="line line1">
-    <div class="today-box data-box">
-        <div class="lt">今<br/>日</div>
-        <div class="rt">
-            <table>
-                <tbody>
-                <tr>
-                    <td><span class="key">今日预订金额 : </span><span class="value">...</span></td>
-                    <td><span class="key">今日预订人数 : </span><span class="value">...</span></td>
-                </tr>
-                <tr>
-                    <td><span class="key">今日检票金额 : </span><span class="value">...</span></td>
-                    <td><span class="key">今日退票金额 : </span><span class="value">...</span></td>
-                </tr>
-                <tr>
-                    <td><span class="key">今日检票数 : </span><span class="value">...</span></td>
-                    <td><span class="key">今日退票数 : </span><span class="value">...</span></td>
-                </tr>
-                </tbody>
-            </table>
-            <!--<i class="icon icon-pc-prompt icon-shuaxin rotateInfinite" style="display: none"></i>-->
-            <i class="icon icon-pc-prompt icon-shuaxin " style="display: none"></i>
+<div class="line line1 clearfix">
+    <div class="today-box data-box" >
+        <div class="con">
+            <div class="lt">今<br/>日</div>
+            <div class="rt">
+                <table></table>
+            </div>
         </div>
     </div>
-    <div class="yesterday-box data-box">
-        <div class="lt">昨<br/>日</div>
-        <div class="rt">
-            <table></table>
+    <div class="seven-box data-box">
+        <div class="con">
+            <div class="lt">近<br/>7<br/>日</div>
+            <div class="rt">
+                <table>
+                    <tr>
+                        <td><span class="key">检票数 : </span><span class="value">张</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">检票金额 : </span><span class="value">元</span></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="clear" style="clear: both"></div>
+    <div class="month-box data-box">
+        <div class="con">
+            <div class="lt">近<br/>30<br/>日</div>
+            <div class="rt">
+                <table>
+                    <tr>
+                        <td><span class="key">检票数 : </span><span class="value">张</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">检票金额 : </span><span class="value">元</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="title">
 <i class="icon icon-pc-prompt icon-zuijinxiaoshouqushi"></i>
@@ -53,21 +62,22 @@
             <span class="btn active quickDateBtn" data-num="-6">近7日</span><span class="btn quickDateBtn"  data-num="-29">近30日</span><span class="btn quickDateBtn"  data-num="-89">近90日</span>
         </div>
     </div>
-    <div id="lineEchart" class="lineEchart"></div>
-    <div class="selectBox">
+    <div class="selectBox clearfix">
         <div class="td td1">
             <i class="icon icon-u-bold icon-checkbox icon-checkbox-checked compare" data-type="1"></i>
-            <span>同比(去年同一时期)</span>
+            <span>同比</span>
         </div>
         <div class="td td2">
             <i class="icon icon-u-bold icon-checkbox compare" data-type="2"></i>
-            <span>环比(上一周期)</span>
+            <span>环比</span>
         </div>
         <div class="td td3" style="display: none">
             <i class="icon icon-u-bold icon-checkbox weekend" data-type="3"></i>
             <span>高亮周末</span>
         </div>
     </div>
+    <div id="lineEchart" class="lineEchart"></div>
+
 </div>
 <div class="line line3" >
     <div class="lt" id="pieEchart"></div>
