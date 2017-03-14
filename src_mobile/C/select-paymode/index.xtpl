@@ -49,7 +49,7 @@
             <img src="http://static.12301.cc/assets/build/images/wx_paymode/weixin<%=payWay.wx==1 ? '' : '_disable'%>.png" alt="微信支付"/>
         </div>
     </li>
-    <li id="unipayBtn" data-typetext="银联支付" class="paymodeItem <%=payWay.uni==1 ? '' : 'disable'%>">
+    <li id="unipayBtn" data-typetext="银联支付" class="paymodeItem <%=payWay.uni==1 ? '' : 'disable'%>" style="display:none">
         <div class="imgBox">
             <form id="pay_form_unipay" action="<%=payDomain%>order/union_api.php" method="post">
                 <input name="out_trade_no" value="<%=payParams.outTradeNo%>" type="hidden"/>

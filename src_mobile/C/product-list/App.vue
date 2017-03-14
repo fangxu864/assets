@@ -9,7 +9,7 @@
         </div>
         <div id="scrollWrap" class="scrollWrap">
             <scroller
-                    v-if="ready"
+                    v-if="isReady"
                     v-ref:scroller
                     :height="scrollerHeight"
                     :lock-x="true"
@@ -104,11 +104,22 @@
     let Toast = new PFT.Mobile.Toast();
     let Alert = PFT.Mobile.Alert;
     let CityData = require("COMMON/js/config.province.city.data2");
-    let Ptype = PFT.Util.UrlParse()["ptype"] || "A";
+    let Ptype = PFT.Util.UrlParse()["ptype"];
+    let theme = PFT.Util.UrlParse()["theme"];
+    if(Ptype){
+        Ptype = decodeURIComponent(Ptype);
+    }else{
+        Ptype = "all";
+    }
+    if(theme){
+        theme = decodeURIComponent(theme);
+    }else{
+        theme = "";
+    }
     export default{
         data(){
             return{
-                ready : false,
+                isReady : false,
                 filterBarHide : false,
                 winHeight : 0,
                 scrollerHeight : "",
@@ -118,7 +129,7 @@
                 //搜索条件
                 filterParams : {
                     keyword : "",
-                    topic : "",
+                    topic : theme,
                     type : Ptype,
                     city : "",
                     lastPos : ""
@@ -177,7 +188,7 @@
         },
         computed : {
             ptypeName(){
-                return this.ptypeList[this.filterParams.type] || "景区门票";
+                return this.ptypeList[this.filterParams.type];
             },
             topicName(){
                 return this.filterParams.topic ? this.filterParams.topic : "主题"
@@ -265,11 +276,30 @@
                     complete : () => {
                         Toast.hide();
                     },
-                    empty : () => {
+                    empty : (data) => {
                         this.disableScroll();
+                        if(!this.isReady) this.isReady = true;
                         if(this.filterParams.lastPos==""){
+                            if(data.citys) this.$set("cityList",data.citys);
+                            var themes = data.themes;
+                            var type = data.type;
+                            if(type){
+                                var adaptType = {};
+                                for(var i=0; i<type.length; i++){
+                                    var ptype = type[i]["identify"];
+                                    var ptypeName = type[i]["name"];
+                                    adaptType[ptype] = ptypeName;
+                                }
+                                this.ptypeList = adaptType;
+                            }
+                            if(themes){
+                                var __themes = {};
+                                for(var i in themes) __themes[i] = themes[i];
+                                this.$set("topicList",__themes);
+                            }
                             //Alert("提示","查无匹配条件的产品..");
-                            this.list.push({type:"no-search-result"});
+
+                            this.list = [{type:"no-search-result"}];
                         }else{
                             Alert("没有更多匹配条件的产品了..");
                             this.list.push({type:"empty"});
@@ -292,16 +322,15 @@
                             }
                             this.ptypeList = adaptType;
                         }
-
                         if(themes){
                             var __themes = {};
                             for(var i in themes) __themes[i] = themes[i];
                             this.$set("topicList",__themes);
                         }
                         this.$set("list",this.list.concat(data.list));
-                        if(!this.ready){
+                        if(!this.isReady){
                             this.scrollerHeight = String(this.scrollWrap.height())+"px";
-                            this.ready = true;
+                            this.isReady = true;
                         }
                         this.$nextTick(()=>{
                             if(this.filterParams.lastPos==""){
@@ -324,19 +353,25 @@
             },
             disableScroll(){
                 if(this.scrollStatus=="disable") return false;
-                this.$broadcast('pullup:disable', this.$refs.scroller.uuid);
+                if(this.$refs.scroller && this.$refs.scroller.uuid){
+                    this.$broadcast('pullup:disable', this.$refs.scroller.uuid);
+                }
                 this.scrollStatus = "disable";
             },
             enableScroll(){
                 if(this.scrollStatus=="enable") return false;
-                this.$broadcast('pullup:enable', this.$refs.scroller.uuid);
+                if(this.$refs.scroller && this.$refs.scroller.uuid){
+                    this.$broadcast('pullup:enable', this.$refs.scroller.uuid);
+                }
                 this.scrollStatus = "enable";
             },
             resetPullup(){
-                this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
+                if(this.$refs.scroller && this.$refs.scroller.uuid){
+                    this.$broadcast('pullup:reset', this.$refs.scroller.uuid)
+                }
             },
             resetScroll(){
-                this.$refs.scroller.reset();
+                this.$refs.scroller && this.$refs.scroller.reset();
             }
         },
         components : {

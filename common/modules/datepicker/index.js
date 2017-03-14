@@ -34,10 +34,30 @@ var Datepicker = PFT.Util.Class({
 		this.on("switch",function(data){
 			var picker = this.__cacheOpt.picker;
 			var orignVal = picker.val();
+			var timeLine = {
+				hour : true,
+				minu : true,
+				second : true
+			};
+			container.find(".timeLine").each(function(){
+				var item = $(this);
+				if(item.hasClass("hour")) timeLine.hour = item.css("display")!=="none";
+				if(item.hasClass("minu")) timeLine.minu = item.css("display")!=="none";
+				if(item.hasClass("second")) timeLine.second = item.css("display")!=="none";
+			});
+
+			var result = "";
+			var _data = data.data;
+			result += _data.date;
+			if(timeLine.hour) result += (" " + _data.hour);
+			if(timeLine.minu) result += (":" + _data.minu);
+			if(timeLine.second) result += (":" + _data.second);
+
+
 			if(picker[0].tagName.toLocaleLowerCase()=="input"){
-				picker.val(data.result);
+				picker.val(result);
 			}else{
-				picker.text(data.result);
+				picker.text(result);
 			}
 			var onAfter = this.__cacheOpt.onAfter;
 			onAfter && onAfter(data.result,orignVal);
@@ -179,6 +199,7 @@ var Datepicker = PFT.Util.Class({
 				}
 			}
 		}
+		result["picker"] = this.__cacheOpt.picker;
 		return result;
 	},
 	position : function(tarDom){
@@ -203,9 +224,9 @@ var Datepicker = PFT.Util.Class({
 		var before = opt.onBefore || function(){};
 		var after = opt.onAfter || function(){};
 		var picker = opt.picker;
-		var hour = date.substr(11,2);
-		var minu = date.substr(14,2);
-		var second = date.substr(17,2);
+		var hour = date.substr(11,2) || "";
+		var minu = date.substr(14,2) || "";
+		var second = date.substr(17,2) || "";
 		if(date.length<=10){
 			this.timepicker.hide();
 			this.ft.hide();

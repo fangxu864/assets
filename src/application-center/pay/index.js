@@ -48,17 +48,23 @@ var Main = PFT.Util.Class({
 
 		var dom = _this.dom;
 
+		var urlParam = PFT.Util.UrlParse( window.location.href );
 		var url = window.location.href,
 			urlArr = url.split('?');
 
-		if(urlArr[1]) {
-			_this.module_id = urlArr[1].split('=')[1];
+		if( urlParam.appid || urlParam.appid == 0 ) {
+			_this.module_id = urlParam.appid;
 		} else {
 			alert('无模块Id');
 			return false;
 		}
 
-		_this.ajaxGetModeList( _this.module_id );
+		if( urlParam.pay_type ) {
+			$('.progressBox').css('display','block');
+			_this.pay_type = urlParam.pay_type ? urlParam.pay_type : '';
+		}
+		
+		_this.ajaxGetModeList( _this.module_id, urlParam.pay_type ? urlParam.pay_type : '' );
 
 		$(dom.modelist).on('click', 'li', function(){
 			$(this).toggleClass('active').siblings().removeClass('active');
@@ -96,13 +102,14 @@ var Main = PFT.Util.Class({
 	},
 
 	// 获取付费模式
-	ajaxGetModeList: function( module_id ) {
+	ajaxGetModeList: function( module_id, pay_type ) {
 		var _this = this;
 
 		PFT.Util.Ajax( ajaxUrls.getModeList , {
 			type: 'POST',
 			params: {
-				module_id: module_id
+				module_id: module_id,
+				pay_type: pay_type
 			},
 			loading: function(){},
 			success: function(res) {
@@ -187,7 +194,8 @@ var Main = PFT.Util.Class({
 			url: ajaxUrls.payViaAccBalance,
 			params: {
 				module_id: opts.module_id,
-				price_id: opts.price_id
+				price_id: opts.price_id,
+				pay_type: this.pay_type
 			},
 			loading: { text: '正在处理中' },
 			success: function( res ) {
@@ -230,7 +238,8 @@ var Main = PFT.Util.Class({
 			 			url: ajaxUrl,
 			 			params: {
 							module_id: module_id,
-							price_id: price_id
+							price_id: price_id,
+							pay_type: _this.pay_type
 			 			},
 			 			loading: {
 			 				id: 'dialogLoading'

@@ -14,18 +14,20 @@
         border-bottom: 1px solid #e5e5e5;
         li{
           padding: 19px 3px 17px;
-          margin: 0 50px 0 0;
+          margin: 0 20px 0 0;
           float: left;
           font-size: 22px;
           a.not_active{
             color: #303d46;
           }
         }
+        li.active{
+          border-bottom: 2px solid #2A98DA;
+        }
 
       }
     }
     .filter{
-      border-bottom: 1px solid #e5e5e5;
       .line{
         padding-left: 20px;
         height: 60px;
@@ -60,12 +62,28 @@
           float:left ;
           position:relative;
           .trader_inp{
-            @include textInp(160,5);
+            @include textInp(200,5);
           }
         };
       }
       .line2 {
         .td1{
+          .search_type_select{
+            margin-top:13px ;
+            height: 32px;
+            width: 80px;
+            line-height: 32px;
+            border: 1px solid #e5e5e5;
+            position: relative;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+          }
+        }
+        .td3{
           position: relative;
           i.clear_trader_inp{
             position: absolute;
@@ -106,7 +124,7 @@
               left: 12px;
               width: 14px;
               height: 14px;
-              background: url("http://images.12301.cc/icon/check.png");
+              background: url("http://images.12301.cc/icon/check.png") scroll -14px -14px;
             }
             .not_selected:before{
               content:'' ;
@@ -116,7 +134,7 @@
               left: 12px;
               width: 14px;
               height: 14px;
-              background: url("http://images.12301.cc/icon/check.png") scroll -14px 0px;
+              background: url("http://images.12301.cc/icon/check.png") scroll 0px -14px;
             }
         }
 
@@ -173,17 +191,21 @@
           tr {
             th{
               font-weight: 300;
+              padding: 0 10px;
             }
             height: 36px;
             line-height: 36px;
-            background-color: #00597b;
             background-color: #f0f0f0;
-            .th1{width:280px;text-align: left ;padding-left: 20px;}
+            .th1{width:230px;text-align: left ;padding-left: 20px;}
             .th2{width:100px; }
             .th3{width:100px; }
             .th4{width:100px; }
             .th5{width:100px; }
             .th6{width:108px; }
+            .th7{
+              text-align: left;
+              width:108px;
+            }
           }
         }
         tbody{
@@ -191,10 +213,18 @@
             height: 45px;
             line-height: 45px;
             border-bottom: 1px solid #e5e5e5;
+            td{
+              padding: 0 10px;
+            }
             .th1{width:280px;text-align: left ;padding-left: 20px;}
+            .th3{color:#3DBA3F}
+            .th4{color:#F07845}
+          }
+          tr.gray{
+            background-color: #fcfcfc;
           }
           tr:hover{
-            background-color: #f9f2f3;
+            background-color: #fafafa;
           }
           tr:last-child{border-bottom: none;}
         }
@@ -230,7 +260,7 @@
   }
   .detail_table_box{
     overflow-y: auto;
-    height: 554px;
+    max-height: 554px;
     table.detail_table{
       width:100%;
       .th1{
@@ -261,10 +291,36 @@
 
       }
       tbody{
+        tr.gray{
+          background-color: #fcfcfc;
+        }
+        .th2{
+          color:#3DBA3F
+        }
+        .th3{
+          color:#F07845
+        }
         tr:hover{
-          background-color: #f9f2f3;
+          background-color: #fafafa;
         }
       }
     }
   }
+}
+
+.queryState_box{
+  display: none;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  border: 1px solid #e5e5e5;
+  border-top: none;
+  .querying{
+    height: 200px;
+    line-height: 20px;
+    text-align: center;
+  }
+
+
+  background: white;
 }

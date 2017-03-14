@@ -1,0 +1,97 @@
+#dialog_box{
+  width: 500px;
+  padding-bottom: 30px;
+  .dialog_con{
+    .title{
+      padding-left: 40px;
+      line-height: 46px;
+      height: 46px;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .line{
+      line-height: 40px;
+      padding-left: 40px;
+      font-size: 16px;
+    }
+    .line4{
+      padding-left: 0;
+      .img_box{
+        position: relative;
+        text-align: center;
+        margin: 7px auto;
+        //border: 1px solid #e5e5e5;
+        height:200px ;
+        width: 200px;
+        font-size: 12px;
+        img.code{
+          height:200px ;
+          width: 200px;
+        }
+        .img_box_loading{
+          margin-top: 60px;
+          img.code{
+            height:150px ;
+            width: 150px;
+          }
+        }
+        .payOk{
+            padding-top: 45px;
+            color: #00c100;
+            font-size: 27px;
+        }
+        .error{
+          padding-top: 45px;
+          font-size: 14px;
+          color: orangered;
+
+        }
+        .center-img-wx{
+          position: absolute;
+          height: 50px;
+          top: 75px;
+          width: 50px;
+          left: 75px;
+          background: url(//staticfile.12301.cc/weixinpay.png) no-repeat 50%;
+          background-size: 50px 50px;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+        .center-img-ali{
+          position: absolute;
+          height: 50px;
+          top: 75px;
+          width: 50px;
+          left: 75px;
+          background: url(//staticfile.12301.cc/alipay.png) no-repeat 50%;
+          background-size: 50px 50px;
+          background-color: #fff;
+          border-radius: 5px;
+        }
+
+      }
+      span.tip{
+        font-size: 12px;
+        margin-left: 123px;
+        color: #F07845;
+      }
+    }
+    .line5{
+      padding-left: 0;
+      text-align: center;
+      span.btn{
+        padding:8px 30px;
+        border: 1px solid #0797D9;
+        color: #0797D9;
+        font-size: 14px;
+        background-color: #ffffff;
+        transition:   background-color 0.5s;
+        cursor: pointer;
+      }
+      span.btn:hover{
+        color: white;
+        background-color: #0797D9;
+      }
+    }
+  }
+}
