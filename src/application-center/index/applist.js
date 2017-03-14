@@ -42,6 +42,13 @@ var AppList = PFT.Util.Class({
 		var req4 = function(){
 			return that.getAppList(0,4);  //首页，一卡通
 		};
+		var req5 = function(){
+			return that.getAppList(0,5);  //首页，票务系统
+		}
+		var req7 = function(){
+			return that.getAppList(0,7);  //首页，其他
+		}
+
 		// var req5 = function(){
 		// 	return that.getAppList(0,5);  //首页，智能硬件
 		// };
@@ -78,10 +85,18 @@ var AppList = PFT.Util.Class({
                 break;
             default:
                 //顺序发请求
-                req1().then(req2).then(req3).then(req4).done(function(xhr){
-                    $("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
+                // req1().then(req2).then(req3).then(req4).then(req5).then(req7).done(function(xhr){
+                //     $("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
+                //     // appIntro.init(that.memberID); //传入会员id用于cookie
+                // });
+				req1().then(req2).then(req3).then(req4).then(req5).done(function(xhr){
+
+                    // $("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
+					that.tempIndexListBox = that.tempIndexListBox + yingjian_tpl;
                     // appIntro.init(that.memberID); //传入会员id用于cookie
-                });
+                }).then(req7).done(function(){
+                    $("#tabCon").html(that.tempIndexListBox);
+				});
         }
 
         $("#top-ad-close").on("click",function(){
@@ -115,13 +130,9 @@ var AppList = PFT.Util.Class({
 				$("#tabCon").html(loadingHtml);
 
 			},
-
 			complete : function(){
-
 				$(".loading").remove();
-
 			},
-
 			success : function(res){
 
 				var code = res.code;
@@ -135,21 +146,21 @@ var AppList = PFT.Util.Class({
 				}
 				if( type != 0 ){
 					switch (type){
-						case 1 :
+						case 1 : //新上线
 							if( list.length > 0 ){
 								that.CacheList(list,type,category);
 							}else{
 								that.tempNewOnlineListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
 							}
 							break;
-						case 2 :
+						case 2 : //未开通
 							if( list.length > 0 ){
 								that.CacheList(list,type,category);
 							}else{
 								that.tempUnOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
 							}
 							break;
-						case 3:
+						case 3: 
 							if( list.length > 0 ){
 								that.CacheList(list,type,category);
 							}else{
@@ -183,7 +194,7 @@ var AppList = PFT.Util.Class({
 			if(that.tempIndexListBox == ""){
 				that.init();
 			}else{
-				$("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
+				$("#tabCon").html(that.tempIndexListBox);
 			}
 		}
 		if( nowId == "newOnlineTab"){ //新上线
@@ -223,25 +234,27 @@ var AppList = PFT.Util.Class({
 
 	CacheList : function(list,type,category,tabType){
 
-
 		var listTitle = "";
 		var ulClassName = "";
 
 		if(category == 1 && type == 0){
-			listTitle = "核心功能";
+			listTitle = "直销模块";
 			ulClassName = "app-list1";
 		}else if(category == 2 && type == 0){
-			listTitle = "营销推广";
+			listTitle = "营销工具";
 			ulClassName = "app-list2";
 		}else if(category == 3 && type == 0){
-			listTitle = "同业对接";
+			listTitle = "对接平台";
 			ulClassName = "app-list3";
 		}else if(category == 4 && type == 0){
-			listTitle = "一卡通";
+			listTitle = "会员一卡通";
 			ulClassName = "app-list4";
 		}else if(category == 5 && type == 0){
-			listTitle = "智能硬件";
+			listTitle = "票务系统";
 			ulClassName = "app-list5";
+		}else if(category == 7 && type == 0){
+			listTitle = "其他";
+			ulClassName = "app-list7";
 		}
 
 		if( type == 1 && category == undefined){
@@ -310,7 +323,7 @@ var AppList = PFT.Util.Class({
 
 
 
-                    }else if(category == 5){ //智能硬件用静态加，在45行
+                    }else if(category == 6){ //智能硬件用静态加，在45行
 
                //      	temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
         	      //       '<div class="app-btn-w">' +
@@ -365,6 +378,18 @@ var AppList = PFT.Util.Class({
 					               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
 							}
+
+
+							//2017/3/13票务系统无按钮button_type字段，如何处理
+							// else{ 
+
+							// 	temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
+		    		        //     '<div class="app-btn-w" style="height:32px">' +
+		    		        //     //    '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
+		    				//     '</div>' ;
+
+							// }
+							
 
                     	}
 
