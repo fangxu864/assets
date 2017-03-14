@@ -169,13 +169,11 @@ var Product_detail = PFT.Util.Class({
 			}
 		}
 
-
 		//ctype大于0隐藏
-		if(this.ctype > 0){
+		if(this.ctype > 0 && ctype !=1){
 			$(".orderBtn").css("display","none");
 			return false
 		}
-
 
 	},
 

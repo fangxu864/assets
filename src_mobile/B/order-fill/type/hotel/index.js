@@ -21,7 +21,11 @@ module.exports = function(parent,aid,pid,ddays){
 			this.pid = pid;
 
 			var dateGroup = this.getNowDate();	
-			ddays = parseInt(ddays);
+			if(parseInt(ddays) > 0){
+				ddays = parseInt(ddays) + 1;
+			}else{
+				ddays = parseInt(ddays);
+			}
 			dateGroup.day = dateGroup.day + ddays;
 			var nowDate = dateGroup.nowDate + "-" +dateGroup.day; //有天数的
 

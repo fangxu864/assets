@@ -2,7 +2,7 @@
     <div class="showTimeTop"><i class="icon icon-u-regular icon-jiantou"></i>场次时间</div>
     <div id="showCon">
         <%for( var i = 0;i<list.length;i++){%>
-            <div class="showItem" data-venus_id="<%=list[i].venus_id%>" data-round_id="<%=list[i].id%>" ><%=list[i].round_name%> <%=list[i].bt%></div>   
+            <div class="showItem" data-num="<%=i%>" data-venus_id="<%=list[i].venus_id%>" data-round_id="<%=list[i].id%>" ><%=list[i].round_name%> <%=list[i].bt%>-<%=list[i].et%></div>   
         <%}%>
     </div>
 </div>

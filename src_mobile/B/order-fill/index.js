@@ -687,7 +687,7 @@ var Order_fill = PFT.Util.Class({
 				},
 				success:function (res) {
 
-					that.ddays = res.tickets[0].ddays;
+					
 
 					that.toast.hide();
 
@@ -732,6 +732,8 @@ var Order_fill = PFT.Util.Class({
 				}
 
 			}
+
+			this.ddays = res.tickets[0].ddays;  //提前购票天数
 
 		}
 		$("#placeText").text(res.title);
@@ -822,6 +824,7 @@ var Order_fill = PFT.Util.Class({
 
 		//第一次获取价格和库存
 		that.getPriceAndStorage(that.selectedDay,pids);
+		that.getShowInfo(that.selectedDay,true);
 		$("#playTimeInput").on("click",function(){
 			if(that.showTimeBox){
 				that.showTimeBox.show();
@@ -865,8 +868,9 @@ var Order_fill = PFT.Util.Class({
 			var list = res;
 			var html = "";
 			for( var i = 0;i<list.length;i++){
-				html += '<div class="showItem">'+ list[i].round_name + " " +list[i].bt +'</div>';   
+				html += '<div class="showItem" data-num="'+i+'" data-venus_id="'+list[i].venus_id+'" data-round_id="'+list[i].id+'">'+ list[i].round_name + " " +list[i].bt + '-' + list[i].bt +'</div>';   
 			}
+			that.handleShowStorage(res,0);
 			$("#showCon").html(html);
 		}else{
 			var data = {};
@@ -891,6 +895,8 @@ var Order_fill = PFT.Util.Class({
 
 						var t = item.text();
 						$("#playTimeInput").val(t);
+						var num = item.attr("data-num");
+						that.handleShowStorage(res,num);
 						that.showTimeBox.close();					
 					}
 				}
@@ -899,13 +905,26 @@ var Order_fill = PFT.Util.Class({
 				that.showTimeBox.close();			
 			});
 
-			if(first == true){
-				that.showTimeBox.show();
+			if(first == true){ //初始
+				// that.showTimeBox.show();
+				this.handleShowStorage(res,0);
 			}
 
 		}
-
-
+		
+	},
+	//处理演出库存
+	handleShowStorage : function(res,num){
+		var area_storage = res[num].area_storage;
+		var tList = $("li.placeTicket");
+		for( var i in area_storage){
+			for( var j = 0;j<tList.length;j++){
+				var nowZoneId = tList.eq(j).attr("zone-id");
+				if(nowZoneId == i){
+					tList.eq(j).find(".num").text(area_storage[i]);
+				}
+			}
+		}
 	},
 	//处理线路
 	handleLine : function(pids,list){
@@ -1087,6 +1106,13 @@ var Order_fill = PFT.Util.Class({
 					}
 				}
 				sonT.append(sonHtml);
+			}
+		}
+		//演出的情况要加zone_id
+		if(list[0].zone_id){
+			var ticketList = $("li.placeTicket");
+			for(var j = 0;j<list.length;j++){
+				ticketList.eq(j).attr("zone-id",list[j].zone_id);
 			}
 		}
 
