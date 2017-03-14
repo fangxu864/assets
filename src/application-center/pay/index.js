@@ -61,6 +61,7 @@ var Main = PFT.Util.Class({
 
 		if( urlParam.pay_type ) {
 			$('.progressBox').css('display','block');
+			_this.pay_type = urlParam.pay_type ? urlParam.pay_type : '';
 		}
 		
 		_this.ajaxGetModeList( _this.module_id, urlParam.pay_type ? urlParam.pay_type : '' );
@@ -193,7 +194,8 @@ var Main = PFT.Util.Class({
 			url: ajaxUrls.payViaAccBalance,
 			params: {
 				module_id: opts.module_id,
-				price_id: opts.price_id
+				price_id: opts.price_id,
+				pay_type: this.pay_type
 			},
 			loading: { text: '正在处理中' },
 			success: function( res ) {
@@ -236,7 +238,8 @@ var Main = PFT.Util.Class({
 			 			url: ajaxUrl,
 			 			params: {
 							module_id: module_id,
-							price_id: price_id
+							price_id: price_id,
+							pay_type: _this.pay_type
 			 			},
 			 			loading: {
 			 				id: 'dialogLoading'
