@@ -303,7 +303,7 @@ module.exports = function(parent){
 						_this.pieEchart.setOption(option)
 					}else {
 						_this.pieEchart.showLoading({
-							text : '饼图暂无数据'
+							text : '7天产品使用排行暂无数据'
 						});
 					}
 				},
@@ -344,7 +344,7 @@ module.exports = function(parent){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
 							yAxisArr.unshift( res.data[key]["name"]);
-							seriesDataArr.unshift( res.data[key]["total_money"])
+							seriesDataArr.unshift( res.data[key]["total_money"] / 100)
 						}
 						var option = {
 							color : ['#2889e1'],
@@ -377,7 +377,7 @@ module.exports = function(parent){
 							},
 							series: [
 								{
-									name: '订单数',
+									name: '订单金额',
 									type: 'bar',
 									barMaxWidth: 20 ,
 									data: seriesDataArr ,
@@ -387,7 +387,7 @@ module.exports = function(parent){
 						_this.barEchart.setOption(option)
 					}else{
 						_this.barEchart.showLoading({
-							text : '条形图暂无数据'
+							text : '7天渠道排行暂无数据'
 						});
 					}
 				},
