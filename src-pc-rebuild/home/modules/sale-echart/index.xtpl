@@ -1,6 +1,7 @@
 <div class="title">
     <i class="icon icon-pc-prompt icon-dingdanshuju1"></i>
     <span class="title-text">订单数据</span>
+   <i class="icon icon-pc-prompt icon-shuaxin rotateInfinite"></i>
 </div>
 <div class="line line1">
     <div class="today-box data-box">
@@ -23,7 +24,7 @@
                 </tbody>
             </table>
             <!--<i class="icon icon-pc-prompt icon-shuaxin rotateInfinite" style="display: none"></i>-->
-            <i class="icon icon-pc-prompt icon-shuaxin " style="display: none"></i>
+            <!--<i class="icon icon-pc-prompt icon-shuaxin " style="display: none"></i>-->
         </div>
     </div>
     <div class="yesterday-box data-box">
@@ -57,11 +58,11 @@
     <div class="selectBox">
         <div class="td td1">
             <i class="icon icon-u-bold icon-checkbox icon-checkbox-checked compare" data-type="1"></i>
-            <span>同比(去年同一时期)</span>
+            <span>同比</span>
         </div>
         <div class="td td2">
             <i class="icon icon-u-bold icon-checkbox compare" data-type="2"></i>
-            <span>环比(上一周期)</span>
+            <span>环比</span>
         </div>
         <div class="td td3" style="display: none">
             <i class="icon icon-u-bold icon-checkbox weekend" data-type="3"></i>
