@@ -1,6 +1,7 @@
 <div class="title">
     <i class="icon icon-pc-prompt icon-dingdanshuju1"></i>
     <span class="title-text">订单数据</span>
+   <i class="icon icon-pc-prompt icon-shuaxin rotateInfinite"></i>
 </div>
 <div class="line line1">
     <div class="today-box data-box">
@@ -23,7 +24,7 @@
                 </tbody>
             </table>
             <!--<i class="icon icon-pc-prompt icon-shuaxin rotateInfinite" style="display: none"></i>-->
-            <i class="icon icon-pc-prompt icon-shuaxin " style="display: none"></i>
+            <!--<i class="icon icon-pc-prompt icon-shuaxin " style="display: none"></i>-->
         </div>
     </div>
     <div class="yesterday-box data-box">

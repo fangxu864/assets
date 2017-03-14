@@ -80,8 +80,8 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .okBtn" : "onOkBtnClick" ,
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 			"click .selectBox .icon" : "onSelectBoxIconClick" ,
-			"click .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconClick" ,
-			"mouseover .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconHover"
+			"click .title .icon-shuaxin" : "onShuaXinIconClick" ,
+			"mouseover .title .icon-shuaxin" : "onShuaXinIconHover"
 		},
 
 
@@ -105,7 +105,7 @@ module.exports = function(parent){
 		renderOrderData_today : function ( isInit ) {
 			var _this = this ;
 			var curContainer = _this.container.find(".line1 .today-box .rt table");
-			var icon = _this.container.find(".line1 .today-box .rt .icon");
+			var icon = _this.container.find(".title .icon-shuaxin");
 			var params ;
 			if( isInit ){
 				params = {}

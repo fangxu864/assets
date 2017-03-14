@@ -8,6 +8,27 @@
         font-weight: bold;
         border-bottom: 1px solid #e5e5e5;
         span.title-text{ margin-left: 10px;}
+        @keyframes rotate360 {
+            from {
+                transform : rotateZ(0deg) ;
+            } to {
+                  transform : rotateZ(360deg) ;
+              }
+        }
+        .icon-shuaxin {
+            font-size: 18px;
+            cursor: pointer;
+            color :#9d9d9d ;
+            margin-left: 10px;
+        }
+        .icon-shuaxin.rotateInfinite {
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-name: rotate360;
+            transform-origin: center center;
+            animation-timing-function: linear;
+            color :#40bc42 ;
+        }
     }
     .line{
         overflow: hidden;
@@ -52,29 +73,7 @@
                         }
                     }
                 }
-                @keyframes rotate360 {
-                    from {
-                        transform : rotateZ(0deg) ;
-                    } to {
-                        transform : rotateZ(360deg) ;
-                    }
-                }
-                .icon-shuaxin {
-                    right: 3px;
-                    top : 3px ;
-                    font-size: 18px;
-                    position :absolute;
-                    cursor: pointer;
-                    color :#9d9d9d ;
-                }
-                .icon-shuaxin.rotateInfinite {
-                    animation-duration: 1s;
-                    animation-iteration-count: infinite;
-                    animation-name: rotate360;
-                    transform-origin: center center;
-                    animation-timing-function: linear;
-                    color :#40bc42 ;
-                }
+
             }
         }
     }
