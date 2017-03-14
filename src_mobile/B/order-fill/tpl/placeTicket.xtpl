@@ -15,11 +15,11 @@
             </p>
         </div>
         <div class="right">
-            <%if( i == 0){%>
+            <% if( i == 0){ %>
             <i class="delBtn" active="false" data-buy_low="<%=list[i].buy_low%>">-</i>
             <input type="text" class="numBox" value="<%=list[i].buy_low%>" data-buy_low="<%=list[i].buy_low%>" data-buy_up="<%=list[i].buy_up%>" >
             <i class="addBtn" active="true" data-buy_up="<%=list[i].buy_up%>">+</i>       
-            <%}else{%>
+            <% }else{ %>
             <i class="delBtn" active="false" data-buy_low="0">-</i>
             <input type="text" class="numBox" value="0" data-buy_low="0" data-buy_up="<%=list[i].buy_up%>" >
             <i class="addBtn" active="true" data-buy_up="<%=list[i].buy_up%>">+</i>    

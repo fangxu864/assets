@@ -38,6 +38,8 @@ var Plist = PFT.Util.Class({
 
 		var url = window.location.href;
 		var urlPara = Parse(url);
+		this.urlPara = urlPara;
+		console.log(this.urlPara);
 
 		if(urlPara.ctx){
 			this.ctx = urlPara.ctx;		
@@ -721,7 +723,14 @@ var Plist = PFT.Util.Class({
 		var pid = target.attr("data-pid");
 		var aid = target.attr("data-aid");
 		var url = "order_fill.html?aid=" + aid + "&" + "pid=" + pid; 
-		window.location.href = url;
+
+		console.log(this.urlPara);
+		console.log(window.location.pathname );
+
+		
+
+
+		// window.location.href = url;
 	}
 
 

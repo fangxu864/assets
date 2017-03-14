@@ -129,11 +129,21 @@ var Order_fill = PFT.Util.Class({
 			}else{
 				var relatedT = Tlist.eq(i);
 				var apid = relatedT.attr("data-pid");
+				var tlist = this.ticketList;
+				for( var x = 0;x<tlist.length;x++){
+					if(tlist[i].pid == apid){
+						var relatedTval = relatedT.find(".right .numBox").val()
+						if(parseInt(relatedTval) < parseInt(tlist[i].buy_low) && parseInt(relatedTval) != 0){
+							PFT.Mobile.Alert(tlist[i].title + "购买数量不能低于" + tlist[i].buy_low );
+							return false
+						}
+					}
+				}
+
 				link[apid] = relatedT.find(".right .numBox").val();
 			}
 		}
-
-
+		
 		if(this.selectedDay){
 			var begintime = this.selectedDay;			
 		}
