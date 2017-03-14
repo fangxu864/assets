@@ -697,8 +697,6 @@ var Order_fill = PFT.Util.Class({
 				},
 				success:function (res) {
 
-					
-
 					that.toast.hide();
 
 					that.handleTips(res);//处理有效期退票等信息							
@@ -917,6 +915,7 @@ var Order_fill = PFT.Util.Class({
 
 			if(first == true){ //初始
 				// that.showTimeBox.show();
+				$("#playTimeInput").val(res[0].round_name + " " +res[0].bt + '-' + res[0].bt);
 				this.handleShowStorage(res,0);
 			}
 
