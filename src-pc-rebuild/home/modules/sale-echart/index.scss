@@ -1,5 +1,6 @@
 #saleEchartBox{
     position:relative;
+    overflow: hidden;
 
     /*title*/
     .title{
@@ -32,26 +33,24 @@
     }
     .line{
         overflow: hidden;
-
     }
     .line1{
-        display: table;
-        border-spacing: 10px 10px;
+        padding: 20px 0px;
         width: 100%;
+        min-width: 733px;
         .data-box{
-            display: table-cell;
-            position: relative;
-            border: 1px solid #e5e5e5;
-            overflow: hidden;
-            width: 50%;
-            white-space: nowrap;
+             float: left;
+            .con{
+                margin: 5px;
+                border: 1px solid #e5e5e5;
+                height: 109px;
+            }
             .lt{
                 color: #5f5e64;
                 float: left;
-                width: 10%;
                 height: 109px;
                 background-color: #eef0f2;
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: bold;
                 padding-top: 35px;
                 box-sizing: border-box;
@@ -59,7 +58,6 @@
             }
             .rt{
                 float: right;
-                width: 90%;
                 position: relative;
                 table{
                     width: 100%;
@@ -74,6 +72,26 @@
                     }
                 }
 
+            }
+        }
+        .today-box{
+            width: 46%;
+            .con .lt{
+                padding-top: 35px;
+                width: 10%;
+            }
+            .con .rt{
+                width: 90%;
+            }
+        }
+        .seven-box , .month-box{
+            width: 27%;
+            .con .lt{
+                padding-top: 27px;
+                width: 15%;
+            }
+            .con .rt{
+                width: 85%;
             }
         }
     }
