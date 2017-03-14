@@ -57,7 +57,7 @@ var DataCenter = {
                     _this.CR.pubSub.pub("First_packDetailModule.render", _this.getFirstPackageDetail(role))
 
                 } else {
-                    _this.CR.pubSub.pub("queryStateBox.querying", {dom: ".progressBox", text: res.msg});
+                    _this.CR.pubSub.pub("queryStateBox.showError", {dom: ".progressBox", text: res.msg});
                 }
             },
             complete: function (res, status) {

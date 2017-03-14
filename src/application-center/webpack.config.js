@@ -31,7 +31,9 @@ var config = require("../../task-webpack/config")({
         //应用中心 - 过期提示
         "appcenter_expiredText" : "./src/application-center/expiredText/index.js",
         //应用中心 - 上线引导
-        "appcenter_homeIntro" : "./src/application-center/intro/intro-home/index.js"
+        "appcenter_homeIntro" : "./src/application-center/intro/intro-home/index.js",
+        //应用中心 - 资费套餐
+        "app_package" : "./src/application-center/app-package/index.js"
     },
     output : output,
     plugins : plugins
