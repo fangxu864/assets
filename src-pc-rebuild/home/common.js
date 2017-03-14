@@ -12,7 +12,8 @@ module.exports = {
 			systemNotice : "/r/Home_HomeNotice/getSysNotice/"
 		},
 		Home_HomeMember : {
-			getMemberInfo : "/r/Home_HomeMember/getMemberInfo/"
+			getMemberInfo : "/r/Home_HomeMember/getMemberInfo/",
+			setRemainWaring : "/r/Home_HomeMember/setRemainWaring/"
 		}
 	},
 	Ajax : function(url,opt){

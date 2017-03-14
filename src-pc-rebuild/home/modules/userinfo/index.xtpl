@@ -1,27 +1,40 @@
-<div class="top clearfix">
-    <div class="photoBox">
-        <a href="account_info.html" class="inBox"><img src="<%=avatar%>" onerror="this.src='http://static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" alt=""/></a>
+<div class="mainBox">
+    <div class="top clearfix">
+        <div class="photoBox">
+            <a href="account_info.html" class="inBox"><img src="<%=avatar%>" onerror="this.src='http://static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" alt=""/></a>
+        </div>
+        <div class="rtBox">
+            <div class="line top">
+                <em class="dname"><%=name%></em>
+                <span class="flag dtype dtype_<%=type%>">
+                    <i class="fl"><%=type==0 ? '供' : '分'%></i><span class="t"><%=type==0 ? '供应商' : '分销商'%></span>
+                </span>
+                <span class="flag auth auth_<%=hasAuth%>"><%=hasAuth==1 ? '已认证' : '未认证'%></span>
+                <span class="effectTime">有效期至：<i class="num"><%=expireDate%></i><a href="" class="xunfeiBtn">续费</a></span>
+            </div>
+            <div class="line mid">
+                <span class="ydname"><%=cname%></span> / <span class="mobile"><%=mobile%></span>
+                <a href="enterprise_info.html" class="modifyMobileBtn"><i class="icon icon-u-bold icon-edit"></i></a>
+                <span class="lastLoginTime">上次登录时间：<%=lastLoign%></span>
+            </div>
+            <div class="line abr">
+                <span style="margin-right: 10px;">异常待处理订单(<a href="terchange.html" class="abrCount"><%=abnormalOrder%></a>)</span>
+                淘宝补单(<a href="taobaolist.html" class="abrCount"><%=taobao%></a>)
+            </div>
+        </div>
     </div>
-    <div class="rtBox">
-        <div class="line top">
-            <em class="dname"><%=name%></em>
-            <span class="flag dtype dtype_<%=type%>">
-                <i class="fl"><%=type==0 ? '供' : '分'%></i><span class="t"><%=type==0 ? '供应商' : '分销商'%></span>
-            </span>
-            <span class="flag auth auth_<%=hasAuth%>"><%=hasAuth==1 ? '已认证' : '未认证'%></span>
-            <span class="effectTime">有效期至：<i class="num"><%=expireDate%></i><a href="" class="xunfeiBtn">续费</a></span>
-        </div>
-        <div class="line mid">
-            <span class="ydname"><%=cname%></span> / <span class="mobile"><%=mobile%></span>
-            <a href="enterprise_info.html" class="modifyMobileBtn"><i class="icon icon-u-bold icon-edit"></i></a>
-        </div>
-        <div class="line abr">
-            异常待处理订单(<a href="terchange.html" class="abrCount"><%=abnormalOrder%></a>)
-            <span class="lastLoginTime">上次登录时间：<%=lastLoign%></span>
-        </div>
+    <div class="bot">
+        帐户余额：<span class="yuE"><i class="yen">&yen;</i><span class="money"><%=remainMoney%></span></span>
+        <a href="recharge.html" id="chongzhiBtn" class="chongzhiBtn">充值</a>
+        <span id="balanceNoticeBox" class="balanceNoticeBox">
+            <span class="label">余额预警开关</span>
+            <span class="switchBox <%=warning>0 ? 'on' : ''%>"><i class="btn"></i><i class="text"><%=warning>0 ? '已开' : '已关'%></i></span>
+            <span class="tipBox <%=warning>0 ? '' : 'hidden'%>">预警阀值为<i class="fazhi"><%=warning%></i><span class="modifyBtn">修改</span></span>
+        </span>
     </div>
 </div>
-<div class="bot">
-    帐户余额：<span class="yuE"><i class="yen">&yen;</i><span class="money"><%=remainMoney%></span></span>
-    <a href="recharge.html" id="chongzhiBtn" class="chongzhiBtn">充值</a>
+<div class="maBoxContainer">
+    <div class="maBox"></div>
+    <p id="copyMaLink" data-link="http://123624.12301.cc" class="link"><a href="###">复制链接</a></p>
+    <p class="tip">扫码进入商家店铺</p>
 </div>
