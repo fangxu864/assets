@@ -21,7 +21,7 @@
                         <td><span class="key">检票数 : </span><span class="value">张</span></td>
                     </tr>
                     <tr>
-                        <td><span class="key">检票金额 : </span><span class="value">张</span></td>
+                        <td><span class="key">检票金额 : </span><span class="value">元</span></td>
                     </tr>
                 </table>
             </div>
@@ -36,7 +36,7 @@
                         <td><span class="key">检票数 : </span><span class="value">张</span></td>
                     </tr>
                     <tr>
-                        <td><span class="key">检票金额 : </span><span class="value">张</span></td>
+                        <td><span class="key">检票金额 : </span><span class="value">元</span></td>
                     </tr>
                 </table>
             </div>

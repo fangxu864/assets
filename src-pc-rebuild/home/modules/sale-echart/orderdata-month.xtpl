@@ -1,0 +1,6 @@
+<tr>
+    <td><span class="key">检票数 : </span><span class="value"><%=data.chTicketNum ? data.chTicketNum : 0 %>张</span></td>
+</tr>
+<tr>
+<td><span class="key">检票金额 : </span><span class="value"><%=data.chSaleMoney / 100 > 10000 ? (data.chSaleMoney / 1000000).toFixed(2)+ "万" : data.chSaleMoney / 100 %>元</span></td>
+</tr>
