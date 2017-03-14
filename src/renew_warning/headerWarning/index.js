@@ -137,6 +137,10 @@ var HeaderWarning={
             $("#siteLocationBar .siteLocationBarCon").eq(0).css("position","relative").append(whichTpl)
                 .find(".loop_box").css({"top":"-2px"})
                 .find(".xufei_box").css("padding-top","0px")
+        }else if( $("#G_BreadCrumbBar").length>0){
+            $("#G_BreadCrumbBar").eq(0).append(whichTpl)
+                .find(".loop_box").css({"top":"-2px"})
+                .find(".xufei_box").css("padding-top","0px")
         }
 
         new LoopTip({
