@@ -29,7 +29,7 @@ var DataCenter = {
     getPackageList: function () {
         var _this = this;
         $.ajax({
-            url: "/r/Appcenter_ModuleList/getPackageList",    //请求的url地址
+            url: "/r/AppCenter_ModuleList/getPackageList",    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true, //请求是否异步，默认为异步
             data: {},    //参数值
