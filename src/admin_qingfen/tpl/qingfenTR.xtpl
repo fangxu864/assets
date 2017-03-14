@@ -1,0 +1,13 @@
+<% _.each(data,function(item,index){ %>
+    <tr>
+        <td class="th1"><%=item.settle_time%></td>
+        <td class="th2"><%=item.mode%></td>
+        <td class="th3"><%=item.init_money%></td>
+        <% if(item.transfer_money=="0"){%>
+        <td class="th4">0</td>
+        <%}else{%>
+        <td class="th4"><%=item.transfer_money%>(清分时余额<%=item.settle_money%>-<%=item.freeze_type%>的金额<%=item.freeze_money%>)</td>
+        <%}%>
+        <td class="th5"><%=item.status%></td>
+    </tr>
+<% }) %>

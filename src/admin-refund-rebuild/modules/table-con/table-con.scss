@@ -1,0 +1,100 @@
+#refundApplyWrap {
+
+  /* table的公共样式*/
+  .tableCon{
+    .mainTable{
+      margin-top: 10px;
+      width: 100%;
+      thead tr th{
+        text-align: center;
+        line-height: 40px;
+        border: 1px solid #e5e5e5;
+        background-color: #F3F3F3;
+      }
+      tbody{
+        .tr1{height: 10px}
+        .tr2{
+          height: 60px;
+          td{
+            padding:0 20px;
+            border: 1px solid #e5e5e5;
+            background-color: #F3F3F3;
+            .line{
+              line-height: 30px;
+            }
+          }
+        }
+        .tr3{
+          height: 115px;
+          td{
+            border: 1px solid #e5e5e5;
+            padding:0 20px;
+            .line{
+              line-height: 30px;
+            }
+          }
+        }
+        .tr3 .td3{
+          padding: 0;
+          .wd_status0{
+            text-align: center;
+            line-height: 30px;
+            p span{
+              cursor: pointer;
+            }
+          }
+          .wd_statusNot0{
+            padding:10px;
+            line-height: 20px;
+
+            p span{
+              cursor: pointer;
+            }
+            .line4 , .line2{
+              text-align: center ;
+            }
+            .line1{
+              text-indent: 2em;
+              word-break: break-all;
+            }
+            .line4{
+              .operableBtn{
+                margin:0 10px;
+              }
+            }
+          }
+          .operableBtn{
+            color: #007ad4;
+          }
+          .operableBtn:hover{
+            color: #129aff;
+          }
+        }
+        .tr3 .td1 .line3 .account-number{
+          color: #008000;
+          font-weight: bold;
+          font-size: 14px;
+          cursor: pointer;
+        }
+        .tr3 .td1 .line3 .account-number:hover{
+          color: #07bd07;
+        }
+        .tr3 .td1 .line3 .account-number:active{
+          color: #07bd07;
+        }
+        .tr3 .td2 .line3 .money-last{
+          font-size: 14px;
+          color: #ff6600;
+        }
+        .tr3 .td2 .money{
+          font-weight: bold;
+        }
+
+      }
+
+    }
+
+  }
+
+
+}

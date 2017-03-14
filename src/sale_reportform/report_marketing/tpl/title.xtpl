@@ -1,0 +1,14 @@
+<h3 class="mc_title">
+    <span class="mctit_1 noactive">
+        <a href="<?=PREFIX_DOMAIN ?>new/report_index.html">预定报表</a>
+    </span>
+    <span class="mctit_2 noactive">
+        <a href="<?=PREFIX_DOMAIN ?>new/report_checked.html">验证报表</a>
+    </span>
+    <span class="mctit_3 noactive">
+        <a href="<?=PREFIX_DOMAIN ?>new/report_cancel.html">取消报表</a>
+    </span>
+    <span class="mctit_4 noactive">
+        <a href="<?=PREFIX_DOMAIN ?>new/report_revoke.html">撤销报表</a>
+    </span>
+</h3>

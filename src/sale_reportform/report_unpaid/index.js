@@ -83,7 +83,7 @@ var Book_form={
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
             var max_day=_this.etime_inp.val();
-            max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.stime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#start_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -97,7 +97,7 @@ var Book_form={
         });
         this.etime_inp.on("click",function(e){
             var min_day=_this.stime_inp.val();
-            min_day=moment( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // min_day=moment( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#end_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -112,6 +112,8 @@ var Book_form={
             var inputId=data.picker[0].id;
             var startDate=_this.stime_inp.val();
             var endDate=_this.etime_inp.val();
+            _this.setCookie("start_time",startDate,1000*60*60);
+            _this.setCookie("end_time",endDate,1000*60*60);
             var dateDiff=GetDateDiff(startDate,endDate);
             var curDate;
             if(dateDiff>90){
@@ -207,7 +209,13 @@ var Book_form={
         var select_fg=new SelectShort({
             id:"select_fg",
             arr:["分销商","供应商"],
-            callback:function (cur_opt){}
+            callback:function (cur_opt){
+                var Data = {
+                    "分销商" : 0 ,
+                    "供应商" : 1
+                };
+                $("#select_fg").attr("search_type" , Data[cur_opt]);
+            }
         });
         //分销商搜索框
        this.select3=new Select({
@@ -414,6 +422,7 @@ var Book_form={
         params["size"]=_this.perPageNum;
         params["begin_date"]=_this.stime_inp.val();
         params["end_date"]=_this.etime_inp.val();
+        params["search_type"] = $("#select_fg").attr("search_type");
         params["count_way"]= $("#huizong_type").attr("count_way");
         if($("#product_name_inp").attr("data-id")){
             params["land_id"]=$("#product_name_inp").attr("data-id");
