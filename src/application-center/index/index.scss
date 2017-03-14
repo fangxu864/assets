@@ -11,10 +11,11 @@ body{
 .section-applist {
     padding: 24px;
     border: 1px solid #e5e5e5;
-    background-color: #EFEFEF;
+    background-color: #fff;
 }
 
 .topad-wrap {
+    display: none;
     position: relative;
     margin-bottom: 15px;
 }
@@ -29,7 +30,7 @@ body{
     height : 36px;
     background : url(http://static.12301.cc/assets/build/images/appcenter/close.png);
     position : absolute;
-    left : 741px;
+    right : -18px;
     top : -17px;
     cursor : pointer;
 }
@@ -40,6 +41,7 @@ body{
 
 
 .tab {
+    position: relative;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -65,6 +67,9 @@ body{
     font-size: 14px;
     color: #313131;
 }
+.tab .link-pkg {
+    color: #737373;
+}
 
 .app-class {
     font-size: 18px;
@@ -79,9 +84,18 @@ body{
 .app-list li {
     position: relative;
     float: left;
-    width: 240px;
+    min-width: 226px;
     margin-right: 20px;
     margin-bottom: 25px;
+}
+@media screen and (min-width: 1330px) {
+    .app-list li { width: 23.4%; margin-right:15px; }
+}
+@media screen and (min-width: 1575px) {
+    .app-list li { width: 18.5%; margin-right:15px; }
+}
+@media screen and (min-width: 1655px) {
+    .app-list li { width: 240px; margin-right:20px; }
 }
 .app-list li.yingjian {
     position: relative;
@@ -132,12 +146,12 @@ body{
     margin-left: 83px;
 }
 .app-list .app-item .app-name {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: normal;
     color: #2d2d2d;
 }
 .app-list .app-item .app-price {
-    font-size: 14px;
+    font-size: 12px;
     color: #7a7a7a;
 }
 .app-list .app-item .app-btn-w {

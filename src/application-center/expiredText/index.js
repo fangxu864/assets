@@ -24,8 +24,8 @@
 
      //判断当天是否访问过
      var lastDate = Cookie.getCookie('lastDate'+memberID);
-     console.log(lastDate);
-     console.log(new Date().getDate());
+     // console.log(lastDate);
+     // console.log(new Date().getDate());
 
      var today = new Date().getDate();
 
@@ -57,11 +57,11 @@
                  })
 
                }else{
-                console.log("无过期应用");
+                // console.log("无过期应用");
                }
 
            }else{
-               console.log(res.msg)
+               // console.log(res.msg)
            }
         })
      }

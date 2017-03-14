@@ -5,7 +5,7 @@ var GetListAjax = require("./appList_service.js");
 var loadingHTML = require("COMMON/js/util.loading.pc.js");
 var yingjian_tpl = require("./tpl/yingjian.xtpl");
 // var card_tpl = require("./tpl/cardtpl.xtpl");
-var appIntro = require("./intro-appcenter/index.js");
+// var appIntro = require("./intro-appcenter/index.js");
 
 var AppList = PFT.Util.Class({
 
@@ -80,7 +80,7 @@ var AppList = PFT.Util.Class({
                 //顺序发请求
                 req1().then(req2).then(req3).then(req4).done(function(xhr){
                     $("#tabCon").html(that.tempIndexListBox + yingjian_tpl);
-                    appIntro.init(that.memberID); //传入会员id用于cookie
+                    // appIntro.init(that.memberID); //传入会员id用于cookie
                 });
         }
 
@@ -304,7 +304,7 @@ var AppList = PFT.Util.Class({
                     	}else if(list[i].button_type == 2){ //使用
                     		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
         		            '<div class="app-btn-w">' +
-        		               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10" >使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+        		               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10" >打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
         				    '</div>' ;
                     	}
 
@@ -334,7 +334,7 @@ var AppList = PFT.Util.Class({
     		            	}else if(list[i].button_type == 2){ //使用
     		            		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
     				            '<div class="app-btn-w">' +
-    				               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+    				               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
     						    '</div>' ;
     		            	}
 
@@ -353,7 +353,7 @@ var AppList = PFT.Util.Class({
 						               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
 								    '</div>' ;
 								}else{  //开通按钮但未过期显示价格
-				        		    temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
+				        		    temp += '<div class="text-ellipsis"><span class="app-price">'+ this.highlightPrice( list[i].price ) +'</span></div>' +
 						            '<div class="app-btn-w">' +
 						               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">开通</a>' +
 								    '</div>' ;
@@ -362,7 +362,7 @@ var AppList = PFT.Util.Class({
 							}else if(list[i].button_type == 2){//使用
                                 temp += '<div class="text-ellipsis"><span class="app-price"><em '+ (list[i].expiresoon?'class="c-warning"':'') +'>'+list[i].expire_time+'</em>到期</span></div>' +
 					            '<div class="app-btn-w">' +
-					               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">使用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+					               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
 							}
 
@@ -416,7 +416,29 @@ var AppList = PFT.Util.Class({
 
 	},
 
+    highlightPrice: function( priceStr ){
+        var price_str = priceStr,
+            reg = /\d+([\.]?\d+)?/g,
+            res = reg.exec( price_str );
 
+        if( res != null ) {
+            var firstIndex = res.index,
+                lastIndex = reg.lastIndex;
+
+            var priceStrArr = price_str.split(''),
+                str1 = priceStrArr.slice(0,firstIndex),
+                str2 = priceStrArr.slice( lastIndex );
+
+                appPrice = str1.join('') + '<em class="c-warning">' + res[0] + '</em>' + str2.join('');
+
+            return appPrice;
+
+        } else {
+
+            return priceStr;
+
+        }
+    }
 	/**
 	 * cardTemplate 卡片模板
 	 */

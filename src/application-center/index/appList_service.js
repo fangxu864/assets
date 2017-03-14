@@ -35,12 +35,12 @@ module.exports = function(opts,whichBtn){
 		// for(var i = 0;i<listlength;i++){
 		// 	var r = parseInt(Math.random()*100);
 		// 	if(r>=50){
-		// 		data.list[i].opend = true; 	
+		// 		data.list[i].opend = true;
 		// 	}
 		// 	if(r<50){
 		// 		data.list[i].opend = false;
 		// 	}
-		// }		
+		// }
 		// //模拟试用与过期情况
 		// for(var i = 0;i<listlength;i++){
 		// 	var r = parseInt(Math.random()*100);
@@ -49,7 +49,7 @@ module.exports = function(opts,whichBtn){
 		// 			data.list[i].try = true;
 		// 		}else{
 		// 			data.list[i].try = false;
-		// 		} 
+		// 		}
 		// 	}else{  //已开通则选择是否过期
 		// 		if(r >= 50){
 		// 			data.list[i].expired = true;
@@ -66,7 +66,7 @@ module.exports = function(opts,whichBtn){
 		// 		data.list[i].isNew = false;
 		// 	}else{
 		// 		data.list[i].isNew = true;
-		// 	} 
+		// 	}
 		// }
 
 
@@ -106,7 +106,7 @@ module.exports = function(opts,whichBtn){
 		// 	opts.complete();
 		// 	opts.success(data);
 		// },1000)
-		
+
 
 		// return false;
 
@@ -116,37 +116,37 @@ module.exports = function(opts,whichBtn){
 
 			var xhr = PFT.Util.Ajax( "/r/AppCenter_ModuleList/getModuleList" , {
 				params: {
-					category : opts.category 
+					category : opts.category
 				},
 				type:"POST",
 				loading: function(){
 					opts.loading();
 				},
 				complete : function(){
-					opts.complete();	
-				},	
+					opts.complete();
+				},
 				success: function(res) {
 					opts.success(res);
 				}
-			});	
+			});
 
 		}else if( opts.type != undefined && opts.category == undefined ){  //只传了type
 
 			var xhr = PFT.Util.Ajax( "/r/AppCenter_ModuleList/getModuleList" , {
 				params: {
-					type : opts.type 
+					type : opts.type
 				},
 				type:"POST",
 				loading: function(){
 					opts.loading();
 				},
 				complete : function(){
-					opts.complete();	
-				},	
+					opts.complete();
+				},
 				success: function(res) {
 					opts.success(res);
 				}
-			});	
+			});
 
 		}else if( opts.type != undefined && opts.category != undefined ){  //type,category两个都传了
 
@@ -160,12 +160,12 @@ module.exports = function(opts,whichBtn){
 					opts.loading();
 				},
 				complete : function(){
-					opts.complete();	
-				},	
+					opts.complete();
+				},
 				success: function(res) {
 					opts.success(res);
 				}
-			});	
+			});
 
 		}else{ //两个都没传
 
@@ -177,12 +177,12 @@ module.exports = function(opts,whichBtn){
 					opts.loading();
 				},
 				complete : function(){
-					opts.complete();	
-				},	
+					opts.complete();
+				},
 				success: function(res) {
 					opts.success(res);
 				}
-			});	
+			});
 
 		}
 

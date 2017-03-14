@@ -296,7 +296,7 @@ var Main = PFT.Util.Class({
         });
 
         $("#app-list").find(".use").on("click",function (e) {
-            window.location.href="../"+$(e.target).attr("data-url");
+            window.location.href="/"+$(e.target).attr("data-url");
         });
     },
 
