@@ -66,7 +66,13 @@ module.exports = function(parent){
 					_this.container.find(".lineEchartControlBox .okBtn").click();
 					$(this).off("scroll.renderLineEchart")
 				}
-			})
+			});
+			//侧边栏折叠伸展时重新渲染echarts ,由于折叠是动态过程，故定时至折叠完后重新渲染
+			PFT.LeftBarSwitchManager.on("switch",function(state){
+				setTimeout(function () {
+					$(window).trigger("resize");
+				},300);
+			});
 		},
 		EVENTS : {
 			"click .lineEchartControlBox input" : "onTimeInpClick" ,
@@ -74,7 +80,8 @@ module.exports = function(parent){
 			"click .lineEchartControlBox .okBtn" : "onOkBtnClick" ,
 			"click .lineEchartControlBox .quickDateBtn" : "onQuickDateBtnClick" ,
 			"click .selectBox .icon" : "onSelectBoxIconClick" ,
-			"click .line1 .today-box .rt .icon-shuaxin" : "onShuaXinIconClick"
+			"click .title .icon-shuaxin" : "onShuaXinIconClick" ,
+			"mouseover .title .icon-shuaxin" : "onShuaXinIconHover"
 		},
 
 
@@ -98,7 +105,7 @@ module.exports = function(parent){
 		renderOrderData_today : function ( isInit ) {
 			var _this = this ;
 			var curContainer = _this.container.find(".line1 .today-box .rt table");
-			var icon = _this.container.find(".line1 .today-box .rt .icon");
+			var icon = _this.container.find(".title .icon-shuaxin");
 			var params ;
 			if( isInit ){
 				params = {}
@@ -129,6 +136,7 @@ module.exports = function(parent){
 						if( isInit ){
 							icon.show();
 						}else{
+							Tips.closeAllTips();
 							Tips.show({
 								lifetime : 1500 ,
 								direction : top,
@@ -140,6 +148,7 @@ module.exports = function(parent){
 						icon.removeClass("rotateInfinite");
 					}else{
 						icon.removeClass("rotateInfinite");
+						Tips.closeAllTips();
 						Tips.show({
 							lifetime : 1500 ,
 							direction : top,
@@ -237,7 +246,7 @@ module.exports = function(parent){
 								{
 									name: '产品名称',
 									type: 'pie',
-									radius : '55%',
+									radius : '40%',
 									center: ['50%', '60%'],
 									data : dataArr,
 									itemStyle: {
@@ -299,7 +308,7 @@ module.exports = function(parent){
 						var option = {
 							color : ['#2889e1'],
 							title: {
-								text: '7天渠道排行'
+								text: '7天渠道排行',
 								// subtext: '数据来自网络'
 							},
 							tooltip: {
@@ -329,8 +338,8 @@ module.exports = function(parent){
 								{
 									name: '订单数',
 									type: 'bar',
-									barMaxWidth: 40 ,
-									data: seriesDataArr
+									barMaxWidth: 20 ,
+									data: seriesDataArr ,
 								}
 							]
 						};
@@ -362,6 +371,17 @@ module.exports = function(parent){
 			var _this = this ;
 			_this.renderOrderData_today( false );
 		},
+		onShuaXinIconHover: function (e) {
+			var tarBtn = $( e.currentTarget );
+			Tips.closeAllTips();
+			Tips.show({
+				lifetime : 1500 ,
+				direction : top,
+				hostObj : tarBtn ,
+				content : "点我刷新",
+				bgcolor : "#ff8734"
+			})
+		},
 
 
 		/**
@@ -380,7 +400,7 @@ module.exports = function(parent){
 					// min : "2016-09-10",          //可选，默认为空""
 					max : $(".lineEchartControlBox .eTimeInp").val(),          //可选，默认为空""
 					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
-					todayAfterDisable : false   //可选，今天之后的日期都不显示
+					todayAfterDisable : false,   //可选，今天之后的日期都不显示
 				})
 			}
 			//结束日期Inp
@@ -392,7 +412,7 @@ module.exports = function(parent){
 					min : $(".lineEchartControlBox .bTimeInp").val(),          //可选，默认为空""
 					max : _this.When.getSomeday(0),          //可选，默认为空""
 					todayBeforeDisable : false,  //可选，今天之前的日期都不显示
-					todayAfterDisable : false   //可选，今天之后的日期都不显示
+					todayAfterDisable : false,   //可选，今天之后的日期都不显示
 				})
 			}
 
