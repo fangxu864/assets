@@ -45,17 +45,15 @@
             .con{
                 margin: 5px;
                 border: 1px solid #e5e5e5;
-                height: 109px;
+                height: 80px;
             }
             .lt{
                 color: #5f5e64;
                 float: left;
-                height: 109px;
                 background-color: #eef0f2;
                 font-size: 16px;
                 font-weight: bold;
                 padding-top: 35px;
-                box-sizing: border-box;
                 text-align: center;
             }
             .rt{
@@ -66,7 +64,7 @@
                     text-align: center;
                     font-size: 12px;
                     tr{
-                        line-height: 53px;
+                        line-height: 40px;
                         td span.value{
                             color: #ff8734;
                             font-size: 14px;
@@ -79,7 +77,8 @@
         .today-box{
             width: 46%;
             .con .lt{
-                padding-top: 35px;
+                padding-top: 25px;
+                height: 55px;
                 width: 10%;
             }
             .con .rt{
@@ -89,8 +88,9 @@
         .seven-box , .month-box{
             width: 27%;
             .con .lt{
-                padding-top: 27px;
+                padding-top: 17px;
                 width: 15%;
+                height: 63px;
             }
             .con .rt{
                 width: 85%;
