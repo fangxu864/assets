@@ -341,7 +341,7 @@ module.exports = function(parent){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
 							yAxisArr.unshift( res.data[key]["name"]);
-							seriesDataArr.unshift( res.data[key]["total_money"] / 100)
+							seriesDataArr.unshift( Number( res.data[key]["total_money"] ).toFixed(2))
 						}
 						var option = {
 							color : ['#2889e1'],
