@@ -378,17 +378,6 @@ var AppList = PFT.Util.Class({
 					               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
 							}
-
-
-							//2017/3/13票务系统无按钮button_type字段，如何处理
-							// else{ 
-
-							// 	temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
-		    		        //     '<div class="app-btn-w" style="height:32px">' +
-		    		        //     //    '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
-		    				//     '</div>' ;
-
-							// }
 							
 
                     	}
