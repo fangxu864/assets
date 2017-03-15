@@ -8,7 +8,7 @@ require("./index.scss");
 var UserInfo = require("./modules/userinfo");
 
 var SaleEchart = require("./modules/sale-echart");
-var WxShopData = require("./modules/wxshop-data");
+// var WxShopData = require("./modules/wxshop-data");
 
 var RecentUse = require("./modules/recent-use");
 
@@ -37,7 +37,7 @@ var Main = PFT.Util.Class({
 		this.recentUse = RecentUse(this.pageMain);
 
 		this.saleEchart = SaleEchart(this.pageMain);
-		this.wxShopData = WxShopData(this.pageMain);
+		// this.wxShopData = WxShopData(this.pageMain);
 
 
 		this.priceChange = PriceChange(this.rightBar);

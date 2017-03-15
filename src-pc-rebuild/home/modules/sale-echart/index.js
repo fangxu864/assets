@@ -264,6 +264,39 @@ module.exports = function(parent){
 							nameArr.push(res.data.rank[key]["name"]);
 							dataArr.push({ value : res.data.rank[key]["total_money"] ,name : res.data.rank[key]["name"] })
 						}
+						// var option = {
+						// 	color : [ '#60bfeb' , '#f38f2c' ,'#3270b9' ,'#64b966' ,'#e7403a'],
+						// 	title : {
+						// 		text: '7天产品使用排行',
+						// 		// subtext: '纯属虚构',
+						// 		x:'center'
+						// 	},
+						// 	tooltip : {
+						// 		trigger: 'item',
+						// 		formatter: "{a} <br/>{b} : {c} ({d}%)"
+						// 	},
+						// 	// legend: {
+						// 	// 	orient: 'vertical',
+						// 	// 	left: 'left',
+						// 	// 	data: nameArr
+						// 	// },
+						// 	series : [
+						// 		{
+						// 			name: '产品名称',
+						// 			type: 'pie',
+						// 			radius : '40%',
+						// 			center: ['50%', '60%'],
+						// 			data : dataArr,
+						// 			itemStyle: {
+						// 				emphasis: {
+						// 					shadowBlur: 10,
+						// 					shadowOffsetX: 0,
+						// 					shadowColor: 'rgba(0, 0, 0, 0.5)'
+						// 				}
+						// 			}
+						// 		}
+						// 	]
+						// };
 						var option = {
 							color : [ '#60bfeb' , '#f38f2c' ,'#3270b9' ,'#64b966' ,'#e7403a'],
 							title : {
@@ -280,20 +313,14 @@ module.exports = function(parent){
 							// 	left: 'left',
 							// 	data: nameArr
 							// },
-							series : [
+
+							series: [
+
 								{
-									name: '产品名称',
-									type: 'pie',
-									radius : '40%',
-									center: ['50%', '60%'],
-									data : dataArr,
-									itemStyle: {
-										emphasis: {
-											shadowBlur: 10,
-											shadowOffsetX: 0,
-											shadowColor: 'rgba(0, 0, 0, 0.5)'
-										}
-									}
+									name:'产品名称',
+									type:'pie',
+									radius: ['35%', '50%'],
+									data:dataArr
 								}
 							]
 						};
@@ -341,7 +368,7 @@ module.exports = function(parent){
 						var yAxisArr = [] , seriesDataArr = [] ;
 						for( var key in res.data ){
 							yAxisArr.unshift( res.data[key]["name"]);
-							seriesDataArr.unshift( res.data[key]["total_money"] / 100)
+							seriesDataArr.unshift( Number( res.data[key]["total_money"] ).toFixed(2))
 						}
 						var option = {
 							color : ['#2889e1'],
@@ -555,8 +582,8 @@ module.exports = function(parent){
 								// },
 							],
 							grid: {
-								left: '3%',
-								right: '4%',
+								left: '8%',
+								right: '8%',
 								bottom: '15%',
 								containLabel: true
 							},

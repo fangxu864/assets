@@ -1,3 +1,4 @@
+<p class="appTitle"><i class="icon-yingyongzhongxin1 icon-pc-list"></i><span class="t">常用工具</span></p>
 <ul class="appUl">
     <% _.each(list,function(item,index){%>
         <%
