@@ -33,7 +33,6 @@ module.exports = function(parent){
 				$("#copyMaLink").zclip({
 					path: "wx_public/zclip/ZeroClipboard.swf",
 					copy: function(){
-						return "1223423423"
 						return $(this).attr("data-link");
 					},
 					deforeCopy : function(){},
