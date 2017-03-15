@@ -555,8 +555,8 @@ module.exports = function(parent){
 								// },
 							],
 							grid: {
-								left: '3%',
-								right: '4%',
+								left: '8%',
+								right: '8%',
 								bottom: '15%',
 								containLabel: true
 							},
