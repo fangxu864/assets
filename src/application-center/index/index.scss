@@ -100,12 +100,18 @@ body{
 .app-list li.yingjian {
     position: relative;
     float: left;
-    width: 161px;
+    width: 160px;
     height: 200px;
     margin-right: 32px;
     margin-bottom: 25px;
+    padding:1px;
+    border: 1px solid #eaeaea;
     background-color: #fff;
     cursor: pointer;
+}
+.app-list li.yingjian:hover {
+    padding: 0;
+    border: 2px solid #0797d9;
 }
 .app-list li.yingjian .yingjian_name{
     font-size: 18px;

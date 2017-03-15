@@ -33,7 +33,7 @@ var AppList = PFT.Util.Class({
 		this.tempUnOpendListBox = ""; //未开通缓存
 		this.tempOpendListBox = ""; //已开通缓存
 
-		
+
 
 		var req1 = function(){
 			return that.getAppList(0,1);  //分类，直销模块
@@ -99,13 +99,13 @@ var AppList = PFT.Util.Class({
 			case '5': //智能终端
                 $('#tab').hide();
                 $("#tabCon").html(yingjian_tpl);
-                break;	
+                break;
 			case '6': //其他
                 $('#tab').hide();
                 req7().done(function(xhr){
                     $("#tabCon").html(that.tempClassListBox);
                 });
-                break;	
+                break;
 
             default:
                 //顺序发请求
@@ -189,7 +189,7 @@ var AppList = PFT.Util.Class({
 								that.tempUnOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
 							}
 							break;
-						case 3: 
+						case 3:
 							if( list.length > 0 ){
 								that.CacheList(list,type,category);
 							}else{
@@ -257,16 +257,19 @@ var AppList = PFT.Util.Class({
 				// xhr.then(function(){
 				// 	$("#tabCon").html(that.tempClassListBox);
 				// });
-
-				req1().then(req2).then(req3).then(req4).then(req5).done(function(xhr){
-					that.tempClassListBox = that.tempClassListBox + yingjian_tpl;
-                }).then(req7).done(function(){
-                    $("#tabCon").html(that.tempClassListBox);
-				});
+                req1().then(req2).then(req3).then(req4).then(req5).then(req7).done(function(xhr){
+                    // that.tempClassListBox = that.tempClassListBox + yingjian_tpl;
+                    $("#tabCon").html( that.tempClassListBox + yingjian_tpl );
+                });
+				// req1().then(req2).then(req3).then(req4).then(req5).done(function(xhr){
+				// 	that.tempClassListBox = that.tempClassListBox + yingjian_tpl;
+    //             }).then(req7).done(function(){
+    //                 $("#tabCon").html(that.tempClassListBox);
+				// });
 
 
 			}else{
-				$("#tabCon").html(that.tempClassListBox);
+				$("#tabCon").html( that.tempClassListBox + yingjian_tpl );
 			}
 		}
 
@@ -432,7 +435,7 @@ var AppList = PFT.Util.Class({
                     	}else{//不是首页的非一卡通情况
 
 							if(list[i].button_type == 0){//免费试用
-		    		            temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].price+'</span></div>' +
+		    		            temp += '<div class="text-ellipsis"><span class="app-price">'+ this.highlightPrice( list[i].price ) +'</span></div>' +
 		    		            '<div class="app-btn-w">' +
 		    		               '<a href="appcenter_details.html?module_id='+mid+'" class="btn btn-default-reverse w100">免费试用</a>' +
 		    				    '</div>' ;
@@ -456,7 +459,7 @@ var AppList = PFT.Util.Class({
 					               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
 							}
-							
+
 
                     	}
 
@@ -491,7 +494,7 @@ var AppList = PFT.Util.Class({
         temp+=      '</ul>' +
             	'</div>' +
         	'</div>'  ;
-			
+
 
 		//缓存
 		if( type == 0 && category == 0){  //首页
