@@ -32,7 +32,6 @@ var Main = PFT.Util.Class({
 		this.handleOperator(); 
 		//处理状态
 		this.handleStatus();
-
 		//处理列表
 		this.handleList();
 
@@ -159,6 +158,35 @@ var Main = PFT.Util.Class({
 			timeout : function(){ alert("请求起时") },
 			serverError : function(){ alert("请求出错")}
 		})
+
+		return false
+		//真实请求
+		
+		PFT.Util.Ajax("/r/product_parkcard/getOpId",{
+			dataType : "json",
+			params : {
+			},
+			loading : function(){
+			},
+			complete : function(){
+			},
+			success : function(res){
+				var code = res.code;
+				var msg = res.msg;
+				var list = res.data.list;
+				var operatorTemplate = PFT.Util.ParseTemplate(operatorTpl);
+				var operatorHtml = operatorTemplate({ list : list });
+				$("#operatorListBox").append(operatorHtml);
+				$(".operatorItem").on("click",function(){
+					$("#operatorListBox").css("display","none");
+					$(".unfoldBox i").removeClass("icon-fold").addClass("icon-unfold");
+					$("#operator").val($(this).text());
+				});
+			},
+			timeout : function(){ alert("请求起时") },
+			serverError : function(){ alert("请求出错")}
+		})
+
 
 	},
 
