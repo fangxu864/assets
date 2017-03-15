@@ -187,14 +187,12 @@ module.exports = function(parent){
 					curContainer.html(LoadingStr);
 				},
 				complete : function(res){
-					console.log(res)
 					if( res.code == 200 ){
 						var html = _this.template_seven_od( { data : res.data.data } );
 						curContainer.html( html )
 					}else{
 						curContainer.html( res.msg )
 					}
-
 				}
 			});
 
@@ -224,7 +222,6 @@ module.exports = function(parent){
 					curContainer.html(LoadingStr);
 				},
 				complete : function(res){
-					console.log(res)
 					if( res.code == 200 ){
 						var html = _this.template_month_od( { data : res.data.data } );
 						curContainer.html( html )
@@ -501,12 +498,22 @@ module.exports = function(parent){
 						_this.lineEchart.hideLoading();
 						var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
 
-						for( i in res.data["new"]){
-							newArr.push(res.data["new"][i])
+						if(params.search_type == 1 ){
+							for( i in res.data["new"]){
+								newArr.push(res.data["new"][i])
+							}
+							for( j in res.data["old"] ){
+								oldArr.push(res.data["old"][j])
+							}
+						}else if(params.search_type == 2 ){
+							for( i in res.data["new"]){
+								newArr.push(res.data["new"][i] / 100)
+							}
+							for( j in res.data["old"] ){
+								oldArr.push(res.data["old"][j] / 100)
+							}
 						}
-						for( j in res.data["old"] ){
-							oldArr.push(res.data["old"][j])
-						}
+
 						//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
 						for( k in res.data.timeLine ){
 							timeStr = res.data.timeLine[k]["time"].replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/");
