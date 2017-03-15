@@ -1,5 +1,5 @@
 <ul>
     <% for( var i = 0;i<list.length;i++){%>
-    <li class="operatorItem"><%=list[i].operator%></li>
+    <li class="operatorItem" data-id="<%=list[i].id%>"><%=list[i].dname%></li>
     <% } %>
 </ul>
