@@ -12,16 +12,30 @@
 <tbody>
     <% for(var i = 0;i<list.length;i++){ %>
     <tr>
-        <td><%=list[i].id%></td>
-        <td><%=list[i].solidID%></td>
-        <td><%=list[i].activeTime%></td>
-        <td class="orange money"><%=list[i].chargeMoney%></td>
-        <td>
-            <% for(var j = 0;j<list[i].chargeTime.length;j++){ %>
-            <div><%=list[i].chargeTime[j]%></div>
+        <td><%=list[i].account%></td>
+        <td><%=list[i].physicsNo%></td>
+        <td><%=list[i].active%>/<%=list[i].activeOpid%></td>
+        <td class="orange money">
+            <% for(var j = 0;j<list[i].recharge.length;j++){ %>
+                <% if( j > 2){ %>
+                    <div style="color: blue;">更多</div>
+                    <% break;%>
+                <% }else{ %>
+                    <div><%=list[i].recharge[j].rechargeMoney%></div>
+                <% } %>     
             <% } %>
         </td>
-        <td class="orange money"><%=list[i].remainder%></td>
+        <td>
+            <% for(var j = 0;j<list[i].recharge.length;j++){ %>
+                <% if( j > 2){ %>
+                    <div style="height: 35px;"></div>
+                    <% break;%>
+                <% }else{ %>
+                    <div><%=list[i].recharge[j].rechargeTime%><%=list[i].recharge[j].rechargeOpid%></div>
+                <% } %>   
+            <% } %>
+        </td>
+        <td class="orange money"><%=list[i].remain%></td>
         <td><%=list[i].status%></td>
     </tr>
     <% } %>

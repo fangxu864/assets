@@ -107,7 +107,6 @@ var Main = PFT.Util.Class({
 		var html = Loading("请稍等");
 		var that = this;
 
-
 		//模拟数据
 		GetList({},{
 			loading : function(){
@@ -116,7 +115,15 @@ var Main = PFT.Util.Class({
 			complete : function(){
 			},
 			success : function(res){
-				that.renderList(res);  //渲染列表
+				console.log(res);
+				var code = res.code;
+				var list = res.data.list;
+				var msg = res.msg;
+
+				console.log(list);
+
+				that.renderList(list);  //渲染列表
+
 			},
 			//200但无数据
 			empty : function(){
@@ -155,9 +162,7 @@ var Main = PFT.Util.Class({
 
 
 	},
-	renderList : function(res){
-		var data = res.data;
-		var list = data.list;
+	renderList : function(list){
 		var ListTemplate = PFT.Util.ParseTemplate(listTpl);
 		var listHtml = ListTemplate({ list : list});		
 		$("table.accountList").html(listHtml);
