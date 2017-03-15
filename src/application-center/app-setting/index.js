@@ -86,7 +86,8 @@ var Main = PFT.Util.Class({
 
 		});
 
-
+		// 富文本编辑器
+		// var ueditorObj = UE.getEditor('ueditorWrap');
 
 	},
 
