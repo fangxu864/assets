@@ -34,26 +34,32 @@ var Datepicker = PFT.Util.Class({
 		this.on("switch",function(data){
 			var picker = this.__cacheOpt.picker;
 			var orignVal = picker.val();
-			var timeLine = {
-				hour : true,
-				minu : true,
-				second : true
-			};
-			container.find(".timeLine").each(function(){
-				var item = $(this);
-				if(item.hasClass("hour")) timeLine.hour = item.css("display")!=="none";
-				if(item.hasClass("minu")) timeLine.minu = item.css("display")!=="none";
-				if(item.hasClass("second")) timeLine.second = item.css("display")!=="none";
-			});
-
 			var result = "";
-			var _data = data.data;
-			result += _data.date;
-			if(timeLine.hour) result += (" " + _data.hour);
-			if(timeLine.minu) result += (":" + _data.minu);
-			if(timeLine.second) result += (":" + _data.second);
+
+			if(container.find(".pftui-timepicker-container").css("display")=="none"){
+				result = data.result;
+			}else{
+				var timeLine = {
+					hour : true,
+					minu : true,
+					second : true
+				};
+				container.find(".timeLine").each(function(){
+					var item = $(this);
+					if(item.hasClass("hour")) timeLine.hour = item.css("display")!=="none";
+					if(item.hasClass("minu")) timeLine.minu = item.css("display")!=="none";
+					if(item.hasClass("second")) timeLine.second = item.css("display")!=="none";
+				});
+
+				var _data = data.data;
+				result += _data.date;
+					if(timeLine.hour) result += (" " + _data.hour);
+					if(timeLine.minu) result += (":" + _data.minu);
+					if(timeLine.second) result += (":" + _data.second);
+			}
 
 
+			
 			if(picker[0].tagName.toLocaleLowerCase()=="input"){
 				picker.val(result);
 			}else{

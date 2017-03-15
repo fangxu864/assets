@@ -10,7 +10,7 @@
                     <i class="fl"><%=type==0 ? '供' : '分'%></i><span class="t"><%=type==0 ? '供应商' : '分销商'%></span>
                 </span>
                 <span class="flag auth auth_<%=hasAuth%>"><%=hasAuth==1 ? '已认证' : '未认证'%></span>
-                <span class="effectTime">有效期至：<i class="num"><%=expireDate%></i><a href="" class="xunfeiBtn">续费</a></span>
+                <span class="effectTime">有效期至：<i class="num"><%=expireDate%></i></span>
             </div>
             <div class="line mid">
                 <span class="ydname"><%=cname%></span> / <span class="mobile"><%=mobile%></span>
