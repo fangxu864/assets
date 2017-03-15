@@ -8,14 +8,12 @@ var Common = require("../../common");
 var Tpl = require("./index.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
 module.exports = function(parent){
-
-
 	var RecentUse = PFT.Util.Class({
 		debug : true,
 		container : $('<div id="RecentUseBox" class="RecentUseBox modBox"></div>').appendTo(parent),
 		template : PFT.Util.ParseTemplate(Tpl),
 		init : function(){
-			var Apps = window.localStorage.getItem("PFT-RECENT-APP").split(",");
+			var Apps = window.localStorage.getItem("PFT-RECENT-APP_A").split(",");
 			this.render(Apps);
 		},
 		render : function(data){
@@ -23,8 +21,6 @@ module.exports = function(parent){
 			this.container.html(html);
 		}
 	});
-
-
 	return new RecentUse;
 
 };
