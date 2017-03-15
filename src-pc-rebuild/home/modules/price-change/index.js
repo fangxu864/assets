@@ -42,7 +42,7 @@ module.exports = function(parent){
 				complete : function(){ listUl.html("")},
 				success : function(res){
 					var code = res.code;
-					var msg = res.msg;
+					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 					var data = res.data || [];
 					if(code==200){
 						if(data.length==0){
@@ -52,11 +52,10 @@ module.exports = function(parent){
 							for(var i=0,len=data.length; i<len; i++){
 								data[i]["diff"] = numberToFixed(data[i].diff/100,2);
 							}
-							console.log(data);
 							that.render(data);
 						}
 					}else{
-						alert(msg);
+						(code!=401) && alert(msg);
 					}
 				}
 			})

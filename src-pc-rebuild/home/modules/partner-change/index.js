@@ -38,12 +38,12 @@ module.exports = function(parent){
                 },
                 success : function(res){
                     var code = res.code;
-                    var msg = res.msg;
+                    var msg = res.msg || PFT.AJAX_ERROR_TEXT;
                     var data = res.data;
                     if(code == 200){
                         that.render({data:data})
                     }else{
-                        alert(msg || PFT.AJAX_ERROR_TEXT) 
+                        (code!=401) && alert(msg) 
                     }
                 }
             })

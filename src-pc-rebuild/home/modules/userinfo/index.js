@@ -123,7 +123,7 @@ module.exports = function(parent){
 				complete : function(){ container.html("")},
 				success : function(res){
 					var code = res.code;
-					var msg = res.msg;
+					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 					var data= res.data;
 					if(code==200){
 						var unread = res.data.unread;
@@ -132,11 +132,11 @@ module.exports = function(parent){
 						that.render(res.data);
 						that.initMaBox();
 					}else{
-						Message.error(msg);
+						(code!=401) && Message.error(msg);
 					}
 				},
 				serverError : function(){
-					Message.error(PFT.AJAX_ERROR_TEXT);
+					(code!=401) && Message.error(PFT.AJAX_ERROR_TEXT);
 				}
 			})
 
