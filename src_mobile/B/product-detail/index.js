@@ -21,6 +21,8 @@ var Product_detail = PFT.Util.Class({
 		
 		var url = window.location.href;
 		var urlPara = Parse(url);
+		this.urlPara = urlPara; 
+
 
 		if(urlPara.ctx){
 			this.ctx = parseInt(urlPara.ctx);		
@@ -185,7 +187,19 @@ var Product_detail = PFT.Util.Class({
 
 	onclickOrderBtn : function(e){
 		var target = $(e.target);
-		window.location.href = "order_fill.html?aid=" + target.attr("data-aid") + "&pid=" + target.attr("data-pid");
+
+		var url = "order_fill.html?aid=" + target.attr("data-aid") + "&pid=" + target.attr("data-pid") ;
+
+		var urlPara = this.urlPara;
+
+		var fullHost = window.location.protocol + "//" +window.location.hostname + window.location.pathname;
+
+		for( var i in urlPara){
+			if( i != fullHost){
+				url += "&" + i +"=" + urlPara[i] ;
+			}
+		}
+		window.location.href = url;
 	}
 
 
