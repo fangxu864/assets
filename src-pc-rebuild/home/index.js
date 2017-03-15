@@ -23,7 +23,7 @@ var AD = require("./modules/ad");
 var ScrollManager = PFT.Util.MainBodyScrollManager;
 
 var Main = PFT.Util.Class({
-	container : $("#G_Body"),
+	container : $("#G_Body_Con"),
 	init : function(){
 
 		this.inContainer = $('<div id="inBodyCon" class="inBodyCon"></div>');

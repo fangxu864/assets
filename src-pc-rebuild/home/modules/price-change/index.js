@@ -63,13 +63,12 @@ module.exports = function(parent){
 
 
 		changePriceColor : function(){
-
 			var priceList = $("#PriceChangeBox .changePrice");
 			priceList.each(function(){
 				var tprice = $(this).text();
-				var price = parseInt(tprice);
-				var abPrice = Math.abs(price);
-				if (price>0) {
+				// var price = parseInt(tprice);
+				var abPrice = Math.abs(tprice);
+				if (tprice>0) {
 					$(this).html(abPrice);
 					$(this).css("color","#F27137");
 				}else{
