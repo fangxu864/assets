@@ -48,7 +48,7 @@
 <span class="title-text">最近销售趋势</span>
 </div>
 <div class="line line2">
-    <div class="lineEchartControlBox">
+    <div class="lineEchartControlBox clearfix">
         <div class="td td1">
             <span class="btn active typeBtn" data-type="1">票数</span><span class="btn typeBtn" data-type="2">金额</span>
         </div>
