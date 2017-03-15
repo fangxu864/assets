@@ -1,11 +1,11 @@
 <div class="dealsumContainer">
     <div class="trecordTitle">
         <ul>
-            <li class=""><a href="../accourtmanage.html">账户管理</a></li>
+            <!--<li class=""><a href="../accourtmanage.html">账户管理</a></li>-->
             <li class=""><a href="../trecordNew.html">交易记录</a></li>
             <li class="acct"><a href="dealsum.html">交易汇总</a></li>
-            <li class=""><a href="../recharge.html">充值</a></li>
-            <li class=""><a href="../withdraw.html">提现</a></li>
+            <!--<li class=""><a href="../recharge.html">充值</a></li>-->
+            <!--<li class=""><a href="../withdraw.html">提现</a></li>-->
             <!--<li class=""><a href="../transfer.html">转账</a></li>-->
         </ul>
     </div>
