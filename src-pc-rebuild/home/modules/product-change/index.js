@@ -46,7 +46,7 @@ module.exports = function(parent){
 					var data = res.data;
 					if(code==200){
 						if(data.length==0){
-							listUl.html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品价格变动..</li>')
+							listUl.html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品上下架消息..</li>')
 						}else{
 							that.render(data);
 						}
