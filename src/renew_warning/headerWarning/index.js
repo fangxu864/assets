@@ -64,8 +64,8 @@ var HeaderWarning={
                     _this.dialog.open();
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
-                //账户已过期，弹框不能关闭 ,并且排除充值页面
-                else if(this.judge_of_overTime == "-1" && !/recharge\.html$/.test(location.href)){
+                //账户已过期，弹框不能关闭 ,并且排除充值页面,和续费页面
+                else if(this.judge_of_overTime == "-1" && !/recharge\.html$/.test(location.href) && !/renewwarning\.html$/.test(location.href)){
                     _this.dialog = new Dialog;
                     _this.dialog.open();
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
