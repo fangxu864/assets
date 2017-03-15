@@ -3,6 +3,7 @@ require("./index.scss");
 var Select = require("COMMON/modules/select");
 var Pagination = require("COMMON/modules/pagination-x");
 var ParseTemplate = require("COMMON/js/util.parseTemplate");
+var STip = require("COMMON/js/util.simple.tip");
 var Template = {
     tr: ParseTemplate(require('./tpl/tr.xtpl')),
     info: ParseTemplate(require('./tpl/infotr.xtpl'))
@@ -133,7 +134,7 @@ var Main = PFT.Util.Class({
         });
 
     },
-    
+
     //模态框中物理卡号检测唯一性
     onModalCardInpKeyup: function () {
         var _this = this;
@@ -270,18 +271,18 @@ var Main = PFT.Util.Class({
                     },
                     success: function (res) {
                         if (res.code == 200) {
-                            PFT.Util.STip("success", res.msg, 4000);
+                            STip("success", res.msg, 4000);
                             _this.onCloseModalClean();
                             _this.getCardList(curr);
                         } else {
-                            PFT.Util.STip("fail", res.msg, 4000);
+                            STip("fail", res.msg, 4000);
 
                         }
                     },
                 }
             );
         } else {
-            return PFT.Util.STip("fail", "添加失败,请检查是否有字段为空", 4000);
+            return STip("fail", "添加失败,请检查是否有字段为空", 4000);
         }
     },
 
@@ -368,15 +369,15 @@ var Main = PFT.Util.Class({
                         if (res.code == 200) {
                             $(_this.dom.modal.editModal).hide();
                             _this.onCloseModalClean();
-                            PFT.Util.STip("success", res.msg, 4000);
+                            STip("success", res.msg, 4000);
                             _this.getCardList(curr);
                         } else {
-                            PFT.Util.STip("fail", res.msg, 4000);
+                            STip("fail", res.msg, 4000);
                         }
                     }
                 });
         } else {
-            return PFT.Util.STip("fail", "添加失败,请检查是否有字段为空", 4000)
+            return STip("fail", "添加失败,请检查是否有字段为空", 4000)
         }
     },
 
@@ -451,11 +452,11 @@ var Main = PFT.Util.Class({
                 },
                 success: function (res) {
                     if (res.code == 200) {
-                        PFT.Util.STip("success", res.msg, 4000);
+                        STip("success", res.msg, 4000);
                         (opt.request == "select") ? _this.getCardList(curr) : _this.getCardInfo(1);
 
                     } else {
-                        PFT.Util.STip("fail", res.msg, 4000);
+                        STip("fail", res.msg, 4000);
                     }
                 }
             }
@@ -496,10 +497,10 @@ var Main = PFT.Util.Class({
                     success: function (res) {
                         $(_this.dom.modal.delModal).hide();
                         if (res.code == 200) {
-                            PFT.Util.STip("success", "删除成功", 4000);
+                            STip("success", "删除成功", 4000);
                             _this.getCardList(curr);
                         } else {
-                            PFT.Util.STip("fail", res.msg, 4000);
+                            STip("fail", res.msg, 4000);
                         }
                     }
                 })
@@ -549,15 +550,15 @@ var Main = PFT.Util.Class({
                             if (res.code == 200) {
                                 $(_this.dom.modal.changeModal).hide();
                                 _this.onCloseModalClean();
-                                PFT.Util.STip("success", res.msg, 3000);
+                                STip("success", res.msg, 3000);
                                 _this.getCardList(curr);
                             } else {
-                                return PFT.Util.STip("fail", res.msg, 3000);
+                                return STip("fail", res.msg, 3000);
                             }
                         }
                     })
             } else {
-                return PFT.Util.STip("fail", "添加失败,请检查是否有字段为空", 3000);
+                return STip("fail", "添加失败,请检查是否有字段为空", 3000);
             }
         })
     },
@@ -575,7 +576,7 @@ var Main = PFT.Util.Class({
                 dataType: "json",
                 params: {
                     "physics_no": physicsNo,
-                    
+
                 },
                 loading: function () {
                     tbody.html("<tr><td colspan='6'>加载中,请稍后...</td></tr>");
@@ -599,7 +600,7 @@ var Main = PFT.Util.Class({
         var tbody = $(this.dom.table.tbody);
         var cardInfo = Template.info({ arr: arr });
         tbody.html(cardInfo);
-       $(this.dom.inp.saler_inp).attr({"data-id":arr.salerid,"data-title":arr.saler_name}).val(arr.saler_name);
+        $(this.dom.inp.saler_inp).attr({ "data-id": arr.salerid, "data-title": arr.saler_name }).val(arr.saler_name);
     },
     //初始化产品列表
     getMoreLid: function () {
