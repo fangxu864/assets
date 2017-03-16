@@ -929,7 +929,10 @@ var Order_fill = PFT.Util.Class({
 		for( var i in area_storage){
 			for( var j = 0;j<tList.length;j++){
 				var nowZoneId = tList.eq(j).attr("zone-id");
-				if(nowZoneId == i){
+				if( nowZoneId == "0" ){
+					tList.eq(j).find(".num").text("无限");
+				}
+				if(nowZoneId == i && nowZoneId != "0"){
 					tList.eq(j).find(".num").text(area_storage[i]);
 				}
 			}
