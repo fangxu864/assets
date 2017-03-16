@@ -174,15 +174,22 @@ var Main = PFT.Util.Class({
 			success : function(res){
 				console.log(res);
 				var code = res.code;
-				var data = res.data
-				var list = data.list;
-				var msg = res.msg;
-				that.renderList(list);  //渲染列表
-				var topage = data.page;
-				var total = data.total;
-				//渲染分页器
-				that.pagination.render({current:that.page,total:total});
-				that.transAllTimeStamp();
+
+				if(code == 200){
+					var data = res.data
+					var list = data.list;
+					var msg = res.msg;
+					that.renderList(list);  //渲染列表
+					var topage = data.page;
+					var total = data.total;
+					//渲染分页器
+					that.pagination.render({current:that.page,total:total});
+					that.transAllTimeStamp();
+				}else if(code == 201){
+					//无数据
+					$("#tempBox").css("display","block");	
+					$(".accountList").html("");
+				}
 				
 			},
 			timeout : function(){ alert("请求起时") },
