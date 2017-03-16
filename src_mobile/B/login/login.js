@@ -30,7 +30,9 @@ var Main =PFT.Util.Class({
             params:{
                 token:PFT.Util.getToken(),
                 mobile:mobile,
-                password:hex_md5(pwd)
+                password:hex_md5(pwd),
+                c:"MicroPlat_Member",
+                a:"login"
             },
             dataType:"json",
             loading: function(){
