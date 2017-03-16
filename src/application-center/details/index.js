@@ -89,7 +89,7 @@ var Main = PFT.Util.Class({
             $("#appText").attr("title",data.summary);      //app文本
             $("#num").text(data.open_num);       //使用人数
             $("#etime").text(_this.changeTimeType(data.expire_time));            //到期时间
-            $("#appDetails").text(data.introduce);   //应用详情
+            $("#appDetails").html(data.introduce);   //应用详情
             $("#price").show().text(req.price);            //价格
             if(data.icon){
                 $(".line1_detail").find(".ui-app-ico img").attr("src",data.icon);

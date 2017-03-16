@@ -87,7 +87,8 @@ var Main = PFT.Util.Class({
 		});
 
 		// 富文本编辑器
-		// var ueditorObj = UE.getEditor('ueditorWrap');
+    	window.UEDITOR_CONFIG.initialFrameHeight = 215;
+		this.ueditorObj = UE.getEditor('ueditorWrap');
 
 	},
 
@@ -157,7 +158,8 @@ var Main = PFT.Util.Class({
 
 		var that = this;
 
-		var introduce = $("#introduce").val(); //应用介绍
+		var introduce = this.ueditorObj.getContent();
+		// var introduce = $("introduce").val(); //应用介绍
 		var summary = $("#summary").val(); //模块描述
 		var freeDays = $("#daysFreeTrial").val();
 		if(freeDays.length == 0){ //不免费的情况
@@ -258,6 +260,7 @@ var Main = PFT.Util.Class({
 	},
 
 	appendInfo : function(data){
+		var _this = this;
 
 		var free_day = data.free_day,
 			id = data.id,
@@ -269,7 +272,12 @@ var Main = PFT.Util.Class({
 		var temp = "";
 
 		$("#moduleName").html(name);
-		$("#introduce").val(introduce);
+
+        this.ueditorObj.ready(function() {//编辑器初始化完成再赋值
+            _this.ueditorObj.setContent( introduce );  //赋值给UEditor
+        });
+
+		// $("#introduce").val(introduce);
 		$("#summary").val(summary);
 
 		if(free_day == "0"){   //free_day为0表示不免费试用
