@@ -5,6 +5,7 @@ var Common = require("../../common");
 var Tpl = require("./index.xtpl");
 var ItemTpl = require("./item.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
+
 var numberToFixed = PFT.Util.numberToFixed;
 module.exports = function(parent){
 

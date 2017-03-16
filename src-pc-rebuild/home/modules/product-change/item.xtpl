@@ -1,6 +1,6 @@
 <% _.each( data, function( item, index ){ %>
 <li class="item">
-    <a class="changeInfo" title="<%=item.landName%>+<%=item.proName%>+<%=item.time%>"><%=item.landName%>+<%=item.proName%>+<%=item.time%></a>
+    <a class="changeInfo" title="<%=item.landName%> <%=item.proName%> <%=item.time%>"><%=item.landName%> <%=item.proName%></a>
     <span class="upOrDown icon icon-pc-prompt" data-status="<%=item.type%>"></span>
 </li>
 <%})%>
