@@ -1,23 +1,17 @@
 require("./index.scss");
-
 //组件
 var simulate = require("./simulate");
 var Pagination = require("COMMON/modules/pagination-x");
 // var Calendar = require("COMMON/modules/calendar");   //没有精确到秒
 var Select = require("./select_scroll");
 var Loading = require("COMMON/js/util.loading.pc.js"); 
-
 var Datapicker = require("COMMON/modules/datepicker");  //精确到秒的日历组件
-
 //tpl
 var operatorTpl = require("./tpl/operator.xtpl");
 var listTpl = require("./tpl/list.xtpl");
-
 //service层
 var GetList = require("./service/GetList_service.js");
-
 var Main = PFT.Util.Class({
-
 	container : $("#cardTouristsListWrap"),
 	EVENTS : {
 		"click #operator" : "onOperatorClick",  //操作员
@@ -67,30 +61,22 @@ var Main = PFT.Util.Class({
 			jump : true	              //可选  是否显示跳到第几页
 		});
 		this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
-
 			// toPage :      要switch到第几页
 		    // currentPage : 当前所处第几页
 		    // totalPage :   当前共有几页
-
 			// console.log(toPage);
 			// console.log(currentPage);
 			// console.log(totalPage);
-
 			that.page = toPage ;
 			that.handleList();
-
 			// that.pagination.render({current:toPage,total:totalPage});
-
 		})
 
 	},
 	//导出
 	onExport : function(){
-
 		this.exports = "1" ;//默认不导出
-
 		this.onCheckOut();
-
 	},
 	onMoreBtn : function(e){
 		var target = $(e.target);
@@ -222,9 +208,7 @@ var Main = PFT.Util.Class({
 	},
 	//处理操作员
 	handleOperator : function(){
-
 		var that = this;
-
 		PFT.Util.Ajax("/r/product_parkcard/getOpId",{
 			type : "POST",
 			dataType : "json",
@@ -265,15 +249,18 @@ var Main = PFT.Util.Class({
 	},
 	//查询
 	onCheckOut : function(){
-
 		var beginTime = $("#actTimein").val(); //有默认时间
 		var endTime = $("#actTimeout").val(); //有默认时间
 		//化为时间戳
 		this.beginStamp = this.parseDateToStamp(beginTime);
 		this.endStamp = this.parseDateToStamp(endTime);
 		//物理卡号
-		// var CardId = $(".solidCardId").val();//物理卡号Id
-		this.CardId ="12345685";   //opid3384的模拟固定卡号
+		var CardId = $(".solidCardId").val();//物理卡号Id
+		if(CardId == ""){
+			alert("请填写物理卡号");	
+			return false
+		}
+		// this.CardId ="12345685";   //opid3384的模拟固定卡号
 		//操作员
 		this.OID = $("#operator").attr("data-id");
 		if( this.OID == "0"){
@@ -296,20 +283,53 @@ var Main = PFT.Util.Class({
 			//请求列表
 			this.handleList();
 		}
-		
 
 	},
-
 	getExport : function(){
+		var that = this;
+		var params = {
+			opid : that.OID, 
+			begin : that.beginStamp,
+			end : that.endStamp,
+			status : that.status,
+			export : that.exports,
+			physicsno : that.CardId,
+			page : that.page,
+			pagesize : 2
+		}
+		function JsonStringify(obj) {
+			var str="";
+			var arr=[];
+			for(var key in obj){
+				str=key+"="+obj[key];
+				arr.push(str);
+			}
+			return arr.join("&");
+		}
+		var pa = JsonStringify(params);
+		var url = "/r/product_parkcard/getTouristList?" + pa; 
+		window.open(url);
+		this.exports = "0";	
 
-		$.ajax({
+		//excel不用post异步请求
+		// $.ajax({
+		// 	url : "/r/product_parkcard/getTouristList",
+		// 	type : "POST",
+		// 	dataType : "json",
+		// 	data : params,
+		// 	loading : function(){
+		// 	},
+		// 	complete : function(){
+		// 	},
+		// 	success : function(res){
+		// 		// if( )
+		// 		// console.log(typeof res);
+		// 		console.log(res);
+		// 	},
+		// 	error : function(){
 
-			type : "POST",
-			dataType : 
-
-
-		});
-
+		// 	}
+		// });
 	},
 	transAllTimeStamp : function(){ //改变列表里的时间cuo
 		var that = this;
@@ -327,7 +347,6 @@ var Main = PFT.Util.Class({
 			return newDate
 		}
 	},
-
 	parseDateToStamp : function(date){
 		date = new Date(Date.parse(date.replace(/-/g, "/")));
 		date = date.getTime();
