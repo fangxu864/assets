@@ -474,7 +474,9 @@ var AppList = PFT.Util.Class({
 
         	    		temp += '</li>' ;
                 }else{  //显示"new"标签，或显示"过期"标签；
-
+					if(list[i].hot){
+						temp += '<i class="ico-hot"></i>' ;
+					}
 					//显示"new"标签
                 	if(list[i].flag_new == 1){
                 		temp += '<i class="ico-new"></i>' +
@@ -484,7 +486,8 @@ var AppList = PFT.Util.Class({
 					else if(list[i].flag_expire == 1){
 						temp += '<i class="ico-expired"></i>'+
 							'</li>' ;
-                	}
+                	} 
+					
                 }
 
         }

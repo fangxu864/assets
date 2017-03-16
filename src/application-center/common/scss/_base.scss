@@ -231,7 +231,12 @@ a:hover {
     height: 58px;
     background: url(http://static.12301.cc/assets/build/images/appcenter/expired.png) no-repeat;
 }
-
+.ico-hot {
+    display: inline-block;
+    width: 38px;
+    height: 38px;
+    background: url(http://static.12301.cc/assets/build/images/appcenter/recommend.png) no-repeat;
+}
 /* other */
 .text-ellipsis {
     display: block;
