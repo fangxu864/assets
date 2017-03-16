@@ -117,9 +117,8 @@ module.exports = function(parent){
 			}
 			var LoadingStr = LoadingPC("努力加载中...",{
 				tag : "tr",
-				colspan : 6,
 				width : 500,
-				height : 150
+				height : 80
 			});
 
 			PFT.Util.Ajax("/r/Home_HomeOrder/todayInfo/",{
@@ -175,9 +174,8 @@ module.exports = function(parent){
 			var curContainer = _this.container.find(".line1 .seven-box table");
 			var LoadingStr = LoadingPC("努力加载中...",{
 				tag : "tr",
-				colspan : 6,
 				width : 500,
-				height : 150
+				height : 80
 			});
 
 			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
@@ -210,9 +208,8 @@ module.exports = function(parent){
 			var curContainer = _this.container.find(".line1 .month-box table");
 			var LoadingStr = LoadingPC("努力加载中...",{
 				tag : "tr",
-				colspan : 6,
 				width : 500,
-				height : 150
+				height : 80
 			});
 
 			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
