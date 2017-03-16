@@ -156,7 +156,7 @@ module.exports = function(parent){
 							lifetime : 1500 ,
 							direction : top,
 							hostObj : icon ,
-							content : "亲,距上次刷新五分钟后可以再次刷新"
+							content : "五分钟后可再刷新"
 						})
 					}
 				}
