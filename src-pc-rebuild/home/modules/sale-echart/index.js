@@ -593,11 +593,44 @@ module.exports = function(parent){
 						//请求成功时处理
 						if( res.code == 200 ){
 							if( isGetThree ){
-								_this.renderLineEchart( res.data.sale_trend );
-								_this.renderPieEchart( res.data.product_use );
-								_this.renderBarEchart( res.data.sale_rank )
+								if( res.data.sale_trend.toString() ){
+									_this.renderLineEchart( res.data.sale_trend );
+								}else{
+									_this.lineEchart.showLoading(
+										{
+											text : '最近销售趋势暂无数据'
+										}
+									);
+								}
+								if( res.data.product_use.toString() ){
+									_this.renderPieEchart( res.data.product_use );
+								}else{
+									_this.pieEchart.showLoading(
+										{
+											text : '7天产品使用排行暂无数据'
+										}
+									);
+								}
+								if(res.data.sale_rank.toString() ){
+									_this.renderBarEchart( res.data.sale_rank );
+								}else{
+									_this.barEchart.showLoading(
+										{
+											text : '7天渠道排行暂无数据'
+										}
+									);
+								}
+
 							}else{
-								_this.renderLineEchart( res.data.sale_trend );
+								if( res.data.sale_trend.toString() ){
+									_this.renderLineEchart( res.data.sale_trend );
+								}else{
+									_this.lineEchart.showLoading(
+										{
+											text : '最近销售趋势暂无数据'
+										}
+									);
+								}
 							}
 						}else{
 							if( isGetThree ){
