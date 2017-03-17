@@ -142,7 +142,7 @@ var Main = PFT.Util.Class({
 
 		// return false
 
-
+		
 		PFT.Util.Ajax("/r/product_parkcard/getTouristList",{
 			type : "POST",
 			dataType : "json",
@@ -262,8 +262,8 @@ var Main = PFT.Util.Class({
 		this.beginStamp = this.parseDateToStamp(beginTime);
 		this.endStamp = this.parseDateToStamp(endTime);
 		//物理卡号
-		var CardId = $(".solidCardId").val();//物理卡号Id
-		if(CardId == ""){
+		this.CardId = $(".solidCardId").val();//物理卡号Id
+		if(this.CardId == ""){
 			alert("请填写物理卡号");	
 			return false
 		}
