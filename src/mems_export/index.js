@@ -524,65 +524,6 @@ $(function(){
     $('#mem_list_tbd').on('click','a.saleID',function(e){
         var Data = {};
         var d_this = $(e.currentTarget);
-        var union_id   = d_this.parent().siblings('.mid').attr('data-mid');
-        $("input[name='z_salesID']")[0].value=union_id;
-        $(".black").css({
-            "width":$(window).width()+"px",
-            "height":$(window).height()+"px",
-            "display":"block"
-        });
-        PFT_GLOBAL.G.Ajax({
-            url : "../module/zax/admin_report/call.php",
-            data : {action:'get_salesID',fid:union_id},
-            type :'POST',
-            timeout : function(){console && console.log("获取数据超时")},
-            serverError : function(){console &&
-            console.log("接口出错:module/zax/admin_report/call.php?get_saleID")}
-        },function(res){
-            $("#salesID>option" ).each(function() {
-                if($(this)[0].value==res.salesID){
-                    $(this).attr('selected','selected');
-                    return false;
-                }
-            })
-            $("#kefuID>option" ).each(function() {
-                if($(this)[0].value==res.kefuID){
-                    $(this).attr('selected','selected');
-                    return false;
-                }
-            })
-
-//            res.protocal_start = '2015-12-20';
-//            res.protocal_end   = '2015-12-31';
-//            res.protocol_main  = '年费9800,协议截止日期为2016年12月31日';
-            $("#protocol_start").val(res.protocol_start);
-            $("#protocol_end").val(res.protocol_end);
-            $("#protocol_main").val(res.protocol_main);
-            $("#protocal_meal").val(res.protocol_meal);
-            $("#contract_num").val(res.contract_num);  //合同编号
-            if(res.contract_model == "1"){  //合作模式
-                $("#selectPackage").attr("selected","selected");
-            }else if(res.contract_model == "2"){
-                $("#selectTicket").attr("selected","selected");
-            }else if(res.contract_model == "3"){
-                $("#selectOrder").attr("selected","selected");
-            }
-            if(res.is_pay == "0"){    //否
-                $("#payment").attr("checked", false);
-            }else if(res.is_pay == "1"){   //是
-                $("#payment").attr("checked", true);
-            }
-
-            if($("#contract_model").val() == 3 || $("#contract_model").val() == 0){
-                $('#protocal_meal').attr("disabled");
-                $('#protocal_meal').attr("value","");
-                $('#protocal_meal').css("background","#eee");
-            }else{
-                $('#protocal_meal').attr("disabled",false);
-            }
-            $(".alert_box").css("display","block");
-        })
-
         //fid
         Data["fid"]   = d_this.parent().siblings('.mid').attr('data-mid');
         //企业名称
