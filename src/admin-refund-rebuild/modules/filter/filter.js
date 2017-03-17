@@ -109,8 +109,8 @@ var Filter = {
         var beginInp = _this.container.find(".bTimeInp");
         var endInp = _this.container.find(".eTimeInp");
         var today = DatePicker.CalendarCore.gettoday();
-        beginInp.val(today);
-        endInp.val(today);
+        // beginInp.val(today);
+        // endInp.val(today);
         var datepicker = this.datepicker = new DatePicker();
         this.container.on("click",".bTimeInpBox",function(e){
             var tarInp = $(this).find(".bTimeInp");
