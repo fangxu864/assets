@@ -1,3 +1,4 @@
+<li class="typeBtn" data-type="">全部</li>
 <% for(var type in list) { %>
     <li class="typeBtn" data-type="<%=type%>"><%=list[type]%></li>
 <% } %>

@@ -5,7 +5,7 @@
 			<img class="spotImg" src="<%=item.imgpath%>"></img>
 			<div class="spotRight">
 				<span class="spotName"><%=item.title%></span><br>
-				<span class="spotInfo"><%=item.addr%></span>
+				<span class="spotInfo">[<%=item.addr%>] </span><span class="spotInfo">供应商: <%=item.apply_name%></span>
 			</div>
 		</a>
 	</li>

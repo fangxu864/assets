@@ -23,9 +23,7 @@ var Validate = require("COMMON/js/util.validate.js"); //验证
 // var CalendarCore = require("COMMON/js/calendarCore.js");//用outputdate计算酒店几晚
 // var Toast = require("COMMON/modules/Toast");
 var Toast = require("./Toast/index");//改造后
-
 var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
-
 //日历
 var Calendar = require("./calendar/index.js");
 //各个类型模块
@@ -50,7 +48,6 @@ var Order_fill = PFT.Util.Class({
 		"click #regularBtn":"regularToggle", //退票规则
 		"click .submitOrder" : "submitOrder"//提交订单
 	},
-
 	init : function(){		
 
 		var id = this.getId();
@@ -71,8 +68,6 @@ var Order_fill = PFT.Util.Class({
 	},
 	//处理顶端提示
 	handleTips : function(res){
-
-
 		//有效时间
 		var validType = res.validType;
 		var validTime = res.validTime;  //在服务层已处理
@@ -745,7 +740,6 @@ var Order_fill = PFT.Util.Class({
 
 		}
 		$("#placeText").text(res.title);
-		
 
 		if(ticketList.length != 0){
 			this.zone_id = ticketList[0].zone_id; //演出的分区ID		
@@ -876,7 +870,7 @@ var Order_fill = PFT.Util.Class({
 			var list = res;
 			var html = "";
 			for( var i = 0;i<list.length;i++){
-				html += '<div class="showItem" data-num="'+i+'" data-venus_id="'+list[i].venus_id+'" data-round_id="'+list[i].id+'">'+ list[i].round_name + " " +list[i].bt + '-' + list[i].bt +'</div>';   
+				html += '<div class="showItem" data-num="'+i+'" data-venus_id="'+list[i].venus_id+'" data-round_id="'+list[i].id+'">'+ list[i].round_name + " " +list[i].bt + '-' + list[i].et +'</div>';   
 			}
 			that.handleShowStorage(res,0);
 			$("#showCon").html(html);
@@ -915,7 +909,7 @@ var Order_fill = PFT.Util.Class({
 
 			if(first == true){ //初始
 				// that.showTimeBox.show();
-				$("#playTimeInput").val(res[0].round_name + " " +res[0].bt + '-' + res[0].bt);
+				$("#playTimeInput").val(res[0].round_name + " " +res[0].bt + '-' + res[0].et);
 				this.handleShowStorage(res,0);
 			}
 
@@ -1438,8 +1432,8 @@ var Order_fill = PFT.Util.Class({
 	delNum : function (e) {
 		var storage = $(e.target).parent().parent().find(".left .num").text();
 		var buyLow = $(e.target).attr("data-buy_low");
+		var buyUp = $(e.target).parent().find(".numBox").attr("data-buy_up");
 		buyLow = parseInt(buyLow);
-
 		if($(e.target).attr("active") == "true"){
 			var num = parseInt($(e.target).parent().find(".numBox").val());
 			if(num == 0 || num == buyLow ){
@@ -1453,7 +1447,10 @@ var Order_fill = PFT.Util.Class({
 				$(e.target).attr("active","false");
 				return false
 			}else if(num <= storage){
-				$(e.target).parent().find(".addBtn").attr("active",true)
+				$(e.target).parent().find(".addBtn").attr("active",true);
+			}
+			if(num <= buyUp){
+				$(e.target).parent().find(".addBtn").attr("active",true);
 			}
 			num = num - 1;
 			$(e.target).parent().find(".numBox").val(num);

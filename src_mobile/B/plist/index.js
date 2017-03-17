@@ -62,7 +62,7 @@ var Plist = PFT.Util.Class({
 		// 产品列表参数
 		this.lastListLid = 0;
 		this.lastListProPos = 0;
-		this.ptype = "A";//景区类型[A,B,C,F,H]之一
+		this.ptype = "";//景区类型[A,B,C,F,H]之一
 		this.keyword = "";
 		this.topic = "";
 		this.city = "";
@@ -239,13 +239,11 @@ var Plist = PFT.Util.Class({
 		var that = this;
 
     	var typeHtml = this.typeTemplate(data);
-
 		//主题要基于类型
 		if(this.topic != ""){ 
 			this.topic = "";
 			$("#themeText").text("全部主题");
 		}
-
     	if(this.typeSelect){
 		    this.typeSelect.show();	
     	}else{
@@ -254,7 +252,7 @@ var Plist = PFT.Util.Class({
 				content : typeHtml,       
 				height : "auto",    
 				yesBtn : false,
-				noBtn : false,
+				noBtn : true,
 				zIndex : 200,       
 				EVENTS : {      
 					"click .typeBtn" : function(e){
@@ -345,7 +343,7 @@ var Plist = PFT.Util.Class({
 				content : themeHtml,       
 				height : "auto",      
 				yesBtn : false,
-				noBtn : false,
+				noBtn : true,
 				zIndex : 200,       
 				EVENTS : {      
 					"click .themeBtn" : function(e){
