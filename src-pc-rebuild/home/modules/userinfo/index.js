@@ -5,7 +5,6 @@
  */
 require("./index.scss");
 var Common = require("../../common");
-var Tpl = require("./index.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
 var Message = require("pft-ui-component/Message");
 var numberToFixed = PFT.Util.numberToFixed;
@@ -16,7 +15,6 @@ module.exports = function(parent){
 	var UserInfo = PFT.Util.Class({
 		debug : false,
 		container : "#UserInfoBox",
-		template : PFT.Util.ParseTemplate(Tpl),
 		EVENTS : {
 			"click .switchBox" : "onSwitchBoxClick",
 			"click .tipBox .modifyBtn" : "onModifyBtnClick",
@@ -74,9 +72,6 @@ module.exports = function(parent){
 			$("#abnormalOrderNum").text(data.abnormalOrder);
 			$("#taobaoOrderNum").text(data.taobao);
 			$("#remainMoneyText").text(data.remainMoney);
-			// return console.log(data);
-			// var html = this.template(data);
-			// this.container.html(html);
 		},
 		ajaxFaZhi : function(value,tarBtn){
 			var successText = value==0 ? "余额预警阀值关闭成功" : "余额预警阀值设置成功";
