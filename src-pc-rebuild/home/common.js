@@ -24,5 +24,19 @@ module.exports = {
 		opt["type"] = type;
 
 		return PFT.Util.Ajax(url,opt);
+	},
+	//判断一个元素有没有进入指定容器的可视范围内
+	elemViewIn : function(elem,container,offsetTop){
+		var containerOffset = container.offset();
+		var containerTop = containerOffset.top;
+		var containerHeight = container.height();
+		var paddingTop = container.css("paddingTop");
+		paddingTop = paddingTop.substr(0,paddingTop.length-2) * 1;
+		var offset = elem.offset();
+		var top = offset.top - containerTop - paddingTop ;
+		if(top>=0 && top<=containerHeight){
+			return true;
+		}
+		return false;
 	}
 };
