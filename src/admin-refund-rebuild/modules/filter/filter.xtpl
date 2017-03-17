@@ -24,9 +24,9 @@
     </div>
     <div class="line line4" style="display: none">
         <div class="td td1">状态:</div>
-        <div class="td td2"><input type="radio" name="type" checked="" value="0"/><span>全部</span></div>
+        <div class="td td2"><input type="radio" name="type"  value="0"/><span>全部</span></div>
         <div class="td td3"><input type="radio" name="type" class="radioResolved" value="1"/><span>完成提现</span></div>
-        <div class="td td4"><input type="radio" name="type" value="2"/><span>其它</span></div>
+        <div class="td td4"><input type="radio" name="type" checked="" value="2"/><span>未完成处理</span></div>
     </div>
     <div class="line line5">
         <div class="td td2"><div class="btn btn_query">查询</div></div>
