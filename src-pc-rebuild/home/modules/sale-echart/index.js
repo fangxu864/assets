@@ -593,7 +593,7 @@ module.exports = function(parent){
 						//请求成功时处理
 						if( res.code == 200 ){
 							if( isGetThree ){
-								if( res.data.sale_trend.toString() ){
+								if( _this.judgeTrue( res.data.sale_trend ) ){
 									_this.renderLineEchart( res.data.sale_trend );
 								}else{
 									_this.lineEchart.showLoading(
@@ -602,7 +602,7 @@ module.exports = function(parent){
 										}
 									);
 								}
-								if( res.data.product_use.toString() ){
+								if( _this.judgeTrue( res.data.product_use ) ){
 									_this.renderPieEchart( res.data.product_use );
 								}else{
 									_this.pieEchart.showLoading(
@@ -611,7 +611,7 @@ module.exports = function(parent){
 										}
 									);
 								}
-								if(res.data.sale_rank.toString() ){
+								if( _this.judgeTrue( res.data.sale_rank )){
 									_this.renderBarEchart( res.data.sale_rank );
 								}else{
 									_this.barEchart.showLoading(
@@ -622,7 +622,7 @@ module.exports = function(parent){
 								}
 
 							}else{
-								if( res.data.sale_trend.toString() ){
+								if( _this.judgeTrue( res.data.sale_trend ) ){
 									_this.renderLineEchart( res.data.sale_trend );
 								}else{
 									_this.lineEchart.showLoading(
@@ -706,9 +706,45 @@ module.exports = function(parent){
 				var day = date.getDate().toString().length === 2 ? date.getDate() : '0' + date.getDate();
 				return date.getFullYear() + '-' + month + '-' + day;
 			}
+		},
+
+		/**
+		 * @mehtod 判断真假
+		 */
+		judgeTrue: function( param ) {
+			var type = Object.prototype.toString.call(param);
+			switch (type){
+				case '[object Array]':
+					return param.length === 0 ?  !1 : !0 ;
+					break;
+				case '[object Object]':
+					var t;
+					for (t in param)
+						return !0;
+					return !1;
+					break;
+				case '[object String]':
+					return param === '' ? !1 : !0 ;
+					break;
+				case '[object Number]':
+					return param === 0 ? !1 : !0 ;
+					break;
+				case '[object Boolean]':
+					return param === false ? !1 : !0;
+					break;
+				case '[object Null]':
+					return !1;
+					break;
+				case '[object Undefined]':
+					return !1;
+					break;
+				default :
+					return type;
+			}
 		}
 
-	});
+
+});
 
 
 	return new saleEchart;

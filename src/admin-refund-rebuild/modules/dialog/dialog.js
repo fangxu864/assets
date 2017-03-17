@@ -179,7 +179,7 @@ var DialogModule = {
                     //请求成功时处理
                     if(res.outcome == 1){
                         PFT.Util.STip("success",res.msg);
-                        // _this.CR.pubSub.pub("tableConBox.updateTbody",curTbodyId);
+                        _this.CR.pubSub.pub("tableConBox.removeTbody",curTbodyId);
                         _this.dial.close();
                     }else{
                         PFT.Util.STip("fail",res.msg)
