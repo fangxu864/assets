@@ -173,7 +173,11 @@
     "poster-img-upload-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
-    "poster-img-upload-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js"
+    "poster-img-upload-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
+    "delay-refund-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/delay_refund/webpack.config.js",
+    "delay-refund-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/delay_refund/webpack.config.js",
+    "delay-refund-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/delay_refund/webpack.config.js",
+    "delay-refund-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/delay_refund/webpack.config.js"
   },
   "repository": {
     "type": "git",
