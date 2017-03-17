@@ -98,15 +98,12 @@
         }
     }
     .line2{
+        text-align: center;
         .lineEchartControlBox{
             margin: 20px auto;
-            width: 687px;
-            margin-bottom: 10px;
-            //display: flex;
-            //justify-content: center;
+            display: inline-block;
             .td{
                 float:left;
-                //display: flex;
                 .btn{
                     padding: 8px 16px;
                     display: block;
@@ -122,7 +119,7 @@
             }
             .td1,.td2{ border: 1px solid #e5e5e5;}
             .td3{
-                margin-left: 50px;
+                margin-left: 20px;
                 margin-right: 20px;
             }
             .td3 input{
@@ -137,15 +134,13 @@
                 margin-top: 1px;
             }
         }
-        .lineEchart{
-            height :380px;
-            width : 100%
-        }
         .selectBox{
-            margin: 20px auto;
-            width: 687px;
+            display: inline-block;
+            margin-left: 20px;
+            position: relative;
+            top: -7px;
             .td {
-                margin-right: 30px;
+                margin-right: 20px;
                 float: left;
                 i.icon{
                     position: relative;
@@ -159,6 +154,10 @@
                     color: #9fa6ad;
                 }
             }
+        }
+        .lineEchart{
+            height :380px;
+            width : 100%
         }
     }
     .line3{
