@@ -1,0 +1,9 @@
+<div class="print-list-con-title">请选择打印内容</div>
+<div class="print-list-con">
+
+    <ul class="print-ul">
+        <% _.each(data,function(item,index){ %>
+        <li class="print-li <%=item[1] > 0 ? '': 'disabled'%>"><%=item[0]%>(<%=item[1]%>)</li>
+        <%})%>
+    </ul>
+</div>

@@ -47,6 +47,7 @@ module.exports = function(parent){
 			this.renderOrderData_today( true );
 			this.renderOrderData_seven();
 			//折线图
+
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
 			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
 			this.barEchart = echarts.init(document.getElementById('barEchart'));

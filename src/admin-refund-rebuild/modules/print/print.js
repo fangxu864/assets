@@ -46,19 +46,20 @@ var Print = {
      * @method 打印清单
      */
     printList: function (res) {
-        var ConfigJson = {
-            statusInfo: {
-                0 : '申请提现',
-                1 : '同意提现',
-                2 : '成功提现',
-                3 : '取消提现',
-                4 : '拒绝提现',
-                5 : '自动转账中'
-            }
-        };
-        var newData = $.extend({} , res.data , ConfigJson );
-        var html = this.listPrintTplTemplate({ data : newData });
-        this.print(html);
+        this.CR.pubSub.pub("dialog.showPrintList", {});
+        // var ConfigJson = {
+        //     statusInfo: {
+        //         0 : '申请提现',
+        //         1 : '同意提现',
+        //         2 : '成功提现',
+        //         3 : '取消提现',
+        //         4 : '拒绝提现',
+        //         5 : '自动转账中'
+        //     }
+        // };
+        // var newData = $.extend({} , res.data , ConfigJson );
+        // var html = this.listPrintTplTemplate({ data : newData });
+        // this.print(html);
     },
     listPrintTplTemplate: ParseTemplate(listPrintTpl),
 

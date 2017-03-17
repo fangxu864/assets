@@ -6,6 +6,14 @@
             <th style="width: 30%">操作</th>
         </tr>
     </thead>
+    <%
+        var colorObj = {
+            '2':'green',
+            '4':'blue',
+            '3':'gray',
+            '0':'red'
+        }
+    %>
     <% _.each(data.list,function(item,index){ %>
     <tbody id="tobdy-<%=index%>">
         <tr class="tr1">
@@ -14,7 +22,7 @@
         <tr class="tr2">
             <td colspan="2">
                 <div class="line">
-                    <span style="margin-right: 10px;color: #ff6600"><%=data.statusInfo[item.statusInfo]%></span>
+                    <span style="margin-right: 10px;color: <%=colorObj[item.statusInfo]%>"><%=data.statusInfo[item.statusInfo]%></span>
                     <span> [ID:<%=item.id%>]-[帐号:<%=item.fid%>]-[账户名称:<%=item.dname%>]-[企业名称:<%=item.cname%>]</span>
                 </div>
                 <div class="line">

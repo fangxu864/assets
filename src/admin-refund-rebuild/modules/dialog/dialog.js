@@ -5,6 +5,7 @@
 require("./dialog.scss");
 var Dialog=require("COMMON/modules/dialog-simple");
 var dialogTpl = require("./dialog.xtpl");
+var printListTpl = require("./printlist.xtpl");
 
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 
@@ -46,6 +47,18 @@ var DialogModule = {
         //订阅财务的转账
         this.CR.pubSub.sub("dialog.financeTransfer" , function (params) {
             var html = _this.dialogTemplate({ data: params});
+            _this.container.html(html);
+            _this.dial.open();
+        });
+        //订阅打印的打印清单
+        this.CR.pubSub.sub("dialog.showPrintList" , function (res) {
+            var paramsArr = [
+                ['支付宝',res.data.alipay.length],
+                ['民生',res.data.minsheng.length],
+                ['银行',res.data.bank.length]
+            ] ;
+            console.log(paramsArr)
+            var html = _this.printListTemplate({ data: paramsArr});
             _this.container.html(html);
             _this.dial.open();
         });
@@ -201,7 +214,8 @@ var DialogModule = {
     /**
      * @method 解析模板
      */
-    dialogTemplate: ParseTemplate(dialogTpl)
+    dialogTemplate: ParseTemplate(dialogTpl),
+    printListTemplate: ParseTemplate(printListTpl)
 };
 
 module.exports = DialogModule;

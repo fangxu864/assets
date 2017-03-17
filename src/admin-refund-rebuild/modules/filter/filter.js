@@ -222,7 +222,7 @@ var Filter = {
             success: function(res) {
                 //请求成功时处理
                 if(res.code == 200 ){
-                    _this.CR.pubSub.pub("print.printList", res)
+                    _this.CR.pubSub.pub("dialog.showPrintList", res);
                 }else{
                     PFT.Util.STip("fail",res.msg)
                 }
