@@ -7,7 +7,10 @@
             <div class="line top">
                 <em class="dname"><%=name%></em>
                 <span class="flag dtype dtype_<%=type%>">
-                    <i class="fl"><%=type==0 ? '供' : '分'%></i><span class="t"><%=type==0 ? '供应商' : '分销商'%></span>
+                    <% if(type==0 || type==1){ %>
+                        <i class="fl"><%=type==0 ? '供' : '分'%></i>
+                    <% } %>
+                    <span class="t"><%=typeText%></span>
                 </span>
                 <span class="flag auth auth_<%=hasAuth%>"><%=hasAuth==1 ? '已认证' : '未认证'%></span>
                 <span class="effectTime">有效期至：<i class="num"><%=expireDate%></i></span>

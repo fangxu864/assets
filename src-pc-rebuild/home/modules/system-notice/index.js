@@ -26,26 +26,31 @@ module.exports = function(parent){
             var that = this;
             var html = Loading("努力加载中...");
             var container = this.container;
-            Common.Ajax(Common.api.Home_HomeNotice.systemNotice,{
-                params : {
-                    size : 8,
-                },
-                loading : function(){
-                    container.html(html);
-                },
-                complete : function(){
-                },
-                success : function(res){
-                    var code = res.code;
-                    var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-                    var data = res.data;
-                    if(code == 200){
-                        that.render({data:data})
-                    }else{
-                        (code!=401) && alert(msg)
+
+            container.html(html);
+
+            setTimeout(function(){
+                Common.Ajax(Common.api.Home_HomeNotice.systemNotice,{
+                    params : {
+                        size : 8,
+                    },
+                    loading : function(){
+                        container.html(html);
+                    },
+                    complete : function(){
+                    },
+                    success : function(res){
+                        var code = res.code;
+                        var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+                        var data = res.data;
+                        if(code == 200){
+                            that.render({data:data})
+                        }else{
+                            (code!=401) && alert(msg)
+                        }
                     }
-                }
-            })
+                })
+            },2000)
 
 
         }

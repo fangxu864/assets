@@ -33,33 +33,41 @@ module.exports = function(parent){
 			var html = Loading("努力加载中...");
 			var container = this.container;
 			var listUl = this.listUl;
-			Common.Ajax(Common.api.Home_HomeNotice.priceChange,{
-				params : {
-				    size : that.Size,
-				},
-				loading : function(){
-					listUl.html(html);
-				},
-				complete : function(){ listUl.html("")},
-				success : function(res){
-					var code = res.code;
-					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-					var data = res.data || [];
-					if(code==200){
-						if(data.length==0){
-							container.find(".infoList").html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品价格变动..</li>')
-						}else{
-							//涉及到价格的，后端现在统一返回分为单位，前端需要转化为元
-							for(var i=0,len=data.length; i<len; i++){
-								data[i]["diff"] = numberToFixed(data[i].diff/100,2);
+
+			listUl.html(html);
+			
+			setTimeout(function(){
+				Common.Ajax(Common.api.Home_HomeNotice.priceChange,{
+					params : {
+						size : that.Size,
+					},
+					loading : function(){
+						listUl.html(html);
+					},
+					complete : function(){ listUl.html("")},
+					success : function(res){
+						var code = res.code;
+						var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+						var data = res.data || [];
+						if(code==200){
+							if(data.length==0){
+								container.find(".infoList").html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品价格变动..</li>')
+							}else{
+								//涉及到价格的，后端现在统一返回分为单位，前端需要转化为元
+								for(var i=0,len=data.length; i<len; i++){
+									data[i]["diff"] = numberToFixed(data[i].diff/100,2);
+								}
+								that.render(data);
 							}
-							that.render(data);
+						}else{
+							//(code!=401) && alert(msg);
 						}
-					}else{
-						(code!=401) && alert(msg);
-					}
-				}
-			})
+					},
+                    timeout : function(){},
+                    serverError : function(){}
+				})
+			},1000)
+			
 		},
 
 

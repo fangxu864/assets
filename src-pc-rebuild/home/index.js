@@ -26,12 +26,9 @@ var Main = PFT.Util.Class({
 	container : $("#G_Body_Con"),
 	init : function(){
 
-		this.inContainer = $('<div id="inBodyCon" class="inBodyCon"></div>');
-		this.pageMain = $('<div id="pageMain" class="pageMain"></div>');
-		this.rightBar = $('<div id="rightBar" class="rightBar"></div>');
-		this.inContainer.append(this.pageMain).append(this.rightBar);
-
-		this.container.append(this.inContainer);
+		this.inContainer = $('#inBodyCon');
+		this.pageMain = $('#pageMain');
+		this.rightBar = $('#rightBar');
 
 		this.userInfo = UserInfo(this.pageMain);
 		this.recentUse = RecentUse(this.pageMain);

@@ -11,11 +11,11 @@ var Message = require("pft-ui-component/Message");
 var numberToFixed = PFT.Util.numberToFixed;
 module.exports = function(parent){
 
-	var container = $('<div id="UserInfoBox" class="UserInfoBox modBox"></div>').appendTo(parent);
+	var container = $('#UserInfoBox');
 
 	var UserInfo = PFT.Util.Class({
 		debug : false,
-		container : container,
+		container : "#UserInfoBox",
 		template : PFT.Util.ParseTemplate(Tpl),
 		EVENTS : {
 			"click .switchBox" : "onSwitchBoxClick",
@@ -26,8 +26,8 @@ module.exports = function(parent){
 			this.fetch();
 		},
 		initMaBox : function(){
-			var maImg = $("#homeMaImg").clone().show();
-			this.container.children(".maBoxContainer").find(".maBox").append(maImg);
+			// var maImg = $("#homeMaImg").clone().show();
+			// this.container.children(".maBoxContainer").find(".maBox").append(maImg);
 			setTimeout(function(){
 				//复制二维码链接
 				$("#copyMaLink").zclip({
@@ -71,6 +71,10 @@ module.exports = function(parent){
 			})
 		},
 		render : function(data){
+			$("#abnormalOrderNum").text(data.abnormalOrder);
+			$("#taobaoOrderNum").text(data.taobao);
+			$("#remainMoneyText").text(data.remainMoney);
+			return console.log(data);
 			var html = this.template(data);
 			this.container.html(html);
 		},
@@ -117,9 +121,9 @@ module.exports = function(parent){
 			var container = this.container;
 			Common.Ajax(Common.api.Home_HomeMember.getMemberInfo,{
 				loading : function(){
-					container.html(html);
+					//container.html(html);
 				},
-				complete : function(){ container.html("")},
+				complete : function(){ },
 				success : function(res){
 					var code = res.code;
 					var msg = res.msg || PFT.AJAX_ERROR_TEXT;
@@ -128,15 +132,25 @@ module.exports = function(parent){
 						var unread = res.data.unread;
 						data["remainMoney"] = numberToFixed(data.remainMoney/100,2);
 						data["warning"] = numberToFixed(data.warning/100,2);
+						//0供应商1分销商2直接供应方3合并终端后的资源方5散客6员工7集团帐号9平台帐号
+						data["typeText"] = {
+							0 : "供应商",
+							1 : "分销商",
+							2 : "直接供应方",
+							3 : "合并终端后的资源方",
+							5 : "散客",
+							6 : "员工",
+							7 : "集团帐号",
+							9 : "平台帐号"
+						}[data.type];
 						that.render(res.data);
 						that.initMaBox();
 					}else{
-						(code!=401) && Message.error(msg);
+						//(code!=401) && Message.error(msg);
 					}
 				},
-				serverError : function(){
-					(code!=401) && Message.error(PFT.AJAX_ERROR_TEXT);
-				}
+				timeout : function(){},
+                serverError : function(){}
 			})
 
 
