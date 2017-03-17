@@ -200,7 +200,6 @@ module.exports = function(parent){
 		 * @method 渲染折线图
 		 */
 		renderLineEchart: function ( res ) {
-			console.log(res);
 			var _this = this;
 			var params = {
 				search_type :  _this.container.find(".lineEchartControlBox .typeBtn.active").attr("data-type") ,
@@ -590,6 +589,7 @@ module.exports = function(parent){
 						//请求成功时处理
 						if( res.code == 200 ){
 							if( isGetThree ){
+								if( res.sale_trend )
 								_this.renderLineEchart( res.data.sale_trend );
 								_this.renderPieEchart( res.data.product_use );
 								_this.renderBarEchart( res.data.sale_rank )
