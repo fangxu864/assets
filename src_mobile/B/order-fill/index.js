@@ -204,7 +204,7 @@ var Order_fill = PFT.Util.Class({
 		zoneid = this.zone_id;
 		roundid = this.round_id;
 		venusid = this.venus_id;
-
+		
 		if( this.type == "H" && roundid == undefined && venusid == undefined){
 			PFT.Mobile.Alert("请选择场次时间");
 			return false
@@ -910,6 +910,8 @@ var Order_fill = PFT.Util.Class({
 			if(first == true){ //初始
 				// that.showTimeBox.show();
 				$("#playTimeInput").val(res[0].round_name + " " +res[0].bt + '-' + res[0].et);
+				that.venus_id = res[0].venus_id;
+				that.round_id = res[0].id;//id	
 				this.handleShowStorage(res,0);
 			}
 
