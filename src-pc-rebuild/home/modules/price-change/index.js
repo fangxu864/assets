@@ -66,7 +66,7 @@ module.exports = function(parent){
                     timeout : function(){},
                     serverError : function(){}
 				})
-			},1000)
+			},300)
 			
 		},
 

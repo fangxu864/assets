@@ -53,7 +53,7 @@ module.exports = function(parent){
                     timeout : function(){},
                     serverError : function(){}
                 })
-            },1500)
+            },1000)
 
             
         }

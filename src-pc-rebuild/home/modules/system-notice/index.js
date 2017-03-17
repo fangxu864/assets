@@ -50,7 +50,7 @@ module.exports = function(parent){
                         }
                     }
                 })
-            },2000)
+            },1500)
 
 
         }
