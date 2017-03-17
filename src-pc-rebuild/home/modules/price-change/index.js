@@ -5,21 +5,23 @@ var Common = require("../../common");
 var Tpl = require("./index.xtpl");
 var ItemTpl = require("./item.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
-
+var LoadingHtml = Loading("努力加载中...",{
+	height : 400
+});
 var numberToFixed = PFT.Util.numberToFixed;
 module.exports = function(parent){
 
 	var container = $('<div id="PriceChangeBox" class="PriceChangeBox"></div>').appendTo(parent);
 
 	var PriceChange = PFT.Util.Class({
-
+		__hasLoaded : false,
 		container : container,
 		template : PFT.Util.ParseTemplate(ItemTpl),
 		init : function(){
 			this.Size = 10;
 			container.html(Tpl);
 			this.listUl = container.find(".infoList");
-			this.fetch();
+			this.listUl.html(LoadingHtml);
 		},
 
 		render : function(data){
@@ -29,21 +31,20 @@ module.exports = function(parent){
 		},
 
 		fetch : function(){
+
+			if(this.__hasLoaded) return false;
+			this.__hasLoaded = true;
+
 			var that = this;
-			var html = Loading("努力加载中...");
 			var container = this.container;
 			var listUl = this.listUl;
-
-			listUl.html(html);
 			
 			setTimeout(function(){
 				Common.Ajax(Common.api.Home_HomeNotice.priceChange,{
 					params : {
 						size : that.Size,
 					},
-					loading : function(){
-						listUl.html(html);
-					},
+					loading : function(){},
 					complete : function(){ listUl.html("")},
 					success : function(res){
 						var code = res.code;
@@ -59,8 +60,6 @@ module.exports = function(parent){
 								}
 								that.render(data);
 							}
-						}else{
-							//(code!=401) && alert(msg);
 						}
 					},
                     timeout : function(){},

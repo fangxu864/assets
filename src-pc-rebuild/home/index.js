@@ -4,6 +4,7 @@
  * Description: ""
  */
 require("./index.scss");
+var Common = require("./common.js");
 
 var UserInfo = require("./modules/userinfo");
 
@@ -37,12 +38,39 @@ var Main = PFT.Util.Class({
 		// this.wxShopData = WxShopData(this.pageMain);
 
 
-		this.priceChange = PriceChange(this.rightBar);
-		this.productChange = ProductChange(this.rightBar);
+		var priceChange = this.priceChange = PriceChange(this.rightBar);
+		var productChange = this.productChange = ProductChange(this.rightBar);
 
-		this.partnerChange = PartnerChange(this.rightBar);
-		this.systemNotice = SystemNotice(this.rightBar);
+		var partnerChange = this.partnerChange = PartnerChange(this.rightBar);
+		var systemNotice = this.systemNotice = SystemNotice(this.rightBar);
 		AD(this.rightBar);
+
+
+
+
+
+		var fetch = function(){
+			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
+			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) productChange.fetch();
+			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) partnerChange.fetch();
+			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) systemNotice.fetch();
+		};
+
+		
+		fetch();
+
+
+
+        PFT.Util.ScrollManager({
+            container : "#G_Body",
+            timeout : 200,
+            distanceAtBottom : 17,
+            scroll : function(data){
+				fetch();
+            }
+        });
+
+
 
 
 	}
