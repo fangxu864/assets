@@ -1,21 +1,12 @@
 <%
-        var d_type = $("#home_judge_of_dtype").val();
-        var t_num = 0;
-        var t_money = 0;
-        if( d_type == 1 ){
-            t_money = data.bookSaleMoney / 100 > 10000 ? (data.bookSaleMoney / 1000000).toFixed(2)+ "万" : data.bookSaleMoney / 100;
-            t_num = data.bookOrderNum ? data.bookOrderNum : 0;
-        }else if( d_type == 0){
-            t_money = data.chSaleMoney / 100 > 10000 ? (data.chSaleMoney / 1000000).toFixed(2)+ "万" : data.chSaleMoney / 100;
-            t_num = data.chTicketNum ? data.chTicketNum : 0;
-        }
+        var d_type = $("#home_judge_of_dtype").val()
 %>
 <tr>
-    <td><span class="key"><%=d_type == 0 ? '检票数': '预订票数' %> : </span><span class="value"><%=t_num %>张</span></td>
+    <td><span class="key"><%=d_type == 0 ? '检票数': '预订票数' %> : </span><span class="value"><%=data.chTicketNumSeven ? data.chTicketNumSeven : 0 %>张</span></td>
 </tr>
 <tr>
 <td>
     <span class="key"><%=d_type == 0 ? '检票金额': '预订金额' %> : </span>
-    <span class="value"><%=t_money %>元</span>
+    <span class="value"><%=data.chSaleMoneySeven / 100 > 10000 ? (data.chSaleMoneySeven / 1000000).toFixed(2)+ "万" : data.chSaleMoneySeven / 100 %>元</span>
 </td>
 </tr>

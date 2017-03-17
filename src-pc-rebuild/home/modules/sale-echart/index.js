@@ -46,7 +46,6 @@ module.exports = function(parent){
 			this.render();
 			this.renderOrderData_today( true );
 			this.renderOrderData_seven();
-			this.renderOrderData_month();
 			//折线图
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
 			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
@@ -118,7 +117,7 @@ module.exports = function(parent){
 			var LoadingStr = LoadingPC("努力加载中...",{
 				tag : "tr",
 				width : 500,
-				height : 80
+				height : 60
 			});
 
 			PFT.Util.Ajax("/r/Home_HomeOrder/todayInfo/",{
@@ -166,71 +165,39 @@ module.exports = function(parent){
 
 
 		/**
-		 * @method 渲染近七日订单数据
+		 * @method 渲染近七日订单数据 和 近30日订单数据
 		 */
 		renderOrderData_seven : function () {
 			var _this = this ;
 
-			var curContainer = _this.container.find(".line1 .seven-box table");
+			var sevenContainer = _this.container.find(".line1 .seven-box table");
+			var monthContainer = _this.container.find(".line1 .month-box table");
 			var LoadingStr = LoadingPC("努力加载中...",{
 				tag : "tr",
 				width : 500,
-				height : 80
+				height : 60
 			});
 
 			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
 				type : "POST",
-				params : {is_seven:1},
+				params : {},
 				loading : function(){
-					curContainer.html(LoadingStr);
+					sevenContainer.html(LoadingStr);
+					monthContainer.html(LoadingStr);
 				},
 				complete : function(res){
 					if( res.code == 200 ){
-						var html = _this.template_seven_od( { data : res.data.data } );
-						curContainer.html( html )
+						var sevenHtml = _this.template_seven_od( { data : res.data.data } );
+						var monthHtml = _this.template_month_od( { data : res.data.data } );
+						sevenContainer.html( sevenHtml );
+						monthContainer.html( monthHtml )
 					}else{
-						curContainer.html( res.msg )
+						sevenContainer.html( res.msg );
+						monthContainer.html( res.msg )
 					}
 				}
 			});
 
-			// var html = _this.template_yesterday_od( );
-			// _this.container.find(".line1 .yesterday-box .rt").html( html )
-		},
-
-
-		/**
-		 * @method 渲染近30日订单数据
-		 */
-		renderOrderData_month : function () {
-			var _this = this ;
-
-			var curContainer = _this.container.find(".line1 .month-box table");
-			var LoadingStr = LoadingPC("努力加载中...",{
-				tag : "tr",
-				width : 500,
-				height : 80
-			});
-
-			PFT.Util.Ajax("/r/Home_HomeOrder/YesterdayInfo/",{
-				type : "POST",
-				params : {is_seven:2},
-				loading : function(){
-					curContainer.html(LoadingStr);
-				},
-				complete : function(res){
-					if( res.code == 200 ){
-						var html = _this.template_month_od( { data : res.data.data } );
-						curContainer.html( html )
-					}else{
-						curContainer.html( res.msg )
-					}
-
-				}
-			});
-
-			// var html = _this.template_yesterday_od( );
-			// _this.container.find(".line1 .yesterday-box .rt").html( html )
 		},
 
 
