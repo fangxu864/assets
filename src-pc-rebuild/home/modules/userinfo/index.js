@@ -74,9 +74,9 @@ module.exports = function(parent){
 			$("#abnormalOrderNum").text(data.abnormalOrder);
 			$("#taobaoOrderNum").text(data.taobao);
 			$("#remainMoneyText").text(data.remainMoney);
-			return console.log(data);
-			var html = this.template(data);
-			this.container.html(html);
+			// return console.log(data);
+			// var html = this.template(data);
+			// this.container.html(html);
 		},
 		ajaxFaZhi : function(value,tarBtn){
 			var successText = value==0 ? "余额预警阀值关闭成功" : "余额预警阀值设置成功";
