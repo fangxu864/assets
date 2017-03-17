@@ -1,0 +1,11 @@
+<div id="signingStaff">
+    <div class="loading" style="margin-top: 38%">
+        <div style="text-align: center">
+            <img src="http://static.12301.cc/images/icons/gloading.gif" alt=""/>
+        </div>
+        <div style="text-align: center">
+            加载中...
+        </div>
+    </div>
+
+</div>
