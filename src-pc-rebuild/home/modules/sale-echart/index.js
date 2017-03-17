@@ -589,7 +589,6 @@ module.exports = function(parent){
 						//请求成功时处理
 						if( res.code == 200 ){
 							if( isGetThree ){
-								if( res.sale_trend )
 								_this.renderLineEchart( res.data.sale_trend );
 								_this.renderPieEchart( res.data.product_use );
 								_this.renderBarEchart( res.data.sale_rank )
