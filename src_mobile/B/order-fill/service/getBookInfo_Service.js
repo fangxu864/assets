@@ -36,6 +36,9 @@ module.exports = function(params,opt){
 			var data = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			if(code==200){
+
+
+				// 什么时间有效
 				var validTime = data.validTime;
 				if(validTime==0){
 					data["validTime"] = "仅当天有效";
@@ -89,14 +92,16 @@ module.exports = function(params,opt){
 					if(buy_low==0) item["buy_low"] = -1;//后端返回0时，即表示不限 (这里要我吐槽一下坑爹的后端，一会是-1 一会是0)
 					if(buy_up==0) item["buy_up"] = -1;
 				})
+				//退房扣费
 
-				var reb = data.reb;
-				var reb_type = data.reb_type;
+				var reb = data.reb; //当不符合阶梯退票的规则，则收取1元固定手续费
+				var reb_type = data.reb_type;  // 1收取手续费元，0百分比
 				data["reb"] = reb * 1;
 				data["reb_type"] = reb_type * 1;
 
+				//分批验证
 				var batch_check = data.batch_check;
-				var batch_day = data.batch_day;
+				var batch_day = data.batch_day;  //分批验证一天N张 0不限
 				if(batch_check==1 && batch_day!=0){ //开启分批验证 并且不能设置为不限验证数
 					data["batch_day"] = "本次提交的订单，每日最多使用" + batch_day + "张";
 				}

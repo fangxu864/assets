@@ -68,6 +68,7 @@ var Order_fill = PFT.Util.Class({
 	},
 	//处理顶端提示
 	handleTips : function(res){
+		console.log(res);
 		//有效时间
 		var validType = res.validType;
 		var validTime = res.validTime;  //在服务层已处理
@@ -82,21 +83,56 @@ var Order_fill = PFT.Util.Class({
 		//退房扣费
 		var reb = res.reb;
 		var rebType = res.reb_type;
+		var cancelCost = res.cancel_cost;
 
 		$("#validTime").text(validTime);//有效时间
 		$("#verifyTime").text(verifyTime);//验证时间
 		//分批验证
-		if(batchDay == "0"){
+		if(batchCheck == "0"){
 			$("#batchText").css("display","none");
+		}else if( batchCheck == "1" ){  
+			if(batchDay == "0"){ //不限
+				$("#batchText").text("本次提交的订单，每日不限验证张数");
+			}else{
+				$("#batchText").text(batchDay);
+			}
 		}
 		//退票
 		if(refundRule == "2"){//不可退
 			$("#refund.green").text("退票：不可退");
-			$("#regular").css("display","none");
+			$("#regular").css("display","none");   //退票规则隐藏
 		}else{
 			$("#refund.green").html('<span class="blue" id="regularBtn">退票规则∨</span>');			
-			// refund_rule_text
-			$("#regular").text(refundRuleText);
+			$("#regular").append('<p class="gray">' + refundRuleText + '</p>');
+			var rebHtml = "";
+			if( cancelCost.length == 0 ){  //不为阶梯退票
+				if(rebType == 1){//元
+					rebHtml += '<p class="gray">手续费为' + reb/10 + '元</p>' ;
+				}else if(rebType == 0){//百分比
+					rebHtml += '<p class="gray">手续费为票价的'+reb+'%</p>' ;
+				}
+				$("#regular").append(rebHtml);
+			}else{ //为阶梯退票
+
+				for( var j=0;j<cancelCost.length;j++){
+					var omin = cancelCost[j].c_days; 
+					var day = omin/(60*24);
+					var leave1 = omin%(60*24);
+					var hour = leave1/60;
+					var min = leave1%60;
+					var date = parseInt(day) + '天' + parseInt(hour) + '小时' + min + '分钟';
+					cancelCost[j].c_days = date;
+				}
+				for( var i = 0;i<cancelCost.length;i++){
+					if( cancelCost[i].c_type == "1"){//固定金额
+						rebHtml += '<p class="gray">游玩日期前'+ cancelCost[i].c_days +'以内退票，手续费为'+parseInt(cancelCost[i].c_cost)/100+'元</p>' ;
+					}else if(cancelCost[i].c_type == "0"){//百分比
+						rebHtml += '<p class="gray">游玩日期前'+ cancelCost[i].c_days +'以内退票，手续费为票价的'+cancelCost[i].c_cost+'%</p>' ;
+					}
+				}
+				$("#regular").append(rebHtml);
+			}
+
 		}
 
 	},
