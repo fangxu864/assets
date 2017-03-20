@@ -80,6 +80,12 @@ var Pagination = UtilClass({
 		toPage = $.trim(toPage);
 		var totalPage = this.totalPage;
 		var currentPage = this.currentPage;
+		// console.log("toPage:"+toPage+"---"+"totalPage:"+totalPage)
+		// console.log(isNaN(toPage))
+		// console.log(!(/^[1-9][0-9]*$/.test(toPage)))
+		// console.log((totalPage<=0))
+		// console.log(!totalPage)
+		// console.log((toPage>totalPage))
 		if(isNaN(toPage) || (toPage==0) || !(/^[1-9][0-9]*$/.test(toPage)) || (totalPage<=0) || !totalPage || (toPage>totalPage)) return false;
 		this.trigger("page.switch",toPage*1,currentPage,totalPage);
 	},
