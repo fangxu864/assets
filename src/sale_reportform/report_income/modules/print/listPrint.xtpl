@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提现清单-<%=data.title%></title>
+    <style>
+        body,html{
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            font-family: "Microsoft YaHei", "Arial", sans-serif;
+        }
+        .number-total{
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<h3 style="text-align: center">提现清单-<%=data.title%></h3>
+<%
+    var Twithdraw_deposit = 0;
+    var Ttfee = 0;
+    var Ttransfer_money = 0;
+
+%>
+<% _.each(data.data,function(item,index){ %>
+    <div class="list-box">
+        <p class="line" style="margin:5px 0;">
+            <span>账户名称(ID) : </span><span><%=item.dname%></span><span class="number"> ( <%=item.id%> ) </span>
+            <span style="margin-left: 20px">申请时间 : </span><span><%=item.apply_time%></span>
+        </p>
+        <p class="line" style="margin:5px 0;">
+            <span>企业名称 : </span><span><%=item.cname%></span>
+            <span style="margin-left: 20px">收款账户 : </span><span class="number"><%=item.bank_accuont%></span>
+        </p>
+        <p class="line" style="margin:5px 0;">
+            <%
+                Twithdraw_deposit += Number( item.withdraw_deposit );
+                Ttfee += Number( item.tfee );
+                Ttransfer_money += Number( item.transfer_money );
+
+            %>
+            <span>申请提现金额(元) : </span><span class="number"><%=item.withdraw_deposit%></span>
+            <span style="margin-left: 20px">手续费(元) : </span><span class="number"><%=item.tfee%></span>
+            <% if(item.cut_from == 1){%>
+            <span>(提现金额扣除)</span>
+            <%}else if(item.cut_from == 0){%>
+            <span>(账户余额扣除)</span>
+            <%}%>
+            <span style="margin-left: 20px">应转账金额(元) : </span><span class="number"><%=item.transfer_money%></span>
+        </p>
+        <hr style="margin-top: 10px ;border-style: dashed;color: #e5e5e5"/>
+    </div>
+<%})%>
+
+<h3>合计: </h3>
+<p>
+    <span>申请提现金额(元) : </span><span class="number-total"><%=Twithdraw_deposit.toFixed(2)%></span>
+    <span style="margin-left: 20px">手续费(元) : </span><span class="number-total"><%=Ttfee.toFixed(2)%></span>
+    <span style="margin-left: 20px">应转账金额(元) : </span><span class="number-total"><%=Ttransfer_money.toFixed(2)%></span>
+</p>
+
+</body>
+</html>

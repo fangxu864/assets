@@ -1,0 +1,28 @@
+//标题
+.title_box{
+  h3.mc_title{
+    height: 60px;
+    line-height: 60px;
+    padding-left: 10px;
+    font-size: 22px;
+    font-weight: normal;
+    background: #FFFFFF;
+    border: 1px solid #E5E5E5;
+    span.noactive{
+      display: inline-block;
+    }
+    span.noactive{
+      margin: 0 10px;
+      a{
+        color: #303D46;
+      }
+    }
+    span.active{
+      border-bottom: 2px solid #0797D9 ;
+      height: 58px;
+      a{
+        color: #0797D9;
+      }
+    }
+  }
+}
