@@ -53,11 +53,24 @@ var DialogModule = {
         //订阅打印的打印清单
         this.CR.pubSub.sub("dialog.showPrintList" , function (res) {
             var paramsArr = [
-                ['支付宝',res.data.alipay.length],
-                ['民生',res.data.minsheng.length],
-                ['银行',res.data.bank.length]
+                ['支付宝',res.data.alipay.length , 1],
+                ['民生',res.data.minsheng.length ,2],
+                ['银行',res.data.bank.length ,3 ]
             ] ;
-            console.log(paramsArr)
+            _this.printListData = {
+                1 : {
+                    title: '支付宝',
+                    data: $.extend( {} , res.data.alipay )
+                    },
+                2 : {
+                    title: '民生',
+                    data: $.extend( {} , res.data.minsheng )
+                },
+                3 : {
+                    title: '银行',
+                    data: $.extend( {} , res.data.bank )
+                }
+            };
             var html = _this.printListTemplate({ data: paramsArr});
             _this.container.html(html);
             _this.dial.open();
@@ -208,6 +221,14 @@ var DialogModule = {
                     //请求出错处理
                 }
             });
+        });
+
+        //打印提现清单
+        this.container.on("click" ,".print-list-con .print-btn" ,function () {
+            var tarBtn = $(this);
+            if( tarBtn.hasClass('disabled') ) return false;
+            var type = tarBtn.attr("data-type");
+            _this.CR.pubSub.pub("print.printList" , _this.printListData[type])
         })
     },
 
