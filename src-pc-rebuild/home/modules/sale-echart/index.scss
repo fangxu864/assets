@@ -66,9 +66,15 @@
                     tr{
                         line-height: 30px;
                         td span.value{
-                            color: #ff8734;
-                            font-size: 14px;
+                            color: #f37138;
+                            font-size: 12px;
+                            .value-number{
+                                font-size: 16px;
+                                font-weight: 700;
+                            }
                         }
+
+
                     }
                 }
 
