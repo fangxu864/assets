@@ -73,10 +73,12 @@ var Main={
                  return false
              }
 
+             console.log(ajaxData);   
+
              _this.table.dealData(ajaxData);
              //console.log(ajaxData.msg);
              _this.pagination.render(toPage,ajaxData.data.total);
-             _this.allPage = ajaxData.data[0].total;
+            //  _this.allPage = ajaxData.data[0].total;
            /* var cookie = {page:page,data:ajaxData};
             _this.cookieDate.push(cookie)*/
          }

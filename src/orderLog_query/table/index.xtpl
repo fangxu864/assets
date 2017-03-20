@@ -9,6 +9,8 @@
         <th>产品</th>
         <th>票</th>
         <th>数量</th>
+        <th>下单人</th>
+        <th>联系电话</th>
     </tr>
 
     </thead>

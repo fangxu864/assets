@@ -37,7 +37,9 @@ var Table=PFT.Util.Class({
                 "<td>"+list[i].ordernum+"</td> " +           //订单号
                 "<td>"+list[i].land_title+"</td> " +           //产品
                 "<td>"+list[i].ticket_title+"</td> " +           //票
-                "<td class='tl1'>"+list[i].tnum+"</td> " +                 //数量
+                "<td>"+list[i].tnum+"</td> " +                 //数量
+                "<td>"+list[i].ordername+"</td> " +             //下单人
+                "<td class='tl1'>"+list[i].ordertel+"</td> " +    //联系电话
                 "</tr>";
             $("#table_box tbody").append(tr);
         };
