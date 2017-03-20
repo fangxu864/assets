@@ -1,0 +1,14 @@
+<% for(var i = 0;i<list.length;i++){ %>
+<tr class="line even">
+    <td class="col col_1"><%=list[i].apply_did%></td>
+    <td class="col col_2"><%=list[i].apply_did%></td>
+    <td class="col col_3"><%=list[i].apply_did%></td>
+    <td class="col col_4"><%=list[i].apply_did%></td>
+    <td class="col col_5"><%=list[i].apply_did%></td>
+    <td class="col col_6"><%=list[i].apply_did%></td>
+    <td class="col col_7"><%=list[i].apply_did%></td>
+    <td class="col col_8"><%=list[i].apply_did%></td>
+    <td class="col col_9"><%=list[i].apply_did%></td>
+    <td class="col col_10"><%=list[i].apply_did%></td>
+</tr>
+<% } %>
