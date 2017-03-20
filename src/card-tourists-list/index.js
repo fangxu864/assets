@@ -155,7 +155,7 @@ var Main = PFT.Util.Class({
 				export : that.exports,
 				physicsno : that.CardId,
 				page : that.page,
-				pagesize : 2
+				pagesize : 15
 
 				//调试分页用
 				// begin : 1389542769,
