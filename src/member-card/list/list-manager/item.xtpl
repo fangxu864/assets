@@ -4,6 +4,7 @@
             <a href="member_card.html?fid=<%=item.did%>"><%=item.dname%>(<%=item.card_no ? item.card_no : "--"%>)</a>
         </td>
         <td class="col td last_time"><%=item.ordertime%></td>
+        <td class="col td carinfo"><%=item.carInfo%></td>
         <td class="col td state"><%=item.status_text%></td>
         <td data-status="<%=item.status%>" data-cid="<%=item.cid%>" data-did=<%=item.did%> class="col td do">
         <%_.each(item.action,function(act,index){%>

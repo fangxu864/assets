@@ -205,6 +205,8 @@ var Book_form={
             });
         }
 
+        //分销商供应商列表数据缓存容器
+        _this.select3_cache_data = {};
         //分销商供应商选择
         var select_fg=new SelectShort({
             id:"select_fg",
@@ -215,41 +217,71 @@ var Book_form={
                     "供应商" : 1
                 };
                 $("#select_fg").attr("search_type" , Data[cur_opt]);
-            }
-        });
-        //分销商搜索框
-       this.select3=new Select({
-            source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-            isFillContent:false,
 
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "",  //指定过滤方式为ajax
-            field : {
-                id : "id",
-                name : "name",
-                keyword : "name"
-            },
-            trigger : $("#fenxiaoshang_name_inp"),
 
-            filter : true,
-            adaptor : function(res){
-                var reslut = {};
-                reslut["code"]=res.code;
-                reslut["msg"]=res.msg;
-                var arr=[];
-                var data=res.data;
-                for(var i in data){
-                    arr.push(data[i]);
+                if(cur_opt == "分销商"){
+                    //如果存在分销商缓存
+                    if( _this.select3_cache_data["Reseller"]){
+                        _this.select3.refresh(_this.select3_cache_data["Reseller"]);
+                    }else{
+                        $.post("/r/report_statistics/getResellerList/" , function (res) {
+                            _this.select3_cache_data["Reseller"] = res.data;
+
+                            //分销商搜索框
+                            _this.select3=new Select({
+                                // source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+                                // ajaxType : "get",
+                                isFillContent:false,
+                                ajaxParams : {
+                                    action : "fuzzyGetDname_c",
+                                    dtype : "1",
+                                    danme : ""
+                                },
+                                // filterType : "",  //指定过滤方式为ajax
+                                field : {
+                                    id : "id",
+                                    name : "name",
+                                    keyword : "name"
+                                },
+                                trigger : $("#fenxiaoshang_name_inp"),
+
+                                filter : true,
+                                // adaptor : function(res){
+                                //     var reslut = {};
+                                //     reslut["code"]=res.code;
+                                //     reslut["msg"]=res.msg;
+                                //     var arr=[];
+                                //     var data=res.data;
+                                //     for(var i in data){
+                                //         arr.push(data[i]);
+                                //     }
+                                //     reslut["data"] =arr;
+                                //     return reslut;
+                                // },
+                                data: _this.select3_cache_data["Reseller"]
+                            });
+                            if( _this.isAdmin != 1){
+                                _this.select3.refresh(res.data);
+                            }
+                        });
+                    }
+                }else if(cur_opt == "供应商"){
+                    //如果存在供应商缓存
+                    if( _this.select3_cache_data["Supplier"]){
+                        _this.select3.refresh(_this.select3_cache_data["Supplier"]);
+                    }else{
+                        $.post("/r/report_statistics/getSupplierList" , function (res) {
+                            _this.select3_cache_data["Supplier"] = res.data;
+                            if( _this.isAdmin != 1){
+                                _this.select3.refresh(res.data);
+                            }
+                        })
+                    }
                 }
-                reslut["data"] =arr;
-                return reslut;
             }
         });
+        
+        
         //产品类型选择框
         var select_huizong_type=new SelectShort({
             id:"huizong_type",
@@ -379,7 +411,12 @@ var Book_form={
         if(_this.isAdmin==1){
             $("#fenxiaoshang_name_inp").on("focus",function () {
                 var member_id=_this.getParams()["merchant_id"]?_this.getParams()["merchant_id"]:"";
-                var api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                var api = '';
+                if($("#select_fg").attr("search_type") == 0){
+                    api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }else{
+                    api="/r/report_statistics/getSupplierList?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }
                 $.ajax({
                     url: api,                                //请求的url地址"/r/report_statistics/orderList/"
                     dataType: "json",                            //返回格式为json
