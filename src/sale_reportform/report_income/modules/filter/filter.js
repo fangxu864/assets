@@ -30,11 +30,9 @@ var Filter = {
         // this.initDatepicker();
         this.bind();
         // this.container.find(".btn_query").trigger("click");
-
-        $(".self-radio").on("click" ,function (e) {
-            $(this).addClass("checked").siblings(".self-radio").removeClass("checked")
-        })
-
+        setTimeout(function () {
+            _this.CR.pubSub.pub("queryStateBox.querying");
+        },0)
 
     },
 
@@ -58,6 +56,7 @@ var Filter = {
                     dtype : "1",
                     danme : ""
                 },
+                height:300,
                 isFillContent:false,
                 filterType : "ajax",  //指定过滤方式为ajax
                 field : {
@@ -144,6 +143,7 @@ var Filter = {
                 return  dates;
             }
         });
+
         //时间段列表绑定事件
         this.container.on("click","ul.time_area li",function () {
             var li_id=$(this).get(0).id;
@@ -191,26 +191,13 @@ var Filter = {
             $(".query_btn").click();
         });
 
-        //应收应付按钮
-        this.container.on("click" , ".self-radio" ,function (e) {
-            $(this).addClass("checked").siblings(".self-radio").removeClass("checked");
-            var type =  $(this).find("input").val();
-            if( type == '1' ){
-                $("#select_fg").text("分销商:");
-                $("#fenxiaoshang_name_inp").prop('placeholder','请输入分销商名称')
-            }else{
-                $("#select_fg").text("供应商:");
-                $("#fenxiaoshang_name_inp").prop('placeholder','请输入供应商名称')
-            }
-        });
-
         //产品名称搜索框
         this.ajaxParams={"search_id":""};
         if(_this.isAdmin==1){
             this.select2=new Select({
                 source : "/r/report_statistics/searchLands/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
                 ajaxType : "post",
-
+                height:300,
                 ajaxParams : _this.ajaxParams,
                 filterType : "ajax",  //指定过滤方式为ajax
                 field : {
@@ -239,12 +226,12 @@ var Filter = {
             this.select2=new Select({
                 source : "/r/report_statistics/getLandList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
                 ajaxType : "get",
-
                 ajaxParams : {
                     action : "fuzzyGetDname_c",
                     dtype : "1",
                     danme : ""
                 },
+                height:300,
                 filterType : "",  //指定过滤方式为ajax
                 field : {
                     id : "id",
@@ -269,6 +256,69 @@ var Filter = {
                 }
             });
         }
+
+        //应收应付按钮
+        //分销商供应商列表数据缓存容器
+        _this.select3_cache_data = {};
+        this.container.on("click" , ".self-radio" ,function (e) {
+            $(this).addClass("checked").siblings(".self-radio").removeClass("checked");
+            var type =  $(this).find("input").val();
+            var select_fg =  $("#select_fg");
+            if( type == '1' ){
+                select_fg.text("分销商:");
+                $("#fenxiaoshang_name_inp").prop('placeholder','请输入分销商名称');
+                //如果存在分销商缓存
+                select_fg.attr("search_type" , 0);
+                if( _this.select3_cache_data["Reseller"]){
+                    _this.select3.refresh(_this.select3_cache_data["Reseller"]);
+                }else{
+                    $.post("/r/report_statistics/getResellerList/" , function (res) {
+                        _this.select3_cache_data["Reseller"] = res.data;
+
+                        //分销商搜索框
+                        _this.select3=new Select({
+                            isFillContent:false,
+                            ajaxParams : {
+                                action : "fuzzyGetDname_c",
+                                dtype : "1",
+                                danme : ""
+                            },
+                            height:300,
+                            // filterType : "",  //指定过滤方式为ajax
+                            field : {
+                                id : "id",
+                                name : "name",
+                                keyword : "name"
+                            },
+                            trigger : $("#fenxiaoshang_name_inp"),
+
+                            filter : true,
+                            data: _this.select3_cache_data["Reseller"]
+                        });
+                        if( _this.isAdmin != 1){
+                            _this.select3.refresh(res.data);
+                        }
+                    });
+                }
+            }else{
+                $("#select_fg").text("供应商:");
+                $("#fenxiaoshang_name_inp").prop('placeholder','请输入供应商名称');
+                select_fg.attr("search_type" , 0);
+                //如果存在供应商缓存
+                if( _this.select3_cache_data["Supplier"]){
+                    _this.select3.refresh(_this.select3_cache_data["Supplier"]);
+                }else{
+                    $.post("/r/report_statistics/getSupplierList" , function (res) {
+                        _this.select3_cache_data["Supplier"] = res.data;
+                        if( _this.isAdmin != 1){
+                            _this.select3.refresh(res.data);
+                        }
+                    })
+                }
+            }
+        });
+        this.container.find(".self-radio")[0].click();
+
 
        
 

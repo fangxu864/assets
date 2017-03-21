@@ -6,7 +6,7 @@ require("./index.scss");
 var Filter = require("./modules/filter/filter.js");
 // var TableCon = require("./modules/table-con/table-con.js");
 // var Pagination = require("./modules/pagination/pagination.js");
-// var QueryState = require("./modules/query-state/query-state.js");
+var QueryState = require("./modules/query-state/query-state.js");
 // var Print = require("./modules/print/print.js");
 // var Dialog = require("./modules/dialog/dialog.js");
 
@@ -64,8 +64,8 @@ var Main = {
         Filter.init(CR);
         // //tableCon
         // TableCon.init(CR);
-        // //queryState
-        // QueryState.init(CR);
+        //queryState
+        QueryState.init(CR);
         // //pagination
         // Pagination.init(CR);
         // //print
