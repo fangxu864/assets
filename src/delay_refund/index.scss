@@ -335,12 +335,57 @@
 	.listTable .line .repushBtn.fail{ color:#afafaf; cursor:default}
 	.listTable .line .repushBtn.fail:hover{ color:#afafaf; text-decoration:none}
 
-
 //2017.3.20补充
-
-
 #searchBtn2{
 	top: 21px;
 	left: 336px;
 }
+//dialog
+.gSimpleDialog-header{
+	background: #f3f3f3;
+	padding-left: 15px;
+    padding-right: 45px;
+	line-height: 46px;
+}
+.dialogHeader{
+	font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+.dialogCon{
+	margin-top: 46px;
+	height: 274px;
+	position: relative;
+	padding: 15px;
+	.textarea_reson {
+		text-align: left;
+		padding: 8px;
+		border: 1px solid #dbdbdb;
+	}
+	.dialog-btn {
+		display: inline-block;
+		line-height: 30px;
+		padding: 0 38px;
+		margin-right: 10px;
+		color: #fff;
+		margin-top: 10px;
+	}
+	.dialog-btn.yes {
+		background: #008fc2;
+		margin-left: 88px;
+	}
+	.dialog-btn.no {
+		background: #c1c1c1;
+	}
+}
 
+
+
+#tempInfo{
+	height: 100px;
+	text-align: center;
+	line-height: 100px;
+	font-size: 20px;
+	font-weight: bold;
+	border: 1px solid #e5e5e5;
+}

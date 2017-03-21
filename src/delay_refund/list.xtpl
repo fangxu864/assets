@@ -33,14 +33,28 @@
     </td>
     <td class="col col_8"><%={0:"未审核",1:"同意",2:"拒绝"}[list[i].refund_status]%></td>
     <td class="col col_9">
-        <% if(list[i].action==0){ %>
-        等待审核
-        <% }else if(list[i].action==2){ %>
-        已处理
-        <%}else{%>
-        <a class="doActionBtn agree" data-auditid="<%=list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="1" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">同意</a>
+        
+        <% //先把同意拒绝先展示出来做测试用 %>
+        <a class="doActionBtn agree" data-id="<%=list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="1" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">同意</a>
         |
-        <a class="doActionBtn disagree" data-auditid="<%list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="2" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">拒绝</a>
+        <a class="doActionBtn disagree" data-id="<%=list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="2" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">拒绝</a>
+
+
+
+
+
+
+
+
+
+
+        <% if(list[i].refund_status==0){ %>
+        <a class="doActionBtn agree" data-id="<%=list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="1" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">同意</a>
+        |
+        <a class="doActionBtn disagree" data-id="<%list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="2" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">拒绝</a>
+        <% }else if(list[i].refund_status==1){ %>
+        同意
+        <% }else{ %>
         <% } %>
     </td>
     <td class="col col_10">
