@@ -23,7 +23,7 @@ var Main = PFT.Util.Class({
                 dataType: "json",
                 params: {
                     c: 'MicroPlat_Member',
-                    a: 'friendWx',
+                    a: 'beforeLogin',
                     token: PFT.Util.getToken(),
                     appid: urlParams["appid"],
                     fid: urlParams["fid"],
