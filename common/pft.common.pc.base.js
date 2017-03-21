@@ -17,6 +17,7 @@ function init(){
 	})
 	$("#siteGotopBtn").on("click",function(e){
 		$("html,body").animate({"scrollTop":0},200);
+		return false;
 	})
 	var maCode = $("#siteMaBox .code_icon");
 	var maCode_img = maCode.find(".code_img");

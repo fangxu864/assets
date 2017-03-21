@@ -1,0 +1,117 @@
+
+#introMask{
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	opacity: .5;
+	background: black;
+	transition: all 0.3s ease-out;
+	z-index: 9;
+}
+#introMask2{
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	opacity: 0;
+	z-index: 101;
+}
+#introHelper{
+	position: absolute;
+    z-index: 102;
+}
+.introNow{
+	z-index: 100;
+	position: relative;
+}
+#introHelper img{
+	position: absolute;
+    z-index: 99;
+}
+
+/* 第一步 */
+#introHelper #introImg1{
+	top: 30px;
+    left: 90px;
+	z-index: 999;
+}
+#introHelper #introImgArr1{	
+    top: 92px;
+    left: -11px;
+}
+#introHelper #introExit{
+	
+	position: absolute;
+	height: 23px;
+	width: 63px;
+	z-index: 999;
+	top: 286px;
+    left: 359px;
+    cursor: pointer;
+
+}
+#introHelper #introNext{
+	position: absolute;
+	height: 33px;
+	width: 101px;
+	z-index: 999;
+	top: 277px;
+    left: 236px;
+    cursor: pointer;
+    z-index : 999;
+}
+
+.helper1Wrap{
+	
+	position : absolute;
+	z-index : 99;
+	width : 10px;
+	height : 10px;
+	left : 500px;
+	top : 500px;
+
+}
+.introHelper1{
+	height: 30px;
+	width: 140px;
+	position: absolute;
+    z-index: 99;
+    background: #fff;
+}
+
+/* 第二步 */
+
+
+#introHelper #introImg2{
+	top: 726px;
+    left: 90px;
+}
+#introHelper #introImgArr2{	
+    top: 955px;
+    left: 19px;
+}
+#introHelper #introNext2{
+	position: absolute;
+	height: 33px;
+	width: 101px;
+	z-index: 999;
+	top: 896px;
+    left: 258px;
+    cursor: pointer;
+	z-index : 999;
+}
+
+.introHelper2{
+	height: 30px;
+	width: 140px;
+	position: absolute;
+    z-index: 99;
+    background: #fff;
+}
+
+
+
+

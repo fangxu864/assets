@@ -1,0 +1,123 @@
+
+#introMask{
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	opacity: .5;
+	background: black;
+	transition: all 0.3s ease-out;
+	z-index: 9;
+}
+#introHelper{
+	position: absolute;
+    z-index: 99;
+}
+.introNow{
+	z-index: 100;
+	position: relative;
+}
+#introHelper img{
+	position: absolute;
+    z-index: 99;
+}
+
+/* 第一步 */
+#introHelper #introImg1{
+	top: 0px;
+    left: 40px;
+}
+#introHelper #introImgArr1{	
+    top: 240px;
+    left: 325px;
+}
+#introHelper #introNext{
+	position: absolute;
+	height: 33px;
+	width: 101px;
+	z-index: 999;
+	top: 163px;
+    left: 202px;
+    cursor: pointer;
+}
+
+/* 第二步 */
+
+#introHelper #introImg2{
+	top: 52px;
+    left: 375px;
+}
+#introHelper #introImgArr2{	
+    top: 300px;
+    left: 310px;
+}
+#introHelper #introImgTag2{	
+    top: 30px;
+    left: 35px;
+}
+#introHelper #introImgClose2{
+	top: 60px;
+	left: 815px;
+}
+#introNext2{
+	position: absolute;
+	height: 33px;
+	width: 101px;
+	z-index: 999;
+    cursor: pointer;
+}
+
+#introMask2{
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	opacity: 0;
+	z-index: 105;
+}
+
+#introHelper3{
+	position: absolute;
+    z-index: 99;
+	height: 45px;
+	width: 45px;
+	border-radius: 50%;
+	background: #fff;
+	top: 4px;
+	left: 762px;
+}
+/* 第三步 */
+
+#introImg3{
+	left: 66px;
+	top: 27px;
+}
+#introImgArr3{
+	left: 0px;
+	top: 48px;
+}
+#introHelper #introNext3{
+	top : 273px;
+	left : 215px;
+	position: absolute;
+	height: 35px;
+	width: 110px;
+	z-index: 999;
+    cursor: pointer;
+}
+.introHelper3{
+	height: 30px;
+	width: 140px;
+	position: absolute;
+    z-index: 99;
+    background: #fff;
+}
+
+
+
+
+
+
+
