@@ -1,0 +1,65 @@
+<% _.each( data, function( item, i ){ %>
+<tr>
+    <td>
+        <%=item.rectime%>
+    </td>
+    <td>
+        <%=item.orderid%>
+    </td>
+    <td>
+        <% switch( item.dtype ) {
+            case 0: %>
+            下单
+        <%  break;
+            case 1: %>
+            取消
+        <%  break;
+            case 3: %>
+            账户资金变化[充值/扣款]
+        <%  break;} %>
+    </td>
+    <td>
+    <%
+        switch(item.ptype) {
+            case 0:%>
+            支付宝
+            <%break;
+            case 1: %>
+            微信支付
+            <%break;
+            case 2: %>
+            银联
+            <%break;
+            case 3: %>
+            环迅
+            <%break;
+            case 4: %>
+            现金
+            <%break;
+            case 6: %>
+            拉卡拉[商户]
+            <%break;
+            case 7: %>
+            拉卡拉[票付通]
+            <%break;
+            case 8: %>
+            微信-民生
+            <%break;
+            case 9: %>
+            平安银行
+       <%break; }%>
+    </td>
+    <td>
+        <% type==0? item.total_money : item.refund_money %>
+    </td>
+    <td>
+        <%=item.dmoney%>
+    </td>
+    <td>
+        <% type==0? ( item.total_money*100 - item.dmoney*100 )/100 : ( item.refund_money*100 - item.dmoney*100 )/100 %>
+    </td>
+    <td>
+        <%=item.trade_no%>
+    </td>
+</tr>
+<% }) %>
