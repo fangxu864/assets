@@ -41,7 +41,6 @@
         .lastLoginTime{ color:lighten(#000,65%); margin-left:10px}
         .auth,.dtype{ display:inline-block; padding:2px 5px; border-width:1px; border-style:solid}
         .dtype{ 
-            padding-left: 0;
             .fl{ color: #fff; padding:0 2px; margin-right: 5px}
         }
         .auth_0{ border-color:#e12424; color:#e12424}
@@ -52,7 +51,6 @@
         .dtype_1{ border-color:#258cc9; color:#258cc9;
             .fl{ background-color: #258cc9 }
         }
-        .dtype_2,.dtype_3,.dtype_5,.dtype_6,.dtype_7,.dtype_9{ color: #258cc9; padding-left: 3px;}
     }
 
     .bot{

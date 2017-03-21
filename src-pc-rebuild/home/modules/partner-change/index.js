@@ -29,6 +29,7 @@ module.exports = function(parent){
         render : function(data){
              var html = this.template(data);
              this.listUl.html(html);
+             this.trigger("ready");
         },
         fetch : function(){
 

@@ -24,9 +24,14 @@ module.exports = function(parent){
             container.html(Tpl);
             this.container.find(".noticeList").html(LoadingHtml);
         },
-        render : function(data){
-              var html = this.template(data);
-              this.container.find(".noticeList").html(html);
+        render : function(data,type){
+            if(type=="empty"){
+                this.container.find(".noticeList").html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品上下架消息..</li>')
+            }else{
+                var html = this.template(data);
+                this.container.find(".noticeList").html(html);
+            }
+            this.trigger("ready");
         },
         fetch : function(){
 
@@ -53,7 +58,20 @@ module.exports = function(parent){
                     var msg = res.msg || PFT.AJAX_ERROR_TEXT;
                     var data = res.data;
                     if(code == 200){
-                        that.render({data:data})
+                        if(data.length==0){
+                            that.render(null,"empty");
+                        }else{
+                            var newData = [];
+                            for(var i=0,len=data.length; i<len; i++){
+                                var item = data[i];
+                                var time = item.create_time;
+                                if(typeof time!=="string") time = "";
+                                time = time.split(" ")[0];
+                                item["create_time"] = time;
+                                newData.push(item);
+                            }
+                            that.render({data:newData})
+                        }
                     }else{
                         //(code!=401) && alert(msg)
                     }

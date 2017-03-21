@@ -2,6 +2,8 @@
     <li>暂无相关通知</li>
 <%}else{%>
     <% $.each(data,function(index,value){     %>
-        <li><span class="noticeTitle" id="<%=value.id%>" title="<%=value.title%>"><%=value.title%></span><span class="noticeTime"><%=value.create_time%></span></li>
+        <li>
+            <a href="pft_announce.html?id=<%=value.id%>&m=con" class="noticeTitle" id="<%=value.id%>" title="<%=value.title%>"><%=value.title%></a><span class="noticeTime"><%=value.create_time%></span>
+        </li>
     <% }) %>
 <%}%>

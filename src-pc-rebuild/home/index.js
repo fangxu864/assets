@@ -40,26 +40,38 @@ var Main = PFT.Util.Class({
 
 		var priceChange = this.priceChange = PriceChange(this.rightBar);
 		var productChange = this.productChange = ProductChange(this.rightBar);
-
 		var partnerChange = this.partnerChange = PartnerChange(this.rightBar);
 		var systemNotice = this.systemNotice = SystemNotice(this.rightBar);
+		//懒加载
+		var fetch = function(){
+			if(!priceChange.__hasLoaded && Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
+			if(!productChange.__hasLoaded && Common.elemViewIn($("#ProductChangeBox"),$("#G_Body"))) productChange.fetch();
+			if(!partnerChange.__hasLoaded && Common.elemViewIn($("#PartnerChangeBox"),$("#G_Body"))) partnerChange.fetch();
+			if(!systemNotice.__hasLoaded && Common.elemViewIn($("#SystemNoticeBox"),$("#G_Body"))) systemNotice.fetch();
+		};
+
+		priceChange.on("ready",function(){
+			fetch();
+		});
+		productChange.on("ready",function(){
+			fetch();
+		});
+		partnerChange.on("ready",function(){
+			fetch();
+		});
+		systemNotice.on("ready",function(){
+			fetch();
+		})
+
+
+
+
 		AD(this.rightBar);
 
 
 
 
-		//懒加载
-		var fetch = function(){
-			if(!priceChange.__hasLoaded && Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
-			if(!productChange.__hasLoaded && Common.elemViewIn($("#ProductChangeBox"),$("#G_Body"))){
-				productChange.fetch();
-			}
-			if(!partnerChange.__hasLoaded && Common.elemViewIn($("#PartnerChangeBox"),$("#G_Body"))) partnerChange.fetch();
-			if(!systemNotice.__hasLoaded && Common.elemViewIn($("#SystemNoticeBox"),$("#G_Body"))) systemNotice.fetch();
-		};
-
 		
-		fetch();
 
 
 
@@ -72,7 +84,7 @@ var Main = PFT.Util.Class({
             }
         });
 
-
+		fetch();
 
 
 	}

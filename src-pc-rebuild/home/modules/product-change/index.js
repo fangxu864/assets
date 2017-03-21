@@ -24,10 +24,15 @@ module.exports = function(parent){
 			//this.fetch();
 		},
 
-		render : function(data){
-			var html = this.template({data:data});
-			this.listUl.html(html);
-			this.changeStatusColor();
+		render : function(data,type){
+			if(type=="empty"){
+				this.listUl.html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品上下架消息..</li>')
+			}else{
+				var html = this.template({data:data});
+				this.listUl.html(html);
+				this.changeStatusColor();
+			}
+			this.trigger("ready");
 		},
 
 		fetch : function(){
@@ -53,7 +58,7 @@ module.exports = function(parent){
 					var data = res.data;
 					if(code==200){
 						if(data.length==0){
-							listUl.html('<li style="width:100%; height:100px; line-height:100px; text-align:center;">暂无产品上下架消息..</li>')
+							that.render(null,"empty");
 						}else{
 							that.render(data);
 						}
