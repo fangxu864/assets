@@ -34,7 +34,7 @@ module.exports = {
 		paddingTop = paddingTop.substr(0,paddingTop.length-2) * 1;
 		var offset = elem.offset();
 		var top = offset.top - containerTop - paddingTop;
-		if(top>=0 && top<=containerHeight){
+		if(top<=containerHeight){
 			return true;
 		}
 		return false;

@@ -48,12 +48,14 @@ var Main = PFT.Util.Class({
 
 
 
-
+		//懒加载
 		var fetch = function(){
-			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
-			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) productChange.fetch();
-			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) partnerChange.fetch();
-			if(!priceChange.__hasLoaded &&Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) systemNotice.fetch();
+			if(!priceChange.__hasLoaded && Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
+			if(!productChange.__hasLoaded && Common.elemViewIn($("#ProductChangeBox"),$("#G_Body"))){
+				productChange.fetch();
+			}
+			if(!partnerChange.__hasLoaded && Common.elemViewIn($("#PartnerChangeBox"),$("#G_Body"))) partnerChange.fetch();
+			if(!systemNotice.__hasLoaded && Common.elemViewIn($("#SystemNoticeBox"),$("#G_Body"))) systemNotice.fetch();
 		};
 
 		
