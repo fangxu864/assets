@@ -5,6 +5,15 @@
   "main": "webpack.config.js",
   "scripts": {
     "doc": "cd doc && idoc server",
+
+
+    "start": "set NODE_ENV=develop && webpack --config ./src-pc/webpack.config.js -w",
+    "test": "set NODE_ENV=test && webpack --config ./src-pc/webpack.config.js.js",
+    "release": "set NODE_ENV=release && webpack --config ./src-pc/webpack.config.js.js",
+    "production": "set NODE_ENV=production && webpack --config ./src-pc/webpack.config.js.js",
+
+
+
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
     "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
