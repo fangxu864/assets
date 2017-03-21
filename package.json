@@ -88,8 +88,6 @@
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
-<<<<<<< HEAD
-=======
 
 
     "common-pc-style-start" : "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
@@ -98,16 +96,13 @@
     "common-pc-style-production" : "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
 
 
->>>>>>> feature/application-center
     "admin_qingfen-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
-<<<<<<< HEAD
-=======
 
 
->>>>>>> feature/application-center
+
     "report_unAdmin-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/report_unAdmin/webpack.config.js ",
     "report_unAdmin-test": "set NODE_ENV=test && webpack --config ./src/report_unAdmin/webpack.config.js",
     "report_unAdmin-release": "set NODE_ENV=release && webpack --config ./src/report_unAdmin/webpack.config.js",
@@ -170,11 +165,10 @@
 
     "expired-text-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/expiredText/webpack.config.js",
     "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
-<<<<<<< HEAD
-=======
 
 
->>>>>>> feature/application-center
+
+
     "deal_summary-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/deal_summary/webpack.config.js ",
     "deal_summary-test": "set NODE_ENV=test && webpack --config ./src/deal_summary/webpack.config.js",
     "deal_summary-release": "set NODE_ENV=release && webpack --config ./src/deal_summary/webpack.config.js",
