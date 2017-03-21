@@ -727,7 +727,7 @@ var Order_fill = PFT.Util.Class({
 					that.toast.show("loading");
 				},
 				success:function (res) {
-
+					
 					that.toast.hide();
 
 					that.handleTips(res);//处理有效期退票等信息							

@@ -156,6 +156,8 @@ var Plist = PFT.Util.Class({
 		        that.toast.hide();
 		    },
 		    success : function(res){
+				
+
 				var code = res.code;
 				var msg = res.msg;
 				var data = res.data;
@@ -169,7 +171,11 @@ var Plist = PFT.Util.Class({
 					window.location.href = data.url;					
 				}else if( code == 205){
 					window.location.href = "noauth.html";
+				}else if( code == 207 ){
+					var para = that.getpara();
+					window.location.href = "login.html" + para ;
 				}
+				
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
@@ -614,9 +620,12 @@ var Plist = PFT.Util.Class({
 		        if(code==200){
 		        	
 		        	that.renderList(data);
+		        }else if(code==207){
+		            var para = that.getpara();
+					window.location.href = "login.html" + para ;
 		        }else{
-		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
-		        }
+					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
@@ -688,9 +697,12 @@ var Plist = PFT.Util.Class({
 		        var data = res.data;
 		        if(code==200){
 		        	that.renderTicketList(data,target);
+		        }else if(code == 207){
+		            var para = that.getpara();
+					window.location.href = "login.html" + para ;
 		        }else{
-		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
-		        }
+					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
@@ -732,6 +744,22 @@ var Plist = PFT.Util.Class({
 		}
 
 		window.location.href = url;
+	},
+
+
+	getpara : function(){
+		var url = window.location.href;
+		var urlPara = Parse(url);
+		var fullHost = window.location.protocol + "//" +window.location.hostname + window.location.pathname;
+		delete urlPara[fullHost]
+		var url = "?";
+		for( var i in urlPara){
+			url += i +"=" + urlPara[i] + "&";
+		}
+		url = url.substring( 0 , url.length-1 );
+
+		return url
+
 	}
 
 

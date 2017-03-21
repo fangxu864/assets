@@ -1,6 +1,8 @@
 
 var MinueToDayTime = require("COMMON/js/util.minuToDayTime");
 
+var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
+
 module.exports = function(params,opt){
     
     opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
@@ -109,11 +111,29 @@ module.exports = function(params,opt){
 
 				opt.success(data);
 
-			}else{
+			}else if(code==207){
+				var para = getpara();
+				window.location.href = "login.html" + para ;	
+			}else {
 				opt.fail(msg);
 			}
 
 
         }
     })
+
+
+	function getpara(){
+		var url = window.location.href;
+		var urlPara = Parse(url);
+		var fullHost = window.location.protocol + "//" +window.location.hostname + window.location.pathname;
+		delete urlPara[fullHost]
+		var url = "?";
+		for( var i in urlPara){
+			url += i +"=" + urlPara[i] + "&";
+		}
+		url = url.substring( 0 , url.length-1 );
+
+		return url
+	}
 }
