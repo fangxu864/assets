@@ -1,20 +1,22 @@
 <thead>
     <tr>
-        <th>账户ID</th>
-        <th>绑定的物理卡号</th>
-        <th>激活时间/操作员</th>
-        <th>充值金额(元)</th>
-        <th>充值时间/操作员</th>
-        <th>余额(元)</th>
-        <th>状态</th>
+        <th class="col1">账户ID</th>
+        <th class="col2">绑定的物理卡号</th>
+        <th class="col3">激活时间/操作员</th>
+        <th class="col4">充值金额(元)</th>
+        <th class="col5">充值时间/操作员</th>
+        <th class="col6">余额(元)</th>
+        <th class="col7">状态</th>
     </tr>
 </thead>
 <tbody>
     <% for(var i = 0;i<list.length;i++){ %>
     <tr>
-        <td><%=list[i].account%></td>
-        <td><%=list[i].physicsNo%></td>
-        <td><span class="timeStamp"><%=list[i].active%></span>/<%=list[i].activeOpid%></td>
+        <td>
+            <span><%=list[i].account%></span>
+        </td>
+        <td><%=list[i].physics_no%></td>
+        <td><span class="timeStamp"><%=list[i].active%></span>/<%=list[i].op%></td>
         <% if(!list[i].recharge){ %>
             <td class="orange money">暂无</td>
             <td>暂无</td>
@@ -23,12 +25,14 @@
                 <% for(var j = 0;j<list[i].recharge.length;j++){ %>
                     <% if( j > 2){ %>
                         <% if( j == 3){ %>
-                            <div class="tdMoreBtn" style="color: #0797d9;cursor: pointer;">更多</div>
+                            
+                            <div class="tdEmpty" style="height: 35px;"></div>
+                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].money%></div>
                         <% }else{ %>
-                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].rechargeMoney%></div>
+                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].money%></div>
                         <% } %>    
                     <% }else{ %>
-                        <div><%=list[i].recharge[j].rechargeMoney%></div>
+                        <div><%=list[i].recharge[j].money%></div>
                     <% } %>     
                 <% } %>
             </td>
@@ -36,22 +40,19 @@
                 <% for(var j = 0;j<list[i].recharge.length;j++){ %>
                     <% if( j > 2){ %>
                         <% if( j == 3){ %>
-                            <div class="tdEmpty" style="height: 35px;"></div>
+                            <div class="tdMoreBtn" style="color: #0797d9;cursor: pointer;">更多</div>
+                            <div class="tdItem" style="display: none;"><span class="timeStamp"><%=list[i].recharge[j].update_time%></span>/<%=list[i].recharge[j].op%></div>
                         <% }else{ %>
-                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].rechargeTime%><%=list[i].recharge[j].rechargeOpid%></div>
+                            <div class="tdItem" style="display: none;"><span class="timeStamp"><%=list[i].recharge[j].update_time%></span>/<%=list[i].recharge[j].op%></div>
                         <% } %>    
                     <% }else{ %>
-                        <div><%=list[i].recharge[j].rechargeTime%><%=list[i].recharge[j].rechargeOpid%></div>
+                        <div><span class="timeStamp"><%=list[i].recharge[j].update_time%></span>/<%=list[i].recharge[j].op%></div>
                     <% } %>   
                 <% } %>
             </td> 
         <% } %>
         <td class="orange money"><%=list[i].remain%></td>
-        <% if( list[i].status == "1"){ %>
-            <td>使用中</td>
-        <% }else if(list[i].status == "2"){ %>
-            <td>已退卡</td>
-        <% } %>
+        <td><%=list[i].status%></td>
     </tr>
     <% } %>
 </tbody>

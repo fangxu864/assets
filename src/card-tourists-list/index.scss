@@ -24,6 +24,7 @@
     }
     .content{
         .selectBox{
+            position: relative;
             .activateBox{
                 margin-left: 20px;
                 margin-top: 10px;
@@ -68,11 +69,11 @@
                 line-height: 30px;
                 .t1{
                     position: absolute;
-                    left: 31px;
+                    left: 29px;
                 }
                 .t2{
                     position: absolute;
-                    left: 331px;
+                    left: 330px;
                 }
                 .solidCardId{
                     width: 215px;
@@ -117,7 +118,7 @@
                 #operatorListBox{
                     position: absolute;
                     left: 321px;
-                    top:143px;
+                    top: 71px;
                     max-height: 100px;
                     width: 172px;
                     background: #fff;
@@ -196,11 +197,25 @@
                         line-height: 35px;
                         color: #5f5e63;
                         padding-right: 20px;
+                        text-align: left;
+                    }
+                    th.col2{
+                        min-width:85px; 
+                    }
+                    th.col4{
+                        min-width:70px; 
+                    }
+                    th.col6{
+                        min-width:50px; 
+                    }
+                    th.col7{
+                        min-width:37px; 
                     }
                 }
                 tbody{
                     tr{
                         line-height: 35px;                            
+                        vertical-align: top;
                         td{
                             border-bottom: 1px solid #e5e5e5;
                             padding-right: 20px;

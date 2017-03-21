@@ -61,15 +61,8 @@ var Main = PFT.Util.Class({
 			jump : true	              //可选  是否显示跳到第几页
 		});
 		this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
-			// toPage :      要switch到第几页
-		    // currentPage : 当前所处第几页
-		    // totalPage :   当前共有几页
-			// console.log(toPage);
-			// console.log(currentPage);
-			// console.log(totalPage);
 			that.page = toPage ;
 			that.handleList();
-			// that.pagination.render({current:toPage,total:totalPage});
 		})
 
 	},
@@ -112,37 +105,6 @@ var Main = PFT.Util.Class({
 		var html = Loading("请稍等");
 		var that = this;
 
-		//模拟数据
-		// GetList({},{
-		// 	loading : function(){
-		// 		$("#tempBox").css("display","none");
-		// 		$("table.accountList").html(html);
-		// 	},
-		// 	complete : function(){
-		// 	},
-		// 	success : function(res){
-		// 		console.log(res);
-		// 		var code = res.code;
-		// 		var list = res.data.list;
-		// 		var msg = res.msg;
-
-		// 		console.log(list);
-
-		// 		that.renderList(list);  //渲染列表
-
-		// 	},
-		// 	//200但无数据
-		// 	empty : function(){
-		// 	},
-		// 	//不是200
-		// 	fail : function(){
-		// 	}
-		// });
-
-
-		// return false
-
-		
 		PFT.Util.Ajax("/r/product_parkcard/getTouristList",{
 			type : "POST",
 			dataType : "json",
@@ -155,14 +117,7 @@ var Main = PFT.Util.Class({
 				export : that.exports,
 				physicsno : that.CardId,
 				page : that.page,
-				pagesize : 15
-
-				//调试分页用
-				// begin : 1389542769,
-				// end : 1489542879,
-				// status : 0,
-				// page : that.page,  //当前页数
-				// pagesize : 2  //每页数据条数
+				pagesize : 2
 
 			},
 			loading : function(){
@@ -172,23 +127,24 @@ var Main = PFT.Util.Class({
 			complete : function(){
 			},
 			success : function(res){
-				console.log(res);
 				var code = res.code;
-
 				if(code == 200){
 					var data = res.data
 					var list = data.list;
 					var msg = res.msg;
-					that.renderList(list);  //渲染列表
-					var topage = data.page;
-					var total = data.total;
-					//渲染分页器
-					that.pagination.render({current:that.page,total:total});
-					that.transAllTimeStamp();
-				}else if(code == 201){
-					//无数据
-					$("#tempBox").css("display","block");	
-					$(".accountList").html("");
+					if( list.length > 0){
+						that.renderList(list);  //渲染列表
+						var topage = data.page;
+						var total = data.total_page;
+						//渲染分页器
+						that.pagination.render({current:that.page,total:total});
+						that.transAllTimeStamp();
+					}else{
+						//无数据
+						$("#accountList").html('<div id="tempBox" style="height: 100px;text-align: center;font-size: 20px;line-height: 100px;border: 1px solid #e5e5e5;">暂无列表</div>');
+						$("#pagCon").html("");
+					}
+
 				}
 				
 			},
@@ -206,6 +162,16 @@ var Main = PFT.Util.Class({
 	handleStatus : function(){
 		var that = this;
 		$(".statusItem").on("click",function(){
+			that.CardId = $(".solidCardId").val();//物理卡号Id
+			that.OID = $("#operator").attr("data-id");
+			if(that.CardId == ""){
+				alert("请填写物理卡号");	
+				return false
+			}
+			if( that.OID == "0"){
+				alert("请选择操作员");
+				return false
+			}
 			$(this).siblings().find(".statusItemCircle").removeClass("selected");
 			$(this).find(".statusItemCircle").addClass("selected");
 			var status = $(this).attr("data-status");
@@ -272,19 +238,18 @@ var Main = PFT.Util.Class({
 		this.OID = $("#operator").attr("data-id");
 		if( this.OID == "0"){
 			alert("请选择操作员");
+			return false
 		}
 		// 状态
 		var status = $("#statusBox").attr("data-status");
 		if(status == "all"){
-			this.status = "0";
+			this.status = "-1";
 		}else if(status == "useing"){
 			this.status = "1";
 		}else if(status == "used"){
 			this.status = "2";
 		}
-
 		if(this.exports == "1"){
-			console.log("导出");
 			this.getExport();
 		}else{
 			//请求列表
@@ -300,9 +265,7 @@ var Main = PFT.Util.Class({
 			end : that.endStamp,
 			status : that.status,
 			export : that.exports,
-			physicsno : that.CardId,
-			page : that.page,
-			pagesize : 2
+			physicsno : that.CardId
 		}
 		function JsonStringify(obj) {
 			var str="";
@@ -314,29 +277,10 @@ var Main = PFT.Util.Class({
 			return arr.join("&");
 		}
 		var pa = JsonStringify(params);
-		var url = "/r/product_parkcard/getTouristList?" + pa; 
+		var url = "/r/product_parkcard/downLoad?" + pa; 
 		window.open(url);
 		this.exports = "0";	
 
-		//excel不用post异步请求
-		// $.ajax({
-		// 	url : "/r/product_parkcard/getTouristList",
-		// 	type : "POST",
-		// 	dataType : "json",
-		// 	data : params,
-		// 	loading : function(){
-		// 	},
-		// 	complete : function(){
-		// 	},
-		// 	success : function(res){
-		// 		// if( )
-		// 		// console.log(typeof res);
-		// 		console.log(res);
-		// 	},
-		// 	error : function(){
-
-		// 	}
-		// });
 	},
 	transAllTimeStamp : function(){ //改变列表里的时间cuo
 		var that = this;
@@ -344,9 +288,9 @@ var Main = PFT.Util.Class({
 		stamps.each(function(i,item){
 			var stamp = stamps.eq(i).text();
 			var time = trans(stamp);
-			console.log(time);
 			stamps.eq(i).text(time);
 		});
+		
 		function trans(Stamp){
 			var time = Number(Stamp);
 			time = new Date(time*1000);
