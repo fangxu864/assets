@@ -3,8 +3,9 @@
  */
 require("./index.scss");
 
+var DC = require("./modules/dataCenter/dataCenter.js");
 var Filter = require("./modules/filter/filter.js");
-// var TableCon = require("./modules/table-con/table-con.js");
+var TableCon = require("./modules/table-con/table-con.js");
 // var Pagination = require("./modules/pagination/pagination.js");
 var QueryState = require("./modules/query-state/query-state.js");
 // var Print = require("./modules/print/print.js");
@@ -60,10 +61,12 @@ var Main = {
     init : function () {
         //CR(Common resource)公共资源，即各个模块的公用资源
         var CR = createCR("#gIncomeWrap");
+        //dataCenter
+        DC.init(CR);
         //filter
         Filter.init(CR);
-        // //tableCon
-        // TableCon.init(CR);
+        //tableCon
+        TableCon.init(CR);
         //queryState
         QueryState.init(CR);
         // //pagination

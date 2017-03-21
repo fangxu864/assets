@@ -1,99 +1,84 @@
-#refundApplyWrap {
+#gIncomeWrap {
 
   /* table的公共样式*/
   .tableCon{
-    .mainTable{
-      margin-top: 10px;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    position: relative;
+    .background{
+      background-color: #e5e5e5;
+      height: 40px;
+      position: absolute;
       width: 100%;
-      thead tr th{
-        text-align: center;
-        line-height: 40px;
-        border: 1px solid #e5e5e5;
-        background-color: #F3F3F3;
-      }
-      tbody{
-        .tr1{height: 10px}
-        .tr2{
-          height: 60px;
-          td{
-            padding:0 20px;
-            border: 1px solid #e5e5e5;
-            background-color: #F3F3F3;
-            .line{
-              line-height: 30px;
-            }
+    }
+    .lt-con{
+      width: 60%;
+      height: 200px;
+      float: left;
+      position: relative;
+      z-index: 2;
+      .table-lt{
+
+        width: 100%;
+        thead{
+          tr{
+            line-height: 40px;
+            border-bottom: 1px solid #e5e5e5;
+            background-color: #e5e5e5;
           }
         }
-        .tr3{
-          height: 115px;
-          td{
-            border: 1px solid #e5e5e5;
-            padding:0 20px;
-            .line{
-              line-height: 30px;
-            }
-          }
-        }
-        .tr3 .td3{
-          padding: 0;
-          .wd_status0{
-            text-align: center;
+        tbody{
+          tr{
             line-height: 30px;
-            p span{
-              cursor: pointer;
-            }
+            border-bottom: 1px solid #e5e5e5;
           }
-          .wd_statusNot0{
-            padding:10px;
-            line-height: 20px;
-
-            p span{
-              cursor: pointer;
-            }
-            .line4 , .line2{
-              text-align: center ;
-            }
-            .line1{
-              text-indent: 2em;
-              word-break: break-all;
-            }
-            .line4{
-              .operableBtn{
-                margin:0 10px;
-              }
-            }
-          }
-          .operableBtn{
-            color: #007ad4;
-          }
-          .operableBtn:hover{
-            color: #129aff;
-          }
-        }
-        .tr3 .td1 .line3 .account-number{
-          color: #008000;
-          font-weight: bold;
-          font-size: 14px;
-          cursor: pointer;
-        }
-        .tr3 .td1 .line3 .account-number:hover{
-          color: #07bd07;
-        }
-        .tr3 .td1 .line3 .account-number:active{
-          color: #07bd07;
-        }
-        .tr3 .td2 .line3 .money-last{
-          font-size: 14px;
-          color: #ff6600;
-        }
-        .tr3 .td2 .money{
-          font-weight: bold;
         }
 
       }
-
     }
 
+    .rt-con{
+      width: 40%;
+      overflow: hidden;
+      height: 200px;
+      float: right;
+      position: relative;
+      z-index: 2;
+      .table-rt{
+        width: 100%;
+        thead{
+          tr{
+            line-height: 40px;
+            border-bottom: 1px solid #e5e5e5;
+            background-color: #e5e5e5;
+            th{
+              padding: 0 30px;
+              white-space: nowrap;
+            }
+          }
+        }
+        tbody{
+          tr{
+            line-height: 30px;
+            border-bottom: 1px solid #e5e5e5;
+          }
+        }
+
+      }
+    }
+
+
+
+  }
+  .clearfix{
+    zoom: 1;
+  }
+  .clearfix:after{
+    content: '.';
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    display: block;
   }
 
 

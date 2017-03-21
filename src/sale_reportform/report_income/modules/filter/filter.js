@@ -320,16 +320,13 @@ var Filter = {
         this.container.find(".self-radio")[0].click();
 
 
+
        
 
-        // //点击确认按钮
-        // this.container.on("click", ".btn_query" ,function () {
-        //     var params = {};
-        //     //设置初始化分页器的条件为true
-        //     params["isInitPagination"] = true ;
-        //     params["page"] = 1 ;
-        //     _this.CR.pubSub.pub("filterBox.dataCenter" , params);
-        // });
+        //点击确认按钮
+        this.container.on("click", ".query_btn" ,function () {
+            _this.CR.pubSub.pub("DC.getMainData" , _this.getFilterParams());
+        });
         // //点击导出
         // this.container.on("click", ".btn_excel" ,function () {
         //     var params = _this.container.find("#filterForm").serialize() + "&Export=1";
@@ -499,6 +496,39 @@ var Filter = {
         var endTime = new Date(Date.parse(endDate.replace(/-/g,   "/"))).getTime();
         var dates = Math.abs((startTime - endTime))/(1000*60*60*24);
         return  dates;
+    },
+
+    /**
+     * @method 获取filter 参数
+     */
+    getFilterParams: function () {
+        var _this = this;
+        var params = {};
+        params["size"] = 10;
+        params["page"] = 1;
+        params["begin_date"] = _this.stime_inp.val();
+        params["end_date"] = _this.etime_inp.val();
+        params["type"] = Number ( $("#select_fg").attr("search_type") ) + 1;
+        // if($("#huizong_type").attr("count_way")){
+        //     params["count_way"]= $("#huizong_type").attr("count_way");
+        // }
+        // if($("#product_name_inp").attr("data-id")){
+        //     params["land_id"]=$("#product_name_inp").attr("data-id");
+        // }
+        // if($("#fenxiaoshang_name_inp").attr("data-id")){
+        //     params["reseller_id"]=$("#fenxiaoshang_name_inp").attr("data-id");
+        // }
+        // if(_this.isAdmin==1){
+        //     if($("#trader_inp").attr("data-id")){
+        //         params["merchant_id"]=$("#trader_inp").attr("data-id");
+        //     }
+        //     if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
+        //         params["exclude_test"]=1;
+        //     }else{
+        //         params["exclude_test"]=0;
+        //     }
+        // }
+        return params;
     },
 
     //处理cookie的函数
