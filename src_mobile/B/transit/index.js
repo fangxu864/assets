@@ -72,7 +72,7 @@ var Transit = PFT.Util.Class({
 		var that = this;
 
 		//退出登录
-		PFT.Util.Ajax("/r/MicroPlat_Member/logout",{
+		PFT.Util.Ajax("/r/MicroPlat_Member/unBindLogout",{
 			type : "POST",
 		    dataType : "json",
 		    params : {
@@ -87,9 +87,9 @@ var Transit = PFT.Util.Class({
 		    success : function(res){
 		        var code = res.code;
 		        var data = res.data;
-		        if(code==200){
-					console.log(res);
-					window.location.href = "login.html";
+		        if(code==207){
+					var para = that.getpara();
+					window.location.href = "login.html" + para ;
 		        }else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 				}
