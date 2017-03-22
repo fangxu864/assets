@@ -193,6 +193,8 @@ var Main = PFT.Util.Class({
         var dialogDetail = new Dialog({
             width: 1000,
 
+            height: 600,
+
             header: dialogHeader,
 
             content: dialogInitContent,
@@ -226,6 +228,9 @@ var Main = PFT.Util.Class({
         dialogDetail.open();
     },
 
+    // 参数列表
+    // page:    页码
+    // success: 请求成功回调
     ajaxGetDetail: function( opt ){
         var typeStr = this.type==0 ? 'income' : 'outcome',
             colspan;
@@ -290,23 +295,34 @@ var Main = PFT.Util.Class({
         })
     },
 
+    // 渲染弹窗列表数据
+    // 参数列表
+    // container:   容器id
+    // data:        res.data部分
+    // source:      online / platform / diff
+    // type:        收入 / 支出
     renderDialogData: function( opt ){
         var _this = this;
 
-        if( !this.source || this.type == undefined ) {
+        _this.cnt = opt.data.pageCnt;
+
+        if( !opt.source || opt.type == undefined ) {
             alert('表单参数错误');
         }
 
         // 根据source调用对应模板文件
         //  source: online（在线收入/支出明细） / platform（平台收入/支出明细） / diff （收入/支出差异对比）
-        var template = this.template[ this.source ];
+        var dialogTemplate = template[ opt.source ];
 
-        var html = template({
+        var html = dialogTemplate({
                 data: opt.data.list,
-                type: this.type
+                type: opt.type
             });
 
         $( opt.container ).html( html );
+
+        var dialogTb = $('.dialog-content').find('.tb-dialog');
+        dialogTb.eq(0).css({ width: dialogTb.eq(1).width() });
 
         if( !_this.pagination ) {
             _this.pagination = new Pagination({
@@ -316,7 +332,7 @@ var Main = PFT.Util.Class({
                 jump : true                //可选  是否显示跳到第几页
             });
 
-            _this.pagination.render({ current: 1, total: opt.data.cnt });
+            _this.pagination.render({ current: 1, total: opt.data.pageCnt });
 
             _this.pagination.on("page.switch", function(toPage,currentPage,totalPage){
                 _this.pagination.render({ current: toPage, total: totalPage });
@@ -331,15 +347,15 @@ var Main = PFT.Util.Class({
                         _this.renderDialogData({
                             container: '#dialogTBody',
                             data: data,
-                            source: _this.source,
-                            type: _this.type
+                            source: opt.source,
+                            type: opt.type
                         });
 
                     }
                 })
             });
         } else {
-            _this.pagination.render({ current: opt.data.page, total: opt.data.cnt });
+            _this.pagination.render({ current: opt.data.page, total: opt.data.pageCnt });
         }
     },
 
@@ -367,15 +383,15 @@ var Main = PFT.Util.Class({
 
         switch( source ) {
             case 'online':
-                dialogTHead = '<thead><tr><th>交易时间</th><th>订单号</th><th>' + (type==0 ? '收款账户' : '支付账户') +'</th><th>金额（元）</th><th>支付系统订单号</th></tr></thead>';
+                dialogTHead = '<tr><th>交易时间</th><th>订单号</th><th>' + (type==0 ? '收款账户' : '支付账户') +'</th><th>金额（元）</th><th width="250">支付系统订单号</th></tr>';
                 break;
 
             case 'platform':
-                dialogTHead = '<thead><tr><th>交易时间</th><th>订单号</th><th>交易类型</th><th>交易账号</th><th>' + (type==0 ? '收款账户' : '支付账户') +'</th><th>金额（元）</th><th>账户名称/交易账号</th></tr></thead>';
+                dialogTHead = '<tr><th width="150">交易时间</th><th width="150">订单号</th><th>交易类型</th><th>交易账号</th><th>' + (type==0 ? '收款账户' : '支付账户') +'</th><th>金额（元）</th><th width="210">账户名称/交易账号</th></tr>';
                 break;
 
             default:
-                dialogTHead = '<thead><tr><th>交易日期</th><th>订单号</th><th>交易类型</th><th>' + (type==0 ? '收款账户' : '支付账户') +'</th><th>在线' + (type==0 ? '收入' : '支出') + '（元）</th><th>平台' + (type==0 ? '收入' : '支出') + '（元）</th><th>差异</th><th>账户名称/交易账号</th></tr></thead>';
+                dialogTHead = '<tr><th>交易日期</th><th>订单号</th><th>交易类型</th><th>' + (type==0 ? '收款账户' : '支付账户') +'</th><th>在线' + (type==0 ? '收入' : '支出') + '（元）</th><th>平台' + (type==0 ? '收入' : '支出') + '（元）</th><th>差异</th><th>账户名称/交易账号</th></tr>';
         }
 
         return dialogTHead;
@@ -386,11 +402,20 @@ var Main = PFT.Util.Class({
 
         dialogInitContent = '<div class="dialog-content">';
         dialogInitContent += '<div class="dialog-date">交易日期：'+ btime + ' 至 ' + etime +'</div>';
-        dialogInitContent += '<table class="tb-dialog g-table" width="100%">';
+        dialogInitContent += '<div style="background-color:#f5f5f5;"><table class="tb-dialog g-table" width="100%">';
+        dialogInitContent += '<thead>';
         dialogInitContent += thead;
+        dialogInitContent += '</thead>';
+        dialogInitContent += '</table></div>';
+        dialogInitContent += '<div class="tb-dialog-wrap">';
+        dialogInitContent += '<table class="tb-dialog g-table" width="100%">';
+        dialogInitContent += '<thead class="thead-align">';
+        dialogInitContent += thead;
+        dialogInitContent += '</thead>';
         dialogInitContent += '<tbody id="dialogTBody"></tbody>';
         dialogInitContent += '</table>';
-        dialogInitContent += '<div id="dialogPage"></div>';
+        dialogInitContent += '</div>';
+        dialogInitContent += '<div id="dialogPage" class="clearfix"></div>';
 
         return dialogInitContent;
     },

@@ -150,7 +150,7 @@
 }
 .dialog-content {
     margin-top: 46px;
-    padding:20px;
+    padding:10px 20px;
 }
 .gSimpleDialog-header {
     padding: 0 20px;
@@ -159,8 +159,27 @@
     border-bottom: 1px solid #e5e5e5;
 }
 .dialog-date {
+    margin-bottom: 10px;
     line-height: 2;
 }
 .tb-dialog {
-    margin-top: 20px;
+}
+.tb-dialog td {
+    padding: 10px 0;
+}
+#dialogPage {
+    margin-top: 10px;
+}
+#dialogPage .paginationXContainer {
+    float: right;
+}
+.tb-dialog-wrap {
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.tb-dialog .thead-align th {
+    height:0;
+    line-height: 0;
+    overflow:hidden;
 }

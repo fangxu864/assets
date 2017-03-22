@@ -31,10 +31,10 @@
             平安银行
        <%break; }%>
     </td>
-    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><%=arr.count_a  %></td>
-    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="online" data-type="0"><%= arr.fee_a  %></a></td>
-    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><%= arr.count_b %></td>
-    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="platform" data-type="0"><%= arr.fee_b %></a></td>
+    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><%=arr.count_b  %></td>
+    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="online" data-type="0"><%= arr.fee_b  %></a></td>
+    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><%= arr.count_a %></td>
+    <td <%=(arr.diff1&&arr.diff1!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="platform" data-type="0"><%= arr.fee_a %></a></td>
     <td class="b-r  <%=(arr.diff1&&arr.diff1!=0) ? "warn error":"" %>">
     <% if( arr.diff1 !=0 ) { %>
         <a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="diff" data-type="0"><%= arr.diff1 %></a>
@@ -42,10 +42,10 @@
         <%= arr.diff1 %>
     <% } %>
     </td>
-    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><%=arr.count_c %></td>
-    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="online" data-type="1"><%= arr.fee_c %></a></td>
-    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><%= arr.count_d %></td>
-    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="platform" data-type="1"><%=arr.fee_d %></a></td>
+    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><%=arr.count_d %></td>
+    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="online" data-type="1"><%= arr.fee_d %></a></td>
+    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><%= arr.count_c %></td>
+    <td <%=(arr.diff2&&arr.diff2!=0) ? 'class="warn"':" " %>><a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="platform" data-type="1"><%=arr.fee_c %></a></td>
     <td class="b-r  <%=(arr.diff2&&arr.diff2!=0) ? "warn error":" " %>">
     <% if( arr.diff2 !=0 ) { %>
         <a class="btnViewDetail" href="javascript:;" data-ptype="<%=arr.pay_type%>" data-source="diff" data-type="1"><%= arr.diff2 %></a>

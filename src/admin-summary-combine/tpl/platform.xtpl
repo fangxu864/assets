@@ -7,44 +7,127 @@
         <%=item.orderid%>
     </td>
     <td>
-
+    <%
+        switch(item.dtype) {
+            case "0":%>
+            购买产品
+            <%break;
+            case "1": %>
+            修改/取消订单
+            <%break;
+            case "2": %>
+            未定义操作
+            <%break;
+            case "3": %>
+            充值/扣款
+            <%break;
+            case "4": %>
+            线下预存还款
+            <%break;
+            case "5": %>
+            产品利润
+            <%break;
+            case "6": %>
+            提现冻结
+            <%break;
+            case "7": %>
+            电子凭证费
+            <%break;
+            case "8": %>
+            短信息费
+            <%break;
+            case "9": %>
+            银行交易手续费
+            <%break;
+            case "10": %>
+            凭证费
+            <%break;
+            case "11": %>
+            取消提现
+            <%break;
+            case "12": %>
+            拒绝提现
+            <%break;
+            case "13": %>
+            退款手续费
+            <%break;
+            case "14": %>
+            押金
+            <%break;
+            case "15": %>
+            充值返现
+            <%break;
+            case "16": %>
+            撤销/撤改订单
+            <%break;
+            case "17": %>
+            转账
+            <%break;
+            case "18": %>
+            佣金发放
+            <%break;
+            case "19": %>
+            佣金提现
+            <%break;
+            case "20": %>
+            获得佣金
+            <%break;
+            case "21": %>
+            平台费
+            <%break;
+            case "22": %>
+            出售产品
+            <%break;
+            case "23": %>
+            线下充值
+            <%break;
+            case "24": %>
+            银行卡验证费
+            <%break;
+            case "25": %>
+            平台套餐续费
+            <%break;
+            case "26": %>
+            预存/还款
+            <%break;
+    }%>
     </td>
     <td>
         <%=item.account%>
     </td>
-    <td class="b-r">
+    <td>
     <%
-        switch(item.sourceT) {
-            case 0:%>
+        switch(item.ptype) {
+            case "0":%>
             支付宝
             <%break;
-            case 1: %>
+            case "1": %>
             微信支付
             <%break;
-            case 2: %>
+            case "2": %>
             银联
             <%break;
-            case 3: %>
+            case "3": %>
             环迅
             <%break;
-            case 4: %>
+            case "4": %>
             现金
             <%break;
-            case 6: %>
+            case "6": %>
             拉卡拉[商户]
             <%break;
-            case 7: %>
+            case "7": %>
             拉卡拉[票付通]
             <%break;
-            case 8: %>
+            case "8": %>
             微信-民生
             <%break;
-            case 9: %>
+            case "9": %>
             平安银行
     <%break; }%>
     </td>
     <td>
-        <%= type==0 ? item.total_money : item.refund_money %>
+        <%= type==0 ? item.total_money/100 : item.refund_money/100 %>
     </td>
     <td>
         <%=item.trade_no%>
