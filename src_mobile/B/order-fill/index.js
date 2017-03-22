@@ -127,7 +127,7 @@ var Order_fill = PFT.Util.Class({
 					if( cancelCost[i].c_type == "0"){//固定金额
 						rebHtml += '<p class="gray">游玩日期前'+ cancelCost[i].c_days +'以内退票，手续费为'+parseInt(cancelCost[i].c_cost)/100+'元</p>' ;
 					}else if(cancelCost[i].c_type == "1"){//百分比
-						rebHtml += '<p class="gray">游玩日期前'+ cancelCost[i].c_days +'以内退票，手续费为票价的'+cancelCost[i].c_cost+'%</p>' ;
+						rebHtml += '<p class="gray">游玩日期前'+ cancelCost[i].c_days +'以内退票，手续费为票价的'+ parseInt(cancelCost[i].c_cost)/100 +'%</p>' ;
 					}
 				}
 				$("#regular").append(rebHtml);
@@ -217,11 +217,17 @@ var Order_fill = PFT.Util.Class({
 		//多个联系人的情况
 		if( $("#visitorInformation").css("display") == "block" ){
 
+			if( that.visitInfoBox == undefined){
+				PFT.Mobile.Alert("请将联系人填写完整");
+				return false
+			}
+
 			var item = $(".visitInfoItem");
 			var idcards = [];
 			var tourists = [];
 
 			for( var n = 0;n<item.length;n++){
+
 				var visitName = item.eq(n).find(".visit").val();
 				var idcardVal = item.eq(n).find(".idCard").val();
 
@@ -319,8 +325,9 @@ var Order_fill = PFT.Util.Class({
 
 		var that = this;
 		var selfSupply = res.selfSupply;
+		var payNow = res.payNow;
 
-		if(selfSupply == 0){
+		if(selfSupply == 0 && payNow == 0){//其他
 
 			var payTemplate = PFT.Util.ParseTemplate(payModeTpl); 
 			var html = payTemplate();
@@ -354,14 +361,13 @@ var Order_fill = PFT.Util.Class({
 				that.PayModeBox.show();		
 			});
 
-
-		}else if( selfSupply == 1 ){
-
+		}else if( payNow == 1 ){  //现场
+			$("#payMode").val("付款方式: 现场支付").attr("data-way","4");
+			$("#payMode").attr("disabled","true");
+		}else if( selfSupply == 1 ){  //自供应产品
 			$("#payMode").val("付款方式: 预定自供产品，无需支付").attr("data-way","3");
 			$("#payMode").attr("disabled","true");
-
 		}
-		
 
 	},
 
