@@ -12,7 +12,7 @@ var config = require("../../task-webpack/config")({
     	//应用中心 - 首页
     	"appcenter_index" : "./src/application-center/index/index.js",
         //应用中心 - 详情
-        "appcenter_details" : "./src/application-center/details/index.js"
+        // "appcenter_details" : "./src/application-center/details/index.js"
         //应用中心 - 应用费用配置列表
         // "appcenter_chargelist" : "./src/application-center/charge-list/index.js",
         //应用中心 - 应用属性配置

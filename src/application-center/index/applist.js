@@ -196,6 +196,17 @@ var AppList = PFT.Util.Class({
 								that.tempOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
 							}
 							break;
+						case 4: //分类
+							if( list.length > 0 ){
+								for( var j = 0;j<list.length;j++){
+									var nowlist = list[j].list;
+									var cate = list[j].cate;
+									that.CacheList(nowlist,type,cate);
+								}
+							}else{
+								that.tempOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
+							}
+							break;	
 						default :
 							alert(type+"是什么类型？")
 					}
@@ -234,33 +245,42 @@ var AppList = PFT.Util.Class({
 		if( nowId == "classificationTab"){ //分类
 			if(that.tempClassListBox == ""){
 				//请求
-				var req1 = function(){
-					return that.getAppList(0,1);  //首页，核心功能
+				// var req1 = function(){
+				// 	return that.getAppList(0,1);  //首页，核心功能
+				// };
+				// var req2 = function(){
+				// 	return that.getAppList(0,2);  //首页，营销推广
+				// };
+				// var req3 = function(){
+				// 	return that.getAppList(0,3);  //首页，同业对接
+				// };
+				// var req4 = function(){
+				// 	return that.getAppList(0,4);  //首页，一卡通
+				// };
+				// var req5 = function(){
+				// 	return that.getAppList(0,5);  //首页，票务系统
+				// }
+				// var req7 = function(){
+				// 	return that.getAppList(0,7);  //首页，其他
+				// }
+
+				var req = function(){
+					return that.getAppList(4,0);  //分类
 				};
-				var req2 = function(){
-					return that.getAppList(0,2);  //首页，营销推广
-				};
-				var req3 = function(){
-					return that.getAppList(0,3);  //首页，同业对接
-				};
-				var req4 = function(){
-					return that.getAppList(0,4);  //首页，一卡通
-				};
-				var req5 = function(){
-					return that.getAppList(0,5);  //首页，票务系统
-				}
-				var req7 = function(){
-					return that.getAppList(0,7);  //首页，其他
-				}
+
+
+				req().done(function(xhr){
+					$("#tabCon").html(that.tempClassListBox + yingjian_tpl);
+				});
 
 
 				// xhr.then(function(){
 				// 	$("#tabCon").html(that.tempClassListBox);
 				// });
-                req1().then(req2).then(req3).then(req4).then(req5).then(req7).done(function(xhr){
+                // req1().then(req2).then(req3).then(req4).then(req5).then(req7).done(function(xhr){
                     // that.tempClassListBox = that.tempClassListBox + yingjian_tpl;
-                    $("#tabCon").html( that.tempClassListBox + yingjian_tpl );
-                });
+                    // $("#tabCon").html( that.tempClassListBox + yingjian_tpl );
+                // });
 				// req1().then(req2).then(req3).then(req4).then(req5).done(function(xhr){
 				// 	that.tempClassListBox = that.tempClassListBox + yingjian_tpl;
     //             }).then(req7).done(function(){
@@ -333,7 +353,27 @@ var AppList = PFT.Util.Class({
 			listTitle = "其他";
 			ulClassName = "app-list7";
 		}
-
+		//分类情况
+		if(category == 1 && type == 4){
+			listTitle = "直销模块";
+			ulClassName = "app-list1";
+		}else if(category == 2 && type == 4){
+			listTitle = "营销工具";
+			ulClassName = "app-list2";
+		}else if(category == 3 && type == 4){
+			listTitle = "对接平台";
+			ulClassName = "app-list3";
+		}else if(category == 4 && type == 4){
+			listTitle = "会员一卡通";
+			ulClassName = "app-list4";
+		}else if(category == 5 && type == 4){
+			listTitle = "票务系统";
+			ulClassName = "app-list5";
+		}else if(category == 7 && type == 4){
+			listTitle = "其他";
+			ulClassName = "app-list7";
+		}
+		//tab情况
 		if( type == 1 && category == undefined){
 			listTitle = "新上线";
 			ulClassName = "app-list1";
@@ -508,7 +548,9 @@ var AppList = PFT.Util.Class({
         	this.tempUnOpendListBox += temp;
         }else if(type == 3 && category == undefined){ //已开通
         	this.tempOpendListBox += temp;
-        }else if(type == 0){//分类情况  和 侧边栏分类情况
+        }else if(type == 0){//侧边栏分类情况
+			this.tempClassListBox += temp;
+		}else if(type == 4){//分类情况
 			this.tempClassListBox += temp;
 		}
 
