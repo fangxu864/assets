@@ -69,8 +69,6 @@ var Main =  PFT.Util.Class({
 		var that = this;
 		var memo = that.agreeDialog.container.find("#dialog_reson_textarea1").val();
 		var id = that.agreeDialog.container.attr("data-id");
-		console.log(memo);	
-		console.log(id);	
 		PFT.Util.Ajax("/r/Order_Handler/manualRefund",{
 			type : "POST",
 			dataType : "json",
@@ -134,6 +132,7 @@ var Main =  PFT.Util.Class({
 				$("#tempInfo").html("暂无信息");
 			},
 			success : function(res){
+				console.log(res);
 				that.handleSearchList(res);
 			},
 			timeout : function(){ alert("请求超时") },
@@ -142,7 +141,7 @@ var Main =  PFT.Util.Class({
 	},
 	handleSearchList : function(res){
 		var that = this;
-		var html = that.listTemplate({ list : res.data });
+		var html = that.listTemplate({ list : res.data.list });
 		$("#tbody").html(html);
 		$("#listTable").css("display","block");
 		$("#tempInfo").css("display","none");

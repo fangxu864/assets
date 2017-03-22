@@ -315,16 +315,46 @@
 	.listTable .col{ text-align:left; border-bottom:1px solid #e5e5e5}
 	.listTable .tbody .col{ padding-top:12px; padding-bottom:12px;}
 	.listTable .col .colCon{ width:100%; overflow:hidden;}
-	.listTable .col_1{ width:65px; text-align:left; padding-left:7px;}
-	.listTable .col_2{ width:170px; text-align:left}
-	.listTable .col_3{ width:67px;}
-	.listTable .col_4{ width:57px;}
-	.listTable .col_5{ width:140px; text-align:left}
-	.listTable .col_6{ width:75px; text-align:left}
-	.listTable .col_7{ width:75px; text-align:left}
-	.listTable .col_8{ width:50px;}
-	.listTable .col_9{ width:69px;}
-	.listTable .col_10{ width:55px;}
+	.listTable .col_1{ 
+		width:9%;
+		text-align:left;
+		padding-left:7px;
+	}
+	.listTable .col_2{
+		width:9%;
+		text-align:left
+	}
+	.listTable .col_3{ 
+		width:9%;
+	}
+	.listTable .col_4{ 
+		width:9%;
+	}
+	.listTable .col_5{ 
+		width:9%; 
+		text-align:left;
+	}
+	.listTable .col_6{ 
+		width:9%;
+		text-align:left;
+	}
+	.listTable .col_7{ 
+		width:9%;
+		text-align:left;
+	}
+	.listTable .col_8{ 
+		width:9%;
+	}
+	.listTable .col_9{ 
+		width:9%;
+	}
+	.listTable .col_10{ 
+		width:9%;
+	}
+	.listTable .col_11{ 
+		width:7%;
+	}
+
 	.listTable .tbody .col_3 .colCon{ padding-left:4px}
 	.listTable .line.odd{ background:#fff}
 	.listTable .line.even{ background:#fcfcfc}
