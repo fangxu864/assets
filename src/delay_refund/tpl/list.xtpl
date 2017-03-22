@@ -5,9 +5,9 @@
     <td class="col col_3"><%=list[i].num%></td>
     <td class="col col_4"><%=list[i].change_num%></td>
     <td class="col col_5"><%=list[i].totalprice%></td>
-    <td class="col col_6"><%=list[i].cancel_time%></td>
-    <td class="col col_7"><%=list[i].handler_time%></td>
-    <td class="col col_8"><%=list[i].auto_refund_time%></td>
+    <td class="col col_6"><span class="timeStamp"><%=list[i].cancel_time%></span></td>
+    <td class="col col_7"><span class="timeStamp"><%=list[i].handler_time%></span></td>
+    <td class="col col_8"><span class="timeStamp"><%=list[i].auto_refund_time%></span></td>
     <td class="col col_9">
 
         <% //先把同意拒绝先展示出来做测试用 %>

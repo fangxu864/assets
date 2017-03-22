@@ -1,11 +1,14 @@
 
 require("./index.scss")
-var listTpl = require("./list.xtpl");
-console.log("延迟退款");
+// 组件
 var Dialog = require("COMMON/modules/dialog-simple");  //遮罩框
-var agreeDialogTpl = require("./agreeDislogCon.xtpl");
-var disagreeDialogTpl = require("./disagreeDislogCon.xtpl");
 var Loading = require("COMMON/js/util.loading.pc.js");
+var Datapicker = require("COMMON/modules/datepicker");  //精确到秒的日历组件
+//tpl
+var listTpl = require("./tpl/list.xtpl");
+var agreeDialogTpl = require("./tpl/agreeDislogCon.xtpl");
+var disagreeDialogTpl = require("./tpl/disagreeDislogCon.xtpl");
+//开始
 var Main =  PFT.Util.Class({
     container : $("#delayRefund"),  
     EVENTS : {                    
@@ -13,6 +16,7 @@ var Main =  PFT.Util.Class({
     },
     init : function(opt){         
 		var that = this;
+		this.page = 1;
 		this.listTemplate = PFT.Util.ParseTemplate(listTpl);  
 		this.loading = Loading("请稍等",{
 			height : 100
@@ -116,14 +120,19 @@ var Main =  PFT.Util.Class({
 		// 	alert("请填写订单");
 		// 	return false
 		// }
-		var ordernum = "4005526";		
+
+		// var ordernum = "4005526";  //模拟		
+
 		var that = this;
+
 		//可以用
 		PFT.Util.Ajax("/r/Order_Handler/refundList",{
 			type : "POST",
 			dataType : "json",
 			params : {
-				ordernum : ordernum
+				// ordernum : ordernum
+				page : that.page,
+				pagesize : 2
 			},
 			loading : function(){
 				$("#tempInfo").html(that.loading);
@@ -145,6 +154,7 @@ var Main =  PFT.Util.Class({
 		$("#tbody").html(html);
 		$("#listTable").css("display","block");
 		$("#tempInfo").css("display","none");
+		this.transAllTimeStamp();	
 		$(".doActionBtn.agree").on("click",function(e){
 			var target = $(e.target);
 			var id = target.attr("data-id");
@@ -160,6 +170,45 @@ var Main =  PFT.Util.Class({
 			disaggreeCon.attr("data-id",id);
 			that.disagreeDialog.open();
 		});
+	},
+	transAllTimeStamp : function(){
+		var that = this;
+		var timeStamps = $("#tbody").find(".timeStamp");
+		console.log(timeStamps);
+		timeStamps.each(function(i,item){
+			var stamp = timeStamps.eq(i).text();
+			var time = trans(stamp);
+			timeStamps.eq(i).text(time);
+		});
+		function trans(Stamp){
+			var time = Number(Stamp);
+			time = new Date(time*1000);
+			var newDate = that.parseStampToDate(time);
+			return newDate
+		}
+	},
+	parseStampToDate : function(stamp){
+		var   year=stamp.getFullYear();     
+		var   month=stamp.getMonth()+1;     
+		var   date=stamp.getDate();     
+		var   hour=stamp.getHours();     
+		var   minute=stamp.getMinutes();     
+		var   second=stamp.getSeconds();     
+
+		console.log(minute);
+		console.log(second);
+
+		if( hour == 0 ){
+			hour = "-";
+		}
+		if( minute == 0 ){
+			minute = "-";
+		}
+		if( second == 0 ){
+			second = "-";
+		}
+
+		return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;  
 	}
 
 });
@@ -167,7 +216,5 @@ var Main =  PFT.Util.Class({
 $(function(){
 	new Main()
 })
-
-
 
 
