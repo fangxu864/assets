@@ -124,9 +124,9 @@ var Order_fill = PFT.Util.Class({
 					cancelCost[j].c_days = date;
 				}
 				for( var i = 0;i<cancelCost.length;i++){
-					if( cancelCost[i].c_type == "1"){//固定金额
+					if( cancelCost[i].c_type == "0"){//固定金额
 						rebHtml += '<p class="gray">游玩日期前'+ cancelCost[i].c_days +'以内退票，手续费为'+parseInt(cancelCost[i].c_cost)/100+'元</p>' ;
-					}else if(cancelCost[i].c_type == "0"){//百分比
+					}else if(cancelCost[i].c_type == "1"){//百分比
 						rebHtml += '<p class="gray">游玩日期前'+ cancelCost[i].c_days +'以内退票，手续费为票价的'+cancelCost[i].c_cost+'%</p>' ;
 					}
 				}
