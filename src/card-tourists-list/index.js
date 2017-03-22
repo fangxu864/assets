@@ -105,7 +105,7 @@ var Main = PFT.Util.Class({
 		var html = Loading("请稍等");
 		var that = this;
 
-		PFT.Util.Ajax("/r/product_parkcard/getTouristList",{
+		PFT.Util.Ajax("/r/product_ParkCard/getTouristList",{
 			type : "POST",
 			dataType : "json",
 			params : {
@@ -164,14 +164,14 @@ var Main = PFT.Util.Class({
 		$(".statusItem").on("click",function(){
 			that.CardId = $(".solidCardId").val();//物理卡号Id
 			that.OID = $("#operator").attr("data-id");
-			if(that.CardId == ""){
-				alert("请填写物理卡号");	
-				return false
-			}
-			if( that.OID == "0"){
-				alert("请选择操作员");
-				return false
-			}
+			// if(that.CardId == ""){
+			// 	alert("请填写物理卡号");	
+			// 	return false
+			// }
+			// if( that.OID == "0"){
+			// 	alert("请选择操作员");
+			// 	return false
+			// }
 			$(this).siblings().find(".statusItemCircle").removeClass("selected");
 			$(this).find(".statusItemCircle").addClass("selected");
 			var status = $(this).attr("data-status");
@@ -182,7 +182,7 @@ var Main = PFT.Util.Class({
 	//处理操作员
 	handleOperator : function(){
 		var that = this;
-		PFT.Util.Ajax("/r/product_parkcard/getOpId",{
+		PFT.Util.Ajax("/r/product_ParkCard/getOpId",{
 			type : "POST",
 			dataType : "json",
 			params : {
@@ -229,17 +229,17 @@ var Main = PFT.Util.Class({
 		this.endStamp = this.parseDateToStamp(endTime);
 		//物理卡号
 		this.CardId = $(".solidCardId").val();//物理卡号Id
-		if(this.CardId == ""){
-			alert("请填写物理卡号");	
-			return false
-		}
+		// if(this.CardId == ""){
+		// 	alert("请填写物理卡号");	
+		// 	return false
+		// }
 		// this.CardId ="12345685";   //opid3384的模拟固定卡号
 		//操作员
 		this.OID = $("#operator").attr("data-id");
-		if( this.OID == "0"){
-			alert("请选择操作员");
-			return false
-		}
+		// if( this.OID == "0"){
+		// 	alert("请选择操作员");
+		// 	return false
+		// }
 		// 状态
 		var status = $("#statusBox").attr("data-status");
 		if(status == "all"){
@@ -277,7 +277,7 @@ var Main = PFT.Util.Class({
 			return arr.join("&");
 		}
 		var pa = JsonStringify(params);
-		var url = "/r/product_parkcard/downLoad?" + pa; 
+		var url = "/r/product_ParkCard/downLoad?" + pa; 
 		window.open(url);
 		this.exports = "0";	
 
