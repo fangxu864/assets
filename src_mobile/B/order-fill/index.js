@@ -105,14 +105,15 @@ var Order_fill = PFT.Util.Class({
 			$("#refund.green").html('<span class="blue" id="regularBtn">退票规则∨</span>');			
 			$("#regular").append('<p class="gray">' + refundRuleText + '</p>');
 			var rebHtml = "";
-			if( cancelCost.length == 0 ){  //不为阶梯退票
+			// if( cancelCost.length == 0 ){  //不为阶梯退票
 				if(rebType == 1){//元
-					rebHtml += '<p class="gray">手续费为' + reb/100 + '元</p>' ;
+					rebHtml += '<p class="gray">基础手续费为' + reb/100 + '元</p>' ;
 				}else if(rebType == 0){//百分比
-					rebHtml += '<p class="gray">手续费为票价的'+reb+'%</p>' ;
+					rebHtml += '<p class="gray">基础手续费为票价的'+reb+'%</p>' ;
 				}
-				$("#regular").append(rebHtml);
-			}else{ //为阶梯退票
+				// $("#regular").append(rebHtml);
+
+			// }else{ //为阶梯退票
 
 				for( var j=0;j<cancelCost.length;j++){
 					var omin = cancelCost[j].c_days; 
@@ -131,7 +132,7 @@ var Order_fill = PFT.Util.Class({
 					}
 				}
 				$("#regular").append(rebHtml);
-			}
+			// }
 
 		}
 
