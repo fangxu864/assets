@@ -54,11 +54,21 @@
             <input type="text" class="product_name_inp" id="product_name_inp" readonly="readonly"  placeholder="请输入产品名称"/>
             <i class="clear_inp">&#xe674;</i>
         </div>
+        <div class="td td7">
+            <div class="select-box">
+                <div class="self-checkbox">
+                    <input type="checkbox" id="searchTicket"/>
+                    <span class="checkbox-icon"></span>
+                    <span class="checkbox-des">按票统计</span>
+                </div>
+            </div>
+        </div>
         <div class="td td5">
             <span class="query_btn">查询</span>
         </div>
         <div class="td td6">
             <span class="excel_btn">导出数据</span>
         </div>
+
     </div>
 </form>

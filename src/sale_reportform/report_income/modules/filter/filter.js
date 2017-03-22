@@ -28,11 +28,21 @@ var Filter = {
         this.container.html( tpl );
         this.isAdmin=$("#is_admin").val();
         // this.initDatepicker();
+        this.sub();
         this.bind();
         // this.container.find(".btn_query").trigger("click");
-        setTimeout(function () {
-            _this.CR.pubSub.pub("queryStateBox.querying");
-        },0)
+        // setTimeout(function () {
+        //     _this.CR.pubSub.pub("queryStateBox.querying");
+        // },0)
+
+    },
+
+    sub:function () {
+        var _this = this;
+        this.CR.pubSub.sub("filterBox.clickQBtn", function (page) {
+            _this.FilterParamsHub['page'] = page;
+            _this.gotoDC();
+        })
 
     },
 
@@ -319,13 +329,14 @@ var Filter = {
         });
         this.container.find(".self-radio")[0].click();
 
-
-
-       
+        this.container.on("click" , '.self-checkbox' , function () {
+            $(this).toggleClass("checked");
+        });
 
         //点击确认按钮
         this.container.on("click", ".query_btn" ,function () {
-            _this.CR.pubSub.pub("DC.getMainData" , _this.getFilterParams());
+            _this.FilterParamsHub = $.extend( {} , {page: 1 } , _this.getFilterParams() );
+            _this.gotoDC();
         });
         // //点击导出
         // this.container.on("click", ".btn_excel" ,function () {
@@ -339,6 +350,20 @@ var Filter = {
         //     var newParams = $.extend({} , params , filterParams );
         //     _this.dataCenter( newParams )
         // })
+    },
+
+    /**
+     * @method goToDC 去数据中心取数据
+     */
+    gotoDC: function (  ) {
+        var _this = this;
+        //判断是否按票查询
+        //按票查询
+        if( $('#searchTicket').prop('checked') ){
+            _this.CR.pubSub.pub("DC.getTicketData" , _this.FilterParamsHub);
+        }else{
+            _this.CR.pubSub.pub("DC.getMainData" , _this.FilterParamsHub);
+        }
     },
 
     /**
@@ -392,96 +417,6 @@ var Filter = {
     },
 
     /**
-     * @method 数据中心
-     */
-    dataCenter: function ( params ) {
-        var _this = this;
-        //显示查询状态
-        _this.CR.pubSub.pub("queryStateBox.querying");
-        //关闭tableCon
-        _this.CR.pubSub.pub("tableConBox.close");
-        //关闭pagination
-        _this.CR.pubSub.pub("paginationBox.close");
-        $.ajax({
-            url: "/r/Admin_Refund/getRefundInfo/",    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true, //请求是否异步，默认为异步
-            data: params,    //参数值
-            type: "POST",   //请求方式
-            timeout:5000,   //设置超时 5000毫秒
-            beforeSend: function() {
-                //请求前的处理
-            },
-            success: function(res) {
-                //请求成功时处理
-                if(res.code == 200 ){
-                    _this.CR.pubSub.pub("queryStateBox.close");
-                    if(res.data.position == 1){
-                        _this.container.find(".line4").show();
-                    }
-                    //通知table模块render
-                    _this.CR.pubSub.pub("tableConBox.render", res );
-                    //是否初始化分页器
-                    if( params.isInitPagination){
-                        _this.CR.pubSub.pub("paginationBox.initRender", {currentPage: res.data.page , totalPage: res.data.total } )
-                    }
-                    //通知pagination模块打开
-                    _this.CR.pubSub.pub("paginationBox.open");
-                }else{
-                    //通知queryState模块显示错误信息
-                    _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
-                }
-            },
-            complete: function(res,status) {
-                //请求完成的处理
-                if(status=="timeout"){
-                    alert("请求超时")
-                }
-            },
-            error: function() {
-                //请求出错处理
-            }
-        });
-    },
-
-    /**
-     * @method 获取打印清单数据
-     */
-    getPrintListData: function ( params ) {
-        var _this = this;
-        $.ajax({
-            url: "/r/Admin_Refund/getPrintInfo/",    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true, //请求是否异步，默认为异步
-            data: params,    //参数值
-            type: "POST",   //请求方式
-            timeout:5000,   //设置超时 5000毫秒
-            beforeSend: function() {
-                //请求前的处理
-            },
-            success: function(res) {
-                //请求成功时处理
-                if(res.code == 200 ){
-                    _this.CR.pubSub.pub("dialog.showPrintList", res);
-                }else{
-                    PFT.Util.STip("fail",res.msg)
-                }
-
-
-            },
-            complete: function(res,status) {
-                //请求完成的处理
-                if(status=="timeout"){
-                    alert("请求超时")
-                }
-            },
-            error: function() {
-                //请求出错处理
-            }
-        });
-    },
-
-    /**
      * @method导出excel
      */
     outExcel:function (downloadUrl) {
@@ -530,6 +465,11 @@ var Filter = {
         // }
         return params;
     },
+
+    /**
+     * @object 参数缓存容器
+     */
+    FilterParamsHub:{},
 
     //处理cookie的函数
     setCookie:function (name, value, time) {

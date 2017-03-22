@@ -27,15 +27,10 @@ var Pag = {
     bind:function () {
         var _this = this;
         this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
-            // toPage :      要switch到第几页
-            // currentPage : 当前所处第几页
-            // totalPage :   当前共有几页
-            _this.pagination.render({current:toPage,total:totalPage});
-            var params = {};
-            //设置初始化分页器的条件为true
-            // params["isInitPagination"] = true ;
-            params["page"] = toPage ;
-            _this.CR.pubSub.pub("filterBox.dataCenter" , params);
+            // var params = {};
+            // params["page"] = toPage ;
+            // _this.CR.pubSub.pub("DC.getMainData" , params);
+            _this.CR.pubSub.pub("filterBox.clickQBtn", toPage);
             // _this.filterParamsBox["page"]=toPage;
             // var cacheKey=_this.JsonStringify(_this.filterParamsBox);
             // if(_this.dataContainer[cacheKey]){
@@ -49,8 +44,8 @@ var Pag = {
             //     });
             // }
         });
-        this.CR.pubSub.sub("paginationBox.initRender",function( obj ){
-            _this.initRender ( obj.currentPage ,obj.totalPage)
+        this.CR.pubSub.sub("paginationBox.Render",function( obj ){
+            _this.pagination.render({current:obj.currentPage,total:obj.totalPage});
         });
         this.CR.pubSub.sub("paginationBox.close",function(){
             _this.close();
@@ -58,13 +53,6 @@ var Pag = {
         this.CR.pubSub.sub("paginationBox.open",function(){
             _this.open();
         });
-    },
-
-    /**
-     * @method 分页器初始化显示
-     */
-    initRender: function ( currentPage ,totalPage) {
-        this.pagination.render({current:currentPage,total:totalPage});
     },
 
     /**

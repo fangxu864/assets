@@ -6,7 +6,7 @@ require("./index.scss");
 var DC = require("./modules/dataCenter/dataCenter.js");
 var Filter = require("./modules/filter/filter.js");
 var TableCon = require("./modules/table-con/table-con.js");
-// var Pagination = require("./modules/pagination/pagination.js");
+var Pagination = require("./modules/pagination/pagination.js");
 var QueryState = require("./modules/query-state/query-state.js");
 // var Print = require("./modules/print/print.js");
 // var Dialog = require("./modules/dialog/dialog.js");
@@ -69,8 +69,8 @@ var Main = {
         TableCon.init(CR);
         //queryState
         QueryState.init(CR);
-        // //pagination
-        // Pagination.init(CR);
+        //pagination
+        Pagination.init(CR);
         // //print
         // Print.init(CR);
         // //dialog
@@ -81,16 +81,7 @@ var Main = {
 $(function () {
     $(".title_box .mctit_8").addClass("active");
 
-    $(document).on("mousedown",function () {
-        $(document).on("mousemove.no-select",function (e) {
-            e.preventDefault();
-        });
-        $(document).on("mouseup.no-select",function () {
-            $(document).off('mousemove.no-select');
-            $(document).off('mouseup.no-select');
-
-        })
-    })
+    // document.onselectstart=new Function('event.returnValue=false;');
     Main.init();
 });
 

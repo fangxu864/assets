@@ -25,6 +25,10 @@ module.exports=function($){
                 var disX=e.pageX-$(this).offset().left;
                 var disY=e.pageY-$(this).offset().top;
                 $(document).on('mousemove.DragConOver',function (e) {
+                    $(document).on('selectstart.DragConOver',function (e) {
+                        e.preventDefault();
+                        return false;
+                    })
                     e.preventDefault();
                     var startValue={
                         x:that.position().left,
@@ -85,9 +89,11 @@ module.exports=function($){
                     };
                     opt.callBack(dValue);
                 });
+
                 $(document).on('mouseup.DragConOver',function () {
                     $(document).off('mousemove.DragConOver');
                     $(document).off('mouseup.DragConOver');
+                    $(document).off('selectstart.DragConOver');
                 })
             })
         }

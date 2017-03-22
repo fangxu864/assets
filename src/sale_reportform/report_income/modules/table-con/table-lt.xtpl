@@ -1,0 +1,42 @@
+<thead>
+<tr>
+    <th class="th1">分销商/产品-票</th>
+    <th>订单数</th>
+    <th>票数</th>
+    <th class="th4">应收(元)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="first-tr">
+    <td>合计: 按票统计</td>
+    <td>12121</td>
+    <td>545454</td>
+    <td class="th4">1212121212</td>
+</tr>
+</tbody>
+<tbody>
+<tr data-index="tr1">
+    <td class="th1"><span class="un-shrink"></span>福建厦门鼓浪屿</td>
+    <td class="">12121</td>
+    <td class="">545454</td>
+    <td class="th4">1212121212</td>
+</tr>
+<tr style="display: none" class="child-tr">
+    <td class="th1-child">福建厦门鼓浪屿</td>
+    <td class="">12121</td>
+    <td class="">545454</td>
+    <td class="th4">1212121212</td>
+</tr>
+<tr style="display: none" class="child-tr">
+    <td class="th1-child">福建厦门鼓浪屿</td>
+    <td class="">12121</td>
+    <td class="">545454</td>
+    <td class="th4">1212121212</td>
+</tr>
+<tr style="display: none" class="child-tr">
+    <td class="th1-child">福建厦门鼓浪屿</td>
+    <td class="">12121</td>
+    <td class="">545454</td>
+    <td class="th4">1212121212</td>
+</tr>
+</tbody>

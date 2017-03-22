@@ -1,0 +1,36 @@
+<thead>
+<tr>
+    <% _.each(data.data.pay_list , function(item,index){ %>
+    <th><%=item%></th>
+    <%})%>
+</tr>
+</thead>
+<tbody>
+<tr class="first-tr">
+    <% _.each(data.data.pay_list , function(item,index){ %>
+    <td><%=item%></td>
+    <%})%>
+</tr>
+</tbody>
+<tbody>
+<tr data-index="tr1">
+    <% _.each(data.data.pay_list , function(item,index){ %>
+    <td><%=item%></td>
+    <%})%>
+</tr>
+<tr style="display: none" class="child-tr">
+    <% _.each(data.data.pay_list , function(item,index){ %>
+    <td><%=item%></td>
+    <%})%>
+</tr>
+<tr style="display: none" class="child-tr">
+    <% _.each(data.data.pay_list , function(item,index){ %>
+    <td><%=item%></td>
+    <%})%>
+</tr>
+<tr style="display: none" class="child-tr">
+    <% _.each(data.data.pay_list , function(item,index){ %>
+    <td><%=item%></td>
+    <%})%>
+</tr>
+</tbody>

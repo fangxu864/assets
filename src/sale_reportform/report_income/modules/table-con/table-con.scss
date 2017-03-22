@@ -5,12 +5,18 @@
     border: 1px solid #e5e5e5;
     background-color: #ffffff;
     position: relative;
-
+    display: none;
     .background{
       background-color: #e5e5e5;
       height: 41px;
       position: absolute;
       width: 100%;
+    }
+    .first-tr{
+      background-color: #e5f5fc;
+    }
+    .child-tr{
+      background-color: #f3f1f1;
     }
     .lt-con{
       width: 60%;
@@ -56,7 +62,10 @@
         }
         .th1-child{
           text-align: left;
-          padding-left: 60px;
+          padding-left: 67px;
+        }
+        .th4{
+          border-right: 1px solid #e5e5e5;
         }
 
       }
@@ -71,6 +80,7 @@
       .table-rt{
         width: 100%;
         text-align: center;
+        cursor:url('//static.12301.cc/assets/build/images/moveleftright.png'), move;
         th,td{
           padding: 0 30px;
           white-space: nowrap;
@@ -81,7 +91,6 @@
             line-height: 40px;
             border-bottom: 1px solid #e5e5e5;
             background-color: #e5e5e5;
-            cursor:url('//static.12301.cc/assets/build/images/moveleftright.png'), move;
             th{
               padding: 0 30px;
               white-space: nowrap;
