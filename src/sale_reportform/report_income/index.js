@@ -80,6 +80,17 @@ var Main = {
 
 $(function () {
     $(".title_box .mctit_8").addClass("active");
+
+    $(document).on("mousedown",function () {
+        $(document).on("mousemove.no-select",function (e) {
+            e.preventDefault();
+        });
+        $(document).on("mouseup.no-select",function () {
+            $(document).off('mousemove.no-select');
+            $(document).off('mouseup.no-select');
+
+        })
+    })
     Main.init();
 });
 

@@ -5,6 +5,7 @@
 require("./table-con.scss");
 var tableConTpl = require("./table-con.xtpl");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
+require("COMMON/modules/DragConOver")($);
 var Tip = require("COMMON/modules/tips");
 var Tips = new Tip();
 
@@ -24,6 +25,15 @@ var tableCon = {
 
     bind: function () {
         var _this = this;
+        this.container.find('.table-rt').DragConOver({
+            direction:"x",
+            callBack:function(dValue){
+
+                console.log(dValue)
+
+            }
+        });
+
     },
 
     close: function () {

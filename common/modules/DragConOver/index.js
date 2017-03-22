@@ -14,7 +14,7 @@ module.exports=function($){
          * })
          * */
         $.fn.DragConOver=function(opt){
-            $(this).mousedown(function (e) {
+            $(this).on('mousedown' , function (e) {
                 var Default={
                     direction:"xy",
                     callBack:function(){}
@@ -24,7 +24,7 @@ module.exports=function($){
                 var parent=that.offsetParent();
                 var disX=e.pageX-$(this).offset().left;
                 var disY=e.pageY-$(this).offset().top;
-                $(document).mousemove(function (e) {
+                $(document).on('mousemove.DragConOver',function (e) {
                     e.preventDefault();
                     var startValue={
                         x:that.position().left,
@@ -85,8 +85,9 @@ module.exports=function($){
                     };
                     opt.callBack(dValue);
                 });
-                $(document).mouseup(function () {
-                    $(document).unbind();
+                $(document).on('mouseup.DragConOver',function () {
+                    $(document).off('mousemove.DragConOver');
+                    $(document).off('mouseup.DragConOver');
                 })
             })
         }

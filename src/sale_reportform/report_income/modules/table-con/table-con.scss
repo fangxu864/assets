@@ -5,20 +5,23 @@
     border: 1px solid #e5e5e5;
     background-color: #ffffff;
     position: relative;
+
     .background{
       background-color: #e5e5e5;
-      height: 40px;
+      height: 41px;
       position: absolute;
       width: 100%;
     }
     .lt-con{
       width: 60%;
-      height: 200px;
       float: left;
       position: relative;
       z-index: 2;
       .table-lt{
-
+        text-align: right;
+        th,td{
+          padding-right: 10px;
+        }
         width: 100%;
         thead{
           tr{
@@ -29,9 +32,31 @@
         }
         tbody{
           tr{
-            line-height: 30px;
+            line-height: 40px;
             border-bottom: 1px solid #e5e5e5;
           }
+        }
+        .th1{
+          text-align: left;
+          padding-left: 20px;
+          .un-shrink ,.shrink{
+            background-image: url('//static.12301.cc/assets/build/images/sale-report-shrink.png');
+            display: inline-block;
+            background-repeat: no-repeat;
+            width: 16px;
+            height: 16px;
+            position: relative;
+            margin-right: 7px;
+            top: 3px;
+            cursor: pointer;
+          }
+          .shrink{
+            background-position: 0 -16px;
+          }
+        }
+        .th1-child{
+          text-align: left;
+          padding-left: 60px;
         }
 
       }
@@ -40,17 +65,23 @@
     .rt-con{
       width: 40%;
       overflow: hidden;
-      height: 200px;
       float: right;
       position: relative;
       z-index: 2;
       .table-rt{
         width: 100%;
+        text-align: center;
+        th,td{
+          padding: 0 30px;
+          white-space: nowrap;
+          text-align: right;
+        }
         thead{
           tr{
             line-height: 40px;
             border-bottom: 1px solid #e5e5e5;
             background-color: #e5e5e5;
+            cursor:url('//static.12301.cc/assets/build/images/moveleftright.png'), move;
             th{
               padding: 0 30px;
               white-space: nowrap;
@@ -59,7 +90,7 @@
         }
         tbody{
           tr{
-            line-height: 30px;
+            line-height: 40px;
             border-bottom: 1px solid #e5e5e5;
           }
         }

@@ -3,12 +3,46 @@
     <table class="table-lt">
         <thead>
             <tr>
-                <th>分销商/产品-票</th>
+                <th class="th1">分销商/产品-票</th>
                 <th>订单数</th>
                 <th>票数</th>
                 <th>应收(元)</th>
             </tr>
         </thead>
+        <tbody>
+            <tr>
+                <td>合计: 按票统计</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td class="th1"><span class="un-shrink"></span>福建厦门鼓浪屿</td>
+                <td class="">12121</td>
+                <td class="">545454</td>
+                <td class="">1212121212</td>
+            </tr>
+            <tr>
+                <td class="th1-child">福建厦门鼓浪屿</td>
+                <td class="">12121</td>
+                <td class="">545454</td>
+                <td class="">1212121212</td>
+            </tr>
+            <tr>
+                <td class="th1-child">福建厦门鼓浪屿</td>
+                <td class="">12121</td>
+                <td class="">545454</td>
+                <td class="">1212121212</td>
+            </tr>
+            <tr>
+                <td class="th1-child">福建厦门鼓浪屿</td>
+                <td class="">12121</td>
+                <td class="">545454</td>
+                <td class="">1212121212</td>
+            </tr>
+        </tbody>
 
     </table>
 </div>
@@ -30,6 +64,81 @@
             <th>支付宝</th>
         </tr>
         </thead>
+        <tbody>
+        <tr>
+            <td>4545</td>
+            <td>12121</td>
+            <td>545454</td>
+            <td>1212121212</td>
+            <td>4545</td>
+            <td>12121</td>
+            <td>545454</td>
+            <td>1212121212</td>
+            <td>4545</td>
+            <td>12121</td>
+            <td>545454</td>
+            <td>545454</td>
+        </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>545454</td>
+            </tr>
+            <tr>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>545454</td>
+            </tr>
+            <tr>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>545454</td>
+            </tr>
+            <tr>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>1212121212</td>
+                <td>4545</td>
+                <td>12121</td>
+                <td>545454</td>
+                <td>545454</td>
+            </tr>
+        </tbody>
+
 
     </table>
 </div>
