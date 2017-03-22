@@ -107,7 +107,7 @@ var Order_fill = PFT.Util.Class({
 			var rebHtml = "";
 			if( cancelCost.length == 0 ){  //不为阶梯退票
 				if(rebType == 1){//元
-					rebHtml += '<p class="gray">手续费为' + reb/10 + '元</p>' ;
+					rebHtml += '<p class="gray">手续费为' + reb/100 + '元</p>' ;
 				}else if(rebType == 0){//百分比
 					rebHtml += '<p class="gray">手续费为票价的'+reb+'%</p>' ;
 				}
@@ -424,6 +424,9 @@ var Order_fill = PFT.Util.Class({
 				if( res.code == 200 || res.code == 201){
 					PFT.Mobile.Alert(res.msg);	
 					that.toast.hide();
+				}else if(res.code == 207){
+					var para = that.getpara();
+					window.location.href = "login.html" + para ;	
 				}
 			},
 			complete:function () {
@@ -456,6 +459,9 @@ var Order_fill = PFT.Util.Class({
 					that.toast.hide();
 					PFT.Mobile.Alert(msg);
 					return false
+				}else if(code == 207){
+					var para = that.getpara();
+					window.location.href = "login.html" + para ;
 				}
 				var list = res.data.info;
 				that.toast.hide();
@@ -551,6 +557,9 @@ var Order_fill = PFT.Util.Class({
 						if( res.code == 200 || res.code == 201){
 							PFT.Mobile.Alert(res.msg);	
 							that.toast.hide();
+						}else if(res.code == 207){
+							var para = that.getpara();
+							window.location.href = "login.html" + para ;
 						}
 					},
 					complete:function () {
@@ -1576,6 +1585,21 @@ var Order_fill = PFT.Util.Class({
 
 	regularToggle : function (e) {
 		$("#regular").toggle();
+	},
+
+	getpara : function(){
+		var url = window.location.href;
+		var urlPara = Parse(url);
+		var fullHost = window.location.protocol + "//" +window.location.hostname + window.location.pathname;
+		delete urlPara[fullHost]
+		var url = "?";
+		for( var i in urlPara){
+			url += i +"=" + urlPara[i] + "&";
+		}
+		url = url.substring( 0 , url.length-1 );
+
+		return url
+
 	}
 	
 
