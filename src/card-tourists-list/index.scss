@@ -199,14 +199,19 @@
                         padding-right: 20px;
                         text-align: left;
                     }
+                    th.col1{
+                        padding-left: 10px;
+                    }
                     th.col2{
                         min-width:85px; 
                     }
                     th.col4{
                         min-width:70px; 
+                        text-align: right;
                     }
                     th.col6{
                         min-width:50px; 
+                        text-align: right;
                     }
                     th.col7{
                         min-width:37px; 
@@ -219,6 +224,9 @@
                         td{
                             border-bottom: 1px solid #e5e5e5;
                             padding-right: 20px;
+                        }
+                        td.col1{
+                            padding-left: 10px;
                         }
                         td.money{
                             text-align: right;
