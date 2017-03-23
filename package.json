@@ -88,6 +88,10 @@
     "common-test": "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.js",
     "common-release": "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.js",
     "common-production": "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.js",
+    "common-pc-style-start" : "set NODE_ENV=develop && webpack --watch --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-test" : "set NODE_ENV=test && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-release" : "set NODE_ENV=release && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
+    "common-pc-style-production" : "set NODE_ENV=production && webpack --colors --config ./common/webpack.config.pft.common.pc.style.js",
     "admin_qingfen-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
     "admin_qingfen-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/admin_qingfen/webpack.config.js",
@@ -132,21 +136,19 @@
     "mems_export-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
-
-
     "orderLog_query-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/orderLog_query/webpack.config.js",
     "orderLog_query-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
     "orderLog_query-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
     "orderLog_query-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
-
-
-
-
     "system-manager-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "application-center-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+    "application-center-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/application-center/webpack.config.js",
+    "expired-text-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/expiredText/webpack.config.js",
     "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
     "deal_summary-start": "set NODE_ENV=develop && webpack --color --watch --progress --config ./src/deal_summary/webpack.config.js ",
     "deal_summary-test": "set NODE_ENV=test && webpack --config ./src/deal_summary/webpack.config.js",
@@ -184,6 +186,7 @@
     "poster-img-upload-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js"
+
   },
   "repository": {
     "type": "git",
