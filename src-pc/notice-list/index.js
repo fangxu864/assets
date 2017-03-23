@@ -6,8 +6,8 @@ var Main = PFT.Util.Class({
     __CacheData : {},
     container : "#NoticeListPage",
     api : {
-        price : "/r/Home_HomeNotice/priceChange/",
-        product : "/r/Home_HomeNotice/productChange/",
+        price : "/r/Home_HomeNotice/PriceChgList/",
+        product : "/r/Home_HomeNotice/ProductChgList/",
         partner : "/r/Home_HomeNotice/partnerChange/"
     },
     EVENTS : {
@@ -46,6 +46,20 @@ var Main = PFT.Util.Class({
         var type = this.getType();
         this.fetchData(type,fromPage,toPage);
     },
+    getPosParams : function(type,page){
+        var pos = {
+            self_pos : "",
+            dis_Pos : ""
+        };
+        var cacheData = this.__CacheData[type+"_"+page];
+        if(!cacheData) return pos;
+
+        if(tyepof (cacheData.self_pos)!=="undefined") pos.self_pos = cacheData.self_pos;
+        if(tyepof (cacheData.dis_Pos)!=="undefined") pos.dis_Pos = cacheData.dis_Pos;
+
+        return pos;
+
+    },
     fetchData : function(type,fromPage,toPage){
         if(typeof type!=="string") return false;
         var that = this;
@@ -58,11 +72,14 @@ var Main = PFT.Util.Class({
         if(!url) return false;
 
         var _fetch = function(){
+            var pos = that.getPosParams(type,fromPage);
             PFT.Util.Ajax(url,{
                 type : "post",
                 params : {
                     size : 15,
-                    page : toPage
+                    page : toPage,
+                    self_pos : pos.self_pos,
+                    dis_Pos : pos.dis_Pos
                 },
                 loading : function(){
                     if(fromPage==1 && toPage==1){

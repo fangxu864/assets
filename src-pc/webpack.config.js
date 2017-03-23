@@ -48,15 +48,15 @@ var entry = {
 
 
 	// 新版产品预订-订单填写页-景区类产品
-	"booking.pc.a" : "./src-pc/booking/index.a.js",
+	// "booking.pc.a" : "./src-pc/booking/index.a.js",
 
 	// 新版产品预订-订单填写页-线路类产品
-	"booking.pc.b" : "./src-pc/booking/index.b.js",
+	// "booking.pc.b" : "./src-pc/booking/index.b.js",
 
 
 
 	// 新版首页 右边栏点击更多进去的二级列表页
-	// "notice.list.pc" : "./src-pc/notice-list/index.js"
+	"notice.list.pc" : "./src-pc/notice-list/index.js"
 };
 
 
