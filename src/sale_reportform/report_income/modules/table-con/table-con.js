@@ -59,8 +59,40 @@ var tableCon = {
      * @method 渲染表格内容
      */
     render: function ( res ) {
+        var payListLen = res.data.pay_list.length;
+        var rtData = {
+            pay_list: res.data.pay_list,
+            total: new Array(payListLen),
+            list:[]
+        };
+        //合计
+        for(var key in res.data.pay_way_money){
+            rtData.total[key] = res.data.pay_way_money[key]
+        }
+        for(var i= 0; i< res.data.list.length; i++){
+            var obj = (function () {
+                return {
+                    parentTr:new Array(payListLen),
+                    childTr:[]
+                };
+            }());
+            //parentTr
+            for( var tkey in res.data.list[i].pay_way_money ){
+                obj.parentTr[key] = res.data.list[i].pay_way_money[key]
+            }
+            for(var j= 0; j< res.data.list[i].product_list.length; j++){
+                //得出支付方式集合
+                var arr = new Array(payListLen);
+                for(var k= 0; k< res.data.list[i].product_list[j].payway_list.length; k++){
+                    arr[res.data.list[i].product_list[j].payway_list[k].pay_way] = res.data.list[i].product_list[j].payway_list[k].sale_money;
+                }
+                obj.childTr.push(arr);
+            }
+            rtData.list.push(obj)
+        }
+        console.log(rtData);
         var tableLtHtml = this.tableLtTemplate({data : res });
-        var tableRtHtml = this.tableRtTemplate({data : res });
+        var tableRtHtml = this.tableRtTemplate({data : rtData });
         this.container.find(".table-lt").html(tableLtHtml);
         this.container.find(".table-rt").html(tableRtHtml);
         this.container.show();

@@ -22,6 +22,7 @@ var Pag = {
             jump : true	              //可选  是否显示跳到第几页
         });
         this.bind();
+        console.log(this.pagination)
     },
 
     bind:function () {

@@ -335,7 +335,8 @@ var Filter = {
 
         //点击确认按钮
         this.container.on("click", ".query_btn" ,function () {
-            _this.FilterParamsHub = $.extend( {} , {page: 1 } , _this.getFilterParams() );
+            _this.FilterParamsHub = $.extend( _this.FilterParamsHub , _this.getFilterParams() );
+            _this.FilterParamsHub["page"] = 1 ;
             _this.gotoDC();
         });
         // //点击导出
@@ -359,9 +360,11 @@ var Filter = {
         var _this = this;
         //判断是否按票查询
         //按票查询
-        if( $('#searchTicket').prop('checked') ){
+        if( _this.FilterParamsHub.searchTicket ){
             _this.CR.pubSub.pub("DC.getTicketData" , _this.FilterParamsHub);
-        }else{
+        }
+        //默认的查询方式
+        else{
             _this.CR.pubSub.pub("DC.getMainData" , _this.FilterParamsHub);
         }
     },
@@ -439,11 +442,12 @@ var Filter = {
     getFilterParams: function () {
         var _this = this;
         var params = {};
-        params["size"] = 10;
+        params["size"] = _this.CR.PAGESIZE;
         params["page"] = 1;
         params["begin_date"] = _this.stime_inp.val();
         params["end_date"] = _this.etime_inp.val();
         params["type"] = Number ( $("#select_fg").attr("search_type") ) + 1;
+        params["searchTicket"] = $('#searchTicket').prop('checked');
         // if($("#huizong_type").attr("count_way")){
         //     params["count_way"]= $("#huizong_type").attr("count_way");
         // }

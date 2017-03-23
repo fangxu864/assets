@@ -1,36 +1,32 @@
 <thead>
 <tr>
-    <% _.each(data.data.pay_list , function(item,index){ %>
+    <% _.each(data.pay_list , function(item,index){ %>
     <th><%=item%></th>
     <%})%>
 </tr>
 </thead>
 <tbody>
 <tr class="first-tr">
-    <% _.each(data.data.pay_list , function(item,index){ %>
-    <td><%=item%></td>
+    <% _.each(data.total , function(item,index){ %>
+    <td class="<%=item == undefined || item == 0  ? 'no-data-td': ''%>"><%=item == undefined ? '0': item%></td>
     <%})%>
 </tr>
 </tbody>
+
+<% _.each(data.list , function(item,index){ %>
 <tbody>
-<tr data-index="tr1">
-    <% _.each(data.data.pay_list , function(item,index){ %>
-    <td><%=item%></td>
-    <%})%>
+<tr data-index="tr<%=index%>">
+    <% for(var i = 0 ; i< item.parentTr.length ; i++ ){ console.log(item.parentTr[i])%>
+    <td class="<%=item.parentTr[i] == undefined || item.parentTr[i] == 0  ? 'no-data-td': ''%>"><%=item.parentTr[i] == undefined ? '0': item.parentTr[i]%></td>
+    <%}%>
 </tr>
-<tr style="display: none" class="child-tr">
-    <% _.each(data.data.pay_list , function(item,index){ %>
-    <td><%=item%></td>
-    <%})%>
-</tr>
-<tr style="display: none" class="child-tr">
-    <% _.each(data.data.pay_list , function(item,index){ %>
-    <td><%=item%></td>
-    <%})%>
-</tr>
-<tr style="display: none" class="child-tr">
-    <% _.each(data.data.pay_list , function(item,index){ %>
-    <td><%=item%></td>
-    <%})%>
-</tr>
+    <% for(var j = 0 ; j< item.childTr.length ; j++ ){%>
+    <tr style="display: none" class="child-tr">
+        <% for(var k = 0 ; k< item.childTr[j].length ; k++ ){%>
+        <td class="<%=item.childTr[j][k] == undefined || item.childTr[j][k] == 0 ? 'no-data-td': '' %>"><%=item.childTr[j][k] == undefined ? '0': item.childTr[j][k] %></td>
+        <%}%>
+    </tr>
+    <%}%>
+
 </tbody>
+<%})%>

@@ -102,23 +102,13 @@
             line-height: 40px;
             border-bottom: 1px solid #e5e5e5;
           }
+          .no-data-td{
+            color: #bfbfbf;
+          }
         }
 
       }
     }
-
-
-
-  }
-  .clearfix{
-    zoom: 1;
-  }
-  .clearfix:after{
-    content: '.';
-    visibility: hidden;
-    height: 0;
-    clear: both;
-    display: block;
   }
 
 

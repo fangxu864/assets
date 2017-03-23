@@ -6,6 +6,7 @@
     <th class="th4">应收(元)</th>
 </tr>
 </thead>
+
 <tbody>
 <tr class="first-tr">
     <td>合计: 按票统计</td>
@@ -14,29 +15,22 @@
     <td class="th4">1212121212</td>
 </tr>
 </tbody>
+
+<% _.each(data.data.list,function(item,index){ %>
 <tbody>
-<tr data-index="tr1">
-    <td class="th1"><span class="un-shrink"></span>福建厦门鼓浪屿</td>
-    <td class="">12121</td>
-    <td class="">545454</td>
-    <td class="th4">1212121212</td>
+<tr data-index="tr<%=index%>">
+    <td class="th1"><span class="un-shrink"></span><%=item.name%></td>
+    <td class=""><%=item.member_num%></td>
+    <td class="">暂无</td>
+    <td class="th4"><%=( Number(  item.real_money ) / 100 ) .toFixed(2)%></td>
 </tr>
+<% for(var i = 0 ; i< item.product_list.length ; i++ ){%>
 <tr style="display: none" class="child-tr">
-    <td class="th1-child">福建厦门鼓浪屿</td>
-    <td class="">12121</td>
-    <td class="">545454</td>
-    <td class="th4">1212121212</td>
+    <td class="th1-child"><%=item.product_list[i].name%></td>
+    <td class=""><%=item.product_list[i].pid_num%></td>
+    <td class="">暂无</td>
+    <td class="th4"><%=( Number(  item.product_list[i].pid_real ) / 100 ) .toFixed(2)%></td>
 </tr>
-<tr style="display: none" class="child-tr">
-    <td class="th1-child">福建厦门鼓浪屿</td>
-    <td class="">12121</td>
-    <td class="">545454</td>
-    <td class="th4">1212121212</td>
-</tr>
-<tr style="display: none" class="child-tr">
-    <td class="th1-child">福建厦门鼓浪屿</td>
-    <td class="">12121</td>
-    <td class="">545454</td>
-    <td class="th4">1212121212</td>
-</tr>
+<%}%>
 </tbody>
+<%})%>
