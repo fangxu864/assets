@@ -7,8 +7,9 @@ var Common = require("../../common");
 var Tpl = require("./index.xtpl");
 var ItemTpl = require("./item.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
+loadingHeight = Common.loadingHeight;
 var LoadingHtml = Loading("努力加载中...",{
-	height : 400
+	height : loadingHeight
 });
 module.exports = function(parent){
 
@@ -32,7 +33,6 @@ module.exports = function(parent){
              this.trigger("ready");
         },
         fetch : function(){
-
             if(this.__hasLoaded) return false;
             this.__hasLoaded = true;
 
@@ -48,7 +48,7 @@ module.exports = function(parent){
                     listUl.html(LoadingHtml);
                 },
                 complete : function(){
-                    listUl.html("");
+                    listUl.html('');
                 },
                 success : function(res){
                     var code = res.code;
@@ -57,11 +57,18 @@ module.exports = function(parent){
                     if(code == 200){
                         that.render({data:data})
                     }else{
-                        //(code!=401) && alert(msg) 
+                        listUl.html('<div style="height:'+loadingHeight+'px; line-height:'+loadingHeight+'px" class="state serverError">'+msg+'</div>');
+                        that.trigger("ready");
                     }
                 },
-                timeout : function(){},
-                serverError : function(){}
+                timeout : function(){
+                    listUl.html('<div style="height:'+loadingHeight+'px; line-height:'+loadingHeight+'px" class="state timeout">'+PFT.AJAX_TIMEOUT_TEXT+'</div>');
+                    that.trigger("ready");
+                },
+                serverError : function(){
+                    listUl.html('<div style="height:'+loadingHeight+'px; line-height:'+loadingHeight+'px" class="state serverError">'+PFT.AJAX_ERROR_TEXT+'</div>');
+                    that.trigger("ready");
+                }
             })
 
             

@@ -3,8 +3,9 @@ var Common = require("../../common");
 var Tpl = require("./index.xtpl");
 var ItemTpl = require("./item.xtpl");
 var Loading = require("COMMON/js/util.loading.pc");
+var loadingHeight = Common.loadingHeight;
 var LoadingHtml = Loading("努力加载中...",{
-	height : 400
+	height : loadingHeight
 });
 var numberToFixed = PFT.Util.numberToFixed;
 module.exports = function(parent){
@@ -34,7 +35,6 @@ module.exports = function(parent){
 		},
 
 		fetch : function(){
-
 			if(this.__hasLoaded) return false;
 			this.__hasLoaded = true;
 
@@ -62,10 +62,19 @@ module.exports = function(parent){
 							}
 							that.render(data);
 						}
+					}else{
+						listUl.html('<div style="height:'+loadingHeight+'px; line-height:'+loadingHeight+'px" class="state serverError">'+msg+'</div>');
+						that.trigger("ready");
 					}
 				},
-				timeout : function(){},
-				serverError : function(){}
+				timeout : function(){
+                    listUl.html('<div style="height:'+loadingHeight+'px; line-height:'+loadingHeight+'px" class="state timeout">'+PFT.AJAX_TIMEOUT_TEXT+'</div>');
+                    that.trigger("ready");
+                },
+                serverError : function(){
+                    listUl.html('<div style="height:'+loadingHeight+'px; line-height:'+loadingHeight+'px" class="state serverError">'+PFT.AJAX_ERROR_TEXT+'</div>');
+                    that.trigger("ready");
+                }
 			})
 			
 		},
@@ -78,10 +87,10 @@ module.exports = function(parent){
 				// var price = parseInt(tprice);
 				var abPrice = Math.abs(tprice);
 				if (tprice>0) {
-					$(this).html(abPrice);
+					$(this).html("+"+abPrice);
 					$(this).css("color","#F27137");
 				}else{
-					$(this).html(abPrice);
+					$(this).html("-"+abPrice);
 					$(this).css("color","#25C328");
 				}
 			});

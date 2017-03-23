@@ -52,26 +52,38 @@ var Main = PFT.Util.Class({
 
 		priceChange.on("ready",function(){
 			fetch();
+			adaptFooterPos();
 		});
 		productChange.on("ready",function(){
 			fetch();
+			adaptFooterPos();
 		});
 		partnerChange.on("ready",function(){
 			fetch();
+			adaptFooterPos();
 		});
 		systemNotice.on("ready",function(){
 			fetch();
+			adaptFooterPos();
 		})
 
 
+		var adaptFooterPos = function(){
+			var pageMain = $("#pageMain");
+			var rightBar = $("#rightBar");
 
+			var pageMainHeight = pageMain.height();
+			var rightBarHeight = rightBar.height();
+
+			var height = pageMainHeight>rightBarHeight ? pageMainHeight : rightBarHeight;
+
+			$("#inBodyCon").css({"min-height":height});
+
+
+
+		};
 
 		AD(this.rightBar);
-
-
-
-
-		
 
 
 
@@ -81,6 +93,7 @@ var Main = PFT.Util.Class({
             distanceAtBottom : 17,
             scroll : function(data){
 				fetch();
+				adaptFooterPos();
             }
         });
 
@@ -96,6 +109,3 @@ $(function(){
 	new Main;
 
 })
-
-
-

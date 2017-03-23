@@ -16,6 +16,7 @@ module.exports = {
 			setRemainWaring : "/r/Home_HomeMember/setRemainWaring/"
 		}
 	},
+	loadingHeight : 400,
 	Ajax : function(url,opt){
 
 		opt = opt || {};
