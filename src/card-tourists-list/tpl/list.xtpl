@@ -27,12 +27,12 @@
                         <% if( j == 3){ %>
                             
                             <div class="tdEmpty" style="height: 35px;"></div>
-                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].money%></div>
+                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].money/100%></div>
                         <% }else{ %>
-                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].money%></div>
+                            <div class="tdItem" style="display: none;"><%=list[i].recharge[j].money/100%></div>
                         <% } %>    
                     <% }else{ %>
-                        <div><%=list[i].recharge[j].money%></div>
+                        <div><%=list[i].recharge[j].money/100%></div>
                     <% } %>     
                 <% } %>
             </td>
@@ -51,7 +51,7 @@
                 <% } %>
             </td> 
         <% } %>
-        <td class="orange money col6"><%=list[i].remain%></td>
+        <td class="orange money col6"><%=list[i].remain/100%></td>
         <td class="col7"><%=list[i].status%></td>
     </tr>
     <% } %>
