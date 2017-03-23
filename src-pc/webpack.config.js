@@ -47,7 +47,7 @@ var entry = {
 	// "home.pc" : "./src-pc-rebuild/home/index.js",
 
 	//新版首页 右边栏点击更多进去的二级列表页
-	"notic.list.pc" : "./src-pc/notice-list/index.js"
+	"notice.list.pc" : "./src-pc/notice-list/index.js"
 };
 
 
