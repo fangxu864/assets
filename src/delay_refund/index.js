@@ -87,6 +87,14 @@ var Main =  PFT.Util.Class({
 				$("#tempInfo").html("暂无信息");
 			},
 			success : function(res){
+				var code = res.code ;
+				var msg = res.msg;
+				if( code ==200 ){
+					alert("退款同意提交成功");
+					window.location.reload();
+				}else{
+					alert(msg);
+				}
 			},
 			timeout : function(){ alert("请求超时") },
 			serverError : function(){ alert("请求出错")}
@@ -94,7 +102,7 @@ var Main =  PFT.Util.Class({
 	},
 	disagree : function(){
 		var that = this;
-		var memo = that.disagreeDialog.find("#dialog_reson_textarea2").val();
+		var memo = that.disagreeDialog.container.find("#dialog_reson_textarea2").val();
 		var id = that.disagreeDialog.container.attr("data-id");
 		PFT.Util.Ajax("/r/Order_Handler/refuseRefund",{
 			type : "POST",
@@ -108,18 +116,25 @@ var Main =  PFT.Util.Class({
 			complete : function(){
 			},
 			success : function(res){
-				
+				var code = res.code ;
+				var msg = res.msg;
+				if( code ==200 ){
+					alert("退款同意提交成功");
+					window.location.reload();
+				}else{
+					alert(msg);
+				}
 			},
 			timeout : function(){ alert("请求超时") },
 			serverError : function(){ alert("请求出错")}
 		})
 	},
 	onsearch : function(){
-		// var ordernum = $("#ordernum").val();
-		// if( ordernum == ""){
-		// 	alert("请填写订单");
-		// 	return false
-		// }
+		var ordernum = $("#ordernum").val();
+		if( ordernum == ""){
+			alert("请填写订单");
+			return false
+		}
 
 		// var ordernum = "4005526";  //模拟		
 
@@ -130,9 +145,9 @@ var Main =  PFT.Util.Class({
 			type : "POST",
 			dataType : "json",
 			params : {
-				// ordernum : ordernum
-				page : that.page,
-				pagesize : 2
+				ordernum : ordernum
+				// page : that.page,
+				// pagesize : 2
 			},
 			loading : function(){
 				$("#tempInfo").html(that.loading);
@@ -141,7 +156,6 @@ var Main =  PFT.Util.Class({
 				$("#tempInfo").html("暂无信息");
 			},
 			success : function(res){
-				console.log(res);
 				that.handleSearchList(res);
 			},
 			timeout : function(){ alert("请求超时") },
@@ -165,7 +179,6 @@ var Main =  PFT.Util.Class({
 		$(".doActionBtn.disagree").on("click",function(e){
 			var target = $(e.target);
 			var id = target.attr("data-id");
-			console.log(id);
 			var disaggreeCon = that.disagreeDialog.container;
 			disaggreeCon.attr("data-id",id);
 			that.disagreeDialog.open();
@@ -174,7 +187,6 @@ var Main =  PFT.Util.Class({
 	transAllTimeStamp : function(){
 		var that = this;
 		var timeStamps = $("#tbody").find(".timeStamp");
-		console.log(timeStamps);
 		timeStamps.each(function(i,item){
 			var stamp = timeStamps.eq(i).text();
 			var time = trans(stamp);
@@ -194,10 +206,6 @@ var Main =  PFT.Util.Class({
 		var   hour=stamp.getHours();     
 		var   minute=stamp.getMinutes();     
 		var   second=stamp.getSeconds();     
-
-		console.log(minute);
-		console.log(second);
-
 		if( hour == 0 ){
 			hour = "-";
 		}
@@ -207,7 +215,6 @@ var Main =  PFT.Util.Class({
 		if( second == 0 ){
 			second = "-";
 		}
-
 		return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;  
 	}
 
