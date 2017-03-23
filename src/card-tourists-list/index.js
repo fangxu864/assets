@@ -312,6 +312,9 @@ var Main = PFT.Util.Class({
 		var   hour=stamp.getHours();     
 		var   minute=stamp.getMinutes();     
 		var   second=stamp.getSeconds();     
+		second = second < 10 ? "0" + second : second ;
+		minute = minute < 10 ? "0" + minute : minute ;
+		hour = hour < 10 ? "0" + hour : hour ;
 		return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;  
 	}
 
