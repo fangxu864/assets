@@ -803,11 +803,12 @@ var Order_fill = PFT.Util.Class({
 		//模拟needID
 		// needID = "2"
 		
-		if( this.needID == "0"){
+		if( this.needID == "0"){  //不需要
 			$("#idCardBox").css("display","none");
-		}else if(this.needID == "1"){
 			$("#visitorInformation").css("display","none");
-		}else if(this.needID == "2"){
+		}else if(this.needID == "1"){  //需要填一个
+			$("#visitorInformation").css("display","none");
+		}else if(this.needID == "2"){  //需要填多个
 			$("#idCardBox #checkIdInput").css("display","none");
 			$("#idCardBox #checkIdCard").css("display","none");
 			$("#visitorInformation").val("*游客信息 "+"已编辑0/"+ticketList.length);

@@ -12,19 +12,19 @@ var Main=PFT.Util.Class({
         //console.log(this.paymode)
         document.title=this.paymode==1? "支付成功":"下单成功";
         Service(this.ordernum,{
-            loading:()=>{
+            loading:function(){
                 Toast.show("loading","努力加载中...");
             },
-            complete:()=>{
+            complete:function(){
                 Toast.hide("loading","努力加载中...");
             },
-            success:(data)=>{
+            success:function(data){
                 data["paymode"]=this.paymode;
                 var html=this.template(data);
                 this.container.html(html);
                 
             },
-            fail:(msg)=>{
+            fail:function(msg){
                 Alert(msg);
             }
         })

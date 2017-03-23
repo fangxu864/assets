@@ -27,13 +27,13 @@ var Order_pay = PFT.Util.Class({
 		this.ordernum = urlParams["ordernum"] || "";
 		this.host = urlParams["h"].split(".")[0];
 		Service(this.ordernum, this.host, {
-			loading: () => {
+			loading : function(){
 				Toast.show("loading", "努力加载中...");
 			},
-			complete: ()=>{
+			complete : function(){
 				Toast.hide("loading", "努力加载中...");
 			},
-			success: (data)=>{
+			success: function(data){
 				var that=this;
 				this.__CacheData=data;
 				data["payDomain"]=$("#paydomainHinInp").val();
@@ -43,7 +43,7 @@ var Order_pay = PFT.Util.Class({
 					that.setLoop();
 				},10);
 			},
-			fail: (msg)=>{
+			fail: function(msg){
 				Alert(msg);
 			}
 		})
