@@ -1,0 +1,25 @@
+
+        <div class="form-group f14">
+            <div class="form-label t-right">您的支付方式：</div>
+            <div class="form-content">
+                <div class="form-text"><%=method%></div>
+            </div>
+        </div>
+        <div class="form-group f14">
+            <div class="form-label t-right">支付金额：</div>
+            <div class="form-content">
+                <div class="form-text"><em class="c-warning"><%=fee%></em> 元</div>
+            </div>
+        </div>
+        <div class="form-group f14">
+            <div class="form-label t-right">开通服务：</div>
+            <div class="form-content">
+                <div class="form-text"><%=name%></div>
+            </div>
+        </div>
+        <div class="form-group f14">
+            <div class="form-label t-right">当前服务状态：</div>
+            <div class="form-content">
+                <div class="form-text">有效期 <em class="c-warning"><%=btime%></em> 至 <em class="c-warning"><%=etime%></em></div>
+            </div>
+        </div>

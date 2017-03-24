@@ -1,0 +1,4 @@
+<div class="inputItem" id="ticketDate" >
+	<input id="playDate" class="topinput" type="text" placeholder="*游玩日期">
+	<i class="icon icon-u-regular icon-rili"></i>
+</div>

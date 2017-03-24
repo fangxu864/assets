@@ -8,7 +8,8 @@ module.exports = {
 		Home_HomeNotice : {
 			priceChange : "/r/Home_HomeNotice/priceChange/",
 			productChange : "/r/Home_HomeNotice/productChange/",
-			partnerChange : "/r/Home_HomeNotice/partnerChange/"
+			partnerChange : "/r/Home_HomeNotice/partnerChange/",
+			systemNotice : "/r/Home_HomeNotice/getSysNotice/"
 		},
 		Home_HomeMember : {
 			getMemberInfo : "/r/Home_HomeMember/getMemberInfo/"

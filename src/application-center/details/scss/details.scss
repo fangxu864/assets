@@ -1,0 +1,246 @@
+.appItem{
+    position:relative;
+    float:left;
+    margin-right:15px;
+    border:1px solid map-get($Color,border);
+    background:#fff;
+    &:nth-child(3n){
+        margin-right:0;
+    }
+}
+
+%clearfix{
+    &{
+        *zoom: 1;
+    }
+    &:before,&:after{
+        content: "";
+        display: table;
+    }
+    &:after{
+        clear: both;
+        overflow: hidden;
+    }
+}
+
+.section-appdetails{
+    border: 1px solid map-get($Color,border);
+    background: #fff;
+    h1{
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid map-get($Color,border) ;
+        font-size: 22px ;
+        font-weight: normal;
+        color: #3e3e3e;
+        padding: 0 15px;
+        &:before{
+            display: inline-block;
+            content: "";
+            font-size: 0;
+            vertical-align: middle;
+            margin-right: 10px;
+            border: 0px solid #f07845;
+            border-width: 10px 2px 10px 2px;
+        }
+    }
+
+    .line1_detail{
+        @extend %clearfix;
+        .introdaction_detail{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 550px;
+            height: 20px;
+        }
+        i{
+            margin: 30px ;
+            float: left;
+        }
+        span{
+            margin-top: 30px ;
+            float: left;
+            display: inline-block;
+            vertical-align: middle;
+
+            h4{
+                font-size: 14px;
+                font-weight : bold;
+                color: #3e3e3e;
+            }
+            p{
+                line-height: 20px;
+                margin-top: 10px;
+                color: #92a0ab;
+            }
+
+        }
+    }
+    .time_detail {
+        color: #e11d2c;
+        font-weight: bold;
+        padding: 0 5px;
+    }
+    #btn{
+        cursor: pointer;
+    }
+    .btn_details{
+        margin-top: 2px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 16px;
+        float: left;
+        display: inline-block;
+        background: #f07845;
+        width: 120px;
+        height: 40px;
+        color: white;
+    }
+    .price_details{
+        display: inline-block;
+        color: map-get($Color,blur);
+        margin-left: 30px;
+        margin-top: 2px;
+        text-align: center;
+        line-height: 35px;
+        font-size: 14px;
+    }
+    .line2_detail{
+        @extend %clearfix;
+        padding-bottom: 20px;
+        span:nth-child(1){
+            width: 50px;
+            float: left;
+            line-height: 20px;
+            display: inline-block;
+            margin: 0 30px;
+            p{
+                text-align: center;
+            }
+        }
+    }
+    .num_detail{
+        color: #e11d2c;
+        font-weight: bold;
+        padding: 0 5px;
+        border-radius: 5px;
+    }
+    .appdetails_details{
+        padding: 0 22px;
+        margin-bottom: 16px;
+        margin-top: 16px;
+        h2{
+            font-weight: normal;
+            width: 120px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            background: map-get($Color,blur);
+        }
+        .content_details{
+            border-top: 2px solid map-get($Color,blur) ;
+            padding: 22px;
+            background: #f0f3f5;
+            line-height: 20px;
+            font-weight: normal;
+            text-indent: 24px;
+            color: #3e3e3e ;
+            .title{
+                font-size: 15px;
+                margin-top: 0.5rem;
+                font-weight: bold;
+                margin-left: 2rem;
+            }
+            .content{
+                margin-top: 0.5rem;
+                margin-left: 4rem;
+            }
+        }
+    }
+    .recommend_details{
+        padding: 0 22px;
+        margin-bottom: 16px;
+        h2{
+            font-size: 18px;
+            font-weight: normal;
+            width: 120px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            font-size: 14px;
+            color: white;
+            background: map-get($Color,blur);
+        }
+        .content_details{
+            border-top: 2px solid map-get($Color,blur) ;
+            padding: 32px 6px 32px 6px;
+            background: #f0f3f5;
+            line-height: 18px;
+            font-weight: normal;
+            color: #3e3e3e ;
+            @extend %clearfix;
+            li{
+                text-align: center;
+                margin: 0 5px;
+            }
+        }
+    }
+}
+
+@import "COMMON/css/base/mixin/_triangle-v2.scss";
+.message_box{
+    position: absolute;
+    display: none;
+    .content{
+        padding: 10px 20px;
+        background: #fff5f5;
+        height: 40px;
+        line-height: 18px;
+        border-radius: 5px;
+        border: 1px solid #e5e5e5;
+    };
+    .triangle_back{
+        @include triangle((size:16px,color:#e5e5e5,direction:down));
+        position: absolute;
+        left: 51.5%;
+        bottom:-13px;
+    }
+    .triangle {
+        @include triangle((size:15px,color:#fff5f5,direction:down));
+        position: absolute;
+        left: 52%;
+        z-index: 20;
+        bottom:-10px;
+    }
+}
+
+.app-list li.yingjian {
+    position: relative;
+    float: left;
+    width: 161px;
+    height: 200px;
+    margin-right: 32px;
+    margin-bottom: 25px;
+    background-color: #fff;
+    cursor: pointer;
+}
+.app-list li.yingjian .yingjian_name{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px auto 20px 10px;
+}
+.app-list li.yingjian img{
+    display: block;
+    margin: 0 auto;
+    transform: translate(0px);
+    transition: transform 0.2s;
+}
+.app-list li.yingjian img:hover{
+    transform: translate(5px);
+}
+.app-summary{
+    text-overflow: ellipsis;
+}

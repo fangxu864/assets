@@ -181,6 +181,10 @@ Dialog.prototype = Extend({
 		mask.fadeOut(function(){
 			mask.css("zIndex",0)
 		});
+	},
+	remove: function( opt ){
+		this.container.remove();
+		// this.getMask.remove();
 	}
 },PubSub);
 module.exports = Dialog;

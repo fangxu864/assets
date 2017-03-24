@@ -32,7 +32,7 @@ var Dialog_tuipiao=PFT.Util.Class({
         Con.find(".dialog_con").animate({"bottom":-200+"px"},500,"swing");
         // Con.find(".mask").fadeOut(500);
         Con.find(".mask").removeClass("open");
-        Con.find("#dialog_tuipiao .dialog_con .line4").html("")
+        Con.find("#dialog_tuipiao .dialog_con .line4").html("<span>*为保障票务安全需要验证联系人手机</span>")
     },
     onBtnSendCodeClick:function (e) {
         var tarBtn=$(e.currentTarget);
@@ -45,7 +45,10 @@ var Dialog_tuipiao=PFT.Util.Class({
         var vcode=Con.find("input.vcode").val();
         var re=/^\d{6}$/;
         if(!re.test(vcode)){
-            Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_error">*请输入正确的6位数字验证码...</span>');
+            Con.find("#dialog_tuipiao .dialog_con .line4").html('');
+            setTimeout(function () {
+                Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_error">*请输入正确的6位数字验证码...</span>');
+            },200);
             return false
         }
         var orderNum=this.OrderNum;
@@ -72,9 +75,14 @@ var Dialog_tuipiao=PFT.Util.Class({
                     PFT.Mobile.Alert("退票成功！");
                     Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_success">*退票成功</span>');
                     _this.close();
-                    window.location.reload();
+                    setTimeout(function () {
+                        window.location.reload();
+                    },2500)
                 }else{
-                    Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_error">*'+res.msg+'</span>')
+                    Con.find("#dialog_tuipiao .dialog_con .line4").html('');
+                    setTimeout(function () {
+                        Con.find("#dialog_tuipiao .dialog_con .line4").html('<span class="tip_error">*'+res.msg+'</span>')
+                    },200);
                 }
             },
             complete: function() {

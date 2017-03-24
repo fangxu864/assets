@@ -1,0 +1,10 @@
+<% _.each( data, function( item, index ){ %>
+    <% _.each( item, function( val, key ){ %>
+    <li class="group">
+        <p class="pin"><%=key%></p>
+        <% _.each( val, function( city, i ){ %>
+        <p class="cityItem" data-code="<%=city.code%>"><%=city.name%></p>
+        <% }) %>
+    </li>
+    <% }) %>
+<% }) %>
