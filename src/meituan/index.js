@@ -164,9 +164,6 @@ $(function(){
 
         $(".addC").live("click",function(){    //绑定的 还未加入地址
 
-
-            
-
             var ti={};
             var ids = {};
             var conf_type = $(".conf_type").val();
@@ -205,28 +202,30 @@ $(function(){
             agreeDialog.open();
 
             $("#bindBox .bind").on("click",function(){//绑定
-
                 var originId = $("#bindBox #bindIdInput").val();
-
-                if( originId != ids[tid]){
+                console.log(conf_type);                
+                if( originId != ids[tid] && conf_type == "1"){
                     ti.trird_part_teamwork_id = originId;
                 }
-                
                 $.ajax({
                     type:'POST',url: 'call/jh_tuan.php?action=set_conf',data: ti, dataType:'json',
                 }).done(function(res) {
+                    console.log(res);
                     if(res.status=="success"){
                         alert("绑定成功");
+                        agreeDialog.close();
                         $(".add_"+tids).parent().parent().remove();
-                    }
-                    else{
+                        $("#bindBox .bind").off("click");
+                    }else{
+                        agreeDialog.close();
+                        $("#bindBox .bind").off("click");
                         alert(res.msg);
                     }
                 })
-
             });
             //关闭
             $("#bindBox .close").on("click",function(){
+                $("#bindBox .close").off("click");
                 agreeDialog.close();
             });
         });
@@ -361,7 +360,7 @@ $(function(){
             }
             ajax.getList(params,{
                 success : function(res){
-                    fillSearch(res);
+                    fillSearch(res,conf_type);
                 },
                 fail : function(mgs){
                     alert(mgs);
@@ -369,7 +368,7 @@ $(function(){
             })
         }
 
-        function fillSearch(res){
+        function fillSearch(res,conf_type){
             var title = $(".serspan").html();
             var str="";
             var list = res.lists;
@@ -387,20 +386,42 @@ $(function(){
             if(list && list.length > 0){
                 for(var i in list){
                     str+='<tr class="group_2">';
-                    str+='  <td class="ww100">';
+                    str+='  <td class="col1">';
                     str+='      <a target="_blank" href="javascript:void(0);" tid="'+list[i]['tid']+'" aid="'+list[i]['aid']+'" lid="'+list[i]['lid']+'" class="colorBlue idNum add_'+list[i]['tid']+'"></a>';
                     str+='  </td>';
-                    str+='  <td class="ww260">';
+                    str+='  <td class="col2">';
                     str+='      <span>'+title+'</span>';
                     str+='  </td>';
-                    str+='  <td class="ww260" title="">'+list[i]['ttitle']+'</td>';
-                    str+='  <td class="ww160">';
+
+
+                    str+='  <td class="col3" title="">'+list[i]['ttitle']+'</td>';
+
+                    console.log(conf_type);
+                    if(conf_type == 1){
+                        if(list[i]["third_part_teamwork_id"]){
+                            str+='  <td class="wwid col4">';
+                            str+='      <span>'+list[i]["third_part_teamwork_id"]+'</span>';
+                            str+='  </td>';
+                        }else{
+                            str+='  <td class="wwid col4">';
+                            // str+='      <span>'+list[i]["third_part_teamwork_id"]+'</span>';
+                            str+='  </td>';
+                        }
+                        
+                    }
+
+                    str+='  <td class="col5">';
                     str+='      <a class="aList statusIdc" href="javascript:void(0)" bid_a="'+list[i]['bid_a']+'" bid_b="'+list[i]['bid_b']+'" bid_c="'+list[i]['bid_c']+'" bind_a="'+list[i]['bind_a']+'" bind_b="'+list[i]['bind_b']+'" bind_c="'+list[i]['bind_c']+'"></a>';
                     str+='      <a class="aList changeM" style="display:none"  bid_b="'+list[i]['bid_b']+'" bind_b="'+list[i]['bind_b']+'" href="javascript:void(0);">修改通知</a>';
                     str+='  </td>';
                     str+='</tr>';
+                    
+                }
+                if(conf_type == 1 && $(".col4.bindId").length == 0 ){
+                    $('<th class="col4 bindId">虚拟产品编号</th>').insertAfter(".col3.after");
                 }
             }else{
+
                 str+='<tr class="group_2">';
                 str+='  <td colspan="4" style="text-align:center;">抱歉暂无分销价格';
                 str+='  </td>';
@@ -409,7 +430,11 @@ $(function(){
 
             $(".groupItem").html(str);
             $(".serspan").html(title);
+            if(conf_type == 1){
+                $(".searchTip").find("td").attr("colspan","5");
+            }
             statusInfo();
+
         }
 
         function statusInfo(){
