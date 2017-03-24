@@ -1,8 +1,8 @@
 <div class="inputItem" id="showDate">
-	<input id="showDateInput" class="topinput" type="text" placeholder="*演出日期">
+	<input id="showDateInput" class="topinput" type="text" placeholder="*演出日期" readonly="readonly">
 	<i class="icon icon-u-regular icon-rili"></i>
 </div>
 <div class="inputItem" id="playTime">
-	<input id="playTimeInput" class="topinput" type="text" placeholder="*场次时间">
+	<input id="playTimeInput" class="topinput" type="text" placeholder="*场次时间" readonly="readonly">
 	<i class="icon icon-u-regular icon-iconfont74"></i>
 </div>
