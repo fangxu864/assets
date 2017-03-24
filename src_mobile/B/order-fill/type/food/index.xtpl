@@ -1,4 +1,4 @@
 <div class="inputItem" id="mealDate">
-	<input id="mealDateInput" class="topinput" type="text" placeholder="*用餐时间">
+	<input id="mealDateInput" class="topinput" type="text" placeholder="*用餐时间" readonly="readonly">
 	<i class="icon icon-u-regular icon-rili"></i>
 </div>
