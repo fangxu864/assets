@@ -49,9 +49,7 @@ $(function(){
             target.addClass("active");
             $(".serspan").html("请搜索或选择产品");
             getInfoTab(type);
-
         })
-
         $(".qtip").live("click",function(e){
             $(".prodList").hide();
             $(".group_2").hide();
@@ -523,6 +521,7 @@ $(function(){
             var conf = $(".conf_type");
             $(".Identity").val(null);
             $(".sign").val(null);
+            
             switch(type)
             {
                 case "1":
@@ -559,6 +558,9 @@ $(function(){
                     setTimeout(function () {
                         $(".group_2").hide();
                         $("#qunaer_select").hide();
+                        if( type != 2 || type != 3){
+                            $(".col4.bindId").remove();
+                        }
                     },500);
                 },
                 fail : function(mgs){
