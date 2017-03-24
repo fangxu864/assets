@@ -4,6 +4,7 @@
  * Description: ""
  */
 require("./index.scss");
+var Common = require("./common.js");
 
 var UserInfo = require("./modules/userinfo");
 
@@ -37,12 +38,66 @@ var Main = PFT.Util.Class({
 		// this.wxShopData = WxShopData(this.pageMain);
 
 
-		this.priceChange = PriceChange(this.rightBar);
-		this.productChange = ProductChange(this.rightBar);
+		var priceChange = this.priceChange = PriceChange(this.rightBar);
+		var productChange = this.productChange = ProductChange(this.rightBar);
+		var partnerChange = this.partnerChange = PartnerChange(this.rightBar);
+		var systemNotice = this.systemNotice = SystemNotice(this.rightBar);
+		//懒加载
+		var fetch = function(){
+			if(!priceChange.__hasLoaded && Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
+			if(!productChange.__hasLoaded && Common.elemViewIn($("#ProductChangeBox"),$("#G_Body"))) productChange.fetch();
+			if(!partnerChange.__hasLoaded && Common.elemViewIn($("#PartnerChangeBox"),$("#G_Body"))) partnerChange.fetch();
+			if(!systemNotice.__hasLoaded && Common.elemViewIn($("#SystemNoticeBox"),$("#G_Body"))) systemNotice.fetch();
+		};
 
-		this.partnerChange = PartnerChange(this.rightBar);
-		this.systemNotice = SystemNotice(this.rightBar);
+		priceChange.on("ready",function(){
+			fetch();
+			adaptFooterPos();
+		});
+		productChange.on("ready",function(){
+			fetch();
+			adaptFooterPos();
+		});
+		partnerChange.on("ready",function(){
+			fetch();
+			adaptFooterPos();
+		});
+		systemNotice.on("ready",function(){
+			fetch();
+			adaptFooterPos();
+		})
+
+
+		var adaptFooterPos = function(){
+			var pageMain = $("#pageMain");
+			var rightBar = $("#rightBar");
+
+			var pageMainHeight = pageMain.height();
+			var rightBarHeight = rightBar.height();
+
+			var height = pageMainHeight>rightBarHeight ? pageMainHeight : rightBarHeight;
+
+			$("#inBodyCon").css({"min-height":height});
+
+
+
+		};
+
 		AD(this.rightBar);
+
+
+
+        PFT.Util.ScrollManager({
+            container : "#G_Body",
+            timeout : 200,
+            distanceAtBottom : 17,
+            scroll : function(data){
+				fetch();
+				adaptFooterPos();
+            }
+        });
+
+		fetch();
 
 
 	}
@@ -54,6 +109,3 @@ $(function(){
 	new Main;
 
 })
-
-
-
