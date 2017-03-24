@@ -1,6 +1,6 @@
 require("./index.scss");
 var Alert = PFT.Mobile.Alert;
- var Toast = new PFT.Mobile.Toast();
+var Toast = new PFT.Mobile.Toast();
 /*var Toast = PFT.Mobile.Toast*/
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
@@ -34,12 +34,12 @@ var Main = PFT.Util.Class({
                     ctype: urlParams["ctype"],
                     ctx: urlParams["ctx"]
                 },
-                success: function(res){
-                    if(res.code==200){
-                        if(res.data.url){
-                            window.location.href=res.data.url+search;
-                        }else{
-                            window.location.href="plist.html"+search;
+                success: function (res) {
+                    if (res.code == 200) {
+                        if (res.data.url) {
+                            window.location.href = res.data.url + search;
+                        } else {
+                            window.location.href = "plist.html" + search;
                         }
                     }
                 }
@@ -81,7 +81,7 @@ var Main = PFT.Util.Class({
             },
             success: function (res) {
                 if (res.code == 200) {
-                     var Url = res.data.url;
+                    var Url = res.data.url;
                     var search = window.location.search;
                     var Nurl = "plist.html";
                     if (Url.length > 1) {
@@ -89,23 +89,23 @@ var Main = PFT.Util.Class({
                     } else {
                         window.location.href = Nurl + search;
                     }
-                }else if(res.code==401){
-                     Toast.show("loading",res.msg,3000,function(){
-                       
-                            setTimeout("reloadPage", 3000);
-                         
-                         
-                     });
-                }else {
+                } else if (res.code == 401) {
+                        Toast.show("loading", res.msg);
+                        (function () {
+                             setTimeout(function(){
+                                 window.location.reload();
+                             }, 1500);
+                        })()
+
+                    
+                } else {
                     Alert(res.msg);
-                   
+
                 }
             }
         })
     },
-    reloadPage: function(){
-         window.location.reload();
-    }
+  
 })
 
 $(function () {
