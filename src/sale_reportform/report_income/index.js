@@ -76,10 +76,6 @@ var Main = {
         QueryState.init(CR);
         //pagination
         Pagination.init(CR);
-        // //print
-        // Print.init(CR);
-        // //dialog
-        // Dialog.init(CR);
     }
 };
 

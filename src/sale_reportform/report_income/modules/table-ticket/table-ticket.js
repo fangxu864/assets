@@ -57,8 +57,13 @@ var tableTicket = {
     render: function ( res ) {
         var listData = {
             pay_list: res.data.pay_list,
-            list:[]
+            list:[],
+            total_info: {},
+            Jtype: res.data.Jtype
         };
+        for( var number in res.data.total_info){
+            listData.total_info[number] = Number( res.data.total_info[number] )
+        }
         for(var i in res.data.list ){
             var obj = (function () {
                 return {

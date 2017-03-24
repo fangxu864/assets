@@ -34,7 +34,7 @@ module.exports=function($){
                         e.preventDefault();
                         return false;
                     });
-                    // e.preventDefault();
+                    e.preventDefault();
                     var startValue={
                         x:that.position().left,
                         y:that.position().top

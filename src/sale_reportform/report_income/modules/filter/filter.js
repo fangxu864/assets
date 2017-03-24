@@ -346,12 +346,6 @@ var Filter = {
         //     var downLoadUrl = "/r/Admin_Refund/getRefundInfo/?" + params;
         //     _this.outExcel(downLoadUrl);
         // });
-        // //请求数据中心
-        // this.CR.pubSub.sub("filterBox.dataCenter",function (params) {
-        //     var filterParams =  _this.deSerialize ( _this.container.find("#filterForm").serialize() );
-        //     var newParams = $.extend({} , params , filterParams );
-        //     _this.dataCenter( newParams )
-        // })
     },
 
     /**

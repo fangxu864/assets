@@ -53,6 +53,7 @@ var DataCenter = {
                 if(res.code == 200 ){
                     //通知table模块render
                     if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
+                        res.data.Jtype = params.type;
                         _this.CR.pubSub.pub("queryStateBox.close");
                         _this.CR.pubSub.pub("tableConBox.render", res );
                     }else{
@@ -109,6 +110,7 @@ var DataCenter = {
                 if(res.code == 200 ){
                     //通知table模块render
                     if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
+                        res.data.Jtype = params.type;
                         _this.CR.pubSub.pub("queryStateBox.close");
                         _this.CR.pubSub.pub("tableTicket.render", res );
                     }else{

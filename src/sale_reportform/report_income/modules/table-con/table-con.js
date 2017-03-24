@@ -78,13 +78,13 @@ var tableCon = {
             }());
             //parentTr
             for( var tkey in res.data.list[i].pay_way_money ){
-                obj.parentTr[tkey] = res.data.list[i].pay_way_money[tkey]
+                obj.parentTr[tkey] = Number( res.data.list[i].pay_way_money[tkey] )
             }
             for(var j= 0; j< res.data.list[i].product_list.length; j++){
                 //得出支付方式集合
                 var arr = new Array(payListLen);
                 for(var k= 0; k< res.data.list[i].product_list[j].payway_list.length; k++){
-                    arr[res.data.list[i].product_list[j].payway_list[k].pay_way] = res.data.list[i].product_list[j].payway_list[k].sale_money;
+                    arr[res.data.list[i].product_list[j].payway_list[k].pay_way] = Number( res.data.list[i].product_list[j].payway_list[k].sale_money );
                 }
                 obj.childTr.push(arr);
             }

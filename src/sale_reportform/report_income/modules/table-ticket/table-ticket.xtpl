@@ -10,10 +10,10 @@
 <table class="table-ticket">
         <thead>
             <tr class="tr1">
-                <th class="padding-lt-20" rowspan="2">产品/收款账户</th>
+                <th class="padding-lt-20" rowspan="2">产品/<%=data.Jtype == 1 ? '收款' : '付款'%>账户</th>
                 <th colspan="3" class="has-b-lt">检票</th>
                 <th colspan="4" class="has-b-lt">撤销/撤改</th>
-                <th colspan="2" class="padding-rt-20 has-b-lt">应收（元）</th>
+                <th colspan="2" class="padding-rt-20 has-b-lt"><%=data.Jtype == 1 ? '应收' : '应付'%></th>
             </tr>
             <tr class="tr2">
 
@@ -35,17 +35,17 @@
             <tr class="total-tr">
                 <td class="padding-rt-20">合计</td>
 
-                <td class="has-b-lt">200</td>
-                <td>200</td>
-                <td  class="padding-rt-20">200</td>
+                <td class="has-b-lt"><%=data.total_info.order_num%></td>
+                <td><%=data.total_info.ticket_num%></td>
+                <td  class="padding-rt-20"><%=( Number( data.total_info.sale_money ) / 100 ).toFixed(2)%></td>
 
-                <td class="has-b-lt">200</td>
-                <td>200</td>
-                <td>200</td>
-                <td  class="padding-rt-20">200</td>
+                <td class="has-b-lt"><%=data.total_info.cancel_order_num%></td>
+                <td><%=data.total_info.cancel_ticket_num%></td>
+                <td><%=data.total_info.cancel_money == 0 ? '0':( Number( data.total_info.cancel_money ) / 100 ).toFixed(2)%></td>
+                <td  class="padding-rt-20"><%=data.total_info.service_money == 0 ? '0':( Number( data.total_info.service_money ) / 100 ).toFixed(2)%></td>
 
-                <td class="has-b-lt">200</td>
-                <td class="padding-rt-20">200</td>
+                <td class="has-b-lt"><%=data.total_info.ticket_num - data.total_info.cancel_ticket_num%></td>
+                <td class="padding-rt-20"><%=( Number( data.total_info.sale_money  - data.total_info.cancel_money + data.total_info.service_money ) / 100 ).toFixed(2)%></td>
             </tr>
         </tbody>
 
@@ -56,15 +56,15 @@
 
             <td class="has-b-lt"><%=item.firstTrData.order_num%></td>
             <td><%=item.firstTrData.ticket_num%></td>
-            <td  class="padding-rt-20"><%= ( Number( item.firstTrData.sale_money ) / 100 ) .toFixed(2) %></td>
+            <td  class="padding-rt-20"><%=item.firstTrData.sale_money == 0? 0 : ( Number( item.firstTrData.sale_money ) / 100 ) .toFixed(2) %></td>
 
             <td class="has-b-lt"><%=item.firstTrData.cancel_order_num%></td>
             <td><%=item.firstTrData.cancel_ticket_num%></td>
-            <td><%= ( Number( item.firstTrData.cancel_money ) / 100 ) .toFixed(2) %></td>
-            <td  class="padding-rt-20"><%= ( Number( item.firstTrData.service_money ) / 100 ) .toFixed(2) %></td>
+            <td><%=item.firstTrData.cancel_money == 0? 0 : ( Number( item.firstTrData.cancel_money ) / 100 ) .toFixed(2) %></td>
+            <td  class="padding-rt-20"><%=item.firstTrData.service_money == 0 ? 0 :  ( Number( item.firstTrData.service_money ) / 100 ) .toFixed(2) %></td>
 
             <td class="has-b-lt"><%=item.firstTrData.real_num%></td>
-            <td class="padding-rt-20"><%= ( Number( item.firstTrData.real_money ) / 100 ) .toFixed(2) %></td>
+            <td class="padding-rt-20"><%=item.firstTrData.real_money == 0 ? 0 : ( Number( item.firstTrData.real_money ) / 100 ) .toFixed(2) %></td>
         </tr>
         <% for(var i = 0 ; i< item.childListData.length ; i++ ){%>
         <tr  class="child-tr">
@@ -72,15 +72,15 @@
 
             <td class="has-b-lt"><%=item.childListData[i]['order_num']%></td>
             <td><%=item.childListData[i]['ticket_num']%></td>
-            <td class="padding-rt-20"><%= ( Number(  item.childListData[i]['sale_money'] ) / 100 ) .toFixed(2)%></td>
+            <td class="padding-rt-20"><%=item.childListData[i]['sale_money'] == 0 ? 0 : ( Number(  item.childListData[i]['sale_money'] ) / 100 ) .toFixed(2)%></td>
 
             <td class="has-b-lt"><%=item.childListData[i]['cancel_order_num']%></td>
             <td><%=item.childListData[i]['cancel_ticket_num']%></td>
             <td><%=( Number(  item.childListData[i]['cancel_money'] ) / 100 ) .toFixed(2)%></td>
-            <td class="padding-rt-20"><%=( Number(  item.childListData[i]['service_money'] ) / 100 ) .toFixed(2)%></td>
+            <td class="padding-rt-20"><%=item.childListData[i]['service_money'] == 0 ? 0 : ( Number(  item.childListData[i]['service_money'] ) / 100 ) .toFixed(2)%></td>
 
             <td class="has-b-lt"><%=item.childListData[i]['real_num']%></td>
-            <td class="padding-rt-20"><%=( Number(  item.childListData[i]['real_money'] ) / 100 ) .toFixed(2)%></td>
+            <td class="padding-rt-20"><%=item.childListData[i]['real_money'] == 0 ? 0 : ( Number(  item.childListData[i]['real_money'] ) / 100 ) .toFixed(2)%></td>
         </tr>
         <% }%>
         </tbody>

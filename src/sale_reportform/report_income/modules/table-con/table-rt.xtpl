@@ -8,7 +8,7 @@
 <tbody>
 <tr class="first-tr">
     <% _.each(data.total , function(item,index){ %>
-    <td class="<%=item == undefined || item == 0  ? 'no-data-td': ''%>"><%=item == undefined ? '0': ( Number(  item ) / 100 ) .toFixed(2)%></td>
+    <td class="<%=item == undefined || item == 0  ? 'no-data-td': ''%>"><%=item == undefined || item == 0 ? '0': ( Number(  item ) / 100 ) .toFixed(2)%></td>
     <%})%>
 </tr>
 </tbody>
@@ -17,13 +17,13 @@
 <tbody>
 <tr data-index="tr<%=index%>">
     <% for(var i = 0 ; i< item.parentTr.length ; i++ ){%>
-    <td class="<%=item.parentTr[i] == undefined || item.parentTr[i] == 0  ? 'no-data-td': ''%>"><%=item.parentTr[i] == undefined ? '0': ( Number(  item.parentTr[i] ) / 100 ) .toFixed(2)%></td>
+    <td class="<%=item.parentTr[i] == undefined || item.parentTr[i] == 0  ? 'no-data-td': ''%>"><%=item.parentTr[i] == undefined || item.parentTr[i] == 0 ? '0': ( Number(  item.parentTr[i] ) / 100 ) .toFixed(2)%></td>
     <%}%>
 </tr>
     <% for(var j = 0 ; j< item.childTr.length ; j++ ){%>
     <tr style="display: none" class="child-tr">
         <% for(var k = 0 ; k< item.childTr[j].length ; k++ ){%>
-        <td class="<%=item.childTr[j][k] == undefined || item.childTr[j][k] == 0 ? 'no-data-td': '' %>"><%=item.childTr[j][k] == undefined ? '0': ( Number(  item.childTr[j][k] ) / 100 ) .toFixed(2) %></td>
+        <td class="<%=item.childTr[j][k] == undefined || item.childTr[j][k] == 0 ? 'no-data-td': '' %>"><%=item.childTr[j][k] == undefined || item.childTr[j][k] == 0 ? '0': ( Number(  item.childTr[j][k] ) / 100 ) .toFixed(2) %></td>
         <%}%>
     </tr>
     <%}%>
