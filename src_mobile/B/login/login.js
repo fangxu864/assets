@@ -1,6 +1,7 @@
 require("./index.scss");
 var Alert = PFT.Mobile.Alert;
-var Toast = new PFT.Mobile.Toast();
+ var Toast = new PFT.Mobile.Toast();
+/*var Toast = PFT.Mobile.Toast*/
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
     EVENTS: {
@@ -90,7 +91,10 @@ var Main = PFT.Util.Class({
                     }
                 }else if(res.code==401){
                      Toast.show("loading",res.msg,3000,function(){
-                         window.location.reload();
+                       
+                            setTimeout("reloadPage", 3000);
+                         
+                         
                      });
                 }else {
                     Alert(res.msg);
@@ -98,6 +102,9 @@ var Main = PFT.Util.Class({
                 }
             }
         })
+    },
+    reloadPage: function(){
+         window.location.reload();
     }
 })
 
