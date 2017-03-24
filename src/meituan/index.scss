@@ -1,0 +1,63 @@
+.dialogHeader{
+    display: block;
+    height: 46px;
+    line-height: 46px;
+    font-size: 20px;
+    padding-left: 10px;
+    font-weight: bold;
+    border: 1px solid #e5e5e5;
+}
+
+
+//弹窗内容样式
+#bindBox{
+    margin-top: 46px;
+    padding: 10px;
+    text-align: center;
+    .inputBox{
+        margin-top: 40px;
+        font-size: 20px;
+        input#bindIdInput{
+            margin-left: 10px;
+            padding-left: 10px;
+            border :1px solid #c9c9c9;
+            height: 36px;
+            color: #9e9e9e;
+        }
+        input#bindIdInput:focus{
+            border : 1px solid #0797d9;
+        }
+    }
+    .btnBox{
+
+        .btn{
+            display: inline-block;
+            text-align: center;
+            width: 50px;
+            padding: 10px 16px;
+            font-size: 14px;
+            // border: 1px solid #e5e5e5;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor : pointer ;
+        }
+        .btn.bind{
+            background: #0797d9;        
+            color: #fff;
+            margin-right: 20px;
+        }
+        .btn.bind:hover{
+            background: #0f7cb7;
+        }
+        .btn.close{
+            background: #fff;        
+            border: 1px solid #0797d9;
+            color: #0797d9;
+        }
+        .btn.close:hover{
+            background: #e5f5fc;
+            border: 1px solid #0797d9;
+        }
+
+    }
+}

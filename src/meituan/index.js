@@ -1,12 +1,32 @@
 
-
-console.log("123456");
+var Dialog = require("COMMON/modules/dialog-simple");  //遮罩框
+require("./index.scss"); 
+var bindDialogTpl = require("./bindDialogTpl.xtpl");
 
 /**
  * Created by Administrator on 2016/9/26.
  */
 $(function(){
     var init = function (){
+
+        var agreeDialog = new Dialog({
+			header : '<span class="dialogHeader">同意</span>',
+            width : 450,
+            height : 250,
+            closeBtn : true,
+            // content : agreeDialogTpl,
+            content : bindDialogTpl,
+            drag : true,
+            speed : 200,
+            offsetX : 0,
+            offsetY : 0,
+            overlay : true,
+            headerHeightMin : 46
+        });
+
+        //测试 
+        // agreeDialog.open();
+
         $("body").append("<ul class='meituan_notice_box'></ul>");
         $("body").append('<link rel="stylesheet" href="http://static.12301.cc/css/new/qunaer.css"/>');
         var quTsf = "供应商通信标识：";
@@ -145,11 +165,7 @@ $(function(){
         $(".addC").live("click",function(){    //绑定的 还未加入地址
 
 
-            console.log("11111111111");
-
-            return false
-
-
+            
 
             var ti={};
             var ids = {};
@@ -184,18 +200,32 @@ $(function(){
             }
             ti.ids = ids;
             var tids = tid;
-            $.ajax({
-                type:'POST',url: 'call/jh_tuan.php?action=set_conf',data: ti, dataType:'json',
-            }).done(function(res) {
-                if(res.status=="success"){
-                    alert("绑定成功");
-                    $(".add_"+tids).parent().parent().remove();
-                }
-                else{
-                    alert(res.msg);
-                }
-            })
 
+            console.log(ids[tid]);
+
+            var oid = $("#bindBox #bindIdInput").val(ids[tid]);
+            agreeDialog.open();
+
+            $("#bindBox .bind").on("click",function(){//绑定
+
+                if()
+
+                $.ajax({
+                    type:'POST',url: 'call/jh_tuan.php?action=set_conf',data: ti, dataType:'json',
+                }).done(function(res) {
+                    if(res.status=="success"){
+                        alert("绑定成功");
+                        $(".add_"+tids).parent().parent().remove();
+                    }
+                    else{
+                        alert(res.msg);
+                    }
+                })
+            });
+            //关闭
+            $("#bindBox .close").on("click",function(){
+                agreeDialog.close();
+            });
         });
 
         $(".changeM").live("click",function(e){ //解除通知
