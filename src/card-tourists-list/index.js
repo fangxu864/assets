@@ -117,7 +117,7 @@ var Main = PFT.Util.Class({
 				export : that.exports,
 				physicsno : that.CardId,
 				page : that.page,
-				pagesize : 2
+				pagesize : 15
 
 			},
 			loading : function(){
