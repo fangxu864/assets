@@ -1,0 +1,58 @@
+@import "COMMON/css/base/main";
+@import "COMMON/css/base/flex";
+body{
+    #bodyContainer{
+        text-align: center;
+        background: url("//static.12301.cc/assets/build/images/wx_b/dl_bg.jpg") no-repeat;
+        background-size: cover;
+        position:absolute;
+        left:0;right:0;top:0;bottom:0;
+    #loginBox{
+        padding: px2rem(75) 0;
+        .loginBox{
+            margin: px2rem(15);
+            .u-inp{
+                display: block;
+                height: px2rem(80);
+                padding-left: px2rem(80);
+                font-size: px2rem(30);
+                border: none;
+                width: 100%;
+                border-radius: 3px;
+                box-sizing: border-box;
+    
+            }
+            .loginIcon{
+                position: relative;
+                right: px2rem(320);
+                top:px2rem(-60);
+                
+            }
+            .u-loginBtn{
+                width: 100%;
+                height:px2rem(75);
+                border-radius: 3px;
+                color: #fff;
+                border: 1px solid #fff;
+                background: rgba(255,255,255,0.1);
+            }
+        }
+        
+    }
+     #logoBox{
+            width: 100%;
+            
+         #logo{
+            margin-top: px2rem(35);
+            width: px2rem(250);
+            height: px2rem(250);
+         }
+      }
+     #copyRDiv{
+         color: #fff;
+        margin-top: px2rem(350);
+
+     }   
+       
+    }
+}

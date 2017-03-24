@@ -1,0 +1,70 @@
+@import "COMMON/css/base/main";
+
+
+#transitWrap{
+    background: #f0f3f5;
+    position: absolute;
+    top: 0;    
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    #accountWrap{
+        width: 50%;
+        margin: 50px auto;
+        margin-top: 100px;
+        text-align: center;
+        line-height: 30px;
+        .t{
+            font-size: px2rem(35);
+            color: #262d37;
+        }
+        .account{
+            font-size: px2rem(40);
+            color: #3dba3f;
+        }
+    }
+
+    #gotoMall{
+
+        width: 50%;
+        margin: 50px auto;
+        text-align: center;
+        line-height: 30px;
+        background: #fff;
+        padding: 10px;
+        border: 1px solid #e8ebed;
+
+        .t{
+            font-size: px2rem(32);
+            color: #262d37;            
+        }
+
+        .Countdown{
+            font-size: px2rem(28);
+            .CountdownSecond{
+                color: #f07845;                        
+            }
+        }
+
+    }
+
+    #gotoLogin{
+
+        width: 50%;
+        margin: 50px auto;
+        text-align: center;
+        line-height: 30px;
+        background: #fff;
+        padding: 10px;
+        height: 70px;
+        line-height: 70px;
+        border: 1px solid #e8ebed;
+
+
+
+
+    }
+
+
+}
