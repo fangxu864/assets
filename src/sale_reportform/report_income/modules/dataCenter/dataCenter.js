@@ -38,6 +38,15 @@ var DataCenter = {
         _this.CR.pubSub.pub("tableTicket.close");
         //关闭pagination
         _this.CR.pubSub.pub("paginationBox.close");
+        //看看是否有缓存
+        if(_this.cacheHub[$.param(params)]){
+            //通知table模块render
+            setTimeout(function () {
+                var res = _this.cacheHub[$.param(params)];
+                dealRes( res )
+            },100);
+            return false;
+        }
         $.ajax({
             url: " /r/report_statistics/checkedPaywayList",    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -50,24 +59,9 @@ var DataCenter = {
             },
             success: function(res) {
                 // 请求成功时处理
-                if(res.code == 200 ){
-                    //通知table模块render
-                    if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
-                        res.data.Jtype = params.type;
-                        _this.CR.pubSub.pub("queryStateBox.close");
-                        _this.CR.pubSub.pub("tableConBox.render", res );
-                    }else{
-                        _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
-                    }
-                    //是分页器模块render
-                    // var totalPage = Math.ceil( Number ( res.data.total / 10 ) );
-                    // if(totalPage > 1){
-                        _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
-                    // }
-                }else{
-                    //通知queryState模块显示错误信息
-                    _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
-                }
+                //缓存数据
+                _this.cacheHub[$.param(params)] = $.extend({},res);
+                dealRes( res )
             },
             complete: function(res,status) {
                 //请求完成的处理
@@ -79,6 +73,24 @@ var DataCenter = {
                 //请求出错处理
             }
         });
+
+        function dealRes( res ) {
+            if(res.code == 200 ){
+                //通知table模块render
+                if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
+                    res.data.Jtype = params.type;
+                    _this.CR.pubSub.pub("queryStateBox.close");
+                    _this.CR.pubSub.pub("tableConBox.render", res );
+                    _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
+
+                }else{
+                    _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
+                }
+            }else{
+                //通知queryState模块显示错误信息
+                _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
+            }
+        }
     },
 
 
@@ -95,6 +107,15 @@ var DataCenter = {
         _this.CR.pubSub.pub("tableTicket.close");
         //关闭pagination
         _this.CR.pubSub.pub("paginationBox.close");
+        //看看是否有缓存
+        if(_this.cacheHub[$.param(params)]){
+            //通知table模块render
+            setTimeout(function () {
+                var res = _this.cacheHub[$.param(params)];
+                dealRes( res );
+            },100);
+            return false;
+        }
         $.ajax({
             url: "/r/report_statistics/checkedPaywayListByTicket",    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -107,24 +128,9 @@ var DataCenter = {
             },
             success: function(res) {
                 // 请求成功时处理
-                if(res.code == 200 ){
-                    //通知table模块render
-                    if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
-                        res.data.Jtype = params.type;
-                        _this.CR.pubSub.pub("queryStateBox.close");
-                        _this.CR.pubSub.pub("tableTicket.render", res );
-                    }else{
-                        _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
-                    }
-                    //是分页器模块render
-                    // var totalPage = Math.ceil( Number ( res.data.total / 10 ) );
-                    // if(totalPage > 1){
-                        _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
-                    // }
-                }else{
-                    //通知queryState模块显示错误信息
-                    _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
-                }
+                //缓存数据
+                _this.cacheHub[$.param(params)] = $.extend({},res);
+                dealRes( res );
             },
             complete: function(res,status) {
                 //请求完成的处理
@@ -136,6 +142,23 @@ var DataCenter = {
                 //请求出错处理
             }
         });
+
+        function dealRes( res ) {
+            if(res.code == 200 ){
+                //通知table模块render
+                if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
+                    res.data.Jtype = params.type;
+                    _this.CR.pubSub.pub("queryStateBox.close");
+                    _this.CR.pubSub.pub("tableTicket.render", res );
+                    _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
+                }else{
+                    _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
+                }
+            }else{
+                //通知queryState模块显示错误信息
+                _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
+            }
+        }
     },
 
     /**
@@ -171,7 +194,12 @@ var DataCenter = {
             default :
                 return type;
         }
-    }
+    },
+
+    /**
+     * @Object 缓存仓库
+     */
+    cacheHub: {}
 
 
 }
