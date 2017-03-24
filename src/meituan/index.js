@@ -201,15 +201,17 @@ $(function(){
             ti.ids = ids;
             var tids = tid;
 
-            console.log(ids[tid]);
-
-            var oid = $("#bindBox #bindIdInput").val(ids[tid]);
+            var originId = $("#bindBox #bindIdInput").val(ids[tid]);
             agreeDialog.open();
 
             $("#bindBox .bind").on("click",function(){//绑定
 
-                if()
+                var originId = $("#bindBox #bindIdInput").val();
 
+                if( originId != ids[tid]){
+                    ti.trird_part_teamwork_id = originId;
+                }
+                
                 $.ajax({
                     type:'POST',url: 'call/jh_tuan.php?action=set_conf',data: ti, dataType:'json',
                 }).done(function(res) {
@@ -221,6 +223,7 @@ $(function(){
                         alert(res.msg);
                     }
                 })
+
             });
             //关闭
             $("#bindBox .close").on("click",function(){
