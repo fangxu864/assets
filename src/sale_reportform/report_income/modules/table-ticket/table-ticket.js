@@ -93,7 +93,6 @@ var tableTicket = {
             }
             listData.list.push(obj)
         }
-        console.log(listData);
         var html = this.tableTicketTemplate({data : listData });
         this.container.html(html);
         this.container.show();

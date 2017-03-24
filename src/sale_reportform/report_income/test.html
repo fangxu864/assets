@@ -19,9 +19,29 @@
 </head>
 
 <script>
-    var arr = new Array(132);
-    arr[2] = 2
-    arr[0] = 0
-    console.log(arr)
+//    function  A(opt) {
+//        if(!this.instanceOf(A)) return new A(opt);
+//
+//        return new this.init(opt)
+//
+//    }
+//    A.prototype.init = function () {
+//
+//    };
+//
+//    var Message = require("pft-ui-component");
+//
+//    new A();
+//    A();
+
+    function a() {
+        a.b = 5
+        return new a
+    }
+    a.prototype.b = 1;
+
+    console.log(a())
+
+
 </script>
 </html>

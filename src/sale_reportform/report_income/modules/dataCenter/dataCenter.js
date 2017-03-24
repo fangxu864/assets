@@ -14,11 +14,9 @@ var DataCenter = {
         var _this = this;
         // 获取主要数据
         this.CR.pubSub.sub("DC.getMainData", function ( params ) {
-            console.log(params);
             _this.getMainData( params );
         });
         this.CR.pubSub.sub("DC.getTicketData", function ( params ) {
-            console.log(params);
             _this.getTicketData( params );
         });
     },

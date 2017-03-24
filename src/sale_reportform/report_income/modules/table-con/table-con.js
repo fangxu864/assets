@@ -78,7 +78,7 @@ var tableCon = {
             }());
             //parentTr
             for( var tkey in res.data.list[i].pay_way_money ){
-                obj.parentTr[key] = res.data.list[i].pay_way_money[key]
+                obj.parentTr[tkey] = res.data.list[i].pay_way_money[tkey]
             }
             for(var j= 0; j< res.data.list[i].product_list.length; j++){
                 //得出支付方式集合
@@ -90,7 +90,6 @@ var tableCon = {
             }
             rtData.list.push(obj)
         }
-        console.log(rtData);
         var tableLtHtml = this.tableLtTemplate({data : res });
         var tableRtHtml = this.tableRtTemplate({data : rtData });
         this.container.find(".table-lt").html(tableLtHtml);

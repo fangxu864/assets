@@ -85,7 +85,6 @@ var Main = {
 
 $(function () {
     $(".title_box .mctit_8").addClass("active");
-
     // document.onselectstart=new Function('event.returnValue=false;');
     Main.init();
 });

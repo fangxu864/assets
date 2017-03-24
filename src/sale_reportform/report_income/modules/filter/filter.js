@@ -278,7 +278,7 @@ var Filter = {
                 select_fg.text("分销商:");
                 $("#fenxiaoshang_name_inp").prop('placeholder','请输入分销商名称');
                 //如果存在分销商缓存
-                select_fg.attr("search_type" , 0);
+                select_fg.attr("search_type" , 1);
                 if( _this.select3_cache_data["Reseller"]){
                     _this.select3.refresh(_this.select3_cache_data["Reseller"]);
                 }else{
@@ -313,7 +313,7 @@ var Filter = {
             }else{
                 $("#select_fg").text("供应商:");
                 $("#fenxiaoshang_name_inp").prop('placeholder','请输入供应商名称');
-                select_fg.attr("search_type" , 0);
+                select_fg.attr("search_type" , 2);
                 //如果存在供应商缓存
                 if( _this.select3_cache_data["Supplier"]){
                     _this.select3.refresh(_this.select3_cache_data["Supplier"]);
@@ -335,7 +335,7 @@ var Filter = {
 
         //点击确认按钮
         this.container.on("click", ".query_btn" ,function () {
-            _this.FilterParamsHub = $.extend( _this.FilterParamsHub , _this.getFilterParams() );
+            _this.FilterParamsHub = _this.getFilterParams();
             _this.FilterParamsHub["page"] = 1 ;
             _this.gotoDC();
         });
@@ -446,27 +446,28 @@ var Filter = {
         params["page"] = 1;
         params["begin_date"] = _this.stime_inp.val();
         params["end_date"] = _this.etime_inp.val();
-        params["type"] = Number ( $("#select_fg").attr("search_type") ) + 1;
+        params["type"] = Number ( $("#select_fg").attr("search_type") );
         params["searchTicket"] = $('#searchTicket').prop('checked');
-        // if($("#huizong_type").attr("count_way")){
-        //     params["count_way"]= $("#huizong_type").attr("count_way");
-        // }
-        // if($("#product_name_inp").attr("data-id")){
-        //     params["land_id"]=$("#product_name_inp").attr("data-id");
-        // }
-        // if($("#fenxiaoshang_name_inp").attr("data-id")){
-        //     params["reseller_id"]=$("#fenxiaoshang_name_inp").attr("data-id");
-        // }
-        // if(_this.isAdmin==1){
-        //     if($("#trader_inp").attr("data-id")){
-        //         params["merchant_id"]=$("#trader_inp").attr("data-id");
-        //     }
-        //     if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
-        //         params["exclude_test"]=1;
-        //     }else{
-        //         params["exclude_test"]=0;
-        //     }
-        // }
+
+        //产品id
+        if($("#product_name_inp").attr("data-id")){
+            params["land_id"]=$("#product_name_inp").attr("data-id");
+        }
+        //分销商id
+        if($("#fenxiaoshang_name_inp").attr("data-id")){
+            params["reseller_id"]=$("#fenxiaoshang_name_inp").attr("data-id");
+        }
+        //商户id
+        if(_this.isAdmin==1){
+            if($("#trader_inp").attr("data-id")){
+                params["merchant_id"]=$("#trader_inp").attr("data-id");
+            }
+            if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
+                params["exclude_test"]=1;
+            }else{
+                params["exclude_test"]=0;
+            }
+        }
         return params;
     },
 
