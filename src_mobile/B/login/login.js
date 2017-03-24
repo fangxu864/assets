@@ -89,7 +89,7 @@ var Main = PFT.Util.Class({
                         window.location.href = Nurl + search;
                     }
                 }else if(res.code==401){
-                     Alert(res.msg,function(){
+                     Toast.show("loading",res.msg,3000,function(){
                          window.location.reload();
                      });
                 }else {
