@@ -79,10 +79,8 @@ var Main = PFT.Util.Class({
                 Toast.hide("loading", "请稍后...");
             },
             success: function (res) {
-                if (res.code != 200) {
-                    Alert(res.msg);
-                } else {
-                    var Url = res.data.url;
+                if (res.code == 200) {
+                     var Url = res.data.url;
                     var search = window.location.search;
                     var Nurl = "plist.html";
                     if (Url.length > 1) {
@@ -90,6 +88,13 @@ var Main = PFT.Util.Class({
                     } else {
                         window.location.href = Nurl + search;
                     }
+                }else if(res.code==401){
+                     Alert(res.msg,function(){
+                         window.location.reload();
+                     });
+                }else {
+                    Alert(res.msg);
+                   
                 }
             }
         })
