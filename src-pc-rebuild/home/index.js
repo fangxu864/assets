@@ -49,6 +49,19 @@ var Main = PFT.Util.Class({
 			if(!partnerChange.__hasLoaded && Common.elemViewIn($("#PartnerChangeBox"),$("#G_Body"))) partnerChange.fetch();
 			if(!systemNotice.__hasLoaded && Common.elemViewIn($("#SystemNoticeBox"),$("#G_Body"))) systemNotice.fetch();
 		};
+		//首页兼容公共footer
+		var adaptFooterPos = function(){
+			var pageMain = $("#pageMain");
+			var rightBar = $("#rightBar");
+
+			var pageMainHeight = pageMain.height();
+			var rightBarHeight = rightBar.height();
+
+			var height = pageMainHeight>rightBarHeight ? pageMainHeight : rightBarHeight;
+
+			$("#inBodyCon").css({"min-height":height});
+
+		};
 
 		priceChange.on("ready",function(){
 			fetch();
@@ -68,20 +81,7 @@ var Main = PFT.Util.Class({
 		})
 
 
-		var adaptFooterPos = function(){
-			var pageMain = $("#pageMain");
-			var rightBar = $("#rightBar");
-
-			var pageMainHeight = pageMain.height();
-			var rightBarHeight = rightBar.height();
-
-			var height = pageMainHeight>rightBarHeight ? pageMainHeight : rightBarHeight;
-
-			$("#inBodyCon").css({"min-height":height});
-
-
-
-		};
+		
 
 		AD(this.rightBar);
 
