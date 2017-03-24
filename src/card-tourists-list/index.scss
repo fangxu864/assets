@@ -1,0 +1,249 @@
+.input{
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #e5e5e5;
+    border-bottom : 1px solid #e5e5e5;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    height: 30px;
+}
+.orange{
+    color: #f07845;
+}
+#cardTouristsListWrap{
+    width: 99%;
+    // height: 1000px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    .header{
+        height: 60px;
+        font-size: 22px;
+        color: #262d37;
+        border-bottom: 1px solid #e5e5e5;
+        line-height: 60px;
+        padding-left: 20px;
+    }
+    .content{
+        .selectBox{
+            position: relative;
+            .activateBox{
+                margin-left: 20px;
+                margin-top: 10px;
+                height: 30px;
+                line-height: 30px;
+                .t{
+                    display: inline-block;
+                    border: 1px solid #e5e5e5;    
+                    font-size: 12px;
+                    color: #262d37;
+                    background: #f3f1f1;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                } 
+                .actTimein{
+                    height: 30px;
+                    width: 200px;
+                }
+                .actTimeout{
+                    height: 30px;
+                    width: 200px;
+                    border-right: 1px solid #e5e5e5;
+                }
+                .actTimeoutT{
+                    position: absolute;
+                    left: 275px;
+                }
+                .icon-rili-left{
+                    position: absolute;
+                    left: 256px;
+                }
+                .icon-rili-right{
+                    position: absolute;
+                    left: 468px;
+                }
+
+            }
+            .checkBox{
+                margin-left: 20px;
+                margin-top: 10px;
+                height: 30px;
+                line-height: 30px;
+                .t1{
+                    position: absolute;
+                    left: 29px;
+                }
+                .t2{
+                    position: absolute;
+                    left: 330px;
+                }
+                .solidCardId{
+                    width: 215px;
+                    padding-left: 70px;
+                    border-left: 1px solid #e5e5e5;
+                    border-right: 1px solid #e5e5e5;
+                }
+                .operator{
+                    width: 83px;
+                    height: 30px;
+                    padding-left: 55px;
+                    border-left: 1px solid #e5e5e5;
+                    border-right: 1px solid #e5e5e5;
+                    margin-left: 10px;
+                    position: relative;
+                    line-height: 30px;
+                }
+                // #operator{
+
+                //     height: 30px;
+                //     width: 150px;
+                //     line-height: 30px;
+                //     border:1px solid #CCCCCC;
+                //     position: relative;
+
+                // }
+                .unfoldBox{
+                    display: inline-block;
+                    // display: none;
+                    height: 30px;
+                    border: 1px solid #e5e5e5;
+                    margin-left: -4px;
+                    width: 32px;
+                    .icon-unfold{
+                        margin-left: 8px;
+                    }
+                    .icon-fold{
+                        margin-left: 8px;
+                    }
+                }
+
+                #operatorListBox{
+                    position: absolute;
+                    left: 321px;
+                    top: 71px;
+                    max-height: 100px;
+                    width: 172px;
+                    background: #fff;
+                    border: 1px solid #e5e5e5;
+                    overflow: auto;
+                    .operatorItem{
+                        // border-bottom: 1px solid #e5e5e5;
+                        padding-left: 10px;
+                        height: 30px;
+                    }
+                    .operatorItem:hover{
+                        background: #f3f3f1;
+                    }
+                }
+
+
+
+                .btn{
+                    display: inline-block;
+                    width: 81px;
+                    height: 30px;
+                    margin-left: 10px;
+                    text-align: center;
+                    border-radius: 5px;
+                    color: #fff;
+                    cursor : pointer;
+                }
+                .checkOut{
+                    background: #f07845;
+                }
+                .checkOut:hover{
+                    background : #E7703D;
+                }
+                .export{
+                    background: #3DBA3F;
+                }
+                .export:hover{
+                    background : #43B445;
+                }
+            }
+            .statusBox{
+                margin-left: 20px;
+                margin-top: 10px;
+                height: 30px;
+                line-height: 30px;
+                .statusItem{
+                    display: inline-block;
+                    margin-left: 50px;
+                    .statusItemCircle{
+                        display: inline-block;
+                        height: 15px;
+                        width: 15px;
+                        border: 1px solid #e5e5e5;                        
+                        border-radius: 10px;
+                        vertical-align: middle;
+                    }
+                    .statusItemCircle.selected{
+                        background: #3DBA3F;
+                    }
+                }
+            }
+        }
+        .formBox{
+            width: 100%;
+            margin-top: 20px;
+            table.accountList{
+                border: 1px solid #e5e5e5;
+                width: 100%;
+                color: #5f5e63;
+                font-size: 12px;
+                thead{
+                    background: #E5E5E5;
+                    border: 0 none;
+                    th{
+                        height: 35px;
+                        line-height: 35px;
+                        color: #5f5e63;
+                        padding-right: 20px;
+                        text-align: left;
+                    }
+                    th.col1{
+                        padding-left: 10px;
+                    }
+                    th.col2{
+                        min-width:85px; 
+                    }
+                    th.col4{
+                        min-width:70px; 
+                        text-align: right;
+                    }
+                    th.col6{
+                        min-width:50px; 
+                        text-align: right;
+                    }
+                    th.col7{
+                        min-width:37px; 
+                    }
+                }
+                tbody{
+                    tr{
+                        line-height: 35px;                            
+                        vertical-align: top;
+                        td{
+                            border-bottom: 1px solid #e5e5e5;
+                            padding-right: 20px;
+                        }
+                        td.col1{
+                            padding-left: 10px;
+                        }
+                        td.money{
+                            text-align: right;
+                        }
+                    }
+                }
+            }
+            #pagCon{
+                // height: 40px;
+                .paginationXContainer{
+                    float: right;
+                }
+            }
+        }
+    }
+
+}
+
+
+
