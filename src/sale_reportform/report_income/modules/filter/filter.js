@@ -30,10 +30,11 @@ var Filter = {
         // this.initDatepicker();
         this.sub();
         this.bind();
-        // this.container.find(".btn_query").trigger("click");
-        // setTimeout(function () {
-        //     _this.CR.pubSub.pub("queryStateBox.querying");
-        // },0)
+
+        setTimeout(function () {
+            _this.container.find(".query_btn").click();
+        },0)
+
 
     },
 

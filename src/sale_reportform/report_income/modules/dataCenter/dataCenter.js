@@ -51,9 +51,13 @@ var DataCenter = {
             success: function(res) {
                 // 请求成功时处理
                 if(res.code == 200 ){
-                    _this.CR.pubSub.pub("queryStateBox.close");
                     //通知table模块render
-                    _this.CR.pubSub.pub("tableConBox.render", res );
+                    if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
+                        _this.CR.pubSub.pub("queryStateBox.close");
+                        _this.CR.pubSub.pub("tableConBox.render", res );
+                    }else{
+                        _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
+                    }
                     //是分页器模块render
                     // var totalPage = Math.ceil( Number ( res.data.total / 10 ) );
                     // if(totalPage > 1){
@@ -103,9 +107,13 @@ var DataCenter = {
             success: function(res) {
                 // 请求成功时处理
                 if(res.code == 200 ){
-                    _this.CR.pubSub.pub("queryStateBox.close");
                     //通知table模块render
-                    _this.CR.pubSub.pub("tableTicket.render", res );
+                    if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
+                        _this.CR.pubSub.pub("queryStateBox.close");
+                        _this.CR.pubSub.pub("tableTicket.render", res );
+                    }else{
+                        _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
+                    }
                     //是分页器模块render
                     // var totalPage = Math.ceil( Number ( res.data.total / 10 ) );
                     // if(totalPage > 1){
@@ -126,6 +134,41 @@ var DataCenter = {
                 //请求出错处理
             }
         });
+    },
+
+    /**
+     * @mehtod 判断真假
+     */
+    judgeTrue: function( param ) {
+        var type = Object.prototype.toString.call(param);
+        switch (type){
+            case '[object Array]':
+                return param.length === 0 ?  !1 : !0 ;
+                break;
+            case '[object Object]':
+                var t;
+                for (t in param)
+                    return !0;
+                return !1;
+                break;
+            case '[object String]':
+                return param === '' ? !1 : !0 ;
+                break;
+            case '[object Number]':
+                return param === 0 ? !1 : !0 ;
+                break;
+            case '[object Boolean]':
+                return param === false ? !1 : !0;
+                break;
+            case '[object Null]':
+                return !1;
+                break;
+            case '[object Undefined]':
+                return !1;
+                break;
+            default :
+                return type;
+        }
     }
 
 
