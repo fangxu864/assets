@@ -158,28 +158,41 @@
     line-height: 45px;
     border-bottom: 1px solid #e5e5e5;
 }
-.dialog-date {
+.dialog-content .dialog-date {
     margin-bottom: 10px;
     line-height: 2;
+    overflow: hidden;
 }
 .tb-dialog {
 }
-.tb-dialog td {
+.dialog-content .tb-dialog td {
     padding: 10px 0;
 }
-#dialogPage {
+#dialogPagination {
     margin-top: 10px;
 }
-#dialogPage .paginationXContainer {
+#dialogPagination .paginationXContainer {
     float: right;
 }
-.tb-dialog-wrap {
+.dialog-content .tb-dialog-wrap {
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: auto;
 }
-.tb-dialog .thead-align th {
+.dialog-content .tb-dialog .thead-align th {
     height:0;
     line-height: 0;
     overflow:hidden;
+}
+.dialog-content .dialog-btns {
+    float: right;
+}
+.dialog-content .dialog-btns .dialog-btn {
+    width: auto;
+    padding: 0 10px;
+}
+.dialog-content .dialog-btns .dialog-btn.active {
+    background-color: #ed6e46;
+    border-color: #ed6e46;
+    color: #fff;
 }

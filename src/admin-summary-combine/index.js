@@ -147,7 +147,6 @@ var Main = PFT.Util.Class({
                 tbody.html("<tr><td colspan='11'>请求出错,请稍后再试!</td></tr>")
             }
         })
-
     },
 
     renderData: function (data) {
@@ -176,6 +175,7 @@ var Main = PFT.Util.Class({
         })
     },
 
+    // 弹窗显示明细
     viewDetail: function( e ) {
         var _this = this;
 
@@ -188,7 +188,7 @@ var Main = PFT.Util.Class({
 
         var dialogHeader = this.setDialogHeader( source, type ),
             dialogTHead = this.setDialogTHead( source, type ),
-            dialogInitContent = this.setDialogInitContent( this.filterParams.btime, this.filterParams.etime, dialogTHead );
+            dialogInitContent = this.setDialogInitContent( source, type, this.filterParams.btime, this.filterParams.etime, dialogTHead );
 
         var dialogDetail = new Dialog({
             width: 1000,
@@ -207,12 +207,21 @@ var Main = PFT.Util.Class({
 
                     success:function( data ){
 
-                        _this.renderDialogData({
-                            container: '#dialogTBody',
-                            data: data,
-                            source: source,
-                            type: type
+                        $(document).on('click', '.btn-export', function(){
+                            _this.exportExcel();
                         });
+
+                        if( $('#dialogBtns').length ) {
+                            $(document).on('click', '#dialogBtns .dialog-btn', function(){
+                                if( $(this).is('.active') ) {
+                                    return false;
+                                } else {
+                                    $(this).addClass('active').siblings('.dialog-btn').removeClass('active');
+                                }
+
+                                _this.filterDiffData();
+                            });
+                        }
 
                     }
                 })
@@ -221,31 +230,69 @@ var Main = PFT.Util.Class({
                 dialogDetail.container.remove();
 
                 _this.pagination = null;
-                _this.xmlGetDialogData.state != 4 && _this.xmlGetDialogData.abort();
+                _this.xmlGetDialogData.readyState != 4 && _this.xmlGetDialogData.abort();
+                $(document).off('click', '.btn-export');
+                $(document).off('click', '#dialogBtns .dialog-btn');
             }
         });
 
         dialogDetail.open();
     },
 
+    exportExcel: function(){
+        var params = $.extend( {}, this.dialogAjaxParams, {
+            type: this.source == 'diff' ? $('#dialogBtns .active').eq(0).attr('data-filtertype') : '',
+            pay_type: this.payType,
+            excel: 1
+        });
+
+        var typeStr = this.type==0 ? 'income' : 'outcome';
+
+        //设置请求响应的URL
+        var uri = this.ajaxUrls[ typeStr ][ this.source ] + '?' + this.jsonToURIParams( params );
+
+        if( $('#downloadcsv').length<=0 ) {
+            $('body').append('<iframe id="downloadcsv" style="display:none"></iframe>');
+        }
+        $('#downloadcsv').attr({
+            src: uri
+        });
+    },
+
+    // 差异对比
+    filterDiffData: function( e ){
+        var _this = this;
+
+        _this.cnt = '';
+
+        _this.xmlGetDialogData = _this.ajaxGetDetail({ page: 1 });
+    },
+
+    // ajax获取弹窗的表格数据
     // 参数列表
     // page:    页码
     // success: 请求成功回调
     ajaxGetDetail: function( opt ){
+        var _this = this;
+
         var typeStr = this.type==0 ? 'income' : 'outcome',
-            colspan;
+            colspan,
+            filterType;
 
         switch( this.source ) {
             case 'online':
                 colspan = 5;
+                filterType = '';
                 break;
 
             case 'platform':
                 colspan = 7;
+                filterType = '';
                 break;
 
             default:
                 colspan = 8;
+                filterType = $('#dialogBtns .active').eq(0).attr('data-filtertype');
         }
 
         // Ajax请求参数列表
@@ -257,21 +304,29 @@ var Main = PFT.Util.Class({
         // page    int     页码
         // count   int     每页数量
         // cnt     int     总页数
+        // type    String  差异对比数据类型
         var params = $.extend( {}, this.dialogAjaxParams, {
             pay_type: this.payType,
+            type: filterType,
             page: opt.page,
             count: this.PAGE_SIZE,
             cnt: this.cnt ? this.cnt : ''
         });
 
-        var $dialogTBody = $('#dialogTBody');
+        // var $dialogTBody = $('#dialogTBody');
 
         return PFT.Util.Ajax( this.ajaxUrls[ typeStr ][ this.source ], {
             type: 'POST',
             params: params,
 
             loading: function(){
-                $dialogTBody.html('<tr><td colspan="' + colspan  + '"><img src="http://www.12301.cc/images/icons/gloading.gif" class="loadImg" />  加载中,请稍后...</td></tr>');
+                _this.renderDialogData({
+                    success: false,
+                    container: '#dialogTBody',
+                    colspan: colspan,
+                    content: '<img src="http://www.12301.cc/images/icons/gloading.gif" class="loadImg" />  加载中,请稍后...'
+                });
+                // $dialogTBody.html('<tr><td colspan="' + colspan  + '"><img src="http://www.12301.cc/images/icons/gloading.gif" class="loadImg" />  加载中,请稍后...</td></tr>');
             },
             success: function( res ) {
                 var data = res.data.list;
@@ -279,83 +334,106 @@ var Main = PFT.Util.Class({
                 if( res.code == 200 ){
                     //  var fmData=_this.formatData(data);//判断差异
                     if(data.length<1){
-                        $dialogTBody.html('<tr><td colspan="' + colspan + '">暂无结果!</td></tr>');
+                        _this.renderDialogData({
+                            success: false,
+                            container: '#dialogTBody',
+                            colspan: colspan,
+                            content: '暂无结果!'
+                        });
+                        // $dialogTBody.html('<tr><td colspan="' + colspan + '">暂无结果!</td></tr>');
                     } else {
-                        opt.success( res.data );
+                        _this.renderDialogData({
+                            success: true,
+                            container: '#dialogTBody',
+                            data: res.data,
+                            source: _this.source,
+                            type: _this.type
+                        });
+
+                        opt.success && opt.success( res.data );
                     }
 
                 }else{
-                    $dialogTBody.html('<tr><td colspan="'+ colspan +'">'+res.msg+'</td></tr>');
+                    _this.renderDialogData({
+                        success: false,
+                        container: '#dialogTBody',
+                        colspan: colspan,
+                        content: res.msg
+                    });
+                    // $dialogTBody.html('<tr><td colspan="'+ colspan +'">'+res.msg+'</td></tr>');
                 }
             },
 
             Servererror: function(){
-                $dialogTBody.html('<tr><td colspan="'+ colspan +'">请求出错,请稍后再试!</td></tr>');
+                _this.renderDialogData({
+                    success: false,
+                    container: '#dialogTBody',
+                    colspan: colspan,
+                    content: '请求出错,请稍后再试!'
+                });
+                // $dialogTBody.html('<tr><td colspan="'+ colspan +'">请求出错,请稍后再试!</td></tr>');
             }
         })
     },
 
     // 渲染弹窗列表数据
     // 参数列表
-    // container:   容器id
+    // container:   容器id,必填
+    // success为true:
     // data:        res.data部分
     // source:      online / platform / diff
     // type:        收入 / 支出
+    // success为false:
+    // colspan
+    // content
     renderDialogData: function( opt ){
         var _this = this;
 
-        _this.cnt = opt.data.pageCnt;
+        if( opt.success ) {
+            _this.cnt = opt.data.pageCnt;
 
-        if( !opt.source || opt.type == undefined ) {
-            alert('表单参数错误');
-        }
+            if( !opt.source || opt.type == undefined ) {
+                alert('表单参数错误');
+            }
 
-        // 根据source调用对应模板文件
-        //  source: online（在线收入/支出明细） / platform（平台收入/支出明细） / diff （收入/支出差异对比）
-        var dialogTemplate = template[ opt.source ];
+            // 根据source调用对应模板文件
+            //  source: online（在线收入/支出明细） / platform（平台收入/支出明细） / diff （收入/支出差异对比）
+            var dialogTemplate = template[ opt.source ];
 
-        var html = dialogTemplate({
-                data: opt.data.list,
-                type: opt.type
-            });
+            var html = dialogTemplate({
+                    data: opt.data.list,
+                    type: opt.type
+                });
 
-        $( opt.container ).html( html );
+            $( opt.container ).html( html );
 
-        var dialogTb = $('.dialog-content').find('.tb-dialog');
-        dialogTb.eq(0).css({ width: dialogTb.eq(1).width() });
+            var dialogTb = $('.dialog-content').find('.tb-dialog');
+            dialogTb.eq(0).css({ width: dialogTb.eq(1).width() });
 
-        if( !_this.pagination ) {
-            _this.pagination = new Pagination({
-                container : '#dialogPage', //必须，组件容器id
-                // count : 7,              //可选  连续显示分页数 建议奇数7或9
-                showTotal : true,          //可选  是否显示总页数
-                jump : true                //可选  是否显示跳到第几页
-            });
+            if( !_this.pagination ) {
+                _this.pagination = new Pagination({
+                    container : '#dialogPagination', //必须，组件容器id
+                    // count : 7,              //可选  连续显示分页数 建议奇数7或9
+                    showTotal : true,          //可选  是否显示总页数
+                    jump : true                //可选  是否显示跳到第几页
+                });
 
-            _this.pagination.render({ current: 1, total: opt.data.pageCnt });
+                _this.pagination.render({ current: 1, total: opt.data.pageCnt });
 
-            _this.pagination.on("page.switch", function(toPage,currentPage,totalPage){
-                _this.pagination.render({ current: toPage, total: totalPage });
+                _this.pagination.on("page.switch", function(toPage,currentPage,totalPage){
+                    _this.pagination.render({ current: toPage, total: totalPage });
 
-                _this.xmlGetDialogData.state != 4 && _this.xmlGetDialogData.abort();
+                    _this.xmlGetDialogData.readyState != 4 && _this.xmlGetDialogData.abort();
 
-                _this.xmlGetDialogData = _this.ajaxGetDetail({
-                    page: toPage,
-
-                    success:function( data ){
-
-                        _this.renderDialogData({
-                            container: '#dialogTBody',
-                            data: data,
-                            source: opt.source,
-                            type: opt.type
-                        });
-
-                    }
-                })
-            });
+                    _this.xmlGetDialogData = _this.ajaxGetDetail({ page: toPage });
+                });
+            } else {
+                _this.pagination.render({ current: opt.data.page, total: opt.data.pageCnt });
+            }
         } else {
-            _this.pagination.render({ current: opt.data.page, total: opt.data.pageCnt });
+
+            $( opt.container ).html('<tr><td colspan="'+ opt.colspan +'">' + opt.content + '</td></tr>');
+
         }
     },
 
@@ -397,11 +475,24 @@ var Main = PFT.Util.Class({
         return dialogTHead;
     },
 
-    setDialogInitContent: function( btime, etime, thead ) {
-        var dialogInitContent;
+    setDialogInitContent: function( source, type, btime, etime, thead ) {
+        var dialogInitContent,
+            btnStr = '';
+
+        if( source == 'diff' ) {
+            btnStr = '<a href="javascript:;" class="btn dialog-btn active" data-filtertype="1">费用不匹配记录</a>';
+            btnStr += '<a href="javascript:;" class="btn dialog-btn" data-filtertype="2">仅有在线' + (type==0 ? '收入' : '支出') + '记录</a>';
+            btnStr += '<a href="javascript:;" class="btn dialog-btn" data-filtertype="3">仅有平台' + (type==0 ? '收入' : '支出') + '记录</a>';
+        }
 
         dialogInitContent = '<div class="dialog-content">';
-        dialogInitContent += '<div class="dialog-date">交易日期：'+ btime + ' 至 ' + etime +'</div>';
+        dialogInitContent += '<div class="dialog-date">';
+        dialogInitContent += '交易日期：'+ btime + ' 至 ' + etime;
+        dialogInitContent += '<div id="dialogBtns" class="dialog-btns">';
+        dialogInitContent += btnStr;
+        dialogInitContent += '<a href="javascript:;" class="btn btn-export"><i class="uptic"></i>导出</a>';
+        dialogInitContent += '</div>';
+        dialogInitContent += '</div>';
         dialogInitContent += '<div style="background-color:#f5f5f5;"><table class="tb-dialog g-table" width="100%">';
         dialogInitContent += '<thead>';
         dialogInitContent += thead;
@@ -415,9 +506,21 @@ var Main = PFT.Util.Class({
         dialogInitContent += '<tbody id="dialogTBody"></tbody>';
         dialogInitContent += '</table>';
         dialogInitContent += '</div>';
-        dialogInitContent += '<div id="dialogPage" class="clearfix"></div>';
+        dialogInitContent += '<div id="dialogPagination" class="clearfix"></div>';
 
         return dialogInitContent;
+    },
+
+    jsonToURIParams: function( obj ) {
+        var str = [],
+            key;
+
+        if( obj ) {
+            for( key in obj ) {
+                str.push( key + '=' + obj[ key ] );
+            }
+            return str.join('&');
+        }
     },
 
     //日期转换时间戳
