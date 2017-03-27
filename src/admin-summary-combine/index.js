@@ -483,6 +483,8 @@ var Main = PFT.Util.Class({
             btnStr = '<a href="javascript:;" class="btn dialog-btn active" data-filtertype="1">费用不匹配记录</a>';
             btnStr += '<a href="javascript:;" class="btn dialog-btn" data-filtertype="2">仅有在线' + (type==0 ? '收入' : '支出') + '记录</a>';
             btnStr += '<a href="javascript:;" class="btn dialog-btn" data-filtertype="3">仅有平台' + (type==0 ? '收入' : '支出') + '记录</a>';
+        } else {
+            btnStr = '<a href="javascript:;" class="btn btn-export"><i class="uptic"></i>导出</a>';
         }
 
         dialogInitContent = '<div class="dialog-content">';
@@ -490,7 +492,6 @@ var Main = PFT.Util.Class({
         dialogInitContent += '交易日期：'+ btime + ' 至 ' + etime;
         dialogInitContent += '<div id="dialogBtns" class="dialog-btns">';
         dialogInitContent += btnStr;
-        dialogInitContent += '<a href="javascript:;" class="btn btn-export"><i class="uptic"></i>导出</a>';
         dialogInitContent += '</div>';
         dialogInitContent += '</div>';
         dialogInitContent += '<div style="background-color:#f5f5f5;"><table class="tb-dialog g-table" width="100%">';
