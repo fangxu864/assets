@@ -7,9 +7,9 @@
     "doc": "cd doc && idoc server",
     
     "local": "node ./buildTask/build.local.js",
-    "test": "node ./buildTask/build.local.js",
-    "release": "node ./buildTask/build.local.js",
-    "production": "node ./buildTask/build.local.js",
+    "test": "node ./buildTask/build.test.js",
+    "release": "node ./buildTask/build.release.js",
+    "production": "node ./buildTask/build.production.js",
 
    
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
