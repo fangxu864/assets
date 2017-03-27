@@ -12,6 +12,14 @@ var DatePicker = PFT.Util.Class({
         var _this = this;
         this.container = $("<div class='calendar-price' style='display: none'></div>");
         $('body').append(_this.container);
+        _this.countYearMonth('2017-03',3)
+    },
+
+    bind: function () {
+        var _this = this;
+        this.container.on("click" , ".control-nav .prev-btn" ,function (e) {
+
+        })
     },
 
     show: function (opt) {
@@ -27,7 +35,21 @@ var DatePicker = PFT.Util.Class({
         });
 
 
+    },
+
+    /**
+     * @method 年月加减计算
+     * @param currentYM 当前年月
+     * @param act 加或减多少月
+     */
+    countYearMonth: function (currentYM , act) {
+        var curYear = Number( currentYM.match(/^\d+/)[0] );
+        var curMonth = Number( currentYM.match(/\d+$/)[0] ) - 1;
+        month = curMonth + Number( act ) % 11 ;
+        year = curYear + Math.floor(curMonth / 11);
+        console.log(year,month)
     }
+
 
 });
 

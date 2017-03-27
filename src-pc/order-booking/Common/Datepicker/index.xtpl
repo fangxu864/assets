@@ -1,4 +1,4 @@
-<div class="control-nav" onselect="javascript: return fasle">
+<div class="control-nav" onselectstart="javascript: return false">
     <div class="prev-btn btn"><</div>
     <div class="next-btn btn">></div>
 </div>
