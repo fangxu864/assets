@@ -211,20 +211,20 @@ var Main = PFT.Util.Class({
                             _this.exportExcel();
                         });
 
-                        if( $('#dialogBtns').length ) {
-                            $(document).on('click', '#dialogBtns .dialog-btn', function(){
-                                if( $(this).is('.active') ) {
-                                    return false;
-                                } else {
-                                    $(this).addClass('active').siblings('.dialog-btn').removeClass('active');
-                                }
+                    }
+                });
 
-                                _this.filterDiffData();
-                            });
+                if( $('#dialogBtns').length ) {
+                    $(document).on('click', '#dialogBtns .dialog-btn', function(){
+                        if( $(this).is('.active') ) {
+                            return false;
+                        } else {
+                            $(this).addClass('active').siblings('.dialog-btn').removeClass('active');
                         }
 
-                    }
-                })
+                        _this.filterDiffData();
+                    });
+                }
             },
             onCloseAfter: function(){
                 dialogDetail.container.remove();
@@ -349,9 +349,9 @@ var Main = PFT.Util.Class({
                             source: _this.source,
                             type: _this.type
                         });
-                    }
 
-                    opt.success && opt.success( res.data );
+                        opt.success && opt.success( res.data );
+                    }
 
                 }else{
                     _this.renderDialogData({
