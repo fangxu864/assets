@@ -1,0 +1,9 @@
+<% _.each( data, function( item, index ) {%>
+                <tr>
+                    <td><%=item.name%></td>
+                    <td><%=item.mode%></td>
+                    <td><%=item.fee%></td>
+                    <td><%=item.begin_time%> 至 <%=item.end_time%></td>
+                    <td><a href="appcenter_chargesetting.html?id=<%=item.id%>" class="btn-link mr10">编辑</a></td>
+                </tr>
+<% }) %>

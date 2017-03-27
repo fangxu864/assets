@@ -12,9 +12,11 @@ module.exports = {
 			systemNotice : "/r/Home_HomeNotice/getSysNotice/"
 		},
 		Home_HomeMember : {
-			getMemberInfo : "/r/Home_HomeMember/getMemberInfo/"
+			getMemberInfo : "/r/Home_HomeMember/getMemberInfo/",
+			setRemainWaring : "/r/Home_HomeMember/setRemainWaring/"
 		}
 	},
+	loadingHeight : 400,
 	Ajax : function(url,opt){
 
 		opt = opt || {};
@@ -23,5 +25,19 @@ module.exports = {
 		opt["type"] = type;
 
 		return PFT.Util.Ajax(url,opt);
+	},
+	//判断一个元素有没有进入指定容器的可视范围内
+	elemViewIn : function(elem,container,offsetTop){
+		var containerOffset = container.offset();
+		var containerTop = containerOffset.top;
+		var containerHeight = container.height();
+		var paddingTop = container.css("paddingTop");
+		paddingTop = paddingTop.substr(0,paddingTop.length-2) * 1;
+		var offset = elem.offset();
+		var top = offset.top - containerTop - paddingTop;
+		if(top<=containerHeight){
+			return true;
+		}
+		return false;
 	}
 };

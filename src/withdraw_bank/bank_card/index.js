@@ -157,7 +157,7 @@ BankCheckor.prototype = Mixin({
             money : money,
             type : type
         },
-        url:"/call/handle.php",
+        url:"call/handle.php",
         success:function (data) {
           if(data.outcome==2){
             alert("验证成功");

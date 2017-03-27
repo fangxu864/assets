@@ -1,12 +1,23 @@
+<p class="appTitle"><i class="icon-yingyongzhongxin1 icon-pc-list"></i><span class="t">常用工具</span></p>
 <ul class="appUl">
     <% _.each(list,function(item,index){%>
         <%
             var _item = item.split(":");
             var link = _item[0] + ".html";
             var text = _item[1];
-            var icon = _item[2] || "icon-yingyongzhongxin";
+            var icon = _item[2];
+            if(icon){
+                var nIcon = PFT.PageIcons[icon];
+                if(nIcon){
+                    icon = nIcon.icon
+                }else{
+                     icon = PFT.PageIcons.defaults.icon;
+                }
+            }else{
+                icon = PFT.PageIcons.defaults.icon;
+            }
         %>
-        <li class="appItem <%=(index+1)%5==0 ? 'fany5' : ''%>">
+        <li class="appItem <%=(index+1)%5==0 ? 'fany5' : ''%> <%=_item[2]%>">
             <div class="con">
                 <a href="<%=link%>" class="link"><i class="icon icon-pc-list <%=icon%>"></i><span class="t"><%=text%></span></a>
             </div>

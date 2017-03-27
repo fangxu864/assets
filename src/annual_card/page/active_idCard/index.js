@@ -9,6 +9,7 @@ var ReadPhysicsCard = require("../../common/readPhysicsCard.js");
 var CheckExistDialog = require("../../common/check-exist-dialog");
 var ProvCitySelect = require("COMMON/js/component.city.select.js");
 var Fileupload = require("COMMON/modules/fileupload");
+
 var MainView = Backbone.View.extend({
 	time : 60,  //获取验证码的间隔时间 60s
 	timer : null,
@@ -20,9 +21,11 @@ var MainView = Backbone.View.extend({
 		//"blur .textInp" : "onTextInpBlur",
 		"focus .textInp" : "onTextInpFocus",
 		"keyup #cardInp" : "onCardInpKeyup",
-		"click #clearCardInpBtn" : "onClearCardInpBtnClick"
+		"click #clearCardInpBtn" : "onClearCardInpBtnClick",
+		"click #getIdCardInfo" : "handleIdCard"   //身份证阅读器
 	},
 	initialize : function(){
+
 		var that = this;
 		this.cardInp = $("#cardInp");
 		this.readCardBtn = $("#readCardBtn");
@@ -42,6 +45,78 @@ var MainView = Backbone.View.extend({
 		this.initSelect();
 		this.initFileupload();
 	},
+
+	handleIdCard : function(){
+
+		console.log("身份证阅读器");
+
+		//开始链接控件
+		var CertCtl = document.getElementById("CertCtl");
+		if(CertCtl.connect){
+			var connectResult = CertCtl.connect();
+			
+			connectResult = JSON.parse(connectResult);	
+
+			if( connectResult.resultFlag == 0 ){
+
+				var readResult = CertCtl.readCert();
+				readResult = JSON.parse(readResult);	
+				if(readResult.resultFlag == "0"){
+
+					var con = readResult.resultContent;
+
+					var idNum = con.certNumber;
+					var pic = con.identityPic;
+
+					$("#idNum").val(idNum);
+					$(".fileuploadTextInp").val(pic);
+					$("#ImgUpLoadIdCardBox").css("display","none");
+					$("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
+
+					//上传图片
+					PFT.Util.Ajax('/r/Resource_ImageUpload/uploadIdCard',{
+						type : "post",
+						params : {
+							id : idNum,
+							identify :"annualActive",
+							data : pic
+						},
+						loading : function(){
+						},
+						success : function(res){
+							var code = res.code;
+							var msg = res.msg;
+							var data = res.data;
+							var src = data.src;
+							console.log(src);
+							$("#ImgUpLoadIdCardBox").remove();
+							$("#idCardReaderBox").html('<img id="uploadPhotoImg" src="'+ src +'" ></img>');
+							alert("身份证头像上传成功");
+						},
+						complete : function(){
+						},
+						fail : function(res){
+							$("#ImgUpLoadIdCardBox").css("display","block");
+							$("#idCardReaderBox").css("display","none");
+							alert("身份证头像上传失败");
+						}
+					})
+
+				}else{
+					alert("身份证信息获取失败，请将身份证放置在读卡器上再点击读取");
+				}
+				
+			}else{
+				alert("无法连接读卡器，请打开读卡器开关并插入USB口");
+			}
+
+		}else{
+			alert("请使用IE浏览器或重新安装插件");
+			return false
+		}
+
+	},
+
 	initSelect : function(){
 		this.provCitySelect = new ProvCitySelect({
 			provId : "#provSelect",

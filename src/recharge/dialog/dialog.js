@@ -99,7 +99,7 @@ Dialog.prototype={
             },
             success: function(res) {
                 //请求成功时处理
-                if(res.code==200){
+                if(res.code==200 && res.data.qrUrl){
                     var payCodeBox = $("#payCode_box");
                     payCodeBox.html("");
                     new QRCode("payCode_box",{
@@ -170,16 +170,17 @@ Dialog.prototype={
      * @method 获取host
      */
     getHost: function () {
-        var host = {
-            "12301.test" : "www.12301.test",
-            "12301dev.com" : "www.12301dev.com",
-            "12301.cc" : location.host
-        };
-        for( var key in host ){
-            if( location.host.search(key) > -1 ){
-                return host[key];
-            }
-        }
+        return location.host;
+        // var host = {
+        //     "12301.test" : "www.12301.test",
+        //     "12301dev.com" : "www.12301dev.com",
+        //     "12301.cc" : location.host
+        // };
+        // for( var key in host ){
+        //     if( location.host.search(key) > -1 ){
+        //         return host[key];
+        //     }
+        // }
     }
 };
 

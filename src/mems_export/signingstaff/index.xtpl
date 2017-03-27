@@ -1,0 +1,151 @@
+<div id="signingStaff">
+    <div class="title">签单人员</div>
+    <div class="quickTab">
+        <span>签约信息</span>
+        <span>费用配置</span>
+        <span>开通应用</span>
+    </div>
+    <div class="scroll-view">
+        <div class="signInfo">
+            <div class="title-two"><span>签约信息</span></div>
+
+            <div class="line line1">
+                <div class="td td1">企业名称</div>
+                <div class="td td2">
+                    <input type="text" readonly="readonly" value="<%=data.com_name%>"/>
+                </div>
+            </div>
+
+            <div class="line line2">
+                <div class="td td1">合作模式</div>
+                <div class="td td2">
+                    <select name="" class="contract_model">
+                        <!--<option value="">请选择</option>-->
+                        <option value="1">套餐</option>
+                        <option value="2">票务</option>
+                        <option value="3">订单</option>
+                    </select>
+                </div>
+                <div class="td td3">
+                    <input type="checkbox" class="is_pay" <%=data.is_pay == 1 ? "checked" : ""%>/><span>是否回款</span>
+                </div>
+
+            </div>
+
+            <div class="line line2-1">
+                <div class="td td1">签单人</div>
+                <div class="td td2">
+                    <select name="" id="" class="salerSelect">
+                        <%=data.signingStaff_tpl%>
+                    </select>
+                </div>
+            </div>
+
+            <div class="line line2-2">
+                <div class="td td1">客服</div>
+                <div class="td td2">
+                    <select name="" id="" class="kefuSelect">
+                        <%=data.kefu_tpl%>
+                    </select>
+                </div>
+            </div>
+
+            <div class="line line3">
+                <div class="td td1">合同编号</div>
+                <div class="td td2">
+                    <input type="text" class="contract_num" value="<%=data.contract_num%>"/>
+                </div>
+            </div>
+
+            <div class="line line4">
+                <div class="td td1">协议日期</div>
+                <div class="td td2">
+                    <input type="text" class="protocol_start" value="<%=data.protocol_start != '0000-00-00' ? data.protocol_start : ''%>"/>
+                </div>
+                <div class="td">
+                    <span>至</span>
+                </div>
+                <div class="td td3">
+                    <input type="text" class="protocol_end" value="<%=data.protocol_end != '0000-00-00' ? data.protocol_end : ''%>"/>
+                </div>
+                <div class="td td4" style="color: red">
+                    日期格式必须是"xxxx-xx-xx"
+                </div>
+            </div>
+
+            <div class="line line5">
+                <div class="td td1">协议价格</div>
+                <div class="td td2">
+                    <input type="text" class="protocol_meal" value="<%=data.protocol_meal%>"/>
+                </div>
+                <span>元</span>
+                <span style="color: red">(*注：订单模式时，协议价格为0，且不可填)</span>
+            </div>
+
+            <div class="line line6">
+                <div class="td td1">协议标准</div>
+                <div class="td td2">
+                    <textarea name=""  cols="80" rows="3" class="protocol_main"><%=data.protocol_main%></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="feeConfig">
+             <div class="title-two"><span>费用配置</span></div>
+             <div class="line line1">
+                 <div class="td td1">提现手续费率</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_bank" value="<%=data.fee_bank%>"/>
+                 </div>
+                 <span class="unit">‰</span>
+             </div>
+             <div class="line line2">
+                 <div class="td td1">凭证费</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_code" value="<%=data.fee_code%>"/>
+                 </div>
+                 <span class="unit">元/单</span>
+             </div>
+
+              <div class="line line2">
+                 <div class="td td1">短信费</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_sms" value="<%=data.fee_sms%>"/>
+                 </div>
+                 <span class="unit">元/条</span>
+             </div>
+
+              <div class="line line2">
+                 <div class="td td1">平台使用费</div>
+                 <div class="td td2">
+                     <input type="text" class="fee_platform" value="<%=data.fee_platform%>"/>
+                 </div>
+                 <span class="unit">元/人</span>
+             </div>
+
+        </div>
+        <div class="openApp">
+             <div class="title-two">
+                 <span>开通应用</span>
+                 <input type="checkbox" class="selectAll"/>
+                 <span style="color: green; font-size: 12px; ">全选</span>
+                 <span style="color: red ; font-size: 12px; margin-left: 20px;">(注：含“自”为用户自己开通，不可更改)</span>
+                 </div>
+             <div class="line line1">
+                 <% _.each(data.module,function(item,index){ %>
+                     <div class="td">
+                         <input type="checkbox" data-id="<%=item.id%>" class="<%=item.self == true ? 'self' : 'notSelf' %>" <%=item.open == true ? "checked" : "" %> />
+                         <span><%=item.name%></span>
+                         <span style="color: red"><%=item.self == true ? "(自)" : "" %></span>
+                     </div>
+                 <% }) %>
+             </div>
+
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="center">
+            <span class="btn yesBtn">确认</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+.appPackageWrap{
+
+  .progressBox{
+    position: relative;
+    height: 100px;
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  .progressBox{
+    //线
+    .line{
+      width: 33.33%;
+      position: absolute;
+      height: 6px;
+      top: 47px;
+      background-color: #b6b6b6;
+    }
+    .line.active{  background-color: #09ba07 ;  }
+    .line1 , .circle1{  left: 0;  }
+    .line2 , .circle2{  left: 33.33%;  }
+    .circle3{  right: 33.33%;  }
+    .line3 , .circle4{  right: 0;  }
+
+    //圆圈
+    .circle{
+      width: 46px;
+      height: 46px;
+      position: absolute;
+      top:25px;
+      background-image: url("http://static.12301.cc/assets/build/images/appcenter/apppackage/small.png");
+    }
+    .circle:after{  color: #adadad;  font-size: 14px;  position: absolute; display: block; top: 53px;   }
+    .circle.active:after{ color: black;}
+    .circle1{  background-position: 0 -18px;  }
+    .circle1:after{  content: "选择套餐";  width: 60px;  left: -6px;  }
+    .circle2{  background-position: -46px -18px;  }
+    .circle2:after{  content: "确认订购信息";  width: 88px;  left: -19px;  }
+    .circle2.active{  background-position: -46px -64px;  }
+    .circle3:after{  content: "确认付款";  width: 60px;  left: -6px;  }
+    .circle3{  background-position: -92px -18px;  }
+    .circle3.active{  background-position: -92px -64px;  }
+    .circle4{  background-position: -138px -18px;  }
+    .circle4:after{  content: "订购成功";  width: 60px;  left: -6px;  }
+    .circle4.active{  background-position: -138px -64px;  }
+    .circle.ok{  background-position: 0px -64px;   }
+
+  }
+
+
+
+
+
+
+
+
+
+
+}

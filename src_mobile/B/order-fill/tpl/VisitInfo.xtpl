@@ -1,0 +1,22 @@
+<div id="visitInfo">
+
+    <div class="visitInfoWrap">
+        
+        <p class="wranInfo">请认真填写,因信息不完整,填写不正确造成的额外损失,需自行承担</p>
+        <div class="ticketGroupList">
+            <%for( var i = 0;i<list.length;i++){%>
+                <div class="ticketGroup">
+                    <span class="ticketName"><%=list[i].Ttitle%></span>
+                    <ul>
+                        <%for( var j = 0;j<parseInt(list[i].num);j++){%>
+                            <li class="visitInfoItem">
+                                <input type="text" class="visit" placeholder="联系人<%=j+1%>">
+                                <input type="text" class="idCard" placeholder="身份证">
+                            </li>
+                        <%}%>        
+                    </ul>
+                </div>
+            <%}%>
+        </div>
+    </div>
+</div> 

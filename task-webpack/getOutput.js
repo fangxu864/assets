@@ -4,8 +4,9 @@
  * Description: ""
  */
 var path = require("path");
-module.exports = function(env,filename){
-	var _filename = filename ? (filename+".js") : "[name].all.js";
+module.exports = function(env,filename,verision){
+	var verision = verision ? ("."+verision) : "";
+	var _filename = filename ? (filename + verision + ".js") : "[name].all" + verision + ".js";
 	var output = {
 		path : path.join(__dirname, "../build/"+env+"/"),
 		filename: "js/" + _filename

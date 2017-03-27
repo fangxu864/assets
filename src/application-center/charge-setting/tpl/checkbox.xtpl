@@ -1,0 +1,6 @@
+<% _.each( data, function( item, index ) {%>
+                <label class="checkbox mr30">
+                    <input type="checkbox" name="" value="<%=index%>" class="hide" />
+                    <em class="checkbox-content"><%=item%></em>
+                </label>
+<% }) %>

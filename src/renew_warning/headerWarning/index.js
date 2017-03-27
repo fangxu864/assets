@@ -64,8 +64,8 @@ var HeaderWarning={
                     _this.dialog.open();
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
                 }
-                //账户已过期，弹框不能关闭 ,并且排除充值页面
-                else if(this.judge_of_overTime == "-1" && !/recharge\.html$/.test(location.href)){
+                //账户已过期，弹框不能关闭 ,并且排除充值页面,和续费页面
+                else if(this.judge_of_overTime == "-1" && !/recharge\.html$/.test(location.href) && !/renewwarning\.html$/.test(location.href)){
                     _this.dialog = new Dialog;
                     _this.dialog.open();
                     _this.dialog.show_dialog_con(_this.dialogCon[_this.judge_of_overTime]);
@@ -135,6 +135,10 @@ var HeaderWarning={
             $("#special_w .subnav").eq(0).css("position","relative").append(whichTpl);
         }else if($("#siteLocationBar .siteLocationBarCon").length>0){
             $("#siteLocationBar .siteLocationBarCon").eq(0).css("position","relative").append(whichTpl)
+                .find(".loop_box").css({"top":"-2px"})
+                .find(".xufei_box").css("padding-top","0px")
+        }else if( $("#G_BreadCrumbBar").length>0){
+            $("#G_BreadCrumbBar").eq(0).append(whichTpl)
                 .find(".loop_box").css({"top":"-2px"})
                 .find(".xufei_box").css("padding-top","0px")
         }
