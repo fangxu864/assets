@@ -5,20 +5,13 @@
   "main": "webpack.config.js",
   "scripts": {
     "doc": "cd doc && idoc server",
+    
+    "local": "node ./buildTask/build.local.js",
+    "test": "node ./buildTask/build.local.js",
+    "release": "node ./buildTask/build.local.js",
+    "production": "node ./buildTask/build.local.js",
 
-
-    "start": "set NODE_ENV=develop && webpack --config ./src-pc/webpack.config.js -w",
-    "test": "set NODE_ENV=test && webpack --config ./src-pc/webpack.config.js.js",
-    "release": "set NODE_ENV=release && webpack --config ./src-pc/webpack.config.js.js",
-    "production": "set NODE_ENV=production && webpack --config ./src-pc/webpack.config.js.js",
-
-    "start-m": "set NODE_ENV=develop && webpack --config ./src-mobile/webpack.config.js -w",
-    "test-m": "set NODE_ENV=test && webpack --config ./src-mobile/webpack.config.js.js",
-    "release-m": "set NODE_ENV=release && webpack --config ./src-mobile/webpack.config.js.js",
-    "production-m": "set NODE_ENV=production && webpack --config ./src-mobile/webpack.config.js.js",
-
-
-
+   
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
     "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
@@ -146,16 +139,10 @@
     "mems_export-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
     "mems_export-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/mems_export/webpack.config.js",
-
-
     "orderLog_query-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/orderLog_query/webpack.config.js",
     "orderLog_query-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
     "orderLog_query-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
     "orderLog_query-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/orderLog_query/webpack.config.js",
-
-
-
-
     "system-manager-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
     "system-manager-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/system-manager/webpack.config.js",
@@ -266,6 +253,7 @@
     "webpack": "^1.13.0",
     "webpack-dashboard": "^0.1.8",
     "webpack-dev-server": "^1.14.1",
+    "webpack-stream": "^3.2.0",
     "yargs": "^4.7.1"
   },
   "dependencies": {

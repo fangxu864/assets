@@ -13,7 +13,9 @@ var Datepicker = require("./Common/Datepicker");
 
 //主入口
 var Main = PFT.Util.Class({
-
+    init : function(){
+        console.log("init")
+    }
 });
 
 
