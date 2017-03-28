@@ -2,7 +2,6 @@
   "name": "pft",
   "version": "1.0.0",
   "description": "pft",
-  "main": "webpack.config.js",
   "scripts": {
     "doc": "cd doc && idoc server",
     
