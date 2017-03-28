@@ -1,0 +1,10 @@
+<% _.each(data,function(item,index){ %>
+    <tr>
+    <% for( var i = 0; i < item.length; i++){%>
+        <td class="<%=item[i].day ? 'usable' : 'disable'%> <%=item[i].today == 'today' ? 'today' : ''%>" data-date="<%=item[i].date%>">
+            <p class="date"><%=item[i].day%></p>
+            <p class="price"><%=item[i].day ? '¥175' : ''%></p>
+        </td>
+    <%}%>
+    </tr>
+<%})%>

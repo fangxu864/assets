@@ -7,7 +7,7 @@ $(function () {
         var _this = $(this);
 
         datePicker.show({
-            hostObj: _this
+            relyInp: _this
         });
     })
 
