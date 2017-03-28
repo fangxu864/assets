@@ -25,7 +25,6 @@ exports.Wx = function(opt){
 	var fail_wx = opt.fail_wx || fn;
 	var error_wx = opt.error_wx || fn;
 	loading();
-	alert(JSON.stringify(data));
 	$.ajax({
 		url : url,
 		type : "post",

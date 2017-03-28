@@ -104,10 +104,6 @@ var Order_pay = PFT.Util.Class({
 			openid:payParams.openid,
 			expire_time:payParams.expireTime
 		};
-
-		alert("开始微信支付了");
-		alert(JSON.stringify(params));
-
 		PayCore.Wx({
 			WeixinJSBridge:WeixinJSBridge,
 			data: params,
