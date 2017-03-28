@@ -63,7 +63,6 @@
         }
         tbody tr td{
           padding: 10px 0;
-          cursor: pointer;
         }
         tbody tr td p{
           line-height: 16px;
@@ -74,18 +73,28 @@
         tbody tr td .price{
           color: #ffa63c;
         }
+        tbody tr td.usable{
+          cursor: pointer;
+        }
         tbody tr td.usable:hover{
           background-color: #ffa63c;
         }
         tbody tr td.usable:hover p{
           color: white !important;
         }
-        tbody tr td.today{
+        tbody tr td.selected{
           background-color: #57a8d8 ;
           color: white;
         }
-        tbody tr td.today p{
-          color: white;
+        tbody tr td.selected p{
+          color: white !important;
+        }
+        tbody tr td.disable p{
+          color: #e5e5e5;
+          cursor: not-allowed;
+        }
+        tbody tr td p.today{
+          color: #2196f3;
         }
       }
     }
