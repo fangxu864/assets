@@ -31,7 +31,7 @@
 <ul id="paymodeList" class="paymodeList">
     <li id="alipayBtn" data-typetext="支付宝支付" class="paymodeItem <%=payWay.ali==1 ? '' : 'disable'%>">
         <div class="imgBox">
-            <form id="pay_form_alipay" action="/wx/pay/alipay_v3.3/pay_iframe.html" method="post">
+            <form id="pay_form_alipay" action="/pay/alipay_v3.3/pay_iframe.html" method="post">
                 <input name="pay_action" type="hidden" value="1"/>
                 <input name="out_trade_no" value="<%=payParams.outTradeNo%>" type="hidden"/>
                 <input name="subject" value="<%=payParams.subject%>" type="hidden"/>
