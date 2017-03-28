@@ -26,7 +26,10 @@ var Order_pay = PFT.Util.Class({
 		var urlParams = PFT.Util.UrlParse();
 		var that=this;
 		this.ordernum = urlParams["ordernum"] || "";
-		this.host = urlParams["h"].split(".")[0];
+		this.host = urlParams["h"];
+
+		// return false
+
 		Service(this.ordernum, this.host, {
 			loading : function(){
 				Toast.show("loading", "努力加载中...");
@@ -90,7 +93,6 @@ var Order_pay = PFT.Util.Class({
 			}
 		})
 	},
-
 	//微信支付
 	onWXPayBtnClick: function(e){
 		var that=this;
@@ -104,12 +106,9 @@ var Order_pay = PFT.Util.Class({
 			openid:payParams.openid,
 			expire_time:payParams.expireTime
 		};
-
-		alert("开始微信支付了");
-		alert(JSON.stringify(params));
-
 		PayCore.Wx({
 			WeixinJSBridge:WeixinJSBridge,
+			url :  'http://wx.12301.cc/api/index.php?c=pay_WxPay&a=order',
 			data: params,
 			loading: function(){
 				Toast.show("loading","请稍后...");
@@ -143,9 +142,9 @@ var Order_pay = PFT.Util.Class({
 				var out_tarde_no=payParams.outTradeNo;
 				var total_fee=that.__CacheData.detail.totalmoney;
 				var ordernum=that.ordernum;
-
-
-				Alert("支付成功");
+				var account = that.host;
+				// Alert("支付成功");
+				window.location.href="http://"+account+".12301.cc/wx/b/order_pay_success.html?ordernum="+ordernum;
 			},
 			//用户取消支付
 			cancel_wx: function(res){},

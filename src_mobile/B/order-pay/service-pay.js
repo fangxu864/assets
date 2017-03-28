@@ -63,8 +63,7 @@ module.exports = function(ordernum,host,opt){
 		},600);
 		return false;
 	}
-
-	PFT.Util.Ajax('/r/MicroPlat_Order/pay',{
+	PFT.Util.Ajax( 'http://wx.12301.cc/api/index.php?c=MicroPlat_Order&a=pay' ,{
 		type : "post",
 		params : {
 			ordernum : ordernum,
@@ -74,11 +73,14 @@ module.exports = function(ordernum,host,opt){
 		loading : opt.loading,
 		complete : opt.complete,
 		success : function(res){
+			console.log(res);
+			// console.log(Object.prototype.toString.call(res)==)
 			res = res || {};
 			var code = res.code;
 			var data = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			var search=window.location.search;
+
 			if(code==200){
 				//data["ptype"] = data["ptype"].toUpperCase();
 				opt.success(data);
@@ -89,6 +91,10 @@ module.exports = function(ordernum,host,opt){
 			}else{
 				opt.fail(msg);
 			}
+		},
+		serverError : function(xhr,text){
+			console.log("serverError");
+			console.log(text);
 		}
 	})
 }
