@@ -341,11 +341,11 @@ var Filter = {
             _this.gotoDC();
         });
         // //点击导出
-        // this.container.on("click", ".btn_excel" ,function () {
-        //     var params = _this.container.find("#filterForm").serialize() + "&Export=1";
-        //     var downLoadUrl = "/r/Admin_Refund/getRefundInfo/?" + params;
-        //     _this.outExcel(downLoadUrl);
-        // });
+        this.container.on("click", ".excel_btn" ,function () {
+            var params = $.param(_this.FilterParamsHub) + "&is_excel=1";
+            var  downLoadUrl = "/r/report_statistics/checkedPaywayList?" + params;
+            _this.outExcel(downLoadUrl);
+        });
     },
 
     /**
