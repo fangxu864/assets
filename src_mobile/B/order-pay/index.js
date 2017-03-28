@@ -35,7 +35,8 @@ var Order_pay = PFT.Util.Class({
 				Toast.hide("loading", "努力加载中...");
 			},
 			success: function(data){
-				this.__CacheData=data;
+				that.__CacheData=data;
+
 				data["payDomain"]=$("#paydomainHinInp").val();
 				var html=Template.orderdetail(data);
 				$("#bodyContainer").html(html);
@@ -98,11 +99,15 @@ var Order_pay = PFT.Util.Class({
 		var payParams=this.__CacheData.payParams || {};
 		var params ={
 			appid: payParams.appid,
-			out_tarde_no:payParams.outTradeNo,
+			out_trade_no:payParams.outTradeNo,
 			subject:payParams.subject,
 			openid:payParams.openid,
 			expire_time:payParams.expireTime
 		};
+
+		alert("开始微信支付了");
+		alert(JSON.stringify(params));
+
 		PayCore.Wx({
 			WeixinJSBridge:WeixinJSBridge,
 			data: params,
