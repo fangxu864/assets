@@ -6,10 +6,10 @@ $(function () {
     $(".inp").on("click" ,function () {
         var _this = $(this);
 
-        datePicker.show('2017-03-29',{
+        datePicker.show('2017-3-29',{
             relyInp: _this,
-            max:'2017-05-20',
-            min: '2017-03-20'
+            max:'2017-5-20',
+            min: '2017-3-2'
         });
         datePicker.on("datePick",function (date) {
             console.log(date,'****');

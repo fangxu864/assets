@@ -55,10 +55,13 @@ var DatePicker = PFT.Util.Class({
         var relyInp = this.relyInp = typeof opt.relyInp === 'string' ? $(opt.relyInp) : opt.relyInp;
         //最大日期
         var max = opt.max || '9999-99-99';
+        max = this.formatDate(max);
         //最小日期
         var min = opt.min || CalendarCore.gettoday();
+        min = this.formatDate(min);
         //当前的天数
         var curDay = curDate || relyInp.val() ||  CalendarCore.gettoday();
+        curDay = this.formatDate(curDay);
         this.renderData = {
             max: max,
             min: min,
@@ -148,7 +151,11 @@ var DatePicker = PFT.Util.Class({
      */
     formatDate: function (date) {
         var year = date.match(/^\d+/)[0];
-        var month = date.match(/(\-)(\d+)(\-)/)
+        var month = Number( date.match(/(?:\-)(\d+)(?:\-)/)[1] );
+        var day = Number( date.match(/\d+$/)[0] );
+        month = month > 9 ? month : 0 + '' + month;
+        day = day > 9 ? day : 0 + '' + day;
+        return year + '-' + month + '-' + day
     }
 });
 
