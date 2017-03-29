@@ -5,6 +5,13 @@
   "main": "webpack.config.js",
   "scripts": {
     "doc": "cd doc && idoc server",
+    
+    "local": "node ./buildTask/build.local.js",
+    "test": "node ./buildTask/build.test.js",
+    "release": "node ./buildTask/build.release.js",
+    "production": "node ./buildTask/build.production.js",
+
+   
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
     "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
@@ -270,6 +277,7 @@
     "webpack": "^1.13.0",
     "webpack-dashboard": "^0.1.8",
     "webpack-dev-server": "^1.14.1",
+    "webpack-stream": "^3.2.0",
     "yargs": "^4.7.1"
   },
   "dependencies": {
