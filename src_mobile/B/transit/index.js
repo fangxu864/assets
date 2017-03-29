@@ -47,6 +47,13 @@ var Transit = PFT.Util.Class({
 		        }else if(code==207){
 					var para = that.getpara();
 					window.location.href = "login.html" + para ;	
+				}else if(res.code==401){
+					Toast.show("loading", res.msg);
+                        (function () {
+                             setTimeout(function(){
+                                 window.location.reload();
+                             }, 1500);
+                        })();
 				}else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 				}
