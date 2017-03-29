@@ -2,6 +2,7 @@
     <thead>
         <th class="col th dname"><span class="colCon">会员名称(卡号)</span></th>
         <th class="col th last_time">上次使用时间</th>
+        <th class="col th carinfo">车辆信息</th>
         <th class="col th state">状态</th>
         <th class="col th do">操作</th>
     </thead>

@@ -1,0 +1,174 @@
+body{
+    padding:0;
+}
+@import "../common/scss/base";
+@import "./scss/app-item";
+
+#PageMainRightContainer{
+    background:#efefef;
+}
+
+.section {
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+}
+.section-appadmin .section-con {
+    padding: 35px 50px;
+}
+
+.mode-list li {
+    position: relative;
+    float: left;
+    width: 140px;
+    height: 36px;
+    margin-right: 30px;
+    background-color:#fff;
+    border:1px solid #0797D9;
+    color: #0797D9;
+    line-height: 36px;
+    text-align: center;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+    -webkit-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+}
+.mode-list li.active {
+    width: 138px;
+    height: 34px;
+    background: #fff url(http://static.12301.cc/assets/build/images/appcenter/chosed.gif) no-repeat right bottom;
+    border: 2px solid #d21010;
+    line-height: 34px;
+}
+.paymethod .pay-item {
+    float: left;
+    min-width: 140px;
+    height: 24px;
+    margin-right: 30px;
+    padding: 6px 10px;
+    background-color:#fff;
+    border:1px solid #0797D9;
+    line-height: 24px;
+    text-align: center;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.ico-wepay,
+.ico-alipay {
+    display: inline-block;
+    height: 24px;
+    margin-right: 5px;
+    background: url(http://static.12301.cc/assets/build/images/appcenter/pay-method.png) no-repeat;
+    line-height: 0;
+    vertical-align: top;
+}
+.ico-wepay {
+    width: 27px;
+}
+.ico-alipay {
+    width: 71px;
+    background-position: 0 -24px;
+}
+
+.ico-success {
+    display: inline-block;
+    width: 37px;
+    height: 32px;
+    margin-right: 10px;
+    background: url(http://static.12301.cc/assets/build/images/appcenter/success.gif) no-repeat;
+    line-height: 0;
+    vertical-align: top;
+}
+
+.progressBox {
+    display: none;
+    position: relative;
+    height: 100px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.progressBox .line {
+    width: 33.33%;
+    position: absolute;
+    height: 6px;
+    top: 47px;
+    background-color: #b6b6b6;
+}
+.progressBox .line.active {
+    background-color: #09ba07;
+}
+.progressBox .line1, .progressBox .circle1 {
+    left: 0;
+}
+.progressBox .line2, .progressBox .circle2 {
+    left: 33.33%;
+}
+.progressBox .circle3 {
+    right: 33.33%;
+}
+.progressBox .line3, .progressBox .circle4 {
+    right: 0;
+}
+.progressBox .circle {
+    width: 46px;
+    height: 46px;
+    position: absolute;
+    top: 25px;
+    background-image: url("http://static.12301.cc/assets/build/images/appcenter/apppackage/small.png");
+}
+.progressBox .circle:after {
+    color: #adadad;
+    font-size: 14px;
+    position: absolute;
+    display: block;
+    top: 53px;
+}
+.progressBox .circle.active:after {
+    color: black;
+}
+.progressBox .circle1 {
+    background-position: 0 -18px;
+}
+.progressBox .circle1:after {
+    content: "选择套餐";
+    width: 60px;
+    left: -6px;
+}
+.progressBox .circle2 {
+    background-position: -46px -18px;
+}
+.progressBox .circle2:after {
+    content: "确认订购信息";
+    width: 88px;
+    left: -19px;
+}
+.progressBox .circle2.active {
+    background-position: -46px -64px;
+}
+.progressBox .circle3:after {
+    content: "确认付款";
+    width: 60px;
+    left: -6px;
+}
+.progressBox .circle3 {
+    background-position: -92px -18px;
+}
+.progressBox .circle3.active {
+    background-position: -92px -64px;
+}
+.progressBox .circle4 {
+    background-position: -138px -18px;
+}
+.progressBox .circle4:after {
+    content: "订购成功";
+    width: 60px;
+    left: -6px;
+}
+.progressBox .circle4.active {
+    background-position: -138px -64px;
+}
+.progressBox .circle.ok {
+    background-position: 0px -64px;
+}

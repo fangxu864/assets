@@ -1,0 +1,71 @@
+.appPackageWrap {
+
+  /* first_packDetailBox的公共样式*/
+  .first_packDetailBox {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .first_packDetailBox{
+    .title{
+      font-size: 22px;
+      line-height: 60px;
+      text-align: center;
+      color:  #909090;
+    }
+    .detail-table{
+      width: 100%;
+      text-align: center;
+      thead tr th{
+        line-height: 50px;
+        background-color: #58a3ef;
+        color: #fff;
+        border: 1px solid #e5e5e5;
+      }
+      tbody tr td {
+        line-height: 35px;
+        border: 1px solid #e5e5e5;
+        .ok-icon{
+          background-image: url("http://static.12301.cc/assets/build/images/appcenter/apppackage/small.png");
+          width: 24px;
+          height: 16px;
+          display: inline-block;
+          background-position: -49px -0px;
+        }
+        .line-through{
+          text-decoration: line-through;
+
+        }
+        .price{
+          color: #ff4500;
+          font-size: 16px;
+        }
+        .btn{
+          padding: 10px 20px;
+          cursor: pointer;
+          margin: 10px;
+          color: #fff;
+          background-color: #f07844;
+        }
+        .btn:hover{
+          background-color: #f7895a;
+          box-shadow: 0 0 5px #f7895a;
+        }
+
+      }
+      .gray{
+        color:#909090 ;
+        line-height: 20px;
+      }
+    }
+    .bottom{
+      text-align: center;
+      font-size: 14px;
+      line-height: 50px;
+      color:#909090 ;
+      margin-bottom: 20px;
+    }
+
+  }
+
+
+}

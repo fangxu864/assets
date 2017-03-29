@@ -1,0 +1,14 @@
+
+<% _.each(data,function(item,index){%>
+<div class="package-block">
+    <div class="con">
+        <div class="line line1"><%=item.name%></div>
+        <div class="line line2"><%=item.summary%></div>
+        <div class="line line3">
+            <span class="money"><span class="rmb">¥</span><%=item.price%></span>
+            <span class="btn btn-book" data-moduleId="<%=item.moduleId%>">立即订购</span>
+        </div>
+    </div>
+</div>
+<%})%>
+

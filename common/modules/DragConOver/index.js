@@ -14,7 +14,8 @@ module.exports=function($){
          * })
          * */
         $.fn.DragConOver=function(opt){
-            $(this).mousedown(function (e) {
+            $(this).on('mousedown touchstart' , function (e) {
+                e.preventDefault();
                 var Default={
                     direction:"xy",
                     callBack:function(){}
@@ -22,9 +23,17 @@ module.exports=function($){
                 opt=$.extend(Default,opt);
                 var that=$(this);
                 var parent=that.offsetParent();
-                var disX=e.pageX-$(this).offset().left;
-                var disY=e.pageY-$(this).offset().top;
-                $(document).mousemove(function (e) {
+                var ePageX = e.pageX ? e.pageX : e.originalEvent.targetTouches[0].pageX;
+                var ePageY = e.pageY ? e.pageY : e.originalEvent.targetTouches[0].pageY;
+                var disX = ePageX - $(this).offset().left;
+                var disY = ePageY -$(this).offset().top;
+                $(document).on('mousemove.DragConOver touchmove.DragConOver',function (e) {
+                    var ePageX = e.pageX ? e.pageX : e.originalEvent.targetTouches[0].pageX;
+                    var ePageY = e.pageY ? e.pageY : e.originalEvent.targetTouches[0].pageY;
+                    $(document).on('selectstart.DragConOver',function (e) {
+                        e.preventDefault();
+                        return false;
+                    });
                     e.preventDefault();
                     var startValue={
                         x:that.position().left,
@@ -32,7 +41,7 @@ module.exports=function($){
                     };
                     if(opt.direction.toLowerCase()=="x"){                          //只能X轴方向移动
 
-                        that.offset({left:e.pageX-disX});
+                        that.offset({left:ePageX-disX});
                         //X轴方向
                         if(that.position().left>0){
                             that.css("left","0")
@@ -44,7 +53,7 @@ module.exports=function($){
                             that.css("left","0")
                         }
                     }else if(opt.direction.toLowerCase()=="y"){                     //只能Y轴方向移动
-                        that.offset({top:e.pageY-disY});
+                        that.offset({top:ePageY - disY});
                         //Y轴方向
                         if(that.position().top>0){
                             that.css("top","0")
@@ -57,7 +66,7 @@ module.exports=function($){
                         }
 
                     }else if(opt.direction.toLowerCase()=="xy"){                           //可随意方向移动
-                        that.offset({left:e.pageX-disX,top:e.pageY-disY});
+                        that.offset({left:ePageX-disX,top:ePageY - disY});
                         //X轴方向
                         if(that.position().left>0){
                             that.css("left","0")
@@ -85,8 +94,13 @@ module.exports=function($){
                     };
                     opt.callBack(dValue);
                 });
-                $(document).mouseup(function () {
-                    $(document).unbind();
+
+                $(document).on('mouseup.DragConOver touchend.DragConOver',function () {
+                    $(document).off('mousemove.DragConOver');
+                    $(document).off('mouseup.DragConOver');
+                    $(document).off('touchmove.DragConOver');
+                    $(document).off('selectstart.DragConOver');
+                    $(document).off('touchend.DragConOver');
                 })
             })
         }
