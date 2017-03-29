@@ -68,9 +68,7 @@ var Transit = PFT.Util.Class({
 		},1000);
 	},
 	ongotoLogin : function(){
-
 		var that = this;
-
 		//退出登录
 		PFT.Util.Ajax("/r/MicroPlat_Member/unBindLogout",{
 			type : "POST",
