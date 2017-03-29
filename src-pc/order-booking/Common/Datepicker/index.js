@@ -181,12 +181,14 @@ var DatePicker = PFT.Util.Class({
             },
             complete: function(res,status) {
                 //请求完成的处理
+                _this.hideLoading();
                 if(status=="timeout"){
                     alert("请求超时")
                 }
             },
             error: function() {
                 //请求出错处理
+                _this.hideLoading();
             }
         });
 
