@@ -302,7 +302,7 @@ var Order_fill = PFT.Util.Class({
 				var ordernum = res.ordernum;
 				// var ordernum = "4003823";//写死的
 
-				var url = "http://wx.12301.local/html/order_pay_b.html?h="+host+"&"+"ordernum="+ordernum;
+				var url = "http://wx.12301.cc/html/order_pay_b.html?h="+host+"&"+"ordernum="+ordernum;
 
 				//跳转支付页面
 				// setTimeout(function(){
