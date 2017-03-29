@@ -1,0 +1,23 @@
+<% for(var i = 0;i<list.length;i++){ %>
+<tr class="line">
+    <td class="col col_1"><%=list[i].id%></td>
+    <td class="col col_2"><%=list[i].ordernum%></td>
+    <td class="col col_3"><%=list[i].num%></td>
+    <td class="col col_4"><%=list[i].change_num%></td>
+    <td class="col col_5"><%=list[i].totalprice%></td>
+    <td class="col col_6"><span class="timeStamp"><%=list[i].cancel_time%></span></td>
+    <td class="col col_7"><span class="timeStamp"><%=list[i].handler_time%></span></td>
+    <td class="col col_8"><span class="timeStamp"><%=list[i].auto_refund_time%></span></td>
+    <td class="col col_9">
+        <% if(list[i].refund_status==0){ %>
+        <a class="doActionBtn agree" data-id="<%=list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="1" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">同意</a>
+        |
+        <a class="doActionBtn disagree" data-id="<%list[i].id%>" data-packorder="<%list[i].pack_order%>" data-ifpack="<%list[i].ifpack%>" data-concatid="<%list[i].concat_id%>" data-stype="<%list[i].stype%>" data-status="2" data-ordernum="<%list[i].ordernum%>" data-tnum="<%list[i].tnum%>" data-stime="<%list[i].stime%>" href="javascript:void(0)">拒绝</a>
+        <% }else if(list[i].refund_status==1){ %>
+        同意
+        <% }else{ %>
+        <% } %>
+    </td>
+    <td class="col col_10"><%=list[i].memo%></td>
+</tr>
+<% } %>
