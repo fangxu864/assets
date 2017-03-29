@@ -349,9 +349,9 @@ var Main = PFT.Util.Class({
                             source: _this.source,
                             type: _this.type
                         });
-
-                        opt.success && opt.success( res.data );
                     }
+
+                    opt.success && opt.success( res.data );
 
                 }else{
                     _this.renderDialogData({

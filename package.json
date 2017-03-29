@@ -5,6 +5,13 @@
   "main": "webpack.config.js",
   "scripts": {
     "doc": "cd doc && idoc server",
+    
+    "local": "node ./buildTask/build.local.js",
+    "test": "node ./buildTask/build.test.js",
+    "release": "node ./buildTask/build.release.js",
+    "production": "node ./buildTask/build.production.js",
+
+   
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
     "annual-release": "set NODE_ENV=release && webpack --config ./src/annual_card/webpack.config.js",
@@ -186,12 +193,10 @@
     "poster-img-upload-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
-
     "summary-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/admin-summary-combine/webpack.config.js",
     "summary-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/admin-summary-combine/webpack.config.js",
     "summary-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/admin-summary-combine/webpack.config.js",
     "summary-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/admin-summary-combine/webpack.config.js",
-
     "card-tourists-list-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/card-tourists-list/webpack.config.js",
     "card-tourists-list-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
     "card-tourists-list-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
@@ -200,8 +205,20 @@
     "application-center-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/application-center/webpack.config.js",
     "application-center-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/application-center/webpack.config.js",
     "expired-text-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/expiredText/webpack.config.js",
-    "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js"
-
+    "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
+    "meituan-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/meituan/webpack.config.js",
+    "meituan-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/meituan/webpack.config.js",
+    "meituan-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/meituan/webpack.config.js",
+    "meituan-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/meituan/webpack.config.js",
+    "delay-refund-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/delay_refund/webpack.config.js",
+    "delay-refund-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/delay_refund/webpack.config.js",
+    "delay-refund-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/delay_refund/webpack.config.js",
+    "delay-refund-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/delay_refund/webpack.config.js",
+    "card-tourists-list-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/card-tourists-list/webpack.config.js",
+    "card-tourists-list-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
+    "card-tourists-list-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
+    "card-tourists-list-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js"
+        
   },
   "repository": {
     "type": "git",
@@ -270,6 +287,7 @@
     "webpack": "^1.13.0",
     "webpack-dashboard": "^0.1.8",
     "webpack-dev-server": "^1.14.1",
+    "webpack-stream": "^3.2.0",
     "yargs": "^4.7.1"
   },
   "dependencies": {

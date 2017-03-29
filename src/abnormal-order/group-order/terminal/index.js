@@ -155,7 +155,7 @@ var Terminal = PFT.Util.Class({
 	queryOrder : function(orderid,companyid){
 		var that = this;
 		var listUl = this.listUl;
-		PFT.Util.Ajax("/call/terminal.php",{
+		PFT.Util.Ajax("call/terminal.php",{
 			type : "get",
 			params : {
 				orderid : orderid,
