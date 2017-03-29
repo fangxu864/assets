@@ -59,8 +59,9 @@ module.exports = function(ordernum,opt){
 		},600);
 		return false;
 	}
-
-	PFT.Util.Ajax('http://wx.12301.local/api/index.php?c=MicroPlat_Order&a=paySuccess',{
+	var nhost = window.location.host;
+	nhost = nhost.indexOf("wx") > -1 ? nhost : nhost + "/wx";
+	PFT.Util.Ajax('http://'+nhost+'/api/index.php?c=MicroPlat_Order&a=paySuccess',{
 		type : "post",
 		params : {
 			ordernum : ordernum,
