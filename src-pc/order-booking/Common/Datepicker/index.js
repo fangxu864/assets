@@ -2,6 +2,7 @@
 require('./index.scss');
 var tpl = require("./index.xtpl");
 var tbTpl = require("./tablecon.xtpl");
+var Util = require("./dateUtil.js");
 var CalendarCore = require("COMMON/js/calendarCore.js");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 
@@ -13,7 +14,7 @@ var DatePicker = PFT.Util.Class({
         var _this = this;
         this.container = $("<div class='calendar-price' style='display: none;z-index: 666;'></div>");
         this.container.html(tpl);
-        this.mask = $('<div class="calendarPriceMask" style="position: absolute;width: 100% ;height: 100%;display: none;z-index: 665;"></div>');
+        this.mask = $('<div class="calendarPriceMask" style="position: fixed;width: 100% ;height: 100%;top:0;left:0;display: none;z-index: 665;"></div>');
         $('body').append(_this.container).append(_this.mask);
         this.bind();
     },
@@ -22,23 +23,21 @@ var DatePicker = PFT.Util.Class({
         var _this = this;
         //加减月份按钮点击
         this.container.on("click" , ".control-nav .prev-btn" ,function (e) {
-            _this.renderData.curYM = _this.countYearMonth( _this.renderData.curYM ,-1 );
-            _this.renderData.list = CalendarCore.outputDate( _this.renderData.curYM );
-            console.log(_this.renderData);
-            _this.renderTB(_this.renderData);
+            _this.renderData.curYM = Util.countYearMonth( _this.renderData.curYM ,-1 );
+            _this.getData();
         });
         this.container.on("click" , ".control-nav .next-btn" ,function (e) {
-            _this.renderData.curYM = _this.countYearMonth( _this.renderData.curYM , +1 );
-            _this.renderData.list = CalendarCore.outputDate( _this.renderData.curYM );
-            _this.renderTB(_this.renderData)
+            _this.renderData.curYM = Util.countYearMonth( _this.renderData.curYM , +1 );
+            _this.getData();
         });
         //点击某一个日期
         this.container.on("click" , '.calendar-tb td.usable' ,function (e) {
             var tarBtn = $(this);
             var pickDate = tarBtn.attr('data-date');
+            var storage = tarBtn.attr('data-storage');
             _this.relyInp.val(pickDate);
             _this.closeCalendar();
-            _this.trigger("datePick" , pickDate)
+            _this.trigger("datePick" , {pickDate:pickDate ,storage: storage})
         });
         //点击mask
         this.mask.on("click",function () {
@@ -55,21 +54,21 @@ var DatePicker = PFT.Util.Class({
         var relyInp = this.relyInp = typeof opt.relyInp === 'string' ? $(opt.relyInp) : opt.relyInp;
         //最大日期
         var max = opt.max || '9999-99-99';
-        max = this.formatDate(max);
+        max = Util.formatDate(max);
         //最小日期
-        var min = opt.min || CalendarCore.gettoday();
-        min = this.formatDate(min);
+        var min = Util.formatDate(opt.min) && Util.formatDate(opt.min) > CalendarCore.gettoday() ? Util.formatDate(opt.min) : CalendarCore.gettoday();
+        min = Util.formatDate(min);
         //当前的天数
         var curDay = relyInp.val() || initDate || CalendarCore.gettoday();
-        curDay = this.formatDate(curDay);
+        curDay = Util.formatDate(curDay);
         this.renderData = {
             max: max,
             min: min,
             curDay: curDay,
             curYM: curDay.match(/\d+\-\d+/)[0]
         };
-        this.renderData.list = CalendarCore.outputDate( curDay.match(/\d+\-\d+/)[0] );
-        _this.renderTB(this.renderData);
+        this.getData();
+
         this.openCalendar();
     },
 
@@ -96,9 +95,10 @@ var DatePicker = PFT.Util.Class({
     showLoading: function (type , text) {
         var _this = this;
         var box = _this.container.find('.loading-box');
+        var loadingStr = '<img src="http://static.12301.cc/images/icons/gloading.gif" alt="加载中..."/>';
         switch (type){
             case 'loading':
-                box.html('<img src="http://static.12301.cc/images/icons/gloading.gif" alt="加载中..."/>')
+                box.html(loadingStr)
                     .show();
                 break;
             case 'error':
@@ -106,7 +106,7 @@ var DatePicker = PFT.Util.Class({
                     .show();
                 break;
             default:
-                box.html('<img src="http://static.12301.cc/images/icons/gloading.gif" alt="加载中..."/>')
+                box.html(loadingStr)
                     .show();
                 break;
         }
@@ -118,62 +118,45 @@ var DatePicker = PFT.Util.Class({
     /**
      * @method 渲染日历主体
      */
-    renderTB: function (data) {
+    renderTB: function () {
         var _this = this;
-        _this.showLoading('loading','请求出错');
-        var html = _this.tbTemplate({data: data});
+        var tbody = this.container.find('.calendar-tb tbody');
+        this.renderData.list = CalendarCore.outputDate( _this.renderData.curYM );
+        var html = _this.tbTemplate({data: this.renderData});
         var newStr = _this.renderData.curYM.match(/^\d+/) + '年' + Number( _this.renderData.curYM.match(/\d+$/) ) + '月';
+        //判断时候显示切换月份按钮
+        //当前月的最大和最小的一天
+        var curMonMaxDay =_this.renderData.curYM + '-' + Util.getMonthDays(_this.renderData.curYM);
+        var curMonMinDay =_this.renderData.curYM + '-01';
+        if(curMonMaxDay > _this.renderData.max){
+            _this.container.find(".control-nav .next-btn").hide();
+        }else{
+            _this.container.find(".control-nav .next-btn").show();
+        }
+        if(curMonMinDay < _this.renderData.min){
+            _this.container.find(".control-nav .prev-btn").hide();
+        }else{
+            _this.container.find(".control-nav .prev-btn").show();
+        }
         this.container.find('.title').text(newStr);
-        this.container.find('.calendar-tb tbody').html(html);
-        setTimeout(function () {
-            _this.hideLoading()
-        },200)
+        tbody.html(html);
     },
     tbTemplate: ParseTemplate(tbTpl),
-
-    /**
-     * @method 年月加减计算
-     * @param date 当前年月
-     * @param act 加或减多少月
-     */
-    countYearMonth: function (date , act) {
-        var curYear = Number( date.match(/^\d+/)[0] );
-        var curMonth = Number( date.match(/\d+$/)[0] ) - 1;
-        curMonth += Number(act);
-        var month = curMonth >= 0 ? curMonth % 12 + 1 : 12 + curMonth % 12 + 1;
-        var year =curYear + Math.floor( curMonth / 12 );
-        month = month > 9 ? month : 0 + '' + month;
-        return year + '-' + month
-    },
-
-    /**
-     * @method 修正格式化日期
-     */
-    formatDate: function (date) {
-        var year = date.match(/^\d+/)[0];
-        var month = Number( date.match(/(?:\-)(\d+)(?:\-)/)[1] );
-        var day = Number( date.match(/\d+$/)[0] );
-        month = month > 9 ? month : 0 + '' + month;
-        day = day > 9 ? day : 0 + '' + day;
-        return year + '-' + month + '-' + day
-    },
-
+    
     /**
      * @method 获取数据
      */
-    getData: function ( params ) {
+    getData: function () {
         var _this = this;
+        _this.renderTB();
+        _this.paramHub.startDate = _this.getDateRange(this.renderData.curYM).min;
+        _this.paramHub.endDate = _this.getDateRange(this.renderData.curYM).max;
+        var params = _this.paramHub;
         //显示查询状态
-        _this.CR.pubSub.pub("queryStateBox.querying");
-        //关闭tableCon
-        _this.CR.pubSub.pub("tableConBox.close");
-        //关闭tableTicket
-        _this.CR.pubSub.pub("tableTicket.close");
-        //关闭pagination
-        _this.CR.pubSub.pub("paginationBox.close");
+        _this.showLoading('loading');
         //看看是否有缓存
-        if(_this.cacheHub[$.param(params)]){
-            //通知table模块render
+        if(_this.cacheHub[$.param(_this.paramHub)]){
+            //render
             setTimeout(function () {
                 var res = _this.cacheHub[$.param(params)];
                 dealRes( res )
@@ -209,55 +192,46 @@ var DatePicker = PFT.Util.Class({
 
         function dealRes( res ) {
             if(res.code == 200 ){
-                //通知table模块render
-                if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
-                    res.data.Jtype = params.type;
-                    _this.CR.pubSub.pub("queryStateBox.close");
-                    _this.CR.pubSub.pub("tableConBox.render", res );
-                    _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
-
+                if(Util.judgeTrue(res.data)){
+                    //渲染价格显示
+                    var tbody = _this.container.find('.calendar-tb tbody');
+                    var curPrice = {};
+                    var curTd = {};
+                    for(var key in res.data){
+                        curPrice =  tbody.find('td[data-date = '+ key +'] .price');
+                        curTd = tbody.find('td[data-date = '+ key +']');
+                        if(res.data[key].storage == 0){
+                            curPrice.text('售罄');
+                        }else{
+                            curPrice.text('¥' + res.data[key].price);
+                            curTd.removeClass("disable").addClass("usable");
+                            curTd.attr("data-storage",res.data[key].storage)
+                        }
+                    }
+                    _this.hideLoading();
                 }else{
-                    _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
+                    _this.hideLoading();
+                    // _this.showLoading("error","暂无价格数据");
                 }
             }else{
                 //通知queryState模块显示错误信息
-                _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
+                _this.showLoading("error",res.msg);
             }
         }
     },
 
     /**
-     * @mehtod 判断真假
+     * @method 输入年月，获取当月可用日期范围
+     * @return 如{min: '2017-03-01' , max: '2017-03-28'}
      */
-    judgeTrue: function( param ) {
-        var type = Object.prototype.toString.call(param);
-        switch (type){
-            case '[object Array]':
-                return param.length === 0 ?  !1 : !0 ;
-                break;
-            case '[object Object]':
-                var t;
-                for (t in param)
-                    return !0;
-                return !1;
-                break;
-            case '[object String]':
-                return param === '' ? !1 : !0 ;
-                break;
-            case '[object Number]':
-                return param === 0 ? !1 : !0 ;
-                break;
-            case '[object Boolean]':
-                return param === false ? !1 : !0;
-                break;
-            case '[object Null]':
-                return !1;
-                break;
-            case '[object Undefined]':
-                return !1;
-                break;
-            default :
-                return type;
+    getDateRange: function ( yearMonth ) {
+        var maxDate = yearMonth + '-' + Util.getMonthDays( yearMonth );
+        var minDate = yearMonth + '-01';
+        minDate = minDate > this.renderData.min ? minDate : this.renderData.min;
+        maxDate = maxDate > this.renderData.max ? this.renderData.max : maxDate;
+        return {
+            max: maxDate,
+            min: minDate
         }
     },
 
@@ -279,3 +253,4 @@ var DatePicker = PFT.Util.Class({
 
 
 module.exports = DatePicker;
+// http://my.12301.local/productOrder.html?pid=26462&aid=3385

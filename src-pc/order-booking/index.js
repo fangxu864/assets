@@ -8,13 +8,13 @@ $(function () {
 
         datePicker.show('2017-3-30',{
             relyInp: _this,
-            max:'2017-5-20',
+            max:'',
             min: '2017-3-2'
         });
 
     });
-    datePicker.on("datePick",function (date) {
-
+    datePicker.on("datePick",function (data) {
+        console.log(data)
     })
 
 
