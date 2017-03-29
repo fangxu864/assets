@@ -29,15 +29,49 @@ body{
                 
             }
             .u-loginBtn{
-                width: 100%;
+                display: inline-block;
+                width: 99%;
                 height:px2rem(75);
+                line-height: px2rem(75);
                 border-radius: 3px;
                 color: #fff;
                 border: 1px solid #fff;
                 background: rgba(255,255,255,0.1);
             }
         }
-        
+        .verifyBox{
+             margin: px2rem(15);
+            text-align: left;
+            .u-inp{
+                display: inline-block;
+                height: px2rem(80);
+                padding-left: px2rem(40);
+                font-size: px2rem(30);
+                border: none;
+                vertical-align: middle;
+                width: 50%;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+            .u-img{
+                display: inline-block;
+                width: 20%;
+                margin:0 2%;
+                height:px2rem(73);
+                line-height:px2rem(73);
+                vertical-align: middle;
+                background: black; 
+            }
+            .u-span{
+                display: inline-block;
+                vertical-align: middle;
+                color: #fff;
+                height:px2rem(80);
+                font-size: 0.4rem;
+                line-height:0.5rem;
+                width: 15%;
+            }
+        }
     }
      #logoBox{
             width: 100%;

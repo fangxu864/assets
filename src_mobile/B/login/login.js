@@ -5,7 +5,7 @@ var Toast = new PFT.Mobile.Toast();
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
     EVENTS: {
-        "click #loginBtn": "onLoginBtnClick"
+        "click #loginBtn": "onLoginBtnClick",
     },
     init: function () {
         var urlParams = PFT.Util.UrlParse();
@@ -15,6 +15,7 @@ var Main = PFT.Util.Class({
         if (!noAuto) {
             _this.loadJudge(search);
         }
+        _this.veryfiyCode()
     },
     loadJudge: function (search) {
         var urlParams = PFT.Util.UrlParse();
@@ -90,14 +91,17 @@ var Main = PFT.Util.Class({
                         window.location.href = Nurl + search;
                     }
                 } else if (res.code == 401) {
-                        Toast.show("loading", res.msg);
-                        (function () {
-                             setTimeout(function(){
-                                 window.location.reload();
-                             }, 1500);
-                        })()
+                    Toast.show("loading", res.msg);
+                    (function () {
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    })()
 
-                    
+
+                } else if (res.code == 203) {
+                    Alert(res.msg);
+
                 } else {
                     Alert(res.msg);
 
@@ -105,7 +109,16 @@ var Main = PFT.Util.Class({
             }
         })
     },
-  
+    veryfiyCode: function () {
+        var vImg = $("#verifyImg");
+        var rBtn = $("#refBtn");
+        var nhost = window.location.host;
+        var link;
+        nhost = nhost.indexOf("wx") > -1 ? nhost : nhost + "/wx";
+        link="http://"+nhost+"/api/index.php?c=MicroPlat_Member&a=getImgCode&"+ Math.random();
+        vImg.attr("src",link);
+    }
+
 })
 
 $(function () {
