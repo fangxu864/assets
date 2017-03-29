@@ -60,7 +60,7 @@ module.exports = function(ordernum,opt){
 		return false;
 	}
 
-	PFT.Util.Ajax('/r/MicroPlat_Order/paySuccess',{
+	PFT.Util.Ajax('http://wx.12301.local/api/index.php?c=MicroPlat_Order&a=paySuccess',{
 		type : "post",
 		params : {
 			ordernum : ordernum,
