@@ -159,119 +159,122 @@ var DatePicker = PFT.Util.Class({
     },
 
     /**
-     * @obj 数据中心dataCenter
+     * @method 获取数据
      */
-    DC: {
+    getData: function ( params ) {
+        var _this = this;
+        //显示查询状态
+        _this.CR.pubSub.pub("queryStateBox.querying");
+        //关闭tableCon
+        _this.CR.pubSub.pub("tableConBox.close");
+        //关闭tableTicket
+        _this.CR.pubSub.pub("tableTicket.close");
+        //关闭pagination
+        _this.CR.pubSub.pub("paginationBox.close");
+        //看看是否有缓存
+        if(_this.cacheHub[$.param(params)]){
+            //通知table模块render
+            setTimeout(function () {
+                var res = _this.cacheHub[$.param(params)];
+                dealRes( res )
+            },100);
+            return false;
+        }
+        $.ajax({
+            url: "/r/Order_Booking/getCalendarInfo",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步
+            data: params,    //参数值
+            type: "POST",   //请求方式
+            timeout:5000,   //设置超时 5000毫秒
+            beforeSend: function() {
+                //请求前的处理
+            },
+            success: function(res) {
+                // 请求成功时处理
+                //缓存数据
+                _this.cacheHub[$.param(params)] = $.extend({},res);
+                dealRes( res )
+            },
+            complete: function(res,status) {
+                //请求完成的处理
+                if(status=="timeout"){
+                    alert("请求超时")
+                }
+            },
+            error: function() {
+                //请求出错处理
+            }
+        });
 
-        /**
-         * @method 获取默认方式查询的数据
-         */
-        getMainData: function ( params ) {
-            var _this = this;
-            //显示查询状态
-            _this.CR.pubSub.pub("queryStateBox.querying");
-            //关闭tableCon
-            _this.CR.pubSub.pub("tableConBox.close");
-            //关闭tableTicket
-            _this.CR.pubSub.pub("tableTicket.close");
-            //关闭pagination
-            _this.CR.pubSub.pub("paginationBox.close");
-            //看看是否有缓存
-            if(_this.cacheHub[$.param(params)]){
+        function dealRes( res ) {
+            if(res.code == 200 ){
                 //通知table模块render
-                setTimeout(function () {
-                    var res = _this.cacheHub[$.param(params)];
-                    dealRes( res )
-                },100);
-                return false;
-            }
-            $.ajax({
-                url: " /r/report_statistics/checkedPaywayList",    //请求的url地址
-                dataType: "json",   //返回格式为json
-                async: true, //请求是否异步，默认为异步
-                data: params,    //参数值
-                type: "POST",   //请求方式
-                timeout:5000,   //设置超时 5000毫秒
-                beforeSend: function() {
-                    //请求前的处理
-                },
-                success: function(res) {
-                    // 请求成功时处理
-                    //缓存数据
-                    _this.cacheHub[$.param(params)] = $.extend({},res);
-                    dealRes( res )
-                },
-                complete: function(res,status) {
-                    //请求完成的处理
-                    if(status=="timeout"){
-                        alert("请求超时")
-                    }
-                },
-                error: function() {
-                    //请求出错处理
-                }
-            });
+                if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
+                    res.data.Jtype = params.type;
+                    _this.CR.pubSub.pub("queryStateBox.close");
+                    _this.CR.pubSub.pub("tableConBox.render", res );
+                    _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
 
-            function dealRes( res ) {
-                if(res.code == 200 ){
-                    //通知table模块render
-                    if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
-                        res.data.Jtype = params.type;
-                        _this.CR.pubSub.pub("queryStateBox.close");
-                        _this.CR.pubSub.pub("tableConBox.render", res );
-                        _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
-
-                    }else{
-                        _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
-                    }
                 }else{
-                    //通知queryState模块显示错误信息
-                    _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
+                    _this.CR.pubSub.pub("queryStateBox.showError" ,"未查询到任何数据，请重新输入条件搜索...");
                 }
+            }else{
+                //通知queryState模块显示错误信息
+                _this.CR.pubSub.pub("queryStateBox.showError",res.msg)
             }
-        },
+        }
+    },
 
-        /**
-         * @mehtod 判断真假
-         */
-        judgeTrue: function( param ) {
-            var type = Object.prototype.toString.call(param);
-            switch (type){
-                case '[object Array]':
-                    return param.length === 0 ?  !1 : !0 ;
-                    break;
-                case '[object Object]':
-                    var t;
-                    for (t in param)
-                        return !0;
-                    return !1;
-                    break;
-                case '[object String]':
-                    return param === '' ? !1 : !0 ;
-                    break;
-                case '[object Number]':
-                    return param === 0 ? !1 : !0 ;
-                    break;
-                case '[object Boolean]':
-                    return param === false ? !1 : !0;
-                    break;
-                case '[object Null]':
-                    return !1;
-                    break;
-                case '[object Undefined]':
-                    return !1;
-                    break;
-                default :
-                    return type;
-            }
-        },
+    /**
+     * @mehtod 判断真假
+     */
+    judgeTrue: function( param ) {
+        var type = Object.prototype.toString.call(param);
+        switch (type){
+            case '[object Array]':
+                return param.length === 0 ?  !1 : !0 ;
+                break;
+            case '[object Object]':
+                var t;
+                for (t in param)
+                    return !0;
+                return !1;
+                break;
+            case '[object String]':
+                return param === '' ? !1 : !0 ;
+                break;
+            case '[object Number]':
+                return param === 0 ? !1 : !0 ;
+                break;
+            case '[object Boolean]':
+                return param === false ? !1 : !0;
+                break;
+            case '[object Null]':
+                return !1;
+                break;
+            case '[object Undefined]':
+                return !1;
+                break;
+            default :
+                return type;
+        }
+    },
 
-        /**
-         * @Object 缓存仓库
-         */
-        cacheHub: {}
+    /**
+     * @method 参数仓库
+     */
+    paramHub: {
+        pid: location.href.match(/(?:pid=)(\d+)/)[1],
+        aid: location.href.match(/(?:aid=)(\d+)/)[1],
+        startDate: '',
+        endDate: ''
+    },
 
-    }
+    /**
+     * @Object 缓存仓库
+     */
+    cacheHub: {}
 });
 
 
