@@ -131,7 +131,7 @@ var TuiPiao = PFT.Util.Class({
 
 		var that = this;
 		var listUl = this.listUl;
-		PFT.Util.Ajax("/call/terminal.php",{
+		PFT.Util.Ajax("call/terminal.php",{
 			type : "get",
 			params : {
 				orderid : orderid,
@@ -222,7 +222,7 @@ var TuiPiao = PFT.Util.Class({
 		// 	rtime : rtime
 		// };
 		$.ajax({
-			url: "/call/handle.php",    //请求的url地址
+			url: "call/handle.php",    //请求的url地址
 			dataType: "json",                        //返回格式为json
 			async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
 			data: _params,
