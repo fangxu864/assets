@@ -15,7 +15,6 @@ var Main = PFT.Util.Class({
         if (!noAuto) {
             _this.loadJudge(search);
         }
-        _this.veryfiyCode()
     },
     loadJudge: function (search) {
         var urlParams = PFT.Util.UrlParse();
@@ -64,6 +63,7 @@ var Main = PFT.Util.Class({
         }
     },
     subLoginReq: function (mobile, pwd) {
+        var _this=this;
         PFT.Util.Ajax("/r/MicroPlat_Member/login", {
             type: "POST",
             params: {
@@ -71,7 +71,8 @@ var Main = PFT.Util.Class({
                 mobile: mobile,
                 password: hex_md5(pwd),
                 c: "MicroPlat_Member",
-                a: "login"
+                a: "login",
+                authCode:$("#verifyInp").val().toUpperCase()
             },
             dataType: "json",
             loading: function () {
@@ -101,7 +102,7 @@ var Main = PFT.Util.Class({
 
                 } else if (res.code == 203) {
                     Alert(res.msg);
-
+                    _this.veryfiyCode();
                 } else {
                     Alert(res.msg);
 
@@ -110,13 +111,23 @@ var Main = PFT.Util.Class({
         })
     },
     veryfiyCode: function () {
+        var _this=this;
         var vImg = $("#verifyImg");
-        var rBtn = $("#refBtn");
+        var vBox=$("#verifyBox");
         var nhost = window.location.host;
         var link;
+        vBox.show();
         nhost = nhost.indexOf("wx") > -1 ? nhost : nhost + "/wx";
         link="http://"+nhost+"/api/index.php?c=MicroPlat_Member&a=getImgCode&"+ Math.random();
         vImg.attr("src",link);
+        _this.refreshCode();
+    },
+    refreshCode:function(){
+        var _this=this;
+        var rBtn = $("#refBtn");
+        rBtn.on("click",function(){
+            _this.veryfiyCode();
+        })
     }
 
 })

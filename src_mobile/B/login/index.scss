@@ -40,8 +40,10 @@ body{
             }
         }
         .verifyBox{
-             margin: px2rem(15);
+            margin: px2rem(15);
+            margin-bottom: px2rem(48);
             text-align: left;
+            display: none;
             .u-inp{
                 display: inline-block;
                 height: px2rem(80);
@@ -60,7 +62,7 @@ body{
                 height:px2rem(73);
                 line-height:px2rem(73);
                 vertical-align: middle;
-                background: black; 
+                background: #fff; 
             }
             .u-span{
                 display: inline-block;
