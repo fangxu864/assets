@@ -1,0 +1,22 @@
+<h1>添加分销商</h1>
+<div class="tipContainer">
+    <p><em>+</em>添加成功后请点击“价格配置”为分销商配置结算价。</p>
+</div>
+<form id="lowLevel" action="" method="post">
+    <label for="dis_name"><em>*</em>分销商名称</label><input name="dis_name" type="text" id="dis_name" class="secondSearch" required/><span class="tip" id="dis_name_tip"></span><br/>
+    <label for="name"><em>*</em>姓名</label><input type="text" id="name" required/><span class="tip" id="name_tip"></span><br/>
+    <label for="password"><em>*</em>密码</label><input type="password" id="password" required/><span class="tip" id="password_tip"></span><br/>
+    <label for="password_confirm"><em>*</em>确认密码</label><input type="password" id="password_confirm" required/><span class="tip" id="password_confirm_tip"></span><br/>
+    <label for="telephone">手机号</label><input type="text" id="telephone" class="secondThird"/><span class="tip" id="telephone_tip"></span><br/>
+    <label for="type">企业类型</label>
+    <select name="" id="type">
+        <option value="all">全部</option>
+        <option value="加盟门店">加盟门店</option>
+        <option value="电商/团购网">电商/团购网</option>
+        <option value="旅行社">旅行社</option>
+        <option value="淘宝/天猫">淘宝/天猫</option>
+        <option value="其他">其他</option>
+    </select><br/>
+    <div id="submit">提交</div>
+    <!--<input type="submit" id="submit" value="提交" />-->
+</form>

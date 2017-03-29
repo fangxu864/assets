@@ -217,8 +217,11 @@
     "card-tourists-list-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/card-tourists-list/webpack.config.js",
     "card-tourists-list-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
     "card-tourists-list-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
-    "card-tourists-list-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js"
-        
+    "card-tourists-list-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/card-tourists-list/webpack.config.js",
+    "distributor-add-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/distributor-add/webpack.config.js",
+    "distributor-add-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/distributor-add/webpack.config.js",
+    "distributor-add-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/distributor-add/webpack.config.js",
+    "distributor-add-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/distributor-add/webpack.config.js"
   },
   "repository": {
     "type": "git",
