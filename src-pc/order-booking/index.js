@@ -3,6 +3,10 @@ var DatePicker = require("./Common/Datepicker/index.js");
 
 $(function () {
     var datePicker = new DatePicker();
+
+    console.log(datePicker.prototype);
+
+
     $(".inp").on("click" ,function () {
         var _this = $(this);
 
@@ -13,6 +17,8 @@ $(function () {
         });
 
     });
+
+    console.log(datePicker.prototype);
     datePicker.on("datePick",function (data) {
         console.log(data)
     })
