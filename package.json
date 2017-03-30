@@ -226,6 +226,11 @@
     "new_order_view-test": "set NODE_ENV=test && webpack --config ./src/new_order_view/webpack.config.js",
     "new_order_view-release": "set NODE_ENV=release && webpack --config ./src/new_order_view/webpack.config.js",
     "new_order_view-production": "set NODE_ENV=production && webpack --config ./src/new_order_view/webpack.config.js"
+    "select-test-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/test_rebuild/webpack.config.js",
+    "newcertifi-start": "set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/newcertifi/webpack.config.js",
+    "newcertifi-test": "set NODE_ENV=test && webpack --progress --colors --config ./src/newcertifi/webpack.config.js",
+    "newcertifi-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/newcertifi/webpack.config.js",
+    "newcertifi-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/newcertifi/webpack.config.js"
   },
   "repository": {
     "type": "git",
