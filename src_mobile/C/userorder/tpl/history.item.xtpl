@@ -1,0 +1,18 @@
+<%_.each(data,function(item,index){%>
+<li id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="historyItem">
+    <a class="itemCon" href="#/detail/<%=item.ordernum%>">
+        <h4 class="landTitle"><%=item.ltitle%></h4>
+        <ul>
+            <%_.each(item.tickets,function(ticket){%>
+            <li class="ticItem">
+                <span class="ticname"><%=ticket.title%>
+                <span class="star">*</span>
+                <span class="count"><%=ticket.tnum%></span>
+                张
+            </li>
+            <%})%>
+        </ul>
+        <div class="time">验证时间：<%=item.verifytime%></div>
+    </a>
+</li>
+<%})%>
