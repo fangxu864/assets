@@ -57,6 +57,8 @@
     </template>
 </template>
 <script type="es6">
+    //返回首页按钮
+    let ReturnHome = require("./returnHomeBtn");   
     const FetchUsercenterInfo = require("SERVICE_M/mall-member-usercenter-info");
     const Logout = require("SERVICE_M/mall-member-user-logout");
     let Toast = new PFT.Mobile.Toast;
@@ -106,6 +108,7 @@
                     }
                 }
             })
+            new ReturnHome();  
         },
         methods : {
             getCls(menuName){

@@ -100,6 +100,8 @@
     </div>
 </template>
 <script type="es6">
+    //返回首页按钮
+    let ReturnHome = require("./returnHomeBtn");   
     const FetchList = require("SERVICE_M/product-list");
     let Toast = new PFT.Mobile.Toast();
     let Alert = PFT.Mobile.Alert;
@@ -163,6 +165,7 @@
             document.getElementById("searchBtn").addEventListener("touchstart",function(e){
                 that.onSearchBtnClick(e);
             },false)
+            new ReturnHome();  
         },
         watch : {
             "filterParams.type" : function(val,oldVal){

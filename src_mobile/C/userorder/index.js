@@ -5,6 +5,8 @@
  */
 require("./index.scss");
 var Toast = new PFT.Mobile.Toast();
+//返回首页按钮
+var ReturnHome = require("./returnHomeBtn");
 var Alert = PFT.Mobile.Alert;
 var Confirm = PFT.Mobile.Confirm;
 var XScroll = require("vux-xscroll/build/cmd/xscroll");
@@ -59,6 +61,7 @@ var Main = PFT.Util.Class({
 
 		this.initSearch();
 
+		new ReturnHome();
 
 	},
 	initScroll : function(type){

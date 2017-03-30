@@ -168,6 +168,8 @@
 <!--<script>-->
 <script type="es6">
     import "./index.scss";
+    //返回首页按钮
+    let ReturnHome = require("./returnHomeBtn"); 
     let Toast = require("COMMON/modules/toast");
     let Alert = PFT.Mobile.Alert;
     let Confirm = PFT.Mobile.Confirm;
@@ -260,11 +262,6 @@
         },
         ready(){
 
-
-
-
-
-
             this.toast = new Toast();
             GetOrderInfo(this.pid,this.aid,{
                 loading : ()=>{
@@ -317,7 +314,6 @@
                 }
             });
 
-
             //2016-12-09新增需求  http://bug.12301.test/index.php?m=task&f=view&taskID=278
             $(document).on("click",".tipBtnGroup .tipBtn",function(e){
                 var tarBtn = $(e.currentTarget);
@@ -357,6 +353,9 @@
                     })
                 }
             })
+
+            new ReturnHome();
+
         },
         computed : {
             pids(){
