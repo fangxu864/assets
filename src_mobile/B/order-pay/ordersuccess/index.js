@@ -18,9 +18,12 @@ var Main=PFT.Util.Class({
                 Toast.hide("loading","努力加载中...");
             },
             success:function(data){
-                data["paymode"]=paymode;
+                var host=PFT.Util.UrlParse()["h"];
                 var render=PFT.Util.ParseTemplate(Tpl);
+                data["paymode"]=paymode;
+                data["h"]=host;
                 var html=render({data:data});
+               // console.log(data)
                 $("#bodyContainer").html(html);
             },
             fail:function(msg){

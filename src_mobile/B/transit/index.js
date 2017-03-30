@@ -47,6 +47,13 @@ var Transit = PFT.Util.Class({
 		        }else if(code==207){
 					var para = that.getpara();
 					window.location.href = "login.html" + para ;	
+				}else if(res.code==401){
+					Toast.show("loading", res.msg);
+                        (function () {
+                             setTimeout(function(){
+                                 window.location.reload();
+                             }, 1500);
+                        })();
 				}else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 				}
@@ -68,9 +75,7 @@ var Transit = PFT.Util.Class({
 		},1000);
 	},
 	ongotoLogin : function(){
-
 		var that = this;
-
 		//退出登录
 		PFT.Util.Ajax("/r/MicroPlat_Member/unBindLogout",{
 			type : "POST",

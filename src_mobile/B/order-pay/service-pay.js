@@ -20,75 +20,87 @@
 		"msg": ""
 	}
  */
-module.exports = function(ordernum,host,opt){
+module.exports = function (ordernum, host, opt) {
 
-	opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
+	opt = PFT.Util.Mixin(PFT.Config.Ajax(), opt);
 
-	if(!ordernum || !host) return false;
+	if (!ordernum || !host) return false;
 
-	if(__DEBUG__){
+	if (__DEBUG__) {
 
 		opt.loading();
-		setTimeout(function(){
+		setTimeout(function () {
 			opt.complete();
 			opt.success({
-				ptype : "C",
+				ptype: "C",
 				"payWay": {
 					"ali": "0", //1显示
 					"wx": "1",
 					"uni": "1"
 				},
-				'payParams' : {
-					"subject" : "普通票支付",
-					"appid" : "111111111",
-					"openid" : "1111111111",
-					"expireTime" : 120,
-					"outTradeNo" : "2626261",
-					"buyId" : 3385,
-					"domain" : "123624.12301.cc"
+				'payParams': {
+					"subject": "普通票支付",
+					"appid": "111111111",
+					"openid": "1111111111",
+					"expireTime": 120,
+					"outTradeNo": "2626261",
+					"buyId": 3385,
+					"domain": "123624.12301.cc"
 				},
 				"detail": {
-					"landTitle" : "【测试】周五测试（勿买勿删）",
-					"totalmoney" : "100",
-					"ordername" : "测试丹丹",
-					"ordertel" : "18259158223",
-					"tickets" : [{
-						"title" : "成人票","num" : "1"
+					"landTitle": "【测试】周五测试（勿买勿删）",
+					"totalmoney": "100",
+					"ordername": "测试丹丹",
+					"ordertel": "18259158223",
+					"tickets": [{
+						"title": "成人票", "num": "1"
 					}],
-					"extra" : {
-						"date" : "2016-08-12~2016-09-11"
+					"extra": {
+						"date": "2016-08-12~2016-09-11"
 					}
 				}
 			})
-		},600);
+		}, 600);
 		return false;
 	}
-
-	PFT.Util.Ajax('/r/MicroPlat_Order/pay',{
-		type : "post",
-		params : {
-			ordernum : ordernum,
-			host : host,
-			token : PFT.Util.getToken()
+	var nhost = window.location.host;
+	nhost = nhost.indexOf("wx") > -1 ? nhost : nhost + "/wx";
+	PFT.Util.Ajax('http://'+nhost+'/api/index.php?c=MicroPlat_Order&a=pay', {
+		type: "post",
+		params: {
+			ordernum: ordernum,
+			host: host,
+			token: PFT.Util.getToken()
 		},
-		loading : opt.loading,
-		complete : opt.complete,
-		success : function(res){
+		loading: opt.loading,
+		complete: opt.complete,
+		success: function (res) {
+			//console.log(res);
+			// console.log(Object.prototype.toString.call(res)==)
 			res = res || {};
 			var code = res.code;
 			var data = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-			var search=window.location.search;
-			if(code==200){
+			var search = window.location.search;
+
+			if (code == 200) {
 				//data["ptype"] = data["ptype"].toUpperCase();
 				opt.success(data);
-			}else if(code==205){
-				window.location.href="order_pay_success.html?ordernum="+ordernum;
-			}else if(code==206){
-				window.location.href="data.url+search;"
-			}else{
+			} else if (code == 205) {
+
+				var link = "http://" + nhost + "/b/order_pay_success.html?h="+host+"&ordernum="+ ordernum;
+				window.location.href = link;
+				// window.location.href="http://"+host+".12301.cc/wx/b/order_pay_success.html?ordernum="+ordernum;
+			//	console.log(nhost, link)
+			} else if (code == 206) {
+				window.location.href = data.url + search;
+			} else {
 				opt.fail(msg);
 			}
+		},
+		serverError: function (xhr, text) {
+			console.log("serverError");
+			console.log(text);
 		}
 	})
 }
