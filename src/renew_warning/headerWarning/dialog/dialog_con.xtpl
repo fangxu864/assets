@@ -1,3 +1,5 @@
+<%var PREFIX_DOMAIN = PFT.PREFIX_DOMAIN ? PFT.PREFIX_DOMAIN() : '';%>
+
 <div class='dialog_box_headerWarning'>
     <div class="dialog_con">
     <div class="line line1">
@@ -11,9 +13,9 @@
         <span class="btn btn_close">关闭</span>
         <%}%>
         <%if(data.dialog_type == "xufei"){%>
-        <a href="/new/renewwarning.html"><span class="btn btn_xufei">续费</span></a>
+        <a href="<%=PREFIX_DOMAIN%>/new/renewwarning.html"><span class="btn btn_xufei">续费</span></a>
         <% } else if (data.dialog_type == "recharge" && !/recharge\.html$/.test(location.href) ) {%>
-        <a href="/recharge.html"><span class="btn btn_xufei">充值</span></a>
+        <a href="<%=PREFIX_DOMAIN%>/recharge.html"><span class="btn btn_xufei">充值</span></a>
         <%}%>
     </div>
     </div>

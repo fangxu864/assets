@@ -30,6 +30,7 @@ var HeaderWarning={
          */
         var isDialog = this.judge_of_dtype == "6" ? false : true;
 
+        var PREFIX_DOMAIN = PFT.PREFIX_DOMAIN ? PFT.PREFIX_DOMAIN() : '';
         
         /**
          * 走马灯的判断
@@ -38,13 +39,13 @@ var HeaderWarning={
             //如果账户临近过期或已过期
             if( /0|\-1/.test(_this.judge_of_overTime) ){
                 //平台续费html
-                var xufei_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/new/renewwarning.html">续费</a>'}});
+                var xufei_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="' + PREFIX_DOMAIN + '/new/renewwarning.html">续费</a>'}});
                 _this.loopTip(xufei_tpl , "0")
             }
             //如果账户余额接近不足
             else if(/201|202|203|204|205|206/.test(_this.judge_of_account_balance)){
                 //平台充值的html
-                var charge_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="/recharge.html">充值</a>'}});
+                var charge_tpl=ParseTemplate(loopTip_tpl)({data:{"hrefTpl":'<a href="' + PREFIX_DOMAIN + '/recharge.html">充值</a>'}});
                 _this.loopTip(charge_tpl , _this.judge_of_account_balance)
             }
         }
