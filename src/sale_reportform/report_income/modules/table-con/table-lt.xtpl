@@ -11,7 +11,7 @@
 <tr class="first-tr">
     <td>合计: </td>
     <td><%=data.data.total_info.order_num - data.data.total_info.cancel_order_num%></td>
-    <td><%=data.data.total_info.ticket_num%></td>
+    <td><%=data.data.total_info.ticket_num - data.data.total_info.cancel_ticket_num%></td>
     <td class="th4"><%=Number( (data.data.total_info.sale_money - data.data.total_info.cancel_money + Number( data.data.total_info.service_money ) ) /100 ).toFixed(2) %></td>
 </tr>
 </tbody>

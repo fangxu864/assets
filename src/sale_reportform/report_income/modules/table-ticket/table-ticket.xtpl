@@ -35,7 +35,7 @@
             <tr class="total-tr">
                 <td class="padding-rt-20">合计</td>
 
-                <td class="has-b-lt"><%=data.total_info.order_num - data.total_info.cancel_order_num%></td>
+                <td class="has-b-lt"><%=data.total_info.order_num%></td>
                 <td><%=data.total_info.ticket_num%></td>
                 <td  class="padding-rt-20"><%=( Number( data.total_info.sale_money ) / 100 ).toFixed(2)%></td>
 
@@ -63,8 +63,8 @@
             <td><%=item.firstTrData.cancel_money == 0? 0 : ( Number( item.firstTrData.cancel_money ) / 100 ) .toFixed(2) %></td>
             <td  class="padding-rt-20"><%=item.firstTrData.service_money == 0 ? 0 :  ( Number( item.firstTrData.service_money ) / 100 ) .toFixed(2) %></td>
 
-            <td class="has-b-lt"><%=item.firstTrData.real_num%></td>
-            <td class="padding-rt-20"><%=item.firstTrData.real_money == 0 ? 0 : ( Number( item.firstTrData.real_money ) / 100 ) .toFixed(2) %></td>
+            <td class="has-b-lt"><%=item.firstTrData.ticket_num - item.firstTrData.cancel_ticket_num%></td>
+            <td class="padding-rt-20"><%=( ( Number( item.firstTrData.sale_money ) - Number( item.firstTrData.cancel_money ) + Number( item.firstTrData.service_money ) ) / 100 ) .toFixed(2) %></td>
         </tr>
         <% for(var i = 0 ; i< item.childListData.length ; i++ ){%>
         <tr  class="child-tr">
