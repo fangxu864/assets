@@ -14,6 +14,11 @@ var Main = PFT.Util.Class({
         this.initDialog();
         this.getParam();
         this.loadAjax();
+
+        // var url = location.href,
+        //     urlResult = url.match(/new\/appcenter_details\.html/);
+        // this.URL_PREFIX = url.slice( 0, urlResult.index );
+        this.prefix_domain = PFT.PREFIX_DOMAIN();
     },
     getParam:function () {
         var thisURL = document.URL;
@@ -220,7 +225,7 @@ var Main = PFT.Util.Class({
         }else if( status == 2 ){
             if ( show_hide == 0 ) {
                 $("#btn").text("使用").on("click",function () {
-                    window.location.href= checkData.url ? '/' + checkData.url : "appcenter_details.html?module_id="+_this.module_id;
+                    window.location.href= checkData.url ? this.prefix_domain + checkData.url : "appcenter_details.html?module_id="+_this.module_id;
                 })
             } else {
                 $("#btn").css("display","none");
@@ -296,7 +301,7 @@ var Main = PFT.Util.Class({
         });
 
         $("#app-list").find(".use").on("click",function (e) {
-            window.location.href="/"+$(e.target).attr("data-url");
+            window.location.href= this.prefix_domain +$(e.target).attr("data-url");
         });
     },
 

@@ -24,6 +24,11 @@ var AppList = PFT.Util.Class({
             isCategory = urlArr.length > 1 ? true : false,
             catId = isCategory ? urlArr[1].split('=')[1] : null;
 
+        // var urlResult = url.match(/new\/appcenter\.html/);
+        // this.URL_PREFIX = url.slice( 0, urlResult.index );
+
+        this.prefix_domain = PFT.PREFIX_DOMAIN();
+
 			console.log( "catId:" + catId );
 
 		this.tempListBox = "";
@@ -206,7 +211,7 @@ var AppList = PFT.Util.Class({
 							}else{
 								that.tempOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
 							}
-							break;	
+							break;
 						default :
 							alert(type+"是什么类型？")
 					}
@@ -438,7 +443,7 @@ var AppList = PFT.Util.Class({
                     	}else if(list[i].button_type == 2){ //使用
                     		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
         		            '<div class="app-btn-w">' +
-        		               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10" >打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+        		               '<a href="'+ this.prefix_domain +list[i].url+'" class="btn btn-default mr10" >打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
         				    '</div>' ;
                     	}
 
@@ -468,7 +473,7 @@ var AppList = PFT.Util.Class({
     		            	}else if(list[i].button_type == 2){ //使用
     		            		temp += '<div class="text-ellipsis"><span class="app-price">'+list[i].summary+'</span></div>' +
     				            '<div class="app-btn-w">' +
-    				               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+    				               '<a href="'+ this.prefix_domain + list[i].url +'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
     						    '</div>' ;
     		            	}
 
@@ -496,7 +501,7 @@ var AppList = PFT.Util.Class({
 							}else if(list[i].button_type == 2){//使用
                                 temp += '<div class="text-ellipsis"><span class="app-price"><em '+ (list[i].expiresoon?'class="c-warning"':'') +'>'+list[i].expire_time+'</em>到期</span></div>' +
 					            '<div class="app-btn-w">' +
-					               '<a href="http://'+location.host+'/'+list[i].url+'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
+					               '<a href="'+ this.prefix_domain + list[i].url +'" class="btn btn-default mr10">打开应用</a>' + (list[i].xufei?'<a href="appcenter_pay.html?appid='+mid+'" class="btn-link">续费</a>' : '') +
 							    '</div>' ;
 							}
 
@@ -526,8 +531,8 @@ var AppList = PFT.Util.Class({
 					else if(list[i].flag_expire == 1){
 						temp += '<i class="ico-expired"></i>'+
 							'</li>' ;
-                	} 
-					
+                	}
+
                 }
 
         }
