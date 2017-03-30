@@ -1,0 +1,64 @@
+.r_content{border: 0 none; padding: 0; width: 800px;}
+.mt_title {height: 60px; border: 1px solid #E5E5E5; background: #FFFFFF;}
+.mt_title .mctit_1{ font-weight: normal; margin-left: 20px; color: #0797D9; font-size: 22px; border-bottom: 2px solid #0797D9; padding: 15px 5px 16px 5px;}
+.mt_title .mctit_1 a{color: #303D46; text-decoration: none;}
+.mt_title .mttit{margin-top: 15px;}
+.r_content form{border: 1px solid #E5E5E5; padding-left: 20px; margin: 0; background: #FFFFFF; border-top: 0 none;} 
+.r_content form b{font-weight: normal; margin-right: 20px; color: #92A0AB;}
+.perlistab{border: 1px solid #E5E5E5; margin-top: 10px; background: #FFFFFF;}
+table.perlistab tr:hover{background: #F7F7F7;}
+.perlistab th{background: #E5E5E5; color: #6C7882}
+.perlistab th.first{background: #E5E5E5; text-align:left; padding-left: 20px;}
+.perlistab td{padding: 8px 0;}
+.perlistab td.txtlf {padding-left: 20px;}
+.fenyeiWrap {margin: 10px;}
+
+div.records {margin: 0; background: #FFFFFF; margin-top: 10px; padding: 0;}
+table.records th{border: 0 none; height: 35px; line-height: 35px; color: #6C7882; background: #E5E5E5;}
+table.records td{border-bottom: 1px solid #E5E5E5; padding: 8px 0;}
+table.records tr:hover{background: #F7F7F7;}
+.r_content form input.time{border: 1px solid #C9C9C9; height: 15px; line-height: 15px; padding: 5px 8px; -moz-border-radius: 3px; border-radius: 3px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+.r_content form input.dname{height: 15px; line-height: 15px; padding: 5px 8px; border: 1px solid #C9C9C9;-moz-border-radius: 3px; border-radius: 3px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+.r_content form input.dname:focus,.r_content form input.time:focus{border-color: #0797D9; color: #0797D9;}
+.r_content form input.queryBtn{background: #0797D9; -moz-border-radius: 3px; border-radius: 3px; margin-left: -15px;}
+.r_content form input.exportBtn{margin-left: 5px;}
+.mtsearch .txtinpt{-moz-border-radius: 3px; border-radius: 3px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+
+//分页容器
+#pagination_wrap{
+	// margin-right : 0px;
+	float : right;
+	margin-top : 20px;
+}
+
+
+//新增员工，添加员工样式
+
+
+.personadd ul{ margin:30px 40px;}
+.personadd ul li{ float:left; width:50%; line-height:40px; height:40px;}
+.personadd ul li .txtrig{ width:90px; text-align:right; display:inline-block;}
+.personadd ul li .inptxt{ height:18px; line-height:18px; padding:2px 4px; width:145px; border:1px solid #9B9B9B;}
+.personadd ul li .red{ font-weight:bold; vertical-align:-3px; margin-right:5px;}
+.personadd .btn{ margin-left:150px}
+.personadd .btn .inpbtn{ width:113px; height:31px; cursor:pointer; border:0; line-height:31px; line-height:35px\9; _line-height:31px; color:white; font-size:14px; font-weight:bold; margin:0 0 20px 80px;}
+// .personadd .btn .inpbtn:hover{ background-position:left bottom;}
+.personadd .btn .inpbtn.inpbtnLeft{
+	background : #0797d9;
+}
+.personadd .btn .inpbtn.inpbtnLeft:hover{
+	background : #0f7cb7;
+}
+.personadd .btn .inpbtn.inpbtnRight:hover{
+	background : #0f7cb7;
+}
+
+
+
+.rContentAddStaff{width: 800px; padding: 0; border: 0 none; border: 1px solid #E5E5E5; background: #FFFFFF;float:left;}
+.mc_title{height: 60px; padding-left: 10px; border-bottom: 1px solid #E5E5E5;}
+.mc_title .mctit_2{margin-right: 10px; font-size: 22px; background: none; padding: 13px 5px 16px 5px; color: #303D46; border: 0 none;}
+.mc_title .mctit_1{background: none;}
+.personadd ul li .txtrig{color: #92A0AB;}
+.personadd ul li .inptxt {height: 15px; line-height: 15px; padding: 5px; border: 1px solid #C9C9C9; -moz-border-radius: 3px; border-radius: 3px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+.personadd ul li .inptxt:focus{border-color: #0797D9; color: #0797D9;}
