@@ -1,3 +1,0 @@
-<% _.each( data, function( item, index ){ %>
-    <li class="typeItem center" data-type="<%=item.identify%>"><%=item.name%></li>
-<% }) %>
