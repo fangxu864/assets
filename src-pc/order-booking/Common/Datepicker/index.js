@@ -152,8 +152,6 @@ var DatePicker = PFT.Util.Class({
         _this.paramHub.startDate = _this.getDateRange(this.renderData.curYM).min;
         _this.paramHub.endDate = _this.getDateRange(this.renderData.curYM).max;
         var params = _this.paramHub;
-        //显示查询状态
-        _this.showLoading('loading');
         //看看是否有缓存
         if(_this.cacheHub[$.param(_this.paramHub)]){
             //render
@@ -162,6 +160,9 @@ var DatePicker = PFT.Util.Class({
                 dealRes( res )
             },100);
             return false;
+        }else{
+            //显示查询状态
+            _this.showLoading('loading');
         }
         $.ajax({
             url: "/r/Order_Booking/getCalendarInfo",    //请求的url地址
