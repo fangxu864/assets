@@ -341,7 +341,7 @@ var Common = {
 						that.request(opt)
 					})
 				}else{
-					opt.error(msg,code);
+					newOpt.error(msg,code);
 				}
 			}else{
 
