@@ -1,0 +1,12 @@
+<%
+        var d_type = $("#home_judge_of_dtype").val()
+%>
+<tr>
+    <td><span class="key"><%=d_type == 0 ? '检票数': '预订票数' %> : </span><span class="value"><span class="value-number"><%=data.chTicketNumSeven ? data.chTicketNumSeven : 0 %></span> 张</span></td>
+</tr>
+<tr>
+<td>
+    <span class="key"><%=d_type == 0 ? '检票金额': '预订金额' %> : </span>
+    <span class="value"><span class="value-number"><%=data.chSaleMoneySeven / 100 > 10000 ? (data.chSaleMoneySeven / 1000000).toFixed(2)+ " 万" : data.chSaleMoneySeven / 100 %></span> 元</span>
+</td>
+</tr>

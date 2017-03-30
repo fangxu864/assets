@@ -6,7 +6,6 @@
 require("./index.scss");
 var Tpl = require("./order.item.html");
 var AdaptOrder = require("./adaptOrder");
-var Api = require("COMMON/busi/terminal/core/api");
 var Loading = require("COMMON/js/util.loading.pc");
 var Loading_Text = Loading("努力加载中...",{
 	height : 300
@@ -132,7 +131,7 @@ var TuiPiao = PFT.Util.Class({
 
 		var that = this;
 		var listUl = this.listUl;
-		PFT.Util.Ajax("/call/terminal.php",{
+		PFT.Util.Ajax("call/terminal.php",{
 			type : "get",
 			params : {
 				orderid : orderid,
@@ -223,7 +222,7 @@ var TuiPiao = PFT.Util.Class({
 		// 	rtime : rtime
 		// };
 		$.ajax({
-			url: "/call/handle.php",    //请求的url地址
+			url: "call/handle.php",    //请求的url地址
 			dataType: "json",                        //返回格式为json
 			async: true,                              //请求是否异步，默认为异步，这也是ajax重要特性
 			data: _params,
@@ -288,7 +287,7 @@ var TuiPiao = PFT.Util.Class({
 		var listUl = this.listUl;
 		var html = "";
 		if(type=="loading"){
-			html = '<li class="sta loading"><img class="loadingImg" src="'+Api.LOADING_IMG+'" alt=""/><span class="t">请稍后...</span></li>';
+			html = '<li class="sta loading"><img class="loadingImg" src="'+PFT.LOADING_IMG_GIF+'" alt=""/><span class="t">请稍后...</span></li>';
 			listUl.html(html);
 		}else if(type=="removeLoading"){
 			listUl.html("");

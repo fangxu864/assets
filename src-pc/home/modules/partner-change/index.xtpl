@@ -1,0 +1,7 @@
+<div class="title">
+    <i class="icon icon-pc-prompt icon-hezuohuobanbiandong"></i>
+    <span>7天合作伙伴变动</span>
+    <a style="display: none" href="" class="more">更多》</a>
+</div>
+<ul id="partnerList" class="partnerList"></ul>
+

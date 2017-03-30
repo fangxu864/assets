@@ -1,0 +1,172 @@
+
+
+body {
+  background: #f8f9fb;
+}
+.left_memb{
+  background-color: #ffffff;
+}
+
+//右侧内容框
+.con_right{
+  width: 800px;
+  float: right;
+  //右侧导航标题
+  .nav_title_box{
+    height: 60px;
+    padding-left: 20px;
+    line-height: 60px;
+    font-size: 22px;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
+  }
+  //表格
+  .tableCon_box{
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-top: none;
+    table.con_tb{
+      width: 100%;
+      .th1{
+        text-align: left;
+        padding-left: 20px;
+      }
+      .th2,.th3,.th4,.th5{
+        padding-right: 20px;
+        text-align: center;
+      }
+      thead{
+        tr{
+          white-space: nowrap;
+          th{
+            font-weight: normal;
+          }
+          height: 36px;
+          line-height: 36px;
+          background-color: #f0f0f0;
+        }
+        th:last-child{
+          padding-right: 20px;
+        }
+      }
+      tbody{
+        tr{
+          height: 45px;
+          line-height: 45px;
+          border-bottom: 1px solid #e5e5e5;
+          td:last-child{
+            padding-right: 20px;
+          }
+          .dongji_nouseorder{
+            cursor:pointer;
+          }
+        }
+        tr.gray{
+          background-color: #fcfcfc;
+        }
+        tr:hover{
+          background-color: #fafafa;
+        }
+        tr:last-child{border-bottom: none;}
+      }
+    }
+
+  }
+  //分页器
+  #pagination_wrap{
+    height: 66px;
+    line-height: 66px;
+    width: 800px;
+    padding-top: 20px;
+    text-align: center;
+    display: none;
+    .paginationXContainer {
+      display: inline-block;
+    }
+  }
+  //查询状态框
+ .queryState_box{
+   background-color: white;
+   border: 1px solid #E5E5E5;
+   border-top:none ;
+   display: none;
+   height: 200px;
+   line-height: 200px;
+   text-align: center;
+ }
+}
+
+//dialog
+.dialog_con {
+  .title {
+    height: 46px;
+    line-height: 46px;
+    background-color: #f0f0f0;
+    ul {
+      padding: 0;
+      margin: 0;
+      li {
+        float: left;
+        margin-left: 20px;
+      }
+    }
+
+  }
+  .table_con {
+    table.dialog_tb {
+      width: 100%;
+      thead {
+        tr {
+          white-space: nowrap;
+          background-color: #f0f0f0;
+          height: 36px;
+          line-height: 36px;
+          th {
+            padding: 0 20px;
+          }
+        }
+      }
+      tbody {
+        tr {
+          height: 45px;
+          line-height: 45px;
+          border-bottom: 1px solid #e5e5e5;
+          td {
+            padding: 0 20px;
+          }
+        }
+        tr.gray{
+          background-color: #fcfcfc;
+        }
+        tr:hover{
+          background-color: #fafafa;
+        }
+      }
+    }
+  }
+  #pagination_wrap_dialog{
+    background-color: #f0f0f0;
+    height: 66px;
+    line-height: 66px;
+    width: 600px;
+    padding-top: 20px;
+    text-align: center;
+    display: none;
+    .paginationXContainer {
+      display: inline-block;
+    }
+  }
+  //查询状态框
+  .queryState_box{
+    background-color: white;
+    border: 1px solid #E5E5E5;
+    border-top:none ;
+    display: none;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+  }
+}
+
+
+

@@ -1,0 +1,127 @@
+
+// 旧的样式代码
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1438768470_285158.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1438768470_285158.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1438768470_285158.woff') format('woff'), /* chrome��firefox */
+  url('//at.alicdn.com/t/font_1438768470_285158.ttf') format('truetype'), /* chrome��firefox��opera��Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1438768470_285158.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont {position: relative;font-family: "iconfont";font-size: 1rem;font-style: normal;-webkit-font-smoothing: antialiased;-webkit-text-stroke-width: 0px;-moz-osx-font-smoothing: grayscale;}
+/*ʸ��ͼ������*/
+.clay {width: 800px;float: left;margin-bottom: 10px;color: #797979;}
+.clay .content .tabHead {  width: 100%;padding-left: 0px;overflow: hidden; border: 1px solid #dfdfdf;}
+.clay .content .tabHead li {font-size:1.4em; display: inline-block;padding:6px 10px 6px 5px; text-align:center; width: 106px;color: black;float: left;height: 36px;line-height: 36px;cursor: pointer;border-top-left-radius: 2px;border-top-right-radius: 2px;}
+.clay .content .tabHead li.active{border-bottom:2px solid #019be1;}
+.clay .content .qunaer_con{width:100%;height:210px;  padding-top: 20px;border:1px solid #dfdfdf;border-top:0px;}
+.clay .content .qunaer_con .supplir{ width: 90%; padding:10px 0;height: 40px; overflow: hidden}
+.clay .content .qunaer_con .supplir .supplir_uit{font-size: 1.2em;  width: 120px;display: inline-block;text-align: right; margin-left: 10px}
+.clay .content .qunaer_con .supplir .supplir_tod{width: 299px;height: 25px; font-size: 1.2em;  border: 1px solid #e0e0e0;padding: 5px;}
+.clay .content .qunaer_con .supplir .supplir_tod:focus{border-color: #0797D9; color: #0797D9;}
+.clay .content .qunaer_con .supplir .free{background: #ECECEC; cursor:not-allowed;}
+.clay .content .qunaer_con .supplir .select_buttom{width: 315px;height: 35px;line-height: 35px;font-size: 1.2em; border: 1px solid #e0e0e0;cursor:pointer}
+.clay .content .qunaer_select{width:798px;height:auto;border:0px solid #dfdfdf;float: left;position: absolute;top: 620px;z-index: 998;}
+.clay .content .qunaer_select .prodSearchInp{float: left; width: 92%;height: 20px;font-size: 1.2em;border: 0px solid #e0e0e0;padding: 10px 5px; background: #fff;}
+.clay .content .qunaer_select .select_icon {float:right;display: inline-block;text-align: center;border-left:1px solid #dfdfdf;width: 40px;height: 40px;cursor: pointer;line-height:40px;font-size: 1.5em; color: rgb(84, 129, 149);}
+.clay .content .submit_pay {display:none;float: left;width: 550px;padding-left: 140px;cursor: pointer;  margin-top: 40px;}
+.clay .content .submit_pay .submit_btn {display: inline-block;width: 160px;height: 36px;line-height: 36px;color: white;text-align: center;background-color: rgb(240, 120, 68);}
+
+.setposition{position:relative;}
+.prodList{display:none;width:100%;max-height:300px;float:left;overflow:auto;background:#FFF;z-index:11;border:1px solid #E5E5E5;filter:alpha(opacity=95);-moz-opacity:0.95;opacity:0.95;cursor:pointer;}
+.prodList li{height:30px;line-height:30px;border-bottom:1px dashed #e5e5e5;padding-left:10px;}
+.prodList li:hover{background:#F1F1F1;}
+.prodList .setbg{background-color:#F9F9F9;}
+.cleartxt{position:absolute;top:22px;left:338px;color:#9B9B9B;cursor:pointer}
+.searchmsg{display:none;top:28px;position:relative;width:802px;border:1px solid #E5E5E5;z-index:12;height:30px;text-align:center;line-height:30px;margin-top:8px;background:#FFF;filter:alpha(opacity=95);-moz-opacity:0.95;opacity:0.95;}
+.content_pre .ticket_con {display:block;}
+.must_sec {float:left;width:750px;height:100px;line-height: 100px; text-align: center;}
+.must_font{font-size:1.2em;}
+.no_seach{height:30px;line-height:30px;text-align:center;width:800px;}
+
+.tbBox{width:800px;margin:0px auto;font-size:12px;}
+.tbBind{float: left;table-layout:fixed;width:100%;line-height:45px;background-color:#FFF;border:1px solid #E5E5E5;margin-top:20px;text-align:center;}
+.tbBind thead{background:#E1E5E7;height:35px;line-height:35px;}
+.tbBind thead th{font-weight:normal;font-size:14px;}
+.tbBind th,.tbBind td{border-top:1px solid #E5E5E5;text-align:center;}
+.tbBind .setbg_b{background:#F7F7F7;}
+.tbBind .setbg_a{background:#FFF;}
+.tbBind .clickBox{display:inline-block;width:12px;height:12px;border:1px solid #D2D2D2;}
+.tbBox .setWidth{width:80px;}
+.tbBox .setColor{/* color:#F07845; */}
+.supplierdd {width: 200px;}
+
+.meiSelect{width: 311px; height: 35px; line-height: 35px; border: 1px solid #C9C9C9; -moz-border-radius: 3px; border-radius: 3px;}
+.mei_moshi{display: none;}
+
+.clay .content .tabHead li .link-tmall { display:block;  color:black; }
+
+.qunerSearch .tbManage th{text-align: left;}
+
+// 新加的
+
+.dialogHeader{
+    display: block;
+    height: 46px;
+    line-height: 46px;
+    font-size: 20px;
+    padding-left: 10px;
+    font-weight: bold;
+    border: 1px solid #e5e5e5;
+}
+
+
+//弹窗内容样式
+#bindBox{
+    margin-top: 46px;
+    padding: 10px;
+    text-align: center;
+    .inputBox{
+        margin-top: 40px;
+        font-size: 20px;
+        input#bindIdInput{
+            margin-left: 10px;
+            padding-left: 10px;
+            border :1px solid #c9c9c9;
+            height: 36px;
+            color: #9e9e9e;
+        }
+        input#bindIdInput:focus{
+            border : 1px solid #0797d9;
+        }
+    }
+    .btnBox{
+
+        .btn{
+            display: inline-block;
+            text-align: center;
+            width: 50px;
+            padding: 10px 16px;
+            font-size: 14px;
+            // border: 1px solid #e5e5e5;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor : pointer ;
+        }
+        .btn.bind{
+            background: #0797d9;        
+            color: #fff;
+            margin-right: 20px;
+        }
+        .btn.bind:hover{
+            background: #0f7cb7;
+        }
+        .btn.close{
+            background: #fff;        
+            border: 1px solid #0797d9;
+            color: #0797d9;
+        }
+        .btn.close:hover{
+            background: #e5f5fc;
+            border: 1px solid #0797d9;
+        }
+
+    }
+}
+
+

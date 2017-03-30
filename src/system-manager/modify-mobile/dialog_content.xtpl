@@ -1,0 +1,23 @@
+<div id="mobile_modify">
+    <div id="title_modify">
+        更改手机
+    </div>
+    <div id="content_modify">
+        <div class="stepTip">
+            1. 安全验证当前手机号
+        </div>
+        <div class="line1">
+            <span id="promptOld">当前手机号：</span>
+            <input id="oldPhone" type="text" readonly="true" >
+            <span id="getCodeOld" class="getVCodeBtn">获取验证码</span>
+        </div>
+        <div class="line2">
+            <span>短信验证码：</span>
+            <input type="text" id="VcodeOld">
+        </div>
+    </div>
+    <div class="button_modify" id="next">
+        下一步
+    </div>
+</div>
+

@@ -10,7 +10,7 @@ var Api = {
 		PublishCardProd : {
 			submit : "/r/product_scenic/save/",
 			//图片上传
-			uploadFile : "/r/product_AnnualCard/uploadImg/",
+			uploadFile : "/r/Resource_ImageUpload/upload",
 			//编辑状态，获取年卡产品详细信息
 			getInfo : "/r/product_scenic/get/"
 		},

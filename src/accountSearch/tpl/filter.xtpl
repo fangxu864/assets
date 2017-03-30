@@ -1,0 +1,20 @@
+<div class="filter">
+    <div class="tr tr1">
+        <div class="td td1">
+            <span>截止时间：</span><input type="text" class="etime_inp" id="etime_inp" readonly="readonly"/>
+        </div>
+        <div class="td td2">
+            <div id="search_type_select" class="search_type_select"></div>
+        </div>
+        <div class="td td3">
+            <input type="text" class="trader_inp" id="trader_inp" readonly="readonly"  placeholder="请输入企业名称/ID"/>
+            <i class="clear_trader_inp">&#xe674;</i>
+        </div>
+        <div class="td td4">
+            <span class="query_btn" id="query_btn">查询</span>
+        </div>
+        <div class="td td5">
+            <span class="excel_btn" id="excel_btn">导出数据</span>
+        </div>
+    </div>
+</div>

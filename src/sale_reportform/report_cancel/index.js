@@ -83,7 +83,7 @@ var Book_form={
         var calendar = new Calendar();
         this.stime_inp.on("click",function(e){
             var max_day=_this.etime_inp.val();
-            max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // max_day=moment( Date.parse(max_day.replace(/-/g,'/'))+24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.stime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#start_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -97,7 +97,7 @@ var Book_form={
         });
         this.etime_inp.on("click",function(e){
             var min_day=_this.stime_inp.val();
-            min_day=moment( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
+            // min_day=moment( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#end_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
@@ -112,6 +112,8 @@ var Book_form={
             var inputId=data.picker[0].id;
             var startDate=_this.stime_inp.val();
             var endDate=_this.etime_inp.val();
+            _this.setCookie("start_time",startDate,1000*60*60);
+            _this.setCookie("end_time",endDate,1000*60*60);
             var dateDiff=GetDateDiff(startDate,endDate);
             var curDate;
             if(dateDiff>90){
@@ -203,45 +205,82 @@ var Book_form={
             });
         }
 
+        //分销商供应商列表数据缓存容器
+        _this.select3_cache_data = {};
         //分销商供应商选择
         var select_fg=new SelectShort({
             id:"select_fg",
             arr:["分销商","供应商"],
-            callback:function (cur_opt){}
-        });
-        //分销商搜索框
-        this.select3=new Select({
-            source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
-            ajaxType : "get",
-            isFillContent:false,
+            callback:function (cur_opt){
+                var Data = {
+                    "分销商" : 0 ,
+                    "供应商" : 1
+                };
+                $("#select_fg").attr("search_type" , Data[cur_opt]);
 
-            ajaxParams : {
-                action : "fuzzyGetDname_c",
-                dtype : "1",
-                danme : ""
-            },
-            filterType : "",  //指定过滤方式为ajax
-            field : {
-                id : "id",
-                name : "name",
-                keyword : "name"
-            },
-            trigger : $("#fenxiaoshang_name_inp"),
 
-            filter : true,
-            adaptor : function(res){
-                var reslut = {};
-                reslut["code"]=res.code;
-                reslut["msg"]=res.msg;
-                var arr=[];
-                var data=res.data;
-                for(var i in data){
-                    arr.push(data[i]);
+                if(cur_opt == "分销商"){
+                    //如果存在分销商缓存
+                    if( _this.select3_cache_data["Reseller"]){
+                        _this.select3.refresh(_this.select3_cache_data["Reseller"]);
+                    }else{
+                        $.post("/r/report_statistics/getResellerList/" , function (res) {
+                            _this.select3_cache_data["Reseller"] = res.data;
+
+                            //分销商搜索框
+                            _this.select3=new Select({
+                                // source : "/r/report_statistics/getResellerList/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+                                // ajaxType : "get",
+                                isFillContent:false,
+                                ajaxParams : {
+                                    action : "fuzzyGetDname_c",
+                                    dtype : "1",
+                                    danme : ""
+                                },
+                                // filterType : "",  //指定过滤方式为ajax
+                                field : {
+                                    id : "id",
+                                    name : "name",
+                                    keyword : "name"
+                                },
+                                trigger : $("#fenxiaoshang_name_inp"),
+
+                                filter : true,
+                                // adaptor : function(res){
+                                //     var reslut = {};
+                                //     reslut["code"]=res.code;
+                                //     reslut["msg"]=res.msg;
+                                //     var arr=[];
+                                //     var data=res.data;
+                                //     for(var i in data){
+                                //         arr.push(data[i]);
+                                //     }
+                                //     reslut["data"] =arr;
+                                //     return reslut;
+                                // },
+                                data: _this.select3_cache_data["Reseller"]
+                            });
+                            if( _this.isAdmin != 1){
+                                _this.select3.refresh(res.data);
+                            }
+                        });
+                    }
+                }else if(cur_opt == "供应商"){
+                    //如果存在供应商缓存
+                    if( _this.select3_cache_data["Supplier"]){
+                        _this.select3.refresh(_this.select3_cache_data["Supplier"]);
+                    }else{
+                        $.post("/r/report_statistics/getSupplierList" , function (res) {
+                            _this.select3_cache_data["Supplier"] = res.data;
+                            if( _this.isAdmin != 1){
+                                _this.select3.refresh(res.data);
+                            }
+                        })
+                    }
                 }
-                reslut["data"] =arr;
-                return reslut;
             }
         });
+        
         //产品类型选择框
         var select_huizong_type=new SelectShort({
             id:"huizong_type",
@@ -371,7 +410,12 @@ var Book_form={
         if(_this.isAdmin==1){
             $("#fenxiaoshang_name_inp").on("focus",function () {
                 var member_id=_this.getParams()["merchant_id"]?_this.getParams()["merchant_id"]:"";
-                var api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                var api = '';
+                if($("#select_fg").attr("search_type") == 0){
+                    api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }else{
+                    api="/r/report_statistics/getSupplierList?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }
                 $.ajax({
                     url: api,                                //请求的url地址"/r/report_statistics/orderList/"
                     dataType: "json",                            //返回格式为json
@@ -414,6 +458,7 @@ var Book_form={
         params["size"]=_this.perPageNum;
         params["begin_date"]=_this.stime_inp.val();
         params["end_date"]=_this.etime_inp.val();
+        params["search_type"] = $("#select_fg").attr("search_type");
         params["count_way"]= $("#huizong_type").attr("count_way");
         if($("#product_name_inp").attr("data-id")){
             params["land_id"]=$("#product_name_inp").attr("data-id");
@@ -451,6 +496,88 @@ var Book_form={
         $(".total_box .total dl").html(html);
         _this.total_box.fadeIn(200);
     },
+    //处理分销商与票类表情况
+    resellerAndTicket : function(data){
+        var _this=this,
+            list=data.list,
+            sum=data.sum,
+            theadHtml="",
+            listHtml="" ;
+
+
+        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3">订单数</th> <th class="th4">退票数</th> <th class="th5">退票收入(元)</th> <th class="th6">退票支出元)</th> <th class="th7">退票手续费收入(元)</th><th class="th7">退票手续费支出(元)</th> ';
+        $(".tablecon_box .con_tb thead tr").html(theadHtml);
+        listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
+            '<td class="th3">'+sum.orderNum+'</td>'+
+            '<td class="th4">'+sum.ticketNum+'</td>'+
+            '<td class="th5">'+sum.costMoney+'</td>'+
+            '<td class="th6">'+sum.cancelMoney+'</td>'+
+            '<td class="th7">'+sum.serviceMoneyIn+'</td>'+
+            '<td class="th8">'+sum.serviceMoneyOut+'</td>'+
+            '</tr>';
+        for(var i=0;i<list.length;i++){
+
+            listHtml+='<tr> <td class="th1">'+list[i].reseller_title+'</td>'+
+                '<td class="th2"></td>'+
+                '<td class="th3">'+list[i].order_num+'</td>'+
+                '<td class="th4">'+list[i].ticket_num+'</td>'+
+                '<td class="th5">'+list[i].cost_money+'</td>'+
+                '<td class="th6">'+list[i].cancel_money+'</td>'+
+                '<td class="th7">'+list[i].service_money_in+'</td>'+
+                '<td class="th8">'+list[i].service_money_out+'</td>'+
+                '</tr>';
+            for(var j=0;j<list[i].tickets.length;j++){
+                listHtml+='<tr> <td class="th1"></td>'+
+                    '<td class="th2">'+list[i].tickets[j].title+'</td>'+
+                    '<td class="th3">'+list[i].tickets[j].order_num+'</td>'+
+                    '<td class="th4">'+list[i].tickets[j].ticket_num+'</td>'+
+                    '<td class="th5">'+list[i].tickets[j].cost_money+'</td>'+
+                    '<td class="th6">'+list[i].tickets[j].cancel_money+'</td>'+
+                    '<td class="th7">'+list[i].tickets[j].service_money_in+'</td>'+
+                    '<td class="th7">'+list[i].tickets[j].service_money_out+'</td>'+
+                    '</tr>';
+
+            }
+
+        }
+        $(".tablecon_box .con_tb tbody").html(listHtml);
+        $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
+        $(".tablecon_box .con_tb tbody .th5").css("color","#3DBA3F");
+        $(".tablecon_box .con_tb tbody .th6").css("color","#F07845");
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
+    },
+    //处理其他表
+    otherform : function(data,kindsTitle){
+        var _this=this,
+            list=data.list,
+            sum=data.sum,
+            theadHtml="",
+            listHtml="" ;
+
+
+        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
+        $(".tablecon_box .con_tb thead tr").html(theadHtml);
+        listHtml+='<tr> <td class="th1 heji">合计:</td>'+
+            '<td class="th2">'+sum.orderNum+'</td>'+
+            '<td class="th3">'+sum.ticketNum+'</td>'+
+            '<td class="th4">'+sum.costMoney+'</td>'+
+            '<td class="th5">'+sum.cancelMoney+'</td>'+
+            '<td class="th6">'+sum.serviceMoneyIn+'</td>'+
+            '<td class="th7">'+sum.serviceMoneyOut+'</td>'+
+            '</tr>';
+        for(var i=0;i<list.length;i++){
+            listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
+                '<td class="th2">'+list[i].order_num+'</td>'+
+                '<td class="th3">'+list[i].ticket_num+'</td>'+
+                '<td class="th4">'+list[i].cost_money+'</td>'+
+                '<td class="th5">'+list[i].cancel_money+'</td>'+
+                '<td class="th6">'+list[i].service_money_in+'</td>'+
+                '<td class="th7">'+list[i].service_money_out+'</td>'+
+                '</tr>'
+        }
+        $(".tablecon_box .con_tb tbody").html(listHtml);
+        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
+    },
     //处理表
     dealTablecon:function (data) {
         var _this=this,
@@ -458,7 +585,6 @@ var Book_form={
             sum=data.sum,
             theadHtml="",
             listHtml="" ;
-
         var thead={
             "title" : "名称",
             "order_num" : "订单数",
@@ -478,47 +604,18 @@ var Book_form={
         };
         var kindsTitle=titleName[_this.filterParamsBox.count_way];
         if(list[0]["service_money_out"]!==undefined){    //非景区账号
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th><th class="th4">退票收入(元)</th> <th class="th5">退票支出(元)</th><th class="th6">退票手续费收入(元)</th> <th class="th7">退票手续费支出(元)</th>';
-            $(".tablecon_box .con_tb thead tr").html(theadHtml);
-            listHtml+='<tr> <td class="th1 heji">合计:</td>'+
-                '<td class="th2">'+sum.orderNum+'</td>'+
-                '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.costMoney+'</td>'+
-                '<td class="th5">'+sum.cancelMoney+'</td>'+
-                '<td class="th6">'+sum.serviceMoneyIn+'</td>'+
-                '<td class="th7">'+sum.serviceMoneyOut+'</td>'+
-                '</tr>';
-            for(var i=0;i<list.length;i++){
-                listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
-                    '<td class="th2">'+list[i].order_num+'</td>'+
-                    '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].cost_money+'</td>'+
-                    '<td class="th5">'+list[i].cancel_money+'</td>'+
-                    '<td class="th6">'+list[i].service_money_in+'</td>'+
-                    '<td class="th7">'+list[i].service_money_out+'</td>'+
-                    '</tr>'
+            if(kindsTitle == "分销商/票类"){     //分销商票类页面单独渲染
+                this.resellerAndTicket(data);
+            }else{
+                this.otherform(data,kindsTitle);
             }
-            $(".tablecon_box .con_tb tbody").html(listHtml);
         }else{
-            theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">退票数</th> <th class="th4">退票收入(元)</th><th class="th5">退票手续费收入(元)</th> ';
-            $(".tablecon_box .con_tb thead tr").html(theadHtml);
-            listHtml+='<tr> <td class="th1 heji">合计:</td>'+
-                '<td class="th2">'+sum.orderNum+'</td>'+
-                '<td class="th3">'+sum.ticketNum+'</td>'+
-                '<td class="th4">'+sum.costMoney+'</td>'+
-                '<td class="th5">'+sum.serviceMoneyIn+'</td>'+
-                '</tr>';
-            for(var i=0;i<list.length;i++){
-                listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
-                    '<td class="th2">'+list[i].order_num+'</td>'+
-                    '<td class="th3">'+list[i].ticket_num+'</td>'+
-                    '<td class="th4">'+list[i].cost_money+'</td>'+
-                    '<td class="th5">'+list[i].service_money_in+'</td>'+
-                    '</tr>'
+            if(kindsTitle == "分销商/票类"){     //分销商票类页面单独渲染
+                this.resellerAndTicket(data);
+            }else{
+                this.otherform(data,kindsTitle);
             }
-            $(".tablecon_box .con_tb tbody").html(listHtml);
         }
-        $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
         _this.tablecon_box.fadeIn(200);
     },
     //处理分页器

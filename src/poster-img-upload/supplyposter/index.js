@@ -40,13 +40,23 @@ function ajaxGetPoster( page, pageSize ) {
 
 function renderList(arr) {
     var tempStr = '';
+    var link = (function(){
+        var page = "/scenicDetail.html";
+        var result = "";
+        if(window.location.href.indexOf("/new/d/")<0){ //平台
+            result = page;
+        }else{ //二级域名
+            result = ("/new/d" + page);
+        }
+        return result;
+    })();
     for(var i=0, arrLen = arr.length; i<arrLen; i++) {
         tempStr += '    <div class="poster-item">'
                 + '<div class="poster-img"><img src="' + arr[i].url + '"  alt=""></div>'
                 + '<div class="poster-intro">'
                 + '    <p class="poster-name" title="' + (arr[i].productName == null?'产品海报' : arr[i].productName) + '">' + arr[i].productName + '</p>'
                 + '    <p class="poster-supply">供应商：' + arr[i].supply + '</p>'
-                + '    <div class="clearfix"><a href="/scenicDetail.html?lid='+ arr[i].lid +'" class="fl" target="_blank">查看产品</a>'
+                + '    <div class="clearfix"><a href="'+link+'?lid='+ arr[i].lid +'" class="fl" target="_blank">查看产品</a>'
                 + '        <div class="fr QRdownload">下载到手机<i class="iconfont">&#xe66e;</i><div class="QRCode" data-text="'+ window.location.origin + arr[i].downUrl + '"></div></div></div></div></div>';
     }
     return tempStr;

@@ -1,0 +1,14 @@
+
+    <%var d_type = $("#home_judge_of_dtype").val();%>
+    <tbody>
+    <tr>
+        <td><span class="key">今日预定票数 : </span><span class="value"><span class="value-number"><%=data.order_tickets%></span> 张</span></td>
+        <td><span class="key">今日预定金额 : </span><span class="value"><span class="value-number"><%=data.order_money / 100 > 10000 ? (data.order_money / 1000000).toFixed(2)+ "万" : data.order_money / 100 %></span> 元</span></td>
+    </tr>
+    <tr>
+        <%if(d_type == 0){%>
+        <td><span class="key">今日验证票数 : </span><span class="value"><span class="value-number"><%=data.check_tickets%></span> 张</span></td>
+        <%}%>
+        <td><span class="key"><%=d_type == 0 ? '今日验证金额': '今日利润' %> : </span><span class="value"><span class="value-number"><%=data.check_money / 100 > 10000 ? (data.check_money / 1000000).toFixed(2)+ " 万" : data.check_money / 100 %></span> 元</span></td>
+    </tr>
+    </tbody>

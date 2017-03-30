@@ -9,6 +9,7 @@ var Header = Backbone.View.extend({
 	events : {
 		"click .cardType" : "onCardTypeClick",
 		"click #searchBtn" : "onSearchBtnClick",
+		"click #outExcel" : "onOutExcelClick",
 		"click #clearSearchBtn" : "onClearSearchBtnClick",
 		"keyup #searchInp" : "onSearchInpKeyup",
 		"focus #searchInp" : "onSearchInpFocus"
@@ -21,7 +22,7 @@ var Header = Backbone.View.extend({
 	},
 	onCardTypeClick : function(e){
 		var tarBtn = $(e.currentTarget);
-		if(tarBtn.hasClass("active")) return false;
+		// if(tarBtn.hasClass("active")) return false;
 		var cur_active = this.$el.find(".cardType").filter(".active");
 		var from_active_status = cur_active.length ? cur_active.attr("data-status") : -1;
 		var status = tarBtn.attr("data-status");
@@ -60,6 +61,11 @@ var Header = Backbone.View.extend({
 		this.trigger("searchBtnClick",{searchBtn:this.searchBtn});
 		tarBtn.hide();
 	},
+	onOutExcelClick:function () {
+		var status=$(".stateBox .active").attr("data-status");
+		var downUrl="/r/product_AnnualCard/getUploadMember/?status="+status;
+		this.outExcel(downUrl);
+	},
 	active : function(status){
 		this.$el.find(".cardType[data-status="+status+"]").trigger("click");
 	},
@@ -90,6 +96,12 @@ var Header = Backbone.View.extend({
 	},
 	getCurrentState : function(){
 		return this.$el.find(".cardType").filter(".active").attr("data-status");
-	}
+	},
+	//导出excel
+	outExcel:function (downloadUrl) {
+		var iframeName="iframe"+new Date().getTime();
+		$("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+		window.open(downloadUrl, iframeName);
+	},
 });
 module.exports = Header;

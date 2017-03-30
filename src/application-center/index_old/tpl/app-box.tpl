@@ -1,0 +1,3 @@
+<li class="detail">
+
+</li>
