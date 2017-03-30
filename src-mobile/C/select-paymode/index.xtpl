@@ -9,7 +9,7 @@
         <li class="ticketItem">
             <span class="ttitle"><%=item.title%></span>
             <i class="star">*</i>
-            <span class="tnum"><%=item.num%></span>张
+            <span class="tnum" growing-ignore="true"><%=item.num%></span>张
         </li>
         <%})%>
     </ul>
@@ -19,13 +19,13 @@
         <p class="line">集合日期：<%=detail.extra.date%></p>
         <p class="line">集合地点：<%=detail.extra.station%></p>
     <%}else if(ptype=="C"){%>
-        <p class="line">住店时间：<%=detail.extra.date%> 共<span class="nightCount"><%=detail.extra.days%></span>晚</p>
+        <p class="line" growing-ignore="true">住店时间：<%=detail.extra.date%> 共<span class="nightCount"><%=detail.extra.days%></span>晚</p>
     <%}else if(ptype=="H"){%>
         <p class="line">演出时间：<%=detail.extra.date%></p>
-        <p class="line">座位<i class="vhidden">位位</i>：<%=detail.extra.seat%></p>
+        <p class="line" growing-ignore="true">座位<i class="vhidden">位位</i>：<%=detail.extra.seat%></p>
     <%}%>
 
-    <p class="ordername">联系人：<%=detail.ordername%> <%=detail.ordertel%></p>
+    <p class="ordername" growing-ignore="true">联系人：<%=detail.ordername%> <%=detail.ordertel%></p>
 </div>
 <h4 class="selectPaymodeTop">请选择支付方式（需支付<span class="totalMoney">&yen;<%=detail.totalmoney%></span>）</h4>
 <ul id="paymodeList" class="paymodeList">

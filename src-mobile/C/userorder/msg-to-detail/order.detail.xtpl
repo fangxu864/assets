@@ -37,11 +37,11 @@
         <span class="rt"><%=ordernum%></span>
     </p>
     <p class="line">
-        <span class="lt">凭证码：</span>
+        <span class="lt" growing-ignore="true">凭证码：</span>
         <span class="rt"><%=code%></span>
     </p>
     <p class="line">
-        <span class="lt">下单时间：</span>
+        <span class="lt" growing-ignore="true">下单时间：</span>
         <span class="rt"><%=ordertime%></span>
     </p>
     <%if(status==1){%>
@@ -83,12 +83,40 @@
         </p>
     <%}%>
     <p class="line">
-        <span class="lt">联系人：</span>
+        <span class="lt" growing-ignore="true">联系人：</span>
         <span class="rt"><%=ordername%> <%=ordertel%></span>
     </p>
 </div>
 
-<%if(cancel==1){%>
+
+<a class="prodInfoBox box" href="pdetail.html?lid=<%=lid%>" onclick="return false">
+    <div class="photoBox">
+        <div class="imgBox">
+            <img src="<%=imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null;" alt=""/>
+        </div>
+    </div>
+    <div class="midCon">
+        <h4 class="landTitle"><%=ltitle%></h4>
+        <ul>
+            <%_.each(tickets,function(ticket){%>
+            <li class="ticItem">
+                <span class="ticname"><%=ticket.title%>
+                <span class="star">*</span>
+                <span class="count"><%=ticket.num%></span>
+                张
+            </li>
+            <%})%>
+        </ul>
+    </div>
+    <div class="tri"><div class="triCon" style="display: none">》</div></div>
+</a>
+
+<div class="box">
+    <div class="line">
+        <span class="lt">订单金额：</span>
+        <span class="rt totalMoney" growing-ignore="true"><i class="yen">&yen;</i><i class="num"><%=totalmoney%></i></span>
+    </div>
+</div>
 <div class="detailBtnGroup">
     <span data-ordernum="<%=orderNum_url%>" class="btn cancel">取消订单</span>
 </div>
