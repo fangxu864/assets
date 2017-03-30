@@ -20,19 +20,13 @@
                         <span class="t">帐户余额</span>
                         <i class="yen" growing-ignore="true">&yen;</i><em class="num" v-text="info.remainMoney"></em>
                     </div>
-
                 </div>
                 <div class="col right">
-                    <div v-if="info.remainMoney>1"><a href="javascript:void(0)">红包提现</a></div>
-                    <!--<div>-->
-                        <!--<span class="t">手机号</span>-->
-                        <!--<span v-if="info.mobile" class="mobileNum" v-text="info.mobile"></span>-->
-                    <!--</div>-->
-                    <!--<div style="margin-top:10px"><a :href="link" v-text="bindMobileText"></a></div>-->
+                    <div v-if="info.remainMoney>1 && info.allDisMan"><a @click="sheetShow=true" href="javascript:void(0)">红包提现</a></div>
                 </div>
             </div>
             <div class="line-list">
-                <line-item :link="menuName=='orderList'? 'userorder.html' : ''" :class-name="menuName" v-for="(menuName,item) in info.menus">
+                <line-item :link="item.link" :class-name="menuName" v-for="(menuName,item) in info.menus">
                     <span slot="left">
                         <i class="icon-ecshop-application" :class="getCls(menuName)"></i>
                         <span class="t" v-text="item.name"></span>
@@ -53,6 +47,16 @@
             </div>
             <span @click="onLogoutBtnClick" class="accountLoginBtn" data-wxaccount="{{wxAccount}}" v-text="wxAccount==1 ? '切换手机号登录' : '退出'"></span>
         </div>
+        <sheet-core :show.sync="sheetShow">
+            <div slot="content" class="cashSheetContainer">
+                <p class="title">请输入提现金额</p>
+                <input type="number" name="" class="cashMoney" id="" v-model="cashMoney"/><i class="tip">1到200之间</i>
+                <div class="btnGroup">
+                    <a href="javascript:void(0)" @click="sheetShow=false" class="btn no">取消</a>
+                    <a href="javascript:void(0)" @click="onCash" class="btn yes">确定</a>
+                </div>
+            </div>
+        </sheet-core>
         <page-footer></page-footer>
     </template>
 </template>
@@ -61,12 +65,21 @@
     const Logout = require("SERVICE_M/mall-member-user-logout");
     let Toast = new PFT.Mobile.Toast;
     let Alert = PFT.Mobile.Alert;
+    const Cash = require("SERVICE_M/mall-alldis").cash;
     export default{
         data(){
             return{
                 state : "",
                 wxAccount : "1",
-                info : {}
+                info : {},
+                sheetShow : false,
+                cashMoney : "",
+                Link : {
+                    "saleCenter" : "distri_center.html",
+                    "coupon" : "javascript:void(0)",
+                    "orderList" : "userorder.html",
+                    "poster" : "share_my_shop.html"
+                }
             }
         },
         computed : {
@@ -95,9 +108,15 @@
                 complete : ()=> { Toast.hide()},
                 success : (data)=> {
                     var that = this;
+                    var Link = this.Link;
                     this.state = "success";
                     if(typeof data.wxAccount!=="undefined") this.wxAccount = data.wxAccount;
-                    for(var i in data) that.$set("info."+i,data[i]);
+
+                    for(var i in data.menus){
+                        data.menus[i]["link"] = Link[i] ? Link[i] : "javascript:void(0)";
+                    }
+
+                    that.$set("info",data);
                 },
                 fail : (msg,code)=> {
                     Alert(msg);
@@ -135,10 +154,39 @@
                         Alert(msg);
                     }
                 })
+            },
+            onCash(e){
+                var that = this;
+                var tarBtn = $(e.target);
+                if(tarBtn.hasClass("disable")) return false;
+                var money = this.cashMoney;
+                var totalMoney = this.info.remainMoney * 1;
+                if(isNaN(money)) return false;
+                money = money * 1;
+                if(money<1 || money>200) return Alert("提现金额须在1-200之间");
+                if(money>totalMoney) return Alert("提现金额超出帐户余额，请修改提现金额");
+                Cash({
+                    money : money,
+                    loading : function(){
+                        Toast.show("loading","请稍后...")
+                    },
+                    complete : function(){
+                        Toast.hide();
+                    },
+                    success : function(){
+                        Alert("恭喜您，提现成功！");
+                        that.sheetShow = false;
+                        that.info.remainMoney = that.info.remainMoney - money;
+                        that.cashMoney = "";
+
+                    },
+                    fail : function(msg,code){ Alert(msg)}
+                })
             }
         },
         components : {
             lineItem : require("COMMON_VUE_COMPONENTS/line-item"),
+            sheetCore : require("COMMON_VUE_COMPONENTS/sheet-core"),
             pageFooter : require("COMMON_VUE_COMPONENTS/page-footer")
         }
     }
@@ -218,5 +266,58 @@
         color:$blue;
     }
 
+    .cashSheetContainer{
+        height:150px;
+        background:#fff;
+        padding:20px;
+
+        .title{
+            padding-top:10px;
+            margin-bottom:10px;
+            font-size:14px;
+            font-weight:bold;
+        }
+
+        .tip{ color:#999; margin-left:10px}
+
+        .cashMoney{
+            width:120px;
+            height:22px;
+            padding:3px 6px;
+            border:1px solid #e5e5e5;
+            box-shadow:inset 1px 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .btnGroup{
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0;
+            height:44px;
+            line-height:44px;
+            font-size:0;
+            border-top:1px solid #e5e5e5;
+            .btn{
+                display:inline-block;
+                height:100%;
+                line-height:44px;
+                width:50%;
+                position:relative;
+                font-size:12px;
+                text-align:center;
+            }
+            .btn.yes:before{
+                content:"";
+                position:absolute;
+                top:0;
+                bottom:0;
+                left:0;
+                width:1px;
+                background:#e5e5e5;
+            }
+
+        }
+
+    }
 
 </style>

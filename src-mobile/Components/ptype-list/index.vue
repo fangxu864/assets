@@ -1,18 +1,6 @@
 <template>
     <div id="ptypeListContainer" class="ptypeListContainer">
         <template v-if="state=='success'">
-            <!--<div id="ptypeScrollWrap" class="scrollWrap ptype ptypeScrollWrap" style="width:100%; overflow:hidden; position:relative">-->
-                <!--<ul class="ptypeList">-->
-                    <!--<li class="ptypeBox" :class="getPtypeBoxCls(item)" v-for="item in ptypeList" :data-ptype="item.identify">-->
-                        <!--<a class="ptypeBoxCon" :href="getLinkUrl(item)">-->
-                            <!--<div :style="{'backgroundColor':getBackgroundColor(item)}" class="iconBox">-->
-                                <!--<i class="icon-ecshop-theme" :class="getIconCls(item)"></i>-->
-                            <!--</div>-->
-                            <!--<p class="text" v-text="item.name"></p>-->
-                        <!--</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</div>-->
             <div id="ptypeThemeSliderContainer">
                 <div id="ptypeThemeScrollWrap" class="ptypeThemeScrollWrap"></div>
             </div>
@@ -26,27 +14,95 @@
     let getPtypeList = require("SERVICE_M/getptype");
     let Themes = {
         "爱上古迹" : {
-            cls : "guji",color : "#cd423f",icon : "icon-guji"
-        },"逐海踏浪" : {
-            cls : "talang",color : "#6951ff",icon : "icon-talang"
-        },"度假山庄" : {
-            cls : "shanzhuang",color : "#9a77f3",icon : "icon-shanzhuang"
-        },"激情漂流" : {
-            cls : "piaoliu",color : "#5a79e0",icon : "icon-piaoliu"
-        },"城市观光" : {
-            cls : "chengshi",color : "#3d56d4",icon : "icon-chengshi"
-        },"乐游山水" : {
-            cls : "shanshui",color : "#3fcd6c",icon : "icon-shanshui"
-        },"文化寻根" : {
-            cls : "wenhua1",color : "#ff9d51",icon : "icon-wenhua1"
-        },"主题乐园" : {
-            cls : "zhuti1",color : "#f3bf77",icon : "icon-zhuti1"
-        },"温泉养生" : {
-            cls : "wenquan",color : "#e0635a",icon : "icon-wenquan"
-        },"水世界" : {
-            cls : "shuishijie",color : "#d43d79",icon : "icon-shuishijie"
-        },"冰雪世界" : {
-            cls : "bingxue",color : "#4b3fcd",icon : "icon-bingxue"
+            cls : "guji",
+            color : "#cd423f",
+            icon : "icon-guji",
+            fontSize : "30px"
+        },
+        "逐海踏浪" : {
+            cls : "talang",
+            color : "#6951ff",
+            icon : "icon-talang",
+            fontSize : "30px"
+        },
+        "度假山庄" : {
+            cls : "shanzhuang",
+            color : "#9a77f3",
+            icon : "icon-shanzhuang",
+            fontSize : "32px"
+        },
+        "激情漂流" : {
+            cls : "piaoliu",
+            color : "#5a79e0",
+            icon : "icon-piaoliu",
+            fontSize : "30px"
+        },
+        "城市观光" : {
+            cls : "chengshi",
+            color : "#3d56d4",
+            icon : "icon-chengshi",
+            fontSize : "24px"
+        },
+        "乐游山水" : {
+            cls : "shanshui",
+            color : "#3fcd6c",
+            icon : "icon-shanshui",
+            fontSize : "30px"
+        },
+        "文化寻根" : {
+            cls : "wenhua1",
+            color : "#ff9d51",
+            icon : "icon-wenhua1",
+            fontSize : "24px"
+        },
+        "主题乐园" : {
+            cls : "zhuti1",
+            color : "#f3bf77",
+            icon : "icon-zhuti1",
+            fontSize : "30px"
+        },
+        "温泉养生" : {
+            cls : "wenquan",
+            color : "#e0635a",
+            icon : "icon-wenquan",
+            fontSize : "24px"
+        },
+        "水世界" : {
+            cls : "shuishijie",
+            color : "#d43d79",
+            icon : "icon-shuishijie",
+            fontSize : "30px"
+        },
+        "冰雪世界" : {
+            cls : "bingxue",
+            color : "#4b3fcd",
+            icon : "icon-bingxue",
+            fontSize : "30px"
+        },
+        "A" : {
+            icon : "icon-jingqu",
+            color : "#3dafd4",
+            fontSize : "30px"
+        },
+        B : {
+            icon : "icon-zhoubianyou",
+            color : "#ff516a",
+            fontSize : "28px"
+        },
+        C : {
+            icon : "icon-jiudian",
+            color : "#64cd3f",
+            fontSize : "22px"
+        },
+        F : {
+            icon : "icon-taopiao",
+            color : "#f37777",
+            fontSize : "28px"
+        },
+        H : {
+            icon : "icon-yanchu",
+            color : "#e05a9f",
+            fontSize : "32px"
         }
     };
     export default {
@@ -57,19 +113,26 @@
                 state : "",
                 icons : {
                     A : {
-                        icon : "jingqu",color : "#3dafd4"
+                        icon : "jingqu",
+                        color : "#3dafd4",
+                        fontSize : 30
                     },
                     B : {
-                        icon : "zhoubianyou",color : "#ff516a"
+                        icon : "zhoubianyou",
+                        color : "#ff516a",
+                        fontSize : 30
                     },
                     C : {
-                        icon : "jiudian",color : "#64cd3f"
+                        icon : "jiudian",color : "#64cd3f",
+                        fontSize : 30
                     },
                     F : {
-                        icon : "taopiao",color : "#f37777"
+                        icon : "taopiao",color : "#f37777",
+                        fontSize : 30
                     },
                     H : {
-                        icon : "yanchu",color : "#e05a9f"
+                        icon : "yanchu",color : "#e05a9f",
+                        fontSize : 30
                     }
                 }
             }
@@ -98,7 +161,8 @@
                     for(var i=0; i<data.length; i++){
                         var item = data[i];
                         var name = item.name;
-                        if(!filterTheme[name]) newData.push(item);
+                        var identify = item.identify;
+                        if(!filterTheme[name] || identify!=="theme") newData.push(item);
                     }
                     this.$nextTick(()=>{
                         this.render(newData);
@@ -126,10 +190,13 @@
                 return item.identify!=='theme' ? (href+"?ptype="+encodeURIComponent(item.identify)) : (href+"?theme="+encodeURIComponent(item.name));
             },
             getIconCls(item){
-                return item.identify!=="theme" ? ('icon-'+this.icons[item.identify]["icon"]) : (Themes[item.name]["icon"]);
+                return item.identify!=="theme" ? (Themes[item.identify]["icon"]) : (Themes[item.name]["icon"]);
             },
             getBackgroundColor(item){
-                return item.identify!=="theme" ? this.icons[item.identify]["color"] : Themes[item.name]["color"];
+                return item.identify!=="theme" ? (Themes[item.identify]["color"]) : Themes[item.name]["color"];
+            },
+            getFontSize(item){
+                return item.identify!=="theme" ? (Themes[item.identify]["fontSize"]) : Themes[item.name]["fontSize"]; 
             },
             render(list){
                 var that = this;
@@ -138,10 +205,10 @@
                     html += '<ul class="ptypeThemeSlideItemCon ptypeList listUl">';
                     for(var i=0; i<data.length; i++){
                         var item = data[i];
-                        html += '<li class="ptypeBox" class="'+that.getPtypeBoxCls(item)+'" data-ptype="'+item.identify+'">';
+                        html += '<li class="ptypeBox '+that.getPtypeBoxCls(item)+'" data-ptype="'+item.identify+'">';
                         html += '<a class="ptypeBoxCon" href="'+that.getLinkUrl(item)+'">';
                         html += '<div style="background-color:'+that.getBackgroundColor(item)+'" class="iconBox">';
-                        html += '<i class="icon-ecshop-theme '+that.getIconCls(item)+'"></i>';
+                        html += '<i style="font-size:'+that.getFontSize(item)+'" class="icon-ecshop-theme '+that.getIconCls(item)+'"></i>';
                         html += '</div>';
                         html += '<p class="text">'+item.name+'</p>';
                         html += '</a>';
@@ -202,6 +269,7 @@
 <style lang="sass">
     @import "COMMON/css/base/core/px2rem";
     @import "COMMON/css/base/iconfont.ptype.scss";
+    @import "COMMON/css/base/flex";
     #ptypeListContainer{ padding:px2rem(30) px2rem(16) 0 px2rem(16); border-bottom:10px solid #e5e5e5; background:#fff; overflow:hidden}
     #ptypeListContainer .state{
         height:3rem;
@@ -213,9 +281,11 @@
         text-align:left;
         font-size:0;
         width:100%;
+        @include flexbox;
+        @include flex-wrap(wrap);
+        @include justify-content(space-around)
     }
     #ptypeListContainer .ptypeBox{
-        display:inline-block;
         width:20%;
         text-align:center;
         margin-bottom:12px;
@@ -232,7 +302,7 @@
         margin:0 auto 0.2rem;
     }
     #ptypeListContainer .ptypeBox .icon-ecshop-theme{
-        font-size:0.7rem;
+        font-size:30px;
     }
     #ptypeListContainer .ptypeBox .text{
         color:#333;
