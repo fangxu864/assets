@@ -18,7 +18,14 @@ var config = require("../../task-webpack/config")({
 		// "annual_card_active" : "./src/annual_card/page/active/index.js",
 		"annual_card_active_idCard" : "./src/annual_card/page/active_idCard/index.js",//新身份证需求
 		// "annual_memdetail" : "./src/annual_card/page/memdetail/index.js",
+	//	"annual_card_makeorder" : "./src/annual_card/page/makeorder/index.js",
+		//"annual_card_buy_dialog" : "./src/annual_card/page/yorderlist/buy.dialog.js",
+		//"annual_card_storage" : "./src/annual_card/page/storage/index.js",
+		//"annual_card_ordersuccess" : "./src/annual_card/page/ordersuccess/index.js",
+		//"annual_card_active" : "./src/annual_card/page/active/index.js",
+	//	"annual_memdetail" : "./src/annual_card/page/memdetail/index.js",
 		//"annual_card_mclist" : "./src/annual_card/page/mclist/index.js"
+		"annual_card_opercard-input":"./src/annual_card/page/opercard-input/index.js"
 	},
 	output : output,
 	plugins : plugins,
