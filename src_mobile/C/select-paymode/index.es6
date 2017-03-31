@@ -6,7 +6,7 @@
 require("./index.scss");
 var Tpl = require("./index.xtpl");
 //返回首页按钮
-var ReturnHome = require("./returnHomeBtn");  
+// var ReturnHome = require("./returnHomeBtn");  
 var Service = require("SERVICE_M/select-paymode-info");
 var ServiceQRcode = require("SERVICE_M/select-paymode-wx-qrcode");
 var Alert = PFT.Mobile.Alert;
@@ -48,7 +48,7 @@ var Main = PFT.Util.Class({
 				Alert(msg);
 			}
 		})
-		new ReturnHome();
+		// new ReturnHome();
 	},
 	setLoop : function(){
 		var that = this;
