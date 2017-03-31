@@ -47,8 +47,8 @@ var Transit = PFT.Util.Class({
 		        }else if(code==207){
 					var para = that.getpara();
 					window.location.href = "login.html" + para ;	
-				}else if(res.code==401){
-					Toast.show("loading", res.msg);
+				}else if(code==401){
+					that.toast.show("loading", res.msg);
                         (function () {
                              setTimeout(function(){
                                  window.location.reload();

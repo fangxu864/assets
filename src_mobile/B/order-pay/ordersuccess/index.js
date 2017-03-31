@@ -19,9 +19,20 @@ var Main=PFT.Util.Class({
             },
             success:function(data){
                 var host=PFT.Util.UrlParse()["h"];
+                var search=window.location.host;
                 var render=PFT.Util.ParseTemplate(Tpl);
                 data["paymode"]=paymode;
                 data["h"]=host;
+                if(search.indexOf("local")>-1){
+                    com="12301.local";
+                }else if(search.indexOf("test")>-1){
+                    com="12301.test";
+                }else if(search.indexOf("dev.com")>-1){
+                    com="12301dev.com";
+                }else{
+                    com="12301.cc";
+                }
+                data["url"]=com;
                 var html=render({data:data});
                // console.log(data)
                 $("#bodyContainer").html(html);
