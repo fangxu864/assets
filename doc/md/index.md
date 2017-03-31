@@ -18,6 +18,28 @@ var parse_template = require("COMMON/js/util.ParseTemplate");
 var date-picker = require("COMMON/modules/datepicker");
 
 ```
+> 6. 如果是在WWW  Views项目下的html页面里，引入js 、css这些静态资源，采用相对地址引用的，比如：
+<script src="/js/my_poster.js"></script>
+<script src="js/my_poster.js"></script>
+
+现在一律不能这么写，要换成如下
+<script src="/js/my_poster.js"></script>   =>  <script src="<?=PFTFIX_DOMAIN?>js/my_poster.js"></script>
+<script src="js/my_poster.js"></script>    =>  <script src="<?=PFTFIX_DOMAIN?>js/my_poster.js"></script>
+
+你可以打印PREFIX_DOMAIN 这个php常量看看  其实就就是指向你当前访问页面的根目录，比如你访问：
+http://www.12301.cc/home.html    =>  PREFIX_DOMAIN = www.12301.cc/
+http://123624.12301.cc/new/d/home.html    =>   PREFIX_DOMAIN = http://123624.12301.cc/new/d/
+
+注意： PREFIX_DOMAIN 输出的东西后面已经是带"/"的了，所以下面的写法是错误的：
+<script src="<?=PFTFIX_DOMAIN?>/js/my_poster.js"></script>  => 错误
+<script src="<?=PFTFIX_DOMAIN?>js/my_poster.js"></script>   => 正确
+
+
+如果在我们js文件里要去做页面跳转，比如：
+$("#btn").on("click",function(e){
+    window.location.href = "/home.html";   => 错误
+    window.location.href = PFT.PREFIX_DOMAIN() + "home.html";  => 正确
+})
 
 ## 协作规范
 只有以下3种主要分支：
