@@ -1,6 +1,11 @@
 @import "COMMON/css/base/main";
 
-
+input[type="submit"], input[type="reset"], input[type="button"], button { 
+    -webkit-appearance: none; 
+}
+input {
+    -webkit-appearance:none; 
+}
 
 .orderFill{
   font-size: px2rem(28);
@@ -252,7 +257,8 @@
 
     .saveContact{
       color: #0797d9;
-      font-size: px2rem(40);
+      // font-size: px2rem(40);
+      font-size: 0.433rem;
       margin-bottom: px2rem(30);
     }
   }

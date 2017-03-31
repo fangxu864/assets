@@ -5,8 +5,8 @@
 </div>
 
 <div class="footBox">
-    <a href="order_fill.html?aid=<%=data.aid%>&pid=<%=data.pid%>" class="btn btn-primary buyBtn">继续购买</a>
-    <a href="plist.html?lid=<%=data.lid%>" class="btn">产品首页</a>
+    <a href="http://<%=data.h%>.<%=data.url%>/wx/b/order_fill.html?aid=<%=data.aid%>&pid=<%=data.pid%>" class="btn btn-primary buyBtn">继续购买</a>
+    <a href="http://<%=data.h%>.<%=data.url%>/wx/b/plist.html?lid=<%=data.lid%>" class="btn">产品首页</a>
     <!--<a href="usercenter.html" class="btn">商户中心</a>-->
 </div>
 

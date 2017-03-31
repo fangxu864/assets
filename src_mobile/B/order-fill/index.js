@@ -65,6 +65,11 @@ var Order_fill = PFT.Util.Class({
 
 		this.getBookInfo(); //根据不同类型分辨
 
+		//防止返回时残留上次input内容的bug
+		$("#contact").val("");
+		$("#checkPhoneInput").val("");
+		$("#payMode").val("");
+		
 	},
 	//处理顶端提示
 	handleTips : function(res){
@@ -139,7 +144,7 @@ var Order_fill = PFT.Util.Class({
 	},
 	//提交订单
 	submitOrder : function(e){
-
+		e.preventDefault();
 		var that = this;
 		//防止跳转
 		e.preventDefault();
@@ -302,10 +307,12 @@ var Order_fill = PFT.Util.Class({
 				var ordernum = res.ordernum;
 				// var ordernum = "4003823";//写死的
 
-				var url = "order_pay.html?h="+host+"&"+"ordernum="+ordernum;
+				var url = "http://wx.12301.cc/html/order_pay_b.html?h="+host+"&"+"ordernum="+ordernum;
 
 				//跳转支付页面
-				window.location.href = url;
+				// setTimeout(function(){
+					window.location.href = url;
+				// },2000)
 
 			},
 			complete:function () {
@@ -874,7 +881,7 @@ var Order_fill = PFT.Util.Class({
 			that.selectedDay = selectedDay; 
 			$("#showDateInput").val("*演出日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
-			that.getShowInfo(selectedDay);
+			that.getShowInfo(selectedDay,true);
 		});	
 
 		//第一次获取价格和库存
@@ -886,7 +893,6 @@ var Order_fill = PFT.Util.Class({
 			}else{
 				that.getShowInfo(that.selectedDay,true); //第一次
 			}
-			
 		});
 
 	},
@@ -912,6 +918,11 @@ var Order_fill = PFT.Util.Class({
 			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);				
+				$("#playTimeInput").val("");
+				that.venus_id = undefined;
+				that.round_id = undefined;//id	
+				that.showTimeBox = null ;
+				$(".storage .num").text("0");
 			}
 		});
 	},

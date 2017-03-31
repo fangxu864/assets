@@ -1,10 +1,11 @@
 require("./index.scss");
 var Alert = PFT.Mobile.Alert;
 var Toast = new PFT.Mobile.Toast();
+/*var Toast = PFT.Mobile.Toast*/
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
     EVENTS: {
-        "click #loginBtn": "onLoginBtnClick"
+        "click #loginBtn": "onLoginBtnClick",
     },
     init: function () {
         var urlParams = PFT.Util.UrlParse();
@@ -33,12 +34,12 @@ var Main = PFT.Util.Class({
                     ctype: urlParams["ctype"],
                     ctx: urlParams["ctx"]
                 },
-                success: function(res){
-                    if(res.code==200){
-                        if(res.data.url){
-                            window.location.href=res.data.url+search;
-                        }else{
-                            window.location.href="plist.html"+search;
+                success: function (res) {
+                    if (res.code == 200) {
+                        if (res.data.url) {
+                            window.location.href = res.data.url + search;
+                        } else {
+                            window.location.href = "plist.html" + search;
                         }
                     }
                 }
@@ -62,6 +63,7 @@ var Main = PFT.Util.Class({
         }
     },
     subLoginReq: function (mobile, pwd) {
+        var _this=this;
         PFT.Util.Ajax("/r/MicroPlat_Member/login", {
             type: "POST",
             params: {
@@ -69,7 +71,8 @@ var Main = PFT.Util.Class({
                 mobile: mobile,
                 password: hex_md5(pwd),
                 c: "MicroPlat_Member",
-                a: "login"
+                a: "login",
+                authCode:$("#verifyInp").val()
             },
             dataType: "json",
             loading: function () {
@@ -80,7 +83,7 @@ var Main = PFT.Util.Class({
             },
             success: function (res) {
                 if (res.code == 200) {
-                     var Url = res.data.url;
+                    var Url = res.data.url;
                     var search = window.location.search;
                     var Nurl = "plist.html";
                     if (Url.length > 1) {
@@ -88,17 +91,45 @@ var Main = PFT.Util.Class({
                     } else {
                         window.location.href = Nurl + search;
                     }
-                }else if(res.code==401){
-                     Alert(res.msg,function(){
-                         window.location.reload();
-                     });
-                }else {
+                } else if (res.code == 401) {
+                    Toast.show("loading", res.msg);
+                    (function () {
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    })()
+
+
+                } else if (res.code == 203) {
                     Alert(res.msg);
-                   
+                    _this.veryfiyCode();
+                } else {
+                    Alert(res.msg);
+
                 }
             }
         })
+    },
+    veryfiyCode: function () {
+        var _this=this;
+        var vImg = $("#verifyImg");
+        var vBox=$("#verifyBox");
+        var nhost = window.location.host;
+        var link;
+        vBox.show();
+        nhost = nhost.indexOf("wx") > -1 ? nhost : nhost + "/wx";
+        link="http://"+nhost+"/api/index.php?c=MicroPlat_Member&a=getImgCode&"+ Math.random();
+        vImg.attr("src",link);
+        _this.refreshCode();
+    },
+    refreshCode:function(){
+        var _this=this;
+        var rBtn = $("#refBtn");
+        rBtn.on("click",function(){
+            _this.veryfiyCode();
+        })
     }
+
 })
 
 $(function () {
