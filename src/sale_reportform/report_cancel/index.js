@@ -327,7 +327,7 @@ var Book_form={
 
 
         this.bind();
-        _this.queryState_box.show().html('<div style="text-align: center;line-height: 300px;font-size: 16px;color: #c3c3c3;">请选择查询条件再点击查询按钮进行查询</div>');
+        _this.queryState_box.show().html('<div style="text-align: center;line-height: 200px;font-size: 16px;color: #c3c3c3;">请选择查询条件再点击查询按钮进行查询</div>');
     },
     bind:function () {
         var _this=this;
