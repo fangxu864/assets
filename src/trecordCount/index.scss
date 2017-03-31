@@ -184,6 +184,7 @@
       }
     }
     .table_box{
+      display: none;
       table.total_table{
         .th3,.th4,.th5,.th2{text-align: right}
         .th6{text-align: center}
@@ -239,7 +240,6 @@
 .calendar-pop-contaienr{  width:220px !important;}
 
 #pagination_wrap{
-  height: 66px;
   line-height: 100px;
   width: 810px;
   text-align: center;
