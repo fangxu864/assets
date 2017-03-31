@@ -72,7 +72,7 @@ var Main = PFT.Util.Class({
                 password: hex_md5(pwd),
                 c: "MicroPlat_Member",
                 a: "login",
-                authCode:$("#verifyInp").val().toUpperCase()
+                authCode:$("#verifyInp").val()
             },
             dataType: "json",
             loading: function () {

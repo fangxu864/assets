@@ -65,6 +65,11 @@ var Order_fill = PFT.Util.Class({
 
 		this.getBookInfo(); //根据不同类型分辨
 
+		//防止返回时残留上次input内容的bug
+		$("#contact").val("");
+		$("#checkPhoneInput").val("");
+		$("#payMode").val("");
+		
 	},
 	//处理顶端提示
 	handleTips : function(res){
