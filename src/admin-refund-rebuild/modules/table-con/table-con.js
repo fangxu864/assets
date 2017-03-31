@@ -95,7 +95,7 @@ var tableCon = {
             Tips.closeAllTips();
             Tips.show({
                 lifetime : 1000 ,
-                direction : top,
+                direction : 'top',
                 hostObj : curNumber ,
                 content : "点我复制",
                 bgcolor : "orange"
@@ -109,7 +109,7 @@ var tableCon = {
             Tips.closeAllTips();
             Tips.show({
                 lifetime : 1000 ,
-                direction : top,
+                direction : 'top',
                 hostObj : curNumber ,
                 content : "复制成功！",
                 bgcolor : "#3eba40"
@@ -120,7 +120,7 @@ var tableCon = {
             Tips.closeAllTips();
             Tips.show({
                 lifetime : 1000 ,
-                direction : top,
+                direction : 'top',
                 hostObj : curNumber ,
                 content : "复制失败，请手动复制",
                 bgcolor : "red"

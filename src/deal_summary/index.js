@@ -157,7 +157,8 @@ var DealSum={
 		});
 		/*《《《如果账户为管理员，显示交易用户搜索框*/
 		this.bind();
-		this.query_btn.click();
+		// this.query_btn.click();
+		$(".query_state_box").html('<div style="text-align: center;line-height: 200px;font-size: 16px;color: #c3c3c3;">请选择查询条件再点击查询按钮进行查询</div>')
 		// 表格拖动部分
 		$("#tb_top").DragConOver({
 			direction:"x",
@@ -271,7 +272,7 @@ var DealSum={
 					$(".day_detail_box").hide();
 					$(".tb_bottom_box").hide();
 					$("#pag_box").hide();
-					$(".query_state_box").show();
+					$(".query_state_box").show().html('<div class="querying"><img src="http://static.12301.cc/assets/build/images/gloading.gif" alt=""/><span>加载中...</span></div>');
 				},
 				success: function(req) {
 					_this.dealDataTB1(req)
