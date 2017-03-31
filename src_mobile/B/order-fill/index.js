@@ -881,7 +881,7 @@ var Order_fill = PFT.Util.Class({
 			that.selectedDay = selectedDay; 
 			$("#showDateInput").val("*演出日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
-			that.getShowInfo(selectedDay);
+			that.getShowInfo(selectedDay,true);
 		});	
 
 		//第一次获取价格和库存
@@ -893,7 +893,6 @@ var Order_fill = PFT.Util.Class({
 			}else{
 				that.getShowInfo(that.selectedDay,true); //第一次
 			}
-			
 		});
 
 	},
@@ -919,6 +918,11 @@ var Order_fill = PFT.Util.Class({
 			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);				
+				$("#playTimeInput").val("");
+				that.venus_id = undefined;
+				that.round_id = undefined;//id	
+				that.showTimeBox = null ;
+				$(".storage .num").text("0");
 			}
 		});
 	},
