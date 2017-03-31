@@ -1,0 +1,57 @@
+.appPackageWrap {
+
+  /* second_packDetailBox的公共样式*/
+  .second_packDetailBox {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .second_packDetailBox{
+    .title{
+      line-height: 60px;
+      font-size: 14px;
+      .key{
+        font-weight: 700;
+      }
+      .value{
+        margin-left: 5px;
+        margin-right: 20px;
+      }
+    }
+    .detail-table{
+      width: 100%;
+      text-align: center;
+      thead tr th{
+        line-height: 40px;
+        border: 1px solid #e5e5e5;
+        background-color: #e4e4e4;
+      }
+      tbody tr{
+        line-height: 35px;
+        border: 1px solid #e5e5e5;
+      }
+      tbody tr.odd{
+        background-color: #f4f4f4;
+      }
+    }
+    .line{
+      line-height: 40px;
+      .btn{
+        padding: 10px 20px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #f07844;
+      }
+      .btn:hover{
+        background-color: #f7895a;
+        box-shadow: 0 0 5px #f7895a;
+      }
+      .price{
+        color: #ff4500;
+        font-size: 16px;
+      }
+
+    }
+  }
+
+
+}

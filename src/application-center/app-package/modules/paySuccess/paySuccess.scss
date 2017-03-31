@@ -1,0 +1,30 @@
+.appPackageWrap {
+
+  /* paySuccessBox的公共样式*/
+  .paySuccessBox {
+    width: 70%;
+    margin: 30px auto;
+  }
+  .paySuccessBox{
+    .title{
+      font-size: 26px;
+      color: #09bb07;
+      border-top: 1px solid #e5e5e5;
+      line-height: 80px;
+    }
+    .success-con{
+      font-size: 16px;
+      line-height: 30px;
+      .key{
+        width: 70px;
+        display: inline-block;
+        margin-right: 10px;
+        text-align: right;
+        color: #9a9a9a;
+      }
+    }
+
+  }
+
+
+}
