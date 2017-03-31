@@ -34,6 +34,9 @@
 
 <script type="es6">
     import "./index.scss";
+
+    //返回首页按钮
+    let ReturnHome = require("./returnHomeBtn");   
     let Toast = require("COMMON/modules/Toast");
     let toast = new Toast();
     let LandInfo = require("SERVICE_M/land-info");
@@ -74,8 +77,9 @@
                 },__time__)
             })
             this.fetchInfo(this.lid);
-        },
 
+            new ReturnHome();
+        },
         methods : {
             onScroll(scrollTop){
                 var photoHeight = this.photoHeight;

@@ -45,6 +45,7 @@ var config = require("../../task-webpack/config")({
 		// "mb.tel.msg.to.userorderdetail.c" : path.resolve(ROOT_URL,"C/userorder/msg-to-detail/index.js")
 		//"mb.userorder.c" : path.resolve(ROOT_URL,"C/userorder/index.js"),
 		//"mb.tel.msg.to.userorderdetail.c" : path.resolve(ROOT_URL,"C/userorder/msg-to-detail/index.js")
+
 	},
 	output : output,
 	plugins : plugins
