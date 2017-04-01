@@ -18,8 +18,7 @@ var hotelDateList = {
     },
 
     template: ParseTemplate(dateListTpl),
-
-
+    
     data: [
         {
             date: '2017-04-01',
@@ -42,8 +41,6 @@ var hotelDateList = {
             price: 666
         }
     ]
-
-
     
 };
 

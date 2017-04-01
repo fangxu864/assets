@@ -21,10 +21,11 @@ $(function () {
     datePicker.on("datePick",function (data) {
         console.log(data);
         console.log(this);
-    })
+    });
 
     hotelDateList.render({
-        container:$(".hotel-date-list-box")
+        container:$(".hotel-date-list-box"),
+        data: ''
     });
 
 
