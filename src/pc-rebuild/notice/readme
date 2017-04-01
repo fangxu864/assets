@@ -1,0 +1,10 @@
+###平台-前后端分离-系统通知页
+
+页面访问 http://www.12301.local/new/systemnoticerebuild.html
+
+npm run system-notice-pc-start
+npm run system-notice-pc-test
+npm run system-notice-pc-release
+npm run system-notice-pc-production
+
+接口 http://git.12301.io/PFT/PFT_Documents/src/master/%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5/%E8%8E%B7%E5%8F%96,%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%9F%A5.md

@@ -1,6 +1,6 @@
 <template>
     <sheet-core :height="'100%'" :show.sync="show">
-        <div id="contactContainer" class="contactContainer" slot="content">
+        <div id="contactContainer" class="contactContainer" slot="content" growing-ignore="true">
             <div class="contact-header">常用联系人</div>
             <div class="content">
                 <template v-if="list">

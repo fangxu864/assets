@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+    function A(){
+
+    }
+    A.prototype = {
+        a : "a",
+        getA : function(){
+            return this.a;
+        },
+        setA : function(str){
+            this.a = str;
+        }
+    }
+
+    var a1 = new A();
+    var a2 = new A();
+
+
+    a1.setA("bbb");
+    console.log(a2.getA());
+
+
+
+</script>
+</body>
+</html>

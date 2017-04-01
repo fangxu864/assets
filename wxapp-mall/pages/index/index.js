@@ -5,17 +5,18 @@ var app = getApp(),
 
 Page({
     data: {
-        plist: [],
-        hasMore: true,
+        plist:          [],
+        hasMore:        true,
         isHasMoreHidden: false,
-        isLoading: false,
-        pageSize: 10,
-        lastPos: 0,
+        isLoading:      false,
+        pageSize:       10,
+        lastPos:        0,
         searchInpFocus: false,
-        searchVal: '',
-        noData: false,
-        hasKeyword: false,
-        lastSearch: ''
+        searchVal:      '',
+        isClearShow:    false,
+        noData:         false,
+        hasKeyword:     false,
+        lastSearch:     ''
     },
     onLoad: function () {
     
@@ -205,12 +206,6 @@ Page({
                     that.setData({
                         hasMore: false
                     });
-
-                    setTimeout(function(){
-                        that.setData({
-                            isHasMoreHidden: true
-                        });
-                    }, 3000);
                 }
             }
         })
@@ -227,9 +222,22 @@ Page({
 
         if( this.trim( e.detail.value )!='' ) {
             this.setData({
-                hasKeyword: true
+                hasKeyword: true,
+                isClearShow: true
+            })
+        } else {
+            this.setData({
+                hasKeyword: false,
+                isClearShow: false
             })
         }
+    },
+    clearSearch: function() {
+        this.setData({
+            searchVal: '',
+            hasKeyword: false,
+            isClearShow: false
+        })
     },
     search :function() {
         var that = this;

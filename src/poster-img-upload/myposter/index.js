@@ -135,3 +135,4 @@ pagination.on("page.switch",function(toPage,currentPage,totalPage){
 });
 
 ajaxGetMyPoster(1, 9);
+
