@@ -1,3 +1,5 @@
+##本模块为价格日历组件
+
 ###1.引入datePricePicker
 ```
 var DatePricePicker = require("./Common/Datepicker/index.js");
