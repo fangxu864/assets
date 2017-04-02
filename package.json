@@ -2,16 +2,7 @@
   "name": "pft",
   "version": "1.0.0",
   "description": "pft",
-  "main": "webpack.config.js",
   "scripts": {
-
-
-    "local:pc" : "node ./buildTask/build.dev.js",
-
-
-
-
-
     "doc" : "cd doc && idoc server",
     "annual-start": "set NODE_ENV=develop && webpack --config ./src/annual_card/webpack.config.js -w",
     "annual-test": "set NODE_ENV=test && webpack --config ./src/annual_card/webpack.config.js",
@@ -192,7 +183,14 @@
     "poster-img-upload-start":"set NODE_ENV=develop && webpack --watch --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-test":"set NODE_ENV=test && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
     "poster-img-upload-release": "set NODE_ENV=release && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
-    "poster-img-upload-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js"
+    "poster-img-upload-production": "set NODE_ENV=production && webpack --progress --colors --config ./src/poster-img-upload/webpack.config.js",
+    
+    "local": "node ./buildTask/build.local.js",
+    "test": "node ./buildTask/build.test.js",
+    "release": "node ./buildTask/build.release.js",
+    "production": "node ./buildTask/build.production.js"
+
+   
   },
   "repository": {
     "type": "git",
@@ -261,12 +259,14 @@
     "webpack": "^1.13.0",
     "webpack-dashboard": "^0.1.8",
     "webpack-dev-server": "^1.14.1",
+    "webpack-stream": "^3.2.0",
     "yargs": "^4.7.1"
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
     "console-polyfill": "^0.2.2",
     "es5-shim": "^4.5.9",
+    "pft-ui-component": "0.0.2",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "vue": "^1.0.26",

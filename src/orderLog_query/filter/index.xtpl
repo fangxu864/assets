@@ -1,0 +1,64 @@
+<!--
+
+<div class="line1_filter">
+    &lt;!&ndash;平台商户&ndash;&gt;
+    <? if($_SESSION['memberID'] == 1){
+    echo "<span id='labelMerchant'>平台商户：</span>";
+    echo "<input type='text' id='merchant'>";
+     }?>
+    &lt;!&ndash;操作时间&ndash;&gt;
+    <span>操作时间：</span>
+    <input type="text" style="width: 140px" id="startTime">
+    <span id="warn1">操作时间必填</span>
+    <span style="margin-left: 0px">至</span>
+    <input type="text" style="width: 140px" id="endTime">
+    <span id="warn2">操作时间必填</span>
+    &lt;!&ndash;订单号&ndash;&gt;
+    <span>订单号：</span>
+    <input type="text" style="width: 140px" id="orderNumber">
+</div>
+
+<div class="line2_filter">
+    &lt;!&ndash;操作员姓名&ndash;&gt;
+    <span>操作员姓名：</span>
+    <input type="text" id="operatePerson">
+    &lt;!&ndash;操作类型&ndash;&gt;
+    <span>操作类型：</span>
+    <select name="" id="operateType" >
+        <option value="">全部</option>
+        <option value="0">下单</option>
+        <option value="1">修改</option>
+        <option value="2">取消</option>
+        <option value="3">出票</option>
+        <option value="5">验证</option>
+        <option value="6">撤销</option>
+        <option value="7">撤改</option>
+        <option value="8">重打印</option>
+    </select>
+    &lt;!&ndash;操作终端&ndash;&gt;
+    <span>操作终端：</span>
+    <select name="" id="operateTerminal">
+        <option value="">全部</option>
+        <option value="16">平台</option>
+        <option value="0">终端机</option>
+        <option value="1">软终端</option>
+        <option value="2">自助机</option>
+        <option value="3">外部通知更新</option>
+        <option value="4">云票务</option>
+        <option value="5">云闸机</option>
+        <option value="19">自运行服务</option>
+        <option value="20">安卓智能终端机</option>
+        <option value="21">验证服务器</option>
+        <option value="22">微信商城</option>
+        <option value="23">二级店铺</option>
+        <option value="24">OTA</option>
+        <option value="25">会员购票</option>
+        <option value="26">年卡特权</option>
+    </select>
+    <div id="search">搜索</div>
+    <div id="export">
+        导出
+    </div>
+</div>
+
+-->

@@ -1,11 +1,11 @@
 <div class="dealsumContainer">
     <div class="trecordTitle">
         <ul>
-            <li class=""><a href="../accourtmanage.html">账户管理</a></li>
+            <!--<li class=""><a href="../accourtmanage.html">账户管理</a></li>-->
             <li class=""><a href="../trecordNew.html">交易记录</a></li>
             <li class="acct"><a href="dealsum.html">交易汇总</a></li>
-            <li class=""><a href="../recharge.html">充值</a></li>
-            <li class=""><a href="../withdraw.html">提现</a></li>
+            <!--<li class=""><a href="../recharge.html">充值</a></li>-->
+            <!--<li class=""><a href="../withdraw.html">提现</a></li>-->
             <!--<li class=""><a href="../transfer.html">转账</a></li>-->
         </ul>
     </div>
@@ -40,7 +40,7 @@
     </div>
     <div class="tb_top_box" style="display: none;">
         <div class="lt">
-            <div class="th"><div class="roll_left" style="color: white;"><</div></div>
+            <div class="th"><div class="roll_left" style="color: black;"><</div></div>
             <div class="tr">收入</div>
             <div class="tr">支出</div>
         </div>
@@ -56,7 +56,7 @@
             </table>
         </div>
         <div class="rt_r">
-            <div class="th"><div class="roll_right" style="color: white;">></div></div>
+            <div class="th"><div class="roll_right" style="color: black;">></div></div>
         </div>
 
     </div>

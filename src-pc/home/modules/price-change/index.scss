@@ -1,0 +1,54 @@
+
+
+
+#PriceChangeBox{
+	background : #fff;
+	border:1px solid #e8e8e8;
+	margin-bottom : 20px;
+
+	.infoTop{
+		height : 42px;
+		line-height: 42px;
+		color : #858585;
+		border-bottom: 1px solid #e8e8e8;
+
+		.icon-chanpindongtai{
+			position: relative;
+			top: 3px;
+			display : inline-block;
+			margin-left : 10px;
+		}
+		.title{
+		}
+		.moreBtn{
+			float : right;
+			cursor: pointer;
+		}
+	}
+
+	.infoList{
+		.item{
+			height : 40px;
+			line-height : 40px;
+			border-bottom : 1px solid #e8e8e8; 
+			.changeInfo{
+				display : inline-block;
+				width:214px; 
+				white-space:nowrap; 
+				text-overflow:ellipsis; 
+				overflow:hidden;
+				padding-left : 10px;
+				color : #4c4e53;
+			}
+			.changePrice{
+				display : inline-block;
+				width: 50px;
+				white-space:nowrap; 
+				text-overflow:ellipsis; 
+				overflow:hidden;
+				text-align: right;
+				padding-right: 5px;
+			}
+		}
+	}
+}

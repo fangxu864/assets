@@ -14,7 +14,9 @@ var config = require("../../task-webpack/config")({
 		// "sale_reportform_report_revoke" : "./src/sale_reportform/report_revoke/index.js",
 		// "sale_reportform_report_overtime" : "./src/sale_reportform/report_overtime/index.js",
 		// "sale_reportform_report_unpaid" : "./src/sale_reportform/report_unpaid/index.js",
-		"sale_reportform_report_marketing" : "./src/sale_reportform/report_marketing/index.js"
+		// "sale_reportform_report_marketing" : "./src/sale_reportform/report_marketing/index.js",
+		//应收应付
+		"sale_reportform_report_income" : "./src/sale_reportform/report_income/index.js"
 	},
 	output : output,
 	plugins : plugins,

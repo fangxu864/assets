@@ -82,24 +82,24 @@ var accountSearch={
         this.searchType_params_dialog={};
         this.search_type_select_dialog=new SelectShort({
             id:"search_type_select",
-            arr:["商户名称","ID"],
+            arr:["企业名称","ID"],
             callback:function(cur_opt){
                 var json={
-                    "商户名称":0,
-                    "ID":3
+                    "企业名称":0,
+                    "ID":1
                 };
                 _this.searchType_params_dialog["type"]=json[cur_opt];
             }
         });
         this.search_inp_dialog=new Select({
-            source : "/r/Admin_Config/getSearch/",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
+            source : "/r/Finance_TradeRecord/getComNameByKeyWord",//http://www.12301.cc/call/jh_mem.php?action=fuzzyGetDname_c&dname=sdf&dtype=1
             ajaxType : "post",
             ajaxParams : _this.searchType_params_dialog,
             isFillContent:false,
             filterType : "ajax",  //指定过滤方式为ajax
             field : {
-                id : "id",
-                name : "dname",
+                id : "fid",
+                name : "com_name",
                 keyword : "keyword"
             },
             height : 260,
@@ -113,7 +113,7 @@ var accountSearch={
             adaptor : function(res){
                 var result={};
                 result["code"] = 200;
-                result["data"] = res.data[0]==undefined?res.data:res.data[0];
+                result["data"] = res.data;
                 result["msg"] = res.msg;
                 return result;
             }
@@ -153,15 +153,15 @@ var accountSearch={
         //交易商户搜索框 清除按钮
         $("i.clear_trader_inp").on("click",function () {
             $("#trader_inp").attr({
-                "data-id":"",
-                "data-dname":"",
+                "data-fid":"",
+                "data-com_name":"",
                 "placeholder":"请输入商户名称/ID"
             }).val("")
         });
         //查询按钮点击
         $("#query_btn").on("click",function () {
             _this.filterParamsBox["end_time"]= _this.etime_inp.val();
-            _this.filterParamsBox["reseller_id"]= $("#trader_inp").attr("data-id")||"";
+            _this.filterParamsBox["reseller_id"]= $("#trader_inp").attr("data-fid")||"";
             _this.filterParamsBox["page"]= 1;
             _this.filterParamsBox["page_size"]= _this.perPageNum;
             _this.filterParamsBox["export"]= 0;

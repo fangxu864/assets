@@ -1,0 +1,36 @@
+<thead>
+<tr>
+    <th class="th1"><%=data.data.Jtype == 1 ? '分销商' : '供应商'%>/产品-票</th>
+    <th>订单数</th>
+    <th>票数</th>
+    <th class="th4"><%=data.data.Jtype == 1 ? '应收' : '应付'%>(元)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr class="first-tr">
+    <td>合计: </td>
+    <td><%=data.data.total_info.order_num%></td>
+    <td><%=data.data.total_info.ticket_num%></td>
+    <td class="th4"><%=Number( (data.data.total_info.sale_money - data.data.total_info.cancel_money + Number( data.data.total_info.service_money ) ) /100 ).toFixed(2) %></td>
+</tr>
+</tbody>
+
+<% _.each(data.data.list,function(item,index){ %>
+<tbody>
+<tr data-index="tr<%=index%>">
+    <td class="th1"><span class="un-shrink"></span><%=item.name%></td>
+    <td class=""><%=item.member_num%></td>
+    <td class=""><%=item.member_ticket%></td>
+    <td class="th4"><%=( Number(  item.real_money ) / 100 ) .toFixed(2)%></td>
+</tr>
+<% for(var i = 0 ; i< item.product_list.length ; i++ ){%>
+<tr style="display: none" class="child-tr">
+    <td class="th1-child"><%=item.product_list[i].name%></td>
+    <td class=""><%=item.product_list[i].pid_num%></td>
+    <td class=""><%=item.product_list[i].pid_ticket%></td>
+    <td class="th4"><%=( Number(  item.product_list[i].pid_real ) / 100 ) .toFixed(2)%></td>
+</tr>
+<%}%>
+</tbody>
+<%})%>
