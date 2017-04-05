@@ -57,7 +57,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "moment": "^2.13.0",
-    "node-sass": "3.7.0",
+    "node-sass": "^3.7.0",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
     "react": "^0.14.8",
