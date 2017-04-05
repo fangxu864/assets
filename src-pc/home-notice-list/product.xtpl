@@ -1,0 +1,10 @@
+                <% _.each( data.list, function( item, index ){ %>
+                <tr>
+                    <td><%=item.landName%></td>
+                    <td><%=item.province%></td>
+                    <td><%=item.city%></td>
+                    <td><%=item.proName%></td>
+                    <td><%=item.type == 1 ? '<i class="icon icon-pc-prompt icon-shangjia" title="上架"></i>': '<i class="icon icon-pc-prompt icon-xiajia" title="下架"></i>'%></td>
+                    <td><%=item.time%></td>
+                </tr>
+                <% }) %>

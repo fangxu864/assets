@@ -1,0 +1,10 @@
+                <% _.each( data.list, function( item, index ){ %>
+                <tr>
+                    <td><%=item.landName%></td>
+                    <td><%=item.province%></td>
+                    <td><%=item.city%></td>
+                    <td><%=item.proName%></td>
+                    <td><%=item.diff%></td>
+                    <td><%=item.time%></td>
+                </tr>
+                <% }) %>
