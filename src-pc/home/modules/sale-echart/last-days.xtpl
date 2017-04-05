@@ -1,0 +1,31 @@
+<%
+        var d_type = $("#home_judge_of_dtype").val()
+        %>
+<div class="data-box">
+    <div class="recent-seven inner-box">
+        <div class="title"><%=d_type == 0 ? '近七日检票': '近七日预订' %></div>
+        <div class="con clearfix">
+            <div class="lt">
+                <div class="img-box"></div>
+            </div>
+            <div class="rt">
+                <p><span class="num"><%=data.chTicketNumSeven ? data.chTicketNumSeven : 0 %></span>张</p>
+                <p><span class="num"><%=data.chSaleMoneySeven / 100 > 10000 ? (data.chSaleMoneySeven / 1000000).toFixed(2)+ "<span style='font-size: 14px'>万</span>" : data.chSaleMoneySeven / 100 %></span>元</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="data-box">
+<div class="recent-thirty inner-box">
+    <div class="title"><%=d_type == 0 ? '近30日检票': '近30日预订' %></div>
+    <div class="con clearfix">
+        <div class="lt">
+            <div class="img-box"></div>
+        </div>
+        <div class="rt">
+            <p><span class="num"><%=data.chTicketNumMonth ? data.chTicketNumMonth : 0 %></span>张</p>
+            <p><span class="num"><%=data.chSaleMoneyMonth / 100 > 10000 ? (data.chSaleMoneyMonth / 1000000).toFixed(2)+ "<span style='font-size: 14px'>万</span>" : data.chSaleMoneyMonth / 100 %></span>元</p>
+        </div>
+    </div>
+</div>
+</div>

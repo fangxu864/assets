@@ -4,41 +4,63 @@
    <i class="icon icon-pc-prompt icon-shuaxin rotateInfinite"></i>
 </div>
 <div class="line line1 clearfix">
-    <div class="today-box data-box" >
-        <div class="con">
-            <div class="lt">今<br/>日</div>
-            <div class="rt">
-                <table></table>
+    <div class="data-box today-wrap">
+        <!--<div class="data-box">-->
+            <!--<div class="today-book inner-box">-->
+                <!--<div class="title">今日预订</div>-->
+                <!--<div class="con clearfix">-->
+                    <!--<div class="lt">-->
+                        <!--<div class="img-box"></div>-->
+                    <!--</div>-->
+                    <!--<div class="rt">-->
+                        <!--<p><span class="num">2290</span>张</p>-->
+                        <!--<p><span class="num">66666</span>元</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="data-box">-->
+            <!--<div class="today-check inner-box">-->
+                <!--<div class="title">今日验证</div>-->
+                <!--<div class="con clearfix">-->
+                    <!--<div class="lt">-->
+                        <!--<div class="img-box"></div>-->
+                    <!--</div>-->
+                    <!--<div class="rt">-->
+                        <!--<p><span class="num">2290</span>张</p>-->
+                        <!--<p><span class="num">66666</span>元</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    <div class="data-box last-days-wrap">
+        <div class="data-box">
+            <div class="recent-seven inner-box">
+                <div class="title">近七日检票</div>
+                <div class="con clearfix">
+                    <div class="lt">
+                        <div class="img-box"></div>
+                    </div>
+                    <div class="rt">
+                        <p><span class="num">2290</span>张</p>
+                        <p><span class="num">66666</span>元</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="seven-box data-box">
-        <div class="con">
-            <div class="lt">近<br/>7<br/>日</div>
-            <div class="rt">
-                <table>
-                    <tr>
-                        <td><span class="key">检票数 : </span><span class="value">张</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="key">检票金额 : </span><span class="value">元</span></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="month-box data-box">
-        <div class="con">
-            <div class="lt">近<br/>30<br/>日</div>
-            <div class="rt">
-                <table>
-                    <tr>
-                        <td><span class="key">检票数 : </span><span class="value">张</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="key">检票金额 : </span><span class="value">元</span></td>
-                    </tr>
-                </table>
+        <div class="data-box">
+            <div class="recent-thirty inner-box">
+                <div class="title">近30日检票</div>
+                <div class="con clearfix">
+                    <div class="lt">
+                        <div class="img-box"></div>
+                    </div>
+                    <div class="rt">
+                        <p><span class="num">2290</span>张</p>
+                        <p><span class="num">66666</span>元</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
