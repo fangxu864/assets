@@ -1,0 +1,7 @@
+<%_.each(data,function(item,index){%>
+
+    <li>
+        <a href="pft_announce.html?id=<%=item.id%>&m=con" class="noticeTitle" id="<%=item.id%>" title="<%=item.title%>"><%=item.title%></a><span class="noticeTime"><%=item.create_time%></span>
+    </li>
+
+<%})%>
