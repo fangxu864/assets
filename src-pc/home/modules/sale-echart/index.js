@@ -21,8 +21,7 @@ var datepicker = new Datepicker();
 
 require("./index.scss");
 var Tpl = require("./index.xtpl");
-var oD_seven_tpl = require("./orderdata-seven.xtpl");
-var oD_month_tpl = require("./orderdata-month.xtpl");
+var oD_lastdays_tpl = require("./last-days.xtpl");
 var oD_today_tpl = require("./orderdata-today.xtpl");
 
 var LoadingPC = require("COMMON/js/util.loading.pc.js");
@@ -38,14 +37,13 @@ module.exports = function(parent){
 	var saleEchart = PFT.Util.Class({
 		container : container,
 		template : PFT.Util.ParseTemplate(Tpl),
-		template_seven_od : PFT.Util.ParseTemplate(oD_seven_tpl),
-		template_month_od : PFT.Util.ParseTemplate(oD_month_tpl),
+		template_lastdays_od : PFT.Util.ParseTemplate(oD_lastdays_tpl),
 		template_today_od : PFT.Util.ParseTemplate(oD_today_tpl),
 		init : function(){
 			var _this = this ;
 			this.render();
 			this.renderOrderData_today( true );
-			this.renderOrderData_seven();
+			this.renderOrderData_last();
 			//折线图
 
 			this.lineEchart = echarts.init(document.getElementById('lineEchart'));
@@ -103,7 +101,7 @@ module.exports = function(parent){
 		 */
 		renderOrderData_today : function ( isInit ) {
 			var _this = this ;
-			var curContainer = _this.container.find(".line1 .today-box .rt table");
+			var curContainer = _this.container.find(".line1 .today-wrap");
 			var icon = _this.container.find(".title .icon-shuaxin");
 			var params ;
 			if( isInit ){
@@ -112,7 +110,7 @@ module.exports = function(parent){
 				params = { is_flush : 1}
 			}
 			var LoadingStr = LoadingPC("努力加载中...",{
-				tag : "tr",
+				tag : "div",
 				width : 500,
 				height : 60
 			});
@@ -166,13 +164,12 @@ module.exports = function(parent){
 		/**
 		 * @method 渲染近七日订单数据 和 近30日订单数据
 		 */
-		renderOrderData_seven : function () {
+		renderOrderData_last : function () {
 			var _this = this ;
 
-			var sevenContainer = _this.container.find(".line1 .seven-box table");
-			var monthContainer = _this.container.find(".line1 .month-box table");
+			var lastContainer = _this.container.find(".line1 .last-days-wrap");
 			var LoadingStr = LoadingPC("努力加载中...",{
-				tag : "tr",
+				tag : "div",
 				width : 500,
 				height : 60
 			});
@@ -181,18 +178,14 @@ module.exports = function(parent){
 				type : "POST",
 				params : {},
 				loading : function(){
-					sevenContainer.html(LoadingStr);
-					monthContainer.html(LoadingStr);
+					lastContainer.html(LoadingStr);
 				},
 				success : function(res){
 					if( res.code == 200 ){
-						var sevenHtml = _this.template_seven_od( { data : res.data.data } );
-						var monthHtml = _this.template_month_od( { data : res.data.data } );
-						sevenContainer.html( sevenHtml );
-						monthContainer.html( monthHtml )
+						var lastHtml = _this.template_lastdays_od( { data : res.data.data } );
+						lastContainer.html( lastHtml );
 					}else{
-						sevenContainer.html( res.msg );
-						monthContainer.html( res.msg )
+						lastContainer.html( res.msg );
 					}
 				},
 				timeout : function(){},
@@ -606,20 +599,12 @@ module.exports = function(parent){
 								if( _this.judgeTrue( res.data.product_use ) ){
 									_this.renderPieEchart( res.data.product_use );
 								}else{
-									_this.pieEchart.showLoading(
-										{
-											text : '7天产品使用排行暂无数据'
-										}
-									);
+									$("#pieEchart").html('<div style="text-align: center;margin-top: 200px;">7天产品使用排行暂无数据</div>');
 								}
 								if( _this.judgeTrue( res.data.sale_rank )){
 									_this.renderBarEchart( res.data.sale_rank );
 								}else{
-									_this.barEchart.showLoading(
-										{
-											text : '7天渠道排行暂无数据'
-										}
-									);
+									$("#barEchart").html('<div style="text-align: center;margin-top: 200px;">7天渠道排行暂无数据</div>');
 								}
 
 							}else{
@@ -640,16 +625,8 @@ module.exports = function(parent){
 										text : '最近销售趋势暂无数据'
 									}
 								);
-								_this.pieEchart.showLoading(
-									{
-										text : '7天产品使用排行暂无数据'
-									}
-								);
-								_this.barEchart.showLoading(
-									{
-										text : '7天渠道排行暂无数据'
-									}
-								);
+								$("#pieEchart").html('<div style="text-align: center;margin-top: 200px;">7天产品使用排行暂无数据</div>');
+								$("#barEchart").html('<div style="text-align: center;margin-top: 200px;">7天渠道排行暂无数据</div>');
 							}else{
 								_this.lineEchart.showLoading(
 									{
@@ -663,12 +640,26 @@ module.exports = function(parent){
 					complete: function(res,status) {
 						//请求完成的处理
 						if(status=="timeout"){
-							// alert("折线图一请求超时")
+							// alert("折线图一请求超时")；
+							_this.lineEchart.showLoading(
+								{
+									text : '最近销售趋势暂无数据'
+								}
+							);
+							$("#pieEchart").html('<div style="text-align: center;margin-top: 200px;">7天产品使用排行暂无数据</div>');
+							$("#barEchart").html('<div style="text-align: center;margin-top: 200px;">7天渠道排行暂无数据</div>');
 						}
 					},
 					error: function() {
 						//请求出错处理
 						// alert("折线图一请求出错")
+						_this.lineEchart.showLoading(
+							{
+								text : '最近销售趋势暂无数据'
+							}
+						);
+						$("#pieEchart").html('<div style="text-align: center;margin-top: 200px;">7天产品使用排行暂无数据</div>');
+						$("#barEchart").html('<div style="text-align: center;margin-top: 200px;">7天渠道排行暂无数据</div>');
 					}
 				});
 			}
