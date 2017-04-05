@@ -1,3 +1,5 @@
+##本模块为价格日历组件
+
 ###1.引入datePricePicker
 ```
 var DatePricePicker = require("./Common/Datepicker/index.js");
@@ -17,7 +19,7 @@ var datePricePicker = new DatePricePicker();
         });
  ```
 
-###4.订阅dataPick事件
+###4.订阅dataPick事件（点击某一日期时触发）
 ```
 datePicker.on("datePick",function (date) {
             console.log(date)

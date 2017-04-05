@@ -93,7 +93,6 @@ var DataCenter = {
         }
     },
 
-
     /**
      * @method 获取按票统计时的数据
      */
@@ -202,6 +201,6 @@ var DataCenter = {
     cacheHub: {}
 
 
-}
+};
 
 module.exports = DataCenter;
