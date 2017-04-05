@@ -8,7 +8,7 @@ var PaginationSimple = require("COMMON/modules/pagination-simple");
 var Calendar = require("COMMON/modules/calendar");
 var Loading = require("COMMON/js/util.loading.pc.js");
 var RedpacketWithdraw=function(){
-	this.now = new Date(); //当前日期
+  	this.now = new Date(); //当前日期
 	this.nowDayOfWeek = this.now.getDay(); //今天本周的第几天
 	this.nowDay = this.now.getDate(); //当前日
 	this.nowMonth =this.now.getMonth(); //当前月
@@ -18,6 +18,8 @@ var RedpacketWithdraw=function(){
 	this.lastMonthDate.setMonth(this.lastMonthDate.getMonth()-1);
 	this.lastMonth = this.lastMonthDate.getMonth();
 	this.initialize();
+    this.btnClick();
+	this.changeColor();
 }
 RedpacketWithdraw.prototype={
 	__cache : {
@@ -28,7 +30,7 @@ RedpacketWithdraw.prototype={
 		lastmonth : null
 	},
 	initialize:function(){
-		var that=this;
+	   	var that=this;
 		this.queryBtn=$("#queryBtn");
 		this.checkBtn=$("#checkSta");
 		this.queryInp=$("#queryInp");
@@ -51,11 +53,11 @@ RedpacketWithdraw.prototype={
 		})
 		this.pagination.on("next",function(data){
 			var toPage = data.toPage;
-			that.getAnnualCardList(toPage);
+			that.getWithdrawRecord("",toPage);
 		})
 		this.pagination.on("prev",function(data){
 			var toPage = data.toPage;
-			that.getAnnualCardList(toPage);
+			that.getWithdrawRecord("",toPage);
 		})
 		this.fromDateInp.val(that.getWeekStartDate());
 		this.toDateInp.val(that.getWeekEndDate());
@@ -102,7 +104,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.today.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.today.totalMoney);
+				$("#sumNum").text(that.__cache.today.total_money/100);
 			}
 		})
 		this.thisWeekBtn.on("click",function(e){
@@ -113,7 +115,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.thisweek.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.thisweek.totalMoney);
+				$("#sumNum").text(that.__cache.thisweek.total_money/100);
 			}
 		})
 		this.lastWeekBtn.on("click",function(e){
@@ -124,8 +126,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.lastweek.list);
 				that.getRecordAndSum();
-				console.log(that.__cache.lastweek.totalMoney)
-				$("#sumNum").text(that.__cache.lastweek.totalMoney);
+				$("#sumNum").text(that.__cache.lastweek.total_money/100);
 			}
 		})
 		this.thisMonthBtn.on("click",function(e){
@@ -136,7 +137,7 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.thismonth.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.thismonth.totalMoney);
+				$("#sumNum").text(that.__cache.thismonth.total_money/100);
 			}
 		})
 		this.lastMonthBtn.on("click",function(e){
@@ -147,16 +148,16 @@ RedpacketWithdraw.prototype={
 			}else{
 				that.renderList(that.__cache.lastmonth.list);
 				that.getRecordAndSum();
-				$("#sumNum").text(that.__cache.lastmonth.totalMoney);
+				$("#sumNum").text(that.__cache.lastmonth.total_money/100);
 			}
 		})
 	},
 
-	getRecordAndSum: function(totalMoney){
+	getRecordAndSum: function(){
 		//var sumNum=0;
-		var recordNum=$("#withdrawList").children("tr").length;
-		$("#recordNum").text(recordNum);
-		//$("#withdrawList .withdrawNum").each(function(totalMoney){
+		//var recordNum=$("#withdrawList").children("tr").length;
+		//$("#recordNum").text(recordNum);
+		//$("#withdrawList .withdrawNum").each(function(){
 		//	sumNum+=parseInt($(this).text());
 		//})
 		//$("#sumNum").text(sumNum);
@@ -167,6 +168,18 @@ RedpacketWithdraw.prototype={
 		var endtime= $.trim(that.toDateInp.val())
 		page = page || 1;
 		pagesize = pagesize || 10;
+
+		// var d = '{"member_id":"6970","sid":"3385","create_time":"1469167544","money":"5000","type":"1","nickname":"测试","supply":"慢慢的店铺"}';
+		// d = JSON.parse(d);
+		// var data = [];
+		// for(var i=0; i<20; i++) data.push(d);
+        //
+		// that.renderList(data);
+		// that.pagination.render({current:page,total:20});
+        //
+		// return false;
+
+
 		PFT.Util.Ajax("/r/Mall_AllDis/redpackList/",{
 			params:{
 				beginTime:begintime,
@@ -188,34 +201,32 @@ RedpacketWithdraw.prototype={
 				res=res||{};
 				var data=res.data;
 				var list=data.list;
-				var totalMoney=data.total_money/100;
 				var currentPage = data.cur_page;
 				var totalPage = data.total_page;
+				var totalMoney=data.total_money/100;
 				var total = data.total;
 				if(res.code==200){
-
 					that.renderList(list);
 					that.getRecordAndSum();
 					$("#sumNum").text(totalMoney);
 					that.pagination.render({current:currentPage,total:totalPage});
-					console.log(dateType)
-					if(dateType=="today"){
-						that.__cache.today = data;
-					}
-					if(dateType=="thisweek"){
-						that.__cache.thisweek = data;
-					}
-					if(dateType=="lastweek"){
-						console.log("lastweek")
-						console.log(data)
-						that.__cache.lastweek = data;
-					}
-					if(dateType=="thismonth"){
-						that.__cache.thismonth = data;
-					}
-					if(dateType=="lastmonth"){
-						that.__cache.lastmonth = data;
-					}
+
+					// if(dateType=="today"){
+					// 	that.__cache.today = data;
+					// }
+					// if(dateType=="thisweek"){
+					// 	that.__cache.thisweek = data;
+					// }
+					// if(dateType=="lastweek"){
+					// 	that.__cache.lastweek = data;
+					// }
+					// if(dateType=="thismonth"){
+					// 	that.__cache.thismonth = data;
+					// }
+					// if(dateType=="lastmonth"){
+					// 	that.__cache.lastmonth = data;
+					// }
+					$("#recordNum").text(total);
 				}
 				else{
 					alert(res.msg);
@@ -229,7 +240,7 @@ RedpacketWithdraw.prototype={
 		for(var i in list){
 			var d=list[i];
 			var create_time=d["create_time"];
-			var date=new Date(parseInt(create_time));
+			var date=new Date(parseInt(create_time)* 1000);
 			var time=that.formatTime(date);
 			var supply=d["supply"];
 			var name=d["nickname"];
@@ -349,7 +360,35 @@ RedpacketWithdraw.prototype={
 			second = "0" + second;
 		}
 		return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
+	},
+    btnClick:function () {
+	    var that = this;
+        $("#queryBtn").click(function () {
+
+            that.getRecordAndSum();
+
+        })
+    },
+	changeColor:function(){
+
+		change($("#today"));
+		change($("#thisWeek"));
+		change($("#lastWeek"));
+		change($("#thisMonth"));
+		change($("#lastMonth"));
+        function change(obj){
+			var colorC= obj.css("background")
+			obj.mouseover(function () {
+				$(this).css("background","#ccc")
+			})
+			obj.mouseout(function () {
+				$(this).css("background",colorC)
+			})
+		}
+
+
 	}
+
 
 }
 $(function(){

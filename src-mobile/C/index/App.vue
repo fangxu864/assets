@@ -17,6 +17,7 @@
             <ptype-list></ptype-list>
             <product-list :area="city"></product-list>
         </div>
+        <share-flag></share-flag>
     </div>
 </template>
 
@@ -56,7 +57,8 @@
             //fixHeader : require("COMMON_VUE_COMPONENTS/fix-header"),
             productList : require("./components/product-list"),
             //citySwitchor : require("COMMON_VUE_COMPONENTS/city-switchor"),
-            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list")
+            ptypeList : require("COMMON_VUE_COMPONENTS/ptype-list"),
+            shareFlag : require("./components/share-flag")
         }
     }
 </script>

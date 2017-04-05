@@ -1,0 +1,257 @@
+
+		@import "COMMON/css/base/main";
+
+
+#productOrderBox{
+	.productOrderTop{
+		background: #e5f5fc;
+		overflow: hidden;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		.icon-sousuo{
+			position : absolute;
+			top : 21px;
+			left : 20px; 
+		}
+		.inputWrap{
+			margin: px2rem(24) px2rem(16) ;
+			padding-left: px2rem(75);
+			background: #fff;
+			input.productNameSearch{
+				height: px2rem(64);
+				border-radius: px2rem(4);
+				font-size: px2rem(28);
+				color: #9e9e9e;
+				border: none;
+				width: 100%;
+				outline : none;
+				background: #fff;
+			}
+		}
+		.productSelectBox{
+			display: flex;
+			display: -webkit-flex;
+			padding: 0 px2rem(16);
+			margin-bottom: px2rem(24);
+			.productSelectItem{
+				flex-grow : 1;
+				text-align: center;
+				font-size: px2rem(32);
+				color: #262d37;
+				display: flex;
+				display: -webkit-flex;
+				align-items : center;
+				justify-content :  center;
+				.productSelectText{
+					font-size: px2rem(32);
+					color: #262d37;
+				}
+				.productSelectMore{
+					display: block;
+					height: px2rem(30);
+					width: px2rem(30);
+					// background: #123456;
+					margin-left: px2rem(10);
+				}
+			}
+		}
+	}	
+	.productOrderList{
+		position: absolute;
+		width: 100%;
+	    top: 2.2rem;
+	   	bottom : 0;  //用xscroll插件的时候必须要有
+	    .productOrderSpot{
+	    	padding: 0;
+			margin-top: 0;
+			.spotTitle{
+				margin: px2rem(24) 0;
+				padding: 0 px2rem(16);
+				.productDetailLink{
+					display: block;
+					display: flex;
+					display: -webkit-flex;
+					.spotImg{
+						height: px2rem(150);
+						width: px2rem(200);
+						background: #123456;
+					}
+					.spotRight{
+						padding-left: px2rem(20);
+						line-height: px2rem(45);
+						.spotName{
+							font-size: px2rem(32);
+							color: #262d37;
+						}
+						.spotInfo{
+							font-size: px2rem(28);
+							color: #9e9e9e;
+						}
+					}
+				}
+			}
+			.spotTicket{
+				height: px2rem(96);
+				border-top: 1px solid #c9c9c9;
+				padding: 0 px2rem(16);
+				.writeOrderLink{
+					display: flex;
+					display: -webkit-flex;
+					line-height: px2rem(96);
+					font-size: px2rem(32);
+					.spotTicketName{
+						// flex-grow : 1;
+						height : 1.28rem;
+						text-overflow : ellipsis;
+						white-space:nowrap; 
+						overflow:hidden; 
+						width : 200%;
+					}
+					.spotTicketPrice{
+						// flex-grow : 5;
+						text-align: right;
+						color: #f07845;
+						margin-right: px2rem(10);
+						width : 50%;
+					}
+					.spotTicketArr{
+						color: #9e9e9e;
+					}
+				}
+			}
+			.spotTicketMore{
+				line-height: px2rem(96);
+				color: #0797d9;
+				font-size: px2rem(32);
+				.spotTicketMoreLink{
+					display: flex;
+					display: -webkit-flex;
+					justify-content: flex-end ;
+					.spotTicketMoreArr{
+						margin-left: px2rem(10);
+					}
+				}
+			}
+	    }
+	    .productOrderListGap{
+	    	height: px2rem(20);
+			background: #F0F3F5;
+	    }
+	}
+	.xs-plugin-pullup-container{
+		line-height: px2rem(50);
+		text-align: center;
+		font-size: px2rem(32);
+	}
+}
+
+
+
+.ui-sheetCoreContainer{
+	.sheet-content{
+		li{
+			height : 43px;
+			list-style-type : none;
+			line-height : 43px;
+			padding-left : 20px;
+			border-bottom: 1px solid #e5e5e5;
+		}
+	}
+}
+// 选择城市弹窗部分
+.cityWrap{
+	margin : px2rem(32) px2rem(32) 0 px2rem(32);
+	display: flex;
+	display: -webkit-flex;
+	flex-direction : column;
+	.icon-sousuo{
+		position : absolute;
+		top : 33px;
+		left : 21px;
+	}
+	#citySearch{
+		height : px2rem(88);
+		border : 1px solid #dcdcdc;
+		border-radius : 4px;
+		font-size : px2rem(32);
+		color : #262d37;
+		padding-left : px2rem(50);
+		margin-bottom : px2rem(45);
+		&:focus{
+			border : 1px solid #0797d9;
+		}
+	}
+	.allCityBtn{
+		height : px2rem(88);
+		background : #f3f1f1;
+		font-size : px2rem(32);
+		line-height : px2rem(88);
+		margin-bottom : px2rem(45);
+		text-align : center;
+	}
+	.cityBtn{
+		width : 8.5rem;
+	}
+}
+
+// 搜索弹窗部分
+
+#allSearch{
+	display: flex;
+	display: -webkit-flex;
+	height : px2rem(112);
+	line-height : px2rem(112);
+	background: #e5f5fc;	
+	align-items : center ;
+	.returnBtn{
+		flex-grow : 1;	
+		font-size : 24px;
+		margin : 0 px2rem(20);
+		color : #000;
+	}
+	.searchInput{
+		flex-grow : 10;
+		height : px2rem(64);
+		border-radius : 4px; 
+		font-size : px2rem(28);
+		padding-left : px2rem(30);
+		border : none;
+	}
+	.searchBtn{
+		flex-grow : 1;
+		font-size : px2rem(36);
+		color : #0797d9;
+		margin : 0 px2rem(20);
+	}
+}
+
+.allCityList{
+	position : absolute;
+	width : 100%;
+	top : 150px;
+	bottom : 42px;
+}
+#pullupUndefined{
+	margin-top: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		

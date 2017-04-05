@@ -135,7 +135,7 @@ module.exports = function(parent){
 							Tips.closeAllTips();
 							Tips.show({
 								lifetime : 1500 ,
-								direction : top,
+								direction:'top',
 								hostObj : icon ,
 								content : "刷新成功",
 								bgcolor : "#3eba40"
@@ -147,7 +147,7 @@ module.exports = function(parent){
 						Tips.closeAllTips();
 						Tips.show({
 							lifetime : 1500 ,
-							direction : top,
+							direction:'top',
 							hostObj : icon ,
 							content : "五分钟后可再刷新"
 						})
@@ -447,7 +447,7 @@ module.exports = function(parent){
 			Tips.closeAllTips();
 			Tips.show({
 				lifetime : 1500 ,
-				direction : top,
+				direction : 'top',
 				hostObj : tarBtn ,
 				content : "点我刷新",
 				bgcolor : "#ff8734"

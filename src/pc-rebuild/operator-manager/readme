@@ -1,0 +1,9 @@
+###平台-前后端分离-员工管理模块
+包含两个面页：
+http://www.12301.cc/operlist.html        员工列表    对应list目录
+http://www.12301.cc/operatorRecord.html  操作日志    对应record目录
+
+npm run operator-manager-start
+npm run operator-manager-test
+npm run operator-manager-release
+npm run operator-manager-production

@@ -1,0 +1,10 @@
+<div id="bindBox">
+    <div class="inputBox">
+        <span class="t">绑定产品编号:</span>
+        <input type="text" id="bindIdInput">
+    </div>
+    <div class="btnBox">
+        <div class="btn bind">绑定</div>
+        <div class="btn close">返回</div>
+    </div>
+</div>

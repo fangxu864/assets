@@ -4,7 +4,8 @@ require('./jquery.qrcode.min.js');
 var dialog = require('COMMON/modules/easydialog');
 
 var posterList = $('#posterList'),
-    nodataHTML = '<div class="nodata-wrap">您的产品海报还是空的,您可以<a href="'+window.location.origin+'/new/posterimgupload_editmyposter.html">添加产品海报</a></div>',
+    prefix_domain = PFT.PREFIX_DOMAIN(),
+    nodataHTML = '<div class="nodata-wrap">您的产品海报还是空的,您可以<a href="'+ prefix_domain + 'new/posterimgupload_editmyposter.html">添加产品海报</a></div>',
     pagination,
     xhrPoster;
 
@@ -134,3 +135,4 @@ pagination.on("page.switch",function(toPage,currentPage,totalPage){
 });
 
 ajaxGetMyPoster(1, 9);
+

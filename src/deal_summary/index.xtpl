@@ -90,8 +90,6 @@
         <div class="nodata">未查询到任何数据...</div>
     </div>
     <div class="query_state_box">
-        <div class="querying">
-            <img src="http://static.12301.cc/assets/build/images/gloading.gif" alt=""/><span>加载中...</span>
-        </div>
+        <div class="querying"><img src="http://static.12301.cc/assets/build/images/gloading.gif" alt=""/><span>加载中...</span></div>
     </div>
 </div>

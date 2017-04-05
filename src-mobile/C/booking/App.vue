@@ -12,6 +12,7 @@
                     :click="onBeginTimeInputClick"
                     :label-width="'80px'"
                     :icon="'rili'"
+                    :icon-click="onBeginTimeIconClick"
                     :placeholder="'请选择日期'">
             </input-line>
             <input-line
@@ -116,7 +117,7 @@
             </input-line>
         </div>
         <div class="totalMoneyFixBar">
-            <div class="con">
+            <div class="con" growing-ignore="true">
                 总金额：<span style="color:#f37138"><i class="yen">&yen;</i><span style="font-size:0.4rem;" v-text="totalMoney"></span></span>
             </div>
             <div id="submitBtn" @click="onSubmitBtnClick" class="submitBtn">提交订单</div>
@@ -205,7 +206,7 @@
                 p_type : "",
                 needID : -1,
                 calendar : {
-                    date : CalendarCore.gettoday(),
+                    date : "",
                     yearmonth : "",
                     show : false
                 },
@@ -281,6 +282,10 @@
                          //this.calendar.date=data.validTime.match(/[\d\-]+/)[0]
                     //}
                     this.needID = data.needID;
+
+                    //现在开始日期也从服务端返回 2017-01-17
+                    this.calendar.date = data.startDate;
+
                     this.ticketList = this.adaptListData(data.tickets);
                     if(data.assStation){
                         var assStationMenus = {};
@@ -405,6 +410,10 @@
             onBeginTimeInputClick(e){
                 this.calendar.show = true;
                 this.calendar.yearmonth = e.target.value;
+            },
+            onBeginTimeIconClick(e){
+                this.calendar.show = true;
+                this.calendar.yearmonth = this.calendar.date;
             },
             onChangciInputClick(e){
                 this.showPuct.sheetShow = true;

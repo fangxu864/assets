@@ -156,7 +156,8 @@ Dialog.prototype={
                 if( res.code == 200 ){
                     $(".pft_balance").text(Number(res.data.balance) / 100);
                     if( res.data.enough == 0){
-                        $(".dialog_con_pft .line4").html('<a href="/recharge.html"><span class="btn">余额不足去充值</span></a>')
+                        var PREFIX_DOMAIN = PFT.PREFIX_DOMAIN ? PFT.PREFIX_DOMAIN() : '/';
+                        $(".dialog_con_pft .line4").html('<a href="'+PREFIX_DOMAIN+'recharge.html"><span class="btn">余额不足去充值</span></a>')
                             .show()
                     }else{
                         $(".dialog_con_pft .line4").html('<span class="btn btn_charge">确认充值</span>')

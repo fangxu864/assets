@@ -1,0 +1,126 @@
+#bodyContainer {
+    position: relative;
+    float: left;
+    width: 800px;
+    min-height: 500px;
+    height: auto;
+    border: 1px solid #e1e1e1;
+}
+    
+    #bodyContainer .con {
+        width: 100%;
+        padding: 4px 4px 4px 35px;
+        float: left;
+            margin: 5px 0;
+    }
+    
+    #bodyContainer .con .inp-t {
+        height: 22px;
+        line-height: 22px;
+        padding: 5px 8px;
+        background: #fff;
+        border-radius: 3px;
+        border: 1px solid #dbdbdb;
+        outline: none;
+    }
+    
+    #bodyContainer .con .inp-t:focus {
+        border-color: #0797d9;
+    }
+    
+    #bodyContainer .con .inp-r {
+        vertical-align: middle;
+    }
+    
+    #bodyContainer .con .u-span {
+        display: inline-block;
+        width: 110px;
+    }
+    
+    #bodyContainer .con .u-span_to {
+        margin: 0 6px;
+    }
+    .btn{
+        width: 120px;
+        border: none;
+        display: inline-block;
+        height: 34px;
+        line-height: 34px;
+        padding: 0 20px;
+        background: #0797D9;
+        color: #fff;
+        cursor: pointer;
+        text-decoration: none;
+        margin: 3px 0;
+    }
+    .up-btn{
+        width: 60px;
+        height: 25px;
+        line-height: 25px;
+    }
+    .save-btn{
+        margin-left: 6.9rem;
+    }
+    .txt-a-c{
+        text-align: center;
+    }
+    .u-span_req{
+        color: red;
+    }
+    .ml-20 {
+        margin-left: 20px;
+    }
+    
+    .w-60 {
+        width: 60px;
+    }
+    .w-175{
+        width: 175px;
+    }
+    .w-400 {
+        width: 400px;
+    }
+    
+    .tabHead {
+        padding-left: 15px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #EFEFEF;
+    }
+    
+    .tabHead li {
+        font-size: 1.5em;
+        color: black;
+        float: left;
+        height: 50px;
+        line-height: 50px;
+        cursor: pointer;
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+    }
+/*#share_type_2,#share_type_3{
+    display: none;
+}*/
+//分享图片
+.share_img{
+    position: relative;
+}
+.u-span_share_img{
+    float: left;
+}
+.uploadImg{
+    position: absolute;
+    right: 50px;
+    width: 340px;
+    top: 2px;
+    padding: 20px 0 20px 8px;
+    border-left: 1px dashed #999;
+}
+#content_1,#content_2{
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 600px;
+    height: 200px;
+}
+

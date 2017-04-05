@@ -340,7 +340,10 @@ Postercrop.prototype = {
 			success:function(res){
 				res = res || {};
 				if(res.code==200){
-					window.location.href = "/new/posterimgupload_index.html";
+
+					var prefix_domain = PFT.PREFIX_DOMAIN();
+
+					window.location.href = prefix_domain + "new/posterimgupload_index.html";
 				}else{
 					alert(res.msg);
 				}

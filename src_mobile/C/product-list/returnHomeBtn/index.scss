@@ -1,0 +1,16 @@
+@import "COMMON/css/base/main";
+#returnHomeBtn{
+    background: rgba(69, 126, 216, .5) ;
+    position: fixed;
+    height: px2rem(80);
+    width: px2rem(80);
+    border-radius: px2rem(16);
+    bottom: 3rem;
+    right: 0;
+    text-align: center;
+    .icon-demo17{
+        font-size: 0.7rem ;
+        color: #fff;
+        line-height: px2rem(80);
+    }
+}

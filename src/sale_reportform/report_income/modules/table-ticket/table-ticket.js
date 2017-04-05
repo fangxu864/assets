@@ -71,7 +71,7 @@ var tableTicket = {
                         cancel_money: 0,
                         cancel_order_num: 0,
                         cancel_ticket_num: 0,
-                        order_num: 1,
+                        order_num: 0,
                         pid_pay_way: "13",
                         real_money: 0,
                         real_num: 0,

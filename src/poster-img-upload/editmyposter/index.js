@@ -30,6 +30,8 @@ var productposter =function(nowurl){
 
     this.init();
 
+    // console.log( PFT.PREFIX_DOMAIN() )
+
 }
 
 productposter.prototype = {
@@ -570,7 +572,10 @@ productposter.prototype = {
                 res = res || {};
                 if(res.code==200){
                     alert("保存成功");
-                    window.location.href = "/new/posterimgupload_myposter.html";
+
+                    var prefix_domain = PFT.PREFIX_DOMAIN();
+
+                    window.location.href = prefix_domain + "new/posterimgupload_myposter.html";
                 }else{
                     alert(res.msg);
                 }

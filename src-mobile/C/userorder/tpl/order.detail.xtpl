@@ -6,12 +6,12 @@
 </div>
 <div class="topBox box">
     <p class="line">
-        <span class="lt">订单号：</span>
-        <span class="rt"><%=ordernum%></span>
+        <span class="lt" growing-ignore="true">订单号：</span>
+        <span class="rt" growing-ignore="true"><%=ordernum%></span>
     </p>
     <p class="line">
-        <span class="lt">凭证码：</span>
-        <span class="rt"><%=code%></span>
+        <span class="lt" growing-ignore="true">凭证码：</span>
+        <span class="rt" growing-ignore="true"><%=code%></span>
     </p>
     <p class="line">
         <span class="lt">下单时间：</span>
@@ -41,12 +41,12 @@
         </p>
     <%}else if(ptype=="C"){%>
         <p class="line">
-            <span class="lt">住店时间：</span>
-            <span class="rt"><%=begintime%> 至 <%=endtime%> 共<i class="days"><%=days%></i>晚</span>
+            <span class="lt" growing-ignore="true">住店时间：</span>
+            <span class="rt" growing-ignore="true"><%=begintime%> 至 <%=endtime%> 共<i class="days"><%=days%></i>晚</span>
         </p>
     <%}else if(ptype=="B"){%>
         <p class="line">
-            <span class="lt">集合日期：</span>
+            <span class="lt" growing-ignore="true">集合日期：</span>
             <span class="rt"><%=begintime%></span>
         </p>
         <p class="line">
@@ -60,7 +60,7 @@
         </p>
     <%}%>
     <p class="line">
-        <span class="lt">联系人：</span>
+        <span class="lt" growing-ignore="true">联系人：</span>
         <span class="rt"><%=ordername%> <%=ordertel%></span>
     </p>
 </div>
@@ -75,7 +75,7 @@
         <h4 class="landTitle"><%=ltitle%></h4>
         <ul>
             <%_.each(tickets,function(ticket){%>
-            <li class="ticItem">
+            <li class="ticItem" growing-ignore="true">
                 <span class="ticname"><%=ticket.title%>
                 <span class="star">*</span>
                 <span class="count"><%=ticket.num%></span>
@@ -89,7 +89,7 @@
 
 <div class="box">
     <div class="line">
-        <span class="lt">订单金额：</span>
+        <span class="lt" growing-ignore="true">订单金额：</span>
         <span class="rt totalMoney"><i class="yen">&yen;</i><i class="num"><%=totalmoney%></i></span>
     </div>
 </div>

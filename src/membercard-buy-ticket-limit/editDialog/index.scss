@@ -1,0 +1,66 @@
+@import "COMMON/css/base/core";
+#editContainer{
+  h1{
+    height: 47px;
+    line-height: 47px;
+    background: #f7f7f7;
+    color: #666;
+    font-weight: normal;
+    text-indent: 2em;
+  }
+  ul{
+
+    margin: 30px 30px;
+    li{
+      height: 45px;
+      line-height: 45px;
+      font-size: 16px;
+      padding-right: 20px;
+      margin-top: 10px;
+      overflow: hidden;
+
+      #p_name{
+        display: inline-block;
+        width: 250px;
+        float: right;
+      }
+      input{
+        @include textInp(240,5);
+        float: right;
+      }
+    }
+  }
+
+  .btnContainer{
+    text-align: center;
+    #cancel{
+      width: 80px;
+      height: 35px;
+      line-height: 35px;
+      display: inline-block;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #e5e5e5;
+      margin-right: 40px;
+      cursor: pointer;
+      &:hover{
+        background: #f0f3f5;
+      }
+    }
+    #edit{
+      width: 80px;
+      height: 35px;
+      line-height: 35px;
+      display: inline-block;
+      font-size: 14px;
+      background: #0797d9;
+      border-radius: 5px;
+      border: 1px solid #0797d9;
+      color: white;
+      cursor: pointer;
+      &:hover{
+        background: #048bca;
+      }
+    }
+  }
+}

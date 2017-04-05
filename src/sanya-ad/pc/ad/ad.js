@@ -46,9 +46,10 @@ var xhrSelPageType,
     xhrSelProduct;
 
 function ajaxSelPageType(pageType, pageId) {
-    xhrSelPageType = $.ajax({
-        url: '/r/adCO_AdCO/getPageType',
+    xhrSelPageType = PFT.Util.Ajax('/r/adCO_AdCO/getPageType', {
         type: 'POST',
+        serverError: function(xhr,txt){
+        },
         success: function(response){
             var tempStr = '';
 
@@ -57,40 +58,83 @@ function ajaxSelPageType(pageType, pageId) {
             }
             selPageType.html(tempStr);
 
+            //页面类型为消息通知时不显示推广图
+            if(pageType == 4 || (!pageType && selPageType.find("option:first-child").attr('data-ptype')==4)) {
+                $('#adPic').hide();
+            }
+
             if(pageId === undefined) {
                 pageType = pageType!==undefined ? pageType : selPageType.find("option:selected").attr('data-ptype');
                 ajaxSelPageName(pageType);
             }
         }
     });
+    // $.ajax({
+    //     url: '/r/adCO_AdCO/getPageType',
+    //     type: 'POST',
+    //     success: function(response){
+    //         var tempStr = '';
+
+    //         for( key in response.data) {
+    //             tempStr += '<option data-ptype="' + key + '" ' + ((pageType!==undefined && pageType == key)?'selected':'') + '>' + response.data[key] + '</option>';
+    //         }
+    //         selPageType.html(tempStr);
+
+    //         if(pageId === undefined) {
+    //             pageType = pageType!==undefined ? pageType : selPageType.find("option:selected").attr('data-ptype');
+    //             ajaxSelPageName(pageType);
+    //         }
+    //     }
+    // });
 }
 function ajaxSelPageName(typeId, pageId) {
-    xhrSelPageName = $.ajax({
-        url: '/r/adCO_AdCO/getPageInfo',
-        type: 'POST',
-        data: {"typeId": typeId},
-        success: function(response){
-            var tempStr = '';
-            for(var i = 0, len = response.data.length; i < len; i++) {
-                tempStr += '<option data-pageid="' + response.data[i].id + '" ' + ((pageId!==undefined && pageId == response.data[i].id)?'selected':'') + '>' + response.data[i].page_name + '</option>';
-            }
-            selPageName.html(tempStr);
-            if(pageId === undefined) {
-                if( typeId==3 && selPageName.find("option:first-child").attr('data-pageid')==3 ) {
-                    selProduct.attr('disabled', 'disabled');
-                } else {
-                    selProduct.removeAttr('disabled');
+    xhrSelPageName = PFT.Util.Ajax('/r/adCO_AdCO/getPageInfo', {
+                type: 'POST',
+                params: {"typeId": typeId},
+                serverError: function(xhr,txt){
+                },
+                success: function(response){
+                    var tempStr = '';
+                    for(var i = 0, len = response.data.length; i < len; i++) {
+                        tempStr += '<option data-pageid="' + response.data[i].id + '" ' + ((pageId!==undefined && pageId == response.data[i].id)?'selected':'') + '>' + response.data[i].page_name + '</option>';
+                    }
+                    selPageName.html(tempStr);
+                    if(pageId === undefined) {
+                        if( typeId==3 && selPageName.find("option:first-child").attr('data-pageid')==3 ) {
+                            selProduct.attr('disabled', 'disabled');
+                        } else {
+                            selProduct.removeAttr('disabled');
+                        }
+                    }
                 }
-            }
-        }
-    });
+            });
+    // $.ajax({
+    //     url: '/r/adCO_AdCO/getPageInfo',
+    //     type: 'POST',
+    //     data: {"typeId": typeId},
+    //     success: function(response){
+    //         var tempStr = '';
+    //         for(var i = 0, len = response.data.length; i < len; i++) {
+    //             tempStr += '<option data-pageid="' + response.data[i].id + '" ' + ((pageId!==undefined && pageId == response.data[i].id)?'selected':'') + '>' + response.data[i].page_name + '</option>';
+    //         }
+    //         selPageName.html(tempStr);
+    //         if(pageId === undefined) {
+    //             if( typeId==3 && selPageName.find("option:first-child").attr('data-pageid')==3 ) {
+    //                 selProduct.attr('disabled', 'disabled');
+    //             } else {
+    //                 selProduct.removeAttr('disabled');
+    //             }
+    //         }
+    //     }
+    // });
 }
 function ajaxSelProduct(pId) {
-    xhrSelProduct = $.ajax({
-        url: '/r/adCO_AdCO/getLand',
+    xhrSelProduct = PFT.Util.Ajax('/r/adCO_AdCO/getLand', {
         type: 'POST',
+        serverError: function(xhr,txt){
+        },
         success: function(response){
-            var tempStr = '';
+            var tempStr = '<option data-pid="-2" ' + ((pId!==undefined && pId == '-2')?'selected':'') + '>全部产品</option>';
             for(var i = 0, len = response.data.length; i < len; i++) {
                 tempStr += '<option data-pid="' + response.data[i].id + '" ' + ((pId!==undefined && pId == response.data[i].id)?'selected':'') + '>' + response.data[i].title + '</option>';
             }
@@ -98,10 +142,29 @@ function ajaxSelProduct(pId) {
             selProduct.html(tempStr);
         }
     });
+    // $.ajax({
+    //     url: '/r/adCO_AdCO/getLand',
+    //     type: 'POST',
+    //     success: function(response){
+    //         var tempStr = '';
+    //         for(var i = 0, len = response.data.length; i < len; i++) {
+    //             tempStr += '<option data-pid="' + response.data[i].id + '" ' + ((pId!==undefined && pId == response.data[i].id)?'selected':'') + '>' + response.data[i].title + '</option>';
+    //         }
+
+    //         selProduct.html(tempStr);
+    //     }
+    // });
 }
 
 selPageType.on('change', function(){
     var $this = $(this);
+
+    //页面类型为消息通知时不显示推广图
+    if(selPageType.find("option:selected").attr('data-ptype')==4) {
+        $('#adPic').hide();
+    } else {
+        $('#adPic').show();
+    }
 
     if(xhrSelPageName) {
         xhrSelPageName.abort();
@@ -127,18 +190,28 @@ if(adId === undefined) {
 } else {
     title.html('编辑广告');
 
-    $.ajax({
-        url: '/r/adCO_AdCO/getInfo',
-        data: {"id": adId},
+    PFT.Util.Ajax('/r/adCO_AdCO/getInfo', {
+        params: {"id": adId},
         type: 'POST',
+        serverError: function(xhr,txt){
+        },
         success: function(response){
             var responseData = response.data;
 
-            // console.log(responseData);
+            // if( responseData.page_type == 3 && responseData.page_id == 3 ) {
+            //     selProduct.attr('disabled', 'disabled');
+            // }
+            selPageType.attr('disabled', 'disabled');
+            selPageName.attr('disabled', 'disabled');
+            selProduct.attr('disabled', 'disabled');
 
             //页面类型
             if(xhrSelPageType.status === 200) {
                 selPageType.children('option').removeAttr('selected').end().children('[data-ptype="'+ responseData.page_type +'"]').attr('selected','selected');
+                //页面类型为消息通知时不显示推广图
+                if(responseData.page_type == 4) {
+                    $('#adPic').hide();
+                }
             } else {
                 xhrSelPageType.abort();
                 ajaxSelPageType(responseData.page_type, responseData.page_id);
@@ -208,6 +281,10 @@ $('#adText').on('keyup change',function(){
 function ajaxSave(btnEle, adId, status, successText) {
     var btnText;
 
+    if(selPageType.find("option:selected").attr('data-ptype') == 4 && !$.trim(adText.val())) {
+        PFT.Util.STip("error",'推广文字不能为空');
+        return false;
+    }
     if(!$.trim(adUrl.val())) {
         PFT.Util.STip("error",'请填写广告链接地址！');
         return false;
@@ -230,10 +307,12 @@ function ajaxSave(btnEle, adId, status, successText) {
     }
 
     if( selPageType.find("option:selected").attr('data-ptype')==3 && selPageName.find("option:selected").attr('data-pageid')==3 ) {
+        //微信充值 不需要产品，pid传-1
         opts.pId = -1;
     } else {
         opts.pId = selProduct.children('option:selected').attr('data-pid');
     }
+
 
     $.extend(
         opts,
@@ -244,23 +323,22 @@ function ajaxSave(btnEle, adId, status, successText) {
             status: status,
             adUrl: removeBlank(adUrl.val()),
             content: adText.val(),
-            picUrl: $('#Fileupload').find('img').length?$('#Fileupload').find('img')[0].src : ''
+            picUrl: selPageType.find("option:selected").attr('data-ptype') == 4? '' : $('#Fileupload').find('img').length?$('#Fileupload').find('img')[0].src : ''
         }
     );
 
-    console.log(opts);
+    // console.log(opts);
 
-    $.ajax({
-        url: '/r/adCO_AdCO/saveAdCO',
+    PFT.Util.Ajax('/r/adCO_AdCO/saveAdCO', {
         type: 'POST',
-        data: opts,
-        error: function(XHR, textStatus, error) {
+        params: opts,
+        serverError: function(xhr,txt){
         },
         success: function(response){
             $(btnEle).removeClass('disabled').html(btnText);
             if( response.code == 200 ) {
                 PFT.Util.STip("success", successText, 1000, function(){
-                    location.href= 'sanyaad.html';
+                    // location.href= 'sanyaad.html';
                 });
             } else {
                 PFT.Util.STip("fail",response.msg);

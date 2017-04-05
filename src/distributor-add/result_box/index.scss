@@ -1,0 +1,46 @@
+#result_box{
+  background: white;
+  border: 1px solid #e5e5e5;
+  table{
+    width: 100%;
+    color: #4D4D4D;
+    font-size: 12px;
+    .col_first{
+      padding-left:20px ;
+    }
+
+    thead{
+      height: 35px;
+      line-height: 35px;
+      background: #E5E5E5;
+      th{
+        color: #4D4D4D;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      th{text-align: left}
+      th:nth-child(1){width:45%}
+      th:nth-child(2){width:13%}
+      th:nth-child(3){width:24%}
+      th:nth-child(4){width:18%}
+    }
+    tr{
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    tbody{
+      height: 43px;
+      line-height: 35px;
+      a{
+        cursor: pointer;
+        color: #008EC1;
+      }
+    }
+  }
+}
+
+.added{
+  color: #4D4D4D;
+  cursor: default;
+  pointer-events: none;
+}

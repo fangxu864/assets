@@ -14,4 +14,10 @@
 
 #inBodyCon{ position:relative; width:100%;}
 #pageMain{ margin-right:300px}
-#rightBar{ position:absolute; top:0; right:0; width:285px;}
+#rightBar{ 
+    position:absolute; top:0; right:0; width:285px;
+
+    .state.timeout,.state.serverError{ text-align: center;}
+
+}
+

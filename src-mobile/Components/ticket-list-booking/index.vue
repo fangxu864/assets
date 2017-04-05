@@ -11,7 +11,7 @@
                     </div>
                     <div class="bcon">
                         <div class="bbCon">
-                            <span class="conBox price">单价：<i class="yen">&yen;</i><span class="num" v-text="item.jsprice"></span></span>
+                            <span class="conBox price" growing-ignore="true">单价：<i class="yen">&yen;</i><span class="num" v-text="item.jsprice"></span></span>
                         <span style="margin-left:8px;" v-if="(item.storage!=-1 || item.storeText)" class="conBox storage">
                             库存：<span class="num" v-text="(item.storeText=='有' || item.storeText=='无') ? item.storeText : item.storage"></span>
                         </span>

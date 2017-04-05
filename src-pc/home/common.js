@@ -16,6 +16,7 @@ module.exports = {
 			setRemainWaring : "/r/Home_HomeMember/setRemainWaring/"
 		}
 	},
+	loadingHeight : 400,
 	Ajax : function(url,opt){
 
 		opt = opt || {};
@@ -33,8 +34,8 @@ module.exports = {
 		var paddingTop = container.css("paddingTop");
 		paddingTop = paddingTop.substr(0,paddingTop.length-2) * 1;
 		var offset = elem.offset();
-		var top = offset.top - containerTop - paddingTop ;
-		if(top>=0 && top<=containerHeight){
+		var top = offset.top - containerTop - paddingTop;
+		if(top<=containerHeight){
 			return true;
 		}
 		return false;

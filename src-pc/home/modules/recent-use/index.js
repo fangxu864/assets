@@ -10,15 +10,18 @@ var Loading = require("COMMON/js/util.loading.pc");
 module.exports = function(parent){
 	var RecentUse = PFT.Util.Class({
 		debug : true,
-		container : $('<div id="RecentUseBox" class="RecentUseBox modBox"></div>').appendTo(parent),
+		container : $('<div id="RecentUseBox" class="RecentUseBox modBox"></div>').hide().appendTo(parent),
 		template : PFT.Util.ParseTemplate(Tpl),
 		init : function(){
-			var Apps = window.localStorage.getItem("PFT-RECENT-APP_A").split(",");
-			this.render(Apps);
+			var Apps = window.localStorage.getItem("PFT-RECENT-APP_B");
+			if(Apps){
+				 Apps = Apps.split(",");
+				 this.render(Apps);
+			}
 		},
 		render : function(data){
 			var html = this.template({list:data});
-			this.container.html(html);
+			this.container.show().html(html);
 		}
 	});
 	return new RecentUse;

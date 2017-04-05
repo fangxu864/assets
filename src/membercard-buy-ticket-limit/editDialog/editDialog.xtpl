@@ -1,0 +1,25 @@
+<div id="editContainer">
+    <h1>编辑限制</h1>
+    <ul>
+        <li>
+            <span class="tip">产品名称：</span>
+            <span id="p_name" title=""></span>
+        </li>
+        <li>
+            <span class="tip">每日限购次数：</span>
+            <input type="text" id="daily_limit">
+        </li>
+        <li>
+            <span class="tip">每次限购票数：</span>
+            <input type="text" id="num_limit">
+        </li>
+        <li>
+            <span class="tip">购买间隔（分钟）：</span>
+            <input type="text" id="interval">
+        </li>
+    </ul>
+    <div class="btnContainer">
+        <div id="cancel">取消</div>
+        <div id="edit">编辑</div>
+    </div>
+</div>

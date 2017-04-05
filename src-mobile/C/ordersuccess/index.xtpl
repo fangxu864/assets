@@ -18,16 +18,16 @@
         <p class="line">集合日期：<%=extra.date%></p>
         <p class="line">集合地点：<%=extra.station%></p>
     <%}else if(ptype=="C"){%>
-        <p class="line">住店时间：<%=extra.date%> 共<span class="nightCount"><%=extra.days%></span>晚</p>
+        <p class="line" growing-ignore="true">住店时间：<%=extra.date%> 共<span class="nightCount"><%=extra.days%></span>晚</p>
     <%}else if(ptype=="H"){%>
         <p class="line">演出时间：<%=extra.date%></p>
         <p class="line">座位<i class="vhidden">位位</i>：<%=extra.seat%></p>
     <%}%>
-    <p class="ordername">联系人：<%=ordername%> <%=ordertel%></p>
+    <p class="ordername" growing-ignore="true">联系人：<%=ordername%> <%=ordertel%></p>
 </div>
 
 <div class="qrcodeContainer">
-    <p class="topt">凭证码：<span class="qrcode"><%=qrcode%></span></p>
+    <p class="topt" growing-ignore="true">凭证码：<span class="qrcode"><%=qrcode%></span></p>
     <div id="qrcodeBox" class="qrcodeBox">
 
     </div>

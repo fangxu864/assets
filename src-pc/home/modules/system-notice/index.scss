@@ -35,7 +35,12 @@
         word-break:keep-all;
         overflow:hidden;
         text-overflow:ellipsis;
-        width: 120px;
+        width: 195px;
+        color: #4c4e53;
+        &:hover{
+            color: #2A98DA;
+            text-decoration: underline;
+        }
       }
       .noticeTime{
         float: right;

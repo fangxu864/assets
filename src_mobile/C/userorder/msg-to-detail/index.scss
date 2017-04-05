@@ -1,0 +1,155 @@
+@import "COMMON/css/base/main";
+@import "COMMON/css/base/flex";
+@mixin prodInfoBox{
+    $paddingBottom : 5px;
+    display:block;
+    position:relative;
+    overflow:hidden;
+    padding:15px 15px $paddingBottom;
+    color:#333;
+    &:active{ background:$gray97}
+
+    .photoBox{
+        position:absolute;
+        top:15px;
+        left:15px;
+        bottom:$paddingBottom;
+        width:75px;
+        font-size:0;
+        .imgBox{
+            width:100%;
+            height:100%;
+            overflow:hidden;
+            @include flexbox();
+            @include align-items(center);
+        }
+        img{ width:100%}
+    }
+    .tri{
+        position:absolute;
+        top:15px;
+        bottom:$paddingBottom;
+        right:6px;
+        .triCon{
+            width:100%;
+            height:100%;
+            @include flexbox();
+            @include align-items(center);
+        }
+    }
+    .midCon{
+        min-height:45px;
+        //margin-left:85px;
+        margin-right:5px;
+        .landTitle{
+            font-size:14px;
+            line-height:1.5;
+        }
+        .ticItem{
+            line-height:1.4;
+        }
+        .count{ color:$orange}
+    }
+}
+.detailPage{
+    position:fixed;
+    z-index:1;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background:#fff;
+
+    .detailInfoContainer{
+        height:100%;
+        overflow:auto;
+    }
+
+    .line{
+        width:100%;
+        overflow:hidden;
+        line-height:1.7;
+        .lt{ float:left}
+        .rt{ float:right}
+    }
+
+    .box{
+        background:#fff;
+        padding:15px;
+        border-bottom:7px solid $gray98;
+    }
+    .topBox{ margin-bottom:7px}
+
+    .prodInfoBox{
+        @include prodInfoBox;
+        .photoBox{ bottom:15px}
+        .tri{ padding-bottom:15px}
+        padding-bottom:15px;
+        margin-bottom:7px;
+        display: flex;
+        justify-content: space-between;
+        .midCon{ width: 75%}
+        .rtCon{
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-around;
+        }
+    }
+
+    .days{ color:$orange; font-weight:bold; margin:0 2px}
+
+    .totalMoney{
+        .yen{ margin-right:1px; font-size:14px}
+        color:$orange;
+        .num{ font-size:16px; font-weight:bold}
+    }
+
+    .codeContainer{
+
+        width:160px;
+        margin:7px auto 0;
+        text-align:center;
+
+        .codeNum{ color:$orange; font-size:20px; font-weight:bold}
+
+        .codeBox{
+            width:100%;
+            overflow:hidden;
+            font-size:0;
+            margin-top:7px;
+            img{
+                width:100%;
+            }
+        }
+
+    }
+
+    .detailBtnGroup{
+        position:fixed;
+        z-index:10;
+        left:0;
+        right:0;
+        bottom:0;
+        height:50px;
+        line-height: 50px;
+        text-align:center;
+        background:#f07845;
+
+        .btn{
+            display:inline-block;
+            height:100%;
+            line-height:40px;
+            margin-right:40px;
+            color:#fff;
+            padding:0 15px;
+            &:active{
+                background:#cce6f1;
+            }
+            &:last-child{ margin-right:0}
+        }
+
+    }
+
+}
