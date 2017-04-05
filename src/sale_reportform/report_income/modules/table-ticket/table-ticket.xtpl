@@ -63,8 +63,8 @@
             <td><%=item.firstTrData.cancel_money == 0? 0 : ( Number( item.firstTrData.cancel_money ) / 100 ) .toFixed(2) %></td>
             <td  class="padding-rt-20"><%=item.firstTrData.service_money == 0 ? 0 :  ( Number( item.firstTrData.service_money ) / 100 ) .toFixed(2) %></td>
 
-            <td class="has-b-lt"><%=item.firstTrData.real_num%></td>
-            <td class="padding-rt-20"><%=item.firstTrData.real_money == 0 ? 0 : ( Number( item.firstTrData.real_money ) / 100 ) .toFixed(2) %></td>
+            <td class="has-b-lt"><%=item.firstTrData.ticket_num - item.firstTrData.cancel_ticket_num%></td>
+            <td class="padding-rt-20"><%=( ( Number( item.firstTrData.sale_money ) - Number( item.firstTrData.cancel_money ) + Number( item.firstTrData.service_money ) ) / 100 ) .toFixed(2) %></td>
         </tr>
         <% for(var i = 0 ; i< item.childListData.length ; i++ ){%>
         <tr  class="child-tr">
