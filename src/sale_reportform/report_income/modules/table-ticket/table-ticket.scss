@@ -1,0 +1,83 @@
+#gIncomeWrap {
+
+  /* table的公共样式*/
+  .tableTicket {
+    border: 1px solid #e5e5e5;
+    border-top:none;
+    background-color: #ffffff;
+    position: relative;
+    .title{
+      line-height: 40px;
+      padding-left: 20px;
+      border-bottom: 1px solid #e5e5e5;
+      .big-title ,ul ,li{
+        float: left;
+      }
+      .tilte-item{
+        margin-left: 20px;
+      }
+      .big-title{
+        font-size: 16px ;
+      }
+      ul{
+        font-size: 12px;
+      }
+    }
+    .table-ticket{
+      width: 100%;
+      text-align: right;
+      thead tr{
+        line-height: 30px;
+        background-color: #f3f1f1;
+      }
+      thead .tr1{
+        text-align: center;
+      }
+      thead .tr2{
+        text-align: right;
+      }
+      .padding-lt-20{
+        padding-left: 20px;
+        text-align: left;
+      }
+      .padding-rt-20{
+        padding-right: 20px;
+      }
+      .has-b-lt{
+        border-left:1px solid #e5e5e5;
+      }
+      tbody tr{
+        line-height: 40px;
+        border-top:1px solid #e5e5e5;
+        .un-shrink ,.shrink{
+          background-image: url('//static.12301.cc/assets/build/images/sale-report-shrink.png');
+          display: inline-block;
+          background-repeat: no-repeat;
+          width: 16px;
+          height: 16px;
+          position: relative;
+          margin-right: 7px;
+          top: 3px;
+          cursor: pointer;
+        }
+        .shrink{
+          background-position: 0 -16px;
+        }
+      }
+      .child-tr{
+        display: none;
+        background-color: #f3f1f1;
+        .child-tr-first-td{
+          padding-left: 67px;
+        }
+      }
+      .total-tr{
+        background-color: #e5f5fc;
+      }
+    }
+
+  }
+
+
+
+}
