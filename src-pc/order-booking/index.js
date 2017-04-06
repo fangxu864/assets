@@ -1,10 +1,13 @@
 var DatePicker = require("./Common/Datepicker/index.js");
 var hotelDateList = require("./Common/hotelDateList/index.js");
+var Contact = require("./Common/contact/index.js");
 
 
 
 $(function () {
     var datePicker = new DatePicker();
+
+    var contact =  new Contact();
 
 
     $(".inp").on("click" ,function () {
@@ -27,6 +30,9 @@ $(function () {
         container:$(".hotel-date-list-box"),
         data: ''
     });
+
+
+    contact.render(".contact-rely-box");
 
 
 });
