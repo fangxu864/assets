@@ -1,13 +1,18 @@
 require("./index.scss");
+
 var IndexTpl = require("./index.xtpl");
 
 var pageTpls = {
     index: require("./index.xtpl"),
     price: require('./price.xtpl'),
-    product: require('./product.xtpl')
+    product: require('./product.xtpl'),
+    partner: require('./partner.xtpl')
 };
 
+var Pagination = require('COMMON/modules/pagination-x/v1.0');
+
 var Message = require("pft-ui-component/Message");
+
 var Main = PFT.Util.Class({
     userCache : true,
 
@@ -18,7 +23,7 @@ var Main = PFT.Util.Class({
     api : {
         price : "/r/Home_HomeNotice/PriceChangeList/",
         product : "/r/Home_HomeNotice/ProductChangeList/",
-        partner : "/r/Home_HomeNotice/partnerChange/"
+        partner : "/r/Home_HomeNotice/partnerChangeList/"
     },
 
     EVENTS : {
@@ -169,7 +174,7 @@ var Main = PFT.Util.Class({
         if( !tbody.length ) return false;
 
         var parseTemplate = PFT.Util.ParseTemplate( pageTpls[ type ] ),
-            html = parseTemplate({ data: data });
+            html = parseTemplate({ data: data, type: type });
         console.log(data);
 
         tbody.html( html );
