@@ -389,7 +389,12 @@ var Filter = {
         // //点击导出
         this.container.on("click", ".excel_btn" ,function () {
             var params = $.param(_this.FilterParamsHub) + "&is_excel=1";
-            var  downLoadUrl = "/r/report_statistics/checkedPaywayList?" + params;
+            var  downLoadUrl = '';
+            if(_this.FilterParamsHub['searchTicket'] == false){
+                downLoadUrl = "/r/report_statistics/checkedPaywayList?" + params;
+            }else{
+                downLoadUrl = "/r/report_statistics/checkedPaywayListByTicket?" + params;
+            }
             _this.outExcel(downLoadUrl);
         });
     },
