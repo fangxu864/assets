@@ -275,8 +275,6 @@ var Filter = {
             $(this).addClass("checked").siblings(".self-radio").removeClass("checked");
             var type =  $(this).find("input").val();
             var select_fg =  $("#select_fg");
-            console.log(_this.select3_cache_data);
-            console.log(type)
             if( type == '1' ){
                 select_fg.text("分销商:");
                 $("#fenxiaoshang_name_inp").prop('placeholder','请输入分销商名称');
@@ -502,7 +500,6 @@ var Filter = {
         }
         //商户id
         if(_this.isAdmin==1){
-            console.log(_this.container.find(".line1 .td2 .option "))
             if($("#trader_inp").attr("data-id")){
                 params["merchant_id"]=$("#trader_inp").attr("data-id");
             }

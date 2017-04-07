@@ -125,6 +125,7 @@ var tableCon = {
 
         this.container.find(".table-lt").html(tableLtHtml);
         this.container.find(".table-rt").html(tableRtHtml);
+        this.container.find(".rt-con .table-rt").css("left",0);
         this.container.show();
     },
 
