@@ -31,9 +31,9 @@ var Filter = {
         this.sub();
         this.bind();
 
-        setTimeout(function () {
-            _this.container.find(".query_btn").click();
-        },0)
+        // setTimeout(function () {
+        //     _this.container.find(".query_btn").click();
+        // },0)
 
 
     },
