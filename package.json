@@ -191,7 +191,12 @@
     "storageConfigCalendar-start": "set NODE_ENV=develop && webpack --config ./src/storageConfigCalendar/webpack.config.js -w",
     "storageConfigCalendar-test": "set NODE_ENV=test && webpack --config ./src/storageConfigCalendar/webpack.config.js",
     "storageConfigCalendar-release": "set NODE_ENV=release && webpack --config ./src/storageConfigCalendar/webpack.config.js",
-    "storageConfigCalendar-production": "set NODE_ENV=production && webpack --config ./src/storageConfigCalendar/webpack.config.js"
+    "storageConfigCalendar-production": "set NODE_ENV=production && webpack --config ./src/storageConfigCalendar/webpack.config.js",
+
+    "admin_openFunction_config-start": "set NODE_ENV=develop && webpack --config ./src/admin_openFunction_config/webpack.config.js -w",
+    "admin_openFunction_config-test": "set NODE_ENV=test && webpack --config ./src/admin_openFunction_config/webpack.config.js",
+    "admin_openFunction_config-release": "set NODE_ENV=release && webpack --config ./src/admin_openFunction_config/webpack.config.js",
+    "admin_openFunction_config-production": "set NODE_ENV=production && webpack --config ./src/admin_openFunction_config/webpack.config.js"
   },
   "repository": {
     "type": "git",
