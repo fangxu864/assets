@@ -40,9 +40,17 @@ var tableTicket = {
 
 
         //表格伸展收缩按钮
-        this.container.on("click",".un-shrink",function () {
+        this.container.on("click",".un-shrink",function (e) {
+            e.stopPropagation();
             $(this).toggleClass("shrink");
             $(this).parents("tr").siblings("tr").fadeToggle(0);
+        });
+
+        this.container.on("click" , ".parent-tr" , function (e) {
+            var shrinkBtn = $(this).find('.un-shrink');
+            if(shrinkBtn){
+                shrinkBtn.click();
+            }
         })
 
     },

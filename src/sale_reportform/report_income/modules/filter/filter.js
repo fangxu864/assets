@@ -275,6 +275,8 @@ var Filter = {
             $(this).addClass("checked").siblings(".self-radio").removeClass("checked");
             var type =  $(this).find("input").val();
             var select_fg =  $("#select_fg");
+            console.log(_this.select3_cache_data);
+            console.log(type)
             if( type == '1' ){
                 select_fg.text("分销商:");
                 $("#fenxiaoshang_name_inp").prop('placeholder','请输入分销商名称');
@@ -329,6 +331,52 @@ var Filter = {
             }
         });
         this.container.find(".self-radio")[0].click();
+
+        //管理员账号时，点击分销商搜索框时更新此框数据
+        if(_this.isAdmin==1){
+            $("#fenxiaoshang_name_inp").on("focus",function () {
+                var member_id=_this.getFilterParams()["merchant_id"]?_this.getFilterParams()["merchant_id"]:"";
+                var api = '';
+                if($("#select_fg").attr("search_type") == 1){
+                    api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }else{
+                    api="/r/report_statistics/getSupplierList?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }
+
+                $.ajax({
+                    url: api,                                //请求的url地址"/r/report_statistics/orderList/"
+                    dataType: "json",                            //返回格式为json
+                    async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
+                    data: {},                            //参数值
+                    type: "GET",                                  //请求方式
+                    beforeSend: function() {
+                        //请求前的处理
+                    },
+                    success: function(res) {
+                        var reslut = {};
+                        reslut["code"]=res.code;
+                        reslut["msg"]=res.msg;
+                        var arr=[];
+                        var data=res.data;
+                        for(var i in data){
+                            arr.push(data[i]);
+                        }
+                        reslut["data"] =arr;
+                        _this.select3.refresh(reslut.data);
+                    },
+                    complete: function() {
+                        //请求完成的处理
+                    },
+                    error: function() {
+                        //请求出错处理
+                    }
+                });
+            });
+            $("#product_name_inp").on("focus",function () {
+                var member_id = _this.getFilterParams()["merchant_id"] ? _this.getFilterParams()["merchant_id"] : "";
+                _this.ajaxParams["search_id"]=member_id;
+            })
+        }
 
         this.container.on("click" , '.self-checkbox' , function () {
             $(this).toggleClass("checked");
@@ -454,10 +502,11 @@ var Filter = {
         }
         //商户id
         if(_this.isAdmin==1){
+            console.log(_this.container.find(".line1 .td2 .option "))
             if($("#trader_inp").attr("data-id")){
                 params["merchant_id"]=$("#trader_inp").attr("data-id");
             }
-            if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
+            if(_this.container.find(".line1 .td2 .option ").hasClass("checked")){
                 params["exclude_test"]=1;
             }else{
                 params["exclude_test"]=0;

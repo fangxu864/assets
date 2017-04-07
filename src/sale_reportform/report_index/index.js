@@ -469,7 +469,7 @@ var Book_form={
                         //请求出错处理
                     }
                 });
-            })
+            });
             $("#product_name_inp").on("focus",function () {
                 var member_id = _this.getParams()["merchant_id"] ? _this.getParams()["merchant_id"] : "";
                 _this.ajaxParams["search_id"]=member_id;
