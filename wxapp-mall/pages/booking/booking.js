@@ -19,10 +19,10 @@ Page({
 		canSubmit : true
     },
     onReady : function(){
-        let that = this;
-		let data = this.data;
-		let pid = data.pid;
-		let aid = data.aid;
+        var that = this;
+		var data = this.data;
+		var pid = data.pid;
+		var aid = data.aid;
 
 
 		if(pid && aid){
@@ -45,14 +45,14 @@ Page({
 	onShow : function(){ },
 	onHide : function(){ },
 	onCountBtnTap : function(e){
-		let dataset = e.currentTarget.dataset;
-		let type = dataset.type;
-		let value = dataset.value * 1;
-		let store = dataset.store * 1;
-		let buyup = dataset.buyup * 1;
-		let buylow = dataset.buylow * 1;
-		let isMain = dataset.ismain;
-		let ticketId = dataset.id;
+		var dataset = e.currentTarget.dataset;
+		var type = dataset.type;
+		var value = dataset.value * 1;
+		var store = dataset.store * 1;
+		var buyup = dataset.buyup * 1;
+		var buylow = dataset.buylow * 1;
+		var isMain = dataset.ismain;
+		var ticketId = dataset.id;
 		if(type=="add"){
 			if(value>=store && store!=-1){
 				return wx.showModal({
@@ -101,9 +101,9 @@ Page({
 			if(!isMain && value<buylow) value = 0;
 		}
 
-		let newTicketList = this.data.ticketList.map(function(ticket){
-			let pid = ticket.pid;
-			let aid = ticket.aid;
+		var newTicketList = this.data.ticketList.map(function(ticket){
+			var pid = ticket.pid;
+			var aid = ticket.aid;
 			if(ticketId==(pid+"-"+aid)){
 				ticket["value"] = value;
 			}
@@ -171,7 +171,7 @@ Page({
     },
 	//初始化时请求产品详情
 	queryBookingInfo : function(pid,aid){
-		let that = this;
+		var that = this;
 		Common.request({
 			url : "/r/Mall_Product/getBookInfo/",
 			data : {
@@ -364,9 +364,9 @@ Page({
 
 	//请求库存价格
 	queryPriceAndStore : function(date){
-		let that = this;
-		let aid = this.data.aid;
-		let pids = this.data.ticketList.map(function(item){
+		var that = this;
+		var aid = this.data.aid;
+		var pids = this.data.ticketList.map(function(item){
 			return item.pid;
 		}).join("-");
 
@@ -385,9 +385,9 @@ Page({
 				Common.hideLoading();
 			},
 			success : function(res){
-				let data = res.data;
-				let ticketList = that.data.ticketList;
-				let newTicketList = [];
+				var data = res.data;
+				var ticketList = that.data.ticketList;
+				var newTicketList = [];
 
 				if(Object.prototype.toString.call(data)=="[object Array]" && data.length==0){
 
@@ -408,19 +408,13 @@ Page({
 				}
 
 				that.setData({canSubmit:true});
-				for(let i in data){
-					let result = data[i];
-					let price = result.price;
-					let store = result.store;
-					ticketList.forEach(function(ticket){
-						let pid = ticket.pid;
-						if(i==pid){
-							newTicketList.push(that.updateTicketPriceStore(ticket,price,store));
-						}else{
-							//newTicketList.push(ticket);
-						}
-					})
-				}
+
+				ticketList.forEach(function(ticket){
+					var pid = ticket.pid;
+					if(data[pid]){
+						newTicketList.push(that.updateTicketPriceStore(ticket,ticket.jsprice,ticket.store));
+					}
+				})
 
 				that.setData({ticketList:newTicketList});
 				that.calTotalMoney();
@@ -430,7 +424,7 @@ Page({
 	},
 	//日历切换时，把请求回来的数据跟现有数据对比，更新ticketList
 	updateTicketPriceStore : function(ticket,price,store){
-		let value = ticket.value;
+		var value = ticket.value;
 
 		ticket["jsprice"] = price;  //更新价格
 		ticket["store"] = store;  //更新库存

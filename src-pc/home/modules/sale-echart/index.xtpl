@@ -1,0 +1,107 @@
+<div class="title">
+    <i class="icon icon-pc-prompt icon-dingdanshuju1"></i>
+    <span class="title-text">订单数据</span>
+   <i class="icon icon-pc-prompt icon-shuaxin rotateInfinite"></i>
+</div>
+<div class="line line1 clearfix">
+    <div class="data-box today-wrap">
+        <!--<div class="data-box">-->
+            <!--<div class="today-book inner-box">-->
+                <!--<div class="title">今日预订</div>-->
+                <!--<div class="con clearfix">-->
+                    <!--<div class="lt">-->
+                        <!--<div class="img-box"></div>-->
+                    <!--</div>-->
+                    <!--<div class="rt">-->
+                        <!--<p><span class="num">2290</span>张</p>-->
+                        <!--<p><span class="num">66666</span>元</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="data-box">-->
+            <!--<div class="today-check inner-box">-->
+                <!--<div class="title">今日验证</div>-->
+                <!--<div class="con clearfix">-->
+                    <!--<div class="lt">-->
+                        <!--<div class="img-box"></div>-->
+                    <!--</div>-->
+                    <!--<div class="rt">-->
+                        <!--<p><span class="num">2290</span>张</p>-->
+                        <!--<p><span class="num">66666</span>元</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    <div class="data-box last-days-wrap">
+        <div class="data-box">
+            <div class="recent-seven inner-box">
+                <div class="title">近七日检票</div>
+                <div class="con clearfix">
+                    <div class="lt">
+                        <div class="img-box"></div>
+                    </div>
+                    <div class="rt">
+                        <p><span class="num">2290</span>张</p>
+                        <p><span class="num">66666</span>元</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="data-box">
+            <div class="recent-thirty inner-box">
+                <div class="title">近30日检票</div>
+                <div class="con clearfix">
+                    <div class="lt">
+                        <div class="img-box"></div>
+                    </div>
+                    <div class="rt">
+                        <p><span class="num">2290</span>张</p>
+                        <p><span class="num">66666</span>元</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="title">
+<i class="icon icon-pc-prompt icon-zuijinxiaoshouqushi"></i>
+<span class="title-text">最近销售趋势</span>
+</div>
+<div class="line line2">
+    <div class="lineEchartControlBox clearfix">
+        <div class="td td1">
+            <span class="btn active typeBtn" data-type="1">票数</span><span class="btn typeBtn" data-type="2">金额</span>
+        </div>
+        <div class="td td3">
+            <input type="text" readonly="readonly" value="<%=bTimeInpVal%>" class="bTimeInp"/>
+            <span style="margin: 0 5px;line-height: 30px;">至</span>
+            <input type="text" readonly="readonly" value="<%=eTimeInpVal%>"  class="eTimeInp"/>
+            <span class="btn active okBtn" style="margin-left: 10px;">确定</span>
+        </div>
+        <div class="td td2">
+            <span class="btn active quickDateBtn" data-num="-6">近7日</span><span class="btn quickDateBtn"  data-num="-29">近30日</span><span class="btn quickDateBtn"  data-num="-89">近90日</span>
+        </div>
+    </div>
+    <div class="selectBox clearfix">
+        <div class="td td1">
+            <i class="icon icon-u-bold icon-checkbox icon-checkbox-checked compare" data-type="1"></i>
+            <span>同比</span>
+        </div>
+        <div class="td td2">
+            <i class="icon icon-u-bold icon-checkbox compare" data-type="2"></i>
+            <span>环比</span>
+        </div>
+        <div class="td td3" style="display: none">
+            <i class="icon icon-u-bold icon-checkbox weekend" data-type="3"></i>
+            <span>高亮周末</span>
+        </div>
+    </div>
+    <div id="lineEchart" class="lineEchart"></div>
+
+</div>
+<div class="line line3" >
+    <div class="lt" id="pieEchart"></div>
+    <div class="rt" id="barEchart"></div>
+</div>

@@ -116,6 +116,15 @@ Page({
 				}
 			}
 		})
+	},
+
+
+	/**
+	 * goToIndex
+	 */
+    goToIndex : function(){
+		wx.navigateTo({
+            url: '../index/index'
+        });
 	}
-        
 })

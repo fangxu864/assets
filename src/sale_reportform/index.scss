@@ -252,7 +252,7 @@
             height: 18px;
             top:7px;
             left:12px;
-            background:url("http://www.12301.cc/tpl/orderquery/images/excel2.png");
+            background:url("//static.12301.cc/assets/build/images/excel2.png");
           }
         }
 
@@ -261,6 +261,7 @@
 }
 //表格内容
 .tablecon_box{
+  display: none;
   background-color: #ffffff;
   border:1px solid #e5e5e5;
   border-top:none;
@@ -301,7 +302,6 @@
         th{
           font-weight: 300;
         }
-        height: 36px;
         line-height: 36px;
         background-color: #f0f0f0;
       }
@@ -368,7 +368,6 @@
 }
 
 #pagination_wrap{
-  height: 66px;
   line-height: 100px;
   width: 1000px;
   text-align: center;

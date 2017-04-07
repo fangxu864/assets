@@ -20,6 +20,7 @@ Page({
 		history_hasMore : true
     },
 	onReady : function(){
+
 		wx.setNavigationBarTitle({title:"我的订单"});
 		var that = this;
 		var oData = this.data;
@@ -47,6 +48,15 @@ Page({
 				Common.showError(msg+" 错误代码："+code);
 			}
 		})
+	},
+	onShow : function(){
+		console.log("onShow");
+	},
+	onHide : function(){
+		console.log("onHide");
+	},
+	onLoad : function(){
+		console.log("onLoad");
 	},
 	onImageError : function(e){
 		var dataset = e.currentTarget.dataset;

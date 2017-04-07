@@ -178,12 +178,13 @@
             height: 18px;
             top:7px;
             left:12px;
-            background:url("http://www.12301.cc/tpl/orderquery/images/excel2.png");
+            background:url("//static.12301.cc/assets/build/images/excel2.png");
           }
         }
       }
     }
     .table_box{
+      display: none;
       table.total_table{
         .th3,.th4,.th5,.th2{text-align: right}
         .th6{text-align: center}
@@ -239,7 +240,6 @@
 .calendar-pop-contaienr{  width:220px !important;}
 
 #pagination_wrap{
-  height: 66px;
   line-height: 100px;
   width: 810px;
   text-align: center;

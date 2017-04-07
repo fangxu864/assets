@@ -1,0 +1,30 @@
+ <div class="con">
+            <span class="u-span">红包金额:</span>
+            <input type="number" id="redPackMoney" class="inp-t" min="0" value="0">
+        </div>
+
+        <div class="con ">
+            <span class="u-span u-span_share_img">分享内容：</span>
+            <div class="textarea_l">
+                <div id="content_2" name="content"></div>
+            </div>
+        </div>
+
+        <div class="con">
+            <span class="u-span u-span_share_img"><span class="u-span_req">*</span>分享图片:</span>
+            <div class="share_img">
+
+                <a class="lnk_prv" target="_blank" title="点击查看原图">
+                    <img style="width:240px;height:160px;" src="http://www.12301.cc/images/defaultThum.jpg" />
+                </a>
+                <div class="uploadImg">
+                    <p class="title">重新上传缩略图：</p>
+                    <input type="file" id="imgUpload_inpFile" name="image" />
+                    <input type="button" id="submitImgUploadBtn" value="上传" class="btn up-btn " />
+                    <p class="ui-form-explain">点击上传小于1M的JPG或GIF格式的图片,<br/>建议图片尺寸：宽300像素，高300像素</p>
+                    <p class="waitingUpload" class="ui-form-other"></p>
+                    <div id="uploadResultCon"></div>
+                    <div id="uploadFailTip"></div>
+                </div>
+            </div>
+        </div>

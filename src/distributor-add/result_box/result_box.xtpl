@@ -1,0 +1,10 @@
+<table>
+    <thead>
+        <tr>
+            <th class="col_first">分销商名称</th><th>公司类型</th><th>联系人</th><th>操作</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
+</table>

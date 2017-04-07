@@ -34,6 +34,9 @@
 
 <script type="es6">
     import "./index.scss";
+
+    //返回首页按钮
+    let ReturnHome = require("./returnHomeBtn");   
     let Toast = require("COMMON/modules/Toast");
     let toast = new Toast();
     let LandInfo = require("SERVICE_M/land-info");
@@ -74,8 +77,9 @@
                 },__time__)
             })
             this.fetchInfo(this.lid);
-        },
 
+            new ReturnHome();
+        },
         methods : {
             onScroll(scrollTop){
                 var photoHeight = this.photoHeight;
@@ -141,7 +145,7 @@
                     F : "景区介绍",
                     C : "酒店介绍",
                     H : "演出介绍",
-                    B : "行程按排"
+                    B : "行程安排"
                 }[this.info.p_type];
             }
         },

@@ -1,0 +1,7 @@
+<div class="dialogCon" id="agreeDialog">
+    <textarea placeholder="可以在这里输入备忘" data-type="agree" class="textarea_reson" name="" id="dialog_reson_textarea1" cols="60" rows="10"></textarea>
+    <div class="btn-group">          
+        <a class="dialog-btn yes agree" data-auditid="4523" data-ifpack="0" data-packorder="" data-concatid="" data-stype="1" data-status="1" data-ordernum="4002991" data-tnum="0" data-stime="2017-01-22 17:08:46" href="javascript:void(0)">确定</a>  
+        <a class="dialog-btn no agree" href="javascript:void(0)">取消</a> 
+    </div>
+</div>

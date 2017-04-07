@@ -1,0 +1,18 @@
+<% _.each(data,function(item,index){ %>
+    <li class="prodItem itemRow">
+        <a class="con" href="pdetail.html?lid=<%=item.lid%>">
+            <div class="ui-image-container">
+                <img src="<%=item.imgpath%>" onerror="this.src=PFT.DEFAULT_IMG;this.onerror=null;" alt=""/>
+            </div>
+            <div class="botBox">
+                <div class="col lt">
+                    <span class="title"><%=item.title%></span>
+                </div>
+                <div class="col rt">
+                    <span class="jsprice" growing-ignore="true"><i class="yen">¥</i><em class="num"><%=item.jsprice%></em></span>
+                    <span class="tprice" growing-ignore="true">¥<%=item.tprice%></span>
+                </div>
+            </div>
+        </a>
+     </li>
+<% }) %>

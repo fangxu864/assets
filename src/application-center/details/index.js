@@ -8,12 +8,20 @@ var dialog = require("COMMON/modules/dialog-simple"),
     software = require("./tpl/software.tpl"),
     dialog_topIndex_content = require("./tpl/topIndex.tpl");
 
+
+var preDomain = PFT.PREFIX_DOMAIN() || "";
+
 var Main = PFT.Util.Class({
 
     init : function(){
         this.initDialog();
         this.getParam();
         this.loadAjax();
+
+        // var url = location.href,
+        //     urlResult = url.match(/new\/appcenter_details\.html/);
+        // this.URL_PREFIX = url.slice( 0, urlResult.index );
+        this.prefix_domain = PFT.PREFIX_DOMAIN();
     },
     getParam:function () {
         var thisURL = document.URL;
@@ -203,7 +211,7 @@ var Main = PFT.Util.Class({
                     _this.checkIsTop(checkData);
                     return false
                 }
-                window.location.href="appcenter_pay.html?appid="+_this.module_id
+                window.location.href = preDomain + "new/appcenter_pay.html?appid="+_this.module_id
             });
 
             //价格提示部分
@@ -220,14 +228,16 @@ var Main = PFT.Util.Class({
         }else if( status == 2 ){
             if ( show_hide == 0 ) {
                 $("#btn").text("使用").on("click",function () {
-                    window.location.href= checkData.url ? '/' + checkData.url : "appcenter_details.html?module_id="+_this.module_id;
+                    // window.location.href= checkData.url ? this.prefix_domain + checkData.url : "appcenter_details.html?module_id="+_this.module_id;
+
+                    window.location.href= checkData.url ? (preDomain + checkData.url) : preDomain + "new/appcenter_details.html?module_id="+_this.module_id;
                 })
             } else {
                 $("#btn").css("display","none");
             }
         }else if(status == 3){
             $("#btn").text("去看看").on("click",function () {
-                window.location.href="appcenter_details.html?module_id="+_this.module_id
+                window.location.href = preDomain + "new/appcenter_details.html?module_id="+_this.module_id
             })
         }else if(status == -2){
             $("#btn").css("display","none");
@@ -283,20 +293,22 @@ var Main = PFT.Util.Class({
     //推荐应用链接
     btnInit:function () {
         $("#app-list").find(".show").on("click",function (e) {
-            window.location.href="appcenter_details.html?module_id="+ $(e.target).attr("data-id");
+            window.location.href = preDomain + "new/appcenter_details.html?module_id="+ $(e.target).attr("data-id");
         });
 
 
         $("#app-list").find(".btn-link").on("click",function (e) {
-            window.location.href="appcenter_pay.html?appid="+$(e.target).attr("data-id");
+            window.location.href = preDomain + "new/appcenter_pay.html?appid="+$(e.target).attr("data-id");
         });
 
         $("#app-list").find(".open").on("click",function (e) {
-            window.location.href="appcenter_pay.html?appid="+$(e.target).attr("data-id");
+            window.location.href = preDomain + "new/appcenter_pay.html?appid="+$(e.target).attr("data-id");
         });
 
         $("#app-list").find(".use").on("click",function (e) {
-            window.location.href="/"+$(e.target).attr("data-url");
+            // window.location.href= this.prefix_domain +$(e.target).attr("data-url");
+            window.location.href = preDomain + $(e.target).attr("data-url");
+
         });
     },
 
@@ -309,7 +321,7 @@ var Main = PFT.Util.Class({
         $("#topApp2").text(checkData.topName);
 
         $("#topLink").on("click",function () {
-            window.location.href="appcenter_details.html?module_id="+parseInt(checkData.id);
+            window.location.href = preDomain + "new/appcenter_details.html?module_id="+parseInt(checkData.id);
         })
     },
 

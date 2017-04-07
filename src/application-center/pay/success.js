@@ -44,6 +44,10 @@ var Main = PFT.Util.Class({
 			return false;
 		}
 
+		// var urlResult = url.match(/new\/appcenter_paysuccess\.html/);
+  		//       this.URL_PREFIX = url.slice( 0, urlResult.index );
+  		this.prefix_domain = PFT.PREFIX_DOMAIN();
+
 		if( /^\w+$/.test( _this.order_num )) {
 			_this.ajaxGetOrderInfo({
 				params: { order_no: _this.order_num },
@@ -51,7 +55,7 @@ var Main = PFT.Util.Class({
 					var data = res.data ;
 
 					$('#' + dom.sucText).html( _this.successText );
-					$('#' + dom.btn.gotoApp).attr('href', '/' + data.url );
+					$('#' + dom.btn.gotoApp).attr('href', _this.prefix_domain + data.url );
 					$('#' + dom.btn.gotoIndex).attr('href', 'appcenter_index.html');
 
 					var data = {
@@ -126,7 +130,7 @@ var Main = PFT.Util.Class({
 					window.history.go(-1);
 				}
 			},
-			error: function( xhr, txt ) {
+			serverError: function( xhr, txt ) {
 				alert( txt );
 			}
 		})

@@ -4,6 +4,8 @@
  * Description: ""
  */
 require("./index.scss");
+//返回首页按钮
+var ReturnHome = require("./returnHomeBtn"); 
 var Tpl = require("./index.xtpl");
 var Service = require("SERVICE_M/ordersuccess");
 var Alert = PFT.Mobile.Alert;
@@ -43,6 +45,7 @@ var Main = PFT.Util.Class({
 				Alert(msg);
 			}
 		})
+		new ReturnHome();  
 	},
 	createQRcode : function(code){
 		var container = $("#qrcodeBox");

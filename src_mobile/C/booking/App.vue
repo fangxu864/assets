@@ -168,6 +168,8 @@
 <!--<script>-->
 <script type="es6">
     import "./index.scss";
+    //返回首页按钮
+    let ReturnHome = require("./returnHomeBtn"); 
     let Toast = require("COMMON/modules/toast");
     let Alert = PFT.Mobile.Alert;
     let Confirm = PFT.Mobile.Confirm;
@@ -259,10 +261,6 @@
             }
         },
         ready(){
-
-
-
-
 
 
             this.toast = new Toast();
@@ -357,6 +355,7 @@
                     })
                 }
             })
+            new ReturnHome();
         },
         computed : {
             pids(){

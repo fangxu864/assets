@@ -1,0 +1,7 @@
+###平台-前后端分离-员工管理模块
+
+
+npm run operator-manager-start
+npm run operator-manager-test
+npm run operator-manager-release
+npm run operator-manager-production

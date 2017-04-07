@@ -1,0 +1,82 @@
+<h1>快速添加分销商</h1>
+<div id="distributor_platform">
+    <h2>分销平台</h2>
+
+        <div class="picture_p"></div>
+
+</div>
+<div id="OTA">
+    <h2>OTA电商</h2>
+    <div class="pictureContainer">
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/xiecheng.png" />
+            <figcaption data-name="携程网">携程网</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/qunaer.png" />
+            <figcaption data-name="去哪儿">去哪儿</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/lvmama.png" />
+            <figcaption data-name="驴妈妈">驴妈妈</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/tongcheng.png" />
+            <figcaption data-name="同程网">同程网</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/tuniu.png" />
+            <figcaption data-name="南京途牛旅游网">途牛网</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/weixun.png" />
+            <figcaption data-name="深圳微讯科技信息部">微讯旅游网</figcaption>
+        </figure>
+        <figure>
+            <div class="wrapper"><img src="http://static.12301.cc/assets/build/images/distributor_add/yaochufa.png" class="less"/></div>
+            <figcaption data-name="广州酷旅旅行社有限公司产品中心">酷旅·要出发</figcaption>
+        </figure>
+        <figure>
+            <div class="wrapper"><img src="http://static.12301.cc/assets/build/images/distributor_add/kuxiulvyou.png" class="less" /></div>
+            <figcaption data-name="酷秀旅游">酷秀旅游</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/yikuaiqu.png" width="100%" height="100%"/>
+            <figcaption data-name="常州途游网络科技有限公司">一块去</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/weitianxia.jpg" />
+            <figcaption data-name="微天下（厦门）网络科技有限公司">微天下</figcaption>
+        </figure>
+        <figure>
+            <img src="http://static.12301.cc/assets/build/images/distributor_add/yiqilvyouwang.jpg" />
+            <figcaption data-name="一起旅游网">一起旅游网</figcaption>
+        </figure>
+
+
+    </div>
+</div>
+<div id="group-buying_websites">
+    <h2>团购网</h2>
+    <div class="pictureContainer">
+        <figure>
+            <div class="wrapper"><img src="http://static.12301.cc/assets/build/images/distributor_add/meituan.png"/></div>
+            <figcaption data-name="【美团】北京三快在线科技有限公司">美团团购发码</figcaption>
+        </figure>
+
+        <figure>
+            <div class="wrapper"><img src="http://static.12301.cc/assets/build/images/distributor_add/lashou.png" /></div>
+            <figcaption data-name="拉手网">拉手网</figcaption>
+        </figure>
+
+        <figure>
+            <div class="wrapper"> <img src="http://static.12301.cc/assets/build/images/distributor_add/nuomi.jpg" /></div>
+            <figcaption data-name="百度糯米网">百度糯米</figcaption>
+        </figure>
+
+        <figure>
+            <div class="wrapper"> <img src="http://static.12301.cc/assets/build/images/meituandianping.jpg" /></div>
+            <figcaption data-name="美团（团购直连）" style="width: 280px">美团直连</figcaption>
+        </figure>
+    </div>
+</div>

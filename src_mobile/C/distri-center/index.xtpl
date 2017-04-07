@@ -1,0 +1,35 @@
+<div id="topTotal" class="topTotal">
+    <div id="userPhotoBox" class="userPhotoBox">
+        <img src="<%=head_img%>" onerror="this.src='http://www.12301.cc/images/defaultThum.jpg';this.onerror=null;" alt=""/>
+    </div>
+    <div class="lineWrap">
+        <p id="nicknameTxt" class="line nickname"><%=nickname%></p>
+        <p class="line top">
+            <span class="lt">累计奖赏(元)：</span>
+            <span class="rt ui-color-orange"><i class="yen">&yen;</i><em id="totalMoneyNum" class="num totalMoneyNum"><%=sumComm%></em></span>
+            <span class="rewardTips">获得奖赏将计入账户余额</span>
+        </p>
+    </div>
+</div>
+<div id="tableWrap" class="tableWrap">
+<div class="thead line">
+    <span class="col col_1">我分享的成员</span>
+    <span class="col col_2">订单数</span>
+    <span class="col col_3">奖赏(元)</span>
+</div>
+<div id="tbody" class="tbody">
+    <ul id="listUl" class="listUl">
+        <% _.each(dis_list,function(item){ %>
+        <li class="item" data-memberid="<%=item.member_id%>">
+            <div class="groupHead line">
+                    <span class="col col_1">
+                        <span class="triggerIcon"><i class="iconfont up">&#xe695;</i><i class="iconfont down">&#xe673;</i></span><span class="t"><%=item.nickname%></span>
+                    </span>
+                <span class="col col_2"><em class="self"><%=item.order_count%></em></span>
+                <span class="col col_3"><em class="self"><%=item.recommend_money%></em> / <em class="child"><%=item.develop_money%></em></span>
+            </div>
+        </li>
+        <% }) %>
+    </ul>
+</div>
+</div>

@@ -101,6 +101,18 @@ var Mobile = {
             var that = this;
             $("#chMob").on("click",function () {
                 that.Dialog_Mobile.open();
+
+                //如果是新用户
+                var mobile = Mobile.getOldMobile();
+                if(!mobile){
+                    $(".stepTip").text("1. 绑定新手机号");
+                    $("#promptOld").replaceWith("<span id='promptNew'>新的手机号：</span>");
+                    $("#oldPhone").replaceWith("<input id='newPhone'>");
+                    clearInterval(Mobile.Interval);
+                    $("#getCodeOld").replaceWith("<span id='getCodeNew' class='getVCodeBtn'>获取验证码</span>");
+                    $("#VcodeOld").replaceWith("<input type='text' id='VcodeNew'>");
+                    $("#next").replaceWith("<div id='submit' class='button_modify'>绑定</div>");
+                }
             });
         },
 
