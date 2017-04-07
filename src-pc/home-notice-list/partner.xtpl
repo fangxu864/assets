@@ -1,0 +1,21 @@
+                <% _.each( data.list, function( item, index ){ %>
+                <tr>
+                    <td><%=item.time%></td>
+                    <td>
+                    <% switch( type ) {
+                    case 0: %>
+                    您删除了<%=item.name%>
+                    <% break;
+                    case 1: %>
+                    您添加了<%=item.name%>
+                    <% break;
+                    case 2: %>
+                    <%=item.name%>添加了您
+                    <% break;
+                    case 3: %>
+                    <%=item.name%>删除了您
+                    <% break;
+                    } %>
+                    </td>
+                </tr>
+                <% }) %>
