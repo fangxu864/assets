@@ -1,5 +1,5 @@
 
-var Dialog = require("COMMON/modules/dialog-simple");  //遮罩框
+var Dialog = require("./dialog-simple/index.js");  //遮罩框
 require("./index.scss"); 
 var bindDialogTpl = require("./bindDialogTpl.xtpl");
 
@@ -224,6 +224,7 @@ $(function(){
             //关闭
             $("#bindBox .close").on("click",function(){
                 $("#bindBox .close").off("click");
+                $("#bindBox .bind").off("click");
                 agreeDialog.close();
             });
         });
