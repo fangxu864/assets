@@ -311,7 +311,6 @@ productposter.prototype = {
                 }
             }
         });
-
         //取消修改  （单纯的刷新页面）
         this.cancelchange.on("click",function(){
             that.reset();
@@ -591,9 +590,9 @@ productposter.prototype = {
 
 $(function(){
 
-
     var nowurl = window.location.href;
     var newproductposter = new productposter(nowurl);
+
 });
 
 
