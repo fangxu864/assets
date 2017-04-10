@@ -25,14 +25,54 @@
     </div>
     <div class="rt">
         <p class="min-title">常用取票人</p>
-        <ul class="link_ul">
-            <li class="nList">
+        <ul class="contact-ul">
+            <li class="contact-li">
                 <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
                 <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
             </li>
-            <li class="nList">
-                <span class="nDetail" tel="18305998783" idcards="" title="c">c</span>
-                <span class="iconfont activeIcon" tel="18305998783" contato="c"></span>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
             </li>
         </ul>
     </div>

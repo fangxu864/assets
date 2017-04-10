@@ -14,6 +14,9 @@
       float: left;
       width: 400px;
       .w70{width: 70px;display: inline-block}
+      .saveUserBtn{
+        margin-left: 72px;
+      }
       .line{line-height: 36px}
       .colorRed{color: red}
       input{
@@ -34,12 +37,39 @@
       float: left;
       margin-left: 20px;
       position: relative;
-      width: 500px;
+      width: 464px;
       background-color: #F5F8FA;
       top: 4px;
       padding: 15px;
+      padding-right: 0;
       .min-title{
         font-weight: bold;
+        line-height: 20px;
+      }
+      .contact-ul{
+        .contact-li{
+          float: left;
+          width: 94px;
+          margin: 6px 0;
+          position: relative;
+          margin-right: 13px;
+          height: 25px;
+          border: 1px solid #0797D9;
+          color: #0797D9;
+          line-height: 20px;
+          padding-left: 5px;
+          cursor: pointer;
+          .activeIcon{
+            position: absolute;
+            right: 4px;
+            top: 2px;
+            cursor: pointer;
+          }
+          .activeIcon:hover{
+            color: orangered;
+          }
+
+        }
       }
     }
   }
