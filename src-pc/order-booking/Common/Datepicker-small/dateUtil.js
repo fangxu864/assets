@@ -19,10 +19,6 @@ module.exports = {
      * @method 修正格式化日期
      */
     formatDate: function (date) {
-        if( ! /^\d{4}\-\d{1,2}\-\d{1,2}$/.test(date)){
-            console.log("请传入正确的日期格式：如2017-2-3、2017-02-03/2017-02-3/2017-2-03");
-            return false;
-        }
         var year = date.match(/^\d+/)[0];
         var month = Number( date.match(/(?:\-)(\d+)(?:\-)/)[1] );
         var day = Number( date.match(/\d+$/)[0] );

@@ -1,9 +1,12 @@
 .calendar-price{
+  width: 400px;
   position: fixed;
+  border: 1px solid #adc6d6;
   background-color: #ffffff;
   box-shadow: 2px 2px 5px #e5e5e5;
   .control-nav{
     position: absolute;
+    overflow: hidden;
     width: 100%;
     color: #ffffff;
     line-height: 35px;
@@ -16,20 +19,11 @@
     }
     .prev-btn{
       float: left;
-      margin-left: 20px;
+      margin-left: 10px;
     }
     .next-btn{
       float: right;
-      margin-right: 20px;
-    }
-    .close-btn{
-      position: absolute;
-      right: -18px;
-      top: -18px;
-      width: 32px;
-      height: 32px;
-      background: url("//static.12301.cc/assets/build/images/calendar_close.png") no-repeat;
-      cursor: pointer;
+      margin-right: 10px;
     }
   }
   .loading-box{
@@ -38,25 +32,24 @@
     height: 100%;
     top: 0;
     left: 0;
-    line-height: 400px;
+    line-height: 300px;
     text-align: center;
     font-size: 14px;
     color: #ffa63c;
     background-color: rgba(255,255, 255, 0.6);
   }
   .calendar-wrapper{
-    background-color: #57a8d8;
     .title{
       text-align: center;
       line-height: 40px;
       height: 40px;
       font-size: 14px;
+      background-color: #57a8d8;
       color: #ffffff;
     }
     .table-con{
-      padding: 2px 2px;
+      padding: 10px 11px;
       .calendar-tb{
-        background: #fff;
         text-align: center;
         width: 100%;
         th , td{
@@ -64,65 +57,47 @@
         }
         thead tr {
           line-height: 30px;
-          border: 1px solid #e5e5e5;
           .sunday , .saturday{
-            color: #FF5400;
+            color: #ffa63c;
           }
         }
         tbody tr{
           line-height: 50px;
-
         }
         tbody tr td{
-          width: 98px;
-          border: 1px solid #e5e5e5;
-          height: 79px;
-          position: relative;
+          padding: 10px 0;
         }
         tbody tr td p{
           line-height: 16px;
+          width: 54px;
           text-overflow: ellipsis;
           overflow: hidden;
         }
         tbody tr td .price{
-          width: 90px;
-        }
-        tbody tr td .date{
-          position: absolute;
-          top: 0;
-          color: #008fc2;
-          left: 0;
-          padding: 5px;
-          font-size: 14px;
-          font-weight: bold;
-        }
-        tbody tr td .price{
-          color: #FF6600;
+          color: #ffa63c;
         }
         tbody tr td.usable{
           cursor: pointer;
         }
         tbody tr td.usable:hover{
-          background-color: #dcf4fc;
-          //background-color: #ffa63c;
+          background-color: #ffa63c;
         }
-        //tbody tr td.usable:hover p{
-        //  color: white !important;
-        //}
+        tbody tr td.usable:hover p{
+          color: white !important;
+        }
         tbody tr td.selected{
-          background-color: #57a8d8 !important; ;
+          background-color: #57a8d8 ;
           color: white;
         }
         tbody tr td.selected p{
           color: white !important;
         }
-        tbody tr td.disable p ,tbody tr td.disable{
+        tbody tr td.disable p{
           color: #bfbfbf;
           cursor: not-allowed;
-          background-color: #F7F7F7;
         }
         tbody tr td p.today{
-          color: #00bcd4;
+          color: #2196f3;
         }
       }
     }
