@@ -78,5 +78,57 @@
     </div>
 </div>
 <div class="tourist-info-box clearfix">
-    <div class="title">游客信息<span>(每张票提供相关游客信息)</span></div>
+    <div class="title"><i class="colorRed">*</i>游客信息<span class="remark">(每张票提供相关游客信息)</span></div>
+    <ul>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+    </ul>
 </div>
