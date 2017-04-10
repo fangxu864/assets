@@ -2,8 +2,11 @@
     <tr>
     <% for( var i = 0; i < item.length; i++){%>
         <td class="disable <%=item[i].date == data.curDay ? 'selected' : ''%>" data-date="<%=item[i].date%>">
-            <p class="date <%=item[i].today == 'today' ? 'today' : ''%>"><%=item[i].today == 'today' ? '今天' : item[i].day%></p>
-            <p class="price"><%=item[i].date ? '' : ''%></p>
+            <div style="width: 100%;height: 100%;position: relative">
+                <p class="date <%=item[i].today == 'today' ? 'today' : ''%>"><%=item[i].today == 'today' ? '今天' : item[i].day%></p>
+                <p class="price"><%=item[i].date ? '' : ''%></p>
+            </div>
+
         </td>
     <%}%>
     </tr>

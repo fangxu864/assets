@@ -59,6 +59,9 @@
         background: #fff;
         text-align: center;
         width: 100%;
+        td{
+          border: 1px solid #ddd;
+        }
         th , td{
           width: 54px;
         }
@@ -71,21 +74,17 @@
         }
         tbody tr{
           line-height: 50px;
-
+          border: 1px solid #ddd;
         }
         tbody tr td{
-          width: 98px;
-          border: 1px solid #e5e5e5;
-          height: 79px;
-          position: relative;
+          width: 97px;
+          border: 1px solid #ddd;
+          height: 78px;
         }
         tbody tr td p{
           line-height: 16px;
           text-overflow: ellipsis;
           overflow: hidden;
-        }
-        tbody tr td .price{
-          width: 90px;
         }
         tbody tr td .date{
           position: absolute;
@@ -98,6 +97,9 @@
         }
         tbody tr td .price{
           color: #FF6600;
+          position: absolute;
+          top: 26px;
+          width: 100%;
         }
         tbody tr td.usable{
           cursor: pointer;
