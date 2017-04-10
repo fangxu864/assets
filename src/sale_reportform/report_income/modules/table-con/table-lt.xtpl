@@ -18,8 +18,8 @@
 
 <% _.each(data.data.list,function(item,index){ %>
 <tbody>
-<tr data-index="tr<%=index%>">
-    <td class="th1"><span class="un-shrink"></span><%=item.name%></td>
+<tr data-index="tr<%=index%>" class="parent-tr">
+    <td class="th1"><%=item.product_list.length > 0 ? ' <span class="un-shrink"></span>' : '<span style="margin-right: 23px"></span>'%><%=item.name%></td>
     <td class=""><%=item.member_num%></td>
     <td class=""><%=item.member_ticket%></td>
     <td class="th4"><%=( Number(  item.real_money ) / 100 ) .toFixed(2)%></td>

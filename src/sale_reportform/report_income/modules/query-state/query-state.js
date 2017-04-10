@@ -20,7 +20,8 @@ var QueryState = {
         var _this = this;
         this.CR = CR;
         this.CR.mainBox.append(_this.container);
-        this.bind()
+        this.bind();
+        this.container.html('<div style="text-align: center;line-height: 200px;font-size: 16px;color: #c3c3c3;">请选择查询条件再点击查询按钮进行查询</div>').show();
     },
     
     bind: function () {

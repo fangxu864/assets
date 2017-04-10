@@ -43,10 +43,18 @@ var tableCon = {
         });
 
         //表格伸展收缩按钮
-        this.container.on("click",".un-shrink",function () {
+        this.container.on("click",".un-shrink",function (e) {
+            e.stopPropagation();
             $(this).toggleClass("shrink");
             var dataIndex = $(this).parents("tr").attr('data-index');
             _this.container.find('tr[data-index ='+dataIndex+' ]').siblings("tr").fadeToggle(0);
+        });
+
+        this.container.on("click" , ".parent-tr" , function (e) {
+            var shrinkBtn = $(this).find('.un-shrink');
+            if(shrinkBtn){
+                shrinkBtn.click();
+            }
         })
 
     },
@@ -59,15 +67,28 @@ var tableCon = {
      * @method 渲染表格内容
      */
     render: function ( res ) {
-        var payListLen = res.data.pay_list.length;
+        var payListLen = (function(){
+            var i = 0;
+            for(var key in res.data.pay_list){i++};
+            return i;
+        })();
         var rtData = {
+            keyC:{},
             pay_list: res.data.pay_list,
             total: new Array(payListLen),
             list:[]
         };
+        //keyC 为键值对应的列数{ 0: 0, 12 : 5}
+        var keyC_key_index = 0;
+        for(var keyC_key in res.data.pay_list){
+            rtData.keyC[keyC_key] = keyC_key_index++
+        }
+
         //合计
         for(var key in res.data.pay_way_money){
-            rtData.total[key] = res.data.pay_way_money[key]
+            if( rtData.keyC[key] === undefined ) continue;
+            rtData.total[ rtData.keyC[key] ] = res.data.pay_way_money[key]
+
         }
         for(var i= 0; i< res.data.list.length; i++){
             var obj = (function () {
@@ -78,22 +99,33 @@ var tableCon = {
             }());
             //parentTr
             for( var tkey in res.data.list[i].pay_way_money ){
-                obj.parentTr[tkey] = Number( res.data.list[i].pay_way_money[tkey] )
+                if( rtData.keyC[tkey] === undefined ) continue;
+                obj.parentTr[rtData.keyC[tkey]] = Number(res.data.list[i].pay_way_money[tkey])
+
             }
             for(var j= 0; j< res.data.list[i].product_list.length; j++){
                 //得出支付方式集合
-                var arr = new Array(payListLen);
+
+                var arr = (function(){return new Array(payListLen)})();
+
+
                 for(var k= 0; k< res.data.list[i].product_list[j].payway_list.length; k++){
-                    arr[res.data.list[i].product_list[j].payway_list[k].pay_way] = Number( res.data.list[i].product_list[j].payway_list[k].sale_money );
+                    var curObj = res.data.list[i].product_list[j].payway_list[k];
+                    if( rtData.keyC[curObj.pay_way] === undefined ) continue;
+                    arr[rtData.keyC[curObj.pay_way]] = Number(curObj.sale_money) - Number(curObj.cancel_money) + Number(curObj.service_money);
+
                 }
+
                 obj.childTr.push(arr);
             }
             rtData.list.push(obj)
         }
         var tableLtHtml = this.tableLtTemplate({data : res });
         var tableRtHtml = this.tableRtTemplate({data : rtData });
+
         this.container.find(".table-lt").html(tableLtHtml);
         this.container.find(".table-rt").html(tableRtHtml);
+        this.container.find(".rt-con .table-rt").css("left",0);
         this.container.show();
     },
 

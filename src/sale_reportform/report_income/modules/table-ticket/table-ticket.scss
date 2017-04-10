@@ -6,6 +6,7 @@
     border-top:none;
     background-color: #ffffff;
     position: relative;
+    display: none;
     .title{
       line-height: 40px;
       padding-left: 20px;
@@ -73,6 +74,12 @@
       }
       .total-tr{
         background-color: #e5f5fc;
+      }
+      .parent-tr:hover{
+        background-color: #fafafa;
+      }
+      .child-tr:hover{
+        background-color: #fafafa;
       }
     }
 

@@ -31,9 +31,9 @@ var Filter = {
         this.sub();
         this.bind();
 
-        setTimeout(function () {
-            _this.container.find(".query_btn").click();
-        },0)
+        // setTimeout(function () {
+        //     _this.container.find(".query_btn").click();
+        // },0)
 
 
     },
@@ -330,6 +330,52 @@ var Filter = {
         });
         this.container.find(".self-radio")[0].click();
 
+        //管理员账号时，点击分销商搜索框时更新此框数据
+        if(_this.isAdmin==1){
+            $("#fenxiaoshang_name_inp").on("focus",function () {
+                var member_id=_this.getFilterParams()["merchant_id"]?_this.getFilterParams()["merchant_id"]:"";
+                var api = '';
+                if($("#select_fg").attr("search_type") == 1){
+                    api="/r/report_statistics/getResellerList/?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }else{
+                    api="/r/report_statistics/getSupplierList?action=fuzzyGetDname_c&dtype=1&danme=&member_id="+member_id;
+                }
+
+                $.ajax({
+                    url: api,                                //请求的url地址"/r/report_statistics/orderList/"
+                    dataType: "json",                            //返回格式为json
+                    async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
+                    data: {},                            //参数值
+                    type: "GET",                                  //请求方式
+                    beforeSend: function() {
+                        //请求前的处理
+                    },
+                    success: function(res) {
+                        var reslut = {};
+                        reslut["code"]=res.code;
+                        reslut["msg"]=res.msg;
+                        var arr=[];
+                        var data=res.data;
+                        for(var i in data){
+                            arr.push(data[i]);
+                        }
+                        reslut["data"] =arr;
+                        _this.select3.refresh(reslut.data);
+                    },
+                    complete: function() {
+                        //请求完成的处理
+                    },
+                    error: function() {
+                        //请求出错处理
+                    }
+                });
+            });
+            $("#product_name_inp").on("focus",function () {
+                var member_id = _this.getFilterParams()["merchant_id"] ? _this.getFilterParams()["merchant_id"] : "";
+                _this.ajaxParams["search_id"]=member_id;
+            })
+        }
+
         this.container.on("click" , '.self-checkbox' , function () {
             $(this).toggleClass("checked");
         });
@@ -343,7 +389,12 @@ var Filter = {
         // //点击导出
         this.container.on("click", ".excel_btn" ,function () {
             var params = $.param(_this.FilterParamsHub) + "&is_excel=1";
-            var  downLoadUrl = "/r/report_statistics/checkedPaywayList?" + params;
+            var  downLoadUrl = '';
+            if(_this.FilterParamsHub['searchTicket'] == false){
+                downLoadUrl = "/r/report_statistics/checkedPaywayList?" + params;
+            }else{
+                downLoadUrl = "/r/report_statistics/checkedPaywayListByTicket?" + params;
+            }
             _this.outExcel(downLoadUrl);
         });
     },
@@ -457,7 +508,7 @@ var Filter = {
             if($("#trader_inp").attr("data-id")){
                 params["merchant_id"]=$("#trader_inp").attr("data-id");
             }
-            if($(".filter_box .filter .line1 .td2 .option ").hasClass("checked")){
+            if(_this.container.find(".line1 .td2 .option ").hasClass("checked")){
                 params["exclude_test"]=1;
             }else{
                 params["exclude_test"]=0;

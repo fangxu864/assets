@@ -92,25 +92,19 @@
           display: inline-block;
           height: 14px;
           width: 14px;
-          background: url("http://images.12301.cc/icon/check.png");
-          background-position: 14px 14px;
+          background: url("http://images.12301.cc/icon/check.png") 14px 14px;
           position: relative;
           top: 3px;
           margin: 0 5px;
-          
           cursor: pointer;
-
         }
         span.nocheck{
           display: inline-block;
-          
           height: 14px;
           width: 14px;
-          background: url("http://images.12301.cc/icon/check.png");
-          background-position: 0px 14px;
+          background: url("http://images.12301.cc/icon/check.png") 0 14px;
           position: relative;
           top: 3px;
-
           margin: 0 5px;
           cursor: pointer;
         }
@@ -346,19 +340,24 @@
   border-top:none ;
   display: none;
   .querying{
-      height: 200px;
+      height: 150px;
       text-align: center;
-      padding-top: 30px;
+      padding-top: 50px;
+      font-size: 16px
    }
   .queryerror{
     height: 200px;
     line-height: 200px;
     text-align: center;
+    color: #f07845;
+    font-size: 16px
   }
   .querynodata{
     height: 200px;
     line-height: 200px;
     text-align: center;
+    color: #f07845;
+    font-size: 16px
   }
 }
 
