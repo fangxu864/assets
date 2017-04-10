@@ -52,8 +52,6 @@ module.exports = function(opt){
 
             if(env=="local") return false;
 
-
-
             var filename = entryInfo.key;
             var outJs = Path.join(outputInfo.path.js,outputInfo.filename+".js");
             var outCss = Path.join(outputInfo.path.css,outputInfo.filename+".css");

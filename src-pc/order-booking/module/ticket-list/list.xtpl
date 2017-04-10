@@ -1,0 +1,59 @@
+<%_.each(tickets,function(item,index){%>
+<tr id="ticketItem_<%=item.tid%>" class="ticketItem ticketItem_<%=item.tid%>">
+    <td class="col_1 col"><span class="t mod-pl"><%=item.title%></span></td>
+    <td class="col_2 col"><span class="t"><%=item.storage==-1 ? '不限' : item.storage%></span></td>
+    <td class="col_3 col">
+        <span class="t">
+            <input 
+                data-jsprice="<%=item.extra.js%>"
+                data-tid="<%=item.tid%>"
+                type="text"
+                name=""
+                <%=item.storage==0 ? 'readonly' : ''%>
+                id="buyPriceInput_<%=item.tid%>"
+                value="<%=item.extra.ls%>" 
+                placeholder="请输入售价" 
+                class="buyPriceInput <%=item.storage==0? 'disable' : ''%>">
+        </span>
+    </td>
+    <td class="col_4 col"><span class="t"><span class="yen">&yen;</span><span id="jsMoneyNum_<%=item.tid%>" class="moneyNum jsMoneyNum"><%=item.extra.js%></span></span></td>
+    <td class="col_5 col"><span class="t"><%=item.extra.reb%></span></td>
+    <td class="col_6 col">
+        <div class="countBox">
+            <%
+                var addBtnCls = "";
+                var minuBtnCls = "disable";
+                var countInpCls = "";
+                var initCount = index==0 ? item.buy_limit_low : 0;
+                if(item.buy_limit_low>=item.storage && item.storage!=-1) addBtnCls = "disable";
+                if(addBtnCls=="disable" && minuBtnCls=="disable") countInpCls = "disable";
+            %>
+            <input 
+                data-ismain="<%=index==0 ? true : false%>" 
+                data-storage="<%=item.storage%>" 
+                data-buylimitlow="<%=item.buy_limit_low%>" 
+                data-buylimitup="<%=item.buy_limit_up%>" 
+                data-tid="<%=item.tid%>" 
+                type="text" 
+                name="" 
+                placeholder="请输入预订数量" 
+                id="countInp_<%=item.tid%>" 
+                value="<%=initCount%>"
+                <%=countInpCls=="disable" ? 'readonly' : ''%>
+                class="countInp <%=countInpCls%>">
+            <a href="###" data-tid="<%item.tid%>" class="cBtn minu <%=minuBtnCls%>"><i class="icon-u-bold icon-jian"></i></a>
+            <a href="###" data-tid="<%item.tid%>" class="cBtn add <%=addBtnCls%>"><i class="icon-u-bold icon-jia-copy"></i></a>
+        </div>
+        <%if(item.buy_limit_low>1 || item.buy_limit_up!=0){%>
+            <div class="buy_limit_tip">
+                <span class="num"><%=item.buy_limit_low%></span>张起买
+                <%if(item.buy_limit_up!=0){%>
+                    限购<span class="num"><%=item.buy_limit_up%></span>张
+                <%}%>
+            </div>
+        <%}%>
+    </td>
+    <td class="col_7 col"><span class="t"><span class="yen">&yen;</span><span id="lsTotalMoneyNum_<%=item.tid%>" class="moneyNum lsTotalMoneyNum"><%=PFT.Util.numberToFixed(item.extra.ls*initCount,2)%></span></span></td>
+    <td class="col_8 col"><span class="t"><span class="yen">&yen;</span><span id="jsTotalMoneyNum_<%=item.tid%>" class="moneyNum jsTotalMoneyNum"><%=PFT.Util.numberToFixed(item.extra.js*initCount,2)%></span></span></td>
+</tr>
+<%})%>

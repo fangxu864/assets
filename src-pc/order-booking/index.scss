@@ -1,0 +1,81 @@
+$orange : #F07845;
+
+
+#orderBookingContainer{
+    min-height: 800px;
+    background: #fff;
+
+    .mod-pl{ padding-left: 30px;}
+
+    .formGroup{
+        float: left;
+        overflow: hidden;
+        .label{
+            float: left;
+            margin-right: 15px;
+            margin-top: 11px;
+        }
+        .inputBox{
+            float: left;
+        }
+        .tip{
+            float: left;
+            color: $orange
+        }
+        .select{
+            width: 200px;
+            height: 34px;
+            padding: 0 8px;
+            border: 1px solid #e5e5e5;
+            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+            -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+            -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+            -o-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+            -ms-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+            outline: none
+        }
+    }
+
+    .formGroup.datepicker{
+        .inputBox{
+            position: relative;
+            .textInp{ width: 180px;}
+        }
+        .triggerBtn{
+            display: block;
+            position: absolute;
+            top: 9px;
+            right: 8px;
+            width: 18px;
+            height: 18px;
+            overflow: hidden;
+            font-size: 0;
+            cursor: pointer;
+            img{
+                width: 100%
+            }
+        }
+        .tip{
+            margin-top: 11px;
+            margin-left: 6px;
+        }
+    }
+
+    .textInp{
+        width: 200px;
+        height: 22px;
+        line-height: 22px;
+        padding: 6px 8px;
+        border: 1px solid #e5e5e5;
+        box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+        -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+        -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+        -o-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+        -ms-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+        &:focus{
+            border-color: #F07845
+        }
+    }
+
+
+}

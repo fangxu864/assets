@@ -1,0 +1,101 @@
+#ticketListMode{
+    clear: both;
+    margin-top: 20px;
+
+    .ticketListTable{ 
+        width: 100%;
+        table-layout: fixed;
+        text-align: center;
+
+        .col_1{ 
+            width: 25%; text-align: left;
+        }
+        .col_2{ width: 10%}
+        .col_3{ width: 10%}
+        .col_4{ width: 10%}
+        .col_5{ width: 10%}
+        .col_6{ width: 15%}
+        .col_7{ width: 10%}
+        .col_8{ width: 10%}
+
+        thead .col{
+            height: 40px;
+            line-height: 40px;
+            color: #fff;
+            font-size: 14px;
+            background: #3cb8ee
+        }
+        tbody .col{
+            padding: 10px 0;
+            border-bottom: 1px solid #FFFFFF;
+            background: #BFE7F8;
+        }
+
+    }
+
+    .countBox{
+        font-size: 0;
+        margin-top: 9px;
+        .countInp{
+            width: 90px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            padding: 3px 2px;
+            font-size: 12px;
+            border: 1px solid #bfcbd9;
+            border-bottom-left-radius: 3px;
+            border-top-left-radius: 3px;
+            &.disable{
+                background: #e5e5e5;
+                cursor: not-allowed;
+            }
+        }
+        .cBtn{
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border: 1px solid #bfcbd9;
+            color: #bfcbd9;
+            cursor: pointer;
+            font-size: 12px;
+            background: #fff;
+            i{ font-size: 12px;}
+            &.add{ border-left: 0 none; border-top-right-radius: 3px; border-bottom-right-radius: 3px;}
+            &.minu{ border-left: 0 none}
+            &.disable{
+                background: #e5e5e5;
+                cursor: not-allowed
+            }
+        }
+
+    }
+
+    .buyPriceInput{
+        width: 90px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        padding: 3px 2px;
+        font-size: 12px;
+        border: 1px solid #bfcbd9;
+        border-radius: 3px;
+        &:focus{ border-color: #F07845}
+        &.disable{
+            background: #e5e5e5;
+            cursor: not-allowed
+        }
+    }
+
+    .buy_limit_tip{ 
+        width: 152px; text-align: right; padding-top: 3px; margin: 0 auto; color: #777;
+        .num{ color: #F07845;}    
+    }
+
+    .yen{ color: #F07845}
+    .moneyNum{ color: #F07845; margin-left: 1px;}
+    
+
+}
