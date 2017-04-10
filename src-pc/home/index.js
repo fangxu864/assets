@@ -38,7 +38,7 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = SaleEchart(this.pageMain);
 		// this.wxShopData = WxShopData(this.pageMain);
-		// this.recommendApp = RecommendApp( this.pageMain );
+		this.recommendApp = RecommendApp( this.pageMain, 'G_Body' );
 
 		var DTYPE = $("#home_judge_of_dtype").val();
 
