@@ -33,7 +33,7 @@ module.exports = function( parent, scrollContainerId ){
         container: '#recommendApp',
 
         AJAX_URLS: {
-            getModuleList: '/r/AppCenter_ModuleList/getModuleList'
+            getModuleList: '/r/AppCenter_ModuleList/getModuleList/'
         },
 
         init: function() {
