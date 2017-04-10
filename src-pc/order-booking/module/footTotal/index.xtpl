@@ -1,0 +1,12 @@
+<div class="con">
+    <span class="fbox">
+        总票数：<em class="num">1</em><i class="danwei">张</i>
+    </span>
+    <span class="fbox">
+        应收：<i class="yen">&yen;</i><em class="num">1</em>
+    </span>
+    <span class="fbox">
+        应付：<i class="yen">&yen;</i><em class="num">1</em>
+    </span>
+    <a href="###" id="submitOrderBtn" class="submitOrderBtn">提交订单</a>
+</div>
