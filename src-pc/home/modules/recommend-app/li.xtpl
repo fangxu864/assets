@@ -1,19 +1,66 @@
+<% _.each( data, function( item, index ){ %>
 <li>
     <div class="app-item">
         <div class="app-left">
             <i class="ui-app-ico" style="background-image:url(<%=item.icon || "http://static.12301.cc/assets/build/images/appcenter/icons/default.png"%>)"></i>
             <p class="app-open">
-                <span class="app-usernum c-warning">7</span> 用户<br>已开通
+                <span class="app-usernum c-warning"><%=item.open_num%></span> 用户<br>已开通
             </p>
         </div>
         <div class="app-right">
-            <div class="text-ellipsis"><strong class="app-name">微信直销（微商城）</strong></div>
-            <div class="text-ellipsis"><span class="app-price"><em>2039-03-08</em>到期</span></div>
+            <div class="text-ellipsis"><strong class="app-name"><%=item.name%></strong></div>
+
+        <% if( item.category == 4 ) { %>
+            <div class="text-ellipsis"><span class="app-price"><%=item.summary%></span></div>
             <div class="app-btn-w">
-                <a href="http://my.12301.test/wx_mall_config.html" class="btn btn-default mr10">打开应用</a>
-                <a href="appcenter_pay.html?appid=1" class="btn-link">续费</a>
+                <% switch( item.button_type ) {
+                    case 0: %>
+                    <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">免费试用</a>
+                <% break;
+                    case 1: %>
+                    <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">开通</a>'
+                <% break;
+                    case 2: %>
+                    <a href="<%=item.url%>" class="app-btn btn-default mr10">打开应用</a>
+                    <% if( item.xufei ) { %>
+                    <a href="new/appcenter_pay.html?appid=<%=item.module_id%>" class="btn-link">续费</a>
+                    <% } %>
+                <% break;
+                } %>
             </div>
+        <% } else { %>
+            <% switch( item.button_type ){
+                case 0: %>
+                    <div class="text-ellipsis"><span class="app-price"><%=item.price%></span></div>
+                    <div class="app-btn-w">
+                        <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">免费试用</a>
+                    </div>
+                <% break;
+                case 1:
+                    if( item.flag_expire ==1 ) {%>
+                        <div class="text-ellipsis"><span class="app-price"><em <%=item.expiresoon?'class="c-warning"':''%>><%=item.expire_time%></em>到期</span></div>
+                        <div class="app-btn-w">
+                            <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">开通</a>
+                        </div>
+                    <% } else { %>
+                        <div class="text-ellipsis"><span class="app-price"><%=item.price%></span></div>
+                            <div class="app-btn-w">
+                                <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">开通</a>
+                            </div>
+                    <% }
+                    break;
+                case 2: %>
+                    <div class="text-ellipsis"><span class="app-price"><em<%=item.expiresoon?'class="c-warning"':''%>><%=item.expire_time%></em>到期</span></div>
+                    <div class="app-btn-w">
+                        <a href="<%=item.url%>" class="app-btn btn-default mr10">打开应用</a>
+                        <% if( item.xufei) { %>
+                        <a href="new/appcenter_pay.html?appid=<%=item.module_id%>" class="btn-link">续费</a>
+                        <% } %>
+                    </div>
+            <% } %>
+        <% } %>
         </div>
     </div>
     <i class="ico-hot"></i>
 </li>
+<% }) %>

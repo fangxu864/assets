@@ -59,7 +59,7 @@
 .icon-rili{
     position: absolute;
     top: 0;
-    left: 246px;
+    left: 297px;
 }
 .editContainer{
     background: #fff;
@@ -93,6 +93,9 @@
                 left: 160px;
                 font-size: 14px;
             }
+        }
+        #excelUpLoad{
+            display: inline-block;
         }
     }
 }
@@ -144,6 +147,9 @@
             }
             .radioIcon.active{
                 background: #3DBA3F;
+            }
+            .radioIcon.disable{
+                background: #f3f1f1;
             }
             .radioCon{
                 display: inline-block;

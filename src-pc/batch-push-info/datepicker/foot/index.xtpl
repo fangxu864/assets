@@ -1,0 +1,5 @@
+<div class="pftui-datepicker-footCon">
+    <span class="fBtn cannel cannelBtn">取消</span>
+    <span class="fBtn current currentBtn">现在</span>
+    <span class="fBtn yes yesBtn">确定</span>
+</div>
