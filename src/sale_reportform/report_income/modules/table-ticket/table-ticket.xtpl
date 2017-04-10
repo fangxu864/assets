@@ -51,8 +51,8 @@
 
         <% _.each(data.list,function(item,index){ %>
         <tbody>
-        <tr >
-            <td class="padding-lt-20"><span class="un-shrink"></span><%=item.firstTrData.name%></td>
+        <tr class="parent-tr">
+            <td class="padding-lt-20"><%=item.childListData.length > 0 ? ' <span class="un-shrink"></span>' : '<span style="margin-right: 23px"></span>'%><%=item.firstTrData.name%></td>
 
             <td class="has-b-lt"><%=item.firstTrData.order_num%></td>
             <td><%=item.firstTrData.ticket_num%></td>
