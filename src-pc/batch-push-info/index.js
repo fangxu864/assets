@@ -1,7 +1,10 @@
 
 require("./index.scss");
 
+require("./jq.ajaxform");
 var Datapicker = require("./datepicker");  //精确到秒的日历组件
+
+
 
 var Main = PFT.Util.Class({
     container : "#editContainer",
@@ -30,16 +33,24 @@ var Main = PFT.Util.Class({
 				picker : $("#setTimePush")
 			});
         });
+
         $(".inputExcel").change(function(){
+            $("#excelUpLoadText").text("读取中");
             var file = this.files[0];
             var reader=new FileReader();
             reader.readAsBinaryString(file);
             reader.onload=function(){
                 var url=reader.result;
-                console.log("读取成功");
-                console.log(url);
+                $("#excelUpLoadText").text("读取成功");
             }
         });
+
+
+
+        //console.log($("#excelUpLoad").ajaxSubmit);    //异步提交表单
+
+
+
 
     },
     //获得当天的时间
@@ -63,6 +74,7 @@ var Main = PFT.Util.Class({
 				+ seperator2 + second ;
 		return currentdate;
 	},
+
     handleCheckBox : function(){
         var that = this;
        $(".checkIcon").on("click",function(e){
@@ -98,19 +110,35 @@ var Main = PFT.Util.Class({
                 console.log("disable");
                 return false
             }
-            if( type == "infoReceiver1"){
+            if( type == "infoReceiver1"){  //系统自动筛选
                 $("#infoReceiverInput").css("display","none");                
-                $("#inFromExcel").css("display","none");                
+                $("#excelUpLoad").css("display","none");                
+                $("#excelUpLoadText").css("display","none");
                 $(".infoReceiver").attr("data-type",type);
-            }else if( type == "infoReceiver2" ){
+                //判断推送方式
+                var infoType = $("#infoTypeInput").attr("data-type");
+                if( infoType == "1"){ //通用提醒
+                    that.pushWaySelect(1);
+                }else if( infoType == "2" ){ //礼劵到期
+                    that.pushWaySelect(2);
+                }else if( infoType == "3" ){ //生日祝福
+                    that.pushWaySelect(2);
+                }
+            }else if( type == "infoReceiver2" ){   //指定会员
                 $("#infoReceiverInput").css("display","inline-block");              
-                $("#inFromExcel").css("display","inline-block");                
+                $("#excelUpLoad").css("display","inline-block");                
+                $("#excelUpLoadText").css("display","inline-block");
                 $(".infoReceiver").attr("data-type",type);
-            }else if( type == "pushWay1" ){
+                //判断推送方式
+                var infoType = $("#infoTypeInput").attr("data-type");
+                if( infoType ){ //指定会员所有情况都是只能选动态推送
+                    that.pushWaySelect(1);
+                }
+            }else if( type == "pushWay1" ){  //启动时立即推送
                 $(".pushWay").attr("data-type",type);
-            }else if( type == "pushWay2" ){
+            }else if( type == "pushWay2" ){   //定时推送
                 $(".pushWay").attr("data-type",type);
-            }else if( type == "pushWay3" ){
+            }else if( type == "pushWay3" ){   //动态推送
                 $(".pushWay").attr("data-type",type);
             }
             target.addClass("active");
@@ -120,6 +148,7 @@ var Main = PFT.Util.Class({
         });
     },
     handleSelect : function(){
+        var that = this;
         var input = $("#infoTypeInput");
         var inputH = input.css("height");
         var inputW = input.outerWidth();
@@ -160,20 +189,36 @@ var Main = PFT.Util.Class({
                 $(".infoText .fiexdText").text(text);
             }
             if( type == "1" ){//通用提醒
-                $(".radioIcon[data-type=pushWay3]").removeClass("active").addClass("disable");
-                $(".radioIcon[data-type=pushWay1]").removeClass("disable").addClass("active");
-                $(".radioIcon[data-type=pushWay2]").removeClass("disable");
+                that.pushWaySelect(1);
                 $(".pushWay").attr("data-type","pushWay1");
             }else if( type == "2" || type == "3"){//礼券到期和生日祝福
-                $(".radioIcon[data-type=pushWay1],.radioIcon[data-type=pushWay2]").removeClass("active").addClass("disable");
-                $(".radioIcon[data-type=pushWay3]").removeClass("disable").addClass("active");
-                $(".pushWay").attr("data-type","pushWay3");
+                if( $(".infoReceiver").attr("data-type") == "infoReceiver1"){
+                    that.pushWaySelect(2);
+                    $(".pushWay").attr("data-type","pushWay3");
+                }else{
+                    that.pushWaySelect(1);
+                    $(".pushWay").attr("data-type","pushWay1");
+                }
             }
             input.val(t);
             input.attr("data-type",type);
             ul.css("display","none");      
             arrBox.find("i.icon").removeClass("icon-arrowup").addClass("icon-arrowdown");
         });
+    },
+
+    pushWaySelect : function(way){
+        if(way == 1){
+            //生日、礼券到期 选择 指定会员 时 可以选上面两种推送，不能选动态
+            $(".radioIcon[data-type=pushWay1]").removeClass("disable").addClass("active");//默认选1
+            $(".radioIcon[data-type=pushWay2]").removeClass("disable");
+            $(".radioIcon[data-type=pushWay3]").removeClass("active").addClass("disable");
+        }else if(way == 2){
+            // 生日、礼券到期 选择 系统自动筛选时，仅可选动态推送
+            $(".radioIcon[data-type=pushWay1],.radioIcon[data-type=pushWay2]").removeClass("active").addClass("disable");
+            $(".radioIcon[data-type=pushWay3]").removeClass("disable").addClass("active");
+        }
+
     }
 
 })
