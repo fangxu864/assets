@@ -21,7 +21,7 @@ var SystemNotice = require("./modules/system-notice");
 
 var AD = require("./modules/ad");
 
-var RecommendApp = require('./modules/recommend-app')
+// var RecommendApp = require('./modules/recommend-app')
 
 var ScrollManager = PFT.Util.MainBodyScrollManager;
 
@@ -38,17 +38,23 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = SaleEchart(this.pageMain);
 		// this.wxShopData = WxShopData(this.pageMain);
-		this.recommendApp = RecommendApp( this.pageMain );
+		// this.recommendApp = RecommendApp( this.pageMain );
 
-		var priceChange = this.priceChange = PriceChange(this.rightBar);
-		var productChange = this.productChange = ProductChange(this.rightBar);
-		var partnerChange = this.partnerChange = PartnerChange(this.rightBar);
+		var DTYPE = $("#home_judge_of_dtype").val();
+
+		if( DTYPE != 7 ){
+			var priceChange = this.priceChange = PriceChange(this.rightBar);
+			var productChange = this.productChange = ProductChange(this.rightBar);
+			var partnerChange = this.partnerChange = PartnerChange(this.rightBar);
+		}
 		var systemNotice = this.systemNotice = SystemNotice(this.rightBar);
 		//懒加载
 		var fetch = function(){
-			if(!priceChange.__hasLoaded && Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
-			if(!productChange.__hasLoaded && Common.elemViewIn($("#ProductChangeBox"),$("#G_Body"))) productChange.fetch();
-			if(!partnerChange.__hasLoaded && Common.elemViewIn($("#PartnerChangeBox"),$("#G_Body"))) partnerChange.fetch();
+			if(DTYPE != 7 ) {
+				if(!priceChange.__hasLoaded && Common.elemViewIn($("#PriceChangeBox"),$("#G_Body"))) priceChange.fetch();
+				if(!productChange.__hasLoaded && Common.elemViewIn($("#ProductChangeBox"),$("#G_Body"))) productChange.fetch();
+				if(!partnerChange.__hasLoaded && Common.elemViewIn($("#PartnerChangeBox"),$("#G_Body"))) partnerChange.fetch();
+			}
 			if(!systemNotice.__hasLoaded && Common.elemViewIn($("#SystemNoticeBox"),$("#G_Body"))) systemNotice.fetch();
 		};
 		//首页兼容公共footer
@@ -64,19 +70,20 @@ var Main = PFT.Util.Class({
 			$("#inBodyCon").css({"min-height":height});
 
 		};
-
-		priceChange.on("ready",function(){
-			fetch();
-			adaptFooterPos();
-		});
-		productChange.on("ready",function(){
-			fetch();
-			adaptFooterPos();
-		});
-		partnerChange.on("ready",function(){
-			fetch();
-			adaptFooterPos();
-		});
+		if( DTYPE != 7 ) {
+			priceChange.on("ready", function () {
+				fetch();
+				adaptFooterPos();
+			});
+			productChange.on("ready", function () {
+				fetch();
+				adaptFooterPos();
+			});
+			partnerChange.on("ready", function () {
+				fetch();
+				adaptFooterPos();
+			});
+		}
 		systemNotice.on("ready",function(){
 			fetch();
 			adaptFooterPos();
