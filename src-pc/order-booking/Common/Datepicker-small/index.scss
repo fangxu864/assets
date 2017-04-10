@@ -1,0 +1,112 @@
+.calendar-price{
+  width: 400px;
+  position: fixed;
+  border: 1px solid #adc6d6;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 5px #e5e5e5;
+  .control-nav{
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    color: #ffffff;
+    line-height: 35px;
+    font-size: 26px;
+    .btn{
+      cursor: pointer;
+    }
+    .btn:active{
+      color: #ffa63c ;
+    }
+    .prev-btn{
+      float: left;
+      margin-left: 10px;
+    }
+    .next-btn{
+      float: right;
+      margin-right: 10px;
+    }
+  }
+  .loading-box{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    line-height: 300px;
+    text-align: center;
+    font-size: 14px;
+    color: #ffa63c;
+    background-color: rgba(255,255, 255, 0.6);
+  }
+  .calendar-wrapper{
+    .title{
+      text-align: center;
+      line-height: 40px;
+      height: 40px;
+      font-size: 14px;
+      background-color: #57a8d8;
+      color: #ffffff;
+    }
+    .table-con{
+      padding: 10px 11px;
+      .calendar-tb{
+        text-align: center;
+        width: 100%;
+        th , td{
+          width: 54px;
+        }
+        thead tr {
+          line-height: 30px;
+          .sunday , .saturday{
+            color: #ffa63c;
+          }
+        }
+        tbody tr{
+          line-height: 50px;
+        }
+        tbody tr td{
+          padding: 10px 0;
+        }
+        tbody tr td p{
+          line-height: 16px;
+          width: 54px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+        tbody tr td .price{
+          color: #ffa63c;
+        }
+        tbody tr td.usable{
+          cursor: pointer;
+        }
+        tbody tr td.usable:hover{
+          background-color: #ffa63c;
+        }
+        tbody tr td.usable:hover p{
+          color: white !important;
+        }
+        tbody tr td.selected{
+          background-color: #57a8d8 ;
+          color: white;
+        }
+        tbody tr td.selected p{
+          color: white !important;
+        }
+        tbody tr td.disable p{
+          color: #bfbfbf;
+          cursor: not-allowed;
+        }
+        tbody tr td p.today{
+          color: #2196f3;
+        }
+      }
+    }
+  }
+}
+
+.calendar-price.green{
+  .calendar-wrapper .title{
+    background-color: #8ab923;
+  }
+  border: 1px solid #8ab923;
+}

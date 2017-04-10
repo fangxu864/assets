@@ -29,14 +29,15 @@ var AppList = PFT.Util.Class({
 
         this.prefix_domain = PFT.PREFIX_DOMAIN();
 
-			console.log( "catId:" + catId );
+			// console.log( "catId:" + catId );
 
 		this.tempListBox = "";
-		this.tempIndexListBox = ""; //全部缓存
-		this.tempClassListBox = ""; //分类缓存
+		this.tempIndexListBox = "";     //全部缓存
+		this.tempClassListBox = "";     //分类缓存
 		this.tempNewOnlineListBox = ""; //新上线缓存
-		this.tempUnOpendListBox = ""; //未开通缓存
-		this.tempOpendListBox = ""; //已开通缓存
+		this.tempUnOpendListBox = "";   //未开通缓存
+		this.tempOpendListBox = "";     //已开通缓存
+        this.tempHotListBox = '';       // 推荐应用缓存
 
 
 
@@ -201,6 +202,13 @@ var AppList = PFT.Util.Class({
 								that.tempOpendListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
 							}
 							break;
+                        case 5:
+                            if( list.length > 0 ){
+                                that.CacheList(list,type,category);
+                            }else{
+                                that.tempHotListBox = "<p style='text-align: center;height: 200px;line-height: 200px'>未查询到数据...</p>"
+                            }
+                            break;
 						case 4: //分类
 							if( list.length > 0 ){
 								for( var j = 0;j<list.length;j++){
@@ -329,6 +337,16 @@ var AppList = PFT.Util.Class({
 				$("#tabCon").html(that.tempOpendListBox);
 			}
 		}
+        if( nowId == "hotTab"){ //推荐
+            if(that.tempHotListBox == ""){
+                var xhr = that.getAppList(5);
+                xhr.then(function(){
+                    $("#tabCon").html(that.tempHotListBox);
+                });
+            }else{
+                $("#tabCon").html(that.tempHotListBox);
+            }
+        }
 
 
 	},
@@ -391,6 +409,10 @@ var AppList = PFT.Util.Class({
 			listTitle = "已开通";
 			ulClassName = "app-list1";
 		}
+        if( type == 5 && category == undefined){
+            listTitle = "推荐";
+            ulClassName = "app-list1";
+        }
 		if( type == 0 && category == 0){
 			listTitle = "全部";
 			ulClassName = "app-list1";
@@ -524,15 +546,13 @@ var AppList = PFT.Util.Class({
 					}
 					//显示"new"标签
                 	if(list[i].flag_new == 1){
-                		temp += '<i class="ico-new"></i>' +
-            			'</li>' ;
+                		temp += '<i class="ico-new"></i>';
                 	}
 					//显示"过期"标签；
 					else if(list[i].flag_expire == 1){
-						temp += '<i class="ico-expired"></i>'+
-							'</li>' ;
+						temp += '<i class="ico-expired"></i>'
                 	}
-
+                    temp += '</li>' ;
                 }
 
         }
@@ -553,6 +573,8 @@ var AppList = PFT.Util.Class({
         	this.tempUnOpendListBox += temp;
         }else if(type == 3 && category == undefined){ //已开通
         	this.tempOpendListBox += temp;
+        }else if(type == 5 && category == undefined){ //推荐
+            this.tempHotListBox += temp;
         }else if(type == 0){//侧边栏分类情况
 			this.tempClassListBox += temp;
 		}else if(type == 4){//分类情况

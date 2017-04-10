@@ -1,0 +1,21 @@
+                <% _.each( data.list, function( item, index ){ %>
+                <tr>
+                    <td><%=(new Date(item.time * 1000)).toLocaleString()%></td>
+                    <td>
+                    <% switch( type ) {
+                    case 0: %>
+                    您<em class="">删除</em>了 <strong><%=item.name%></strong>
+                    <% break;
+                    case 1: %>
+                    您<em class="">添加</em>了 <strong><%=item.name%></strong>
+                    <% break;
+                    case 2: %>
+                    <strong><%=item.name%></strong> <em class="">添加</em>了您
+                    <% break;
+                    case 3: %>
+                    <strong><%=item.name%></strong> <em class="">删除</em>了您
+                    <% break;
+                    } %>
+                    </td>
+                </tr>
+                <% }) %>

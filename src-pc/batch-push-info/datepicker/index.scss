@@ -1,0 +1,19 @@
+.pftui-datepicker-container{
+    position:absolute;
+    display:none;
+    top:200px;
+    left:300px;
+    background:#fff;
+    box-shadow:1px 1px 1px rgba(0,0,0,0.3);
+    z-index:101;
+}
+
+#pftui-datepicker-mask{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:100;
+    display:none;
+}

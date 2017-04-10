@@ -53,7 +53,7 @@
             }
             .con{
                 .lt{
-                    width: 38%;
+                    width: 50%;
                     float: left;
                     height: 80px;
                     .img-box{
@@ -68,10 +68,9 @@
                     }
                 }
                 .rt{
-                    width: 52%;
+                    width: 50%;
                     float: left;
                     padding: 13px 0;
-                    padding-left: 5px;
                     line-height: 25px;
                     color: #ff7516;
                     font-size: 14px;
@@ -79,9 +78,6 @@
                         font-size: 20px;
                     }
                 }
-
-
-
             }
         }
         .today-check .con .lt .img-box{  background-position-x: -40px;  }
