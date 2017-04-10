@@ -12,6 +12,10 @@
 
     .num,.yen{ color: #F07845; font-family: arial;}
     
+    .num{
+        font-size: 16px;
+        font-weight: bold
+    }
 
     .submitOrderBtn{
         display: inline-block;
@@ -20,7 +24,7 @@
         background: #F07845;
         color: #fff;
         &.disable{
-            background: #777;
+            background: #999;
             cursor: not-allowed
         }
     }

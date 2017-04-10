@@ -1,0 +1,13 @@
+<div class="taopiaoContainer">
+    <p class="tit">包含票类：</p>
+    <ul class="taopiaoListUl">
+        <%_.each(tickets[0]["sonTickets"],function(item,index){%>
+            <li class="item">
+                <span class="ptit"><%=item.title%></span>
+                <span class="star">*</span>
+                <span class="count"><%=item.num%></span>
+                张
+            </li>
+        <%})%>
+    </ul>
+</div>

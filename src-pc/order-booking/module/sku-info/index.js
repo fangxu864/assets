@@ -4,7 +4,6 @@ var Tpl = require("./index.xtpl");
 var Datepicker = require("../../Common/Datepicker");
 var datepicker = new Datepicker();
 
-var CalendarCore = require("COMMON/js/CalendarCore.js");
 
 var SukInfo = PFT.Util.Class({
     EVENTS : {
@@ -16,14 +15,16 @@ var SukInfo = PFT.Util.Class({
         
     },
     onDatepickerInputClick : function(e){
+        var that = this;
         var tarInp = $(e.currentTarget);
         var date = tarInp.val();
         datepicker.show(date,{
             relyInp: tarInp,
-            min : CalendarCore.gettoday()
+            min : that.data.startDate
         });
     },
     render : function(data){
+        this.data = data;
         this.container.html(this.template(data));
         return this;
     }

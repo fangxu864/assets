@@ -28,7 +28,7 @@ var Main = PFT.Util.Class({
             pid : urlParams.pid,
             aid : urlParams.aid
         },{
-            debug : true,
+            debug : false,
             loading : function(){
                 container.html(LoadingHtml);
             },
@@ -55,7 +55,7 @@ var Main = PFT.Util.Class({
         var topTitle = this.topTitle = new TopTitle({container:"#topTitleMod"}).render(data);
         var skuInfo = this.skuInfo = new SkuInfo({container:"#skuInfoMode"}).render(data);
         var ticketList = this.ticketList = new TicketList({container:"#ticketListMode"}).render(data);
-        var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(data);
+        var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(data,ticketList.getTotalInfo());
     },
     getPidAid : function(){
         return PFT.Util.UrlParse();
