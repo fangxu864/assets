@@ -1,5 +1,5 @@
 <div class="contact-info-box clearfix">
-    <div class="title">取票人信息<span>(请准确填写，以便接收订单短信)</span></div>
+    <div class="title">取票人信息<span class="remark">(请准确填写，以便接收订单短信)</span></div>
     <div class="lt">
         <ul>
             <li class="line">
@@ -24,19 +24,17 @@
         </ul>
     </div>
     <div class="rt">
-        <p class="minTitle">常用取票人</p>
-        <div class="nameBox">
-            <ul class="link_ul">
-                <li class="nList">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="nList">
-                    <span class="nDetail" tel="18305998783" idcards="" title="c">c</span>
-                    <span class="iconfont activeIcon" tel="18305998783" contato="c"></span>
-                </li>
-            </ul>
-        </div>
+        <p class="min-title">常用取票人</p>
+        <ul class="link_ul">
+            <li class="nList">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="nList">
+                <span class="nDetail" tel="18305998783" idcards="" title="c">c</span>
+                <span class="iconfont activeIcon" tel="18305998783" contato="c"></span>
+            </li>
+        </ul>
     </div>
 </div>
 <div class="tourist-info-box clearfix">

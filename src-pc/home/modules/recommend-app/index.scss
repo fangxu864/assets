@@ -1,0 +1,85 @@
+#recommendApp {
+    padding: 20px 20px 0;
+    background-color: #fff;
+
+    .section-header {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .section-title {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+.app-list {
+    margin-right: -20px;
+
+    li {
+        position: relative;
+        float: left;
+        width: 226px;
+        margin-right: 20px;
+        margin-bottom: 25px;
+
+        .ico-hot {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .ico-new {
+            position: absolute;
+            left: -2px;
+            top: -2px;
+        }
+
+        .ico-expired {
+            position: absolute;
+            left: 3px;
+            top: 5px;
+        }
+    }
+
+    .app-item {
+        padding: 19px 14px;
+        border: 1px solid #eaeaea;
+        background-color: #fff;
+        line-height: 1.5;
+
+        &:hover {
+            padding: 18px 13px;
+            border: 2px solid #0797d9;
+        }
+
+        .app-left {
+            float: left;
+            width: 73px;
+            text-align: center;
+        }
+
+        .app-open {
+            font-size: 12px;
+            color: #7a7a7a;
+        }
+
+        .app-right {
+            margin-left: 83px;
+        }
+
+        .app-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2d2d2d;
+        }
+
+        .app-price {
+            font-size: 12px;
+            color: #7a7a7a;
+        }
+
+        .app-btn-w {
+            margin-top: 10px;
+        }
+    }
+}

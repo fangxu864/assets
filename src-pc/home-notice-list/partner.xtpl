@@ -1,19 +1,19 @@
                 <% _.each( data.list, function( item, index ){ %>
                 <tr>
-                    <td><%=item.time%></td>
+                    <td><%=(new Date(item.time * 1000)).toLocaleString()%></td>
                     <td>
                     <% switch( type ) {
                     case 0: %>
-                    您删除了<%=item.name%>
+                    您<em class="">删除</em>了 <strong><%=item.name%></strong>
                     <% break;
                     case 1: %>
-                    您添加了<%=item.name%>
+                    您<em class="">添加</em>了 <strong><%=item.name%></strong>
                     <% break;
                     case 2: %>
-                    <%=item.name%>添加了您
+                    <strong><%=item.name%></strong> <em class="">添加</em>了您
                     <% break;
                     case 3: %>
-                    <%=item.name%>删除了您
+                    <strong><%=item.name%></strong> <em class="">删除</em>了您
                     <% break;
                     } %>
                     </td>

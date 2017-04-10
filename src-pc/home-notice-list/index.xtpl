@@ -1,7 +1,7 @@
 <div id="tabHeader" class="tabHeader">
     <li data-type="price" class="tabItem">产品价格变动</li>
     <li data-type="product" class="tabItem">产品上下架</li>
-    <li data-type="partner" class="tabItem">7天合作伙伴变动</li>
+    <!--li data-type="partner" class="tabItem">7天合作伙伴变动</li-->
 </div>
 <div id="tabContainer" class="tabContainer">
     <div id="tabCon_price" class="tabCon tabCon_price">
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div id="tabCon_partner" class="tabCon tabCon_partner">
+    <!--div id="tabCon_partner" class="tabCon tabCon_partner">
         <table width="100%" class="tb tb-strip">
             <thead>
                 <tr>
@@ -56,7 +56,7 @@
             </thead>
             <tbody id="tbody_partner"></tbody>
         </table>
-        <div class="paginationBox">
+        <div class="paginationBox" id="pagination_partner">
         </div>
-    </div>
+    </div-->
 </div>

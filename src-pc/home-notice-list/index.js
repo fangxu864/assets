@@ -5,14 +5,10 @@ var IndexTpl = require("./index.xtpl");
 var pageTpls = {
     index: require("./index.xtpl"),
     price: require('./price.xtpl'),
-    product: require('./product.xtpl'),
-    partner: require('./partner.xtpl')
+    product: require('./product.xtpl')
 };
 
-var Pagination = require('COMMON/modules/pagination-x/v1.0');
-
 var Message = require("pft-ui-component/Message");
-
 var Main = PFT.Util.Class({
     userCache : true,
 
@@ -174,7 +170,7 @@ var Main = PFT.Util.Class({
         if( !tbody.length ) return false;
 
         var parseTemplate = PFT.Util.ParseTemplate( pageTpls[ type ] ),
-            html = parseTemplate({ data: data, type: type });
+            html = parseTemplate({ data: data });
         console.log(data);
 
         tbody.html( html );

@@ -14,7 +14,7 @@ var DatePicker = PFT.Util.Class({
         var _this = this;
         this.container = $("<div class='calendar-price' style='display: none;z-index: 666;'></div>");
         this.container.html(tpl);
-        this.mask = $('<div class="calendarPriceMask" style="position: fixed;width: 100% ;height: 100%;top:0;left:0;display: none;z-index: 665;background-color: rgba(0,0,0,0.1)"></div>');
+        this.mask = $('<div class="calendarPriceMask" style="position: fixed;width: 100% ;height: 100%;top:0;left:0;display: none;z-index: 665;"></div>');
         $('body').append(_this.container).append(_this.mask);
         this.bind();
     },
@@ -42,12 +42,7 @@ var DatePicker = PFT.Util.Class({
         //点击mask
         this.mask.on("click",function () {
             _this.closeCalendar();
-        });
-        //点击日历关闭按钮
-        this.container.on("click" , ".control-nav .close-btn" ,function (){
-            _this.closeCalendar();
         })
-
     },
 
     /**
@@ -89,10 +84,8 @@ var DatePicker = PFT.Util.Class({
     },
     openCalendar: function () {
         var _this = this;
-        // var host_H = this.relyInp.offset().top - $(window).scrollTop() + this.relyInp.outerHeight(); //依托对象相对窗口的Top值
-        // var host_W = this.relyInp.offset().left - $(window).scrollLeft(); //依托对象相对窗口的left值
-        var host_H =( $(window).innerHeight() - this.container.outerHeight() ) / 2;
-        var host_W =( $(window).innerWidth() - this.container.outerWidth() ) / 2;
+        var host_H = this.relyInp.offset().top - $(window).scrollTop() + this.relyInp.outerHeight(); //依托对象相对窗口的Top值
+        var host_W = this.relyInp.offset().left - $(window).scrollLeft(); //依托对象相对窗口的left值
         this.mask.show();
         this.container.css({
             'left' : host_W,
@@ -209,22 +202,15 @@ var DatePicker = PFT.Util.Class({
                     var tbody = _this.container.find('.calendar-tb tbody');
                     var curPrice = {};
                     var curTd = {};
-
                     for(var key in res.data){
                         curPrice =  tbody.find('td[data-date = '+ key +'] .price');
                         curTd = tbody.find('td[data-date = '+ key +']');
-                        //test
-                        // if(/5$/.test(key)){
-                        //     res.data[key].storage = 0
-                        // }
-
                         if(res.data[key].storage == 0){
                             curPrice.text('售罄');
                         }else{
                             curPrice.text('¥' + res.data[key].price);
                             curTd.removeClass("disable").addClass("usable");
-                            curTd.attr("data-storage",res.data[key].storage);
-                            curPrice.prop("title" , '¥' + res.data[key].price)
+                            curTd.attr("data-storage",res.data[key].storage)
                         }
                     }
                     _this.hideLoading();
