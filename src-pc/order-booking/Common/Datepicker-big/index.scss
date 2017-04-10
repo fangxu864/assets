@@ -4,7 +4,6 @@
   box-shadow: 2px 2px 5px #e5e5e5;
   .control-nav{
     position: absolute;
-    overflow: hidden;
     width: 100%;
     color: #ffffff;
     line-height: 35px;
@@ -17,11 +16,20 @@
     }
     .prev-btn{
       float: left;
-      margin-left: 10px;
+      margin-left: 20px;
     }
     .next-btn{
       float: right;
-      margin-right: 10px;
+      margin-right: 20px;
+    }
+    .close-btn{
+      position: absolute;
+      right: -18px;
+      top: -18px;
+      width: 32px;
+      height: 32px;
+      background: url("//static.12301.cc/assets/build/images/calendar_close.png") no-repeat;
+      cursor: pointer;
     }
   }
   .loading-box{
@@ -30,7 +38,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    line-height: 300px;
+    line-height: 400px;
     text-align: center;
     font-size: 14px;
     color: #ffa63c;
@@ -56,47 +64,65 @@
         }
         thead tr {
           line-height: 30px;
+          border: 1px solid #e5e5e5;
           .sunday , .saturday{
-            color: #ffa63c;
+            color: #FF5400;
           }
         }
         tbody tr{
           line-height: 50px;
+
         }
         tbody tr td{
-          padding: 10px 0;
+          width: 98px;
+          border: 1px solid #e5e5e5;
+          height: 79px;
+          position: relative;
         }
         tbody tr td p{
           line-height: 16px;
-          width: 54px;
           text-overflow: ellipsis;
           overflow: hidden;
         }
         tbody tr td .price{
-          color: #ffa63c;
+          width: 90px;
+        }
+        tbody tr td .date{
+          position: absolute;
+          top: 0;
+          color: #008fc2;
+          left: 0;
+          padding: 5px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+        tbody tr td .price{
+          color: #FF6600;
         }
         tbody tr td.usable{
           cursor: pointer;
         }
         tbody tr td.usable:hover{
-          background-color: #ffa63c;
+          background-color: #dcf4fc;
+          //background-color: #ffa63c;
         }
-        tbody tr td.usable:hover p{
-          color: white !important;
-        }
+        //tbody tr td.usable:hover p{
+        //  color: white !important;
+        //}
         tbody tr td.selected{
-          background-color: #57a8d8 ;
+          background-color: #57a8d8 !important; ;
           color: white;
         }
         tbody tr td.selected p{
           color: white !important;
         }
-        tbody tr td.disable p{
+        tbody tr td.disable p ,tbody tr td.disable{
           color: #bfbfbf;
           cursor: not-allowed;
+          background-color: #F7F7F7;
         }
         tbody tr td p.today{
-          color: #2196f3;
+          color: #00bcd4;
         }
       }
     }

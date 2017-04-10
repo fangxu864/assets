@@ -2,7 +2,7 @@
 
 ###1.引入datePricePicker
 ```
-var DatePricePicker = require("./Common/Datepicker/index.js");
+var DatePricePicker = require("./Common/Datepicker-big/index.js");
 ```
 
 ###2.实例化datePricePicker

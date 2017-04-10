@@ -56,10 +56,12 @@ var DatePicker = PFT.Util.Class({
         var max = opt.max || '9999-99-99';
         max = Util.formatDate(max);
         //最小日期
-        var min = Util.formatDate(opt.min) && Util.formatDate(opt.min) > CalendarCore.gettoday() ? Util.formatDate(opt.min) : CalendarCore.gettoday();
+        var today =  CalendarCore.gettoday();
+        var min = Util.formatDate(opt.min) && Util.formatDate(opt.min) > today ? Util.formatDate(opt.min) : today;
         min = Util.formatDate(min);
         //当前的天数
-        var curDay = relyInp.val() || initDate || CalendarCore.gettoday();
+        var curDate = Util.formatDate(initDate) && Util.formatDate(initDate) > today ? Util.formatDate(initDate) : today;
+        var curDay = relyInp.val() || curDate || CalendarCore.gettoday();
         curDay = Util.formatDate(curDay);
         this.renderData = {
             max: max,
@@ -165,7 +167,7 @@ var DatePicker = PFT.Util.Class({
             _this.showLoading('loading');
         }
         $.ajax({
-            url: "/r/Order_Booking/getCalendarInfo",    //请求的url地址
+            url: "/r/Book_Booking/getCalendarInfo",    //请求的url地址
             dataType: "json",   //返回格式为json
             async: true, //请求是否异步，默认为异步
             data: params,    //参数值
