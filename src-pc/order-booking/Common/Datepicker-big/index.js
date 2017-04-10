@@ -213,9 +213,10 @@ var DatePicker = PFT.Util.Class({
                     for(var key in res.data){
                         curPrice =  tbody.find('td[data-date = '+ key +'] .price');
                         curTd = tbody.find('td[data-date = '+ key +']');
-                        if(/5$/.test(key)){
-                            res.data[key].storage = 0
-                        }
+                        //test
+                        // if(/5$/.test(key)){
+                        //     res.data[key].storage = 0
+                        // }
 
                         if(res.data[key].storage == 0){
                             curPrice.text('售罄');
