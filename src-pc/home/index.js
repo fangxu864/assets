@@ -21,7 +21,7 @@ var SystemNotice = require("./modules/system-notice");
 
 var AD = require("./modules/ad");
 
-// var RecommendApp = require('./modules/recommend-app')
+var RecommendApp = require('./modules/recommend-app');
 
 var ScrollManager = PFT.Util.MainBodyScrollManager;
 
