@@ -16,16 +16,16 @@
     </div>
     <div class="data-box">
     <div class="today-check inner-box">
-        <div class="title"><%=d_type == 0 ? '今日验证': '今日利润' %></div>
+        <div class="title"><%=d_type != 1 ? '今日验证': '今日利润' %></div>
         <div class="con clearfix">
             <div class="lt">
                 <div class="img-box"></div>
             </div>
             <div class="rt">
-                <%if(d_type == 0){%>
+                <%if(d_type != 1){%>
                 <p><span class="num"><%=data.check_tickets%></span>张</p>
                 <%}%>
-                <p style="line-height: <%=d_type == 0 ? '': '50px' %>"><span class="num"><%=data.check_money / 100 > 10000 ? (data.check_money / 1000000).toFixed(2)+ "<span style='font-size: 14px'>万</span>" : data.check_money / 100 %></span>元</p>
+                <p style="line-height: <%=d_type != 1 ? '': '50px' %>"><span class="num"><%=data.check_money / 100 > 10000 ? (data.check_money / 1000000).toFixed(2)+ "<span style='font-size: 14px'>万</span>" : data.check_money / 100 %></span>元</p>
             </div>
         </div>
     </div>
