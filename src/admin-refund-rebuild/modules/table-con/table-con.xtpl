@@ -23,7 +23,7 @@
             <td colspan="2">
                 <div class="line">
                     <span style="margin-right: 10px;color: <%=colorObj[item.statusInfo]%>"><%=data.statusInfo[item.statusInfo]%></span>
-                    <span> [ID:<%=item.id%>]-[帐号:<%=item.fid%>]-[账户名称:<%=item.dname%>]-[企业名称:<%=item.cname%>]</span>
+                    <span> [流水号:<%=item.id%>]-[账户ID:<%=item.fid%>]-[账户名称:<%=item.dname%>]-[企业名称:<%=item.cname%>]</span>
                 </div>
                 <div class="line">
                     <span>申请时间：<%=item.apply_time%></span>
