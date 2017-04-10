@@ -1,6 +1,6 @@
 
     <%var d_type = $("#home_judge_of_dtype").val();%>
-    <div class="data-box">
+    <div class="data-box" style="width: <%=d_type == 1 ? '100%':''%>">
     <div class="today-book inner-box">
         <div class="title">今日预订</div>
         <div class="con clearfix">
@@ -14,7 +14,7 @@
         </div>
     </div>
     </div>
-    <div class="data-box">
+    <div class="data-box" style="display: <%=d_type == 1 ? 'none':''%>">
     <div class="today-check inner-box">
         <div class="title"><%=d_type != 1 ? '今日验证': '今日利润' %></div>
         <div class="con clearfix">
