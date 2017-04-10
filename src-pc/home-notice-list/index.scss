@@ -1,0 +1,103 @@
+$blueColor : #2A98DA;
+#NoticeListPage{
+    padding: 30px;
+    background: #fff;
+
+    .tabHeader{
+        width: 100%;
+        overflow: hidden;
+        border-bottom: 2px solid $blueColor;
+        .tabItem{
+            float:left;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 28px;
+            margin-left: -1px;
+            border: 1px solid #e5e5e5;
+            border-bottom: 0 none;
+            cursor:pointer;
+            &:first-child{ margin-left: 0;}
+            &.active{
+                background: $blueColor;
+                color: #fff;
+                border-color: $blueColor;
+            }
+        }
+
+    }
+
+    .tabCon{
+        display: none;
+        padding: 20px 0 0;
+        overflow: hidden;
+        &.active{ display: block}
+    }
+
+    .tb {
+        table-layout: fixed;
+        th {
+            padding: 10px 5px;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+            background-color: #F1F1F1;
+            font-size: 12px;
+            line-height: 20px;
+            font-weight: bold;
+        }
+        td {
+            padding: 10px 5px;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        &.tb-strip {
+            tr:nth-child(even) td {
+                background-color: #fafafa;
+            }
+        }
+    }
+
+    .icon-shangjia {
+        color: rgb(3, 150, 219);
+    }
+    .icon-xiajia {
+        color: rgb(239, 119, 67);
+    }
+
+    .paginationBox{
+        float: right;
+        overflow: hidden;
+        margin-top: 10px;
+        .navBtn{
+            display: inline-block;
+            width: 40px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            background: $blueColor;
+            color: #fff;
+            border-radius: 3px;
+            cursor:pointer;
+            &.disable,&.loading{
+                background: #d5d5d5;
+                cursor:default
+            }
+            &.loading{
+                img{ width: 14px; position: relative; top: 2px;}
+            }
+        }
+        .page{ position: relative; top: -2px; margin: 0 5px;}
+        .pageNum{
+            position: relative;
+            top: 1px;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 3px;
+        }
+
+    }
+
+
+}

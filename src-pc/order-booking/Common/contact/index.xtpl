@@ -1,0 +1,42 @@
+<div class="contact-info-box clearfix">
+    <div class="title">取票人信息<span class="remark">(请准确填写，以便接收订单短信)</span></div>
+    <div class="lt">
+        <ul>
+            <li class="line">
+                <span class="w70"><i class="colorRed">*</i>取票人：</span>
+                <input class="" name="ordername" mind="" type="text"/>
+            </li>
+            <li class="line">
+                <span class="w70"><i class="colorRed">*</i>手机号：</span>
+                <input class="" name="ordertel" mind="" type="text"/>
+            </li>
+            <li class="line">
+                <span class="w70"><i class="colorRed"></i>身份证：</span>
+                <input class="" name="idCard" mind="" type="text"/>
+            </li>
+            <li class="line">
+                <span class="w70">订单备注：</span>
+                <input class="" name="memo" type="text"/>
+            </li>
+            <li class="line">
+                <a href="javascript:void(0)" class="saveUserBtn">保存至常用取票人</a>
+            </li>
+        </ul>
+    </div>
+    <div class="rt">
+        <p class="min-title">常用取票人</p>
+        <ul class="link_ul">
+            <li class="nList">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="nList">
+                <span class="nDetail" tel="18305998783" idcards="" title="c">c</span>
+                <span class="iconfont activeIcon" tel="18305998783" contato="c"></span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="tourist-info-box clearfix">
+    <div class="title">游客信息<span>(每张票提供相关游客信息)</span></div>
+</div>

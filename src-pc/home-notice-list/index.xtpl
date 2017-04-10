@@ -1,0 +1,62 @@
+<div id="tabHeader" class="tabHeader">
+    <li data-type="price" class="tabItem">产品价格变动</li>
+    <li data-type="product" class="tabItem">产品上下架</li>
+    <!--li data-type="partner" class="tabItem">7天合作伙伴变动</li-->
+</div>
+<div id="tabContainer" class="tabContainer">
+    <div id="tabCon_price" class="tabCon tabCon_price">
+        <table width="100%" class="tb tb-strip">
+            <thead>
+                <tr>
+                    <th>景区名称</th>
+                    <th>省份</th>
+                    <th>城市</th>
+                    <th>产品名称</th>
+                    <th>变动金额</th>
+                    <th>变动时间</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_price"></tbody>
+        </table>
+        <div class="paginationBox">
+            <span class="navBtn prev"><i class="picon icon-arrowleft icon-u-bold"></i></span>
+            <span class="page">第<em class="pageNum"></em>页</span>
+            <span class="navBtn next"><i class="picon icon-arrowright icon-u-bold"></i></span>
+        </div>
+    </div>
+
+    <div id="tabCon_product" class="tabCon tabCon_product">
+        <table width="100%" class="tb tb-strip">
+            <thead>
+                <tr>
+                    <th>景区名称</th>
+                    <th>省份</th>
+                    <th>城市</th>
+                    <th>产品名称</th>
+                    <th>上架/下架</th>
+                    <th>变动时间</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_product"></tbody>
+        </table>
+        <div class="paginationBox">
+            <span class="navBtn prev"><i class="picon icon-arrowleft icon-u-bold"></i></span>
+            <span class="page">第<em class="pageNum"></em>页</span>
+            <span class="navBtn next"><i class="picon icon-arrowright icon-u-bold"></i></span>
+        </div>
+    </div>
+
+    <!--div id="tabCon_partner" class="tabCon tabCon_partner">
+        <table width="100%" class="tb tb-strip">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>明细</th>
+                </tr>
+            </thead>
+            <tbody id="tbody_partner"></tbody>
+        </table>
+        <div class="paginationBox" id="pagination_partner">
+        </div>
+    </div-->
+</div>

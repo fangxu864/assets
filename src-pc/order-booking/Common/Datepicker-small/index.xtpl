@@ -1,7 +1,6 @@
 <div class="control-nav" onselectstart="javascript: return false">
     <div class="prev-btn btn"><</div>
     <div class="next-btn btn">></div>
-    <span class="close-btn"></span>
 </div>
 <div class="calendar-wrapper">
     <h6 class="title">2017年3月</h6>
