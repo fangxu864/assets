@@ -15,6 +15,7 @@ $(function () {
 
         datePicker.show('2017-4-2',{
             relyInp: _this,
+            max:'2017-8-9',
             min: '2017-3-2'
         });
 

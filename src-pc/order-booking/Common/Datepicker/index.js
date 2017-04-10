@@ -223,7 +223,8 @@ var DatePicker = PFT.Util.Class({
                         }else{
                             curPrice.text('¥' + res.data[key].price);
                             curTd.removeClass("disable").addClass("usable");
-                            curTd.attr("data-storage",res.data[key].storage)
+                            curTd.attr("data-storage",res.data[key].storage);
+                            curPrice.prop("title" , '¥' + res.data[key].price)
                         }
                     }
                     _this.hideLoading();
