@@ -38,7 +38,7 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = SaleEchart(this.pageMain);
 		// this.wxShopData = WxShopData(this.pageMain);
-		this.recommendApp = RecommendApp( this.pageMain );
+		this.recommendApp = RecommendApp( this.pageMain, 'G_Body' );
 
 		var priceChange = this.priceChange = PriceChange(this.rightBar);
 		var productChange = this.productChange = ProductChange(this.rightBar);
