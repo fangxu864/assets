@@ -21,7 +21,7 @@ var SystemNotice = require("./modules/system-notice");
 
 var AD = require("./modules/ad");
 
-// var RecommendApp = require('./modules/recommend-app')
+var RecommendApp = require('./modules/recommend-app');
 
 var ScrollManager = PFT.Util.MainBodyScrollManager;
 
@@ -38,7 +38,7 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = SaleEchart(this.pageMain);
 		// this.wxShopData = WxShopData(this.pageMain);
-		// this.recommendApp = RecommendApp( this.pageMain );
+		this.recommendApp = RecommendApp( this.pageMain, 'G_Body' );
 
 		var DTYPE = $("#home_judge_of_dtype").val();
 

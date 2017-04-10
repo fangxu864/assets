@@ -33,7 +33,7 @@ module.exports = function( parent, scrollContainerId ){
         container: '#recommendApp',
 
         AJAX_URLS: {
-            getModuleList: '/r/AppCenter_ModuleList/getModuleList'
+            getModuleList: '/r/AppCenter_ModuleList/getModuleList/'
         },
 
         init: function() {
@@ -50,6 +50,8 @@ module.exports = function( parent, scrollContainerId ){
             var _this = this;
 
             return PFT.Util.Ajax( opt.url, {
+                type: 'post',
+
                 params: {
                     type: 5
                 },
