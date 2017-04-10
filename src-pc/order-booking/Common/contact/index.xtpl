@@ -25,18 +25,110 @@
     </div>
     <div class="rt">
         <p class="min-title">常用取票人</p>
-        <ul class="link_ul">
-            <li class="nList">
+        <ul class="contact-ul">
+            <li class="contact-li">
                 <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
                 <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
             </li>
-            <li class="nList">
-                <span class="nDetail" tel="18305998783" idcards="" title="c">c</span>
-                <span class="iconfont activeIcon" tel="18305998783" contato="c"></span>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
+            </li>
+            <li class="contact-li">
+                <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
+                <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
             </li>
         </ul>
     </div>
 </div>
 <div class="tourist-info-box clearfix">
-    <div class="title">游客信息<span>(每张票提供相关游客信息)</span></div>
+    <div class="title"><i class="colorRed">*</i>游客信息<span class="remark">(每张票提供相关游客信息)</span></div>
+    <ul>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+        <li class="name-idNum-li">
+            <p>
+                <span class="name">姓名:</span>
+                <input type="text" class="name-inp">
+            </p>
+            <p>
+                <span class="idNum">身份证号:</span>
+                <input type="text" class="idNum-inp">
+            </p>
+        </li>
+    </ul>
 </div>

@@ -21,6 +21,13 @@ var Pagination = require("COMMON/modules/pagination-x");
 
 
 var Book_form={
+    AJAX_URLS: {
+        exportDetails: {
+            normal: '',
+            admin: ''
+        }
+    },
+
     init:function () {
         var _this=this;
         this.isAdmin=$("#is_admin").val();
@@ -476,6 +483,14 @@ var Book_form={
                 _this.ajaxParams["search_id"]=member_id;
             })
         }
+
+        // 导出明细   added 2017/04/10
+        $('#btnExportDetail').on( 'click', function(){
+            var api = _this.isAdmin == 1 ? _this.AJAX_URLS.exportDetails.admin : _this.AJAX_URLS.exportDetails.normal,
+                downUrl = api + '?export_excel=1&' + _this.JsonStringify(_this.filterParamsBox);
+
+            _this.outExcel( downUrl );
+        });
     },
     //获取filter参数
     getParams:function () {
@@ -563,14 +578,14 @@ var Book_form={
                 '<td class="th7">'+list[i].tickets[j].coupon_num+'</td>'+
                 '<td class="th8">'+list[i].tickets[j].coupon_money+'</td>'+
                 '</tr>';
-                
+
             }
 
-        }    
-        $(".tablecon_box .con_tb tbody").html(listHtml);    
+        }
+        $(".tablecon_box .con_tb tbody").html(listHtml);
         $(".tablecon_box .con_tb *").addClass("resellerAndTicket");     //全部加class以区分
         $(".tablecon_box .con_tb tbody tr:odd").addClass("gray");
-    },     
+    },
     //处理其他表
     otherform : function(data,kindsTitle){
         var _this=this,
@@ -643,9 +658,9 @@ var Book_form={
             }else{
                 this.otherform(data,kindsTitle);
             }
-            
+
         }
-        
+
         _this.tablecon_box.fadeIn(200);
     },
     //处理分页器
