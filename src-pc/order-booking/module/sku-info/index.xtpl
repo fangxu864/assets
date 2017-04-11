@@ -1,13 +1,14 @@
-
-
-
-
 <%if(p_type=="A" || p_type=="F" || p_type=="B"){%>
 
     <div class="formGroup datepicker begin">
         <div class="label">游玩日期</div>
         <div class="inputBox">
-            <input type="text" class="textInp begin datepickerInp" value="<%=startDate%>" placeholder="请选择游玩时间" name="" id="beginTimeInput">
+            <input type="text" 
+                class="textInp begin datepickerInp" 
+                value="<%=startDate%>" 
+                placeholder="请选择游玩时间"
+                name=""
+                id="beginTimeInput">
             <div class="triggerBtn"><img src="//images.12301.cc/icon/iconDate.png" alt=""></div>
         </div>
         <div class="tip"></div>
@@ -51,19 +52,25 @@
     <div class="formGroup hotel time datepicker">
         <div class="label">入住时间</div>
         <div class="inputBox begin">
-            <input type="text" class="textInp begin datepickerInp" placeholder="请选择入住时间" name="" id="hotelBeginTimeInp">
+            <input 
+                type="text" 
+                class="textInp begin datepickerInp" 
+                placeholder="请选择入住时间" 
+                name="" 
+                value="<%=startDate%>"
+                id="hotelBeginTimeInp">
             <div class="triggerBtn"><img src="//images.12301.cc/icon/iconDate.png" alt=""></div>
         </div>
         <div class="zhi">至</div>
         <div class="inputBox end">
-            <input type="text" class="textInp end datepickerInp" placeholder="请选择离店时间" name="" id="hotelendTimeInp">
+            <input 
+                type="text" 
+                class="textInp end datepickerInp" 
+                placeholder="请选择离店时间" 
+                name="" 
+                value="<%=extra.endDate%>"
+                id="hotelendTimeInp">
             <div class="triggerBtn"><img src="//images.12301.cc/icon/iconDate.png" alt=""></div>
-        </div>
-    </div>
-    <div class="formGroup hotel effectTime">
-        <div class="label">有效期<span style="visibility: hidden">：<span></div>
-        <div class="inputBox">
-            <span class="tip">订单当天有效，验证时间为：每天</span>
         </div>
     </div>
 
@@ -73,7 +80,13 @@
     <div class="formGroup ishow datepicker date">
         <div class="label">演出日期</div>
         <div class="inputBox">
-            <input type="text" class="textInp begin datepickerInp" placeholder="请选择演出日期" name="" id="iShowBeginDateInp">
+            <input 
+                type="text" 
+                class="textInp begin datepickerInp" 
+                placeholder="请选择演出日期"
+                value="<%=startDate%>" 
+                name="" 
+                id="iShowBeginDateInp">
             <div class="triggerBtn"><img src="//images.12301.cc/icon/iconDate.png" alt=""></div>
         </div>
     </div>

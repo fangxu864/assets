@@ -26,7 +26,7 @@
             background: #3cb8ee
         }
         tbody .col{
-            padding: 10px 0;
+            padding: 15px 0;
             border-bottom: 1px solid #FFFFFF;
             background: #BFE7F8;
         }
@@ -35,7 +35,6 @@
 
     .countBox{
         font-size: 0;
-        margin-top: 9px;
         .countInp{
             width: 90px;
             height: 22px;
@@ -97,5 +96,19 @@
     .yen{ color: #F07845}
     .moneyNum{ color: #F07845; margin-left: 1px;}
     
+
+    .taopiaoContainer{
+        padding: 15px 0 15px 30px;
+        background: #E3F5FD;
+        .tit{ margin-bottom: 5px;}
+        .star,.count{ color: #F07845}
+        .taopiaoListUl{ width: 100%; overflow: hidden}
+        .item{
+            float: left;
+            margin-right: 30px;
+            line-height: 1.5;
+        }
+
+    }
 
 }

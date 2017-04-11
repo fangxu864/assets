@@ -225,7 +225,7 @@
         }
       .td6{
           margin-left: 20px;
-          span.excel_btn {
+          span.excel_btn, .btn-export-detail {
             height: 32px;
             width: 90px;
             display: block;
@@ -238,7 +238,7 @@
             cursor: pointer;
             position: relative;
           }
-          span.excel_btn:before{
+          span.excel_btn:before, .btn-export-detail:before {
             content:"";
             display: block;
             position:absolute;

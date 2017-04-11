@@ -174,16 +174,19 @@ module.exports = function(params,opt){
 					extra["reb"] = reb + "%";
 				}
 
+				//如果是酒店类产品添加默认离店时间
+				extra["endDate"] = CalendarCore.nextDay(data.startDate);
+				
+
+
 
 				//涉及到钱的，后端都是以分单位返回，前端需要显示成元
 				var tickets = data.tickets;
 				for(var i=0,len=tickets.length; i<len; i++){
 					var ticket = tickets[i];
 					var ext = ticket.extra || (ticket.extra={});
-					// ext["js"] = ticket.js/100;
-					// ext["ls"] = ticket.ls/100;
-					ext["js"] = ticket.js;
-					ext["ls"] = ticket.ls;
+					ext["js"] = ticket.js/100;
+					ext["ls"] = ticket.ls/100;
 					ext["reb"] = extra["reb"];
 				}
 

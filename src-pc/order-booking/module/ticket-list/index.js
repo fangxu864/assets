@@ -4,6 +4,7 @@ var TicketModel = require("./ticket-model.js");
 
 var IndexTpl = require("./index.xtpl");
 var ListXtpl = require("./list.xtpl");
+var TaoPiaoXtpl = require("./taopiaoList.xtpl");
 
 var TicketList = PFT.Util.Class({
     model : new TicketModel(),
@@ -214,13 +215,16 @@ var TicketList = PFT.Util.Class({
             var price = that.getTicketMoney(tid);
             var ls = price.ls * 1;
             var js = price.js * 1;
-
             result.count = result.count + count;
-            result.ls = numberToFixed(result.ls + ls,moneyFixed);
-            result.js = numberToFixed(result.js + js,moneyFixed);
+            result.ls = result.ls + ls;
+            result.js = result.js + js;
 
         })
-        return result;
+        return {
+            count : result.count,
+            ls : numberToFixed(result.ls,2),
+            js : numberToFixed(result.js,2)
+        };
     },
     /**
      * 更新列表 data = {...,tickets:[{item},{item},..]};
@@ -244,8 +248,11 @@ var TicketList = PFT.Util.Class({
      * }
      */
     renderList : function(data){
-        console.log(data);
         this.container.find(".ticketListTable_tbody").html(this.template(data));
+        if(data.p_type=="F"){
+            var html = PFT.Util.ParseTemplate(TaoPiaoXtpl)(data);
+            this.container.append(html);
+        }
     },
     render : function(data){
         // var tickets = data.tickets;
@@ -255,12 +262,10 @@ var TicketList = PFT.Util.Class({
         //     tickets[i]["buy_limit_up"] = 20;
         // }
 
-
-
-
         this.originData = data;
         this.container.html(IndexTpl);
         this.renderList(data);
+        return this;
     }
 });
 
