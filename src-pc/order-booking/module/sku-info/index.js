@@ -26,7 +26,11 @@ var SukInfo = PFT.Util.Class({
         }
 
         datepicker.on("datePick",function(data){
-            that.trigger("change:date",data);
+            var date = data.pickDate;
+            var tarInp = data.relyInp;
+            if(tarInp.attr("id")=="beginTimeInput"){ //开始时间
+                that.trigger("change:date",data);
+            }
         })
     },
     onDatepickerInputClick : function(e){

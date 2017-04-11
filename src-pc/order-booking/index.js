@@ -58,7 +58,7 @@ var Main = PFT.Util.Class({
         var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(ticketList.getTotalInfo());
 
 
-        skuInfo.on("change:date",function(data){
+        skuInfo.on("change:beginDate",function(data){
             ticketList.refresh(data.pickDate);
         })
 
