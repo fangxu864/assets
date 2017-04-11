@@ -99,7 +99,9 @@ var Contact = PFT.Util.Class({
 
         //常用联系人添加
         this.container.on("click" , ".saveUserBtn" ,function () {
-            _this.checkContactInp();
+            _this.getData();
+            var inpSet = _this.container.find(".contact-info-box input[data-must = true]");
+            _this.checkInp(inpSet);
             var name = _this.container.find("input[name = ordername]").val();
             var mobile = _this.container.find("input[name = ordertel]").val();
             var idNum = _this.container.find("input[name = idCard]").val();
@@ -262,15 +264,13 @@ var Contact = PFT.Util.Class({
     /**
      * @method 表单校验
      */
-    checkContactInp: function () {
+    checkInp: function (inpSet) {
         var _this = this;
-        var inpSet = this.container.find(".contact-info-box input[data-must = true]");
-        console.log(inpSet);
+        var allOk = true;
         for(var i = 0; i< inpSet.length; i++){
             var item = inpSet.eq(i);
             var type = item.attr("validate-type");
             var inpVal = item.val();
-            console.log(type);
             var isBreak = false;
             switch (type){
                 case "name":
@@ -282,13 +282,13 @@ var Contact = PFT.Util.Class({
                             direction:'right',
                             hostObj : item ,
                             content : "请填写姓名",
-                            bgcolor : "#3eba40"
+                            bgcolor : "#f0c245"
                         });
                         isBreak = true;
                     }
                     break;
                 case "idCard":
-                    console.log("fdsfs")
+                    console.log("fdsfs");
                     if(!PFT.Util.Validate.idcard(inpVal)){
                         item.focus();
                         Tips.closeAllTips();
@@ -297,7 +297,7 @@ var Contact = PFT.Util.Class({
                             direction:'right',
                             hostObj : item ,
                             content : "请填写正确的身份证号",
-                            bgcolor : "#3eba40"
+                            bgcolor : "#f0c245"
                         });
                         isBreak = true;
                     }
@@ -310,8 +310,8 @@ var Contact = PFT.Util.Class({
                             lifetime : 1500 ,
                             direction:'right',
                             hostObj : item ,
-                            content : "请填写正确的身份证号",
-                            bgcolor : "#3eba40"
+                            content : "请填写正确的手机号",
+                            bgcolor : "#f0c245"
                         });
                         isBreak = true;
                     }
@@ -320,9 +320,38 @@ var Contact = PFT.Util.Class({
                     alert(type);
             }
             if(isBreak){
+                allOk = false;
                 break;
             }
         }
+        return allOk;
+
+    },
+
+    /**
+     * @method 获取联系人模块的表单数据
+     */
+    getData:function () {
+
+        var inpSet = this.container.find("input[data-must = true]");
+        var result = this.checkInp(inpSet);
+        console.log(result);
+        if(!result) return false;
+        var data = this.container.find("#contactInfoForm").serialize();
+        console.log(data)
+        console.log(this.deSerialize(data))
+    },
+
+    /**
+     * @method 对象化序列参数
+     */
+    deSerialize: function ( str ) {
+        var arr = str.split("&");
+        var obj = {};
+        for( var i= 0 ; i< arr.length ;i++ ){
+            obj[ decodeURIComponent( arr[i].split("=")[0] ) ] = decodeURIComponent(arr[i].split("=")[1])
+        }
+        return obj;
     }
 
 });
