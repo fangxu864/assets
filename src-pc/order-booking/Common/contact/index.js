@@ -265,20 +265,63 @@ var Contact = PFT.Util.Class({
     checkContactInp: function () {
         var _this = this;
         var inpSet = this.container.find(".contact-info-box input[data-must = true]");
+        console.log(inpSet);
         for(var i = 0; i< inpSet.length; i++){
             var item = inpSet.eq(i);
-            console.log(item);
-            if(item.val() == ''){
-                Tips.closeAllTips();
-                Tips.show({
-                    lifetime : 1500 ,
-                    direction:'right',
-                    hostObj : item ,
-                    content : "请填写内容",
-                    bgcolor : "#3eba40"
-                })
+            var type = item.attr("validate-type");
+            var inpVal = item.val();
+            console.log(type);
+            var isBreak = false;
+            switch (type){
+                case "name":
+                    if(inpVal == ''){
+                        item.focus();
+                        Tips.closeAllTips();
+                        Tips.show({
+                            lifetime : 1500 ,
+                            direction:'right',
+                            hostObj : item ,
+                            content : "请填写姓名",
+                            bgcolor : "#3eba40"
+                        });
+                        isBreak = true;
+                    }
+                    break;
+                case "idCard":
+                    console.log("fdsfs")
+                    if(!PFT.Util.Validate.idcard(inpVal)){
+                        item.focus();
+                        Tips.closeAllTips();
+                        Tips.show({
+                            lifetime : 1500 ,
+                            direction:'right',
+                            hostObj : item ,
+                            content : "请填写正确的身份证号",
+                            bgcolor : "#3eba40"
+                        });
+                        isBreak = true;
+                    }
+                    break;
+                case "mobile":
+                    if(!/^1[0-9]{10}$/.test(inpVal)){
+                        item.focus();
+                        Tips.closeAllTips();
+                        Tips.show({
+                            lifetime : 1500 ,
+                            direction:'right',
+                            hostObj : item ,
+                            content : "请填写正确的身份证号",
+                            bgcolor : "#3eba40"
+                        });
+                        isBreak = true;
+                    }
+                    break;
+                default:
+                    alert(type);
             }
-            break;
+            if(isBreak){
+                break;
+            }
         }
     }
 

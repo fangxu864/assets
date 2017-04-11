@@ -11,6 +11,10 @@ contact.render(num);
 
 var datePricePicker = new DatePricePicker();
 
+datePricePicker.on("datePick",function (data) {
+    console.log(data)
+})
+
 $(function () {
     $(".inp").on("click",function () {
         var _this = $(this);
