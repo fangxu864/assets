@@ -1,5 +1,5 @@
 require("./index.scss");
-
+var Common = require("./common.js");
 var Message = require("pft-ui-component/Message");
 var LoadingHtml = PFT.Util.LoadingPc("努力加载中..",{
     height : 700
@@ -22,7 +22,7 @@ var Main = PFT.Util.Class({
 
         var that = this;
         var container = this.container;
-        var urlParams = this.getPidAid();
+        var urlParams = Common.getPidAid();
 
         Service.orderInfo({
             pid : urlParams.pid,
@@ -53,16 +53,18 @@ var Main = PFT.Util.Class({
     initModules : function(data){
         this.container.html(FrameTpl);
         var topTitle = this.topTitle = new TopTitle({container:"#topTitleMod"}).render(data);
-        var skuInfo = this.skuInfo = new SkuInfo({container:"#skuInfoMode"}).render(data);
+        var skuInfo = this.skuInfo = new SkuInfo({container:"#skuInfoMode",data:data});
         var ticketList = this.ticketList = new TicketList({container:"#ticketListMode"}).render(data);
         var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(ticketList.getTotalInfo());
 
+
+        skuInfo.on("change:date",function(data){
+            ticketList.refresh(data.pickDate);
+        })
+
         ticketList.on("change",function(data){ footTotal.render(data)});
+        
 
-
-    },
-    getPidAid : function(){
-        return PFT.Util.UrlParse();
     }
 });
 

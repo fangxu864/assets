@@ -1,0 +1,53 @@
+#showTimePoper{
+    display: none;
+    position: fixed;
+    width: 400px;
+    z-index: 100;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+
+
+    .stTbody{ width: 100%; overflow: hidden; clear: both}
+
+    .stTbody{ background: #72c0e6; color: #fff}
+    .listUl{ border: 1px solid #e5e5e5; border-top: 0 none;}
+    .listItem{ 
+        width: 100%; 
+        overflow: hidden; 
+        cursor:pointer;
+        &:hover,&.active{
+            color: #2A98DA
+        }  
+    }
+
+    .col{ 
+        float: left; 
+        height: 36px; 
+        line-height: 36px;
+        text-align: center; 
+        overflow: hidden; 
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        border-bottom: 1px solid #e5e5e5; 
+    }
+    .stTbody .col{ border-bottom: 0 none}
+    .listUl .col{ background: #fff}
+
+    .listUl .listItem:last-child .col{ border-bottom: 0 none}
+
+
+    .col_1{ width: 210px; text-indent: 1rem; text-align: left}
+    .col_2{ width: 80px;}
+    .col_3{ width: 108px;}
+
+    .state.empty{
+        width: 100%;
+        height: 200px;
+        line-height: 200px;
+        background: #fff;
+        text-align: center;
+    }
+
+}
+
+#showTimePoperMask{ display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99;}

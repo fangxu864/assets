@@ -25,7 +25,7 @@ module.exports = function(opt){
 				COMMON_VUE_COMPONENTS : path.join(Root,"./src_mobile/Components"),
 				COMMON_VUE_COMPONENTS_B : path.join(Root,"./src_mobile/B/Components"),
 				COMMON_VUE_COMPONENTS_C : path.join(Root,"./src_mobile/C/Components"),
-				SERVICE_M : path.join(Root,"./src_mobile/Service"),
+				SERVICE_M : path.join(Root,"./src-mobile/Service"),
 				SERVICE : path.join(Root,"./Service"),
 				VUX_COMPONENTS : path.join(Root,"./node_modules/vux/src/components"),
 				NODE_MODULES : path.join(Root,"./node_modules")

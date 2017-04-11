@@ -303,8 +303,44 @@ var TicketList = PFT.Util.Class({
             this.container.append(html);
         }
     },
-    render : function(data){
+    refresh : function(date){
+        console.log(date);
+    },
+    /**
+     * 当切换开始时间或结束时间时,刷新价格跟库存
+     * data = {
+     *      tid : {
+     *          storage : "",
+     *          price : ""
+     *      },
+     *      tid : {
+     *          storage : "",
+     *          price : ""
+     *      }
+     * }
+     */
+    refreshTicketListData : function(data){
+        var originData = this.originData;
 
+        var newTickets = PFT.Util.Clone(originData.tickets,true);
+
+        for(var i=0,len=newTickets.length; i<len; i++){
+            var ticket = newTickets[i];
+            var tid = ticket.tid;
+            if(data[tid]){
+                ticket.storage = data[tid].storage;
+                ticket.ls = data[tid].ls;
+                ticket.js = data[tid].js;
+                var extra = ticket.extra || (ticket["extra"]={});
+                extra["ls"] = ticket.ls;
+                extra["js"] = ticket.js;
+            }
+        }
+
+        console.log(newTickets);
+
+    },
+    render : function(data){
         //测试
         // var tickets = data.tickets;
         // for(var i=0,len=tickets.length; i<len; i++){
@@ -320,11 +356,23 @@ var TicketList = PFT.Util.Class({
             
         // }
 
-
-
-        this.originData = data;
-        this.container.html(IndexTpl);
-        this.renderList(data);
+        var tickets = data.tickets;
+        if(PFT.Util.isArray(tickets) && tickets.length>0){
+            this.originData = data;
+            this.container.html(IndexTpl);
+            this.renderList(data);
+        }else{
+            Message.alert("您暂时没有权限预订此产品，页面将在1秒后返回","",{
+                onOpenAfter : function(){
+                    setTimeout(function(){
+                        var refer = document.referrer;
+                        if(!refer) refer = PFT_DOMAIN + "plist.html";
+                        window.location.href = refer;
+                    },1000)
+                }
+            });
+        }
+        
         return this;
     }
 });

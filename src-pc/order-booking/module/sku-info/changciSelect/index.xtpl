@@ -1,0 +1,19 @@
+<ul class="stTbody">
+    <li class="col col_1">场次名称</li>
+    <li class="col col_2">时间</li>
+    <li class="col col_3">余票</li>
+</ul>
+<ul class="listUl">
+    
+    <%if(data.length>0){%>
+        <%_.each(data,function(item,index){%>
+            <li class="listItem">
+                <div class="col col_1"><%=item.round_name%></div>
+                <div class="col col_2 changciTime"><%=item.bt%>-<%=item.et%></div>
+                <div class="col col_3"><%=item.storage==-1 ? '不限' : item.storage%></div>
+            </li>
+        <%})%>
+    <%}else{%>
+        <div class="state empty">该日期暂无场次安排</div>
+    <%}%>
+</ul>
