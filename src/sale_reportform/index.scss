@@ -330,6 +330,23 @@
       }
       tr:last-child{border-bottom: none;}
     }
+
+    .orderby {
+      position: relative;
+      cursor: pointer;
+
+      &:after {
+        content:'';
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        display: block; width:0; height: 0;
+        margin-top: -4px;
+        border-width: 8px 5px;
+        border-style: solid dashed dashed;
+        border-color: #4c4e53 transparent transparent;
+      }
+    }
   }
 
 }
@@ -377,4 +394,25 @@
 
 .PageMainBodyContainer{
   overflow: visible;
+}
+
+.gSimpleDialog-container {
+  .gSimpleDialog-header {
+    padding: 0 20px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 46px;
+  }
+
+  .gSimpleDialog-content {
+    padding-top: 46px;
+
+    .dialog-content {
+      padding: 50px 20px;
+      font-size: 14px;
+      line-height: 2;
+      text-align: center;
+    }
+  }
 }

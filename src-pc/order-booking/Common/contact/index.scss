@@ -1,5 +1,6 @@
 .contact-main-box{
   padding-left: 20px;
+  padding-bottom: 20px;
   background-color: #fff;
   .colorRed{color: red}
   .contact-info-box{
@@ -69,7 +70,21 @@
           .activeIcon:hover{
             color: orangered;
           }
-
+          .nDetail:hover{
+            color: orangered;
+          }
+          .nDetail{
+            margin-top: 2px;
+            display: inline-block;
+            max-width: 70px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
+        .contact-li.selected{
+          border-color: #F07845;
+          color: #F07845;
         }
       }
     }

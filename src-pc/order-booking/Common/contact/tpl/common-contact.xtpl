@@ -1,0 +1,6 @@
+<% _.each(data,function(item,index){ %>
+    <li class="contact-li" data-mobile="<%=item.mobile%>" data-name="<%=item.name%>" data-idNum="<%=item.ID%>">
+        <span class="nDetail"  data-mobile="<%=item.mobile%>" data-name="<%=item.name%>" data-idNum="<%=item.ID%>" title="<%=item.name%>"><%=item.name%></span>
+        <span class="iconfont activeIcon del-btn"  data-mobile="<%=item.mobile%>" data-name="<%=item.name%>" ></span>
+    </li>
+<%})%>

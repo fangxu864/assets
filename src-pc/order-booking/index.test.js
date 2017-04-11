@@ -3,8 +3,10 @@
  */
 var Contact = require("./Common/contact/index.js");
 var DatePricePicker = require("./Common/Datepicker/index.js");
-var contact = new Contact();
-contact.render('.contact-rely-box');
+var contact = new Contact('.contact-rely-box');
+
+var num = 0;
+contact.render(num);
 
 
 var datePricePicker = new DatePricePicker();
@@ -17,5 +19,18 @@ $(function () {
             max:'',    //最大日期
             min: '2017-03-02'     //最小日期 设置日期小于今天会重置到今天
         });
+    });
+    
+    $(document).on("keydown", function (e) {
+
+        if(e.keyCode == 38){
+            num ++
+            contact.render(num);
+        }
+        if(e.keyCode == 40){
+            num --
+            contact.render(num);
+        }
+
     })
 })
