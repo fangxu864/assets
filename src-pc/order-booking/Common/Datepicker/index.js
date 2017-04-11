@@ -37,7 +37,7 @@ var DatePicker = PFT.Util.Class({
             var storage = tarBtn.attr('data-storage');
             _this.relyInp.val(pickDate);
             _this.closeCalendar();
-            _this.trigger("datePick" , {pickDate:pickDate ,storage: storage})
+            _this.trigger("datePick" , {pickDate:pickDate ,storage: storage ,relyInp: _this.relyInpOrgian })
         });
         //点击mask
         this.mask.on("click",function () {
@@ -55,6 +55,7 @@ var DatePicker = PFT.Util.Class({
      */
     show: function (initDate,opt) {
         var _this = this;
+        this.relyInpOrgian = opt.relyInp;
         //依托对象
         var relyInp = this.relyInp = typeof opt.relyInp === 'string' ? $(opt.relyInp) : opt.relyInp;
         //最大日期
