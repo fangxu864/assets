@@ -9,6 +9,7 @@ var Datapicker = require("./datepicker");  //精确到秒的日历组件
 var Main = PFT.Util.Class({
     container : "#editContainer",
     EVENTS : {
+        "click #saveNow" : "save"
     },
     init : function(){
         var that = this ;
@@ -45,25 +46,28 @@ var Main = PFT.Util.Class({
                 var url=reader.result;
                 $("#excelUpLoadText").text("读取成功");
 
-                $("#excelUpLoad").ajaxSubmit({
-                    data : {
-                        identify : "batSendMsg"     
-                    },
-                    beforeSubmit : function(a,b,c){
-                        $("#excelUpLoadText").text("上传中");
-                        console.log(a);
-                        console.log(b);
-                        console.log(c);
-                    },
-                    success: function (data) {
-                        $("#excelUpLoadText").text("上传成功");
-                        console.log(data);
-                    }
-                })   
             }
         });
 
     },
+
+    save : function(){
+        //异步表单上传
+        $("#excelUpLoad").ajaxSubmit({
+            data : {
+                identify : "batSendMsg"
+            },
+            beforeSubmit : function(a,b,c){
+                $("#excelUpLoadText").text("上传中");
+            },
+            success: function (data) {
+                $("#excelUpLoadText").text("上传成功");
+                console.log(data);
+            }
+        })  
+
+    },
+
     //获得当天的时间
 	getNowFormatDate : function(){
 		var date = new Date();
