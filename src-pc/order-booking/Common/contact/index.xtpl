@@ -5,15 +5,15 @@
             <ul>
                 <li class="line">
                     <span class="w70"><i class="colorRed">*</i>取票人：</span>
-                    <input class="" name="ordername" type="text" data-must="true"/>
+                    <input class="" name="ordername" type="text" data-must="true" validate-type="name"/>
                 </li>
                 <li class="line">
                     <span class="w70"><i class="colorRed">*</i>手机号：</span>
-                    <input class="" name="ordertel" type="text" data-must="true"/>
+                    <input class="" name="ordertel" type="text" data-must="true" validate-type="mobile"/>
                 </li>
                 <li class="line id-card-li">
                     <span class="w70"><i class="colorRed">*</i>身份证：</span>
-                    <input class="" name="idCard" type="text" data-must="true"/>
+                    <input class="" name="idCard" type="text" data-must="true" validate-type="idCard"/>
                 </li>
                 <li class="line">
                     <span class="w70">订单备注：</span>
