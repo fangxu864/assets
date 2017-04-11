@@ -5,6 +5,7 @@
 
 编译运行如下命令，在文件夹中添加build.config.js指定编译名称
 
+如：
 npm run local ./src-mobile/B/rebuild/plist
 
 
