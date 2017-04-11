@@ -94,8 +94,30 @@
                 font-size: 14px;
             }
         }
-        #excelUpLoad{
-            display: inline-block;
+        
+        .memberBox{
+            position: relative;
+            width: 61%;
+            margin-left: 150px;
+            height: 45px;
+            .leftBox{
+                position: absolute;
+                left: 0;
+                right: 180px;
+            }
+            #infoReceiverInput{
+                width: 100%;
+            }
+            #excelUpLoad{
+                display: inline-block;
+                position: absolute;
+                right: 0px;
+            }
+            #excelUpLoadText{
+                position: absolute;
+                right: 0px;
+                top: 0;
+            }
         }
     }
 }
@@ -137,8 +159,8 @@
             .radioIcon{
                 display: inline-block;
                 margin-top: 10px;
-                width: 15px;
-                height: 15px;
+                width: 14px;
+                height: 14px;
                 border: 1px solid #c9c9c9;
                 border-radius: 10px;
                 box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -146,7 +168,9 @@
                 cursor : pointer;
             }
             .radioIcon.active{
-                background: #3DBA3F;
+                // background: #3DBA3F;
+                background: url(http://images.12301.cc/icon/check.png) no-repeat;
+                background-position: -13px 0;
             }
             .radioIcon.disable{
                 background: #f3f1f1;
@@ -172,8 +196,8 @@
             .checkIcon{
                 display: inline-block;
                 margin-top: 10px;
-                width: 15px;
-                height: 15px;
+                width: 14px;
+                height: 14px;
                 border: 1px solid #c9c9c9;
                 border-radius: 2px;
                 box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -181,7 +205,9 @@
                 cursor : pointer;
             }
             .checkIcon.active{
-                background: #3DBA3F;
+                // background: #3DBA3F;
+                background: url(http://images.12301.cc/icon/check.png) no-repeat;
+                background-position: -13px -14px;
             }
             .checkCon{
                 display: inline-block;

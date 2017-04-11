@@ -34,6 +34,8 @@ var Main = PFT.Util.Class({
 			});
         });
 
+        console.log("1111");
+
         $(".inputExcel").change(function(){
             $("#excelUpLoadText").text("读取中");
             var file = this.files[0];
@@ -42,15 +44,24 @@ var Main = PFT.Util.Class({
             reader.onload=function(){
                 var url=reader.result;
                 $("#excelUpLoadText").text("读取成功");
+
+                $("#excelUpLoad").ajaxSubmit({
+                    data : {
+                        identify : "batSendMsg"     
+                    },
+                    beforeSubmit : function(a,b,c){
+                        $("#excelUpLoadText").text("上传中");
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    },
+                    success: function (data) {
+                        $("#excelUpLoadText").text("上传成功");
+                        console.log(data);
+                    }
+                })   
             }
         });
-
-
-
-        //console.log($("#excelUpLoad").ajaxSubmit);    //异步提交表单
-
-
-
 
     },
     //获得当天的时间
@@ -111,9 +122,10 @@ var Main = PFT.Util.Class({
                 return false
             }
             if( type == "infoReceiver1"){  //系统自动筛选
-                $("#infoReceiverInput").css("display","none");                
-                $("#excelUpLoad").css("display","none");                
-                $("#excelUpLoadText").css("display","none");
+                // $("#infoReceiverInput").css("display","none");                
+                // $("#excelUpLoad").css("display","none");                
+                // $("#excelUpLoadText").css("display","none");
+                $(".memberBox").css("display","none");
                 $(".infoReceiver").attr("data-type",type);
                 //判断推送方式
                 var infoType = $("#infoTypeInput").attr("data-type");
@@ -125,9 +137,10 @@ var Main = PFT.Util.Class({
                     that.pushWaySelect(2);
                 }
             }else if( type == "infoReceiver2" ){   //指定会员
-                $("#infoReceiverInput").css("display","inline-block");              
-                $("#excelUpLoad").css("display","inline-block");                
-                $("#excelUpLoadText").css("display","inline-block");
+                // $("#infoReceiverInput").css("display","inline-block");              
+                // $("#excelUpLoad").css("display","inline-block");                
+                // $("#excelUpLoadText").css("display","inline-block");
+                $(".memberBox").css("display","block");
                 $(".infoReceiver").attr("data-type",type);
                 //判断推送方式
                 var infoType = $("#infoTypeInput").attr("data-type");
