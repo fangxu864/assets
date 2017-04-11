@@ -1,0 +1,10 @@
+<li class="name-idNum-li">
+    <p>
+        <span class="name">姓名:</span>
+        <input type="text" class="name-inp" name="tourist_name[]" data-must="true"/>
+    </p>
+    <p>
+        <span class="idNum">身份证号:</span>
+        <input type="text" class="idNum-inp" name="tourist_cert[]" data-must="true"/>
+    </p>
+</li>

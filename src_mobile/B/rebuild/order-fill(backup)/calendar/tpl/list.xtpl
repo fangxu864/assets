@@ -1,0 +1,18 @@
+<%for(var i = 0;i<list.length;i++){%>
+	<div class="calConItem row">
+		<%for(var j = 0;j<list[i].length;j++){%>
+			<%if(list[i][j].date){%>
+				<div class="calConItem column" data-week="<%=j%>">
+					<span class="day"><%=list[i][j].day%></span>
+					<span class="price" data-day="<%=list[i][j].day%>">
+						<i class="yen">¥</i>
+						<em></em>
+					</span>
+				</div>
+			<%}else{%>
+				<div class="calConItem column disable">
+				</div>
+			<%}%>
+		<%}%>	
+	</div>
+<%}%>

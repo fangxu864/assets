@@ -1,0 +1,20 @@
+#lineMeetPlace{
+    width: 100%;
+    .lineTop{
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 14px;
+    }
+    .icon-jiantou{
+        font-size: 25px;
+        position: absolute;
+        left: 15px;
+    }
+    .linePlItem{
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid #e5e5e5;
+        padding-left: 20px;
+    } 
+}

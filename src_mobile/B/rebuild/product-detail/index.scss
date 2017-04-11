@@ -1,0 +1,104 @@
+
+@import "COMMON/css/base/main";
+
+.productDetailBox{
+
+	width: 100%;
+	overflow: hidden;
+	.headerPhotoDetail{
+		position: relative;
+		.uiImageBox{
+			position: relative;
+			width: 100%;
+			overflow: hidden;
+			font-size: 0;
+			height: 251px;
+			img{
+				position: absolute;
+				width: 100%;
+				left: 0;
+				right: 0;
+				top: 0;
+			}
+		}
+		.infoBox{
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			padding: 8px 10px;
+			font-size: .35rem;
+			line-height: 1.5;
+			background: rgba(0, 0, 0,.4);
+			color: #fff;
+			.landAddr{
+				position: relative;
+				.icon-daohang{
+					position: absolute;
+					top: 0;
+					right: 0;
+				}
+			}
+			
+		}
+	}
+	ul.tabHeader{
+		width: 100%;
+		overflow: hidden;
+		background: #fff;
+		border-bottom: 1px solid #e5e5e5;
+		.tabHeadItem{
+			width: 33.33%;
+			float: left;
+			text-align: center;
+			font-size: 0;
+			.t{
+				display: inline-block;
+				height: 43px;
+				font-size: .35rem;
+				line-height: 46px;
+				padding: 0 25px;
+				border-bottom: 3px solid #fff;	
+			}
+		}
+		.tabHeadItem.active{
+			.t{
+				font-weight: 700;
+				border-bottom-color: #0797d9;
+				color: #0797d9;
+			}
+		}
+	}
+	.scrollMainContainer{
+		.buyBox{
+			.ticketListCon{
+				overflow: hidden;
+				transition: height .1s;
+				width: 100%;
+				li.item{
+					padding: 10px 10px 13px;
+					background: #fff;
+					border-bottom: 1px solid #e5e5e5;
+					font-size: .35rem;
+					line-height: 1.5;
+					table{
+						width: 100%;
+						table-layout: fixed ;
+						tbody{
+							tr{
+								td.col1{
+									width: 75%;
+								}
+								td.col2{
+									width: 25%;
+									text-align: right;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+}
