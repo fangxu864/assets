@@ -12,6 +12,9 @@ var SukInfo = PFT.Util.Class({
     template : PFT.Util.ParseTemplate(Tpl),
     init : function(opt){
         var data = opt.data;
+        datepicker.on("datePick",function(data){
+            console.log(data);
+        })
         
     },
     onDatepickerInputClick : function(e){

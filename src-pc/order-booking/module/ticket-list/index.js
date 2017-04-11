@@ -47,6 +47,8 @@ var TicketList = PFT.Util.Class({
     onCountInpBlur : function(e){
         var tarInp = $(e.currentTarget);
         if(tarInp.hasClass("disable")) return false;
+        var addBtn = tarInp.siblings(".add");
+        var minuBtn = tarInp.siblings(".minu");
         var tid = tarInp.attr("data-tid");
         var val = $.trim(tarInp.val());
         val = String(val*1);
@@ -78,9 +80,32 @@ var TicketList = PFT.Util.Class({
         if(val*1<buy_limit_low && val!=0) return goBack("票数"+buy_limit_low+"张起订");
 
         //不能超出库存
-        if(val*1>storage) return goBack("预订数量不能超过库存数");
+        if(val*1>storage && storage!=-1) return goBack("预订数量不能超过库存数");
 
         if(val*1>buy_limit_up && buy_limit_up!=0) return goBack("最多只能预订"+buy_limit_up+"张");
+
+
+        //以上校验通过后，说明用户此次的输入是合法可用的，此时还需要判断用户输入的数字与最大值最小值对比
+        //以此来决定加减按钮的状态
+        val = val * 1;
+        var max, min;
+        if(storage==-1 && buy_limit_up==0){ //如果库存、限购数都为不限
+            max = -1;
+        }else if(storage!=-1 && buy_limit_up!=0){ //如果两者都不为不限
+            max = Math.min(storage,buy_limit_up);
+        }else{ //如果只有一方有限制，另一方不限
+            max = storage!=-1 ? storage : buy_limit_up;
+        }
+        min = isMain=="true" ? buy_limit_low : 0;
+
+        addBtn.removeClass("disable");
+        minuBtn.removeClass("disable");
+        if(val==1 & isMain=="true") minuBtn.addClass("disable");
+        if(val==0) minuBtn.addClass("disable");
+
+        if(val>=max && max!=-1) addBtn.addClass("disable");
+        if(val<=min) minuBtn.addClass("disable");
+
         
         this.renderTicketMoney(tid);
 
@@ -203,28 +228,52 @@ var TicketList = PFT.Util.Class({
         var result = {
             count : 0,
             ls : 0,
-            js : 0
+            js : 0,
+            canOrder : false
         };
         var numberToFixed = PFT.Util.numberToFixed;
         var moneyFixed = this._moneyFixed;
         this.container.find(".ticketItem").each(function(){
             var item = $(this);
             var tid = item.attr("data-tid");
-            var count = item.find(".countInp").val();
+            var countInp = item.find(".countInp");
+            var count = countInp.val();
             count = $.trim(count) * 1;
+            var storage = countInp.attr("data-storage") * 1;
+            var buy_limit_low = countInp.attr("data-buylimitlow") * 1;
             var price = that.getTicketMoney(tid);
             var ls = price.ls * 1;
             var js = price.js * 1;
-            result.count = result.count + count;
-            result.ls = result.ls + ls;
-            result.js = result.js + js;
 
+            //判断这个订单是否可以预订 
+            //如果每张票的storage都为0 则用户无法下单
+            //只要有一张票是有库存的，并且库存大于或等于最小购买数，则这个订单是可以下单的
+            
+            if(that.checkCanOrderByTicket(count,storage,buy_limit_low)){
+                result.count = result.count + count;
+                result.ls = result.ls + ls;
+                result.js = result.js + js;
+                result.canOrder = true;
+            }
         })
         return {
+            canOrder : result.canOrder,
             count : result.count,
             ls : numberToFixed(result.ls,2),
             js : numberToFixed(result.js,2)
         };
+    },
+    /**
+     * 判断某张票是否可以购买下单
+     * @count {number} 购买数
+     * @storage {number} 库存数
+     * @buy_limit_low {number} 起购数
+     */
+    checkCanOrderByTicket : function(count,storage,buy_limit_low){
+        if(count<=0) return false;  
+        if(storage==0) return false;
+        if(buy_limit_low>storage && storage!=-1) return false;
+        return true;
     },
     /**
      * 更新列表 data = {...,tickets:[{item},{item},..]};
@@ -255,12 +304,23 @@ var TicketList = PFT.Util.Class({
         }
     },
     render : function(data){
+
+        //测试
         // var tickets = data.tickets;
         // for(var i=0,len=tickets.length; i<len; i++){
-        //     tickets[i]["storage"] = 15;
-        //     tickets[i]["buy_limit_low"] = 3;
-        //     tickets[i]["buy_limit_up"] = 20;
+        //     if(i==0){
+        //         tickets[i]["storage"] = 5;
+        //         tickets[i]["buy_limit_low"] = 10;
+        //         tickets[i]["buy_limit_up"] = 0;
+        //     }else{
+        //         tickets[i]["storage"] = 15;
+        //         tickets[i]["buy_limit_low"] = 3;
+        //         tickets[i]["buy_limit_up"] = 20;
+        //     }
+            
         // }
+
+
 
         this.originData = data;
         this.container.html(IndexTpl);

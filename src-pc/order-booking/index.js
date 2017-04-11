@@ -55,7 +55,11 @@ var Main = PFT.Util.Class({
         var topTitle = this.topTitle = new TopTitle({container:"#topTitleMod"}).render(data);
         var skuInfo = this.skuInfo = new SkuInfo({container:"#skuInfoMode"}).render(data);
         var ticketList = this.ticketList = new TicketList({container:"#ticketListMode"}).render(data);
-        var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(data,ticketList.getTotalInfo());
+        var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(ticketList.getTotalInfo());
+
+        ticketList.on("change",function(data){ footTotal.render(data)});
+
+
     },
     getPidAid : function(){
         return PFT.Util.UrlParse();
