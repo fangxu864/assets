@@ -115,7 +115,9 @@ module.exports = {
                 remotePath: path.join(host.remotePath,remotePath)
             };
 
-            gulp.src(path.join(root,file)).pipe(sftp(params))
+
+
+            gulp.src(file).pipe(sftp(params))
         }
     }
 }

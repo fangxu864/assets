@@ -22,9 +22,9 @@ var Main = PFT.Util.Class({
 	__CacheData : {},
 	init : function(){
 		var urlParams = PFT.Util.UrlParse();
-		this.ordernum = urlParams["ordernum"] || "";
-		this.host = urlParams["h"].split(".")[0];
-		Service(this.ordernum,this.host,{
+		var ordernum = this.ordernum = urlParams["ordernum"] || "";
+		var host = this.host = urlParams["h"].split(".")[0];
+		Service(ordernum,host,{
 			loading : ()=>{
 				Toast.show("loading","努力加载中...");
 			},
@@ -42,8 +42,13 @@ var Main = PFT.Util.Class({
 					that.setLoop();
 				},10)
 			},
-			fail : (msg)=>{
-				Alert(msg);
+			fail : (msg,code)=>{
+				if(code!=206){
+					Alert(msg);
+				}else{
+					var h = PFT.Util.UrlParse().h;
+					window.location.href = "http://" + h + "/wx/c/ordersuccess.html?ordernum="+ordernum;
+				}
 			}
 		})
 	},
