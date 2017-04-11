@@ -1,0 +1,6 @@
+<div id="payModeBox">
+    <div class="payModeTop"><i class="icon icon-u-regular icon-jiantou"></i>付款方式</div>
+    <div class="payItem" data-way="0">账户余额</div>
+    <div class="payItem" data-way="2">授信支付</div>
+    <div class="payItem" data-way="1">在线支付</div>    
+</div>

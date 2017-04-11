@@ -18,15 +18,22 @@ var querynodata_tpl=require("../tpl/querynodata.xtpl");
 var Select = require("COMMON/modules/select");
 var Pagination = require("COMMON/modules/pagination-x");
 
-
+var STip = require('COMMON/js/util.simple.tip'),
+    Toast = require('COMMON/modules/Toast'),
+    toast = new Toast,
+    Dialog = require('COMMON/Components/Dialog-Simple');
 
 var Book_form={
     AJAX_URLS: {
-        exportDetails: {
-            normal: '',
-            admin: ''
-        }
+        exportDetails: ' /r/MassData_ExportListen/Judge/'
     },
+
+    // 导出明细
+    // 4:预订
+    // 5:验证
+    // 6:取消
+    // 7:撤销
+    JUDGE_TYPE: 4,
 
     init:function () {
         var _this=this;
@@ -342,15 +349,16 @@ var Book_form={
             // currentPage : 当前所处第几页
             // totalPage :   当前共有几页
             _this.pagination.render({current:toPage,total:totalPage});
+
             _this.filterParamsBox["page"]=toPage;
-            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
-            if(_this.dataContainer[cacheKey]){
-                _this.dealReqData(_this.dataContainer[cacheKey]);
+            _this.cacheKey = _this.JsonStringify(_this.filterParamsBox);
+            if(_this.dataContainer[ _this.cacheKey ]){
+                _this.dealReqData(_this.dataContainer[ _this.cacheKey ]);
             }else{
                 _this.ajaxGetData({
                     "params":_this.filterParamsBox,
                     "isCacheData":true,
-                    "cacheKey":cacheKey,
+                    "cacheKey": _this.cacheKey,
                     "isInitPagination":false
                 });
             }
@@ -421,11 +429,11 @@ var Book_form={
             // _this.dataContainer={};       //查询按钮点击时，清除数据缓存
             _this.filterParamsBox=_this.getParams();
             _this.filterParamsBox["page"]=1;
-            var cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            _this.cacheKey=_this.JsonStringify(_this.filterParamsBox);
             _this.ajaxGetData({
                 "params":_this.filterParamsBox,
                 "isCacheData":true,
-                "cacheKey":cacheKey,
+                "cacheKey": _this.cacheKey,
                 "isInitPagination":true      //是否初始化分页器
             });
         });
@@ -486,12 +494,61 @@ var Book_form={
 
         // 导出明细   added 2017/04/10
         $('#btnExportDetail').on( 'click', function(){
-            var api = _this.isAdmin == 1 ? _this.AJAX_URLS.exportDetails.admin : _this.AJAX_URLS.exportDetails.normal,
-                downUrl = api + '?export_excel=1&' + _this.JsonStringify(_this.filterParamsBox);
+            var api = _this.AJAX_URLS.exportDetails,
+                params = $.extend({}, _this.filterParamsBox, { judgeType: _this.JUDGE_TYPE });
 
-            _this.outExcel( downUrl );
+            PFT.Util.Ajax( api, {
+                type: 'post',
+
+                params: params,
+
+                loading: function(){
+                    toast.show( 'loading');
+                },
+
+                success: function( res ){
+                    toast.hide();
+
+                    switch( res.code ) {
+                        case 1:
+                        case 4:
+                            // 提示进入报表下载中心
+                            var d = new Dialog({
+                                header: '提示',
+                                width: 400,
+                                content: '<div class="dialog-content">明细报表已生成，请前往报表下载中心下载。<br /><a target="_blank" href="downloadcenter.html">点击进入报表下载中心</a></div>'
+                            });
+                            d.open();
+                            break;
+                        case 2:
+                            // 失败
+                            STip( 'fail', res.msg );
+                            break;
+                    }
+                }
+            })
+        });
+        // 点击对应th，降序排序
+        this.tablecon_box.on('click', '.orderby', function(){
+            if( _this.queryState_box.is(':hidden') ) {
+                _this.sortTableBy( $(this).attr('data-orderby') );
+            }
         });
     },
+
+    // 表格排序
+    sortTableBy: function( orderby ){
+        if( !!orderby ) {
+            // this.sortArray( this.dataContainer[ this.cacheKey ].data.list, orderby );
+
+            this.dataContainer[ this.cacheKey ].data.list.sort(function( a, b ){
+                return Number(b[ orderby ]) - Number(a[ orderby ]);
+            });
+        }
+
+        this.dealReqData( this.dataContainer[ this.cacheKey ] );
+    },
+
     //获取filter参数
     getParams:function () {
         var _this=this;
@@ -547,7 +604,7 @@ var Book_form={
             theadHtml="",
             listHtml="" ;
 
-        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3">订单数</th> <th class="th4">票数</th> <th class="th5">收入(元)</th> <th class="th6">支出(元)</th> <th class="th7">优惠券数量</th> <th class="th8">优惠金额(元)</th>';
+            theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3 orderby" data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">票数</th> <th class="th5 orderby" data-orderby="sale_money">收入(元)</th> <th class="th6 orderby" data-orderby="cost_money">支出(元)</th> <th class="th7 orderby" data-orderby="coupon_num">优惠券数量</th> <th class="th8 orderby" data-orderby="coupon_money">优惠金额(元)</th><th class="th8">操作</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
             '<td class="th3">'+sum.orderNum+'</td>'+
@@ -567,6 +624,7 @@ var Book_form={
             '<td class="th6">'+list[i].cost_money+'</td>'+
             '<td class="th7">'+list[i].coupon_num+'</td>'+
             '<td class="th8">'+list[i].coupon_money+'</td>'+
+            '<td class="th8"><a href="javascript:;" class="btn-export-single">导出明细</a></td>'+
             '</tr>';
             for(var j=0;j<list[i].tickets.length;j++){
                 listHtml+='<tr> <td class="th1"></td>'+
@@ -595,7 +653,7 @@ var Book_form={
             listHtml="" ;
 
 
-        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2">订单数</th> <th class="th3">票数</th> <th class="th4">收入(元)</th> <th class="th5">支出(元)</th> <th class="th6">优惠券数量</th> <th class="th7">优惠金额(元)</th>';
+        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2 orderby" data-orderby="order_num">订单数</th> <th class="th3 orderby" data-orderby="ticket_num">票数</th> <th class="th4 orderby" data-orderby="sale_money">收入(元)</th> <th class="th5 orderby" data-orderby="cost_money">支出(元)</th> <th class="th6 orderby" data-orderby="coupon_num">优惠券数量</th> <th class="th7 orderby" data-orderby="coupon_money">优惠金额(元)</th><th class="th8">操作</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th1 heji">合计:</td>'+
             '<td class="th2">'+sum.orderNum+'</td>'+
@@ -613,6 +671,7 @@ var Book_form={
             '<td class="th5">'+list[i].cost_money+'</td>'+
             '<td class="th6">'+list[i].coupon_num+'</td>'+
             '<td class="th7">'+list[i].coupon_money+'</td>'+
+            '<td class="th8"><a href="javascript:;" class="btn-export-single">导出明细</a></td>'+
             '</tr>'
         }
         $(".tablecon_box .con_tb tbody").html(listHtml);
@@ -673,17 +732,18 @@ var Book_form={
     },
     //ajax获取数据
     ajaxGetData:function (data) {
+        // console.log(data.params)
         var _this=this;
         var api="/r/report_statistics/orderList/";
         if(_this.isAdmin=="1"){
-            api="/r/report_statistics/adminOrderList /";
+            api="/r/report_statistics/adminOrderList/";
         }
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
             dataType: "json",                            //返回格式为json
             async: true,                                  //请求是否异步，默认为异步，这也是ajax重要特性
             data: data.params,                            //参数值
-            type: "GET",                                  //请求方式
+            type: "post",                                  //请求方式
             beforeSend: function() {
                 //请求前的处理
                 // _this.total_box.hide();
@@ -736,6 +796,7 @@ var Book_form={
         var list= data.data;
         // _this.dealTotal(total);
         _this.dealTablecon(list);
+
     },
     //导出excel
     outExcel:function (downloadUrl) {
@@ -747,6 +808,8 @@ var Book_form={
     filterParamsBox:{},
     //定义一个数据缓存容器，存储分页获取的数据
     dataContainer:{},
+    // 当前页缓存数据对应的key
+    cacheKey: null,
     //定义每页显示的条数
     perPageNum:15,
     //JsonStringify 对象序列化方法

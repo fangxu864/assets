@@ -44,6 +44,9 @@ var output = require("../task-webpack/getOutput")(env);
 
 var entry = {
 	
+	"mb.plist.b" : path.resolve(ROOT_URL,"B/rebuild/plist/index.js")
+
+
 };
 
 

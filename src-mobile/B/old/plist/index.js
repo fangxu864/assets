@@ -618,13 +618,18 @@ var Plist = PFT.Util.Class({
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==200){
-		        	
 		        	that.renderList(data);
+					that.keyword = "";
+					$(".productNameSearch").val("");
+					$(".searchInput").val("");
 		        }else if(code==207){
 		            var para = that.getpara();
 					window.location.href = "login.html" + para ;
 		        }else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+					that.keyword = "";
+					$(".productNameSearch").val("");
+					$(".searchInput").val("");
 				}
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
