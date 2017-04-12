@@ -9,15 +9,6 @@ var name_idNum_li_tpl = require("./tpl/name-idNum-li.xtpl");
 var common_contact_tpl = require("./tpl/common-contact.xtpl");
 var Tips = new tips ();
 
-// Tips.closeAllTips();
-// Tips.show({
-//     lifetime : 1500 ,
-//     direction:'top',
-//     hostObj : icon ,
-//     content : "刷新成功",
-//     bgcolor : "#3eba40"
-// })
-
 var Contact = PFT.Util.Class({
 
     init:function (relyDiv) {
@@ -29,6 +20,7 @@ var Contact = PFT.Util.Class({
         this.container.html(indexTpl);
         this.bind();
         this.getContactData();
+        this.render(0);
     },
 
     bind:function () {
@@ -99,9 +91,8 @@ var Contact = PFT.Util.Class({
 
         //常用联系人添加
         this.container.on("click" , ".saveUserBtn" ,function () {
-            _this.getData();
             var inpSet = _this.container.find(".contact-info-box input[data-must = true]");
-            _this.checkInp(inpSet);
+            if( !_this.checkInp(inpSet) ) return false;
             var name = _this.container.find("input[name = ordername]").val();
             var mobile = _this.container.find("input[name = ordertel]").val();
             var idNum = _this.container.find("input[name = idCard]").val();
@@ -163,49 +154,6 @@ var Contact = PFT.Util.Class({
         })
 
 
-    },
-
-    /**
-     * @method 渲染更新方法
-     * @param needIdNum 需要身份证的数量
-     */
-    //已渲染过的数量
-    renderedNum: 0,
-    render: function (needIdNum) {
-
-        var num = Number(needIdNum);
-        if( num === NaN || num < 0 ) return false;
-
-        switch (num){
-            case 0 :
-                this.container.find(".contact-info-box .lt .id-card-li").hide();
-                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","false");
-                this.container.find(".tourist-info-box").hide();
-                break;
-            case 1 :
-                this.container.find(".contact-info-box .lt .id-card-li").show();
-                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","true");
-                this.container.find(".tourist-info-box").hide();
-                break;
-            default:
-                var needAppendNum = num - this.renderedNum;
-                this.renderedNum = num;
-                this.container.find(".contact-info-box .lt .id-card-li").hide();
-                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","false");
-                this.container.find(".tourist-info-box").show();
-                var html = '';
-                if(needAppendNum > 0){
-                    for(var i = 0; i< needAppendNum; i++){
-                        html += name_idNum_li_tpl;
-                    }
-                    this.container.find(".tourist-info-box .name-idNum-ul").append(html);
-                }else{
-                    for(var i = 0; i< Math.abs( needAppendNum ); i++){
-                        this.container.find(".tourist-info-box .name-idNum-ul li:last-child").remove();
-                    }
-                }
-                break;
-         }
     },
 
     /**
@@ -288,7 +236,6 @@ var Contact = PFT.Util.Class({
                     }
                     break;
                 case "idCard":
-                    console.log("fdsfs");
                     if(!PFT.Util.Validate.idcard(inpVal)){
                         item.focus();
                         Tips.closeAllTips();
@@ -329,29 +276,81 @@ var Contact = PFT.Util.Class({
     },
 
     /**
-     * @method 获取联系人模块的表单数据
-     */
-    getData:function () {
-
-        var inpSet = this.container.find("input[data-must = true]");
-        var result = this.checkInp(inpSet);
-        console.log(result);
-        if(!result) return false;
-        var data = this.container.find("#contactInfoForm").serialize();
-        console.log(data)
-        console.log(this.deSerialize(data))
-    },
-
-    /**
      * @method 对象化序列参数
      */
     deSerialize: function ( str ) {
         var arr = str.split("&");
-        var obj = {};
+        var obj = {
+            tourist_name: [],
+            tourist_cert: []
+        };
         for( var i= 0 ; i< arr.length ;i++ ){
-            obj[ decodeURIComponent( arr[i].split("=")[0] ) ] = decodeURIComponent(arr[i].split("=")[1])
+            var key = decodeURIComponent( arr[i].split("=")[0] );
+            var value = decodeURIComponent(arr[i].split("=")[1]);
+            if(/^tourist_name\[]$/.test(key)){
+                obj.tourist_name.push(value);
+            }else if(/^tourist_cert\[]$/.test(key)){
+                obj.tourist_cert.push(value);
+            }else{
+                obj[ key ] = value;
+            }
         }
         return obj;
+    },
+
+    //-------------------对外开放的方法-------------------//
+    /**
+     * @method 渲染更新方法
+     * @param needIdNum 需要身份证的数量
+     */
+    //已渲染过的数量
+    renderedNum: 0,
+    render: function (needIdNum) {
+
+        var num = Number(needIdNum);
+        if( num === NaN || num < 0 ) return false;
+
+        switch (num){
+            case 0 :
+                this.container.find(".contact-info-box .lt .id-card-li").hide();
+                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","false");
+                this.container.find(".tourist-info-box").hide();
+                break;
+            case 1 :
+                this.container.find(".contact-info-box .lt .id-card-li").show();
+                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","true");
+                this.container.find(".tourist-info-box").hide();
+                break;
+            default:
+                var needAppendNum = num - this.renderedNum;
+                this.renderedNum = num;
+                this.container.find(".contact-info-box .lt .id-card-li").hide();
+                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","false");
+                this.container.find(".tourist-info-box").show();
+                var html = '';
+                if(needAppendNum > 0){
+                    for(var i = 0; i< needAppendNum; i++){
+                        html += name_idNum_li_tpl;
+                    }
+                    this.container.find(".tourist-info-box .name-idNum-ul").append(html);
+                }else{
+                    for(var i = 0; i< Math.abs( needAppendNum ); i++){
+                        this.container.find(".tourist-info-box .name-idNum-ul li:last-child").remove();
+                    }
+                }
+                break;
+        }
+    },
+
+    /**
+     * @method 获取联系人模块的表单数据
+     */
+    getData:function () {
+        var inpSet = this.container.find("input[data-must = true]");
+        var result = this.checkInp(inpSet);
+        if(!result) return false;
+        var data = this.container.find("#contactInfoForm").serialize();
+        return this.deSerialize(data)
     }
 
 });
