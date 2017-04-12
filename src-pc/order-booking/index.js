@@ -59,7 +59,9 @@ var Main = PFT.Util.Class({
 
 
         skuInfo.on("change:beginDate",function(data){
-            ticketList.refresh(data.pickDate);
+            var pType = data.p_type;
+            if(pType=="C") return false; //酒店类产品没有票类列表模块
+            ticketList.refresh({beginDate:data.pickDate,p_type:pType});
         })
 
         ticketList.on("change",function(data){ footTotal.render(data)});

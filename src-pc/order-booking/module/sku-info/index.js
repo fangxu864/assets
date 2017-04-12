@@ -26,10 +26,10 @@ var SukInfo = PFT.Util.Class({
         }
 
         datepicker.on("datePick",function(data){
-            var date = data.pickDate;
+            data["p_type"] = that.data.p_type;
             var tarInp = data.relyInp;
             if(tarInp.attr("id")=="beginTimeInput"){ //开始时间
-                that.trigger("change:date",data);
+                that.trigger("change:beginDate",data);
             }
         })
     },

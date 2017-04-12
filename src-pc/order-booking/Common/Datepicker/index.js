@@ -6,7 +6,7 @@ var Util = require("./dateUtil.js");
 var CalendarCore = require("COMMON/js/calendarCore.js");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 
-
+var Message = require("pft-ui-component/Message");
 
 var DatePicker = PFT.Util.Class({
 
@@ -194,12 +194,13 @@ var DatePicker = PFT.Util.Class({
                 //请求完成的处理
                 _this.hideLoading();
                 if(status=="timeout"){
-                    alert("请求超时")
+                    Message.error(PFT.AJAX_TIEMOUT_TEXT);
                 }
             },
             error: function() {
                 //请求出错处理
                 _this.hideLoading();
+                Message.error(PFT.AJAX_ERROR_TEXT);
             }
         });
 
@@ -222,10 +223,10 @@ var DatePicker = PFT.Util.Class({
                         if(res.data[key].storage == 0){
                             curPrice.text('售罄');
                         }else{
-                            curPrice.text('¥' + res.data[key].price);
+                            curPrice.text('¥' + res.data[key].js);
                             curTd.removeClass("disable").addClass("usable");
                             curTd.attr("data-storage",res.data[key].storage);
-                            curPrice.prop("title" , '¥' + res.data[key].price)
+                            curPrice.prop("title" , '¥' + res.data[key].js)
                         }
                     }
                     _this.hideLoading();

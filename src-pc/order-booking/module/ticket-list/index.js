@@ -1,10 +1,13 @@
 require("./index.scss");
 var Message = require("pft-ui-component/Message");
 var TicketModel = require("./ticket-model.js");
+var Common = require("../../common.js");
 
 var IndexTpl = require("./index.xtpl");
 var ListXtpl = require("./list.xtpl");
 var TaoPiaoXtpl = require("./taopiaoList.xtpl");
+
+var Ajax_GetPriceStorageByDate = require("SERVICE/order-booking/getPriceStorageByDate");
 
 var TicketList = PFT.Util.Class({
     model : new TicketModel(),
@@ -276,6 +279,17 @@ var TicketList = PFT.Util.Class({
         return true;
     },
     /**
+     * 获取每张票的pid 
+     * 返回 pid,pid,pid
+     */
+    getPids : function(){
+        var pids = [];
+        this.container.find(".ticketItem").each(function(item,index){
+            pids.push($(this).attr("data-pid"));
+        });
+        return pids.join(",");
+    },
+    /**
      * 更新列表 data = {...,tickets:[{item},{item},..]};
      * 
      * item为object, 格式为:
@@ -303,19 +317,45 @@ var TicketList = PFT.Util.Class({
             this.container.append(html);
         }
     },
-    refresh : function(date){
-        console.log(date);
+    /**
+     * 切换开始时间，刷新票列表，外部模块统一调用这个方法
+     * @param data.beginTime {string} 开始时间
+     * @param data.p_type {string} 产品类型
+     */
+    refresh : function(data){
+        var pType = data.p_type;
+        if(pType!=="H"){ //如果不是演出类，需要发ajax取storage跟price
+            var pids = this.getPids();
+            Ajax_GetPriceStorageByDate({
+                pids : pids,
+                aid : Common.getPidAid().aid,
+                date : data.date || ""
+            },{
+                success : function(data){
+                    console.log(data);
+                },
+                fail : function(msg,code){
+                    Message.alert(msg+"，错误代码："+code);
+                },
+                timeout : function(data){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},
+                serverError : function(data){ Message.error(PFT.AJAX_ERROR_TEXT)}
+            })
+        }else{ //演出类产品，不需要发ajax，价格直接取日历组件里的价格，库存则取场次选择组件里的库存
+
+        }
     },
     /**
-     * 当切换开始时间或结束时间时,刷新价格跟库存
+     * 当切换开始时间,刷新价格跟库存
      * data = {
      *      tid : {
      *          storage : "",
-     *          price : ""
+     *          js : "",
+     *          ls : ""
      *      },
      *      tid : {
      *          storage : "",
-     *          price : ""
+     *          js : ""
+     *          ls : ""
      *      }
      * }
      */
