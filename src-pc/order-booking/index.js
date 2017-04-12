@@ -58,9 +58,9 @@ var Main = PFT.Util.Class({
         var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(ticketList.getTotalInfo());
 
 
-        skuInfo.on("change:beginDate",function(data){
-            ticketList.refresh(data.pickDate);
-        })
+        skuInfo.on("change:beginDate",function(data){ //非酒店、演出类产品，切换开始时间时
+            ticketList.refresh(data);
+        });
 
         ticketList.on("change",function(data){ footTotal.render(data)});
         

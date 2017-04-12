@@ -1,21 +1,11 @@
 <% _.each(data.list,function(item,index){ %>
     <tr>
     <% for( var i = 0; i < item.length; i++){%>
-        <td class="disable <%=item[i].date == data.curDay ? 'selected' : ''%>" data-date="<%=item[i].date%>">
+        <td class="disable <%=item[i].date == data.curDay ? 'selected' : ''%>" 
+            data-date="<%=item[i].date%>">
             <p class="date <%=item[i].today == 'today' ? 'today' : ''%>"><%=item[i].today == 'today' ? '今天' : item[i].day%></p>
             <p class="price"><%=item[i].date ? '' : ''%></p>
         </td>
     <%}%>
     </tr>
 <%})%>
-
-<!--<% _.each(data.list,function(item,index){ %>-->
-<!--<tr>-->
-<!--<% for( var i = 0; i < item.length; i++){%>-->
-<!--<td class="<%=item[i].date && item[i].date >= data.min && item[i].date <= data.max  ? 'usable' : 'disable'%> <%=item[i].date == data.curDay ? 'selected' : ''%>" data-date="<%=item[i].date%>">-->
-    <!--<p class="date <%=item[i].today == 'today' ? 'today' : ''%>"><%=item[i].today == 'today' ? '今天' : item[i].day%></p>-->
-    <!--<p class="price"></p>-->
-<!--</td>-->
-<!--<%}%>-->
-<!--</tr>-->
-<!--<%})%>-->
