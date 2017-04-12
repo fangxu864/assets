@@ -14,7 +14,7 @@ var DatePicker = PFT.Util.Class({
         var _this = this;
         this.container = $("<div class='calendar-price' style='display: none;z-index: 666;'></div>");
         this.container.html(tpl);
-        this.mask = $('<div class="calendarPriceMask" style="position: fixed;width: 100% ;height: 100%;top:0;left:0;display: none;z-index: 665;background-color: rgba(0,0,0,0.1)"></div>');
+        this.mask = $('<div class="calendarPriceMask" style="position: fixed;width: 100% ;height: 100%;top:0;left:0;display: none;z-index: 665;background-color: rgba(0,0,0,0.5)"></div>');
         $('body').append(_this.container).append(_this.mask);
         this.bind();
     },

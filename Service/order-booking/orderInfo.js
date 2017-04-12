@@ -188,6 +188,7 @@ module.exports = function(params,opt){
 					ext["js"] = ticket.js/100;
 					ext["ls"] = ticket.ls/100;
 					ext["reb"] = extra["reb"];
+					ext["p_type"] = data.p_type;
 				}
 
 
