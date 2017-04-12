@@ -25,7 +25,8 @@ var Plist = PFT.Util.Class({
 		"click .themeSelect" : "onThemeSelect",  //主题            
 		"click .citySelect" : "onCitySelect",   //城市        
 		"focus .productNameSearch" : "focusAllInput",  //产品类型搜索
-		"click .spotTicketMore" : "recommendTicket",   //推荐票类
+		// "click .spotTicketMore" : "recommendTicket",   //推荐票类
+		"click .moreTicket" : "moreTicket",  //更多票类
 		"click .writeOrderLink" : "onclickLink" //点击票类 
  	},
 	init : function(opt){ 
@@ -674,15 +675,81 @@ var Plist = PFT.Util.Class({
 
 		this.xscroll.render();
 		this.pullup.complete();
-		
+
+
+		var moreBtns =  $(".spotTicketMoreLink");
+		moreBtns.each(function(i,item){
+			var target = $(item)[0];
+			that.recommendTicket(target);
+		});
+
 
 	},
 
-	recommendTicket : function(e){
+	moreTicket : function(e){
 
+		var that = this;
 		var target = e.target;
 		var lid = $(target).attr("data-id");
+		if( target.tagName != "A"){
+			return false
+		}
 
+		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
+			type : "POST",
+		    dataType : "json",
+		    params : {
+		    	token : PFT.Util.getToken(),
+		    	lid : lid,
+				pageSize : 1000
+		    },
+		    loading : function(){
+				that.toast2.show("loading");
+		    },
+		    complete : function(){
+				that.toast2.hide();
+		    },
+		    success : function(res){
+		        var code = res.code;
+		        var data = res.data;
+		        if(code==200){
+					that.renderAllticketList(data,target);
+		        }else if(code == 207){
+		            var para = that.getpara();
+					window.location.href = "login.html" + para ;
+		        }else{
+					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+				}
+		    },
+		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
+		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
+		})
+
+	},
+
+	renderAllticketList : function( data,target ){
+		
+		var ticketHtml = this.ticketTemplate(data);
+		target = $(target).parent().parent();
+		var liLists = target.find("li");
+		liLists.each(function(i,item){
+			var className = $(item).attr("class");
+			if( className != "spotTitle" ){
+				$(item).remove();
+			}else{
+				$(ticketHtml).insertAfter(item);
+			}
+		});
+
+		this.xscroll.render();
+		this.pullup.complete();
+
+	},
+	recommendTicket : function(target){
+		if( $(target).parent().css("display") == "none"){
+			return false
+		}
+		var lid = $(target).attr("data-id");
 		var that = this;
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
 			type : "POST",
@@ -690,12 +757,13 @@ var Plist = PFT.Util.Class({
 		    params : {
 		    	token : PFT.Util.getToken(),
 		    	lid : lid
+				//不传size，默认返回3个
 		    },
 		    loading : function(){
-				that.toast.show("loading");
+				that.toast2.show("loading");
 		    },
 		    complete : function(){
-				that.toast.hide();
+				that.toast2.hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
@@ -717,12 +785,16 @@ var Plist = PFT.Util.Class({
 
 
 	renderTicketList : function(data,target){
-		
+
 		var ticketHtml = this.ticketTemplate(data);
 		target = $(target).parent();
 		$(ticketHtml).insertBefore(target);
+		var list = data.list;
+		if(list.length < 3){
+			var moreBtn = target.siblings(".moreTicket");
+			moreBtn.css("display","none");
+		}
 		target.hide();
-
 		this.xscroll.render();
 		this.pullup.complete();
 

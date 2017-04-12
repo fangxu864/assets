@@ -1129,6 +1129,8 @@ var Order_fill = PFT.Util.Class({
 
 		var that = this;
 
+		$(".topInputGroup").addClass("hotel");
+		
 		//获得日历
 		this.calendar1 = this.InputGroup.calendar1;		
 		this.calendar2 = this.InputGroup.calendar2;					
