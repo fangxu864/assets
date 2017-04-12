@@ -1,6 +1,31 @@
 module.exports = function(params,opt){
     opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);
 
+
+    if(opt.debug){
+
+
+        setTimeout(function(){
+            opt.success({
+                "58351" : {
+                    js : "60",
+                    ls : "80",
+                    storage : 50
+                },
+                "58352" : {
+                    js : "20",
+                    ls : "50",
+                    storage : 0
+                },
+            })
+        },500)
+
+
+        return false;
+    }
+
+
+
     return PFT.Util.Ajax("/r/Book_Booking/getCalendarInfo/",{
         type : "post",
         params : {

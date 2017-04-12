@@ -35,9 +35,17 @@ var DatePicker = PFT.Util.Class({
             var tarBtn = $(this);
             var pickDate = tarBtn.attr('data-date');
             var storage = tarBtn.attr('data-storage');
+            var js = tarBtn.find(".price").attr("data-js");
+            var ls = tarBtn.find(".price").attr("data-ls");
             _this.relyInp.val(pickDate);
             _this.closeCalendar();
-            _this.trigger("datePick" , {pickDate:pickDate ,storage: storage ,relyInp: _this.relyInpOrgian })
+            _this.trigger("datePick" , {
+                pickDate:pickDate ,
+                storage: storage ,
+                relyInp: _this.relyInpOrgian,
+                js : js,
+                ls : ls
+            })
         });
         //点击mask
         this.mask.on("click",function () {
@@ -187,6 +195,19 @@ var DatePicker = PFT.Util.Class({
             success: function(res) {
                 // 请求成功时处理
                 //缓存数据
+
+                //所端返回的所有与钱有关的，都是分为单位，所以前端需要除100
+                var numberToFixed = PFT.Util.numberToFixed;
+                var data = res.data;
+                for(var i in data){
+                    var item = data[i];
+                    var ls = numberToFixed(item.ls/100,2);
+                    var js = numberToFixed(item.js/100,2);
+                    item["js"] = js;
+                    item["ls"] = ls;
+                }
+
+
                 _this.cacheHub[$.param(params)] = $.extend({},res);
                 dealRes( res )
             },
@@ -226,7 +247,9 @@ var DatePicker = PFT.Util.Class({
                             curPrice.text('¥' + res.data[key].js);
                             curTd.removeClass("disable").addClass("usable");
                             curTd.attr("data-storage",res.data[key].storage);
-                            curPrice.prop("title" , '¥' + res.data[key].js)
+                            curPrice.prop("title" , '¥' + res.data[key].js);
+                            curPrice.attr("data-js" , res.data[key].js);
+                            curPrice.attr("data-ls" , res.data[key].ls);
                         }
                     }
                     _this.hideLoading();
