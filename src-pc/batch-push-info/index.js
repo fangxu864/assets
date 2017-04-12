@@ -13,9 +13,7 @@ var Main = PFT.Util.Class({
     },
     init : function(){
         var that = this ;
-
         
-
         //下拉框
         this.handleSelect();
         // 单选radio
@@ -97,7 +95,7 @@ var Main = PFT.Util.Class({
         //异步表单上传
         $("#excelUpLoad").ajaxSubmit({
             data : {
-                // identify : "batSendMsg",
+                identify : "batSendMsg"   //文件上传标识
 
                 // title : title, //消息名称
                 // msg_type : msg_type,  //消息类型

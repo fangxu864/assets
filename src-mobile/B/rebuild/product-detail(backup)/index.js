@@ -23,7 +23,6 @@ var Product_detail = PFT.Util.Class({
 		var urlPara = Parse(url);
 		this.urlPara = urlPara; 
 
-
 		if(urlPara.ctx){
 			this.ctx = parseInt(urlPara.ctx);		
 		}else{
@@ -34,7 +33,7 @@ var Product_detail = PFT.Util.Class({
 		}else{
 			this.ctype = 0;//默认为0
 		}
-
+		
 		this.lid = urlPara.lid;
 
 		var that = this;
