@@ -25,6 +25,10 @@ var Contact = PFT.Util.Class({
 
     bind:function () {
         var _this = this;
+        this.container.on("blur" , "input[data-must = true]", function (e) {
+            var curInp = $(this);
+            _this.checkInp(curInp);
+        });
         //取票人input和游客信息第一个input同步
         this.container.on("propertychange input" , "input[name = ordername]" ,function () {
             var val = $(this).val();

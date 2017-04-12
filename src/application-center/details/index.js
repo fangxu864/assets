@@ -97,7 +97,21 @@ var Main = PFT.Util.Class({
             $("#appText").attr("title",data.summary);      //app文本
             $("#num").text(data.open_num);       //使用人数
             $("#etime").text(_this.changeTimeType(data.expire_time));            //到期时间
-            $("#appDetails").html(data.introduce);   //应用详情
+
+            var $appDetails = $("#appDetails"),
+                detailCtnWidth = $appDetails.width();
+
+            $appDetails.html(data.introduce);   //应用详情
+
+            $appDetails.find('img').each(function(){
+                this.onload = function(){
+                    if( this.width >= detailCtnWidth ) {
+                        this.style.display = 'block';
+                        this.style.maxWidth = '100%';
+                    }
+                }
+            })
+
             $("#price").show().text(req.price);            //价格
             if(data.icon){
                 $(".line1_detail").find(".ui-app-ico img").attr("src",data.icon);
