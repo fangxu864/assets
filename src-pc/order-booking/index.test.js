@@ -6,7 +6,7 @@ var DatePricePicker = require("./Common/Datepicker/index.js");
 var contact = new Contact('.contact-rely-box');
 
 var num = 0;
-contact.render(num);
+// contact.render(num);
 
 
 var datePricePicker = new DatePricePicker();
