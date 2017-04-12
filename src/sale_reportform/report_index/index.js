@@ -25,7 +25,7 @@ var STip = require('COMMON/js/util.simple.tip'),
 
 var Book_form={
     AJAX_URLS: {
-        exportDetails: ' /r/MassData_ExportListen/Judge/'
+        exportDetails: '/r/MassData_ExportListen/Judge/'
     },
 
     // 导出明细
@@ -351,7 +351,7 @@ var Book_form={
             _this.pagination.render({current:toPage,total:totalPage});
 
             _this.filterParamsBox["page"]=toPage;
-            _this.cacheKey = _this.JsonStringify(_this.filterParamsBox);
+            _this.cacheKey = _this.JsonStringify(_this.filterParamsBox); // 改为对象属性，mod 2017/4/12
             if(_this.dataContainer[ _this.cacheKey ]){
                 _this.dealReqData(_this.dataContainer[ _this.cacheKey ]);
             }else{
@@ -429,7 +429,7 @@ var Book_form={
             // _this.dataContainer={};       //查询按钮点击时，清除数据缓存
             _this.filterParamsBox=_this.getParams();
             _this.filterParamsBox["page"]=1;
-            _this.cacheKey=_this.JsonStringify(_this.filterParamsBox);
+            _this.cacheKey=_this.JsonStringify(_this.filterParamsBox); // 改为对象属性，mod 2017/4/12
             _this.ajaxGetData({
                 "params":_this.filterParamsBox,
                 "isCacheData":true,
@@ -528,11 +528,14 @@ var Book_form={
                 }
             })
         });
-        // 点击对应th，降序排序
+
+        // 点击对应th，降序排序 added 2017/04/10
         this.tablecon_box.on('click', '.orderby', function(){
             if( _this.queryState_box.is(':hidden') ) {
                 _this.sortTableBy( $(this).attr('data-orderby') );
             }
+        }).on('click', '.btn-export-single', function(){
+            _this.outExcel( $(this).attr('data-url') );
         });
     },
 
@@ -602,9 +605,13 @@ var Book_form={
             list=data.list,
             sum=data.sum,
             theadHtml="",
-            listHtml="" ;
+            listHtml="" ,
+            url = [_this.AJAX_URLS.exportDetails + '?is_detail=1&' + _this.JsonStringify(_this.filterParamsBox)];
 
-            theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3 orderby" data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">票数</th> <th class="th5 orderby" data-orderby="sale_money">收入(元)</th> <th class="th6 orderby" data-orderby="cost_money">支出(元)</th> <th class="th7 orderby" data-orderby="coupon_num">优惠券数量</th> <th class="th8 orderby" data-orderby="coupon_money">优惠金额(元)</th><th class="th8">操作</th>';
+        url[1] = '&detail_tid=';
+        url[2] = '&detail_reseller_id=';
+
+        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3 orderby" data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">票数</th> <th class="th5 orderby" data-orderby="sale_money">收入(元)</th> <th class="th6 orderby" data-orderby="cost_money">支出(元)</th> <th class="th7 orderby" data-orderby="coupon_num">优惠券数量</th> <th class="th8 orderby" data-orderby="coupon_money">优惠金额(元)</th><th class="th8">操作</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
             '<td class="th3">'+sum.orderNum+'</td>'+
@@ -624,7 +631,7 @@ var Book_form={
             '<td class="th6">'+list[i].cost_money+'</td>'+
             '<td class="th7">'+list[i].coupon_num+'</td>'+
             '<td class="th8">'+list[i].coupon_money+'</td>'+
-            '<td class="th8"><a href="javascript:;" class="btn-export-single">导出明细</a></td>'+
+            '<td class="th8"></td>'+
             '</tr>';
             for(var j=0;j<list[i].tickets.length;j++){
                 listHtml+='<tr> <td class="th1"></td>'+
@@ -635,6 +642,7 @@ var Book_form={
                 '<td class="th6">'+list[i].tickets[j].cost_money+'</td>'+
                 '<td class="th7">'+list[i].tickets[j].coupon_num+'</td>'+
                 '<td class="th8">'+list[i].tickets[j].coupon_money+'</td>'+
+                '<td class="th8"><a href="javascript:;" class="btn-export-single" data-url="' + url[0] + url[1] + list[i].tickets[j].tid + url[2] + list[i].tickets[j].reseller_id + '">导出明细</a></td>'+
                 '</tr>';
 
             }
@@ -650,8 +658,32 @@ var Book_form={
             list=data.list,
             sum=data.sum,
             theadHtml="",
-            listHtml="" ;
+            listHtml="" ,
+            url = _this.AJAX_URLS.exportDetails + '?is_detail=1&' + _this.JsonStringify(_this.filterParamsBox),
+            prop = '';
 
+        switch( _this.filterParamsBox.count_way ) {
+            case "product":
+                url += '&detail_lid=';
+                prop = 'lid';
+                break;
+            case "ticket":
+                url += '&detail_tid=';
+                prop = 'tid';
+                break;
+            case "date":
+                url += '&detail_date=';
+                prop = 'date';
+                break;
+            case "reseller":
+                url += '&detail_reseller_id=';
+                prop = 'reseller_id';
+                break;
+            case "channel":
+                url += '&detail_channel=';
+                prop = 'channel';
+                break;
+        }
 
         theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2 orderby" data-orderby="order_num">订单数</th> <th class="th3 orderby" data-orderby="ticket_num">票数</th> <th class="th4 orderby" data-orderby="sale_money">收入(元)</th> <th class="th5 orderby" data-orderby="cost_money">支出(元)</th> <th class="th6 orderby" data-orderby="coupon_num">优惠券数量</th> <th class="th7 orderby" data-orderby="coupon_money">优惠金额(元)</th><th class="th8">操作</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
@@ -671,7 +703,7 @@ var Book_form={
             '<td class="th5">'+list[i].cost_money+'</td>'+
             '<td class="th6">'+list[i].coupon_num+'</td>'+
             '<td class="th7">'+list[i].coupon_money+'</td>'+
-            '<td class="th8"><a href="javascript:;" class="btn-export-single">导出明细</a></td>'+
+            '<td class="th8"><a href="javascript:;" class="btn-export-single" data-url="' + url + list[i][prop] + '">导出明细</a></td>'+
             '</tr>'
         }
         $(".tablecon_box .con_tb tbody").html(listHtml);
