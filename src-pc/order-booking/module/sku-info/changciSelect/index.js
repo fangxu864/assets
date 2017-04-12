@@ -16,14 +16,26 @@ var ChangciSelect = PFT.Util.Class({
         var pid = this.pid = urlParams.pid;
         var aid = this.aid = urlParams.aid;
 
+        this.list = null;
+
         this.poper = this.createPoper();
         this.mask =  this.createMask();
-
 
         this.poper.on("click",".listItem",function(e){
             var tarItem = $(e.currentTarget);
             var changciTime = tarItem.find(".changciTime").text();
-            if(!tarItem.hasClass("active")) that.trigger("change",{time:changciTime});
+            if(!tarItem.hasClass("active")){
+                var list = that.list;
+                var id = tarItem.attr("data-changciid");
+                var data = null;
+                for(var i=0,len=list.length; i<len; i++){
+                    if(list[i]["id"]==id){
+                         data = list[i];
+                         break;
+                    }
+                }
+                data && that.trigger("change",data);
+            }
             tarItem.addClass("active").siblings().removeClass("active");
             that.close();
         });
@@ -72,8 +84,10 @@ var ChangciSelect = PFT.Util.Class({
         this.mask.fadeOut(120);
     },
     renderList : function(list){
+        this.list = list;
         var html = Template({data:list});
         this.poper.html(html);
+        this.poper.find(".listItem").first().trigger("click");
     },
     refresh : function(pid,aid,date){
         var that = this;

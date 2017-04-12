@@ -7,7 +7,7 @@
     
     <%if(data.length>0){%>
         <%_.each(data,function(item,index){%>
-            <li class="listItem">
+            <li data-changciid="<%=item.id%>" class="listItem">
                 <div class="col col_1"><%=item.round_name%></div>
                 <div class="col col_2 changciTime"><%=item.bt%>-<%=item.et%></div>
                 <div class="col col_3"><%=item.storage==-1 ? '不限' : item.storage%></div>

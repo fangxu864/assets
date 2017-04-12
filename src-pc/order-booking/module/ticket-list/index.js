@@ -1,10 +1,13 @@
 require("./index.scss");
 var Message = require("pft-ui-component/Message");
 var TicketModel = require("./ticket-model.js");
+var Common = require("../../common.js");
 
 var IndexTpl = require("./index.xtpl");
 var ListXtpl = require("./list.xtpl");
 var TaoPiaoXtpl = require("./taopiaoList.xtpl");
+
+var Ajax_GetPriceStorageByDate = require("SERVICE/order-booking/getPriceStorageByDate");
 
 var TicketList = PFT.Util.Class({
     model : new TicketModel(),
@@ -276,70 +279,56 @@ var TicketList = PFT.Util.Class({
         return true;
     },
     /**
-     * 更新列表 data = {...,tickets:[{item},{item},..]};
-     * 
-     * item为object, 格式为:
-     * 
-     * item = {
-     *      buy_limit_low : 1,
-     *      buy_limit_up : 0,
-     *      js : 0.2,
-     *      ls : 1,
-     *      pid : 123423,
-     *      tid : 03453,
-     *      storage : 1,
-     *      title : "sdfsdfsdf"
-     *      extra : {
-     *          js : "0.01",
-     *          ls : "0.01",
-     *          reb : "0元"
-     *      }
-     * }
+     * 获取每张票的pid 
+     * 返回 pid,pid,pid
      */
-    renderList : function(data){
-        this.container.find(".ticketListTable_tbody").html(this.template(data));
-        if(data.p_type=="F"){
-            var html = PFT.Util.ParseTemplate(TaoPiaoXtpl)(data);
-            this.container.append(html);
-        }
-    },
-    refresh : function(date){
-        console.log(date);
+    getPids : function(){
+        var pids = [];
+        this.container.find(".ticketItem").each(function(item,index){
+            pids.push($(this).attr("data-pid"));
+        });
+        return pids.join(",");
     },
     /**
-     * 当切换开始时间或结束时间时,刷新价格跟库存
+     * 切换开始时间，刷新票列表，外部模块统一调用这个方法
+     * @param data  即为后端接口：根据日期查询当天价格及库存，返回的数据
      * data = {
-     *      tid : {
-     *          storage : "",
-     *          price : ""
-     *      },
-     *      tid : {
-     *          storage : "",
-     *          price : ""
-     *      }
+     *   pid : {            //pid为每张票唯一的pid
+     *      js : "",        //结算价
+     *      ls : "",        //门市价
+     *      storage : 21    //库存
+     *   },
+     *   pid : {
+     *      js : "",
+     *      ls : "",
+     *      storage : 21
+     *   }
      * }
      */
-    refreshTicketListData : function(data){
+    refresh : function(data){
+        var that = this;
         var originData = this.originData;
-
-        var newTickets = PFT.Util.Clone(originData.tickets,true);
-
-        for(var i=0,len=newTickets.length; i<len; i++){
-            var ticket = newTickets[i];
-            var tid = ticket.tid;
-            if(data[tid]){
-                ticket.storage = data[tid].storage;
-                ticket.ls = data[tid].ls;
-                ticket.js = data[tid].js;
+        var tickets = originData.tickets;
+        var numberToFixed = PFT.Util.numberToFixed;
+        for(var i=0,len=tickets.length; i<len; i++){
+            var ticket = tickets[i];
+            var pid = ticket.pid;
+            if(data[pid]){
+                ticket.storage = data[pid].storage;
+                ticket.ls = data[pid].ls;
+                ticket.js = data[pid].js;
                 var extra = ticket.extra || (ticket["extra"]={});
-                extra["ls"] = ticket.ls;
-                extra["js"] = ticket.js;
+                extra["ls"] = numberToFixed(ticket.ls/100,2);
+                extra["js"] = numberToFixed(ticket.js/100,2);
             }
         }
-
-        console.log(newTickets);
-
+        this.render(originData);
+        this.trigger("change",this.getTotalInfo());
     },
+    
+    /**
+     * 渲染数据
+     */
     render : function(data){
         //测试
         // var tickets = data.tickets;
@@ -356,11 +345,42 @@ var TicketList = PFT.Util.Class({
             
         // }
 
+
+        /**
+         * 更新列表 data = {...,tickets:[{item},{item},..]};
+         * 
+         * item为object, 格式为:
+         * 
+         * item = {
+         *      buy_limit_low : 1,
+         *      buy_limit_up : 0,
+         *      js : 0.2,
+         *      ls : 1,
+         *      pid : 123423,
+         *      tid : 03453,
+         *      storage : 1,
+         *      title : "sdfsdfsdf"
+         *      extra : {
+         *          js : "0.01",
+         *          ls : "0.01",
+         *          reb : "0元"
+         *      }
+         * }
+         */
+        var container = this.container;
+        var template = this.template;
+        var renderList = function(data){
+            container.find(".ticketListTable_tbody").html(template(data));
+            if(data.p_type=="F"){
+                var html = PFT.Util.ParseTemplate(TaoPiaoXtpl)(data);
+                container.append(html);
+            }
+        };
         var tickets = data.tickets;
         if(PFT.Util.isArray(tickets) && tickets.length>0){
             this.originData = data;
             this.container.html(IndexTpl);
-            this.renderList(data);
+            renderList(data);
         }else{
             Message.alert("您暂时没有权限预订此产品，页面将在1秒后返回","",{
                 onOpenAfter : function(){

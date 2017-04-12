@@ -58,7 +58,7 @@
                 placeholder="请选择入住时间" 
                 name="" 
                 value="<%=startDate%>"
-                id="hotelBeginTimeInp">
+                id="beginTimeInput">
             <div class="triggerBtn"><img src="//images.12301.cc/icon/iconDate.png" alt=""></div>
         </div>
         <div class="zhi">至</div>
@@ -86,7 +86,7 @@
                 placeholder="请选择演出日期"
                 value="<%=startDate%>" 
                 name="" 
-                id="iShowBeginDateInp">
+                id="beginTimeInput">
             <div class="triggerBtn"><img src="//images.12301.cc/icon/iconDate.png" alt=""></div>
         </div>
     </div>
