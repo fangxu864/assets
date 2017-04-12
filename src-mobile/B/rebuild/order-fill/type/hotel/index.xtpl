@@ -2,7 +2,7 @@
 	<div class="inHotel dateSelect">
 		<div class="dateSelectText">入住</div>
 		<div class="dateSelectDay">5月6日<span class="dateSelectWeek">周二</span></div>
-		<i class="icon icon-u-regular icon-rili leftRili"></i>
+		<i class="icon icon-u-regular icon-rili leftRili" style="display: none;"></i>
 	</div>
 	<div class="hotelDay">
 		<div class="hotelDayTag">0晚</div>
@@ -10,6 +10,6 @@
 	<div class="outHotel dateSelect">
 		<div class="dateSelectText">离店</div>
 		<div class="dateSelectDay">5月6日<span class="dateSelectWeek">周二</span></div>
-		<i class="icon icon-u-regular icon-rili rightRili"></i>		
+		<i class="icon icon-u-regular icon-rili rightRili" style="display: none;"></i>		
 	</div>
 </div>	

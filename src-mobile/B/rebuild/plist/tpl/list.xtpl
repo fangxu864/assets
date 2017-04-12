@@ -9,9 +9,15 @@
 			</div>
 		</a>
 	</li>
-	<li class="spotTicketMore spotTicket">
+	<li class="spotTicketMore spotTicket" >
 		<a href="javascript:;" class="spotTicketMoreLink" data-id="<%=item.lid%>">
 			推荐票类
+			<i class="spotTicketMoreArr">></i>
+		</a>
+	</li>
+	<li class="moreTicket spotTicket">
+		<a href="javascript:;" class="moreTicket" data-id="<%=item.lid%>">
+			更多票类
 			<i class="spotTicketMoreArr">></i>
 		</a>
 	</li>
