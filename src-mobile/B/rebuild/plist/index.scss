@@ -135,6 +135,19 @@
 					}
 				}
 			}
+			.moreTicket{
+				line-height: px2rem(96);
+				color: #0797d9;
+				font-size: px2rem(32);
+				.moreTicket{
+					display: flex;
+					display: -webkit-flex;
+					justify-content: flex-end ;
+					.spotTicketMoreArr{
+						margin-left: px2rem(10);
+					}
+				}
+			}
 	    }
 	    .productOrderListGap{
 	    	height: px2rem(20);

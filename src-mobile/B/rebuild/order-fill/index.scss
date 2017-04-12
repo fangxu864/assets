@@ -40,8 +40,51 @@ body{
                     font-size: 1pc;
                     color: #258cc9;
                 }
+                
+
             }
         }
+
+        .topInputGroup.hotel{
+            padding: 10px 25px;
+            border-bottom: 1px solid #e5e5e5;
+            background: #fff;
+            .inputItem{
+                position: relative;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                border-bottom : none;
+                .inHotel{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    line-height: 1.5;
+                    padding-top: 5px;
+                    font-size: .35rem;
+                }
+                .hotelDay{
+                    .hotelDayTag{
+                        display: inline-block;
+                        line-height: 1.4;
+                        padding: 0 7px;
+                        border: 1px solid #008fc2;
+                        color: #008fc2;
+                    }
+                }
+                .outHotel{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    line-height: 1.5;
+                    padding-top: 5px;
+                    font-size: .35rem;
+                }
+            }
+        }
+
         #topTips{
             padding: 15px;
             .tips{
