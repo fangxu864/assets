@@ -17,7 +17,8 @@ var Ajax_GetPriceStorageByDate = require("SERVICE/order-booking/getPriceStorageB
 var SukInfo = PFT.Util.Class({
     EVENTS : {
         "click #beginTimeInput" : "onDatepickerInputClick",
-        "click #iShowBeginTimeInp" : "onShowBeginTimeInpClick"
+        "click #iShowBeginTimeInp" : "onShowBeginTimeInpClick",
+        "click #hotelendTimeInp" : "onHotelEndTimeInpClick"
     },
     template : PFT.Util.ParseTemplate(Tpl),
     init : function(opt){
@@ -86,7 +87,10 @@ var SukInfo = PFT.Util.Class({
         return pids.join(",")
     },
     getTotalInfo_Hotel : function(){
-        return null;
+        return {
+            ls : 300,
+            canOrder : true
+        };
     },
     onShowBeginTimeInpClick : function(e){
         this.changciSelect.open();
@@ -100,6 +104,15 @@ var SukInfo = PFT.Util.Class({
         datepicker.show(date,{
             relyInp: tarInp,
             min : that.data.startDate
+        });
+    },
+    onHotelEndTimeInpClick : function(e){ //酒店类  点击离店时间input
+        var tarInp = $(e.currentTarget);
+        var endDate = $.trim(tarInp.val());
+        var beginDate = $.trim($("#beginTimeInput").val());
+        datepicker.show(endDate,{
+            relyInp: tarInp,
+            min : beginDate
         });
     },
     render : function(data){
