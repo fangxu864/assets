@@ -2,10 +2,10 @@
 //引入M-con模块
 var Mcon = require("../content/index.js");
 var Pagination = require("../pagination/pagination.js");
-var pag = new Pagination();
-console.log(pag);
-var mcon = new Mcon();
 var dataCenter = PFT.Util.Class({
+    init:function () {
+
+    },
 
     /**
      * @method 获取列表数据
@@ -14,12 +14,16 @@ var dataCenter = PFT.Util.Class({
      */
     //缓存仓库
     cacheHub: {},
+    //当前查询键值
+    curCacheKey: '',
     getMainData: function ( params ) {
         var _this = this;
+        //存储当前缓存键值
+        _this.curCacheKey = $.param(params);
         //显示查询状态
-        mcon.showLoading();
+        Mcon.showLoading();
         //关闭pagination
-        pag.close();
+        Pagination.close();
         //看看是否有缓存
         if(_this.cacheHub[$.param(params)]){
             //通知table模块render
@@ -43,17 +47,18 @@ var dataCenter = PFT.Util.Class({
                 // 请求成功时处理
                 //缓存数据
                 _this.cacheHub[$.param(params)] = $.extend({},res);
+                _this.isExistUpdate = false;
                 dealRes( res )
             },
             complete: function(res,status) {
                 //请求完成的处理
                 if(status=="timeout"){
-                    mcon.showError("请求超时");
+                    Mcon.showError("请求超时");
                 }
             },
             error: function() {
                 //请求出错处理
-                mcon.showError("请求出错");
+                Mcon.showError("请求出错");
             }
         });
 
@@ -61,18 +66,28 @@ var dataCenter = PFT.Util.Class({
             if(res.code == 200 ){
                 //通知table模块render
                 if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.lists) ){
-                    mcon.render(res);
-                    pag.render( res.data.page ,res.data.totalPage )
+                    Mcon.render(res);
+                    Pagination.render( res.data.page ,res.data.totalPage )
                 }else{
-                    mcon.showError("未查询到任何数据，请重新输入条件搜索...");
+                    Mcon.showError("未查询到任何数据，请重新输入条件搜索...");
                 }
             }else{
                 //通知queryState模块显示错误信息
-                mcon.showError(res.msg);
+                Mcon.showError(res.msg);
             }
         }
     },
 
+    /**
+     * @method 清除缓存仓库中的某个值
+     * @param key
+     */
+    delCurCache: function (key) {
+        var curKey = key || this.curCacheKey;
+        if(this.cacheHub[curKey]){
+            delete this.cacheHub[curKey];
+        }
+    },
 
     /**
      * @mehtod 判断真假
@@ -113,4 +128,4 @@ var dataCenter = PFT.Util.Class({
 });
 
 
-module.exports = dataCenter;
+module.exports = new dataCenter();
