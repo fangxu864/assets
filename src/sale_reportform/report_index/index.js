@@ -25,7 +25,8 @@ var STip = require('COMMON/js/util.simple.tip'),
 
 var Book_form={
     AJAX_URLS: {
-        exportDetails: '/r/MassData_ExportListen/Judge/'
+        exportDetails: '/r/MassData_ExportListen/Judge/',
+        exportSingleDetail: '/r/report_statistics/getOrderInfoByReport'
     },
 
     // 导出明细
@@ -600,13 +601,13 @@ var Book_form={
         _this.total_box.fadeIn(200);
     },
     //处理分销商与票类情况
-    resellerAndTicket : function(data){
+    resellerAndTicket : function( data ){
         var _this=this,
             list=data.list,
             sum=data.sum,
             theadHtml="",
             listHtml="" ,
-            url = [_this.AJAX_URLS.exportDetails + '?is_detail=1&' + _this.JsonStringify(_this.filterParamsBox)];
+            url = [_this.AJAX_URLS.exportSingleDetail + '?is_detail=1&' + 'judgeType=' + _this.JUDGE_TYPE + '&' + _this.JsonStringify(_this.filterParamsBox)];
 
         url[1] = '&detail_tid=';
         url[2] = '&detail_reseller_id=';
@@ -620,6 +621,7 @@ var Book_form={
             '<td class="th6">'+sum.costMoney+'</td>'+
             '<td class="th7">'+sum.couPonNum+'</td>'+
             '<td class="th8">'+sum.couPonMoney+'</td>'+
+            '<td class="th8"></td>'+
             '</tr>';
         for(var i=0;i<list.length;i++){
 
@@ -659,7 +661,7 @@ var Book_form={
             sum=data.sum,
             theadHtml="",
             listHtml="" ,
-            url = _this.AJAX_URLS.exportDetails + '?is_detail=1&' + _this.JsonStringify(_this.filterParamsBox),
+            url = _this.AJAX_URLS.exportSingleDetail + '?is_detail=1&' + 'judgeType=' + _this.JUDGE_TYPE + '&' + _this.JsonStringify(_this.filterParamsBox),
             prop = '';
 
         switch( _this.filterParamsBox.count_way ) {
@@ -694,6 +696,7 @@ var Book_form={
             '<td class="th5">'+sum.costMoney+'</td>'+
             '<td class="th6">'+sum.couPonNum+'</td>'+
             '<td class="th7">'+sum.couPonMoney+'</td>'+
+            '<td class="th8"></td>'+
             '</tr>';
         for(var i=0;i<list.length;i++){
             listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+

@@ -34,8 +34,8 @@ var Toast = function(){
 	data.id = this.onlyId;
 	this.Template = PFT.Util.ParseTemplate(tpl);
 	var html = this.Template(data);
-	if($("#"+that.onlyId).length==0) $("body").append(html);
-	this.container = $("#"+that.onlyId);
+	if($("#"+this.onlyId).length==0) $("body").append(html);
+	this.container = $("#"+this.onlyId);
 };
 Toast.prototype = {
 	show : function(type,content,duration,callback){ 

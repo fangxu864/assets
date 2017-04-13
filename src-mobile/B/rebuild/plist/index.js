@@ -683,18 +683,14 @@ var Plist = PFT.Util.Class({
 			that.recommendTicket(target);
 		});
 
-
 	},
-
 	moreTicket : function(e){
-
 		var that = this;
 		var target = e.target;
 		var lid = $(target).attr("data-id");
 		if( target.tagName != "A"){
 			return false
 		}
-
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
 			type : "POST",
 		    dataType : "json",
@@ -724,9 +720,7 @@ var Plist = PFT.Util.Class({
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
-
 	},
-
 	renderAllticketList : function( data,target ){
 		
 		var ticketHtml = this.ticketTemplate(data);
@@ -751,6 +745,9 @@ var Plist = PFT.Util.Class({
 		}
 		var lid = $(target).attr("data-id");
 		var that = this;
+		var r = parseInt(Math.random() * 1000);
+		var toastName = "toast" + r ;
+		this[toastName] = new Toast();	
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
 			type : "POST",
 		    dataType : "json",
@@ -760,10 +757,11 @@ var Plist = PFT.Util.Class({
 				//不传size，默认返回3个
 		    },
 		    loading : function(){
-				that.toast2.show("loading");
+				that[toastName].show("loading");
 		    },
 		    complete : function(){
-				that.toast2.hide();
+				console.log(that);
+				that[toastName].hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
