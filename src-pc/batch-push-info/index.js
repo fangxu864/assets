@@ -1,10 +1,11 @@
 
 require("./index.scss");
-
+//组件
 require("./jq.ajaxform");
 var Datapicker = require("./datepicker");  //精确到秒的日历组件
-
 var Message = require("pft-ui-component/Message");
+//service
+var Save = require("./service/save");
 
 var Main = PFT.Util.Class({
     container : "#editContainer",
@@ -13,7 +14,7 @@ var Main = PFT.Util.Class({
     },
     init : function(){
         var that = this ;
-        
+        this.excelUrl = "";    
         //下拉框
         this.handleSelect();
         // 单选radio
@@ -46,6 +47,32 @@ var Main = PFT.Util.Class({
                 fileName = fileName.split("\\");
                 fileName = fileName[fileName.length-1]
                 $("#excelUpLoadText").text("文件（" + fileName + "）读取成功").css("color","#3dba3f");
+                //异步表单上传
+                $("#excelUpLoadForm").ajaxSubmit({
+                    data : {
+                        identify : "batSendMsg"                  
+                    },
+                    beforeSubmit : function(a,b,c){
+                        $("#excelUpLoadText").text("上传中");
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        var code = res.code;
+                        var msg = res.msg;
+                        var data = res.data;
+                        var src = data.src;
+                        if(code == 200){
+                            $("#excelUpLoadText").text("上传成功");
+                            that.excelUrl = src ;
+                        }else{
+                            $("#excelUpLoadText").text(msg).css("color","#e12424");                            
+                        }
+                    },
+                    fail : function(){
+                        $("#excelUpLoadText").text("上传失败").css("color","#e12424");
+                    }
+                })                
+
             }
         });
 
@@ -53,11 +80,6 @@ var Main = PFT.Util.Class({
     //保存
     save : function(){
         var that = this;
-
-        //通用alert组件
-        // Message.alert("请输入");
-
-        //参数都为必填，要测试下各种为空的情况
 
         var title = $("#infoNameInput").val();   //消息名称
         if( title == "" ){
@@ -103,12 +125,36 @@ var Main = PFT.Util.Class({
             send_type = "2";
             send_time = $("#pushDay").val();
         }
-
-        //异步表单上传
+        if( this.excelUrl == ""){
+            Message.alert("请导入excel文件");           
+            return false
+        }
+        Save({
+            // title : title, //消息名称
+            // msg_type : msg_type,  //消息类型
+            // content : content,  //消息内容
+            // rec_type : rec_type,  //接收类型[系统自动0，指定会员1]
+            // channel : channel,  //推送渠道[短信1微信0]
+            // send_type : send_type, //推送类型[立即推送0，定时推送1，动态推送2]
+            // send_time : send_time, //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
+            // excel : that.excelUrl, //保存excel
+            // save_type :   //保存类型  保存0，保存并执行1     
+        },{
+            loading : function(){
+            },
+            complete : function(){
+            },
+            success : function(data){
+                console.log(data);
+            },
+            fail : function(){
+            }
+        })
+        return false    
+        //异步表单上传 //整个为表单//后端改动后弃用
         $("#excelUpLoad").ajaxSubmit({
             data : {
                 identify : "batSendMsg"   //文件上传标识
-
                 // title : title, //消息名称
                 // msg_type : msg_type,  //消息类型
                 // content : content,  //消息内容
@@ -126,6 +172,7 @@ var Main = PFT.Util.Class({
                 console.log(data);
             }
         })  
+
     },
     //获得当天的时间
 	getNowFormatDate : function(){
@@ -152,7 +199,6 @@ var Main = PFT.Util.Class({
         var that = this;
        $(".checkIcon").on("click",function(e){
             var target = $(e.target);
-
             if( target.attr("class") == "checkIcon active" ){
                 target.removeClass("active");        
             }else if(target.attr("class") == "checkIcon"){
@@ -250,7 +296,6 @@ var Main = PFT.Util.Class({
             var target = $(e.target);
             var t = target.text();
             var type = target.attr("data-type");
-
             if( type == "0" || type == "1"){//通用提醒和生日祝福
                 var text = "尊敬的[会员名称]，";
                 $(".infoText .fiexdText").text(text);

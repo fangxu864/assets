@@ -430,10 +430,7 @@ var Plist = PFT.Util.Class({
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
-   			
-
 	},
-
 	cityHandler : function(res){
 
 		var that = this;
@@ -669,13 +666,10 @@ var Plist = PFT.Util.Class({
 		}else{
 			$("#xContent").append(listHtml);
 		}
-
 		this.lastListLid = data.lastLid;
 		this.lastListProPos = data.lastProPos;
-
 		this.xscroll.render();
 		this.pullup.complete();
-
 
 		var moreBtns =  $(".spotTicketMoreLink");
 		moreBtns.each(function(i,item){
@@ -722,7 +716,6 @@ var Plist = PFT.Util.Class({
 		})
 	},
 	renderAllticketList : function( data,target ){
-		
 		var ticketHtml = this.ticketTemplate(data);
 		target = $(target).parent().parent();
 		var liLists = target.find("li");
@@ -734,10 +727,8 @@ var Plist = PFT.Util.Class({
 				$(ticketHtml).insertAfter(item);
 			}
 		});
-
 		this.xscroll.render();
 		this.pullup.complete();
-
 	},
 	recommendTicket : function(target){
 		if( $(target).parent().css("display") == "none"){
@@ -760,7 +751,6 @@ var Plist = PFT.Util.Class({
 				that[toastName].show("loading");
 		    },
 		    complete : function(){
-				console.log(that);
 				that[toastName].hide();
 		    },
 		    success : function(res){
@@ -780,10 +770,7 @@ var Plist = PFT.Util.Class({
 		})
 
 	},
-
-
 	renderTicketList : function(data,target){
-
 		var ticketHtml = this.ticketTemplate(data);
 		target = $(target).parent();
 		$(ticketHtml).insertBefore(target);
@@ -795,7 +782,6 @@ var Plist = PFT.Util.Class({
 		target.hide();
 		this.xscroll.render();
 		this.pullup.complete();
-
 	},
 	onclickLink : function(e){
 		if(this.ctype == 4){
@@ -817,10 +803,8 @@ var Plist = PFT.Util.Class({
 				url += "&" + i +"=" + urlPara[i] ;
 			}
 		}
-
 		window.location.href = url;
 	},
-
 
 	getpara : function(){
 		var url = window.location.href;
