@@ -9,6 +9,10 @@ var Loading_PC = PFT.Util.LoadingPc("正在加载场次信息...",{
     height : 200
 })
 var ChangciSelect = PFT.Util.Class({
+    __cachePrice : {
+        js : -1,
+        ls : -1
+    },
     init : function(opt){
         var that = this;
         var urlParams = Common.getPidAid();
@@ -24,6 +28,9 @@ var ChangciSelect = PFT.Util.Class({
         this.poper.on("click",".listItem",function(e){
             var tarItem = $(e.currentTarget);
             var changciTime = tarItem.find(".changciTime").text();
+            var price = that.__cachePrice;
+            var ls = price.ls;
+            var js = price.js;
             if(!tarItem.hasClass("active")){
                 var list = that.list;
                 var id = tarItem.attr("data-changciid");
@@ -34,7 +41,11 @@ var ChangciSelect = PFT.Util.Class({
                          break;
                     }
                 }
-                data && that.trigger("change",data);
+                if(data){
+                    data["ls"] = ls;
+                    data["js"] = js;
+                    that.trigger("change",data);
+                }
             }
             tarItem.addClass("active").siblings().removeClass("active");
             that.close();
@@ -43,8 +54,8 @@ var ChangciSelect = PFT.Util.Class({
             that.close();
         })
 
-
-        this.refresh(pid,aid,startDate);
+        var fi = opt.tickets[0];
+        this.refresh(pid,aid,startDate,{ls:fi.ls,js:fi.js});
 
 
     },
@@ -89,9 +100,13 @@ var ChangciSelect = PFT.Util.Class({
         this.poper.html(html);
         this.poper.find(".listItem").first().trigger("click");
     },
-    refresh : function(pid,aid,date){
+    refresh : function(pid,aid,date,price){
         var that = this;
         var listUl = this.poper.find(".listUl");
+        if(price){
+            this.__cachePrice.js = price.js;
+            this.__cachePrice.ls = price.ls;
+        }
         Ajax_GetShowInfo({
             pid : pid,
             aid : aid,
@@ -105,7 +120,7 @@ var ChangciSelect = PFT.Util.Class({
             },
             success : function(data){
                 that.renderList(data);
-                if(data.length==0){
+                if(!data || data.length==0){
                     that.trigger("empty");
                 }
             },

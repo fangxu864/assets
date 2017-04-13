@@ -26,11 +26,23 @@ var SukInfo = PFT.Util.Class({
         var pidAid = Common.getPidAid();
         this.data = opt.data;
         this.render(this.data);
-
         if(p_type=="H"){//演出类产品时，引入场次选择模块
-            var changciSelect = this.changciSelect = new ChangciSelect({startDate:this.data.startDate});
+            //为什么是取数组的第一项，因为演出类产品不能下联票，
+            //所以返回的数据里，tickets数组任何时候只能有1个item
+            var zoneId = this.data.tickets[0].zoneId;  
+            var pid = this.data.tickets[0].pid;
+            var changciSelect = this.changciSelect = new ChangciSelect(this.data);
             changciSelect.on("change",function(data){ //当场次切换时
                 $("#iShowBeginTimeInp").val(data.bt+"-"+data.et);
+                if(data.js==-1 && data.ls==-1) return false;
+                var _d = {
+                    ls : data.ls,
+                    js : data.js,
+                    storage : data.area_storage[zoneId]
+                };
+                var params = {};
+                params[pid] = _d;
+                that.trigger("change:changci",params);
             })
             changciSelect.on("empty",function(){
                 $("#iShowBeginTimeInp").val("该日期暂无场次安排");
@@ -58,8 +70,8 @@ var SukInfo = PFT.Util.Class({
                     serverError : function(data){ Message.error(PFT.AJAX_ERROR_TEXT)}
                 });
             }else if(p_type=="H"){ //演出类
-                changciSelect.refresh(pidAid.pid,pidAid.aid,date);
-            }else if(p_type=="C"){
+                changciSelect.refresh(pidAid.pid,pidAid.aid,date,{ls:data.ls*100,js:data.js*100});
+            }else if(p_type=="C"){ //酒店类
 
             }
         })
@@ -72,6 +84,9 @@ var SukInfo = PFT.Util.Class({
             pids.push(pid);
         }
         return pids.join(",")
+    },
+    getTotalInfo_Hotel : function(){
+        return null;
     },
     onShowBeginTimeInpClick : function(e){
         this.changciSelect.open();

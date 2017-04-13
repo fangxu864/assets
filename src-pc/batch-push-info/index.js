@@ -59,9 +59,22 @@ var Main = PFT.Util.Class({
         // Message.alert("请输入");
 
         //参数都为必填，要测试下各种为空的情况
+
         var title = $("#infoNameInput").val();   //消息名称
+        if( title == "" ){
+             Message.alert("请填写消息名称");           
+             return false
+        }
         var msg_type = $("#infoTypeInput").attr("data-type"); //消息类型
         var content = $("#infoTextInput").val(); //消息内容
+        if( content == "" ){
+             Message.alert("请填写内容");           
+             return false
+        }
+        if( $("#excelUp").val() == "" && $(".memberBox").css("display") != "none" ){
+            Message.alert("请导入excel文件");           
+            return false
+        }
         var rec_type = $("infoReceiver").attr("data-type");//接收类型
         if( rec_type == "infoReceiver1" ){
             rec_type = "0";
@@ -91,7 +104,7 @@ var Main = PFT.Util.Class({
             send_type = "2";
             send_time = $("#pushDay").val();
         }
-        
+
         //异步表单上传
         $("#excelUpLoad").ajaxSubmit({
             data : {
@@ -103,9 +116,8 @@ var Main = PFT.Util.Class({
                 // rec_type : rec_type,  //接收类型[系统自动0，指定会员1]
                 // channel : channel,  //推送渠道[短信1微信0]
                 // send_type : send_type, //推送类型[立即推送0，定时推送1，动态推送2]
-                // send_time : , //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
+                // send_time : send_time, //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
                 // save_type :   //保存类型  保存0，保存并执行1              
-
             },
             beforeSubmit : function(a,b,c){
                 // $("#excelUpLoadText").text("上传中");
@@ -137,7 +149,6 @@ var Main = PFT.Util.Class({
 				+ seperator2 + second ;
 		return currentdate;
 	},
-
     handleCheckBox : function(){
         var that = this;
        $(".checkIcon").on("click",function(e){
@@ -150,7 +161,6 @@ var Main = PFT.Util.Class({
             }
        });     
     },    
-
     handleRadio : function(opt){
         var that = this;
         var fa = opt.fa;
