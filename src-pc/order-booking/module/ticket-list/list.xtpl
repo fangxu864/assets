@@ -1,6 +1,14 @@
 <%_.each(tickets,function(item,index){%>
-<tr id="ticketItem_<%=item.tid%>" data-pid="<%=item.pid%>" data-tid="<%=item.tid%>" class="ticketItem ticketItem_<%=item.tid%>">
-    <td class="col_1 col"><span class="t mod-pl"><%=item.title%></span></td>
+<tr id="ticketItem_<%=item.tid%>" data-pid="<%=item.pid%>" data-tid="<%=item.tid%>" data-zoomid="<%=item.zoneId%>" class="ticketItem ticketItem_<%=item.tid%>">
+    <td class="col_1 col">
+        <span class="t mod-pl">
+            <%if(item.extra.p_type!=="H"){%>
+                <%=item.title%>
+            <%}else{%>
+                【<%=item.zoneName%>】<%=item.title%>
+            <%}%>
+        </span>
+    </td>
     <td class="col_2 col"><span class="t"><%=item.storage==-1 ? '不限' : item.storage%></span></td>
     <td class="col_3 col">
         <span class="t">

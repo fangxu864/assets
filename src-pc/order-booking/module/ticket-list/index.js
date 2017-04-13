@@ -14,9 +14,7 @@ var TicketList = PFT.Util.Class({
     template : PFT.Util.ParseTemplate(ListXtpl),
     originData : null,
     _moneyFixed : 2,
-    init : function(){
-        var that = this;
-    },
+    init : function(){},
     EVENTS : {
         "click .countBox .cBtn" : "onCountBtnClick",
         "focus .countBox .countInp" : "onCountInpFocus",
@@ -310,6 +308,19 @@ var TicketList = PFT.Util.Class({
         var originData = this.originData;
         var tickets = originData.tickets;
         var numberToFixed = PFT.Util.numberToFixed;
+        var container = this.container;
+
+        if(data=="disable"){ //当演出类产品没有场次按排时
+            container.find(".buyPriceInput").prop("readonly",false).addClass("disable");
+            container.find(".countInp").prop("readonly",false).addClass("disable");
+            container.find(".cBtn").addClass("disable");
+            var data = this.getTotalInfo();
+            data["canOrder"] = false;
+            this.trigger("change",data);
+            return false;
+        }
+
+
         for(var i=0,len=tickets.length; i<len; i++){
             var ticket = tickets[i];
             var pid = ticket.pid;

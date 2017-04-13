@@ -1,7 +1,9 @@
 require("./index.scss");
 
-
-var ProvCitySelector = require("COMMON/js/component.city.select.js");
+//引入分页器模块
+var Pagination = require("../pagination/pagination.js");
+var pagination = new Pagination();
+var ProvCitySelector = require("COMMON/js/component.city.select2.js");
 
 
 var Filter = PFT.Util.Class({
@@ -16,25 +18,48 @@ var Filter = PFT.Util.Class({
         var Con =  this.container;
         //点击搜索按钮时
         Con.on("click","#serhBtn" ,function () {
-            var province = Con.find("#provSelect").val();
-            var city = Con.find("#citySelect").val();
-            var cv = Con.find("#conSelect").val();
-            var inpVal = Con.find("#serhInp").val();
-            console.log(cv);
-            if(cv == "1"){ //搜景区
-                var title = inpVal;
-                var supplier = "";
-            }else{ //搜供应商
-                var title = "";
-                var supplier = inpVal;
-            }
-            if(province=="00") province = "";
-            if(city=="000") city = "";
+            _this.FilterParamHub = $.extend( _this.FilterParamHub , _this.getFilterParams());
+            _this.FilterParamHub["page"] = 1;
+            //触发filterSearch事件
+            _this.trigger("filterSearch" ,_this.FilterParamHub)
+        });
+
+        //订阅分页器的page.switch事件
+        pagination.on("page.switch" , function ( toPage , currentPage , totalPage) {
+            //更新页数
+            _this.FilterParamHub["page"] = toPage;
+            console.log(_this.FilterParamHub)
+            //触发filterSearch事件
+            _this.trigger("filterSearch" ,_this.FilterParamHub)
         })
     },
 
     //参数暂存仓库
-    FilterParamHub:{},
+    FilterParamHub:{
+        pageSize: 2
+    },
+    
+    /**
+     * @method 获取filter
+     */
+    getFilterParams: function () {
+        var Con =  this.container;
+        var param = {};
+        param.province = Con.find("#provSelect").val();
+        param.city = Con.find("#citySelect").val();
+        var cv = Con.find("#conSelect").val();
+        var inpVal = Con.find("#serhInp").val();
+        if( cv == "1"){ //搜景区
+            param["title"] = inpVal;
+            param["supplier"] = "";
+        }else{ //搜供应商
+            param["title"] = "";
+            param["supplier"] = inpVal;
+        }
+        if( param.province =="00")  param.province  = "";
+        if( param.city=="000")  param.city = "";
+        return  param;
+    },
 
     /**
      * @method 初始化省市联动
@@ -52,7 +77,6 @@ var Filter = PFT.Util.Class({
                 // $("#city_input").val(cityId)
             }
         });
-
     }
 
 });

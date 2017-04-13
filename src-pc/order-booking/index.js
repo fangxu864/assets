@@ -51,18 +51,30 @@ var Main = PFT.Util.Class({
 
     },
     initModules : function(data){
+        var p_type = data.p_type;
+        var isHotel = p_type=="C" ? true : false;
         this.container.html(FrameTpl);
         var topTitle = this.topTitle = new TopTitle({container:"#topTitleMod"}).render(data);
         var skuInfo = this.skuInfo = new SkuInfo({container:"#skuInfoMode",data:data});
-        var ticketList = this.ticketList = new TicketList({container:"#ticketListMode"}).render(data);
-        var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(ticketList.getTotalInfo());
 
+        if(!isHotel){
+            var ticketList = this.ticketList = new TicketList({container:"#ticketListMode"}).render(data);
+        }
+        
+        var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(isHotel ? skuInfo.getTotalInfo_Hotel() : ticketList.getTotalInfo());
 
         skuInfo.on("change:beginDate",function(data){ //非酒店、演出类产品，切换开始时间时
             ticketList.refresh(data);
         });
+        skuInfo.on("change:changci",function(data){ //演出类产品，切换场次时
+            if(PFT.Util.isArray(data) && data.length==0){ //无场次按排
+                ticketList.refresh("disable");
+            }else{
+                ticketList.refresh(data);
+            }
+        });
 
-        ticketList.on("change",function(data){ footTotal.render(data)});
+        if(!isHotel) ticketList.on("change",function(data){ footTotal.render(data)});
         
 
     }
