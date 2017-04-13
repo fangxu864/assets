@@ -2,7 +2,6 @@ require("./index.scss");
 
 //引入分页器模块
 var Pagination = require("../pagination/pagination.js");
-var pagination = new Pagination();
 var ProvCitySelector = require("COMMON/js/component.city.select2.js");
 
 
@@ -25,10 +24,9 @@ var Filter = PFT.Util.Class({
         });
 
         //订阅分页器的page.switch事件
-        pagination.on("page.switch" , function ( toPage , currentPage , totalPage) {
+        Pagination.on("page.switch" , function ( toPage , currentPage , totalPage) {
             //更新页数
             _this.FilterParamHub["page"] = toPage;
-            console.log(_this.FilterParamHub)
             //触发filterSearch事件
             _this.trigger("filterSearch" ,_this.FilterParamHub)
         })
@@ -36,7 +34,7 @@ var Filter = PFT.Util.Class({
 
     //参数暂存仓库
     FilterParamHub:{
-        pageSize: 2
+        pageSize: 10
     },
     
     /**
@@ -69,11 +67,9 @@ var Filter = PFT.Util.Class({
             provId : "#provSelect",                               //参数为<select></select>省标签的id
             cityId : "#citySelect",                                //参数为<select></select>市标签的id
             onProvChange : function (provId) {                     //当省下拉框变化时执行的回调函数，参数为 省下拉框中 所选省份对应的省份代号
-                console.log(provId);
                 // $("#province_input").val(provId)
             },
             onCityChange : function (cityId) {                     //当省下拉框变化时执行的回调函数，参数为 市下拉框中 所选城市对应的城市代号
-                console.log(cityId);
                 // $("#city_input").val(cityId)
             }
         });
@@ -81,4 +77,4 @@ var Filter = PFT.Util.Class({
 
 });
 
-module.exports = Filter;
+module.exports = new Filter();
