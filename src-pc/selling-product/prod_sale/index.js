@@ -2,7 +2,6 @@ require("./index.scss");
 var Filter = require("./module/filter/index.js");
 var DC = require("./module/dataCenter/index.js");
 var Mcon = require("./module/content/index.js");
-var Pagination = require("./module/pagination/pagination.js");
 
 var Main = {
     init: function () {

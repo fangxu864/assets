@@ -2,6 +2,7 @@ require("./index.scss");
 
 //引入分页器模块
 var Pagination = require("../pagination/pagination.js");
+//省市联动插件
 var ProvCitySelector = require("COMMON/js/component.city.select2.js");
 
 
