@@ -146,7 +146,7 @@ var Mcon = PFT.Util.Class({
                         target.addClass("onyuj");
                         target.attr("data-active","1");
 
-                        //target.parent().find(".color_a").html("分销价格");
+                        target.parent().find(".color_a").html("分销价格");
 
                     }
                     else{
