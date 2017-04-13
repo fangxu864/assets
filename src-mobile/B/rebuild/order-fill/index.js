@@ -833,23 +833,6 @@ var Order_fill = PFT.Util.Class({
 			this.zone_id = ticketList[0].zone_id; //演出的分区ID		
 		}
 
-		//needID//是否需要输入身份证
-		this.needID = res.needID;
-
-		//模拟needID
-		// needID = "2"
-		
-		if( this.needID == "0"){  //不需要
-			$("#idCardBox").css("display","none");
-			$("#visitorInformation").css("display","none");
-		}else if(this.needID == "1"){  //需要填一个
-			$("#visitorInformation").css("display","none");
-		}else if(this.needID == "2"){  //需要填多个
-			$("#idCardBox #checkIdInput").css("display","none");
-			$("#idCardBox #checkIdCard").css("display","none");
-			$("#visitorInformation").val("*游客信息 "+"已编辑0/"+ticketList.length);
-		}
-
 
 		this.type = res.p_type;
 		var type = this.type; 
@@ -892,7 +875,24 @@ var Order_fill = PFT.Util.Class({
 			this.renderTicketList(ticketList);
 			this.handleFood(pids);
 		}
-		
+
+		//needID//是否需要输入身份证
+		this.needID = res.needID;
+
+		if( this.needID == "0"){  //不需要
+			$("#idCardBox").css("display","none");
+			$("#visitorInformation").css("display","none");
+		}else if(this.needID == "1"){  //需要填一个
+			$("#visitorInformation").css("display","none");
+		}else if(this.needID == "2"){  //需要填多个
+			$("#idCardBox #checkIdInput").css("display","none");
+			$("#idCardBox #checkIdCard").css("display","none");
+			var sum = 0;
+			$(".numBox").each(function(i,item){
+				sum += parseInt(item.value);
+			});	
+			$("#visitorInformation").val("*游客信息 "+"已编辑0/"+sum);
+		}
 
 	},
 	//处理演出
@@ -1440,8 +1440,10 @@ var Order_fill = PFT.Util.Class({
 			//酒店只有一个票
 			$(".price").find(".orange.money").text(res.jsprice);
 
+			//库存
 			if(res.minStore == "-1"){
 				$(".storage").find(".num").text("无限");
+				$(".addBtn").attr("active","true");
 			}else{
 				$(".storage").find(".num").text(res.minStore);
 			}

@@ -17,13 +17,10 @@ var Product_detail = PFT.Util.Class({
 	init : function(opt){      
 		var that = this;
 		var __timer__ = null;
-
 		var url = window.location.href;
 		var urlPara = Parse(url);
 		this.urlPara = urlPara; 
-
 		this.lid = urlPara.lid;
-
 		if(urlPara.ctx){
 			this.ctx = parseInt(urlPara.ctx);		
 		}else{
@@ -34,14 +31,10 @@ var Product_detail = PFT.Util.Class({
 		}else{
 			this.ctype = 0;//默认为0
 		}
-
 		this.toast = new Toast();
-
 		this.ListTemplate = PFT.Util.ParseTemplate(TicketTpl);  
 		this.InfoTemplate = PFT.Util.ParseTemplate(InfoTpl);  
-
 		this.getInfo();
-
 		$(window).scroll(function(e){
 			clearTimeout(__timer__);
             __timer__ = setTimeout(function(){
@@ -49,10 +42,9 @@ var Product_detail = PFT.Util.Class({
                 that.onScroll(scrollTop);
 			},10)
 		})
-
 	},
 	onScroll : function(scrollTop){
-		var photoHeight = 251;
+		var photoHeight = $("#topImg").height();
 		if( scrollTop >= photoHeight ){
 			$(".tabHeader").addClass("fix");
 			$(".ticketListCon").addClass("fix");
@@ -81,6 +73,8 @@ var Product_detail = PFT.Util.Class({
 		        var data = res.data;
 		        if(code==200){
 					that.renderInfo(data);
+					var H = $("#topImg").height();
+					$(".uiImageBox").css("height",H);
 		        }else{
 		            PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 		        }
@@ -108,7 +102,7 @@ var Product_detail = PFT.Util.Class({
 		var body = document.body;
 		var tarBoxMod = $("#"+type+"Box");
 		var oTop = tarBoxMod.offset().top;
-		var offsetTop = type == "buy" ? ( oTop - $("#pdetailTabHeader").height() + 1 ) : oTop;
+		var offsetTop = type == "buy" ? ( oTop - $("#tabHeader").height() + 1 ) : oTop ;
 		ScrollTopAnimation({
 			elem : body,
 			top : offsetTop,
@@ -151,7 +145,6 @@ var Product_detail = PFT.Util.Class({
 		})
 
 	},
-
 	renderTicketList : function(data){
 		var that = this;
 		var listHtml = this.ListTemplate(data);
@@ -193,12 +186,10 @@ var Product_detail = PFT.Util.Class({
 				url += "&" + i +"=" + urlPara[i] ;
 			}
 		}
-		
 		window.location.href = url;
 	}
 
 });
-
 
 $(function(){
 	new Product_detail();

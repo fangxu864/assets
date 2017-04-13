@@ -35,7 +35,6 @@ var Main = PFT.Util.Class({
 				picker : $("#setTimePush")
 			});
         });
-
         $(".inputExcel").change(function(){
             $("#excelUpLoadText").text("读取中");
             var file = this.files[0];
@@ -205,7 +204,7 @@ var Main = PFT.Util.Class({
                 if( infoType ){ //指定会员所有情况都是只能选动态推送
                     that.pushWaySelect(1);
                 }
-            }else if( type == "pushWay1" ){  //启动时立即推送
+            }else if( type == "pushWay1" ){   //启动时立即推送
                 $(".pushWay").attr("data-type",type);
             }else if( type == "pushWay2" ){   //定时推送
                 $(".pushWay").attr("data-type",type);
@@ -227,7 +226,7 @@ var Main = PFT.Util.Class({
         var fa = $(".selectBox").parent();
         fa.css("position","relative");
         $(".selectBox").css("top",parseFloat(inputH));
-        $(".selectBox").css("left","150px"); //写死了,怎么办
+        $(".selectBox").css("left","150px"); 
         $(".selectBox").css("width", inputW); 
         var arrBox = $(".selectBox").find(".arrBox");
         var ul = $(".selectBox").find("ul");
