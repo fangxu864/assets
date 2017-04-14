@@ -27,6 +27,9 @@ var TicketList = require("./module/ticket-list");
 //尾部汇总信息模块、下单按钮
 var FootTotal = require("./module/footTotal");
 
+//支付方式
+var PayType = require("./module/pay-type");
+
 //联系人填写信息模块
 var Contact = require("./module/contact");
 
@@ -80,7 +83,7 @@ var Main = PFT.Util.Class({
         this.container.html(FrameTpl);
         var topTitle = this.topTitle = new TopTitle({container:"#topTitleMod"}).render(data);
         var skuInfo = this.skuInfo = new SkuInfo({container:"#skuInfoMode",data:data});
-
+        var payType = this.payType = new PayType({container:"#payTypeMode"}).render(data);
         if(!isHotel){
             var ticketList = this.ticketList = new TicketList({container:"#ticketListMode"}).render(data);
         }
@@ -149,12 +152,31 @@ var Main = PFT.Util.Class({
 
         var contactData = this.contact.getData();
 
+        var paymode = this.payType.getSubmitData();
+
         if(!contactData) return false;
 
-        var submitData = $.extend({},Common.getPidAid(),skuData,ticketListData,contactData);
+        var submitData = $.extend({},Common.getPidAid(),skuData,ticketListData,contactData,paymode);
         
-        
+        var orignText = submitBtn.text();
 
+        PFT.Util.Ajax("formSubmit_v01.php",{
+            type : "post",
+            params : submitData,
+            loading : function(){ submitBtn.text("请稍后..").addClass("disable")},
+            complete : function(){ submitBtn.text(orignText).removeClass("disable")},
+            success : function(res){
+                var status = res.status;
+                var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+                if(status=="success"){
+                    Message.alert("订单提交成功");
+                }else{
+                    Message.error(msg);
+                }
+            },
+            tiemout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},
+            serverError : function(){ Message.error(PFT.AJAX_ERROR_TEXT)}
+        })
     }
 });
 

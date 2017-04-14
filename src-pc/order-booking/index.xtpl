@@ -2,4 +2,5 @@
 <div id="skuInfoMode" class="skuInfoMode mod-box mod-pl"></div>
 <div id="ticketListMode" class="ticketListMode mod-box"></div>
 <div id="contactMode" class="contactMode mod-box contact-main-box"></div>
+<div id="payTypeMode" class="payTypeMode mod-box mod-pl"></div>
 <div id="footTotalMod" class="footTotalMod mod-box"></div>
