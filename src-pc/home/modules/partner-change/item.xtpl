@@ -1,13 +1,13 @@
 <%_.each(data,function(item,index){%>
 
     <%if(index=="toAdd"){%>
-        <li><span class="t">您添加了<em class="blue"><%=item%></em>个分销商</span><a href="###" class="moreBtn">查看</a></li>
+    <li><span class="t">您添加了<a href="javascript:;" class="view-partners" data-action="add" data-num="<%=item%>"><em class="blue"><%=item%></em></a>个分销商</span><a href="###" class="moreBtn">查看</a></li>
     <%}else if(index=="toDel"){%>
-        <li><span class="t">您删除了<em class="orange"><%=item%></em>个分销商</span><a href="###" class="moreBtn">查看</a></li>
+        <li><span class="t">您删除了<a href="javascript:;" class="view-partners" data-action="del" data-num="<%=item%>"><em class="orange"><%=item%></em></a>个分销商</span><a href="###" class="moreBtn">查看</a></li>
     <%}else if(index=="beAdd"){%>
-        <li><span class="t"><em class="blue"><%=item%></em>个供应商添加了您</span><a href="###" class="moreBtn">查看</a></li>
+        <li><span class="t"><a href="javascript:;" class="view-partners" data-action="added" data-num="<%=item%>"><em class="blue"><%=item%></em></a>个供应商添加了您</span><a href="###" class="moreBtn">查看</a></li>
     <%}else if(index=="beDel"){%>
-        <li><span class="t"><em class="orange"><%=item%></em>个供应商删除了您</span><a href="###" class="moreBtn">查看</a></li>
+        <li><span class="t"><a href="javascript:;" class="view-partners" data-action="deleted" data-num="<%=item%>"><em class="orange"><%=item%></em></a>个供应商删除了您</span><a href="###" class="moreBtn">查看</a></li>
     <%}%>
 
 <%})%>
