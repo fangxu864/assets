@@ -196,11 +196,20 @@ body{
 					font-size: .35rem;
 					line-height: 1.5;
 					overflow: hidden;
+					img{
+						width: 100%;
+					}
 				}
 			}
 		}
 		
 
 	}
+
+	.gPageFooterContainer{ padding:10px 0 0;}
+    .gPageFooterContainer .rightsTipLine{ text-align:center; padding:15px 0;}
+    .gPageFooterContainer .footlogo{ color:rgba(137,171,187,1); vertical-align:middle; position:relative; top:-1px}
+    .gPageFooterContainer .companyName{ font-size:12px; color:#6C7882}
+    .gPageFooterContainer .fankui{ font-size:14px; margin-left:10px; color:#008fc2}
 
 }

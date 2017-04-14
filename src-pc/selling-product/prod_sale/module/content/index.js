@@ -12,6 +12,7 @@ var Mcon = PFT.Util.Class({
 
     bind: function () {
         var _this = this;
+        //开启关闭按钮点击时
         this.container.on("click",".yujbtn",function(e){
             var target = $(e.currentTarget);
             target.parents(".list_con").attr("data-ac",id);
@@ -44,55 +45,54 @@ var Mcon = PFT.Util.Class({
             };
             var conf_price = $(this).attr("data-conf_price");
             var ac = $(this).attr("data-active");
-            console.log(ac)
             var data_conf_price = target.parents(".list_con").attr("data-conf_price");
             if(ac == "1"){
-                var sure=confirm("确定要关闭该产品的转分销!");
-                //if(conf_price=="1"){
-                if (sure==true){
-                    PFT.Ajax({
-                        url : "/r/product_Evolute/closeEvolute",
-                        type : "GET",
-                        dataType : "json",
-                        ttimeout : ttimeout,
-                        data : data,
-                        loading : function(){
-                            //listUl.html(loading);
-                            $("#mask").css("display","block");
-                            $(".img_none").css("display","block");
-                            //pagenavW.hide();
-                        },
-                        removeLoading : function(res){
-                            //listUl.html("");
-                            $("#mask").css("display","none");
-                            $(".img_none").css("display","none");
-                        },
-                    },function(data){
-                        if(data.code =='200'){
-                            //if(data.status =='success'){
-                            var active_list_a = target.parents(".list_con").find('.list_data .yujbtn');
-                            $(active_list_a).each(function(){
-                                var active = $(this).attr("data-active");
-                                if(active=="0"){
-                                    target.parents(".list_con").attr("data-ac","0");
-                                    $(this).parent().find(".color_a").html("");
-                                }
-                            });
-                            target.removeClass("onyuj");
-                            target.attr("data-active","0");
-                            target.parent().find(".color_a").html("");
-                        }
-                        else{
-                            if(data.code =='201'){
-                                alert(data.msg)
+                Message.confirm("确定要关闭该产品的转分销!" ,function (result) {
+                    if (result==true){
+                        PFT.Ajax({
+                            url : "/r/product_Evolute/closeEvolute",
+                            type : "GET",
+                            dataType : "json",
+                            ttimeout : ttimeout,
+                            data : data,
+                            loading : function(){
+                                //listUl.html(loading);
+                                $("#mask").css("display","block");
+                                $(".img_none").css("display","block");
+                                //pagenavW.hide();
+                            },
+                            removeLoading : function(res){
+                                //listUl.html("");
+                                $("#mask").css("display","none");
+                                $(".img_none").css("display","none");
+                            },
+                        },function(data){
+                            if(data.code =='200'){
+                                //if(data.status =='success'){
+                                Message.success("关闭成功");
+                                //我更新了哦
+                                _this.trigger("existUpdate");
+                                var active_list_a = target.parents(".list_con").find('.list_data .yujbtn');
+                                $(active_list_a).each(function(){
+                                    var active = $(this).attr("data-active");
+                                    if(active=="0"){
+                                        target.parents(".list_con").attr("data-ac","0");
+                                        $(this).parent().find(".color_a").html("");
+                                    }
+                                });
+                                target.removeClass("onyuj");
+                                target.attr("data-active","0");
+                                target.parent().find(".color_a").html("");
                             }
-
-                        }
-                    })
-                }
-                else{
-                    return false;
-                }
+                            else{
+                                Message.error(data.msg)
+                            }
+                        })
+                    }
+                    else{
+                        return false;
+                    }
+                })
             }else{
                 var active_list_a = target.parents(".list_con").find('.list_data .yujbtn');
                 PFT.Ajax({
@@ -116,6 +116,9 @@ var Mcon = PFT.Util.Class({
                 },function(data){
                     if(data.code =='200'){
                         //if(data.status =='success'){
+                        Message.success("开启成功");
+                        //我更新了哦
+                        _this.trigger("existUpdate");
                         var active_list_a = target.parents(".list_con").find('.list_data .yujbtn');
                         $(active_list_a).each(function(){
                             var active = $(this).attr("data-active");
@@ -143,16 +146,11 @@ var Mcon = PFT.Util.Class({
                         target.addClass("onyuj");
                         target.attr("data-active","1");
 
-                        //target.parent().find(".color_a").html("分销价格");
+                        target.parent().find(".color_a").html("分销价格");
 
                     }
                     else{
-                        if(data.code =='202'){
-                            alert(data.msg)
-                        }
-                        else{
-                            alert(data.msg)
-                        }
+                        Message.error(data.msg)
                     }
                 })
             }
@@ -315,4 +313,4 @@ var Mcon = PFT.Util.Class({
 });
 
 
-module.exports = Mcon;
+module.exports = new Mcon();

@@ -430,10 +430,7 @@ var Plist = PFT.Util.Class({
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
 
-   			
-
 	},
-
 	cityHandler : function(res){
 
 		var that = this;
@@ -669,13 +666,10 @@ var Plist = PFT.Util.Class({
 		}else{
 			$("#xContent").append(listHtml);
 		}
-
 		this.lastListLid = data.lastLid;
 		this.lastListProPos = data.lastProPos;
-
 		this.xscroll.render();
 		this.pullup.complete();
-
 
 		var moreBtns =  $(".spotTicketMoreLink");
 		moreBtns.each(function(i,item){
@@ -683,18 +677,14 @@ var Plist = PFT.Util.Class({
 			that.recommendTicket(target);
 		});
 
-
 	},
-
 	moreTicket : function(e){
-
 		var that = this;
 		var target = e.target;
 		var lid = $(target).attr("data-id");
 		if( target.tagName != "A"){
 			return false
 		}
-
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
 			type : "POST",
 		    dataType : "json",
@@ -724,11 +714,8 @@ var Plist = PFT.Util.Class({
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
 		})
-
 	},
-
 	renderAllticketList : function( data,target ){
-		
 		var ticketHtml = this.ticketTemplate(data);
 		target = $(target).parent().parent();
 		var liLists = target.find("li");
@@ -740,10 +727,8 @@ var Plist = PFT.Util.Class({
 				$(ticketHtml).insertAfter(item);
 			}
 		});
-
 		this.xscroll.render();
 		this.pullup.complete();
-
 	},
 	recommendTicket : function(target){
 		if( $(target).parent().css("display") == "none"){
@@ -751,6 +736,9 @@ var Plist = PFT.Util.Class({
 		}
 		var lid = $(target).attr("data-id");
 		var that = this;
+		var r = parseInt(Math.random() * 1000);
+		var toastName = "toast" + r ;
+		this[toastName] = new Toast();	
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
 			type : "POST",
 		    dataType : "json",
@@ -760,10 +748,10 @@ var Plist = PFT.Util.Class({
 				//不传size，默认返回3个
 		    },
 		    loading : function(){
-				that.toast2.show("loading");
+				that[toastName].show("loading");
 		    },
 		    complete : function(){
-				that.toast2.hide();
+				that[toastName].hide();
 		    },
 		    success : function(res){
 		        var code = res.code;
@@ -782,10 +770,7 @@ var Plist = PFT.Util.Class({
 		})
 
 	},
-
-
 	renderTicketList : function(data,target){
-
 		var ticketHtml = this.ticketTemplate(data);
 		target = $(target).parent();
 		$(ticketHtml).insertBefore(target);
@@ -797,7 +782,6 @@ var Plist = PFT.Util.Class({
 		target.hide();
 		this.xscroll.render();
 		this.pullup.complete();
-
 	},
 	onclickLink : function(e){
 		if(this.ctype == 4){
@@ -819,10 +803,8 @@ var Plist = PFT.Util.Class({
 				url += "&" + i +"=" + urlPara[i] ;
 			}
 		}
-
 		window.location.href = url;
 	},
-
 
 	getpara : function(){
 		var url = window.location.href;

@@ -4,10 +4,10 @@
 
 require("./pagination.scss");
 var Pagination = require("COMMON/modules/pagination-x");
-
 /**
  * 本模块为分页器模块
  */
+
 var Pag = PFT.Util.Class({
     container: $("#M-pag"),
     init: function (CR) {
@@ -51,4 +51,4 @@ var Pag = PFT.Util.Class({
     }
 });
 
-module.exports = Pag;
+module.exports = new Pag();
