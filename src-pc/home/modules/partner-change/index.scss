@@ -28,9 +28,9 @@
       overflow: hidden;
       padding: 0 10px;
       a{
-        float: right;
+        // float: right;
         text-decoration: none;
-        clear: right;
+        // clear: right;
       }
       .orange{
         color: #ff7110;
@@ -44,4 +44,40 @@
     }
   }
   .moreBtn{ display: none}
+}
+
+.gSimpleDialog-header {
+  padding: 0 20px;
+  font-size: 16px;
+  line-height: 46px;
+  font-weight: bold;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.dialog-content {
+  margin-top: 46px;
+  padding: 20px 10px;
+  line-height: 2;
+
+  .tb {
+    margin-top: 10px;
+    th, td {
+      padding: 5px 10px;
+      border-bottom: 1px solid #eaeaea;
+      text-align: center;
+    }
+    th {
+      background-color: #fafafa;
+      border-top: 1px solid #eaeaea;
+    }
+  }
+
+  #dialogPagination {
+    margin-top: 10px;
+    padding-right: 10px;
+
+    .paginationXContainer  {
+      float: right;
+    }
+  }
 }
