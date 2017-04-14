@@ -33,7 +33,7 @@ var ChangciSelect = PFT.Util.Class({
             var js = price.js;
             if(!tarItem.hasClass("active")){
                 var list = that.list;
-                var id = tarItem.attr("data-changciid");
+                var id = tarItem.attr("data-roundid");
                 var data = null;
                 for(var i=0,len=list.length; i<len; i++){
                     if(list[i]["id"]==id){
@@ -44,6 +44,7 @@ var ChangciSelect = PFT.Util.Class({
                 if(data){
                     data["ls"] = ls;
                     data["js"] = js;
+                    data["roundId"] = id;
                     that.trigger("change",data);
                 }
             }

@@ -11,10 +11,12 @@
                     <span class="w70"><i class="colorRed">*</i>手机号：</span>
                     <input class="" name="ordertel" type="text" data-must="true" validate-type="mobile"/>
                 </li>
+                <%if(needID==1){%>
                 <li class="line id-card-li">
                     <span class="w70"><i class="colorRed">*</i>身份证：</span>
                     <input class="" name="idCard" type="text" data-must="true" validate-type="idCard"/>
                 </li>
+                <%}%>
                 <li class="line">
                     <span class="w70">订单备注：</span>
                     <input class="" name="memo" type="text"/>
@@ -78,9 +80,11 @@
             </ul>
         </div>
     </div>
-    <div class="tourist-info-box clearfix">
-        <div class="title"><i class="colorRed">*</i>游客信息<span class="remark">(每张票提供相关游客信息)</span></div>
-        <ul class="name-idNum-ul">
-        </ul>
-    </div>
+    <%if(needID==2){%>
+        <div class="tourist-info-box clearfix">
+            <div class="title"><i class="colorRed">*</i>游客信息<span class="remark">(每张票提供相关游客信息)</span></div>
+            <ul id="touristListUl" class="name-idNum-ul">
+            </ul>
+        </div>
+    <%}%>
 </form>

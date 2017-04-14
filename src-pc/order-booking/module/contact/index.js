@@ -1,27 +1,23 @@
 require('./index.scss');
 
-var indexTpl = require("./index.xtpl");
 
-var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
+
+var ParseTemplate =  PFT.Util.ParseTemplate;
 var Message = require("pft-ui-component/Message");
 var tips = require("COMMON/modules/tips/index.js");
+var Tips = new tips ();
+
+var indexTpl = require("./index.xtpl");
+var IndexTemplate = ParseTemplate(indexTpl);
 var name_idNum_li_tpl = require("./tpl/name-idNum-li.xtpl");
 var common_contact_tpl = require("./tpl/common-contact.xtpl");
-var Tips = new tips ();
+
+
+
 
 var Contact = PFT.Util.Class({
 
-    init:function (relyDiv) {
-        var _this = this;
-        this.container  = $('<div class="contact-main-box"></div>');
-        //依托的div
-        var RelyDiv = typeof relyDiv === "string" ? $(relyDiv) : relyDiv;
-        RelyDiv.append(_this.container);
-        this.container.html(indexTpl);
-        this.bind();
-        this.getContactData();
-        this.render(0);
-    },
+    init:function (opt) {},
 
     bind:function () {
         var _this = this;
@@ -30,16 +26,16 @@ var Contact = PFT.Util.Class({
             _this.checkInp(curInp);
         });
         //取票人input和游客信息第一个input同步
-        this.container.on("propertychange input" , "input[name = ordername]" ,function () {
-            var val = $(this).val();
-            _this.container.find(".tourist-info-box .name-idNum-ul li:first-child .name-inp").val(val);
-        });
+        // this.container.on("propertychange input" , "input[name = ordername]" ,function () {
+        //     var val = $(this).val();
+        //     _this.container.find(".tourist-info-box .name-idNum-ul li:first-child .name-inp").val(val);
+        // });
         
         //常用联系人点击快速选择
         this.container.on("click", ".contact-ul .contact-li" ,function () {
             var curBtn = $(this);
             curBtn.addClass("selected").siblings().removeClass("selected");
-            _this.container.find("input[name = ordername]").val(curBtn.attr("data-name")).trigger("input");
+            _this.container.find("input[name = ordername]").val(curBtn.attr("data-name"));
             _this.container.find("input[name = ordertel]").val(curBtn.attr("data-mobile"));
             _this.container.find("input[name = idCard]").val(curBtn.attr("data-idNum"))
         });
@@ -172,7 +168,7 @@ var Contact = PFT.Util.Class({
             tag : "div",
             height: 90
         });
-        var Box = $(".contact-main-box .contact-info-box .rt .contact-ul");
+        var Box = this.container.find(".contact-info-box .rt .contact-ul");
         Box.html(loadingStr);
 
         $.ajax({
@@ -227,7 +223,7 @@ var Contact = PFT.Util.Class({
             switch (type){
                 case "name":
                     if(inpVal == ''){
-                        item.focus();
+                        // item.focus();
                         Tips.closeAllTips();
                         Tips.show({
                             lifetime : 1500 ,
@@ -241,7 +237,7 @@ var Contact = PFT.Util.Class({
                     break;
                 case "idCard":
                     if(!PFT.Util.Validate.idcard(inpVal)){
-                        item.focus();
+                        // item.focus();
                         Tips.closeAllTips();
                         Tips.show({
                             lifetime : 1500 ,
@@ -255,7 +251,7 @@ var Contact = PFT.Util.Class({
                     break;
                 case "mobile":
                     if(!/^1[0-9]{10}$/.test(inpVal)){
-                        item.focus();
+                        // item.focus();
                         Tips.closeAllTips();
                         Tips.show({
                             lifetime : 1500 ,
@@ -303,47 +299,69 @@ var Contact = PFT.Util.Class({
     },
 
     //-------------------对外开放的方法-------------------//
-    /**
-     * @method 渲染更新方法
-     * @param needIdNum 需要身份证的数量
-     */
-    //已渲染过的数量
-    renderedNum: 0,
-    render: function (needIdNum) {
+    renderTouristList : function(count){
+        var touristListContainer = this.container.find(".tourist-info-box");
+        var listUl = $("#touristListUl");
+        var items = listUl.children();
+        var len = items.length;
+        var html = "";
+        if(isNaN(count)) return this; //必须是数字
+        if(!PFT.Util.Validate.typeInit0(count)) return this;  //必须是整数，可以为0
+        count = count * 1;  //转成number型
 
-        var num = Number(needIdNum);
-        if( num === NaN || num < 0 ) return false;
+        var dis = Math.abs(count-len);
 
-        switch (num){
-            case 0 :
-                this.container.find(".contact-info-box .lt .id-card-li").hide();
-                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","false");
-                this.container.find(".tourist-info-box").hide();
-                break;
-            case 1 :
-                this.container.find(".contact-info-box .lt .id-card-li").show();
-                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","true");
-                this.container.find(".tourist-info-box").hide();
-                break;
-            default:
-                var needAppendNum = num - this.renderedNum;
-                this.renderedNum = num;
-                this.container.find(".contact-info-box .lt .id-card-li").hide();
-                this.container.find(".contact-info-box .lt .id-card-li input").attr("data-must","false");
-                this.container.find(".tourist-info-box").show();
-                var html = '';
-                if(needAppendNum > 0){
-                    for(var i = 0; i< needAppendNum; i++){
-                        html += name_idNum_li_tpl;
+        if(count==0) return this; //不能为0
+
+        if(count==len) return this;
+
+        if(count>len){ //增加
+            for(var i=0; i<dis; i++) html += name_idNum_li_tpl;
+            listUl.append(html);
+        }else{//减少
+
+            //排序
+            var itemsBySort = (function(items){
+
+                //只填一个
+                var bothBlank = [];   //姓名跟id都没填的
+                var hasOneInput = []; //姓名跟id只填写一个的
+                var bothInput = [];   //姓名跟id都有填的
+                items.each(function(){
+                    var item = $(this);
+                    var nameInp = item.find(".name-inp");
+                    var idInp = item.find(".idNum-inp");
+                    var name = $.trim(nameInp.val());
+                    var id = $.trim(idInp.val());
+                    if(id=="" && name==""){
+                        bothBlank.push(item);
+                    }else if(id!="" || name!=""){
+                        hasOneInput.push(item);
+                    }else{
+                        bothInput.push(item);
                     }
-                    this.container.find(".tourist-info-box .name-idNum-ul").append(html);
-                }else{
-                    for(var i = 0; i< Math.abs( needAppendNum ); i++){
-                        this.container.find(".tourist-info-box .name-idNum-ul li:last-child").remove();
-                    }
-                }
-                break;
+                })
+
+                return bothInput.concat(hasOneInput,bothBlank);
+
+            })(items);
+
+            var sl = itemsBySort.length;
+
+            //减少的时候，优先删除信息填写量少的
+            for(var i=sl-1; i>=sl-dis; i--){
+                itemsBySort[i].remove();
+            }
+
         }
+
+    },
+
+    render : function(data){
+        this.container.html(IndexTemplate(data));
+        this.bind();
+        this.getContactData();
+        return this;
     },
 
     /**
@@ -351,10 +369,11 @@ var Contact = PFT.Util.Class({
      */
     getData:function () {
         var inpSet = this.container.find("input[data-must = true]");
-        var result = this.checkInp(inpSet);
-        if(!result) return false;
-        var data = this.container.find("#contactInfoForm").serialize();
-        return this.deSerialize(data)
+        var res = this.checkInp(inpSet);
+        if(!res) return false;
+        var params = this.container.find("#contactInfoForm").serialize();
+        params = this.deSerialize(params);
+        return params;
     }
 
 });

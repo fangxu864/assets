@@ -21,7 +21,7 @@
         <div class="inputBox">
             <select name="" id="jiheSelect" class="select">
                 <%_.each(assStation,function(item,index){%>
-                    <option value="<%=item%>"><%=item%></option>
+                    <option value="<%=index%>"><%=item%></option>
                 <%})%>
             </select>
         </div>
@@ -104,3 +104,7 @@
     <span class="flagBox refund_rule"><%=extra.refund_rule%></span>
     <span class="flagBox verifyTime"><%=extra.verifyTime%></span>
 </div>
+
+<%if(p_type=="C"){%>
+    <div id="hotelDateListContainer" class="hotelDateListContainer"></div>
+<%}%>

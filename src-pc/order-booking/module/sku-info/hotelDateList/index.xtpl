@@ -1,9 +1,9 @@
 <ul class="hotel-date-storage-list clearfix">
     <% _.each(data,function(item,index){ %>
     <li class="date-item">
-        <p class="title"><%=item.date%></p>
-        <p class="price"><%=item.price%></p>
-        <p class="storage"><%=item.storage%></p>
+        <p class="title"><%=index%></p>
+        <p class="price"><i class="yen">&yen;</i><%=item.ls%></p>
+        <p class="storage">库存：<%=item.store%></p>
     </li>
     <%})%>
 </ul>

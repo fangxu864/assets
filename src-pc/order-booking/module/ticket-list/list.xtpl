@@ -5,7 +5,7 @@
             <%if(item.extra.p_type!=="H"){%>
                 <%=item.title%>
             <%}else{%>
-                【<%=item.zoneName%>】<%=item.title%>
+                <%if(item.zoneId!=0){%>【<%=item.zoneName%>】<%}%><%=item.title%>
             <%}%>
         </span>
     </td>
