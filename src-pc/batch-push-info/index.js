@@ -5,7 +5,7 @@ require("./jq.ajaxform");
 var Datapicker = require("./datepicker");  //精确到秒的日历组件
 var Message = require("pft-ui-component/Message");
 //service
-var Save = require("./service/save");
+var Save_service = require("./service/save");
 
 var Main = PFT.Util.Class({
     container : "#editContainer",
@@ -129,16 +129,16 @@ var Main = PFT.Util.Class({
             Message.alert("请导入excel文件");           
             return false
         }
-        Save({
-            // title : title, //消息名称
-            // msg_type : msg_type,  //消息类型
-            // content : content,  //消息内容
-            // rec_type : rec_type,  //接收类型[系统自动0，指定会员1]
-            // channel : channel,  //推送渠道[短信1微信0]
-            // send_type : send_type, //推送类型[立即推送0，定时推送1，动态推送2]
-            // send_time : send_time, //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
-            // excel : that.excelUrl, //保存excel
-            // save_type :   //保存类型  保存0，保存并执行1     
+        Save_service({
+            title : title, //消息名称
+            msg_type : msg_type,  //消息类型
+            content : content,  //消息内容
+            rec_type : rec_type,  //接收类型[系统自动0，指定会员1]
+            channel : channel,  //推送渠道[短信1微信0]
+            send_type : send_type, //推送类型[立即推送0，定时推送1，动态推送2]
+            send_time : send_time, //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
+            excel : that.excelUrl, //保存excel
+            save_type : "1" //保存类型  保存0，保存并执行1     
         },{
             loading : function(){
             },
@@ -150,28 +150,7 @@ var Main = PFT.Util.Class({
             fail : function(){
             }
         })
-        return false    
-        //异步表单上传 //整个为表单//后端改动后弃用
-        $("#excelUpLoad").ajaxSubmit({
-            data : {
-                identify : "batSendMsg"   //文件上传标识
-                // title : title, //消息名称
-                // msg_type : msg_type,  //消息类型
-                // content : content,  //消息内容
-                // rec_type : rec_type,  //接收类型[系统自动0，指定会员1]
-                // channel : channel,  //推送渠道[短信1微信0]
-                // send_type : send_type, //推送类型[立即推送0，定时推送1，动态推送2]
-                // send_time : send_time, //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
-                // save_type :   //保存类型  保存0，保存并执行1              
-            },
-            beforeSubmit : function(a,b,c){
-                // $("#excelUpLoadText").text("上传中");
-            },
-            success: function (data) {
-                // $("#excelUpLoadText").text("上传成功");
-                console.log(data);
-            }
-        })  
+
 
     },
     //获得当天的时间
