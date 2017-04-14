@@ -153,7 +153,7 @@ var Main = PFT.Util.Class({
 
         var submitData = $.extend({},Common.getPidAid(),skuData,ticketListData,contactData);
         
-        console.log(submitData);
+        
 
     }
 });
