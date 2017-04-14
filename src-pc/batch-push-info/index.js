@@ -138,19 +138,19 @@ var Main = PFT.Util.Class({
             send_type : send_type, //推送类型[立即推送0，定时推送1，动态推送2]
             send_time : send_time, //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
             excel : that.excelUrl, //保存excel
-            save_type : "1" //保存类型  保存0，保存并执行1     
+            save_type : "1" //保存类型  保存0，保存并执行1   //先写死   
         },{
             loading : function(){
             },
             complete : function(){
             },
             success : function(data){
-                console.log(data);
+                Message.alert("保存成功");
             },
-            fail : function(){
-            }
+            fail : function(msg,code){
+                Message.alert(code + msg);
+            }   
         })
-
 
     },
     //获得当天的时间
