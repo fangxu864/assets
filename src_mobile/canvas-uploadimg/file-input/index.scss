@@ -1,7 +1,0 @@
-@import "COMMON/css/base/core/variables";
-#fileInpContainer{ position:fixed; top:0; left:0; right:0; padding-top:50px; text-align:center; z-index:1; background:rgba(240, 243, 245, 1);}
-#fileInpContainer p{ line-height:1.6}
-#fileInpContainer .tit{ font-size:0.4rem}
-#fileInpContainer .desc{ font-size:0.35rem; color:$gray50}
-#fileInpContainer .fileInpLabel{ display:block; height:38px; line-height:38px; width:140px; margin:10px auto 0; background:#258cc9; color:#fff;}
-#fileInp{ display:none}
