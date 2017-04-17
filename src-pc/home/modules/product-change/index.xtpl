@@ -1,7 +1,7 @@
 <div class="infoTop">
 	<i class="icon icon-pc-prompt icon-chanpinshangxiajia"></i>
 	<span class="title">产品上下架消息</span>
-	<a href="home_notice_list.html" target="_blank" class="moreBtn">更多》</a>
+	<a href="home_notice_list.html?type=product" target="_blank" class="moreBtn">更多》</a>
 </div>
 <ul class="infoList">
 
