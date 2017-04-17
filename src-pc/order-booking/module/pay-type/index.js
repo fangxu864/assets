@@ -4,15 +4,21 @@ var Template = PFT.Util.ParseTemplate(Tpl);
 
 var Message = require("pft-ui-component/Message");
 
+var Domain = typeof PFT_DOMAIN=="function" ? PFT_DOMAIN() : "";
+
+//充值页面
+var rechargePage = Domain + "recharge.html";
+
 var PayType = PFT.Util.Class({
     cacheDate : null,
     EVENTS : {
-        "click .typeItem" : "onTypeItemClick"
+        "click .typeItem .text" : "onTypeItemClick",
+        "click .typeItem .label" : "onTypeItemClick"
     },
     onTypeItemClick : function(e){
-        var tarItem = $(e.currentTarget);
+        var tarItem = $(e.currentTarget).parent();
         if(tarItem.hasClass("active")) return false;
-        if(tarItem.hasClass("disable")) return Message.error("余额不足以支付本次订单");
+        if(tarItem.hasClass("disable")) return Message.error("余额不足以支付本次订单",1500);
         tarItem.addClass("active").siblings().removeClass("active");
     },
     render : function(data){
@@ -29,47 +35,67 @@ var PayType = PFT.Util.Class({
         //         pay : {
         //             onsite_pay : 0,
         //             self : 0,
-        //             credit : 500,
-        //             remain : 300
+        //             credit : 0.02,
+        //             remain : 0.01
         //         }
         //     }
         // }
 
         this.cacheDate = data;
 
-        //http://images.12301.cc/icon/check.png
         this.container.html(Template(data));
         return this;
     },
     refresh : function(totalMoney){
         var pay = this.cacheDate.fragment.pay;
         //如果是现场支付或自供应的
-        if(pay.onsite_pay==1 || pay.self) return false;        
+        if(pay.onsite_pay==1 || pay.self==1) return false; 
         if(isNaN(totalMoney)) return false;
         totalMoney = totalMoney * 1;
         var credit = pay.credit;
-        var remain = pay.remain;
+        var remain = pay.remain * 1;
 
         var listUl = this.container.find(".payTypeListUl");
         var options = listUl.children();
         var tarOption = listUl.children(".active");
+        var creditOption = listUl.children(".credit"); //授信
+        var remainOption = listUl.children(".remain"); //帐户余额
+        var onlineOption = listUl.children(".online"); //在线支付
 
-
-
-        if(tarOption.hasClass("online")) return false; //如果当前选择的是在线支付
-
-        if(tarOption.hasClass("credit")){ //当前选中的是授信余额
-            //如果该帐户的授信余额为不限
-            if(credit=="unlimit") return false;
-            //如果授信额度刚好足以支付本次订单
-            if(credit*1>=totalMoney) return false;
-            tarOption.addClass("disable");
-            listUl.children(".online").trigger("click");
-        }else if(tarOption.hasClass("remain")){ //帐户余额
-            if(remain*1>=totalMoney) return false;
-            
+        //判断是否超出授信余额
+        if(credit!=="unlimit" && totalMoney>credit*1){
+            creditOption.addClass("disable").removeClass("active")
+            .find(".rechargeBox").remove().end()
+            .append('<span class="rechargeBox">余额不足</span>');
+        }else{
+            creditOption.removeClass("disable").find(".rechargeBox").remove();
         }
 
+        //判断是否超出帐户余额
+        if(totalMoney>remain){
+            remainOption.addClass("disable").removeClass("active")
+            .find(".rechargeBox").remove().end()
+            .append('<span class="rechargeBox">余额不足<a class="rechargeLink" href="'+rechargePage+'">充值</a></span>');
+        }else{ 
+            remainOption.removeClass("disable").find(".rechargeBox").remove();
+        }
+
+        if(tarOption.hasClass("credit") && creditOption.hasClass("disable")){ //如果当前选中的是授信余额, 并且授信余额不够
+            if(!remainOption.hasClass("disable")){ //但帐户余额足够
+                remainOption.addClass("active");
+            }else{ //连帐户余额也不够，那只能线上支付
+                onlineOption.addClass("active");
+            }
+        }
+
+        //同上逻辑
+        if(tarOption.hasClass("remain") && remainOption.hasClass("disable")){ //如果当前选中的是帐户余额, 并且帐户余额不够
+            if(!creditOption.hasClass("disable")){ //但授信余额足够
+                creditOption.addClass("active");
+            }else{ //连授信余额也不够，那只能线上支付
+                onlineOption.addClass("active");
+            }
+        }
 
     },
     getSubmitData : function(){

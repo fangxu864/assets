@@ -33,6 +33,9 @@ var PayType = require("./module/pay-type");
 //联系人填写信息模块
 var Contact = require("./module/contact");
 
+//订单额外说明信息模块
+var ExtraDesc = require("./module/extra-desc");
+
 
 //服务层：获取此订单详细信息
 var Service = require("SERVICE/order-booking");
@@ -84,30 +87,26 @@ var Main = PFT.Util.Class({
         var topTitle = this.topTitle = new TopTitle({container:"#topTitleMod"}).render(data);
         var skuInfo = this.skuInfo = new SkuInfo({container:"#skuInfoMode",data:data});
         var payType = this.payType = new PayType({container:"#payTypeMode"}).render(data);
-        if(!isHotel){
+
+        if(!isHotel){//非酒店
             var ticketList = this.ticketList = new TicketList({container:"#ticketListMode"}).render(data);
-        }
-        
-        var footTotalData = null;
-        if(isHotel){
-            footTotalData = {
+            var footTotalData = ticketList.getTotalInfo();
+            var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(footTotalData);
+            ticketList.on("change",function(data){ 
+                footTotal.render(data);
+                payType.refresh(data.ls);
+                if(needID==2) contact.renderTouristList(data.count);
+            });
+        }else{ //酒店类
+            var footTotalData = {
                 ls : 0,
                 canOrder : false
             };
-        }else{
-            footTotalData = ticketList.getTotalInfo();
+            var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(footTotalData);
         }
-        var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(footTotalData);
         footTotal.on("submit",function(tarBtn){ //点击提交订单按钮时
             that.sumbitOrder(tarBtn);
         })
-
-        if(!isHotel) {
-            ticketList.on("change",function(data){ 
-                footTotal.render(data);
-                if(needID==2) contact.renderTouristList(data.count);
-            });
-        }
 
         
         var contact = this.contact = new Contact({container : "#contactMode"}).render(data);
@@ -138,9 +137,12 @@ var Main = PFT.Util.Class({
                 ls : data.ls,
                 canOrder : data.canOrder
             });
+            payType.refresh(data.ls);
             if(needID==2) contact.renderTouristList(data.count);
         });
         
+
+        var extraDesc = this.extraDesc = new ExtraDesc({container:"#extraDescMod",data:data}).render();
 
     },
     sumbitOrder : function(submitBtn){
@@ -152,13 +154,16 @@ var Main = PFT.Util.Class({
 
         var contactData = this.contact.getData();
 
-        var paymode = this.payType.getSubmitData();
+        var paymode = {paymode:this.payType.getSubmitData()};
 
         if(!contactData) return false;
 
         var submitData = $.extend({},Common.getPidAid(),skuData,ticketListData,contactData,paymode);
         
         var orignText = submitBtn.text();
+
+
+        // return console.log(submitData);
 
         PFT.Util.Ajax("formSubmit_v01.php",{
             type : "post",

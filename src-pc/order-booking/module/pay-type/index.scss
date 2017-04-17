@@ -22,7 +22,25 @@
         .text{ cursor: pointer;}
         .num,.yen,.unlimit{ color: #ff7800}
         &.active .label{ background-position: -14px 0}
+
+        &.disable{
+            .text,.label{ cursor:not-allowed}
+        }
+
         margin-bottom: 15px;
+
+        .rechargeBox{
+            margin-left: 20px;
+            color: red;
+            .rechargeLink{
+                margin-left: 5px;
+                padding: 1px 10px;
+                color: #fff;
+                background: #4c8bec
+            }
+        }
+
+
     }
 
 
