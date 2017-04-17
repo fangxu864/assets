@@ -1,5 +1,0 @@
-<% for(var type in data) { %>
-	<% _.each(data[type],function(item){ %>
-    	<li class="themeBtn"><%=item%></li>
-	<% }) %>
-<% } %>

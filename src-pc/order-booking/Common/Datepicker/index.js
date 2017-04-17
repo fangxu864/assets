@@ -295,6 +295,6 @@ var DatePicker = PFT.Util.Class({
     cacheHub: {}
 });
 
-
+DatePicker.CalendarCore = CalendarCore;
 module.exports = DatePicker;
 // http://my.12301.local/productOrder.html?pid=26462&aid=3385

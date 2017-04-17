@@ -14,6 +14,7 @@ var TicketList = PFT.Util.Class({
     template : PFT.Util.ParseTemplate(ListXtpl),
     originData : null,
     _moneyFixed : 2,
+    pType : "",
     init : function(){},
     EVENTS : {
         "click .countBox .cBtn" : "onCountBtnClick",
@@ -341,6 +342,9 @@ var TicketList = PFT.Util.Class({
      * 渲染数据
      */
     render : function(data){
+
+        this.pType = data.p_type;
+
         //测试
         // var tickets = data.tickets;
         // for(var i=0,len=tickets.length; i<len; i++){
@@ -405,6 +409,33 @@ var TicketList = PFT.Util.Class({
         }
         
         return this;
+    },
+    getSubmitData : function(){
+        var result = {};
+        var pType = this.pType;
+        //演出类产品，旧版的页面是直接form submit
+        //而且传的不是pids，而是c_pids，字段名不同，但内容一样
+        var pidKey = pType=="H" ? "c_pids" : "pids";
+
+        var pids = result[pidKey] || (result[pidKey]={});
+
+        this.container.find(".ticketItem").each(function(item,index){
+            var $this = $(this);
+            var zoomId = $this.attr("data-zoomid"); //分区id
+            var pid = $this.attr("data-pid");
+            var count = $this.find(".countInp").val();
+            pids[pid] = $.trim(count);
+            if(pType=="H"){ //演出类产品要多传一个c_area
+                var area = result["c_area"] || (result["c_area"]={});
+                area[pid] = zoomId;
+            }
+        });
+
+        
+
+        return result;
+
+
     }
 });
 

@@ -1,19 +1,20 @@
 <div class="con">
-    <%if(typeof count=="undefined" && typeof js=="undefined"){%>
+    <%if(typeof js=="undefined" && typeof count=="undefined"){%>
         <span class="fbox">
             合计：<i class="yen">&yen;</i><em class="num"><%=ls%></em>
         </span>
     <%}else{%>
         <span class="fbox">
-            总票数：<em class="num"><%=count%></em><i class="danwei">张</i>
+            <%if(typeof count!=="undefined"){%>
+                总票数：<em class="num"><%=count%></em><i class="danwei">张</i>
+            <%}%>
         </span>
         <span class="fbox">
-            应收：<i class="yen">&yen;</i><em class="num"><%=js%></em>
+            应收：<i class="yen">&yen;</i><em class="num"><%=ls%></em>
         </span>
         <span class="fbox">
-            应付：<i class="yen">&yen;</i><em class="num"><%=ls%></em>
+            应付：<i class="yen">&yen;</i><em class="num"><%=js%></em>
         </span>
     <%}%>
-    
     <a href="###" id="submitOrderBtn" class="submitOrderBtn <%=canOrder ? '' : 'disable'%>">提交订单</a>
 </div>

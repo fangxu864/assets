@@ -1,9 +1,10 @@
 module.exports = {
     getPidAid : function(){
-        var params = PFT.Util.UrlParse();
+        var pid = $.trim($("#pidHidInp").val()) || "";
+        var aid = $.trim($("#aidHidInp").val()) || "";
         return{
-            pid : params.pid || "",
-            aid : params.aid || ""
+            pid : pid,
+            aid : aid
         }
     }
 }

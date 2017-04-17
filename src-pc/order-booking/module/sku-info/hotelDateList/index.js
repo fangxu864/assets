@@ -5,9 +5,27 @@ var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 
 var hotelDateList = {
 
+    __cacheData : null,
+
+    getCacheData : function(){
+        return this.__cacheData;
+    },
+
     render: function (opt) {
 
+        this.__cacheData = opt.data;
+
+        var count = (function(data){
+            var index = 0;
+            for(var i in data) index++;
+            return index;
+        })(opt.data);
+
+
         this.container = typeof opt.container === "string" ? $(opt.container) : opt.container;
+
+        //如果只有一天，就不渲染了
+        if(count<=1) return this.container.html("");
 
         var data = opt.data || this.data;
 
@@ -19,28 +37,7 @@ var hotelDateList = {
 
     template: ParseTemplate(dateListTpl),
     
-    data: [
-        {
-            date: '2017-04-01',
-            storage: 66 ,
-            price: 666
-        },
-        {
-            date: '2017-04-02',
-            storage: 55 ,
-            price: 666
-        },
-        {
-            date: '2017-04-03',
-            storage:63 ,
-            price: 666
-        },
-        {
-            date: '2017-04-04',
-            storage: 88 ,
-            price: 666
-        }
-    ]
+    data: {}
     
 };
 

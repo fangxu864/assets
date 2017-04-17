@@ -191,6 +191,13 @@ module.exports = function(params,opt){
 					ext["p_type"] = data.p_type;
 				}
 
+				//支付方式里，把返回的钱数除100
+				var pay = data.fragment.pay;
+				var credit = pay.credit=="unlimit" ? pay.credit : (pay.credit/100);
+				var remain = pay.remain / 100;
+				data.fragment.pay.credit = credit;
+				data.fragment.pay.remain = remain;
+
 
 				var batch_check = data.batch_check;
 				var batch_day = data.batch_day;

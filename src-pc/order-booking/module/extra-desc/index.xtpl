@@ -1,0 +1,16 @@
+<div class="extraTop mod-pl">
+    <span class="label">供应商名称：</span>
+    <span class="rt"><%=fragment.supply.name%></span>
+    <span class="label linkman">联系人：</span>
+    <span class="rt">
+        <%=fragment.supply.linkman%>
+        <a class=""
+         target="_blank"
+         href="http://wpa.qq.com/msgrd?v=3&amp;uin=<%=fragment.supply.qq%>&amp;site=qq&amp;menu=yes"
+         alt="联系客服" 
+         title="联系客服"><i class="icon-u-bold icon-qq"></i></a>
+    </span>
+</div>
+<div class="extraDescBox mod-pl">
+    <%=intro%>
+</div>

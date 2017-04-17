@@ -1,8 +1,0 @@
-<div class="inputItem" id="lineDate">
-    <input id="meetDate" class="topinput" type="text" placeholder="*集合日期" readonly="readonly">
-    <i class="icon icon-u-regular icon-rili"></i>
-</div>
-<div class="inputItem" id="lineLoca"> 
-    <input id="meetPlace" class="topinput" type="text" placeholder="*集合地点" readonly="readonly">
-    <i class="icon icon-u-regular icon-unfold"></i>
-</div>	

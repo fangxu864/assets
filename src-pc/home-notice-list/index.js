@@ -28,13 +28,18 @@ var Main = PFT.Util.Class({
     },
 
     init : function(){
-        var that = this;
-        var container = this.container;
+        var that = this,
+            container = this.container;
+
         container.html( pageTpls.index );
+
+        var defaultType = PFT.Util.UrlParse().type ? PFT.Util.UrlParse().type : 'price';
+
         setTimeout(function(){
             that.tabConContainer = container.children(".tabContainer");
             that.tabHeader = container.children(".tabHeader");
-            that.tabHeader.children().first().trigger("click");
+
+            that.tabHeader.children('[data-type="'+ defaultType +'"]').trigger("click");
         },10);
     },
 
