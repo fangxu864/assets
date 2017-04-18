@@ -26,7 +26,7 @@ module.exports = function(params,opt){
 
 
 
-    return PFT.Util.Ajax("/r/Book_Booking/getCalendarInfo/",{
+    return PFT.Util.Ajax("/r/Book_Booking/getPriceAndStorage/",{
         type : "post",
         params : {
             pids : params.pids,

@@ -1,0 +1,77 @@
+<div class="searchTitleBox">
+    <div class="lt">产品名称</div>
+    <div class="searchBox">
+        <input id="searchInp" type="text" name="" class="ui-textInp ui-shadow searchInp" placeholder="产品名称" onfocus="this.placeholder=''" onblur="this.placeholder='产品名称'">
+        <span class="tip">(请输入产品名称)</span>
+        <span class="searchIcon"><i class="iconfont">&#xe60a;</i></span>
+    </div>
+</div>
+<div id="advanceSearchBox" class="advanceSearchBox">
+    <div class="con">
+        <div class="line">
+            <div class="inCon">
+                <div class="lt">产品类别</div>
+                <ul id="ptypeParmUl" class="listUl ptypeParmUl">
+                    <li class="item first active topic" data-ptype="" ><a href="javascript:;">全部</a></li>
+                    <%_.each(ptype,function(item,index){%>
+                        <li class="item ptype" data-ptype="<%=index%>"><a href="javascript:;"><%=item%></a></li>
+                    <%})%>
+                </ul>
+            </div>
+        </div>
+        <div id="selectLine" class="line selectLine">
+            <div class="inCon">
+                <div class="lt">所在地区</div>
+                <div class="listUl">
+                    <select name="" id="provSelect" class="areaSelect provSelect prov">
+                        <option value="">不限</option>
+                        <%_.each(provs,function(item){%>
+                            <option value="<%=item.id%>"><%=item.name%></option>
+                        <% }) %>
+                    </select>
+                    <select name="" id="citySelect" class="areaSelect citySelect city">
+                        <option value="">不限</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="line tour_topic themeLineListUl">
+            <div class="inCon">
+                <div class="lt">旅游主题</div>
+                <ul id="topicParamUl" class="listUl topicParamUl">
+                    <li class="item first active"><a href="javascript:;" data-topic="">全部</a></li>
+                    <%_.each(theme,function(item){%>
+                        <li class="item"><a href="javascript:;" data-topic="<%=item%>"><%=item%></a></li>
+                    <%})%>
+                </ul>
+            </div>
+        </div>
+        <div class="line hotel_star hotelLineListUl" style="display: none">
+            <div class="inCon">
+                <div class="lt">酒店星级</div>
+                <ul id="hotel_star_ParamUl" class="listUl hotel_star_ParamUl">
+                    <li class="item first active" data-jtype="">
+                        <a href="javascript:;">全部</a>
+                    </li>
+                    <li class="item" data-jtype="二星级下">
+                        <a href="javascript:;"><span class="name">二星级下</span></a>
+                    </li>
+                    <li class="item" data-jtype="三星级">
+                        <a href="javascript:;"><span class="name">三星级</span></a>
+                    </li>
+                    <li class="item" data-jtype="四星级">
+                        <a href="javascript:;"><span class="name">四星级</span></a>
+                    </li>
+                    <li class="item" data-jtype="五星级">
+                        <a href="javascript:;"><span class="name">五星级</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="btnGroup">
+    <a id="searchBtn" class="searchBtn ctrlBtn" href="javascript:;">搜索</a>
+    <a id="recoverSearchBtn" class="recoverSearchBtn ctrlBtn" href="javascript:;"><i class="iconfont">&#xe6af;</i><span class="t">重置</span></a>
+</div>
+<div class="lborder"></div>

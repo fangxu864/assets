@@ -1,0 +1,19 @@
+@mixin opacity($opacity:0.5){
+    $opacity_ie : $opacity*100;
+    opacity:$opacity;
+    filter:alpha(opacity=$opacity_ie);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$opacity_ie})";
+    -moz-opacity:$opacity;
+}
+.gSimpleDialog-container{ position:fixed; overflow:hidden; background:#fff;
+    -webkit-box-shadow:1px 1px 1px rgba(0,0,0,0.3);
+    -moz-box-shadow:1px 1px 1px rgba(0,0,0,0.3);
+    -ms-box-shadow:1px 1px 1px rgba(0,0,0,0.3);
+    -o-box-shadow:1px 1px 1px rgba(0,0,0,0.3);
+    box-shadow:1px 1px 1px rgba(0,0,0,0.3);
+}
+.gSimpleDialog-header{ position:absolute; left:0; right:0; z-index:500;}
+.gSimpleDialog-closeBtn{ display:block; position:absolute; z-index:501; top:0; right:0; bottom:0; text-align:center; color:#919191; font-size:26px; cursor:pointer}
+.gSimpleDialog-closeBtn.hidden{ display:none}
+.gSimpleDialog-closeBtn:hover{ background:#e12424; color:#fff}
+.gSimpleDialog-mask{ position:fixed; top:0; left:0; right:0; bottom:0; background-color:#000; @include opacity(0.6)}

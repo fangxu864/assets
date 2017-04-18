@@ -73,6 +73,7 @@ var SukInfo = PFT.Util.Class({
         if(p_type=="C") this.getPriceStorageByDate_Hotel(Common.getPidAid().pid,Common.getPidAid().aid,startDate,CalendarCore.nextDay(startDate));
 
         datepicker.on("datePick",function(data){
+            console.log(data);
             var tarInp = data.relyInp;
             var date = data.pickDate || "";
             if(p_type!=="H" && p_type!=="C"){ //非演出酒店类，需要发ajax取storage跟price
@@ -81,7 +82,7 @@ var SukInfo = PFT.Util.Class({
                     aid : Common.getPidAid().aid,
                     date : date
                 },{
-                    debug : true,
+                    debug : false,
                     success : function(data){
                         that.trigger("change:beginDate",data);
                     },
