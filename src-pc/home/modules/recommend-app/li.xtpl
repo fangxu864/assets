@@ -18,7 +18,7 @@
                     <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">免费试用</a>
                 <% break;
                     case 1: %>
-                    <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">开通</a>'
+                    <a href="new/appcenter_details.html?module_id=<%=item.module_id%>" class="app-btn btn-default-reverse w100">开通</a>
                 <% break;
                     case 2: %>
                     <a href="<%=item.url%>" class="app-btn btn-default mr10">打开应用</a>

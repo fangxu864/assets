@@ -167,8 +167,8 @@ module.exports = function(parent){
         getPartnerChange: function( opt ) {
             var _this = this,
                 type = {
-                    add:        1,
-                    del:        0,
+                    add:        0,
+                    del:        1,
                     added:      2,
                     deleted:    3
                 },
