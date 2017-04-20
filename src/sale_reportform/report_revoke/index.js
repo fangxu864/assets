@@ -585,7 +585,7 @@ var Book_form={
         url[2] = '&detail_reseller_id=';
 
 
-        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3 orderby" data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">撤改撤销票数</th> <th class="th5 orderby" data-orderby="cancel_money">退票收入(元)</th> <th class="th6 orderby" data-orderby="cost_money">退票支出(元)</th> <th class="th7 orderby" data-orderby="service_money_in">退票手续费收入(元)</th> <th class="th8 orderby" data-orderby="service_money_out">退票手续费支出(元)</th><th class="th8">操作</th>';
+        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3 orderby" data-orderby="order_num" width="50">订单数</th> <th class="th4 orderby" data-orderby="ticket_num" width="90">撤改撤销票数</th> <th class="th5 orderby" data-orderby="cancel_money" width="90">退票收入(元)</th> <th class="th6 orderby" data-orderby="cost_money" width="90">退票支出(元)</th> <th class="th7 orderby" data-orderby="service_money_in" width="120">退票手续费收入(元)</th> <th class="th8 orderby" data-orderby="service_money_out" width="120">退票手续费支出(元)</th><th class="th8" width="70">操作</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
             '<td class="th3">'+sum.orderNum+'</td>'+
@@ -660,7 +660,7 @@ var Book_form={
                 break;
         }
 
-        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2 orderby" data-orderby="order_num">订单数</th> <th class="th3 orderby" data-orderby="ticket_num">撤改撤销票数</th><th class="th4 orderby" data-orderby="cost_money">退票收入(元)</th> <th class="th5 orderby" data-orderby="cancel_money">退票支出(元)</th><th class="th6 orderby" data-orderby="service_money_in">退票手续费收入(元)</th> <th class="th7 orderby" data-orderby="service_money_out">退票手续费支出(元)</th><th class="th8">操作</th>';
+        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2 orderby" data-orderby="order_num" width="50">订单数</th> <th class="th3 orderby" data-orderby="ticket_num" width="90">撤改撤销票数</th><th class="th4 orderby" data-orderby="cost_money" width="90">退票收入(元)</th> <th class="th5 orderby" data-orderby="cancel_money" width="90">退票支出(元)</th><th class="th6 orderby" data-orderby="service_money_in" width="120">退票手续费收入(元)</th> <th class="th7 orderby" data-orderby="service_money_out" width="120">退票手续费支出(元)</th><th class="th8" width="70">操作</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th1 heji">合计:</td>'+
             '<td class="th2">'+sum.orderNum+'</td>'+

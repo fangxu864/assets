@@ -81,17 +81,23 @@ var Main = PFT.Util.Class({
     save : function(){
         var that = this;
 
-        var title = $("#infoNameInput").val();   //消息名称
-        if( title == "" ){
-             Message.alert("请填写消息名称");           
-             return false
+        if($("#saveNow").attr("data-sending") == "true"){
+            return false
         }
+
+        //判断填写为空先去掉//后面再加
+
+        var title = $("#infoNameInput").val();   //消息名称
+        // if( title == "" ){
+        //      Message.alert("请填写消息名称");           
+        //      return false
+        // }
         var msg_type = $("#infoTypeInput").attr("data-type"); //消息类型
         var content = $("#infoTextInput").val(); //消息内容
-        if( content == "" ){
-             Message.alert("请填写内容");           
-             return false
-        }
+        // if( content == "" ){
+        //      Message.alert("请填写内容");           
+        //      return false
+        // }
         if( $("#excelUp").val() == "" && $(".memberBox").css("display") != "none" ){
             Message.alert("请导入excel文件");           
             return false
@@ -121,9 +127,17 @@ var Main = PFT.Util.Class({
         }else if( pushWay == "pushWay2" ){ //定时推送
             send_type = "1";
             send_time = $("#setTimePush").val();
+            // if( send_time == "" ){
+            //     Message.alert("请填写日期");
+            //     return false
+            // }
         }else if( pushWay == "pushWay3" ){ //动态推送
             send_type = "2";
             send_time = $("#pushDay").val();
+            // if( send_time == "" ){
+            //     Message.alert("请填写天数");
+            //     return false
+            // }
         }
         if( this.excelUrl == ""){
             Message.alert("请导入excel文件");           
@@ -141,8 +155,12 @@ var Main = PFT.Util.Class({
             save_type : "1" //保存类型  保存0，保存并执行1   //先写死   
         },{
             loading : function(){
+                $("#saveNow").text("正在发送");
+                $("#saveNow").attr("data-sending","true");
             },
             complete : function(){
+                $("#saveNow").text("保存,立即启动");
+                $("#saveNow").attr("data-sending","false");
             },
             success : function(data){
                 Message.alert("保存成功");
@@ -304,7 +322,7 @@ var Main = PFT.Util.Class({
         if(way == 1){
             //生日、礼券到期 选择 指定会员 时 可以选上面两种推送，不能选动态
             $(".radioIcon[data-type=pushWay1]").removeClass("disable").addClass("active");//默认选1
-            $(".radioIcon[data-type=pushWay2]").removeClass("disable");
+            $(".radioIcon[data-type=pushWay2]").removeClass("disable").removeClass("active");
             $(".radioIcon[data-type=pushWay3]").removeClass("active").addClass("disable");
         }else if(way == 2){
             // 生日、礼券到期 选择 系统自动筛选时，仅可选动态推送
