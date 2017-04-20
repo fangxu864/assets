@@ -23,6 +23,8 @@ var STip = require('COMMON/js/util.simple.tip'),
     toast = new Toast,
     Dialog = require('COMMON/Components/Dialog-Simple');
 
+var isResourceAccount = require("../common.js").isResourceAccount;    
+
 var Book_form={
     AJAX_URLS: {
         exportDetails: '/r/MassData_ExportListen/Judge/',
@@ -582,16 +584,25 @@ var Book_form={
 
         url[1] = '&detail_tid=';
         url[2] = '&detail_reseller_id=';
+        theadHtml += '<th class="th1">分销商名称</th><th class="th2">景区门票名称</th><th class="th3 orderby"  data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">检票数</th> <th class="th5 orderby" data-orderby="avg_sale_money">平均价格</th> <th class="th6 orderby" data-orderby="sale_money">金额(元)</th>';
+        if(!isResourceAccount()){
+            theadHtml += '<th class="th7 orderby" data-orderby="profit_money">利润(元)</th>';
+        }
+        theadHtml += '<th class="th8">操作</th>';
 
-        theadHtml='<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3 orderby"  data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">检票数</th> <th class="th5 orderby" data-orderby="avg_sale_money">平均价格</th> <th class="th6 orderby" data-orderby="sale_money">金额(元)</th> <th class="th7 orderby" data-orderby="profit_money">利润(元)</th> <th class="th8">操作</th>';
+        // theadHtml='<th class="th1">分销商名称</th><th class="th2">景区门票名称</th><th class="th3 orderby"  data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">检票数</th> <th class="th5 orderby" data-orderby="avg_sale_money">平均价格</th> <th class="th6 orderby" data-orderby="sale_money">金额(元)</th> <th class="th7 orderby" data-orderby="profit_money">利润(元)</th><th class="th8">操作</th>';
+        
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th2 heji" colspan="2">合计:</td>'+
             '<td class="th3">'+sum.orderNum+'</td>'+
             '<td class="th4">'+sum.ticketNum+'</td>'+
             '<td class="th5"></td>'+
-            '<td class="th6">'+sum.saleMoney+'</td>'+
-            '<td class="th7">'+sum.profitMoney+'</td>'+
-            '<td class="th8"></td>'+
+            '<td class="th6">'+sum.saleMoney+'</td>';
+            if(!isResourceAccount()){
+                listHtml += '<td class="th7">'+sum.profitMoney+'</td>';
+            }
+            
+            listHtml += '<td class="th8"></td>'+
             '</tr>';
         for(var i=0;i<list.length;i++){
 
@@ -600,9 +611,11 @@ var Book_form={
                 '<td class="th3">'+list[i].order_num+'</td>'+
                 '<td class="th4">'+list[i].ticket_num+'</td>'+
                 '<td class="th5"></td>'+
-                '<td class="th6">'+list[i].sale_money+'</td>'+
-                '<td class="th7">'+list[i].profit_money+'</td>'+
-                '<td class="th8"></td>'+
+                '<td class="th6">'+list[i].sale_money+'</td>';
+                if(!isResourceAccount()){
+                    listHtml += '<td class="th7">'+list[i].profit_money+'</td>';
+                }
+                listHtml += '<td class="th8"></td>'+
                 '</tr>';
             for(var j=0;j<list[i].tickets.length;j++){
                 listHtml+='<tr> <td class="th1"></td>'+
@@ -610,9 +623,11 @@ var Book_form={
                     '<td class="th3">'+list[i].tickets[j].order_num+'</td>'+
                     '<td class="th4">'+list[i].tickets[j].ticket_num+'</td>'+
                     '<td class="th5">'+list[i].tickets[j].avg_sale_money+'</td>'+
-                    '<td class="th6">'+list[i].tickets[j].sale_money+'</td>'+
-                    '<td class="th7">'+list[i].tickets[j].profit_money+'</td>'+
-                    '<td class="th8"><a href="javascript:;" class="btn-export-single" data-url="' + url[0] + url[1] + list[i].tickets[j].tid + url[2] + list[i].tickets[j].reseller_id + '">导出明细</a></td>'+
+                    '<td class="th6">'+list[i].tickets[j].sale_money+'</td>';
+                    if(!isResourceAccount()){
+                        listHtml += '<td class="th7">'+list[i].tickets[j].profit_money+'</td>';
+                    }
+                    listHtml += '<td class="th8"><a href="javascript:;" class="btn-export-single" data-url="' + url[0] + url[1] + list[i].tickets[j].tid + url[2] + list[i].tickets[j].reseller_id + '">导出明细</a></td>'+
                     '</tr>';
             }
         }
@@ -656,24 +671,33 @@ var Book_form={
                 break;
         }
 
-        theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2 orderby"  data-orderby="order_num">订单数</th> <th class="th3 orderby" data-orderby="ticket_num">检票数</th> <th class="th4 orderby" data-orderby="avg_sale_money">平均价格</th> <th class="th5 orderby" data-orderby="sale_money">金额(元)</th> <th class="th6 orderby" data-orderby="profit_money">利润(元)</th> <th class="th7">操作</th>';
+        theadHtml += '<th class="th1">'+kindsTitle+'</th> <th class="th2 orderby"  data-orderby="order_num">订单数</th> <th class="th3 orderby" data-orderby="ticket_num">检票数</th> <th class="th4 orderby" data-orderby="avg_sale_money">平均价格</th> <th class="th5 orderby" data-orderby="sale_money">金额(元)</th> ';
+        if(!isResourceAccount()){
+            theadHtml += '<th class="th6 orderby" data-orderby="profit_money">利润(元)</th>';
+        }
+        theadHtml +=' <th class="th7">操作</th>';
+        // theadHtml='<th class="th1">'+kindsTitle+'</th> <th class="th2 orderby"  data-orderby="order_num">订单数</th> <th class="th3 orderby" data-orderby="ticket_num">检票数</th> <th class="th4 orderby" data-orderby="avg_sale_money">平均价格</th> <th class="th5 orderby" data-orderby="sale_money">金额(元)</th> <th class="th6 orderby" data-orderby="profit_money">利润(元)</th> <th class="th7">操作</th>';
         $(".tablecon_box .con_tb thead tr").html(theadHtml);
         listHtml+='<tr> <td class="th1 heji">合计:</td>'+
             '<td class="th2">'+sum.orderNum+'</td>'+
             '<td class="th3">'+sum.ticketNum+'</td>'+
             '<td class="th4"></td>'+
-            '<td class="th5">'+sum.saleMoney+'</td>'+
-            '<td class="th6">'+sum.profitMoney+'</td>'+
-            '<td class="th7"></td>'+
+            '<td class="th5">'+sum.saleMoney+'</td>';
+            if(!isResourceAccount()){
+                listHtml += '<td class="th6">'+sum.profitMoney+'</td>';
+            }
+            listHtml += '<td class="th7"></td>'+
             '</tr>';
         for(var i=0;i<list.length;i++){
             listHtml+='<tr> <td class="th1">'+list[i].title+'</td>'+
                 '<td class="th2">'+list[i].order_num+'</td>'+
                 '<td class="th3">'+list[i].ticket_num+'</td>'+
                 '<td class="th4">'+list[i].avg_sale_money+'</td>'+
-                '<td class="th5">'+list[i].sale_money+'</td>'+
-                '<td class="th6">'+list[i].profit_money+'</td>'+
-                '<td class="th7"><a href="javascript:;" class="btn-export-single" data-url="' + url + list[i][prop] + '">导出明细</a></td>'+
+                '<td class="th5">'+list[i].sale_money+'</td>';
+                if(!isResourceAccount()){
+                    listHtml += '<td class="th6">'+list[i].profit_money+'</td>'
+                }
+                listHtml += '<td class="th7"><a href="javascript:;" class="btn-export-single" data-url="' + url + list[i][prop] + '">导出明细</a></td>'+
                 '</tr>'
 
         }
