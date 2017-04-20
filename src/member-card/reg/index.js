@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/7/28.
  */
-require("./index.css");
+require("./index.scss");
 var KeyupTimeout = null;
 var Debug = false;
 var Query_Info = require("SERVICE/MemcardReg/Query_Info");
@@ -13,27 +13,41 @@ var Loading = require("COMMON/js/util.loading.pc.js");
 var ProvCity = require("COMMON/Components/ProvCitySelect");
 var Fileupload = require("COMMON/modules/fileupload");
 var Validate = require("COMMON/Components/Validator/v1.0");
+var ValidateRule = Validate.Rules;
+
+//引入通用Dialog组件
+var Dialog = require("pft-ui-component/Dialog");
+//引入通用消息提示组件
+var Message = require("pft-ui-component/Message");
 
 var Tpl = {
-	index : PFT.Util.ParseTemplate(require("./Tpl/index.xtpl"))
+	index : PFT.Util.ParseTemplate(require("./Tpl/index.xtpl")),
+	mobileDialog : require("./Tpl/modify-mobile-dialog.xtpl")
 };
+
 var Main = PFT.Util.Class({
 	container : $("#memberCardContainer"),
 	EVENTS : {
 		"keyup #mobileInp" : "onMobileInpKeyup",
 		"click #getCheckmaBtn" : "onGetCheckMaBtnClick",
 		"click #famleWrap .fe" : "onFamleFeClick",
-		"click #saveBtn" : "onSaveBtnClick",
 		"mouseenter .uploadResultImg" : "onPhotoMouseEnter",
 		"mouseleave .uploadResultImg" : "onPhotoMouseLeave",
 		"click .removePhotoBtn" : "onRemovePhotoBtnClick",
 		"click .saveBtn" : "onFormSubmit",
-		"click #readwuKa" : "readwuKa"
+		"click #readwuKa" : "readwuKa",
+		"click #modifyMobileBtn" : "onModifyMobileBtnClick"
 	},
 	validator : {},
 	CarList : "5座 7座 9座 11座 15座 15座以上 飞马出租 弘瑞出租 天行出租 盛捷出租 海棠湾出租 智慧快的出租",
 	init : function(){
-		this.fid = PFT.Util.UrlParse()["fid"] || "";
+
+
+		//this.fid = PFT.Util.UrlParse()["fid"] || "";  //这样做不安全，容易被攻击
+		//涉及比较敏感的信息  或者需要从页面url里取参数，
+		//然后把得到的参数做为ajax请求的参数发给后端的，最好还是有获取隐藏域的方式
+		this.fid = $("#fidHidInp").val() || "";  //fidHidInp隐藏域里用php获取url里的参数：<?=I('fid')?>  更安全
+		
 		this.editMode = this.fid!=="undefined" && this.fid!==""; //编辑模式
 		if(this.editMode){ //如果是编辑模式
 			Query_Info({
@@ -98,6 +112,65 @@ var Main = PFT.Util.Class({
 		}).text("删除");
 		tarBox.append(innerBox);
 		tarBox.append(btn);
+	},
+	//点击修改手机号
+	onModifyMobileBtnClick : function(e){
+		var that = this;
+		this.dialog = this.dialog || new Dialog({
+			cache : true,
+			title : "修改会员手机号",
+			content : function(){
+				return Tpl.mobileDialog;
+			},
+			cancelBtn : false,
+			yesBtn :  false,
+			EVENTS : {
+				"click .btnGup .mdBtn" : function(e){
+
+					//18250155562
+					var tarBtn = $(e.currentTarget);
+					if(tarBtn.hasClass("disable")) return false;
+					if(tarBtn.hasClass("cancel")) return this.close();
+
+					var pwdInp = $("#mdPwdInp");
+					var mobileInp = $("#mdMobileInp");
+
+					var pwd = $.trim(pwdInp.val());
+					var mobile = $.trim(mobileInp.val());
+
+					if(!pwd) return Message.error("请输入密码",2000);
+					if(!mobile) return Message.error("请输入手机号",2000);
+					
+					var res = ValidateRule.mobile(mobile);
+					if(!res.isOk) return Message.error(res.errMsg);
+
+					PFT.Util.Ajax("/r/product_MemberCardBasic/modifyPhone/",{
+						type : "post",
+						params : {
+							fid : that.fid,
+							phone : mobile,
+							password : pwd
+						},
+						loading : function(){ tarBtn.addClass("disable").text("请稍后...")},
+						complete : function(){ tarBtn.removeClass("disable").text("确定")},
+						success : function(res){
+							var code = res.code;
+							var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+							if(code==200){
+								Message.success("修改成功");
+								$("#mobileInp").val(mobile);
+							}else{
+								Message.error(msg);
+							}
+						},
+						timeout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},
+						serverError : function(){ Message.error(PFT.AJAX_ERROR_TEXT)}
+					});
+
+				}
+			}
+		});
+		this.dialog.open();
 	},
 	onPhotoMouseLeave : function(e){
 		var tarBox = $(e.currentTarget);
@@ -166,10 +239,6 @@ var Main = PFT.Util.Class({
 	//点击性别
 	onFamleFeClick : function(e){
 		$(e.currentTarget).addClass("active").siblings().removeClass("active");
-	},
-	//点击提交按钮
-	onSaveBtnClick : function(e){
-
 	},
 	onValifyInpBlur : function(e){
 		var tarDom = $(e.currentTarget);

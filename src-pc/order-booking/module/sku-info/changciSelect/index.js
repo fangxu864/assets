@@ -34,6 +34,7 @@ var ChangciSelect = PFT.Util.Class({
             if(!tarItem.hasClass("active")){
                 var list = that.list;
                 var id = tarItem.attr("data-roundid");
+                var venusId = tarItem.attr("data-venusid");
                 var data = null;
                 for(var i=0,len=list.length; i<len; i++){
                     if(list[i]["id"]==id){
@@ -45,6 +46,7 @@ var ChangciSelect = PFT.Util.Class({
                     data["ls"] = ls;
                     data["js"] = js;
                     data["roundId"] = id;
+                    data["venusId"] = venusId;
                     that.trigger("change",data);
                 }
             }

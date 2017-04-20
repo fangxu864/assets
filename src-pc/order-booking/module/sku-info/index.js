@@ -48,11 +48,11 @@ var SukInfo = PFT.Util.Class({
             //所以返回的数据里，tickets数组任何时候只能有1个item
             var zoneId = this.data.tickets[0].zoneId;
             //zoneId==0 代表该票没绑定分区，即为站票， 站票库存规定是不限的
-            var storage = zoneId==0 ? -1 : data.area_storage[zoneId];
             var pid = this.data.tickets[0].pid;
             var changciSelect = this.changciSelect = new ChangciSelect(this.data);
             changciSelect.on("change",function(data){ //当场次切换时
-                $("#iShowBeginTimeInp").val(data.bt+"-"+data.et).attr("data-roundid",data.roundId);
+                var storage = zoneId==0 ? -1 : data.area_storage[zoneId];
+                $("#iShowBeginTimeInp").val(data.bt+"-"+data.et).attr("data-roundid",data.roundId).attr("data-venusid",data.venusId);
                 if(data.js==-1 && data.ls==-1) return false;
                 var _d = {
                     ls : data.ls,
@@ -73,7 +73,6 @@ var SukInfo = PFT.Util.Class({
         if(p_type=="C") this.getPriceStorageByDate_Hotel(Common.getPidAid().pid,Common.getPidAid().aid,startDate,CalendarCore.nextDay(startDate));
 
         datepicker.on("datePick",function(data){
-            console.log(data);
             var tarInp = data.relyInp;
             var date = data.pickDate || "";
             if(p_type!=="H" && p_type!=="C"){ //非演出酒店类，需要发ajax取storage跟price
@@ -248,6 +247,7 @@ var SukInfo = PFT.Util.Class({
 
         if(pType=="H"){//演出类
             result["round_id"] = $("#iShowBeginTimeInp").attr("data-roundid");
+            result["venus_id"] = $("#iShowBeginTimeInp").attr("data-venusid");
         }
 
         return result;

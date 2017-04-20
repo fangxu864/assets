@@ -44,6 +44,7 @@ var Service = require("SERVICE/order-booking");
 var Main = PFT.Util.Class({
     container : "#orderBookingContainer",
     pType : "",
+    ota : "",
     init : function(){
 
         var that = this;
@@ -62,6 +63,7 @@ var Main = PFT.Util.Class({
                 container.html("");
             },
             success : function(data){
+                that.ota = data.isOTA;
                 that.pType = data.p_type;
                 that.initModules(data);
             },
@@ -156,9 +158,12 @@ var Main = PFT.Util.Class({
 
         var paymode = {paymode:this.payType.getSubmitData()};
 
+        //演出类产品，需要多传一个ota给后端
+        var ota = pType=="H" ? {ota:this.ota} : {};
+
         if(!contactData) return false;
 
-        var submitData = $.extend({},Common.getPidAid(),skuData,ticketListData,contactData,paymode);
+        var submitData = $.extend({},Common.getPidAid(),skuData,ticketListData,contactData,paymode,ota);
         
         var orignText = submitBtn.text();
 

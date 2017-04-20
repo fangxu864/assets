@@ -415,19 +415,18 @@ var TicketList = PFT.Util.Class({
         var pType = this.pType;
         //演出类产品，旧版的页面是直接form submit
         //而且传的不是pids，而是c_pids，字段名不同，但内容一样
-        var pidKey = pType=="H" ? "c_pids" : "pids";
+        var pidKey = "pids";
 
         var pids = result[pidKey] || (result[pidKey]={});
 
         this.container.find(".ticketItem").each(function(item,index){
             var $this = $(this);
-            var zoomId = $this.attr("data-zoomid"); //分区id
+            var zoneId = $this.attr("data-zoomid"); //分区id
             var pid = $this.attr("data-pid");
             var count = $this.find(".countInp").val();
             pids[pid] = $.trim(count);
-            if(pType=="H"){ //演出类产品要多传一个c_area
-                var area = result["c_area"] || (result["c_area"]={});
-                area[pid] = zoomId;
+            if(pType=="H"){ //演出类产品要多传一个area_id
+                result["area_id"] = zoneId;
             }
         });
 
