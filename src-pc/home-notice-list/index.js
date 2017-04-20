@@ -76,15 +76,30 @@ var Main = PFT.Util.Class({
     },
 
     getPosParams : function(type,page){
-        var pos = {
-            self_pos : "",
-            dis_pos : ""
-        };
+        var pos = {};
+
+        switch( type ) {
+            case 'price':
+                pos = {
+                    self_pos : "",
+                    dis_pos : "",
+                    supply_pos: ''
+                };
+                break;
+            case 'product':
+                pos = {
+                    self_pos : "",
+                    dis_pos : ""
+                };
+                break;
+        }
+
         var cacheData = this.__CacheData[type+"_"+page];
         if(!cacheData) return pos;
 
         if(typeof cacheData.self_pos !=="undefined") pos.self_pos = cacheData.self_pos;
         if(typeof cacheData.dis_pos !=="undefined") pos.dis_pos = cacheData.dis_pos;
+        if(typeof cacheData.supply_pos !=="undefined") pos.supply_pos = cacheData.supply_pos;
 
         return pos;
 
@@ -103,16 +118,14 @@ var Main = PFT.Util.Class({
 
         var _fetch = function(){
             var pos = that.getPosParams(type,fromPage);
-            console.log(pos);
+
+            var params = $.extend( {}, { size:15, page: toPage }, pos );
 
             PFT.Util.Ajax(url,{
                 type : "post",
-                params : {
-                    size : 15,
-                    page : toPage,
-                    self_pos : pos.self_pos,
-                    dis_pos : pos.dis_pos
-                },
+
+                params : params,
+
                 loading : function(){
                     if(fromPage==1 && toPage==1){
                         that.renderPagination("hidden");
@@ -120,6 +133,7 @@ var Main = PFT.Util.Class({
                         that.renderPagination(type,fromPage,"loading");
                     }
                 },
+
                 complete : function(){
                     if(fromPage==1 && toPage==1){
                         that.renderPagination("hidden");
@@ -127,6 +141,7 @@ var Main = PFT.Util.Class({
                         that.renderPagination(type,fromPage);
                     }
                 },
+
                 success : function(res){
                     var code = res.code,
                         data = res.data,
@@ -146,9 +161,11 @@ var Main = PFT.Util.Class({
                         Message.alert(msg);
                     }
                 },
+
                 timeout : function(){
                     Message.alert(PFT.AJAX_TIMEOUT_TEXT);
                 },
+
                 serverError : function(){
                     Message.alert(PFT.AJAX_ERROR_TEXT);
                 }
