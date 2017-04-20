@@ -4,14 +4,8 @@ var Toast = new PFT.Mobile.Toast();
 /*var Toast = PFT.Mobile.Toast*/
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
-
-    dom: {
-        loginTab: '#loginTab',
-        loginTabCon: '#loginTabCon'
-    },
-
     EVENTS: {
-        "click #btnLogin": "onLoginBtnClick",
+        "click #loginBtn": "onLoginBtnClick",
     },
     init: function () {
         var urlParams = PFT.Util.UrlParse();

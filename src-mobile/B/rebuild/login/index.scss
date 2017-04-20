@@ -3,92 +3,154 @@
 body{
     #bodyContainer{
         text-align: center;
-        background: url("//static.12301.cc/assets/build/images/wx_b/dl_bg.jpg") no-repeat;
+        background: url("http://wx.12301.cc/mall/modules/common/login2/images/bg.jpg") no-repeat center center;
         background-size: cover;
         position:absolute;
         left:0;right:0;top:0;bottom:0;
-    #loginBox{
-        padding: px2rem(75) 0;
-        .loginBox{
-            margin: px2rem(15);
-            .u-inp{
-                display: block;
-                height: px2rem(80);
-                padding-left: px2rem(80);
-                font-size: px2rem(30);
-                border: none;
-                width: 100%;
-                border-radius: 3px;
-                box-sizing: border-box;
-    
-            }
-            .loginIcon{
-                position: relative;
-                right: px2rem(320);
-                top:px2rem(-60);
-                
-            }
-            .u-loginBtn{
-                display: inline-block;
-                width: 99%;
-                height:px2rem(75);
-                line-height: px2rem(75);
-                border-radius: 3px;
-                color: #fff;
-                border: 1px solid #fff;
-                background: rgba(255,255,255,0.1);
-            }
-        }
-        .verifyBox{
-            margin: px2rem(15);
-            margin-bottom: px2rem(48);
-            text-align: left;
-            display: none;
-            .u-inp{
-                display: inline-block;
-                height: px2rem(80);
-                padding-left: px2rem(40);
-                font-size: px2rem(30);
-                border: none;
-                vertical-align: middle;
-                width: 50%;
-                border-radius: 3px;
-                box-sizing: border-box;
-            }
-            .u-img{
-                display: inline-block;
-                width: 20%;
-                margin:0 2%;
-                height:px2rem(73);
-                line-height:px2rem(73);
-                vertical-align: middle;
-                background: #fff; 
-            }
-            .u-span{
-                display: inline-block;
-                vertical-align: middle;
-                color: #fff;
-                height:px2rem(80);
-                font-size: 0.4rem;
-                line-height:0.5rem;
-                width: 15%;
-            }
-        }
-    }
-     #logoBox{
-            width: 100%;
-            
-         #logo{
-            margin-top: px2rem(35);
-            width: px2rem(250);
-            height: px2rem(250);
-         }
-      }
-     #copyRDiv{
-         color: #fff;
-        margin-top: px2rem(350);
 
-     }   
-       
+        .login-form {
+            padding: px2rem( 50 ) px2rem( 30 ) 0;
+        }
+
+        .login-tab {
+            display: -webkit-box;
+            display: flex;
+            flex-flow: rows;
+            justify-content: space-around;
+            align-items: center;
+
+            li {
+                font-size: 16px;
+                line-height: 1.5;
+                color: #77c1e9;
+
+                &.active {
+                    color: #fff;
+                }
+            }
+        }
+
+        .reg {
+            position: absolute;
+            left: 0;
+            bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+
+
+        #loginBox{
+            padding: px2rem(75) 0;
+            .loginBox{
+                margin: px2rem(15);
+                .u-inp{
+                    display: block;
+                    height: px2rem(80);
+                    padding-left: px2rem(80);
+                    font-size: px2rem(30);
+                    border: none;
+                    width: 100%;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+
+                }
+                .loginIcon{
+                    position: relative;
+                    right: px2rem(320);
+                    top:px2rem(-60);
+
+                }
+                .u-loginBtn{
+                    display: inline-block;
+                    width: 99%;
+                    height:px2rem(75);
+                    line-height: px2rem(75);
+                    border-radius: 3px;
+                    color: #fff;
+                    border: 1px solid #fff;
+                    background: rgba(255,255,255,0.1);
+                }
+            }
+            .verifyBox{
+                margin: px2rem(15);
+                margin-bottom: px2rem(48);
+                text-align: left;
+                display: none;
+                .u-inp{
+                    display: inline-block;
+                    height: px2rem(80);
+                    padding-left: px2rem(40);
+                    font-size: px2rem(30);
+                    border: none;
+                    vertical-align: middle;
+                    width: 50%;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+                }
+                .u-img{
+                    display: inline-block;
+                    width: 20%;
+                    margin:0 2%;
+                    height:px2rem(73);
+                    line-height:px2rem(73);
+                    vertical-align: middle;
+                    background: #fff;
+                }
+                .u-span{
+                    display: inline-block;
+                    vertical-align: middle;
+                    color: #fff;
+                    height:px2rem(80);
+                    font-size: 0.4rem;
+                    line-height:0.5rem;
+                    width: 15%;
+                }
+            }
+        }
+        #logoBox{
+                width: 100%;
+
+             #logo{
+                margin-top: px2rem(35);
+                width: px2rem(250);
+                height: px2rem(250);
+             }
+        }
+
+    }
+}
+
+.btn {
+    display:inline-block;
+    padding: px2rem( 10 );
+    border-width: 1px;
+    border-style: solid;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    overflow: visible;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+
+    &.btn-default {
+        background-color: #0797d9;
+        border-color: #0797d9;
+        color: #fff;
+    }
+
+    &.btn-tiny {
+        padding: px2rem( 3 ) px2rem( 5 );
+        font-size: 14px;
+    }
+
+    &.btn-block {
+        display: block;
+
+        &~.btn-block {
+            margin-top: px2rem( 20 );
+        }
     }
 }

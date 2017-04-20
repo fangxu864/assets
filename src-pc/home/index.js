@@ -21,7 +21,7 @@ var SystemNotice = require("./modules/system-notice");
 
 var AD = require("./modules/ad");
 
-if( $('#loginInfoOrderMode').val() == '0' ) {
+if( $('#isShowAppcenter').val() == '1' && $('#sessionOrderMode').val() == '0' ) {
 	var RecommendApp = require('./modules/recommend-app');
 }
 
