@@ -19,6 +19,12 @@ var UserCenter = PFT.Util.Class({
         list: '#list'               // 应用列表
     },
 
+    MENU_ICONS: {
+        book: ['icon-chanpinyuding', '#f37777'],
+        order_search: ['icon-dingdan', '#0797d9'],
+        poster: ['icon-haibaotuiguang', '#3eba40']
+    },
+
     AJAX_URL: '/r/MicroPlat_Member/userCenterInfo',
 
     init: function() {
@@ -75,7 +81,7 @@ var UserCenter = PFT.Util.Class({
         }
 
         var ul = applist.children('.ul'),
-            html = tpls.appLi({ menu: data.menu });
+            html = tpls.appLi({ menu: data.menu, icons: this.MENU_ICONS });
 
         ul.html( html );
     }
