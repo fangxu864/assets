@@ -19,15 +19,18 @@ var Main = PFT.Util.Class({
     },
 
     EVENTS: {
-        "click #btnLogin": "onLoginBtnClick"
+        "click #btnLogin": "onLoginBtnClick",
+        'tap #btnSendCode': 'onBtnSendCodeTap'
     },
+
+    TOTAL_COUNTDOWN: 60,
 
     init: function () {
         var urlParams = PFT.Util.UrlParse();
         var noAuto = urlParams["noAuto"];
         var _this = this;
         var search = window.location.search;
-        if (!noAuto) {
+        if ( noAuto ) {
             _this.loadJudge(search);
         }
 
@@ -92,25 +95,90 @@ var Main = PFT.Util.Class({
                         }
                     }
                 }
-
             })
 
     },
 
     onLoginBtnClick: function () {
         var _this = this;
-        var loginInpVal = $.trim($("#loginInp").val());
-        var pwdInpVal = $.trim($("#pwdInp").val());
+
+        var type = $('#loginTab .active').attr('data-login');
+
+        switch( type ) {
+            case 'account':
+                _this.loginViaAccount();
+                break;
+            case 'phone':
+                _this.loginViaPhone();
+        }
+    },
+
+    loginViaAccount: function() {
+        var loginInpVal = $.trim($("#inpAccount").val());
+        var pwdInpVal = $.trim($("#inpPassword").val());
         var regx = /\S/;
         var regxx = /^[1-9]\d*$/;
         if (regx.test(loginInpVal) && regx.test(pwdInpVal)) {
             //    if(!regxx.test(loginInpVal)){
             //        return Alert("请输入正确的手机号!");
             //     }
-            _this.subLoginReq($.trim(loginInpVal), $.trim(pwdInpVal));
+            this.subLoginReq($.trim(loginInpVal), $.trim(pwdInpVal));
         } else {
             Alert("账号和密码不能为空!")
         }
+    },
+
+    loginViaPhone: function() {
+        var mobile = $.trim( $('#inpPhone').val() ),
+            vcode = $.trim( $('#inpCode').val() );
+
+        if( !mobile || !vcode ) {
+            Alert('手机号和验证码不能为空！');
+            return false;
+        }
+
+        PFT.Util.Ajax("/r/MicroPlat_Member/loginByVocde", {
+            type: 'post',
+
+            params: {
+                token: PFT.Util.getToken(),
+                mobile: mobile,
+                vcode: vcode
+            },
+
+            loading: function(){
+                Toast.show("loading", "请稍后...");
+            },
+
+            complete: function () {
+                Toast.hide("loading", "请稍后...");
+            },
+
+            success: function ( res ) {
+                if (res.code == 200) {
+                    var Url = res.data.url;
+                    var search = window.location.search;
+                    var Nurl = "plist.html";
+                    if (Url.length > 1) {
+                        window.location.href = Url + search;
+                    } else {
+                        window.location.href = Nurl + search;
+                    }
+                } else if (res.code == 401) {
+                    Toast.show("loading", res.msg);
+                    (function () {
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    })()
+
+
+                } else {
+                    Alert(res.msg);
+
+                }
+            }
+        })
     },
 
     subLoginReq: function (mobile, pwd) {
@@ -181,6 +249,57 @@ var Main = PFT.Util.Class({
         rBtn.on("click",function(){
             _this.veryfiyCode();
         })
+    },
+
+    onBtnSendCodeTap: function( e ) {
+        var target = $( e.target );
+
+        if( !target.is('.disabled') ) {
+            var mobile = $.trim( $('#inpPhone').val() ),
+                countdown = this.TOTAL_COUNTDOWN,
+                timer = null;
+
+            target.addClass('disabled');
+
+            PFT.Util.Ajax("/r/MicroPlat_Member/sendVcode", {
+
+                type: "POST",
+
+                params: {
+                    token: PFT.Util.getToken(),
+                    mobile: mobile
+                },
+
+                loading: function () {
+                    Toast.show("loading", "请稍后...");
+                },
+
+                complete: function () {
+                    Toast.hide("loading", "请稍后...");
+                },
+
+                success: function (res) {
+                    if (res.code == 200) {
+
+                        timer = setInterval(function(){
+                            countdown--;
+                            if( countdown!=0 ) {
+                                target.html( countdown + '秒后重发');
+                            } else {
+                                target.html( '获取验证码' ).removeClass('disabled');
+                                clearInterval( timer );
+                            }
+                        }, 1000);
+
+                    } else {
+                        target.removeClass('disabled');
+                        Alert(res.msg);
+
+                    }
+                }
+            })
+
+        }
     }
 
 })
