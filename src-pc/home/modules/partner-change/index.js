@@ -32,6 +32,8 @@ module.exports = function(parent){
 
         PAGE_SIZE: 10,
 
+        RECENT_DAY: 7,
+
         dialog: null,
 
         EVENTS: {
@@ -111,18 +113,32 @@ module.exports = function(parent){
                         var dialogContent = $('#dialogContent'),
                             tempStr = '';
 
+                        // switch( action ) {
+                        //     case 'add':
+                        //         tempStr = '您添加了 ' + num + ' 个分销商';
+                        //         break;
+                        //     case 'del':
+                        //         tempStr = '您删除了 ' + num + ' 个分销商';
+                        //         break;
+                        //     case 'added':
+                        //         tempStr = num + ' 个供应商添加了您';
+                        //         break;
+                        //     case 'deleted':
+                        //         tempStr = num + ' 个供应商删除了您';
+                        //         break;
+                        // }
                         switch( action ) {
                             case 'add':
-                                tempStr = '您添加了 ' + num + ' 个分销商';
+                                tempStr = '您添加了以下分销商';
                                 break;
                             case 'del':
-                                tempStr = '您删除了 ' + num + ' 个分销商';
+                                tempStr = '您删除了以下分销商';
                                 break;
                             case 'added':
-                                tempStr = num + ' 个供应商添加了您';
+                                tempStr = '以下供应商添加了您';
                                 break;
                             case 'deleted':
-                                tempStr = num + ' 个供应商删除了您';
+                                tempStr = '以下供应商删除了您';
                                 break;
                         }
 
@@ -180,7 +196,8 @@ module.exports = function(parent){
                 params: {
                     type: type[ opt.action ],
                     page: opt.page || 1,
-                    size: this.PAGE_SIZE
+                    size: this.PAGE_SIZE,
+                    recent_day: this.RECENT_DAY
                 },
 
                 loading: function(){

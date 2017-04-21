@@ -1,6 +1,14 @@
 require("./index.scss");
 var Alert = PFT.Mobile.Alert;
 var Toast = new PFT.Mobile.Toast();
+
+var ParseTemplate = PFT.Util.ParseTemplate;
+
+var tpls = {
+    account: ParseTemplate( require('./account.xtpl') ),
+    phone: ParseTemplate( require('./phone.xtpl') )
+};
+
 /*var Toast = PFT.Mobile.Toast*/
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
@@ -11,8 +19,9 @@ var Main = PFT.Util.Class({
     },
 
     EVENTS: {
-        "click #btnLogin": "onLoginBtnClick",
+        "click #btnLogin": "onLoginBtnClick"
     },
+
     init: function () {
         var urlParams = PFT.Util.UrlParse();
         var noAuto = urlParams["noAuto"];
@@ -21,7 +30,41 @@ var Main = PFT.Util.Class({
         if (!noAuto) {
             _this.loadJudge(search);
         }
+
+        this.render();
+
+        this.bindTap();
+
+        $( this.dom.loginTab ).find('li:first').trigger( 'tap' );
     },
+
+    render: function() {
+        var htmlAccount = tpls.account(),
+            htmlPhone = tpls.phone();
+
+        $('<div />', {
+            class: 'login-tab-con'
+        }).html( htmlAccount ).appendTo( $( this.dom.loginTabCon ) );
+
+        $('<div />', {
+            class: 'login-tab-con',
+            css:{ display: 'none' }
+        }).html( htmlPhone ).appendTo( $( this.dom.loginTabCon ) );
+    },
+
+    bindTap: function() {
+        var _this = this;
+
+        $( this.dom.loginTab ).on('tap', 'li', function( e ){
+            var target = $( e.target ),
+                i = target.index();
+
+            target.addClass('active').siblings().removeClass('active');
+
+            $( _this.dom.loginTabCon ).children('.login-tab-con').hide().eq( i ).fadeIn();
+        })
+    },
+
     loadJudge: function (search) {
         var urlParams = PFT.Util.UrlParse();
         PFT.Util.Ajax("/r/MicroPlat_Member/beforeLogin",
@@ -53,6 +96,7 @@ var Main = PFT.Util.Class({
             })
 
     },
+
     onLoginBtnClick: function () {
         var _this = this;
         var loginInpVal = $.trim($("#loginInp").val());
@@ -68,6 +112,7 @@ var Main = PFT.Util.Class({
             Alert("账号和密码不能为空!")
         }
     },
+
     subLoginReq: function (mobile, pwd) {
         var _this=this;
         PFT.Util.Ajax("/r/MicroPlat_Member/login", {
@@ -116,6 +161,7 @@ var Main = PFT.Util.Class({
             }
         })
     },
+
     veryfiyCode: function () {
         var _this=this;
         var vImg = $("#verifyImg");
@@ -128,6 +174,7 @@ var Main = PFT.Util.Class({
         vImg.attr("src",link);
         _this.refreshCode();
     },
+
     refreshCode:function(){
         var _this=this;
         var rBtn = $("#refBtn");

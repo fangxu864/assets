@@ -33,6 +33,7 @@ body{
         .reg {
             position: absolute;
             left: 0;
+            right: 0;
             bottom: 15px;
             text-align: center;
             font-size: 14px;
@@ -124,7 +125,7 @@ body{
 
 .btn {
     display:inline-block;
-    padding: px2rem( 10 );
+    padding: px2rem( 16 ) px2rem( 20 );
     border-width: 1px;
     border-style: solid;
     font-size: 16px;
@@ -142,7 +143,7 @@ body{
     }
 
     &.btn-tiny {
-        padding: px2rem( 3 ) px2rem( 5 );
+        padding: px2rem( 3 ) px2rem( 15 );
         font-size: 14px;
     }
 
@@ -153,4 +154,50 @@ body{
             margin-top: px2rem( 20 );
         }
     }
+}
+
+.input-text {}
+
+.form {
+    .form-group {
+        position: relative;
+
+        .form-label {}
+        .form-content {}
+    }
+
+    &.login {
+        .form-group {
+            position: relative;
+            background-color: #fff;
+
+            .form-label {
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                font-size: 20px;
+            }
+            .form-content {
+                padding: 10px 10px 10px 40px;
+
+                .input-text {
+                    display: block;
+                    width: 100%;
+                    background-color: #fff;
+                    border: 0 none;
+                    font-size: 14px;
+                    line-height: 2;
+                }
+            }
+
+            ~.form-group {
+                margin-top: 1px;
+            }
+        }
+    }
+}
+
+#btnSendCode {}
+input:-webkit-autofill {
+    -webkit-box-shadow:  0 0 0 1000px #fff inset;
 }

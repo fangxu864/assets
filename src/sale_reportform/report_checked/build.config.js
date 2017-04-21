@@ -1,3 +1,3 @@
 module.exports = {
-    outputFilename : "sale_reportform_report_checked"
+    outputFilename : "report/sale_reportform_report_checked"
 }
