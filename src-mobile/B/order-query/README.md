@@ -6,7 +6,7 @@
 需要并合在一个页面内实现，即做成一个单页应用 
  
  
-单页应用的路由目前选用underscore.js的Router模块 
+单页应用的路由目前选用backbone.js的Router模块 
 
 ### 订单查询的3大模块：
 > 1. 订单列表模块 对应 ./ListManager
