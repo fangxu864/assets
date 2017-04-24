@@ -323,7 +323,19 @@ module.exports = function(parent){
 
 			var option = {
 				color: colors,
-
+				toolbox: {
+					// y: 'bottom',
+					feature: {
+						// magicType: {
+						// 	type: ['stack', 'tiled']
+						// },
+						// dataView: {},
+						saveAsImage: {
+							pixelRatio: 2
+						}
+					},
+					right: '8%'
+				},
 				tooltip: {
 					trigger: 'none',
 					axisPointer: {
