@@ -225,9 +225,7 @@ module.exports = function(parent){
 				}
 			}
 
-			console.log(newArr)
-			console.log(oldArr)
-			console.log(res);
+
 
 			//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
 			for( k in res.timeLine ){
@@ -319,7 +317,7 @@ module.exports = function(parent){
 			// 		}
 			// 	]
 			// };
-			var colors = ['#2889e1', '#b7b7b7', '#675bba'];
+			var colors = ['#2889e1', '#b7b7b7'];
 
 			var option = {
 				color: colors,
@@ -336,10 +334,14 @@ module.exports = function(parent){
 					},
 					right: '8%'
 				},
-				tooltip: {
-					trigger: 'none',
+				tooltip : {
+					trigger: 'axis',
 					axisPointer: {
-						type: 'cross'
+						type: 'line',
+
+						label: {
+							backgroundColor: '#6a7985'
+						}
 					}
 				},
 				legend: {
@@ -360,28 +362,10 @@ module.exports = function(parent){
 					containLabel: true
 				},
 				xAxis: [
+
 					{
 						type: 'category',
-						axisTick: {
-							alignWithLabel: true
-						},
-						axisLine: {
-							onZero: false,
-							lineStyle: {
-								color: colors[0]
-							}
-						},
-						axisPointer: {
-							label: {
-								formatter: function (params) {
-									return '当前数据  ' + params.value + '：' + params.seriesData[0].data;
-								}
-							}
-						},
-						data: xAxisArr
-					},
-					{
-						type: 'category',
+						show:false,
 						axisTick: {
 							alignWithLabel: true
 						},
@@ -394,12 +378,35 @@ module.exports = function(parent){
 						axisPointer: {
 							label: {
 								formatter: function (params) {
-									return '对比数据  ' + params.value + '：' + params.seriesData[0].data;
+									return  params.value ;
 								}
 							}
 						},
 						data: oldAxisArr
+					},
+					{
+						type: 'category',
+						position:'bottom',
+						axisTick: {
+							alignWithLabel: true
+						},
+						axisLine: {
+							onZero: false,
+							lineStyle: {
+								color: colors[0]
+							}
+						},
+						axisPointer: {
+							label: {
+								formatter: function (params) {
+									return params.value ;
+								}
+							}
+						},
+						data: xAxisArr
 					}
+
+
 				],
 				yAxis: [
 					{
@@ -410,17 +417,19 @@ module.exports = function(parent){
 					{
 						name:'当前数据',
 						type:'line',
-						xAxisIndex: 0,
+						xAxisIndex: 1,
 						smooth: true,
 						data: newArr
 					},
 					{
 						name:'对比数据',
 						type:'line',
-						xAxisIndex: 1,
+						xAxisIndex: 0,
 						smooth: true,
 						data: oldArr
 					}
+
+
 				]
 			};
 
