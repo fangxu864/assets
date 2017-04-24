@@ -417,9 +417,9 @@ var Book_form={
         })
         //导出按钮
         $(".excel_btn").on("click",function () {
-            var api="/r/report_statistics/cancelList/";
+            var api="/r/report_statistics/revokeList/";
             if(_this.isAdmin=="1"){
-                api="/r/report_statistics/adminCancelList/";
+                api="/r/report_statistics/adminRevokeList/";
             }
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
@@ -604,7 +604,7 @@ var Book_form={
         if(!isResourceAccount()) listHtml += '<td class="th6">'+sum.cancelMoney+'</td>';
         listHtml += '<td class="th7">'+sum.serviceMoneyIn+'</td>'
         if(!isResourceAccount()) listHtml += '<td class="th8">'+sum.serviceMoneyOut+'</td>';
-        
+
         listHtml += '<td class="th8"></td>'+
             '</tr>';
         for(var i=0;i<list.length;i++){
@@ -752,9 +752,9 @@ var Book_form={
     //ajax获取数据
     ajaxGetData:function (data) {
         var _this=this;
-        var api="/r/report_statistics/cancelList/";
+        var api="/r/report_statistics/revokeList/";
         if(_this.isAdmin=="1"){
-            api="/r/report_statistics/adminCancelList/";
+            api="/r/report_statistics/adminRevokeList/";
         }
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
