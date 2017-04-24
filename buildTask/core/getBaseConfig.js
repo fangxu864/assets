@@ -1,7 +1,7 @@
 var path = require("path");
 var Root = require("../../rootDir")();
 var webpack = require("webpack");
-var ExtractTextPlugin = webpack.ExtractTextPlugin;
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = function(opt){
     opt || (opt={});
     var autoprefixer = require("autoprefixer");
