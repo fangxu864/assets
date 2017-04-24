@@ -311,11 +311,6 @@
                         link : GetWXShareLinkUrl()
                     });
 
-
-
-
-
-
                 },
                 fail : (msg)=>{
                     Alert(msg);
