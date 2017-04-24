@@ -15,19 +15,20 @@
 
 
 
-## 需求文档
+### 需求文档
 http://axure.12301.test/%E8%A7%84%E5%88%92%E4%B8%AD%E6%88%96%E5%B7%B2%E5%AE%8C%E6%88%90/%E5%BE%AE%E5%B9%B3%E5%8F%B00413/#g=1&p=订单列表
 
-## 后端接口文档地址
+### 后端接口文档地址
 http://git.12301.io/PFT/PFT_Documents/src/master/%E6%96%B0%E7%89%88%E5%BE%AE%E4%BF%A1B%E7%AB%AF%E4%BA%A7%E5%93%81%E9%A2%84%E8%AE%A2%E6%8E%A5%E5%8F%A3.md 
 第30：获取订单列表
 
-涉及到的项目及分支：
+### 涉及到的项目及分支：
 wx       feature/b-usercenter
 asssets  develop
 Service  feature/wechat-opt
 
-页面访问：http://123624.12301.local/wx/b/order_query.html
+### 页面访问
+http://123624.12301.local/wx/b/order_query.html
 
-
+### 前端编译
 npm run local:mb ./src-mobile/B/order-query
