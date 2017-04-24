@@ -2,13 +2,13 @@
     <div class="form-group">
         <label for="inpPhone" class="form-label"><i class="icon-u-regular icon-shouji"></i></label>
         <div class="form-content">
-            <input type="number" class="input-text" id="inpPhone" />
+            <input type="number" class="input-text" id="inpPhone" placeholder="手机号" />
         </div>
     </div>
     <div class="form-group">
         <label for="inpCode" class="form-label"><i class="icon-u-regular icon-Secret"></i></label>
         <div class="form-content">
-            <input type="password" class="input-text" id="inpCode" />
+            <input type="number" class="input-text input-code" id="inpCode" placeholder="验证码" />
             <a href="javascript:;" id="btnSendCode" class="btn btn-tiny btn-warning">获取验证码</a>
         </div>
     </div>
