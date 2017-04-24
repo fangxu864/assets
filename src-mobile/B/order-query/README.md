@@ -19,3 +19,7 @@
 http://axure.12301.test/%E8%A7%84%E5%88%92%E4%B8%AD%E6%88%96%E5%B7%B2%E5%AE%8C%E6%88%90/%E5%BE%AE%E5%B9%B3%E5%8F%B00413/#g=1&p=订单列表
 
 
+涉及到的项目及分支：
+wx       feature/order-query-b
+asssets  develop
+Service  feature/wechat-opt
