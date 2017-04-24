@@ -1,0 +1,42 @@
+    <div id="pageFilter" class="filter-container">
+        <div class="form">
+            <div class="form-group">
+                <label class="form-label" id="dateType">
+                    预计游玩日期<i class="arrow-d"></i>
+                </label>
+                <div class="form-val">
+                    <ul class="date-type-val" id="quickSelectDate">
+                        <li>今天</li>
+                        <li>昨天</li>
+                        <li>近7日</li>
+                        <li>自定义</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="dateRange">
+                <div class="form-group">
+                    <label class="form-label">
+                        起始日期
+                    </label>
+                    <div class="form-val">
+                        <input type="datetime-local" id="beginDatetime" />
+                        <i class="icon-u-regular icon-rili"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        截止日期
+                    </label>
+                    <div class="form-val">
+                        <input type="datetime-local" id="endDatetime" />
+                        <i class="icon-u-regular icon-rili"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:;" id="btnSearch" class="btn btn-default btn-block">搜索</a>
+        <div class="btn-group btn-2">
+            <a href="javascript:;" id="btnCancel" class="btn btn-default-reverse">取消</a>
+            <a href="javascript:;" id="btnClear" class="btn btn-default-reverse">清空</a>
+        </div>
+    </div>
