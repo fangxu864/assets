@@ -207,23 +207,27 @@ module.exports = function(parent){
 			};
 
 			_this.lineEchart.hideLoading();
-			var newArr = [] , oldArr = [] , xAxisArr = [] , i , j , k ,timeStr = '';
+			var newArr = [] , oldArr = [] , xAxisArr = [] , oldAxisArr = [] , i , j , k ,timeStr = '';
 
 			if(params.search_type == 1 ){
 				for( i in res["new"]){
-					newArr.push(res["new"][i])
+					newArr.push( Number( res["new"][i] ) )
 				}
 				for( j in res["old"] ){
-					oldArr.push(res["old"][j])
+					oldArr.push( Number( res["old"][j] ) )
 				}
 			}else if(params.search_type == 2 ){
 				for( i in res["new"]){
-					newArr.push(res["new"][i] / 100)
+					newArr.push( Number( res["new"][i] / 100 ) )
 				}
 				for( j in res["old"] ){
-					oldArr.push(res["old"][j] / 100)
+					oldArr.push( Number( res["old"][j] / 100) )
 				}
 			}
+
+			console.log(newArr)
+			console.log(oldArr)
+			console.log(res);
 
 			//格式化日期，返回20170102  -->  2017/01/02  如果是周末  返回周六或周日
 			for( k in res.timeLine ){
@@ -237,33 +241,117 @@ module.exports = function(parent){
 				}
 				xAxisArr.push( timeStr );
 			}
+			for(var key in res.old){
+				timeStr = key.replace(/\d{2,4}(?=(\d{2}){1,2}$)/g , "$&/");
+				if( /0|6/.test( new Date(timeStr).getDay()) ){
+					if( new Date(timeStr).getDay() === 0 ){
+						timeStr = "周日" ;
+					}else{
+						timeStr = "周六" ;
+					}
+				}
+				oldAxisArr.push( timeStr );
+			}
+
+			// var option = {
+			// 	tooltip : {
+			// 		trigger: 'axis'
+			// 	},
+			// 	legend: {
+			// 		data:['当前数据','对比数据']
+			// 	},
+			// 	toolbox: {
+			// 		feature: {
+			// 			saveAsImage: false
+			// 		}
+			// 	},
+			// 	dataZoom: [
+			// 		{
+			// 			type: 'slider',
+			// 			show: true,
+			// 			xAxisIndex: [0],
+			// 			start: 0,
+			// 			end: 100
+			// 		},
+			// 		// {
+			// 		// 	type: 'inside',
+			// 		// 	xAxisIndex: [0],
+			// 		// 	start: 1,
+			// 		// 	end: 35
+			// 		// },
+			// 	],
+			// 	grid: {
+			// 		left: '8%',
+			// 		right: '8%',
+			// 		bottom: '15%',
+			// 		containLabel: true
+			// 	},
+			// 	xAxis : [
+			// 		{
+			// 			type : 'category',
+			// 			boundaryGap : false,
+			// 			data : xAxisArr
+			// 		}
+			// 	],
+			// 	yAxis : [
+			// 		{
+			// 			type : 'value'
+			// 		}
+			// 	],
+			// 	series : [
+			// 		{
+			// 			name:'当前数据',
+			// 			type:'line',
+			// 			stack: '总量',
+			// 			smooth : true ,
+			// 			areaStyle: {normal: { color : "#77cfdd"}},
+			// 			lineStyle : { normal : { color : '#c6cad3'}},
+			// 			data: newArr
+			// 		},
+			// 		{
+			// 			name:'对比数据',
+			// 			type:'line',
+			// 			stack: '总量',
+			// 			smooth : true ,
+			// 			areaStyle: {normal: { color : "#e8e9ed" }},
+			// 			lineStyle : { normal : { color : '#c6cad3'}},
+			// 			data: oldArr
+			// 		}
+			// 	]
+			// };
+			var colors = ['#2889e1', '#b7b7b7', '#675bba'];
 
 			var option = {
-				tooltip : {
-					trigger: 'axis'
+				color: colors,
+				toolbox: {
+					// y: 'bottom',
+					feature: {
+						// magicType: {
+						// 	type: ['stack', 'tiled']
+						// },
+						// dataView: {},
+						saveAsImage: {
+							pixelRatio: 2
+						}
+					},
+					right: '8%'
+				},
+				tooltip: {
+					trigger: 'none',
+					axisPointer: {
+						type: 'cross'
+					}
 				},
 				legend: {
-					data:['当前数据','对比数据']
-				},
-				toolbox: {
-					feature: {
-						saveAsImage: false
-					}
+					data:['当前数据', '对比数据']
 				},
 				dataZoom: [
 					{
+						id: 'dataZoomX',
 						type: 'slider',
-						show: true,
-						xAxisIndex: [0],
-						start: 0,
-						end: 100
-					},
-					// {
-					// 	type: 'inside',
-					// 	xAxisIndex: [0],
-					// 	start: 1,
-					// 	end: 35
-					// },
+						xAxisIndex: [0,1],
+						filterMode: 'filter'
+					}
 				],
 				grid: {
 					left: '8%',
@@ -271,39 +359,71 @@ module.exports = function(parent){
 					bottom: '15%',
 					containLabel: true
 				},
-				xAxis : [
+				xAxis: [
 					{
-						type : 'category',
-						boundaryGap : false,
-						data : xAxisArr
+						type: 'category',
+						axisTick: {
+							alignWithLabel: true
+						},
+						axisLine: {
+							onZero: false,
+							lineStyle: {
+								color: colors[0]
+							}
+						},
+						axisPointer: {
+							label: {
+								formatter: function (params) {
+									return '当前数据  ' + params.value + '：' + params.seriesData[0].data;
+								}
+							}
+						},
+						data: xAxisArr
+					},
+					{
+						type: 'category',
+						axisTick: {
+							alignWithLabel: true
+						},
+						axisLine: {
+							onZero: false,
+							lineStyle: {
+								color: colors[1]
+							}
+						},
+						axisPointer: {
+							label: {
+								formatter: function (params) {
+									return '对比数据  ' + params.value + '：' + params.seriesData[0].data;
+								}
+							}
+						},
+						data: oldAxisArr
 					}
 				],
-				yAxis : [
+				yAxis: [
 					{
-						type : 'value'
+						type: 'value'
 					}
 				],
-				series : [
+				series: [
 					{
 						name:'当前数据',
 						type:'line',
-						stack: '总量',
-						smooth : true ,
-						areaStyle: {normal: { color : "#77cfdd"}},
-						lineStyle : { normal : { color : '#c6cad3'}},
+						xAxisIndex: 0,
+						smooth: true,
 						data: newArr
 					},
 					{
 						name:'对比数据',
 						type:'line',
-						stack: '总量',
-						smooth : true ,
-						areaStyle: {normal: { color : "#e8e9ed" }},
-						lineStyle : { normal : { color : '#c6cad3'}},
+						xAxisIndex: 1,
+						smooth: true,
 						data: oldArr
 					}
 				]
 			};
+
 			_this.lineEchart.setOption(option)
 		},
 
