@@ -1,0 +1,48 @@
+    .modal-select {
+        visibility: hidden;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        font-size: 16px;
+        line-height: 1.5;
+        z-index: 999;
+        transition: background-color .3s ease;
+
+        .modal-select-inner {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            transform: translate3d(0, 100%, 0);
+            transition: transform .3s ease;
+
+            .modal-select-option {
+                padding: px2rem( 16 ) px2rem( 20 );
+                background-color: #fff;
+                text-align: center;
+
+                &~.modal-select-option {
+                    margin-top: 1px;
+                }
+            }
+
+            .modal-select-btns {
+                margin-top: px2rem( 10 );
+            }
+
+            .modal-select-btn {
+                display: block;
+                padding: px2rem( 16 ) px2rem( 20 );
+                background-color: #fff;
+                text-align: center;
+            }
+        }
+
+        &.show {
+            visibility: visible;
+            background-color: rgba(0,0,0,.3);
+
+            .modal-select-inner {
+                transform: translate3d(0,0,0);
+            }
+        }
+    }
