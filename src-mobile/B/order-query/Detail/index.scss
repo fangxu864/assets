@@ -1,0 +1,135 @@
+.G-detail-wrap{
+  .tab-title{
+    line-height: 50px;
+    background-color: #e5f5fc;
+    .lt-btn{
+      float: left;
+    }
+    .rt-btn{
+      float: right;
+    }
+    .tab-btn{
+      width: 50%;
+      text-align: center;
+      font-size: 16px;
+    }
+    .tab-btn.active{
+      border-bottom: 2px solid #0797d9;
+      color: #0797D9;
+    }
+
+  }
+  .tab-con{
+    .tab-child{
+      position: fixed;
+      top: 52px;
+      width: 100%;
+      bottom: 43px;
+      overflow: auto;
+      background-color: #f0f3f5;
+    }
+
+    .order-con{
+      .top-box{
+        padding: 10px;
+        background-color: #ffffff;
+        .lt{
+          float: left;
+          width: 25%;
+          img{
+            height: 100%;
+            width: 100%;
+          }
+        }
+        .rt{
+          float: left;
+          width: 75%;
+          .con{
+            padding-left: 10px;
+            .scenic-name{
+              font-size: 14px;
+              font-weight: bold;
+            }
+            .ticket-tb{
+              thead{display: none}
+              line-height: 1.5em;
+              width: 100%;
+              td{padding-top: 10px}
+              .th1{
+                width: 50%;
+                .ticket-name{
+                  font-size: 14px;
+                }
+                .detail{
+                  color: #9E9E9E;
+                }
+              }
+              .th2{
+                color: #F07845;
+              }
+              .th4{
+                color: #3DBA3F;
+              }
+              .th2,.th3,.th4{
+                text-align: right;
+              }
+            }
+          }
+        }
+      }
+      .bottom-box{
+        padding: 10px;
+        background-color: #ffffff;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        table{
+          width: 100%;
+          line-height: 20px;
+          .th2{
+            text-align: right;
+          }
+        };
+      }
+    }
+
+    .change-con{
+      display: none;
+      .change-tb{
+        text-align: left;
+        width: 100%;
+        color: #6C7882;
+        thead{
+          tr{
+            line-height: 38px;
+          }
+        }
+        tbody{
+          tr td{
+            background-color: #fff;
+            line-height: 18px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e5e5;
+          }
+        }
+        .th1{
+          padding-left: 10px;
+          .bold{
+            font-size: 14px;
+            color: black;
+            font-weight: bold;
+          }
+        }
+      }
+      .no-more{
+        text-align: center;
+        padding: 16px;
+        color: #c5c5c5;
+      }
+    }
+
+  }
+
+
+
+
+}
