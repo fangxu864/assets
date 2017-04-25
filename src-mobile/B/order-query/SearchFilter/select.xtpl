@@ -1,0 +1,14 @@
+        <div class="modal-select">
+            <div class="modal-select-inner">
+                <div class="modal-select-options">
+                    <ul>
+                        <% _.each( data, function( item, index ){ %>
+                        <li class="modal-select-option" data-type="<%=index%>"><%=item%></li>
+                        <% }) %>
+                    </ul>
+                </div>
+                <div class="modal-select-btns">
+                    <a href="javascript:;">取消</a>
+                </div>
+            </div>
+        </div>
