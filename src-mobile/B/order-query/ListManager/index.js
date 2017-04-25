@@ -1,3 +1,4 @@
+require("./index.scss");
 var Common = require("../common.js");
 var Util = PFT.Util;
 var List = require("./list");
@@ -45,6 +46,7 @@ var ListManager = Util.Class({
         $("#tabPannel_"+status).show().siblings().hide();
         if(!list[status]){
             list[status] = new List({container:"#tabPannel_"+status,status:status});
+            list[status].refresh();
         }
     },
     renderTab : function(){

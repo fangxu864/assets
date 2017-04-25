@@ -1,3 +1,5 @@
+require("./index.scss");
+
 var FrameTpl = require("./index.xtpl");
 var Common = require("./common.js");
 var Putil = PFT.Util;
@@ -16,7 +18,6 @@ var Main = Putil.Class({
     init : function(){
         this.container.html(FrameTpl);
         this.ListManager = new ListManager();
-        this.Detail = new Detail();
         $("#tabHeadMod").children().first().trigger("click");
     },
     onTabItemClick : function(e){

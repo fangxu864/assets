@@ -232,5 +232,12 @@ body{ background-color:#f8f9fb}
 }
 
 
-
+#writeCardBtn{
+    display:inline-block; width:120px; height:34px; line-height:34px; text-align:center; cursor:pointer; margin-left:15px; margin-top:5px; border:0 none; border-bottom:3px solid #0a89c4; border-radius:3px; background:#0796d8; color:#fff;
+    &.disable{
+        cursor: not-allowed;
+        border-bottom-color: #999;
+        background: #999;
+    }
+}
 

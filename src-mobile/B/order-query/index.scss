@@ -1,0 +1,37 @@
+@import "COMMON/css/base/flex";
+
+//背景颜色值
+$bgColor : #f0f3f5;
+//高亮时的蓝色
+$activeBlue : #2a98da;
+//淡蓝色
+$blueLight : #E5F5FC;
+
+html,body{ background: $bgColor}
+
+#topFixedMod{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    background: $bgColor;
+}
+
+
+#tabHeadMod{
+    @include flexbox();
+    @include flex-flow(row nowrap);
+    @include justify-content(space-between);
+    .tabItem{
+        height: 42px;
+        line-height: 42px;
+        padding: 0 10px;
+        border-bottom: 2px solid $bgColor;
+        &.active{  border-bottom-color: $activeBlue; color: $activeBlue}
+    }
+}
+
+#listManagerMod{
+    margin-top: 100px;
+}

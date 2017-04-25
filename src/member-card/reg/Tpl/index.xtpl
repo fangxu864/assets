@@ -95,6 +95,7 @@
             <div class="line">
                 <span class="lt" style="visibility:hidden"></span>
                 <a data-cid="<%=cid%>" id="saveBtn" class="saveBtn" href="###"><%=fid ? '保存' : '开卡'%></a>
+                <a href="###" id="writeCardBtn" class="writeCardBtn">写入卡信息</a>
             </div>
         </div>
     </div>

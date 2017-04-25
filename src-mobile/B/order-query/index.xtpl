@@ -1,3 +1,5 @@
-<div id="searchFilterMod" class="searchFilterMod"></div>
-<ul id="tabHeadMod" class="tabHeadMod"></ul>
+<div id="topFixedMod" class="topFixedMod">
+    <div id="searchFilterMod" class="searchFilterMod"></div>
+    <ul id="tabHeadMod" class="tabHeadMod"></ul>
+</div>
 <div id="listManagerMod" class="listManagerMod"></div>

@@ -22,7 +22,6 @@ module.exports = {
         return Object.prototype.toString.call(arr)==="[object Array]";
     },
     forEach : function(objOrArr,fn,cxt){
-        var Util = PFT.Util;
         fn = typeof fn==="function" ? fn : function(){};
         cxt = cxt || this;
         if(this.isObject(objOrArr)){
@@ -42,9 +41,36 @@ module.exports = {
         return token || "";
     },
     getObjectKeyCount : function(obj){
-        if(!PFT.Util.isObject(obj)) return null;
+        if(this.isArray(obj)) return obj.length;
+        if(!this.isObject(obj)) return null;
         var count = 0;
         for(var i in obj) count += 1;
         return count;
+    },
+    getLoadingHtml : function(text,opt){
+        text = text || "请稍后...";
+        opt = opt || {}
+        var tag = opt.tag || "div";
+        if(tag=="td") tag = "tr";
+        var width = opt.width ? (opt.width+"px") : "100%";
+        var height = opt.height || 150;
+        var loadingImg = opt.loadingImg || {};
+        var imgWidth = loadingImg.width || 24;
+        var top = loadingImg.top || 0;
+        var className = opt.className || "";
+        var td_colspan = opt.colspan || 1;
+        var id = opt.id || "";
+        var html = "";
+        var css = opt.css || {};
+        var style = "";
+        for(var i in css) style += i+":"+css[i]+"; ";
+        var imgSrc = '//static.12301.cc/assets/build/images/gloading.gif';
+        html += '<'+tag+' id="'+id+'" style="width:'+width+'; height:'+height+'px; line-height:'+height+'px; text-align:center; '+style+'" class="'+className+'">';
+        if(tag=="tr"||tag=="td") html += '<td style="text-align:center" colspan="'+td_colspan+'">';
+        html += 	'<img style="width:'+imgWidth+'px; position:relative; top:'+top+'px; vertical-align:middle; margin-right:5px" src="'+imgSrc+'"/>';
+        html +=     '<span class="t">'+text+'</span>';
+        if(tag=="tr"||tag=="td") html += '</td>';
+        html += '</'+tag+'>';
+        return html;
     }
 }

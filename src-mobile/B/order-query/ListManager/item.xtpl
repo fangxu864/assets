@@ -1,0 +1,50 @@
+<%_.each(data,function(item,index){%>
+<li id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="orderItem">
+    <a class="topPart" href="#/detail/<%=item.ordernum%>">
+        <div class="photoBox">
+            <div class="imgBox">
+                <img src="<%=item.imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null;" alt=""/>
+            </div>
+        </div>
+        <div class="midCon">
+            <h4 class="landTitle"><%=item.ltitle%></h4>
+            <ul>
+                <%_.each(item.ticket_list,function(ticket){%>
+                    <li class="ticItem">
+                        <span class="ticname"><%=ticket.ttitle%>
+                        <span class="star">*</span>
+                        <span class="count"><%=ticket.tnum%></span>
+                        张
+                    </li>
+                <%})%>
+            </ul>
+        </div>
+        <div class="tri"><div class="triCon">》</div></div>
+    </a>
+    <div class="infoBox">
+        <div class="infoLine">
+            <span class="lt">订单号：</span>
+            <span class="rt"><%=item.ordernum%></span>
+        </div>
+        <div class="infoLine">
+            <span class="lt">支付方式</span>
+            <span class="rt maCode"><%=item.code%></span>
+        </div>
+    </div>
+
+    <div class="btnGroup">
+        <%if(item.pay==1){%>
+            <span class="btn pay" data-ordernum="<%=item.ordernum%>">支付</span>
+        <%}%>
+        <%if(item.cancel==1){%>
+            <%if(item.status==101){%>
+                <span class="btn" data-ordernum="<%=item.ordernum%>">退票中</span>
+            <%}else{%>
+                <span class="btn cancel" data-ordernum="<%=item.ordernum%>">取消订单</span>
+            <%}%>
+        <%}else{%>
+            <span class="btn cancel disable">不可取消</span>
+        <%}%>
+    </div>
+</li>
+<%})%>

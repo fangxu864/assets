@@ -1,0 +1,15 @@
+<%_.each(list,function(item,index){%>
+
+    <li id="listItem_<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="listItem listItem_<%=item.ordernum%>">
+
+        <div class="top">
+            <div class="photoBox"><img onerror="javascript:this.src='http://www.12301.cc/images/defaultThum.jpg'" src="<%=item.imgpath%>" alt=""></div>
+            <div class="rt">
+                <p class="tit"><%=item.ticket_list[0]["ltitle"]%></p>
+            </div>
+        </div>
+
+
+    </li>
+
+<%})%>

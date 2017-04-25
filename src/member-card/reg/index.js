@@ -25,6 +25,13 @@ var Tpl = {
 	mobileDialog : require("./Tpl/modify-mobile-dialog.xtpl")
 };
 
+
+//huangzy 2017/04/25
+//新增写入卡信息功能
+var WriteCardInfo = require("./write-card-info");
+
+
+
 var Main = PFT.Util.Class({
 	container : $("#memberCardContainer"),
 	EVENTS : {
@@ -36,12 +43,14 @@ var Main = PFT.Util.Class({
 		"click .removePhotoBtn" : "onRemovePhotoBtnClick",
 		"click .saveBtn" : "onFormSubmit",
 		"click #readwuKa" : "readwuKa",
-		"click #modifyMobileBtn" : "onModifyMobileBtnClick"
+		"click #modifyMobileBtn" : "onModifyMobileBtnClick",
+		"click #writeCardBtn" : "onWriteCardBtnClick"
 	},
 	validator : {},
 	CarList : "5座 7座 9座 11座 15座 15座以上 飞马出租 弘瑞出租 天行出租 盛捷出租 海棠湾出租 智慧快的出租",
 	init : function(){
 
+		var that = this;
 
 		//this.fid = PFT.Util.UrlParse()["fid"] || "";  //这样做不安全，容易被攻击
 		//涉及比较敏感的信息  或者需要从页面url里取参数，
@@ -66,7 +75,12 @@ var Main = PFT.Util.Class({
 					this.container.html("");
 				},
 				success : function(data){
-					this.render(data)
+					this.render(data);
+					that.WriteCardInfo = new WriteCardInfo({
+						idCard : data.id_card_no,    //身份证
+						card_no : data.card_no,   //实体卡号
+						mobile : data.mobile     //手机号
+					});
 				},
 				error : function(msg,code){
 					this.container.html('<div style="height:600px; line-height:600px; color:#777; text-align:center">'+msg+'</div>');
@@ -74,6 +88,7 @@ var Main = PFT.Util.Class({
 			})
 		}else{ //新建模式
 			this.render();
+			that.WriteCardInfo = new WriteCardInfo();
 		}
 	},
 	onRemovePhotoBtnClick : function(e){
@@ -118,6 +133,7 @@ var Main = PFT.Util.Class({
 		var that = this;
 		this.dialog = this.dialog || new Dialog({
 			cache : true,
+			top : 200,
 			title : "修改会员手机号",
 			content : function(){
 				return Tpl.mobileDialog;
@@ -229,7 +245,7 @@ var Main = PFT.Util.Class({
 				tarBtn.removeClass("disable").text(originText);
 			},
 			success : function(res){
-				PFT.Util.STip("success","验证码已发送至您填写的手机号，请留意查收");
+				Message.success("验证码已发送至您填写的手机号，请留意查收");
 			},
 			error : function(text,status){
 				alert(text);
@@ -246,6 +262,11 @@ var Main = PFT.Util.Class({
 		if(tarDom.hasClass("mobileInp")){
 			this.validateMobile(tarDom,val);
 		}
+	},
+	onWriteCardBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		if(tarBtn.hasClass("disable")) return false;
+		this.WriteCardInfo.write();
 	},
 	//验证手机号
 	validateMobile : function(){
@@ -381,7 +402,7 @@ var Main = PFT.Util.Class({
 				var code = data.code;
 				if(code==200){
 					$("#photo_src_hidden_input").val(data.data.src);
-					PFT.Util.STip("success","文件上传成功！");
+					Message.success("文件上传成功！");
 				}else{
 					alert(data.msg || "error");
 				}
@@ -550,16 +571,21 @@ var Main = PFT.Util.Class({
 				tarBtn.text(orignText).removeClass("disable");
 			},
 			success : function(data){
-				PFT.Util.STip("success",this.fid ? "修改成功" : "开卡成功");
-				window.location.href = "mcard_list.html";
+				Message.success(this.fid ? "修改成功" : "开卡成功");
+				this.WriteCardInfo.refresh({
+					idCard : submitData.id_card_no, //身份证
+					card_no : submitData.card_no,   //实体卡号
+					mobile : submitData.mobile      //手机号
+				});
+				this.WriteCardInfo.write();
+				
 			},
 			error : function(msg,code){
-				alert(msg);
+				Message.alert(msg);
 			}
 		})
 
 	}
-
 });
 
 
