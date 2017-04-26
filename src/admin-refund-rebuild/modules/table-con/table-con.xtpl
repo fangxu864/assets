@@ -11,7 +11,8 @@
             '2':'green',
             '4':'blue',
             '3':'gray',
-            '0':'red'
+            '0':'red',
+            '1':'#02c1d6'
         }
     %>
     <% _.each(data.list,function(item,index){ %>
