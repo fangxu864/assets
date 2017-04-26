@@ -14,6 +14,7 @@ var Main = Putil.Class({
         "click #tabHeadMod .tabItem" : "onTabItemClick"
     },
     init : function(){
+        var _this = this;
         this.container.html(FrameTpl);
         this.ListManager = new ListManager();
         this.Detail = new Detail();

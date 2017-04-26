@@ -1,8 +1,9 @@
 
-
+//------------css-------
 require("./index.scss");
-var Dialog = require("pft-ui-component/Mb_Model");
-// var Dialog = require("pft-ui-component/src/Component/Mb_Model");
+
+
+//----------tpl-----------
 //基本tpl
 var main_tpl = require("./index.xtpl");
 //订单详情tpl
@@ -10,11 +11,12 @@ var orderDetailTpl = require("./orderDetail.xtpl");
 //变更记录tpl
 var changTpl = require("./change.xtpl");
 
-var ParseTemplate = PFT.Util.ParseTemplate;
 
+//----------工具插件------
+var Dialog = require("pft-ui-component/Mb_Model");
+var ParseTemplate = PFT.Util.ParseTemplate;
 var Alert = require("COMMON/Components/Alert-Mobile/v1.0");
 var Common = require("../common.js");
-
 var Toast = require("COMMON/Components/Toast-Mobile/v1.0");
 var toast = new Toast();
 
