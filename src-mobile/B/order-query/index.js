@@ -19,7 +19,7 @@ var Main = Putil.Class({
         this.ListManager = new ListManager();
         this.Detail = new Detail();
         $("#openDetail").on("click",function () {
-            _this.Detail.open();
+            _this.Detail.show(4007774);
         });
         $("#tabHeadMod").children().first().trigger("click");
     },
