@@ -26,7 +26,7 @@
       .table-lt{
         text-align: right;
         th,td{
-          padding-right: 10px;
+          padding-right: 20px;
         }
         width: 100%;
         thead{
@@ -82,7 +82,7 @@
         text-align: center;
         cursor:url('//static.12301.cc/assets/build/images/moveleftright.png'), move;
         th,td{
-          padding: 0 30px;
+          padding: 0 20px;
           white-space: nowrap;
           text-align: right;
         }
@@ -92,7 +92,7 @@
             border-bottom: 1px solid #e5e5e5;
             background-color: #e5e5e5;
             th{
-              padding: 0 30px;
+              padding: 0 20px;
               white-space: nowrap;
             }
           }
@@ -114,6 +114,23 @@
     }
     .child-tr:hover{
       background-color: #fafafa;
+    }
+
+    .orderby {
+      position: relative;
+      cursor: pointer;
+
+      &:after {
+        content:'';
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        display: block; width:0; height: 0;
+        margin-top: -4px;
+        border-width: 8px 5px;
+        border-style: solid dashed dashed;
+        border-color: #4c4e53 transparent transparent;
+      }
     }
   }
 

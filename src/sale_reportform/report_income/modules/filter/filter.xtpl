@@ -69,6 +69,10 @@
         <div class="td td6">
             <span class="excel_btn">导出数据</span>
         </div>
+        <!-- added 2017/04/26 -->
+        <div class="td td6">
+            <span id="btnExportDetail" class="btn-export-detail">导出明细</span>
+        </div>
 
     </div>
 </form>

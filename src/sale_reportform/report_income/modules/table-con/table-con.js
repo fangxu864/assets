@@ -55,8 +55,29 @@ var tableCon = {
             if(shrinkBtn){
                 shrinkBtn.click();
             }
-        })
+        });
 
+        // 点击对应th，降序排序 added 2017/04/26
+        this.container.on('click', '.orderby', function(){
+
+                _this.sortTableBy( $(this).attr('data-orderby') );
+
+        }).on('click', '.btn-export-single', function(){
+            _this.outExcel( $(this).attr('data-url') );
+        });
+    },
+
+    // 表格排序
+    sortTableBy: function( orderby ){
+        if( !!orderby ) {
+            // this.sortArray( this.dataContainer[ this.cacheKey ].data.list, orderby );
+
+            this.dataContainer[ this.cacheKey ].data.list.sort(function( a, b ){
+                return Number(b[ orderby ]) - Number(a[ orderby ]);
+            });
+        }
+
+        this.dealReqData( this.dataContainer[ this.cacheKey ] );
     },
 
     close: function () {
