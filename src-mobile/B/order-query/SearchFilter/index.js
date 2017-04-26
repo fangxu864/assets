@@ -1,6 +1,16 @@
+// 引入
+// var SearchFilter = require('./SearchFilter');
+
+// var searchFilter = new SearchFilter();
+// searchFilter.reInit({
+//     begin_date: '2017-04-22 00:00',
+//     end_date: '2017-04-25 23:59',
+//     date_type: 1
+// })
+
 require('./index.scss');
 
-var DateTimePicker = require('date-time-picker');
+var Alert = require("COMMON/Components/Alert-Mobile/v1.0");
 
 var ParseTemplate = PFT.Util.ParseTemplate;
 
@@ -12,10 +22,6 @@ var SearchFilter = PFT.Util.Class({
 
     dom: {
         container: '#pageFilter'
-        // dateType: '#dateType',
-        // quickSelectDate: '#quickSelectDate',
-        // beginDatetime: '#beginDatetime',
-        // endDatetime: '#endDatetime'
     },
 
     params: {
@@ -31,6 +37,12 @@ var SearchFilter = PFT.Util.Class({
     parent: 'body',
 
     init: function( parent, opt ) {
+        // opt 参数列表
+        // begin_date
+        // end_date
+        // date_type
+        // onSearch: 点击搜索的回调函数
+
         if( parent && !/^#/.test( parent ) ) {
             this.parent = '#' + parent;
         }
@@ -45,6 +57,11 @@ var SearchFilter = PFT.Util.Class({
     },
 
     reInit: function( opt ) {
+        // opt 参数列表
+        // begin_date
+        // end_date
+        // date_type
+        // onSearch: 点击搜索的回调函数
         var opts = $.extend( {}, this.params, opt );
 
         this.renderTpl( this.parent, opts );
@@ -84,29 +101,25 @@ var SearchFilter = PFT.Util.Class({
             });
 
             if( dateSelected.length ) {
-                dateSelected.addClass('active');
+                dateSelected.addClass('active').siblings().removeClass('active');
                 $container.find('.date-range').hide();
             } else {
 
-                $container.find('.quickSelectDate li:last-child').addClass('active');
-                $container.find('.date-range').show();
-                $container.find('.beginDatetime').val( opt.begin_date );
-                $container.find('.endDatetime').val( opt.end_date );
+                $container.find('.quickSelectDate li:last-child').addClass('active').siblings().removeClass('active').end().end()
+                            .find('.date-range').show().end()
+                            .find('.beginDatetime').val( opt.begin_date ).end()
+                            .find('.endDatetime').val( opt.end_date );
 
             }
         } else {
 
-            $container.find('.quickSelectDate li:last-child').addClass('active');
-            $container.find('.date-range').show();
-            $container.find('.beginDatetime').val( opt.begin_date );
-            $container.find('.endDatetime').val( opt.end_date );
+            $container.find('.quickSelectDate li:last-child').addClass('active').siblings().removeClass('active').end().end()
+                        .find('.date-range').show().end()
+                        .find('.beginDatetime').val( opt.begin_date ).end()
+                        .find('.endDatetime').val( opt.end_date );
 
         }
-        // if( Object.prototype.toString.call( data )  == 'object Object' ) {
-        //     ParseTemplate( tpl )({ data: data });
-        // } else {
-        //     alert('不是我要的数据');
-        // }
+
     },
 
     bindEvents: function( parentId, opt ) {
@@ -118,9 +131,11 @@ var SearchFilter = PFT.Util.Class({
 
             $container
             .on( 'tap', '.dateType', function(){
+                // 显示选择时间类型
                 $container.find('.modal-select').addClass('show');
             })
             .on( 'tap', '.modal-select', function( e ){
+                // 选择时间类型返回
                 var $target = $( e.target );
 
                 if( $target.is('.modal-select-option') ) {
@@ -130,6 +145,7 @@ var SearchFilter = PFT.Util.Class({
                 $( e.currentTarget ).removeClass('show');
             })
             .on( 'tap', '.date-type-val li', function(){
+                // 选择时间周期
                 if( !$( this ).is('.active') ) {
                     $( this ).addClass('active').siblings().removeClass('active');
 
@@ -141,9 +157,11 @@ var SearchFilter = PFT.Util.Class({
                 }
             })
             .on( 'tap', '.btnCancel', function(){
+                // 点击取消
                 _this.hide();
             })
             .on( 'tap', '.btnClear', function(){
+                // 点击清空
                 _this.reInit({
                     begin_date: '',
                     end_date: '',
@@ -151,41 +169,50 @@ var SearchFilter = PFT.Util.Class({
                 })
             });
 
-            Mobiscroll.datetime('#beginDatetime',{
-                theme: 'ios',
-                display: 'bottom',
-                lang: 'zh',
-                timeFormat: 'hh:ii',
-                dateFormat: 'yy-mm-dd'
-            });
-            // $('#beginDatetime').Mobiscroll().date({
-            //     theme: 'ios',
-            //     display: 'bottom',
-            //     lang: 'zh'
-            // });
-            Mobiscroll.datetime('#endDatetime',{
-                theme: 'ios',
-                display: 'bottom',
-                lang: 'zh',
-                timeFormat: 'hh:ii',
-                dateFormat: 'yy-mm-dd'
-            });
-            // $('#endDatetime').Mobiscroll().date({
-            //     theme: 'ios',
-            //     display: 'bottom',
-            //     lang: 'zh'
-            // });
+            // 日期时间控件
+            var setOption = function( selector, setCallback ) {
+                return {
+                    theme: 'ios',
+                    display: 'bottom',
+                    lang: 'zh',
+                    onSet: function( event, inst ) {
+                        // inst:  mobiscroll实例
+                        var input_val = event.valueText;
+                        input_val = input_val.replace(/[T]/, ' ');
+                        input_val = input_val.replace(/:00Z/, '');
+                        $( selector ).val( input_val );
+                        setCallback && setCallback( event.valueText )
+                    }
+                }
+            }
+
+            var beginDate = Mobiscroll.datetime( '#beginDatetime', setOption( '#beginDatetime', function( defaultValue ){ endDate.setVal( defaultValue ) } ) );
+
+            var endDate = Mobiscroll.datetime( '#endDatetime', setOption( '#endDatetime' ) );
         }
 
-        $container
-            .off('tap.search')
-            .on( 'tap.search', '.btnSearch', function(){
-                _this.hide();
+        // 点击搜索
+        if( opt.onSearch ) {
+            $container
+                .off('tap.search')
+                .on( 'tap.search', '.btnSearch', function(){
 
-                _this.setParams();
+                    _this.setParams();
 
-                opt.onSearch && opt.onSearch( _this.params );
-            })
+                    if( _this.params.begin_date && _this.params.end_date && _this.params.begin_date>_this.params.end_date ) {
+                        Alert("起始日期不能晚于截止日期");
+                        return false;
+                    }
+
+                    _this.hide();
+
+                    opt.onSearch && opt.onSearch( _this.params );
+                })
+        } else {
+            if( !this.hasInited ) {
+                console.log('首次加载onSearch必填');
+            }
+        }
     },
 
     setParams: function() {
