@@ -63,6 +63,8 @@ module.exports = {
     },
     api : {
         list : "/r/MicroPlat_Order/orderQuery/",
+        orderDetail:"/r/MicroPlat_Order/orderDetail",
+        operatingRecord:"/r/MicroPlat_Order/operatingRecord"
     },
     isObject : function(obj){
         return Object.prototype.toString.call(obj)==="[object Object]";
@@ -86,7 +88,7 @@ module.exports = {
         }
     },
     getToken : function(){
-        var token = $.trim($("#csrf_token"));
+        var token = $.trim($("#csrf_token").val());
         return token || "";
     },
     getObjectKeyCount : function(obj){

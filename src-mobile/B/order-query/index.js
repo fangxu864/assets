@@ -16,6 +16,7 @@ var Main = Putil.Class({
         "click #tabHeadMod .tabItem" : "onTabItemClick"
     },
     init : function(){
+        var _this = this;
         this.container.html(FrameTpl);
         this.ListManager = new ListManager();
         $("#tabHeadMod").children().first().trigger("click");
@@ -28,6 +29,7 @@ var Main = Putil.Class({
         this.ListManager.switchTab(status);
     }
 });
+
 
 
 
