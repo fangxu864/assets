@@ -114,6 +114,24 @@ var List = Util.Class({
         });
         return this;
     },
+    adaptData : function(list){
+        var paymode = Common.paymode;
+        Common.forEach(list,function(item,index){
+            var ticket_list = item.ticket_list;
+            var buy_pmode = item.buy_pmode;
+            var sale_pmode = item.sale_pmode;
+            var extra = item["__extra__"] || (item["__extra__"]={});
+            extra["buy_pmode"] = Common.paymode[buy_pmode];
+            extra["sale_pmode"] = Common.paymode[sale_pmode];
+            Common.forEach(ticket_list,function(ticket,ind){
+                //__extra__字段标识是前端自己加入的数据
+                var buy_pmode = ticket.buy_pmode;
+                var sale_pmode = ticket.sale_pmode;
+                extra["status"] = Common.statusText[ticket.status];
+            })
+        });
+        return list;
+    },
     renderList : function(list){
 
         //测试
@@ -121,6 +139,8 @@ var List = Util.Class({
         //     for(var i=0,len=10; i<len; i++) list[i] = "";
         // }
         var container = this.container;
+        list = this.adaptData(list);
+        console.log(list);
         // var html = "";
         // Common.forEach(list,function(item,index){
         //     html += '<li style="height:100px; line-height:100px; text-align:center">'+index+'</li>';

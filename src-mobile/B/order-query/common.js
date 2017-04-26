@@ -5,6 +5,55 @@ module.exports = {
     pageSize : 10,
     ajaxType : "post",
     ttimeout : 10 * 1000, //超时时间
+    paymode : { //支付方式,0余额，1在线，2授信，3自供自销，4现场支付
+        0 : "余额支付",
+        1 : "在线支付",
+        2 : "授信支付",
+        3 : "自供自销",
+        4 : "现场支付"
+    },
+    statusText : {
+        0 : {
+			name : "未使用",
+			color:"#3eba40"
+		},
+		1 : {
+			name : "已使用",
+			color:"#f37138"
+		},
+		2 : {
+			name : "已过期",
+			color:"#e12424"
+		},
+		3 : {
+			name : "已取消",
+			color:"#f37138"
+		},
+		4 : {
+			name : "凭证码被替代",
+			color:"#f37138"
+		},
+		5 : {
+			name : "被终端撤销(已取消)",
+			color:"#f37138"
+		},
+		6 : {
+			name : "被终端撤销(已使用)",
+			color:"#f37138"
+		},
+		7 : {
+			name : "已部分使用",
+			color:"#f37138"
+		},
+		9 : {
+			name : "已删除",
+			color:"#f37138"
+		},
+		101 : {
+			name : "退票中",
+			color : "#e12424"
+		}
+    },
     serverError : function(xhr,errorText){
         if(errorText=="timeout"){
             Alert(errorText+": "+PFT.AJAX_TIMEOUT_TEXT);

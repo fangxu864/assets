@@ -1,5 +1,9 @@
 @import "COMMON/css/base/main";
-@import "COMMON/css/base/flex";
+%overflow_ellips{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 @mixin prodInfoBox{
     $paddingBottom : 5px;
     display:block;
@@ -7,40 +11,26 @@
     overflow:hidden;
     padding:15px 15px $paddingBottom;
     color:#333;
-    &:active{ background:$gray97}
-
+    // &:active{ background:$gray97}
+    min-height: 60px;
     .photoBox{
         position:absolute;
         top:15px;
         left:15px;
         bottom:$paddingBottom;
         width:75px;
+        height: 60px;
         font-size:0;
         .imgBox{
             width:100%;
             height:100%;
             overflow:hidden;
-            @include flexbox();
-            @include align-items(center);
         }
-        img{ width:100%}
-    }
-    .tri{
-        position:absolute;
-        top:15px;
-        bottom:$paddingBottom;
-        right:6px;
-        .triCon{
-            width:100%;
-            height:100%;
-            @include flexbox();
-            @include align-items(center);
-        }
+        img{ width: 100%}
     }
     .midCon{
         min-height:45px;
         margin-left:85px;
-        margin-right:5px;
         .landTitle{
             font-size:14px;
             line-height:1.5;
@@ -50,6 +40,43 @@
         }
         .count{ color:$orange}
     }
+
+    .landTitle{
+        position: relative;
+        padding-right: 10px;
+        margin-bottom: 2px;
+        .landTitleText{ font-weight: bold;}
+        .tri{
+            position: absolute;
+            top: 0;
+            right: -7px;
+        }
+    }
+
+    .floatLine{ 
+        width: 100%; overflow: hidden;
+        .lt{
+            display: block;
+            float: left;
+            width: 65%;
+        }
+        .rt{
+            float: left;
+            display: block;
+            width: 35%;
+            text-align: right;
+            @extend %overflow_ellips;
+            .str{ position: relative; top: 0; margin-right: 3px;}
+            .count{ font-size: 14px; font-weight: bold; color: $orange; margin-right: 2px;}
+            .orange{ color:$orange;}
+        }
+    }
+
+
+
+
+
+
 }
 
 

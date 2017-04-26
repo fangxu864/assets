@@ -8,9 +8,10 @@ var ValidateRule = Validate.Rules;
 var WriteCardInfo = PFT.Util.Class({
     wsUri : "ws://localhost:12301/icread/",
     info : {
-        idCard : "",    //身份证
-        card_no : "",   //实体卡号
-        mobile : ""     //手机号
+        idCard : "",     //身份证
+        card_no : "",    //实体卡号
+        mobile : "",     //手机号
+        phy_no : ""      //物理卡号
     },
     init : function(info){
         this.fid = $("#fidHidInp").val();
@@ -18,25 +19,48 @@ var WriteCardInfo = PFT.Util.Class({
         this.initWS();
     },
     initWS : function(){
+        var that = this;
         if(!this.isWebSocketSupport()) return false;
         var ws = this.ws = new WebSocket(this.wsUri);
         ws.onmessage = function(evt){
-            console.log("onmessage");
-            console.log(evt);
+            var data = evt.data;
+            data = JSON.parse(data);
+            var code = data.code;
+            var msg = data.msg || "-";
+            if(code==200){ //写卡成功
+                that.onWriteCardInfoSuccess();
+            }else{
+                Message.alert("写卡失败，失败原因："+msg)
+            }
         };
         ws.onerror = function(evt){
             var data = evt.data;
-            console.log("onerror");
-            console.log(evt);
+            Message.error(data);
         };
-        ws.onopen = function(evt){
-            
-        }
+        ws.onopen = function(evt){}
     },
-    onSuccess : function(){
-        setTimeout(function(){
-            window.location.href = PFT.PREFIX_DOMAIN() + "mcard_list.html";
-        },500)
+    onWriteCardInfoSuccess : function(){
+        var that = this;
+        Message.success("写卡成功");
+        PFT.Util.Ajax("r/product_MemberCardBasic/isWrited/",{
+            type : "post",
+            params : {
+                physics : that.info.phy_no
+            },
+            success : function(res){
+                var code = res.code;
+                var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+                if(code==200){
+                    setTimeout(function(){
+                        window.location.href = PFT.PREFIX_DOMAIN() + "mcard_list.html";
+                    },100)
+                }else{
+                    Message.alert(msg);
+                }
+            },
+            timeout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT);},
+            serverError : function(){Message.error(PFT.AJAX_ERROR_TEXT)}
+        })
     },
     /**
      * 刷新info
@@ -87,14 +111,6 @@ var WriteCardInfo = PFT.Util.Class({
             idCard : idCard,
             card_no : card_no,
         }
-    },
-    //加密数据
-    encryption : function(){
-        
-
-
-
-
     },
     sendDataToSocket : function(data){
         if(!this.ws) return false;
@@ -148,12 +164,13 @@ var WriteCardInfo = PFT.Util.Class({
 		var mobile = info.mobile;
 		var idCard = info.idCard;
 		var card_no = info.card_no;
+        var phy_no = info.phy_no;
 
         if(!memberID) return Message.error("缺少memberID");
         if(!aid) return Message.error("aid");
         if(!dname) return Message.error("缺少dname");
 
-        if(!mobile && !idCard && !card_no) return Message.alert("请先开卡，开卡成功后才能将信息写入卡里");
+        if(!mobile && !idCard && !card_no && !phy_no) return Message.alert("请先开卡，开卡成功后才能将信息写入卡里");
 
         //先验证一下这三个字段，确保3个参数都可用
         if(!this.validate_mobile()) return false;

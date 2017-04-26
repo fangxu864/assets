@@ -158,6 +158,7 @@
                 v-on:switch-day="onCalendarSwitchDay"
                 :yearmonth.sync="calendar.yearmonth"
                 :disable-todaybefore="true"
+                :start-date="staticStartDate"
                 :show.sync="calendar.show">
         </sheet-calendar>
         <sheet-contact
@@ -205,6 +206,7 @@
                 pid : PFT.Util.UrlParse()["pid"] || "",
                 p_type : "",
                 needID : -1,
+                staticStartDate : "",
                 calendar : {
                     date : "",
                     yearmonth : "",
@@ -285,6 +287,7 @@
 
                     //现在开始日期也从服务端返回 2017-01-17
                     this.calendar.date = data.startDate;
+                    this.staticStartDate = data.startDate;
 
                     this.ticketList = this.adaptListData(data.tickets);
                     if(data.assStation){

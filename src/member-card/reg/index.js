@@ -79,7 +79,8 @@ var Main = PFT.Util.Class({
 					that.WriteCardInfo = new WriteCardInfo({
 						idCard : data.id_card_no,    //身份证
 						card_no : data.card_no,   //实体卡号
-						mobile : data.mobile     //手机号
+						mobile : data.mobile,     //手机号
+						phy_no : data.phy_no      //物理卡号
 					});
 				},
 				error : function(msg,code){
@@ -572,10 +573,11 @@ var Main = PFT.Util.Class({
 			},
 			success : function(data){
 				Message.success(this.fid ? "修改成功" : "开卡成功");
-				this.WriteCardInfo.refresh({
+				this.WriteCardInfo.refreshInfo({
 					idCard : submitData.id_card_no, //身份证
 					card_no : submitData.card_no,   //实体卡号
-					mobile : submitData.mobile      //手机号
+					mobile : submitData.mobile,      //手机号
+					phy_no : submitData.phy_no      //物理卡号
 				});
 				this.WriteCardInfo.write();
 				
