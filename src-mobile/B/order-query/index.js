@@ -14,13 +14,9 @@ var Main = Putil.Class({
         "click #tabHeadMod .tabItem" : "onTabItemClick"
     },
     init : function(){
-        var _this = this;
         this.container.html(FrameTpl);
         this.ListManager = new ListManager();
         this.Detail = new Detail();
-        $("#openDetail").on("click",function () {
-            _this.Detail.show(4007774);
-        });
         $("#tabHeadMod").children().first().trigger("click");
     },
     onTabItemClick : function(e){

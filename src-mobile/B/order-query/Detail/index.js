@@ -33,22 +33,28 @@ var Detail  = PFT.Util.Class({
                 "click .tab-title .tab-btn": function (e) {
                     var curBtn = $(e.target);
                     curBtn.addClass("active").siblings().removeClass("active");
-                    var curCon = curBtn.attr("data-control");
+                    var curType = curBtn.attr("data-control");
+                    var curCon = {};
                     //订单详细
-                    if(curCon == "1"){
-                        this.model.find(".tab-con ." + curCon).show().siblings().hide();
+                    if(curType == "1"){
+                        //当前要显示的内容框
+                        curCon = this.model.find(".tab-con .order-con");
+                        curCon.show().siblings().hide();
+                        _this.getDetailData(_this.orderNum , curCon);
                     }
-                    //
-                    else{
-
+                    //变更记录
+                    else if(curType == "2"){
+                        curCon = this.model.find(".tab-con .change-con");
+                        curCon.show().siblings().hide();
+                        _this.getChangeData(_this.orderNum , curCon);
                     }
                 }
+            },
+            onOpenAfter : function () {
+                this.model.find(".tab-title .lt-btn").click();
             }
+
         });
-
-        this.show(4007774);
-
-
     },
 
     //订单号
@@ -62,7 +68,6 @@ var Detail  = PFT.Util.Class({
         }
         this.orderNum = ordernum;
         this.dialog.open();
-        this.getDetailData(ordernum);
     },
 
     //缓存仓库
@@ -74,29 +79,28 @@ var Detail  = PFT.Util.Class({
     changeTemplate: ParseTemplate( changTpl ),
 
     /**
-     * @method 获取订单详细数据
+     * @method 获取订单详情数据
+     * @param ordernum 订单号
+     * @param curCon 要将数据渲染在其中的内容框
      */
-    getDetailData: function (ordernum ) {
+    getDetailData: function (ordernum , curCon) {
         var _this = this;
-        toast.show("loading","努力加载中...");
+
         // var params = _this.paramHub;
-        console.log(_this.token)
         var params = {
             token: _this.token,
             ordernum: ordernum
         };
         //看看是否有缓存
-        // if(_this.cacheHub[$.param(_this.paramHub)]){
-        //     //render
-        //     setTimeout(function () {
-        //         var res = _this.cacheHub[$.param(params)];
-        //         dealRes( res )
-        //     },100);
-        //     return false;
-        // }else{
-        //     //显示查询状态
-        //     _this.showLoading('loading');
-        // }
+        if(_this.cacheHub.detail[$.param(params)]){
+            //render
+            var res = _this.cacheHub.detail[$.param(params)];
+            dealRes( res );
+            return false;
+        }else{
+            //显示查询状态
+            toast.show("loading","努力加载中...");
+        }
         $.ajax({
             url: Common.api.orderDetail,    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -110,9 +114,7 @@ var Detail  = PFT.Util.Class({
             success: function(res) {
                 // 请求成功时处理
                 //缓存数据
-                console.log(res);
-
-                _this.cacheHub[$.param(params)] = $.extend({},res);
+                _this.cacheHub.detail[$.param(params)] = $.extend({},res);
                 dealRes( res )
             },
             complete: function(res,status) {
@@ -135,7 +137,7 @@ var Detail  = PFT.Util.Class({
                     //渲染数据
                     var html = _this.detailTemplate({data: res.data});
 
-                    _this.dialog.model.find(".tab-con .order-con").html(html);
+                    curCon.html(html);
                     toast.hide();
                 }else{
                     toast.hide();
@@ -151,27 +153,26 @@ var Detail  = PFT.Util.Class({
 
     /**
      * @method 获取变更记录数据
+     * @param ordernum 订单号
+     * @param curCon 要将数据渲染在其中的内容框
      */
-    getChangeData: function (ordernum ) {
+    getChangeData: function (ordernum , curCon) {
         var _this = this;
-        toast.show("loading","努力加载中...");
         // var params = _this.paramHub;
         var params = {
-            token: Common.getToken(),
+            token: _this.token,
             ordernum: ordernum
         };
         //看看是否有缓存
-        // if(_this.cacheHub[$.param(_this.paramHub)]){
-        //     //render
-        //     setTimeout(function () {
-        //         var res = _this.cacheHub[$.param(params)];
-        //         dealRes( res )
-        //     },100);
-        //     return false;
-        // }else{
-        //     //显示查询状态
-        //     _this.showLoading('loading');
-        // }
+        if(_this.cacheHub.change[$.param(params)]){
+            //render
+            var res = _this.cacheHub.change[$.param(params)];
+            dealRes( res );
+            return false;
+        }else{
+            //显示查询状态
+            toast.show("loading","努力加载中...");
+        }
         $.ajax({
             url: Common.api.operatingRecord,    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -185,9 +186,7 @@ var Detail  = PFT.Util.Class({
             success: function(res) {
                 // 请求成功时处理
                 //缓存数据
-                console.log(res);
-
-                _this.cacheHub[$.param(params)] = $.extend({},res);
+                _this.cacheHub.change[$.param(params)] = $.extend({},res);
                 dealRes( res )
             },
             complete: function(res,status) {
@@ -206,39 +205,20 @@ var Detail  = PFT.Util.Class({
 
         function dealRes( res ) {
             if(res.code == 200 ){
-                if(Util.judgeTrue(res.data)){
-                    //渲染价格显示
-                    var tbody = _this.container.find('.calendar-tb tbody');
-                    var curPrice = {};
-                    var curTd = {};
+                if(_this.judgeTrue(res.data)){
+                    //渲染数据
+                    var html = _this.changeTemplate({data: res.data});
 
-                    for(var key in res.data){
-                        curPrice =  tbody.find('td[data-date = '+ key +'] .price');
-                        curTd = tbody.find('td[data-date = '+ key +']');
-                        //test
-                        // if(/5$/.test(key)){
-                        //     res.data[key].storage = 0
-                        // }
-
-                        if(res.data[key].storage == 0){
-                            curPrice.text('售罄');
-                        }else{
-                            curPrice.text('¥' + res.data[key].js);
-                            curTd.removeClass("disable").addClass("usable");
-                            curTd.attr("data-storage",res.data[key].storage);
-                            curPrice.prop("title" , '¥' + res.data[key].js);
-                            curPrice.attr("data-js" , res.data[key].js);
-                            curPrice.attr("data-ls" , res.data[key].ls);
-                        }
-                    }
-                    _this.hideLoading();
+                    curCon.html(html);
+                    toast.hide();
                 }else{
-                    _this.hideLoading();
-                    // _this.showLoading("error","暂无价格数据");
+                    toast.hide();
+                    Alert("暂无数据");
                 }
             }else{
                 //通知queryState模块显示错误信息
-                _this.showLoading("error",res.msg);
+                toast.hide();
+                Alert(res.msg);
             }
         }
     },

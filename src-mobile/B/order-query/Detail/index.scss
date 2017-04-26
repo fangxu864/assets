@@ -72,6 +72,7 @@
               }
               .th2,.th3,.th4{
                 text-align: right;
+                vertical-align: top;
               }
             }
           }
@@ -85,6 +86,10 @@
         table{
           width: 100%;
           line-height: 20px;
+          tr td{
+            padding: 5px 0;
+            border-bottom: 1px dashed #f0f3f5;
+          }
           .th2{
             text-align: right;
           }
@@ -101,23 +106,26 @@
         thead{
           tr{
             line-height: 38px;
+
           }
         }
         tbody{
           tr td{
             background-color: #fff;
             line-height: 18px;
-            padding: 10px 0;
             border-bottom: 1px solid #e5e5e5;
           }
         }
         .th1{
-          padding-left: 10px;
           .bold{
             font-size: 14px;
             color: black;
             font-weight: bold;
           }
+        }
+        .th1,.th2,.th3,.th4{
+          padding: 5px 5px;
+          white-space: nowrap;
         }
       }
       .no-more{
@@ -128,8 +136,20 @@
     }
 
   }
+  .slideInUp{
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-name: slideInUp;
+  }
 
+  @keyframes slideInUp {
+    from {
+      transform: translate3d(0, 20%, 0);
+    }
 
-
+    to {
+      transform: none;
+    }
+  }
 
 }

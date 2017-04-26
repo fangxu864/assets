@@ -4,10 +4,10 @@
         <div class="rt-btn tab-btn" data-control="2">变更记录</div>
     </div>
     <div class="tab-con">
-        <div class="order-con tab-child">
+        <div class="order-con tab-child slideInUp">
 
         </div>
-        <div class="change-con tab-child">
+        <div class="change-con tab-child slideInUp">
 
         </div>
     </div>
