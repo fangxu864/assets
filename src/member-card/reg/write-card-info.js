@@ -99,7 +99,7 @@ var WriteCardInfo = PFT.Util.Class({
         var info = this.info;
 		var memberID = $("#memberID_hidInp").val();
 		var aid = $("#aid_hidInp").val();
-		var dname = $("#dname_hidInp");
+		var dname = $("#dname_hidInp").val();
 		var mobile = info.mobile;
 		var idCard = info.idCard;
 		var card_no = info.card_no;
@@ -111,6 +111,14 @@ var WriteCardInfo = PFT.Util.Class({
             idCard : idCard,
             card_no : card_no,
         }
+    },
+    setDname : function(dname){
+        dname = dname || "";
+        this.info.dname = dname;
+    },
+    setMemberID : function(memberID){
+        memberID = memberID || "";
+        this.info.memberID = memberID;
     },
     sendDataToSocket : function(data){
         if(!this.ws) return false;
@@ -139,12 +147,13 @@ var WriteCardInfo = PFT.Util.Class({
             },
             success : function(res){
                 var code = res.code;
-                var data = res.data;
+                var data = res.data.data;
                 var msg = res.msg || PFT.AJAX_ERROR_TEXT;
                 if(code==200){
-                    var all = {cmd:"writeblock",data:{block:4,data:data}};
-                    all = JSON.stringify(all);
-                    that.ws.send(all);
+                    // var all = {cmd:"writeall",data:{block:4,data:data}};
+                    // all = JSON.stringify(all);
+                    var strData = '{"cmd":"writeall","data":"{\\\"block\\\":4,\\\"data\\\":\\\"'+data+'\\\"}"}';
+                    that.ws.send(strData);
                 }else{
                     Message.error(msg+", 错误代码："+code);
                 }

@@ -76,6 +76,7 @@ var Main = PFT.Util.Class({
 				},
 				success : function(data){
 					this.render(data);
+					$("#dname_hidInp").val(data.dname);
 					that.WriteCardInfo = new WriteCardInfo({
 						idCard : data.id_card_no,    //身份证
 						card_no : data.card_no,   //实体卡号
@@ -573,6 +574,14 @@ var Main = PFT.Util.Class({
 			},
 			success : function(data){
 				Message.success(this.fid ? "修改成功" : "开卡成功");
+
+				if(!this.fid){ //如果是开卡，开卡成功后，后端会返回memberID跟dname
+					var fid = data.fid;  //fid就是memberID
+					var dname = data.dname;
+					$("#memberID_hidInp").val(fid);
+					$("#dname_hidInp").val(dname);
+				}
+
 				this.WriteCardInfo.refreshInfo({
 					idCard : submitData.id_card_no, //身份证
 					card_no : submitData.card_no,   //实体卡号
