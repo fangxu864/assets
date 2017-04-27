@@ -3,6 +3,8 @@ require('./index.scss');
 var Toast = require('COMMON/Components/Toast-Mobile/v1.0'),
     toast = new Toast;
 
+var Alert = require('COMMON/Components/Alert-Mobile/v1.0');
+
 var ParseTemplate = PFT.Util.ParseTemplate;
 
 var tpls = {
@@ -19,11 +21,21 @@ var UserCenter = PFT.Util.Class({
         list: '#list'               // 应用列表
     },
 
-    MENU_ICONS: {
-        book: ['icon-chanpinyuding', '#f37777'],
-        order_search: ['icon-dingdan', '#0797d9'],
-        poster: ['icon-haibaotuiguang', '#3eba40']
+    MENU: {
+        book: { url: '', icon: ['icon-chanpinyuding', '#f37777'] },
+        order_search: { url: '', icon: ['icon-dingdan', '#0797d9'] },
+        poster: { url: 'poster_img_poster.html', icon: ['icon-haibaotuiguang', '#3eba40'] }
     },
+
+    EVENTS: {
+        'tap #list li': 'onAPPClick'
+    },
+
+    // MENU_ICONS: {
+    //     book: ['icon-chanpinyuding', '#f37777'],
+    //     order_search: ['icon-dingdan', '#0797d9'],
+    //     poster: ['icon-haibaotuiguang', '#3eba40']
+    // },
 
     AJAX_URL: '/r/MicroPlat_Member/userCenterInfo',
 
@@ -54,8 +66,10 @@ var UserCenter = PFT.Util.Class({
 
                     if( res.code == 200 ) {
                         _this.renderInfo( res.data );
+                    } else if( res.code == 102 ) {
+                        location.href = 'login.html'
                     } else {
-                        PFT.Mobile.Alert( res.msg );
+                        PFT.Mobile.Alert( res.msg);
                     }
                 },
 
@@ -81,9 +95,13 @@ var UserCenter = PFT.Util.Class({
         }
 
         var ul = applist.children('.ul'),
-            html = tpls.appLi({ menu: data.menu, icons: this.MENU_ICONS });
+            html = tpls.appLi({ menu: data.menu, menu_attrs: this.MENU });
 
         ul.html( html );
+    },
+
+    onAPPClick: function( e ) {
+        location.href = e.target.getAttribute('data-url');
     }
 });
 
