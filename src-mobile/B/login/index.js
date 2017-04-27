@@ -13,7 +13,7 @@ var tpls = {
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
 
-    WHITE_LIST: [],
+    WHITE_LIST: ['usercenter'],
 
     dom: {
         loginTab: '#loginTab',
@@ -75,6 +75,7 @@ var Main = PFT.Util.Class({
         var _this = this;
 
         var urlParams = PFT.Util.UrlParse();
+        var fromUrl = $('#fromUrl').val();
         PFT.Util.Ajax("/r/MicroPlat_Member/beforeLogin",
             {
                 type: "POST",
@@ -97,10 +98,8 @@ var Main = PFT.Util.Class({
                             window.location.href = res.data.url + search;
                         } else {
                             // window.location.href = "plist.html" + search;
-                            const fromUrl = $('#fromUrl').val();
-
                             if( _this.isInWhiteList( fromUrl ) ) {
-                                location.href = fromUrl;
+                                location.href = fromUrl + '.html';
                             } else {
                                 // 跳默认页面
                                 location.href = 'usercenter.html';
@@ -177,7 +176,7 @@ var Main = PFT.Util.Class({
                         const fromUrl = $('#fromUrl').val();
 
                         if( _this.isInWhiteList( fromUrl ) ) {
-                            location.href = fromUrl;
+                            location.href = fromUrl + '.html';
                         } else {
                             // 跳默认页面
                             location.href = 'usercenter.html';
@@ -233,7 +232,7 @@ var Main = PFT.Util.Class({
                         // window.location.href = Nurl + search;
                         const fromUrl = $('#fromUrl').val();
                         if( fromUrl && _this.isInWhiteList( fromUrl ) ) {
-                            location.href = fromUrl;
+                            location.href = fromUrl + '.html';
                         } else {
                             // 跳默认页面
                             location.href = 'usercenter.html';

@@ -60,7 +60,7 @@ var tableCon = {
         // 点击对应th，降序排序 added 2017/04/26
         this.container.on('click', '.orderby', function(){
 
-                _this.sortTableBy( $(this).attr('data-orderby') );
+                // _this.sortTableBy( $(this).attr('data-orderby') );
 
         }).on('click', '.btn-export-single', function(){
             _this.outExcel( $(this).attr('data-url') );

@@ -22,8 +22,8 @@ var UserCenter = PFT.Util.Class({
     },
 
     MENU: {
-        book: { url: '', icon: ['icon-chanpinyuding', '#f37777'] },
-        order_search: { url: '', icon: ['icon-dingdan', '#0797d9'] },
+        book: { url: 'plist.html', icon: ['icon-chanpinyuding', '#f37777'] },
+        // order_search: { url: '', icon: ['icon-dingdan', '#0797d9'] },
         poster: { url: 'poster_img_poster.html', icon: ['icon-haibaotuiguang', '#3eba40'] }
     },
 
@@ -67,7 +67,7 @@ var UserCenter = PFT.Util.Class({
                     if( res.code == 200 ) {
                         _this.renderInfo( res.data );
                     } else if( res.code == 102 ) {
-                        location.href = 'login.html'
+                        location.href = 'login.html?from=usercenter'
                     } else {
                         PFT.Mobile.Alert( res.msg);
                     }
