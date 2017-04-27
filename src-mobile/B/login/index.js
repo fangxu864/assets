@@ -13,6 +13,8 @@ var tpls = {
 var Main = PFT.Util.Class({
     container: "#bodyContainer",
 
+    WHITE_LIST: [],
+
     dom: {
         loginTab: '#loginTab',
         loginTabCon: '#loginTabCon'
@@ -30,7 +32,8 @@ var Main = PFT.Util.Class({
         var noAuto = urlParams["noAuto"];
         var _this = this;
         var search = window.location.search;
-        if ( noAuto ) {
+
+        if ( !noAuto ) {
             _this.loadJudge(search);
         }
 
@@ -69,6 +72,8 @@ var Main = PFT.Util.Class({
     },
 
     loadJudge: function (search) {
+        var _this = this;
+
         var urlParams = PFT.Util.UrlParse();
         PFT.Util.Ajax("/r/MicroPlat_Member/beforeLogin",
             {
@@ -88,10 +93,18 @@ var Main = PFT.Util.Class({
                 },
                 success: function (res) {
                     if (res.code == 200) {
-                        if (res.data.url) {
+                        if ( res.data.url ) {
                             window.location.href = res.data.url + search;
                         } else {
-                            window.location.href = "plist.html" + search;
+                            // window.location.href = "plist.html" + search;
+                            const fromUrl = $('#fromUrl').val();
+
+                            if( _this.isInWhiteList( fromUrl ) ) {
+                                location.href = fromUrl;
+                            } else {
+                                // 跳默认页面
+                                location.href = 'usercenter.html';
+                            }
                         }
                     }
                 }
@@ -156,16 +169,25 @@ var Main = PFT.Util.Class({
 
             success: function ( res ) {
                 if (res.code == 200) {
-                    var Url = res.data.url;
-                    var search = window.location.search;
-                    var Nurl = "plist.html";
-                    if (Url.length > 1) {
-                        window.location.href = Url + search;
+
+                    if ( res.data.url ) {
+                        window.location.href = res.data.url + search;
                     } else {
-                        window.location.href = Nurl + search;
+                        // window.location.href = "plist.html" + search;
+                        const fromUrl = $('#fromUrl').val();
+
+                        if( _this.isInWhiteList( fromUrl ) ) {
+                            location.href = fromUrl;
+                        } else {
+                            // 跳默认页面
+                            location.href = 'usercenter.html';
+                        }
                     }
+
                 } else if (res.code == 401) {
+
                     Toast.show("loading", res.msg);
+
                     (function () {
                         setTimeout(function () {
                             window.location.reload();
@@ -175,7 +197,6 @@ var Main = PFT.Util.Class({
 
                 } else {
                     Alert(res.msg);
-
                 }
             }
         })
@@ -183,6 +204,7 @@ var Main = PFT.Util.Class({
 
     subLoginReq: function (mobile, pwd) {
         var _this=this;
+
         PFT.Util.Ajax("/r/MicroPlat_Member/login", {
             type: "POST",
             params: {
@@ -204,11 +226,18 @@ var Main = PFT.Util.Class({
                 if (res.code == 200) {
                     var Url = res.data.url;
                     var search = window.location.search;
-                    var Nurl = "plist.html";
-                    if (Url.length > 1) {
+
+                    if ( Url ) {
                         window.location.href = Url + search;
                     } else {
-                        window.location.href = Nurl + search;
+                        // window.location.href = Nurl + search;
+                        const fromUrl = $('#fromUrl').val();
+                        if( fromUrl && _this.isInWhiteList( fromUrl ) ) {
+                            location.href = fromUrl;
+                        } else {
+                            // 跳默认页面
+                            location.href = 'usercenter.html';
+                        }
                     }
                 } else if (res.code == 401) {
                     Toast.show("loading", res.msg);
@@ -300,8 +329,27 @@ var Main = PFT.Util.Class({
             })
 
         }
-    }
+    },
 
+    isInWhiteList: function( url ) {
+        var white_list = this.WHITE_LIST;
+
+        if( white_list.length ) {
+            for( var i = 0, len = white_list.length; i<len; i++ ) {
+                if( white_list[ i ].indexOf( url ) != -1 ) break;
+            }
+
+            if( i != len ) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            // 白名单未设置
+            console.log('白名单未设置');
+            return true;
+        }
+    }
 })
 
 $(function () {
