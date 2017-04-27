@@ -27,18 +27,46 @@
     </div>
     <div class="infoBox">
         <div class="infoLine">
-            <span class="lt">订单号：</span>
-            <span class="rt"><%=item.ordernum%></span>
+            <div class="lt">订单号：</div>
+            <div class="rt"><%=item.ordernum%></div>
         </div>
         <div class="infoLine">
-            <span class="lt">支付方式</span>
-            <span class="rt maCode">
+            <div class="lt">支付方式</div>
+            <div class="rt">
                 <%if(item.pay_status==2){%>
                     <span class="orange">未支付</span>
+                <%}else if(item.is_self==1){%>
+                    <span class="isSelf">自供自销</span>
                 <%}else{%>
-                    <span><%=item.__extra__['']%></span>
+                    <span>
+                        <%=item.sale_pmode ? item.__extra__['sale_pmode'] : '--'%>
+                        <i class="str">/</i>
+                        <%=item.buy_pmode ? item.__extra__['buy_pmode'] : '--'%>
+                    </span>
                 <%}%>
-            </span>
+            </div>
+        </div>
+        <div class="infoLine">
+            <div class="lt">卖出 / 买入</div>
+            <div class="rt">
+                <span class="yen orange">&yen;</span><span class="num orange"><%=item.__extra__["sale_money"]%></span>
+                <i class="str">/</i>
+                <span class="yen orange">&yen;</span><span class="orange num"><%=item.__extra__["buy_money"]%></span>
+            </div>
+        </div>
+        <div class="infoLine">
+            <div class="lt">供应商 / 分销商</div>
+            <div class="rt">
+                <%=item.seller ? item.seller : '--'%>
+                <i class="str">/</i>
+                <%=item.buyer ? item.buyer : '--'%>
+            </div>
+        </div>
+        <div class="infoLine">
+            <div class="lt">取票人</div>
+            <div class="rt">
+                <%=item.ordername%> <%=item.ordertel%>
+            </div>
         </div>
     </div>
 
