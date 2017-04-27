@@ -89,6 +89,54 @@ var SigningStaff = {
                 onAfter : function(){}       //弹出日历后callback
             });
         });
+        this.container.on("click" , ".supplier_time" ,function () {
+            var _this = $(this);
+            var initVal = _this.val() ;
+            if(initVal){
+                initVal= new Date(Date.parse(initVal.replace(/-/g,'/'))).Format('yyyy-MM-dd');
+            }
+            calendar_new.show(initVal,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+                picker : _this,              //页面上点击某个picker弹出日历(请使用input[type=text])
+                top : 0,                       //日历box偏移量
+                left : 0,                     //日历box偏移量
+                // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
+                // max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                onBefore : function(){},     //弹出日历前callback
+                onAfter : function(){}       //弹出日历后callback
+            });
+        });
+        this.container.on("click" , ".enable_time" ,function () {
+            var _this = $(this);
+            var initVal = _this.val() ;
+            if(initVal){
+                initVal= new Date(Date.parse(initVal.replace(/-/g,'/'))).Format('yyyy-MM-dd');
+            }
+            calendar_new.show(initVal,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+                picker : _this,              //页面上点击某个picker弹出日历(请使用input[type=text])
+                top : 0,                       //日历box偏移量
+                left : 0,                     //日历box偏移量
+                // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
+                // max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                onBefore : function(){},     //弹出日历前callback
+                onAfter : function(){}       //弹出日历后callback
+            });
+        });
+        this.container.on("click" , ".arrears_time" ,function () {
+            var _this = $(this);
+            var initVal = _this.val() ;
+            if(initVal){
+                initVal= new Date(Date.parse(initVal.replace(/-/g,'/'))).Format('yyyy-MM-dd');
+            }
+            calendar_new.show(initVal,{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
+                picker : _this,              //页面上点击某个picker弹出日历(请使用input[type=text])
+                top : 0,                       //日历box偏移量
+                left : 0,                     //日历box偏移量
+                // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
+                // max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                onBefore : function(){},     //弹出日历前callback
+                onAfter : function(){}       //弹出日历后callback
+            });
+        });
         //全选事件
         this.container.on("click" ,".openApp .selectAll", function (e) {
             if($(this).get(0).checked){
@@ -152,6 +200,22 @@ var SigningStaff = {
                     }
                 }
             }
+            //日期转换时间戳
+            function transform(timeStamp) {
+
+                if( timeStamp != ""){
+                    if(!/^2[0-9]{3}\-[0-9]{2}\-[0-9]{2}$/.test(timeStamp) ){
+                        alert('时间格式错误');
+                        return false;
+                    }
+                    timeStamp.replace(/\-/g ,'\/');
+                    timeStamp = new Date(timeStamp).getTime() + 1000*60*60*16-1000;
+                    timeStamp = Math.floor(timeStamp/1000);
+                }else{
+                    timeStamp = -1
+                }
+                return timeStamp;
+            }
             var postData = {};
             //模式
             postData.contract_model = _this.container.find(".signInfo .contract_model option:selected").val();
@@ -183,6 +247,13 @@ var SigningStaff = {
             postData.new_module = addArr;
             //取消模块
             postData.cancel_module = diffArr;
+            //转供应商日期 时间戳
+            postData.supplier_time = transform(_this.container.find(".signInfo .supplier_time").val());
+            //启用日期 时间戳
+            postData.enable_time = transform(_this.container.find(".signInfo .enable_time").val());
+            //欠费截至时间 时间戳
+            postData.arrears_time = transform(_this.container.find(".signInfo .arrears_time").val());
+        
 
             $.ajax({
                 url: "/r/Member_MemberConfig/setMemberConfigInfo/",    //请求的url地址
@@ -252,6 +323,23 @@ var SigningStaff = {
             success: function(res) {
                 //请求成功时处理
                 if(res.code == 200 ){
+
+                    /**
+                     * 把下列三个时间戳转换成xxxx-xx-xx
+                     * "effective_time" :1491667199    //欠费截至日期  （时间戳）
+                     * "transfer_time" :1491667199     //转供应商日期  （时间戳）
+                     * " enable_time" :1491667199       //启用日期  （时间戳）
+                     */
+                    function transform( time ) {
+                        if(_this.judgeTrue(time)){
+                            var d = new Date(Number(time)*1000);
+                            var date = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+                            return _this.formatDate(date)
+                        }
+                    }
+                    res.data.effective_time = transform(res.data.effective_time);
+                    res.data.transfer_time = transform(res.data.transfer_time);
+                    res.data.enable_time = transform(res.data.enable_time);
                     _this.renderCon($.extend(true ,{} ,Data , res.data));
                 }else{
                     PFT_GLOBAL.U.Alert("fail",'<p style="">'+res.msg+'</p>');
@@ -352,7 +440,55 @@ var SigningStaff = {
     /**
      * 初始的开通应用的数据
      */
-    openAppInitialData : []
+    openAppInitialData : [],
+
+    /**
+     * @mehtod 判断真假
+     */
+    judgeTrue: function( param ) {
+        var type = Object.prototype.toString.call(param);
+        switch (type){
+            case '[object Array]':
+                return param.length === 0 ?  !1 : !0 ;
+                break;
+            case '[object Object]':
+                var t;
+                for (t in param)
+                    return !0;
+                return !1;
+                break;
+            case '[object String]':
+                return param === '' ? !1 : !0 ;
+                break;
+            case '[object Number]':
+                return param === 0 ? !1 : !0 ;
+                break;
+            case '[object Boolean]':
+                return param === false ? !1 : !0;
+                break;
+            case '[object Null]':
+                return !1;
+                break;
+            case '[object Undefined]':
+                return !1;
+                break;
+            default :
+                return type;
+        }
+    },
+
+    /**
+     * @method 修正格式化日期
+     * @return 修正后的格式为 XXXX-XX-XX
+     */
+    formatDate: function (date) {
+        var year = date.match(/^\d+/)[0];
+        var month = Number( date.match(/(?:\-)(\d+)(?:\-)/)[1] );
+        var day = Number( date.match(/\d+$/)[0] );
+        month = month > 9 ? month : 0 + '' + month;
+        day = day > 9 ? day : 0 + '' + day;
+        return year + '-' + month + '-' + day
+    }
 };
 
 $.subscribe("signingStaffClick",function () {
