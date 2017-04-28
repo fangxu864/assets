@@ -1,0 +1,11 @@
+##会员一卡通
+###1.会员卡黑名单
+```
+    1.目录：blacklist
+    2.页面地址：http://my.12301.local/new/memcard_blacklist.html
+```
+###1.会员卡购票限制页面
+```
+    1.目录：prod_restrict
+    2.页面地址：http://my.12301.local/prod_restrict.html
+```
