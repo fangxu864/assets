@@ -10,6 +10,8 @@ var frameTpl = require("./tpl/frameTpl.xtpl");
 
 //-----------modules------------
 var renderNav = require("../common/nav/index.js");
+var Pagination = require("COMMON/modules/pagination-x");
+var Dialog = require("./dialog/dialog.js");
 
 var blackList = PFT.Util.Class({
 
@@ -18,6 +20,28 @@ var blackList = PFT.Util.Class({
         this.container = $("#GBlacklistWrap");
         this.container.html(frameTpl);
         renderNav("2" , this.container.find(".nav-box"));
+        this.pagination = new Pagination({
+            container : _this.container.find(".pag-box") , //必须，组件容器id
+            count : 7,                //可选  连续显示分页数 建议奇数7或9
+            showTotal : true,         //可选  是否显示总页数
+            jump : true	              //可选  是否显示跳到第几页
+        });
+        this.pagination.render({current:1,total:10});
+        this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
+            _this.pagination.render({current:toPage,total:totalPage});
+        });
+        this.bind()
+    },
+
+    bind: function () {
+        var _this = this ;
+        this.container.on("click" ,".filter-box .leading-in" ,function (e) {
+            Dialog.leadingInShow();
+        });
+        this.container.on("click" ,".table-box .edit-btn" ,function (e) {
+            Dialog.editShow();
+
+        })
     }
 
 

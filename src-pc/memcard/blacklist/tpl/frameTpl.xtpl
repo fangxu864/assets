@@ -33,7 +33,7 @@
                 <td class="th2">张三</td>
                 <td class="th3">45457752121556785</td>
                 <td class="th4">
-                    <span>编辑</span>
+                    <span class="edit-btn">编辑</span>
                     <span>删除</span>
                 </td>
             </tr>
@@ -42,7 +42,7 @@
                 <td class="th2">张三</td>
                 <td class="th3">45457752121556785</td>
                 <td class="th4">
-                    <span>编辑</span>
+                    <span class="edit-btn">编辑</span>
                     <span>删除</span>
                 </td>
             </tr>
@@ -51,7 +51,7 @@
                 <td class="th2">张三</td>
                 <td class="th3">45457752121556785</td>
                 <td class="th4">
-                    <span>编辑</span>
+                    <span class="edit-btn">编辑</span>
                     <span>删除</span>
                 </td>
             </tr>
@@ -60,29 +60,11 @@
                 <td class="th2">张三</td>
                 <td class="th3">45457752121556785</td>
                 <td class="th4">
-                    <span>编辑</span>
-                    <span>删除</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="th1">福建太姥山景区</td>
-                <td class="th2">张三</td>
-                <td class="th3">45457752121556785</td>
-                <td class="th4">
-                    <span>编辑</span>
-                    <span>删除</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="th1">福建太姥山景区</td>
-                <td class="th2">张三</td>
-                <td class="th3">45457752121556785</td>
-                <td class="th4">
-                    <span>编辑</span>
+                    <span class="edit-btn">编辑</span>
                     <span>删除</span>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
-<div class="pag-box"></div>
+<div class="pag-box clearfix"></div>
