@@ -1,0 +1,88 @@
+<div class="nav-box"></div>
+<div class="filter-box">
+    <ul>
+        <li class="inline-block-li">
+            <span class="name">产品：</span>
+            <input type="text"/>
+        </li>
+        <li class="inline-block-li">
+            <span class="name">身份证：</span>
+            <input type="text"/>
+            <span class="get-idNum">读取身份证</span>
+        </li>
+        <li class="inline-block-li">
+            <span class="search-btn">搜索</span>
+            <span class="leading-in">导入</span>
+        </li>
+
+    </ul>
+</div>
+<div class="table-box">
+    <table class="main-tb">
+        <thead>
+            <tr>
+                <th class="th1">产品</th>
+                <th class="th2">姓名</th>
+                <th class="th3">身份证</th>
+                <th class="th4">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="th1">福建太姥山景区</td>
+                <td class="th2">张三</td>
+                <td class="th3">45457752121556785</td>
+                <td class="th4">
+                    <span>编辑</span>
+                    <span>删除</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="th1">福建太姥山景区</td>
+                <td class="th2">张三</td>
+                <td class="th3">45457752121556785</td>
+                <td class="th4">
+                    <span>编辑</span>
+                    <span>删除</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="th1">福建太姥山景区</td>
+                <td class="th2">张三</td>
+                <td class="th3">45457752121556785</td>
+                <td class="th4">
+                    <span>编辑</span>
+                    <span>删除</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="th1">福建太姥山景区</td>
+                <td class="th2">张三</td>
+                <td class="th3">45457752121556785</td>
+                <td class="th4">
+                    <span>编辑</span>
+                    <span>删除</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="th1">福建太姥山景区</td>
+                <td class="th2">张三</td>
+                <td class="th3">45457752121556785</td>
+                <td class="th4">
+                    <span>编辑</span>
+                    <span>删除</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="th1">福建太姥山景区</td>
+                <td class="th2">张三</td>
+                <td class="th3">45457752121556785</td>
+                <td class="th4">
+                    <span>编辑</span>
+                    <span>删除</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="pag-box"></div>

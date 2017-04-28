@@ -5,7 +5,9 @@
     border: 1px solid #e5e5e5;
     background-color: #ffffff;
     position: relative;
+    padding-right: 100px;
     display: none;
+
     .background{
       background-color: #e5e5e5;
       height: 41px;
@@ -25,6 +27,12 @@
       z-index: 2;
       .table-lt{
         text-align: right;
+
+        .td-operate {
+          position: relative;
+          text-align: center;
+        }
+
         th,td{
           padding-right: 20px;
         }
@@ -74,7 +82,7 @@
     .rt-con{
       width: 40%;
       overflow: hidden;
-      float: right;
+      float: left;
       position: relative;
       z-index: 2;
       .table-rt{
@@ -114,6 +122,35 @@
     }
     .child-tr:hover{
       background-color: #fafafa;
+    }
+
+    .operate-con {
+      position: relative;
+      float: left;
+      width: 100px;
+      margin-right: -100px;
+      overflow: hidden;
+      z-index: 2;
+      .table-operate{
+        text-align: center;
+        width: 100%;
+        thead{
+          tr{
+            line-height: 40px;
+            border-bottom: 1px solid #e5e5e5;
+            background-color: #e5e5e5;
+          }
+        }
+        tbody{
+          tr{
+            line-height: 40px;
+            border-bottom: 1px solid #e5e5e5;
+          }
+        }
+        th, td {
+          border-left: 1px solid #e5e5e5;
+        }
+      }
     }
 
     .orderby {

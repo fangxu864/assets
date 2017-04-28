@@ -23,12 +23,13 @@ var UserCenter = PFT.Util.Class({
 
     MENU: {
         book: { url: 'plist.html', icon: ['icon-chanpinyuding', '#f37777'] },
-        // order_search: { url: '', icon: ['icon-dingdan', '#0797d9'] },
+        order_search: { url: '', icon: ['icon-dingdan', '#0797d9'] },
         poster: { url: 'poster_img_poster.html', icon: ['icon-haibaotuiguang', '#3eba40'] }
     },
 
     EVENTS: {
-        'tap #list li': 'onAPPClick'
+        'tap #list li': 'onAPPClick',
+        'tap #btnLogout': 'onBtnLogoutClick'
     },
 
     // MENU_ICONS: {
@@ -86,7 +87,7 @@ var UserCenter = PFT.Util.Class({
             applist = $( this.dom.list );
 
         userinfo.find('.user-photo').css({
-            backgroundImage: data.user_info.headphoto
+            backgroundImage: 'url(' + data.user_info.headphoto + ')'
         }).end().find('.user-name').text( data.user_info.name );
 
         if( data.user_info.money ) {
@@ -102,6 +103,36 @@ var UserCenter = PFT.Util.Class({
 
     onAPPClick: function( e ) {
         location.href = e.target.getAttribute('data-url');
+    },
+
+    onBtnLogoutClick: function( e ) {
+        var that = this;
+        //退出登录
+        PFT.Util.Ajax("/r/MicroPlat_Member/unBindLogout",{
+            type : "POST",
+            dataType : "json",
+            params : {
+                token : PFT.Util.getToken()
+            },
+            loading : function(){
+                toast.show("loading");
+            },
+            complete : function(){
+                toast.hide();
+            },
+            success : function(res){
+                var code = res.code,
+                    data = res.data;
+                if(code==207){
+                    var para = location.search;
+                    window.location.href = "login.html" + para ;
+                }else{
+                    PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+                }
+            },
+            timeout : function(){ PFT.Mobile.Alert("请求超时") },
+            serverError : function(){ PFT.Mobile.Alert("请求出错")}
+        })
     }
 });
 
