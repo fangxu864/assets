@@ -49,10 +49,29 @@ var tableTicket = {
         this.container.on("click" , ".parent-tr" , function (e) {
             var shrinkBtn = $(this).find('.un-shrink');
             if(shrinkBtn){
-                shrinkBtn.click();
+                if( e.target.className.indexOf('btn-export-single') != -1 ) {
+                    _this.outExcel( $( e.target ).attr('data-url') );
+                } else {
+                    shrinkBtn.click();
+                }
             }
-        })
+        });
 
+        // 点击对应th，降序排序 added 2017/04/26
+        this.container.on('click', '.orderby', function(){
+
+                // _this.sortTableBy( $(this).attr('data-orderby') );
+
+        });
+    },
+
+    /**
+     * @method导出excel
+     */
+    outExcel:function (downloadUrl) {
+        var iframeName="iframe"+new Date().getTime();
+        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+        window.open(downloadUrl, iframeName);
     },
 
     close: function () {
@@ -69,9 +88,11 @@ var tableTicket = {
             total_info: {},
             Jtype: res.data.Jtype
         };
+
         for( var number in res.data.total_info){
             listData.total_info[number] = Number( res.data.total_info[number] )
         }
+
         for(var i in res.data.list ){
             var obj = (function () {
                 return {
@@ -91,6 +112,7 @@ var tableTicket = {
                 };
             }());
             obj.firstTrData.name = res.data.list[i].name;
+            obj.firstTrData.id = res.data.list[i].id;
 
             for(var j in res.data.list[i]['pay_way']){
                 obj.firstTrData.cancel_money += Number( res.data.list[i]['pay_way'][j]['cancel_money'] );
@@ -106,7 +128,7 @@ var tableTicket = {
             }
             listData.list.push(obj)
         }
-        var html = this.tableTicketTemplate({data : listData });
+        var html = this.tableTicketTemplate({data : listData, export_url: res.export_url });
         this.container.html(html);
         this.container.show();
     },

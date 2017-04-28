@@ -3,9 +3,10 @@
  */
 
 require("./table-con.scss");
-var tableConTpl = require("./table-con.xtpl");
-var tableLtTpl = require("./table-lt.xtpl");
-var tableRtTpl = require("./table-rt.xtpl");
+var tableConTpl = require("./table-con.xtpl"),
+    tableLtTpl = require("./table-lt.xtpl"),
+    tableRtTpl = require("./table-rt.xtpl"),
+    tableOperateTpl = require("./table-operate.xtpl");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 require("COMMON/modules/DragConOver")($);
 var Tip = require("COMMON/modules/tips");
@@ -141,11 +142,15 @@ var tableCon = {
             }
             rtData.list.push(obj)
         }
+
+        // console.log( res )
         var tableLtHtml = this.tableLtTemplate({data : res });
         var tableRtHtml = this.tableRtTemplate({data : rtData });
+        var tableOperateHtml = this.tableOperateTemplate({data : res, export_url: res.export_url });
 
         this.container.find(".table-lt").html(tableLtHtml);
         this.container.find(".table-rt").html(tableRtHtml);
+        this.container.find(".table-operate").html(tableOperateHtml);
         this.container.find(".rt-con .table-rt").css("left",0);
         this.container.show();
     },
@@ -154,7 +159,8 @@ var tableCon = {
      * @method 解析模板
      */
     tableLtTemplate: ParseTemplate( tableLtTpl ),
-    tableRtTemplate: ParseTemplate( tableRtTpl )
+    tableRtTemplate: ParseTemplate( tableRtTpl ),
+    tableOperateTemplate: ParseTemplate( tableOperateTpl )
 
 
 };

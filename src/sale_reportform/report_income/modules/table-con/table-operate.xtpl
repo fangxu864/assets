@@ -1,0 +1,24 @@
+<thead>
+<tr>
+    <th class="td-operate">操作</th>
+</tr>
+</thead>
+
+<tbody>
+<tr class="first-tr">
+    <td class="td-operate">&nbsp;</td>
+</tr>
+</tbody>
+
+<% _.each(data.data.list,function(item,index){ %>
+<tbody>
+<tr data-index="tr<%=index%>" class="parent-tr">
+    <td class="td-operate">&nbsp;</td>
+</tr>
+<% for(var i = 0 ; i< item.product_list.length ; i++ ){%>
+<tr style="display: none" class="child-tr">
+    <td class="td-operate has-b-lt"><a href="javascript:;" class="btn-export-single" data-url="<%=export_url%>&detail_reseller_id=<%=item.member_id%>&detail_pid=<%=item.product_list[i].id%>">导出明细</a></td>
+</tr>
+<%}%>
+</tbody>
+<%})%>

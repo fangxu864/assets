@@ -61,6 +61,9 @@ body {
             width: px2rem( 160 );
             height: px2rem( 160 );
             background-color: #fff;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
             -webkit-border-radius: 50%;
                     border-radius: 50%;
         }
