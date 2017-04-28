@@ -15,15 +15,12 @@ var GetMoreLoadingHtml = Common.getLoadingHtml("努力加载中..",{
 });
 var ItemTemplate = Util.ParseTemplate(require("./item.xtpl"));
 var List = Util.Class({
+    status : "",
     state : {
-        status : "",
         isLoading : false,
         currentPage : 1,
-        begin_date : "2017-04-01",
-        end_date : "2017-04-20",
-        date_type : 0,
         hasMore : true,
-        data : []
+        params : {}
     },
     EVENTS : {
         "click .getMoreBtn" : "onGetMoreBtnClick"
@@ -31,20 +28,19 @@ var List = Util.Class({
     init : function(opt){
         var state = this.state;
         this.state.status = opt.status;
+        this.status = opt.status;
     },
     onGetMoreBtnClick : function(e){
         var tarBtn = $(e.currentTarget);
         var state = this.state;
         var ajaxParams = state.ajaxParams;
+        var params = this.getParams();
+        var _params = {};
+        for(var i in params) _params[i] = params[i];
+        _params["size"] = PageSize;
+        _params["page"] = state.currentPage+1;
         tarBtn.remove();
-        this.fetch({
-            status : state.status,
-            size : PageSize,
-            page : state.currentPage+1,
-            begin_date : state.begin_date,
-            end_date : state.end_date,
-            date_type : state.date_type
-        })
+        this.fetch(_params);
     },
     fetch : function(params){
         var that = this;
@@ -52,6 +48,8 @@ var List = Util.Class({
         if(state.isLoading) return false;
         var page = params.page;
         var container = this.container;
+        params["status"] = this.status;
+        params["size"] = PageSize;
         Util.Ajax(Common.api.list,{
             type : Common.ajaxType,
             ttimeout : Common.ttimeout,
@@ -92,7 +90,6 @@ var List = Util.Class({
                         that.state.hasMore = false;
                     }
                     that.state.currentPage = page;
-                    that.state.data.push(data);
                 }else{
                     Alert(msg);
                 }
@@ -101,17 +98,17 @@ var List = Util.Class({
         });
     },
     refresh : function(params){
-        var state = this.state;
-        for(var i in params) state[i] = params;
-        state.currentPage = 1;
-        this.fetch({
-            status : state.status,
-            size : PageSize,
-            page : state.currentPage,
-            begin_date : state.begin_date,
-            end_date : state.end_date,
-            date_type : state.date_type
-        });
+        var _params = this.getParams();
+
+        //更上一次refresh时缓存下来的params更新到新的params
+        for(var i in params) _params[i] = params[i];
+
+        //重置页数为第1页
+        this.state.currentPage = 1;
+        params["page"] = 1;
+
+        this.fetch(params);
+
         return this;
     },
     adaptData : function(list){
@@ -144,7 +141,6 @@ var List = Util.Class({
         // }
         var container = this.container;
         list = this.adaptData(list);
-        console.log(list);
         // var html = "";
         // Common.forEach(list,function(item,index){
         //     html += '<li style="height:100px; line-height:100px; text-align:center">'+index+'</li>';
@@ -154,6 +150,12 @@ var List = Util.Class({
     },
     hide : function(){
 
+    },
+    getParams : function(){
+        return this.state.params;
+    },
+    setParams : function(prop,val){
+        this.state.params[prop] = val;
     }
 });
 

@@ -68,20 +68,32 @@
                 <%=item.ordername%> <%=item.ordertel%>
             </div>
         </div>
+        <div class="infoLine">
+            <div class="lt">下单时间</div>
+            <div class="rt">
+                <%=item.ordertime%>
+            </div>
+        </div>
+        <div class="infoLine">
+            <div class="lt">验证时间</div>
+            <div class="rt">
+                <%=item.dtime%>
+            </div>
+        </div>
     </div>
 
+
+
     <div class="btnGroup">
-        <%if(item.pay==1){%>
+        <%if(item.pay==1000){%>
             <span class="btn pay" data-ordernum="<%=item.ordernum%>">支付</span>
         <%}%>
-        <%if(item.cancel==1){%>
+        <%if(item.cancel==11000){%>
             <%if(item.status==101){%>
                 <span class="btn" data-ordernum="<%=item.ordernum%>">退票中</span>
             <%}else{%>
                 <span class="btn cancel" data-ordernum="<%=item.ordernum%>">取消订单</span>
             <%}%>
-        <%}else{%>
-            <span class="btn cancel disable">不可取消</span>
         <%}%>
     </div>
 </li>

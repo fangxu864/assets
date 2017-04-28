@@ -27,8 +27,12 @@ var WriteCardInfo = PFT.Util.Class({
             data = JSON.parse(data);
             var code = data.code;
             var msg = data.msg || "-";
-            if(code==200){ //写卡成功
-                that.onWriteCardInfoSuccess();
+            if(code==200){ //成功
+                if(data.data){ //data里有data值，说明是读卡
+                    that.onReadKaSuccess(data.data);
+                }else{ //写卡
+                    that.onWriteCardInfoSuccess();
+                }
             }else{
                 Message.alert("写卡失败，失败原因："+msg)
             }
@@ -61,6 +65,9 @@ var WriteCardInfo = PFT.Util.Class({
             timeout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT);},
             serverError : function(){Message.error(PFT.AJAX_ERROR_TEXT)}
         })
+    },
+    onReadKaSuccess : function(card_no){
+        $("#phy_no_inp").val(card_no);
     },
     /**
      * 刷新info
@@ -189,7 +196,10 @@ var WriteCardInfo = PFT.Util.Class({
 
         this.sendDataToSocket();
 
-	}
+	},
+    readKa : function(){
+        this.ws.send('{"cmd":"read"}');
+    }
 });
 
 module.exports = WriteCardInfo;

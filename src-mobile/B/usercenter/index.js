@@ -90,7 +90,7 @@ var UserCenter = PFT.Util.Class({
         }).end().find('.user-name').text( data.user_info.name );
 
         if( data.user_info.money ) {
-            let html = tpls.accBalance({ balance: data.user_info.money/100 });
+            var html = tpls.accBalance({ balance: data.user_info.money/100 });
             accBalance.html( html );
         }
 

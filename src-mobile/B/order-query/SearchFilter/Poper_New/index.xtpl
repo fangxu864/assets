@@ -1,0 +1,56 @@
+<div id="pageFilter" class="filter-container">
+    <div class="form">
+        <div class="form-group">
+            <label class="form-label dateType" id="dateTypeLabel" data-type="0">
+                下单时间<i class="arrow-d"></i>
+            </label>
+            <div class="form-val">
+                <ul id="quickSelectDateWrap" class="date-type-val quickSelectDate">
+                    <li class="dateFlag active" data-date="1">今天</li>
+                    <li class="dateFlag" data-date="2">昨天</li>
+                    <li class="dateFlag" data-date="3">7日</li>
+                    <li class="dateFlag" data-date="4">自定义</li>
+                </ul>
+            </div>
+        </div>
+        <div style="display:none" id="dateRange" class="date-range">
+            <div class="form-group">
+                <label class="form-label">
+                    起始日期
+                </label>
+                <div class="form-val">
+                    <input type="datetime" id="beginDatetime" class="input-date beginDatetime" />
+                    <i class="icon-u-regular icon-rili"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    截止日期
+                </label>
+                <div class="form-val">
+                    <input type="datetime" id="endDatetime" class="input-date endDatetime" />
+                    <i class="icon-u-regular icon-rili"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a style="margin-top:40px;" href="javascript:;" id="" class="btn btn-default btn-block btnSearch">搜索</a>
+    <div class="btn-group btn-2">
+        <a href="javascript:;" id="" class="btn btn-default-reverse btnClear">重置</a>
+        <a href="javascript:;" id="" class="btn btn-default-reverse btnCancel">取消</a>
+    </div>
+    <div class="modal-select">
+        <div class="modal-select-inner">
+            <div class="modal-select-options">
+                <ul>
+                    <li class="modal-select-option" data-type="0">下单时间</li>
+                    <li class="modal-select-option" data-type="1">游玩时间</li>
+                    <li class="modal-select-option" data-type="2">验证时间</li>
+                </ul>
+            </div>
+            <div class="modal-select-btns">
+                <a href="javascript:;" class="modal-select-btn">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

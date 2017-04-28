@@ -4,33 +4,9 @@ var Util = PFT.Util;
 var List = require("./list");
 var ListManager = Util.Class({
     container : "#listManagerMod",
-    staticProp : {
-        //订单状态 0未使用，1已使用，2已过期（终端4）, 3被取消（终端2）, 4被替代,5被终端修改,6被终端撤销,7部分使用，9被删除', -1 不限
-        status : PFT.Config.orderStatus,
-        tabItem : [{
-            status : "-1",
-            text : "全部"
-        },{
-            status : "0",
-            text : "未验证"
-        },{
-            status : "7",
-            text : "部分验证"
-        },{
-            status : "1",
-            text : "已验证"
-        },{
-            status : "3",
-            text : "已取消"
-        },{
-            status : "2",
-            text : "已过期"
-        }]
-    },
     state : {},
     list : {},
     init : function(){
-        this.renderTab();
         this.renderPannel();
     },
     getState : function(prop){
@@ -40,28 +16,25 @@ var ListManager = Util.Class({
         this.state[prop] = val;
         return this;
     },
-    switchTab : function(status){
-        if(typeof status!=="string") return cosnole.error("status必须是string");
-        var list = this.list;
-        $("#tabPannel_"+status).show().siblings().hide();
-        if(!list[status]){
-            list[status] = new List({container:"#tabPannel_"+status,status:status});
-            list[status].refresh();
-        }
+    //再判断与上一次更新的params参数是否一致，一致则不fetch
+    isParamsEquel : function(status,params){
+        var isEqel = true;
+        var list = this.list[status];
+        if(!list) return false;
+        var old_params = this.paramsToString(list.getParams());
+        var new_params = this.paramsToString(params||{});
+        return old_params===new_params;
     },
-    renderTab : function(){
-        var tabs = this.staticProp.tabItem;
-        var html = "";
-        Common.forEach(tabs,function(item,index){
-            var status = item.status;
-            var text = item.text;
-            html += '<li id="tabItem_'+status+'" data-status="'+status+'" class="tabItem tabItem_'+status+'">'+text+'</li>';
-        },this);
-        $("#tabHeadMod").html(html);
-        return this;
+    paramsToString : function(params){
+        if(!Common.isObject(params)) return false;
+        var result = [];
+        Common.forEach(params,function(item,index){
+            if(index!=="status") result.push(index+"="+item);
+        })
+        return result.join("&");
     },
     renderPannel : function(){
-        var tabs = this.staticProp.tabItem;
+        var tabs = Common.tabItem;
         var html = "";
         Common.forEach(tabs,function(item,index){
             var status = item.status;
@@ -70,6 +43,35 @@ var ListManager = Util.Class({
         },this);
         $("#listManagerMod").html(html);
         return this;
+    },
+
+
+    //====================================
+    //对外暴露以下3个方法
+    switchStatus : function(params){
+        var status = params.status;
+        var list = this.list[status];
+        $("#tabPannel_"+status).show().siblings().hide();
+        if(!list){ //如果该list还没有被初始化
+            list = this.list[status] = new List({container:"#tabPannel_"+status,status:status});
+            list.refresh(params);
+        }else{ 
+            //如果已经初始化list了 并且上一次的params与此次的params不同，则刷新
+            if(!this.isParamsEquel(status,params)){
+                this.refresh(params);
+            }
+        }
+        this.setMarginTop();
+    },
+    refresh : function(params){
+        var status = params.status;
+        var list = this.list[status];
+        list.refresh(params);
+        this.setMarginTop();
+    },
+    setMarginTop : function(top){
+        if(typeof top!=="number") top = $("#topFixedMod").height();
+        this.container.css({marginTop:top});
     }
 });
 

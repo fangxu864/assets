@@ -48,6 +48,7 @@ var Main = PFT.Util.Class({
 	},
 	validator : {},
 	CarList : "5座 7座 9座 11座 15座 15座以上 飞马出租 弘瑞出租 天行出租 盛捷出租 海棠湾出租 智慧快的出租",
+	readKaMode : "new",  //可选值：  "ie"   "new"
 	init : function(){
 
 		var that = this;
@@ -492,18 +493,25 @@ var Main = PFT.Util.Class({
 		},10)
 	},
 	readwuKa : function(e){
-		var helloBossma = document.getElementById("helloBossma");
-		if(!helloBossma){
-			alert("请使用IE浏览器读物理卡号");
-			return false;
+		if(this.readKaMode=="ie"){ //用IE读卡
+			var helloBossma = document.getElementById("helloBossma");
+			if(!helloBossma){
+				alert("请使用IE浏览器读物理卡号");
+				return false;
+			}
+			if(typeof helloBossma.open!="number" && typeof helloBossma.ICReaderRequest!="string"){
+				alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
+				return false;
+			}
+			helloBossma.open();
+			var val = helloBossma.ICReaderRequest();
+			$("#phy_no_inp").val(val);
+		}else{ //用新的方式读卡，支持谷歌浏览器，websocket方式
+			this.readWuKa_New();
 		}
-		if(typeof helloBossma.open!="number" && typeof helloBossma.ICReaderRequest!="string"){
-			alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
-			return false;
-		}
-		helloBossma.open();
-		var val = helloBossma.ICReaderRequest();
-		$("#phy_no_inp").val(val);
+	},
+	readWuKa_New : function(e){
+		this.WriteCardInfo.readKa();
 	},
 	onFormSubmit : function(e){
 		e.preventDefault();

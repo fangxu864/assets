@@ -1,5 +1,9 @@
 @import "COMMON/css/base/flex";
-
+%overflow_ellips{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 //背景颜色值
 $bgColor : #f0f3f5;
 //高亮时的蓝色
@@ -32,6 +36,70 @@ html,body{ background: $bgColor}
     }
 }
 
+//顶部搜索样式
+#searchFilterMod{
+    position: relative;
+    min-height: 35px;
+    padding:5px 45px 0px 10px;
+    margin-bottom: 5px;
+    background: $blueLight;
+
+    &.empty{ padding-bottom: 5px;}
+
+    &>.con{ overflow: hidden;}
+
+    .searchBtn{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 45px;
+        height: 45px;
+        line-height: 51px;
+        text-align: center;
+        .icon{ font-size: 22px; color: $activeBlue}
+    }
+
+    .flag{
+        position: relative;
+        float: left;
+        width: 49%;
+        height: 34px;
+        margin-right: 1%;
+        overflow: hidden;
+        background: #fff;
+        margin-bottom: 5px;
+
+        .flagCon{ 
+            padding-left: 7px;
+            line-height: 34px;
+            margin-right: 34px;
+            @extend %overflow_ellips;
+        }
+        .removeBtn{
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 34px;
+            line-height: 31px;
+            text-align: center;
+            color: $activeBlue;
+            font-size: 24px;
+        }
+
+        &.row{
+            width: 100%;
+            margin-right: 0;
+            clear: both;
+        }
+
+    }
+
+
+
+}
+
 #listManagerMod{
-    margin-top: 100px;
+    margin-top: 94px;
 }

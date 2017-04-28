@@ -2,7 +2,7 @@ var Alert = require("COMMON/Components/Alert-Mobile/v1.0");
 
 //各模块公用的方法、配置、api接口地址  都定义在这里
 module.exports = { 
-    pageSize : 10,
+    pageSize : 5,
     ajaxType : "post",
     ttimeout : 10 * 1000, //超时时间
     paymode : { //支付方式,0余额，1在线，2授信，3自供自销，4现场支付
@@ -13,6 +13,30 @@ module.exports = {
         4 : "现场支付",
         9 : "现金支付"
     },
+    dateType_Text : { //按日期搜索时，日期值对应的文字
+         0 : "下单时间",
+         1 : "游玩时间",
+         2 : "验证时间"
+    },
+    tabItem : [{
+        status : "-1",
+        text : "全部"
+    },{
+        status : "0",
+        text : "未验证"
+    },{
+        status : "7",
+        text : "部分验证"
+    },{
+        status : "1",
+        text : "已验证"
+    },{
+        status : "3",
+        text : "已取消"
+    },{
+        status : "2",
+        text : "已过期"
+    }],
     statusText : {
         0 : {
 			name : "未使用",
