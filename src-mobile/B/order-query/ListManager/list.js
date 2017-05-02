@@ -39,7 +39,6 @@ var List = Util.Class({
         for(var i in params) _params[i] = params[i];
         _params["size"] = PageSize;
         _params["page"] = state.currentPage+1;
-        tarBtn.remove();
         this.fetch(_params);
     },
     fetch : function(params){
@@ -53,11 +52,20 @@ var List = Util.Class({
         Util.Ajax(Common.api.list,{
             type : Common.ajaxType,
             ttimeout : Common.ttimeout,
-            params : params,
+            params : {
+                status : params.status,
+                begin_date : params.begin_date,
+                end_date : params.end_date,
+                date_type : params.date_type,
+                size : PageSize,
+                page : params.page,
+                token : Common.getToken()
+            },
             loading : function(){
                 if(page==1){
                     container.html(LoadingHtml);
                 }else{
+                    container.find(".getMoreBtn").remove();
                     container.append(GetMoreLoadingHtml);
                 }
                 that.state.isLoading = true;
@@ -67,6 +75,7 @@ var List = Util.Class({
                     container.html("");
                 }else{
                     container.find(".getMore_loading").remove();
+                    // container.append('<li class="getMore_state getMoreBtn">点击查看更多</li>');
                 }
                 that.state.isLoading = false;
             },
@@ -90,18 +99,25 @@ var List = Util.Class({
                         that.state.hasMore = false;
                     }
                     that.state.currentPage = page;
+                }else if(code==102){
+                    Common.unLogin();
                 }else{
                     Alert(msg);
                 }
             },
-            serverError : Common.serverError
+            serverError : function(xhr,errorText){
+                Common.serverError(xhr,errorText);
+                container.append('<li class="getMore_state getMoreBtn">点击查看更多</li>');
+            }
         });
     },
     refresh : function(params){
-        var _params = this.getParams();
+        
+        var that = this;
 
         //更上一次refresh时缓存下来的params更新到新的params
-        for(var i in params) _params[i] = params[i];
+        this.setParams("clear");
+        for(var i in params) that.state.params[i] = params[i];
 
         //重置页数为第1页
         this.state.currentPage = 1;
@@ -155,6 +171,7 @@ var List = Util.Class({
         return this.state.params;
     },
     setParams : function(prop,val){
+        if(prop=="clear") return this.state.params = {};
         this.state.params[prop] = val;
     }
 });

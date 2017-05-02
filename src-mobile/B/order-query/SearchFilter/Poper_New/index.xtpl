@@ -2,7 +2,7 @@
     <div class="form">
         <div class="form-group">
             <label class="form-label dateType" id="dateTypeLabel" data-type="0">
-                下单时间<i class="arrow-d"></i>
+                <span id="dateTypeLabelText">下单时间</span><i class="arrow-d"></i>
             </label>
             <div class="form-val">
                 <ul id="quickSelectDateWrap" class="date-type-val quickSelectDate">

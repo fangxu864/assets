@@ -27,7 +27,7 @@ var ListManager = Util.Class({
     },
     paramsToString : function(params){
         if(!Common.isObject(params)) return false;
-        var result = [];
+        var result = []; 
         Common.forEach(params,function(item,index){
             if(index!=="status") result.push(index+"="+item);
         })
@@ -57,9 +57,10 @@ var ListManager = Util.Class({
             list.refresh(params);
         }else{ 
             //如果已经初始化list了 并且上一次的params与此次的params不同，则刷新
-            if(!this.isParamsEquel(status,params)){
-                this.refresh(params);
-            }
+            // if(!this.isParamsEquel(status,params)){
+            //     this.refresh(params);
+            // }
+            this.refresh(params);
         }
         this.setMarginTop();
     },

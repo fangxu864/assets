@@ -27,8 +27,9 @@
             padding: px2rem(20) 0;
 
             .form-label {
+                position: relative;
                 // float: left;
-                width: 6em;
+                width: 7em;
                 padding: px2rem( 16 ) px2rem( 10 );
                 margin-right: px2rem( 10 );
                 background-color: #F3F1F1;
@@ -37,7 +38,9 @@
                 white-space: nowrap;
 
                 .arrow-d {
-                    margin-left: 0.5em;
+                    position: absolute;
+                    top: 14px;
+                    right: 7px;
                 }
             }
             .form-val {
@@ -239,5 +242,25 @@
                 min-width: 2em;
             }
         }
+    }
+}
+
+.dateTypeModel{
+    text-align: center;
+    .actionItem{
+        height: 45px;
+        line-height: 45px;
+        overflow: hidden;
+        border-bottom: 1px solid #e5e5e5;
+        &.active{
+            color: #2a98da;
+        }
+    }
+    .cancelBtn{
+        height: 45px;
+        line-height: 45px;
+        border-top: 1px solid #e5e5e5;
+        margin-top: 10px;
+        color: #2a98da
     }
 }

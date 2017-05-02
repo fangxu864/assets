@@ -11,18 +11,18 @@ var ListManager = require("./ListManager");
 //详情模块
 var Detail = require("./Detail");
 
+var Backbone = require("backbone");
 
 var Main = Util.Class({
     container : "#appContainer",
-    EVENTS : {
-        
-    },
+    pageHasInited : false,
     init : function(){
         var that = this;
         this.container.html(FrameTpl);
         
         this.ListManager = new ListManager();
         this.SearchFilter = new SearchFilter();
+        this.Detail = new Detail();
         
 
         //当顶部搜索模块发生变化时  刷新list列表
@@ -33,11 +33,30 @@ var Main = Util.Class({
             that.ListManager.refresh(data);
         });
 
+        this.initRouter();
 
-        //启动
-        $("#tabHeadMod").children().first().trigger("click");
-
-
+    },
+    initRouter : function(){
+        var that = this;
+        var AppRouter = Backbone.Router.extend({
+            routes: {
+                '': 'index',
+                'detail/:id': 'detail'
+            },
+            index: function () {
+                if(!that.pageHasInited){
+                    that.pageHasInited = true;
+                    //启动
+                    $("#tabHeadMod").children().first().trigger("click");
+                }
+                that.Detail.close();
+            },
+            detail: function (ordernum) {
+                that.Detail.show(ordernum);
+            }
+        });
+        this.router = new AppRouter();
+        Backbone.history.start();
     }
 });
 
