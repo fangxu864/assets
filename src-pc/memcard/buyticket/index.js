@@ -13,15 +13,15 @@ var renderNav = require("../common/nav/index.js");
 var Pagination = require("COMMON/modules/pagination-x");
 var Dialog = require("./dialog/dialog.js");
 
-var blackList = PFT.Util.Class({
+var buyTicket = PFT.Util.Class({
 
     init: function () {
         var _this = this;
-        this.container = $("#GBlacklistWrap");
+        this.container = $("#GBuyTicketWrap");
         this.container.html(frameTpl);
-        renderNav("2" , this.container.find(".nav-box"));
+        renderNav("3" , this.container.find(".nav-box"));
         this.pagination = new Pagination({
-            container : _this.container.find(".pag-box") , //必须，组件容器id
+            container : _this.container.find(".record-pag-box") , //必须，组件容器id
             count : 7,                //可选  连续显示分页数 建议奇数7或9
             showTotal : true,         //可选  是否显示总页数
             jump : true	              //可选  是否显示跳到第几页
@@ -48,5 +48,5 @@ var blackList = PFT.Util.Class({
 });
 
 $(function () {
-    new blackList();
+    new buyTicket();
 });

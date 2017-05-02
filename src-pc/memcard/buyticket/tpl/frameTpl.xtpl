@@ -1,0 +1,95 @@
+<div class="nav-box"></div>
+<div class="filter-box">
+    <ul>
+        <li class="inline-block-li">
+            <span class="name">产品：</span>
+            <input type="text"/>
+        </li>
+        <li class="inline-block-li">
+            <span class="name">身份证：</span>
+            <input type="text" style="width: 230px"/>
+            <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
+        </li>
+        <li class="inline-block-li">
+            <span class="name">姓名：</span>
+            <input type="text"/>
+        </li>
+        <li class="inline-block-li">
+            <span class="buy-btn" onselectstart="javascript: return false;">购票</span>
+        </li>
+
+    </ul>
+</div>
+
+<div class="ticket-record-wrap">
+    <div class="record-tit">购票记录</div>
+    <div class="record-filter">
+        <ul>
+            <li class="inline-block-li">
+                <span class="name">日期：</span>
+                <input type="text"/>
+            </li>
+            <li class="inline-block-li">
+                <span class="name">身份证：</span>
+                <input type="text"/>
+            </li>
+            <li class="inline-block-li">
+                <span class="buy-btn" onselectstart="javascript: return false;">搜索</span>
+            </li>
+
+        </ul>
+    </div>
+    <div class="record-tb-box">
+            <table class="record-tb">
+                <thead>
+                <tr>
+                    <th class="th1">购票日期</th>
+                    <th class="th2">产品</th>
+                    <th class="th3">姓名</th>
+                    <th class="th4">身份证</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="th1">2017-04-05 12:12:12</td>
+                    <td class="th2">福建太姥山景区</td>
+                    <td class="th3">张三</td>
+                    <td class="th4">411522199312781545</td>
+                </tr>
+                <tr>
+                    <td class="th1">2017-04-05 12:12:12</td>
+                    <td class="th2">福建太姥山景区</td>
+                    <td class="th3">张三</td>
+                    <td class="th4">411522199312781545</td>
+                </tr>
+                <tr>
+                    <td class="th1">2017-04-05 12:12:12</td>
+                    <td class="th2">福建太姥山景区</td>
+                    <td class="th3">张三</td>
+                    <td class="th4">411522199312781545</td>
+                </tr>
+                <tr>
+                    <td class="th1">2017-04-05 12:12:12</td>
+                    <td class="th2">福建太姥山景区</td>
+                    <td class="th3">张三</td>
+                    <td class="th4">411522199312781545</td>
+                </tr>
+                <tr>
+                    <td class="th1">2017-04-05 12:12:12</td>
+                    <td class="th2">福建太姥山景区</td>
+                    <td class="th3">张三</td>
+                    <td class="th4">411522199312781545</td>
+                </tr>
+                <tr>
+                    <td class="th1">2017-04-05 12:12:12</td>
+                    <td class="th2">福建太姥山景区</td>
+                    <td class="th3">张三</td>
+                    <td class="th4">411522199312781545</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <div class="record-pag-box clearfix"></div>
+</div>
+
+

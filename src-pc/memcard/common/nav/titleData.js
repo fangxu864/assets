@@ -14,5 +14,10 @@ module.exports={
         titleName: "黑名单",
         href: domin + "new/memcard_blacklist.html",
         active: ''
+    },
+    3:{
+        titleName: "购票",
+        href: domin + "new/memcard_buyticket.html",
+        active: ''
     }
 };
