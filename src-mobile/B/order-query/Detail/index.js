@@ -3,6 +3,10 @@
 require("./index.scss");
 
 
+//公共方法集
+var Common = require("../common.js");
+
+
 //----------tpl-----------
 //基本tpl
 var main_tpl = require("./index.xtpl");
@@ -23,13 +27,21 @@ var toast = new Toast();
 
 
 var Detail  = PFT.Util.Class({
+    //判断是否被打开过
+    hasOpened : false,
     init: function () {
         var _this = this;
         this.dialog = new Dialog({
             content : main_tpl,
             height : "100%",
-            cancelBtn : "返回",
-            speed:300,
+            cancelBtn : {
+                text : "返回",
+                onClick : function(e){
+                    window.history.back();
+                    return false;
+                }
+            },
+            speed:200,
             cache: false,
             EVENTS : {
                 "click .tab-title .tab-btn": function (e) {
@@ -62,14 +74,19 @@ var Detail  = PFT.Util.Class({
     //订单号
     orderNum: '',
     token: Common.getToken(),
-
     show: function (ordernum) {
+        this.hasOpened = true;
         if( ordernum === undefined ){
             Alert("订单号不存在");
             return false;
         }
         this.orderNum = ordernum;
         this.dialog.open();
+    },
+    close : function(){
+        //如果还没show过，就没有close的必要，逻辑上不合理
+        if(!this.hasOpened) return false;
+        this.dialog.close();
     },
 
     //缓存仓库
@@ -114,6 +131,9 @@ var Detail  = PFT.Util.Class({
                 //请求前的处理
             },
             success: function(res) {
+
+                if(res.code==102) return Common.unLogin();  //统一处理未登录或登录状态过期的情况
+
                 // 请求成功时处理
                 //缓存数据
                 _this.cacheHub.detail[$.param(params)] = $.extend({},res);
@@ -186,6 +206,10 @@ var Detail  = PFT.Util.Class({
                 //请求前的处理
             },
             success: function(res) {
+
+                if(res.code==102) return Common.unLogin();  //统一处理未登录或登录状态过期的情况
+
+
                 // 请求成功时处理
                 //缓存数据
                 _this.cacheHub.change[$.param(params)] = $.extend({},res);

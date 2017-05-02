@@ -1,5 +1,5 @@
 <%_.each(data,function(item,index){%>
-<li id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="orderItem">
+<a href="#/detail/<%=item.ordernum%>" id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="orderItem">
     <div class="topPart" href="#/detail/<%=item.ordernum%>">
         <div class="photoBox">
             <div class="imgBox">
@@ -96,5 +96,5 @@
             <%}%>
         <%}%>
     </div>
-</li>
+</a>
 <%})%>

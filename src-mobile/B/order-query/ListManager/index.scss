@@ -95,20 +95,24 @@
         text-align: center;
         color: #999;
     }
-    .getMore_state.getMoreBtn{
+    .getMore_state.getMoreBtn,.getMore_state.getMore_empty{
         height: 60px;
         line-height: 60px;
         text-align: center;
         background: #f0f3f5;
         color: #2a98da
     }
+    .getMore_state.getMore_empty{
+        color: #999
+    }
 
     //item样式
     .orderItem{
-
+        display: block;
         background:#fff;
         margin-bottom:7px;
         padding-bottom:15px;
+        color: #333;
         &:last-child{ margin-bottom:0}
 
         .topPart{

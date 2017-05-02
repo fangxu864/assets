@@ -15,7 +15,7 @@ module.exports = {
     },
     dateType_Text : { //按日期搜索时，日期值对应的文字
          0 : "下单时间",
-         1 : "游玩时间",
+         1 : "预计游玩时间",
          2 : "验证时间"
     },
     tabItem : [{
@@ -148,5 +148,33 @@ module.exports = {
         if(tag=="tr"||tag=="td") html += '</td>';
         html += '</'+tag+'>';
         return html;
+    },
+    clone : function(obj,deep){
+        if(obj==null || typeof obj!=="object") return obj;  //过滤掉null、function 、基本类型变量  剩下Array Object
+        var isArray = this.isArray;
+        var isObject = this.isObject;
+        var clone = function(obj,deep){
+            var result = {}, value;
+            for(var name in obj){
+                value = obj[name];
+
+                if(value===obj) continue;
+
+                if((isArray(value) || isObject(value)) && deep){
+                    result[name] = clone(value,deep)
+                }else{
+                    result[name] = obj[name];
+                }
+            }
+            return result;
+        };
+
+        return clone(obj,deep);
+
+    },
+    //所有的操作都需要登录后才能操作，如果后端返回102，就是未登录或登录状态过期
+    //前端在这里统一处理这种情况
+    unLogin : function(){
+        winodw.location.href = "login.html";
     }
 }

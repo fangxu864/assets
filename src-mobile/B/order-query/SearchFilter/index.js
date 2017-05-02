@@ -1,6 +1,7 @@
 var Util = PFT.Util;
 var Common = require("../common.js");
 var SearchPoper = require("./Poper_New");
+var Alert = PFT.Mobile.Alert;
 var SearchFilter = Util.Class({
     container : "#topFixedMod",
     EVENTS : {
@@ -14,15 +15,15 @@ var SearchFilter = Util.Class({
         this.Poper = new SearchPoper();
         this.Poper.on("search",function(data){
             that.renderSearchParamsToTop(data);
-            that.trigger("change:search",that.getSearchParams());
+            data["status"] = that.getCurStatus();
+            that.trigger("change:search",data);
         })
         this.Poper.on("reset",function(data){
-            that.renderSearchParamsToTop("");
-            that.trigger("change:search",that.getSearchParams());
+            that.renderSearchParamsToTop(data);
+            data["status"] = that.getCurStatus();
+            that.trigger("change:search",data);
         })
-        this.Poper.on("remove:param",function(){
-            that.trigger("change:search",that.getSearchParams());
-        })
+        this.renderSearchParamsToTop(this.Poper.getSearchParams())
     },
     //切换标签
     onTabItemClick : function(e){
@@ -38,6 +39,9 @@ var SearchFilter = Util.Class({
         var siblingsCount = flag.siblings().length;
         var searchFilterMod = $("#searchFilterMod");
         var field = flag.attr("data-paramtype");
+        if(field==="date"){
+            return Alert("查询订单需要限定一个时间段，可点击右侧搜索按钮，修改时间段");
+        }
         flag.remove();
         if(siblingsCount==0) searchFilterMod.addClass("empty");
         this.Poper.removeCurSearchParam(field);
