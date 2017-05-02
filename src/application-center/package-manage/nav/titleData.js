@@ -6,8 +6,8 @@
 var domin = PFT.PREFIX_DOMAIN();
 module.exports={
     1:{
-        titleName: "套餐配置",
-        href: domin + "new/appcenter_packageconfig.html",
+        titleName: "套餐管理",
+        href: domin + "new/appcenter_packagemanage.html",
         active: ''
     }
 };
