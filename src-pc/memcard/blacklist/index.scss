@@ -11,21 +11,28 @@
     border-top: none;
     padding: 10px 20px;
     .inline-block-li{
-      display: inline-block;
+      //display: inline-block;
       margin: 10px 20px 10px 0;
       .name{
         font-size: 14px;
+        width: 70px;
+        display: inline-block;
         margin-right: 5px;
       }
       .get-idNum{
-        color: #0797d9;
-        margin-left: 10px;
-        cursor:pointer;
+        font-size: 14px;
+        margin-left: 5px;
+        cursor: pointer;
+        display: inline-block;
+        border: 1px solid #e5e5e5;
+        padding: 9px 16px;
       }
-      .get-idNum:hover{
-        text-decoration: underline;
+      .leading-in:hover,.get-idNum:hover{
+        border-color: #258cc9;
+        color: #258cc9;
       }
       .search-btn{
+        margin-left: 79px;
         padding: 10px 20px;
         background-color: #f07845;
         color: #ffffff;
@@ -49,7 +56,7 @@
         cursor: pointer;
       }
       input{
-        width: 160px;
+        width: 300px;
         height: 22px;
         line-height: 22px;
         border: 1px solid #e5e5e5;
@@ -76,6 +83,9 @@
       tbody tr{
         line-height: 40px;
         border-bottom: 1px solid #e5e5e5;
+      }
+      tbody tr:hover{
+        background-color: #fafafa;
       }
       .th1,.th2,.th3{
         text-align: left;

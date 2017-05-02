@@ -7,7 +7,7 @@
     <div class="line line2">
         <span class="name">excel导入：</span>
         <input type="text"/>
-        <span class="select-btn">选择</span>
+        <span>选择</span>
     </div>
     <div class="line line4">
         <span class="save-btn btn">导入</span>

@@ -1,16 +1,19 @@
-<div class="leading-in-box">
-    <div class="title">导入</div>
+<div class="edit-box">
+    <div class="title">编辑</div>
     <div class="line line1">
         <span class="name">产品：</span>
         <input type="text"/>
     </div>
     <div class="line line2">
-        <span class="name">excel导入：</span>
+        <span class="name">姓名：</span>
         <input type="text"/>
-        <span class="select-btn">选择</span>
+    </div>
+    <div class="line line3">
+        <span class="name">身份证：</span>
+        <input type="text"/>
     </div>
     <div class="line line4">
-        <span class="save-btn btn">导入</span>
+        <span class="save-btn btn">保存</span>
         <span class="cancel-btn btn">取消</span>
     </div>
 

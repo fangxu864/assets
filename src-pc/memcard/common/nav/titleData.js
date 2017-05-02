@@ -17,7 +17,7 @@ module.exports={
     },
     3:{
         titleName: "购票",
-        href: domin + "new/memcard_blacklist.html",
+        href: domin + "new/memcard_buyticket.html",
         active: ''
     }
 };
