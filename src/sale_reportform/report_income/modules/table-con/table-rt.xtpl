@@ -1,7 +1,7 @@
 <thead>
 <tr>
     <% _.each(data.pay_list , function(item,index){ %>
-    <th class="orderby" data-orderby="pay_list_<%=index%>"><%=item%></th>
+    <th><%=item%></th>
     <%})%>
 </tr>
 </thead>

@@ -8,7 +8,7 @@ var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
 
 var Toast = require("./Toast");
 
-var TypeTpl = require("./tpl/type.xtpl");	
+var TypeTpl = require("./tpl/type.xtpl");
 var ThemeTpl = require("./tpl/theme.xtpl");
 var CityTpl = require("./tpl/city.xtpl");
 var SearchTpl = require("./tpl/search.xtpl");
@@ -20,18 +20,18 @@ var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
 var Plist = PFT.Util.Class({
 
 	container : $("#productOrderBox"),
-	EVENTS : {      
-		"click .typeSelect" : "onTypeSelect",   //类型           
-		"click .themeSelect" : "onThemeSelect",  //主题            
-		"click .citySelect" : "onCitySelect",   //城市        
+	EVENTS : {
+		"click .typeSelect" : "onTypeSelect",   //类型
+		"click .themeSelect" : "onThemeSelect",  //主题
+		"click .citySelect" : "onCitySelect",   //城市
 		"focus .productNameSearch" : "focusAllInput",  //产品类型搜索
 		// "click .spotTicketMore" : "recommendTicket",   //推荐票类
 		"click .moreTicket" : "moreTicket",  //更多票类
-		"click .writeOrderLink" : "onclickLink" //点击票类 
+		"click .writeOrderLink" : "onclickLink" //点击票类
  	},
-	init : function(opt){ 
+	init : function(opt){
 
-		var that = this;  
+		var that = this;
 
 		this.toast = new Toast();
 
@@ -43,22 +43,22 @@ var Plist = PFT.Util.Class({
 		// console.log(this.urlPara);
 
 		if(urlPara.ctx){
-			this.ctx = urlPara.ctx;		
+			this.ctx = urlPara.ctx;
 		}else{
 			this.ctx = 0;//默认为0
 		}
 		if(urlPara.ctype){
-			this.ctype = urlPara.ctype;		
+			this.ctype = urlPara.ctype;
 		}else{
 			this.ctype = 0;//默认为0
 		}
 
-		this.typeTemplate = PFT.Util.ParseTemplate(TypeTpl);  
-		this.themeTemplate = PFT.Util.ParseTemplate(ThemeTpl);  
-		this.cityTemplate = PFT.Util.ParseTemplate(CityTpl);  
-		this.searchTemplate = PFT.Util.ParseTemplate(SearchTpl);  
-		this.listTemplate = PFT.Util.ParseTemplate(ListTpl);  
-		this.ticketTemplate = PFT.Util.ParseTemplate(TicketTpl);  
+		this.typeTemplate = PFT.Util.ParseTemplate(TypeTpl);
+		this.themeTemplate = PFT.Util.ParseTemplate(ThemeTpl);
+		this.cityTemplate = PFT.Util.ParseTemplate(CityTpl);
+		this.searchTemplate = PFT.Util.ParseTemplate(SearchTpl);
+		this.listTemplate = PFT.Util.ParseTemplate(ListTpl);
+		this.ticketTemplate = PFT.Util.ParseTemplate(TicketTpl);
 
 		// 产品列表参数
 		this.lastListLid = 0;
@@ -70,7 +70,7 @@ var Plist = PFT.Util.Class({
 		this.pageSize = 4;   //默认一页4个产品
 
 		if(urlPara.ptype){
-			this.ptype = urlPara.ptype;	
+			this.ptype = urlPara.ptype;
 			this.initType();
 		}else{
 			// this.ptype = "A";//默认为A
@@ -80,7 +80,7 @@ var Plist = PFT.Util.Class({
 				type : "POST",
 				dataType : "json",
 				params : {
-					token : PFT.Util.getToken()	
+					token : PFT.Util.getToken()
 				},
 				loading : function(){
 					that.toast.show("loading");
@@ -113,9 +113,53 @@ var Plist = PFT.Util.Class({
 
 		//搜索城市关键字
 		this.cityKeyWord = "";
-		
-		this.renderScroll();		
-		
+
+		this.renderScroll();
+
+		this.setTitle();
+
+	},
+
+	setTitle: function(){
+		var host = location.host.split('.')[0], // 取得当前子域名前缀
+			ptype = $( '#ptype' ).val(),
+			ctype = $( '#ctype' ).val(),
+			title;
+
+		if (host == 100005) {
+
+		    // 三亚来源
+
+		    switch (ptype) {
+		        case 'A':
+		            title = '合作景区';
+		            break;
+		        case 'C':
+		            title = '合作酒店';
+		            break;
+		        case 'G':
+		            title = '合作餐饮';
+		            break;
+		        // 后面有需要可以增加...
+		        default:
+		            title = '';
+		            break;
+		    }
+
+
+		    if (ctype == 4) {
+		        title += '(只限刷卡)';
+		    } else {
+		        title += '可微信预订产品';
+		    }
+
+		} else {
+
+		    // 非三亚来源
+		    title = '产品列表';
+		}
+
+		document.title = title;
 	},
 
 	initType : function(){
@@ -148,7 +192,7 @@ var Plist = PFT.Util.Class({
 			type : "POST",
 		    dataType : "json",
 		    params : {
-		    	token : PFT.Util.getToken()	
+		    	token : PFT.Util.getToken()
 		    },
 		    loading : function(){
 		        that.toast.show("loading");
@@ -157,7 +201,7 @@ var Plist = PFT.Util.Class({
 		        that.toast.hide();
 		    },
 		    success : function(res){
-				
+
 
 				var code = res.code;
 				var msg = res.msg;
@@ -165,18 +209,19 @@ var Plist = PFT.Util.Class({
 				if( code == 200){
 					return true
 				}else if( code == 201){
-					window.location.href = "login.html";					
+					window.location.href = "login.html";
 				}else if( code == 202){
 					window.location.href = "transit.html";
 				}else if( code == 203){
-					window.location.href = data.url;					
+					window.location.href = data.url;
 				}else if( code == 205){
 					window.location.href = "noauth.html";
 				}else if( code == 207 ){
-					var para = that.getpara();
-					window.location.href = "login.html" + para ;
+					window.location.href = data.url;
+					// var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 				}
-				
+
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
@@ -207,7 +252,7 @@ var Plist = PFT.Util.Class({
 			that.renderSearch();
 		});
 		that.renderSearch();
-		
+
 	},
 
 	//景区类型
@@ -219,7 +264,7 @@ var Plist = PFT.Util.Class({
 			type : "POST",
 		    dataType : "json",
 		    params : {
-		    	token : PFT.Util.getToken()	
+		    	token : PFT.Util.getToken()
 		    },
 		    loading : function(){
 		        that.toast.show("loading");
@@ -247,23 +292,23 @@ var Plist = PFT.Util.Class({
 
     	var typeHtml = this.typeTemplate(data);
 		//主题要基于类型
-		if(this.topic != ""){ 
+		if(this.topic != ""){
 			this.topic = "";
 			$("#themeText").text("全部主题");
 		}
     	if(this.typeSelect){
-		    this.typeSelect.show();	
+		    this.typeSelect.show();
     	}else{
 			this.typeSelect = new SheetCore({
 				header : "类型",
-				content : typeHtml,       
-				height : "auto",    
+				content : typeHtml,
+				height : "auto",
 				yesBtn : false,
 				noBtn : true,
-				zIndex : 200,       
-				EVENTS : {      
+				zIndex : 200,
+				EVENTS : {
 					"click .typeBtn" : function(e){
-						var target = $(e.target);	 
+						var target = $(e.target);
 						var type = target.attr("data-type");
 					    that.changeType(target,type);
 
@@ -277,13 +322,13 @@ var Plist = PFT.Util.Class({
 			});
 
 			this.typeSelect.mask.on("click",function(){
-				that.typeSelect.close();	
+				that.typeSelect.close();
 			});
-			
-		    this.typeSelect.show();	
+
+		    this.typeSelect.show();
 
     	}
-    	
+
 	},
 
 	changeType : function(obj,type){
@@ -291,7 +336,7 @@ var Plist = PFT.Util.Class({
 		this.ptype = type;
 		$("#typeText").text(text);
 		$("#typeText").attr("data-type",type);
-        this.typeSelect.close();	
+        this.typeSelect.close();
 	},
 
 	onThemeSelect : function(){
@@ -342,17 +387,17 @@ var Plist = PFT.Util.Class({
 				html += '<li class="themeBtn">无主题</li>';
 			}
 			$("#themeWrap").html(html);
-    		this.themeSelect.show();	
+    		this.themeSelect.show();
     	}else{
     		var that = this;
 			this.themeSelect = new SheetCore({
 				header : "主题",
-				content : themeHtml,       
-				height : "auto",      
+				content : themeHtml,
+				height : "auto",
 				yesBtn : false,
 				noBtn : true,
-				zIndex : 200,       
-				EVENTS : {      
+				zIndex : 200,
+				EVENTS : {
 					"click .themeBtn" : function(e){
 					  that.changeTheme($(e.target));
 					},
@@ -368,7 +413,7 @@ var Plist = PFT.Util.Class({
 						that.lastListProPos = 0;
 						that.renderSearch();
 
-						that.themeSelect.close();	
+						that.themeSelect.close();
 
 					}
 				}
@@ -405,7 +450,7 @@ var Plist = PFT.Util.Class({
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken(),
-		    	keyword : that.cityKeyWord 
+		    	keyword : that.cityKeyWord
 		    },
 		    loading : function(){
 		        that.toast.show("loading");
@@ -436,7 +481,7 @@ var Plist = PFT.Util.Class({
 		var that = this;
 
 		var data = {};
-    	var cityList = this.dealCityList(res);		
+    	var cityList = this.dealCityList(res);
     	data.list = res.data;
 
     	var cityHtml = this.cityTemplate(data);
@@ -445,15 +490,15 @@ var Plist = PFT.Util.Class({
 
 			var con = this.citySelect.container.find(".sheet-content");
 			con.html(cityHtml);
-		    this.citySelect.show();			
+		    this.citySelect.show();
     	}else{
 			this.citySelect = new SheetCore({
-				content : cityHtml,       
-				height : "100%",     
+				content : cityHtml,
+				height : "100%",
 				yesBtn : false,
 				noBtn : true,
-				zIndex : 200,       
-				EVENTS : {      
+				zIndex : 200,
+				EVENTS : {
 					"click .cityBtn" : function(e){
 
 						  var target = $(e.target);
@@ -471,7 +516,7 @@ var Plist = PFT.Util.Class({
 						  that.lastListProPos = 0;
 						  that.renderSearch();
 
-						  that.cityKeyWord = ""; 
+						  that.cityKeyWord = "";
 
 						  that.citySelect.close();
 
@@ -487,10 +532,10 @@ var Plist = PFT.Util.Class({
 						that.citySelect.close();
 					},
 					"input #citySearch" : function(e){
-						var cityKeyWord = $(e.target).val();	
-						var State = that.cityReq.readyState; 
+						var cityKeyWord = $(e.target).val();
+						var State = that.cityReq.readyState;
 						if(State == 4){
-							that.cityKeyWord = cityKeyWord; 
+							that.cityKeyWord = cityKeyWord;
 							that.onCitySelect();
 						}else{
 							return false;
@@ -501,7 +546,7 @@ var Plist = PFT.Util.Class({
 		    this.citySelect.show();
     	}
 
-    	
+
 	},
 
 
@@ -515,7 +560,7 @@ var Plist = PFT.Util.Class({
 				data[i].pin = data[i][0].pin;
 			}
 		}
-		return data; 
+		return data;
 
 	},
 
@@ -524,10 +569,10 @@ var Plist = PFT.Util.Class({
 		var list = res.data;
 		var listHtml = "";
 		var emptyHtml = '<li class="cityBtn" value="1" >未搜索到相关城市</li>';
-		for(var i = 0;i<list.length;i++){	
-			listHtml += '<li class="cityBtn" data-code=' + list[i].code + '>'+list[i].name+'</li>';		
+		for(var i = 0;i<list.length;i++){
+			listHtml += '<li class="cityBtn" data-code=' + list[i].code + '>'+list[i].name+'</li>';
 		}
-		if(list.length == 0){	
+		if(list.length == 0){
 			$("#allCityWrap").html(emptyHtml);
 		}else{
 			$("#allCityWrap").html(listHtml);
@@ -545,17 +590,17 @@ var Plist = PFT.Util.Class({
 		    this.searchSelect.show();
     	}else{
 			this.searchSelect = new SheetCore({
-				content : searchHtml,       
-				height : "100%",    
+				content : searchHtml,
+				height : "100%",
 				yesBtn : false,
-				noBtn : false,      
-				zIndex : 200,       
-				EVENTS : {      
+				noBtn : false,
+				zIndex : 200,
+				EVENTS : {
 					"click .returnBtn" : function(e){
 					    that.searchSelect.close();
 					},
 					"click .searchBtn" : function(e){
-						var inputText = $(".searchInput").val(); 
+						var inputText = $(".searchInput").val();
 						$(".productNameSearch").val(inputText);
 						that.keyword = inputText;
 						that.lastListLid = 0;
@@ -621,8 +666,9 @@ var Plist = PFT.Util.Class({
 					$(".productNameSearch").val("");
 					$(".searchInput").val("");
 		        }else if(code==207){
-		            var para = that.getpara();
-					window.location.href = "login.html" + para ;
+					window.location.href = data.url;
+		   //          var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 		        }else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 					that.keyword = "";
@@ -705,8 +751,9 @@ var Plist = PFT.Util.Class({
 		        if(code==200){
 					that.renderAllticketList(data,target);
 		        }else if(code == 207){
-		            var para = that.getpara();
-					window.location.href = "login.html" + para ;
+					window.location.href = data.url;
+		   //          var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 		        }else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 				}
@@ -738,7 +785,7 @@ var Plist = PFT.Util.Class({
 		var that = this;
 		var r = parseInt(Math.random() * 1000);
 		var toastName = "toast" + r ;
-		this[toastName] = new Toast();	
+		this[toastName] = new Toast();
 		PFT.Util.Ajax("/r/MicroPlat_Product/getTicketList/",{
 			type : "POST",
 		    dataType : "json",
@@ -759,8 +806,9 @@ var Plist = PFT.Util.Class({
 		        if(code==200){
 		        	that.renderTicketList(data,target);
 		        }else if(code == 207){
-		            var para = that.getpara();
-					window.location.href = "login.html" + para ;
+					window.location.href = data.url;
+		   //          var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 		        }else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 				}
@@ -787,13 +835,13 @@ var Plist = PFT.Util.Class({
 		if(this.ctype == 4){
 			return false
 		}
-		var target = $(e.target);	
+		var target = $(e.target);
 		if(target.attr("class") != "writeOrderLink"){
 			target = target.parent();
 		}
 		var pid = target.attr("data-pid");
 		var aid = target.attr("data-aid");
-		var url = "order_fill.html?aid=" + aid + "&" + "pid=" + pid; 
+		var url = "order_fill.html?aid=" + aid + "&" + "pid=" + pid;
 
 		var urlPara = this.urlPara;
 		var fullHost = window.location.protocol + "//" +window.location.hostname + window.location.pathname;

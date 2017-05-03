@@ -42,20 +42,20 @@ var Order_fill = PFT.Util.Class({
 		"click #saveContact" : "handleSaveContact",//保存联系人
 		"click #checkContact" : "contactList",//常用联系人列表
 		"click #visitorInformation" : "handleVisitInfo",//处理游客信息
-		"click .addBtn":"addNum",  //加数字 
+		"click .addBtn":"addNum",  //加数字
 		"click .delBtn":"delNum",  //减数字
 		"input .numBox":"checkInput", //处理手动输入预定数量
 		// "click #regularBtn":"regularToggle", //退票规则
 		"click .submitOrder" : "submitOrder"//提交订单
 	},
-	init : function(){		
+	init : function(){
 
 		var id = this.getId();
 		this.aid = id.aid;
 		this.pid = id.pid;
-		// this.type = id.type; 
+		// this.type = id.type;
 		if(this.aid == undefined ||this.pid == undefined ){
-			console.log("缺少id参数");	
+			console.log("缺少id参数");
 		}
 
 		this.toast = new Toast();//初始化toast
@@ -69,7 +69,10 @@ var Order_fill = PFT.Util.Class({
 		$("#contact").val("");
 		$("#checkPhoneInput").val("");
 		$("#payMode").val("");
-		
+
+
+		// 更改页面标题
+		document.title = '订单填写';
 	},
 	//处理顶端提示
 	handleTips : function(res){
@@ -105,7 +108,7 @@ var Order_fill = PFT.Util.Class({
 		//分批验证
 		if(batchCheck == "0"){
 			$("#batchText").css("display","none");
-		}else if( batchCheck == "1" ){  
+		}else if( batchCheck == "1" ){
 			if(batchDay == "0"){ //不限
 				$("#batchText").text("本次提交的订单，每日不限验证张数");
 			}else{
@@ -114,12 +117,12 @@ var Order_fill = PFT.Util.Class({
 		}
 		//退票
 		if(refundRule == "2"){//不可退
-			$("#topTips").append('<span class="tips" >退票:不可退</span>');	
+			$("#topTips").append('<span class="tips" >退票:不可退</span>');
 			// $("#refund.green").text("退票：不可退");
 			// $("#regular").css("display","none");   //退票规则隐藏
 		}else{
 			$("#topTips").append('<p id="refundRule" class="tips" >'+ refundRuleText +'</p>');
-			$("#topTips").append('<span class="tips" id="regularBtn">退票规则</span>');	
+			$("#topTips").append('<span class="tips" id="regularBtn">退票规则</span>');
 			// 为退票规则绑定事件弹出下拉框
 
 			var rebHtml = "";
@@ -134,7 +137,7 @@ var Order_fill = PFT.Util.Class({
 			// }else{ //为阶梯退票
 
 				for( var j=0;j<cancelCost.length;j++){
-					var omin = cancelCost[j].c_days; 
+					var omin = cancelCost[j].c_days;
 					var day = omin/(60*24);
 					var leave1 = omin%(60*24);
 					var hour = leave1/60;
@@ -153,7 +156,7 @@ var Order_fill = PFT.Util.Class({
 			// }
 
 			that.refundBox =  new SheetCore({
-				content : rebHtml,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+				content : rebHtml,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件
 				height : "auto",      //弹层占整个手机屏幕的高度
 				yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
 				noBtn : true,        //弹层底部是否显示取消按钮,格式同yesBtn
@@ -162,11 +165,11 @@ var Order_fill = PFT.Util.Class({
 				}
 			});
 			that.refundBox.mask.on("click",function(){
-				that.refundBox.close();			
+				that.refundBox.close();
 			});
 			$("#regularBtn").on("click",function(){
-				that.refundBox.show();	
-			});			
+				that.refundBox.show();
+			});
 
 		}
 
@@ -180,10 +183,10 @@ var Order_fill = PFT.Util.Class({
 
 		var token = PFT.Util.getToken();
 		if(this.pid){
-			var pid = this.pid; 		
+			var pid = this.pid;
 		}
 		if(this.aid){
-			var aid = this.aid; 		
+			var aid = this.aid;
 		}
 
 		var Tlist = $("#ticketList .placeTicket");
@@ -209,9 +212,9 @@ var Order_fill = PFT.Util.Class({
 				link[apid] = relatedT.find(".right .numBox").val();
 			}
 		}
-		
+
 		if(this.selectedDay){
-			var begintime = this.selectedDay;			
+			var begintime = this.selectedDay;
 		}
 		//手机号
 		if( $("#checkPhoneInput").val() != "" && $(".checkPhone").attr("data-valid") == "true"){
@@ -235,13 +238,13 @@ var Order_fill = PFT.Util.Class({
 			return false
 		}
 
-		//身份证	
+		//身份证
 		var sfz = $("#checkIdInput").val();
 		var idcardValid = $("#checkIdCard").attr("data-valid");
 
 		if($("#checkIdInput").css("display") == "none" || $("#idCardBox").css("display") == "none" ){
 			sfz = "";
-		}else if(sfz == "" && idcardValid == "false"){ 
+		}else if(sfz == "" && idcardValid == "false"){
 			PFT.Mobile.Alert("请填写身份证");
 		}else if(sfz != "" && idcardValid == "false"){
 			PFT.Mobile.Alert("身份证格式错误，请核对");
@@ -267,7 +270,7 @@ var Order_fill = PFT.Util.Class({
 				var idcardVal = item.eq(n).find(".idCard").val();
 
 				if( visitName == "" || idcardVal == ""){
-					PFT.Mobile.Alert("请将联系人填写完整");			
+					PFT.Mobile.Alert("请将联系人填写完整");
 					return false
 				}else{
 					tourists.push(visitName);
@@ -281,7 +284,7 @@ var Order_fill = PFT.Util.Class({
 		zoneid = this.zone_id;
 		roundid = this.round_id;
 		venusid = this.venus_id;
-		
+
 		if( this.type == "H" && roundid == undefined && venusid == undefined){
 			PFT.Mobile.Alert("请选择场次时间");
 			return false
@@ -295,9 +298,9 @@ var Order_fill = PFT.Util.Class({
 
 		//线路集合地点
 		if($("#meetPlace").length != 0 ){
-			var assembly = parseInt($("#meetPlace").attr("value")); 
+			var assembly = parseInt($("#meetPlace").attr("value"));
 		}
-		
+
 		var params = {
             token : token,
             pid : pid,
@@ -325,18 +328,19 @@ var Order_fill = PFT.Util.Class({
 				that.toast.show("loading");
 			},
 			success:function (res) {
-				
+
 				//提交订单成功
 				PFT.Mobile.Alert("提交订单成功");
 
 				var host = window.location.host;
 				host = host.split(".");
-				host = host[0];
 
 				var ordernum = res.ordernum;
 				// var ordernum = "4003823";//写死的
 
-				var url = "http://wx.12301.cc/html/order_pay_b.html?h="+host+"&"+"ordernum="+ordernum;
+				var ctx = (PFT.Util.UrlParse()).ctx;
+
+				var url = "http://wx."+ host[1] + host[2] +"/html/order_pay_b.html?h="+host[0]+"&"+"ordernum="+ordernum + "&ctx=" + ctx;
 
 				//跳转支付页面
 				// setTimeout(function(){
@@ -345,7 +349,7 @@ var Order_fill = PFT.Util.Class({
 
 			},
 			complete:function () {
-				that.toast.hide();				
+				that.toast.hide();
 			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);
@@ -366,11 +370,11 @@ var Order_fill = PFT.Util.Class({
 
 		if(selfSupply == 0 && payNow == 0){//其他
 
-			var payTemplate = PFT.Util.ParseTemplate(payModeTpl); 
+			var payTemplate = PFT.Util.ParseTemplate(payModeTpl);
 			var html = payTemplate();
 
 			this.PayModeBox =  new SheetCore({
-				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件
 				height : "auto",      //弹层占整个手机屏幕的高度
 				yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
 				noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
@@ -381,21 +385,21 @@ var Order_fill = PFT.Util.Class({
 						var t = item.text();
 						var way = item.attr("data-way");
 						if(way){
-							$("#payMode").val("付款方式: " + t).attr("data-way",way);	
+							$("#payMode").val("付款方式: " + t).attr("data-way",way);
 							that.PayModeBox.close();
 						}
 					},
 					"click .icon-jiantou" : function(){
-						that.PayModeBox.close();		
+						that.PayModeBox.close();
 					}
 				}
 			});
 
 			this.PayModeBox.mask.on("click",function(){
-				that.PayModeBox.close();			
+				that.PayModeBox.close();
 			});
 			$("#payMode").on("click",function(){
-				that.PayModeBox.show();		
+				that.PayModeBox.show();
 			});
 
 		}else if( payNow == 1 ){  //现场
@@ -428,8 +432,8 @@ var Order_fill = PFT.Util.Class({
 			$("#checkIdCard").text("身份证格式正确").css("color","#0797d9");
 			$("#checkIdCard").attr("data-valid",true);
 		}else{
-			$("#checkIdCard").text("身份证格式错误，请核对").css("color","#e11d2c");			
-			$("#checkIdCard").attr("data-valid",false);			
+			$("#checkIdCard").text("身份证格式错误，请核对").css("color","#e11d2c");
+			$("#checkIdCard").attr("data-valid",false);
 		}
 	},
 
@@ -465,11 +469,12 @@ var Order_fill = PFT.Util.Class({
 			},
 			success:function (res) {
 				if( res.code == 200 || res.code == 201){
-					PFT.Mobile.Alert(res.msg);	
+					PFT.Mobile.Alert(res.msg);
 					that.toast.hide();
 				}else if(res.code == 207){
-					var para = that.getpara();
-					window.location.href = "login.html" + para ;	
+					window.location.href = data.url;
+					// var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 				}
 			},
 			complete:function () {
@@ -503,8 +508,9 @@ var Order_fill = PFT.Util.Class({
 					PFT.Mobile.Alert(msg);
 					return false
 				}else if(code == 207){
-					var para = that.getpara();
-					window.location.href = "login.html" + para ;
+					window.location.href = data.url;
+					// var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 				}
 				var list = res.data.info;
 				that.toast.hide();
@@ -525,11 +531,11 @@ var Order_fill = PFT.Util.Class({
 				var listHtml = "";
 
 				for( var i = 0;i<list.length;i++){
-			    listHtml += '<div class="LinkmanItem">' + 
+			    listHtml += '<div class="LinkmanItem">' +
 								'<div class="LinkmanName">'+list[i].name+'</div>' +
 								'<div class="LinkmanTel" data-IDcard="'+list[i].idcard+'">'+list[i].tel+'</div>' +
 								'<i class="icon icon-u-regular icon-yaojiucuo"></i>' +
-							'</div>';   
+							'</div>';
 				}
 
 				con.html(listHtml);
@@ -537,10 +543,10 @@ var Order_fill = PFT.Util.Class({
 			}else{
 				var data = {};
 				data.list = list;
-				var listTemplate = PFT.Util.ParseTemplate(linkmanList); 
+				var listTemplate = PFT.Util.ParseTemplate(linkmanList);
 				var html = listTemplate(data);
 				that.linkManBox =  new SheetCore({
-					content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+					content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件
 					height : "auto",      //弹层占整个手机屏幕的高度
 					yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
 					noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
@@ -562,7 +568,7 @@ var Order_fill = PFT.Util.Class({
 							$("#contact").val(name);
 							$("#checkPhoneInput").val(tel);
 							that.validTel();//验证号码
-							that.linkManBox.close();					
+							that.linkManBox.close();
 						},
 						"click .icon-yaojiucuo" : function(e){
 							var item = $(e.target);
@@ -573,7 +579,7 @@ var Order_fill = PFT.Util.Class({
 					}
 				});
 				that.linkManBox.mask.on("click",function(){
-					that.linkManBox.close();			
+					that.linkManBox.close();
 				});
 				that.linkManBox.show();
 
@@ -598,11 +604,12 @@ var Order_fill = PFT.Util.Class({
 					},
 					success:function (res) {
 						if( res.code == 200 || res.code == 201){
-							PFT.Mobile.Alert(res.msg);	
+							PFT.Mobile.Alert(res.msg);
 							that.toast.hide();
 						}else if(res.code == 207){
-							var para = that.getpara();
-							window.location.href = "login.html" + para ;
+							window.location.href = data.url;
+							// var para = that.getpara();
+							// window.location.href = "login.html" + para ;
 						}
 					},
 					complete:function () {
@@ -611,7 +618,7 @@ var Order_fill = PFT.Util.Class({
 					fail : function(msg){
 						PFT.Mobile.Alert(msg);
 					}
-				});	
+				});
 
 			}
 		}
@@ -631,7 +638,7 @@ var Order_fill = PFT.Util.Class({
 		}
 		var data = {};
 		data.list = list;
-		var visitInfoTemplate = PFT.Util.ParseTemplate(visitInfoTpl); 
+		var visitInfoTemplate = PFT.Util.ParseTemplate(visitInfoTpl);
 		var html = visitInfoTemplate(data);
 
 		var sum = 0;
@@ -652,8 +659,8 @@ var Order_fill = PFT.Util.Class({
 		}
 
 		if(this.visitInfoBox){
-			
-			//需要动态生成list	
+
+			//需要动态生成list
 			var html = "";
 			for( var i = 0;i<list.length;i++){
 
@@ -667,7 +674,7 @@ var Order_fill = PFT.Util.Class({
                                 '<input type="text" class="visit" placeholder="联系人'+y+'">'+
                                 '<input type="text" class="idCard" placeholder="身份证">'+
                             '</li>';
-                        }        
+                        }
             html += '</ul>'+
                 '</div>';
 
@@ -678,13 +685,13 @@ var Order_fill = PFT.Util.Class({
 		}else{
 
 			this.visitInfoBox = new SheetCore({
-				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件
 				height : "100%",      //弹层占整个手机屏幕的高度
 				yesBtn : function(){
 
-					//计算已编辑	
+					//计算已编辑
 					var list = $("#visitInfo .visitInfoItem");
-					var count = 0; 
+					var count = 0;
 					for( var i = 0;i<list.length;i++){
 						var item = list.eq(i);
 						var visit = item.find(".visit").val();
@@ -704,14 +711,14 @@ var Order_fill = PFT.Util.Class({
 				},        //弹层底部是否显示取消按钮,格式同yesBtn
 				zIndex : 1,           //弹层的zIndex，防止被其它页面上设置position属性的元素遮挡
 				EVENTS : {            //弹层上面绑定的所有事件放在这里
-					
+
 				}
 			});
 
 			this.visitInfoBox.show();
 
 			this.visitInfoBox.mask.on("click",function(){
-				that.visitInfoBox.close();			
+				that.visitInfoBox.close();
 			});
 
 		}
@@ -733,7 +740,7 @@ var Order_fill = PFT.Util.Class({
 				aid : aid[1],
 				pid : pid[1],
 				// type : type[1]
-			}	
+			}
 		}else{
 			return false
 		}
@@ -743,10 +750,10 @@ var Order_fill = PFT.Util.Class({
 	getNowDate : function(){
 
 		var date=new Date;
-		var year=date.getFullYear(); 
+		var year=date.getFullYear();
 		var month=date.getMonth()+1;
-		// month =(month<10 ? "0"+month:month); 
-		var day = date.getDate(); 
+		// month =(month<10 ? "0"+month:month);
+		var day = date.getDate();
 
 		var dateGroup = {
 			year : year,
@@ -772,17 +779,17 @@ var Order_fill = PFT.Util.Class({
 				pid : this.pid
 			};
 
-			this.paramspid = params.pid;//在支付时用的pid 
+			this.paramspid = params.pid;//在支付时用的pid
 
 			GetBookInfo(params,{
 				loading:function () {
 					that.toast.show("loading");
 				},
 				success:function (res) {
-					
+
 					that.toast.hide();
 
-					that.handleTips(res);//处理有效期退票等信息							
+					that.handleTips(res);//处理有效期退票等信息
 
 					that.handleBookInfo(res);
 
@@ -830,15 +837,15 @@ var Order_fill = PFT.Util.Class({
 		$("#placeText").text(res.title);
 
 		if(ticketList.length != 0){
-			this.zone_id = ticketList[0].zone_id; //演出的分区ID		
+			this.zone_id = ticketList[0].zone_id; //演出的分区ID
 		}
 
 
 		this.type = res.p_type;
-		var type = this.type; 
+		var type = this.type;
 
 		// A:景区,B:线路,F:套票,H:演出,C:酒店
-		// G:餐饮 
+		// G:餐饮
 
 		var parent = $(".topInputGroup");
 
@@ -846,9 +853,9 @@ var Order_fill = PFT.Util.Class({
 		if(type == "A" || type == "F"){  //景区  //套票
 			this.InputGroup = Land(parent,this.aid,this.pid,this.ddays);
 			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期
-			this.renderTicketList(ticketList); 
+			this.renderTicketList(ticketList);
 			this.handleLand(pids);
-		} 		
+		}
 		if(type == "C"){ //酒店
 			this.InputGroup = Hotel(parent,this.aid,this.pid,this.ddays);
 			this.renderTicketList(ticketList);
@@ -856,22 +863,22 @@ var Order_fill = PFT.Util.Class({
 		}
 		if(type == "B"){ //线路
 			this.InputGroup = Line(parent,this.aid,this.pid,this.ddays);
-			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期			
+			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期
 			this.renderTicketList(ticketList);
 			if(res.assStation){
-				var staList = res.assStation; 
+				var staList = res.assStation;
 			}
 			this.handleLine(pids,staList);
 		}
 		if(type == "H"){ //演出
 			this.InputGroup = Play(parent,this.aid,this.pid,this.ddays);
-			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期						
+			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期
 			this.renderTicketList(ticketList);
 			this.handlePlay(pids);
 		}
 		if(type == "G"){ //餐饮
 			this.InputGroup = Food(parent,this.aid,this.pid,this.ddays);
-			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期						
+			this.selectedDay = this.InputGroup.calendar.selectedDay;//初始化日期
 			this.renderTicketList(ticketList);
 			this.handleFood(pids);
 		}
@@ -890,7 +897,7 @@ var Order_fill = PFT.Util.Class({
 			var sum = 0;
 			$(".numBox").each(function(i,item){
 				sum += parseInt(item.value);
-			});	
+			});
 			$("#visitorInformation").val("*游客信息 "+"已编辑0/"+sum);
 		}
 
@@ -899,7 +906,7 @@ var Order_fill = PFT.Util.Class({
 	handlePlay : function(pids){
 		var that = this;
 		//获得日历
-		this.calendar = this.InputGroup.calendar;		
+		this.calendar = this.InputGroup.calendar;
 		// 发布订阅
 		this.calendar.on("next",function(){
 		});
@@ -907,11 +914,11 @@ var Order_fill = PFT.Util.Class({
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
-			that.selectedDay = selectedDay; 
+			that.selectedDay = selectedDay;
 			$("#showDateInput").val("*演出日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 			that.getShowInfo(selectedDay,true);
-		});	
+		});
 
 		//第一次获取价格和库存
 		that.getPriceAndStorage(that.selectedDay,pids);
@@ -946,10 +953,10 @@ var Order_fill = PFT.Util.Class({
 				that.toast.hide();
 			},
 			fail : function(msg){
-				PFT.Mobile.Alert(msg);				
+				PFT.Mobile.Alert(msg);
 				$("#playTimeInput").val("");
 				that.venus_id = undefined;
-				that.round_id = undefined;//id	
+				that.round_id = undefined;//id
 				that.showTimeBox = null ;
 				$(".storage .num").text("0");
 			}
@@ -963,17 +970,17 @@ var Order_fill = PFT.Util.Class({
 			var list = res;
 			var html = "";
 			for( var i = 0;i<list.length;i++){
-				html += '<div class="showItem" data-num="'+i+'" data-venus_id="'+list[i].venus_id+'" data-round_id="'+list[i].id+'">'+ list[i].round_name + " " +list[i].bt + '-' + list[i].et +'</div>';   
+				html += '<div class="showItem" data-num="'+i+'" data-venus_id="'+list[i].venus_id+'" data-round_id="'+list[i].id+'">'+ list[i].round_name + " " +list[i].bt + '-' + list[i].et +'</div>';
 			}
 			that.handleShowStorage(res,0);
 			$("#showCon").html(html);
 		}else{
 			var data = {};
 			data.list = res;
-			var showTemplate = PFT.Util.ParseTemplate(showTimeTpl); 
+			var showTemplate = PFT.Util.ParseTemplate(showTimeTpl);
 			var html = showTemplate(data);
 			this.showTimeBox =  new SheetCore({
-				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+				content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件
 				height : "auto",      //弹层占整个手机屏幕的高度
 				yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
 				noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
@@ -984,7 +991,7 @@ var Order_fill = PFT.Util.Class({
 					},
 					"click .showItem" : function(e){
 						var item = $(e.target);
-						
+
 						that.venus_id = item.attr("data-venus_id");//场馆id
 						that.round_id = item.attr("data-round_id");//场次id
 
@@ -992,24 +999,24 @@ var Order_fill = PFT.Util.Class({
 						$("#playTimeInput").val(t);
 						var num = item.attr("data-num");
 						that.handleShowStorage(res,num);
-						that.showTimeBox.close();					
+						that.showTimeBox.close();
 					}
 				}
 			});
 			this.showTimeBox.mask.on("click",function(){
-				that.showTimeBox.close();			
+				that.showTimeBox.close();
 			});
 
 			if(first == true){ //初始
 				// that.showTimeBox.show();
 				$("#playTimeInput").val(res[0].round_name + " " +res[0].bt + '-' + res[0].et);
 				that.venus_id = res[0].venus_id;
-				that.round_id = res[0].id;//id	
+				that.round_id = res[0].id;//id
 				this.handleShowStorage(res,0);
 			}
 
 		}
-		
+
 	},
 	//处理演出库存
 	handleShowStorage : function(res,num){
@@ -1033,7 +1040,7 @@ var Order_fill = PFT.Util.Class({
 		var that = this;
 
 		//获得日历
-		this.calendar = this.InputGroup.calendar;		
+		this.calendar = this.InputGroup.calendar;
 		// 发布订阅
 		this.calendar.on("next",function(){
 		});
@@ -1041,20 +1048,20 @@ var Order_fill = PFT.Util.Class({
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
-			that.selectedDay = selectedDay; 			
+			that.selectedDay = selectedDay;
 			$("#meetDate").val("*集合日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
-		});	
+		});
 		//第一次获取价格和库存
 		that.getPriceAndStorage(that.selectedDay,pids);
 		$("#meetPlace").val("*集合地点 "+list[0]).attr("value","0");
 		//集合地点弹窗
 		var data = {};
 		data.list = list;
-		var lineTemplate = PFT.Util.ParseTemplate(lineTpl); 
+		var lineTemplate = PFT.Util.ParseTemplate(lineTpl);
 		var html = lineTemplate(data);
 		this.lineBox =  new SheetCore({
-			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件  
+			content : html,        //弹层内要显示的html内容,格式同header，如果内容很多，可以像这样引入外部一个tpl文件
 			height : "auto",      //弹层占整个手机屏幕的高度
 			yesBtn : false,       //弹层底部是否显示确定按钮,为false时不显示
 			noBtn : false,        //弹层底部是否显示取消按钮,格式同yesBtn
@@ -1068,15 +1075,15 @@ var Order_fill = PFT.Util.Class({
 					var t = item.text();
 					var value = item.attr("value");
 					$("#meetPlace").val("*集合地点 "+t).attr("value",value);
-					that.lineBox.close();					
+					that.lineBox.close();
 				}
 			}
 		});
 		this.lineBox.mask.on("click",function(){
-			that.lineBox.close();			
+			that.lineBox.close();
 		});
 		$("#meetPlace").on("click",function(){
-			that.lineBox.show();		
+			that.lineBox.show();
 		});
 
 	},
@@ -1086,7 +1093,7 @@ var Order_fill = PFT.Util.Class({
 		var that = this;
 
 		//获得日历
-		this.calendar = this.InputGroup.calendar;		
+		this.calendar = this.InputGroup.calendar;
 		// 发布订阅
 		this.calendar.on("next",function(){
 		});
@@ -1094,21 +1101,21 @@ var Order_fill = PFT.Util.Class({
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
-			that.selectedDay = selectedDay; 			
+			that.selectedDay = selectedDay;
 			$("#playDate").val("*游玩日期 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 		});
 		//第一次获取价格和库存
 		that.getPriceAndStorage(that.selectedDay,pids);
 
-	},	
+	},
 	//处理餐饮
 	handleFood : function(pids){
 
 		var that = this;
 
 		//获得日历
-		this.calendar = this.InputGroup.calendar;		
+		this.calendar = this.InputGroup.calendar;
 		// 发布订阅
 		this.calendar.on("next",function(){
 		});
@@ -1116,7 +1123,7 @@ var Order_fill = PFT.Util.Class({
 		});
 		this.calendar.on("daySelect",function(){
 			var selectedDay = that.calendar.selectedDay;
-			that.selectedDay = selectedDay; 			
+			that.selectedDay = selectedDay;
 			$("#mealDateInput").val("*用餐时间 "+selectedDay);
 			that.getPriceAndStorage(selectedDay,pids);
 		});
@@ -1130,10 +1137,10 @@ var Order_fill = PFT.Util.Class({
 		var that = this;
 
 		$(".topInputGroup").addClass("hotel");
-		
+
 		//获得日历
-		this.calendar1 = this.InputGroup.calendar1;		
-		this.calendar2 = this.InputGroup.calendar2;					
+		this.calendar1 = this.InputGroup.calendar1;
+		this.calendar2 = this.InputGroup.calendar2;
 		//入住
 		this.calendar1.on("next",function(){
 		});
@@ -1141,7 +1148,7 @@ var Order_fill = PFT.Util.Class({
 		});
 		this.calendar1.on("daySelect",function(){
 			var selectedDay = that.calendar1.selectedDay;
-			that.selectedDay = selectedDay; 			
+			that.selectedDay = selectedDay;
 			that.hotelDateChange(1,selectedDay);
 		});
 		//离店
@@ -1151,14 +1158,14 @@ var Order_fill = PFT.Util.Class({
 		});
 		this.calendar2.on("daySelect",function(){
 			var selectedDay = that.calendar2.selectedDay;
-			that.hotelDateChange(2,selectedDay);				
+			that.hotelDateChange(2,selectedDay);
 		});
 
 		//第一次不发请求设置默认值
 		$(".price").find(".orange.money").text("0");
 		$(".storage").find(".num").text("0");
 		$(".numBox").val("0");
-		
+
 		//第一次获取当日的结算价和库存
 		//第一次不用？
 		// var params = {
@@ -1181,8 +1188,8 @@ var Order_fill = PFT.Util.Class({
 		// 		that.toast2.hide();
 		// 	},
 		// 	fail : function(msg){
-		// 		PFT.Mobile.Alert(msg);				
-		// 	}	
+		// 		PFT.Mobile.Alert(msg);
+		// 	}
 		// });
 
 
@@ -1192,7 +1199,7 @@ var Order_fill = PFT.Util.Class({
 		var that = this;
 		var data = {};
 		data.list = list;
-		var ticketsHtml = this.ticketTemplate(data);	
+		var ticketsHtml = this.ticketTemplate(data);
 		$("#ticketList").html(ticketsHtml);
 
 		//生成子票(套票only)
@@ -1229,7 +1236,7 @@ var Order_fill = PFT.Util.Class({
 			token : PFT.Util.getToken(),
 			aid : this.aid,
 			date : selectedDay,
-			pids : pids 
+			pids : pids
 		};
 
 		GetPriceAndStorage(params,{
@@ -1237,7 +1244,7 @@ var Order_fill = PFT.Util.Class({
 				that.toast.show("loading");
 			},
 			success:function (res) {
-				that.toast.hide();				
+				that.toast.hide();
 				that.handlePriceAndStorage(res);
 			},
 			complete:function () {
@@ -1245,21 +1252,21 @@ var Order_fill = PFT.Util.Class({
 			},
 			fail : function(msg){
 				PFT.Mobile.Alert(msg);
-			}			
-		});	
+			}
+		});
 
 	},
 
 
 	handlePriceAndStorage : function(res){
-		
+
 		var that = this;
 
 		that.firstTotalSum = 0;
 
 		var ticketList = $("#ticketList li.placeTicket");
 		for(var i in res){
-			renderPrice(i);			
+			renderPrice(i);
 		}
 		$("#totalMoney").text(that.firstTotalSum);
 		function renderPrice(i){
@@ -1276,7 +1283,7 @@ var Order_fill = PFT.Util.Class({
 					if( data.store == -1 ){
 						storage.find(".num").text("无限");
 					}else{
-						storage.find(".num").text(data.store);												
+						storage.find(".num").text(data.store);
 					}
 				}
 			}
@@ -1284,7 +1291,7 @@ var Order_fill = PFT.Util.Class({
 	},
 
 	//酒店数据变动
-	hotelDateChange : function(flag,selectedDay){ 
+	hotelDateChange : function(flag,selectedDay){
 
 		var that = this;
 		//flag : 1为入店 2为离店
@@ -1303,17 +1310,17 @@ var Order_fill = PFT.Util.Class({
 			if(this.calendar1.nowSelectWeek == 0){
 				weekText = "日";
 			}else if(this.calendar1.nowSelectWeek == 1){
-				weekText = "一";				
+				weekText = "一";
 			}else if(this.calendar1.nowSelectWeek == 2){
-				weekText = "二";				
+				weekText = "二";
 			}else if(this.calendar1.nowSelectWeek == 3){
-				weekText = "三";				
+				weekText = "三";
 			}else if(this.calendar1.nowSelectWeek == 4){
-				weekText = "四";				
+				weekText = "四";
 			}else if(this.calendar1.nowSelectWeek == 5){
-				weekText = "五";				
+				weekText = "五";
 			}else if(this.calendar1.nowSelectWeek == 6){
-				weekText = "六";				
+				weekText = "六";
 			}
 			var tpl = '<span class="dateSelectWeek">周'+ weekText +'</span>';
 			$(".inHotel .dateSelectDay").append(tpl);
@@ -1322,27 +1329,27 @@ var Order_fill = PFT.Util.Class({
 
 			var dateSelectText = month + "月" + day + "日";
 			$(".outHotel .dateSelectDay").text(dateSelectText);
-			$(".outHotel .dateSelectDay").attr("data-year",year).attr("data-month",month).attr("data-day",day);			
+			$(".outHotel .dateSelectDay").attr("data-year",year).attr("data-month",month).attr("data-day",day);
 			var weekText = "";
 			if(this.calendar2.nowSelectWeek == 0){
 				weekText = "日";
 			}else if(this.calendar2.nowSelectWeek == 1){
-				weekText = "一";				
+				weekText = "一";
 			}else if(this.calendar2.nowSelectWeek == 2){
-				weekText = "二";				
+				weekText = "二";
 			}else if(this.calendar2.nowSelectWeek == 3){
-				weekText = "三";				
+				weekText = "三";
 			}else if(this.calendar2.nowSelectWeek == 4){
-				weekText = "四";				
+				weekText = "四";
 			}else if(this.calendar2.nowSelectWeek == 5){
-				weekText = "五";				
+				weekText = "五";
 			}else if(this.calendar2.nowSelectWeek == 6){
-				weekText = "六";				
+				weekText = "六";
 			}
 			var tpl = '<span class="dateSelectWeek">周'+ weekText +'</span>';
 			$(".outHotel .dateSelectDay").append(tpl);
 
-		} 
+		}
 
 		that.calculateNight();
 
@@ -1358,9 +1365,9 @@ var Order_fill = PFT.Util.Class({
 		var outYear = $(".outHotel .dateSelectDay").attr("data-year");
 		var outMonth = $(".outHotel .dateSelectDay").attr("data-month");
 		var outDay = $(".outHotel .dateSelectDay").attr("data-day");
-		
+
 		var inDate = inYear + "-" + inMonth + "-" + inDay;
-		var outDate = outYear + "-" + outMonth + "-" + outDay;		
+		var outDate = outYear + "-" + outMonth + "-" + outDay;
 
 		var sign = "";//正负号标识
 
@@ -1371,22 +1378,22 @@ var Order_fill = PFT.Util.Class({
 				sign = "+";
 			}else if(parseInt(outMonth) == parseInt(inMonth)){
 				if( parseInt(outDay) > parseInt(inDay) ){
-					sign = "+";	
+					sign = "+";
 				}else if(parseInt(outDay) == parseInt(inDay)){
-					PFT.Mobile.Alert("同一天");		
+					PFT.Mobile.Alert("同一天");
 					return false
 				}else{
 					sign = "-";
-				}			
+				}
 			}else {
-				sign = "-";	
+				sign = "-";
 			}
 		}else{
 			sign = "-";
 		}
 
 		if(sign == "-"){
-			PFT.Mobile.Alert("入住时间要在离店时间之前");						
+			PFT.Mobile.Alert("入住时间要在离店时间之前");
 			return false
 		}
 
@@ -1422,20 +1429,20 @@ var Order_fill = PFT.Util.Class({
 				that.toast.hide();
 			},
 			fail : function(msg){
-				PFT.Mobile.Alert(msg);				
-			}	
+				PFT.Mobile.Alert(msg);
+			}
 		});
 
-		//计算天数差的函数 
-		function  DateDiff(sDate1,  sDate2){    
+		//计算天数差的函数
+		function  DateDiff(sDate1,  sDate2){
 			var  aDate,  oDate1,  oDate2,  iDays  ;
 			aDate  =  sDate1.split("-")  ;
-			oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);      
+			oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);
 			aDate  =  sDate2.split("-")  ;
-			oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);  
-			iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24);    
-			return  iDays  
-		}   
+			oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0]);
+			iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24);
+			return  iDays
+		}
 		function handleHotelRes(res){
 			//酒店只有一个票
 			$(".price").find(".orange.money").text(res.jsprice);
@@ -1462,7 +1469,7 @@ var Order_fill = PFT.Util.Class({
 			}
 
 
-			
+
 		}
 
 	},
@@ -1493,7 +1500,7 @@ var Order_fill = PFT.Util.Class({
 		}
 
 
-	},	
+	},
 
 	//加
 	addNum : function (e) {
@@ -1575,7 +1582,7 @@ var Order_fill = PFT.Util.Class({
 		sum = sum/100;
 		$("#totalMoney").text(sum);
 
-		//游客信息	
+		//游客信息
 		var tList = $("#ticketList .placeTicket");
 		var num = 0;
 		for(var i = 0;i<tList.length;i++){
@@ -1614,7 +1621,7 @@ var Order_fill = PFT.Util.Class({
 				PFT.Mobile.Alert("数量不能小于"+buyLow);
 			}
 			if(parseInt(input)>0 && parseInt(input)<parseInt(storage)){
-				$(".delBtn").attr("active",true);	
+				$(".delBtn").attr("active",true);
 				$(".addBtn").attr("active",true);
 			}
 		}
@@ -1653,7 +1660,7 @@ var Order_fill = PFT.Util.Class({
 		return url
 
 	}
-	
+
 
 });
 

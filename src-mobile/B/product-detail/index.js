@@ -1,9 +1,9 @@
 
 require("./index.scss");
 //tpl
-var InfoTpl = require("./tpl/info.xtpl");	
-// var InfoBottomTpl = require("./tpl/infoBottom.xtpl");	
-var TicketTpl = require("./tpl/ticket.xtpl");	
+var InfoTpl = require("./tpl/info.xtpl");
+// var InfoBottomTpl = require("./tpl/infoBottom.xtpl");
+var TicketTpl = require("./tpl/ticket.xtpl");
 //组件
 var Toast = require("COMMON/modules/Toast");
 var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
@@ -12,28 +12,28 @@ var ScrollTopAnimation = require("COMMON/modules/scrolltop-animation");
 var Product_detail = PFT.Util.Class({
 
 	container : $("#productDetailBox"),
-	EVENTS : {     
+	EVENTS : {
 	},
-	init : function(opt){      
+	init : function(opt){
 		var that = this;
 		var __timer__ = null;
 		var url = window.location.href;
 		var urlPara = Parse(url);
-		this.urlPara = urlPara; 
+		this.urlPara = urlPara;
 		this.lid = urlPara.lid;
 		if(urlPara.ctx){
-			this.ctx = parseInt(urlPara.ctx);		
+			this.ctx = parseInt(urlPara.ctx);
 		}else{
 			this.ctx = 0;//默认为0
 		}
 		if(urlPara.ctype){
-			this.ctype = parseInt(urlPara.ctype);		
+			this.ctype = parseInt(urlPara.ctype);
 		}else{
 			this.ctype = 0;//默认为0
 		}
 		this.toast = new Toast();
-		this.ListTemplate = PFT.Util.ParseTemplate(TicketTpl);  
-		this.InfoTemplate = PFT.Util.ParseTemplate(InfoTpl);  
+		this.ListTemplate = PFT.Util.ParseTemplate(TicketTpl);
+		this.InfoTemplate = PFT.Util.ParseTemplate(InfoTpl);
 		this.getInfo();
 		$(window).scroll(function(e){
 			clearTimeout(__timer__);
@@ -42,6 +42,9 @@ var Product_detail = PFT.Util.Class({
                 that.onScroll(scrollTop);
 			},10)
 		})
+
+		// 更改页面标题
+		document.title = '产品详情';
 	},
 	onScroll : function(scrollTop){
 		var photoHeight = $("#topImg").height();
@@ -60,7 +63,7 @@ var Product_detail = PFT.Util.Class({
 		    dataType : "json",
 		    params : {
 		    	token : PFT.Util.getToken(),
-		    	lid : that.lid	
+		    	lid : that.lid
 		    },
 		    loading : function(){
 		        that.toast.show("loading");
@@ -168,7 +171,7 @@ var Product_detail = PFT.Util.Class({
 			}else if( $(this).attr("flag") == "1" ){
 				$(this).attr("flag","0");
 				$("ul#ticketList").css("height",fiveH + "px");
-			}	
+			}
 		});
 		//预定按钮
 		$(".buyBtn").on("click",function(e){

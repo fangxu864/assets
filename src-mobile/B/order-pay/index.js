@@ -81,7 +81,7 @@ var Order_pay = PFT.Util.Class({
 						clearInterval(that.__interval);
 						/*	var host =PFT.Util.UrlParse()["h"];*/
 						var link = "http://" + nhost + "/b/order_pay_success.html?h="+host+"&ordernum="+ ordernum;
-						console.log(link)
+						// console.log(link)
 						window.location.href = link;
 
 					}
@@ -147,6 +147,7 @@ var Order_pay = PFT.Util.Class({
 				var ordernum = that.ordernum;
 				var account = that.host;
 				// Alert("支付成功");
+				var ctx = (PFT.Util.UrlParse()).ctx || 0;
 				window.location.href = "http://" + account + ".12301.cc/wx/b/order_pay_success.html?ordernum=" + ordernum;
 			},
 			//用户取消支付
