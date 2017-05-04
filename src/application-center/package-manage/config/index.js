@@ -12,24 +12,26 @@ var Config = PFT.Util.Class({
         var _this =  this;
 
 
-        // $(function () {
+        $(function () {
             _this.container = $("#G-package-config-wrap");
-            // setTimeout(function () {
+            setTimeout(function () {
                 _this.bind();
-            // },0);
-
-        // });
+            },0);
+        });
 
     },
     
     bind: function () {
         var _this = this;
         _this.manage = require("../manage/index.js");
-        console.log( _this.manage);
+        
         this.container.on("click",'.save-btn', function () {
             _this.hide();
             _this.manage.show();
         });
+        this.container.on("click" , ".self-radio" ,function (e) {
+            $(this).toggleClass("checked")
+        })
     },
 
     show: function () {

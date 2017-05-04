@@ -30,6 +30,31 @@ $bore5 : 1px solid #e5e5e5;
         text-align: right;
         padding-right: 20px;
       }
+      tr{
+        .btn{
+          padding: 8px 20px;
+          line-height: 12px;
+          color: #ffffff;
+          margin: 5px;
+          display: inline-block;
+          border-radius: 3px;
+          text-align: center;
+          font-size: 14px;
+          cursor: pointer;
+        }
+        .alter-btn{
+          background-color: #0897d9;
+        }
+        .alter-btn:hover{
+          background-color: #0786c1
+        }
+        .delete-btn{
+          background-color: #f07845;
+        }
+        .delete-btn:hover{
+          background-color: #e06e3d;
+        }
+      }
     }
     .add-box{
       text-align: center;

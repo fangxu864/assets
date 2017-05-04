@@ -98,6 +98,7 @@ $bore5 : 1px solid #e5e5e5;
       }
       .self-radio{
         float: left;
+        font-size: 14px;
         position: relative;
         margin: 8px 15px;
         line-height: 12px;
@@ -128,6 +129,10 @@ $bore5 : 1px solid #e5e5e5;
         .radio-icon{
           background-position: 14px 14px;
         }
+      }
+      .self-radio:hover .radio-des{
+        color: #2196f3;
+        text-decoration: underline;
       }
 
     }
