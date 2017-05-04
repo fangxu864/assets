@@ -57,7 +57,7 @@ module.exports = {
 	},
 	//email
 	typeEmail: function( value ){
-		var isOk = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value);
+		var isOk = /^(\w)+(\.\w+)*@(.)+((\.\w+)+)$/.test(value);
 		return output(isOk,isOk ? "" : "格式错误");
 	},
 	//验证正整数(不包括0)
