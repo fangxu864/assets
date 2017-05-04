@@ -10,7 +10,7 @@
     "production": "node ./buildTask/build.production.js",
     "local:mb": "node ./buildTask/build.local.mb.js",
     "test:mb": "node ./buildTask/build.test.mb.js",
-    "releas:mb": "node ./buildTask/build.release.mb.js",
+    "release:mb": "node ./buildTask/build.release.mb.js",
     "production:mb": "node ./buildTask/build.production.mb.js"
   },
   "repository": {

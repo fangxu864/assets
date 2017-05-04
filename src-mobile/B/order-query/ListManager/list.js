@@ -49,23 +49,15 @@ var List = Util.Class({
     onCancelBtnClick : function(e){
         e.preventDefault();
         e.stopPropagation();
+        var that = this;
         var tarBtn = $(e.currentTarget);
         var ordernum = tarBtn.attr("data-ordernum");
         if(!ordernum) return Alert("缺少ordernum");
         if(tarBtn.hasClass("disable") || tarBtn.hasClass("hasCanceled")) return false;
-        var onCancelSuccess = function(ordernum){
-            var item = $("#orderItemLi_"+ordernum);
-            var status = Common.statusText["3"];
-            if(item.length==0) return false;
-            item.find(".cancelBtn").addClass("hasCanceled").text(status.name);
-            item.find(".statusText").text(status.name).css({color:status.color});
-            setTimeout(function(){
-                item.remove();
-            },3000)
-        };
+        
         Confirm("确定要取消此订单吗？",function(result){
             if(!result) return false;
-            
+            that.cancelOrder(tarBtn);
         })
     },
     //点击支付按钮跳到支付页
@@ -80,6 +72,50 @@ var List = Util.Class({
     },
     onRefreshBtnClick : function(e){
         this.refresh(Common.clone(this.state.params,true));
+    },
+    //取消订单
+    cancelOrder : function(tarBtn){
+        var ordernum = tarBtn.attr("data-ordernum");
+        var token = Common.getToken();
+        if(!ordernum) return Alert("缺少ordernum");
+        if(!token) return Alert("缺少token");
+        var orangeText = tarBtn.html();
+        var onCancelSuccess = function(ordernum){
+            var item = $("#orderItemLi_"+ordernum);
+            var status = Common.statusText["3"];
+            if(item.length==0) return false;
+            item.find(".cancelBtn").addClass("hasCanceled").text(status.name);
+            item.find(".statusText").text(status.name).css({color:status.color});
+            setTimeout(function(){
+                item.remove();
+            },3000)
+        };
+        Util.Ajax("/r/MicroPlat_Order/cancel/",{
+            type : "POST",
+            params : {
+                ordernum : ordernum,
+                token : token
+            },
+            loading : function(){
+                tarBtn.addClass("disable").text("请稍后..");
+            },
+            complete : function(){
+                tarBtn.removeClass("disable").text(orangeText);
+            },
+            success : function(res){
+                var code = res.code;
+                var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+                if(code==200){
+                    onCancelSuccess(ordernum);
+                }else if(code==102){
+                    Common.unLogin();
+                }else{
+                    Alert(msg);
+                }
+            },
+            timeout : function(xhr,statusText){},
+            serverError : function(xhr,statusText){}
+        })
     },
     fetch : function(params){
         var that = this;
@@ -181,8 +217,8 @@ var List = Util.Class({
             var extra = item["__extra__"] || (item["__extra__"]={});
             extra["buy_pmode"] = Common.paymode[buy_pmode];
             extra["sale_pmode"] = Common.paymode[sale_pmode];
-            extra["buy_money"] = item.buy_money / 100;
-            extra["sale_money"] = item.sale_money / 100;
+            extra["buy_money"] = item.buy_money ?  (item.buy_money/100) : "";
+            extra["sale_money"] = item.sale_money ?  (item.sale_money/100) : "";
             Common.forEach(ticket_list,function(ticket,ind){
                 //__extra__字段标识是前端自己加入的数据
                 var extra = ticket["__extra__"] || (ticket["__extra__"]={});

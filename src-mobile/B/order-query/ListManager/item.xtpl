@@ -50,9 +50,17 @@
             <div class="infoLine">
                 <div class="lt">卖出 / 买入</div>
                 <div class="rt">
-                    <span class="yen orange">&yen;</span><span class="num orange"><%=item.__extra__["sale_money"]%></span>
+                    <%if(item.__extra__["sale_money"]){%>
+                        <span class="yen orange">&yen;</span><span class="num orange"><%=item.__extra__["sale_money"]%></span>
+                    <%}else{%>
+                        <span class="num orange">--</span>
+                    <%}%>
                     <i class="str">/</i>
-                    <span class="yen orange">&yen;</span><span class="orange num"><%=item.__extra__["buy_money"]%></span>
+                    <%if(item.__extra__["buy_money"]){%>
+                        <span class="yen orange">&yen;</span><span class="orange num"><%=item.__extra__["buy_money"]%></span>
+                    <%}else{%>
+                        <span class="num orange">--</span>
+                    <%}%>
                 </div>
             </div>
             <div class="infoLine">
