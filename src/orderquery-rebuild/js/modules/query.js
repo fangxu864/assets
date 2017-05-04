@@ -138,7 +138,8 @@ var Query = RichBase.extend({
 						"2":"产品名称",
 						"4":"取票人姓名",
 						"7":"优惠券名称",
-						"8":"第三方订单号"
+						"8":"第三方订单号",
+						"9":"身份证"
 					};
 					if(data.btime==""){
 						layer.tips('请输入起始时间', '#datetimepicker_begin', {
