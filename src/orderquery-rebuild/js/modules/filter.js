@@ -15,8 +15,6 @@ var Distors = require("./distors.js");
 var VacationMode = require("../../../vacationmode/tooltip-msg");
 var DatePicker = require("COMMON/modules/datepicker");
 
-
-
 var Filter = RichBase.extend({
 	statics : {
 
@@ -586,7 +584,6 @@ var Filter = RichBase.extend({
 			etime.val(prevMonth[1]+endtime);
 		}
 		$("#tongjiBar").hide();
-		//if(!that.beforeFireChange()) return false;
 		that.fire("filter.param.change",that.getFilterParam());
 	},
 	/**
@@ -596,28 +593,28 @@ var Filter = RichBase.extend({
 	 * 例如，用户如果选择用身份证来搜索，要先验证此身份证是否合法
 	 * 
 	 */
-	beforeFireChange : function(){
-		var params = this.getFilterParam();
-		var selectType = params.select_type;
-		if(selectType==8){ //如果是选择用身份证来搜索，要先验证此身份证是否合法
-			var idcard = $.trim($("#keywordInp").val());
-			var result = this.validateIDCrad(idcard);
-			if(!result) return false;
-		}
-		return true;
-	},
-	validateIDCrad : function(idcard){
-		if(typeof idcard!=="string")  return false;
-		idcard = idcard + "";
-		if(idcard==""){
-			PFT.Help.AlertTo("fail", '<p style="width:300px;">要按身份证搜索，请输入身份证号</p>',3000);
-			return false;
-		}
-		var result = ValidatRule.idcard(idcard);
-		if(result.isOk) return true;
-		PFT.Help.AlertTo("fail", '<p style="width:300px;">身份证格式有误，请重新输入</p>',3000);
-		return false;
-	}
+	// beforeFireChange : function(){
+	// 	var params = this.getFilterParam();
+	// 	var selectType = params.select_type;
+	// 	if(selectType==8){ //如果是选择用身份证来搜索，要先验证此身份证是否合法
+	// 		var idcard = $.trim($("#keywordInp").val());
+	// 		var result = this.validateIDCrad(idcard);
+	// 		if(!result) return false;
+	// 	}
+	// 	return true;
+	// },
+	// validateIDCrad : function(idcard){
+	// 	if(typeof idcard!=="string")  return false;
+	// 	idcard = idcard + "";
+	// 	if(idcard==""){
+	// 		PFT.Help.AlertTo("fail", '<p style="width:300px;">要按身份证搜索，请输入身份证号</p>',3000);
+	// 		return false;
+	// 	}
+	// 	var result = ValidatRule.idcard(idcard);
+	// 	if(result.isOk) return true;
+	// 	PFT.Help.AlertTo("fail", '<p style="width:300px;">身份证格式有误，请重新输入</p>',3000);
+	// 	return false;
+	// }
 
 });
 module.exports = Filter;
