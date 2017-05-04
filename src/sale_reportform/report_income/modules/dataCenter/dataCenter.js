@@ -48,6 +48,7 @@ var DataCenter = {
             },100);
             return false;
         }
+        // console.log(params)
         $.ajax({
             url: " /r/report_statistics/checkedPaywayList",    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -83,8 +84,8 @@ var DataCenter = {
 
                     // 增加导出单条明细地址到res
                     res.export_url = _this.CR.EXPORT_DETAIL_URL.single + '?is_detail=1&' + 'judgeType=' + _this.CR.JUDGE_TYPE + '&' + $.param(params);
-                        // '&detail_pid=',
-                        // '&detail_reseller_id='
+                    // 增加filter参数到res（根据票数排序）
+                    res.filter_params = $.param(params);
 
                     _this.CR.pubSub.pub("queryStateBox.close");
                     _this.CR.pubSub.pub("tableConBox.render", res );
@@ -157,8 +158,7 @@ var DataCenter = {
 
                     // 增加导出单条明细地址到res
                     res.export_url = _this.CR.EXPORT_DETAIL_URL.single + '?is_detail=1&' + 'judgeType=' + _this.CR.JUDGE_TYPE + '&' + $.param(params);
-                        // '&detail_pid=',
-                        // '&detail_reseller_id='
+                    res.filter_params = $.param(params);
 
                     _this.CR.pubSub.pub("queryStateBox.close");
                     _this.CR.pubSub.pub("tableTicket.render", res );

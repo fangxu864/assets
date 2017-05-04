@@ -124,10 +124,11 @@ var UserCenter = PFT.Util.Class({
                 var code = res.code,
                     data = res.data;
                 if(code==207){
-                    var para = location.search;
-                    window.location.href = "login.html" + para ;
+                    window.location.href = data.url;
+                    // var para = location.search;
+                    // window.location.href = "login.html" + para ;
                 }else{
-                    PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
+                    PFT.Mobile.Alert( res.msg || PFT.AJAX_ERROR_TEXT )
                 }
             },
             timeout : function(){ PFT.Mobile.Alert("请求超时") },

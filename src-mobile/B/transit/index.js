@@ -8,13 +8,13 @@ var Parse = require("COMMON/js/util.url.parse.query");//解析url参数
 var Transit = PFT.Util.Class({
 
 	container : $("#transitWrap"),
-	EVENTS : {       
+	EVENTS : {
 		"click #gotoLogin" : "ongotoLogin"
 	},
-	init : function(opt){         
+	init : function(opt){
 
 		var that = this;
-		
+
 		this.toast = new Toast();
 
 		PFT.Util.Ajax("/r/MicroPlat_Member/loginChoose",{
@@ -45,8 +45,9 @@ var Transit = PFT.Util.Class({
 		        }else if(code==201){
 		            window.location.href = "login.html";
 		        }else if(code==207){
-					var para = that.getpara();
-					window.location.href = "login.html" + para ;	
+					window.location.href = data.url;
+					// var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 				}else if(code==401){
 					that.toast.show("loading", res.msg);
                         (function () {
@@ -57,7 +58,7 @@ var Transit = PFT.Util.Class({
 				}else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 				}
-				
+
 		    },
 		    timeout : function(){ PFT.Mobile.Alert("请求超时") },
 		    serverError : function(){ PFT.Mobile.Alert("请求出错")}
@@ -68,7 +69,7 @@ var Transit = PFT.Util.Class({
 		var down = 10;
 		setInterval(function(){
 			down -= 1;
-			$(".CountdownSecond").text(down + "s");			
+			$(".CountdownSecond").text(down + "s");
 			if(down == 0){
 				window.location.href = url;
 			}
@@ -93,8 +94,9 @@ var Transit = PFT.Util.Class({
 		        var code = res.code;
 		        var data = res.data;
 		        if(code==207){
-					var para = that.getpara();
-					window.location.href = "login.html" + para ;
+					window.location.href = data.url;
+					// var para = that.getpara();
+					// window.location.href = "login.html" + para ;
 		        }else{
 					PFT.Mobile.Alert(res.msg || PFT.AJAX_ERROR)
 				}

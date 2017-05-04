@@ -155,7 +155,10 @@ var Main = PFT.Util.Class({
             params: {
                 token: PFT.Util.getToken(),
                 mobile: mobile,
-                vcode: vcode
+                vcode: vcode,
+                p_type: urlParams["p_type"] || '',
+                ctype: urlParams["ctype"] || '',
+                ctx: urlParams["ctx"] || ''
             },
 
             loading: function(){
@@ -167,6 +170,8 @@ var Main = PFT.Util.Class({
             },
 
             success: function ( res ) {
+                var search = window.location.search;
+
                 if (res.code == 200) {
 
                     if ( res.data.url ) {
@@ -179,7 +184,12 @@ var Main = PFT.Util.Class({
                             location.href = fromUrl + '.html';
                         } else {
                             // 跳默认页面
-                            location.href = 'usercenter.html';
+                            var PREFIX = location.host.split('.')[0];
+                            if( PREFIX == 100005 ) {
+                                location.href = 'plist.html' + search;
+                            } else {
+                                location.href = 'usercenter.html';
+                            }
                         }
                     }
 
@@ -212,7 +222,10 @@ var Main = PFT.Util.Class({
                 password: hex_md5(pwd),
                 c: "MicroPlat_Member",
                 a: "login",
-                authCode:$("#verifyInp").val()
+                authCode:$("#verifyInp").val(),
+                p_type: urlParams["p_type"] || '',
+                ctype: urlParams["ctype"] || '',
+                ctx: urlParams["ctx"] || ''
             },
             dataType: "json",
             loading: function () {
@@ -223,8 +236,8 @@ var Main = PFT.Util.Class({
             },
             success: function (res) {
                 if (res.code == 200) {
-                    var Url = res.data.url;
-                    var search = window.location.search;
+                    var Url = res.data.url,
+                        search = window.location.search;
 
                     if ( Url ) {
                         window.location.href = Url + search;
@@ -235,7 +248,12 @@ var Main = PFT.Util.Class({
                             location.href = fromUrl + '.html';
                         } else {
                             // 跳默认页面
-                            location.href = 'usercenter.html';
+                            var PREFIX = location.host.split('.')[0];
+                            if( PREFIX == 100005 ) {
+                                location.href = 'plist.html' + search;
+                            } else {
+                                location.href = 'usercenter.html';
+                            }
                         }
                     }
                 } else if (res.code == 401) {

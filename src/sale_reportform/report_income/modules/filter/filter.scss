@@ -12,6 +12,14 @@
       height: 60px;
       line-height: 60px;
       padding-left:20px;
+
+      &:after {
+        content:'';
+        display: table;
+        font-size: 0;
+        clear: both;
+      }
+
       .td{
         float: left;
       }
@@ -100,11 +108,11 @@
     .line3{
       .td1{
         position: relative;
-        width: 136px;
+        width: 125px;
         .select-box{
           margin-top: 13px;
           height: 32px;
-          width: 136px;
+          width: 125px;
           text-align: center;
           line-height: 32px;
           border: 1px solid #e5e5e5;

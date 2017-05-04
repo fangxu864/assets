@@ -155,16 +155,27 @@
 
     .orderby {
       position: relative;
-      cursor: pointer;
+      // cursor: pointer;
 
+      &:before {
+        content:'';
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        margin-top: -4px;
+        display: block;
+        width: 1px;
+        height: 8px;
+        background-color: #4c4e53;
+      }
       &:after {
         content:'';
         position: absolute;
         right: 5px;
         top: 50%;
         display: block; width:0; height: 0;
-        margin-top: -4px;
-        border-width: 8px 5px;
+        margin-top: 2px;
+        border-width: 4px;
         border-style: solid dashed dashed;
         border-color: #4c4e53 transparent transparent;
       }

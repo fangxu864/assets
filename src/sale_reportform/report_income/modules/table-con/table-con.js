@@ -60,8 +60,8 @@ var tableCon = {
 
         // 点击对应th，降序排序 added 2017/04/26
         this.container.on('click', '.orderby', function(){
-
-                // _this.sortTableBy( $(this).attr('data-orderby') );
+                // 由于目前只有一列排序，所以数据直接后端做排序处理，前端不用添加事件，留着方便后期做多列排序
+                // _this.sortTableBy( $(this).attr('data-orderby'), $(this).attr('data-filter') );
 
         }).on('click', '.btn-export-single', function(){
             _this.outExcel( $(this).attr('data-url') );
@@ -69,16 +69,58 @@ var tableCon = {
     },
 
     // 表格排序
-    sortTableBy: function( orderby ){
-        if( !!orderby ) {
-            // this.sortArray( this.dataContainer[ this.cacheKey ].data.list, orderby );
+    sortTableBy: function( orderby, filter_params ){
+        var _this = this,
+            params = {};
+        //判断是否按票查询
+        //按票查询
+        if( !orderby ) return false;
 
-            this.dataContainer[ this.cacheKey ].data.list.sort(function( a, b ){
-                return Number(b[ orderby ]) - Number(a[ orderby ]);
-            });
+        switch( orderby ) {
+            case 'member_ticket':
+                params = this.stringToObject( filter_params );
+                params.ticket_orderby = 1;
+
+                if( params.searchTicket ){
+                    _this.CR.pubSub.pub("DC.getTicketData" , params );
+                }
+                //默认的查询方式
+                else{
+                    _this.CR.pubSub.pub("DC.getMainData" , params );
+                }
+                break;
         }
 
-        this.dealReqData( this.dataContainer[ this.cacheKey ] );
+    },
+
+    stringToObject: function( str ) {
+        var tempArr = [],
+            params = {},
+            i,
+            len,
+            key,
+            val;
+
+        if( str.length ) {
+            tempArr = str.split('&');
+            for( i=0, len = tempArr.length; i<len; i++ ) {
+                key = tempArr[i].split('=')[0];
+                val = tempArr[i].split('=')[1] == 'false' ? false :
+                        tempArr[i].split('=')[1]=='true' ? true : tempArr[i].split('=')[1];
+                params[ key ] = val;
+            }
+        }
+
+        return params;
+    },
+
+    /**
+     * @method导出excel
+     */
+    outExcel:function (downloadUrl) {
+        var iframeName="iframe"+new Date().getTime();
+        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+        window.open(downloadUrl, iframeName);
     },
 
     close: function () {
@@ -144,7 +186,7 @@ var tableCon = {
         }
 
         // console.log( res )
-        var tableLtHtml = this.tableLtTemplate({data : res });
+        var tableLtHtml = this.tableLtTemplate({data : res, filter_params: res.filter_params });
         var tableRtHtml = this.tableRtTemplate({data : rtData });
         var tableOperateHtml = this.tableOperateTemplate({data : res, export_url: res.export_url });
 
