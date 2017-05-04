@@ -5,28 +5,34 @@ require("./index.scss");
 var frameTpl = require("./index.xtpl");
 //--------modules-----
 var renderNav = require("../nav/index.js");
-var config = require("../config/index.js");
+
 //套餐管理模块
 var Manage = PFT.Util.Class({
+    
 
     init: function () {
         var _this =  this;
-        $(function () {
+
+        // $(function () {
             _this.container = $("#G-package-manage-wrap");
-            _this.bind()
-        });
+            setTimeout(function () {
+                _this.bind();
+            },0);
+        // });
+       
     },
 
     bind: function () {
         var _this = this;
+        _this.config = require("../config/index.js");
+       
         this.container.on("click",'.add-btn', function () {
             _this.hide();
-            config.show();
+            _this.config.show();
         })
     },
 
     show: function () {
-        console.log(this.container)
         this.container.html(frameTpl);
         renderNav("1",this.container.find(".title-box"));
         this.container.show();

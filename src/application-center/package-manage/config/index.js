@@ -9,15 +9,30 @@ var frameTpl = require("./index.xtpl");
 var Config = PFT.Util.Class({
 
     init: function () {
-        this.bind()
+        var _this =  this;
+
+
+        // $(function () {
+            _this.container = $("#G-package-config-wrap");
+            // setTimeout(function () {
+                _this.bind();
+            // },0);
+
+        // });
+
     },
     
     bind: function () {
-        
+        var _this = this;
+        _this.manage = require("../manage/index.js");
+        console.log( _this.manage);
+        this.container.on("click",'.save-btn', function () {
+            _this.hide();
+            _this.manage.show();
+        });
     },
 
     show: function () {
-        this.container = $("#G-package-config-wrap");
         this.container.html(frameTpl);
         this.container.show();
     },
