@@ -15,6 +15,8 @@ var tooltip = null;
 var loadingImg = common.loadingImg;
 var ListDoAction = require("./list.doaction.js");
 var listDoaction = null;
+//引入验证组件
+var ValidatRule = require("COMMON/Components/Validator/v1.0/rules.js");
 var Query = RichBase.extend({
 	statics : {
 		PAGE_SIZE : 15,
@@ -193,6 +195,35 @@ var Query = RichBase.extend({
 					return false;
 				}
 			}
+
+			//2017-05-04  huangzy
+			//如果是选择用身份证来搜索，要先验证此身份证是否合法
+			if(data.select_type==9){ //如果是按身份证号搜索 
+				var idcard = $.trim($("#keywordInp").val());
+				if(!idcard){
+					layer.tips("要按身份证搜索，请输入身份证号", '#keywordInp', {
+						tips: [3, '#f07845'],
+						time: 1000,
+						tipsMore: true
+					});
+				}else{
+					var isValid = ValidatRule.idcard(idcard);
+					// isValid = {
+					// 	isOk : true,false,
+					// 	errMsg : "",
+					// 	errCode : 200
+					// }
+					if(!isValid.isOk){
+						layer.tips("身份证格式有误，请重新填写", '#keywordInp', {
+							tips: [3, '#f07845'],
+							time: 1000,
+							tipsMore: true
+						});
+					}
+				}
+			}
+
+
 		}
 
 
