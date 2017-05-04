@@ -2,7 +2,7 @@
 <ul class="pft-second-level-menu clearfix">
     <% _.each(data,function(item,index){ %>
     <% if(item.display && item.display()){%>
-
+    <li class="tit-li"><a href="<%=item.href%>" class="href <%=item.active%>"><%=item.titleName%></a></li>
     <%}else{%>
     <li class="tit-li"><a href="<%=item.href%>" class="href <%=item.active%>"><%=item.titleName%></a></li>
     <%}%>

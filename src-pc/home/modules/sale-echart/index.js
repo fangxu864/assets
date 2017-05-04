@@ -317,7 +317,7 @@ module.exports = function(parent){
 			// 		}
 			// 	]
 			// };
-			var colors = ['#2889e1', '#b7b7b7'];
+			var colors = ['#2889e1', '#fcb1a4'];
 
 			var option = {
 				color: colors,
