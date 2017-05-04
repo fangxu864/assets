@@ -250,7 +250,8 @@ var SigningStaff = {
             //转供应商日期 时间戳
             postData.supplier_time = transform(_this.container.find(".signInfo .supplier_time").val());
             //启用日期 时间戳
-            postData.enable_time = transform(_this.container.find(".signInfo .enable_time").val());
+            var enable_time_cache = transform(_this.container.find(".signInfo .enable_time").val());
+            postData.enable_time = enable_time_cache == -1 ? 0 : enable_time_cache;
             //欠费截至时间 时间戳
             postData.arrears_time = transform(_this.container.find(".signInfo .arrears_time").val());
         

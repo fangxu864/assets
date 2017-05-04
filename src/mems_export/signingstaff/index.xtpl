@@ -101,7 +101,7 @@
                 <div class="td td1">启用日期</div>
                 <div class="td td2">
                     <input type="text" class="enable_time" value="<%=data.enable_time%>"/>
-                    <span onclick="javascript:$(this).siblings().val('')" style="color: #00a0e9;cursor: pointer">清除</span>
+                    <!--<span onclick="javascript:$(this).siblings().val('')" style="color: #00a0e9;cursor: pointer">清除</span>-->
                 </div>
             </div>
 
