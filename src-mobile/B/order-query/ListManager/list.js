@@ -1,4 +1,5 @@
 var Alert = require("COMMON/Components/Alert-Mobile/v1.0");
+var Confirm = require("COMMON/Components/Confirm-Mobile/v1.0");
 
 var Common = require("../common.js");
 var PageSize = Common.pageSize;
@@ -23,7 +24,10 @@ var List = Util.Class({
         params : {}
     },
     EVENTS : {
-        "click .getMoreBtn" : "onGetMoreBtnClick"
+        "click .getMoreBtn" : "onGetMoreBtnClick",
+        "click .cancelBtn" : "onCancelBtnClick",
+        "click .refreshBtn" : "onRefreshBtnClick",
+        "click .payBtn" : "onPayBtnClick"
     },
     init : function(opt){
         var state = this.state;
@@ -40,6 +44,42 @@ var List = Util.Class({
         _params["size"] = PageSize;
         _params["page"] = state.currentPage+1;
         this.fetch(_params);
+    },
+    //点击取消按钮
+    onCancelBtnClick : function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var tarBtn = $(e.currentTarget);
+        var ordernum = tarBtn.attr("data-ordernum");
+        if(!ordernum) return Alert("缺少ordernum");
+        if(tarBtn.hasClass("disable") || tarBtn.hasClass("hasCanceled")) return false;
+        var onCancelSuccess = function(ordernum){
+            var item = $("#orderItemLi_"+ordernum);
+            var status = Common.statusText["3"];
+            if(item.length==0) return false;
+            item.find(".cancelBtn").addClass("hasCanceled").text(status.name);
+            item.find(".statusText").text(status.name).css({color:status.color});
+            setTimeout(function(){
+                item.remove();
+            },3000)
+        };
+        Confirm("确定要取消此订单吗？",function(result){
+            if(!result) return false;
+            
+        })
+    },
+    //点击支付按钮跳到支付页
+    onPayBtnClick : function(e){
+        var ordernum = $(e.currentTarget).attr("data-ordernum");
+        if(!ordernum) return Alert("缺少ordernum");
+        var host = window.location.host;
+            host = host.split(".");
+            host = host[0];
+        var url = "http://wx.12301.cc/html/order_pay_b.html?h="+host+"&"+"ordernum="+ordernum;
+        window.location.href = url;
+    },
+    onRefreshBtnClick : function(e){
+        this.refresh(Common.clone(this.state.params,true));
     },
     fetch : function(params){
         var that = this;
@@ -75,7 +115,6 @@ var List = Util.Class({
                     container.html("");
                 }else{
                     container.find(".getMore_loading").remove();
-                    // container.append('<li class="getMore_state getMoreBtn">点击查看更多</li>');
                 }
                 that.state.isLoading = false;
             },
@@ -83,13 +122,15 @@ var List = Util.Class({
                 var data = res.data;
                 var code = res.code;
                 var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+                var html = "";
                 if(code==200){
                     if(Common.getObjectKeyCount(data)>0){ //如果返回的object不为空
-                        var html = that.renderList(data);
+                        if(page==1) html += '<li class="refreshBtn"><span class="t">点击刷新..</span></li>';
+                        html += that.renderList(data);
                         html += '<li class="getMore_state getMoreBtn">点击查看更多</li>';
                         container.append(html);
                     }else{ //如果返回：{data:{}} 
-                        var html = "";
+                        html = "";
                         if(page>1){
                             html += '<li class="getMore_state getMore_empty">没有更多了..</li>';
                         }else{
@@ -105,9 +146,13 @@ var List = Util.Class({
                     Alert(msg);
                 }
             },
+            timeout : function(xhr,errorText){
+                Alert(PFT.AJAX_TIMEOUT_TEXT);
+                if(page>1) container.append('<li class="getMore_state getMoreBtn">点击查看更多</li>');
+            },
             serverError : function(xhr,errorText){
                 Common.serverError(xhr,errorText);
-                container.append('<li class="getMore_state getMoreBtn">点击查看更多</li>');
+                if(page>1) container.append('<li class="getMore_state getMoreBtn">点击查看更多</li>');
             }
         });
     },

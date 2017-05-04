@@ -97,7 +97,7 @@
     }
     .getMore_state.getMoreBtn,.getMore_state.getMore_empty{
         height: 60px;
-        line-height: 60px;
+        line-height: 50px;
         text-align: center;
         background: #f0f3f5;
         color: #2a98da
@@ -105,12 +105,21 @@
     .getMore_state.getMore_empty{
         color: #999
     }
+    .refreshBtn{
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        color: #2a98da;
+        background: #dfefff;
+    }
+
+    .orderItemLi{ margin-bottom:10px;}
 
     //item样式
     .orderItem{
         display: block;
         background:#fff;
-        margin-bottom:7px;
+        
         padding-bottom:15px;
         color: #333;
         &:last-child{ margin-bottom:0}
@@ -148,6 +157,7 @@
                 border:1px solid $blue;
                 color:$blue;
                 margin-left:10px;
+                font-size: 12px;
                 &.disable{
                     color:$gray50;
                     border-color:$gray70;

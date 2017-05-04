@@ -1,8 +1,8 @@
 
 require("./index.scss");
 
-var XScroll = require("NODE_MODULES/vux/node_modules/vux-xscroll/build/cmd/xscroll");
-var PullUp = require("NODE_MODULES/vux/node_modules/vux-xscroll/build/cmd/plugins/pullup");
+var XScroll = require("NODE_MODULES/vux-xscroll/build/cmd/xscroll");
+var PullUp = require("NODE_MODULES/vux-xscroll/build/cmd/plugins/pullup");
 
 var SheetCore = require("COMMON/Components/Sheet-Core/v1.0");
 

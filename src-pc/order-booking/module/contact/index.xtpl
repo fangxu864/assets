@@ -82,7 +82,12 @@
     </div>
     <%if(needID==2){%>
         <div class="tourist-info-box clearfix">
-            <div class="title"><i class="colorRed">*</i>游客信息<span class="remark">(每张票提供相关游客信息)</span></div>
+            <div class="title">
+                <i class="colorRed">*</i>游客信息
+                <span class="remark">(每张票提供相关游客信息)</span>
+                <span id="exportEnterBtn" class="exportEnterBtn">从格表中导入</span>
+                <span class="exportEnterTip">表格格式:列一姓名，列二身份证号码</span>
+            </div>
             <ul id="touristListUl" class="name-idNum-ul">
             </ul>
         </div>

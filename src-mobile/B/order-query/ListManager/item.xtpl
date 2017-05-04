@@ -1,100 +1,99 @@
 <%_.each(data,function(item,index){%>
-<a href="#/detail/<%=item.ordernum%>" id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="orderItem">
-    <div class="topPart" href="#/detail/<%=item.ordernum%>">
-        <div class="photoBox">
-            <div class="imgBox">
-                <img src="<%=item.imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null;" alt=""/>
+<li class="orderItemLi" id="orderItemLi_<%=item.ordernum%>">
+    <a href="#/detail/<%=item.ordernum%>" id="orderItem-<%=item.ordernum%>" data-ordernum="<%=item.ordernum%>" class="orderItem">
+        <div class="topPart" href="#/detail/<%=item.ordernum%>">
+            <div class="photoBox">
+                <div class="imgBox">
+                    <img src="<%=item.imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null;" alt=""/>
+                </div>
+            </div>
+            <div class="midCon">
+                <div class="landTitle">
+                    <span class="landTitleText"><%=item.ticket_list[0].ltitle%></span>
+                    <i class="icon-youjiantou icon-u-regular tri"></i>
+                </div>
+                <ul>
+                    <%_.each(item.ticket_list,function(ticket){%>
+                        <li class="ticItem floatLine">
+                            <div class="lt ticketName"><%=ticket.ttitle%></div>
+                            <div class="rt">
+                                <span class="str">x</span><span class="count orange"><%=ticket.tnum%></span>
+                                <span class="statusText" style="color:<%=ticket.__extra__.status.color%>"><%=ticket.__extra__.status.name%></span>
+                            </div>
+                        </li>
+                    <%})%>
+                </ul>
+            </div>
+            <div class="tri"><div class="triCon"></div></div>
+        </div>
+        <div class="infoBox">
+            <div class="infoLine">
+                <div class="lt">订单号：</div>
+                <div class="rt"><%=item.ordernum%></div>
+            </div>
+            <div class="infoLine">
+                <div class="lt">支付方式</div>
+                <div class="rt">
+                    <%if(item.pay_status==2){%>
+                        <span class="orange">未支付</span>
+                    <%}else if(item.is_self==1){%>
+                        <span class="isSelf">自供自销</span>
+                    <%}else{%>
+                        <span>
+                            <%=item.sale_pmode ? item.__extra__['sale_pmode'] : '--'%>
+                            <i class="str">/</i>
+                            <%=item.buy_pmode ? item.__extra__['buy_pmode'] : '--'%>
+                        </span>
+                    <%}%>
+                </div>
+            </div>
+            <div class="infoLine">
+                <div class="lt">卖出 / 买入</div>
+                <div class="rt">
+                    <span class="yen orange">&yen;</span><span class="num orange"><%=item.__extra__["sale_money"]%></span>
+                    <i class="str">/</i>
+                    <span class="yen orange">&yen;</span><span class="orange num"><%=item.__extra__["buy_money"]%></span>
+                </div>
+            </div>
+            <div class="infoLine">
+                <div class="lt">供应商 / 分销商</div>
+                <div class="rt">
+                    <%=item.seller ? item.seller : '--'%>
+                    <i class="str">/</i>
+                    <%=item.buyer ? item.buyer : '--'%>
+                </div>
+            </div>
+            <div class="infoLine">
+                <div class="lt">取票人</div>
+                <div class="rt">
+                    <%=item.ordername%> <%=item.ordertel%>
+                </div>
+            </div>
+            <div class="infoLine">
+                <div class="lt">下单时间</div>
+                <div class="rt">
+                    <%=item.ordertime%>
+                </div>
+            </div>
+            <div class="infoLine">
+                <div class="lt">验证时间</div>
+                <div class="rt">
+                    <%=item.dtime%>
+                </div>
             </div>
         </div>
-        <div class="midCon">
-            <div class="landTitle">
-                <span class="landTitleText"><%=item.ticket_list[0].ltitle%></span>
-                <i class="icon-youjiantou icon-u-regular tri"></i>
-            </div>
-            <ul>
-                <%_.each(item.ticket_list,function(ticket){%>
-                    <li class="ticItem floatLine">
-                        <div class="lt ticketName"><%=ticket.ttitle%></div>
-                        <div class="rt">
-                            <span class="str">x</span><span class="count orange"><%=ticket.tnum%></span>
-                            <span class="statusText" style="color:<%=ticket.__extra__.status.color%>"><%=ticket.__extra__.status.name%></span>
-                        </div>
-                    </li>
-                <%})%>
-            </ul>
-        </div>
-        <div class="tri"><div class="triCon"></div></div>
-    </div>
-    <div class="infoBox">
-        <div class="infoLine">
-            <div class="lt">订单号：</div>
-            <div class="rt"><%=item.ordernum%></div>
-        </div>
-        <div class="infoLine">
-            <div class="lt">支付方式</div>
-            <div class="rt">
-                <%if(item.pay_status==2){%>
-                    <span class="orange">未支付</span>
-                <%}else if(item.is_self==1){%>
-                    <span class="isSelf">自供自销</span>
-                <%}else{%>
-                    <span>
-                        <%=item.sale_pmode ? item.__extra__['sale_pmode'] : '--'%>
-                        <i class="str">/</i>
-                        <%=item.buy_pmode ? item.__extra__['buy_pmode'] : '--'%>
-                    </span>
-                <%}%>
-            </div>
-        </div>
-        <div class="infoLine">
-            <div class="lt">卖出 / 买入</div>
-            <div class="rt">
-                <span class="yen orange">&yen;</span><span class="num orange"><%=item.__extra__["sale_money"]%></span>
-                <i class="str">/</i>
-                <span class="yen orange">&yen;</span><span class="orange num"><%=item.__extra__["buy_money"]%></span>
-            </div>
-        </div>
-        <div class="infoLine">
-            <div class="lt">供应商 / 分销商</div>
-            <div class="rt">
-                <%=item.seller ? item.seller : '--'%>
-                <i class="str">/</i>
-                <%=item.buyer ? item.buyer : '--'%>
-            </div>
-        </div>
-        <div class="infoLine">
-            <div class="lt">取票人</div>
-            <div class="rt">
-                <%=item.ordername%> <%=item.ordertel%>
-            </div>
-        </div>
-        <div class="infoLine">
-            <div class="lt">下单时间</div>
-            <div class="rt">
-                <%=item.ordertime%>
-            </div>
-        </div>
-        <div class="infoLine">
-            <div class="lt">验证时间</div>
-            <div class="rt">
-                <%=item.dtime%>
-            </div>
-        </div>
-    </div>
 
 
-
-    <div class="btnGroup">
-        <%if(item.pay==1000){%>
-            <span class="btn pay" data-ordernum="<%=item.ordernum%>">支付</span>
-        <%}%>
-        <%if(item.cancel==11000){%>
-            <%if(item.status==101){%>
-                <span class="btn" data-ordernum="<%=item.ordernum%>">退票中</span>
-            <%}else{%>
-                <span class="btn cancel" data-ordernum="<%=item.ordernum%>">取消订单</span>
+        <%if(item.pay==1 || item.cancel==1){%>
+        <div class="btnGroup">
+            <%if(item.pay==1){%>
+                <span class="btn pay payBtn" data-ordernum="<%=item.ordernum%>">支付</span>
             <%}%>
+            <%if(item.cancel==1){%>
+                <span class="btn cancel cancelBtn" data-ordernum="<%=item.ordernum%>">取消订单</span>
+            <%}%>
+        </div>
         <%}%>
-    </div>
-</a>
+    </a>
+</li>
 <%})%>

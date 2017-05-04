@@ -125,3 +125,19 @@
   }
 
 }
+
+#exportEnterBtn{
+    padding: 7px 20px;
+    background: #2A98DA;
+    color: #fff;
+    font-weight: normal;
+    cursor: pointer;
+    margin: 0 5px;
+    &:hover{
+        background: darken(#2A98DA,3%)
+    }
+}
+.exportEnterTip{
+    color: #999;
+    font-weight: normal
+}
