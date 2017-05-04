@@ -8,6 +8,15 @@ var Validate = require("COMMON/js/util.validate.js");
 var Dialog_Aliapy=require("COMMON/modules/dialog-simple");
 var Dia_Ali = require("./dialog_content.xtpl");
 
+var typeEmail = function(email){
+    var reg = /^(\w)+(\.\w+)*@(.)+((\.\w+)+)$/;
+    return reg.test(email);
+};
+
+// var _ss = "ac@al-trip.com";
+// console.log(typeEmail(_ss));
+
+
 //主要方法
 var AlipayMain = {
     Dialog_Aliapy:null,
@@ -101,7 +110,6 @@ var AlipayMain = {
         var that = this;
         $("#chAli").on("click",function () {
             that.Dialog_Aliapy.open();
-           
         });
     },
 
@@ -291,7 +299,7 @@ var AlipayMain = {
     //检验支付宝格式
     validate_aliAccount : function(aliAccount){
         var error = "";
-        if(!Validate.typePhone(aliAccount) && !Validate.typeEmail(aliAccount)) error = "支付宝格式为手机号或者邮箱号";
+        if(!Validate.typePhone(aliAccount) && !typeEmail(aliAccount)) error = "支付宝格式为手机号或者邮箱号";
         return error;
        /* console.log (Validate.typePhone(aliAccount));
         console.log(Validate.typeEmail(aliAccount));*/
@@ -303,7 +311,7 @@ var AlipayMain = {
         var error = "";
         if(!mobile || !Validate.typePhone(mobile)) error = "请填写正确格式手机号";
         return error;
-    },
+    }
 };
 
 
