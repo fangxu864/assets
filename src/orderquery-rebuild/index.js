@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 15-11-19.
  */
-require("../css/orderquery.css");
+require("./css/orderquery.css");
 var Query = require("./modules/query");
 var queryor = null;
 var Main = RichBase.extend({

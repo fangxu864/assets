@@ -12,7 +12,7 @@ var Api = require("./api.js");
 var api = new Api();
 var Distors = require("./distors.js");
 //引入./src/vacationmode/tooltip-msg模块
-var VacationMode = require("../../../vacationmode/tooltip-msg");
+var VacationMode = require("../../vacationmode/tooltip-msg");
 var DatePicker = require("COMMON/modules/datepicker");
 
 var Filter = RichBase.extend({
