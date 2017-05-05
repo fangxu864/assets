@@ -46,6 +46,75 @@ var blackList = PFT.Util.Class({
         this.bind()
     },
 
+    bind: function () {
+        var _this = this ;
+        var CON = this.container;
+
+        //点击导入excel
+        CON.on("click" ,".filter-box .leading-in" ,function (e) {
+            //判断是否new过
+            if( !_this.dialog_excel ){
+                _this.dialog_excel = new Dialog_excel();
+                _this.dialog_excel.show();
+            }else{
+                _this.dialog_excel.show();
+            }
+        });
+
+        //点击主页面产品选择框
+        CON.on("click" ,".filter-box #landInpMain" ,function (e) {
+            //点击时才初始化产品选择框
+            if( !_this.mainLandSelect ){
+                _this.mainLandSelect = new Select({
+                    height:300,
+                    field : {
+                        id : "id",
+                        name : "title",
+                        keyword : "title"
+                    },
+                    trigger : $("#landInpMain"),
+                    data: _this.landListData
+                });
+                $(this).click();
+            }
+        });
+
+        //点击添加黑名单按钮
+        CON.on("click" ,".filter-box .add-btn" ,function (e) {
+            //判断是否new过
+            if( !_this.dialog_add ){
+                _this.dialog_add = new Dialog_add({landListData: _this.landListData});
+                _this.dialog_add.show();
+            }else{
+                _this.dialog_add.show();
+            }
+        });
+
+        //点击编辑按钮
+        CON.on("click" ,".table-box .edit-btn" ,function (e) {
+            //判断是否new过
+            if( !_this.dialog_edit ){
+                _this.dialog_edit = new Dialog_edit({landListData: _this.landListData});
+                _this.dialog_edit.show();
+            }else{
+                _this.dialog_edit.show();
+            }
+        });
+
+        //点击删除按钮
+        CON.on("click" ,".table-box .delete-btn" ,function (e) {
+            Message.confirm("是否删除？",function (result) {
+                console.log(result)
+            })
+        });
+
+        //点击搜索
+        CON.on("click" ,".filter-box .search-btn", function (e) {
+
+        })
+
+    },
+
     /**
      * 获取产品列表数据
      */
@@ -83,9 +152,8 @@ var blackList = PFT.Util.Class({
      */
     getBlacklistData: function () {
         var _this = this;
-        _this.renderTB();
-        _this.paramHub.startDate = _this.getDateRange(this.renderData.curYM).min;
-        _this.paramHub.endDate = _this.getDateRange(this.renderData.curYM).max;
+        _this.paramHub.id_card = _this.container.find(".filter-box .id-card-inp").val();
+        _this.paramHub.lid = _this.container.find(".filter-box .land-inp").val();
         var params = _this.paramHub;
         //看看是否有缓存
         if(_this.cacheHub[$.param(_this.paramHub)]){
@@ -158,74 +226,15 @@ var blackList = PFT.Util.Class({
         }
     },
 
-    bind: function () {
-        var _this = this ;
-        var CON = this.container;
+    /**
+     * @method 参数仓库
+     */
+    paramHub: {},
 
-        //点击导入excel
-        CON.on("click" ,".filter-box .leading-in" ,function (e) {
-            //判断是否new过
-            if( !_this.dialog_excel ){
-                _this.dialog_excel = new Dialog_excel();
-                _this.dialog_excel.show();
-            }else{
-                _this.dialog_excel.show();
-            }
-        });
-
-        //点击主页面产品选择框
-        CON.on("click" ,".filter-box #landInpMain" ,function (e) {
-            //点击时才初始化产品选择框
-            if( !_this.mainLandSelect ){
-                _this.mainLandSelect = new Select({
-                    height:300,
-                    field : {
-                        id : "id",
-                        name : "title",
-                        keyword : "title"
-                    },
-                    trigger : $("#landInpMain"),
-                    data: _this.landListData
-                });
-                $(this).click();
-            }
-        });
-
-        //点击添加黑名单按钮
-        CON.on("click" ,".filter-box .add-btn" ,function (e) {
-            //判断是否new过
-            if( !_this.dialog_add ){
-                _this.dialog_add = new Dialog_add({landListData: _this.landListData});
-                _this.dialog_add.show();
-            }else{
-                _this.dialog_add.show();
-            }
-        });
-
-        //点击编辑按钮
-        CON.on("click" ,".table-box .edit-btn" ,function (e) {
-            //判断是否new过
-            if( !_this.dialog_edit ){
-                _this.dialog_edit = new Dialog_edit({landListData: _this.landListData});
-                _this.dialog_edit.show();
-            }else{
-                _this.dialog_edit.show();
-            }
-        });
-
-        //点击删除按钮
-        CON.on("click" ,".table-box .delete-btn" ,function (e) {
-            Message.confirm("是否删除？",function (result) {
-                console.log(result)
-            })
-        });
-
-        //点击搜索
-        CON.on("click" ,".filter-box .search-btn", function (e) {
-
-        })
-
-    }
+    /**
+     * @Object 缓存仓库
+     */
+    cacheHub: {}
 
 });
 

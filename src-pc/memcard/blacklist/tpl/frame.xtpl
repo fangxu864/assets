@@ -3,11 +3,11 @@
     <ul>
         <li class="inline-block-li">
             <span class="name">产品：</span>
-            <input type="text" id="landInpMain"/>
+            <input type="text" id="landInpMain" class="land-inp"/>
         </li>
         <li class="inline-block-li">
             <span class="name">身份证：</span>
-            <input type="text" style="width: 230px"/>
+            <input type="text" style="width: 230px" class="id-card-inp"/>
             <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
         </li>
         <li class="inline-block-li" onselectstart="javascript: return false;">
