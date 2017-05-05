@@ -1,0 +1,68 @@
+$borderE5 : 1px solid #e5e5e5;
+$theadBgColor : #e5e5e5;
+$trHoverColor:#fafafa;
+
+#G-package-serve-wrap{
+
+  .sec-nav-box{
+    border: $borderE5;
+    border-bottom:none;
+  }
+  .main-tb-box{
+    background-color: #fff;
+    border: $borderE5;
+    border-top: none;
+    padding: 15px 20px;
+    text-align: left;
+    .main-tb{
+      width: 100%;
+      line-height: 40px;
+      .fir-th ,.last-th{
+        padding: 0 20px;
+        text-align: center;
+      }
+      thead tr{
+        background-color: $theadBgColor;
+        font-size: 14px;
+      }
+      tbody tr{
+        line-height: 50px;
+        &:hover{
+          background-color:$trHoverColor;
+        }
+      }
+      tr{
+        border: 1px solid #e5e5e5;
+      }
+      .btn{
+        margin: 0 10px;
+        color: #457ed5;
+        cursor: pointer;
+        &:hover{
+          color:darken( #457ed5,10%);
+          text-decoration: underline;
+        }
+      }
+    }
+    .buy-btn{
+      padding: 10px 38px;
+      background-color: #f07845;
+      color: #ffffff;
+      width: 63px;
+      margin: 10px auto;
+      margin-top: 20px;
+      /* display: inline-block; */
+      border-radius: 3px;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      &:hover{
+        background-color: #e06e3d;
+      }
+    }
+  }
+
+
+
+
+}

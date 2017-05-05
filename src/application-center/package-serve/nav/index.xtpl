@@ -1,9 +1,9 @@
 
 <ul class="pft-second-level-menu clearfix">
     <% _.each(data,function(item,index){ %>
-    <% if(item.display && item.display()){%>
-
-    <%}else{%>
+    <% if(typeof item.display === "function"){ if(item.display()){%>
+    <li class="tit-li"><a href="<%=item.href%>" class="href <%=item.active%>"><%=item.titleName%></a></li>
+    <%}}else{%>
     <li class="tit-li"><a href="<%=item.href%>" class="href <%=item.active%>"><%=item.titleName%></a></li>
     <%}%>
     <%})%>
