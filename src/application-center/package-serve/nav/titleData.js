@@ -26,10 +26,9 @@ module.exports={
         active: '',
         display: function () {
             var isShow = true;
-            $(function () {
-                var val = $("#dtypeInp").val();
-                if(val == 5) isShow = false;
-            });
+            var val = $("#dtypeInp").val();
+            //当用户类型为“5->普通用户”时，不显示资质认证
+            if(val == 5) isShow = false;
             return isShow;
         }
     },
