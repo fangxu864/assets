@@ -158,10 +158,8 @@ var blackList = PFT.Util.Class({
         //看看是否有缓存
         if(_this.cacheHub[$.param(_this.paramHub)]){
             //render
-            setTimeout(function () {
-                var res = _this.cacheHub[$.param(params)];
-                dealRes( res )
-            },100);
+            var res = _this.cacheHub[$.param(params)];
+            dealRes( res );
             return false;
         }else{
             //显示查询状态
@@ -181,40 +179,26 @@ var blackList = PFT.Util.Class({
                 // 请求成功时处理
                 //缓存数据
                 _this.cacheHub[$.param(params)] = $.extend({},res);
-                dealRes( res )
+                console.log(res)
+                // dealRes( res )
             },
             complete: function(res,status) {
                 //请求完成的处理
-                _this.hideLoading();
+                // _this.hideLoading();
                 if(status=="timeout"){
                     alert("请求超时")
                 }
             },
             error: function() {
                 //请求出错处理
-                _this.hideLoading();
+                // _this.hideLoading();
             }
         });
 
         function dealRes( res ) {
             if(res.code == 200 ){
-                if(Util.judgeTrue(res.data)){
-                    //渲染价格显示
-                    var tbody = _this.container.find('.calendar-tb tbody');
-                    var curPrice = {};
-                    var curTd = {};
-                    for(var key in res.data){
-                        curPrice =  tbody.find('td[data-date = '+ key +'] .price');
-                        curTd = tbody.find('td[data-date = '+ key +']');
-                        if(res.data[key].storage == 0){
-                            curPrice.text('售罄');
-                        }else{
-                            curPrice.text('¥' + res.data[key].price);
-                            curTd.removeClass("disable").addClass("usable");
-                            curTd.attr("data-storage",res.data[key].storage)
-                        }
-                    }
-                    _this.hideLoading();
+                if(_this.judgeTrue(res.data)){
+
                 }else{
                     _this.hideLoading();
                     // _this.showLoading("error","暂无价格数据");
@@ -234,7 +218,45 @@ var blackList = PFT.Util.Class({
     /**
      * @Object 缓存仓库
      */
-    cacheHub: {}
+    cacheHub: {},
+
+    /**
+     * @mehtod 判断真假
+     */
+    judgeTrue: function( param ) {
+        var type = Object.prototype.toString.call(param);
+        switch (type){
+            case '[object Array]':
+                return param.length === 0 ?  !1 : !0 ;
+                break;
+            case '[object Object]':
+                var t;
+                for (t in param)
+                    return !0;
+                return !1;
+                break;
+            case '[object String]':
+                return param === '' ? !1 : !0 ;
+                break;
+            case '[object Number]':
+                return param === 0 ? !1 : !0 ;
+                break;
+            case '[object Boolean]':
+                return param === false ? !1 : !0;
+                break;
+            case '[object Null]':
+                return !1;
+                break;
+            case '[object Undefined]':
+                return !1;
+                break;
+            default :
+                return type;
+        }
+    }
+
+
+
 
 });
 
