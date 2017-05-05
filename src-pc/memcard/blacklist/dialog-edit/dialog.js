@@ -10,11 +10,12 @@ var editTpl = require("./edit.xtpl");
 //-----------modules------------
 var Dialog=require("COMMON/modules/dialog-simple");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
+var Select = require("COMMON/modules/select");
 
 
 var DialogModule = PFT.Util.Class({
     container: $("<div class='blackListDialogCon-edit'></div>"),
-    init: function () {
+    init: function (opt) {
         var _this = this;
         this.dial = new Dialog({
             width : 500,
@@ -26,6 +27,7 @@ var DialogModule = PFT.Util.Class({
             onCloseAfter : function(){
             }
         });
+        this.landListData = opt.landListData;
         this.dial.container.find(".gSimpleDialog-content").append(_this.container);
         this.container.html(editTpl);
         this.bind();
@@ -38,8 +40,26 @@ var DialogModule = PFT.Util.Class({
 
     bind: function () {
         var _this = this;
+        this.container.on("click" ,"#landInpEdit" ,function (e) {
+            var curInp = $(this);
+            //点击时才初始化产品选择框
+            if( !_this.landSelect ){
+                _this.landSelect = new Select({
+                    height:300,
+                    top:0,
+                    field : {
+                        id : "id",
+                        name : "title",
+                        keyword : "title"
+                    },
+                    trigger : $("#landInpEdit"),
+                    data: _this.landListData
+                });
+                curInp.click();
+            }
+        });
     }
 
 });
 
-module.exports = new DialogModule();
+module.exports =  DialogModule;

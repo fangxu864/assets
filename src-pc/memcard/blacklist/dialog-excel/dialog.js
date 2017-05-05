@@ -27,6 +27,7 @@ var DialogModule = PFT.Util.Class({
             onCloseAfter : function(){
             }
         });
+        
         this.dial.container.find(".gSimpleDialog-content").append(_this.container);
         this.container.html(leadingInTpl);
         this.bind();
@@ -34,7 +35,6 @@ var DialogModule = PFT.Util.Class({
     },
 
     show:function () {
-        this.container.html(editTpl);
         this.dial.open()
     },
 
@@ -44,4 +44,4 @@ var DialogModule = PFT.Util.Class({
     }
 });
 
-module.exports = new DialogModule();
+module.exports = DialogModule;
