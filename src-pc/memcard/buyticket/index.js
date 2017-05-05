@@ -6,7 +6,7 @@
 require("./index.scss");
 
 //-------------tpl--------------
-var frameTpl = require("./tpl/frameTpl.xtpl");
+var frameTpl = require("./tpl/frame.xtpl");
 
 //-----------modules------------
 var renderNav = require("../common/nav/index.js");

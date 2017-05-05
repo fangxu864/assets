@@ -6,12 +6,19 @@
 require("./index.scss");
 
 //-------------tpl--------------
-var frameTpl = require("./tpl/frameTpl.xtpl");
+var frameTpl = require("./tpl/frame.xtpl");
 
 //-----------modules------------
 var renderNav = require("../common/nav/index.js");
 var Pagination = require("COMMON/modules/pagination-x");
-var Dialog = require("./dialog/dialog.js");
+//增加黑名单
+var Dialog_add = require("./dialog-add/dialog.js");
+//导入excel
+var Dialog_excel = require("./dialog-excel/dialog.js");
+//编辑
+var Dialog_edit = require("./dialog-edit/dialog.js");
+var Select = require("COMMON/modules/select");
+
 
 var blackList = PFT.Util.Class({
 
@@ -30,6 +37,18 @@ var blackList = PFT.Util.Class({
         this.pagination.on("page.switch",function(toPage,currentPage,totalPage){
             _this.pagination.render({current:toPage,total:totalPage});
         });
+        
+        this.select2=new Select({
+            source : "/r/product_Product/getLand",
+            height:300,
+            field : {
+                id : "id",
+                name : "title",
+                keyword : "title"
+            },
+            trigger : $("#landInpMain"),
+            // data:[{id:1212,title:1212},{id:1212,title:1212}]
+        });
         this.bind()
     },
 
@@ -41,6 +60,9 @@ var blackList = PFT.Util.Class({
         this.container.on("click" ,".table-box .edit-btn" ,function (e) {
             Dialog.editShow();
 
+        });
+        this.container.on("click" ,".filter-box .add-btn" ,function (e) {
+            Dialog.addShow();
         })
     }
 

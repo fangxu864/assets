@@ -10,6 +10,7 @@ var frameTpl = require("./tpl/frame.xtpl");
 
 //--------modules-----
 var renderNav = require("./nav/index.js");
+var Detail = require("./detail/index.js");
 
 var packServe = PFT.Util.Class({
 
@@ -17,7 +18,8 @@ var packServe = PFT.Util.Class({
         var _this = this;
         this.container = $("#G-package-serve-wrap");
         this.container.html(frameTpl);
-        renderNav("6" , _this.container.find(".sec-nav-box"))
+        renderNav("6" , _this.container.find(".sec-nav-box"));
+        new Detail();
     }
 
 });

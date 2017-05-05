@@ -3,20 +3,17 @@
     <ul>
         <li class="inline-block-li">
             <span class="name">产品：</span>
-            <input type="text"/>
+            <input type="text" id="landInpMain"/>
         </li>
         <li class="inline-block-li">
             <span class="name">身份证：</span>
             <input type="text" style="width: 230px"/>
             <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
         </li>
-        <li class="inline-block-li">
-            <span class="name">姓名：</span>
-            <input type="text"/>
-        </li>
         <li class="inline-block-li" onselectstart="javascript: return false;">
             <span class="search-btn">搜索</span>
-            <span class="leading-in">导入</span>
+            <span class="add-btn">增加黑名单</span>
+            <span class="leading-in">导入Excel</span>
         </li>
 
     </ul>
