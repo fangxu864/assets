@@ -1,4 +1,4 @@
-<%if(p_type=="A" || p_type=="F" || p_type=="B"){%>
+<%if(p_type=="A" || p_type=="F" || p_type=="B" || p_type=="G"){%>
 
     <div class="formGroup datepicker begin">
         <div class="label">游玩日期</div>

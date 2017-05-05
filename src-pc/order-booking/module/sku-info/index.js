@@ -241,8 +241,6 @@ var SukInfo = PFT.Util.Class({
         if(pType=="C"){ //酒店类
             //离店时间
             result["leavetime"] = $.trim($("#hotelendTimeInp").val());
-            //房间数
-            result["tnum"] = $("#c_orderCountSelect").val();
         }
 
         if(pType=="H"){//演出类

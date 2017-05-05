@@ -1,6 +1,5 @@
 require("./index.scss");
 var Message = require("pft-ui-component/Message");
-var TicketModel = require("./ticket-model.js");
 var Common = require("../../common.js");
 
 var IndexTpl = require("./index.xtpl");
@@ -10,18 +9,30 @@ var TaoPiaoXtpl = require("./taopiaoList.xtpl");
 var Ajax_GetPriceStorageByDate = require("SERVICE/order-booking/getPriceStorageByDate");
 
 var TicketList = PFT.Util.Class({
-    model : new TicketModel(),
     template : PFT.Util.ParseTemplate(ListXtpl),
     originData : null,
     _moneyFixed : 2,
     pType : "",
-    init : function(){},
+    init : function(){
+        var that = this;
+        $(document).on("mouseenter","#cancelCostBox",function(e){
+            that.isInCancelCostBox = true;
+        })
+        $(document).on("mouseleave","#cancelCostBox",function(e){
+            that.isInCancelCostBox = false;
+            setTimeout(function(){
+                that.closeCancelCostBox();
+            },200)
+        })
+    },
     EVENTS : {
         "click .countBox .cBtn" : "onCountBtnClick",
         "focus .countBox .countInp" : "onCountInpFocus",
         "blur .countBox .countInp" : "onCountInpBlur",
         "blur .buyPriceInput" : "onBuyPriceInpBlur",
-        "focus .buyPriceInput" : "onBuyPriceInpFocus"
+        "focus .buyPriceInput" : "onBuyPriceInpFocus",
+        "mouseenter .cancelCostTooltip" : "onCancelCostTooltipHover",
+        "mouseleave .cancelCostTooltip" : "onCancelCostTooltipLeave"
     },
     onCountBtnClick : function(e){
         var tarBtn = $(e.currentTarget);
@@ -144,6 +155,45 @@ var TicketList = PFT.Util.Class({
         this.renderTicketMoney(tid);
         this.trigger("change",this.getTotalInfo());
 
+    },
+    //鼠标移动到退票手续费时
+    onCancelCostTooltipHover : function(e){
+
+        if($("#cancelCostBox").length>0) return false;
+
+        var tarTrigger = $(e.currentTarget);
+        var offset = tarTrigger.offset();
+        var top = offset.top + 18;
+        var left = offset.left + 10;
+        var cancelCostList = tarTrigger.parent().children(".cancelCostList");
+        var body = $("body");
+        var hoverBox = $('<div id="cancelCostBox" class="cancelCostBox"><span class="triBtn"></span><div class="con"></div></div>');
+        body.append(hoverBox);
+
+        hoverBox.find(".con").html(cancelCostList.html());
+
+        hoverBox.css({
+            top : top + 20,
+            left : left - (hoverBox.width()/2),
+            opacity : 0
+        }).show().animate({top:top,opacity:1},100);
+
+    },
+    onCancelCostTooltipLeave : function(e){
+        var that = this;
+        setTimeout(function(){
+            if(that.isInCancelCostBox) return false;
+            that.closeCancelCostBox();
+        },200)
+    },
+    closeCancelCostBox : function(){
+        var box = $("#cancelCostBox");
+        var top = box.css("top");
+        top = top.substr(0,top.length-2);
+        top = top * 1;
+        box.animate({top:top+20,opacity:0},100,function(){
+            box.remove();
+        })
     },
     /**
      * 增加票数，点击加号按钮

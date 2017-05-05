@@ -41,7 +41,7 @@
   //向上
   @if $direction == up {
     border-bottom-color: $color;
-    border-bottom-width: $size*1.732/2;
+    border-bottom-width: $size*1.4/2;
     border-left-width: $size/2;
     border-right-width: $size/2;
     border-top-width: 0;
@@ -50,7 +50,7 @@
     //向右
   @else if $direction == right {
     border-left-color: $color;
-    border-left-width: $size*1.732/2;
+    border-left-width: $size*1.4/2;
     border-top-width: $size/2;
     border-bottom-width: $size/2;
     border-right-width: 0;
@@ -62,7 +62,7 @@
     border-bottom-width: 0;
     border-left-width: $size/2;
     border-right-width: $size/2;
-    border-top-width: $size*1.732/2;
+    border-top-width: $size*1.4/2;
   }
 
     //向左
@@ -71,7 +71,7 @@
     border-left-width: 0;
     border-top-width: $size/2;
     border-bottom-width: $size/2;
-    border-right-width: $size*1.732/2;
+    border-right-width: $size*1.4/2;
   }
 }
 

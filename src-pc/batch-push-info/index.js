@@ -102,7 +102,7 @@ var Main = PFT.Util.Class({
             Message.alert("请导入excel文件");           
             return false
         }
-        var rec_type = $("infoReceiver").attr("data-type");//接收类型
+        var rec_type = $("#infoReceiver").attr("data-type");//接收类型
         if( rec_type == "infoReceiver1" ){
             rec_type = "0";
         }else if( rec_type == "infoReceiver2" ){
