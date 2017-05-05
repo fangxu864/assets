@@ -14,7 +14,6 @@ var common_contact_tpl = require("./tpl/common-contact.xtpl");
 
 
 
-
 var Contact = PFT.Util.Class({
 
     init:function (opt) {},
@@ -151,7 +150,7 @@ var Contact = PFT.Util.Class({
                     Message.error('请求出错')
                 }
             });
-        })
+        });
 
 
     },
@@ -298,6 +297,31 @@ var Contact = PFT.Util.Class({
         return obj;
     },
 
+    //当身份证excel文件上传完成后执行此方法
+    onIDCardExcelUploadSuccess : function(res){
+        var code = res.code;
+        var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+        var data = res.data;
+        if(code==200){ //成功
+            var listUl = $("#touristListUl");
+            var items = listUl.children();
+            for(var i=0,len=data.length; i<len; i++){
+                var item = data[i];
+                items.eq(i).find(".name-inp").val(item.name);
+                items.eq(i).find(".idNum-inp").val(item.cardNum);
+            }
+        }else if(code==102){//登录过期
+            Message.alert("登录状态已过期，请重新登录","",{
+                onCloseAfter : function(){
+                    window.location.href = PFT.PREFIX_DOMAIN() + "dlogin_n.html";
+                }
+            })
+        }else{
+            Message.alert(msg);
+        }
+    },
+
+
     //-------------------对外开放的方法-------------------//
     renderTouristList : function(count){
         var touristListContainer = this.container.find(".tourist-info-box");
@@ -357,7 +381,14 @@ var Contact = PFT.Util.Class({
 
     },
 
+
+
     render : function(data){
+        //把外层模块传进来的data存起来
+        this.data = data;
+
+        if(data.needID==2) window["onIDCardExcelUploadSuccess"] = this.onIDCardExcelUploadSuccess;
+
         this.container.html(IndexTemplate(data));
         this.bind();
         this.getContactData();
@@ -367,12 +398,25 @@ var Contact = PFT.Util.Class({
     /**
      * @method 获取联系人模块的表单数据
      */
-    getData:function () {
+
+     //获取信息这个方法，由于业务需求上的新更，需要新增身分证excel文件上传功能  
+     //由于上传excel文件目前只能用form表单提交上传
+     //这样一来，这个模块里就存在2个form，并且是嵌套关系，会有问题
+     //所以，这个模块最外层的form#contactInfoForm需要去掉或移到其它地方
+    getData:function (){
         var inpSet = this.container.find("input[data-must = true]");
         var res = this.checkInp(inpSet);
         if(!res) return false;
-        var params = this.container.find("#contactInfoForm").serialize();
-        params = this.deSerialize(params);
+        var params = {};
+        var tourListInfoForm = $("#tourListInfoForm");
+        if(tourListInfoForm.length){ //如果存在tourListInfoForm表单，说明是needID==2的情况
+            params = $("#tourListInfoForm").serialize();
+            params = this.deSerialize(params);
+        }
+        params["ordername"] = $.trim($("#contact_ordernameInp").val());
+        params["ordertel"] = $.trim($("#contact_mobileInp").val());
+        params["memoInp"] = $.trim($("#contact_memoInp").val());
+        if($("#contact_idcardInp").length>0) params["idCard"] = $.trim($("#contact_idcardInp").val());
         return params;
     }
 

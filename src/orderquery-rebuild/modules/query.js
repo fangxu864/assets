@@ -207,6 +207,7 @@ var Query = RichBase.extend({
 						time: 1000,
 						tipsMore: true
 					});
+					return false;
 				}else{
 					var isValid = ValidatRule.idcard(idcard);
 					// isValid = {
@@ -220,11 +221,10 @@ var Query = RichBase.extend({
 							time: 1000,
 							tipsMore: true
 						});
+						return false;
 					}
 				}
 			}
-
-
 		}
 
 

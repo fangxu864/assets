@@ -96,7 +96,7 @@ var Main = PFT.Util.Class({
             var footTotal = this.footTotal = new FootTotal({container:"#footTotalMod"}).render(footTotalData);
             ticketList.on("change",function(data){ 
                 footTotal.render(data);
-                payType.refresh(data.ls);
+                payType.refresh(data.js);
                 if(needID==2) contact.renderTouristList(data.count);
             });
         }else{ //酒店类
@@ -139,12 +139,16 @@ var Main = PFT.Util.Class({
                 ls : data.ls,
                 canOrder : data.canOrder
             });
-            payType.refresh(data.ls);
+            payType.refresh(data.js);
             if(needID==2) contact.renderTouristList(data.count);
         });
         
 
         var extraDesc = this.extraDesc = new ExtraDesc({container:"#extraDescMod",data:data}).render();
+
+        var totalInfo = footTotal.getTotalInfo();
+        totalInfo && payType.refresh(totalInfo.js);
+
 
     },
     sumbitOrder : function(submitBtn){
@@ -152,7 +156,13 @@ var Main = PFT.Util.Class({
         var pType = this.pType;
         var skuData = this.skuInfo.getSubmitData();
         var ticketListData = {};
-        if(pType!=="C") ticketListData = this.ticketList.getSubmitData();
+        if(pType!=="C"){
+            ticketListData = this.ticketList.getSubmitData();
+        }else{
+            ticketListData["pids"] = {};
+            var pid = Common.getPidAid().pid;
+            ticketListData["pids"][pid] = $("#c_orderCountSelect").val();
+        }
 
         var contactData = this.contact.getData();
 

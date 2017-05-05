@@ -5,6 +5,7 @@ var FootTotal = PFT.Util.Class({
     EVENTS : {
         "click #submitOrderBtn" : "onSubmitOrderBtnClick"
     },
+    totalInfo : null,
     init : function(opt){},
     onSubmitOrderBtnClick : function(e){
         var tarBtn = $(e.currentTarget);
@@ -13,6 +14,7 @@ var FootTotal = PFT.Util.Class({
     },
     render : function(totalInfo){
         var that = this;
+        this.totalInfo = totalInfo;
         this.container.html(Template(totalInfo));
         return this;
     },
@@ -23,6 +25,9 @@ var FootTotal = PFT.Util.Class({
     enableSubmit : function(){
         $("#submitOrderBtn").removeClass("disable");
         return this;
+    },
+    getTotalInfo : function(){
+        return this.totalInfo ? PFT.Util.Clone(this.totalInfo) : null;
     }
 });
 

@@ -126,18 +126,74 @@
 
 }
 
+
+#tourInfoTopTitWrap{ width: 100%; overflow: hidden}
+#tourInfoTopTitWrap .titLabel{ float:left;}
+#tourInfoTopTitWrap .exportIDCardWrap{ float:left;}
 #exportEnterBtn{
-    padding: 7px 20px;
+    position: relative;
+    display: block;
+    float: left;
+    width: 110px;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
     background: #2A98DA;
     color: #fff;
     font-weight: normal;
     cursor: pointer;
-    margin: 0 5px;
-    &:hover{
-        background: darken(#2A98DA,3%)
-    }
+    margin: 10px 10px 0 20px;
 }
-.exportEnterTip{
+#exportEnterBtn .t{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer
+}
+#exportFileInput{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    z-index: 10;
+    width: 300px;
+    cursor: pointer;
+    font-size: 60px;
+    opacity: 0;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; 
+    filter: alpha(opacity=0); 
+}
+#exportEnterBtn:hover{ background: #248ecd}
+#exportEnterTip{
+    float: left;
     color: #999;
     font-weight: normal
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
