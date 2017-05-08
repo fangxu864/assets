@@ -28,8 +28,18 @@ var TicketList = PFT.Util.Class({
     EVENTS : {
         "click .countBox .cBtn" : "onCountBtnClick",
         "focus .countBox .countInp" : "onCountInpFocus",
-        "blur .countBox .countInp" : "onCountInpBlur",
-        "blur .buyPriceInput" : "onBuyPriceInpBlur",
+        "blur .countBox .countInp" : function(e){
+            var that = this;
+            setTimeout(function(){
+                that.onCountInpBlur(e);
+            },200)
+        },
+        "blur .buyPriceInput" : function(e){
+            var that = this;
+            setTimeout(function(){
+                that.onBuyPriceInpBlur(e);
+            },200)
+        },
         "focus .buyPriceInput" : "onBuyPriceInpFocus",
         "mouseenter .cancelCostTooltip" : "onCancelCostTooltipHover",
         "mouseleave .cancelCostTooltip" : "onCancelCostTooltipLeave"
@@ -460,7 +470,69 @@ var TicketList = PFT.Util.Class({
         
         return this;
     },
+    validatSubmitData : function(){
+        var result = true;
+        this.container.find(".ticketItem").each(function(item,index){
+            var $this = $(this);
+            var countInp = $this.find(".countInp");
+            var buyPriceInput = $this.find(".buyPriceInput");
+            var salePrice = buyPriceInput.val();
+            var jsprice = buyPriceInput.attr("data-jsprice")*1;
+            salePrice = $.trim(salePrice)*1;
+
+            var isMain = countInp.attr("data-ismain");
+            var val = $.trim(countInp.val());
+            val = String(val*1);
+
+            var buy_limit_up = countInp.attr("data-buylimitup") * 1;
+            var buy_limit_low = countInp.attr("data-buylimitlow") * 1;
+            var storage = countInp.attr("data-storage")*1;
+
+            if(salePrice<jsprice){ //判断售价是否小于结算价
+                result = false;
+                return false;
+            }
+
+            if(isMain=="true" && !PFT.Util.Validate.typeInit(val)){
+                result = false;
+                return false
+            }
+
+            if(isMain=="false" && !PFT.Util.Validate.typeInit0(val)){
+                result = false;
+                return false
+            }
+
+            //主票不能为0
+            if(val==0 && isMain=="true"){
+                result = false;
+                return false
+            }
+
+            // 最小购买数
+            if(val*1<buy_limit_low && val!=0){
+                result = false;
+                return false
+            }
+
+            //不能超出库存
+            if(val*1>storage && storage!=-1){
+                result = false;
+                return false
+            }
+
+            if(val*1>buy_limit_up && buy_limit_up!=0){
+                result = false;
+                return false
+            }
+
+        });
+        return result;
+    },
     getSubmitData : function(){
+
+        if(!this.validatSubmitData()) return false;
+
         var result = {};
         var pType = this.pType;
         //演出类产品，旧版的页面是直接form submit
@@ -468,12 +540,19 @@ var TicketList = PFT.Util.Class({
         var pidKey = "pids";
 
         var pids = result[pidKey] || (result[pidKey]={});
+        var salePrice = result["sale_price"] || (result["sale_price"]={});
 
         this.container.find(".ticketItem").each(function(item,index){
             var $this = $(this);
+            var countInp = $this.find(".countInp");
+            var buyPriceInput = $this.find(".buyPriceInput");
             var zoneId = $this.attr("data-zoomid"); //分区id
             var pid = $this.attr("data-pid");
-            var count = $this.find(".countInp").val();
+            var count = countInp.val();
+            var _salePrice = buyPriceInput.val();
+            var jsprice = buyPriceInput.attr("data-jsprice")*1;
+            _salePrice = $.trim(_salePrice)*1;
+            salePrice[pid] = _salePrice;
             pids[pid] = $.trim(count);
             if(pType=="H"){ //演出类产品要多传一个area_id
                 result["area_id"] = zoneId;

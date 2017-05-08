@@ -1,0 +1,39 @@
+#linkTicketPopCon{
+    position: relative;
+    padding-left: 15px;
+    .line{
+        width: 100%;
+        overflow: hidden;
+        clear: both;
+        padding: 10px 0;
+
+        .label{
+            float: left;
+            width: 100px;
+        }
+
+        .rt{
+            float: left;
+        }
+
+    }
+
+    .searchProdInput{
+        width: 360px;
+        height: 22px;
+        line-height: 22px;
+        padding: 7px;
+        border: 1px solid #e5e5e5;
+        background: #fff;
+        box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+    }
+
+    .searchResultList{
+        width: 380px;
+        height: 300px;
+        overflow: auto;
+    }
+
+
+
+}

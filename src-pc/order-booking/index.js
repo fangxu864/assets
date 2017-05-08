@@ -158,6 +158,7 @@ var Main = PFT.Util.Class({
         var ticketListData = {};
         if(pType!=="C"){
             ticketListData = this.ticketList.getSubmitData();
+            if(!ticketListData) return false;
         }else{
             ticketListData["pids"] = {};
             var pid = Common.getPidAid().pid;
@@ -189,7 +190,8 @@ var Main = PFT.Util.Class({
                 var status = res.status;
                 var msg = res.msg || PFT.AJAX_ERROR_TEXT;
                 if(status=="success"){
-                    Message.alert("订单提交成功");
+                    //后端返回的msg是这样的：orderSuc.html?ordernum=4006632&ot=8db4a9734300249615bdc601897d6885
+                    window.location.href = PFT.PREFIX_DOMAIN() + msg;
                 }else{
                     Message.error(msg);
                 }

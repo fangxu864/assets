@@ -172,6 +172,7 @@ module.exports = function(params,opt){
 			var code = res.code;
 			var data = res.data;
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+			var ptype = data.p_type;
 			var extra = {};
 			if(code==200){
 				var validTime = data.validTime;
@@ -215,7 +216,15 @@ module.exports = function(params,opt){
 				if(refund_rule==1){
 					extra["refund_rule"] = "有效期前"+refund_early_time+"可退";
 				}else if(refund_rule==0){
-					extra["refund_rule"] = "游玩日期前可退";
+					if(ptype=="C"){
+						extra["refund_rule"] = "入住日期前可退";
+					}else if(ptype=="G"){
+						extra["refund_rule"] = "用餐日期前可退";
+					}else if(ptype=="H"){
+						extra["refund_rule"] = "演出日期前可退";
+					}else{
+						extra["refund_rule"] = "游玩日期前可退";
+					}
 				}else if(refund_rule==2){
 					extra["refund_rule"] = "不可退";
 				}
