@@ -199,7 +199,7 @@ var Query = RichBase.extend({
 
 			//2017-05-04  huangzy
 			//如果是选择用身份证来搜索，要先验证此身份证是否合法
-			if(data.select_type==9){ //如果是按身份证号搜索 
+			if(data.select_type==9){ //如果是按身份证号搜索
 				var idcard = $.trim($("#keywordInp").val());
 				if(!idcard){
 					layer.tips("要按身份证搜索，请输入身份证号", '#keywordInp', {

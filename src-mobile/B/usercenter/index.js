@@ -23,7 +23,7 @@ var UserCenter = PFT.Util.Class({
 
     MENU: {
         book: { url: 'plist.html', icon: ['icon-chanpinyuding', '#f37777'] },
-        order_search: { url: '', icon: ['icon-dingdan', '#0797d9'] },
+        orderquery: { url: 'order_query.html', icon: ['icon-dingdan', '#0797d9'] },
         poster: { url: 'poster_img_poster.html', icon: ['icon-haibaotuiguang', '#3eba40'] }
     },
 
