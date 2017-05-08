@@ -5,8 +5,7 @@
  */
 require("./index.scss");
 var Common = require("../../common.js");
-// var SDialog = require("./dialog-simple");
-var SDialog = require("./pft-ui-componet/Dialog");
+var SDialog = require("./dialog-simple");
 var dialogTpl = require("./index.xtpl");
 var Ajax = PFT.Util.Ajax;
 var AJAX_ERROR_TEXT = PFT.AJAX_ERROR_TEXT;
