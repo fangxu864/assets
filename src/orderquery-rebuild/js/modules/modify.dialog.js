@@ -86,9 +86,13 @@ var ModifyDialog = RichBase.extend({
 		var that = this;
 		var title = $("#landTit_"+ordernum).text();
 		var dialogTpl = $("#modTicDiaTpl").html();
-		var con = that.parseTemplate(dialogTpl,{ticketList:""});
+
+		var isIncreasable = tarBtn.attr('data-increasable'),
+			modRate = tarBtn.attr('data-mod-rate');
+
+		var con = that.parseTemplate(dialogTpl,{ ticketList: "", isIncreasable: isIncreasable, modRate: modRate });
 		var listTpl = $("#modTicDiaList").html();
-		if(!dialog) dialog = that.createDialog();
+		if(!dialog) dialog = that.createDialog( tarBtn );
 		dialog.open({
 			title : title,
 			content : con,
@@ -157,10 +161,15 @@ var ModifyDialog = RichBase.extend({
 			}
 		})
 	},
-	createDialog : function(){
+	createDialog : function( tarBtn ){
 		var self = this;
 		var dialogTpl = $("#modTicDiaTpl").html();
-		var con = this.parseTemplate(dialogTpl,{ticketList:""});
+
+		var isIncreasable = tarBtn.attr('data-increasable'),
+			modRate = tarBtn.attr('data-mod-rate');
+
+		var con = self.parseTemplate(dialogTpl,{ ticketList: "", isIncreasable: isIncreasable, modRate: modRate });
+
 		dialog = new PFT.Dialog({
 			content : con,
 			speed : dialog_speed,

@@ -29,6 +29,7 @@ var Main = PFT.Util.Class({
 
     init: function () {
         var urlParams = PFT.Util.UrlParse();
+        console.log(urlParams)
         var noAuto = urlParams["noAuto"];
         var _this = this;
         var search = window.location.search;
@@ -144,6 +145,8 @@ var Main = PFT.Util.Class({
         var mobile = $.trim( $('#inpPhone').val() ),
             vcode = $.trim( $('#inpCode').val() );
 
+        var urlParams = PFT.Util.UrlParse();
+
         if( !mobile || !vcode ) {
             Alert('手机号和验证码不能为空！');
             return false;
@@ -213,6 +216,8 @@ var Main = PFT.Util.Class({
 
     subLoginReq: function (mobile, pwd) {
         var _this=this;
+
+        var urlParams = PFT.Util.UrlParse();
 
         PFT.Util.Ajax("/r/MicroPlat_Member/login", {
             type: "POST",
