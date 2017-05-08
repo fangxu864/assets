@@ -50,10 +50,17 @@ module.exports = function(parent){
 			this.pieEchart = echarts.init(document.getElementById('pieEchart'));
 			this.barEchart = echarts.init(document.getElementById('barEchart'));
 			//窗口resize时 ，echarts重新渲染
+			//消抖
+			var debounceTimer = 0;
 			$(window).on("resize" , function () {
-				_this.lineEchart.resize();
-				_this.pieEchart.resize();
-				_this.barEchart.resize();
+				console.log("resize");
+				clearTimeout(debounceTimer);
+				debounceTimer = setTimeout(function () {
+					console.log("重置");
+					_this.lineEchart.resize();
+					_this.pieEchart.resize();
+					_this.barEchart.resize();
+				},200);
 			});
 			//数据懒加载，当出现在视窗中才开始加载
 			$("#G_Body").on("scroll.renderLineEchart" , function () {

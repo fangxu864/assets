@@ -2,6 +2,65 @@ var MinueToDayTime = require("COMMON/js/util.minuToDayTime");
 var CalendarCore = require("COMMON/js/calendarCore.js");
 
 
+//处理阶梯退票时的手续费
+var cancelCost = function(data){
+	if(!PFT.Util.isObject(data)) return data;
+	var cancelCost = data.cancel_cost;
+	var extra = data.extra || (data["extra"]={});
+	var reb = data.reb;
+	var rebType = data.reb_type;
+	var adaptReb = function(val,rebType){
+		var text = ""
+		if(rebType==1){ //1收取手续费元，0百分比,
+			text += reb/100 + "元";
+		}else{
+			text += "结算价的" + reb + "%";
+		}
+		return text;
+	};
+	var beginTimePerfix = (function(ptype){
+		return{
+			"A" : "游玩日期前",
+			"B" : "游玩日期前",
+			"C" : "入住时间前",
+			"F" : "游玩日期前",
+			"H" : "演出前",
+			"G" : "用餐日期前"
+		}[ptype]
+	})(data.p_type);
+	extra["cancel_cost"] = [];
+
+	var pr = cancelCost.length==0 ? "" : "最低";
+	extra.cancel_cost.push(pr+"退票手续费为"+adaptReb(reb,rebType));
+
+	if(reb==0){
+		extra["reb"] = "无";
+	}else if(cancelCost.length==0){
+		if(rebType==1){ //1收取手续费元，0百分比,
+			extra["reb"] = reb/100 + "元";
+		}else{
+			extra["reb"] = reb + "%";
+		}
+	}else{
+		extra["reb"] = "阶梯收费";
+	}
+
+	for(var i=0,len=cancelCost.length; i<len; i++){
+		var item = cancelCost[i];
+		var time = item.c_days;
+		var type = item.c_type;
+		var cost = item.c_cost;
+		var html = "";
+		html += beginTimePerfix;
+		html += MinueToDayTime(time)+"内，退票手续费为" + adaptReb(cost,type)
+		extra.cancel_cost.push(html);
+	}
+
+
+	return data;
+
+};
+
 
 
 
@@ -115,8 +174,6 @@ module.exports = function(params,opt){
 			var msg = res.msg || PFT.AJAX_ERROR_TEXT;
 			var extra = {};
 			if(code==200){
-				
-
 				var validTime = data.validTime;
 				if(validTime==0){
 					extra["validTime"] = "仅当天有效";
@@ -128,7 +185,6 @@ module.exports = function(params,opt){
 						extra["validTime"] = (pre+validTime+"内有效");
 					}
 				}
-
 				//验证时间（全天都可验时，不显示）
 				//"verifyTime": -1  -1表示不限验证时间, [0,1,3,4,5,6]表示周一周二周四周五周六周日可验, 2016-08-01~2016-08-10表示此时间段可验
 				var verifyTime = data.verifyTime;
@@ -163,23 +219,10 @@ module.exports = function(params,opt){
 				}else if(refund_rule==2){
 					extra["refund_rule"] = "不可退";
 				}
-
-
-				var reb = data.reb;
-				var reb_type = data.reb_type;
-
-				if(reb_type==1){ //1收取手续费元，0百分比,
-					extra["reb"] = reb/100 + "元";
-				}else{
-					extra["reb"] = reb + "%";
-				}
-
+				
 				//如果是酒店类产品添加默认离店时间
 				extra["endDate"] = CalendarCore.nextDay(data.startDate);
 				
-
-
-
 				//涉及到钱的，后端都是以分单位返回，前端需要显示成元
 				var tickets = data.tickets;
 				for(var i=0,len=tickets.length; i<len; i++){
@@ -206,6 +249,8 @@ module.exports = function(params,opt){
 				}
 
 				data["extra"] = extra;
+
+				data = cancelCost(data);
 
 				opt.success(data);
 

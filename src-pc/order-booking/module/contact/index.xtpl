@@ -1,95 +1,57 @@
-<form id="contactInfoForm">
-    <div class="contact-info-box clearfix">
-        <div class="title">取票人信息<span class="remark">(请准确填写，以便接收订单短信)</span></div>
-        <div class="lt">
-            <ul>
-                <li class="line">
-                    <span class="w70"><i class="colorRed">*</i>取票人：</span>
-                    <input class="" name="ordername" type="text" data-must="true" validate-type="name"/>
-                </li>
-                <li class="line">
-                    <span class="w70"><i class="colorRed">*</i>手机号：</span>
-                    <input class="" name="ordertel" type="text" data-must="true" validate-type="mobile"/>
-                </li>
-                <%if(needID==1){%>
-                <li class="line id-card-li">
-                    <span class="w70"><i class="colorRed">*</i>身份证：</span>
-                    <input class="" name="idCard" type="text" data-must="true" validate-type="idCard"/>
-                </li>
-                <%}%>
-                <li class="line">
-                    <span class="w70">订单备注：</span>
-                    <input class="" name="memo" type="text"/>
-                </li>
-                <li class="line">
-                    <a href="javascript:void(0)" class="saveUserBtn">保存至常用取票人</a>
-                </li>
-            </ul>
-        </div>
-        <div class="rt">
-            <p class="min-title">常用取票人</p>
-            <ul class="contact-ul">
-                <li class="contact-li selected">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-                <li class="contact-li">
-                    <span class="nDetail" tel="15859161727" idcards="" title="ping">ping</span>
-                    <span class="iconfont activeIcon" tel="15859161727" contato="ping"></span>
-                </li>
-            </ul>
-        </div>
+<div class="contact-info-box clearfix">
+    <div class="title">取票人信息<span class="remark">(请准确填写，以便接收订单短信)</span></div>
+    <div class="lt">
+        <ul>
+            <li class="line">
+                <span class="w70"><i class="colorRed">*</i>取票人：</span>
+                <input id="contact_ordernameInp" class="" name="ordername" type="text" data-must="true" validate-type="name"/>
+            </li>
+            <li class="line">
+                <span class="w70"><i class="colorRed">*</i>手机号：</span>
+                <input id="contact_mobileInp" class="" name="ordertel" type="text" data-must="true" validate-type="mobile"/>
+            </li>
+            <%if(needID==1){%>
+            <li class="line id-card-li">
+                <span class="w70"><i class="colorRed">*</i>身份证：</span>
+                <input id="contact_idcardInp" class="" name="idCard" type="text" data-must="true" validate-type="idCard"/>
+            </li>
+            <%}%>
+            <li class="line">
+                <span class="w70">订单备注：</span>
+                <input id="contact_memoInp" class="" name="memo" type="text"/>
+            </li>
+            <li class="line">
+                <a href="javascript:void(0)" class="saveUserBtn">保存至常用取票人</a>
+            </li>
+        </ul>
     </div>
-    <%if(needID==2){%>
-        <div class="tourist-info-box clearfix">
-            <div class="title">
+    <div class="rt">
+        <p class="min-title">常用取票人</p>
+        <ul class="contact-ul"></ul>
+    </div>
+</div>
+<%if(needID==2){%>
+    <div class="tourist-info-box clearfix">
+        <div id="tourInfoTopTitWrap" class="title">
+            <div class="titLabel">
                 <i class="colorRed">*</i>游客信息
                 <span class="remark">(每张票提供相关游客信息)</span>
-                <span id="exportEnterBtn" class="exportEnterBtn">从格表中导入</span>
-                <span class="exportEnterTip">表格格式:列一姓名，列二身份证号码</span>
             </div>
-            <ul id="touristListUl" class="name-idNum-ul">
-            </ul>
+            <div id="exportIDCardWrap" class="exportIDCardWrap">
+                <iframe name="iframefileupload" style="display:none" frameborder="0" class="fileupload_iframe"></iframe>
+                <form id="exportIDCardForm" enctype="multipart/form-data" method="post" target="iframefileupload" action="/r/Book_Booking/convertIdCardExcel">
+                    <label for="exportFileInput" class="exportEnterBtn" id="exportEnterBtn">
+                        <span class="t">从表格中导入</span>
+                        <!-- .csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet -->
+                        <input name="convert_excel" accept=".xls,.xlsx" id="exportFileInput" class="exportFileInput" type="file">
+                        <input type="hidden" class="callbackHidInp" name="callback" value="onIDCardExcelUploadSuccess">
+                    </label>
+                    <span id="exportEnterTip" class="exportEnterTip">表格格式：列一姓名，列二身份证号码 （只支持 .xsl，.xslx格式）</span>
+                </form>
+            </div>
         </div>
-    <%}%>
-</form>
+        <form id="tourListInfoForm">
+            <ul id="touristListUl" class="name-idNum-ul"></ul>
+        </form>
+    </div>
+<%}%>

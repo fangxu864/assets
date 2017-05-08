@@ -1,0 +1,45 @@
+<div class="nav-box"></div>
+<div class="filter-box">
+    <ul>
+        <li class="inline-block-li">
+            <span class="name">产品：</span>
+            <input type="text" id="landInpMain" class="land-inp"/>
+        </li>
+        <li class="inline-block-li">
+            <span class="name">身份证：</span>
+            <input type="text" style="width: 230px" class="id-card-inp"/>
+            <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
+        </li>
+        <li class="inline-block-li" onselectstart="javascript: return false;">
+            <span class="search-btn">搜索</span>
+            <span class="add-btn">增加黑名单</span>
+            <span class="leading-in">导入Excel</span>
+        </li>
+
+    </ul>
+</div>
+<div class="table-box">
+    <table class="main-tb">
+        <thead>
+            <tr>
+                <th class="th1">产品</th>
+                <th class="th2">姓名</th>
+                <th class="th3">身份证</th>
+                <th class="th4">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="th1">福建太姥山景区</td>
+                <td class="th2">张三</td>
+                <td class="th3">45457752121556785</td>
+                <td class="th4">
+                    <span class="edit-btn">编辑</span>
+                    <span class="delete-btn">删除</span>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div class="pag-box clearfix"></div>

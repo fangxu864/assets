@@ -3,10 +3,27 @@
  */
 
 //---------css--------
-// require("./index.scss");
+require("./index.scss");
+
+//---------tpl--------
+var frameTpl = require("./tpl/frame.xtpl");
+
 //--------modules-----
 var renderNav = require("./nav/index.js");
+var Detail = require("./detail/index.js");
+
+var packServe = PFT.Util.Class({
+
+    init: function () {
+        var _this = this;
+        this.container = $("#G-package-serve-wrap");
+        this.container.html(frameTpl);
+        renderNav("6" , _this.container.find(".sec-nav-box"));
+        new Detail();
+    }
+
+});
 
 $(function () {
-    renderNav("6" , $("#G-package-serve-wrap"))
+    new packServe();
 });
