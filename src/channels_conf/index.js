@@ -657,6 +657,7 @@ var BatchConfigChannel = {
  *  @desc   新产品渠道默认设置 供应商默认关，分销商默认开  http://bug.12301.test/index.php?m=task&f=view&task=368
  **/
 var SetDefultConf = {
+    isLoading : false,
     init : function(){
         var defUrL = "/r/product_Channel/getDefaultSet";
         this.defSetBtn = $("#defSetBtn");
@@ -675,21 +676,37 @@ var SetDefultConf = {
         this.defBtnStatus = !this.defBtnStatus;
         if(tarBtn.hasClass("slide")) tarBtn = tarBtn.parent();
         if(tarBtn.hasClass("disable")) return false;
+
+        var action = tarBtn.hasClass("on") ? "close" : "open";
+        var url = action=="open" ? "/r/product_Channel/openDefaultSet" : "/r/product_Channel/closeDefaultSet";
+
         tarBtn.toggleClass("on");
-        if(this.defBtnStatus){
-            var openDefUrl="/r/product_Channel/openDefaultSet";
-            this.defBtnAjax(openDefUrl,"get",{},1)
-        }else{
-            var closeDefUrl="/r/product_Channel/closeDefaultSet";
-            this.defBtnAjax(closeDefUrl,"get",{},1)
-        }
+
+        this.defBtnAjax(url,"post",{},1);
+
+        // if(this.defBtnStatus){
+        //     var openDefUrl="/r/product_Channel/openDefaultSet";
+        //     this.defBtnAjax(openDefUrl,"post",{},1)
+        // }else{
+        //     var closeDefUrl="/r/product_Channel/closeDefaultSet";
+        //     this.defBtnAjax(closeDefUrl,"post",{},1)
+        // }
     },
     defBtnAjax:function(url,type,params,urlIndex){
         var that = this;
+
+        if(this.isLoading) false;
+
         $.ajax({
             url: url,
             type: type,
             data:params,
+            beforeSend : function(){
+                that.isLoading = ture;
+            },
+            complete : function(){
+                that.isLoading = false;
+            },
             success:function(data){
                 if(urlIndex == 0){
                     if(data.data.status == 0){
@@ -701,7 +718,6 @@ var SetDefultConf = {
                     }
                 }else if(urlIndex == 1){
                 }
-
             }
         })
     }

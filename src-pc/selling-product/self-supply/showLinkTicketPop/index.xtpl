@@ -8,9 +8,9 @@
         <div class="rt">
             <span class="SearchTri"><i class="icon-search icon-u-bold sicon"></i></span>
             <input type="text" name="" class="searchProdInput" id="searchProdInput" placeholder="请输入产品名称">
-            <div class="searchResultList">
+            <ul id="searchResultListWrap" class="searchResultList">
 
-            </div>
+            </ul>
         </div>
     </div>
 </div>
