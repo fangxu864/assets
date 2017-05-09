@@ -665,15 +665,12 @@ var SetDefultConf = {
         this.bindEvents();
         this.defBtnAjax(defUrL,{
             success:function(data){
-             if(data.data.status == 0){
+             if(data.status == 0){
                     that.defSetBtn.removeClass('on');
-                }else if(data.data.status == 1){
+                }else if(data.status == 1){
                      that.defSetBtn.addClass('on');   
                 }
-            },
-            error:function(data){
-                alert.log(data.msg);
-            },
+            }
         });
     },
     bindEvents : function(){
@@ -694,19 +691,14 @@ var SetDefultConf = {
                     that.isLoading = true;
                 },
                 success:function(data){
-                    if(data.code != 200)
-                    {
-                        alert(data.msg);
-                    }else {
-                        tarBtn.toggleClass("on");
-                    }
+                    tarBtn.toggleClass("on");
                 },
                 complete:function(){
                     that.isLoading = false;
                 },
                 error:function(data){
                      alert(data.msg);
-                },
+                }
             });
         }
        
@@ -725,7 +717,7 @@ var SetDefultConf = {
             },
             error:function(){
 
-            },
+            }
         };
         var optCallBack=$.extend(defalutCallBck,opt);
         $.ajax({
@@ -734,15 +726,25 @@ var SetDefultConf = {
             beforeSend:function(){
                 optCallBack.beforeSend();
             },
-            success:function(data){
-                optCallBack.success(data);
+            success:function(res){
+                var code = res.code;
+                var data = res.data;
+                if(code==200){
+                    optCallBack.success(data);
+                }else{
+                    alert(res.msg || "请求出错，请稍后重试");
+                }
             },
             complete:function(){
                 optCallBack.complete();
             }, 
-            error:function(data){
-                console.log(data.msg);
-            },
+            error:function(xhr,errorText){
+                if(errorText=="timeout"){
+                    alert("请求超时，请稍后重试");
+                }else{
+                    alert("请求出错，请稍后重试");
+                }
+            }
         })
     }
 
