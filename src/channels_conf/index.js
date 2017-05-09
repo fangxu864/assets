@@ -657,12 +657,24 @@ var BatchConfigChannel = {
  *  @desc   新产品渠道默认设置 供应商默认关，分销商默认开  http://bug.12301.test/index.php?m=task&f=view&task=368
  **/
 var SetDefultConf = {
+    isLoading:false,
     init : function(){
+        var that = this;
         var defUrL = "/r/product_Channel/getDefaultSet";
         this.defSetBtn = $("#defSetBtn");
-        this.defBtnStatus = false;
         this.bindEvents();
-        this.defBtnAjax(defUrL,"get",{},0);
+        this.defBtnAjax(defUrL,{
+            success:function(data){
+             if(data.data.status == 0){
+                    that.defSetBtn.removeClass('on');
+                }else if(data.data.status == 1){
+                     that.defSetBtn.addClass('on');   
+                }
+            },
+            error:function(data){
+                console.log(data.msg);
+            },
+        });
     },
     bindEvents : function(){
         var that = this;
@@ -672,37 +684,65 @@ var SetDefultConf = {
     },
     onDefSetBtnClick : function(e){
         var tarBtn = $(e.target);
-        this.defBtnStatus = !this.defBtnStatus;
+        var that = this;
         if(tarBtn.hasClass("slide")) tarBtn = tarBtn.parent();
         if(tarBtn.hasClass("disable")) return false;
-        tarBtn.toggleClass("on");
-        if(this.defBtnStatus){
-            var openDefUrl="/r/product_Channel/openDefaultSet";
-            this.defBtnAjax(openDefUrl,"get",{},1)
-        }else{
-            var closeDefUrl="/r/product_Channel/closeDefaultSet";
-            this.defBtnAjax(closeDefUrl,"get",{},1)
+        var url = tarBtn.hasClass('on') ? '/r/product_Channel/closeDefaultSet':'/r/product_Channel/openDefaultSet';
+        if(!this.isLoading){
+            this.defBtnAjax(url,{
+                beforeSend:function(){
+                    that.isLoading = true;
+                },
+                success:function(data){
+                    if(data.code != 200)
+                    {
+                        alert(data.msg);
+                    }else {
+                        tarBtn.toggleClass("on");
+                    }
+                },
+                complete:function(){
+                    that.isLoading = false;
+                },
+                error:function(data){
+                     alert(data.msg);
+                },
+            });
         }
+       
     },
-    defBtnAjax:function(url,type,params,urlIndex){
+    defBtnAjax:function(url,opt){
         var that = this;
+        var defalutCallBck = {
+            beforeSend:function(){
+
+            },
+            complete:function(){
+
+            },
+            success:function(){
+
+            },
+            error:function(){
+
+            },
+        };
+        var optCallBack=$.extend(defalutCallBck,opt);
         $.ajax({
             url: url,
-            type: type,
-            data:params,
+            type: 'post',
+            beforeSend:function(){
+                optCallBack.beforeSend();
+            },
             success:function(data){
-                if(urlIndex == 0){
-                    if(data.data.status == 0){
-                        that.defSetBtn.removeClass('on');
-                        that.defBtnStatus = false;
-                    }else if(data.data.status == 1){
-                         that.defSetBtn.addClass('on');
-                         that.defBtnStatus = true;
-                    }
-                }else if(urlIndex == 1){
-                }
-
-            }
+                optCallBack.success(data);
+            },
+            complete:function(){
+                optCallBack.complete();
+            }, 
+            error:function(data){
+                console.log(data.msg);
+            },
         })
     }
 
