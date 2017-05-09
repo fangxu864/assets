@@ -282,3 +282,83 @@ tr.set_all_data {
 	font-size: 20px;
 	margin-left: 50px;
 } */
+
+
+.content .tabHead{background: #FFFFFF; border: 1px solid #E5E5E5; border-bottom: 0 none; height: 60px; }
+.serhW {background: #FFFFFF;}
+.content .tabHead li {font-size: 22px; line-height: 60px;}
+.serhW .con{padding-bottom: 30px;}
+.serhW .serhInp{width: 263px; height: 18px; line-height: 18px;  padding: 5px 8px; margin-left: 80px; position: relative; left: -1px;box-shadow:inset 0 1px 1px rgba(0,0,0,.075); -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+.serhW .serhInp:focus{border-color: #0797D9; color: #0797D9;}
+.selectW{margin-top: 10px; background: #FFFFFF;}
+.setbg {background: #F5F5F5;}
+.serhW .select_right{position: relative; }
+#conSelect{position: absolute; left:0; top:0; width: 130px; background: #FAFAFA;}
+.serhW select.select_buttom {height: 30px; line-height: 30px;} 
+.serhW select.select_top{width:175px; margin-right: 10px;}
+.serhW .serhBtn{height: 30px; line-height: 30px; -moz-border-radius: 3px; border-radius: 3px;}
+
+
+/* 假日模式时，不显示全部产品渠道配置按钮 */
+.holidayMode_SelHeadTop{ height: 50px; line-height: 50px; padding: 0 15px; margin-bottom: -11px; background: #fff; margin-top: 10px; border: 1px solid #e6e6e6}
+.holidayMode_SelHeadTop .selBtn{ padding: 6px 15px; border-radius: 3px; background: #E1E5E7; color: #797979;}
+
+
+
+
+
+/**
+ *	@date   2017-05-09
+ *	@author huangzhiyang
+ *  @desc   新产品渠道默认设置 供应商默认关，分销商默认开  http://bug.12301.test/index.php?m=task&f=view&task=368
+ **/
+#selectTopHeadUW{ 
+	overflow: hidden;
+
+	.newProductDefSet{
+		float: right;
+		margin-top: 5px;
+		margin-right: 17px;
+
+		.defSetBtn{
+			position: relative;
+			top: 4px;
+			display: inline-block;
+			height: 15px;
+			width: 44px;
+			margin-left: 5px;
+			background: #fff;
+			border:1px solid #999;
+			border-radius: 20px;
+			cursor: pointer;
+			
+
+			.slide{
+				display: block;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				width: 50%;
+				background: #999;
+				border-radius: 20px;
+				transition: left 0.2s ease-in-out;
+			}
+
+			&.on{
+				background: #3eba40;
+				border-color: #3eba40;
+				.slide{
+					left: 50%;
+					background: #fff;
+				}
+			}
+
+
+
+		}
+
+
+	}
+
+}

@@ -1,4 +1,4 @@
-require('../css/channels.css');
+require('./css/channels.scss');
 
 var Dialog = require("COMMON/modules/dialog-simple");
 
@@ -651,8 +651,35 @@ var BatchConfigChannel = {
 }
 
 
+/**
+ *	@date   2017-05-09
+ *	@author huangzhiyang
+ *  @desc   新产品渠道默认设置 供应商默认关，分销商默认开  http://bug.12301.test/index.php?m=task&f=view&task=368
+ **/
+var SetDefultConf = {
+    init : function(){
+        this.defSetBtn = $("#defSetBtn");
+        this.bindEvents();
+    },
+    bindEvents : function(){
+        var that = this;
+        this.defSetBtn.on("click",function(e){
+            that.onDefSetBtnClick(e);    
+        })
+    },
+    onDefSetBtnClick : function(e){
+        var tarBtn = $(e.target);
+        if(tarBtn.hasClass("slide")) tarBtn = tarBtn.parent();
+        if(tarBtn.hasClass("disable")) return false;
+        tarBtn.toggleClass("on");
+    }
+};
+
+
+
 $(function(){
     BatchConfigChannel.init();
+    SetDefultConf.init();
 });
 
 

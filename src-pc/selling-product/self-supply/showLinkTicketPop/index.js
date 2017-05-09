@@ -2,7 +2,7 @@
  * @Author: huangzhiyang 
  * @Date: 2017-05-08 11:30:56 
  * @Last Modified by: huangzhiyang
- * @Last Modified time: 2017-05-08 17:01:12
+ * @Last Modified time: 2017-05-09 09:37:01
  */
 
 require("./index.scss");
@@ -23,16 +23,28 @@ var ShowLinkTicketPop = Util.Class({
     onBindProdTicketBtnClick : function(e){
         this.open();
     },
+    onSearchProdInpChange : function(e){
+        var tarInp = $(e.currentTarget);
+        var val = $.trim(tarInp.val());
+        console.log(val);
+    },
     open : function(){
+        var that = this;
         if(!this.dialog){
             this.dialog = new Dialog({
-                width : 600,
+                width : 650,
                 top : 150,
                 title : "捆绑门票",
                 content : ConTpl,
                 drag : Drag,     //启用拖动功能
                 yesBtn : true,
-                cancelBtn : true
+                cancelBtn : true,
+                EVENTS : {
+                    "input,propertychange .searchProdInput" : "onSearchProdInpChange"
+                },
+                onSearchProdInpChange : function(e){
+                    that.onSearchProdInpChange(e);
+                }
             })
         }
         this.dialog.open();
