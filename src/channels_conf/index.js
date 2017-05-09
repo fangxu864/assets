@@ -672,7 +672,7 @@ var SetDefultConf = {
                 }
             },
             error:function(data){
-                console.log(data.msg);
+                alert.log(data.msg);
             },
         });
     },
