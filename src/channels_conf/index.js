@@ -653,13 +653,16 @@ var BatchConfigChannel = {
 
 /**
  *	@date   2017-05-09
- *	@author huangzhiyang
+ *	@author chenhuajian
  *  @desc   新产品渠道默认设置 供应商默认关，分销商默认开  http://bug.12301.test/index.php?m=task&f=view&task=368
  **/
 var SetDefultConf = {
     init : function(){
+        var defUrL = "/r/product_Channel/getDefaultSet";
         this.defSetBtn = $("#defSetBtn");
+        this.defBtnStatus = false;
         this.bindEvents();
+        this.defBtnAjax(defUrL,"get",{},0);
     },
     bindEvents : function(){
         var that = this;
@@ -669,10 +672,40 @@ var SetDefultConf = {
     },
     onDefSetBtnClick : function(e){
         var tarBtn = $(e.target);
+        this.defBtnStatus = !this.defBtnStatus;
         if(tarBtn.hasClass("slide")) tarBtn = tarBtn.parent();
         if(tarBtn.hasClass("disable")) return false;
         tarBtn.toggleClass("on");
+        if(this.defBtnStatus){
+            var openDefUrl="/r/product_Channel/openDefaultSet";
+            this.defBtnAjax(openDefUrl,"get",{},1)
+        }else{
+            var closeDefUrl="/r/product_Channel/closeDefaultSet";
+            this.defBtnAjax(closeDefUrl,"get",{},1)
+        }
+    },
+    defBtnAjax:function(url,type,params,urlIndex){
+        var that = this;
+        $.ajax({
+            url: url,
+            type: type,
+            data:params,
+            success:function(data){
+                if(urlIndex == 0){
+                    if(data.data.status == 0){
+                        that.defSetBtn.removeClass('on');
+                        that.defBtnStatus = false;
+                    }else if(data.data.status == 1){
+                         that.defSetBtn.addClass('on');
+                         that.defBtnStatus = true;
+                    }
+                }else if(urlIndex == 1){
+                }
+
+            }
+        })
     }
+
 };
 
 
