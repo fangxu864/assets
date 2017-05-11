@@ -31,6 +31,7 @@ var DialogModule = PFT.Util.Class({
             drag : true,
             speed : 100,
             onCloseAfter : function(){
+                Tips.closeAllTips();
             }
         });
         this.landListData = opt.landListData;
@@ -89,37 +90,40 @@ var DialogModule = PFT.Util.Class({
         var _this = this;
         var params = {};
         var landInp = this.container.find(".line1 .landInp");
-        params["lid"] = this.container.find(".line1 .landInp").attr("data-id");
-        if(params["lid"] == ""){
+        var userNameInp = this.container.find(".line2 .userName");
+        var idNumInp = this.container.find(".line3 .idNum");
+        params["lid"] = landInp.attr("data-id");
+        if(!CR.judgeTrue(params["lid"])){
             Tips.closeAllTips();
             Tips.show({
                 lifetime : 1500 ,
                 direction:'right',
-                hostObj : item ,
+                hostObj : landInp ,
                 content : "请选择产品",
                 bgcolor : "#f0c245"
             });
             return false;
         }
-        params["name"] = this.container.find(".line2 .userName").val().trim();
+        params["name"] = userNameInp.val().trim();
         if(params["name"] == ""){
             Tips.closeAllTips();
             Tips.show({
                 lifetime : 1500 ,
                 direction:'right',
-                hostObj : item ,
+                hostObj : userNameInp ,
                 content : "请填写姓名",
                 bgcolor : "#f0c245"
             });
             return false;
         }
-        params["id_card"] = this.container.find(".line3 .idNum").val().trim();
-        if(!PFT.Util.Validate.idcard(params["id_card"])){
+        params["id_card"] = idNumInp.val().trim();
+        // if(!PFT.Util.Validate.idcard(params["id_card"])){
+        if(params["id_card"] === ""){
             Tips.closeAllTips();
             Tips.show({
                 lifetime : 1500 ,
                 direction:'right',
-                hostObj : item ,
+                hostObj : idNumInp ,
                 content : "请填写正确的身份证号",
                 bgcolor : "#f0c245"
             });

@@ -73,6 +73,14 @@
         }
 
       }
+      .clear-btn{
+        cursor: pointer;
+        color: #0797D9;
+        margin-left: 10px;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
     }
   .table-box{
     background-color: #fff;
@@ -87,6 +95,11 @@
       tbody tr{
         line-height: 40px;
         border-bottom: 1px solid #e5e5e5;
+        .edit-btn ,.delete-btn{
+          color: #0797D9;
+          cursor: pointer;
+          margin: 0 5px;
+        }
       }
       tbody tr:hover{
         background-color: #fafafa;
