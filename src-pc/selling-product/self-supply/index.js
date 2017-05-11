@@ -2,12 +2,12 @@
  * @Author: huangzhiyang 
  * @Date: 2017-05-08 11:15:23 
  * @Last Modified by: huangzhiyang
- * @Last Modified time: 2017-05-08 16:49:53
+ * @Last Modified time: 2017-05-10 12:15:21
  */
-var ShowLinkTicketPop = require("./showLinkTicketPop");
+var ShowLinkTicket = require("./showLinkTicket");
 var Main = {
     init : function(){
-        var showLinkTicketPop = this.showLinkTicketPop = new ShowLinkTicketPop();
+        var showLinkTicket = this.showLinkTicket = new ShowLinkTicket();
         
     }
 };

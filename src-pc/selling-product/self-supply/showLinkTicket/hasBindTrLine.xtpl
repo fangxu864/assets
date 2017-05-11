@@ -1,0 +1,14 @@
+<%_.each(child_ticket,function(ticket,index){%>
+<tr class="hasBindTrLine">
+    <td class="hasBindTrLineTd" colspan="8">
+        <div class="hasBindTrLineCon">
+            <span class="label">已捆绑：</span>
+            <span class="tltitle"><%=ticket.ltitle%>【<%=ticket.ttitle%>】</span>
+            <span class="priceSpan">（结算价：<%=ticket.fprice%>元）</span>
+            <span class="priceSpan">（零售价：<%=ticket.uprice%>元）</span>
+            <span class="priceSpan">（状态：<%=ticket.status%>）</span>
+            <span id="removeBindBtn_<%=main_ticket.tid%>_<%=ticket.tid%>" data-ctid="<%=ticket.tid%>" data-caid="<%=ticket.aid%>" data-tid="<%=main_ticket.tid%>" class="removeBindBtn">解绑</span>  
+        </div>
+    </td>
+</tr>
+<%})%>
