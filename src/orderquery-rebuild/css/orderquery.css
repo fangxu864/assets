@@ -261,28 +261,7 @@
     display: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#touristInfo .tourist-title { padding: 0 20px 20px; font-size: 14px; }
+#touristInfo #touristLoading {
+    text-align: center;
+}
