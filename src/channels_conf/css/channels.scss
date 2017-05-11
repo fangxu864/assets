@@ -322,11 +322,14 @@ tr.set_all_data {
 		color:black;
 		font-size:18px;
 		.lt{
-			padding-right:30px;
+			position: relative;
+			top: -4px;
+			font-size: 12px;
+			color: #797979
 		}
 		.defSetBtn{
 			position: relative;
-			top: 4px;
+			top: 2px;
 			display: inline-block;
 			height: 20px;
 			width: 60px;
