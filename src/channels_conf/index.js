@@ -717,7 +717,7 @@ var SetDefultConf = {
             },
             error:function(){
 
-            },
+            }
         };
         var optCallBack=$.extend(defalutCallBck,opt);
         $.ajax({
