@@ -662,13 +662,16 @@ var SetDefultConf = {
         var that = this;
         var defUrL = "/r/product_Channel/getDefaultSet";
         this.defSetBtn = $("#defSetBtn");
+        var status = $('.status');
         this.bindEvents();
         this.defBtnAjax(defUrL,{
             success:function(data){
              if(data.status == 0){
                     that.defSetBtn.removeClass('on');
+                     status.html("已关");
                 }else if(data.status == 1){
                      that.defSetBtn.addClass('on');   
+                      status.html("已开");
                 }
             }
         });
@@ -680,10 +683,9 @@ var SetDefultConf = {
         })
     },
     onDefSetBtnClick : function(e){
-        var tarBtn = $(e.target);
+        var tarBtn = $("#defSetBtn");
+        var status = $('.status');
         var that = this;
-        if(tarBtn.hasClass("slide")) tarBtn = tarBtn.parent();
-        if(tarBtn.hasClass("disable")) return false;
         var url = tarBtn.hasClass('on') ? '/r/product_Channel/closeDefaultSet':'/r/product_Channel/openDefaultSet';
         if(!this.isLoading){
             this.defBtnAjax(url,{
@@ -692,6 +694,12 @@ var SetDefultConf = {
                 },
                 success:function(data){
                     tarBtn.toggleClass("on");
+                    if(tarBtn.hasClass("on")){
+                        status.html("已开");
+                    }else{
+                        status.html("已关");
+                    }
+
                 },
                 complete:function(){
                     that.isLoading = false;
