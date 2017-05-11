@@ -1,0 +1,197 @@
+#linkTicketPopCon{
+    position: relative;
+    padding-left: 25px;
+    padding-bottom: 10px;
+    .line{
+        width: 100%;
+        overflow: hidden;
+        clear: both;
+        padding: 10px 0;
+
+        .label{
+            display: block;
+            float: left;
+            width: 100px;
+            height: 12px;
+        }
+
+        &.wantBind .label{ margin-top: 12px;}
+
+        .rt{
+            position: relative;
+            float: left;
+        }
+        .SearchTri{
+            position: absolute;
+            top: 10px;
+            left: 9px;
+            cursor: pointer;
+            .sicon{
+                font-size: 20px;
+                color: #999
+            }
+        }
+
+    }
+
+    .searchProdInput{
+        width: 383px;
+        height: 22px;
+        line-height: 22px;
+        padding: 7px;
+        padding-left: 33px;
+        border: 1px solid #e5e5e5;
+        background: #fff;
+        box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1);
+    }
+
+    .resultBar{
+        height: 36px;
+        line-height: 36px;
+        border: 1px solid #e5e5e5;
+    }
+
+    .searchWrap{
+        position: relative;
+    }
+
+    .searchResultList{
+        width: 423px;
+        height: 270px;
+        overflow: auto;
+        border: 1px solid #e5e5e5;
+        border-top: 0 none;
+
+        .state{
+            height: 270px;
+            line-height: 270px;
+            text-align: center;
+            color: #999;
+
+            
+
+        }
+
+        .item{
+            position: relative;
+            height: 38px;
+            line-height: 38px;
+            border-bottom: 1px solid #e5e5e5;
+            padding-left: 10px;
+            overflow: hidden;
+            clear: both;
+            &:hover{ background: #f7f7f7}
+            &.active{ 
+                .t{ font-weight: bold}
+                color: #3eba40;
+            }
+
+            .t{
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-right: 50px;
+            }
+
+            .addBtn{
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 50px;
+                line-height: 38px;
+                text-align: center;
+                color: #2a98da;
+                cursor: pointer;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+
+        }
+
+
+    }
+
+    .btnGroup{
+        .sBtn{
+            display: inline-block;
+            border-radius: 3px;
+            padding: 10px 25px;
+            margin-left: 20px;
+            cursor: pointer
+        }
+        .sBtn.yes{
+            background: #2a98da;
+            color: #fff;
+            margin-left: 0;
+            &:hover{
+                background: darken(#2a98da,5%);
+            }
+        }
+        .sBtn.yes.disable{
+            background: #999;
+            cursor: not-allowed;
+            &:hover{
+                background: #999;
+            }
+        }
+        .sBtn.cancel{
+            padding-top: 9px;
+            padding-bottom: 9px;
+            border: 1px solid #2a98da;
+            color: #2a98da;
+            &:hover{
+                background: darken(#2a98da,5%);
+                border: 1px solid darken(#2a98da,5%);
+                color: #fff;
+            }
+        }
+    }
+
+
+}
+
+.hasBindTrLine{
+    background: #f3f1f1;
+    .hasBindTrLineTd{
+        padding-top: 0;
+        padding-bottom: 0
+    }
+    .hasBindTrLineCon{
+        height: 40px;
+        line-height: 40px;
+        padding-left: 43px;
+        overflow: hidden;
+        text-align: left;
+
+        .tltitle{ color: #2A98DA}
+        .removeBindBtn{
+            position: relative;
+            top: 6px;
+            display: inline-block;
+            float: right;
+            line-height: 20px;
+            margin-right: 6px;
+            padding: 4px 14px;
+            border-radius: 3px;
+            background: #f07845;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            &:hover{
+                background: #e4632d
+            }
+            &.disable{
+                background: #999;
+                cursor: not-allowed;
+                &:hover{
+                    background: #999;
+                }
+            }
+        }
+
+    }
+}

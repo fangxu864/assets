@@ -87,6 +87,10 @@
     "yargs": "^4.8.1"
   },
   "dependencies": {
+<<<<<<< HEAD
     "pft-ui-component": "^1.2.7"
+=======
+    "pft-ui-component": "^1.2.8"
+>>>>>>> 6b6877d250ce4d8ee06d7e5c2394cb55ebfe454d
   }
 }

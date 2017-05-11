@@ -19,7 +19,7 @@
                 name=""
                 <%=item.storage==0 ? 'readonly' : ''%>
                 id="buyPriceInput_<%=item.tid%>"
-                value="<%=item.extra.ls%>" 
+                value="<%=item.extra.ms%>" 
                 placeholder="请输入售价" 
                 class="buyPriceInput <%=item.storage==0? 'disable' : ''%>">
         </span>

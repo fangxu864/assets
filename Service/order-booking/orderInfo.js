@@ -239,6 +239,7 @@ module.exports = function(params,opt){
 					var ext = ticket.extra || (ticket.extra={});
 					ext["js"] = ticket.js/100;
 					ext["ls"] = ticket.ls/100;
+					ext["ms"] = ticket.ms/100;
 					ext["reb"] = extra["reb"];
 					ext["p_type"] = data.p_type;
 				}

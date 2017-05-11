@@ -76,6 +76,9 @@ var Main = PFT.Util.Class({
             }
         });
 
+        $(".selectBox .selectItem").first().trigger("click");
+
+
     },
     //保存
     save : function(){
@@ -224,29 +227,39 @@ var Main = PFT.Util.Class({
             var type = target.attr("data-type");
             var className = target.attr("class");              
             if( className == "radioIcon disable"){
-                console.log("disable");
                 return false
             }
             if( type == "infoReceiver1"){  //系统自动筛选
                 $(".memberBox").css("display","none");
                 $(".infoReceiver").attr("data-type",type);
                 //判断推送方式
-                var infoType = $("#infoTypeInput").attr("data-type");
-                if( infoType == "0"){ //通用提醒
-                    that.pushWaySelect(1);
-                }else if( infoType == "2" ){ //礼劵到期
-                    that.pushWaySelect(2);
-                }else if( infoType == "1" ){ //生日祝福
-                    that.pushWaySelect(2);
-                }
+                // var infoType = $("#infoTypeInput").attr("data-type");
+                // if( infoType == "0"){ //通用提醒
+                //     that.pushWaySelect(1);
+                // }else if( infoType == "2" ){ //礼劵到期
+                //     that.pushWaySelect(2);
+                // }else if( infoType == "1" ){ //生日祝福
+                //     that.pushWaySelect(2);
+                // }
+
+                $("#pushWay").find(".radioIcon[data-type=pushWay3]").removeClass("disable").addClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay1]").addClass("disable").removeClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay2]").addClass("disable").removeClass("active");
+
+
             }else if( type == "infoReceiver2" ){   //指定会员
                 $(".memberBox").css("display","block");
                 $(".infoReceiver").attr("data-type",type);
+
+                $("#pushWay").find(".radioIcon[data-type=pushWay3]").addClass("disable").removeClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay1]").removeClass("disable").addClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay2]").removeClass("disable");
+
                 //判断推送方式
-                var infoType = $("#infoTypeInput").attr("data-type");
-                if( infoType ){ //指定会员所有情况都是只能选动态推送
-                    that.pushWaySelect(1);
-                }
+                // var infoType = $("#infoTypeInput").attr("data-type");
+                // if( infoType ){ //指定会员所有情况都是只能选动态推送
+                //     that.pushWaySelect(1);
+                // }
             }else if( type == "pushWay1" ){   //启动时立即推送
                 $(".pushWay").attr("data-type",type);
             }else if( type == "pushWay2" ){   //定时推送
@@ -312,6 +325,20 @@ var Main = PFT.Util.Class({
                     $(".pushWay").attr("data-type","pushWay1");
                 }
             }
+
+            var radioList = $(".radioList");
+
+            if(type=="0"){ //通用
+                radioList.find(".radioIcon[data-type=infoReceiver1]").addClass("disable");
+                radioList.find(".radioIcon[data-type=infoReceiver2]").removeClass("disable").trigger("click");
+            }else if(type=="2"){ //礼券
+                radioList.find(".radioIcon[data-type=infoReceiver1]").removeClass("disable").trigger("click");
+                radioList.find(".radioIcon[data-type=infoReceiver2]").addClass("disable");
+            }else if(type=="1"){ //生日祝福
+                radioList.find(".radioIcon[data-type=infoReceiver1]").removeClass("disable");
+                radioList.find(".radioIcon[data-type=infoReceiver2]").removeClass("disable");
+            }
+
             input.val(t);
             input.attr("data-type",type);
             ul.css("display","none");      
