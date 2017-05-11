@@ -8,17 +8,18 @@ require("./index.scss");
 //-------------tpl--------------
 var frameTpl = require("./tpl/frame.xtpl");
 
-//-----------modules------------
+//-----------通用插件-----------
 var Message = require("pft-ui-component/Message");
-var renderNav = require("../common/nav/index.js");
 var Pagination = require("COMMON/modules/pagination-x");
+var Select = require("COMMON/modules/select");
+//-----------自建模块-----------
+var renderNav = require("../common/nav/index.js");
 //增加黑名单
 var Dialog_add = require("./dialog-add/dialog.js");
 //导入excel
 var Dialog_excel = require("./dialog-excel/dialog.js");
 //编辑
 var Dialog_edit = require("./dialog-edit/dialog.js");
-var Select = require("COMMON/modules/select");
 //公共资源common resource
 var CR = require("./CR.js");
 
@@ -110,7 +111,7 @@ var blackList = PFT.Util.Class({
 
         //点击搜索
         CON.on("click" ,".filter-box .search-btn", function (e) {
-
+            _this.getBlacklistData();
         })
 
     },
@@ -153,18 +154,20 @@ var blackList = PFT.Util.Class({
     getBlacklistData: function () {
         var _this = this;
         _this.paramHub.id_card = _this.container.find(".filter-box .id-card-inp").val();
-        _this.paramHub.lid = _this.container.find(".filter-box .land-inp").val();
+        _this.paramHub.lid = _this.container.find(".filter-box .land-inp").attr("data-id");
         var params = _this.paramHub;
+
+        console.log(params);
         //看看是否有缓存
-        if(_this.cacheHub[$.param(_this.paramHub)]){
-            //render
-            var res = _this.cacheHub[$.param(params)];
-            dealRes( res );
-            return false;
-        }else{
-            //显示查询状态
-            _this.showLoading('loading');
-        }
+        // if(_this.cacheHub[$.param(_this.paramHub)]){
+        //     //render
+        //     var res = _this.cacheHub[$.param(params)];
+        //     dealRes( res );
+        //     return false;
+        // }else{
+        //     //显示查询状态
+        //     // _this.showLoading('loading');
+        // }
         $.ajax({
             url: CR.url.getBlacklist,    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -179,7 +182,7 @@ var blackList = PFT.Util.Class({
                 // 请求成功时处理
                 //缓存数据
                 _this.cacheHub[$.param(params)] = $.extend({},res);
-                console.log(res)
+                console.log(res);
                 // dealRes( res )
             },
             complete: function(res,status) {
@@ -218,43 +221,7 @@ var blackList = PFT.Util.Class({
     /**
      * @Object 缓存仓库
      */
-    cacheHub: {},
-
-    /**
-     * @mehtod 判断真假
-     */
-    judgeTrue: function( param ) {
-        var type = Object.prototype.toString.call(param);
-        switch (type){
-            case '[object Array]':
-                return param.length === 0 ?  !1 : !0 ;
-                break;
-            case '[object Object]':
-                var t;
-                for (t in param)
-                    return !0;
-                return !1;
-                break;
-            case '[object String]':
-                return param === '' ? !1 : !0 ;
-                break;
-            case '[object Number]':
-                return param === 0 ? !1 : !0 ;
-                break;
-            case '[object Boolean]':
-                return param === false ? !1 : !0;
-                break;
-            case '[object Null]':
-                return !1;
-                break;
-            case '[object Undefined]':
-                return !1;
-                break;
-            default :
-                return type;
-        }
-    }
-
+    cacheHub: {}
 
 
 
