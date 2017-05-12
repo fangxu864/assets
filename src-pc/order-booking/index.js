@@ -53,7 +53,8 @@ var Main = PFT.Util.Class({
 
         Service.orderInfo({
             pid : urlParams.pid,
-            aid : urlParams.aid
+            aid : urlParams.aid,
+            fsid : Common.getFsid()
         },{
             debug : false,
             loading : function(){
@@ -175,6 +176,11 @@ var Main = PFT.Util.Class({
         if(!contactData) return false;
 
         var submitData = $.extend({},Common.getPidAid(),skuData,ticketListData,contactData,paymode,ota);
+
+        var fsid = Common.getFsid();
+        var fsaccount = Common.getFsaccount();
+        if(fsid) submitData["fsid"] = fsid;
+        if(fsaccount) submitData["fsaccount"] = fsaccount;
         
         var orignText = submitBtn.text();
 
@@ -193,7 +199,7 @@ var Main = PFT.Util.Class({
                     //后端返回的msg是这样的：orderSuc.html?ordernum=4006632&ot=8db4a9734300249615bdc601897d6885
                     window.location.href = PFT.PREFIX_DOMAIN() + msg;
                 }else{
-                    Message.error(msg);
+                    Message.alert(msg);
                 }
             },
             tiemout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},

@@ -24,16 +24,17 @@ module.exports = function(params,opt){
         return false;
     }
 
-
+    var data = {
+        pid : params.pid,
+        aid : params.aid,
+        startDate : params.beginDate,
+        endDate : params.endDate
+    };
+    if(params.fsid) data["fsid"] = params.fsid;
 
     return PFT.Util.Ajax("/r/Book_Booking/getPriAndStgForHotel/",{
         type : "post",
-        params : {
-            pid : params.pid,
-            aid : params.aid,
-            startDate : params.beginDate,
-            endDate : params.endDate
-        },
+        params : data,
         loading : function(){opt.loading()},
         complete : function(){opt.complete()},
         success : function(res){

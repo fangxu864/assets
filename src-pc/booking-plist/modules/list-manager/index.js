@@ -37,10 +37,6 @@ var ListManager = PFT.Util.Class({
         hasMore : true
     },
     init : function(){
-        var urlParams = PFT.Util.UrlParse();
-        this.fsid = urlParams.fsid || "";
-        this.fsaccount = urlParams.fsaccount || "";
-        this.fsname = urlParams.fsname || "";
         this.refresh();
     },
     //刷新实时价格
@@ -60,13 +56,12 @@ var ListManager = PFT.Util.Class({
             aid : aid
         };
         if(fsid) params["fsid"] = fsid;
-        if(fsaccount) params["fsaccount"] = fsid;
+        if(fsaccount) params["fsaccount"] = fsaccount;
 
         var origin = {
             ls : lsPriceBox.html(),
             js : jsPriceBox.html()
         };
-
         PFT.Util.Ajax(Common.Api.realTimePrice(),{
             type : Common.AJAX_TYPE,
             ttimeout : Common.AJAX_TIMEOUT,
@@ -183,9 +178,9 @@ var ListManager = PFT.Util.Class({
     },
     adaptLands : function(lands,pType){
         var num = 0;
-        var fsid = this.fsid;
-        var fsaccount = this.fsaccount;
-        var fsname = this.fsname;
+        var fsid = Common.getFsid();
+        var fsaccount = Common.getFsaccount();
+        var fsname = Common.getFsname();
         var pageSize = this.PAGE_SIZE;
         var INIT_TICKET_MAX_SHOW = this.INIT_TICKET_MAX_SHOW;
         for(var i in lands){
@@ -225,8 +220,8 @@ var ListManager = PFT.Util.Class({
                 lands[i]["fsname"] = fsname;
             }
 
-            //添加ptype
-            lands[i]["ptype"] = pType;
+            //ptype后端已经返回了
+            // lands[i]["ptype"] = pType;
 
         }
         return {
@@ -243,7 +238,8 @@ var ListManager = PFT.Util.Class({
         var container = this.container;
         var pageSize = this.PAGE_SIZE;
         var adaptLands = this.adaptLands;
-
+        var fsid = Common.getFsid();
+        var fsaccount = Common.getFsaccount();
         params = PFT.Util.Mixin({
             page : 1,
             pageSize : pageSize,
@@ -251,10 +247,11 @@ var ListManager = PFT.Util.Class({
             pType : "",
             theme : "",
             province : "",
-            city : "",
-            fsid : "",
-            fsaccount : ""
+            city : ""
         },params || {});
+
+        if(fsid!==false) params["fsid"] = fsid;
+        if(fsaccount!==false) params["fsaccount"] = fsaccount;
 
         //防止外部模块恶意修改page数
         params.page = 1;
@@ -308,9 +305,9 @@ var ListManager = PFT.Util.Class({
         var container = this.container;
         var pageSize = this.PAGE_SIZE;
         var adaptLands = this.adaptLands;
-
+        var fsid = Common.getFsid();
+        var fsaccount = Common.getFsaccount();
         if(this.getState("isLoading") || !this.getState("hasMore")) return false;
-
         params = PFT.Util.Mixin({
             page : 1,
             pageSize : pageSize,
@@ -318,10 +315,11 @@ var ListManager = PFT.Util.Class({
             pType : "",
             theme : "",
             province : "",
-            city : "",
-            fsid : "",
-            fsaccount : ""
+            city : ""
         },params || {});
+
+        if(fsid!==false) params["fsid"] = fsid;
+        if(fsaccount!==false) params["fsaccount"] = fsaccount;
 
         var page = params.page;
 
@@ -389,6 +387,9 @@ var ListManager = PFT.Util.Class({
     },
     //渲染列表
     renderList : function(page,data){
+
+        console.log(data);
+
         var that = this;
         var container = this.container;
         var pageSize = this.PAGE_SIZE;

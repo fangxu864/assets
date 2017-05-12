@@ -170,6 +170,8 @@ var DatePicker = PFT.Util.Class({
         _this.paramHub.startDate = _this.getDateRange(this.renderData.curYM).min;
         _this.paramHub.endDate = _this.getDateRange(this.renderData.curYM).max;
         var params = _this.paramHub;
+        var fsid = $("#fsidHidInp").val();
+        if(fsid) params["fsid"] = fsid;
         //看看是否有缓存
         if(_this.cacheHub[$.param(_this.paramHub)]){
             //render

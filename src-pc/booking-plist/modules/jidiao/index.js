@@ -3,6 +3,7 @@ var PopTpl = require("./index.xtpl");
 var JiDiaoAjax = require("./api.js");
 var Jidiao = PFT.Util.Class({
     container : "#fixDisSwitchorContainer",
+	__searchInputLock__ : false,
 	CacheData : {
 		"" : null
 	},
@@ -12,25 +13,11 @@ var Jidiao = PFT.Util.Class({
 	loadingImg : "http://www.12301.cc/images/icons/loading_small.gif",
 	init : function(){
 
-        var urlParams = PFT.Util.UrlParse();
-        
-        this.fsid = urlParams.fsid;
-        this.fsaccount = urlParams.fsaccount;
-        this.fsname = decodeURIComponent(urlParams.fsname);
+		var fixDisSwitchor = this.fixDisSwitchor = $("#fixDisSwitchor");
 
-        if(!this.fsid && !this.fsaccount) return false;
-
-        var fixDisSwitchor = PFT.Util.ParseTemplate(require("./fixDisSwitchor.xtpl"))({
-            fsid : this.fsid,
-            fsaccount : this.fsaccount,
-            fsname : this.fsname
-        });
-
-        this.container.html(fixDisSwitchor);
-
+        if(!fixDisSwitchor.length) return false;
 
         $("body").append(PopTpl);
-
 
 		this.popBox = $("#disSelectorWrap");
 		this.maskPage = $("#gMasker");
@@ -45,27 +32,27 @@ var Jidiao = PFT.Util.Class({
 	},
 	bindEvent : function(){
 		var that = this;
-        var dispatch = $("#disDname_text");
+        var fixDisSwitchor = this.fixDisSwitchor;
         this.on("dis.change",function(data){
             var id = data.id;
             var account = data.account;
             var dname = data.dname;
-            dispatch.attr("data-id",id).attr("data-account",account).text(dname);
+            fixDisSwitchor.attr("data-id",id)
+						  .attr("data-account",account)
+						  .attr("data-name",dname)
+						  .find(".disDname_text").text(dname);
         })
         $("#switchDisBtn").on("click",function(e){
             if($(this).hasClass("disable")) return false;
-            var id = dispatch.attr("data-id");
-            var account = dispatch.attr("data-account");
-            var dname = dispatch.text();
+            var id = fixDisSwitchor.attr("data-id");
+            var account = fixDisSwitchor.attr("data-account");
+            var dname = fixDisSwitchor.attr("data-name");
             that.showPop({
                 id : id,
                 account : account,
                 dname : dname
             });
-        })
-
-
-
+        });
 
 		//点击遮罩
 		this.maskPage.on("click",function(e){
@@ -120,10 +107,12 @@ var Jidiao = PFT.Util.Class({
 		//搜索框
 		this.searchInp.on("keyup",function(e){
 			var keyCode = e.keyCode;
+			var isLock = that.__searchInputLock__;
 			if(keyCode==38 || keyCode==40) return false;
 			if(keyCode==13){
 				that.onNavDownUp(keyCode);
 			}else{
+				if(isLock) return false;
 				clearTimeout(that.keyupTimer);
 				that.keyupTimer = setTimeout(function(){
 					that.onSearchInpKeyup(that,e);
@@ -136,6 +125,18 @@ var Jidiao = PFT.Util.Class({
 				that.onNavDownUp(keyCode);
 			}
 		})
+
+		//文本框在中文输入法时，时还没有生成中文字时
+		this.searchInp[0].addEventListener("compositionstart",function(e){
+			that.__searchInputLock__ = true;
+		});
+		this.searchInp[0].addEventListener("compositionend",function(e){
+			that.__searchInputLock__ = false;
+			$(this).trigger("keyup");
+		});
+
+
+
 		//点击搜索结果ul item
 		this.downSelectorUl.on("click",".disItem",function(e){
 			that.onDisItemClick(that,e);

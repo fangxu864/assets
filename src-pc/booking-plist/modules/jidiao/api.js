@@ -31,8 +31,6 @@ var JiDiaoAjax = {
 		var timeout = opt.timeout || this.Ajax_Timeout;
 		var serverError = opt.serverError || this.Ajax_Error;
 		var data = {
-			c: "DispatchOrder",
-			a : "getDistributor",
 			search : keyword
 		};
 		if(page) data["page"] = page;
@@ -84,10 +82,10 @@ var JiDiaoAjax = {
 //		return false;
 
 
-        PFT.Util.Ajax(that.url,{
-            type : "get",
+        PFT.Util.Ajax("/r/DispatchOrder/getDistributor/",{
+            type : "post",
 			dataType : "json",
-			data : data,
+			params : data,
 			loading : function(){loading()},
 			complete : function(){removeLoading()},
 			timeout : function(){timeout()},

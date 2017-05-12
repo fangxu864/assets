@@ -64,11 +64,11 @@
                 </div>
             </div>
             <div class="infoLine">
-                <div class="lt">供应商 / 分销商</div>
+                <div class="lt">分销商 / 供应商</div>
                 <div class="rt">
-                    <%=item.seller ? item.seller : '--'%>
-                    <i class="str">/</i>
                     <%=item.buyer ? item.buyer : '--'%>
+                    <i class="str">/</i>
+                    <%=item.seller ? item.seller : '--'%>
                 </div>
             </div>
             <div class="infoLine">
@@ -83,12 +83,15 @@
                     <%=item.ordertime%>
                 </div>
             </div>
+            <%console.log(item.dtime)%>
+            <%if(item.dtime!=="0000-00-00 00:00:00"){%>
             <div class="infoLine">
                 <div class="lt">验证时间</div>
                 <div class="rt">
                     <%=item.dtime%>
                 </div>
             </div>
+            <%}%>
         </div>
 
 

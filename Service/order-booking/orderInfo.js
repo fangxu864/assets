@@ -162,9 +162,15 @@ module.exports = function(params,opt){
 		return false;
 	}
 
+	var data = {
+		pid : params.pid,
+		aid : params.aid
+	};
+	if(params.fsid) data["fsid"] = params.fsid;
+
 	PFT.Util.Ajax("/r/Book_Booking/getBookInfo/",{
 		type : "post",
-		params : params,
+		params : data,
 		loading : opt.loading,
 		complete : opt.complete,
 		success : function(res){

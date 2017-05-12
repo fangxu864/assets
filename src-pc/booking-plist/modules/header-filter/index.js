@@ -21,7 +21,8 @@ var HeaderFilter = PFT.Util.Class({
         "click .listUl .item" : "onListUlItemClick", 
         "click .searchBtn" : "onSearchBtnClick", 
         "click .recoverSearchBtn" : "onRecoverSearchBtnClick", 
-        "change .provSelect" : "onProvSelectChange"
+        "change .provSelect" : "onProvSelectChange",
+        "keyup #searchInp" : "onSearchInpKeyup"
     },
     init : function(){
         var urlParams = PFT.Util.UrlParse();
@@ -31,8 +32,8 @@ var HeaderFilter = PFT.Util.Class({
         this.searchBtn = $("#searchBtn");
         this.resetBtn = $("#recoverSearchBtn");
 
-        this.initProvCitySelect();
-        this.initTheme();
+        this.refresh();
+        
     },
     template : PFT.Util.ParseTemplate(Tpl),
     onListUlItemClick : function(e){
@@ -82,6 +83,13 @@ var HeaderFilter = PFT.Util.Class({
         }
         $("#citySelect").html(html);
     },
+    onSearchInpKeyup : function(e){
+        if(e.keyCode!=13) return false;
+        var tarInp = $(e.currentTarget);
+        var val = $.trim(tarInp.val());
+        var params = this.getParams();
+        this.trigger("search",params);
+    },
     setProvCityData : function(ajaxCityData){
         //最终provCityData数据格式为：
         // {
@@ -129,8 +137,14 @@ var HeaderFilter = PFT.Util.Class({
     },
     initProvCitySelect : function(){
         var that = this;
+        var fsid = Common.getFsid();
+        var fsaccount = Common.getFsaccount();
+        var params = {};
+        if(fsid!==false) params["fsid"] = fsid;
+        if(fsaccount!==false) params["fsaccount"] = fsaccount;
         PFT.Util.Ajax(Common.Api.getCityCodeForOrder(),{
             type : Common.AJAX_TYPE,
+            params : params,
             ttimeout : Common.AJAX_TIMEOUT,
             loading : function(){
                 that.container.html(LoadingHtml);
@@ -152,8 +166,14 @@ var HeaderFilter = PFT.Util.Class({
     },
     initTheme : function(){
         var that = this;
+        var fsid = Common.getFsid();
+        var fsaccount = Common.getFsaccount();
+        var params = {};
+        if(fsid!==false) params["fsid"] = fsid;
+        if(fsaccount!==false) params["fsaccount"] = fsaccount;
         PFT.Util.Ajax(Common.Api.getThemeForOrder(),{
             type : Common.AJAX_TYPE,
+            params : params,
             ttimeout : Common.AJAX_TIMEOUT,
             loading : function(){
                 that.container.html(LoadingHtml);
@@ -213,6 +233,10 @@ var HeaderFilter = PFT.Util.Class({
             params["jtype"] = encodeURIComponent($("#hotel_star_ParamUl").children(".active").attr("data-jtype"))
         }
         return params;
+    },
+    refresh : function(){
+        this.initProvCitySelect();
+        this.initTheme();
     }
 });
 

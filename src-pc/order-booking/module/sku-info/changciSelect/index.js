@@ -113,7 +113,8 @@ var ChangciSelect = PFT.Util.Class({
         Ajax_GetShowInfo({
             pid : pid,
             aid : aid,
-            date : date
+            date : date,
+            fsid : Common.getFsid()
         },{
             loading : function(){
                 listUl.html(Loading_PC);

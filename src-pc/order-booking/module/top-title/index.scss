@@ -1,9 +1,27 @@
 #topTitleMod{
-    height: 55px;
-    line-height: 55px;
-    border-bottom: 1px solid #e5e5e5;
-    .topTitleText{
-        font-size: 22px;
-        color: #333;
+    .jidiao{
+        height: 40px;
+        line-height: 40px;
+        background: #fffde7;
+        text-align: center;
+        font-size: 12px;
+        border-bottom: 1px solid #e5e5e5;
+        .fenname{
+            font-size: 14px;
+            font-weight: bold;
+            color: #3eba40;
+            margin: 0 5px;
+        }
+        
     }
+    .topTitleText{
+        height: 55px;
+        line-height: 55px;
+        border-bottom: 1px solid #e5e5e5;
+        .topTitleText{
+            font-size: 22px;
+            color: #333;
+        }
+    }
+    
 }

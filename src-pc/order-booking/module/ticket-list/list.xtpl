@@ -70,7 +70,7 @@
             </div>
         <%}%>
     </td>
-    <td class="col_7 col"><span class="t"><span class="yen">&yen;</span><span id="lsTotalMoneyNum_<%=item.tid%>" class="moneyNum lsTotalMoneyNum"><%=PFT.Util.numberToFixed(item.extra.js*initCount,2)%></span></span></td>
-    <td class="col_8 col"><span class="t"><span class="yen">&yen;</span><span id="jsTotalMoneyNum_<%=item.tid%>" class="moneyNum jsTotalMoneyNum"><%=PFT.Util.numberToFixed(item.extra.ls*initCount,2)%></span></span></td>
+    <td class="col_7 col"><span class="t"><span class="yen">&yen;</span><span id="lsTotalMoneyNum_<%=item.tid%>" class="moneyNum jsTotalMoneyNum"><%=PFT.Util.numberToFixed(item.extra.ms*initCount,2)%></span></span></td>
+    <td class="col_8 col"><span class="t"><span class="yen">&yen;</span><span id="jsTotalMoneyNum_<%=item.tid%>" class="moneyNum lsTotalMoneyNum"><%=PFT.Util.numberToFixed(item.extra.js*initCount,2)%></span></span></td>
 </tr>
 <%})%>

@@ -163,6 +163,7 @@ var TicketList = PFT.Util.Class({
         if(val*1<jsprice) return goBack("输入的售价不能小于结算价");
 
         this.renderTicketMoney(tid);
+        console.log(this.getTotalInfo());
         this.trigger("change",this.getTotalInfo());
 
     },
@@ -478,6 +479,7 @@ var TicketList = PFT.Util.Class({
             var buyPriceInput = $this.find(".buyPriceInput");
             var salePrice = buyPriceInput.val();
             var jsprice = buyPriceInput.attr("data-jsprice")*1;
+            var ticketName = $this.find(".col_1 .t").text();
             salePrice = $.trim(salePrice)*1;
 
             var isMain = countInp.attr("data-ismain");
@@ -490,39 +492,51 @@ var TicketList = PFT.Util.Class({
 
             if(salePrice<jsprice){ //判断售价是否小于结算价
                 result = false;
+                Message.error("【"+ticketName+"】售价不能小于结算价");
+                return false;
+            }
+            if(salePrice>999999999){ //售价不能大于9个9
+                result = false;
+                Message.error("【"+ticketName+"】售价不能大于999999999");
                 return false;
             }
 
             if(isMain=="true" && !PFT.Util.Validate.typeInit(val)){
                 result = false;
-                return false
+                Message.error("【"+ticketName+"】票数必须为正整数且不能为0");
+                return false;
             }
 
             if(isMain=="false" && !PFT.Util.Validate.typeInit0(val)){
                 result = false;
-                return false
+                Message.error("【"+ticketName+"】票数必须为正整数，可以为0");
+                return false;
             }
 
             //主票不能为0
             if(val==0 && isMain=="true"){
                 result = false;
-                return false
+                Message.error("【"+ticketName+"】票数不能为0");
+                return false;
             }
 
             // 最小购买数
             if(val*1<buy_limit_low && val!=0){
                 result = false;
+                Message.error("【"+ticketName+"】最少"+buy_limit_low+"张起订");
                 return false
             }
 
             //不能超出库存
             if(val*1>storage && storage!=-1){
                 result = false;
+                Message.error("【"+ticketName+"】购买数量不能超出库存数"+storage);
                 return false
             }
 
             if(val*1>buy_limit_up && buy_limit_up!=0){
                 result = false;
+                Message.error("【"+ticketName+"】最多只能购买"+buy_limit_up+"张");
                 return false
             }
 
@@ -530,6 +544,7 @@ var TicketList = PFT.Util.Class({
         return result;
     },
     getSubmitData : function(){
+
 
         if(!this.validatSubmitData()) return false;
 

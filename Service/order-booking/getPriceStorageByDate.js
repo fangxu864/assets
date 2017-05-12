@@ -24,15 +24,16 @@ module.exports = function(params,opt){
         return false;
     }
 
-
+    var data = {
+        pids : params.pids,
+        aid : params.aid,
+        date : params.date
+    };
+    if(params.fsid) data["fsid"] = params.fsid;
 
     return PFT.Util.Ajax("/r/Book_Booking/getPriceAndStorage/",{
         type : "post",
-        params : {
-            pids : params.pids,
-            aid : params.aid,
-            date : params.date
-        },
+        params : data,
         loading : function(){opt.loading()},
         complete : function(){opt.complete()},
         success : function(res){

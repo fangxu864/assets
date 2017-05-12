@@ -155,6 +155,7 @@ var Contact = PFT.Util.Class({
         //向服务器form submit 身份证excel
         this.container.on("change","#exportFileInput",function(e){
             $("#exportIDCardForm").submit();
+            $(e.currentTarget).val("");
         })
 
 

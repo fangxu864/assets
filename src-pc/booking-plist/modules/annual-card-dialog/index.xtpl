@@ -9,9 +9,9 @@
                         <input id="cardNumberInp" type="text" class="CardNumberInp" placeholder="将卡片放于刷卡器上读卡"/>
                         <!--<span class="btn btn-border CardNumberBtn" id="readCardBtn">读取卡号</span>-->
                         <div id="clearCardInpBtn" class="clearCardInpBtn"><i class="iconfont">&#xe674;</i></div>
+                        <p style="padding:6px 0 0 2px; text-align:left; color:#999" class="tip">将卡片放于刷卡器上读卡</p>
                     </div>
-                    <p style="padding:6px 0 0 2px; text-align:left; color:#999" class="tip">将卡片放于刷卡器上读卡</p>
-                    <p class="font-red carded"></p>
+                    <ul id="resultCardList" class="resultCardList"></ul>
                     <div class="entityBox">
                         <span class="enCard">已刷<span id="hasReadCount" class="enNum">0</span>张</span>
                         <a href="javascript:void(0);" class="btn btn-blue buyBtn disable" id="buyBtn_card">购买</a>

@@ -1,5 +1,5 @@
 module.exports = {
-    AJAX_TYPE : "get",
+    AJAX_TYPE : "post",
     AJAX_TIMEOUT : 10 * 1000,
     Api : {
         getCityCodeForOrder : function(){
@@ -18,6 +18,21 @@ module.exports = {
         getVirtualStorage : function(){
             return "/r/product_AnnualCard/getVirtualStorage/";
         }
+    },
+    getFsid : function(){
+        var fixDisSwitchor = $("#fixDisSwitchor");
+        if(!fixDisSwitchor.length) return false;
+        return fixDisSwitchor.attr("data-id");
+    },
+    getFsaccount : function(){
+        var fixDisSwitchor = $("#fixDisSwitchor");
+        if(!fixDisSwitchor.length) return false;
+        return fixDisSwitchor.attr("data-account");
+    },
+    getFsname : function(){
+        var fixDisSwitchor = $("#fixDisSwitchor");
+        if(!fixDisSwitchor.length) return false;
+        return fixDisSwitchor.attr("data-name");
     },
     fetch : function(params,opt){
         opt = PFT.Util.Mixin(PFT.Config.Ajax(),opt);

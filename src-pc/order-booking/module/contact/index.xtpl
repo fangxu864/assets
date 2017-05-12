@@ -46,7 +46,7 @@
                         <input name="convert_excel" accept=".xls,.xlsx" id="exportFileInput" class="exportFileInput" type="file">
                         <input type="hidden" class="callbackHidInp" name="callback" value="onIDCardExcelUploadSuccess">
                     </label>
-                    <span id="exportEnterTip" class="exportEnterTip">表格格式：列一姓名，列二身份证号码 （只支持 .xsl，.xslx格式）</span>
+                    <span id="exportEnterTip" class="exportEnterTip">表格格式：列一姓名，列二身份证号码 （只支持 .xls，.xlsx格式）</span>
                 </form>
             </div>
         </div>

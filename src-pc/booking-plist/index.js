@@ -16,6 +16,14 @@ var Main = PFT.Util.Class({
 	container :"#pageRightContainer",
 	init : function(){
 		
+		if($("#fixDisSwitchor").length){
+			var jidiao = this.jidiao = new Jidiao();
+			jidiao.on("dis.change",function(data){
+				headerFilter.refresh();
+				listManager.refresh();
+			})
+		}
+
 		var annaulCardDialog = new AnnaulCardDialog();
 
 		var listManager = new ListManager();
@@ -32,12 +40,6 @@ var Main = PFT.Util.Class({
 			headerFilter.trigger("search");
 		})
 
-
-
-		var jidiao = new Jidiao();
-
-		
-		
 		var scroll = MainBodyScrollManager({
 			container : "#G_Body",
 			distanceToBottom : 17,
