@@ -1,5 +1,6 @@
 #GBuyTicketWrap{
   //background-color: #fff;
+
   .nav-box{
     background-color: #fff;
     border: 1px solid #e5e5e5;
@@ -74,18 +75,19 @@
     }
     //购票记录filter
     .record-filter{
+      overflow: hidden;
       background-color: #fff;
       border: 1px solid #e5e5e5;
       border-top: none;
       padding: 0px 20px;
       .inline-block-li{
-        display: inline-block;
+        //display: inline-block;
         margin: 10px 20px 10px 0;
         .name{
           font-size: 14px;
           margin-right: 5px;
-          //display: inline-block;
-          //width: 70px;
+          display: inline-block;
+          width: 70px;
         }
         .get-idNum{
           font-size: 14px;
@@ -99,8 +101,8 @@
           border-color: #258cc9;
           color: #258cc9;
         }
-        .buy-btn{
-          //margin-left: 79px;
+        .search-btn{
+          margin-left: 79px;
           padding: 10px 20px;
           background-color: #f07845;
           color: #ffffff;
@@ -109,10 +111,11 @@
           text-align: center;
           font-size: 14px;
           cursor: pointer;
+          &:hover{
+            background-color: #e06e3d;
+          }
         }
-        .buy-btn:hover{
-          background-color: #e06e3d;
-        }
+
         .leading-in{
           padding: 10px 20px;
           margin-left: 20px;
@@ -202,6 +205,14 @@
     padding: 20px 0;
     .paginationXContainer{
       float: right;
+    }
+  }
+  .clear-btn{
+    cursor: pointer;
+    color: #0797D9;
+    margin-left: 10px;
+    &:hover{
+      text-decoration: underline;
     }
   }
 }
