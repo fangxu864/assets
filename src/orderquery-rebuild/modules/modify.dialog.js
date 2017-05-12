@@ -16,7 +16,9 @@ var ModifyDialog = RichBase.extend({
 			return true;
 		}
 	},
+
 	init : function(){},
+
 	onCountInpChange : function(tarInp,newVal,oldVal){
 		var parent = tarInp.parent(),
 			addBtn = parent.children(".addBtn"),
@@ -92,6 +94,7 @@ var ModifyDialog = RichBase.extend({
 			tarInp.val(newVal);
 		}
 	},
+
 	open : function(tarBtn,ordernum){
 		var that = this;
 
@@ -244,10 +247,10 @@ var ModifyDialog = RichBase.extend({
 					ticModListUl.text("");
 				},
 				timeout: function (res) {
-					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求超时，请稍后重试</p>');
+					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求票数超时，请稍后重试</p>');
 				},
 				serverError: function (res) {
-					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求出错，请稍后重试</p>');
+					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求票数出错，请稍后重试</p>');
 				}
 			}, function ( res ) {
 				if( res.code == 200 ) {
@@ -387,13 +390,19 @@ var ModifyDialog = RichBase.extend({
 					$('#touristLoading').slideUp();
 				},
 				timeout: function (res) {
-					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求超时，请稍后重试</p>');
+					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求游客信息超时，请稍后重试</p>');
 				},
 				serverError: function (res) {
-					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求出错，请稍后重试</p>');
+					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求游客信息出错，请稍后重试</p>');
 				}
 			}, function ( res ) {
+				if( res.code == 200 ) {
+					!$('#dialogTouristList').length && touristContainer.append('<ul id="dialogTouristList"></ul>');
 
+
+				} else {
+					PFT.Help.AlertTo("fail", '<p style="width:300px;">请求游客信息出错，请稍后重试</p>');
+				}
 			});
 		}
 	}
