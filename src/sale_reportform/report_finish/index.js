@@ -500,39 +500,42 @@ var Book_form={
 
         // 导出明细   added 2017/04/10
         $('#btnExportDetail').on( 'click', function(){
-            var api = _this.AJAX_URLS.exportDetails,
-                params = $.extend({}, _this.filterParamsBox, { judgeType: _this.JUDGE_TYPE });
+            var api = _this.AJAX_URLS.exportDetails;
 
-            PFT.Util.Ajax( api, {
-                type: 'post',
+            if( !$.isEmptyObject( _this.filterParamsBox ) ) {
+                var params = $.extend({}, _this.filterParamsBox, { judgeType: _this.JUDGE_TYPE });
 
-                params: params,
+                PFT.Util.Ajax( api, {
+                    type: 'post',
 
-                loading: function(){
-                    toast.show( 'loading');
-                },
+                    params: params,
 
-                success: function( res ){
-                    toast.hide();
+                    loading: function(){
+                        toast.show( 'loading');
+                    },
 
-                    switch( res.code ) {
-                        case 1:
-                        case 4:
-                            // 提示进入报表下载中心
-                            var d = new Dialog({
-                                header: '提示',
-                                width: 400,
-                                content: '<div class="dialog-content">明细报表已生成，请前往报表下载中心下载。<br /><a target="_blank" href="downloadcenter.html">点击进入报表下载中心</a></div>'
-                            });
-                            d.open();
-                            break;
-                        case 2:
-                            // 失败
-                            STip( 'fail', res.msg );
-                            break;
+                    success: function( res ){
+                        toast.hide();
+
+                        switch( res.code ) {
+                            case 1:
+                            case 4:
+                                // 提示进入报表下载中心
+                                var d = new Dialog({
+                                    header: '提示',
+                                    width: 400,
+                                    content: '<div class="dialog-content">明细报表已生成，请前往报表下载中心下载。<br /><a target="_blank" href="downloadcenter.html">点击进入报表下载中心</a></div>'
+                                });
+                                d.open();
+                                break;
+                            case 2:
+                                // 失败
+                                STip( 'fail', res.msg );
+                                break;
+                        }
                     }
-                }
-            })
+                })
+            }
         });
 
         // 点击对应th，降序排序 added 2017/04/10
