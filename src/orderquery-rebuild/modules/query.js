@@ -54,6 +54,10 @@ var Query = RichBase.extend({
 			that.clearCache();
 		});
 
+		listDoaction.on("finishExpiredOrder.success",function(){
+			that.clearCache();
+		});
+
 		// this.refresh(1);
 		this.resultListUl.html('<tr><td  colspan="6" style="padding:150px 0; text-align:center; background:#fff" class="queryToday_td"><span class="queryToday_btn_left">请输入条件搜索&nbsp 或&nbsp </span><span class="queryToday_btn">查看今日订单</span></td></tr>');
 		$(".queryToday_btn").click(function () {

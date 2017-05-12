@@ -58,11 +58,13 @@ var ListDoAction = RichBase.extend({
 
     // 完结已过期订单
     finishExpiredOrder: function( tarBtn, ordernum ) {
+        var that = this;
+
         Message.confirm('完结该笔过期订单后，订单金额可提现，该订单不可再操作验证和取消', function( result ){
             if( result ) {
                 PFT.Ajax({
-                    url: "",
-                    type: "get",
+                    url: "call/handle.php?from=order_finish",
+                    type: "post",
                     dataType: "json",
                     ttimeout : AJAX_TIMEOUT_NUM,
                     data: {
@@ -81,7 +83,8 @@ var ListDoAction = RichBase.extend({
                         alert("请求出错，请稍后重试")
                     }
                 }, function (res) {
-                    if(res.outcome==1){ //审核成功
+                    if( res.code == 200 ){ //完结成功
+
                         PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
                         var parent = tarBtn.parent();
                         tarBtn.parents(".col").siblings('.col_5').find(".tdCon").html("<em style='color:#bdbdbd'>已完结</em>");
@@ -93,20 +96,10 @@ var ListDoAction = RichBase.extend({
                         tarBtn.remove();
                         parent.children(".doBtn").first().prevAll("br").remove();
                         $("#listItem_" + ordernum).addClass("disable");
-                        that.fire("cancelOrder.success");
-                    }else if(res.outcome==-2){ //此订单取消需要审核，需要等待供应商审核结果才能知晓取消是否成功
-                        var msg = res.msg || "此订单取消需审核，已向供应商发出取消订单申请，请等待供应商的审核结果";
-                        var parent = tarBtn.parent();
-                        tarBtn.parents(".col").siblings('.col_5').find(".tdCon").append("<span class='status' style='color: #f07845'>完结中</span>");
-                        tarBtn.siblings(".orderAlter").remove();
-                        tarBtn.siblings(".orderResend").remove();
-                        tarBtn.siblings(".orderCancel").remove();
-                        tarBtn.remove();
-                        parent.children(".doBtn").first().prevAll("br").remove();
-                        alert(msg);
+                        that.fire("finishExpiredOrder.success");
+
                     }else{
-                        var txt = res.msg || "";
-                        PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + txt + '</p>');
+                        PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + (res.msg || "") + '</p>');
                     }
                 })
             } else {
