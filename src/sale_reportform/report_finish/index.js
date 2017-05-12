@@ -445,9 +445,9 @@ var Book_form={
         });
         //导出按钮
         $(".excel_btn").on("click",function () {
-            var api="/r/report_statistics/orderList/";
+            var api="/r/report_statistics/finishList/";
             if(_this.isAdmin=="1"){
-                api="/r/report_statistics/adminOrderList /";
+                api="/r/report_statistics/adminFinishList/";
             }
             var downUrl=api+"?export_excel=1&"+_this.JsonStringify(_this.filterParamsBox);
             _this.outExcel(downUrl);
@@ -785,9 +785,9 @@ var Book_form={
     ajaxGetData:function (data) {
         // console.log(data.params)
         var _this=this;
-        var api="/r/report_statistics/orderList/";
+        var api="/r/report_statistics/finishList/";
         if(_this.isAdmin=="1"){
-            api="/r/report_statistics/adminOrderList/";
+            api="/r/report_statistics/adminFinishList/";
         }
         $.ajax({
             url: api,                                //请求的url地址"/r/report_statistics/orderList/"
