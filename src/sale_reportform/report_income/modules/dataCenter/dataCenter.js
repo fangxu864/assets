@@ -1,5 +1,6 @@
 
 var DataCenter = {
+
     init: function (CR) {
         var _this = this;
         this.CR = CR;
@@ -47,6 +48,7 @@ var DataCenter = {
             },100);
             return false;
         }
+        // console.log(params)
         $.ajax({
             url: " /r/report_statistics/checkedPaywayList",    //请求的url地址
             dataType: "json",   //返回格式为json
@@ -79,6 +81,12 @@ var DataCenter = {
                 //通知table模块render
                 if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
                     res.data.Jtype = params.type;
+
+                    // 增加导出单条明细地址到res
+                    res.export_url = _this.CR.EXPORT_DETAIL_URL.single + '?is_detail=1&' + 'judgeType=' + _this.CR.JUDGE_TYPE + '&' + $.param(params);
+                    // 增加filter参数到res（根据票数排序）
+                    res.filter_params = $.param(params);
+
                     _this.CR.pubSub.pub("queryStateBox.close");
                     _this.CR.pubSub.pub("tableConBox.render", res );
                     _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )
@@ -147,6 +155,11 @@ var DataCenter = {
                 //通知table模块render
                 if( _this.judgeTrue( res.data) && _this.judgeTrue(res.data.list) ){
                     res.data.Jtype = params.type;
+
+                    // 增加导出单条明细地址到res
+                    res.export_url = _this.CR.EXPORT_DETAIL_URL.single + '?is_detail=1&' + 'judgeType=' + _this.CR.JUDGE_TYPE + '&' + $.param(params);
+                    res.filter_params = $.param(params);
+
                     _this.CR.pubSub.pub("queryStateBox.close");
                     _this.CR.pubSub.pub("tableTicket.render", res );
                     _this.CR.pubSub.pub("paginationBox.Render", {currentPage: res.data.page , totalPage: Math.ceil( Number ( res.data.total / 10 ) )} )

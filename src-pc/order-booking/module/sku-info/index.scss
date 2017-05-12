@@ -1,0 +1,46 @@
+#skuInfoMode{
+    padding-top: 20px;
+
+    position: relative;
+    overflow: hidden;
+
+    .formGroup.jihe,.formGroup.ishow.time{ margin-left: 100px;}
+
+    .formGroup.hotel{ 
+        clear: both; margin-bottom: 20px;
+        .select{
+            width: 150px;
+        }
+    }
+    .formGroup.hotel.time{ margin-bottom: 0}
+
+    .formGroup.hotel.roomType,.formGroup.hotel.effectTime{
+        .label{ margin-top: 0;}
+    }
+
+    .formGroup.hotel.time{
+        .zhi{ float: left; margin: 11px 10px 0;}
+    }
+
+    .flagLine{
+        clear: both;
+        overflow: hidden;
+        padding-left: 63px;
+        padding-top: 10px;
+        .flagBox{
+            float: left;
+            color: #F07845;
+            border: 1px solid #F07845;
+            padding: 3px 6px;
+            margin-right: 10px; 
+        }
+    }
+
+    .hotelDateListContainer{
+        margin-top: 10px;
+        margin-left: 65px;
+    }
+
+
+
+}

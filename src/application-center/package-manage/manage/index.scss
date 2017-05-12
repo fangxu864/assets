@@ -1,0 +1,77 @@
+$bore5 : 1px solid #e5e5e5;
+
+#G-package-manage-wrap{
+  background-color: #ffffff;
+  .title-box{
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+  }
+  .manage-tb-box{
+    border: $bore5;
+    border-top: none;
+    .manage-tb{
+      width: 100%;
+      thead tr{
+        line-height: 30px;
+        background-color: #f0f0f0;
+      }
+      tbody tr{
+        line-height: 40px;
+        border-bottom: 1px solid #e5e5e5;
+      }
+      tbody tr:hover{
+        background-color: #fafafa;
+      }
+      .th1,.th2,.th3, .th4,.th5,.th6,.th7{
+        text-align: left;
+        padding-left: 20px;
+      }
+      .th7{
+        text-align: right;
+        padding-right: 20px;
+      }
+      tr{
+        .btn{
+          padding: 8px 20px;
+          line-height: 12px;
+          color: #ffffff;
+          margin: 5px;
+          display: inline-block;
+          border-radius: 3px;
+          text-align: center;
+          font-size: 14px;
+          cursor: pointer;
+        }
+        .alter-btn{
+          background-color: #0897d9;
+        }
+        .alter-btn:hover{
+          background-color: #0786c1
+        }
+        .delete-btn{
+          background-color: #f07845;
+        }
+        .delete-btn:hover{
+          background-color: #e06e3d;
+        }
+      }
+    }
+    .add-box{
+      text-align: center;
+      padding: 10px 0;
+    }
+    .add-btn{
+      padding: 10px 38px;
+      background-color: #f07845;
+      color: #ffffff;
+      display: inline-block;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .add-btn:hover{
+      background-color: #e06e3d;
+    }
+  }
+}

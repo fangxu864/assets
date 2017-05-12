@@ -1,0 +1,6 @@
+<div id="fixDisSwitchor" class="fixDisSwitchor">
+    <div class="con">
+        <span class="lt">您正以<em id="disDname_text" data-id="<%=fsid%>"  data-account="<%=fsaccount%>" class="disDname_text"><%=fsname%></em>的身份下单</span>
+        <a id="switchDisBtn" class="switchDisBtn" href="javascript:void(0)">切换分销商</a>
+    </div>
+</div>

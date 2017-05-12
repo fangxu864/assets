@@ -1,0 +1,11 @@
+<% _.each(data.list,function(item,index){ %>
+<tr>
+    <td class="th1"><%=data.name_land%></td>
+    <td class="th2"><%=item.name%></td>
+    <td class="th3"><%=item.id_card%></td>
+    <td class="th4">
+        <span class="edit-btn" data-mid="<%=item.mid%>">编辑</span>
+        <span class="delete-btn" data-mid="<%=item.mid%>">删除</span>
+    </td>
+</tr>
+<%})%>

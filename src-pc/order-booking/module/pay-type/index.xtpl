@@ -1,0 +1,38 @@
+<div class="title">支付方式</div>
+<%var pay = fragment.pay;%>
+<%if(pay.onsite_pay==1){%>
+    <p class="onsite_pay">现场支付</p>
+<%}else if(pay.self!=1){%>
+    <ul class="payTypeListUl">
+        <li data-paymode="2" class="typeItem active credit">
+            <i class="label"></i>
+            <span class="text">
+                授信余额
+                <span class="usebale">
+                    可用
+                    <%if(pay.credit=="unlimit"){%>
+                        <em class="unlimit">不限</em>
+                    <%}else{%>
+                        <i class="yen">&yen;</i><em class="num"><%=pay.credit%></em>
+                    <%}%>
+                </span>
+            </span>
+        </li>
+        <li data-paymode="0" class="typeItem remain">
+            <i class="label"></i>
+            <span class="text">
+                帐户余额
+                <span class="usebale">
+                    可用
+                    <i class="yen">&yen;</i><em class="num"><%=pay.remain%></em>
+                </span>
+            </span>
+        </li>
+        <li data-paymode="1" class="typeItem online">
+            <i class="label"></i>
+            <span class="text">在线支付</span>
+        </li>
+    </ul>
+<%}else{%>
+    <p class="selfPay">预订自供产品，无需支付</p>
+<%}%>

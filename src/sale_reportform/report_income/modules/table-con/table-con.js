@@ -3,9 +3,10 @@
  */
 
 require("./table-con.scss");
-var tableConTpl = require("./table-con.xtpl");
-var tableLtTpl = require("./table-lt.xtpl");
-var tableRtTpl = require("./table-rt.xtpl");
+var tableConTpl = require("./table-con.xtpl"),
+    tableLtTpl = require("./table-lt.xtpl"),
+    tableRtTpl = require("./table-rt.xtpl"),
+    tableOperateTpl = require("./table-operate.xtpl");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 require("COMMON/modules/DragConOver")($);
 var Tip = require("COMMON/modules/tips");
@@ -55,8 +56,71 @@ var tableCon = {
             if(shrinkBtn){
                 shrinkBtn.click();
             }
-        })
+        });
 
+        // 点击对应th，降序排序 added 2017/04/26
+        this.container.on('click', '.orderby', function(){
+                // 由于目前只有一列排序，所以数据直接后端做排序处理，前端不用添加事件，留着方便后期做多列排序
+                // _this.sortTableBy( $(this).attr('data-orderby'), $(this).attr('data-filter') );
+
+        }).on('click', '.btn-export-single', function(){
+            _this.outExcel( $(this).attr('data-url') );
+        });
+    },
+
+    // 表格排序
+    sortTableBy: function( orderby, filter_params ){
+        var _this = this,
+            params = {};
+        //判断是否按票查询
+        //按票查询
+        if( !orderby ) return false;
+
+        switch( orderby ) {
+            case 'member_ticket':
+                params = this.stringToObject( filter_params );
+                params.ticket_orderby = 1;
+
+                if( params.searchTicket ){
+                    _this.CR.pubSub.pub("DC.getTicketData" , params );
+                }
+                //默认的查询方式
+                else{
+                    _this.CR.pubSub.pub("DC.getMainData" , params );
+                }
+                break;
+        }
+
+    },
+
+    stringToObject: function( str ) {
+        var tempArr = [],
+            params = {},
+            i,
+            len,
+            key,
+            val;
+
+        if( str.length ) {
+            tempArr = str.split('&');
+            for( i=0, len = tempArr.length; i<len; i++ ) {
+                key = tempArr[i].split('=')[0];
+                val = tempArr[i].split('=')[1] == 'false' ? false :
+                        tempArr[i].split('=')[1]=='true' ? true : tempArr[i].split('=')[1];
+                params[ key ] = val;
+            }
+        }
+
+        return params;
+    },
+
+    /**
+     * @method导出excel
+     */
+    outExcel:function (downloadUrl) {
+        var iframeName="iframe"+new Date().getTime();
+        $("body").append(' <iframe style="display: none" name="'+iframeName+'"></iframe>');
+        window.open(downloadUrl, iframeName);
     },
 
     close: function () {
@@ -120,11 +184,15 @@ var tableCon = {
             }
             rtData.list.push(obj)
         }
-        var tableLtHtml = this.tableLtTemplate({data : res });
+
+        // console.log( res )
+        var tableLtHtml = this.tableLtTemplate({data : res, filter_params: res.filter_params });
         var tableRtHtml = this.tableRtTemplate({data : rtData });
+        var tableOperateHtml = this.tableOperateTemplate({data : res, export_url: res.export_url });
 
         this.container.find(".table-lt").html(tableLtHtml);
         this.container.find(".table-rt").html(tableRtHtml);
+        this.container.find(".table-operate").html(tableOperateHtml);
         this.container.find(".rt-con .table-rt").css("left",0);
         this.container.show();
     },
@@ -133,7 +201,8 @@ var tableCon = {
      * @method 解析模板
      */
     tableLtTemplate: ParseTemplate( tableLtTpl ),
-    tableRtTemplate: ParseTemplate( tableRtTpl )
+    tableRtTemplate: ParseTemplate( tableRtTpl ),
+    tableOperateTemplate: ParseTemplate( tableOperateTpl )
 
 
 };

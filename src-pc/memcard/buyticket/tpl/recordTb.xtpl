@@ -1,0 +1,8 @@
+<% _.each(data.list,function(item,index){ %>
+<tr>
+    <td class="th1"><%=item.time%></td>
+    <td class="th2"><%=item.title%></td>
+    <td class="th3"><%=item.name%></td>
+    <td class="th4"><%=item.id_card%></td>
+</tr>
+<%})%>

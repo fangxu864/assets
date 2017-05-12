@@ -45,7 +45,9 @@ module.exports = function(parent){
 			var target = $(e.currentTarget);
 			var toState = target.hasClass("on") ? "off" : "on";
 			if(toState=="off"){ //关
-				Message.confirm("确定要关闭余额阀值提醒吗？",function(result){
+				Message.confirm(function(){
+					return '<div style="text-align:center">确定要关闭余额阀值提醒吗？</div>';
+				},function(result){
 					if(!result) return false;
 					that.ajaxFaZhi(0);
 				})
@@ -64,6 +66,7 @@ module.exports = function(parent){
 			var orignValue = $("#balanceNoticeBox").find(".fazhi").text();
 			Message.prompt("请输入余额提醒阀值",orignValue,function(result,value){
 				if(!result) return false;
+				value = String(value*1);
 				if(!PFT.Util.Validate.typeInit(value)) return Message.error("金额必须是大于0的整数");
 				that.ajaxFaZhi(value,tarBtn);
 			})

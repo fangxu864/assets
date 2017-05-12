@@ -64,6 +64,10 @@
             disableTodaybefore : {
                 type : Boolean,
                 default : false
+            },
+            startDate : {
+                type : String,
+                default : ""
             }
         },
         data(){
@@ -82,7 +86,7 @@
             }
         },
         ready(){
-
+            
         },
         watch : {
             yearmonth(val,oldVal){
@@ -114,9 +118,13 @@
                 var date = dateObj.date;
                 var dateStram = +new Date(date);
                 var disableTodayBefore = this.disableTodaybefore;
+                
+                var dateStr = new Date(date).getTime();
+                var startDate = new Date(this.startDate).getTime();
+
                 var cls = {
                      empty : !dateObj.day,
-                     disable : typeof dateObj.price=="undefined",
+                     disable : (typeof dateObj.price=="undefined") || (dateObj.day && dateStr<startDate),
                      disableTodaybefore : (disableTodayBefore && dateObj.today=='before'),
                      prevmonth : (dateObj.month!=='current' && dateObj.month < this.selected_month),
                      nextmonth : (dateObj.month!=='current' && dateObj.month > this.selected_month),
@@ -127,11 +135,11 @@
                      selected : date==this.selected_date
                 };
                 if(min){
-                    min = +new Date(min);
+                    min = new Date(min).getTime();
                     if(dateStram<=min) minMaxDisableCls = "minDisable";
                 }
                 if(max){
-                    max = +new Date(max);
+                    max = new Date(max).getTime();
                     if(dateStram>=max) minMaxDisableCls = "maxDisable";
                 }
                 if(minMaxDisableCls) cls["minMaxDisable"] = true;

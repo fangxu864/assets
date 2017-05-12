@@ -1,0 +1,110 @@
+#pui-m-alertBox{
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:85%;
+    overflow:hidden;
+    text-align:center;
+    padding-top:10px;
+    background:#fff;
+    border-radius:3px;
+    transform:translate(-50%,-50%);
+
+    .alertHeaderBox{
+        font-weight:bold;
+        padding:10px 20px 0;
+    }
+
+    .alertConBox{
+        padding:20px 20px 30px;
+        line-height:1.5;
+    }
+
+    .alertFoot{
+        position:relative;
+        height:42px;
+        line-height:42px;
+        text-align:center;
+        font-size:14px;
+        color:#0bb20c;
+        &:before{
+            content : "";
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            width:100%;
+            height:1px;
+            font-size:0;
+            background:#e5e5e5;
+            transform:scaleY(0.5);
+        }
+
+    }
+
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-perspective: 1000; 
+
+}
+@media screen and (-webkit-device-pixel-ratio: 3){
+    #pui-m-alertBox .alertFoot{
+        height:48px;
+        line-height:48px;
+    }
+}
+
+
+#pui-m-alertBox.entry{
+    display:block;
+    opacity: 0;
+    transform: translate3d(-50%, -50%,0) scale3d(1.1,1.1,1)!important;
+}
+
+#pui-m-alertBox.transition{
+    display:block;
+    opacity:1;
+    transform: translate3d(-50%, -50%,0) scale3d(1,1,1)!important;
+    transition-property: transform, opacity!important;
+    transition-duration: .2s;
+}
+#pui-m-alertBox.leave{
+    display:block;
+    opacity:0;
+    transition-property: transform, opacity!important;
+    transition-duration: .3s;
+    transform: translate3d(-50%, -50%,0) scale3d(1,1,1)!important;
+}
+
+
+
+#pui-m-alertMask{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    opacity : 0.6;
+    background:#000;
+}
+
+
+
+#pui-m-alertMask.entry{
+    display:block;
+    opacity: 0;
+}
+
+#pui-m-alertMask.transition{
+    display:block;
+    opacity:0.5;
+    transition-property: opacity!important;
+    transition-duration: .2s;
+}
+#pui-m-alertMask.leave{
+    display:block;
+    opacity:0;
+    transition-property: opacity!important;
+    transition-duration: .3s;
+}

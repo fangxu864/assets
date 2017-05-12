@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="file" id="file" onchange="read()" multiple="multiple">
+<script>
+    function read() {
+        var file = document.getElementById("file");
+        console.log(file.files);
+        var f = file.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            console.log(e.target.result)
+        }
+        reader.readAsBinaryString(f);
+    }
+
+</script>
+</body>
+</html>

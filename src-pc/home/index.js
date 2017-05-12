@@ -21,7 +21,9 @@ var SystemNotice = require("./modules/system-notice");
 
 var AD = require("./modules/ad");
 
-var RecommendApp = require('./modules/recommend-app');
+if( $('#isShowAppcenter').val() == '1' && $('#sessionOrderMode').val() == '0' ) {
+	var RecommendApp = require('./modules/recommend-app');
+}
 
 var ScrollManager = PFT.Util.MainBodyScrollManager;
 
@@ -38,7 +40,9 @@ var Main = PFT.Util.Class({
 
 		this.saleEchart = SaleEchart(this.pageMain);
 		// this.wxShopData = WxShopData(this.pageMain);
-		this.recommendApp = RecommendApp( this.pageMain, 'G_Body' );
+		if( RecommendApp ) {
+			this.recommendApp = RecommendApp( this.pageMain, 'G_Body' );
+		}
 
 		var DTYPE = $("#home_judge_of_dtype").val();
 

@@ -1,0 +1,3 @@
+    <% _.each( menu, function( item, index ){ %>
+    <li data-url="<%= index=='book' ? menu_attrs[index].url + location.search : menu_attrs[index].url %>" data-menuitem="<%=index%>"><i class="icon-mb-gongneng <%=menu_attrs[index].icon[0]%>" style="color: <%=menu_attrs[index].icon[1]%>"></i><%=item%></li>
+    <% }) %>

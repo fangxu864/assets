@@ -1,0 +1,14 @@
+<div class="mmDialogContainer">
+    <div class="mdLine pwd">
+        <span class="label">验证密码</span>
+        <input type="password" name="" id="mdPwdInp" class="mdInp mdPwdInp">
+    </div>
+    <div class="mdLine pwd">
+        <span class="label">新手机号</span>
+        <input type="text" name="" id="mdMobileInp" class="mdInp mdMobileInp mdMobileInp">
+    </div>
+    <div class="btnGup">
+        <span class="mdBtn cancelBtn cancel">取消</span>
+        <span class="mdBtn yesBtn yes">确定</span>
+    </div>
+</div>

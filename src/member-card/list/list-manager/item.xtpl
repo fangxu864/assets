@@ -3,6 +3,7 @@
         <td class="col td dname">
             <a href="member_card.html?fid=<%=item.did%>"><%=item.dname%>(<%=item.card_no ? item.card_no : "--"%>)</a>
         </td>
+        <td class="col td"><%=item.mobile ? item.mobile : '--'%></td>
         <td class="col td"><%=item.card_time%></td>
         <td class="col td last_time"><%=item.ordertime%></td>
         <td class="col td carinfo"><%=item.carInfo%></td>

@@ -1,0 +1,87 @@
+<style type="text/css">
+    .calendar-table{ width:100%;}
+    .calendar-table .calendar-thead th{ height:35px; background:#ebebeb; text-align:center; border:1px solid #E5E5E5;}
+    .calendar-table .calendar-thead label{ position:relative; top:-1px;}
+    .calendar-table .calendar-td{border:1px solid #E5E5E5;}
+    .calendar-table .calendar-td .tdCon{ display:block; position:relative; height:36px; line-height:36px; text-align:center; overflow:hidden}
+    .calendar-table .calendar-td.empty,.calendar-table .calendar-td.noPrice{ background:#f7f7f7; cursor:default}
+    .calendar-table .calendar-td.day{ background:#fff; cursor:pointer;}
+    .calendar-table .calendar-td.day:hover{ background:#fcfcfc}
+    .calendar-table .calendar-td.selected,.calendar-table .calendar-td.selected:hover{ background:#008fc2; color:#fff}
+    .calendar-table .dayNum{ font-size:12px; font-family:arial;}
+    .calendarHead{ position:relative; height:36px; line-height:36px; padding:0 50px; background:#008fc2; color:#fff; text-align:center}
+    .calendarHead .con .iconfont{ font-size:16px}
+    .calendarHead .con .top-calendar-date{ font-size:14px; font-weight:bold; margin-right:3px;}
+    .calendarHead .monthNavBtn{ position:absolute; top:0; bottom:0; display:block; width:38px; line-height:36px; text-align:center; color:#fff}
+    .calendarHead .monthNavBtn:hover{ text-decoration:none; background:#0581ad}
+    .calendarHead .monthNavBtn.next{ right:0;}
+    .calendarHead .monthNavBtn.prev{ left:0;}
+    .calendarHead .iconfont.up{ display:none}
+    .calendarHead.active .iconfont.up{ display:inline-block}
+    .calendarHead.active .iconfont.down{ display:none}
+    .calendarPopWrap .closeBtn{ display:block; width:32px; height:32px; position:absolute; top:-18px; right:-16px; z-index:1}
+</style>
+<script id="tpl-calendar" type="text/template">
+    <%
+    var yearmonth=data.yearmonth,dates=data.dates;
+    var containerID = data.containerID;
+    var ym = yearmonth.split("-");
+    var year = ym[0];
+    var month = ym[1];
+    %>
+    <div id="<%=containerID%>-topCalendar" class="calendarHead">
+        <div class="con"><span id="<%=containerID%>-top-calendar-date" class="top-calendar-date"></span></div>
+        <a id="<%=containerID%>-monthNavBtnNext" class="monthNavBtn next" href="javascript:void(0)"><i class="iconfont">&#xe60d;</i></a>
+        <a id="<%=containerID%>-monthNavBtnPrev" class="monthNavBtn prev" href="javascript:void(0)"><i class="iconfont">&#xe60c;</i></a>
+    </div>
+    <div id="<%=containerID%>-calendar-panel-<%=yearmonth%>" class="calendar-panel">
+        <table id="calendar-table-<%=yearmonth%>"  class="calendar-table">
+            <thead id="<%=containerID%>-calendar-thead-<%=yearmonth%>" class="calendar-thead">
+            <th data-yearmonth="<%=yearmonth%>" data-week="0">
+                <label for="calendar-weeken-checkbox-<%=yearmonth%>-0">日</label>
+            </th>
+            <th data-yearmonth="<%=yearmonth%>" data-week="1">
+                <label for="calendar-weeken-checkbox-<%=yearmonth%>-1">一</label>
+            </th>
+            <th data-yearmonth="<%=yearmonth%>" data-week="2">
+                <label for="calendar-weeken-checkbox-<%=yearmonth%>-2">二</label>
+            </th>
+            <th data-yearmonth="<%=yearmonth%>" data-week="3">
+                <label for="calendar-weeken-checkbox-<%=yearmonth%>-3">三</label>
+            </th>
+            <th data-yearmonth="<%=yearmonth%>" data-week="4">
+                <label for="calendar-weeken-checkbox-<%=yearmonth%>-4">四</label>
+            </th>
+            <th data-yearmonth="<%=yearmonth%>" data-week="5">
+                <label for="calendar-weeken-checkbox-<%=yearmonth%>-5">五</label>
+            </th>
+            <th data-yearmonth="<%=yearmonth%>" data-week="6">
+                <label for="calendar-weeken-checkbox-<%=yearmonth%>-6">六</label>
+            </th>
+            </thead>
+            <tbody id="<%=containerID%>-calendar-tbody-<%=yearmonth%>" class="calendar-tbody">
+            <%_.each(dates,function(tr){%>
+            <tr>
+                <%_.each(tr,function(td){%>
+                <%
+                var date = td.date;
+                var day = td.day;
+                var weeken = td.weeken;
+                var yearmonth = td.yearmonth;
+                %>
+                <%if(day){%>
+                <td class="calendar-td day" data-day="<%=day%>" data-date="<%=date%>" data-yearmonth="<%=yearmonth%>" data-week="<%=weeken%>" id="<%=containerID%>-calendar-td-<%=date%>">
+                    <div class="tdCon">
+                        <span class="dayNum"><%=day%></span>
+                    </div>
+                </td>
+                <%}else{%>
+                <td class="calendar-td empty"></td>
+                <%}%>
+                <% }) %>
+            </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+</script>

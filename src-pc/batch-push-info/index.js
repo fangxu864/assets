@@ -1,17 +1,20 @@
 
 require("./index.scss");
-
+//组件
 require("./jq.ajaxform");
 var Datapicker = require("./datepicker");  //精确到秒的日历组件
-
-
+var Message = require("pft-ui-component/Message");
+//service
+var Save_service = require("./service/save");
 
 var Main = PFT.Util.Class({
     container : "#editContainer",
     EVENTS : {
+        "click #saveNow" : "save"
     },
     init : function(){
         var that = this ;
+        this.excelUrl = "";    
         //下拉框
         this.handleSelect();
         // 单选radio
@@ -33,7 +36,6 @@ var Main = PFT.Util.Class({
 				picker : $("#setTimePush")
 			});
         });
-
         $(".inputExcel").change(function(){
             $("#excelUpLoadText").text("读取中");
             var file = this.files[0];
@@ -41,16 +43,135 @@ var Main = PFT.Util.Class({
             reader.readAsBinaryString(file);
             reader.onload=function(){
                 var url=reader.result;
-                $("#excelUpLoadText").text("读取成功");
+                var fileName = $("#excelUp").val();
+                fileName = fileName.split("\\");
+                fileName = fileName[fileName.length-1]
+                $("#excelUpLoadText").text("文件（" + fileName + "）读取成功").css("color","#3dba3f");
+                //异步表单上传
+                $("#excelUpLoadForm").ajaxSubmit({
+                    data : {
+                        identify : "batSendMsg"                  
+                    },
+                    beforeSubmit : function(a,b,c){
+                        $("#excelUpLoadText").text("上传中");
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        var code = res.code;
+                        var msg = res.msg;
+                        var data = res.data;
+                        var src = data.src;
+                        if(code == 200){
+                            $("#excelUpLoadText").text("上传成功");
+                            that.excelUrl = src ;
+                        }else{
+                            $("#excelUpLoadText").text(msg).css("color","#e12424");                            
+                        }
+                    },
+                    fail : function(){
+                        $("#excelUpLoadText").text("上传失败").css("color","#e12424");
+                    }
+                })                
+
             }
         });
 
+        $(".selectBox .selectItem").first().trigger("click");
 
 
-        //console.log($("#excelUpLoad").ajaxSubmit);    //异步提交表单
+    },
+    //保存
+    save : function(){
+        var that = this;
 
+        if($("#saveNow").attr("data-sending") == "true"){
+            return false
+        }
 
+        //判断填写为空先去掉//后面再加
 
+        var title = $("#infoNameInput").val();   //消息名称
+        // if( title == "" ){
+        //      Message.alert("请填写消息名称");           
+        //      return false
+        // }
+        var msg_type = $("#infoTypeInput").attr("data-type"); //消息类型
+        var content = $("#infoTextInput").val(); //消息内容
+        // if( content == "" ){
+        //      Message.alert("请填写内容");           
+        //      return false
+        // }
+        if( $("#excelUp").val() == "" && $(".memberBox").css("display") != "none" ){
+            Message.alert("请导入excel文件");           
+            return false
+        }
+        var rec_type = $("#infoReceiver").attr("data-type");//接收类型
+        if( rec_type == "infoReceiver1" ){
+            rec_type = "0";
+        }else if( rec_type == "infoReceiver2" ){
+            rec_type = "1";
+        }
+        var channel = [];//推送渠道
+        $(".checkBoxList .checkIcon").each(function(i,item){
+            item = $(item);
+            var itemName = item.attr("class");
+            var itemtype = item.attr("data-type");
+            if( itemName == "checkIcon active" ){
+                channel.push(itemtype);
+            }
+        });
+        //推送类型
+        var pushWay = $("#pushWay").attr("data-type");
+        var send_type = "" ;  //推送类型
+        var send_time = "" ;  //发送时间
+        if( pushWay == "pushWay1" ){ //启动时立即推送
+            send_type = "0";
+            send_time = "0";   
+        }else if( pushWay == "pushWay2" ){ //定时推送
+            send_type = "1";
+            send_time = $("#setTimePush").val();
+            // if( send_time == "" ){
+            //     Message.alert("请填写日期");
+            //     return false
+            // }
+        }else if( pushWay == "pushWay3" ){ //动态推送
+            send_type = "2";
+            send_time = $("#pushDay").val();
+            // if( send_time == "" ){
+            //     Message.alert("请填写天数");
+            //     return false
+            // }
+        }
+        if( this.excelUrl == ""){
+            Message.alert("请导入excel文件");           
+            return false
+        }
+        Save_service({
+            title : title, //消息名称
+            msg_type : msg_type,  //消息类型
+            content : content,  //消息内容
+            rec_type : rec_type,  //接收类型[系统自动0，指定会员1]
+            channel : channel,  //推送渠道[短信1微信0]
+            send_type : send_type, //推送类型[立即推送0，定时推送1，动态推送2]
+            send_time : send_time, //发送时间[立即推送0，定时推送日期精确到分，动态推送单位天数]
+            excel : that.excelUrl, //保存excel
+            save_type : "1" //保存类型  保存0，保存并执行1   //先写死   
+        },{
+            loading : function(){
+                $("#saveNow").text("正在发送");
+                $("#saveNow").attr("data-sending","true");
+            },
+            complete : function(){
+                $("#saveNow").text("保存,立即启动");
+                $("#saveNow").attr("data-sending","false");
+            },
+            success : function(data){
+                Message.alert("保存成功");
+            },
+            fail : function(msg,code){
+                Message.alert(code + msg);
+            }   
+        })
 
     },
     //获得当天的时间
@@ -74,14 +195,13 @@ var Main = PFT.Util.Class({
 				+ seperator2 + second ;
 		return currentdate;
 	},
-
     handleCheckBox : function(){
         var that = this;
        $(".checkIcon").on("click",function(e){
             var target = $(e.target);
             if( target.attr("class") == "checkIcon active" ){
                 target.removeClass("active");        
-            }else{
+            }else if(target.attr("class") == "checkIcon"){
                 target.addClass("active");        
             }
        });     
@@ -107,34 +227,40 @@ var Main = PFT.Util.Class({
             var type = target.attr("data-type");
             var className = target.attr("class");              
             if( className == "radioIcon disable"){
-                console.log("disable");
                 return false
             }
             if( type == "infoReceiver1"){  //系统自动筛选
-                $("#infoReceiverInput").css("display","none");                
-                $("#excelUpLoad").css("display","none");                
-                $("#excelUpLoadText").css("display","none");
+                $(".memberBox").css("display","none");
                 $(".infoReceiver").attr("data-type",type);
                 //判断推送方式
-                var infoType = $("#infoTypeInput").attr("data-type");
-                if( infoType == "1"){ //通用提醒
-                    that.pushWaySelect(1);
-                }else if( infoType == "2" ){ //礼劵到期
-                    that.pushWaySelect(2);
-                }else if( infoType == "3" ){ //生日祝福
-                    that.pushWaySelect(2);
-                }
+                // var infoType = $("#infoTypeInput").attr("data-type");
+                // if( infoType == "0"){ //通用提醒
+                //     that.pushWaySelect(1);
+                // }else if( infoType == "2" ){ //礼劵到期
+                //     that.pushWaySelect(2);
+                // }else if( infoType == "1" ){ //生日祝福
+                //     that.pushWaySelect(2);
+                // }
+
+                $("#pushWay").find(".radioIcon[data-type=pushWay3]").removeClass("disable").addClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay1]").addClass("disable").removeClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay2]").addClass("disable").removeClass("active");
+
+
             }else if( type == "infoReceiver2" ){   //指定会员
-                $("#infoReceiverInput").css("display","inline-block");              
-                $("#excelUpLoad").css("display","inline-block");                
-                $("#excelUpLoadText").css("display","inline-block");
+                $(".memberBox").css("display","block");
                 $(".infoReceiver").attr("data-type",type);
+
+                $("#pushWay").find(".radioIcon[data-type=pushWay3]").addClass("disable").removeClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay1]").removeClass("disable").addClass("active");
+                $("#pushWay").find(".radioIcon[data-type=pushWay2]").removeClass("disable");
+
                 //判断推送方式
-                var infoType = $("#infoTypeInput").attr("data-type");
-                if( infoType ){ //指定会员所有情况都是只能选动态推送
-                    that.pushWaySelect(1);
-                }
-            }else if( type == "pushWay1" ){  //启动时立即推送
+                // var infoType = $("#infoTypeInput").attr("data-type");
+                // if( infoType ){ //指定会员所有情况都是只能选动态推送
+                //     that.pushWaySelect(1);
+                // }
+            }else if( type == "pushWay1" ){   //启动时立即推送
                 $(".pushWay").attr("data-type",type);
             }else if( type == "pushWay2" ){   //定时推送
                 $(".pushWay").attr("data-type",type);
@@ -156,7 +282,7 @@ var Main = PFT.Util.Class({
         var fa = $(".selectBox").parent();
         fa.css("position","relative");
         $(".selectBox").css("top",parseFloat(inputH));
-        $(".selectBox").css("left","150px"); //写死了,怎么办
+        $(".selectBox").css("left","150px"); 
         $(".selectBox").css("width", inputW); 
         var arrBox = $(".selectBox").find(".arrBox");
         var ul = $(".selectBox").find("ul");
@@ -180,18 +306,17 @@ var Main = PFT.Util.Class({
             var target = $(e.target);
             var t = target.text();
             var type = target.attr("data-type");
-
-            if( type == "1" || type == "3"){//通用提醒和生日祝福
+            if( type == "0" || type == "1"){//通用提醒和生日祝福
                 var text = "尊敬的[会员名称]，";
                 $(".infoText .fiexdText").text(text);
             }else if( type == "2" ){//礼券到期
                 var text = "尊敬的[会员名称]，您有[礼券名称]*[数量]，将于[过期时间]过期。";
                 $(".infoText .fiexdText").text(text);
             }
-            if( type == "1" ){//通用提醒
+            if( type == "0" ){//通用提醒
                 that.pushWaySelect(1);
                 $(".pushWay").attr("data-type","pushWay1");
-            }else if( type == "2" || type == "3"){//礼券到期和生日祝福
+            }else if( type == "1" || type == "2"){//礼券到期和生日祝福
                 if( $(".infoReceiver").attr("data-type") == "infoReceiver1"){
                     that.pushWaySelect(2);
                     $(".pushWay").attr("data-type","pushWay3");
@@ -200,18 +325,31 @@ var Main = PFT.Util.Class({
                     $(".pushWay").attr("data-type","pushWay1");
                 }
             }
+
+            var radioList = $(".radioList");
+
+            if(type=="0"){ //通用
+                radioList.find(".radioIcon[data-type=infoReceiver1]").addClass("disable");
+                radioList.find(".radioIcon[data-type=infoReceiver2]").removeClass("disable").trigger("click");
+            }else if(type=="2"){ //礼券
+                radioList.find(".radioIcon[data-type=infoReceiver1]").removeClass("disable").trigger("click");
+                radioList.find(".radioIcon[data-type=infoReceiver2]").addClass("disable");
+            }else if(type=="1"){ //生日祝福
+                radioList.find(".radioIcon[data-type=infoReceiver1]").removeClass("disable");
+                radioList.find(".radioIcon[data-type=infoReceiver2]").removeClass("disable");
+            }
+
             input.val(t);
             input.attr("data-type",type);
             ul.css("display","none");      
             arrBox.find("i.icon").removeClass("icon-arrowup").addClass("icon-arrowdown");
         });
     },
-
     pushWaySelect : function(way){
         if(way == 1){
             //生日、礼券到期 选择 指定会员 时 可以选上面两种推送，不能选动态
             $(".radioIcon[data-type=pushWay1]").removeClass("disable").addClass("active");//默认选1
-            $(".radioIcon[data-type=pushWay2]").removeClass("disable");
+            $(".radioIcon[data-type=pushWay2]").removeClass("disable").removeClass("active");
             $(".radioIcon[data-type=pushWay3]").removeClass("active").addClass("disable");
         }else if(way == 2){
             // 生日、礼券到期 选择 系统自动筛选时，仅可选动态推送

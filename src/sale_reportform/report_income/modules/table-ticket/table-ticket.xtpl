@@ -14,11 +14,12 @@
                 <th colspan="3" class="has-b-lt">检票</th>
                 <th colspan="4" class="has-b-lt">撤销/撤改</th>
                 <th colspan="2" class="padding-rt-20 has-b-lt"><%=data.Jtype == 1 ? '应收' : '应付'%></th>
+                <th class="has-b-lt" rowspan="2">操作</th>
             </tr>
             <tr class="tr2">
 
                 <th  class="has-b-lt">订单数</th>
-                <th>票数</th>
+                <th class="" data-orderby="ticket_num" data-filter="<%=filter_params%>">票数</th>
                 <th class="padding-rt-20">金额(元)</th>
 
                 <th  class="has-b-lt">订单数</th>
@@ -46,6 +47,7 @@
 
                 <td class="has-b-lt"><%=data.total_info.ticket_num - data.total_info.cancel_ticket_num%></td>
                 <td class="padding-rt-20"><%=( Number( data.total_info.sale_money  - data.total_info.cancel_money + data.total_info.service_money ) / 100 ).toFixed(2)%></td>
+                <td></td>
             </tr>
         </tbody>
 
@@ -65,6 +67,7 @@
 
             <td class="has-b-lt"><%=item.firstTrData.ticket_num - item.firstTrData.cancel_ticket_num%></td>
             <td class="padding-rt-20"><%=( ( Number( item.firstTrData.sale_money ) - Number( item.firstTrData.cancel_money ) + Number( item.firstTrData.service_money ) ) / 100 ) .toFixed(2) %></td>
+            <td class="td-operate has-b-lt"><a href="javascript:;" class="btn-export-single" data-url="<%=export_url%>&detail_pid=<%=item.firstTrData.id%>">导出明细</a></td>
         </tr>
         <% for(var i = 0 ; i< item.childListData.length ; i++ ){%>
         <tr  class="child-tr">
@@ -81,6 +84,7 @@
 
             <td class="has-b-lt"><%=item.childListData[i]['real_num']%></td>
             <td class="padding-rt-20"><%=item.childListData[i]['real_money'] == 0 ? 0 : ( Number(  item.childListData[i]['real_money'] ) / 100 ) .toFixed(2)%></td>
+            <td></td>
         </tr>
         <% }%>
         </tbody>

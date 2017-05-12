@@ -1,0 +1,75 @@
+<div class="nav-box"></div>
+<div class="filter-box">
+    <ul>
+        <li class="inline-block-li">
+            <span class="name">产品：</span>
+            <input type="text" id="landInpMain" class="land-inp" readonly="readonly" />
+            <span onclick="$(this).siblings('input').val('').removeAttr('data-id')" class="clear-btn">清除</span>
+        </li>
+        <li class="inline-block-li">
+            <span class="name">购票数量：</span>
+            <input type="text" class="ticket-num"/>
+        </li>
+        <li class="inline-block-li">
+            <span class="name">身份证：</span>
+            <input type="text" style="width: 230px" class="idNum-inp"/>
+            <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
+        </li>
+        <li class="inline-block-li">
+            <span class="name">姓名：</span>
+            <input type="text" class="userName-inp"/>
+        </li>
+        <li class="inline-block-li">
+            <span class="buy-btn" onselectstart="javascript: return false;">购票</span>
+        </li>
+
+    </ul>
+</div>
+
+<div class="ticket-record-wrap">
+    <div class="record-tit">购票记录</div>
+    <div class="record-filter">
+        <ul>
+            <li class="inline-block-li">
+                <span class="name">日期：</span>
+                <input type="text" style="width: 128px" class="bTimeInp" readonly="readonly"/><span style="margin: 0 10px">至</span><input type="text" style="width: 128px" class="eTimeInp" readonly="readonly"/>
+            </li>
+            <li class="inline-block-li">
+                <span class="name">产品：</span>
+                <input type="text" style="width: 300px" id="landInpRecord" class="land-inp" readonly="readonly"/>
+                <span onclick="$(this).siblings('input').val('').removeAttr('data-id')" class="clear-btn">清除</span>
+            </li>
+            <li class="inline-block-li">
+                <span class="name">身份证：</span>
+                <input type="text" style="width: 230px" class="idNum-inp"/>
+                <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
+            </li>
+            <li class="inline-block-li">
+                <span class="name">姓名：</span>
+                <input type="text" style="width: 300px" class="userName-inp"/>
+            </li>
+            <li class="inline-block-li">
+                <span class="search-btn" onselectstart="javascript: return false;">搜索</span>
+            </li>
+
+        </ul>
+    </div>
+    <div class="record-tb-box">
+            <table class="record-tb">
+                <thead>
+                <tr>
+                    <th class="th1">购票日期</th>
+                    <th class="th2">产品</th>
+                    <th class="th3">姓名</th>
+                    <th class="th4">身份证</th>
+                </tr>
+                </thead>
+                <tbody>
+                <td colspan='4' style='height: 200px;text-align: center;font-size: 16px;color: #c3c3c3'>请输入条件搜索</td>
+                </tbody>
+            </table>
+        </div>
+    <div class="record-pag-box clearfix"></div>
+</div>
+
+

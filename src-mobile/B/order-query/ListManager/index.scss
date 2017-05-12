@@ -1,0 +1,173 @@
+@import "COMMON/css/base/main";
+%overflow_ellips{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+@mixin prodInfoBox{
+    $paddingBottom : 5px;
+    display:block;
+    position:relative;
+    overflow:hidden;
+    padding:15px 15px $paddingBottom;
+    color:#333;
+    // &:active{ background:$gray97}
+    min-height: 60px;
+    .photoBox{
+        position:absolute;
+        top:15px;
+        left:15px;
+        bottom:$paddingBottom;
+        width:75px;
+        height: 60px;
+        font-size:0;
+        .imgBox{
+            width:100%;
+            height:100%;
+            overflow:hidden;
+        }
+        img{ width: 100%}
+    }
+    .midCon{
+        min-height:45px;
+        margin-left:85px;
+        .landTitle{
+            font-size:14px;
+            line-height:1.5;
+        }
+        .ticItem{
+            line-height:1.4;
+        }
+        .count{ color:$orange}
+    }
+
+    .landTitle{
+        position: relative;
+        padding-right: 10px;
+        margin-bottom: 2px;
+        .landTitleText{ font-weight: bold;}
+        .tri{
+            position: absolute;
+            top: 0;
+            right: -7px;
+        }
+    }
+
+    .floatLine{ 
+        width: 100%; overflow: hidden;
+        .lt{
+            display: block;
+            float: left;
+            width: 65%;
+        }
+        .rt{
+            float: left;
+            display: block;
+            width: 35%;
+            text-align: right;
+            @extend %overflow_ellips;
+            .str{ position: relative; top: 0; margin-right: 3px;}
+            .count{ font-size: 14px; font-weight: bold; color: $orange; margin-right: 2px;}
+            .orange{ color:$orange;}
+        }
+    }
+
+
+
+
+
+
+}
+
+
+#listManagerMod{
+
+    .orange{ color: $orange}
+
+    
+
+
+
+
+    .state.empty{
+        height: 400px;
+        line-height: 400px;
+        text-align: center;
+        color: #999;
+    }
+    .getMore_state.getMoreBtn,.getMore_state.getMore_empty{
+        height: 60px;
+        line-height: 50px;
+        text-align: center;
+        background: #f0f3f5;
+        color: #2a98da
+    }
+    .getMore_state.getMore_empty{
+        color: #999
+    }
+    .refreshBtn{
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        color: #2a98da;
+        background: #dfefff;
+    }
+
+    .orderItemLi{ margin-bottom:10px;}
+
+    //item样式
+    .orderItem{
+        display: block;
+        background:#fff;
+        
+        padding-bottom:15px;
+        color: #333;
+        &:last-child{ margin-bottom:0}
+
+        .topPart{
+            @include prodInfoBox;
+        }
+
+        .infoBox{
+            padding:0 15px 0;
+        }
+        .infoLine{
+            width:100%;
+            overflow:hidden;
+            height:26px;
+            line-height:26px;
+            .lt{ float:left}
+            .rt{ float:right}
+            .paystatusText.status_1{ color:$green}
+            .paystatusText.status_0{ color:$green}
+            .paystatusText.status_2{ color:$orange}
+            .maCode{ font-size:14px; color:$orange}
+        }
+
+        .btnGroup{
+            padding:0 15px;
+            overflow:hidden;
+            text-align:right;
+            margin-top:10px;
+            .btn{
+                display:inline-block;
+                height:24px;
+                line-height:24px;
+                padding:0 20px;
+                border:1px solid $blue;
+                color:$blue;
+                margin-left:10px;
+                font-size: 12px;
+                &.disable{
+                    color:$gray50;
+                    border-color:$gray70;
+                }
+            }
+        }
+    }
+
+
+}
+
+
+

@@ -1,0 +1,32 @@
+#footTotalMod{
+    position: relative;
+    clear: both;
+    overflow: hidden;
+    height: 40px;
+    line-height: 40px;
+    background: #E5E5E5;
+
+    text-align: right;
+
+    .fbox{ margin: 20px;}
+
+    .num,.yen{ color: #F07845; font-family: arial;}
+    
+    .num{
+        font-size: 16px;
+        font-weight: bold
+    }
+
+    .submitOrderBtn{
+        display: inline-block;
+        height: 100%;
+        padding: 0 30px;
+        background: #F07845;
+        color: #fff;
+        &.disable{
+            background: #999;
+            cursor: not-allowed
+        }
+    }
+
+}

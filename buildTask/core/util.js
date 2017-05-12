@@ -60,7 +60,7 @@ module.exports = {
          * opt.password     ��¼Զ������������     ����
          * opt.remotePath   Զ���������ĸ�Ŀ¼��   ��ѡ   Ĭ�� "./"
          */
-        upload : function(opt){
+        upload : function(opt,callback){
 
             var root = process.cwd();
 
@@ -70,6 +70,7 @@ module.exports = {
             var user = opt.username;
             var password = opt.password;
             var remotePath = opt.remotePath;
+            var callback = callback || function(){};
             var __Host = {
                 test : {
                     host : "192.168.20.138",
@@ -112,10 +113,13 @@ module.exports = {
                 port: port,
                 user: user,
                 password: password,
-                remotePath: path.join(host.remotePath,remotePath)
+                remotePath: path.join(host.remotePath,remotePath),
+                callback : callback
             };
 
-            gulp.src(path.join(root,file)).pipe(sftp(params))
+
+
+            gulp.src(file).pipe(sftp(params))
         }
     }
 }

@@ -1,10 +1,12 @@
+
+<%var d_type = $("#home_judge_of_dtype").val();%>
 <div class="title">
     <i class="icon icon-pc-prompt icon-dingdanshuju1"></i>
     <span class="title-text">订单数据</span>
    <i class="icon icon-pc-prompt icon-shuaxin rotateInfinite"></i>
 </div>
 <div class="line line1 clearfix">
-    <div class="data-box today-wrap">
+    <div class="data-box today-wrap"  style="width: <%=d_type == 1 ? '33.3%':''%>">
         <!--<div class="data-box">-->
             <!--<div class="today-book inner-box">-->
                 <!--<div class="title">今日预订</div>-->
@@ -34,7 +36,7 @@
             <!--</div>-->
         <!--</div>-->
     </div>
-    <div class="data-box last-days-wrap">
+    <div class="data-box last-days-wrap" style="width: <%=d_type == 1 ? '66.6%':''%>">
         <div class="data-box">
             <div class="recent-seven inner-box">
                 <div class="title">近七日检票</div>

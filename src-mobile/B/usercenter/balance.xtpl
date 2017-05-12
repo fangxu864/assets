@@ -1,0 +1,8 @@
+    <div class="form">
+        <div class="form-group">
+            <label class="form-label">账户余额</label>
+            <div class="form-val">
+                <div calss="form-text"><%=balance%> 元</div>
+            </div>
+        </div>
+    </div>

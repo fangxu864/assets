@@ -1,0 +1,303 @@
+@import "COMMON/css/base/main";
+@import "COMMON/css/base/flex";
+body{
+    #bodyContainer{
+        text-align: center;
+        background: url("http://wx.12301.cc/mall/modules/common/login2/images/bg.jpg") no-repeat center center;
+        background-size: cover;
+        position:absolute;
+        left:0;right:0;top:0;bottom:0;
+
+        .login-form {
+            padding: px2rem( 90 ) px2rem( 30 ) 0;
+        }
+
+        .login-tab {
+            display: -webkit-box;
+            display: flex;
+            flex-flow: rows;
+            justify-content: space-around;
+            align-items: center;
+
+            li {
+                font-size: 16px;
+                line-height: 1.5;
+                color: #77c1e9;
+
+                &.active {
+                    color: #fff;
+                }
+            }
+        }
+
+        .login-tab-con {
+            margin-top: px2rem( 25 );
+
+            .btn-forgetpass {
+                position: absolute;
+                right: px2rem( 10 );
+                top: px2rem( 14 );
+                display: block;
+                width: 26px;
+                height: 26px;
+                border: 3px solid #0797d9;
+                border-radius: 50%;
+                box-sizing: border-box;
+
+                &:before {
+                    content: '?';
+                    font-size: 16px;
+                    line-height: 20px;
+                    color: #0797d9;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .reg {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+        }
+
+
+        .verifyBox{
+            margin-top: 1px;
+            text-align: left;
+            display: none;
+            .u-inp{
+                display: inline-block;
+                height: px2rem(80);
+                padding-left: px2rem(40);
+                font-size: px2rem(30);
+                border: none;
+                vertical-align: middle;
+                width: 50%;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+            .u-img{
+                display: inline-block;
+                width: 20%;
+                margin:0 2%;
+                height:px2rem(73);
+                line-height:px2rem(73);
+                vertical-align: middle;
+                background: #fff;
+            }
+            .u-span{
+                display: inline-block;
+                vertical-align: middle;
+                color: #fff;
+                height:px2rem(80);
+                font-size: 14px;
+                line-height:1.5;
+                width: 15%;
+            }
+        }
+
+        #loginBox{
+            padding: px2rem(75) 0;
+            .loginBox{
+                margin: px2rem(15);
+                .u-inp{
+                    display: block;
+                    height: px2rem(80);
+                    padding-left: px2rem(80);
+                    font-size: px2rem(30);
+                    border: none;
+                    width: 100%;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+
+                }
+                .loginIcon{
+                    position: relative;
+                    right: px2rem(320);
+                    top:px2rem(-60);
+
+                }
+                .u-loginBtn{
+                    display: inline-block;
+                    width: 99%;
+                    height:px2rem(75);
+                    line-height: px2rem(75);
+                    border-radius: 3px;
+                    color: #fff;
+                    border: 1px solid #fff;
+                    background: rgba(255,255,255,0.1);
+                }
+            }
+            .verifyBox{
+                margin: px2rem(15);
+                margin-bottom: px2rem(48);
+                text-align: left;
+                display: none;
+                .u-inp{
+                    display: inline-block;
+                    height: px2rem(80);
+                    padding-left: px2rem(40);
+                    font-size: px2rem(30);
+                    border: none;
+                    vertical-align: middle;
+                    width: 50%;
+                    border-radius: 3px;
+                    box-sizing: border-box;
+                }
+                .u-img{
+                    display: inline-block;
+                    width: 20%;
+                    margin:0 2%;
+                    height:px2rem(73);
+                    line-height:px2rem(73);
+                    vertical-align: middle;
+                    background: #fff;
+                }
+                .u-span{
+                    display: inline-block;
+                    vertical-align: middle;
+                    color: #fff;
+                    height:px2rem(80);
+                    font-size: 0.4rem;
+                    line-height:0.5rem;
+                    width: 15%;
+                }
+            }
+        }
+        #logoBox{
+                width: 100%;
+
+             #logo{
+                margin-top: px2rem(35);
+                width: px2rem(250);
+                height: px2rem(250);
+             }
+        }
+
+    }
+}
+
+.btn {
+    display:inline-block;
+    padding: px2rem( 16 ) px2rem( 20 );
+    border-width: 1px;
+    border-style: solid;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    overflow: visible;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
+
+    &.btn-default {
+        background-color: #0797d9;
+        border-color: #0797d9;
+        color: #fff;
+    }
+
+    &.btn-warning {
+        background-color: #f07844;
+        border-color: #f07844;
+        color: #fff;
+    }
+
+    &.disabled {
+        background-color: #aeaeae;
+        border-color: #aeaeae;
+        color: #fff;
+    }
+
+    &.btn-tiny {
+        padding: px2rem( 3 ) px2rem( 15 );
+        font-size: 14px;
+    }
+
+    &.btn-block {
+        display: block;
+
+        &~.btn-block {
+            margin-top: px2rem( 20 );
+        }
+    }
+}
+
+.input-text {}
+
+.form {
+    .form-group {
+        position: relative;
+
+        .form-label {}
+        .form-content {}
+    }
+
+    &.login {
+        .form-group {
+            position: relative;
+            background-color: #fff;
+
+            .form-label {
+                position: absolute;
+                left: 10px;
+                top: px2rem( 18 );
+                color: #3e3e3e;
+
+                .icon-u-regular {
+                    font-size: 20px;
+                }
+            }
+            .form-content {
+                padding: px2rem( 14 ) px2rem( 20 ) px2rem( 14 ) 40px;
+
+                .input-text {
+                    display: block;
+                    width: 100%;
+                    background-color: #fff;
+                    border: 0 none;
+                    font-size: 14px;
+                    line-height: 2;
+
+                    &.input-code, &.input-password {
+                        padding-right: 100px;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+
+            ~.form-group {
+                margin-top: 1px;
+            }
+        }
+    }
+}
+
+#btnSendCode {
+    position: absolute;
+    right: px2rem( 10 );
+    top: px2rem( 14 );
+}
+input:-webkit-autofill {
+    -webkit-box-shadow:  0 0 0 1000px #fff inset;
+}
+#btnLogin {
+    margin-top: px2rem( 20 );
+}
+#navBack {
+    position: absolute;
+    left: 20px;
+    top: 14px;
+    color: #fff;
+    font-size: 18px;
+}
+#navHome {
+    position: absolute;
+    right: 20px;
+    top: 14px;
+    color: #fff;
+    font-size: 18px;
+}

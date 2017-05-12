@@ -1,0 +1,25 @@
+<div id="linkTicketPopCon" class="linkTicketPopCon">
+    <div class="line product">
+        <div class="label">当前产品：</div>
+        <div class="rt prodcutTicketName"></div>
+    </div>
+    <div class="line wantBind">
+        <div class="label">要捆绑的产品：</div>
+        <div class="rt">
+            <div class="searchWrap">
+                <span class="SearchTri"><i class="icon-search icon-u-bold sicon"></i></span>
+                <input type="text" name="" maxlength="40" class="searchProdInput" id="searchProdInput" placeholder="请输入产品名称">
+                <ul id="searchResultListWrap" class="searchResultList">
+                    <li class="state empty">请输入产品名称搜索</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="line btnGroup">
+        <div class="label"></div>
+        <div class="rt">
+            <span class="sBtn yes yesBtn">确定</span>
+            <span class="sBtn cancel cancelBtn">取消</span>
+        </div>
+    </div>
+</div>

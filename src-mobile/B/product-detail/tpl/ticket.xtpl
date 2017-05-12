@@ -1,0 +1,40 @@
+<% _.each(list,function(item){ %>
+
+<li class="item">
+	<table>
+		<tbody>
+			<tr>
+				<td class="col col1">
+					<p class="ttitle">
+						<span class="tit"><%=item.ttitle%></span>
+					</p>
+					<% if( item.notes != ""){ %>
+					<p class="tdesc"><%=item.notes%></p>
+					<% } %>
+					<% if( item.tags != ""){ %>	
+					<div class="flagGroup">
+						<% for( var i = 0;i<item.tags.length ; i++ ){ %>
+							<span class="flag"><%=item.tags[i]%></span>
+						<% } %>
+					</div>
+					<% } %>
+				</td>
+				<td class="col col2">
+					<a href="javascript:;" style="display: block;">
+						<span class="price tprice">
+							<i class="yen">¥</i>
+							<i class="num"><%=item.lprice%></i>
+						</span><br>
+						<span class="price jsprice">
+							<i class="yen">¥</i>
+							<i class="num"><%=item.tprice%></i>
+						</span><br>		
+						<span class="buyBtn" data-aid="<%=item.aid%>" data-pid="<%=item.pid%>" >预定</span>
+					</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</li>
+
+<% }) %>

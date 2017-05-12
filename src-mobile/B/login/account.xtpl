@@ -1,0 +1,21 @@
+<div class="form login">
+    <div class="form-group">
+        <label for="inpAccount" class="form-label"><i class="icon-u-regular icon-yonghu"></i></label>
+        <div class="form-content">
+            <input type="number" class="input-text" placeholder="手机号 / 6位数字帐号" id="inpAccount" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inpPassword" class="form-label"><i class="icon-u-regular icon-Secret"></i></label>
+        <div class="form-content">
+            <input type="password" class="input-text input-password" id="inpPassword" placeholder="密码" />
+            <a href="javascript:;" class="btn-forgetpass"></a>
+        </div>
+    </div>
+
+    <div class="verifyBox" id="verifyBox">
+        <input type="text" id="verifyInp" class="u-inp" placeholder="请输入验证码">
+        <img id="verifyImg" class="u-img">
+        <span class="u-span" id="refBtn">看不清换一张</span>
+    </div>
+</div>

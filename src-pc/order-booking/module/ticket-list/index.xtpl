@@ -1,0 +1,13 @@
+<table id="ticketListTable" class="ticketListTable">
+    <thead>
+        <th class="col_1 col"><span class="t mod-pl">票名称</span></th>
+        <th class="col_2 col"><span class="t">产品库存</span></th>
+        <th class="col_3 col"><span class="t">售价</span></th>
+        <th class="col_4 col"><span class="t">结算价</span></th>
+        <th class="col_5 col"><span class="t">退票手续费</span></th>
+        <th class="col_6 col"><span class="t">预订数量</span></th>
+        <th class="col_7 col"><span class="t">应付</span></th>
+        <th class="col_8 col"><span class="t">应收</span></th>
+    </thead>
+    <tbody class="ticketListTable_tbody" id="ticketListTable_tbody"></tbody>
+</table>
