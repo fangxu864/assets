@@ -1,14 +1,18 @@
 <div class="leading-in-box">
     <div class="title">导入</div>
+    <iframe style="display: none" name="excelIframe"></iframe>
+    <form action="/r/product_Product/addBlacklistByExcel" target="excelIframe" enctype="multipart/form-data" class="excel-form" method="post">
     <div class="line line1">
         <span class="name">产品：</span>
-        <input type="text"/>
+        <input type="text" id="landExcel" readonly="readonly"/>
+        <input type="hidden" name="lid" class="lid-hide-inp">
     </div>
     <div class="line line2">
         <span class="name">excel导入：</span>
-        <input type="text"/>
-        <span class="select-btn">选择</span>
+        <input type="text" class="file-name-inp" readonly="readonly"/>
+        <span class="select-btn"><input type="file" class="file-inp" name="file_stu"/>选择</span>
     </div>
+    </form>
     <div class="line line4">
         <span class="save-btn btn">导入</span>
         <span class="cancel-btn btn">取消</span>

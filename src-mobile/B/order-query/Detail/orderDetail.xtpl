@@ -28,7 +28,7 @@
                         </dl>
                         <%}%>
                     </td>
-                    <td class="th2"><%=item.price%>元</td>
+                    <td class="th2"><%=(Number(item.price)/100).toFixed(2) %>元</td>
                     <td class="th3">X<%=item.tnum%></td>
                     <td class="th4">已验<%=item.status%></td>
                 </tr>
@@ -71,7 +71,7 @@
         </tr>
         <tr>
             <td class="th1">卖出/买入：</td>
-            <td class="th2"><%=data.sale_money%>/<%=data.buy_money%></td>
+            <td class="th2"><%=( Number( data.sale_money ) /100 ).toFixed(2)%>/<%=data.buy_money%></td>
         </tr>
         <tr>
             <td class="th1">供应商/分销商：</td>
