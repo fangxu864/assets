@@ -123,8 +123,16 @@ var UserCenter = PFT.Util.Class({
             success : function(res){
                 var code = res.code,
                     data = res.data;
+
+
                 if(code==207){
-                    window.location.href = data.url;
+                    if( data.url ) {
+                        window.location.href = data.url;
+                    } else {
+                        var para = location.search;
+                        window.location.href = "login.html" + para ;
+                    }
+                    // window.location.href = data.url;
                     // var para = location.search;
                     // window.location.href = "login.html" + para ;
                 }else{

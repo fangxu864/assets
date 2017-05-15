@@ -1,0 +1,97 @@
+#PFT_dialogWrap {
+    .modTicketDialogCon {
+
+    }
+}
+
+#touristInfo {
+    padding: 0 20px;
+
+    .tourist-title {
+        border-top: 1px solid #e1e1e1;
+        padding: 10px 0 20px;
+        font-size: 14px;
+        line-height: 2;
+        overflow: hidden;
+
+        .btn-addtourist {
+            float: right;
+            padding: 3px 10px;
+            background-color: #2a98da;
+            color: #fff;
+            line-height: 1.5;
+            border-radius: 2px;
+
+            &.disabled {
+                background-color: #dbdbdb;
+            }
+        }
+    }
+    #dialogTouristStat {
+        text-align: center;
+    }
+}
+
+#dialogTouristList {
+    width: 580px;
+    margin-right: -20px;
+
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+        font-size: 0;
+    }
+
+    li {
+        position: relative;
+        display: inline;
+        float: left;
+        margin: 0 20px 10px 0;
+        padding-right: 10px;
+
+        .inp-name, .inp-idcard {
+            display:inline;
+            float: left;
+            padding: 5px;
+            margin-right: 10px;
+            border:1px solid #dbdbdb;
+            border-radius:3px;
+            line-height: 20px;
+            background:#fff;
+            -webkit-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
+            -moz-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
+            -ms-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
+            -o-box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
+            box-shadow:inset 0px 1px 1px rgba(0,0,0,.075);
+
+            &.error {
+                border-color: red;
+            }
+
+            &.readonly {
+                border-color: transparent;
+                box-shadow: none;
+                cursor: default;
+            }
+        }
+        .inp-name {
+            width:80px;
+        }
+        .inp-idcard {
+            width:135px;
+        }
+        .icon-shanchu {
+            display: none;
+            position: absolute;
+            right: 0; top: 50%;
+            margin-top: -8px;
+            color: #f07845;
+            cursor: pointer;
+
+            &:hover {
+
+            }
+        }
+    }
+}

@@ -116,29 +116,69 @@ var ListDoAction = RichBase.extend({
             }
         })
     },
+
     //修改票数
     modifyTicket: function (tarBtn, ordernum) {
         var that = this;
         var data = {};
 		if(tarBtn.hasClass("loading")) return false;
+
         var orderNumHidInp = $("#modifyTicket_ordernum_hidInp");
+
         data[orderNumHidInp.attr("name")] = orderNumHidInp.val();
-        $("#ticModListUl").find(".numInp").each(function(){
-            var tarInp = $(this);
-            var val  = tarInp.val();
-            var name = tarInp.attr("name");
-            var has_terminal_num = tarInp.attr("data-hasterminal");
-            data[name] = val*1+has_terminal_num*1;
-        })
-        var modifyData = "";
-        for(var i in data){
-            var key = i;
-            var val = data[i];
-            modifyData += "&"+key+"="+val;
+
+        data.num_mapping = {};
+
+        $('#ticModListUl .numInp').each(function(){
+            data.num_mapping[ $(this).attr('data-tid') ] = $(this).val();
+        });
+
+        data.tourist_info = {};
+
+        var touristInfo = +tarBtn.attr('data-tourist-info');
+        if( touristInfo == 2 ) {
+            var touristList = $('#dialogTouristList'),
+                touristDeleted = touristList.children(':hidden'),
+                touristDeletedIds,
+                touristAdded = touristList.children('.idcardAdded'),
+                touristAddedInfos,
+                tourist_info_arr;
+
+            if( touristDeleted.length ) {
+                touristDeletedIds = touristDeleted.find('.inp-id').map(function(){ return $(this).val(); }).get();
+            }
+
+            if( touristAdded.length ) {
+                touristAddedInfos = touristAdded.map(function(){
+                    return {
+                        tourist: $(this).find('.inp-name').val(),
+                        idcard: $(this).find('.inp-idcard').val()
+                    };
+                }).get();
+            }
+
+
+            return false;
         }
-        if(modifyData) modifyData=modifyData.substring(1);
+
+        // $("#ticModListUl").find(".numInp").each(function(){
+        //     var tarInp = $(this);
+        //     var val  = tarInp.val();
+        //     var name = tarInp.attr("name");
+        //     var has_terminal_num = tarInp.attr("data-hasterminal");
+        //     data[name] = val*1+has_terminal_num*1;
+        // })
+
+        // var modifyData = "";
+        // for(var i in data){
+        //     var key = i;
+        //     var val = data[i];
+        //     modifyData += "&"+key+"="+val;
+        // }
+        // if(modifyData) modifyData=modifyData.substring(1);
 		PFT.Ajax({
-			url: "call/handle.php?from=order_alter",
+            url: '/route/index.php?c=Order_OrderModify&a=numModify',
+			// url: "call/handle.php?from=order_alter",
 			type: "post",
 			dataType: "json",
 			data: modifyData,
