@@ -1,3 +1,4 @@
+
 #bodyContainer {
     position: relative;
     float: left;
@@ -124,3 +125,36 @@
     height: 200px;
 }
 
+/**
+ *  @date   2017-05-15
+ *  @author chenhuajian
+ *  @desc   发布营销活动   增加 “送优惠券”类型 上传excel文件 http://bug.12301.test/index.php?m=task&f=view&task=474
+ **/
+
+.leftBox{
+    display:inline-block;
+}
+.defaultInput{
+    width:200px;
+    height:34px;
+    text-indent: 5px;
+    display:inline-block;
+}
+.cl:after{
+    display:block;
+    width:0px;
+    height:0px;
+    clear:both;
+    content:"";
+}
+#excelUpLoadForm{
+    display:inline-block;
+}
+#excelLabel{
+    display:none;
+}
+#excelUploadWrap{
+    width:100%;
+    height:38px;
+
+}

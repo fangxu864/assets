@@ -13,13 +13,13 @@ var Main = PFT.Util.Class({
 		"click #typeBox label": "changeShareType",
 		"focus #couponNumber": "checkCouponNum",
 		"click .inp-date": "initDatePicker",
+		"click .inp-limit": "changeLimit",
+		"click #fileCoupon": "fileupload",
 		"click #saveBtn": "saveAddNewActivity"
 	},
 	init: function () {
-
 		this.initPage();
 		this.datepicker = new Datepicker();
-
 	},
 
 	//初始化页面显示
@@ -51,12 +51,11 @@ var Main = PFT.Util.Class({
 			_this.getSpidActivity(spid);
 
 		}
-
+		_this.excelUpLoad();
 
 	},
 	//初始化富文本编辑器
 	initUeditor: function (id,content,share_type) {
-
 		window.UEDITOR_CONFIG.initialFrameWidth = 600;
 		switch (id) {
 			case 1:
@@ -137,8 +136,26 @@ var Main = PFT.Util.Class({
 				}
 			}
 		});
-
-
+	},
+	excelUpLoad:function(){
+		var uploader_3 = new Fileupload({
+			container: '#excelUploadWrap',
+			id: 3,  //唯一
+			extra:{}  
+			action: '/r/product_Coupon/sendBYBatch',
+			loading: function (formControls) {
+				STip("success", '<p style="width:160px;">正在上传,请稍后</p>', 3000);
+			},
+			complete: function (res) {
+				console.log(res);
+				if (res.code == 200) {
+					console.log("asdasd");
+					STip("success", '<p style="width:160px;">上传成功</p>');
+				} else {
+					STip("fail", '<p style="width:220px;">' + res.msg + '</p>');
+				}
+			}
+		});
 	},
 	//根据spid获取活动详细
 	getSpidActivity: function (spid) {
@@ -343,6 +360,9 @@ var Main = PFT.Util.Class({
 			case '3':
 				param = _this.getTypeCParam();
 				break;
+			case '3':
+				param = _this.getTypeDParam();
+				break;
 		}
 		params = param;
 		params["spid"] = spid;
@@ -418,6 +438,30 @@ var Main = PFT.Util.Class({
 		}
 		return param;
 	},
+	//类别3参数
+	getTypeDParam: function () {
+		var couponIdInp = $("#couponIdInp").attr("data-id");
+		var coupon_num;
+		var couponNum = $("#couponNumber").val();
+		var proInp = $("#schProInp").attr("data-id");
+		var param;
+		var reg = /^([1-9]\d{0,5}|999999|-1)$/;
+		
+		coupon_num = ($("input[name='couponNum']:checked").val() == -1) ? -1 : couponNum;
+		if (!reg.test(coupon_num)) return STip("fail", "赠券张数在1~999999之间!", 3000);
+		if (!couponIdInp) return STip("fail", "优惠券ID不为空!", 3000);
+		if (!proInp) return STip("fail", "活动产品不为空!", 3000);
+
+		param = {
+			coupon_id: couponIdInp,
+			relation_pid: proInp,
+			coupon_num: coupon_num,
+			red_pack_money: "",
+			content: "",
+			thumb: "",
+		}
+		return param;
+	},
 	//保存数据请求
 	saveReq: function (param) {
 		//console.log(param)
@@ -436,8 +480,27 @@ var Main = PFT.Util.Class({
 			}
 		})
 	},
+	changeLimit:function(e){
+		var _this = this;
+		var tarBtn = $(e.currentTarget);
+		var type = tarBtn.attr("value");
+		if(type == 2){
+			$('#excelLabel').show();
+		}else{
+			$('#excelLabel').hide();
+		}
+	}
 
 })
+
+/**
+ *	@date   2017-05-15
+ *	@author chenhuajian
+ *  @desc   发布营销活动   增加 “送优惠券”类型 上传excel文件 http://bug.12301.test/index.php?m=task&f=view&task=474
+ **/
+
+
+
 
 $(function () {
 	new Main();
