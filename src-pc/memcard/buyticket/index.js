@@ -223,7 +223,7 @@ var buyTicket = PFT.Util.Class({
             }
             _this.recordParamHub.lid = landId;
             _this.recordParamHub.btime = new Date(bTime.replace(/\-/g,"/")).getTime() / 1000;
-            _this.recordParamHub.etime = new Date(eTime.replace(/\-/g,"/")).getTime() / 1000;
+            _this.recordParamHub.etime = Math.floor( ( new Date(eTime.replace(/\-/g,"/")).getTime() + 1000*60*60*24-1)/1000 );
             _this.recordParamHub.name = name;
             _this.recordParamHub.id_card = idNum;
             _this.recordParamHub.page = 1;
@@ -354,9 +354,26 @@ var buyTicket = PFT.Util.Class({
             }
         });
 
+        function phpTimeStampToJs(phpTimeStamp){
+            var stamp = Number(phpTimeStamp) * 1000;
+            var now = new Date(stamp);
+            var year = now.getFullYear();
+            var month = now.getMonth()+1;
+            var date = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            return   year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+
+        }
+
         function dealRes( res ) {
             if(res.code == 200 ){
-                if(CR.judgeTrue(res.data)){
+                var list = res.data.list;
+                if(CR.judgeTrue(list)){
+                    for(var i = 0 ; i < list.length ;i ++){
+                        list[i].time = phpTimeStampToJs(list[i].time);
+                    }
                     var html = _this.recordTemplate({data: res.data});
                     _this.recordTbody.html(html);
                     _this.pagination.render({current:res.data.page ,total: Math.ceil(Number(res.data.count) / _this.pageSize )});
@@ -371,6 +388,81 @@ var buyTicket = PFT.Util.Class({
                 _this.container.find(".pag-box").hide();
             }
         }
+    },
+
+    /**
+     * 读卡
+     * @returns {boolean}
+     */
+    handleIdCard : function(){
+
+        console.log("身份证阅读器");
+
+        //开始链接控件
+        var CertCtl = document.getElementById("CertCtl");
+        if(CertCtl.connect){
+            var connectResult = CertCtl.connect();
+
+            connectResult = JSON.parse(connectResult);
+
+            if( connectResult.resultFlag == 0 ){
+
+                var readResult = CertCtl.readCert();
+                readResult = JSON.parse(readResult);
+                if(readResult.resultFlag == "0"){
+
+                    var con = readResult.resultContent;
+
+                    var idNum = con.certNumber;
+                    var pic = con.identityPic;
+
+                    $("#idNum").val(idNum);
+                    $(".fileuploadTextInp").val(pic);
+                    $("#ImgUpLoadIdCardBox").css("display","none");
+                    $("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
+
+                    //上传图片
+                    PFT.Util.Ajax('/r/Resource_ImageUpload/uploadIdCard',{
+                        type : "post",
+                        params : {
+                            id : idNum,
+                            identify :"annualActive",
+                            data : pic
+                        },
+                        loading : function(){
+                        },
+                        success : function(res){
+                            var code = res.code;
+                            var msg = res.msg;
+                            var data = res.data;
+                            var src = data.src;
+                            console.log(src);
+                            $("#ImgUpLoadIdCardBox").remove();
+                            $("#idCardReaderBox").html('<img id="uploadPhotoImg" src="'+ src +'" ></img>');
+                            alert("身份证头像上传成功");
+                        },
+                        complete : function(){
+                        },
+                        fail : function(res){
+                            $("#ImgUpLoadIdCardBox").css("display","block");
+                            $("#idCardReaderBox").css("display","none");
+                            alert("身份证头像上传失败");
+                        }
+                    })
+
+                }else{
+                    alert("身份证信息获取失败，请将身份证放置在读卡器上再点击读取");
+                }
+
+            }else{
+                alert("无法连接读卡器，请打开读卡器开关并插入USB口");
+            }
+
+        }else{
+            alert("请使用IE浏览器或重新安装插件");
+            return false
+        }
+
     },
     cacheHub:{},
     recordParamHub: {

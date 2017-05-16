@@ -25,12 +25,14 @@ var Dialog_excel = require("./dialog-excel/dialog.js");
 var Dialog_edit = require("./dialog-edit/dialog.js");
 //公共资源common resource
 var CR = require("./CR.js");
+var webSocket = require("../common/websocket/index.js");
 
 
 var blackList = PFT.Util.Class({
 
     init: function () {
         var _this = this;
+        this.webSocket = new webSocket();
         this.container = $("#GBlacklistWrap");
         this.container.html(frameTpl);
         this.mainTbContainer =  this.container.find(".table-box .main-tb tbody");
@@ -60,7 +62,7 @@ var blackList = PFT.Util.Class({
         CON.on("click" ,".filter-box .leading-in" ,function (e) {
             //判断是否new过
             if( !_this.dialog_excel ){
-                _this.dialog_excel = new Dialog_excel();
+                _this.dialog_excel = new Dialog_excel({landListData: _this.landListData});
                 _this.dialog_excel.show();
             }else{
                 _this.dialog_excel.show();
@@ -98,25 +100,36 @@ var blackList = PFT.Util.Class({
 
         //点击编辑按钮
         CON.on("click" ,".table-box .edit-btn" ,function (e) {
+            var curBtn = $(this);
+            var opt = {};
+            opt.id = curBtn.attr("data-id");
+            opt.lid = curBtn.attr("data-lid");
+            opt.landName = $("#landInpMain").val();
+            opt.name = curBtn.attr("data-name");
+            opt.id_card = curBtn.attr("data-idnum");
             //判断是否new过
             if( !_this.dialog_edit ){
                 _this.dialog_edit = new Dialog_edit({landListData: _this.landListData});
-                _this.dialog_edit.show();
+                _this.dialog_edit.on("editSuccess" , function () {
+                    _this.getBlacklistData();
+                });
+                _this.dialog_edit.show(opt);
             }else{
-                _this.dialog_edit.show();
+                _this.dialog_edit.show(opt);
             }
         });
 
         //点击删除按钮
         CON.on("click" ,".table-box .delete-btn" ,function (e) {
-            var mid = $(this).attr("data-mid");
+            var id = $(this).attr("data-id");
+            var lid = $(this).attr("data-lid");
             Message.confirm("是否删除？",function (result) {
                 if(result){
                     $.ajax({
                         url: CR.url.deleteBlacklist,    //请求的url地址
                         dataType: "json",   //返回格式为json
                         async: true, //请求是否异步，默认为异步
-                        data: {id:mid},    //参数值
+                        data: {id:id,lid:lid},    //参数值
                         type: "POST",   //请求方式
                         timeout:5000,   //设置超时 5000毫秒
                         beforeSend: function() {
@@ -125,6 +138,8 @@ var blackList = PFT.Util.Class({
                         success: function(res) {
                             // 请求成功时处理
                             if(res.code == 200 ){
+                                console.log("fdsfs");
+                                _this.getBlacklistData();
                                 Message.success("删除成功");
                             }else{
                                 Message.error(res.msg);
@@ -178,7 +193,19 @@ var blackList = PFT.Util.Class({
             }
             _this.paramHub.page = 1;
             _this.getBlacklistData();
+        });
+
+        //点击读卡
+        CON.on("click" ,".filter-box .get-idNum" ,function (e) {
+            console.log("fdsfsdf");
+            _this.webSocket.doSend('{"cmd":"idread"}');
+        });
+
+        this.webSocket.on("socketMessage" ,function (data) {
+            CON.find(".filter-box .id-card-inp").val(data.code)
         })
+
+
 
     },
 
@@ -267,15 +294,21 @@ var blackList = PFT.Util.Class({
 
         function dealRes( res ) {
             if(res.code == 200 ){
-                if(CR.judgeTrue(res.data)){
+                if(CR.judgeTrue(res.data.list)){
                     var html = _this.mainTbTemplate({data: res.data});
                     _this.mainTbContainer.html(html);
                     _this.pagination.render({current:res.data.page ,total: Math.ceil(Number(res.data.count) / _this.pageSize )});
                 }else{
                     // _this.hideLoading();
-                    _this.container.find(".pag-box").close();
-                    _this.mainTbContainer.html("<tr><td colspan='4' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>暂无数据，请重新输入条件搜索</td></tr>");
-                }
+                    //如果最后一页没数据，但是总数大于0，请求前一页的数据
+                    if( Number(res.data.count) > 0){
+                        _this.paramHub.page = Number(res.data.page) - 1;
+                        _this.getBlacklistData();
+                    }else{
+                        _this.container.find(".pag-box").hide();
+                        _this.mainTbContainer.html("<tr><td colspan='4' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>暂无数据，请重新输入条件搜索</td></tr>");
+                    }
+                   }
             }else{
                 //通知queryState模块显示错误信息
                 _this.mainTbContainer.html("<tr><td colspan='4' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>"+res.msg+"</td></tr>");

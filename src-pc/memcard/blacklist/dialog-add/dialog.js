@@ -117,8 +117,7 @@ var DialogModule = PFT.Util.Class({
             return false;
         }
         params["id_card"] = idNumInp.val().trim();
-        // if(!PFT.Util.Validate.idcard(params["id_card"])){
-        if(params["id_card"] === ""){
+        if(!PFT.Util.Validate.idcard(params["id_card"])){
             Tips.closeAllTips();
             Tips.show({
                 lifetime : 1500 ,
