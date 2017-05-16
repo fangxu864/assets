@@ -23,6 +23,10 @@ function Alert(msg,header){
 		setTimeout(function(){
 			alertBox.removeClass("entry").addClass("transition");
 			alertMask.removeClass("entry").addClass("transition");
+			setTimeout(function(){
+				alertBox.removeClass("transition").addClass("leave");
+				alertMask.removeClass("transition").addClass("leave");
+			},200)
 		},20);
 	};
 

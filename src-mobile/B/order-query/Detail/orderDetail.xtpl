@@ -15,28 +15,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% _.each(data.ticket_list,function(item,index){ %>
-                <tr>
-                    <td class="th1">
-                        <p class="ticket-name"><%=item.ttitle%></p>
-                    </td>
-                    <td class="th2"><%=item.price%>元</td>
-                    <td class="th3">X<%=item.tnum%></td>
-                    <td class="th4">已验<%=item.status%></td>
-                </tr>
-                <%})%>
-                <% if(data.sub_list && data.sub_list.length){%>
-                    <tr class="detail">
-                        <td colspan="4">
-                            <p>包含子票：</p>
-                            <ul>
-                                <% _.each(data.sub_list,function(item,index){ %>
-                                    <li><%=item.title%> *<%=item.num%>张</li>
-                                <%})%>
-                            </ul>
+                    <% _.each(data.ticket_list,function(item,index){ %>
+                    <tr>
+                        <td class="th1">
+                            <p class="ticket-name"><%=item.ttitle%></p>
                         </td>
+                        <td class="th2"><%=item.price%>元</td>
+                        <td class="th3">X<%=item.tnum%></td>
+                        <td class="th4">已验<%=item.status%></td>
                     </tr>
-                <%}%>
+                    <%})%>
+                    <% if(data.sub_list && data.sub_list.length){%>
+                        <tr class="detail">
+                            <td colspan="4">
+                                <p>包含子票：</p>
+                                <ul>
+                                    <% _.each(data.sub_list,function(item,index){ %>
+                                        <li><%=item.title%> * <span class="orange"><%=item.num%></span> 张</li>
+                                    <%})%>
+                                </ul>
+                            </td>
+                        </tr>
+                    <%}%>
                 </tbody>
             </table>
         </div>
@@ -157,7 +157,9 @@
                 <tr>
                     <td class="th1">卡号：</td>
                     <td class="th2">
-                        <%=data.begintime ? data.begintime : ''%>
+                        <%=data.virtual_no ? '【'+data.virtual_no+'】' : '--'%> 
+                        / 
+                        <%=data.card_no ? data.card_no : '--'%> 
                     </td>
                 </tr>
             <%}%>

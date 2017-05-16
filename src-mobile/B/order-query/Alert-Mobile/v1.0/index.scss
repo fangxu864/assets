@@ -9,7 +9,7 @@
     padding-top:10px;
     background:#fff;
     border-radius:3px;
-    transform:translate(-50%,-50%);
+    transform:translate3d(-50%,-50%,0) scale3d(1,1,1);
 
     .alertHeaderBox{
         font-weight:bold;
@@ -44,7 +44,7 @@
     }
 
     -webkit-font-smoothing: subpixel-antialiased;
-    -webkit-perspective: 1000; 
+    backface-visibility: hidden;
 
 }
 @media screen and (-webkit-device-pixel-ratio: 3){
@@ -58,7 +58,7 @@
 #pui-m-alertBox.entry{
     display:block;
     opacity: 0;
-    transform: translate3d(-50%, -50%,0) scale3d(1.1,1.1,1)!important;
+    transform: translate3d(-50%, -50%,0) scale3d(1.2,1.2,1)!important;
 }
 
 #pui-m-alertBox.transition{
@@ -70,7 +70,7 @@
 }
 #pui-m-alertBox.leave{
     display:block;
-    opacity:0;
+    opacity:1;
     transition-property: transform, opacity!important;
     transition-duration: .3s;
     transform: translate3d(-50%, -50%,0) scale3d(1,1,1)!important;
@@ -104,7 +104,7 @@
 }
 #pui-m-alertMask.leave{
     display:block;
-    opacity:0;
+    opacity:0.6;
     transition-property: opacity!important;
-    transition-duration: .3s;
+    transition-duration: .2s;
 }
