@@ -11,7 +11,7 @@ var ListManager = require("./ListManager");
 //详情模块
 var Detail = require("./Detail");
 
-var Backbone = require("backbone");
+// var Backbone = require("backbone");
 
 var Main = Util.Class({
     container : "#appContainer",

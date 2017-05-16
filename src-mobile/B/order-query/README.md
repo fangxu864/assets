@@ -25,7 +25,7 @@ http://git.12301.io/PFT/PFT_Documents/src/master/%E6%96%B0%E7%89%88%E5%BE%AE%E4%
 ### 涉及到的项目及分支：
 wx       feature/b-usercenter
 asssets  develop
-Service  feature/wechat-opt
+Service  release/b-ordersearch
 
 ### 页面访问
 http://123624.12301.local/wx/b/order_query.html

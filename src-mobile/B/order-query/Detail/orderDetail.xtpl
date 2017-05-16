@@ -1,6 +1,6 @@
 <div class="top-box clearfix">
     <div class="lt">
-        <img src="http://images.12301.cc//family/20160414/14606034632447_thumb.jpg" alt="">
+        <img src="<%=data.imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null"  alt="">
     </div>
     <div class="rt">
         <div class="con">
@@ -19,20 +19,24 @@
                 <tr>
                     <td class="th1">
                         <p class="ticket-name"><%=item.ttitle%></p>
-                        <% if(data.sub_list){%>
-                        <dl class="detail">
-                            <dt>包含子票：</dt>
-                            <% _.each(data.sub_list,function(item,index){ %>
-                            <dd><%=item.title%> *<%=item.num%>张</dd>
-                            <%})%>
-                        </dl>
-                        <%}%>
                     </td>
                     <td class="th2"><%=item.price%>元</td>
                     <td class="th3">X<%=item.tnum%></td>
                     <td class="th4">已验<%=item.status%></td>
                 </tr>
                 <%})%>
+                <% if(data.sub_list && data.sub_list.length){%>
+                    <tr class="detail">
+                        <td colspan="4">
+                            <p>包含子票：</p>
+                            <ul>
+                                <% _.each(data.sub_list,function(item,index){ %>
+                                    <li><%=item.title%> *<%=item.num%>张</li>
+                                <%})%>
+                            </ul>
+                        </td>
+                    </tr>
+                <%}%>
                 </tbody>
             </table>
         </div>
@@ -43,15 +47,15 @@
         <tbody>
         <tr>
             <td class="th1">订单号：</td>
-            <td class="th2"><%=data.ordernum%></td>
+            <td class="th2"><%=data.ordernum ? data.ordernum : '--'%></td>
         </tr>
         <tr>
             <td class="th1">凭证码：</td>
-            <td class="th2"><%=data.ordernum%></td>
+            <td class="th2"><%=data.code ? data.code : '--'%></td>
         </tr>
         <tr>
             <td class="th1">短信发送 ：</td>
-            <td class="th2"><%=data.remsg%>次</td>
+            <td class="th2"><i class="orange"><%=data.remsg%></i>次</td>
         </tr>
         <tr>
             <td class="th1">下单时间：</td>
@@ -61,37 +65,55 @@
             <td class="th1">预计游玩时间：</td>
             <td class="th2"><%=data.playtime%></td>
         </tr>
+        <%if(data.dtime!=="0000-00-00 00:00:00"){%>
         <tr>
             <td class="th1">验证时间：</td>
             <td class="th2"><%=data.dtime%></td>
         </tr>
+        <%}%>
         <tr>
             <td class="th1">支付方式：</td>
-            <td class="th2"><%=data.ordernum%></td>
+            <td class="th2">
+                <%if(data.pay_status==2){%>
+                    <span class="orange">未支付</span>
+                <%}else if(data.is_self==1){%>
+                    <span class="isSelf">自供自销</span>
+                <%}else{%>
+                    <span>
+                        <%=data.sale_pmode ? data.__extra__['sale_pmode'] : '--'%>
+                        <i class="str">/</i>
+                        <%=data.buy_pmode ? data.__extra__['buy_pmode'] : '--'%>
+                    </span>
+                <%}%>
+            </td>
         </tr>
         <tr>
-            <td class="th1">卖出/买入：</td>
-            <td class="th2"><%=data.sale_money%>/<%=data.buy_money%></td>
+            <td class="th1">卖出 / 买入：</td>
+            <td class="th2">
+                <span class="orange">&yen;<%=typeof data.sale_money!=="undefined" ? data.sale_money/100 : '--'%></span>
+                <i class="str">/</i>
+                <span class="orange">&yen;<%=typeof data.buy_money!=="undefined" ? data.buy_money/100 : '--'%></span>
+            </td> 
         </tr>
         <tr>
-            <td class="th1">供应商/分销商：</td>
-            <td class="th2"><%=data.seller%>/<%=data.buyer%></td>
+            <td class="th1">分销商 / 供应商：</td>
+            <td class="th2"><%=data.buyer ? data.buyer : '--'%> / <%=data.seller ? data.seller : '--'%></td>
         </tr>
         <tr>
             <td class="th1">有效期：</td>
-            <td class="th2"><%=data.begintime%>/<%=data.endtime%></td>
+            <td class="th2"><%=data.begintime ? data.begintime : ''%> / <%=data.endtime ? data.endtime : '--'%></td>
         </tr>
         <tr>
             <td class="th1">联系人：</td>
-            <td class="th2"><%=data.ordername%>&nbsp;<%=data.ordertel%></td>
+            <td class="th2"><%=data.ordername%> <%=data.ordertel%></td>
         </tr>
         <tr>
             <td class="th1">身份证：</td>
-            <td class="th2"><%=data.id_card%></td>
+            <td class="th2"><%=data.id_card ? data.idcard : '--'%></td>
         </tr>
         <tr>
             <td class="th1">取票地址：</td>
-            <td class="th2"><%=data.ordernum%></td>
+            <td class="th2"><%=data.getAddr ? data.getAddr : '--'%></td>
         </tr>
         </tbody>
     </table>

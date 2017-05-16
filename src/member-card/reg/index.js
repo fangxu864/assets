@@ -15,6 +15,7 @@ var Fileupload = require("COMMON/modules/fileupload");
 var Validate = require("COMMON/Components/Validator/v1.0");
 var ValidateRule = Validate.Rules;
 
+
 //引入通用Dialog组件
 var Dialog = require("pft-ui-component/Dialog");
 //引入通用消息提示组件

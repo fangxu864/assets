@@ -38,8 +38,7 @@ var WriteCardInfo = PFT.Util.Class({
             }
         };
         ws.onerror = function(evt){
-            var data = evt.data;
-            Message.error(data);
+            // Message.error(evt.type);
         };
         ws.onopen = function(evt){}
     },
