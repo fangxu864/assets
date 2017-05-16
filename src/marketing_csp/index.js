@@ -478,32 +478,39 @@ var Main = PFT.Util.Class({
 			red_pack_money: "",
 			content: "",
 			thumb: "",
-			typeId:"4",
 			only_member : 2
 		}
 		return param;
 	},
 	//保存数据请求
-	saveReq: function (param) {
-		console.log("sad");
-		
+	saveReq: function (param) {		
 		if(param.share_type == 4){
 			// console.log("ASd");
+			window["FileuploadCallbacks"][3] = [];
+			window["FileuploadCallbacks"][3].push(function(res){
+				console.log(res);
+				STip("success", "保存成功!", 2000, function () {
+						
+						// window.location.href = "marketing_share_list.html";
+				});
+			});
 			PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
 				type: "POST",
 				dataType: "json",
 				params: param,
 				success: function (res) {
 					if (res.code == 200) {
-						STip("success", "保存成功!", 2000, function () {
-								$('#excelUploadForm').submit();
-							// window.location.href = "marketing_share_list.html";
-						});
+						$('#excelUploadForm').submit();
+						// STip("success", "保存成功!", 2000, function () {
+							
+						// 	// window.location.href = "marketing_share_list.html";
+						// });
 					} else {
 						STip("fail", res.msg, 3000);
 					}
 				}
 			})
+
 		}else{
 			PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
 				type: "POST",

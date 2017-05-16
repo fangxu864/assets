@@ -137,7 +137,7 @@
                     <div id="excelUpLoadForm">  
                         <!-- <input type="text" name="" class="fileuploadTextInp"/> -->
                         <label class="filebrowseBtn ctrlBtn">
-                            <input type="file" class="fileuploadFileInp"/>
+                            <input type="file" class="fileuploadFileInp" name="file_coupon"/>
                         </label>
                     </div>
                 </div>
