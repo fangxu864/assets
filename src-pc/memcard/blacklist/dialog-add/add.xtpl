@@ -4,14 +4,21 @@
         <span class="name">产品：</span>
         <input type="text" id="landInpAdd" class="landInp"/>
     </div>
-    <div class="line line2">
-        <span class="name">姓名：</span>
-        <input type="text" class="userName"/>
-    </div>
     <div class="line line3">
         <span class="name">身份证：</span>
         <input type="text" style="width: 210px" class="idNum"/>
         <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
+    </div>
+    <div class="line line2">
+        <span class="name">姓名：</span>
+        <input type="text" class="userName"/>
+    </div>
+    <div class="line line5 clearfix">
+        <div class="self-radio checked close-dialog">
+            <input type="radio" name="type" value="1"/>
+            <span class="radio-icon"></span>
+            <span class="radio-des">保存成功后关闭弹窗</span>
+        </div>
     </div>
     <div class="line line4">
         <span class="save-btn btn">保存</span>

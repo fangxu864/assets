@@ -74,6 +74,7 @@ var blackList = PFT.Util.Class({
             //点击时才初始化产品选择框
             if( !_this.mainLandSelect ){
                 _this.mainLandSelect = new Select({
+                    isFillContent:true,
                     height:300,
                     field : {
                         id : "id",
@@ -224,6 +225,19 @@ var blackList = PFT.Util.Class({
             success: function(res) {
                 // 请求成功时处理
                 _this.landListData = res.data;
+                //初始化处理
+                _this.mainLandSelect = new Select({
+                    isFillContent:true,
+                    height:300,
+                    field : {
+                        id : "id",
+                        name : "title",
+                        keyword : "title"
+                    },
+                    trigger : $("#landInpMain"),
+                    data: _this.landListData
+                });
+                _this.container.find(".filter-box .search-btn").click();
             },
             complete: function(res,status) {
                 //请求完成的处理
