@@ -52,6 +52,17 @@ var DialogModule = PFT.Util.Class({
     bind: function () {
         var _this = this;
         var CON = this.container;
+        _this.landSelect = new Select({
+            height:300,
+            top:0,
+            field : {
+                id : "id",
+                name : "title",
+                keyword : "title"
+            },
+            trigger : $("#landInpEdit"),
+            data: _this.landListData
+        });
         CON.on("click" ,"#landInpEdit" ,function (e) {
             var curInp = $(this);
             //点击时才初始化产品选择框

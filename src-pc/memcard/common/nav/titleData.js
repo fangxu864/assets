@@ -18,7 +18,7 @@ module.exports={
             var isShow = false;
             var val = $("#session_sid").val();
             //只有三亚账户才显示黑名单和购票
-            if(val == 272 || val == 4971 || val == 3385) isShow = true;
+            if(val == 272 || val == 4971 || val == 3385 || val == 6970) isShow = true;
             return isShow;
         }
     },
@@ -30,7 +30,7 @@ module.exports={
             var isShow = false;
             var val = $("#session_sid").val();
             //只有三亚账户才显示黑名单和购票
-            if(val == 272 || val == 4971 || val == 3385) isShow = true;
+            if(val == 272 || val == 4971 || val == 3385 || val == 6970) isShow = true;
             return isShow;
         }
 
