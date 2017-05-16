@@ -489,10 +489,18 @@ var Main = PFT.Util.Class({
 			window["FileuploadCallbacks"][3] = [];
 			window["FileuploadCallbacks"][3].push(function(res){
 				console.log(res);
-				STip("success", "保存成功!", 2000, function () {
+				if(res[0] == 200){
+					STip("success", "保存成功!", 2000, function () {
 						
 						// window.location.href = "marketing_share_list.html";
-				});
+					});
+				}else{
+					STip("fail", res[2], 2000, function () {
+						
+						// window.location.href = "marketing_share_list.html";
+					});
+				}
+			
 			});
 			PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
 				type: "POST",
@@ -501,10 +509,6 @@ var Main = PFT.Util.Class({
 				success: function (res) {
 					if (res.code == 200) {
 						$('#excelUploadForm').submit();
-						// STip("success", "保存成功!", 2000, function () {
-							
-						// 	// window.location.href = "marketing_share_list.html";
-						// });
 					} else {
 						STip("fail", res.msg, 3000);
 					}
