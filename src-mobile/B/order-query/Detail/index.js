@@ -181,11 +181,23 @@ var Detail  = PFT.Util.Class({
         var ticket_list = item.ticket_list;
         var buy_pmode = item.buy_pmode;
         var sale_pmode = item.sale_pmode;
+        var beginTime = item.begintime;
+        var endTime = item.endtime;
+        var dayCount = "";
         var extra = item["__extra__"] || (item["__extra__"]={});
         extra["buy_pmode"] = Common.paymode[buy_pmode];
         extra["sale_pmode"] = Common.paymode[sale_pmode];
         extra["buy_money"] = item.buy_money ?  (item.buy_money/100) : "";
         extra["sale_money"] = item.sale_money ?  (item.sale_money/100) : "";
+
+        if(beginTime && endTime){
+            beginTime = new Date(beginTime).getTime();
+            endTime = new Date(endTime).getTime();
+            dayCount = endTime-beginTime;
+            dayCount = dayCount / (24 * 60 * 60 * 1000);
+            extra["dayCount"] = dayCount;
+        }
+
         Common.forEach(ticket_list,function(ticket,ind){
             //__extra__字段标识是前端自己加入的数据
             var extra = ticket["__extra__"] || (ticket["__extra__"]={});
