@@ -133,34 +133,36 @@ var ListDoAction = RichBase.extend({
             data.num_mapping[ $(this).attr('data-tid') ] = $(this).val();
         });
 
-        data.tourist_info = {};
 
+        // 一票一证
         var touristInfo = +tarBtn.attr('data-tourist-info');
         if( touristInfo == 2 ) {
+            data.tourist_info = [];
+            data.idcard_type = '';
+
             var touristList = $('#dialogTouristList'),
                 touristDeleted = touristList.children(':hidden'),
-                touristDeletedIds,
-                touristAdded = touristList.children('.idcardAdded'),
-                touristAddedInfos,
-                tourist_info_arr;
+                touristAdded = touristList.children('.idcardAdded');
 
             if( touristDeleted.length ) {
-                touristDeletedIds = touristDeleted.find('.inp-id').map(function(){ return $(this).val(); }).get();
+                data.tourist_info = touristDeleted.find('.inp-id').map(function(){ return $(this).val(); }).get();
+                data.idcard_type = 'reduce';
             }
 
             if( touristAdded.length ) {
-                touristAddedInfos = touristAdded.map(function(){
+                data.tourist_info = touristAdded.map(function(){
                     return {
                         tourist: $(this).find('.inp-name').val(),
                         idcard: $(this).find('.inp-idcard').val()
                     };
                 }).get();
+
+                data.idcard_type = 'add';
             }
-
-
-            return false;
         }
 
+
+        console.log( data );
         // $("#ticModListUl").find(".numInp").each(function(){
         //     var tarInp = $(this);
         //     var val  = tarInp.val();
@@ -176,12 +178,18 @@ var ListDoAction = RichBase.extend({
         //     modifyData += "&"+key+"="+val;
         // }
         // if(modifyData) modifyData=modifyData.substring(1);
+
+        // 接口参数
+        // ordernum         订单号
+        // num_mapping      {'子票id':修改后的票数}
+        // tourist_info     [{tourist:名字,idcard:身份证}] / ['删除的身份证id'] / []
+        // idcard_type      add / reduce / ''
 		PFT.Ajax({
             url: '/route/index.php?c=Order_OrderModify&a=numModify',
 			// url: "call/handle.php?from=order_alter",
 			type: "post",
 			dataType: "json",
-			data: modifyData,
+			data: data,
 			loading: function () {
 				tarBtn.text("正在修改..").addClass("loading");
 			},
@@ -194,7 +202,7 @@ var ListDoAction = RichBase.extend({
 			serverError: function (res) {
 				alert("请求出错，请稍后重试")
 			}
-		}, function (data) {
+		}, function ( data ) {
 			var outcome = data.outcome;
 			var msg = data.msg || '操作成功';
 			if(outcome==1 || outcome==-2){

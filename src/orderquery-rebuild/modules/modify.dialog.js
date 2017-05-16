@@ -60,7 +60,10 @@ var ModifyDialog = RichBase.extend({
 						$('#dialogTouristList').append( html );
 					} else {
 						$('#dialogTouristList').children(':hidden').eq(0).show();
-						$('#dialogTouristList').children().find('.icon-shanchu').hide();
+
+						if( totalInput == originTicketNum ) {
+							$('#dialogTouristList').children().find('.icon-shanchu').hide();
+						} else {}
 					}
 				}
 			}else{
@@ -175,12 +178,12 @@ var ModifyDialog = RichBase.extend({
 
 						if( self.touristInfo == 2 ) {
 							var totalInput = self.getTotalTickets(),
-								totalTouristInfo = $('#dialogTouristList').children(),
+								totalTouristInfo = $('#dialogTouristList').children(':visible'),
 								totalTouristInfoLen = totalTouristInfo.length;
 
-							if( totalInput < totalTouristInfoLen ) {
-								// alert( '游客信息数必须等于票数！' );
-								// return false;
+							if( totalInput != totalTouristInfoLen ) {
+								alert( '游客信息数必须等于票数！' );
+								return false;
 							}
 
 							for( var i=0; i<totalTouristInfoLen; i++ ) {

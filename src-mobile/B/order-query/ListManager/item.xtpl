@@ -83,8 +83,7 @@
                     <%=item.ordertime%>
                 </div>
             </div>
-            <%console.log(item.dtime)%>
-            <%if(item.dtime!=="0000-00-00 00:00:00"){%>
+            <%if(item.dtime!="0000-00-00 00:00:00"){%>
             <div class="infoLine">
                 <div class="lt">验证时间</div>
                 <div class="rt">

@@ -46,7 +46,7 @@ var Contact = PFT.Util.Class({
             var name = curBtn.attr("data-name");
             var mobile = curBtn.attr("data-mobile");
             var idNum = curBtn.attr("data-idNum");
-            Message.confirm('是否删除"'+name+'"?',function (relult) {
+            Message.confirm('是否删除"'+name+'"?',function(relult){
                 if(relult){
                     var param = {
                         action: "delete",
@@ -421,7 +421,7 @@ var Contact = PFT.Util.Class({
         }
         params["ordername"] = $.trim($("#contact_ordernameInp").val());
         params["ordertel"] = $.trim($("#contact_mobileInp").val());
-        params["memoInp"] = $.trim($("#contact_memoInp").val());
+        params["memo"] = $.trim($("#contact_memoInp").val());
         if($("#contact_idcardInp").length>0) params["idCard"] = $.trim($("#contact_idcardInp").val());
         return params;
     }

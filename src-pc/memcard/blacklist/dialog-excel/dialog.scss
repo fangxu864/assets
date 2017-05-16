@@ -91,6 +91,7 @@
     }
     .line2{
       .select-btn{
+        position: relative;
         cursor: pointer;
         display: inline-block;
         padding: 10px 15px;
@@ -101,6 +102,15 @@
         border-color: #258cc9;
         color: #258cc9;
       }
+    }
+    .line2 .file-inp{
+      width: 100%;
+      opacity: 0;
+      padding: 0;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
     .line4{
       text-align: center;
@@ -128,6 +138,13 @@
         text-align: center;
         font-size: 14px;
         cursor: pointer;
+      }
+      .disable{
+        background-color: #d8d8d8;
+        &:hover{
+          background-color: #d8d8d8 ;
+          box-shadow:none
+        }
       }
       .cancel-btn:hover{
         //background-color: #2196F3;
