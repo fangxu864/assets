@@ -169,7 +169,10 @@ var Main = PFT.Util.Class({
                 $("#saveNow").attr("data-sending","false");
             },
             success : function(data){
-                Message.alert("保存成功");
+                Message.alert("保存成功,请等待刷新");
+                setTimeout(function(){
+                    location.reload();
+                },2000);
             },
             fail : function(msg,code){
                 Message.alert(code + msg);
