@@ -20,10 +20,7 @@ var Main = PFT.Util.Class({
 		"change .fileuploadFileInp": "changefile"
 	},
 	init: function () {
-		this.shareTypeFourParams = {
-			id : 0,
-			num : 0,
-		};
+
 		this.initPage();
 		this.datepicker = new Datepicker();
 	},
@@ -443,9 +440,6 @@ var Main = PFT.Util.Class({
 		
 		if (!reg.test(couponNum)) return STip("fail", "赠券张数在1~999999之间!", 3000);
 		if (!couponIdInp) return STip("fail", "优惠券ID不为空!", 3000);
-
-		this.shareTypeFourParams.num= couponNum;
-		this.shareTypeFourParams.id= couponIdInp;
 
 		param = {
 			coupon_id: couponIdInp,
