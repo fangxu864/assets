@@ -25,14 +25,14 @@ var Dialog_excel = require("./dialog-excel/dialog.js");
 var Dialog_edit = require("./dialog-edit/dialog.js");
 //公共资源common resource
 var CR = require("./CR.js");
-var webSocket = require("../common/websocket/index.js");
+var readIdCard = require("../common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
 
 
 var blackList = PFT.Util.Class({
 
     init: function () {
         var _this = this;
-        this.webSocket = new webSocket();
         this.container = $("#GBlacklistWrap");
         this.container.html(frameTpl);
         this.mainTbContainer =  this.container.find(".table-box .main-tb tbody");
@@ -164,7 +164,7 @@ var blackList = PFT.Util.Class({
         CON.on("click" ,".filter-box .search-btn", function (e) {
             var landInp =  _this.container.find(".filter-box .land-inp");
             var idNumInp =  _this.container.find(".filter-box .id-card-inp");
-            _this.paramHub.id_card = idNumInp.val().trim();
+            _this.paramHub.id_card = $.trim( idNumInp.val());
             _this.paramHub.lid = landInp.attr("data-id");
             if(!CR.judgeTrue(_this.paramHub.lid )){
                 Tips.closeAllTips();
@@ -197,15 +197,12 @@ var blackList = PFT.Util.Class({
 
         //点击读卡
         CON.on("click" ,".filter-box .get-idNum" ,function (e) {
-            console.log("fdsfsdf");
-            _this.webSocket.doSend('{"cmd":"idread"}');
+            readIdCard1.doSend('{"cmd":"idread"}');
         });
 
-        this.webSocket.on("socketMessage" ,function (data) {
+        readIdCard1.on("socketMessage" ,function (data) {
             CON.find(".filter-box .id-card-inp").val(data.code)
         })
-
-
 
     },
 

@@ -17,7 +17,8 @@ var tips = require("COMMON/modules/tips/index.js");
 var Tips = new tips ();
 //公共资源common resource
 var CR = require("../CR.js");
-
+var readIdCard = require("../../common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
 
 var DialogModule = PFT.Util.Class({
     container: $("<div class='blackListDialogCon-add'></div>"),
@@ -53,6 +54,7 @@ var DialogModule = PFT.Util.Class({
     
     bind: function () {
         var _this = this;
+        var CON = this.container;
         this.container.on("click" ,"#landInpAdd" ,function (e) {
             var curInp = $(this);
             //点击时才初始化产品选择框
@@ -80,7 +82,18 @@ var DialogModule = PFT.Util.Class({
         //确认
         this.container.on("click", ".save-btn" ,function () {
             _this.addBlacklistRequest();
+        });
+
+        //点击读卡
+        CON.on("click" ,".get-idNum" ,function (e) {
+            readIdCard1.doSend('{"cmd":"idread"}');
+        });
+
+        readIdCard1.on("socketMessage" ,function (data) {
+            CON.find(".idNum").val(data.code);
+            CON.find(".userName").val(data.name)
         })
+
     },
 
     /**
@@ -104,7 +117,7 @@ var DialogModule = PFT.Util.Class({
             });
             return false;
         }
-        params["name"] = userNameInp.val().trim();
+        params["name"] = $.trim( userNameInp.val() );
         if(params["name"] == ""){
             Tips.closeAllTips();
             Tips.show({
@@ -116,7 +129,7 @@ var DialogModule = PFT.Util.Class({
             });
             return false;
         }
-        params["id_card"] = idNumInp.val().trim();
+        params["id_card"] = $.trim( idNumInp.val() );
         if(!PFT.Util.Validate.idcard(params["id_card"])){
             Tips.closeAllTips();
             Tips.show({

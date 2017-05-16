@@ -20,7 +20,9 @@ var Tips = new tips ();
 var renderNav = require("../common/nav/index.js");
 //公共资源common resource
 var CR = require("./CR.js");
-
+var readIdCard = require("../common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
+var readIdCard2 = new readIdCard();
 
 
 var buyTicket = PFT.Util.Class({
@@ -229,6 +231,23 @@ var buyTicket = PFT.Util.Class({
             _this.recordParamHub.page = 1;
             _this.getRecordData()
 
+        });
+
+        //点击读卡
+        CON.on("click" ,".filter-box .get-idNum" ,function (e) {
+            readIdCard1.doSend('{"cmd":"idread"}');
+        });
+        recordCon.on("click" ,".record-filter .get-idNum" ,function (e) {
+            readIdCard2.doSend('{"cmd":"idread"}');
+        });
+
+        readIdCard1.on("socketMessage" ,function (data) {
+            CON.find(".filter-box .idNum-inp").val(data.code);
+            CON.find(".filter-box .userName-inp").val(data.name);
+        }) ;
+        readIdCard2.on("socketMessage" ,function (data) {
+            recordCon.find(".record-filter .idNum-inp").val(data.code);
+            recordCon.find(".record-filter .userName-inp").val(data.name);
         })
 
     },

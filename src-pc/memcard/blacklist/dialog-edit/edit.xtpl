@@ -10,7 +10,8 @@
     </div>
     <div class="line line3">
         <span class="name">身份证：</span>
-        <input type="text" class="idCard-inp"/>
+        <input type="text" style="width: 210px" class="idCard-inp"/>
+        <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
     </div>
     <div class="line line4">
         <span class="save-btn btn">保存</span>
