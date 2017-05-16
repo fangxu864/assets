@@ -203,28 +203,46 @@ var ListDoAction = RichBase.extend({
 				alert("请求出错，请稍后重试")
 			}
 		}, function ( data ) {
-			var outcome = data.outcome;
-			var msg = data.msg || '操作成功';
-			if(outcome==1 || outcome==-2){
-				api.query(1, 10, {select_type: 1, select_text: ordernum}, {
-					success: function (res) {
-						var tpl = $("#order-list-item-tpl").html();
-						var template = _.template(tpl);
-						var html = template({data: res});
-						$("#listItem_" + ordernum).after(html);
-						$("#listItem_" + ordernum).remove();
-					}
-				});
-				if(outcome==1){
-					PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
-					that.fire("modifyTicket.success");
-				}else{ //outcome==-2
-					alert(msg);
-				}
-			}else{
-				var txt = data.msg || "";
-				PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + txt + '</p>');
-			}
+            if( data.code == 200 ) {
+                api.query(1, 10, {select_type: 1, select_text: ordernum}, {
+                    success: function (res) {
+                        var tpl = $("#order-list-item-tpl").html(),
+                            template = _.template(tpl),
+                            html = template({data: res});
+
+                        $("#listItem_" + ordernum).after(html);
+                        $("#listItem_" + ordernum).remove();
+
+                        PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
+                        that.fire("modifyTicket.success");
+                    }
+                });
+            } else {
+                PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + data.msg + '</p>');
+            }
+
+			// var outcome = data.outcome;
+			// var msg = data.msg || '操作成功';
+			// if(outcome==1 || outcome==-2){
+			// 	api.query(1, 10, {select_type: 1, select_text: ordernum}, {
+			// 		success: function (res) {
+			// 			var tpl = $("#order-list-item-tpl").html();
+			// 			var template = _.template(tpl);
+			// 			var html = template({data: res});
+			// 			$("#listItem_" + ordernum).after(html);
+			// 			$("#listItem_" + ordernum).remove();
+			// 		}
+			// 	});
+			// 	if(outcome==1){
+			// 		PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
+			// 		that.fire("modifyTicket.success");
+			// 	}else{ //outcome==-2
+			// 		alert(msg);
+			// 	}
+			// }else{
+			// 	var txt = data.msg || "";
+			// 	PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + txt + '</p>');
+			// }
 		});
     }
 });

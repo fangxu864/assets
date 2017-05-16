@@ -129,8 +129,7 @@ var UserCenter = PFT.Util.Class({
                     if( data.url ) {
                         window.location.href = data.url;
                     } else {
-                        var para = location.search;
-                        window.location.href = "login.html" + para ;
+                        window.location.href = "login.html";
                     }
                     // window.location.href = data.url;
                     // var para = location.search;
