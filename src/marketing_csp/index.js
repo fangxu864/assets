@@ -144,30 +144,6 @@ var Main = PFT.Util.Class({
 			}
 		});
 	},
-	excelUpLoad:function(){
-		console.log("excel");
-		var uploader_3 = new Fileupload({
-			container: '#excelUploadWrap',
-			id: 3,  //唯一
-			fileNameAttr: "file_coupon",
-			uploadBtnShow : false,
-			userDefinedUpBtn : '#saveBtn',
-			extra: { coupon_id :this.shareTypeFourParams.id, coupon_num :this.shareTypeFourParams.num  },
-			action: '/r/product_Coupon/sendBYBatch',
-			loading: function (formControls) {
-				STip("success", '<p style="width:160px;">正在上传,请稍后</p>', 3000);
-			},
-			complete: function (res) {
-				console.log(res);
-				// if (res.code == 200) {
-			
-				// 	STip("success", '<p style="width:160px;">上传成功</p>');
-				// } else {
-				// 	STip("fail", '<p style="width:220px;">' + res.msg + '</p>');
-				// }
-			}
-		});
-	},
 	//根据spid获取活动详细
 	getSpidActivity: function (spid) {
 		var _this = this;
@@ -227,7 +203,6 @@ var Main = PFT.Util.Class({
 			_this.setContent(data.share_type, data.content);//将富文本编辑器内容写入
 		}*/
 		_this.initImgUpload();//初始化图片上传插件
-		// _this.excelUpLoad();//初始化文件上传插件
 
 		$("#saveBtn").attr({ "data-spid": data.spid, "data-mkid": data.mkid });
 		$(" .fileuploadWrap .fileuploadTextInp").css("width", "160px");//重置图片上传input框宽度
@@ -484,7 +459,8 @@ var Main = PFT.Util.Class({
 		return param;
 	},
 	//保存数据请求
-	saveReq: function (param) {		
+	saveReq: function (param) {	
+		var  CreateShare = "/r/product_Coupon/CreateShare";	
 		if(param.share_type == 4){
 			window["FileuploadCallbacks"][3] = [];
 			window["FileuploadCallbacks"][3].push(function(res){
@@ -498,7 +474,7 @@ var Main = PFT.Util.Class({
 				}
 			
 			});
-			PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
+			PFT.Util.Ajax(CreateShare, {
 				type: "POST",
 				dataType: "json",
 				params: param,
@@ -512,7 +488,7 @@ var Main = PFT.Util.Class({
 			})
 
 		}else{
-			PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
+			PFT.Util.Ajax(CreateShare, {
 				type: "POST",
 				dataType: "json",
 				params: param,
