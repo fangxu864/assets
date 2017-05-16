@@ -1,5 +1,5 @@
 require("./index.scss");
-var Select = require("COMMON/modules/select");
+var Select = require("./select");
 var STip = require("COMMON/js/util.simple.tip");
 var Datepicker = require("COMMON/modules/datepicker");
 var Fileupload = require("COMMON/modules/fileupload");
@@ -8,15 +8,21 @@ var ListTpl = require("./index.xtpl");
 //第145 key:getActivityDetail   第317
 
 var Main = PFT.Util.Class({
+	
+
 	container: "#bodyContainer",
 	EVENTS: {
 		"click #typeBox label": "changeShareType",
 		"focus #couponNumber": "checkCouponNum",
 		"click .inp-date": "initDatePicker",
-		"click .inp-limit": "changeLimit",
+		"change #typeFourCouponNum": "changeCouponNumber",
 		"click #saveBtn": "saveAddNewActivity"
 	},
 	init: function () {
+		this.shareTypeFourParams = {
+			id : 0,
+			num : 0,
+		};
 		this.initPage();
 		this.datepicker = new Datepicker();
 	},
@@ -137,27 +143,30 @@ var Main = PFT.Util.Class({
 			}
 		});
 	},
-	// excelUpLoad:function(){
-	// 	console.log("excel");
-	// 	var uploader_3 = new Fileupload({
-	// 		container: '#excelUploadWrap',
-	// 		id: 3,  //唯一
-	// 		fileNameAttr: "file_coupon",
-	// 		action: '/r/product_Coupon/sendBYBatch',
-	// 		loading: function (formControls) {
-	// 			STip("success", '<p style="width:160px;">正在上传,请稍后</p>', 3000);
-	// 		},
-	// 		complete: function (res) {
-	// 			console.log(res);
-	// 			if (res.code == 200) {
+	excelUpLoad:function(){
+		console.log("excel");
+		var uploader_3 = new Fileupload({
+			container: '#excelUploadWrap',
+			id: 3,  //唯一
+			fileNameAttr: "file_coupon",
+			uploadBtnShow : false,
+			userDefinedUpBtn : '#saveBtn',
+			extra: { coupon_id :this.shareTypeFourParams.id, coupon_num :this.shareTypeFourParams.num  },
+			action: '/r/product_Coupon/sendBYBatch',
+			loading: function (formControls) {
+				STip("success", '<p style="width:160px;">正在上传,请稍后</p>', 3000);
+			},
+			complete: function (res) {
+				console.log(res);
+				// if (res.code == 200) {
 			
-	// 				STip("success", '<p style="width:160px;">上传成功</p>');
-	// 			} else {
-	// 				STip("fail", '<p style="width:220px;">' + res.msg + '</p>');
-	// 			}
-	// 		}
-	// 	});
-	// },
+				// 	STip("success", '<p style="width:160px;">上传成功</p>');
+				// } else {
+				// 	STip("fail", '<p style="width:220px;">' + res.msg + '</p>');
+				// }
+			}
+		});
+	},
 	//根据spid获取活动详细
 	getSpidActivity: function (spid) {
 		var _this = this;
@@ -212,11 +221,12 @@ var Main = PFT.Util.Class({
 		_this.getActivityList(data.relation_pid);//初始化活动产品
 		_this.initGetCouponId("couponId", data.coupon_id);//初始化获取优惠券列表
 		_this.initGetCouponId("couponIdInp", data.coupon_id);
+		_this.initGetCouponId("typeFourCouponId", data.coupon_id);
 		/*if (data.share_type != 3) {
 			_this.setContent(data.share_type, data.content);//将富文本编辑器内容写入
 		}*/
 		_this.initImgUpload();//初始化图片上传插件
-		// _this.excelUpLoad();//初始化图片上传插件
+		// _this.excelUpLoad();//初始化文件上传插件
 
 		$("#saveBtn").attr({ "data-spid": data.spid, "data-mkid": data.mkid });
 		$(" .fileuploadWrap .fileuploadTextInp").css("width", "160px");//重置图片上传input框宽度
@@ -233,9 +243,11 @@ var Main = PFT.Util.Class({
 		if(tarNum == 4){
 			$('.shareTypeOneToTree').hide();
 			$('.shareTypeFour').show();
+			$('.date').hide();
 		}else{
 			$('.shareTypeOneToTree').show();
 			$('.shareTypeFour').hide();
+			$('.date').show();
 		}
 
 	},
@@ -367,7 +379,7 @@ var Main = PFT.Util.Class({
 			case '3':
 				param = _this.getTypeCParam();
 				break;
-			case '3':
+			case '4':
 				param = _this.getTypeDParam();
 				break;
 		}
@@ -453,8 +465,11 @@ var Main = PFT.Util.Class({
 		var param;
 		var reg = /^([1-9]\d{0,5}|999999|-1)$/;
 		
-		if (!reg.test(coupon_num)) return STip("fail", "赠券张数在1~999999之间!", 3000);
+		if (!reg.test(couponNum)) return STip("fail", "赠券张数在1~999999之间!", 3000);
 		if (!couponIdInp) return STip("fail", "优惠券ID不为空!", 3000);
+
+		this.shareTypeFourParams.num= couponNum;
+		this.shareTypeFourParams.id= couponIdInp;
 
 		param = {
 			coupon_id: couponIdInp,
@@ -463,38 +478,54 @@ var Main = PFT.Util.Class({
 			red_pack_money: "",
 			content: "",
 			thumb: "",
+			typeId:"4",
+			only_member : 2
 		}
 		return param;
 	},
 	//保存数据请求
 	saveReq: function (param) {
-		//console.log(param)
-		PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
-			type: "POST",
-			dataType: "json",
-			params: param,
-			success: function (res) {
-				if (res.code == 200) {
-					STip("success", "保存成功!", 2000, function () {
-						window.location.href = "marketing_share_list.html";
-					});
-				} else {
-					STip("fail", res.msg, 3000);
+		console.log("sad");
+		
+		if(param.share_type == 4){
+			// console.log("ASd");
+			PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
+				type: "POST",
+				dataType: "json",
+				params: param,
+				success: function (res) {
+					if (res.code == 200) {
+						STip("success", "保存成功!", 2000, function () {
+								$('#excelUploadForm').submit();
+							// window.location.href = "marketing_share_list.html";
+						});
+					} else {
+						STip("fail", res.msg, 3000);
+					}
 				}
-			}
-		})
-	},
-	changeLimit:function(e){
-		var _this = this;
-		var tarBtn = $(e.currentTarget);
-		var type = tarBtn.attr("value");
-		if(type == 2){
-			$('#excelLabel').show();
+			})
 		}else{
-			$('#excelLabel').hide();
+			PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
+				type: "POST",
+				dataType: "json",
+				params: param,
+				success: function (res) {
+					if (res.code == 200) {
+						STip("success", "保存成功!", 2000, function () {
+							window.location.href = "marketing_share_list.html";
+						});
+					} else {
+						STip("fail", res.msg, 3000);
+					}
+				}
+			})
 		}
+		
+	},
+	changeCouponNumber:function(e){
+		var tarBtn = $(e.currentTarget);
+		tarBtn.attr("value",tarBtn.val());
 	}
-
 })
 
 /**

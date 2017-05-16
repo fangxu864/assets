@@ -21,13 +21,13 @@
     <label><input type="radio" name="shareType" class="inp-r ml-20" value="4" <%=(data.share_type==4) ? "checked" : ""%>>送优惠券</label>
     
 </div>
-<div class="con shareTypeOneToTree">
+<div class="con shareTypeOneToTree" style= " display: <%=(data.share_type!=4) ? "block" : "none" %> ">
     <span class="u-span">限会员卡用户:</span>
     <label><input type="radio" name="limit" value="0" class="inp-r inp-limit" <%=(data.only_member==0) ? "checked" : "" %>>不限</label>
     <label><input type="radio" name="limit" value="1" class="inp-r inp-limit ml-20" <%=(data.only_member==1) ? "checked" : ""%>>仅限会员卡</label>
 
 </div>
-<div class="con shareTypeFour">
+<div class="con shareTypeFour" style= " display: <%=(data.share_type==4) ? "block" : "none" %> ">
     <span class="u-span">限会员卡用户:</span>
     <label><input type="radio" name="limitFour" value="2" class="inp-r inp-limit" checked>
     指定会员</label>
@@ -120,26 +120,36 @@
         </div>
     </div>
     <div id="share_type_4" class="share_type" style= " display: <%=(data.share_type==4) ? "block" : "none" %> ">
-       <form class="typefourCouponForm" enctype="multipart/form-data" method="post" target="" action="/r/product_Coupon/sendBYBatch">
-            <div class="con " id="excelLabel">
+
+         <!--    <div class="con " id="excelLabel">
                 <span class="u-span">选择会员excel文件</span>
                 <div class="leftBox">
-                    <!-- <input type="text" name="" class="fileuploadTextInp"/> -->
+                 
                     <label class="filebrowseBtn ctrlBtn">
                         <input type="file" class="fileuploadFileInp" name="file_coupon"/>
                     </label>
                 </div>
-            </div>
-            <div class="con">
-                <span class="u-span">优惠券ID:</span>
-                <input type="text" id="typeFourCouponId" name="coupon_id" class="inp-t w-400" placeholder="请搜索优惠券" readonly value="">
-            </div>
-            <div class="con">
-                <span class="u-span">赠券张数:</span>
-                <input type="text" id="typeFourCouponNum" name="coupon_num" class="inp-t" value="<%=(data.share_type==1&&data.coupon_num.length>1) ? data.coupon_num : 1 %>">
-            </div>
-        </form>
-
+            </div> -->
+            <iframe name="excelUpload" class="excelUpload"></iframe>
+            <form method="post" id="excelUploadForm" action="/r/product_Coupon/sendBYBatch" enctype="multipart/form-data" name="fileForm" target="excelUpload">
+                 <div class="con " id="excelLabel">
+                    <span class="u-span">选择会员excel文件</span>
+                    <div id="excelUpLoadForm">  
+                        <!-- <input type="text" name="" class="fileuploadTextInp"/> -->
+                        <label class="filebrowseBtn ctrlBtn">
+                            <input type="file" class="fileuploadFileInp"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="con">
+                    <span class="u-span">优惠券ID:</span>
+                    <input type="text" id="typeFourCouponId" name="coupon_id" class="inp-t w-400" placeholder="请搜索优惠券" readonly value="">
+                </div>
+                <div class="con">
+                    <span class="u-span">赠券张数:</span>
+                    <input type="text" id="typeFourCouponNum" name="coupon_num" class="inp-t" value="<%=(data.share_type==4&&data.coupon_num.length>1) ? data.coupon_num : 1 %>">
+                </div>
+            </form>
 
     </div>
 </div>

@@ -1,0 +1,13 @@
+<div class="gSelectDownBoxCon">
+    <div class="selectTopCon">
+        <div class="searchBox">
+            <div class="searchBoxCon">
+                <input type="text" name="" class="gSelectSearchInp"/>
+                <i class="iconfont search">&#xe60a;</i>
+                <span class="clearSearchBtn"><i class="iconfont">&#xe674;</i></span>
+            </div>
+        </div>
+    </div>
+    <ul class="selectOptionUl"></ul>
+</div>
+
