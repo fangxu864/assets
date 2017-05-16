@@ -14,7 +14,6 @@ var Main = PFT.Util.Class({
 		"focus #couponNumber": "checkCouponNum",
 		"click .inp-date": "initDatePicker",
 		"click .inp-limit": "changeLimit",
-		"click #fileCoupon": "fileupload",
 		"click #saveBtn": "saveAddNewActivity"
 	},
 	init: function () {
@@ -51,7 +50,7 @@ var Main = PFT.Util.Class({
 			_this.getSpidActivity(spid);
 
 		}
-		_this.excelUpLoad();
+	
 
 	},
 	//初始化富文本编辑器
@@ -109,6 +108,7 @@ var Main = PFT.Util.Class({
 				STip("success", '<p style="width:160px;">正在上传图片,请稍后</p>', 3000);
 			},
 			complete: function (res) {
+				console.log(res)
 				if (res.code == 200) {
 					$('#imagePath').attr({ "src": res.data.src, "data-path": res.data.src });
 					STip("success", '<p style="width:160px;">上传图片成功</p>');
@@ -127,7 +127,7 @@ var Main = PFT.Util.Class({
 				STip("success", '<p style="width:160px;">正在上传图片,请稍后</p>', 3000);
 			},
 			complete: function (res) {
-
+				console.log(res)
 				if (res.code == 200) {
 					$('#imagePath_2').attr({ "src": res.data.src, "data-path": res.data.src })
 					STip("success", '<p style="width:160px;">上传图片成功</p>');
@@ -138,10 +138,11 @@ var Main = PFT.Util.Class({
 		});
 	},
 	excelUpLoad:function(){
+		console.log("excel");
 		var uploader_3 = new Fileupload({
 			container: '#excelUploadWrap',
 			id: 3,  //唯一
-			extra:{}  
+			fileNameAttr: "file_coupon",
 			action: '/r/product_Coupon/sendBYBatch',
 			loading: function (formControls) {
 				STip("success", '<p style="width:160px;">正在上传,请稍后</p>', 3000);
@@ -149,7 +150,7 @@ var Main = PFT.Util.Class({
 			complete: function (res) {
 				console.log(res);
 				if (res.code == 200) {
-					console.log("asdasd");
+			
 					STip("success", '<p style="width:160px;">上传成功</p>');
 				} else {
 					STip("fail", '<p style="width:220px;">' + res.msg + '</p>');
@@ -171,8 +172,6 @@ var Main = PFT.Util.Class({
 					var data = res.data.data[0];
 					data["spid"] = spid;
 					_this.renderActivityPage(data);
-
-
 				} else {
 					STip("fail", res.msg,2000);
 					window.location.href="marketing_share_list.html";
@@ -217,6 +216,7 @@ var Main = PFT.Util.Class({
 			_this.setContent(data.share_type, data.content);//将富文本编辑器内容写入
 		}*/
 		_this.initImgUpload();//初始化图片上传插件
+		_this.excelUpLoad();//初始化图片上传插件
 
 		$("#saveBtn").attr({ "data-spid": data.spid, "data-mkid": data.mkid });
 		$(" .fileuploadWrap .fileuploadTextInp").css("width", "160px");//重置图片上传input框宽度
@@ -230,6 +230,13 @@ var Main = PFT.Util.Class({
 		var tarNum = tarRadio.attr("value");
 		$("#share_type_" + tarNum).show().siblings(".share_type").hide();
 		$("#saveBtn").attr("data-type", tarNum);
+		if(tarNum == 4){
+			$('.shareTypeOneToTree').hide();
+			$('.shareTypeFour').show();
+		}else{
+			$('.shareTypeOneToTree').show();
+			$('.shareTypeFour').hide();
+		}
 
 	},
 	//获取产品列表
@@ -438,24 +445,21 @@ var Main = PFT.Util.Class({
 		}
 		return param;
 	},
-	//类别3参数
+	//类别4参数
 	getTypeDParam: function () {
-		var couponIdInp = $("#couponIdInp").attr("data-id");
-		var coupon_num;
-		var couponNum = $("#couponNumber").val();
-		var proInp = $("#schProInp").attr("data-id");
+		var couponIdInp = $("#typeFourCouponId").attr("data-id");
+		var couponNum = $("#typeFourCouponNum").val();
+
 		var param;
 		var reg = /^([1-9]\d{0,5}|999999|-1)$/;
 		
-		coupon_num = ($("input[name='couponNum']:checked").val() == -1) ? -1 : couponNum;
 		if (!reg.test(coupon_num)) return STip("fail", "赠券张数在1~999999之间!", 3000);
 		if (!couponIdInp) return STip("fail", "优惠券ID不为空!", 3000);
-		if (!proInp) return STip("fail", "活动产品不为空!", 3000);
 
 		param = {
 			coupon_id: couponIdInp,
-			relation_pid: proInp,
-			coupon_num: coupon_num,
+			coupon_num: couponNum,
+			relation_pid: "",
 			red_pack_money: "",
 			content: "",
 			thumb: "",

@@ -15,6 +15,7 @@ var Browser = require("COMMON/js/util.platform.js");
  * 	    action    : "target.php"       必选 文件上传至后端，哪个接口地址处理
  * 	    id        : 1                  必选 页面上可能有好几个文件上传组件同时存在，用来标显组件唯一id(数字)
  * 		extra     : {}                 可选 上传图片时，除了图片，还可以附带传一些参数给后端  例如：extra : {from:"plist",needId:false}
+ * 	    fileNameAttr   : "attr"        可选 上传input的属性 
  * 	    loading   : function(){}       可选 上传过程中的回调函数   
  * 	    complete  : function(res){}    可选 上传结束后的回调函数  上传是否成功，可以在参数res里去判断   建议后端返回的数据格式：{code:200,data:{src:"图片src地址"},msg:""}
  * })
@@ -34,9 +35,12 @@ Fileupload.options = {
 	id : "",
 	action : "",
 	extra : {},
+	fileNameAttr:"",
 	loading : function(){},
 	complete : function(){}
 };
+
+
 Fileupload.prototype = {
 	init : function(opt){
 		var that = this;
@@ -91,7 +95,12 @@ Fileupload.prototype = {
 		this.form.attr("target","iframefileupload_"+id);
 		this.form.attr("action",action);
 		this.fileInp.attr("id","fileuploadFileInp_"+id);
-		this.fileInp.attr("name","fileuploadFile_"+id);
+		if(this.opt.fileNameAttr){
+			this.fileInp.attr("name",this.opt.fileNameAttr);
+		}else{
+			this.fileInp.attr("name","fileuploadFile_"+id);
+		}
+		
 		this.browseBtn.attr("for","fileuploadFileInp_"+id);
 		this.browseBtn.attr("name","fileupload_callback_"+id);
 		this.callbackHidInp.val(id);
