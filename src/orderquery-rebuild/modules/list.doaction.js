@@ -152,7 +152,7 @@ var ListDoAction = RichBase.extend({
             if( touristAdded.length ) {
                 data.tourist_info = touristAdded.map(function(){
                     return {
-                        tourist: $(this).find('.inp-name').val(),
+                        tourist: $.trim( $(this).find('.inp-name').val() ),
                         idcard: $(this).find('.inp-idcard').val()
                     };
                 }).get();
