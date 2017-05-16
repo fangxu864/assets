@@ -137,27 +137,27 @@ var Main = PFT.Util.Class({
 			}
 		});
 	},
-	excelUpLoad:function(){
-		console.log("excel");
-		var uploader_3 = new Fileupload({
-			container: '#excelUploadWrap',
-			id: 3,  //唯一
-			fileNameAttr: "file_coupon",
-			action: '/r/product_Coupon/sendBYBatch',
-			loading: function (formControls) {
-				STip("success", '<p style="width:160px;">正在上传,请稍后</p>', 3000);
-			},
-			complete: function (res) {
-				console.log(res);
-				if (res.code == 200) {
+	// excelUpLoad:function(){
+	// 	console.log("excel");
+	// 	var uploader_3 = new Fileupload({
+	// 		container: '#excelUploadWrap',
+	// 		id: 3,  //唯一
+	// 		fileNameAttr: "file_coupon",
+	// 		action: '/r/product_Coupon/sendBYBatch',
+	// 		loading: function (formControls) {
+	// 			STip("success", '<p style="width:160px;">正在上传,请稍后</p>', 3000);
+	// 		},
+	// 		complete: function (res) {
+	// 			console.log(res);
+	// 			if (res.code == 200) {
 			
-					STip("success", '<p style="width:160px;">上传成功</p>');
-				} else {
-					STip("fail", '<p style="width:220px;">' + res.msg + '</p>');
-				}
-			}
-		});
-	},
+	// 				STip("success", '<p style="width:160px;">上传成功</p>');
+	// 			} else {
+	// 				STip("fail", '<p style="width:220px;">' + res.msg + '</p>');
+	// 			}
+	// 		}
+	// 	});
+	// },
 	//根据spid获取活动详细
 	getSpidActivity: function (spid) {
 		var _this = this;
@@ -216,7 +216,7 @@ var Main = PFT.Util.Class({
 			_this.setContent(data.share_type, data.content);//将富文本编辑器内容写入
 		}*/
 		_this.initImgUpload();//初始化图片上传插件
-		_this.excelUpLoad();//初始化图片上传插件
+		// _this.excelUpLoad();//初始化图片上传插件
 
 		$("#saveBtn").attr({ "data-spid": data.spid, "data-mkid": data.mkid });
 		$(" .fileuploadWrap .fileuploadTextInp").css("width", "160px");//重置图片上传input框宽度
