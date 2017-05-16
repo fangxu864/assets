@@ -15,8 +15,9 @@ var Main = PFT.Util.Class({
 		"click #typeBox label": "changeShareType",
 		"focus #couponNumber": "checkCouponNum",
 		"click .inp-date": "initDatePicker",
+		"click #saveBtn": "saveAddNewActivity",
 		"change #typeFourCouponNum": "changeCouponNumber",
-		"click #saveBtn": "saveAddNewActivity"
+		"change .fileuploadFileInp": "changefile"
 	},
 	init: function () {
 		this.shareTypeFourParams = {
@@ -485,19 +486,14 @@ var Main = PFT.Util.Class({
 	//保存数据请求
 	saveReq: function (param) {		
 		if(param.share_type == 4){
-			// console.log("ASd");
 			window["FileuploadCallbacks"][3] = [];
 			window["FileuploadCallbacks"][3].push(function(res){
-				console.log(res);
-				if(res[0] == 200){
-					STip("success", "保存成功!", 2000, function () {
-						
-						// window.location.href = "marketing_share_list.html";
+				if(res.code == 200){
+					STip("success", "保存成功!", 2000, function () {		
+						window.location.href = "marketing_share_list.html";
 					});
 				}else{
-					STip("fail", res[2], 2000, function () {
-						
-						// window.location.href = "marketing_share_list.html";
+					STip("fail", res.msg, 2000, function () {
 					});
 				}
 			
@@ -536,14 +532,20 @@ var Main = PFT.Util.Class({
 	changeCouponNumber:function(e){
 		var tarBtn = $(e.currentTarget);
 		tarBtn.attr("value",tarBtn.val());
+	},
+	changefile:function(e){
+		var fileBtn = $(e.currentTarget);
+		var val=fileBtn.val();
+		var fileName = "";
+	 	if(typeof(val) != "undefined")  
+        {  
+            fileName = val.split("\\").pop();  
+            fileName = fileName.substring(0, fileName.lastIndexOf("."));  
+            fileName += val.substr(val.indexOf("."));
+        } 
+        $('.fileuploadTextInp').val(fileName);
 	}
 })
-
-/**
- *	@date   2017-05-15
- *	@author chenhuajian
- *  @desc   发布营销活动   增加 “送优惠券”类型 上传excel文件 http://bug.12301.test/index.php?m=task&f=view&task=474
- **/
 
 
 

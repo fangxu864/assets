@@ -133,10 +133,11 @@
             <iframe name="excelUpload" class="excelUpload"></iframe>
             <form method="post" id="excelUploadForm" action="/r/product_Coupon/sendBYBatch" enctype="multipart/form-data" name="fileForm" target="excelUpload">
                  <div class="con " id="excelLabel">
-                    <span class="u-span">选择会员excel文件</span>
-                    <div id="excelUpLoadForm">  
-                        <!-- <input type="text" name="" class="fileuploadTextInp"/> -->
-                        <label class="filebrowseBtn ctrlBtn">
+                    <span class="u-span">选择会员</span>
+                    <div id="excelUpLoadForm" class="cl">  
+                        <input type="text" name="" class="fileuploadTextInp"/>
+                        <label class="excelBtn ctrlBtn">
+                            <span>excel 导入</span>
                             <input type="file" class="fileuploadFileInp" name="file_coupon"/>
                         </label>
                     </div>
