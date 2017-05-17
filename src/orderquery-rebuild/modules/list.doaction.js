@@ -166,8 +166,6 @@ var ListDoAction = RichBase.extend({
             }
         }
 
-
-        console.log( data );
         // $("#ticModListUl").find(".numInp").each(function(){
         //     var tarInp = $(this);
         //     var val  = tarInp.val();
