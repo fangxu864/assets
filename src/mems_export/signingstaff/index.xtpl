@@ -89,6 +89,30 @@
                 </div>
             </div>
 
+            <div class="line line7">
+                <div class="td td1">转供应商日期</div>
+                <div class="td td2">
+                    <input type="text" class="supplier_time" value="<%=data.transfer_time%>"/>
+                    <span onclick="javascript:$(this).siblings().val('')" style="color: #00a0e9;cursor: pointer">清除</span>
+                </div>
+            </div>
+
+            <div class="line line7">
+                <div class="td td1">启用日期</div>
+                <div class="td td2">
+                    <input type="text" class="enable_time" value="<%=data.enable_time%>"/>
+                    <!--<span onclick="javascript:$(this).siblings().val('')" style="color: #00a0e9;cursor: pointer">清除</span>-->
+                </div>
+            </div>
+
+            <div class="line line7">
+                <div class="td td1">欠费截止日期</div>
+                <div class="td td2">
+                    <input type="text" class="arrears_time" value="<%=data.effective_time%>"/>
+                    <span onclick="javascript:$(this).siblings().val('')" style="color: #00a0e9;cursor: pointer">清除</span>
+                </div>
+            </div>
+
         </div>
         <div class="feeConfig">
              <div class="title-two"><span>费用配置</span></div>
