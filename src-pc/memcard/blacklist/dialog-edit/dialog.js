@@ -16,7 +16,8 @@ var Message = require("pft-ui-component/Message");
 var CR = require("../CR.js");
 var tips = require("COMMON/modules/tips/index.js");
 var Tips = new tips ();
-
+var readIdCard = require("../../common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
 
 var DialogModule = PFT.Util.Class({
     container: $("<div class='blackListDialogCon-edit'></div>"),
@@ -50,7 +51,19 @@ var DialogModule = PFT.Util.Class({
 
     bind: function () {
         var _this = this;
-        this.container.on("click" ,"#landInpEdit" ,function (e) {
+        var CON = this.container;
+        _this.landSelect = new Select({
+            height:300,
+            top:0,
+            field : {
+                id : "id",
+                name : "title",
+                keyword : "title"
+            },
+            trigger : $("#landInpEdit"),
+            data: _this.landListData
+        });
+        CON.on("click" ,"#landInpEdit" ,function (e) {
             var curInp = $(this);
             //点击时才初始化产品选择框
             if( !_this.landSelect ){
@@ -70,12 +83,12 @@ var DialogModule = PFT.Util.Class({
         });
 
         //取消
-        this.container.on("click" ,".cancel-btn" ,function () {
+        CON.on("click" ,".cancel-btn" ,function () {
             _this.dial.close();
         });
 
         //确认
-        this.container.on("click", ".save-btn" ,function () {
+        CON.on("click", ".save-btn" ,function () {
             var params = {};
             var landInp = _this.container.find(".line1 .land-inp");
             var userNameInp = _this.container.find(".line2 .name-inp");
@@ -122,7 +135,18 @@ var DialogModule = PFT.Util.Class({
                 return false;
             }
             _this.editBlacklistRequest(params);
+        });
+
+        //点击读卡
+        CON.on("click" ,".get-idNum" ,function (e) {
+            readIdCard1.doSend('{"cmd":"idread"}');
+        });
+
+        readIdCard1.on("socketMessage" ,function (data) {
+            CON.find(".idCard-inp").val(data.code);
+            CON.find(".name-inp").val(data.name)
         })
+
     },
 
     /**

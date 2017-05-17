@@ -12,7 +12,7 @@
     border-top: none;
     padding: 10px 20px;
     .inline-block-li{
-      //display: inline-block;
+      display: inline-block;
       margin: 10px 20px 10px 0;
       .name{
         font-size: 14px;
@@ -33,7 +33,7 @@
         color: #258cc9;
       }
       .buy-btn{
-        margin-left: 79px;
+        //margin-left: 79px;
         padding: 10px 20px;
         background-color: #0797d9;
         color: #ffffff;
@@ -81,7 +81,7 @@
       border-top: none;
       padding: 0px 20px;
       .inline-block-li{
-        //display: inline-block;
+        display: inline-block;
         margin: 10px 20px 10px 0;
         .name{
           font-size: 14px;
@@ -102,7 +102,7 @@
           color: #258cc9;
         }
         .search-btn{
-          margin-left: 79px;
+          //margin-left: 79px;
           padding: 10px 20px;
           background-color: #f07845;
           color: #ffffff;

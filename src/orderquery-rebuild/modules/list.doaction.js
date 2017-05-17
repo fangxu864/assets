@@ -130,7 +130,7 @@ var ListDoAction = RichBase.extend({
         data.num_mapping = {};
 
         $('#ticModListUl .numInp').each(function(){
-            data.num_mapping[ $(this).attr('data-tid') ] = $(this).val();
+            data.num_mapping[ $(this).attr('data-pid') ] = $(this).val();
         });
 
 
@@ -145,14 +145,19 @@ var ListDoAction = RichBase.extend({
                 touristAdded = touristList.children('.idcardAdded');
 
             if( touristDeleted.length ) {
-                data.tourist_info = touristDeleted.find('.inp-id').map(function(){ return $(this).val(); }).get();
+                // for( var i = 0, len = touristDeleted.length; i< len; i++ ) {
+                //     data.tourist_info.push({
+                //         i: touristDeleted.eq(i).find('.inp-id').val()
+                //     });
+                // }
+                data.tourist_info = touristDeleted.find('.inp-id').map(function(){ return $(this).val(); }).get().join();
                 data.idcard_type = 'reduce';
             }
 
             if( touristAdded.length ) {
                 data.tourist_info = touristAdded.map(function(){
                     return {
-                        tourist: $(this).find('.inp-name').val(),
+                        tourist: $.trim( $(this).find('.inp-name').val() ),
                         idcard: $(this).find('.inp-idcard').val()
                     };
                 }).get();

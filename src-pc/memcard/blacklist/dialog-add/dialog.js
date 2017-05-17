@@ -17,7 +17,8 @@ var tips = require("COMMON/modules/tips/index.js");
 var Tips = new tips ();
 //公共资源common resource
 var CR = require("../CR.js");
-
+var readIdCard = require("../../common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
 
 var DialogModule = PFT.Util.Class({
     container: $("<div class='blackListDialogCon-add'></div>"),
@@ -38,21 +39,33 @@ var DialogModule = PFT.Util.Class({
         this.dial.container.find(".gSimpleDialog-content").append(_this.container);
         this.container.html(addTpl);
         this.bind();
-        
     },
 
     show: function () {
         var _this = this;
         this.dial.open();
         //清空input
-        this.container.find(".line1 .landInp").removeAttr("data-id");
-        this.container.find(".line1 .landInp").val('');
+        // this.container.find(".line1 .landInp").removeAttr("data-id");
+        // this.container.find(".line1 .landInp").val('');
         this.container.find(".line2 .userName").val('');
         this.container.find(".line3 .idNum").val('');
     },
     
     bind: function () {
         var _this = this;
+        var CON = this.container;
+        _this.landSelect = new Select({
+            height:300,
+            top:0,
+            field : {
+                id : "id",
+                name : "title",
+                keyword : "title"
+            },
+            trigger : $("#landInpAdd"),
+            data: _this.landListData
+        });
+
         this.container.on("click" ,"#landInpAdd" ,function (e) {
             var curInp = $(this);
             //点击时才初始化产品选择框
@@ -80,7 +93,22 @@ var DialogModule = PFT.Util.Class({
         //确认
         this.container.on("click", ".save-btn" ,function () {
             _this.addBlacklistRequest();
+        });
+
+        this.container.on("click" , ".self-radio" ,function (e) {
+            $(this).toggleClass("checked")
+        });
+
+        //点击读卡
+        CON.on("click" ,".get-idNum" ,function (e) {
+            readIdCard1.doSend('{"cmd":"idread"}');
+        });
+
+        readIdCard1.on("socketMessage" ,function (data) {
+            CON.find(".idNum").val(data.code);
+            CON.find(".userName").val(data.name)
         })
+
     },
 
     /**
@@ -104,7 +132,7 @@ var DialogModule = PFT.Util.Class({
             });
             return false;
         }
-        params["name"] = userNameInp.val().trim();
+        params["name"] = $.trim( userNameInp.val() );
         if(params["name"] == ""){
             Tips.closeAllTips();
             Tips.show({
@@ -116,7 +144,7 @@ var DialogModule = PFT.Util.Class({
             });
             return false;
         }
-        params["id_card"] = idNumInp.val().trim();
+        params["id_card"] = $.trim( idNumInp.val() );
         if(!PFT.Util.Validate.idcard(params["id_card"])){
             Tips.closeAllTips();
             Tips.show({
@@ -144,7 +172,10 @@ var DialogModule = PFT.Util.Class({
                 //缓存数据
                if(CR.judgeTrue(res)){
                    if(res.code == 200 ){
-                       Message.success("添加成功")
+                       Message.success("添加成功");
+                       if(_this.container.find(".close-dialog").hasClass("checked")){
+                           _this.dial.close();
+                       }
                    }else{
                        Message.error(res.msg)
                    }

@@ -20,7 +20,9 @@ var Tips = new tips ();
 var renderNav = require("../common/nav/index.js");
 //公共资源common resource
 var CR = require("./CR.js");
-
+var readIdCard = require("../common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
+var readIdCard2 = new readIdCard();
 
 
 var buyTicket = PFT.Util.Class({
@@ -229,6 +231,23 @@ var buyTicket = PFT.Util.Class({
             _this.recordParamHub.page = 1;
             _this.getRecordData()
 
+        });
+
+        //点击读卡
+        CON.on("click" ,".filter-box .get-idNum" ,function (e) {
+            readIdCard1.doSend('{"cmd":"idread"}');
+        });
+        recordCon.on("click" ,".record-filter .get-idNum" ,function (e) {
+            readIdCard2.doSend('{"cmd":"idread"}');
+        });
+
+        readIdCard1.on("socketMessage" ,function (data) {
+            CON.find(".filter-box .idNum-inp").val(data.code);
+            CON.find(".filter-box .userName-inp").val(data.name);
+        }) ;
+        readIdCard2.on("socketMessage" ,function (data) {
+            recordCon.find(".record-filter .idNum-inp").val(data.code);
+            recordCon.find(".record-filter .userName-inp").val(data.name);
         })
 
     },
@@ -251,6 +270,29 @@ var buyTicket = PFT.Util.Class({
             success: function(res) {
                 // 请求成功时处理
                 _this.landListData = res.data;
+                
+                //初始化处理
+                _this.mainLandSelect = new Select({
+                    height:300,
+                    field : {
+                        id : "id",
+                        name : "title",
+                        keyword : "title"
+                    },
+                    trigger : $("#landInpMain"),
+                    data: _this.landListData
+                });
+                _this.recordLandSelect = new Select({
+                    height:300,
+                    field : {
+                        id : "id",
+                        name : "title",
+                        keyword : "title"
+                    },
+                    trigger : $("#landInpRecord"),
+                    data: _this.landListData
+                });
+                _this.container.find(".ticket-record-wrap .record-filter .search-btn").click();
             },
             complete: function(res,status) {
                 //请求完成的处理
@@ -273,8 +315,8 @@ var buyTicket = PFT.Util.Class({
         var beginInp = _this.container.find(".bTimeInp");
         var endInp = _this.container.find(".eTimeInp");
         var today = DatePicker.CalendarCore.gettoday();
-        // beginInp.val(today);
-        // endInp.val(today);
+        beginInp.val(today);
+        endInp.val(today);
         var datepicker = this.datepicker = new DatePicker();
         this.container.on("click",".bTimeInp",function(e){
             var tarInp = $(this);
@@ -311,7 +353,7 @@ var buyTicket = PFT.Util.Class({
         var params = _this.recordParamHub;
         var loadingStr = PFT.Util.LoadingPc("努力加载中...",{
             tag : "tr",
-            colspan : 4,
+            colspan : 5,
             height : 200
         });
         //看看是否有缓存

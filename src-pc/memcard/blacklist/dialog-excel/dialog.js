@@ -35,7 +35,6 @@ var DialogModule = PFT.Util.Class({
         this.dial.container.find(".gSimpleDialog-content").append(_this.container);
         this.container.html(leadingInTpl);
         this.bind();
-        
     },
 
     show:function () {
@@ -44,7 +43,17 @@ var DialogModule = PFT.Util.Class({
 
     bind: function () {
         var _this = this;
-
+        _this.landSelectadd = new Select({
+            height:300,
+            top:0,
+            field : {
+                id : "id",
+                name : "title",
+                keyword : "title"
+            },
+            trigger : $("#landExcel"),
+            data: _this.landListData
+        });
         //取消
         this.container.on("click" ,".cancel-btn" ,function () {
             _this.dial.close();

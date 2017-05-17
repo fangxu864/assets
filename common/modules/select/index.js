@@ -239,7 +239,7 @@ Select.prototype = {
 			this.selectDefaultVal();
 		}
 		else{
-			if(this.isFillContent){
+			if(this.opt.isFillContent){
 				(this.opt.filterType!=="ajax") && this.listUl.children().first().trigger("click");
 			}
 		}
