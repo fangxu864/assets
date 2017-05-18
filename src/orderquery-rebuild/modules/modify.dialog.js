@@ -34,7 +34,7 @@ var ModifyDialog = RichBase.extend({
 			addBtn = parent.children(".addBtn"),
 			minuBtn =  parent.children(".minuBtn"),
 			min = tarInp.attr("data-min"),
-			max = tarInp.attr("data-max"),
+			max = +tarInp.attr("data-max"),
 			listUl = tarInp.parents(".tlist"),
 			listLis = listUl.children(),
 			tarListLi = tarInp.parents(".ticketLi"),
@@ -50,7 +50,7 @@ var ModifyDialog = RichBase.extend({
 			if(newVal<=max){
 				tarInp.val( newVal );
 				newVal==max ? addBtn.addClass("disable") : addBtn.removeClass("disable");
-				totalInput = this.getTotalTickets()
+				totalInput = this.getTotalTickets();
 
 				//一票一证  当输入框总和大于游客信息总和，添加游客信息输入框
 				if( this.touristInfo == 2 ) {
@@ -61,9 +61,11 @@ var ModifyDialog = RichBase.extend({
 					} else {
 						$('#dialogTouristList').children(':hidden').eq(0).show();
 
-						if( totalInput == originTicketNum ) {
-							$('#dialogTouristList').children().find('.icon-shanchu').hide();
-						} else {}
+						if( totalInput < $('#dialogTouristList').children(':visible').length ) {
+							$('#dialogTouristList').children(':visible').find('.icon-shanchu').show();
+						} else {
+							$('#dialogTouristList').children(':visible').find('.icon-shanchu').hide();
+						}
 					}
 				}
 			}else{
@@ -111,7 +113,7 @@ var ModifyDialog = RichBase.extend({
 				minuBtn.removeClass("disable");
 			}
 
-			if(newVal>=max){
+			if(newVal>max){
 
 				newVal=max;
 				addBtn.addClass("disable");
@@ -254,35 +256,18 @@ var ModifyDialog = RichBase.extend({
 						var tarBtn = $(e.currentTarget),
 							tarTouristId = tarBtn.siblings('.inp-id').length ? tarBtn.siblings('.inp-id').val() : '';
 
-						var totalTouristInfo = $('#dialogTouristList').children().length,
+						var totalTouristInfo = $('#dialogTouristList').children(':visible'),
+							totalTouristInfoLen = $('#dialogTouristList').children(':visible').length,
 							totalInput = self.getTotalTickets();
 
-						if( totalInput < totalTouristInfo ) {
-							// if( tarTouristId ) {
-							// 	$('#dialogTouristList').attr('data-deleted', deletedTourist ? deletedTourist + ',' + tarTouristId : tarTouristId);
-							// }
-
+						if( totalInput < totalTouristInfoLen ) {
 							tarBtn.parent().hide();
+
+							if( totalInput == $('#dialogTouristList').children(':visible').length ) {
+								totalTouristInfo.find('.icon-shanchu').hide();
+							}
 						}
 					}
-
-					// 新增游客信息
-					// '#touristInfo .btn-addtourist': function( that, e ){
-					// 	var tarBtn = $(e.currentTarget);
-
-					// 	if( !tarBtn.is('.disabled') ) {
-					// 		var html = parseTouristTpl({ data:[] });
-
-					// 		$('#dialogTouristList').append( html );
-
-					// 		var totalInput = self.getTotalTickets(),
-					// 			totalTouristInfo = $('#dialogTouristList').children().length;
-
-					// 		if( totalInput <= totalTouristInfo ) {
-					// 			$('#touristInfo .btn-addtourist').addClass('disabled');
-					// 		}
-					// 	}
-					// }
 				},
 				"focus" : {
 					".modTicketDialogCon .numInp" : function(that,e){
@@ -348,6 +333,7 @@ var ModifyDialog = RichBase.extend({
 			tmax,
 			// originTNumArr = tarBtn.attr('data-origin-tnum').split(','),		// type Array, 订单初始票数
 			modRateArr = tarBtn.attr('data-mod-rate').split(','),			// type Array, 每个票类增加减少比例
+			pidArr = tarBtn.attr('data-pids').split(','), 					// num_mapping需要pid
 			ticModListUl = $('#ticModListUl');
 
 		var is_all_not_terminal = (function(tickets){ //判断联票是未验证(即其所有子票均未验证) 还是部分验证
@@ -405,25 +391,26 @@ var ModifyDialog = RichBase.extend({
 				if( res.code == 200 ) {
 					var originTNumArr = res.data;
 
-					ticModListUl.html( that.renderTicketListData( tickets, modRateArr, res.data, tmin ) );
+					ticModListUl.html( that.renderTicketListData( tickets, modRateArr, pidArr, res.data, tmin ) );
 				} else {
 					PFT.Help.AlertTo("fail", '<p style="width:300px;">' + res.msg + '</p>');
 				}
 			});
 		} else {
-			ticModListUl.html( that.renderTicketListData( tickets, modRateArr, [], tmin ) );
+			ticModListUl.html( that.renderTicketListData( tickets, modRateArr, pidArr, [], tmin ) );
 		}
 	},
 
-	renderTicketListData: function( tickets, modRateArr, originTNumArr, tmin ) {
-		var ticket_min = tmin,
+	renderTicketListData: function( tickets, modRateArr, pidArr, originTNumArr, tmin ) {
+		var ticket_min,
 			ticket_max,
 			originTNumArr = originTNumArr || [],
 			listTpl = $("#modTicDiaList").html(),
-			list = '';
+			list = '',
+			temp;
 
 
-			console.log( tickets )
+			// console.log( tickets )
 
 		//新需求 2016-03-28
 		//点击“修改”，对于“未验证”的联票订单  主票、子票 不能全为0，只要有一个票种票数为1 就可以
@@ -467,9 +454,10 @@ var ModifyDialog = RichBase.extend({
 				minusBtnCls = tnum <= originMin ? "disable" : '';
 
 				ticket_max = originMax - has_terminal_num,
-				ticket_min = (tmin = originMin - has_terminal_num) >= 0 ? tmin : 0;
+				ticket_min = (temp = originMin - has_terminal_num) >= 0 ? temp : 0;
 			} else {
 				ticket_max = tnum - has_terminal_num;
+				ticket_min = tmin;
 				addBtnCls = "disable";
 				minusBtnCls = "";
 			}
@@ -481,6 +469,7 @@ var ModifyDialog = RichBase.extend({
 				tnum : tnum-has_terminal_num,
 				has_terminal_num : has_terminal_num,
 				tid : tid,
+				pid : pidArr[i],
 				tmin : ticket_min,
 				tmax : ticket_max,
 				addBtnCls : addBtnCls,
@@ -533,6 +522,10 @@ var ModifyDialog = RichBase.extend({
 					that.isTouristInfoLoaded = true;
 					html = parseTouristTpl({ data: res.data.idCardArray });
 					$('#dialogTouristList').html( html );
+
+					var curDialog = $("#PFT_dialogWrap");
+
+					curDialog.animate( { top: ( $(window).height() - curDialog.outerHeight( true ) )/2 }, 100 )
 				} else {
 					$('#dialogTouristStat').text('请求游客信息出错，请稍后重试').fadeIn();
 					// PFT.Help.AlertTo("fail", '<p style="width:300px;">请求游客信息出错，请稍后重试</p>');
