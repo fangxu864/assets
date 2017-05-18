@@ -316,7 +316,7 @@ var accountSearch={
         }
         var tableHtml=_this.template({data:listNew});
         this.tableCon_box.find("tbody").html(tableHtml);
-        this.total_box.find(".total").html(totalHtml);
+        this.total_box.find(".total").html(totalHtml).show();
         _this.total_box.fadeIn(200);
         _this.tableCon_box.fadeIn(200);
     },

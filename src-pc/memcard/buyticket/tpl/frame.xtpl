@@ -9,7 +9,7 @@
         </li>
         <li class="inline-block-li">
             <span class="name">购票数量：</span>
-            <input type="text" class="ticket-num"/>
+            <input type="text" class="ticket-num" value="1"/>
         </li>
         <li class="inline-block-li">
             <span class="name">身份证：</span>

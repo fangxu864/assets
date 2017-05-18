@@ -34,7 +34,7 @@ var ModifyDialog = RichBase.extend({
 			addBtn = parent.children(".addBtn"),
 			minuBtn =  parent.children(".minuBtn"),
 			min = tarInp.attr("data-min"),
-			max = tarInp.attr("data-max"),
+			max = +tarInp.attr("data-max"),
 			listUl = tarInp.parents(".tlist"),
 			listLis = listUl.children(),
 			tarListLi = tarInp.parents(".ticketLi"),
@@ -61,11 +61,11 @@ var ModifyDialog = RichBase.extend({
 					} else {
 						$('#dialogTouristList').children(':hidden').eq(0).show();
 
-						$('#dialogTouristList').children(':visible').find('.icon-shanchu').hide();
-
-						// if( totalInput == originTicketNum ) {
-						// 	$('#dialogTouristList').children().find('.icon-shanchu').hide();
-						// } else {}
+						if( totalInput < $('#dialogTouristList').children(':visible').length ) {
+							$('#dialogTouristList').children(':visible').find('.icon-shanchu').show();
+						} else {
+							$('#dialogTouristList').children(':visible').find('.icon-shanchu').hide();
+						}
 					}
 				}
 			}else{
@@ -261,9 +261,6 @@ var ModifyDialog = RichBase.extend({
 							totalInput = self.getTotalTickets();
 
 						if( totalInput < totalTouristInfoLen ) {
-							// if( tarTouristId ) {
-							// 	$('#dialogTouristList').attr('data-deleted', deletedTourist ? deletedTourist + ',' + tarTouristId : tarTouristId);
-							// }
 							tarBtn.parent().hide();
 
 							if( totalInput == $('#dialogTouristList').children(':visible').length ) {
@@ -271,24 +268,6 @@ var ModifyDialog = RichBase.extend({
 							}
 						}
 					}
-
-					// 新增游客信息
-					// '#touristInfo .btn-addtourist': function( that, e ){
-					// 	var tarBtn = $(e.currentTarget);
-
-					// 	if( !tarBtn.is('.disabled') ) {
-					// 		var html = parseTouristTpl({ data:[] });
-
-					// 		$('#dialogTouristList').append( html );
-
-					// 		var totalInput = self.getTotalTickets(),
-					// 			totalTouristInfo = $('#dialogTouristList').children().length;
-
-					// 		if( totalInput <= totalTouristInfo ) {
-					// 			$('#touristInfo .btn-addtourist').addClass('disabled');
-					// 		}
-					// 	}
-					// }
 				},
 				"focus" : {
 					".modTicketDialogCon .numInp" : function(that,e){
@@ -485,7 +464,6 @@ var ModifyDialog = RichBase.extend({
 
 			if( tnum==0 ) minusBtnCls = "disable";
 
-			console.log( ticket_min );
 			list += this.parseTemplate(listTpl,{
 				tname : tname,
 				tnum : tnum-has_terminal_num,
@@ -544,6 +522,10 @@ var ModifyDialog = RichBase.extend({
 					that.isTouristInfoLoaded = true;
 					html = parseTouristTpl({ data: res.data.idCardArray });
 					$('#dialogTouristList').html( html );
+
+					var curDialog = $("#PFT_dialogWrap");
+
+					curDialog.animate( { top: ( $(window).height() - curDialog.outerHeight( true ) )/2 }, 100 )
 				} else {
 					$('#dialogTouristStat').text('请求游客信息出错，请稍后重试').fadeIn();
 					// PFT.Help.AlertTo("fail", '<p style="width:300px;">请求游客信息出错，请稍后重试</p>');

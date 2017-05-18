@@ -94,6 +94,11 @@ var blackList = PFT.Util.Class({
             if( !_this.dialog_add ){
                 _this.dialog_add = new Dialog_add({landListData: _this.landListData});
                 _this.dialog_add.show();
+                _this.dialog_add.on("blackListAddSuccess",function (opt) {
+                    CON.find("#landInpMain").val(opt.val).attr("data-id" , opt.lid);
+                    CON.find(".filer-box .id-card-inp").val("");
+                    CON.find(".search-btn").click();
+                })
             }else{
                 _this.dialog_add.show();
             }
