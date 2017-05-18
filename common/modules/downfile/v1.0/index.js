@@ -42,10 +42,12 @@ DownFile.prototype = {
             },
             success: function(res) {
                 //请求成功时处理
+                //唯一标识符
+                var onlyFlag = res.data ? res.data : "";
                 var code = res.code.toString();
                 switch (code) {
                     case "1" :
-                        textP.text("您好，由于所下载的文件容量较大，已提交至后台进行打包压缩，压缩完毕后可去数据报表中心进行下载");
+                        textP.text("您好，由于所下载的文件容量较大，已提交至后台进行打包压缩，压缩完毕后可去数据报表中心进行下载,唯一标识符："+onlyFlag);
                         _this.to_downcenter_dialog.open();
                         break ;
                     case "2" :
@@ -56,7 +58,7 @@ DownFile.prototype = {
                         _this.outExcel(downUrl);
                         break ;
                     case "4" :
-                        textP.text("后台已为您生成过该文件，请去数据报表中心进行下载");
+                        textP.text("后台已为您生成过该文件，请去数据报表中心进行下载,唯一标识符："+onlyFlag);
                         _this.to_downcenter_dialog.open();
                         break ;
                     default :

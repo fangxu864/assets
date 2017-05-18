@@ -134,15 +134,16 @@ var DialogModule = PFT.Util.Class({
         }
         params["name"] = $.trim( userNameInp.val() );
         if(params["name"] == ""){
-            Tips.closeAllTips();
-            Tips.show({
-                lifetime : 1500 ,
-                direction:'right',
-                hostObj : userNameInp ,
-                content : "请填写姓名",
-                bgcolor : "#f0c245"
-            });
-            return false;
+            params["name"] = "--";
+            // Tips.closeAllTips();
+            // Tips.show({
+            //     lifetime : 1500 ,
+            //     direction:'right',
+            //     hostObj : userNameInp ,
+            //     content : "请填写姓名",
+            //     bgcolor : "#f0c245"
+            // });
+            // return false;
         }
         params["id_card"] = $.trim( idNumInp.val() );
         if(!PFT.Util.Validate.idcard(params["id_card"])){
@@ -176,6 +177,11 @@ var DialogModule = PFT.Util.Class({
                        if(_this.container.find(".close-dialog").hasClass("checked")){
                            _this.dial.close();
                        }
+                       var opt = {
+                           val : landInp.val(),
+                           lid :  params["lid"]
+                       };
+                       _this.trigger("blackListAddSuccess" , opt)
                    }else{
                        Message.error(res.msg)
                    }

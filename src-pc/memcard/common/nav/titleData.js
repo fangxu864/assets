@@ -6,7 +6,7 @@
 var domin = PFT.PREFIX_DOMAIN();
 module.exports={
     1:{
-        titleName: "会员卡购票限制",
+        titleName: "购票限制",
         href: domin + "prod_restrict.html",
         active: ''
     },

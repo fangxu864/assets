@@ -111,15 +111,20 @@ var buyTicket = PFT.Util.Class({
                 return false;
             }
             if(!/^[0-9]+$/.test(ticketNum)){
-                Tips.closeAllTips();
-                Tips.show({
-                    lifetime : 1500 ,
-                    direction:'right',
-                    hostObj : ticketNumInp ,
-                    content : "请填写正确的购票数量",
-                    bgcolor : "#f0c245"
-                });
-                return false;
+                if(ticketNum == "") {
+                    ticketNumInp.val(1);
+                    ticketNum = 1;
+                }else{
+                    Tips.closeAllTips();
+                    Tips.show({
+                        lifetime : 1500 ,
+                        direction:'right',
+                        hostObj : ticketNumInp ,
+                        content : "请填写正确的购票数量",
+                        bgcolor : "#f0c245"
+                    });
+                    return false;
+                }
             }
             if(!PFT.Util.Validate.idcard(id_card)){
                 Tips.closeAllTips();
@@ -133,15 +138,17 @@ var buyTicket = PFT.Util.Class({
                 return false;
             }
             if( name == ""){
-                Tips.closeAllTips();
-                Tips.show({
-                    lifetime : 1500 ,
-                    direction:'right',
-                    hostObj : userNameInp ,
-                    content : "请填写姓名",
-                    bgcolor : "#f0c245"
-                });
-                return false;
+                // userNameInp.val("--");
+                name = "--";
+                // Tips.closeAllTips();
+                // Tips.show({
+                //     lifetime : 1500 ,
+                //     direction:'right',
+                //     hostObj : userNameInp ,
+                //     content : "请填写姓名",
+                //     bgcolor : "#f0c245"
+                // });
+                // return false;
             }
             params["lid"] = lid;
             params["id_card"] = id_card;
@@ -161,6 +168,10 @@ var buyTicket = PFT.Util.Class({
                     // 请求成功时处理
                     if(res.code == 200 ){
                         Message.success("购票记录成功");
+                        recordCon.find(".record-filter .land-inp").val(landInp.val()).attr("data-id",lid);
+                        recordCon.find(".record-filter .idNum-inp").val("");
+                        recordCon.find(".record-filter .userName-inp").val("");
+                        recordCon.find(".record-filter .search-btn").click();
                     }else{
                         Message.error(res.msg)
                     }
@@ -169,6 +180,7 @@ var buyTicket = PFT.Util.Class({
                     //请求完成的处理
                     if(status=="timeout"){
                         Message.warning("请求超时");
+
                     }
                 },
                 error: function() {
@@ -392,7 +404,7 @@ var buyTicket = PFT.Util.Class({
             },
             error: function() {
                 //请求出错处理
-                _this.recordTbody.html("<tr><td colspan='4' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>请求出错，请稍后重试...</td></tr>");
+                _this.recordTbody.html("<tr><td colspan='5' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>请求出错，请稍后重试...</td></tr>");
             }
         });
 
@@ -421,12 +433,12 @@ var buyTicket = PFT.Util.Class({
                     _this.pagination.render({current:res.data.page ,total: Math.ceil(Number(res.data.count) / _this.pageSize )});
                 }else{
                     // _this.hideLoading();
-                    _this.container.find(".pag-box").close();
-                    _this.recordTbody.html("<tr><td colspan='4' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>暂无数据，请重新输入条件搜索</td></tr>");
+                    _this.container.find(".record-pag-box").hide();
+                    _this.recordTbody.html("<tr><td colspan='5' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>暂无数据，请重新输入条件搜索</td></tr>");
                 }
             }else{
                 //通知queryState模块显示错误信息
-                _this.recordTbody.html("<tr><td colspan='4' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>"+res.msg+"</td></tr>");
+                _this.recordTbody.html("<tr><td colspan='5' style='height: 200px;text-align: center;font-size: 14px;color: orangered'>"+res.msg+"</td></tr>");
                 _this.container.find(".pag-box").hide();
             }
         }
@@ -508,9 +520,9 @@ var buyTicket = PFT.Util.Class({
     },
     cacheHub:{},
     recordParamHub: {
-        page_size: 10
+        page_size: 15
     },
-    pageSize:10,
+    pageSize:15,
     recordTemplate: ParseTemplate(recordTb)
 
 
