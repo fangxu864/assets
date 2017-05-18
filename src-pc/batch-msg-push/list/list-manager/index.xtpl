@@ -1,0 +1,11 @@
+<%_.each(list,function(item,index){%>
+<tr class="trLine <%=index%2>0 ? 'even' : 'odd'%>">
+    <td class="col td col_1"></td>
+    <td class="col td col_2"></td>
+    <td class="col td col_3"></td>
+    <td class="col td col_4"></td>
+    <td class="col td col_5"></td>
+    <td class="col td col_6"></td>
+    <td class="col td col_7"></td>
+</tr>
+<%})%>

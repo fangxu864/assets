@@ -169,7 +169,7 @@
             </tr>
             <tr>
                 <td class="th1">身份证：</td>
-                <td class="th2"><%=data.id_card ? data.idcard : '--'%></td>
+                <td class="th2"><%=data.id_card ? data.id_card : '--'%></td>
             </tr>
             <tr>
                 <td class="th1">取票地址：</td>

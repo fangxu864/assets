@@ -18,14 +18,14 @@ function Alert(msg,header){
 	var $body = $("body");
 
 	var show = function(){
-		alertBox.addClass("entry");
-		alertMask.addClass("entry");
+		alertBox.addClass("transitionBefore").addClass("open");
+		alertMask.addClass("transitionBefore").addClass("open");
 		setTimeout(function(){
-			alertBox.removeClass("entry").addClass("transition");
-			alertMask.removeClass("entry").addClass("transition");
+			alertBox.removeClass("transitionBefore").addClass("transition");
+			alertMask.removeClass("transitionBefore").addClass("transition");
 			setTimeout(function(){
-				alertBox.removeClass("transition").addClass("leave");
-				alertMask.removeClass("transition").addClass("leave");
+				alertBox.removeClass("transition").addClass("transitionEnd");
+				alertMask.removeClass("transition").addClass("transitionEnd");
 			},200)
 		},20);
 	};

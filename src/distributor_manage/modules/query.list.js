@@ -8,6 +8,7 @@ var api = new Api();
 var Filter = require("./filter.js");
 var PaginationX = require("COMMON/modules/pagination-x");
 var NavigationBar = require("./navigationbar.js");
+var ParseTemplate = PFT.Util.ParseTemplate;
 
 var Down = require("COMMON/modules/downfile");
 var DownFile = new Down();
@@ -304,8 +305,10 @@ var QueryDisList = RichBase.extend({
 		}else if(type=="success"){
 			var tpl = this.tpl;
 			var Gtpl = this.Gtpl;
-			var template = _.template(tpl);
-			var Gtemplate = _.template(Gtpl);
+			// var template = _.template(tpl);
+			// var Gtemplate = _.template(Gtpl);
+			var template = ParseTemplate(tpl);
+			var Gtemplate = ParseTemplate(Gtpl);
 			var html = template({res:data});
 			var Ghtml = Gtemplate({res:data});
 			this.container_.children("tbody").remove();
@@ -324,7 +327,8 @@ var QueryDisList = RichBase.extend({
 			var current_page = re["0"]["current_page"];
 			var group_total_page = re["0"]["group_total_page"];
 			var Ptpl = this.Ptpl;
-			var Ptemplate = _.template(Ptpl);
+			// var Ptemplate = _.template(Ptpl);
+			var Ptemplate = ParseTemplate(Ptpl);
 			var Phtml = Ptemplate({res:data});
 			$("#group_"+gid).html(Phtml);
 			$(".num_"+gid).html(current_page);

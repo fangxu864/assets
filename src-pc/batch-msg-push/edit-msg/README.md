@@ -1,4 +1,4 @@
-# 平台新首页-右边栏-查看更多进去的列表页
+## 平台批量消息推送
 
 开发：npm run local ./src-pc/batch-push-info
 

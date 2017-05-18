@@ -1,0 +1,21 @@
+@import "./vars.scss";
+#batchMsgListContainer{ 
+    background: #fff;
+    border: 1px solid $borderColor;
+
+    //元子类
+    .pl{ padding-left: 20px;}
+
+    .topTitBar{
+        height: 55px;
+        line-height: 55px;
+        border-bottom: 1px solid $borderColor;
+        .titText{
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+
+}
+
+
