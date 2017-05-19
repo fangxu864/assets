@@ -12,3 +12,6 @@ Service : feature/bat_send_msg
 assets :  develop 
 
 npm run local ./src-pc/batch-msg-push/list
+
+
+页面访问：http://my.12301.local/new/batchPushInfo.html

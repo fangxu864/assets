@@ -2,6 +2,7 @@ var Path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+console.log(UglifyJSPlugin);
 module.exports = function(opt){
 
     opt || (opt={});

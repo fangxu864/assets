@@ -4,6 +4,8 @@ var Util = PFT.Util;
 var Filter = require("./filter");
 var ListManager = require("./list-manager");
 
+var InfoDialog = require("./info-dialog");
+
 var Main = {
     init : function(){
         var filter = this.Filter = new Filter();
