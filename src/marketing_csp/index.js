@@ -456,6 +456,7 @@ var Main = PFT.Util.Class({
 	saveReq: function (param) {	
 		var  CreateShare = "/r/product_Coupon/CreateShare";	
 		if(param.share_type == 4){
+
 			window["FileuploadCallbacks"][3] = [];
 			window["FileuploadCallbacks"][3].push(function(res){
 				if(res.code == 200){
@@ -474,6 +475,7 @@ var Main = PFT.Util.Class({
 				params: param,
 				success: function (res) {
 					if (res.code == 200) {
+						$('#postCouponId').val(param.coupon_id)
 						$('#excelUploadForm').submit();
 					} else {
 						STip("fail", res.msg, 3000);

@@ -144,7 +144,8 @@
                 </div>
                 <div class="con">
                     <span class="u-span">优惠券ID:</span>
-                    <input type="text" id="typeFourCouponId" name="coupon_id" class="inp-t w-400" placeholder="请搜索优惠券" readonly value="">
+                    <input type="text" id="typeFourCouponId" name="" class="inp-t w-400" placeholder="请搜索优惠券" readonly value="">
+                    <input type="hidden" id="postCouponId"  name="coupon_id">
                 </div>
                 <div class="con">
                     <span class="u-span">赠券张数:</span>

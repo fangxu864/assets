@@ -160,7 +160,7 @@ Select.prototype = {
 		data[field_name] = name;
 		that.current_id = id;
 		that.current_name = name;
-		that.trigger.attr("data-"+field_id,id).attr("data-"+field_name,name).attr('value',id);
+		that.trigger.attr("data-"+field_id,id).attr("data-"+field_name,name);
 		if(that.trigger[0].nodeName.toUpperCase()=="INPUT"){
 			that.trigger.val(name);
 		}else{
