@@ -1,6 +1,7 @@
 require("./index.scss");
 var Util = PFT.Util;
 var DatePicker = require("COMMON/Components/Datepicker/v0.1");
+var CalendarCore = DatePicker.CalendarCore;
 
 var Common = require("../common.js");
 
@@ -9,7 +10,8 @@ var Filter = Util.Class({
     EVENTS : {
         "click .timeInp" : "onTimeInpClick",
         "click #searchBtn" : "onSearchBtnClick",
-        "click .clearDateBtn" : "onClearDateBtnClick"
+        "click .clearDateBtn" : "onClearDateBtnClick",
+        "click .quickDate" : "onQuickDateClick"
     },
     state : {
         params : {
@@ -50,6 +52,34 @@ var Filter = Util.Class({
     onClearDateBtnClick : function(e){
         this.beginTimeInp.text("");
         this.endTimeInp.text("");
+    },
+    onQuickDateClick : function(e){
+        var tarBtn = $(e.currentTarget);
+        var beginTime = "";
+        var endTime = "";
+        if(tarBtn.hasClass("yestoday")){
+            beginTime = CalendarCore.prevDay();
+            endTime = CalendarCore.prevDay();
+        }else if(tarBtn.hasClass("today")){
+            beginTime = CalendarCore.gettoday();
+            endTime = CalendarCore.gettoday();
+        }else if(tarBtn.hasClass("lastWeek")){
+            endTime = CalendarCore.gettoday();
+            beginTime = CalendarCore.prevDays(endTime,7);
+            beginTime = beginTime[beginTime.length-1];
+        }else if(tarBtn.hasClass("lastMonth")){
+            endTime = CalendarCore.gettoday();
+            beginTime = CalendarCore.prevDays(endTime,30);
+            beginTime = beginTime[beginTime.length-1];
+        }else if(tarBtn.hasClass("lastThreeMonth")){
+            endTime = CalendarCore.gettoday();
+            beginTime = CalendarCore.prevDays(endTime,90);
+            beginTime = beginTime[beginTime.length-1];
+        }
+
+        this.beginTimeInp.text(beginTime);
+        this.endTimeInp.text(endTime);
+
     },
     //初始化消息类型select
     initMsgTypeSelect : function(){

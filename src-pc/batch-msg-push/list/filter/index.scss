@@ -4,6 +4,9 @@
         $height : 32px;
         padding-top: 15px;
         padding-bottom: 15px;
+        border: 1px solid $borderColor;
+        border-bottom: 0 none;
+
         .line{
             width: 100%;
             margin-bottom: 10px;

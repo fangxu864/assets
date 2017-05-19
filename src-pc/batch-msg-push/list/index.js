@@ -30,7 +30,7 @@ var Main = {
 
 
         //启动
-        filter.trigger("search");
+        filter.trigger("search",filter.getParams());
 
 
     }

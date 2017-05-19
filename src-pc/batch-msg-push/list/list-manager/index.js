@@ -29,9 +29,9 @@ var ListManager = Util.Class({
         
     },
     setParams : function(params){
-        var p = this.state.params;
-        p = {};
-        for(var i in params) p[i] = params[i];
+        var that = this;
+        this.state.params = {};
+        for(var i in params) that.state.params[i] = params[i];
     },
     refresh : function(params){
         var that = this;
@@ -44,8 +44,10 @@ var ListManager = Util.Class({
         //重置参数以缓存
         state.hasMore = true;
         this.setParams(params);
-        
+
         Util.Ajax(Common.url.msgList,{
+            type : "POST",
+            params : params,
             loading : function(){
                 container.html(LoadingHtml("refresh"));
                 state.isLoading = true;
@@ -66,8 +68,8 @@ var ListManager = Util.Class({
                 if(code==200){
                     html = that.renderList(list);
                     container.html(html);
-                    state.now_id = nowId;
-                    if(list.length==0) state.hasMore = false;
+                    state.params.now_id = nowId;
+                    if(list.length<state.params.size) that.state.hasMore = false;
                 }else{
                     Message.alert(msg);
                 }
@@ -89,6 +91,8 @@ var ListManager = Util.Class({
         if(!state.hasMore) return false;
 
         Util.Ajax(Common.url.msgList,{
+            type : "POST",
+            params : state.params,
             loading : function(){
                 container.append(LoadingHtml("getMore"));
                 state.isLoading = true;
@@ -107,9 +111,13 @@ var ListManager = Util.Class({
                 var html = "";
                 if(code==200){
                     html = that.renderList(list);
-                    container.append(html).find(".getMoreLoadingState").remove();
-                    state.now_id = nowId;
-                    if(list.length==0) state.hasMore = false;
+                    container.append(html);
+                    container.find(".getMoreLoadingState").remove();
+                    state.params.now_id = nowId;
+                    if(list.length<state.params.size){
+                        that.state.hasMore = false;
+                    }
+
                 }else{
                     Message.alert(msg);
                 }
@@ -122,15 +130,36 @@ var ListManager = Util.Class({
             }
         })
     },
+    adaptData : function(data){
+        var MsgType = Common.msgType;
+        for(var i=0,len=data.length; i<len; i++){
+            (function(){
+                var item = data[i];
+                var msg_type = item.msg_type;
+                item["msg_type"] = Common.getMsgType(msg_type);
+                item["channel"] = Common.getChannelText(item.channel);
+                item["send_type"] = Common.sendType[item.send_type];
+                item["action"] = Common.getActionByStatus(item.status);
+                item["status"] = Common.getStatusText(item.status);
+            })(i);
+        }
+        return data;
+    },
     renderList : function(data){
         var html = "";
         var params = this.state.params;
         var nowId = params.now_id;
         var emptyText = "";
+        var size = params.size;
         var cls = "state empty";
         if(Util.isArray(data)){
             if(data.length){
+                data = this.adaptData(data);
                 html = ListTemplate({list:data});
+                if(data.length<size){
+                    cls += " getMore";
+                    html += '<tr class="stateLine '+cls+'"><td colspan="7">没有更多了..</td></tr>';
+                }
             }else{ //空
                 if(!nowId){ //refresh时
                     emptyText = "查无匹配条件的消息..";
@@ -139,7 +168,7 @@ var ListManager = Util.Class({
                     emptyText = "没有更多了.."
                     cls += " getMore";
                 }
-                html += '<tr class="stateLine '+cls+'"><td>'+emptyText+'</td></tr>';
+                html += '<tr class="stateLine '+cls+'"><td colspan="7">'+emptyText+'</td></tr>';
             }
         }
         return html;
