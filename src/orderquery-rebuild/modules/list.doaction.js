@@ -6,6 +6,9 @@ var modifyDialog = null;
 var Api = require("./api.js");
 var api = new Api();
 var AJAX_TIMEOUT_NUM = 5 * 60 * 1000; //5分钟超时，够了吧？？？？
+
+var Message = require('pft-ui-component/Message');
+
 var ListDoAction = RichBase.extend({
     EVENTS: {
         "click": {
@@ -25,14 +28,86 @@ var ListDoAction = RichBase.extend({
         var ordernum = tarBtn.attr("data-ordernum");
         var action = tarBtn.attr("data-action");
         if (!ordernum || !action || tarBtn.hasClass("loading")) return false;
-        if (action == "orderAlter") { //修改
-            modifyDialog.open(tarBtn, ordernum);
-        } else if (action == "orderCancel") { //取消
-            that.cancelOrder(tarBtn, ordernum);
-        } else if (action == "orderResend") { //重发短信
-            that.resendMsg(tarBtn, ordernum);
+
+        switch( action ) {
+            case "orderAlter": //修改
+                modifyDialog.open(tarBtn, ordernum);
+                break;
+
+            case "orderCancel": //取消
+                that.cancelOrder(tarBtn, ordernum);
+                break;
+
+            case "orderResend": //重发短信
+                that.resendMsg(tarBtn, ordernum);
+                break;
+
+            case "orderFinish": // 完结已过期订单
+                that.finishExpiredOrder( tarBtn, ordernum );
+                break;
         }
+
+        // if (action == "orderAlter") { //修改
+        //     modifyDialog.open(tarBtn, ordernum);
+        // } else if (action == "orderCancel") { //取消
+        //     that.cancelOrder(tarBtn, ordernum);
+        // } else if (action == "orderResend") { //重发短信
+        //     that.resendMsg(tarBtn, ordernum);
+        // }
     },
+
+    // 完结已过期订单
+    finishExpiredOrder: function( tarBtn, ordernum ) {
+        var that = this;
+
+        Message.confirm('完结该笔过期订单后，订单金额可提现，该订单不可再操作验证和取消', function( result ){
+            if( result ) {
+                PFT.Ajax({
+                    url: "call/handle.php?from=order_finish",
+                    type: "post",
+                    dataType: "json",
+                    ttimeout : AJAX_TIMEOUT_NUM,
+                    data: {
+                        ordernum: ordernum
+                    },
+                    loading: function () {
+                        tarBtn.text("正在处理...").addClass("loading");
+                    },
+                    removeLoading: function () {
+                        tarBtn.text("完结").removeClass("loading");
+                    },
+                    timeout: function (res) {
+                        alert("请求超时，请稍后重试")
+                    },
+                    serverError: function (res) {
+                        alert("请求出错，请稍后重试")
+                    }
+                }, function (res) {
+                    if( res.code == 200 ){ //完结成功
+
+                        PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
+                        var parent = tarBtn.parent();
+                        tarBtn.parents(".col").siblings('.col_5').find(".tdCon").html("<em style='color:#bdbdbd'>已完结</em>");
+                        tarBtn.siblings(".orderAlipay").remove();
+                        tarBtn.siblings(".orderAlter").remove();
+                        tarBtn.siblings(".orderCheck").remove();
+                        tarBtn.siblings(".orderResend").remove();
+                        tarBtn.siblings(".orderCancel").remove();
+                        tarBtn.remove();
+                        parent.children(".doBtn").first().prevAll("br").remove();
+                        $("#listItem_" + ordernum).addClass("disable");
+                        that.fire("finishExpiredOrder.success");
+
+                    }else{
+                        PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + (res.msg || "") + '</p>');
+                    }
+                })
+            } else {
+                return false;
+            }
+        });
+    },
+
     //取消订单
     cancelOrder: function (tarBtn, ordernum) {
         var that = this;
@@ -66,6 +141,7 @@ var ListDoAction = RichBase.extend({
 				tarBtn.siblings(".orderAlter").remove();
 				tarBtn.siblings(".orderCheck").remove();
 				tarBtn.siblings(".orderResend").remove();
+                tarBtn.siblings(".orderFinish").remove();
 				tarBtn.remove();
 				parent.children(".doBtn").first().prevAll("br").remove();
 				$("#listItem_" + ordernum).addClass("disable");
@@ -76,6 +152,7 @@ var ListDoAction = RichBase.extend({
 				tarBtn.parents(".col").siblings('.col_5').find(".tdCon").append("<span class='status' style='color: #f07845'>退票中</span>");
 				tarBtn.siblings(".orderAlter").remove();
 				tarBtn.siblings(".orderResend").remove();
+                tarBtn.siblings(".orderFinish").remove();
 				tarBtn.remove();
 				parent.children(".doBtn").first().prevAll("br").remove();
 				alert(msg);
