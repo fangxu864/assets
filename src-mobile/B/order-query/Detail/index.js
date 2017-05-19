@@ -27,6 +27,10 @@ var toast = new Toast();
 
 
 var Detail  = PFT.Util.Class({
+    //是否启用缓存
+
+    useCache : false,
+
     //判断是否被打开过
     hasOpened : false,
     init: function () {
@@ -110,15 +114,11 @@ var Detail  = PFT.Util.Class({
             token: _this.token,
             ordernum: ordernum
         };
-        //看看是否有缓存
-        if(_this.cacheHub.detail[$.param(params)]){
-            //render
+        //如果启用缓存，并且该订单已被请求过了，则直接取缓存里的内容，不再发请求
+        if(this.useCache && _this.cacheHub.detail[$.param(params)]){
             var res = _this.cacheHub.detail[$.param(params)];
             dealRes( res );
             return false;
-        }else{
-            //显示查询状态
-            toast.show("loading","努力加载中...");
         }
         $.ajax({
             url: Common.api.orderDetail,    //请求的url地址
@@ -128,7 +128,7 @@ var Detail  = PFT.Util.Class({
             type: "POST",   //请求方式
             timeout:5000,   //设置超时 5000毫秒
             beforeSend: function() {
-                //请求前的处理
+                toast.show("loading","努力加载中...");
             },
             success: function(res) {
 
@@ -156,8 +156,11 @@ var Detail  = PFT.Util.Class({
         function dealRes( res ) {
             if(res.code == 200 ){
                 if(_this.judgeTrue(res.data)){
+
+                    var data = _this.adaptData(res.data);
+
                     //渲染数据
-                    var html = _this.detailTemplate({data: res.data});
+                    var html = _this.detailTemplate({data: data});
 
                     curCon.html(html);
                     toast.hide();
@@ -171,6 +174,38 @@ var Detail  = PFT.Util.Class({
                 Alert(res.msg);
             }
         }
+    },
+
+    adaptData : function(item){
+        var paymode = Common.paymode;
+        var ticket_list = item.ticket_list;
+        var buy_pmode = item.buy_pmode;
+        var sale_pmode = item.sale_pmode;
+        var beginTime = item.begintime;
+        var endTime = item.endtime;
+        var dayCount = "";
+        var extra = item["__extra__"] || (item["__extra__"]={});
+        extra["buy_pmode"] = Common.paymode[buy_pmode];
+        extra["sale_pmode"] = Common.paymode[sale_pmode];
+        extra["buy_money"] = item.buy_money ?  (item.buy_money/100) : "";
+        extra["sale_money"] = item.sale_money ?  (item.sale_money/100) : "";
+
+        if(beginTime && endTime){
+            beginTime = new Date(beginTime).getTime();
+            endTime = new Date(endTime).getTime();
+            dayCount = endTime-beginTime;
+            dayCount = dayCount / (24 * 60 * 60 * 1000);
+            extra["dayCount"] = dayCount;
+        }
+
+        Common.forEach(ticket_list,function(ticket,ind){
+            //__extra__字段标识是前端自己加入的数据
+            var extra = ticket["__extra__"] || (ticket["__extra__"]={});
+            var buy_pmode = ticket.buy_pmode;
+            var sale_pmode = ticket.sale_pmode;
+            extra["status"] = Common.statusText[ticket.status];
+        })
+        return item;
     },
 
     /**

@@ -193,32 +193,83 @@ var ListDoAction = RichBase.extend({
             }
         })
     },
+
     //修改票数
     modifyTicket: function (tarBtn, ordernum) {
         var that = this;
         var data = {};
 		if(tarBtn.hasClass("loading")) return false;
+
         var orderNumHidInp = $("#modifyTicket_ordernum_hidInp");
+
         data[orderNumHidInp.attr("name")] = orderNumHidInp.val();
-        $("#ticModListUl").find(".numInp").each(function(){
-            var tarInp = $(this);
-            var val  = tarInp.val();
-            var name = tarInp.attr("name");
-            var has_terminal_num = tarInp.attr("data-hasterminal");
-            data[name] = val*1+has_terminal_num*1;
-        })
-        var modifyData = "";
-        for(var i in data){
-            var key = i;
-            var val = data[i];
-            modifyData += "&"+key+"="+val;
+
+        data.num_mapping = {};
+
+        $('#ticModListUl .numInp').each(function(){
+            data.num_mapping[ $(this).attr('data-pid') ] = $(this).val();
+        });
+
+
+        // 一票一证
+        var touristInfo = +tarBtn.attr('data-tourist-info');
+        if( touristInfo == 2 ) {
+            data.tourist_info = [];
+            data.idcard_type = '';
+
+            var touristList = $('#dialogTouristList'),
+                touristDeleted = touristList.children(':hidden'),
+                touristAdded = touristList.children('.idcardAdded');
+
+            if( touristDeleted.length ) {
+                // for( var i = 0, len = touristDeleted.length; i< len; i++ ) {
+                //     data.tourist_info.push({
+                //         i: touristDeleted.eq(i).find('.inp-id').val()
+                //     });
+                // }
+                data.tourist_info = touristDeleted.find('.inp-id').map(function(){ return $(this).val(); }).get().join();
+                data.idcard_type = 'reduce';
+            }
+
+            if( touristAdded.length ) {
+                data.tourist_info = touristAdded.map(function(){
+                    return {
+                        tourist: $.trim( $(this).find('.inp-name').val() ),
+                        idcard: $(this).find('.inp-idcard').val()
+                    };
+                }).get();
+
+                data.idcard_type = 'add';
+            }
         }
-        if(modifyData) modifyData=modifyData.substring(1);
+
+        // $("#ticModListUl").find(".numInp").each(function(){
+        //     var tarInp = $(this);
+        //     var val  = tarInp.val();
+        //     var name = tarInp.attr("name");
+        //     var has_terminal_num = tarInp.attr("data-hasterminal");
+        //     data[name] = val*1+has_terminal_num*1;
+        // })
+
+        // var modifyData = "";
+        // for(var i in data){
+        //     var key = i;
+        //     var val = data[i];
+        //     modifyData += "&"+key+"="+val;
+        // }
+        // if(modifyData) modifyData=modifyData.substring(1);
+
+        // 接口参数
+        // ordernum         订单号
+        // num_mapping      {'子票id':修改后的票数}
+        // tourist_info     [{tourist:名字,idcard:身份证}] / ['删除的身份证id'] / []
+        // idcard_type      add / reduce / ''
 		PFT.Ajax({
-			url: "call/handle.php?from=order_alter",
+            url: '/route/index.php?c=Order_OrderModify&a=numModify',
+			// url: "call/handle.php?from=order_alter",
 			type: "post",
 			dataType: "json",
-			data: modifyData,
+			data: data,
 			loading: function () {
 				tarBtn.text("正在修改..").addClass("loading");
 			},
@@ -231,29 +282,47 @@ var ListDoAction = RichBase.extend({
 			serverError: function (res) {
 				alert("请求出错，请稍后重试")
 			}
-		}, function (data) {
-			var outcome = data.outcome;
-			var msg = data.msg || '操作成功';
-			if(outcome==1 || outcome==-2){
-				api.query(1, 10, {select_type: 1, select_text: ordernum}, {
-					success: function (res) {
-						var tpl = $("#order-list-item-tpl").html();
-						var template = _.template(tpl);
-						var html = template({data: res});
-						$("#listItem_" + ordernum).after(html);
-						$("#listItem_" + ordernum).remove();
-					}
-				});
-				if(outcome==1){
-					PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
-					that.fire("modifyTicket.success");
-				}else{ //outcome==-2
-					alert(msg);
-				}
-			}else{
-				var txt = data.msg || "";
-				PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + txt + '</p>');
-			}
+		}, function ( data ) {
+            if( data.code == 200 ) {
+                api.query(1, 10, {select_type: 1, select_text: ordernum}, {
+                    success: function (res) {
+                        var tpl = $("#order-list-item-tpl").html(),
+                            template = _.template(tpl),
+                            html = template({data: res});
+
+                        $("#listItem_" + ordernum).after(html);
+                        $("#listItem_" + ordernum).remove();
+
+                        PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
+                        that.fire("modifyTicket.success");
+                    }
+                });
+            } else {
+                PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + data.msg + '</p>');
+            }
+
+			// var outcome = data.outcome;
+			// var msg = data.msg || '操作成功';
+			// if(outcome==1 || outcome==-2){
+			// 	api.query(1, 10, {select_type: 1, select_text: ordernum}, {
+			// 		success: function (res) {
+			// 			var tpl = $("#order-list-item-tpl").html();
+			// 			var template = _.template(tpl);
+			// 			var html = template({data: res});
+			// 			$("#listItem_" + ordernum).after(html);
+			// 			$("#listItem_" + ordernum).remove();
+			// 		}
+			// 	});
+			// 	if(outcome==1){
+			// 		PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
+			// 		that.fire("modifyTicket.success");
+			// 	}else{ //outcome==-2
+			// 		alert(msg);
+			// 	}
+			// }else{
+			// 	var txt = data.msg || "";
+			// 	PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + txt + '</p>');
+			// }
 		});
     }
 });

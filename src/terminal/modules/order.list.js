@@ -2,7 +2,7 @@
  * Created by Administrator on 16-3-31.
  */
 var Api = require("./api.js");
-var orderListTpl = require("../../view/order.item.html");
+var orderListTpl = require("../view/order.item.html");
 var Calendar = require("COMMON/modules/calendar/calendar.js");
 var AdaptOrder = require("./adaptOrder.js");
 var OrderList = RichBase.extend({

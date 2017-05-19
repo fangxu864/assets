@@ -1,0 +1,107 @@
+@import "../vars.scss";
+#batchMsgListContainer{
+    .filterContainer{
+        $height : 32px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border: 1px solid $borderColor;
+        border-bottom: 0 none;
+
+        .line{
+            width: 100%;
+            margin-bottom: 10px;
+            overflow: hidden;
+            .lt{ float:left; margin-right: 10px;}
+            .rt{ float:left;}
+            &:last-child{ margin-bottom: 0}
+
+            .textInp{ height: 22px; line-height: 22px; width: 180px; padding: 5px 7px; border: 1px solid $borderColor}
+            .select{ height: $height; line-height: $height; width: 115px; padding-left:5px; border-color: $borderColor; outline: none}
+            .shadow{ box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); }
+            .sbtn{
+                display: inline-block;
+                height: $height; line-height: $height;
+                padding: 0 25px;
+                color: #fff;
+                margin-right: 10px;
+                &:hover{ text-decoration: none}
+            }
+            .sbtn.searchBtn{ 
+                background: $orange;
+                &:hover{ background: darken($orange,3%)}
+            }
+            .sbtn.publishBtn{ 
+                background: $blue;
+                &:hover{ background: darken($blue,3%)}
+            }
+            .sbtn.disable{
+                background: #999;
+                cursor: not-allowed;
+                &:hover{background: #999}
+            }
+
+
+            .box{
+                float: left;
+                overflow: hidden;
+                .label{ margin-right: 8px;}
+                margin-right: 20px;
+            }
+
+            &.date{
+                .lt{ 
+                    height: $height; line-height: $height;
+                    margin-right: 0; padding:0 15px; border: 1px solid $borderColor; background: #f3f1f1
+                }
+                .rt{
+                    position: relative; 
+                    width: 400px;
+                    height: $height; line-height: $height;
+                    overflow: hidden;
+                    border: 1px solid $borderColor; border-left: 0 none; 
+                }
+                .zhi{
+                    position: absolute;
+                    display: block;
+                    height: $height; line-height: $height;
+                    top: 0; bottom: 0; left: 50%;
+                    margin-left: -6px;
+                }
+                .timeInp{
+                    display: block;
+                    width: 199px;
+                    height: $height;
+                    float: left;
+                    text-align: center;
+                    cursor: pointer
+                }
+            }
+
+        }
+
+        .quickDatePicker{
+            float : left;
+            margin-left: 10px;
+            line-height: $height;
+            .quickDate{
+                margin-right: 10px;
+                color: $blue;
+                cursor: pointer;
+                &:last-child{ margin-right: 0}
+                &:hover{ text-decoration: underline}
+            }
+        }
+
+        .clearDateBtn{
+            float: left;
+            margin-left: 15px;
+            margin-right: 20px;
+            line-height: $height;
+            cursor: pointer;
+            color: $blue;
+            &:hover{ text-decoration: underline}
+        }
+
+
+    }
+}

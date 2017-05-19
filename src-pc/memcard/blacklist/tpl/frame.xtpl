@@ -3,7 +3,8 @@
     <ul>
         <li class="inline-block-li">
             <span class="name">产品：</span>
-            <input type="text" id="landInpMain" class="land-inp"/>
+            <input type="text" id="landInpMain" class="land-inp" readonly="readonly" />
+            <span onclick="$(this).siblings('input').val('').removeAttr('data-id')" class="clear-btn">清除</span>
         </li>
         <li class="inline-block-li">
             <span class="name">身份证：</span>
@@ -29,16 +30,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="th1">福建太姥山景区</td>
-                <td class="th2">张三</td>
-                <td class="th3">45457752121556785</td>
-                <td class="th4">
-                    <span class="edit-btn">编辑</span>
-                    <span class="delete-btn">删除</span>
-                </td>
-            </tr>
-
+         <tr>
+             <td colspan='4' style='height: 200px;text-align: center;font-size: 16px;color: #c3c3c3'>请输入条件搜索</td>
+         </tr>
         </tbody>
     </table>
 </div>

@@ -2,6 +2,8 @@
 
 ### how to use
 
+```js
+
 var Datepicker = require("COMMON/modules/datepicker");
 
 建议一个页面只new一次datepicker
@@ -30,3 +32,7 @@ datepicker.show("2016-09-20 10:30:29",opt) //日期时间全显示
 datepicker.on("switch",function(data){ //当选中某一天或时间改变时
     console.log(data);
 })
+
+
+
+```

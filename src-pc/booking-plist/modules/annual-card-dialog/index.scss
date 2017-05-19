@@ -1,19 +1,30 @@
 .annualDialogContainer{}
 .buywayBox .boxContainer{ overflow:hidden;}
-.buywayBox .boxContainer .bl,.buywayBox .boxContainer .br{ padding-top:30px;}
+.buywayBox .boxContainer .bl,.buywayBox .boxContainer .br{ }
 .buywayBox .boxContainer .bl{ width:520px; height:300px; float:left; margin-left:35px;}
 .buywayBox .boxContainer .bl .enBox{ width:480px; height:210px;margin:35px 0 0 0;}
 .buywayBox .boxContainer .bl .enBox>p{ text-align:center;}
 .buywayBox .boxContainer .br{ width:180px; float:left; margin-left:30px;}
 
-.annualDialogContainer .entity{padding:34px 0 0 0; font-size:16px; font-weight:bold; color:#707070;}
-.annualDialogContainer .readCardNumber{ overflow:hidden; width:480px; font-size:14px;}
+.annualDialogContainer .entity{padding:0; font-size:16px; font-weight:bold; color:#707070;}
+.annualDialogContainer .readCardNumber{ position: relative; overflow:hidden; width:480px; font-size:14px;}
+.annualDialogContainer .readCardNumber .tip{ display: none}
+.lt-ie10 .annualDialogContainer .readCardNumber .tip{
+    position: absolute;
+    top: 14px;
+    right: 17px;
+}
+
+
 .annualDialogContainer .readCardNumber .CardNumberInp{ display:block; float:left; width:465px; line-height:22px; height:22px; padding:14px 0 14px 7px;  border:1px solid #e5e5e5;
     box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
     -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
     -moz-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
     -o-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
     -ms-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+
+    
+
 }
 .annualDialogContainer .readCardNumber .CardNumberBtn{
     display:block; float:left; width:140px; height:50px;line-height:50px; border:1px solid #0797d9; color:#0797d9; text-align:center;
@@ -28,3 +39,45 @@
 .annualDialogContainer .kucun{ line-height:50px;}
 #clearCardInpBtn{ display:none; position:absolute; top:9px; right:12px; width:30px; height:30px; line-height:30px; text-align:center; cursor:pointer}
 #clearCardInpBtn .iconfont{ font-size:17px; color:#8c8c8c}
+
+
+
+.annualDialogContainer .resultCardList{
+    width: 474px;
+    height: 100px;
+    overflow: auto;
+    margin-bottom: 5px;
+    padding-top: 8px;
+    margin-left: 1px;
+    .item{
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 5px;
+        .card{
+            display: block;
+            float: left;
+            width: 90px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            border: 1px solid #0685bf;
+            color: #0685bf;
+        }
+        .deleteBtn{
+            display: block;
+            float: left;
+            width: 26px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            border: 1px solid #0685bf;
+            border-left: 0 none;
+            color: #0685bf;
+            font-size: 22px;
+            cursor: pointer;
+            &:hover{
+                font-weight: bold
+            }
+        }
+    }
+}

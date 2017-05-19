@@ -1,6 +1,7 @@
 var Path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 module.exports = function(opt){
 
     opt || (opt={});
@@ -14,7 +15,8 @@ module.exports = function(opt){
     var output = Path.join(path,filename);
     plugins.push(new ExtractTextPlugin(output));
     if(minify){
-        plugins.push(new webpack.optimize.UglifyJsPlugin({
+        // plugins.push(new webpack.optimize.UglifyJsPlugin({
+        plugins.push(new UglifyJSPlugin({
             compress: {
                 warnings : false
             },

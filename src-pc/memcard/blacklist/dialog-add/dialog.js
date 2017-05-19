@@ -8,10 +8,17 @@ require("./dialog.scss");
 var addTpl = require("./add.xtpl");
 
 //-----------modules------------
+var Message = require("pft-ui-component/Message");
+window.Mess = Message;
 var Dialog=require("COMMON/modules/dialog-simple");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
 var Select = require("COMMON/modules/select");
-
+var tips = require("COMMON/modules/tips/index.js");
+var Tips = new tips ();
+//公共资源common resource
+var CR = require("../CR.js");
+var readIdCard = require("../../common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
 
 var DialogModule = PFT.Util.Class({
     container: $("<div class='blackListDialogCon-add'></div>"),
@@ -25,22 +32,40 @@ var DialogModule = PFT.Util.Class({
             drag : true,
             speed : 100,
             onCloseAfter : function(){
+                Tips.closeAllTips();
             }
         });
         this.landListData = opt.landListData;
         this.dial.container.find(".gSimpleDialog-content").append(_this.container);
         this.container.html(addTpl);
         this.bind();
-        
     },
 
     show: function () {
         var _this = this;
-        this.dial.open()
+        this.dial.open();
+        //清空input
+        // this.container.find(".line1 .landInp").removeAttr("data-id");
+        // this.container.find(".line1 .landInp").val('');
+        this.container.find(".line2 .userName").val('');
+        this.container.find(".line3 .idNum").val('');
     },
     
     bind: function () {
         var _this = this;
+        var CON = this.container;
+        _this.landSelect = new Select({
+            height:300,
+            top:0,
+            field : {
+                id : "id",
+                name : "title",
+                keyword : "title"
+            },
+            trigger : $("#landInpAdd"),
+            data: _this.landListData
+        });
+
         this.container.on("click" ,"#landInpAdd" ,function (e) {
             var curInp = $(this);
             //点击时才初始化产品选择框
@@ -57,6 +82,121 @@ var DialogModule = PFT.Util.Class({
                     data: _this.landListData
                 });
                 curInp.click();
+            }
+        });
+
+        //取消
+        this.container.on("click" ,".cancel-btn" ,function () {
+            _this.dial.close();
+        });
+
+        //确认
+        this.container.on("click", ".save-btn" ,function () {
+            _this.addBlacklistRequest();
+        });
+
+        this.container.on("click" , ".self-radio" ,function (e) {
+            $(this).toggleClass("checked")
+        });
+
+        //点击读卡
+        CON.on("click" ,".get-idNum" ,function (e) {
+            readIdCard1.doSend('{"cmd":"idread"}');
+        });
+
+        readIdCard1.on("socketMessage" ,function (data) {
+            CON.find(".idNum").val(data.code);
+            CON.find(".userName").val(data.name)
+        })
+
+    },
+
+    /**
+     * @method 增加黑名单
+     */
+    addBlacklistRequest: function () {
+        var _this = this;
+        var params = {};
+        var landInp = this.container.find(".line1 .landInp");
+        var userNameInp = this.container.find(".line2 .userName");
+        var idNumInp = this.container.find(".line3 .idNum");
+        params["lid"] = landInp.attr("data-id");
+        if(!CR.judgeTrue(params["lid"])){
+            Tips.closeAllTips();
+            Tips.show({
+                lifetime : 1500 ,
+                direction:'right',
+                hostObj : landInp ,
+                content : "请选择产品",
+                bgcolor : "#f0c245"
+            });
+            return false;
+        }
+        params["name"] = $.trim( userNameInp.val() );
+        if(params["name"] == ""){
+            params["name"] = "--";
+            // Tips.closeAllTips();
+            // Tips.show({
+            //     lifetime : 1500 ,
+            //     direction:'right',
+            //     hostObj : userNameInp ,
+            //     content : "请填写姓名",
+            //     bgcolor : "#f0c245"
+            // });
+            // return false;
+        }
+        params["id_card"] = $.trim( idNumInp.val() );
+        if(!PFT.Util.Validate.idcard(params["id_card"])){
+            Tips.closeAllTips();
+            Tips.show({
+                lifetime : 1500 ,
+                direction:'right',
+                hostObj : idNumInp ,
+                content : "请填写正确的身份证号",
+                bgcolor : "#f0c245"
+            });
+            return false;
+        }
+
+        $.ajax({
+            url: CR.url.addBlackList,    //请求的url地址
+            dataType: "json",   //返回格式为json
+            async: true, //请求是否异步，默认为异步
+            data: params,    //参数值
+            type: "POST",   //请求方式
+            timeout:5000,   //设置超时 5000毫秒
+            beforeSend: function() {
+                //请求前的处理
+            },
+            success: function(res) {
+                // 请求成功时处理
+                //缓存数据
+               if(CR.judgeTrue(res)){
+                   if(res.code == 200 ){
+                       Message.success("添加成功");
+                       if(_this.container.find(".close-dialog").hasClass("checked")){
+                           _this.dial.close();
+                       }
+                       var opt = {
+                           val : landInp.val(),
+                           lid :  params["lid"]
+                       };
+                       _this.trigger("blackListAddSuccess" , opt)
+                   }else{
+                       Message.error(res.msg)
+                   }
+               }
+            },
+            complete: function(res,status) {
+                //请求完成的处理
+                // _this.hideLoading();
+                if(status=="timeout"){
+                    Message.alert("请求超时")
+                }
+            },
+            error: function() {
+                //请求出错处理
+                // _this.hideLoading();
             }
         });
     }

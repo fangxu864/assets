@@ -6,5 +6,14 @@ module.exports = {
             pid : pid,
             aid : aid
         }
+    },
+    getFsid : function(){
+        return $("#fsidHidInp").val();
+    },
+    getFsaccount : function(){
+        return $("#fsaccountHidInp").val();
+    },
+    getFsname : function(){
+        return $("#fsnameHidInp").val();
     }
 }

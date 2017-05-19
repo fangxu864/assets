@@ -2,7 +2,7 @@
  * Created by Administrator on 15-10-20.
  */
 require("COMMON/css/base/reset_old_fix.scss");
-require("../css/style.css");
+require("./css/style.css");
 var Api = require("./modules/api.js");
 var Product = require("./modules/product.js");
 var OrderList = require("./modules/order.list.js");

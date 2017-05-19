@@ -79,7 +79,8 @@ var SukInfo = PFT.Util.Class({
                 Ajax_GetPriceStorageByDate({
                     pids : that.getPids(),
                     aid : Common.getPidAid().aid,
-                    date : date
+                    date : date,
+                    fsid : Common.getFsid()
                 },{
                     debug : false,
                     success : function(data){
@@ -138,7 +139,8 @@ var SukInfo = PFT.Util.Class({
             pid : pid,
             aid : aid,
             beginDate : beginDate,
-            endDate : endDate
+            endDate : endDate,
+            fsid : Common.getFsid()
         },{
             loading : function(){},
             complete : function(){},

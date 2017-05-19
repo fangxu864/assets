@@ -56,7 +56,6 @@ var Main = PFT.Util.Class({
                         $("#excelUpLoadText").text("上传中");
                     },
                     success: function (res) {
-                        console.log(res);
                         var code = res.code;
                         var msg = res.msg;
                         var data = res.data;
@@ -101,14 +100,15 @@ var Main = PFT.Util.Class({
         //      Message.alert("请填写内容");           
         //      return false
         // }
-        if( $("#excelUp").val() == "" && $(".memberBox").css("display") != "none" ){
-            Message.alert("请导入excel文件");           
-            return false
-        }
+     
         var rec_type = $("#infoReceiver").attr("data-type");//接收类型
         if( rec_type == "infoReceiver1" ){
             rec_type = "0";
         }else if( rec_type == "infoReceiver2" ){
+            if( $("#excelUp").val() == "" && $(".memberBox").css("display") != "none" ){
+                Message.alert("请导入excel文件");           
+                return false
+            }
             rec_type = "1";
         }
         var channel = [];//推送渠道
@@ -142,9 +142,12 @@ var Main = PFT.Util.Class({
             //     return false
             // }
         }
-        if( this.excelUrl == ""){
-            Message.alert("请导入excel文件");           
-            return false
+
+        if( rec_type == "1" ){
+            if( this.excelUrl == ""){
+                Message.alert("请导入excel文件");           
+                return false
+            }
         }
         Save_service({
             title : title, //消息名称
@@ -166,7 +169,10 @@ var Main = PFT.Util.Class({
                 $("#saveNow").attr("data-sending","false");
             },
             success : function(data){
-                Message.alert("保存成功");
+                Message.alert("保存成功,请等待刷新");
+                setTimeout(function(){
+                    location.reload();
+                },2000);
             },
             fail : function(msg,code){
                 Message.alert(code + msg);
@@ -223,7 +229,9 @@ var Main = PFT.Util.Class({
             });
         }
         icons.on("click",function(e){
+
             var target = $(e.target);
+
             var type = target.attr("data-type");
             var className = target.attr("class");              
             if( className == "radioIcon disable"){
@@ -245,7 +253,7 @@ var Main = PFT.Util.Class({
                 $("#pushWay").find(".radioIcon[data-type=pushWay3]").removeClass("disable").addClass("active");
                 $("#pushWay").find(".radioIcon[data-type=pushWay1]").addClass("disable").removeClass("active");
                 $("#pushWay").find(".radioIcon[data-type=pushWay2]").addClass("disable").removeClass("active");
-
+                $(".pushWay").attr("data-type","pushWay3");
 
             }else if( type == "infoReceiver2" ){   //指定会员
                 $(".memberBox").css("display","block");
