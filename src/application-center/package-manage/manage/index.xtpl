@@ -9,13 +9,14 @@
             <th class="th4">套餐周期</th>
             <th class="th5">套餐模块</th>
             <th class="th6">套餐价格</th>
-            <th class="th8">状态</th>
+            <th class="th8">套餐状态</th>
+            <th class="th9">套餐详情</th>
             <th class="th7">操作</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td style="text-align: center;line-height: 200px;font-size: 14px"  colspan="8">暂无套餐，请新增</td>
+            <td style="text-align: center;line-height: 200px;font-size: 14px"  colspan="9">暂无套餐，请新增</td>
         </tr>
         </tbody>
     </table>

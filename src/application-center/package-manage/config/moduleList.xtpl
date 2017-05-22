@@ -1,0 +1,8 @@
+
+<% _.each(data,function(item,index){%>
+<div class="self-checkbox">
+    <input type="checkbox" name="module[]" value="<%=index%>"/>
+    <span class="checkbox-icon"></span>
+    <span class="checkbox-des"><%=item%></span>
+</div>
+<%})%>
