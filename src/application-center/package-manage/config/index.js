@@ -14,6 +14,7 @@ var Config = PFT.Util.Class({
 
         $(function () {
             _this.container = $("#G-package-config-wrap");
+            _this.container.html(frameTpl);
             setTimeout(function () {
                 _this.bind();
             },0);
@@ -35,7 +36,7 @@ var Config = PFT.Util.Class({
     },
 
     show: function () {
-        this.container.html(frameTpl);
+
         this.container.show();
     },
     hide: function () {

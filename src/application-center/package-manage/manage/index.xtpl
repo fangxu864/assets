@@ -9,85 +9,14 @@
             <th class="th4">套餐周期</th>
             <th class="th5">套餐模块</th>
             <th class="th6">套餐价格</th>
+            <th class="th8">状态</th>
             <th class="th7">操作</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td class="th1">01</td>
-            <td class="th2">供应商</td>
-            <td class="th3">标准版</td>
-            <td class="th4">12个月</td>
-            <td class="th5">套餐模块</td>
-            <td class="th6">3000</td>
-            <td class="th7">
-                <span class="alter-btn btn">修改</span>
-                <span class="delete-btn btn">删除</span>
-            </td>
+            <td style="text-align: center;line-height: 200px;font-size: 14px"  colspan="8">暂无套餐，请新增</td>
         </tr>
-        <tr>
-            <td class="th1">01</td>
-            <td class="th2">供应商</td>
-            <td class="th3">标准版</td>
-            <td class="th4">12个月</td>
-            <td class="th5">套餐模块</td>
-            <td class="th6">3000</td>
-            <td class="th7">
-                <span class="alter-btn btn">修改</span>
-                <span class="delete-btn btn">删除</span>
-            </td>
-        </tr>
-        <tr>
-            <td class="th1">01</td>
-            <td class="th2">供应商</td>
-            <td class="th3">标准版</td>
-            <td class="th4">12个月</td>
-            <td class="th5">套餐模块</td>
-            <td class="th6">3000</td>
-            <td class="th7">
-                <span class="alter-btn btn">修改</span>
-                <span class="delete-btn btn">删除</span>
-            </td>
-        </tr>
-        <tr>
-            <td class="th1">01</td>
-            <td class="th2">供应商</td>
-            <td class="th3">标准版</td>
-            <td class="th4">12个月</td>
-            <td class="th5">套餐模块</td>
-            <td class="th6">3000</td>
-            <td class="th7">
-                <span class="alter-btn btn">修改</span>
-                <span class="delete-btn btn">删除</span>
-            </td>
-        </tr>
-        <tr>
-            <td class="th1">01</td>
-            <td class="th2">供应商</td>
-            <td class="th3">标准版</td>
-            <td class="th4">12个月</td>
-            <td class="th5">套餐模块</td>
-            <td class="th6">3000</td>
-            <td class="th7">
-                <span class="alter-btn btn">修改</span>
-                <span class="delete-btn btn">删除</span>
-            </td>
-        </tr>
-        <tr>
-            <td class="th1">01</td>
-            <td class="th2">供应商</td>
-            <td class="th3">标准版</td>
-            <td class="th4">12个月</td>
-            <td class="th5">套餐模块</td>
-            <td class="th6">3000</td>
-            <td class="th7">
-                <span class="alter-btn btn">修改</span>
-                <span class="delete-btn btn">删除</span>
-            </td>
-        </tr>
-
-
-
         </tbody>
     </table>
     <div class="add-box">

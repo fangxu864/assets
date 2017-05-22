@@ -1,0 +1,132 @@
+$borderE5 : 1px solid #e5e5e5;
+
+#registerWrap{
+  width: 70%;
+  min-width: 800px;
+  margin-top: 20px;
+  margin: 0 auto;
+  background-color: #fff;
+  margin-top: 10px;
+  border: $borderE5;
+  .f-right{
+    float: right;
+  }
+  .f-left{
+    float: left;
+  }
+  .self-checkbox{
+    float: left;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    line-height: 12px;
+    input[type = checkbox]{
+      display: none;
+    }
+    .checkbox-icon{
+      float: left;
+      height: 14px;
+      width: 14px;
+      background: url(http://images.12301.cc/icon/check.png);
+      background-position: 0 14px;
+      position: relative;
+      margin: 0 5px;
+    }
+    .checkbox-des{
+      position: relative;
+      top: 1px;
+    }
+  }
+  .self-checkbox.checked{
+    .checkbox-icon{
+      background-position: 14px 14px;
+    }
+  }
+
+  .self-radio{
+    float: left;
+    font-size: 14px;
+    position: relative;
+    line-height: 12px;
+    margin-left: 12px;
+    cursor: pointer;
+    margin-top: 12px;
+    margin-bottom: 10px;
+    input[type = radio]{
+      display: none;
+    }
+    .radio-icon{
+      float: left;
+      height: 14px;
+      width: 14px;
+      background: url(http://images.12301.cc/icon/check.png);
+      background-position: 0 0;
+      position: relative;
+      margin: 0 5px;
+    }
+    .radio-des{
+      position: relative;
+      top: 1px;
+    }
+  }
+  .self-radio.checked{
+    .radio-icon{
+      background-position: 14px 0px;
+    }
+  }
+  .self-radio:hover .radio-des{
+    color: #2196f3;
+    text-decoration: underline;
+  }
+
+
+  .register-top{
+    line-height: 50px;
+    border-bottom: $borderE5;
+    font-size: 14px;
+    padding: 0 20px;
+  }
+  .register-bottom{
+    width: 80%;
+    margin: 0 auto;
+    .line{
+      line-height: 38px;
+      margin-top: 14px;
+      border-bottom: $borderE5;
+      .item-name{
+        width: 100px;
+        float: left;
+        font-size: 14px;
+        text-align: right;
+        display: inline-block;
+      }
+      .com-input{
+        width: 300px;
+        height: 22px;
+        line-height: 22px;
+        border: none;
+        padding: 5px;
+        text-indent: 0;
+      }
+    }
+    .agreement-line{
+      padding-left: 100px;
+      padding-top: 20px;
+    }
+    .register-btn{
+      padding: 10px 20px;
+      background-color: #f07845;
+      color: #ffffff;
+      display: inline-block;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 14px;
+      cursor: pointer;
+      margin: 30px 0;
+      &:hover{
+        background-color: #e06e3d;
+      }
+    }
+  }
+
+}

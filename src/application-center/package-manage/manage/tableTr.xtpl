@@ -1,0 +1,29 @@
+
+<%
+var index_of_tr = 0;
+%>
+<% _.each(data.package_info,function(item,index){%>
+<tr>
+    <td class="th1"><%=++index_of_tr%></td>
+    <td class="th2"><%=item.role == "0" ? "供应商" : "分销商"%></td>
+    <td class="th3"><%=item.name%></td>
+    <td class="th4"><%=item.unit%></td>
+    <%
+    var arr = item.app_module;
+    var module_str = "";
+    for (var i = 0 ; i< arr.length ; i++){
+      module_str += data.all_app[ arr[i] ] + "、"
+    }
+    %>
+    <td class="th5" title = "<%=module_str%>"><%=module_str%></td>
+    <td class="th6"><%=( Number(item.fee)/100).toFixed(2)%></td>
+    <td class="th8"><%=item.status == "1" ? "上架中" : "下架中"%></td>
+    <td class="th7">
+        <% if(item.status == "2" ){%>
+        <span class="alter-btn btn">上架</span>
+        <%}else{%>
+        <span class="delete-btn btn">下架</span>
+        <%}%>
+    </td>
+</tr>
+<%})%>

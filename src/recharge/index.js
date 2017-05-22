@@ -7,6 +7,7 @@
 var DialogS=require("./dialog/dialog.js");
 //jq的订阅发布
 require("./jqPubSub.js");
+var common = require("./common.js");
 
 
 var Recharge={
@@ -38,11 +39,14 @@ var Recharge={
                 "money": money
             });
         });
-        // //重新登录
-        // $("body").on("click",".btn_login_renew",function () {
-        //     $("#siteLogoutBtn").click();
-        // })
-    },
+
+        $("body").on("click" ,"#PopWindow input[type = button]" , function () {
+            common.checkAccountMoney();
+            setTimeout(function () {
+                window.location.reload();
+            },300);
+        });
+    }
     
 };
 $(function(){
