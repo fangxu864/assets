@@ -1,12 +1,27 @@
 <div class="config-box">
     <div class="title">套餐配置</div>
-    <ul>
+    <form id="configForm">
+        <ul>
         <li class="line clearfix">
             <div class="lt">
                 <span class="item-name">套餐账号类型:</span>
             </div>
             <div class="rt rt-top">
-                <input type="text">
+                <select name="role">
+                    <option value="0">供应商</option>
+                    <option value="1">分销商</option>
+                </select>
+            </div>
+        </li>
+        <li class="line clearfix">
+            <div class="lt">
+                <span class="item-name">仅后台可见:</span>
+            </div>
+            <div class="rt rt-top">
+                <select name="visible">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
             </div>
         </li>
         <li class="line clearfix">
@@ -14,7 +29,7 @@
                 <span class="item-name">套餐名称:</span>
             </div>
             <div class="rt rt-top">
-                <input type="text">
+                <input type="text" name="name">
             </div>
         </li>
         <li class="line clearfix">
@@ -22,7 +37,7 @@
                 <span class="item-name">套餐介绍:</span>
             </div>
             <div class="rt rt-top">
-                <textarea></textarea>
+                <textarea name="introduce"></textarea>
             </div>
         </li>
         <li class="line clearfix">
@@ -30,289 +45,15 @@
                 <span class="item-name">套餐时长:</span>
             </div>
             <div class="rt rt-top">
-                <input type="text"><span style="margin-left: 5px">月</span>
+                <input type="text" name="duration"/><span style="margin-left: 5px">月</span>
             </div>
         </li>
-        <li class="line clearfix">
-            <div class="lt">
-                <span class="item-name">基础功能(必选):</span>
-            </div>
-            <div class="rt">
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-            </div>
-        </li>
-        <li class="line clearfix">
-            <div class="lt">
-                <span class="item-name">产品模块(可选):</span>
-            </div>
-            <div class="rt">
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-            </div>
-        </li>
-        <li class="line clearfix">
+        <li class="line clearfix module-select">
             <div class="lt">
                 <span class="item-name">套餐模块(可选):</span>
             </div>
             <div class="rt">
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div><div class="self-radio">
-                <input type="radio" name="type" value="1"/>
-                <span class="radio-icon"></span>
-                <span class="radio-des">应收</span>
-            </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
-                <div class="self-radio">
-                    <input type="radio" name="type" value="1"/>
-                    <span class="radio-icon"></span>
-                    <span class="radio-des">应收</span>
-                </div>
+
             </div>
         </li>
         <li class="line clearfix">
@@ -320,14 +61,15 @@
                 <span class="item-name">套餐定价:</span>
             </div>
             <div class="rt rt-top">
-                <input type="text"><span style="margin-left: 5px">元</span>
+                <input type="text" name="price"><span style="margin-left: 5px">元</span>
             </div>
         </li>
         <li class="line save-btn-line">
-            <span class="save-btn">保存</span>
-            <span class="save-btn">返回</span>
+            <span class="save-btn">保存并上架</span>
+            <span class="goBack-btn">返回</span>
         </li>
 
 
     </ul>
+    </form>
 </div>

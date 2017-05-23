@@ -592,7 +592,7 @@ var Book_form={
         var name={
             "costMoney": "支出(元)",
             "couPonMoney":"优惠金额(元)",
-            "couPonNum":"优惠券数量",
+            // "couPonNum":"优惠券数量",
             "orderNum":"订单数",
             "saleMoney":"收入(元)",
             "ticketNum":"票数"
@@ -617,9 +617,9 @@ var Book_form={
         url[2] = '&detail_reseller_id=';
 
         theadHtml = '<th class="th1">分销商名称</th> <th class="th2">景区门票名称</th><th class="th3 orderby" data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">票数</th> <th class="th5 orderby" data-orderby="sale_money">收入(元)</th>';
-        //如果是资源方帐号，则不显示 "支出" "优惠券数量" "优惠金额"
+        //如果是资源方帐号，则不显示 "支出" "优惠券数量" "优惠金额" <th class="th7 orderby" data-orderby="coupon_num">优惠券数量</th>
         if(!isResourceAccount()){
-            theadHtml += '<th class="th6 orderby" data-orderby="cost_money">支出(元)</th> <th class="th7 orderby" data-orderby="coupon_num">优惠券数量</th> <th class="th8 orderby" data-orderby="coupon_money">优惠金额(元)</th>';
+            theadHtml += '<th class="th6 orderby" data-orderby="cost_money">支出(元)</th>  <th class="th8 orderby" data-orderby="coupon_money">优惠金额(元)</th>';
         }
         theadHtml += '<th class="th8">操作</th>';
 
@@ -630,7 +630,7 @@ var Book_form={
             '<td class="th5">'+sum.saleMoney+'</td>';
             if(!isResourceAccount()){
                 listHtml += '<td class="th6">'+sum.costMoney+'</td>'+
-                '<td class="th7">'+sum.couPonNum+'</td>'+
+                // '<td class="th7">'+sum.couPonNum+'</td>'+
                 '<td class="th8">'+sum.couPonMoney+'</td>';
             }
             listHtml += '<td class="th8"></td>'+
@@ -644,7 +644,7 @@ var Book_form={
             '<td class="th5">'+list[i].sale_money+'</td>'
             if(!isResourceAccount()){
                 listHtml += '<td class="th6">'+list[i].cost_money+'</td>'+
-                '<td class="th7">'+list[i].coupon_num+'</td>'+
+                // '<td class="th7">'+list[i].coupon_num+'</td>'+
                 '<td class="th8">'+list[i].coupon_money+'</td>';
             }
             listHtml += '<td class="th8"></td>'+
@@ -655,10 +655,10 @@ var Book_form={
                 '<td class="th3">'+list[i].tickets[j].order_num+'</td>'+
                 '<td class="th4">'+list[i].tickets[j].ticket_num+'</td>'+
                 '<td class="th5">'+list[i].tickets[j].sale_money+'</td>';
-                
+
                 if(!isResourceAccount()){
                     listHtml+= '<td class="th6">'+list[i].tickets[j].cost_money+'</td>'+
-                    '<td class="th7">'+list[i].tickets[j].coupon_num+'</td>'+
+                    // '<td class="th7">'+list[i].tickets[j].coupon_num+'</td>'+
                     '<td class="th8">'+list[i].tickets[j].coupon_money+'</td>';
                 }
                 listHtml+= '<td class="th8"><a href="javascript:;" class="btn-export-single" data-url="' + url[0] + url[1] + list[i].tickets[j].tid + url[2] + list[i].tickets[j].reseller_id + '">导出明细</a></td>'+
@@ -704,9 +704,9 @@ var Book_form={
         }
 
         theadHtml = '<th class="th1">'+kindsTitle+'</th><th class="th3 orderby" data-orderby="order_num">订单数</th> <th class="th4 orderby" data-orderby="ticket_num">票数</th> <th class="th5 orderby" data-orderby="sale_money">收入(元)</th>';
-        //如果是资源方帐号，则不显示 "支出" "优惠券数量" "优惠金额"
+        //如果是资源方帐号，则不显示 "支出" "优惠券数量" "优惠金额" <th class="th7 orderby" data-orderby="coupon_num">优惠券数量</th>
         if(!isResourceAccount()){
-            theadHtml += '<th class="th6 orderby" data-orderby="cost_money">支出(元)</th> <th class="th7 orderby" data-orderby="coupon_num">优惠券数量</th> <th class="th8 orderby" data-orderby="coupon_money">优惠金额(元)</th>';
+            theadHtml += '<th class="th6 orderby" data-orderby="cost_money">支出(元)</th>  <th class="th8 orderby" data-orderby="coupon_money">优惠金额(元)</th>';
         }
         theadHtml += '<th class="th8">操作</th>';
 
@@ -720,7 +720,7 @@ var Book_form={
             //如果是资源方帐号，则不显示 "支出" "优惠券数量" "优惠金额"
             if(!isResourceAccount()){
                 listHtml += '<td class="th5">'+sum.costMoney+'</td>'+
-                            '<td class="th6">'+sum.couPonNum+'</td>'+
+                            // '<td class="th6">'+sum.couPonNum+'</td>'+
                             '<td class="th7">'+sum.couPonMoney+'</td>';
             }
             listHtml += '<td class="th8"></td>'+
@@ -733,7 +733,7 @@ var Book_form={
             //如果是资源方帐号，则不显示 "支出" "优惠券数量" "优惠金额"
             if(!isResourceAccount()){
                 listHtml += '<td class="th5">'+list[i].cost_money+'</td>'+
-                            '<td class="th6">'+list[i].coupon_num+'</td>'+
+                            // '<td class="th6">'+list[i].coupon_num+'</td>'+
                             '<td class="th7">'+list[i].coupon_money+'</td>';
 
             }
@@ -758,7 +758,7 @@ var Book_form={
             "ticket_num" : "票数",
             "sale_money" : "收入(元)",
             "cost_money" : "支出(元)",
-            "coupon_num" : "优惠券数量",
+            // "coupon_num" : "优惠券数量",
             "coupon_money" : "优惠金额(元)"
         };
         var titleName={
