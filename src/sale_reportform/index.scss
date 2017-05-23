@@ -378,27 +378,7 @@
 .PageMainBodyContainer{
   overflow: visible;
 }
-// .calendar-table .calendar-td .noBuild{
-//   position:relative;
-//   overflow:visible !important;
-// }
-// .calendar-td.disable .noBuild:after{
-//   display:block;
-//   content:"未生成";
-//   color:red;
-//   font-size:12px;
-//   width:200%;
-//   height:100%;
-//   position:absolute;
-//   top:0;
-//   left:0;
-//   z-index:9999;
-//   transform:scale(0.8);
-//   -ms-transform:scale(0.8); 
-//   -moz-transform:scale(0.8);  
-//   -webkit-transform:scale(0.8); 
-//   -o-transform:scale(0.8);
-// }
+
 .calendarTip{
   font-size:12px;
   color:red;
@@ -408,11 +388,4 @@
   border:1px solid #E5E5E5;
   border-top:none;
 
-}
-.calendarTip span{
-  transform:scale(0.8);
-  -ms-transform:scale(0.8); 
-  -moz-transform:scale(0.8);  
-  -webkit-transform:scale(0.8); 
-  -o-transform:scale(0.8);
 }
