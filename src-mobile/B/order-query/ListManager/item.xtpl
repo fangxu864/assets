@@ -17,7 +17,12 @@
                         <li class="ticItem floatLine">
                             <div class="lt ticketName"><%=ticket.ttitle%></div>
                             <div class="rt">
-                                <span class="str">x</span><span class="count orange"><%=ticket.tnum%></span>
+                                <span class="str" style="margin-right:0">x</span>
+                                <%if(ticket.status!=7){%>
+                                    <span class="count orange"><%=ticket.tnum%></span>
+                                <%}else{%>
+                                    <span class="count orange"><%=ticket.veri_num%>/<%=ticket.tnum%></span>
+                                <%}%>
                                 <span class="statusText" style="color:<%=ticket.__extra__.status.color%>"><%=ticket.__extra__.status.name%></span>
                             </div>
                         </li>
@@ -101,6 +106,9 @@
             <%}%>
             <%if(item.cancel==1){%>
                 <span class="btn cancel cancelBtn" data-ordernum="<%=item.ordernum%>">取消订单</span>
+            <%}%>
+            <%if(item.resend==1){%>
+                <span class="btn resendMsg resendMsgBtn" data-ordernum="<%=item.ordernum%>">重发短信</span>
             <%}%>
         </div>
         <%}%>

@@ -1,6 +1,9 @@
 var Alert = require("COMMON/Components/Alert-Mobile/v1.0");
 var Confirm = require("COMMON/Components/Confirm-Mobile/v1.0");
 
+var AJAX_ERROR_TEXT = PFT.AJAX_ERROR_TEXT;
+var AJAX_TIMEOUT_TEXT = PFT.AJAX_TIMEOUT_TEXT;
+
 var Common = require("../common.js");
 var PageSize = Common.pageSize;
 var Util = PFT.Util;
@@ -27,7 +30,8 @@ var List = Util.Class({
         "click .getMoreBtn" : "onGetMoreBtnClick",
         "click .cancelBtn" : "onCancelBtnClick",
         "click .refreshBtn" : "onRefreshBtnClick",
-        "click .payBtn" : "onPayBtnClick"
+        "click .payBtn" : "onPayBtnClick",
+        "click .resendMsgBtn" : "onResendMsgBtnClick"
     },
     init : function(opt){
         var state = this.state;
@@ -62,17 +66,66 @@ var List = Util.Class({
     },
     //点击支付按钮跳到支付页
     onPayBtnClick : function(e){
+        e.preventDefault();
+        e.stopPropagation();
         var ordernum = $(e.currentTarget).attr("data-ordernum");
         if(!ordernum) return Alert("缺少ordernum");
         var host = window.location.host;
             host = host.split(".");
-            host = host[0];
-        var url = "http://wx.12301.cc/html/order_pay_b.html?h="+host+"&"+"ordernum="+ordernum;
+        var url = "http://wx."+ host[1] + "." + host[2] +"/html/order_pay_b.html?h="+host[0]+"&"+"ordernum="+ordernum;
         window.location.href = url;
     },
     onRefreshBtnClick : function(e){
         this.refresh(Common.clone(this.state.params,true));
     },
+    //重发短信
+    onResendMsgBtnClick : function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var tarBtn = $(e.currentTarget);
+        var that = this;
+        if(tarBtn.hasClass("disable")) return false;
+        Confirm("确定要重发短息吗？",function(result){
+            if(!result) return false;
+            that.resendMsg(tarBtn);
+        })
+    },
+
+    //重发短信
+    resendMsg : function(tarBtn){
+        var ordernum = tarBtn.attr("data-ordernum");
+        if(!ordernum) return Alert("缺少订单号ordernum");
+        if(tarBtn.hasClass("disable")) return false;
+        var ort = tarBtn.html();
+        Util.Ajax("/r/MicroPlat_Order/resendMsg/",{
+            type : "POST",
+            params : {
+                ordernum : ordernum,
+                token : Common.getToken()
+            },
+            loading : function(){
+                tarBtn.addClass("disable").text("请稍后..");
+            },
+            complete : function(){
+                tarBtn.removeClass("disable").text(ort);
+            },
+            success : function(res){
+                var code = res.code;
+                var msg = res.msg || AJAX_ERROR_TEXT;
+                if(code==200){
+                    Alert("发送成功。短信已重发");
+                }else{
+                    Alert(msg);
+                }
+            },
+            timeout : function(xhr,text){ Alert(AJAX_TIMEOUT_TEXT)},
+            serverError : function(xhr,text){ Alert(AJAX_ERROR_TEXT);}
+        })
+
+
+    },
+
+
     //取消订单
     cancelOrder : function(tarBtn){
         var ordernum = tarBtn.attr("data-ordernum");
@@ -113,8 +166,8 @@ var List = Util.Class({
                     Alert(msg);
                 }
             },
-            timeout : function(xhr,statusText){},
-            serverError : function(xhr,statusText){}
+            timeout : function(xhr,text){ Alert(AJAX_TIMEOUT_TEXT)},
+            serverError : function(xhr,text){ Alert(AJAX_ERROR_TEXT);}
         })
     },
     fetch : function(params){

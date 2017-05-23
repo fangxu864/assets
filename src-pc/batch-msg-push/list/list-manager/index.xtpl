@@ -1,19 +1,11 @@
 <%_.each(list,function(item,index){%>
-<tr class="trLine <%=index%2>0 ? 'even' : 'odd'%>">
+<tr id="msgTrLine_<%=item.id%>" class="trLine <%=index%2>0 ? 'even' : 'odd'%>">
     <td class="col td col_1"><%=item.title%></td>
     <td class="col td col_2"><%=item.msg_type%></td>
     <td class="col td col_3"><%=item.channel%></td>
     <td class="col td col_4"><%=item.send_type%></td>
     <td class="col td col_5"><%=item.content%></td>
-    <td class="col td col_6"><%=item.status%></td>
-    <td class="col td col_7">
-        <%_.each(item.action,function(act,index){%>
-            <%if(act.action=="edit"){%>
-                <a href="<%=PFT.PREFIX_DOMAIN()%>new/batchPushInfo_edit.html?id=<%=item.id%>" class="actionBtn <%=act.action%>"><%=act.text%></a>
-            <%}else{%>
-                <a href="###" class="actionBtn <%=act.action%>"><%=act.text%></a>
-            <%}%>
-        <%})%>
-    </td>
+    <td class="col td col_6 statusTd"><%=item.status%></td>
+    <td class="col td col_7 actionTd"><%=item.action%></td>
 </tr>
 <%})%>

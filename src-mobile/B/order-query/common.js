@@ -70,6 +70,10 @@ module.exports = {
 			name : "已部分使用",
 			color:"#f37138"
 		},
+        8 : {
+			name : "已完结",
+			color:"#3eba40"
+		},
 		9 : {
 			name : "已删除",
 			color:"#f37138"

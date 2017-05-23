@@ -20,9 +20,16 @@
                         <td class="th1">
                             <p class="ticket-name"><%=item.ttitle%></p>
                         </td>
-                        <td class="th2"><%=item.price%>元</td>
-                        <td class="th3">X<%=item.tnum%></td>
-                        <td class="th4">已验<%=item.status%></td>
+                        <td class="th2"><%=item.price/100%>元</td>
+                        <td class="th3">
+                             x 
+                             <%if(item.status!=7){%>
+                                <%=item.tnum%>
+                             <%}else{%>
+                                <%=item.veri_num%>/<%=item.tnum%>
+                             <%}%>
+                        </td>
+                        <td class="th4"><%=item.__extra__.status.name%></td>
                     </tr>
                     <%})%>
                     <% if(data.sub_list && data.sub_list.length){%>
@@ -121,7 +128,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="th1">坐位：</td>
+                    <td class="th1">座位：</td>
                     <td class="th2">
                         <%if(data.seat && data.seat[1]){%>
                             <%=data.seat[1]%>

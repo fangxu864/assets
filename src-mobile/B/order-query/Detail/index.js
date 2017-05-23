@@ -189,6 +189,7 @@ var Detail  = PFT.Util.Class({
         extra["sale_pmode"] = Common.paymode[sale_pmode];
         extra["buy_money"] = item.buy_money ?  (item.buy_money/100) : "";
         extra["sale_money"] = item.sale_money ?  (item.sale_money/100) : "";
+        
 
         if(beginTime && endTime){
             beginTime = new Date(beginTime).getTime();
@@ -198,6 +199,7 @@ var Detail  = PFT.Util.Class({
             extra["dayCount"] = dayCount;
         }
 
+
         Common.forEach(ticket_list,function(ticket,ind){
             //__extra__字段标识是前端自己加入的数据
             var extra = ticket["__extra__"] || (ticket["__extra__"]={});
@@ -205,6 +207,8 @@ var Detail  = PFT.Util.Class({
             var sale_pmode = ticket.sale_pmode;
             extra["status"] = Common.statusText[ticket.status];
         })
+
+
         return item;
     },
 
