@@ -23,6 +23,7 @@ var Pagination = require("COMMON/modules/pagination-x");
 var Book_form={
     init:function () {
         var _this=this;
+        var todayDate = this.getDate();
         this.isAdmin=$("#is_admin").val();
         //获取四个容器
         // this.title_box=$(".title_box");
@@ -85,7 +86,9 @@ var Book_form={
                 // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
                 max : max_day,          //昨天之后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+                }       //弹出日历后callback
             });
             return this;
         });
@@ -100,7 +103,10 @@ var Book_form={
                 min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
                 max : _this.getDate().detailYesterday,         //昨天之后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+    
+                }       //弹出日历后callback
             })
         });
         calendar.on("select",function(data){
@@ -353,13 +359,16 @@ var Book_form={
 
         this.bind();
         _this.queryState_box.show().html('<div style="text-align: center;line-height: 200px;font-size: 16px;color: #c3c3c3;">请选择查询条件再点击查询按钮进行查询</div>');
-        var todayDate = this.getDate();
+
         if(todayDate.todayDay == 1){
             $('#thisweek_btn').hide();
         }
         if(todayDate.todayDate == 1){
             $('#thismonth_btn').hide();
+
         }
+    
+     
     },
     bind:function () {
         var _this=this;

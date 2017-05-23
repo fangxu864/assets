@@ -91,7 +91,9 @@ var Book_form={
                 // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
                 max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+                }       //弹出日历后callback
             });
             return this;
         });
@@ -105,7 +107,9 @@ var Book_form={
                 min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
                 max : _this.getDate().detailYesterday,         //昨天之后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+                }       //弹出日历后callback
             })
         });
         calendar.on("select",function(data){
