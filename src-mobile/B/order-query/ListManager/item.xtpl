@@ -99,7 +99,7 @@
         </div>
 
 
-        <%if(item.pay==1 || item.cancel==1){%>
+        <%if(item.pay==1 || item.cancel==1 || item.resend==1){%>
         <div class="btnGroup">
             <%if(item.pay==1){%>
                 <span class="btn pay payBtn" data-ordernum="<%=item.ordernum%>">支付</span>
