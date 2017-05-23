@@ -1,0 +1,180 @@
+<div class="top-box clearfix">
+    <div class="lt">
+        <img src="<%=data.imgpath%>" onerror="this.src='<%=PFT.DEFAULT_IMG%>';this.onerror=null"  alt="">
+    </div>
+    <div class="rt">
+        <div class="con">
+            <p class="scenic-name"><%=data.ticket_list[0]['ltitle']%></p>
+            <table class="ticket-tb">
+                <thead>
+                <tr>
+                    <th class="th1">票名</th>
+                    <th class="th2">金额</th>
+                    <th class="th3">张数</th>
+                    <th class="th4">验证数</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% _.each(data.ticket_list,function(item,index){ %>
+                    <tr>
+                        <td class="th1">
+                            <p class="ticket-name"><%=item.ttitle%></p>
+                        </td>
+                        <td class="th2"><%=item.price%>元</td>
+                        <td class="th3">X<%=item.tnum%></td>
+                        <td class="th4">已验<%=item.status%></td>
+                    </tr>
+                    <%})%>
+                    <% if(data.sub_list && data.sub_list.length){%>
+                        <tr class="detail">
+                            <td colspan="4">
+                                <p>包含子票：</p>
+                                <ul>
+                                    <% _.each(data.sub_list,function(item,index){ %>
+                                        <li><%=item.title%> * <span class="orange"><%=item.num%></span> 张</li>
+                                    <%})%>
+                                </ul>
+                            </td>
+                        </tr>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="bottom-box">
+    <table>
+        <tbody>
+            <tr>
+                <td class="th1">订单号：</td>
+                <td class="th2"><%=data.ordernum ? data.ordernum : '--'%></td>
+            </tr>
+            <tr>
+                <td class="th1">凭证码：</td>
+                <td class="th2"><%=data.code ? data.code : '--'%></td>
+            </tr>
+            <tr>
+                <td class="th1">短信发送 ：</td>
+                <td class="th2"><i class="orange"><%=data.remsg%></i>次</td>
+            </tr>
+            <tr>
+                <td class="th1">下单时间：</td>
+                <td class="th2"><%=data.ordertime%></td>
+            </tr>
+            <tr>
+                <td class="th1">预计游玩时间：</td>
+                <td class="th2"><%=data.playtime%></td>
+            </tr>
+            <%if(data.dtime!=="0000-00-00 00:00:00"){%>
+            <tr>
+                <td class="th1">验证时间：</td>
+                <td class="th2"><%=data.dtime%></td>
+            </tr>
+            <%}%>
+            <tr>
+                <td class="th1">支付方式：</td>
+                <td class="th2">
+                    <%if(data.pay_status==2){%>
+                        <span class="orange">未支付</span>
+                    <%}else if(data.is_self==1){%>
+                        <span class="isSelf">自供自销</span>
+                    <%}else{%>
+                        <span>
+                            <%=data.sale_pmode ? data.__extra__['sale_pmode'] : '--'%>
+                            <i class="str">/</i>
+                            <%=data.buy_pmode ? data.__extra__['buy_pmode'] : '--'%>
+                        </span>
+                    <%}%>
+                </td>
+            </tr>
+            <tr>
+                <td class="th1">卖出 / 买入：</td>
+                <td class="th2">
+                    <span class="orange">&yen;<%=typeof data.sale_money!=="undefined" ? data.sale_money/100 : '--'%></span>
+                    <i class="str">/</i>
+                    <span class="orange">&yen;<%=typeof data.buy_money!=="undefined" ? data.buy_money/100 : '--'%></span>
+                </td> 
+            </tr>
+            <tr>
+                <td class="th1">分销商 / 供应商：</td>
+                <td class="th2"><%=data.buyer ? data.buyer : '--'%> / <%=data.seller ? data.seller : '--'%></td>
+            </tr>
+            <%if(data.ptype=="C"){%>
+                <tr>
+                    <td class="th1">住店时间：</td>
+                    <td class="th2">
+                        <%=data.begintime ? data.begintime : ''%>
+                        至 
+                        <%=data.endtime ? data.endtime : '--'%>
+                        <span class="orange"><%=data.__extra__["dayCount"]%></span> 晚
+                    </td>
+                </tr>
+            <%}else if(data.ptype=="H"){%>
+                <tr>
+                    <td class="th1">演出时间：</td>
+                    <td class="th2">
+                        <%if(data.seat && data.seat[0]){%>
+                            <%=data.seat[0]%>
+                        <%}else{%>
+                            --
+                        <%}%>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="th1">坐位：</td>
+                    <td class="th2">
+                        <%if(data.seat && data.seat[1]){%>
+                            <%=data.seat[1]%>
+                        <%}else{%>
+                            --
+                        <%}%>
+                    </td>
+                </tr>
+            <%}else if(data.ptype=="B"){%>
+                <tr>
+                    <td class="th1">集合日期：</td>
+                    <td class="th2">
+                        <%=data.begintime ? data.begintime : ''%>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="th1">集合地点：</td>
+                    <td class="th2">
+                        <%if(data.station && data.station.length>0){%>
+                            <%=data.station.join(" ")%>
+                        <%}else{%>
+                            --
+                        <%}%>
+                    </td>
+                </tr>
+            <%}else{%>
+                <tr>
+                    <td class="th1">有效期：</td>
+                    <td class="th2"><%=data.begintime ? data.begintime : ''%> 至 <%=data.endtime ? data.endtime : '--'%></td>
+                </tr>
+            <%}%>
+            <%if(data.ptype=="I"){%>
+                <tr>
+                    <td class="th1">卡号：</td>
+                    <td class="th2">
+                        <%=data.virtual_no ? '【'+data.virtual_no+'】' : '--'%> 
+                        / 
+                        <%=data.card_no ? data.card_no : '--'%> 
+                    </td>
+                </tr>
+            <%}%>
+            <tr>
+                <td class="th1">联系人：</td>
+                <td class="th2"><%=data.ordername%> <%=data.ordertel%></td>
+            </tr>
+            <tr>
+                <td class="th1">身份证：</td>
+                <td class="th2"><%=data.id_card ? data.id_card : '--'%></td>
+            </tr>
+            <tr>
+                <td class="th1">取票地址：</td>
+                <td class="th2"><%=data.getAddr ? data.getAddr : '--'%></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

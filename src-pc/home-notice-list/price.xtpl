@@ -4,7 +4,7 @@
                     <td><%=item.province%></td>
                     <td><%=item.city%></td>
                     <td><%=item.proName%></td>
-                    <td><%=item.diff%></td>
+                    <td><%=item.diff/100%></td>
                     <td><%=item.time%></td>
                 </tr>
                 <% }) %>

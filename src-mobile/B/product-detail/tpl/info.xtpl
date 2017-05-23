@@ -1,0 +1,60 @@
+<div class="headerPhotoDetail">
+	<div class="uiImageBox">
+		<img id="topImg" src="<%=data.imgpath%>" style="width: 100%;">
+	</div>
+	<div class="infoBox">
+		<p class="landTitle"><%=data.title%></p>
+		<div class="landAddr">
+			<p class="addrText"><%=data.address%></p>
+			<i class="icon icon-u-regular icon-daohang"></i>
+		</div>
+	</div>
+</div>
+<ul class="tabHeader" id="tabHeader">
+	<li class="tabHeadItem buy active"  data-type="buy">
+		<span class="t">购票</span>
+	</li>
+	<li class="tabHeadItem zhi"  data-type="zhi">
+		<span class="t">预定须知</span>
+	</li>
+	<li class="tabHeadItem info" data-type="info"> 
+		<span class="t">景区介绍</span>
+	</li>
+</ul>
+<div class="scrollMainContainer">
+	<div class="buyBox" id="buyBox">
+		<div class="ticketListCon">
+			<ul id="ticketList">
+			</ul>
+			<div class="moreT" style="display: none;" flag="0">
+				更多票类
+			</div>
+		</div>
+	</div>
+	<div class="zhiBox" id="zhiBox">
+		<div class="zhiBoxTip">
+			<span class="t">预定须知</span>
+		</div>
+		<div class="zhiBoxCon"><%=data.jqts%></div>
+	</div>
+	<div class="infoBox" id="infoBox">
+		<div class="infoItem">
+			<div class="infoBoxTip">
+				<span class="t">产品简介</span>
+			</div>
+			<div class="infoBoxCon"><%=data.bhjq%></div>
+		</div>
+		<div class="infoItem">
+			<div class="infoBoxTip">
+				<span class="t">交通指南</span>
+			</div>
+			<div class="infoBoxCon"><%=data.jtzn%></div>
+		</div>
+	</div>
+	<div class="gPageFooterContainer">
+        <div class="rightsTipLine">
+            <i class="uicon uicon-pft footlogo"></i>
+            <span class="companyName">票付通-技术支持</span>
+        </div>
+    </div>
+</div>

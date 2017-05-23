@@ -28,13 +28,18 @@ var Main = PFT.Util.Class({
     },
 
     init : function(){
-        var that = this;
-        var container = this.container;
+        var that = this,
+            container = this.container;
+
         container.html( pageTpls.index );
+
+        var defaultType = PFT.Util.UrlParse().type ? PFT.Util.UrlParse().type : 'price';
+
         setTimeout(function(){
             that.tabConContainer = container.children(".tabContainer");
             that.tabHeader = container.children(".tabHeader");
-            that.tabHeader.children().first().trigger("click");
+
+            that.tabHeader.children('[data-type="'+ defaultType +'"]').trigger("click");
         },10);
     },
 
@@ -71,15 +76,30 @@ var Main = PFT.Util.Class({
     },
 
     getPosParams : function(type,page){
-        var pos = {
-            self_pos : "",
-            dis_Pos : ""
-        };
+        var pos = {};
+
+        switch( type ) {
+            case 'price':
+                pos = {
+                    self_pos : "",
+                    dis_pos : "",
+                    supply_pos: ''
+                };
+                break;
+            case 'product':
+                pos = {
+                    self_pos : "",
+                    dis_pos : ""
+                };
+                break;
+        }
+
         var cacheData = this.__CacheData[type+"_"+page];
         if(!cacheData) return pos;
 
         if(typeof cacheData.self_pos !=="undefined") pos.self_pos = cacheData.self_pos;
-        if(typeof cacheData.dis_Pos !=="undefined") pos.dis_Pos = cacheData.dis_Pos;
+        if(typeof cacheData.dis_pos !=="undefined") pos.dis_pos = cacheData.dis_pos;
+        if(typeof cacheData.supply_pos !=="undefined") pos.supply_pos = cacheData.supply_pos;
 
         return pos;
 
@@ -99,14 +119,13 @@ var Main = PFT.Util.Class({
         var _fetch = function(){
             var pos = that.getPosParams(type,fromPage);
 
+            var params = $.extend( {}, { size:15, page: toPage }, pos );
+
             PFT.Util.Ajax(url,{
                 type : "post",
-                params : {
-                    size : 15,
-                    page : toPage,
-                    self_pos : pos.self_pos,
-                    dis_Pos : pos.dis_Pos
-                },
+
+                params : params,
+
                 loading : function(){
                     if(fromPage==1 && toPage==1){
                         that.renderPagination("hidden");
@@ -114,6 +133,7 @@ var Main = PFT.Util.Class({
                         that.renderPagination(type,fromPage,"loading");
                     }
                 },
+
                 complete : function(){
                     if(fromPage==1 && toPage==1){
                         that.renderPagination("hidden");
@@ -121,6 +141,7 @@ var Main = PFT.Util.Class({
                         that.renderPagination(type,fromPage);
                     }
                 },
+
                 success : function(res){
                     var code = res.code,
                         data = res.data,
@@ -140,9 +161,11 @@ var Main = PFT.Util.Class({
                         Message.alert(msg);
                     }
                 },
+
                 timeout : function(){
                     Message.alert(PFT.AJAX_TIMEOUT_TEXT);
                 },
+
                 serverError : function(){
                     Message.alert(PFT.AJAX_ERROR_TEXT);
                 }
@@ -171,7 +194,7 @@ var Main = PFT.Util.Class({
 
         var parseTemplate = PFT.Util.ParseTemplate( pageTpls[ type ] ),
             html = parseTemplate({ data: data });
-        console.log(data);
+        // console.log(data);
 
         tbody.html( html );
     },

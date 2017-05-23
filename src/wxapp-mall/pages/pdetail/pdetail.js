@@ -4,12 +4,14 @@ var Common = require("../../utils/common.js");
 var app = getApp();
 Page({
     data: {
-        scroll_into_view : "" ,
+        scroll_into_view : "",
         isfixed : "" ,
         floor_1_active: "active" ,
         title : "产品详情页",
-        land :{} ,
-        ticketList: [] ,
+        land :{
+            imgpath : "http://www.12301.cc/images/defaultThum.jpg"
+        } ,
+        ticketList: [],
         taoPiaoTicketList: [] ,
         isRenderTaoPiaoList: true ,
         imgSrcArr :[]
@@ -117,6 +119,7 @@ Page({
                     res.data.bhjq = res.data.bhjq.replace(/\<br[^\<\>]+\>/g , "\n" );
                     res.data.bhjq = res.data.bhjq.replace(/\<[^\<\>]+\>/g , "" );
                     res.data.bhjq = res.data.bhjq.replace(/\n[\s\n]+/g , "\n" );
+
 
 
                     _this.setData({

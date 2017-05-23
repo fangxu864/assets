@@ -13,14 +13,19 @@ var DatePicker = require("COMMON/modules/datepicker");
 var Tip = require("COMMON/modules/tips");
 var Tips = new Tip();
 
-
+var STip = require('COMMON/js/util.simple.tip'),
+    Toast = require('COMMON/modules/Toast'),
+    toast = new Toast,
+    Dialog = require('COMMON/Components/Dialog-Simple');
 
 /**
  * 本模块为条件筛选模块
  * 负责与用户交互查询并数据
  */
 var Filter = {
+
     container: $("<div class='filterBox'></div>"),
+
     init: function (CR) {
         var _this = this;
         this.CR = CR;
@@ -396,6 +401,43 @@ var Filter = {
                 downLoadUrl = "/r/report_statistics/checkedPaywayListByTicket?" + params;
             }
             _this.outExcel(downLoadUrl);
+        });
+
+        // 导出明细   added 2017/04/10
+        this.container.on('click', '#btnExportDetail', function(){
+            var api = _this.CR.EXPORT_DETAIL_URL.all,
+                params = $.extend({}, _this.FilterParamsHub, { judgeType: _this.CR.JUDGE_TYPE });
+
+            PFT.Util.Ajax( api, {
+                type: 'post',
+
+                params: params,
+
+                loading: function(){
+                    toast.show( 'loading');
+                },
+
+                success: function( res ){
+                    toast.hide();
+
+                    switch( res.code ) {
+                        case 1:
+                        case 4:
+                            // 提示进入报表下载中心
+                            var d = new Dialog({
+                                header: '提示',
+                                width: 400,
+                                content: '<div class="dialog-content">明细报表已生成，请前往报表下载中心下载。<br /><a target="_blank" href="downloadcenter.html">点击进入报表下载中心</a></div>'
+                            });
+                            d.open();
+                            break;
+                        case 2:
+                            // 失败
+                            STip( 'fail', res.msg );
+                            break;
+                    }
+                }
+            })
         });
     },
 

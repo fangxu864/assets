@@ -1,0 +1,88 @@
+//filter
+.prod-inputText-box{position: relative; padding: 5px; display: inline-block;}
+.prod-inputText-box:before{
+  content: "";
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 12px;
+  left: 13px;
+  background: url(//static.12301.cc/assets/build/images/searchicon.png);
+  background-size: 20px 20px;
+  background-position: center;
+}
+.prod-inputText-box:after{
+  content: "";
+  display: block;
+  clear: both;
+}
+.prod-inputText-box .inputText{
+  float: left;
+  width: 261px;
+  height: 22px;
+  line-height: 22px;
+  border: 1px solid #e5e5e5;
+  padding-left: 36px;
+  padding-right: 5px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  text-indent: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.prod-inputText-box .inputText:focus{
+  color: #f3814f;
+}
+.prod-inputText-box .search-btn{
+  float: left;
+  font-size: 15px;
+  line-height: 22px;
+  color: #ffffff;
+  padding: 6px 30px;
+  top: 1px;
+  margin-left: 9px;
+  position: relative;
+  cursor: pointer;
+  background-color: #f07844;
+}
+.prod-inputText-box .search-btn:hover{
+  background-color: #f3814f;
+  box-shadow: 0 0 5px #f59267;
+}
+
+.M-filter-box{
+  padding: 20px;
+  border-bottom: 1px solid #e5e5e5;
+  background: #fff;
+
+}
+.M-filter-box select{
+  height: 36px;
+  line-height: 22px;
+  border: 1px solid #e5e5e5;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  position: relative;
+  top: -18px;
+  /* height: 200px; */
+  text-indent: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.M-filter-box .btn-excel{
+  font-size: 15px;
+  line-height: 22px;
+  color: #ffffff;
+  padding: 6px 30px;
+  margin-left: 9px;
+  position: relative;
+  top: -17px;
+  cursor: pointer;
+  background-color: #f07844;
+}
+.M-filter-box .btn-excel:hover{
+  color: #ffffff;
+  background-color: #f3814f;
+  box-shadow: 0 0 5px #f59267;
+}

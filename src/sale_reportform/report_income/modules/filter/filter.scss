@@ -12,6 +12,14 @@
       height: 60px;
       line-height: 60px;
       padding-left:20px;
+
+      &:after {
+        content:'';
+        display: table;
+        font-size: 0;
+        clear: both;
+      }
+
       .td{
         float: left;
       }
@@ -100,11 +108,11 @@
     .line3{
       .td1{
         position: relative;
-        width: 136px;
+        width: 125px;
         .select-box{
           margin-top: 13px;
           height: 32px;
-          width: 136px;
+          width: 125px;
           text-align: center;
           line-height: 32px;
           border: 1px solid #e5e5e5;
@@ -217,7 +225,7 @@
       }
       .td6{
         margin-left: 10px;
-        span.excel_btn {
+        span.excel_btn, .btn-export-detail {
           height: 32px;
           width: 90px;
           display: block;
@@ -230,7 +238,7 @@
           cursor: pointer;
           position: relative;
         }
-        span.excel_btn:before{
+        span.excel_btn:before, .btn-export-detail:before {
           content:"";
           display: block;
           position:absolute;
@@ -291,4 +299,25 @@
     }
   }
 
+}
+
+.gSimpleDialog-container {
+  .gSimpleDialog-header {
+    padding: 0 20px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 46px;
+  }
+
+  .gSimpleDialog-content {
+    padding-top: 46px;
+
+    .dialog-content {
+      padding: 50px 20px;
+      font-size: 14px;
+      line-height: 2;
+      text-align: center;
+    }
+  }
 }

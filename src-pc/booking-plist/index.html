@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie10 lt-ie9 lt-ie8 lt-ie7 ie6"> <![endif]-->
+<!--[if IE 7]><html lang="en" class="lt-ie10 lt-ie9 lt-ie8 ie7"> <![endif]-->
+<!--[if IE 8]><html lang="en" class="lt-ie10 lt-ie9 ie8"> <![endif]-->
+<!--[if IE 9]><html lang="en" class="lt-ie10 ie9"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="en"> <!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <title>Title</title>
+    <link rel="stylesheet" href="//static.12301.cc/assets/build/iconfont/pc/icon-pc-prompt.css">
+    <link rel="stylesheet" href="//static.12301.cc/assets/build/iconfont/pc/icon-pc-list.css">
+    <link rel="stylesheet" href="//static.12301.cc/assets/build/iconfont/pc/u_bold.css">
+    <link rel="stylesheet" href="//static.12301dev.com/assets/build/css/common/pft.base.pc.css">
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//static.12301dev.com/assets/build/js/common/pft.base.pc.js"></script>
+</head>
+<body>
+<div id="G_HeaderWrap" class="G_HeaderWrap">
+    <div id="G_HeaderBar" class="G_HeaderBar">
+        <div class="logoBox">
+            <a href="/" class="logo"></a>
+        </div>
+        <a href="###" class="triggerBtn">
+            <i class="icon icon-pc-prompt icon-icxiangzuosuojin24px out"></i>
+            <i class="icon icon-pc-prompt icon-icxiangyousuojin24px in"></i>
+        </a>
+        <ul class="navBox">
+            <li class="nav home active"><a href="/">首页</a></li>
+            <li class="nav appcenter"><a href="/">应用中心<i class="icon icon-pc-prompt icon-new newIcon"></i></a></li>
+            <li class="nav help"><a href="/">帮助中心</a></li>
+        </ul>
+        <div class="userInfoBox">
+            <a href="notice.html?inbox" class="link"><span class="t">消息</span><span id="unReadMsgCount" class="unReadMsgCount">3</span></a>
+            <a href="recharge.html" class="link chongzhi">
+                <span class="t">充值</span>
+            </a>
+            <a href="###" class="link logout logoutBtn">
+                <span class="t">退出</span>
+                <i class="icon icon-pc-prompt icon-tuichu"></i>
+            </a>
+        </div>
+    </div>
+    <div id="G_BreadCrumbBar" class="G_BreadCrumbBar">
+        <span class="lt"><i class="icon icon-u-bold icon-shouye"></i></span>
+                    <a href="http://my.12301.local/home.html" class="link">首页</a>
+                            <i class="breakArrow icon icon-u-bold icon-arrowright"></i>
+                                <a href="" class="link">销售管理</a>
+                            <i class="breakArrow icon icon-u-bold icon-arrowright"></i>
+                                <a href="" class="link">产品预订</a>
+                    
+    </div>
+</div>
+<script type="text/javascript">
+;(function(window,undefined){
+    //处理登出逻辑
+    var handleApi = (function(){
+        var api = "";
+        var __host = {
+            "www.12301.cc" : 1,
+            "www.12301.local" : 1,
+            "www.12301.test" : 1,
+            "www.12301dev.com" : 1,
+            "my.12301.cc" : 1,
+            "my.12301.local" : 1,
+            "my.12301.test" : 1,
+            "my.12301dev.com" : 1
+        };
+        if(__host[window.location.hostname]){ //非独立域名
+            api = "/call/handle.php";
+        }else{ //独立域名
+            api = "/new/d/call/handle.php";
+        }
+        return api;
+    })();
+    $("#G_HeaderWrap").on("click",".logoutBtn",function(e){
+        $.ajax({
+            url:handleApi,
+            data:{"from":"logout"},
+            dataType:"json",
+            success:function(data){
+                if(data.outcome==2){
+                    window.location.href=data.link;
+                }else{
+                    window.location.href="/dlogin_n.html";
+                }
+            },
+            error:function(){
+                window.location.href="/dlogin_n.html";
+            }
+        });
+    })
+})(window);
+</script>
+
+
+
+
+<div id="G_LeftbarWrap" class="G_LeftbarWrap">
+
+    <div class="userInfoBox">
+
+        <div class="photo">
+            <a href="avatar.html">
+                <img onerror="this.src='http://static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="http://images.12301.test/123624/1442376298.jpg" alt=""/>
+            </a>
+        </div>
+        <div class="text">
+            <a class="username" href="enterprise_info.html">慢慢的店铺23</a>
+            <p class="userType">供应商</p>
+        </div>
+
+    </div>
+
+
+    
+    <ul class="leftBar">
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-xiaoshou"></i></span>
+                    <span class="t">销售管理</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/terminal_chk.html">票券验证</a></li>
+                                            <li class="subItem"><a href="/plist.html">产品预订</a></li>
+                                            <li class="subItem"><a href="/dispatch_order.html">计调下单</a></li>
+                                            <li class="subItem"><a href="/orderquery.html">订单查询</a></li>
+                                            <li class="subItem"><a href="/terchange.html">异常订单处理</a></li>
+                                    </ul>
+            </li>
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-zhixiao"></i></span>
+                    <span class="t">直销管理</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/domainConf.html">B2C/微商城店铺配置</a></li>
+                                            <li class="subItem"><a href="/qunaer.html">团购配置</a></li>
+                                            <li class="subItem"><a href="/tao_apply.html">去啊/淘宝/天猫配置</a></li>
+                                            <li class="subItem"><a href="/mart_connect.html">票务系统配置</a></li>
+                                            <li class="subItem"><a href="/exportCode.html">团购导码</a></li>
+                                    </ul>
+            </li>
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-chanpin"></i></span>
+                    <span class="t">产品管理</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/prod_type.html">发布新产品</a></li>
+                                            <li class="subItem"><a href="/prodlists.html">出售中产品</a></li>
+                                            <li class="subItem"><a href="/prodlists_s.html">仓库中产品</a></li>
+                                            <li class="subItem"><a href="/channels_conf.html">销售渠道配置</a></li>
+                                    </ul>
+            </li>
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-jiaoyi"></i></span>
+                    <span class="t">交易管理</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/trecordNew.html">交易记录</a></li>
+                                            <li class="subItem"><a href="/accourtmanage.html">提现/充值</a></li>
+                                            <li class="subItem"><a href="/getbill.html">应收款账单</a></li>
+                                            <li class="subItem"><a href="/paybill.html">应付款账单</a></li>
+                                    </ul>
+            </li>
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-hezuo"></i></span>
+                    <span class="t">合作伙伴</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/partner.html">合作分销商</a></li>
+                                            <li class="subItem"><a href="/partner.html?dtype=1">合作供应商</a></li>
+                                            <li class="subItem"><a href="/new/distributoradd.html">添加分销商</a></li>
+                                            <li class="subItem"><a href="/mcard_list.html">会员卡</a></li>
+                                            <li class="subItem"><a href="/new/prodrestrict.html">会员卡限制</a></li>
+                                            <li class="subItem"><a href="/new/annual_mclist.html">年卡会员管理</a></li>
+                                            <li class="subItem"><a href="/new/spacard_index.html">手牌管理</a></li>
+                                    </ul>
+            </li>
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-tongji"></i></span>
+                    <span class="t">统计分析</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/orderReport.html">销售报表</a></li>
+                                            <li class="subItem"><a href="/orderReport_Com.html">数据罗盘</a></li>
+                                            <li class="subItem"><a href="/buyOrderReport.html">购买报表</a></li>
+                                            <li class="subItem"><a href="/new/downloadcenter.html">数据报表中心</a></li>
+                                    </ul>
+            </li>
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-xitong"></i></span>
+                    <span class="t">系统设置</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/account_info.html">基本信息</a></li>
+                                            <li class="subItem"><a href="/chPs.html">修改密码</a></li>
+                                            <li class="subItem"><a href="/notice.html">系统通知</a></li>
+                                            <li class="subItem"><a href="/operlist.html">员工管理</a></li>
+                                            <li class="subItem"><a href="/soap.html">对接接口</a></li>
+                                            <li class="subItem"><a href="/new/orderlogquery.html">订单日志查询</a></li>
+                                    </ul>
+            </li>
+                    <li class="item">
+                <p class="pTit">
+                                        <span class="icon"><i class="icon-pc-list icon-yingxiao"></i></span>
+                    <span class="t">营销管理</span>
+                    <span class="arrow"><i class="icon icon-u-bold icon-arrowright"></i></span>
+                </p>
+                <ul class="subItemUl">
+                                            <li class="subItem"><a href="/publish_manage.html">优惠券管理</a></li>
+                                            <li class="subItem"><a href="/marketing_share_list.html">营销活动</a></li>
+                                            <li class="subItem"><a href="/fenx.html">全民分销</a></li>
+                                            <li class="subItem"><a href="/new/posterimgupload_index.html">海报推广</a></li>
+                                    </ul>
+            </li>
+            </ul>
+
+    <script type="text/javascript">
+    (function(){
+        var KEY = "PFT-RECENT-APP";
+        //左侧菜单二级项被点击时，记录到storage里，
+        //然后在首页实时显示最近被点击的项
+        var Defaults = [
+            "/plist:产品预订",
+            "/orderquery:订单查询",
+            "/prod_type:发布新产品",
+            "/prodlists:出售中产品",
+            "/channels_conf:销售渠道配置",
+            "/trecordNew:交易记录",
+            "/accourtmanage:提现/充值",
+            "/distributoradd:添加分销商",
+            "/orderReport:销售报表",
+            "/orderReport_Com:数据罗盘"
+        ];
+        var apps = window.localStorage.getItem(KEY);
+        if(!apps){
+            apps = Defaults;
+            window.localStorage.setItem(KEY,Defaults.join(","))
+        }else{
+            apps = apps.split(",");
+        }
+        var getIndex = function(array,value){
+            if(Array.prototype.indexOf) return array.indexOf(value);
+            var index = -1;
+            for(var i= 0, len=array.length; i<len; i++){
+                var item = array[i];
+                if(value===item){
+                    index = i;
+                    break;
+                }
+            }
+            return index;
+        };
+        $("#G_LeftbarWrap").on("click",".subItemUl .subItem a",function(e){
+            var tarItem = $(e.currentTarget);
+            var pageName = tarItem.attr("href").split(".")[0];
+            var text = tarItem.text();
+            if(!pageName) return;
+            pageName = pageName+":"+text;
+            var index = getIndex(apps,pageName);
+            if(index>-1){ //已存在
+                apps.splice(index,1); //先剔除
+                apps.unshift(pageName);
+            }else{ //不存在则加入到数组
+                var len = apps.unshift(pageName); //加入到数组最前面
+                if(len>10) apps.pop();  //如果超过10个,则删除掉最后一个
+            }
+            window.localStorage.setItem(KEY,apps.join(","));
+        })
+    })();
+    //切换全屏
+    $(function(){
+        $("#G_HeaderBar").on("click",".triggerBtn",function(e){
+            var tarBtn = $(e.currentTarget);
+            tarBtn.toggleClass("slideLeft");
+            $("#G_HeaderBar").toggleClass("slideLeft");
+            $("#G_BreadCrumbBar").toggleClass("slideLeft");
+            $("#G_LeftbarWrap").toggleClass("slideLeft");
+            $("#G_Body").toggleClass("slideLeft");
+        })
+    })
+    </script>
+
+</div>
+
+<!-- 闭合标签在footer文件里，这里不需要闭合，切记 -->
+<div id="G_Body" class="G_Body">
+<div id="plistMainBodyContainer" class="plistMainBodyContainer">
+    <div id="fixDisSwitchorContainer"></div>
+	<div id="searchWrap" class="searchWrap"></div>
+    <ul id="listContainer"></ul>
+</div>
+</div>
+
+</body>
+</html>

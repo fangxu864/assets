@@ -52,8 +52,6 @@ module.exports = function(opt){
 
             if(env=="local") return false;
 
-
-
             var filename = entryInfo.key;
             var outJs = Path.join(outputInfo.path.js,outputInfo.filename+".js");
             var outCss = Path.join(outputInfo.path.css,outputInfo.filename+".css");
@@ -89,15 +87,35 @@ module.exports = function(opt){
                     });
                     pwd.then(function(data){
                         var password = data.password;
-                        var remotePath = file == choices[1] ? "/js" : "/css"; 
-                        var params = {
-                            env : env,
-                            file : file,
-                            username : username,
-                            password : password,
-                            remotePath : remotePath
-                        };
-                        Remote.upload(params);
+                        if(file=="both"){ //两个都传
+                            var p1 = {
+                                env : env,
+                                file : outJs,
+                                username : username,
+                                password : password,
+                                remotePath : "/js"
+                            };
+                            var p2 = {
+                                env : env,
+                                file : outCss,
+                                username : username,
+                                password : password,
+                                remotePath : "/css"
+                            };
+                            Remote.upload(p1,function(){
+                                Remote.upload(p2);
+                            });
+                        }else{ //只传其中某个
+                            var remotePath = file == choices[1] ? "/js" : "/css"; 
+                            var params = {
+                                env : env,
+                                file : file,
+                                username : username,
+                                password : password,
+                                remotePath : remotePath
+                            };
+                            Remote.upload(params);
+                        }
                     })
                 })
 

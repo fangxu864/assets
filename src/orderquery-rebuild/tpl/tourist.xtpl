@@ -1,0 +1,10 @@
+<%
+    if( data && data.length ) {
+        _.each( data, function( item, index ){ %>
+    <li><input type="text" placeholder="姓名" class="inp-name readonly" value="<%=item.tourist%>" readonly /> <input type="text" placeholder="身份证" class="inp-idcard readonly" value="<%=item.idcard%>" readonly /> <input type="hidden" class="inp-id" value="<%=item.id%>" /> <i class="icon-u-bold icon-shanchu"></i></li>
+<%
+        })
+    } else {
+ %>
+    <li class="idcardAdded"><input type="text" placeholder="姓名" class="inp-name" /> <input type="text" placeholder="身份证" class="inp-idcard" /> <i class="icon-u-bold icon-shanchu"></i></li>
+ <% } %>

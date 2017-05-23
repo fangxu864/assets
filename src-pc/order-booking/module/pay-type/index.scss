@@ -1,0 +1,48 @@
+#payTypeMode{
+    margin-bottom: 20px;
+    border-top: 1px solid #e5e5e5;
+    .title{
+        line-height: 50px;
+        font-weight: bold;
+    }
+
+    .typeItem{ 
+        .label{
+            position: relative;
+            top: 3px;
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            line-height: 0;
+            font-size: 0;
+            margin-right: 3px;
+            cursor: pointer;
+            background: url("//images.12301.cc/icon/check.png") no-repeat 0 0;
+        }
+        .text{ cursor: pointer;}
+        .num,.yen,.unlimit{ color: #ff7800}
+        &.active .label{ background-position: -14px 0}
+
+        &.disable{
+            .text,.label{ cursor:not-allowed}
+        }
+
+        margin-bottom: 15px;
+
+        .rechargeBox{
+            margin-left: 20px;
+            color: red;
+            .rechargeLink{
+                margin-left: 5px;
+                padding: 1px 10px;
+                color: #fff;
+                background: #4c8bec
+            }
+        }
+
+
+    }
+
+
+    .usebale{ margin-left: 10px; color: #999}
+}

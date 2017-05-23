@@ -1,0 +1,14 @@
+<div class="G-detail-wrap">
+    <div class="tab-title clearfix">
+        <div class="lt-btn tab-btn active" data-control="1">订单详细</div>
+        <div class="rt-btn tab-btn" data-control="2">变更记录</div>
+    </div>
+    <div class="tab-con">
+        <div class="order-con tab-child slideInUp">
+
+        </div>
+        <div class="change-con tab-child slideInUp">
+
+        </div>
+    </div>
+</div>

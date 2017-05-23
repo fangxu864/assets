@@ -34,9 +34,9 @@ module.exports = function(){
     var entry = path[path.length-1];
     //如果命令行里有指定入口文件
     //如：./src-pc/myproject-name/index.js 或 ./src-pc/myproject-name/index_new.js
-    if(entry.indexOf(".js")>0){ 
+    if(entry.indexOf(".js")>0 || entry.indexOf(".es6")){ 
         result.filename = entry;
-        result.relativePath = entryPath.replace(/(.*)(\/.*\.js)/g,function($0,$1,$2){return $1});
+        result.relativePath = entryPath.replace(/(.*)(\/.*\.js|es6)/g,function($0,$1,$2){return $1});
         result.path = Path.join(Root,result.relativePath);
         result.fullPath = Path.join(Root,entryPath);
     }else{ //如果没传，则默认取index.js，如：./src-pc/myproject-name  => 默认取index.js为入口文件

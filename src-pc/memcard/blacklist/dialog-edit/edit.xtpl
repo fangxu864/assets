@@ -1,0 +1,21 @@
+<div class="edit-box">
+    <div class="title">编辑</div>
+    <div class="line line1">
+        <span class="name" >产品：</span>
+        <input type="text" id="landInpEdit" class="land-inp"/>
+    </div>
+    <div class="line line3">
+        <span class="name">身份证：</span>
+        <input type="text" style="width: 210px" class="idCard-inp"/>
+        <span class="get-idNum" onselectstart="javascript: return false;">读卡</span>
+    </div>
+    <div class="line line2">
+        <span class="name">姓名：</span>
+        <input type="text" class="name-inp"/>
+    </div>
+    <div class="line line4">
+        <span class="save-btn btn">保存</span>
+        <span class="cancel-btn btn">取消</span>
+    </div>
+
+</div>

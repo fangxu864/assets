@@ -1,0 +1,75 @@
+<div class="config-box">
+    <div class="title">套餐配置</div>
+    <form id="configForm">
+        <ul>
+        <li class="line clearfix">
+            <div class="lt">
+                <span class="item-name">套餐账号类型:</span>
+            </div>
+            <div class="rt rt-top">
+                <select name="role">
+                    <option value="0">供应商</option>
+                    <option value="1">分销商</option>
+                </select>
+            </div>
+        </li>
+        <li class="line clearfix">
+            <div class="lt">
+                <span class="item-name">仅后台可见:</span>
+            </div>
+            <div class="rt rt-top">
+                <select name="visible">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+        </li>
+        <li class="line clearfix">
+            <div class="lt">
+                <span class="item-name">套餐名称:</span>
+            </div>
+            <div class="rt rt-top">
+                <input type="text" name="name">
+            </div>
+        </li>
+        <li class="line clearfix">
+            <div class="lt">
+                <span class="item-name">套餐介绍:</span>
+            </div>
+            <div class="rt rt-top">
+                <textarea name="introduce"></textarea>
+            </div>
+        </li>
+        <li class="line clearfix">
+            <div class="lt">
+                <span class="item-name">套餐时长:</span>
+            </div>
+            <div class="rt rt-top">
+                <input type="text" name="duration"/><span style="margin-left: 5px">月</span>
+            </div>
+        </li>
+        <li class="line clearfix module-select">
+            <div class="lt">
+                <span class="item-name">套餐模块(可选):</span>
+            </div>
+            <div class="rt">
+
+            </div>
+        </li>
+        <li class="line clearfix">
+            <div class="lt">
+                <span class="item-name">套餐定价:</span>
+            </div>
+            <div class="rt rt-top">
+                <input type="text" name="price"><span style="margin-left: 5px">元</span>
+            </div>
+        </li>
+        <li class="line save-btn-line">
+            <span class="save-btn">保存并上架</span>
+            <span class="goBack-btn">返回</span>
+        </li>
+
+
+    </ul>
+    </form>
+</div>

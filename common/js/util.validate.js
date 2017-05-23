@@ -69,7 +69,7 @@ var Validate = {
 	},
 	//email
 	typeEmail: function( value ){
-		return /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(value)
+		return /^(\w)+(\.\w+)*@(.)+((\.\w+)+)$/.test(value)
 	},
 	//验证正整数(不包括0)
 	typeInit : function(value){

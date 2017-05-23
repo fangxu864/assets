@@ -1,0 +1,39 @@
+<!--该帐号是中开启计调下单权限 0=未开启  1=开启 -->
+<input name="" id="ifJidiaoHidInp" type="hidden" value="1"/>
+<div id="disSelectorWrap" class="disSelectorWrap">
+    <div class="con">
+        <div class="topTip">您现在是以分销商的身份下单，请选择分销商</div>
+        <div class="lat clearfix">
+            <div class="lt col">分销商：</div>
+            <div id="disSelectorTrigger" class="disSelectorTrigger col ui-shadow">
+                <p id="disSelectorTrigger_text" class="disSelectorTrigger_text"></p>
+                <i class="icon iconfont down">&#xe673;</i>
+                <i class="icon iconfont up">&#xe695;</i>
+                <img class="loadingImg" src="//static.12301.cc/assets/build/images/gloading.gif" alt=""/>
+            </div>
+        </div>
+        <div class="btnGroup">
+            <a class="dbtn yes" id="disSelector-btn-yes" href="javascript:void(0)">确定</a>
+            <a class="dbtn no" id="disSelector-btn-no" href="javascript:void(0)">取消</a>
+        </div>
+    </div>
+    <a id="disSelectorWrap-closeBtn" class="disSelectorWrap-closeBtn closeBtn" href="javascript:void(0)"><i class="iconfont">&#xe634;</i></a>
+</div>
+<div id="disSelectUlWrap" class="disSelectUlWrap">
+    <div class="con">
+        <div id="disSelectUlWrap-searchBox" class="searchBox ui-shadow">
+            <input type="text" class="disSelect_searchInp" name="" id="disSelect_searchInp" placeholder="分销商名称 / 帐号 / 手机号"/>
+            <i class="iconfont">&#xe60a;</i>
+            <img class="loadingImg" src="//static.12301.cc/assets/build/images/gloading.gif" alt=""/>
+        </div>
+        <div class="thead clearfix">
+            <span class="col col_1">分销商名称</span>
+            <span class="col col_2">联系人 / 手机号</span>
+        </div>
+        <ul id="disSelectUl" class="disSelectUl">
+            <li class="sta empty">查无匹配结果...</li>
+        </ul>
+    </div>
+</div>
+
+<div id="gMasker" class="gMasker"></div>

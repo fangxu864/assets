@@ -24,7 +24,7 @@ function createCR( mainBox ) {
         mainBox: container,
         //公用的观察者
         pubSub: {
-            
+
             storage: {},
 
             pub: function (events, arg) {
@@ -38,13 +38,13 @@ function createCR( mainBox ) {
                 }
                 return result;
             },
-            
+
             sub: function (events, fn) {
                 if (!this.storage[events])
                     this.storage[events] = [];
                 this.storage[events].push(fn)
             },
-            
+
             removeSub: function (events) {
                 delete this.storage[events];
             }
@@ -64,6 +64,20 @@ var Main = {
         var CR = createCR("#gIncomeWrap");
         //每页显示的条数
         CR.PAGESIZE = 10 ;
+
+        // 导出明细
+        // 4:预订
+        // 5:验证
+        // 6:取消
+        // 7:撤销
+        // 8:应收应付
+        CR.JUDGE_TYPE = 8;
+
+        CR.EXPORT_DETAIL_URL = {
+            all: '/r/MassData_ExportListen/Judge/',
+            single: '/r/report_statistics/getOrderInfoByReport'
+        };
+
         //dataCenter
         DC.init(CR);
         //filter

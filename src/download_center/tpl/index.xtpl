@@ -5,6 +5,7 @@
     <tr>
         <th class="th1">名称</th>
         <th class="th2">创建时间</th>
+        <th class="th7">唯一标识符</th>
         <th class="th3">生成状态</th>
         <th class="th4">下载次数</th>
         <th class="th6">操作</th>

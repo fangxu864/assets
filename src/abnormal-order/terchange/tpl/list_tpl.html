@@ -1,0 +1,108 @@
+<script type="text/template" id="listTpl-success">
+    <% _.each(data,function(item,index){ %>
+    <% var cls = (index%2==0) ? "even" : "odd"; %>
+    <tr data-id="<%item.id%>"  data-concatid="<%item.concat_id%>" class="line <%=cls%>">
+        <td class="col col_1"><a target="_blank" href="new_order_view.html?orderid=<%=item.ordernum%>"><%=item.ordernum%></a></td>
+        <td class="col col_2"><%=item.ltitle%></td>
+        <td class="col col_3"><div class="colCon"><%=item.tnum%></div></td>
+        <td class="col col_4">
+            <%= {
+            0 : "撤改",
+            1 : "撤销",
+            2 : "修改",
+            3 : "取消"
+            }[item.stype]
+            %>
+        </td>
+        <td class="col col_5">
+            <div class="colCon"><%=item.reason ? item.reason : '暂无说明'%></div>
+        </td>
+        <td class="col col_6">
+            <div class="colCon">
+                <% if(item.stime){ %>
+                <% var stime=item.stime.split(" ");%>
+                <p><%=stime[0]%></p>
+                <p><%=stime[1]%></p>
+                <% } %>
+            </div>
+        </td>
+        <td class="col col_7">
+            <div class="colCon">
+                <% if(item.dtime){ %>
+                <% var dtime=item.dtime.split(" ");%>
+                <p><%=dtime[0]%></p>
+                <p><%=dtime[1]%></p>
+                <% } %>
+            </div>
+        </td>
+        <td class="col col_8"><%={0:"未审核",1:"同意",2:"拒绝"}[item.dstatus]%></td>
+        <td class="col col_9">
+            <% if(item.action==0){ %>
+            等待审核
+            <% }else if(item.action==2){ %>
+            已处理
+            <%}else{%>
+            <a class="doActionBtn agree" data-auditid="<%=item.id%>" data-packorder="<%=item.pack_order%>" data-ifpack="<%=item.ifpack%>" data-concatid="<%=item.concat_id%>" data-stype="<%=item.stype%>" data-status="1" data-ordernum="<%=item.ordernum%>" data-tnum="<%=item.tnum%>" data-stime="<%=item.stime%>" href="javascript:void(0)">同意</a>
+            |
+            <a class="doActionBtn disagree" data-auditid="<%=item.id%>" data-packorder="<%=item.pack_order%>" data-ifpack="<%=item.ifpack%>" data-concatid="<%=item.concat_id%>" data-stype="<%=item.stype%>" data-status="2" data-ordernum="<%=item.ordernum%>" data-tnum="<%=item.tnum%>" data-stime="<%=item.stime%>" href="javascript:void(0)">拒绝</a>
+            <% } %>
+        </td>
+        <td class="col col_10">
+            <% if(item.repush!=0){ %>
+            <a class="repushBtn" data-ordernum="<%=item.ordernum%>" data-tnum="<%=item.tnum%>" data-dstatus="<%=item.dstatus%>" href="javascript:void(0)">再次推送</a>
+            <% } %>
+        </td>
+    </tr>
+    <% }) %>
+</script>
+<script type="text/template" id="listTpl-loading">
+    <tr class="sta loading">
+        <td colspan="10">
+            <img src="http://www.12301.cc/images/icons/gloading.gif" alt=""/>
+            <span class="t">努力加载中...</span>
+        </td>
+    </tr>
+</script>
+<script type="text/template" id="listTpl-empty">
+    <tr class="sta empty">
+        <td colspan="10">
+            <span class="t">暂无匹配订单...</span>
+        </td>
+    </tr>
+</script>
+<script type="text/template" id="listTpl-unlogin">
+    <tr class="sta unlogin">
+        <td colspan="10">
+            <span class="t">未登录或登录状态已过期，请重新<a href="dlogin_n.html" style="margin-left:5px;">登录</a></span>
+        </td>
+    </tr>
+</script>
+<script type="text/template" id="listTpl-fail">
+    <tr class="sta fail">
+        <td colspan="10">
+            <span class="t"><%=msg%></span>
+        </td>
+    </tr>
+</script>
+
+
+<style type="text/css">
+    .dialog-tpl-con{ }
+    .dialog-tpl-con .textarea_reson{ text-align:left; padding:8px; border:1px solid #dbdbdb}
+    .dialog-tpl-con .btn-group{ text-align:center; margin-top:12px;}
+    .dialog-tpl-con .dialog-btn{ display:inline-block; line-height:30px; padding:0 38px; margin-right:10px; color:#fff}
+    .dialog-tpl-con .dialog-btn:hover{ text-decoration:none}
+    .dialog-tpl-con .dialog-btn.yes{ background:#008fc2;}
+    .dialog-tpl-con .dialog-btn.yes:hover{ background:#0a83ae;}
+    .dialog-tpl-con .dialog-btn.no{ background:#c1c1c1; margin-right:0;}
+    .dialog-tpl-con .dialog-btn.no:hover{ background:#a6a6a6; margin-right:0}
+</style>
+<script id="dialog-tpl" type="text/template">
+    <div data-type="<%=type%>" class="dialog-tpl-con <%=type%>">
+        <textarea placeholder="<%=placeholder%>" data-type="<%=type%>" class="textarea_reson" name="" id="dialog_reson_textarea" cols="60" rows="10"></textarea>
+        <div class="btn-group">
+            <a class="dialog-btn yes <%=type%>" data-auditid="<%=auditid%>" data-ifpack="<%=ifpack%>" data-packorder="<%=packorder%>" data-concatid="<%=concatid%>" data-stype="<%=stype%>" data-status="<%=dstatus%>" data-ordernum="<%=ordernum%>" data-tnum="<%=tnum%>" data-stime="<%=stime%>" href="javascript:void(0)">确定</a>
+            <a class="dialog-btn no <%=type%>" href="javascript:void(0)">取消</a>
+        </div>
+    </div>
+</script>

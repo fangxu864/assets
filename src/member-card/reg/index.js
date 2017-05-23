@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/7/28.
  */
-require("./index.css");
+require("./index.scss");
 var KeyupTimeout = null;
 var Debug = false;
 var Query_Info = require("SERVICE/MemcardReg/Query_Info");
@@ -13,27 +13,52 @@ var Loading = require("COMMON/js/util.loading.pc.js");
 var ProvCity = require("COMMON/Components/ProvCitySelect");
 var Fileupload = require("COMMON/modules/fileupload");
 var Validate = require("COMMON/Components/Validator/v1.0");
+var ValidateRule = Validate.Rules;
+
+
+//引入通用Dialog组件
+var Dialog = require("pft-ui-component/Dialog");
+//引入通用消息提示组件
+var Message = require("pft-ui-component/Message");
 
 var Tpl = {
-	index : PFT.Util.ParseTemplate(require("./Tpl/index.xtpl"))
+	index : PFT.Util.ParseTemplate(require("./Tpl/index.xtpl")),
+	mobileDialog : require("./Tpl/modify-mobile-dialog.xtpl")
 };
+
+
+//huangzy 2017/04/25
+//新增写入卡信息功能
+var WriteCardInfo = require("./write-card-info");
+
+
+
 var Main = PFT.Util.Class({
 	container : $("#memberCardContainer"),
 	EVENTS : {
 		"keyup #mobileInp" : "onMobileInpKeyup",
 		"click #getCheckmaBtn" : "onGetCheckMaBtnClick",
 		"click #famleWrap .fe" : "onFamleFeClick",
-		"click #saveBtn" : "onSaveBtnClick",
 		"mouseenter .uploadResultImg" : "onPhotoMouseEnter",
 		"mouseleave .uploadResultImg" : "onPhotoMouseLeave",
 		"click .removePhotoBtn" : "onRemovePhotoBtnClick",
 		"click .saveBtn" : "onFormSubmit",
-		"click #readwuKa" : "readwuKa"
+		"click #readwuKa" : "readwuKa",
+		"click #modifyMobileBtn" : "onModifyMobileBtnClick",
+		"click #writeCardBtn" : "onWriteCardBtnClick"
 	},
 	validator : {},
 	CarList : "5座 7座 9座 11座 15座 15座以上 飞马出租 弘瑞出租 天行出租 盛捷出租 海棠湾出租 智慧快的出租",
+	readKaMode : "new",  //可选值：  "ie"   "new"
 	init : function(){
-		this.fid = PFT.Util.UrlParse()["fid"] || "";
+
+		var that = this;
+
+		//this.fid = PFT.Util.UrlParse()["fid"] || "";  //这样做不安全，容易被攻击
+		//涉及比较敏感的信息  或者需要从页面url里取参数，
+		//然后把得到的参数做为ajax请求的参数发给后端的，最好还是有获取隐藏域的方式
+		this.fid = $("#fidHidInp").val() || "";  //fidHidInp隐藏域里用php获取url里的参数：<?=I('fid')?>  更安全
+		
 		this.editMode = this.fid!=="undefined" && this.fid!==""; //编辑模式
 		if(this.editMode){ //如果是编辑模式
 			Query_Info({
@@ -52,7 +77,14 @@ var Main = PFT.Util.Class({
 					this.container.html("");
 				},
 				success : function(data){
-					this.render(data)
+					this.render(data);
+					$("#dname_hidInp").val(data.dname);
+					that.WriteCardInfo = new WriteCardInfo({
+						idCard : data.id_card_no,    //身份证
+						card_no : data.card_no,   //实体卡号
+						mobile : data.mobile,     //手机号
+						phy_no : data.phy_no      //物理卡号
+					});
 				},
 				error : function(msg,code){
 					this.container.html('<div style="height:600px; line-height:600px; color:#777; text-align:center">'+msg+'</div>');
@@ -60,6 +92,7 @@ var Main = PFT.Util.Class({
 			})
 		}else{ //新建模式
 			this.render();
+			that.WriteCardInfo = new WriteCardInfo();
 		}
 	},
 	onRemovePhotoBtnClick : function(e){
@@ -98,6 +131,66 @@ var Main = PFT.Util.Class({
 		}).text("删除");
 		tarBox.append(innerBox);
 		tarBox.append(btn);
+	},
+	//点击修改手机号
+	onModifyMobileBtnClick : function(e){
+		var that = this;
+		this.dialog = this.dialog || new Dialog({
+			cache : true,
+			top : 200,
+			title : "修改会员手机号",
+			content : function(){
+				return Tpl.mobileDialog;
+			},
+			cancelBtn : false,
+			yesBtn :  false,
+			EVENTS : {
+				"click .btnGup .mdBtn" : function(e){
+
+					//18250155562
+					var tarBtn = $(e.currentTarget);
+					if(tarBtn.hasClass("disable")) return false;
+					if(tarBtn.hasClass("cancel")) return this.close();
+
+					var pwdInp = $("#mdPwdInp");
+					var mobileInp = $("#mdMobileInp");
+
+					var pwd = $.trim(pwdInp.val());
+					var mobile = $.trim(mobileInp.val());
+
+					if(!pwd) return Message.error("请输入密码",2000);
+					if(!mobile) return Message.error("请输入手机号",2000);
+					
+					var res = ValidateRule.mobile(mobile);
+					if(!res.isOk) return Message.error(res.errMsg);
+
+					PFT.Util.Ajax("/r/product_MemberCardBasic/modifyPhone/",{
+						type : "post",
+						params : {
+							fid : that.fid,
+							phone : mobile,
+							password : pwd
+						},
+						loading : function(){ tarBtn.addClass("disable").text("请稍后...")},
+						complete : function(){ tarBtn.removeClass("disable").text("确定")},
+						success : function(res){
+							var code = res.code;
+							var msg = res.msg || PFT.AJAX_ERROR_TEXT;
+							if(code==200){
+								Message.success("修改成功");
+								$("#mobileInp").val(mobile);
+							}else{
+								Message.error(msg);
+							}
+						},
+						timeout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},
+						serverError : function(){ Message.error(PFT.AJAX_ERROR_TEXT)}
+					});
+
+				}
+			}
+		});
+		this.dialog.open();
 	},
 	onPhotoMouseLeave : function(e){
 		var tarBox = $(e.currentTarget);
@@ -156,7 +249,7 @@ var Main = PFT.Util.Class({
 				tarBtn.removeClass("disable").text(originText);
 			},
 			success : function(res){
-				PFT.Util.STip("success","验证码已发送至您填写的手机号，请留意查收");
+				Message.success("验证码已发送至您填写的手机号，请留意查收");
 			},
 			error : function(text,status){
 				alert(text);
@@ -167,16 +260,17 @@ var Main = PFT.Util.Class({
 	onFamleFeClick : function(e){
 		$(e.currentTarget).addClass("active").siblings().removeClass("active");
 	},
-	//点击提交按钮
-	onSaveBtnClick : function(e){
-
-	},
 	onValifyInpBlur : function(e){
 		var tarDom = $(e.currentTarget);
 		var val = tarDom.val();
 		if(tarDom.hasClass("mobileInp")){
 			this.validateMobile(tarDom,val);
 		}
+	},
+	onWriteCardBtnClick : function(e){
+		var tarBtn = $(e.currentTarget);
+		if(tarBtn.hasClass("disable")) return false;
+		this.WriteCardInfo.write();
 	},
 	//验证手机号
 	validateMobile : function(){
@@ -312,7 +406,7 @@ var Main = PFT.Util.Class({
 				var code = data.code;
 				if(code==200){
 					$("#photo_src_hidden_input").val(data.data.src);
-					PFT.Util.STip("success","文件上传成功！");
+					Message.success("文件上传成功！");
 				}else{
 					alert(data.msg || "error");
 				}
@@ -400,18 +494,25 @@ var Main = PFT.Util.Class({
 		},10)
 	},
 	readwuKa : function(e){
-		var helloBossma = document.getElementById("helloBossma");
-		if(!helloBossma){
-			alert("请使用IE浏览器读物理卡号");
-			return false;
+		if(this.readKaMode=="ie"){ //用IE读卡
+			var helloBossma = document.getElementById("helloBossma");
+			if(!helloBossma){
+				alert("请使用IE浏览器读物理卡号");
+				return false;
+			}
+			if(typeof helloBossma.open!="number" && typeof helloBossma.ICReaderRequest!="string"){
+				alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
+				return false;
+			}
+			helloBossma.open();
+			var val = helloBossma.ICReaderRequest();
+			$("#phy_no_inp").val(val);
+		}else{ //用新的方式读卡，支持谷歌浏览器，websocket方式
+			this.readWuKa_New();
 		}
-		if(typeof helloBossma.open!="number" && typeof helloBossma.ICReaderRequest!="string"){
-			alert("请使用IE浏览器并确认浏览器已安装GuoHe_ICReader_ActiveX插件");
-			return false;
-		}
-		helloBossma.open();
-		var val = helloBossma.ICReaderRequest();
-		$("#phy_no_inp").val(val);
+	},
+	readWuKa_New : function(e){
+		this.WriteCardInfo.readKa();
 	},
 	onFormSubmit : function(e){
 		e.preventDefault();
@@ -481,16 +582,30 @@ var Main = PFT.Util.Class({
 				tarBtn.text(orignText).removeClass("disable");
 			},
 			success : function(data){
-				PFT.Util.STip("success",this.fid ? "修改成功" : "开卡成功");
-				window.location.href = "mcard_list.html";
+				Message.success(this.fid ? "修改成功" : "开卡成功");
+
+				if(!this.fid){ //如果是开卡，开卡成功后，后端会返回memberID跟dname
+					var fid = data.fid;  //fid就是memberID
+					var dname = data.dname;
+					$("#memberID_hidInp").val(fid);
+					$("#dname_hidInp").val(dname);
+				}
+
+				this.WriteCardInfo.refreshInfo({
+					idCard : submitData.id_card_no, //身份证
+					card_no : submitData.card_no,   //实体卡号
+					mobile : submitData.mobile,      //手机号
+					phy_no : submitData.phy_no      //物理卡号
+				});
+				this.WriteCardInfo.write();
+				
 			},
 			error : function(msg,code){
-				alert(msg);
+				Message.alert(msg);
 			}
 		})
 
 	}
-
 });
 
 

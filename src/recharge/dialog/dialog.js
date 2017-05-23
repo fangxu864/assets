@@ -10,6 +10,7 @@ var dialog_querying_tpl=require("./dialog_querying.xtpl");
 //引入插件
 var DialogSimple=require("COMMON/modules/dialog-simple");
 var ParseTemplate = require("COMMON/js/util.parseTemplate.js");
+var common = require("../common.js");
 
 function Dialog(){
     var _this=this;
@@ -28,8 +29,11 @@ function Dialog(){
                 _this.Dialog_simple.close()
             },
             "click .btn_ok" : function () {
+                common.checkAccountMoney();
                 _this.Dialog_simple.close();
-                window.location.reload();
+                setTimeout(function () {
+                    window.location.reload();
+                },200);
             }
         },
         onCloseAfter : function () {
