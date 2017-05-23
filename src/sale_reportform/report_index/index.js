@@ -39,7 +39,6 @@ var Book_form={
         $(".mctit_1").addClass("active");
         this.filter_box.html(filter_tpl);
         this.tablecon_box.html(tablecon_tpl);
-
         if(_this.isAdmin==1){
             $(".filter_box .filter .line1").show();
             //交易商户搜索框
