@@ -22,12 +22,7 @@ var Manage = PFT.Util.Class({
             renderNav("1",_this.container.find(".title-box"));
             setTimeout(function () {
                 _this.bind();
-                var loadingStr = PFT.Util.LoadingPc("努力加载中...",{
-                    tag : "tr",
-                    colspan : 8,
-                    height : 200
-                });
-                _this.render()
+                _this.render();
             },0);
         });
 
@@ -38,7 +33,7 @@ var Manage = PFT.Util.Class({
         var _this = this;
         var loadingStr = PFT.Util.LoadingPc("努力加载中...",{
             tag : "tr",
-            colspan : 8,
+            colspan : 9,
             height : 200
         });
         var tbTrTemplate = ParseTemplate(tableTrTpl);
@@ -70,23 +65,22 @@ var Manage = PFT.Util.Class({
     //上下架
     saleOrNot : function (params) {
         var _this =  this ;
-        PFT.Util.Ajax("：/r/AppCenter_ModuleConfig/upPackageStatus",{
+        PFT.Util.Ajax("/r/AppCenter_ModuleConfig/upPackageStatus",{
             type : "post",
             params : params,
             loading : function(){
-                _this.container.find(".manage-tb tbody").html(loadingStr)
+                // _this.container.find(".manage-tb tbody").html(loadingStr)
             },
             complete : function(){
                 // submitBtn.text(orignText).removeClass("disable")
             },
             success : function(res){
-                // var msg = res.msg || PFT.AJAX_ERROR_TEXT;
-                // if(res.code == "200"){
-                //     var html = tbTrTemplate({data : res.data});
-                //     _this.container.find(".manage-tb tbody").html(html);
-                // }else{
-                //     Message.alert(msg);
-                // }
+                if(res.code == "200"){
+                    Message.success(res.msg);
+                    _this.render();
+                }else{
+                    Message.error(res.msg)
+                }
                 console.log(res)
             },
             tiemout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},
@@ -106,10 +100,12 @@ var Manage = PFT.Util.Class({
 
         //下架
         this.container.on("click" ,".delete-btn" ,function () {
+            var tarId = $(this).attr("data-id");
             Message.confirm("下架？",function (result) {
                 if(result){
                     _this.saleOrNot({
-                        id: 1
+                        id: tarId,
+                        status: 2
                     })
                 }
             })
@@ -117,8 +113,40 @@ var Manage = PFT.Util.Class({
 
         //上架
         this.container.on("click",'.alter-btn', function () {
+            var tarId = $(this).attr("data-id");
             Message.confirm("上架？",function (result) {
-                console.log(result)
+                if(result){
+                    _this.saleOrNot({
+                        id: tarId,
+                        status: 1
+                    })
+                }
+            })
+        });
+
+        //详情
+        this.container.on("click",'.detail-btn', function () {
+            var tarId = $(this).attr("data-id");
+            PFT.Util.Ajax("/r/AppCenter_ModuleList/getAppModuleByPackage",{
+                type : "post",
+                params : {package_id: tarId},
+                loading : function(){
+                    // _this.container.find(".manage-tb tbody").html(loadingStr)
+                },
+                complete : function(){
+                    // submitBtn.text(orignText).removeClass("disable")
+                },
+                success : function(res){
+                    // if(res.code == "200"){
+                    //     Message.success(res.msg);
+                    //     _this.render();
+                    // }else{
+                    //     Message.error(res.msg)
+                    // }
+                    console.log(res)
+                },
+                tiemout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},
+                serverError : function(){ Message.error(PFT.AJAX_ERROR_TEXT)}
             })
         });
     },
