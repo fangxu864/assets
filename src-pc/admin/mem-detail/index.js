@@ -13,27 +13,10 @@ var MemberManage = PFT.Util.Class({
     searchContainer: '#searchCtn',
 
     EVENTS: {
-        'click .btn-morefilter':            'moreFilterToggle',         // 点击 更多筛选
-        'click #memsMerchant .radioBox':   'selectRadio',              // 点击 选择商户
-        'click #btnGetStatisticsNum':       'getStatisticsNum',         // 点击 统计数量
-        'click .dropdown':                  'onDropdownClick',          // 下拉框点击事件
-        'click .name_select_box':           'onNameSelectBoxClick',     // 过滤条件名称下拉，已合并至下拉框点击事件
-        'click #schBtn':                    'onBtnSearchClick',         // 点击 搜索
 
-        'click .btnDisable':                'onBtnDisableClick',        // 点击 禁用
-        'click .btnDelete':                 'onBtnDeleteClick',         // 点击 删除
-        'click .btnEnable':                 'onBtnEnableClick',         // 点击 启用
-        'click .btnRenew':                  'onBtnRenewClick',          // 点击 恢复
-        'click .btnResetPassword':          'resetPassword',            // 点击 重置密码
-        'click .btnPassApply':              'passApply',                // 点击 通过
-        'click .btnRejectApply':            'rejectApply',              // 点击 拒绝
-        'click .btnDrawContract':           'drawContract',             // 点击 签单
-        'mouseenter .hasTips':              'showTip',
-        'mouseleave .hasTips':              'hideTip'
     },
 
     AJAX_URLS: {
-        memberManage: '/r/Admin_MemberManage/getSearchParam/',
         memberDetail: '/r/Admin_MemberManage/getMemberDetails/'
     },
 

@@ -1,0 +1,49 @@
+        <div class="avatar-wrap">
+            <img onerror="this.src='//static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="<%=detail.avatar%>" alt="">
+            <% if( detail.certi_status == 2 ) { %>
+            <i class="icon-mems icon-ren"></i>
+            <% } %>
+            <% if( detail.transfer_stat == 1 ) { %>
+            <i class="icon-mems icon-zhuan"></i>
+            <% } %>
+        </div>
+        <div class="t-center t-title">ID: <%=detail.id%></div>
+        <div class="t-center t-info mt5">最近登录时间</div>
+        <div class="t-center t-info"><%=detail.lasttime%></div>
+        <div class="t-center <%= detail.certi_status == 2 ? 'c-org' : '' %>"><%= ['未认证', '审核中', '已认证', '已拒绝'][ detail.certi_status ] %></div>
+        <% if( (isManager || isDirector) && detail.certi_status == 1 ){ %>
+        <div class="t-center">
+            <a href="javascript:;" id="btnPassApply" data-id="<%=detail.id%>">通过</a>
+            <a href="javascript:;" id="btnRejectApply" data-id="<%=detail.id%>">拒绝</a>
+        </div>
+        <% } %>
+        <div class="clearfix">
+            <a class="prod-item" href="javascript:;">
+                <em><%=detail.selfSupply%></em>
+                <em>自供产品</em>
+            </a>
+            <a class="prod-item" href="javascript:;">
+                <em><%=detail.transfer%></em>
+                <em>转分销产品</em>
+            </a>
+            <a class="prod-item" href="javascript:;">
+                <em><%=detail.supplierInfo%></em>
+                <em>供应商</em>
+            </a>
+            <a class="prod-item" href="javascript:;">
+                <em><%=detail.distributor%></em>
+                <em>分销商</em>
+            </a>
+            <a class="prod-item" href="javascript:;">
+                <em><%=detail.otaNum%></em>
+                <em>OTA</em>
+            </a>
+            <a class="prod-item" href="javascript:;">
+                <em><%=detail.ticket%></em>
+                <em>票务</em>
+            </a>
+            <a class="prod-item" href="javascript:;">
+                <em><%=detail.staffNum%></em>
+                <em>员工</em>
+            </a>
+        </div>

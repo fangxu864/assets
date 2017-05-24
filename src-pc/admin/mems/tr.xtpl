@@ -1,30 +1,3 @@
-                "id" : 1,                               //会员
-                "dtype" : 8,                            //会员类型0供应商1分销商2直接供应方3合并终端后的资源方5普通用户6员工7集团帐号9平台帐号
-                "account" : 123624,                     //账号
-                "dname" : "测试账户",                   //用户名
-                "status" : 2,                           //0正常1禁用2删除3未审核
-                "mobile" : '182222333',                 //手机号
-                "dcode" : 1233,                         //接口编码
-                "alipay" : '123@12.com',                //支付宝账号
-                "fee_platform" : 1111,                  //平台使用费 单位分
-                "fee_bank"    : 1122                    //第三方支付费用 单位分
-                "fee_sms" :10,                          //短信费用 单位 分
-                "fee_code" :100,                        //凭证费 单位 分
-                "com_name" : '我是测试号',              //企业名称
-                "amoney" : 1000,                        //余额 单位分
-                "is_pay" : 1,                           //是否回款:0=否,1=是
-                "contract_model" : 1,                   //合作模式:1=套餐,2=票务,3=订单
-                "protocol_meal" : 1222,                 //套餐费用
-                "sales" : "sdsd",                       //销售人员
-                "kefu" : "kefu",                        //客服人员
-                "certi_status" : 0,                     //会员认证状态 0—未认证（注册时默认值），1-- -审核中，2—已认证（审核通过） 3-- -拒绝
-                "transfer" : 0,                         //是否带有转  0 没有 1 转供应商
-                "enable" : 0,                           //启用月份 0 没有启用 或者 未满一个月  1 一个月 2 两个月
-                "order" : 0,                            //无单天数  -1 表示 有单 前端暂时 无单天数为0
-                "unlogin" : 0,                          //未登陆天数
-                "count" : 0,                            //分销商数量  0 代表没有
-                "ota" : 0,                              //OTA数量  0 代表没有
-                "otaName" : ,                           //OTA 名称 数组 array(1) { [0]=> string(6) "测试" }  0 代表没有
                 <% _.each( data, function( item, index ){ %>
                 <tr class="<% (item.status==1 || item.status==2) ? 'bg-gray':'' %>">
                     <td data-id="<%=item.id%>" data-dtype="<%=item.dtype%>" data-status="<%=item.status%>" data-certistatus="<%=item.certi_status%>">
@@ -70,10 +43,10 @@
                                 case 0:
                                     statusStr = '';
                                     if( item.certi_status == 1 ) {
-                                        statusStr = '认';
+                                        statusStr = '<i class="icon-mems icon-ren"></i>';
                                     }
                                     if( item.transfer == 1 ) {
-                                        statusStr += '转';
+                                        statusStr += '<i class="icon-mems icon-zhuan"></i>';
                                     }
                                     break;
 
@@ -93,14 +66,82 @@
                         <%=statusStr%>
                         </p>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <div class="hasTips" data-action="company" data-name="<%=item.com_name%>" data-mobile="<%=item.mobile%>">
+                            <p><%=item.com_name%></p>
+                            <p><%=item.mobile%></p>
+                        </div>
+                    </td>
+                    <td>
+                        <p><%=item.dname%></p>
+                        <p><%=item.account%></p>
+                    </td>
+                    <td>
+                        <div class="hasTips" data-action="cooperation">
+                            <p><%=['套餐','票务','订单'][item.contract_model-1]%> - <em class="<%= item.is_pay ? 'c-green' : 'c-org' %>"><%=['欠费','回款'][item.is_pay]%></em></p>
+                            <p><%=item.protocol_meal/100%></p>
+                        </div>
+                    </td>
+                    <td>
+                        <em class="c-org"><%=item.amoney%></em>
+                    </td>
+                    <td>
+                        <p><%= item.enable == 0 ? '未启用' : '启用' + item.enable + '个月' %></p>
+                        <p><%= item.order == -1 ? '有单' : '无单' + item.order + '天' %></p>
+                        <p>未登录<%=item.unlogin%>天</p>
+                    </td>
+                    <td>
+                        <p>短：<%= item.fee_sms/100 %></p>
+                        <p>凭：<%= item.fee_code/100 %></p>
+                        <p>手：<%= item.fee_platform/100 %></p>
+                    </td>
+                    <td>
+                        <p class="hasTips" data-action="OTA" data-ota="<%=item.otaName.join()%>">OTA：<%=item.ota%></p>
+                        <p>分销：<%=item.count%></p>
+                    </td>
+                    <td>
+                        <p>签：<%=item.sales%></p>
+                        <p>客：<%=item.kefu%></p>
+                    </td>
+                    <td>
+                        <a href="javascript:;">详细</a>
+                        <%
+                            var btnStr;
+                            switch( item.status ) {
+                                case 0:
+                                    btnStr = '<a href="javascript:;" class="btnDisable" data-id="<%=item.id%>">禁用</a>';
+                                    btnStr += '<a href="javascript:;" class="btnDelete" data-id="<%=item.id%>">删除</a>';
+                                    break;
+
+                                case 1:
+                                    btnStr = '<a href="javascript:;" class="btnEnable" data-id="<%=item.id%>">启用</a>';
+                                    break;
+
+                                case 2:
+                                    btnStr = '<a href="javascript:;" class="btnRenew" data-id="<%=item.id%>">恢复</a>';
+                                    break;
+                            }
+                        %>
+                        <%=btnStr%>
+
+                        <% if( isKefu ){ %>
+                        <a href="javascript:;" class="btnResetPassword" data-id="<%=item.id%>">重置密码</a>
+                        <% } %>
+
+                        <a href="count/Salestrends.html" title="查看检票报表-销售趋势">销售趋势</a>
+
+                        <% if( (isManager || isDirector) && item.status == 3 ) %>
+                        <a href="javascript:;" class="btnPassApply" data-id="<%=item.id%>">通过</a>
+                        <a href="javascript:;" class="btnRejectApply" data-id="<%=item.id%>">拒绝</a>
+                        <% } %>
+
+                        <% if( isManager || isDirector ) %>
+                        <a href="javascript:;" class="btnDrawContract" data-id="<%=item.id%>">签单</a>
+                        <% } %>
+
+                        <% if( isFinancial ) %>
+                        <a href="/rechDist.html?id=<%=item.id%>" target="_blank">充值</a>
+                        <% } %>
+                    </td>
                 </tr>
                 <% }) %>
