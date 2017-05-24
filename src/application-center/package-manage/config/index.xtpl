@@ -52,7 +52,7 @@
             <div class="lt">
                 <span class="item-name">套餐模块(可选):</span>
             </div>
-            <div class="rt">
+            <div class="rt" id="packageModuleBox">
 
             </div>
         </li>

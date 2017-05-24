@@ -35,7 +35,7 @@ var First_packPickModule = {
             _this.CR.pubSub.pub("progressModule.second");
             _this.container.hide();
             _this.CR.pubSub.pub("First_packDetailModule.close");
-            _this.CR.pubSub.pub("Second_packDetailModule.render",moduleId);
+            _this.CR.pubSub.pub("DC.getSecondPackageDetail",moduleId);
             _this.CR.mainBox.find(".first_packPickBox ").hide();
             $("#G_Body").animate({"scrollTop": 0}, 200, "swing")
         })
@@ -44,10 +44,6 @@ var First_packPickModule = {
     template: ParseTemplate(first_packPickModuleTpl),
     render: function (data) {
         var newData = $.extend( {} , data );
-        for(var key in newData ){
-            newData[key]["moduleId"] = key;
-        }
-        var _this = this;
         var html = this.template({data: newData});
         this.container.html(html);
     }

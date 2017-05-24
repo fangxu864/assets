@@ -25,12 +25,30 @@
         border: 1px solid #e5e5e5;
         background-color: #e4e4e4;
       }
+      .th1{
+        text-align: left;
+        padding-left: 30px;
+      }
       tbody tr{
         line-height: 35px;
         border: 1px solid #e5e5e5;
       }
       tbody tr.odd{
         background-color: #f4f4f4;
+      }
+      .un-shrink ,.shrink{
+        background-image: url('//static.12301.cc/assets/build/images/sale-report-shrink.png');
+        display: inline-block;
+        background-repeat: no-repeat;
+        width: 16px;
+        height: 16px;
+        position: relative;
+        margin-right: 7px;
+        top: 3px;
+        cursor: pointer;
+      }
+      .shrink{
+        background-position: 0 -16px;
       }
     }
     .line{

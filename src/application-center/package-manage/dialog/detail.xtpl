@@ -1,0 +1,10 @@
+<div>
+    <div class="title" title="<%=data.name%>">
+        <div class="text"><%=data.name%>-包含的模块</div>
+    </div>
+    <div class="con">
+        <% _.each(data.detail,function(item,index){%>
+        <span class="detail-item"><%=item%></span>
+        <%})%>
+    </div>
+</div>

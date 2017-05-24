@@ -8,6 +8,9 @@ var tableTrTpl = require("./tableTr.xtpl");
 var renderNav = require("../nav/index.js");
 var Message = require("pft-ui-component/Message");
 var ParseTemplate = PFT.Util.ParseTemplate;
+var Dialog = require("../dialog/dialog.js");
+var dialog = new Dialog();
+
 
 //套餐管理模块
 var Manage = PFT.Util.Class({
@@ -39,7 +42,7 @@ var Manage = PFT.Util.Class({
         var tbTrTemplate = ParseTemplate(tableTrTpl);
         PFT.Util.Ajax("/r/AppCenter_ModuleList/getPackageList",{
             type : "post",
-            params : {page:1 ,size: 20},
+            params : {page:1 ,size: 100},
             loading : function(){
                 // submitBtn.text("请稍后..").addClass("disable")
                 _this.container.find(".manage-tb tbody").html(loadingStr)
@@ -127,9 +130,17 @@ var Manage = PFT.Util.Class({
         //详情
         this.container.on("click",'.detail-btn', function () {
             var tarId = $(this).attr("data-id");
+            var tarName = $(this).attr("data-name");
+            var params = {package_id: tarId};
+            var paramsKey = $.param(params);
+            //判断缓存，有的话就不发请求了
+            if(_this.cacheHub[paramsKey]){
+                dealRes(_this.cacheHub[paramsKey]);
+                return ;
+            }
             PFT.Util.Ajax("/r/AppCenter_ModuleList/getAppModuleByPackage",{
                 type : "post",
-                params : {package_id: tarId},
+                params : params,
                 loading : function(){
                     // _this.container.find(".manage-tb tbody").html(loadingStr)
                 },
@@ -137,17 +148,23 @@ var Manage = PFT.Util.Class({
                     // submitBtn.text(orignText).removeClass("disable")
                 },
                 success : function(res){
-                    // if(res.code == "200"){
-                    //     Message.success(res.msg);
-                    //     _this.render();
-                    // }else{
-                    //     Message.error(res.msg)
-                    // }
-                    console.log(res)
+                    _this.cacheHub[paramsKey] = $.extend({},res);
+                    dealRes(res);
                 },
                 tiemout : function(){ Message.error(PFT.AJAX_TIMEOUT_TEXT)},
                 serverError : function(){ Message.error(PFT.AJAX_ERROR_TEXT)}
-            })
+            });
+            function dealRes(res){
+                if(res.code == "200"){
+                    var data = {
+                        name: tarName ,
+                        detail: res.data
+                    };
+                    dialog.render(data)
+                }else{
+                    Message.error(res.msg)
+                }
+            }
         });
     },
 
@@ -157,7 +174,9 @@ var Manage = PFT.Util.Class({
     },
     hide: function () {
         this.container.hide();
-    }
+    },
+
+    cacheHub: {}
     
     
 });
