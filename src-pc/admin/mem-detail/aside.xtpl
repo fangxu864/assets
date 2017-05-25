@@ -1,5 +1,5 @@
         <div class="avatar-wrap">
-            <img onerror="this.src='//static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="<%=detail.avatar%>" alt="">
+            <img onerror="this.src='//static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="<%='http://images.pft12301.cc' + detail.headphoto%>" alt="">
             <% if( detail.certi_status == 2 ) { %>
             <i class="icon-mems icon-ren"></i>
             <% } %>

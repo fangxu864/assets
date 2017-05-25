@@ -4,7 +4,8 @@ var DatePicker = require("COMMON/modules/datepicker"),
     Message = require('pft-ui-component/Message'),
     Tips = require('COMMON/modules/tips'),
     ParseTemplate = PFT.Util.ParseTemplate,
-    ParseMemberTpl = ParseTemplate('./tr.xtpl');
+    trtpl = require('./tr.xtpl'),
+    ParseMemberTpl = ParseTemplate( trtpl );
 
 var MemberManage = PFT.Util.Class({
 
@@ -34,7 +35,8 @@ var MemberManage = PFT.Util.Class({
 
     AJAX_URLS: {
         memberManage: '/r/Admin_MemberManage/getSearchParam/',
-        memberDetail: '/r/Admin_MemberManage/getMemberDetails/'
+        getTotal: '/r/Admin_MemberManage/getTotalInfo/',
+        getLoginIdentity: '/r/Admin_MemberManage/getLoginIdentity/'
     },
 
     cacheData: {},
@@ -42,10 +44,27 @@ var MemberManage = PFT.Util.Class({
     filterParams: {},
 
     init: function() {
+        this.getLoginIdentity();
 
         this.initFilter();
 
         this.render();
+    },
+
+    getLoginIdentity: function(){
+        PFT.Util.Ajax( this.AJAX_URLS.getLoginIdentity, {
+            type:'post',
+
+            loading: function(){},
+
+            success: function( res ){
+                console.log()
+            },
+
+            serverError: function() {
+                Message.alert('请求出错，请刷新页面！');
+            }
+        });
     },
 
     initFilter: function() {
@@ -96,15 +115,15 @@ var MemberManage = PFT.Util.Class({
 
         switch( state ) {
             case 'success':
-                html = ParseMemberTpl({ data: data });
+                html = ParseMemberTpl({ data: data, isKefu: 1, isManager: 1, isDirector: 1, isFinancial: 1 });
                 break;
 
             case 'loading':
-                html = '<tr><td colspan="10" class="stat-wrap">' + data || '加载中，请稍候' + '</td></tr>';
+                html = '<tr><td colspan="10" class="stat-wrap">' + (data || '加载中，请稍候') + '</td></tr>';
                 break;
 
             case 'error':
-                html = '<tr><td colspan="10" class="stat-wrap">' + data || '数据加载失败，请稍后重试' + '</td></tr>';
+                html = '<tr><td colspan="10" class="stat-wrap">' + (data || '数据加载失败，请稍后重试') + '</td></tr>';
                 break;
 
             default:
@@ -214,7 +233,7 @@ var MemberManage = PFT.Util.Class({
     showTip: function( e ) {
         var currTarget = $( e.currentTarget ),
             action = currTarget.attr('data-action'),
-            tipsContent;
+            tipsContent = '';
 
         if( !this.tips ) this.tips = new Tips;
 
@@ -223,7 +242,38 @@ var MemberManage = PFT.Util.Class({
                 tipsContent = currTarget.attr('data-ota').split(',').join('<br>');
                 this.tips.show({
                     direction: 'bottom',
-                    hostObj: e.currentTarget,
+                    hostObj: currTarget,
+                    content: tipsContent,
+                    bgcolor: '#E5E5E5',
+                    color: '#303D46'
+                });
+                break;
+
+            case 'company':
+                tipsContent += '企业名称：' + currTarget.attr('data-name') + '<br />';
+                tipsContent += '企业类型：' + currTarget.attr('data-type') + '<br />';
+                tipsContent += '商户类型：' + currTarget.attr('data-dtype') + '<br />';
+                tipsContent += '联系人：' + currTarget.attr('data-cname') + '(' + currTarget.attr('data-mobile') + ')';
+
+                this.tips.show({
+                    direction: 'bottom',
+                    hostObj: currTarget,
+                    content: tipsContent,
+                    bgcolor: '#E5E5E5',
+                    color: '#303D46'
+                });
+                break;
+
+            case 'cooperation':
+                tipsContent += '合作模式：' + currTarget.attr('data-name') + '<br />';
+                tipsContent += '套餐：' + currTarget.attr('data-type') + '<br />';
+                tipsContent += '协议价格：' + currTarget.attr('data-dtype') + '<br />';
+                tipsContent += '协议起始日期：' + currTarget.attr('data-cname') + '(' + currTarget.attr('data-mobile') + ')';
+                tipsContent += '协议终止日期：' + currTarget.attr('data-cname') + '(' + currTarget.attr('data-mobile') + ')';
+
+                this.tips.show({
+                    direction: 'bottom',
+                    hostObj: currTarget,
                     content: tipsContent,
                     bgcolor: '#E5E5E5',
                     color: '#303D46'
@@ -254,7 +304,7 @@ var MemberManage = PFT.Util.Class({
     },
 
     getStatisticsNum: function( e ) {
-        PFT.Util.Ajax( '',{
+        PFT.Util.Ajax( this.AJAX_URLS.getTotal,{
             type: 'post',
 
             loading: function() {},
@@ -276,7 +326,8 @@ var MemberManage = PFT.Util.Class({
 
         if( target.closest('.dropdown-options').length ) {
             currTarget.removeClass('active');
-            currTarget.find('.val').html( target.text() );
+            currTarget.find('.val').html( target.text() ).attr('data-val', target.attr('data-val'));
+
         } else {
             currTarget.addClass('active');
         }
@@ -311,15 +362,15 @@ var MemberManage = PFT.Util.Class({
 
                     if(endDate && beginDate){
                         if(queryLimit==1){
-                            if(end_str-begin_str >= (30*24*60*60*1000)){
-                                alert(queryLimitTip || "最多只能查询30天以内数据");
-                                tarInp.val(oldVal);
-                            }
+                            // if(end_str-begin_str >= (30*24*60*60*1000)){
+                            //     alert(queryLimitTip || "最多只能查询30天以内数据");
+                            //     tarInp.val(oldVal);
+                            // }
                         }else{
-                            if(end_str-begin_str >= (93*24*60*60*1000)){
-                                alert(queryLimitTip || "最多只能查询三个月以内数据");
-                                tarInp.val(oldVal);
-                            }
+                            // if(end_str-begin_str >= (93*24*60*60*1000)){
+                            //     alert(queryLimitTip || "最多只能查询三个月以内数据");
+                            //     tarInp.val(oldVal);
+                            // }
                         }
                     }
                 }
@@ -353,15 +404,15 @@ var MemberManage = PFT.Util.Class({
                         var queryLimitTip = $("#queryLimitTipHidInp").val();
 
                         if(queryLimit==1){
-                            if(end_str-begin_str >= (30*24*60*60*1000)){
-                                alert(queryLimitTip || "最多只能查询30天以内数据");
-                                tarInp.val(oldVal);
-                            }
+                            // if(end_str-begin_str >= (30*24*60*60*1000)){
+                            //     alert(queryLimitTip || "最多只能查询30天以内数据");
+                            //     tarInp.val(oldVal);
+                            // }
                         }else{
-                            if(end_str-begin_str >= (93*24*60*60*1000)){
-                                alert(queryLimitTip || "最多只能查询三个月以内数据");
-                                tarInp.val(oldVal);
-                            }
+                            // if(end_str-begin_str >= (93*24*60*60*1000)){
+                            //     alert(queryLimitTip || "最多只能查询三个月以内数据");
+                            //     tarInp.val(oldVal);
+                            // }
                         }
 
                     }

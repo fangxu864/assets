@@ -3,71 +3,71 @@
                     <td data-id="<%=item.id%>" data-dtype="<%=item.dtype%>" data-status="<%=item.status%>" data-certistatus="<%=item.certi_status%>">
                         <%=item.id%>
                         <p>
-                        <%
-                            var dtypeStr;
-                            switch( item.dtype ) {
-                                case 0:
-                                    dtypeStr = '供应商';
-                                    break;
-                                case 1:
-                                    dtypeStr = '分销商';
-                                    break;
-                                case 2:
-                                    dtypeStr = '直接供应方';
-                                    break;
-                                case 3:
-                                    dtypeStr = '合并终端后的资源方';
-                                    break;
-                                case 5:
-                                    dtypeStr = '普通用户';
-                                    break;
-                                case 6:
-                                    dtypeStr = '员工';
-                                    break;
-                                case 7:
-                                    dtypeStr = '集团帐号';
-                                    break;
-                                case 9:
-                                    dtypeStr = '平台帐号';
-                                    break;
-                                case default:
-                                    dtypeStr = '默认';
-                                    break;
-                            }
-                        %>
-                        <%=dtypeStr%>
+                        <%= {
+                            "0":'供应商',
+                            "1":'分销商',
+                            "2":'直接供应方',
+                            "3":'合并终端后的资源方',
+                            "5":'普通用户',
+                            "6":'员工',
+                            "7":'集团帐号',
+                            "9":'平台帐号'
+                            }[ item.dtype ] %>
 
                         <%
-                            var statusStr;
                             switch( item.status ) {
-                                case 0:
-                                    statusStr = '';
+                                case "0":
                                     if( item.certi_status == 1 ) {
-                                        statusStr = '<i class="icon-mems icon-ren"></i>';
+                        %>
+                                        <i class="icon-mems icon-ren"></i>
+                        <%
                                     }
                                     if( item.transfer == 1 ) {
-                                        statusStr += '<i class="icon-mems icon-zhuan"></i>';
+                        %>
+                                        <i class="icon-mems icon-zhuan"></i>
+                        <%
                                     }
                                     break;
 
-                                case 1:
-                                    statusStr = '<em class="c-gray">已禁用</em>';
+                                case "1":
+                        %>
+                                    <em class="c-gray">已禁用</em>
+                        <%
                                     break;
 
-                                case 2:
-                                    statusStr = '<em class="c-gray">已删除</em>';
+                                case "2":
+                        %>
+                                    <em class="c-gray">已删除</em>
+                        <%
                                     break;
 
-                                case 3:
-                                    statusStr = '<em class="c-org">待审核</em>';
+                                case "3":
+                        %>
+                                    <em class="c-org">待审核</em>
+                        <%
                                     break;
                             }
                         %>
-                        <%=statusStr%>
                         </p>
                     </td>
                     <td>
-                        <div class="hasTips" data-action="company" data-name="<%=item.com_name%>" data-mobile="<%=item.mobile%>">
+                        <div
+                            class="hasTips"
+                            data-action="company"
+                            data-name="<%=item.com_name%>"
+                            data-mobile="<%=item.mobile%>"
+                            data-type="<%=item.com_type%>"
+                            data-dtype="<%= {
+                            "0":'供应商',
+                            "1":'分销商',
+                            "2":'直接供应方',
+                            "3":'合并终端后的资源方',
+                            "5":'普通用户',
+                            "6":'员工',
+                            "7":'集团帐号',
+                            "9":'平台帐号'
+                            }[ item.dtype ] %>"
+                            data-cname="<%=item.cname%>">
                             <p><%=item.com_name%></p>
                             <p><%=item.mobile%></p>
                         </div>
@@ -96,7 +96,7 @@
                         <p>手：<%= item.fee_platform/100 %></p>
                     </td>
                     <td>
-                        <p class="hasTips" data-action="OTA" data-ota="<%=item.otaName.join()%>">OTA：<%=item.ota%></p>
+                        <p class="hasTips" data-action="OTA" data-ota="<%=item.otaName%>">OTA：<%=item.ota%></p>
                         <p>分销：<%=item.count%></p>
                     </td>
                     <td>
@@ -106,23 +106,27 @@
                     <td>
                         <a href="javascript:;">详细</a>
                         <%
-                            var btnStr;
                             switch( item.status ) {
-                                case 0:
-                                    btnStr = '<a href="javascript:;" class="btnDisable" data-id="<%=item.id%>">禁用</a>';
-                                    btnStr += '<a href="javascript:;" class="btnDelete" data-id="<%=item.id%>">删除</a>';
+                                case "0":
+                        %>
+                                    <a href="javascript:;" class="btnDisable" data-id="<%=item.id%>">禁用</a>
+                                    <a href="javascript:;" class="btnDelete" data-id="<%=item.id%>">删除</a>
+                        <%
                                     break;
 
-                                case 1:
-                                    btnStr = '<a href="javascript:;" class="btnEnable" data-id="<%=item.id%>">启用</a>';
+                                case "1":
+                        %>
+                                    <a href="javascript:;" class="btnEnable" data-id="<%=item.id%>">启用</a>
+                        <%
                                     break;
 
-                                case 2:
-                                    btnStr = '<a href="javascript:;" class="btnRenew" data-id="<%=item.id%>">恢复</a>';
+                                case "2":
+                        %>
+                                    <a href="javascript:;" class="btnRenew" data-id="<%=item.id%>">恢复</a>
+                        <%
                                     break;
                             }
                         %>
-                        <%=btnStr%>
 
                         <% if( isKefu ){ %>
                         <a href="javascript:;" class="btnResetPassword" data-id="<%=item.id%>">重置密码</a>
@@ -130,16 +134,16 @@
 
                         <a href="count/Salestrends.html" title="查看检票报表-销售趋势">销售趋势</a>
 
-                        <% if( (isManager || isDirector) && item.status == 3 ) %>
+                        <% if( (isManager || isDirector) && item.status == 3 ) { %>
                         <a href="javascript:;" class="btnPassApply" data-id="<%=item.id%>">通过</a>
                         <a href="javascript:;" class="btnRejectApply" data-id="<%=item.id%>">拒绝</a>
                         <% } %>
 
-                        <% if( isManager || isDirector ) %>
+                        <% if( isManager || isDirector ) { %>
                         <a href="javascript:;" class="btnDrawContract" data-id="<%=item.id%>">签单</a>
                         <% } %>
 
-                        <% if( isFinancial ) %>
+                        <% if( isFinancial ) { %>
                         <a href="/rechDist.html?id=<%=item.id%>" target="_blank">充值</a>
                         <% } %>
                     </td>

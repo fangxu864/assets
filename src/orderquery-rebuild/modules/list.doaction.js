@@ -265,7 +265,7 @@ var ListDoAction = RichBase.extend({
         // tourist_info     [{tourist:名字,idcard:身份证}] / ['删除的身份证id'] / []
         // idcard_type      add / reduce / ''
 		PFT.Ajax({
-            url: '/route/index.php?c=Order_OrderModify&a=numModify',
+            url: '/r/Order_OrderModify/numModify',
 			// url: "call/handle.php?from=order_alter",
 			type: "post",
 			dataType: "json",
