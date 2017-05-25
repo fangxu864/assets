@@ -22,3 +22,13 @@ npm run local ./src-pc/batch-msg-push/list
 
 
 页面访问：http://my.12301.local/new/batchPushInfo.html
+
+
+### 消息编辑及发布页
+Views : feature/bat_send_msg  (分支名随后端)
+Service : feature/bat_send_msg  
+assets :  develop  目录：./src-pc/batch-msg-push/edit-create    (edit-msg为旧页面，已被废弃)
+
+npm run local ./src-pc/batch-msg-push/edit-create
+
+页面访问：http://my.12301.local/new/batchPushInfo_edit.html
