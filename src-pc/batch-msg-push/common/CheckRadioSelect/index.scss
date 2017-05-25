@@ -20,6 +20,9 @@
         @if $dir == land{
             float: left;
             margin-right: 20px;
+        }@else{
+            height: 30px;
+            line-height: 30px;
         }
         
     }

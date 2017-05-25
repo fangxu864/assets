@@ -16,7 +16,7 @@ module.exports = {
         text : "礼券到期"
     },{
         val : 1,
-        text : "礼券到期"
+        text : "生日祝福"
     }],
 
     //推送渠道
@@ -141,8 +141,12 @@ module.exports = {
         //获取消息列表
         msgList : "/r/MsgNotify_BatNotify/getPushTaskList/",
         //切换状态  开启/关闭
-        taskStatus : "/r/MsgNotify_BatNotify/editTaskStatus/"
-    }
+        taskStatus : "/r/MsgNotify_BatNotify/editTaskStatus/",
+        //上传excel接口
+        uploadExcel : "/r/Resource_FileUpload/upload/"
+    },
+
+    Fileupload : require("./Fileupload_Xhr2")
 
 
 }

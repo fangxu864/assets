@@ -85,7 +85,7 @@ var List = Util.Class({
         var tarBtn = $(e.currentTarget);
         var that = this;
         if(tarBtn.hasClass("disable")) return false;
-        Confirm("确定要重发短息吗？",function(result){
+        Confirm("确定要重发短信吗？",function(result){
             if(!result) return false;
             that.resendMsg(tarBtn);
         })
@@ -139,9 +139,7 @@ var List = Util.Class({
             if(item.length==0) return false;
             item.find(".cancelBtn").addClass("hasCanceled").text(status.name);
             item.find(".statusText").text(status.name).css({color:status.color});
-            setTimeout(function(){
-                item.remove();
-            },3000)
+            item.find(".payBtn").remove();
         };
         Util.Ajax("/r/MicroPlat_Order/cancel/",{
             type : "POST",

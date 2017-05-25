@@ -46,8 +46,8 @@ function Confirm(msg,callback,opt){
 		alertBox.removeClass("transition").addClass("leave");
 		alertMask.removeClass("transition").addClass("leave");
 		setTimeout(function(){
-			alertBox.removeClass("leave");
-			alertMask.removeClass("leave");
+			alertBox.removeClass("leave").off().remove();
+			alertMask.removeClass("leave").off().remove();
 		},300)
 	};
 

@@ -80,7 +80,6 @@ var Order_pay = PFT.Util.Class({
 						var link = "http://" + nhost + "/b/order_pay_success.html?h="+host+"&ordernum="+ ordernum;
 						// console.log(link)
 						window.location.href = link;
-
 					}
 				}
 			},
