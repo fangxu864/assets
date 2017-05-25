@@ -16,7 +16,7 @@
     <label><input type="radio" name="shareType" class="inp-r ml-20" value="4" <%=(data.share_type==4) ? "checked" : ""%>>送优惠券</label>
     
 </div>
-<div class="con activityTime">
+<div class="con activityTime" style= " display: <%=(data.share_type!=4) ? "block" : "none" %> ">
     <span class="u-span">活动时间:</span>
     <input type="text" id="beginDate" class="inp-t inp-date begin w-175" value="<%=data.beginDate%>" readonly>
     <span class="u-span_to">至</span>

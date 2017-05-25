@@ -362,7 +362,6 @@ var Main = PFT.Util.Class({
 				break;
 		}
 		params = param;
-		console.log(this.todayTime());
 		params["spid"] = spid;
 		params["id"] = mkid;
 		params["activity_name"] = title;
@@ -371,11 +370,10 @@ var Main = PFT.Util.Class({
 			params["bt"] = beginDate;
 			params["et"] = endDate;
 		}else{
-			params["bt"] = "";
-			params["et"] = "";
+			params["bt"] = this.todayTime()+"00:00";
+			params["et"] = this.todayTime()+"23:59";
 		}
 		params["share_type"] = type;
-		console.log(params);
 		_this.saveReq(params);
 		//window.location.href="marketing_share_list.html";
 	},
