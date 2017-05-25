@@ -91,7 +91,7 @@ var Main = PFT.Util.Class({
 		if (!date) {
 			date = CalendarCore.gettoday() + " " + time;
 		}
-		console.log(date, time)
+		// console.log(date, time)
 		datepicker.show(date, {
 			picker: tarInp,              //必选
 			top: 0,                     //可选，相对偏移量
@@ -112,7 +112,7 @@ var Main = PFT.Util.Class({
 				STip("success", '<p style="width:160px;">正在上传图片,请稍后</p>', 3000);
 			},
 			complete: function (res) {
-				console.log(res)
+			
 				if (res.code == 200) {
 					$('#imagePath').attr({ "src": res.data.src, "data-path": res.data.src });
 					STip("success", '<p style="width:160px;">上传图片成功</p>');
@@ -131,7 +131,7 @@ var Main = PFT.Util.Class({
 				STip("success", '<p style="width:160px;">正在上传图片,请稍后</p>', 3000);
 			},
 			complete: function (res) {
-				console.log(res)
+	
 				if (res.code == 200) {
 					$('#imagePath_2').attr({ "src": res.data.src, "data-path": res.data.src })
 					STip("success", '<p style="width:160px;">上传图片成功</p>');
@@ -175,7 +175,7 @@ var Main = PFT.Util.Class({
 		m = (date.getMinutes()<10) ? '0' + date.getMinutes() :date.getMinutes();
 
 		var dateTime = Y + M + D + h + m;
-		console.log(dateTime)
+	
 		return dateTime;
 	},
 	//渲染活动页面
@@ -217,10 +217,12 @@ var Main = PFT.Util.Class({
 			$('.shareTypeOneToTree').hide();
 			$('.shareTypeFour').show();
 			$('.date').hide();
+			$('.activityTime').hide();
 		}else{
 			$('.shareTypeOneToTree').show();
 			$('.shareTypeFour').hide();
 			$('.date').show();
+			$('.activityTime').show();
 		}
 
 	},
@@ -338,9 +340,12 @@ var Main = PFT.Util.Class({
 		var endDate = _this.formatDate($("#endDate").val());
 		var only_member = $(".inp-limit:checked").val();
 		if (!title) return STip("fail", "活动名称不为空!", 3000);
-		if (!beginDate) return STip("fail", "活动起始时间不为空!", 3000);
-		if (!endDate) return STip("fail", "活动截止时间不为空!", 3000);
-		if (beginDate > endDate) return STip("fail", "起始时间不能迟于截止时间!", 3000);
+		if(type!=4){
+			if (!beginDate) return STip("fail", "活动起始时间不为空!", 3000);
+			if (!endDate) return STip("fail", "活动截止时间不为空!", 3000);
+			if (beginDate > endDate) return STip("fail", "起始时间不能迟于截止时间!", 3000);
+		}
+		
 		if (!only_member) STip("fail", "请选择是否仅限会员卡!", 3000);
 		switch (type) {
 			case '1':
@@ -357,14 +362,20 @@ var Main = PFT.Util.Class({
 				break;
 		}
 		params = param;
+		console.log(this.todayTime());
 		params["spid"] = spid;
 		params["id"] = mkid;
 		params["activity_name"] = title;
 		params["only_member"] = only_member;
-		params["bt"] = beginDate;
-		params["et"] = endDate;
+		if(type!=4){
+			params["bt"] = beginDate;
+			params["et"] = endDate;
+		}else{
+			params["bt"] = "";
+			params["et"] = "";
+		}
 		params["share_type"] = type;
-		//console.log(params);
+		console.log(params);
 		_this.saveReq(params);
 		//window.location.href="marketing_share_list.html";
 	},
@@ -516,6 +527,23 @@ var Main = PFT.Util.Class({
             fileName += val.substr(val.indexOf("."));
         } 
         $('.fileuploadTextInp').val(fileName);
+	},
+	todayTime:function(){
+	    var date = new Date();
+	    var seperator1 = "-";
+	    var seperator2 = ":";
+	    var month = date.getMonth() + 1;
+	    var strDate = date.getDate();
+	    if (month >= 1 && month <= 9) {
+	        month = "0" + month;
+	    }
+	    if (strDate >= 0 && strDate <= 9) {
+	        strDate = "0" + strDate;
+	    }
+	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+	            + " ";
+	    return currentdate;
+
 	}
 })
 
