@@ -370,8 +370,12 @@ var Main = PFT.Util.Class({
 			params["bt"] = beginDate;
 			params["et"] = endDate;
 		}else{
-			params["bt"] = this.todayTime()+"00:00";
-			params["et"] = this.todayTime()+"23:59";
+			var bt = this.todayTime()+"00:00";
+			var et = this.todayTime()+"23:59";
+			beginDate = _this.formatDate(bt)
+			endDate = _this.formatDate(et)
+			params["bt"] = beginDate;
+			params["et"] = endDate;
 		}
 		params["share_type"] = type;
 		_this.saveReq(params);
