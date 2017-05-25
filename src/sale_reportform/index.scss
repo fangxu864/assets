@@ -395,7 +395,16 @@
 .PageMainBodyContainer{
   overflow: visible;
 }
+.calendarTip{
+  font-size:12px;
+  color:red;
+  text-align:center;
+  padding:5px;
+  background:#f7f7f7;
+  border:1px solid #E5E5E5;
+  border-top:none;
 
+}
 .gSimpleDialog-container {
   .gSimpleDialog-header {
     padding: 0 20px;
@@ -416,3 +425,4 @@
     }
   }
 }
+

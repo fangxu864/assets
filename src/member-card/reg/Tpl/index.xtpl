@@ -21,6 +21,9 @@
         <div class="line">
             <span class="lt"><i class="star">*</i>身份证</span>
             <input type="text" class="formInp idcardInp valifyInp" value="<%=id_card_no%>" <%=fid? 'readonly' : ''%> data-validate="require idCard" name="id_card_no" id="idcardInp" placeholder="请输入身份证号码"/>
+            <% if(!fid){%>
+            <a id="readIdCard" class="readwuKa" href="javascript:void(0)">读身份证</a>
+            <%}%>
             <span class="errortip"><i class="iconfont">&#xe654;</i><i class="t">请输入身份证号码</i></span>
         </div>
         <div class="horLine"></div>

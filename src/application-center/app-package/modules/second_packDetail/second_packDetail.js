@@ -20,8 +20,7 @@ var Second_packDetailModule = {
 
     bind: function () {
         var _this = this;
-        this.CR.pubSub.sub("Second_packDetailModule.render" , function (moduleId) {
-            var data =  _this.CR.pubSub.pub("DC.getSecondPackageDetail",moduleId) ;
+        this.CR.pubSub.sub("Second_packDetailModule.render" , function (data) {
             _this.render(data);
         });
         this.container.on("click" , ".pre-btn" ,function () {
@@ -31,11 +30,18 @@ var Second_packDetailModule = {
             _this.CR.mainBox.find(".first_packDetailBox ").show();
             $("#G_Body").animate({"scrollTop":0},200,"swing")
         })
+
+        //表格伸展收缩按钮
+        this.container.on("click",".un-shrink",function (e) {
+            e.stopPropagation();
+            $(this).toggleClass("shrink");
+            $(this).parents("tr").siblings("tr").fadeToggle(0);
+        });
     },
 
     template: ParseTemplate(second_packDetailModuleTpl),
     render: function (data) {
-        var html = this.template({data:data});
+        var html = this.template({data:data.data});
         this.container.html(html);
         this.container.show();
     }

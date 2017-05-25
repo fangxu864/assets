@@ -31,6 +31,10 @@ var Tpl = {
 //新增写入卡信息功能
 var WriteCardInfo = require("./write-card-info");
 
+//读身份证
+var readIdCard = require("../../../src-pc/memcard/common/readIdCard/index.js");
+var readIdCard1 = new readIdCard();
+
 
 
 var Main = PFT.Util.Class({
@@ -44,6 +48,7 @@ var Main = PFT.Util.Class({
 		"click .removePhotoBtn" : "onRemovePhotoBtnClick",
 		"click .saveBtn" : "onFormSubmit",
 		"click #readwuKa" : "readwuKa",
+		"click #readIdCard" : "readIdCard",
 		"click #modifyMobileBtn" : "onModifyMobileBtnClick",
 		"click #writeCardBtn" : "onWriteCardBtnClick"
 	},
@@ -94,6 +99,31 @@ var Main = PFT.Util.Class({
 			this.render();
 			that.WriteCardInfo = new WriteCardInfo();
 		}
+
+		setTimeout(function () {
+			if(! $("#idcardInp").prop("readonly") ){
+				//轮询读卡
+				function loopReadIdCard() {
+					setTimeout(function () {
+						readIdCard1.doSend('{"cmd":"idread"}' , true);
+						loopReadIdCard()
+					},2000);
+				}
+				loopReadIdCard();
+				setTimeout(function () {
+					readIdCard1.on("socketMessage" ,function (data) {
+						$("#idcardInp").val(data.code);
+						$("#cnameInp").val(data.name);
+						if(data.Gender === "男"){
+							$("#famleWrap .lte ").click();
+						}else if(data.Gender === "女"){
+							$("#famleWrap .rte ").click();
+						}
+					}) ;
+				},0)
+			}
+		},500)
+
 	},
 	onRemovePhotoBtnClick : function(e){
 		$(e.currentTarget).parents(".uploadResultImg").remove();
@@ -510,6 +540,9 @@ var Main = PFT.Util.Class({
 		}else{ //用新的方式读卡，支持谷歌浏览器，websocket方式
 			this.readWuKa_New();
 		}
+	},
+	readIdCard: function () {
+		readIdCard1.doSend('{"cmd":"idread"}');
 	},
 	readWuKa_New : function(e){
 		this.WriteCardInfo.readKa();

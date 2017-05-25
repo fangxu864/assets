@@ -3,12 +3,12 @@
     <table class="manage-tb">
         <thead>
         <tr>
-            <th class="th1">序号</th>
+            <th class="th1">套餐ID</th>
             <th class="th2">账号类型</th>
             <th class="th3">套餐名称</th>
-            <th class="th4">套餐周期</th>
+            <th class="th4">套餐周期(月)</th>
             <th class="th5">套餐模块</th>
-            <th class="th6">套餐价格</th>
+            <th class="th6">套餐价格(元)</th>
             <th class="th8">套餐状态</th>
             <th class="th9">套餐详情</th>
             <th class="th7">操作</th>

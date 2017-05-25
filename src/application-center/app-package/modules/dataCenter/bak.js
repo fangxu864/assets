@@ -191,7 +191,6 @@ var DataCenter = {
         });
         function dealRes(res){
             if(res.code == "200"){
-                res.data["moduleId"] = moduleId;
                 _this.CR.pubSub.pub("Second_packDetailModule.render" , res)
             }else{
                 Message.error(res.msg)

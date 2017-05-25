@@ -90,6 +90,9 @@ var buyTicket = PFT.Util.Class({
 
         //点击购票按钮
         CON.on("click", ".filter-box .buy-btn" ,function () {
+            var tarBtn = $(this);
+            if(tarBtn.hasClass("disable")) return ;
+
             var params = {};
             var landInp = CON.find(".filter-box .land-inp");
             var idNumInp = CON.find(".filter-box .idNum-inp");
@@ -163,21 +166,29 @@ var buyTicket = PFT.Util.Class({
                 timeout:5000,   //设置超时 5000毫秒
                 beforeSend: function() {
                     //请求前的处理
+                    tarBtn.addClass("disable");
                 },
                 success: function(res) {
                     // 请求成功时处理
                     if(res.code == 200 ){
+                        tarBtn.removeClass("disable");
                         Message.success("购票记录成功");
                         recordCon.find(".record-filter .land-inp").val(landInp.val()).attr("data-id",lid);
                         recordCon.find(".record-filter .idNum-inp").val("");
                         recordCon.find(".record-filter .userName-inp").val("");
                         recordCon.find(".record-filter .search-btn").click();
                     }else{
-                        Message.error(res.msg)
+                        Message.alert("<span style = 'color: red;'>"+res.msg + "</span>" + "（3秒后弹框自动关闭...）" );
+                        clearTimeout(_this.autoCloseTimer );
+                        _this.autoCloseTimer = setTimeout(function () {
+                            tarBtn.removeClass("disable");
+                            $(".pui-poper .alert-foot .close-btn").click();
+                        },3000)
                     }
                 },
                 complete: function(res,status) {
                     //请求完成的处理
+                    // tarBtn.removeClass("disable");
                     if(status=="timeout"){
                         Message.warning("请求超时");
 
@@ -185,6 +196,7 @@ var buyTicket = PFT.Util.Class({
                 },
                 error: function() {
                     //请求出错处理
+                    tarBtn.removeClass("disable");
                     Message.warning("请求出错");
                 }
             });
@@ -249,6 +261,23 @@ var buyTicket = PFT.Util.Class({
         CON.on("click" ,".filter-box .get-idNum" ,function (e) {
             readIdCard1.doSend('{"cmd":"idread"}');
         });
+
+        //轮询读卡
+        function loopReadIdCard() {
+            setTimeout(function () {
+                readIdCard1.doSend('{"cmd":"idread"}' , true);
+                loopReadIdCard()
+            },2000);
+        }
+        loopReadIdCard();
+
+        $(document).on("keydown" ,function (e) {
+           if(e.keyCode === 13){
+               CON.find(".filter-box .buy-btn").click();
+           }
+        });
+
+
         recordCon.on("click" ,".record-filter .get-idNum" ,function (e) {
             readIdCard2.doSend('{"cmd":"idread"}');
         });
@@ -256,6 +285,7 @@ var buyTicket = PFT.Util.Class({
         readIdCard1.on("socketMessage" ,function (data) {
             CON.find(".filter-box .idNum-inp").val(data.code);
             CON.find(".filter-box .userName-inp").val(data.name);
+            CON.find(".filter-box .buy-btn").click()
         }) ;
         readIdCard2.on("socketMessage" ,function (data) {
             recordCon.find(".record-filter .idNum-inp").val(data.code);
@@ -443,81 +473,7 @@ var buyTicket = PFT.Util.Class({
             }
         }
     },
-
-    /**
-     * 读卡
-     * @returns {boolean}
-     */
-    handleIdCard : function(){
-
-        console.log("身份证阅读器");
-
-        //开始链接控件
-        var CertCtl = document.getElementById("CertCtl");
-        if(CertCtl.connect){
-            var connectResult = CertCtl.connect();
-
-            connectResult = JSON.parse(connectResult);
-
-            if( connectResult.resultFlag == 0 ){
-
-                var readResult = CertCtl.readCert();
-                readResult = JSON.parse(readResult);
-                if(readResult.resultFlag == "0"){
-
-                    var con = readResult.resultContent;
-
-                    var idNum = con.certNumber;
-                    var pic = con.identityPic;
-
-                    $("#idNum").val(idNum);
-                    $(".fileuploadTextInp").val(pic);
-                    $("#ImgUpLoadIdCardBox").css("display","none");
-                    $("#idCardReaderBox").html('<div style="color:red;font-size:20px;">上传中</div>').css("display","block");
-
-                    //上传图片
-                    PFT.Util.Ajax('/r/Resource_ImageUpload/uploadIdCard',{
-                        type : "post",
-                        params : {
-                            id : idNum,
-                            identify :"annualActive",
-                            data : pic
-                        },
-                        loading : function(){
-                        },
-                        success : function(res){
-                            var code = res.code;
-                            var msg = res.msg;
-                            var data = res.data;
-                            var src = data.src;
-                            console.log(src);
-                            $("#ImgUpLoadIdCardBox").remove();
-                            $("#idCardReaderBox").html('<img id="uploadPhotoImg" src="'+ src +'" ></img>');
-                            alert("身份证头像上传成功");
-                        },
-                        complete : function(){
-                        },
-                        fail : function(res){
-                            $("#ImgUpLoadIdCardBox").css("display","block");
-                            $("#idCardReaderBox").css("display","none");
-                            alert("身份证头像上传失败");
-                        }
-                    })
-
-                }else{
-                    alert("身份证信息获取失败，请将身份证放置在读卡器上再点击读取");
-                }
-
-            }else{
-                alert("无法连接读卡器，请打开读卡器开关并插入USB口");
-            }
-
-        }else{
-            alert("请使用IE浏览器或重新安装插件");
-            return false
-        }
-
-    },
+    
     cacheHub:{},
     recordParamHub: {
         page_size: 15

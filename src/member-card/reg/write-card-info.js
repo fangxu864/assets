@@ -66,7 +66,8 @@ var WriteCardInfo = PFT.Util.Class({
         })
     },
     onReadKaSuccess : function(card_no){
-        $("#phy_no_inp").val(card_no);
+        var num = "0x" + card_no;
+        $("#phy_no_inp").val(num);
     },
     /**
      * 刷新info
@@ -106,6 +107,7 @@ var WriteCardInfo = PFT.Util.Class({
 		var memberID = $("#memberID_hidInp").val();
 		var aid = $("#aid_hidInp").val();
 		var dname = $("#dname_hidInp").val();
+        var phy_no = $("#phy_no_inp").val();
 		var mobile = info.mobile;
 		var idCard = info.idCard;
 		var card_no = info.card_no;
@@ -116,6 +118,7 @@ var WriteCardInfo = PFT.Util.Class({
             mobile : mobile,
             idCard : idCard,
             card_no : card_no,
+            phy_no: phy_no
         }
     },
     setDname : function(dname){
@@ -172,29 +175,42 @@ var WriteCardInfo = PFT.Util.Class({
         
     },
     write : function(){
+        var _this = this;
         var info = this.getWriteCardInfo();
-		var memberID = info.memberID;
-		var aid = info.aid;
-		var dname = info.dname;
-		var mobile = info.mobile;
-		var idCard = info.idCard;
-		var card_no = info.card_no;
-        var phy_no = info.phy_no;
 
-        if(!memberID) return Message.error("缺少memberID");
-        if(!aid) return Message.error("aid");
-        if(!dname) return Message.error("缺少dname");
+        this.readKa();
+        setTimeout(function () {
 
-        if(!mobile && !idCard && !card_no && !phy_no) return Message.alert("请先开卡，开卡成功后才能将信息写入卡里");
+            //写入前先读取下当前卡片的物理卡号，如果物理卡号不一致，则不能写入
 
-        //先验证一下这三个字段，确保3个参数都可用
-        if(!this.validate_mobile()) return false;
-        if(!this.validate_idCard()) return false;
-        if(!this.validate_card_no()) return false;
-        if(!this.isWebSocketSupport()) return Message.alert("您的浏览器不支持WebSocket，请更换浏览器，建议使用：谷歌、火狐、360极速模式、IE10+ 等浏览器");
+            var cur_Phy_no = $("#phy_no_inp").val();
+            if(info.phy_no != cur_Phy_no){
+                Message.alert("请使用该会员的卡片！");
+                return;
+            }
 
-        this.sendDataToSocket();
+            var memberID = info.memberID;
+            var aid = info.aid;
+            var dname = info.dname;
+            var mobile = info.mobile;
+            var idCard = info.idCard;
+            var card_no = info.card_no;
+            var phy_no = info.phy_no;
 
+            if(!memberID) return Message.error("缺少memberID");
+            if(!aid) return Message.error("aid");
+            if(!dname) return Message.error("缺少dname");
+
+            if(!mobile && !idCard && !card_no && !phy_no) return Message.alert("请先开卡，开卡成功后才能将信息写入卡里");
+
+            //先验证一下这三个字段，确保3个参数都可用
+            if(!_this.validate_mobile()) return false;
+            if(!_this.validate_idCard()) return false;
+            if(!_this.validate_card_no()) return false;
+            if(!_this.isWebSocketSupport()) return Message.alert("您的浏览器不支持WebSocket，请更换浏览器，建议使用：谷歌、火狐、360极速模式、IE10+ 等浏览器");
+
+            _this.sendDataToSocket();
+        },200)
 	},
     readKa : function(){
         this.ws.send('{"cmd":"read"}');

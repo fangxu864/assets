@@ -42,6 +42,7 @@ var Book_form={
 
     init:function () {
         var _this=this;
+        var todayDate = this.getDate();
         this.isAdmin=$("#is_admin").val();
         //获取四个容器
         // this.title_box=$(".title_box");
@@ -57,7 +58,6 @@ var Book_form={
         $(".mctit_1").addClass("active");
         this.filter_box.html(filter_tpl);
         this.tablecon_box.html(tablecon_tpl);
-
         if(_this.isAdmin==1){
             $(".filter_box .filter .line1").show();
             //交易商户搜索框
@@ -102,23 +102,29 @@ var Book_form={
                 top : 0,                       //日历box偏移量
                 left : 0,                     //日历box偏移量
                 // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
-                max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                max : max_day,          //昨天之后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+                }       //弹出日历后callback
             });
             return this;
         });
         this.etime_inp.on("click",function(e){
             var min_day=_this.stime_inp.val();
+          
             // min_day=moment( Date.parse(min_day.replace(/-/g,'/'))-24 * 3600 * 1000 ).format('YYYY-MM-DD');
             calendar.show(_this.etime_inp.val(),{     //这里的第一个参数为弹出日历后，日历默认选中的日期，可传空string,此时日历会显示当前月份的日期
                 picker : $("#end_time"),              //页面上点击某个picker弹出日历(请使用input[type=text])
                 top : 0,                       //日历box偏移量
                 left : 0,                     //日历box偏移量
                 min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
-                // max : when.today(),          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                max : _this.getDate().detailYesterday,         //昨天之后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+    
+                }       //弹出日历后callback
             })
         });
         calendar.on("select",function(data){
@@ -372,6 +378,16 @@ var Book_form={
 
         this.bind();
         _this.queryState_box.show().html('<div style="text-align: center;line-height: 200px;font-size: 16px;color: #c3c3c3;">请选择查询条件再点击查询按钮进行查询</div>');
+
+        if(todayDate.todayDay == 1){
+            $('#thisweek_btn').hide();
+        }
+        if(todayDate.todayDate == 1){
+            $('#thismonth_btn').hide();
+
+        }
+    
+     
     },
     bind:function () {
         var _this=this;
@@ -393,9 +409,9 @@ var Book_form={
                 }break;
                 case "thisweek_btn":{
                     _this.stime_inp.val(when.week()[0]);
-                    _this.etime_inp.val(when.week()[1]);
+                    _this.etime_inp.val(_this.getDate().detailYesterday);
                     _this.setCookie("start_time",when.week()[0],1000*60*60);
-                    _this.setCookie("end_time",when.week()[1],1000*60*60)
+                    _this.setCookie("end_time",_this.getDate().detailYesterday,1000*60*60)
                 }break;
                 case "lastweek_btn":{
                     _this.stime_inp.val(when.lastweek()[0]);
@@ -405,9 +421,9 @@ var Book_form={
                 }break;
                 case "thismonth_btn":{
                     _this.stime_inp.val(when.month()[0]);
-                    _this.etime_inp.val(when.month()[1]);
+                    _this.etime_inp.val(_this.getDate().detailYesterday);
                     _this.setCookie("start_time",when.month()[0],1000*60*60);
-                    _this.setCookie("end_time",when.month()[1],1000*60*60)
+                    _this.setCookie("end_time",_this.getDate().detailYesterday,1000*60*60)
                 }break;
                 case "lastmonth_btn":{
                     _this.stime_inp.val(when.lastmonth()[0]);
@@ -888,29 +904,49 @@ var Book_form={
     },
     //处理cookie的函数
     setCookie:function (name, value, time) {
-    var oDate=new Date();
-    oDate.setTime(oDate.getTime()+time);
-    document.cookie=name+'='+encodeURIComponent(value)+';expires='+oDate;
+        var oDate=new Date();
+        oDate.setTime(oDate.getTime()+time);
+        document.cookie=name+'='+encodeURIComponent(value)+';expires='+oDate;
     },
     getCookie:function (name) {
-    var arr=document.cookie.split('; ');
-    var i=0;
-    for(i=0;i<arr.length;i++)
-    {
-        //arr2->['username', 'abc']
-        var arr2=arr[i].split('=');
-
-        if(arr2[0]==name)
+        var arr=document.cookie.split('; ');
+        var i=0;
+        for(i=0;i<arr.length;i++)
         {
-            var getC = decodeURIComponent(arr2[1]);
-            return getC;
-        }
-    }
+            //arr2->['username', 'abc']
+            var arr2=arr[i].split('=');
 
-    return '';
+            if(arr2[0]==name)
+            {
+                var getC = decodeURIComponent(arr2[1]);
+                return getC;
+            }
+        }
+
+        return '';
     },
     removeCookie:function (name) {
-    setCookie(name, '1', -1);
+        setCookie(name, '1', -1);
+    },
+    getDate : function(){
+        var mydate = new Date();
+        var month = mydate.getMonth()+1;
+        var today = mydate.getDate();
+        if(month < 10){
+            month = '0'+ month;
+        }
+        if(today<10){
+            today = '0'+ today
+        }
+        var data = {
+            year:mydate.getFullYear(),
+            month:month,
+            todayDate: today,
+            todayDay: mydate.getDay(),
+            detailYesterday:mydate.getFullYear()+'-'+month+'-'+ (today-1),
+            detailtoday:mydate.getFullYear()+'-'+month+'-'+ today
+        }
+        return data;
     }
 };
 

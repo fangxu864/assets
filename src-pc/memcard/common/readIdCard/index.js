@@ -8,7 +8,7 @@ var readIdCard = PFT.Util.Class({
 
     init: function () {
         if(!window.WebSocket){
-            alert("您的浏览器不支持读卡，请使用chrome浏览器或其它支持websocket的浏览器。");
+            Message.alert("您的浏览器不支持读卡，请使用<a target='_blank' href='https://www.baidu.com/s?ie=UTF-8&wd=chrome%E6%B5%8F%E8%A7%88%E5%99%A8'>chrome浏览器</a>或其它支持websocket的浏览器。");
             return false;
         }
         var _this = this;
@@ -18,18 +18,23 @@ var readIdCard = PFT.Util.Class({
         this.websocket.onmessage = function(evt) {
             var data = JSON.parse(evt.data);
             var data2 = JSON.parse(data.data);
+            console.log(data2);
             var name = data2.Name;
             var code = data2.Code;
-            _this.trigger("socketMessage" ,{name:name, code:code})
+            var Gender = data2.Gender;
+            _this.trigger("socketMessage" ,{name:name, code:code ,Gender:Gender})
         };
         this.websocket.onerror = function(evt) {
             // Message.warning("使用读卡功能需要开启webSocket服务。")
         };
     },
 
-    doSend: function (message) {
+    doSend: function (message ,noMessage) {
         if(!window.WebSocket){
-            alert("您的浏览器不支持读卡，请使用chrome浏览器或其它支持websocket的浏览器。");
+            // Message.alert("您的浏览器不支持读卡，请使用chrome浏览器或其它支持websocket的浏览器。");
+            if(!noMessage){
+                Message.alert("您的浏览器不支持读卡，请使用<a target='_blank' href='https://www.baidu.com/s?ie=UTF-8&wd=chrome%E6%B5%8F%E8%A7%88%E5%99%A8'>chrome浏览器</a>或其它支持websocket的浏览器。");
+            }
             return false;
         }
         //0        CONNECTING        连接尚未建立
@@ -40,7 +45,9 @@ var readIdCard = PFT.Util.Class({
             Message.error("请先开启webSocket服务。");
             return false;
         }else if(this.websocket.readyState == 1){
-            Message.success("连接已建立，请先放置身份证后点击读卡。");
+            if(!noMessage){
+                Message.success("连接已建立，请先放置身份证后点击读卡。");
+            }
         }else if(this.websocket.readyState == 2 || this.websocket.readyState == 3 ){
             Message.error("webSocket服务被关闭，读卡不可用，请重启webSocket服务。");
             return false;

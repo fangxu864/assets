@@ -108,7 +108,9 @@ var Book_form={
                 // min : "2016-05-20",          //2016-06-20往前的日期都不可选 会自动挂上disable类名
                 max : max_day,          //2016-07-10往后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+                }       //弹出日历后callback
             });
             return this;
         });
@@ -120,9 +122,11 @@ var Book_form={
                 top : 0,                       //日历box偏移量
                 left : 0,                     //日历box偏移量
                 min : min_day,              //2016-06-20往前的日期都不可选 会自动挂上disable类名
-                // max : when.today(),          //2016-07-10往后的日期都不可选 会自动挂上disable类名
+                max : _this.getDate().detailYesterday,         //昨天之后的日期都不可选 会自动挂上disable类名
                 onBefore : function(){},     //弹出日历前callback
-                onAfter : function(){}       //弹出日历后callback
+                onAfter : function(){
+                    $('#calendar-pop-container').append("<div class='calendarTip'><span>当日报表于次日凌晨生成</span></div>");
+                }       //弹出日历后callback
             })
         });
         calendar.on("select",function(data){
@@ -344,6 +348,14 @@ var Book_form={
         this.bind();
         _this.queryState_box.show().html('<div style="text-align: center;line-height: 200px;font-size: 16px;color: #c3c3c3;">请选择查询条件再点击查询按钮进行查询</div>');
 
+        var todayDate = this.getDate();
+        if(todayDate.todayDay == 1){
+            $('#thisweek_btn').hide();
+        }
+        if(todayDate.todayDate == 1){
+            $('#thismonth_btn').hide();
+        }
+
     },
     bind:function () {
         var _this=this;
@@ -365,9 +377,9 @@ var Book_form={
                 }break;
                 case "thisweek_btn":{
                     _this.stime_inp.val(when.week()[0]);
-                    _this.etime_inp.val(when.week()[1]);
+                    _this.etime_inp.val(_this.getDate().detailYesterday);
                     _this.setCookie("start_time",when.week()[0],1000*60*60);
-                    _this.setCookie("end_time",when.week()[1],1000*60*60)
+                    _this.setCookie("end_time",_this.getDate().detailYesterday,1000*60*60)
                 }break;
                 case "lastweek_btn":{
                     _this.stime_inp.val(when.lastweek()[0]);
@@ -377,9 +389,9 @@ var Book_form={
                 }break;
                 case "thismonth_btn":{
                     _this.stime_inp.val(when.month()[0]);
-                    _this.etime_inp.val(when.month()[1]);
+                    _this.etime_inp.val(_this.getDate().detailYesterday);
                     _this.setCookie("start_time",when.month()[0],1000*60*60);
-                    _this.setCookie("end_time",when.month()[1],1000*60*60)
+                    _this.setCookie("end_time",_this.getDate().detailYesterday,1000*60*60)
                 }break;
                 case "lastmonth_btn":{
                     _this.stime_inp.val(when.lastmonth()[0]);
@@ -876,6 +888,26 @@ var Book_form={
     },
     removeCookie:function (name) {
         setCookie(name, '1', -1);
+    },
+    getDate : function(){
+        var mydate = new Date();
+        var month = mydate.getMonth()+1;
+        var today = mydate.getDate();
+        if(month < 10){
+            month = '0'+ month;
+        }
+        if(today<10){
+            today = '0'+ today
+        }
+        var data = {
+            year:mydate.getFullYear(),
+            month:month,
+            todayDate: today,
+            todayDay: mydate.getDay(),
+            detailYesterday:mydate.getFullYear()+'-'+month+'-'+ (today-1),
+            detailtoday:mydate.getFullYear()+'-'+month+'-'+ today
+        }
+        return data;
     }
 };
 
