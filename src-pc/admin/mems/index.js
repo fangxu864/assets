@@ -5,7 +5,8 @@ var DatePicker = require("COMMON/modules/datepicker"),
     Tips = require('COMMON/modules/tips'),
     ParseTemplate = PFT.Util.ParseTemplate,
     trtpl = require('./tr.xtpl'),
-    ParseMemberTpl = ParseTemplate( trtpl );
+    ParseMemberTpl = ParseTemplate( trtpl ),
+    Pagination = require("COMMON/modules/pagination-x/v1.0");;
 
 var MemberManage = PFT.Util.Class({
 
@@ -13,9 +14,11 @@ var MemberManage = PFT.Util.Class({
 
     searchContainer: '#searchCtn',
 
+    paginationContainer: '#paginationCtn',
+
     EVENTS: {
         'click .btn-morefilter':            'moreFilterToggle',         // 点击 更多筛选
-        'click #memsMerchant .radioBox':   'selectRadio',              // 点击 选择商户
+        'click #memsMerchant .radioBox':    'selectRadio',              // 点击 选择商户
         'click #btnGetStatisticsNum':       'getStatisticsNum',         // 点击 统计数量
         'click .dropdown':                  'onDropdownClick',          // 下拉框点击事件
         'click .name_select_box':           'onNameSelectBoxClick',     // 过滤条件名称下拉，已合并至下拉框点击事件
@@ -39,9 +42,39 @@ var MemberManage = PFT.Util.Class({
         getLoginIdentity: '/r/Admin_MemberManage/getLoginIdentity/'
     },
 
+    memberIdentity: {
+        isKefu: false,
+        isManager: false,
+        isFinancial: false
+    },
+
+    // 缓存每种搜索条件不同页面的数据
     cacheData: {},
 
     filterParams: {},
+
+    xhrGetData: null,
+
+    pagination: null,
+
+    PAGE_SIZE: 10,
+
+    GROUP: {
+        '1': '华东大区',
+        '2': '华北大区',
+        '3': '西南大区',
+        '4': '华中大区',
+        '99': '项目组'
+    },
+
+    // 3 未启用 4 欠费 5 一个月内到期 6 待审核 7 待回款
+    MerchantStat: {
+        'unEnableNum': '3',     // 未启用 条数
+        'ArrearsNum': '4',      // 欠费条数
+        'ExpireNum': '5',       // 一个月内到期 条数
+        'PendingNum': '6',      // 待审核 条数
+        'StandNum': '7'         // 待回款 条数
+    },
 
     init: function() {
         this.getLoginIdentity();
@@ -52,19 +85,91 @@ var MemberManage = PFT.Util.Class({
     },
 
     getLoginIdentity: function(){
+        var that = this;
+
         PFT.Util.Ajax( this.AJAX_URLS.getLoginIdentity, {
             type:'post',
 
             loading: function(){},
 
             success: function( res ){
-                console.log()
+                if( res.code == 200 ) {
+
+                    that.setMemberIdentity( res.data.type );
+
+                    that.renderIdentityRelated( res.data );
+
+                } else {
+                    Message.alert( res.msg );
+                }
             },
 
             serverError: function() {
                 Message.alert('请求出错，请刷新页面！');
             }
         });
+    },
+
+    renderIdentityRelated: function( data ) {
+        //身份识别 1 签单人 2 客服 3 区域经理 4市场部门经理 6 财务员工 7 其他人员（签单，区域，客服显示全部）
+        switch( +data.type ) {
+            case 1:
+                $('#memsSingleSign').addClass('disabled').find('.val').attr( 'data-val', data.sale[0].id ).html( data.sale[0].dname );
+                $('#memsCustomer').find('ul').append( this.renderDropdown( 2, data.kefu ) );
+                break;
+
+            case 2:
+                $('#memsSingleSign').find('ul').append( this.renderDropdown( 1, data.sale ) );
+                $('#memsCustomer').find('ul').append( this.renderDropdown( 2, data.kefu ) );
+                break;
+
+            case 3:
+                $('#memsSingleSign').find('ul').append( this.renderDropdown( 1, data.sale ) );
+                $('#memsCustomer').find('ul').append( this.renderDropdown( 2, data.kefu ) );
+                $('#memsRegion').addClass('disabled').find('.val').attr( 'data-val', data.group ).html( this.GROUP[ data.group ] );
+                break;
+
+            default:
+                $('#memsSingleSign').find('ul').append( this.renderDropdown( 1, data.sale ) );
+                $('#memsCustomer').find('ul').append( this.renderDropdown( 2, data.kefu ) );
+                break;
+        }
+    },
+
+    renderDropdown: function( type, data ) {
+        //身份识别 1 签单人 2 客服 3 区域经理 4市场部门经理 6 财务员工 7 其他人员（签单，区域，客服显示全部）
+        var html = '';
+
+        switch( type ) {
+            case 1:
+                for( var i=0, len=data.length; i<len; i++ ) {
+                    html += '<li data-val="' + data[i].id + '">' + data[i].dname + '</li>';
+                }
+                break;
+
+            case 2:
+                for( var i=0, len=data.length; i<len; i++ ) {
+                    html += '<li data-val="' + data[i].st_memberid + '">' + data[i].st_name + '</li>';
+                }
+                break;
+        }
+
+        return html;
+    },
+
+    setMemberIdentity: function( type ) {
+        switch( +type ) {
+            case 2:
+                this.memberIdentity.isKefu = true;
+                break;
+
+            case 4:
+                this.memberIdentity.isManager = true;
+                break;
+
+            case 6:
+                this.memberIdentity.isFinancial = true;
+        }
     },
 
     initFilter: function() {
@@ -115,7 +220,7 @@ var MemberManage = PFT.Util.Class({
 
         switch( state ) {
             case 'success':
-                html = ParseMemberTpl({ data: data, isKefu: 1, isManager: 1, isDirector: 1, isFinancial: 1 });
+                html = ParseMemberTpl({ data: data, memberIdentity: this.memberIdentity });
                 break;
 
             case 'loading':
@@ -239,14 +344,16 @@ var MemberManage = PFT.Util.Class({
 
         switch( action ) {
             case 'OTA':
-                tipsContent = currTarget.attr('data-ota').split(',').join('<br>');
-                this.tips.show({
-                    direction: 'bottom',
-                    hostObj: currTarget,
-                    content: tipsContent,
-                    bgcolor: '#E5E5E5',
-                    color: '#303D46'
-                });
+                if( currTarget.attr('data-ota') ) {
+                    tipsContent = currTarget.attr('data-ota').split(',').join('<br>');
+                    this.tips.show({
+                        direction: 'bottom',
+                        hostObj: currTarget,
+                        content: tipsContent,
+                        bgcolor: '#E5E5E5',
+                        color: '#303D46'
+                    });
+                }
                 break;
 
             case 'company':
@@ -265,11 +372,10 @@ var MemberManage = PFT.Util.Class({
                 break;
 
             case 'cooperation':
-                tipsContent += '合作模式：' + currTarget.attr('data-name') + '<br />';
-                tipsContent += '套餐：' + currTarget.attr('data-type') + '<br />';
-                tipsContent += '协议价格：' + currTarget.attr('data-dtype') + '<br />';
-                tipsContent += '协议起始日期：' + currTarget.attr('data-cname') + '(' + currTarget.attr('data-mobile') + ')';
-                tipsContent += '协议终止日期：' + currTarget.attr('data-cname') + '(' + currTarget.attr('data-mobile') + ')';
+                tipsContent += '合作模式：' + currTarget.attr('data-mode') + '-' + currTarget.attr('data-pay') + '<br />';
+                currTarget.attr('data-packagefee') ? (tipsContent += '协议价格：' + currTarget.attr('data-packagefee') + '<br />') : '';
+                tipsContent += '协议起始日期：' + currTarget.attr('data-begindate') + '<br />';
+                tipsContent += '协议终止日期：' + currTarget.attr('data-enddate');
 
                 this.tips.show({
                     direction: 'bottom',
@@ -304,15 +410,32 @@ var MemberManage = PFT.Util.Class({
     },
 
     getStatisticsNum: function( e ) {
+        var that = this;
+
         PFT.Util.Ajax( this.AJAX_URLS.getTotal,{
             type: 'post',
 
             loading: function() {},
 
-            success: function( res ) {},
+            success: function( res ) {
+                if( res.code == 200 ) {
+                    that.renderStatisticsNum( res.data );
+                } else {
+                    Message.alert('请求出错，请刷新页面！');
+                }
+            },
 
-            serverError: function( xhr, msg ) {}
+            serverError: function( xhr, msg ) {
+                Message.alert('请求出错，请刷新页面！');
+            }
         })
+    },
+
+    renderStatisticsNum: function( data ){
+        var memsMerchant = $('#memsMerchant');
+        for( var key in data ) {
+            memsMerchant.find('.radioBox[data-stat=' + this.MerchantStat[ key ] +']').find('.radio-text').append( '(' + data[key] + ')' );
+        }
     },
 
     onDropdownClick: function( e ) {
@@ -424,30 +547,71 @@ var MemberManage = PFT.Util.Class({
     onBtnSearchClick: function() {
         if( !this.isFormValid() ) return false;
 
-        var that = this;
+        ( !this.xhrGetData || this.xhrGetData.readyState == 4 ) && this.ajaxGetData( 1 );
+    },
 
-        // 请求数据
-        PFT.Util.Ajax( this.AJAX_URLS.memberManage, {
-            type: 'post',
+    ajaxGetData: function( page ) {
+        var that = this,
+            page = page ? page : 1,
+            params = $.extend( {}, this.filterParams, { page: page, pageSize: this.PAGE_SIZE }),
+            paramsStr = this.JsonStringify( params ),
+            cache;
 
-            params: this.filterParams,
+        if ( this.cacheData[ paramsStr ] ) {
+            cache = this.cacheData[ paramsStr ];
+            this.render( 'success', cache.data.list );
+            this.pagination.render({ current: page, total: cache.data.totalPage });
 
-            loading: function() {
-                that.render('loading');
-            },
+        } else {
+            // 请求数据
+            this.xhrGetData = PFT.Util.Ajax( this.AJAX_URLS.memberManage, {
+                type: 'post',
 
-            success: function( res ) {
-                if( res.code == 200 ) {
-                    that.render( 'success', res.data.list );
-                } else {
+                params: params,
+
+                loading: function() {
+                    that.render('loading');
+                },
+
+                success: function( res ) {
+                    if( res.code == 200 ) {
+                        that.cacheData[ paramsStr ] = res;
+
+                        that.render( 'success', res.data.list );
+
+                        if( !that.pagination ) {
+                            that.pagination = new Pagination({
+                                container : that.paginationContainer, //必须，组件容器id
+                                count : 7,                //可选  连续显示分页数 建议奇数7或9
+                                showTotal : true,         //可选  是否显示总页数
+                                jump : true               //可选  是否显示跳到第几页
+                            });
+
+                            that.pagination.on("page.switch",function(toPage,currentPage,totalPage){
+                                // toPage :      要switch到第几页
+                                // currentPage : 当前所处第几页
+                                // totalPage :   当前共有几页
+                                that.pagination.render({ current: toPage, total: totalPage });
+
+                                that.xhrGetData.readyState == 4 && that.ajaxGetData( toPage );
+                            });
+                        }
+
+                        that.pagination.render({current: page, total: res.data.totalPage});
+                    } else {
+                        that.render( 'error', res.msg );
+                        that.pagination = null;
+                        $( that.paginationContainer ).empty();
+                    }
+                },
+
+                serverError: function( xhr, msg ) {
                     that.render( 'error', res.msg );
+                    that.pagination = null;
+                    $( that.paginationContainer ).empty();
                 }
-            },
-
-            serverError: function( xhr, msg ) {
-                that.render( 'error', res.msg );
-            }
-        })
+            });
+        }
     },
 
     isFormValid: function() {
@@ -462,8 +626,8 @@ var MemberManage = PFT.Util.Class({
 
             searchStatus = $('#memsSearchStatus').find('.val').attr('data-val'),
             merchantType = $('#memsMerchantType').find('.val').attr('data-val'),
-            singleSign,
-            customer,
+            singleSign = $('#memsSingleSign').find('.val').attr('data-val'),
+            customer = $('#memsCustomer').find('.val').attr('data-val'),
             region = $('#memsRegion').find('.val').attr('data-val'),
             group = $('#memsGroup').find('.val').attr('data-val'),
             comType = $('#memsComType').find('.val').attr('data-val'),
@@ -510,7 +674,7 @@ var MemberManage = PFT.Util.Class({
             }
         }
 
-        if( oucherFee && this.isFloat( oucherFee ) ) {
+        if( oucherFee && !this.isFloat( oucherFee ) ) {
                 Message.alert('请输入数字（可包含小数点）!');
                 $('#memsOucherFee').focus();
                 return false;
@@ -525,6 +689,8 @@ var MemberManage = PFT.Util.Class({
             searchEndTime: searchEndTime,
             searchStatus: searchStatus,
             merchantType: merchantType,
+            singleSign: singleSign,
+            customer: customer,
             region: region,
             group: group,
             comType: comType,

@@ -1,10 +1,12 @@
 require("./index.scss");
+require('./lightbox.css');
+require('./lightbox.js');
 
 var DatePicker = require("COMMON/modules/datepicker"),
     Message = require('pft-ui-component/Message'),
     ParseTemplate = PFT.Util.ParseTemplate,
-    ParseAsideTpl = ParseTemplate('./aside.xtpl'),
-    ParseMainTpl = ParseTemplate('./main.xtpl'),
+    ParseAsideTpl = ParseTemplate( require('./aside.xtpl') ),
+    ParseMainTpl = ParseTemplate( require('./main.xtpl') ),
     Toast = require('COMMON/modules/Toast'),
     toast = new Toast;
 
@@ -40,6 +42,8 @@ var MemberManage = PFT.Util.Class({
     },
 
     getMemberDetails: function( id ) {
+        var that = this;
+
         PFT.Util.Ajax( this.AJAX_URLS.memberDetail, {
             type: 'post',
 
@@ -52,7 +56,10 @@ var MemberManage = PFT.Util.Class({
             success: function( res ) {
                 toast.hide();
 
-
+                if( res.code == 200 ) {
+                    $( that.asideContainer ).html( ParseAsideTpl({ detail: res.data, isManager: 1 }) );
+                    $( that.mainContainer ).html( ParseMainTpl({ detail: res.data, isManager: 1, isKefu: 1 }) );
+                }
             },
 
             serverError: function( xhr, msg ) {

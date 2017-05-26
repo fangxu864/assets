@@ -1,43 +1,23 @@
     <div class="detail-section">
-        <div class="clearfix">
-            <h2 class=""><%=detail.dname%></h2>
-            <span class="t-title">
-            <%
-                var dtypeStr;
-                switch( detail.dtype ) {
-                    case 0:
-                        dtypeStr = '供应商';
-                        break;
-                    case 1:
-                        dtypeStr = '分销商';
-                        break;
-                    case 2:
-                        dtypeStr = '直接供应方';
-                        break;
-                    case 3:
-                        dtypeStr = '合并终端后的资源方';
-                        break;
-                    case 5:
-                        dtypeStr = '普通用户';
-                        break;
-                    case 6:
-                        dtypeStr = '员工';
-                        break;
-                    case 7:
-                        dtypeStr = '集团帐号';
-                        break;
-                    case 9:
-                        dtypeStr = '平台帐号';
-                        break;
-                    case default:
-                        dtypeStr = '默认';
-                        break;
-                }
-            %>
-            (<%=dtypeStr%>)
+        <div class="clearfix detail-dname">
+            <h2 class="fl f22"><%=detail.dname%></h2>
+            <span class="fl ml15 mt10">
+            (
+                <%= {
+                        "0":'供应商',
+                        "1":'分销商',
+                        "2":'直接供应方',
+                        "3":'合并终端后的资源方',
+                        "5":'普通用户',
+                        "6":'员工',
+                        "7":'集团帐号',
+                        "9":'平台帐号'
+                    }[ detail.dtype ]
+                %>
+            )
             </span>
         </div>
-        <div class="form">
+        <div class="form f14 mt20">
             <div class="form-group">
                 <label class="form-label">账号：</label>
                 <div class="form-val">
@@ -82,8 +62,10 @@
             </div>
         </div>
         <% if( isKefu ) { %>
-        <a class="btn btn-reverse btn-default" href="javascript:;" id="btnModBaseinfo">基本信息修改</a>
-        <a class="btn btn-reverse btn-default" href="javascript:;" id="btnResetMemPassword">重置密码</a>
+        <div class="section-btn-wrap">
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="btnModBaseinfo">基本信息修改</a>
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="btnResetMemPassword">重置密码</a>
+        </div>
         <% } %>
     </div>
 
@@ -109,7 +91,7 @@
         </div>
 
 
-        <div class="form">
+        <div class="form f14">
             <div class="form-group">
                 <label class="form-label">签单人员：</label>
                 <div class="form-val">
@@ -125,21 +107,29 @@
             <div class="form-group">
                 <label class="form-label">已开通应用：</label>
                 <div class="form-val">
-                    <div class="form-text"><%=detail.appcenter.join()%></div>
+                    <div class="form-text"><%= detail.app ? detail.app : '' %></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">设备：</label>
+                <div class="form-val">
+                    <div class="form-text"><%= detail.equipment ? detail.equipment : '' %></div>
                 </div>
             </div>
         </div>
 
-        <% if( isManager || isDirector ) { %>
-        <a class="btn btn-reverse btn-default" href="javascript:;" id="">编辑</a>
-        <a class="btn btn-reverse btn-default" href="javascript:;" id="btnConfigCash">提现清分配置</a>
+        <% if( isManager ) { %>
+        <div class="section-btn-wrap">
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="">编辑</a>
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="btnConfigCash">提现清分配置</a>
+        </div>
         <% } %>
     </div>
 
 
     <div class="detail-section">
         <div class="detail-section-tit">权限设置</div>
-        <div class="form">
+        <div class="form f14">
             <div class="form-group">
                 <label class="form-label">接口编码：</label>
                 <div class="form-val">
@@ -149,7 +139,7 @@
             <div class="form-group">
                 <label class="form-label">对接系统：</label>
                 <div class="form-val">
-                    <div class="form-text"><%=detail.sysInfo.join()%></div>
+                    <div class="form-text"><%=detail.sysInfo%></div>
                 </div>
             </div>
             <div class="form-group">
@@ -178,8 +168,10 @@
             </div>
         </div>
 
-        <% if( isManager || isDirector ) { %>
-        <a class="btn btn-reverse btn-default" href="javascript:;" id="">更改</a>
+        <% if( isManager ) { %>
+        <div class="section-btn-wrap">
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="">更改</a>
+        </div>
         <% } %>
     </div>
 
@@ -256,16 +248,18 @@
             </div>
         </div>
         <div class="identify-imgs">
-            <ul>
-                <li><a href="<%=detail.id_card%>" data-lightbox="identify"><img src="<%=detail.id_card%>" /></a></li>
-                <li><a href="<%=detail.id_card_B%>" data-lightbox="identify"><img src="<%=detail.id_card_B%>" /></a></li>
-                <li><a href="<%=detail.id_card_hand%>" data-lightbox="identify"><img src="<%=detail.id_card_hand%>" /></a></li>
-                <li><a href="<%=detail.other_les%>" data-lightbox="identify"><img src="<%=detail.other_les%>" /></a></li>
+            <ul class="clearfix">
+                <li><a class="identify-img" href="<%=detail.id_card%>" data-lightbox="identify"><img src="<%=detail.id_card%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.id_card_B%>" data-lightbox="identify"><img src="<%=detail.id_card_B%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.id_card_hand%>" data-lightbox="identify"><img src="<%=detail.id_card_hand%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.other_les%>" data-lightbox="identify"><img src="<%=detail.other_les%>" /></a></li>
             </ul>
         </div>
-            <% if( isManager || isDirector ) { %>
-            <a class="btn btn-reverse btn-default" href="javascript:;" id="">通过认证</a>
-            <a class="btn btn-reverse btn-default" href="javascript:;" id="">驳回</a>
+            <% if( isManager ) { %>
+            <div class="section-btn-wrap">
+                <a class="btn btn-reverse btn-default" href="javascript:;" id="">通过认证</a>
+                <a class="btn btn-reverse btn-default" href="javascript:;" id="">驳回</a>
+            </div>
             <% } %>
         <% } else { %>
         <div class="form form-inline">
@@ -313,18 +307,20 @@
             </div>
         </div>
         <div class="identify-imgs">
-            <ul>
-                <li><a href="<%=detail.bsn_les%>" data-lightbox="identify"><img src="<%=detail.bsn_les%>" /></a></li>
-                <li><a href="<%=detail.opt_les%>" data-lightbox="identify"><img src="<%=detail.opt_les%>" /></a></li>
-                <li><a href="<%=detail.auth_les%>" data-lightbox="identify"><img src="<%=detail.auth_les%>" /></a></li>
-                <li><a href="<%=detail.org_les%>" data-lightbox="identify"><img src="<%=detail.org_les%>" /></a></li>
-                <li><a href="<%=detail.tax_les%>" data-lightbox="identify"><img src="<%=detail.tax_les%>" /></a></li>
+            <ul class="clearfix">
+                <li><a class="identify-img" href="<%=detail.bsn_les%>" data-lightbox="identify"><img src="<%=detail.bsn_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.opt_les%>" data-lightbox="identify"><img src="<%=detail.opt_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.auth_les%>" data-lightbox="identify"><img src="<%=detail.auth_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.org_les%>" data-lightbox="identify"><img src="<%=detail.org_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.tax_les%>" data-lightbox="identify"><img src="<%=detail.tax_les%>" /></a></li>
             </ul>
         </div>
-            <% if( isManager || isDirector ) { %>
-            <a class="btn btn-reverse btn-default" href="javascript:;" id="">通过认证</a>
-            <a class="btn btn-reverse btn-default" href="javascript:;" id="">驳回</a>
-            <a class="btn btn-reverse btn-default" href="javascript:;" id="">撤销认证</a>
+            <% if( isManager ) { %>
+            <div class="section-btn-wrap">
+                <a class="btn btn-reverse btn-default" href="javascript:;" id="">通过认证</a>
+                <a class="btn btn-reverse btn-default" href="javascript:;" id="">驳回</a>
+                <a class="btn btn-reverse btn-default" href="javascript:;" id="">撤销认证</a>
+            </div>
             <% } %>
         <% } %>
     </div>
