@@ -32,10 +32,9 @@ var Second_packDetailModule = {
         })
 
         //表格伸展收缩按钮
-        this.container.on("click",".un-shrink",function (e) {
-            e.stopPropagation();
-            $(this).toggleClass("shrink");
-            $(this).parents("tr").siblings("tr").fadeToggle(0);
+        this.container.on("click",".parentTr",function (e) {
+            $(this).find(".un-shrink").toggleClass("shrink");
+            $(this).siblings("tr").fadeToggle(0);
         });
     },
 

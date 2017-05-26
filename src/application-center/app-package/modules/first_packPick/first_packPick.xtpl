@@ -5,8 +5,8 @@
         <div class="line line1"><%=item.name%></div>
         <div class="line line2"><%=item.summary%></div>
         <div class="line line3">
-            <span class="money"><span class="rmb">¥</span><%=item.fee%></span>
-            <span class="btn btn-book" data-moduleId="<%=item.id%>">立即订购</span>
+            <span class="money"><span class="rmb">¥</span><%=(Number(item.fee) / 100).toFixed(2)%></span>
+            <span class="btn btn-book <%=item.fee == 0 ? 'free' : ''%>" data-moduleId="<%=item.id%>"><%=item.fee == 0 ? "免费开通" : "立即订购"%></span>
         </div>
     </div>
 </div>

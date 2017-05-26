@@ -29,9 +29,24 @@
         text-align: left;
         padding-left: 30px;
       }
+      .parentTr{
+        cursor: pointer;
+        .th1{
+          border-right: 1px solid #e5e5e5;
+        }
+      }
+      .th4{
+        border-right: 1px solid #e5e5e5;
+      }
+      .child-th{
+        padding-left: 56px;
+      }
       tbody tr{
         line-height: 35px;
         border: 1px solid #e5e5e5;
+      }
+      tbody tr:hover{
+        background-color: #fafafa;
       }
       tbody tr.odd{
         background-color: #f4f4f4;
@@ -66,6 +81,13 @@
       .price{
         color: #ff4500;
         font-size: 16px;
+      }
+      .free{
+        background-color: #0897d9 ;
+        &:hover{
+          background-color: #15aaef ;
+          box-shadow: 0 0 5px #15aaef ;
+        }
       }
 
     }

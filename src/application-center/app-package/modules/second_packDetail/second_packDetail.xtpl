@@ -1,3 +1,11 @@
+<%
+function fenToYuan( fen ){
+return (Number(fen) / 100).toFixed(2)
+}
+
+%>
+
+
 <div class="title">
     <span class="key">订购商家:</span><span class="value"><%=data.dname%></span>
     <span class="key">商家类型:</span><span class="value"><%=data.comTypeName%></span>
@@ -6,47 +14,84 @@
 <table class="detail-table">
     <thead>
     <tr>
-        <th class="th1">所属类别</th>
-        <th>应用模块</th>
+        <th class="th1">开通模块</th>
         <th>生效周期</th>
         <th>生效时间</th>
         <th>服务价格(元)</th>
     </tr>
     </thead>
-    <tbody>
 
-    <% var firstIndex = 0 %>
-    <% _.each(data.base_module,function(item,index){%>
-    <tr class="<%=index % 2 == 0 ? '' : 'odd'%>" style="display: <%=firstIndex  == 0 ? '' : 'none'%>">
-        <td class="th1">
-            <% if(firstIndex == 0){%>
-            <span class="un-shrink"></span>
-            <%}%>
+
+    <tbody>
+    <tr class="parentTr odd">
+        <td colspan="4" class="th1">
+            <span class="un-shrink "></span>
             基础模块
         </td>
-        <td><%=item%></td>
+    </tr>
+    <% _.each(data.base_module,function(item,index){%>
+    <tr class="" style="display: none;">
+        <td  class="th1 child-th"><%=item%></td>
         <td><%=data.unit%>个月</td>
         <td>即日起生效</td>
-        <td>0元</td>
+        <td class="th4">0元</td>
     </tr>
-    <% firstIndex++})%>
+    <% })%>
     </tbody>
 
+    <%
+
+    function judgeTrue( param ) {
+    var type = Object.prototype.toString.call(param);
+    switch (type){
+    case '[object Array]':
+    return param.length === 0 ?  !1 : !0 ;
+    break;
+    case '[object Object]':
+    var t;
+    for (t in param)
+    return !0;
+    return !1;
+    break;
+    case '[object String]':
+    return param === '' ? !1 : !0 ;
+    break;
+    case '[object Number]':
+    return param === 0 ? !1 : !0 ;
+    break;
+    case '[object Boolean]':
+    return param === false ? !1 : !0;
+    break;
+    case '[object Null]':
+    return !1;
+    break;
+    case '[object Undefined]':
+    return !1;
+    break;
+    default :
+    return type;
+    }
+    }
+
+    %>
+
+    <% if(judgeTrue(data.increat_module) ){%>
     <tbody>
-    <% var secIndex = 0 %>
-    <% _.each(data.increat_module,function(item,index){%>
-    <tr class="<%=index % 2 == 0 ? '' : 'odd'%>" style="display: <%=secIndex  == 0 ? '' : ''%>">
-        <td class="th1">
-            <% if(secIndex == 0){%>
-            <%}%>
-            应用中心模块
+    <tr class="parentTr odd">
+        <td colspan="4" class="th1">
+            <span class="un-shrink shrink"></span>
+            应用模块
         </td>
-        <td><%=item.name%></td>
+    </tr>
+    <% }%>
+    <% _.each(data.increat_module,function(item,index){%>
+    <tr class="">
+        <td  class="th1 child-th"><%=item.name%></td>
         <td><%=data.unit%>个月</td>
         <td>即日起生效</td>
-        <td><%=item.fee%>元</td>
+        <td class="th4"><%=item.fee%>元</td>
     </tr>
-    <% secIndex++ })%>
+    <%  })%>
     </tbody>
 
     <tbody>
@@ -58,15 +103,15 @@
     </tr>
     <tr class="odd">
         <td colspan="5" style="text-align: right ;padding-right: 40px">
-            <p>购买套餐优惠: 省<%=data.savePrice %>元</p>
-            <p>合计: <%=data.fee%>元</p>
+            <p>购买套餐优惠: 省<%=fenToYuan(data.savePrice) %>元</p>
+            <p>合计: <%=fenToYuan(data.fee == "免费" ? 0 : data.fee )%>元</p>
         </td>
     </tr>
 
     </tbody>
 </table>
-<p class="line line1">应付: <span class="price"><%=data.fee%>元</span></p>
-<p class="line line2"><a href="/new/appcenter_pay.html?appid=<%=data.moduleId%>&pay_type=2"><span class="btn" data-moduleId="<%=data.moduleId%>" style="background-color:<%=data.fee == 0 || data.fee == "免费" ? '#0897d9' : ''%> "><%=data.fee == 0 || data.fee == "免费" ? '免费开通' : '立即付款'%></span></a><a href="javascript:void(0)" class="pre-btn" style="margin-left: 20px">上一步</a></p>
-<p class="line line3">点击付款即代表您已阅读并同意<a href="">《票付通代理销售和结算协议》</a></p>
+<p class="line line1">应付: <span class="price"><%=fenToYuan(data.fee == "免费" ? 0 : data.fee )%>元</span></p>
+<p class="line line2"><a href="/new/appcenter_pay.html?appid=<%=data.moduleId%>&pay_type=2"><span class="btn <%=data.fee == 0 || data.fee == "免费" ? 'free' : ''%>" data-moduleId="<%=data.moduleId%>" ><%=data.fee == 0 || data.fee == "免费" ? '免费开通' : '立即付款'%></span></a><a href="javascript:void(0)" class="pre-btn" style="margin-left: 20px">上一步</a></p>
+<p class="line line3">点击付款即代表您已阅读并同意<a target="_blank" href="//my.12301.cc/Agreement.html">《票付通服务使用协议》</a></p>
 
 

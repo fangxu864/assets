@@ -1,6 +1,8 @@
 
 
 var Message = require("pft-ui-component/Message");
+var VTb = require("../../virtualTable.js");
+
 var DataCenter = {
     init: function (CR) {
         var _this = this;
@@ -47,7 +49,7 @@ var DataCenter = {
                     _this.CR.pubSub.pub("queryStateBox.close");
                     _this.CR.pubSub.pub("first_packPick.render", res.data);
 
-                    // _this.CR.pubSub.pub("First_packDetailModule.render", _this.getFirstPackageDetail(1))
+                    _this.CR.pubSub.pub("First_packDetailModule.render", _this.getFirstPackageDetail(res))
 
                 } else {
                     _this.CR.pubSub.pub("queryStateBox.showError", {dom: ".progressBox", text: res.msg});
@@ -69,7 +71,133 @@ var DataCenter = {
     /**
      * @method 获取第一步套餐详情
      */
-    getFirstPackageDetail: function (role) {
+    getFirstPackageDetail: function (res) {
+        var _this = this;
+
+        var titleTb = ['模块名称'];
+
+        //-------------------------baseTb-----------------------
+        //基础模块的虚拟表
+        var all_base = res.data.all_base;
+        var package_info = res.data.package_info;
+
+        //表列数和列id映射关系
+        var mainTbColRelation = {moduleName:0};
+        //表行数和行id映射关系
+        var baseTbRowRelation = {};
+        //基础模块表行数
+        var baseTbRowLength = _this.getObjLength(all_base);
+        //基础模块表列数
+        var mainTbColLength = _this.getObjLength(package_info) + 1 ;
+        var baseTb = VTb.createTb( baseTbRowLength , mainTbColLength);
+
+
+        //表行数和行id建立映射关系
+        var Index1 = 0;
+        for(var all_baseKey in all_base){
+            baseTbRowRelation[all_baseKey] = Index1;
+            Index1++
+        }
+
+        //表列数和列id建立映射关系
+        var Index2 = 1;
+        for(var package_infoKey in package_info ){
+            mainTbColRelation[package_infoKey] = Index2;
+            titleTb.push(package_info[package_infoKey]["name"]);
+            Index2 ++
+        }
+
+        //给表充满0
+        for(var i = 0 ; i<baseTbRowLength ; i++ ){
+            for (var k = 0; k <mainTbColLength ; k++){
+                VTb.insert(baseTb , i ,k ,0)
+            }
+        }
+
+        //装填数据的第一列，即基础模块名称
+        var curColFlag , curRowFlag;
+        for(var key_base in all_base){
+            //当前行标
+            curRowFlag = baseTbRowRelation[key_base];
+            //当前列标
+            curColFlag = mainTbColRelation['moduleName'];
+            VTb.insert(baseTb ,curRowFlag ,curColFlag ,all_base[key_base] )
+        }
+
+        //装填其他列
+        for(var info_key in package_info){
+            for(var info_base_key in package_info[info_key]['base_module']){
+                //当前行标
+                curRowFlag = baseTbRowRelation[ package_info[info_key]['base_module'][info_base_key] ];
+                //当前列标
+                curColFlag = mainTbColRelation[package_info[info_key]["id"]];
+                VTb.insert(baseTb ,curRowFlag ,curColFlag ,1 )
+            }
+        }
+
+        //---------------------appTb-----------------
+        //应用模块的虚拟表
+        var all_app = res.data.all_app;
+
+        //表列数和列id映射关系
+        var appTbColRelation = {moduleName:0};
+        //表行数和行id映射关系
+        var appTbRowRelation = {};
+        //基础模块表行数
+        var appTbRowLength = _this.getObjLength(all_app);
+        var appTb = VTb.createTb( appTbRowLength , mainTbColLength);
+
+
+        //表行数和行id建立映射关系
+        var Index3 = 0;
+        for(var all_appKey in all_app){
+            appTbRowRelation[all_appKey] = Index3;
+            Index3++
+        }
+
+        //给表充满0
+        for(var y = 0 ; y<appTbRowLength ; y++ ){
+            for (var t = 0; t <mainTbColLength ; t++){
+                VTb.insert(appTb , y ,t ,0)
+            }
+        }
+
+
+        //装填数据的第一列，即应用模块名称
+        for(var key_app in all_app){
+            //当前行标
+            curRowFlag = appTbRowRelation[key_app];
+            //当前列标
+            curColFlag = mainTbColRelation['moduleName'];
+            VTb.insert(appTb ,curRowFlag ,curColFlag ,all_app[key_app] )
+        }
+
+        //装填其他列
+        for(var info_app in package_info){
+            for(var info_app_key in package_info[info_app]['app_module']){
+                //当前行标
+                curRowFlag = appTbRowRelation[ package_info[info_app]['app_module'][info_app_key] ];
+                //当前列标
+                curColFlag = mainTbColRelation[package_info[info_app]["id"]];
+                VTb.insert(appTb ,curRowFlag ,curColFlag ,1 )
+            }
+        }
+
+        //----------------------priceTb----------------
+
+        // var priceTb= {
+        //     "base": [7880, 6800 , 1],
+        //         "super": [15780, 9800 , 2]
+        // }
+
+
+
+        return{
+            base: baseTb,
+            app: appTb ,
+            price: package_info,
+            title: titleTb
+        };
         //供应商
         if (role == 1) {
             return {
@@ -117,7 +245,7 @@ var DataCenter = {
                     "super": [15780, 9800 , 2]
                 },
                 //表头
-                "title": ["标准版", "旗舰版"],
+                "title": ["标准版", "旗舰版"]
             };
         }
             //分销商
@@ -177,10 +305,10 @@ var DataCenter = {
             type : "post",
             params : params,
             loading : function(){
-                // _this.container.find(".manage-tb tbody").html(loadingStr)
+                _this.CR.pubSub.pub("queryStateBox.querying", {dom: ".progressBox"});
             },
             complete : function(){
-                // submitBtn.text(orignText).removeClass("disable")
+                _this.CR.pubSub.pub("queryStateBox.close");
             },
             success : function(res){
                 _this.cacheHub[paramsKey] = $.extend({},res);
@@ -200,8 +328,21 @@ var DataCenter = {
 
     },
     
-    cacheHub: {}
+    cacheHub: {},
 
-}
+    getObjLength: function (obj) {
+        var type = Object.prototype.toString.call(obj);
+        if( type !== "[object Object]" ){
+            throw Error("使用getObjlength()需要传入一个对象！");
+            return false;
+        }
+        var length = 0;
+        for(var i in obj){
+            length ++;
+        }
+        return length;
+    }
+
+};
 
 module.exports = DataCenter;

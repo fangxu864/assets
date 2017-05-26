@@ -1,75 +1,94 @@
 <div class="title">套餐详情</div>
-<table class="detail-table">
-<thead>
-    <tr>
-        <th>分类</th>
-        <th>应用模块</th>
-        <th><%=data.title[0]%></th>
-        <th><%=data.title[1]%></th>
-    </tr>
-</thead>
-<tbody>
-    <!--基础模块-->
-    <% _.each(data.base,function(item,index){ %>
-    <tr>
-        <% if(index == 0){%>
-        <td rowspan="<%=data.base.length%>">基础模块</td>
-        <%}%>
-        <td><%=item[0]%></td>
-        <td><span class="<%=item[1] == 1 ? 'ok-icon' : ''%>"></span></td>
-        <td><span class="<%=item[2] == 1 ? 'ok-icon' : ''%>"></span></td>
-    </tr>
-    <%})%>
-    <!--产品模块-->
-    <% _.each(data.product,function(item,index){ %>
-    <tr>
-        <% if(index == 0){%>
-        <td rowspan="<%=data.product.length%>">产品模块</td>
-        <%}%>
-        <td><%=item[0]%></td>
-        <td><span class="<%=item[1] == 1 ? 'ok-icon' : ''%>"></span></td>
-        <td><span class="<%=item[2] == 1 ? 'ok-icon' : ''%>"></span></td>
-    </tr>
-    <%})%>
-    <!--应用中心模块-->
-    <% _.each(data.appCenter,function(item,index){ %>
-    <tr>
-        <% if(index == 0){%>
-        <td rowspan="<%=data.appCenter.length%>">应用中心模块</td>
-        <%}%>
-        <td><%=item[0]%></td>
-        <td><span class="<%=item[1] == 1 ? 'ok-icon' : ''%>"></span></td>
-        <td><span class="<%=item[2] == 1 ? 'ok-icon' : ''%>"></span></td>
-    </tr>
-    <%})%>
-    <!--计算价格和操作-->
-    <tr>
-        <td rowspan="3"></td>
-        <td></td>
-        <% _.each(data.price,function(item,index){ %>
-        <td class="gray">
-            <p>小计: <span class="line-through">¥<%=item[0]%></span></p>
-            <p>立省: <span>¥<%=item[0] - item[1]%></span></p>
-        </td>
+<div class="table-wrap">
+    <table class="detail-table">
+        <thead>
+        <tr>
+            <% _.each(data.title,function(item,index){ %>
+            <th class="<%= index === 0? 'th1' : ''%>"><%=item%></th>
+            <%})%>
+        </tr>
+        </thead>
+
+
+        <!--基础模块------------------------------------------->
+        <tbody>
+        <tr class="parentTr">
+            <td colspan="<%=data.base[0].length%>" class="th1">
+                <span class="un-shrink shrink"></span>
+                基础模块
+            </td>
+        </tr>
+        <% var baseIndex = 0 %>
+        <% _.each(data.base,function(item,index){ %>
+        <tr>
+            <td class="th1 child-th1"><%=item[0]%></td>
+            <% for(var baseI = 1 ; baseI< item.length ; baseI ++){%>
+            <td><span class="<%=item[baseI] == 1 ? 'ok-icon' : ''%>"></span></td>
+            <%}%>
+        </tr>
         <%})%>
-    </tr>
-    <tr>
-        <td></td>
-        <% _.each(data.price,function(item,index){ %>
-        <td ><span class="price">¥<%=item[1]%></span></td>
+        </tbody>
+
+
+        <!--应用模块------------------------------------------->
+        <tbody>
+        <tr class="parentTr">
+            <td colspan="<%=data.app[0].length%>" class="th1">
+                <span class="un-shrink shrink"></span>
+                应用模块
+            </td>
+        </tr>
+        <% var appIndex = 0 %>
+        <% _.each(data.app,function(item,index){ %>
+        <tr>
+            <td class="th1 child-th1"><%=item[0]%></td>
+            <% for(var appI = 1 ; appI< item.length ; appI ++){%>
+            <td><span class="<%=item[appI] == 1 ? 'ok-icon' : ''%>"></span></td>
+            <%}%>
+        </tr>
         <%})%>
-    </tr>
-    <tr>
-        <td></td>
-        <% _.each(data.price,function(item,index){ %>
-        <td  style="padding: 10px 0;"><span class="btn btn-book" data-moduleId="<%=item[2]%>" style="background-color:<%=item[1] == 0 ? '#0897d9' : ''%> "><%=item[1] == 0 ? '免费开通' : '立即订购'%></span></td>
-        <%})%>
-    </tr>
+        </tbody>
+
+
+
+        <tbody>
+        <!--计算价格和操作-------------------------------------------->
+        <%
+            function fenToYuan( fen ){
+                return (Number(fen) / 100).toFixed(2)
+            }
+
+        %>
+        <tr>
+            <td rowspan="3"></td>
+            <% _.each(data.price,function(item,index){ %>
+            <td class="gray">
+                <p>小计: <span class="line-through">¥<%=fenToYuan(item["price"])%></span></p>
+                <p>立省: <span>¥<%=fenToYuan( Number(item["price"]) - Number(item["fee"]) )%></span></p>
+            </td>
+            <%})%>
+        </tr>
+
+
+        <tr>
+            <% _.each(data.price,function(item,index){ %>
+            <td ><span class="price">¥<%=fenToYuan ( item['fee'] )%></span></td>
+            <%})%>
+        </tr>
+
+        <tr>
+            <% _.each(data.price,function(item,index){ %>
+            <td  style="padding: 10px 0;"><span class="btn btn-book <%=item['fee'] == 0 ? 'free' : ''%>" data-moduleId="<%=item['id']%>" ><%=item['fee'] == 0 ? '免费开通' : '立即订购'%></span></td>
+            <%})%>
+        </tr>
+        </tbody>
+        <tbody>
 
 
 
 
-</tbody>
-</table>
-<div class="bottom">若您对订购有任何疑问，请咨询客服：15659329936</div>
+        </tbody>
+    </table>
+</div>
+<div class="bottom">若您对订购有任何疑问，请咨询客服：400-99-22301</div>
 

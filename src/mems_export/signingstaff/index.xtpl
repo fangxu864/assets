@@ -20,7 +20,7 @@
                 <div class="td td1">合作模式</div>
                 <div class="td td2">
                     <select name="" class="contract_model">
-                        <!--<option value="">请选择</option>-->
+                        <option value="0">请选择</option>
                         <option value="1">套餐</option>
                         <option value="2">票务</option>
                         <option value="3">订单</option>

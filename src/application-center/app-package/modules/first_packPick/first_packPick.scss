@@ -62,11 +62,19 @@
             cursor: pointer;
             color: #fff;
             background-color: #f07844;
+            &:hover{
+              background-color: #f7895a;
+              box-shadow: 0 0 5px #f7895a;
+            }
           }
-          .btn:hover{
-            background-color: #f7895a;
-            box-shadow: 0 0 5px #f7895a;
+          .free{
+            background-color: #0897d9 ;
+            &:hover{
+              background-color: #15aaef ;
+              box-shadow: 0 0 5px #15aaef ;
+            }
           }
+
 
         }
       }
