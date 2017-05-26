@@ -53,10 +53,8 @@ module.exports = function(parent){
 			//消抖
 			var debounceTimer = 0;
 			$(window).on("resize" , function () {
-				console.log("resize");
 				clearTimeout(debounceTimer);
 				debounceTimer = setTimeout(function () {
-					console.log("重置");
 					_this.lineEchart.resize();
 					_this.pieEchart.resize();
 					_this.barEchart.resize();

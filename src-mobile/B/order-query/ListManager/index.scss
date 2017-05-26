@@ -58,16 +58,16 @@
         .lt{
             display: block;
             float: left;
-            width: 65%;
+            width: 60%;
         }
         .rt{
             float: left;
             display: block;
-            width: 35%;
+            width: 40%;
             text-align: right;
             @extend %overflow_ellips;
             .str{ position: relative; top: 0; margin-right: 3px;}
-            .count{ font-size: 14px; font-weight: bold; color: $orange; margin-right: 2px;}
+            .count{ color: $orange; margin-right: 2px;}
             .orange{ color:$orange;}
         }
     }

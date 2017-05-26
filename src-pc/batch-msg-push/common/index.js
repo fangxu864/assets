@@ -1,4 +1,9 @@
 module.exports = {
+
+
+    CheckRadioSelect : require("./CheckRadioSelect"),
+
+
     //在这里配置消息类型
     msgType : [{
         val : -1,
@@ -11,7 +16,7 @@ module.exports = {
         text : "礼券到期"
     },{
         val : 1,
-        text : "礼券到期"
+        text : "生日祝福"
     }],
 
     //推送渠道
@@ -85,6 +90,8 @@ module.exports = {
         return result;
     },
 
+
+
     //根据消息类型的值，得到对应的中文描述文字 
     getMsgType : function(val){
         var result = "";
@@ -132,8 +139,14 @@ module.exports = {
     //后端接口地址
     url : {
         //获取消息列表
-        msgList : "/r/MsgNotify_BatNotify/getPushTaskList/"
-    }
+        msgList : "/r/MsgNotify_BatNotify/getPushTaskList/",
+        //切换状态  开启/关闭
+        taskStatus : "/r/MsgNotify_BatNotify/editTaskStatus/",
+        //上传excel接口
+        uploadExcel : "/r/Resource_FileUpload/upload/"
+    },
+
+    Fileupload : require("./Fileupload_Xhr2")
 
 
 }

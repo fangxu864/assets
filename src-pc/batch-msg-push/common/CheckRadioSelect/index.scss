@@ -1,0 +1,57 @@
+@mixin CheckRadioSelect($dir:land){
+    @if $dir == land{
+        clear: both;
+        overflow: hidden;
+    }
+    .checkRadioOpt{
+        overflow: hidden;
+        line-height: 1.4;
+        .inp,.label{ cursor: pointer; vertical-align: middle}
+        .inp{ 
+            position: relative;
+            top: 1px;
+            display: inline-block; 
+            width: 14px; height: 14px;
+            font-size: 0;
+            margin-right: 1px;
+            background: url("http://images.12301.cc/icon/check.png") 0 0 no-repeat;
+        }
+
+        @if $dir == land{
+            float: left;
+            margin-right: 20px;
+        }@else{
+            height: 30px;
+            line-height: 30px;
+        }
+        
+    }
+    &.checkbox .checkRadioOpt{
+        .inp{ background-position: left bottom}
+    }
+    &.checkbox .checkRadioOpt.checked{
+        .inp{ background-position: right bottom}
+    }
+    &.checkbox .checkRadioOpt.disable{
+        .inp{ background-position: left bottom; cursor: not-allowed}
+        .label{ cursor: not-allowed; color: #999}
+    }
+    &.radio .checkRadioOpt{
+        .inp{ background-position: left top}
+    }
+    &.radio .checkRadioOpt.disable{
+        .inp{ background-position: left top; cursor: pointer}
+        .label{ cursor: pointer; color: #999}
+    }
+    &.radio .checkRadioOpt.checked{
+        .inp{ background-position: right top}
+    }
+}
+
+
+.checkRadioWrap.land{
+    @include CheckRadioSelect(land);
+}
+.checkRadioWrap.ver{
+    @include CheckRadioSelect(ver);
+}

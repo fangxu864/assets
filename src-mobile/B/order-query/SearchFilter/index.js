@@ -3,7 +3,7 @@ var Common = require("../common.js");
 var SearchPoper = require("./Poper_New");
 var Alert = PFT.Mobile.Alert;
 
-var Alert = require("../Alert-Mobile/v1.0");
+// var Alert = require("../Alert-Mobile/v1.0");
 
 var SearchFilter = Util.Class({
     container : "#topFixedMod",

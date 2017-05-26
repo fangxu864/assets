@@ -27,9 +27,6 @@ var Order_pay = PFT.Util.Class({
 		var that = this;
 		this.ordernum = urlParams["ordernum"] || "";
 		this.host = urlParams["h"];
-
-		// return false
-
 		Service(this.ordernum, this.host, {
 			loading: function () {
 				Toast.show("loading", "努力加载中...");
@@ -83,7 +80,6 @@ var Order_pay = PFT.Util.Class({
 						var link = "http://" + nhost + "/b/order_pay_success.html?h="+host+"&ordernum="+ ordernum;
 						// console.log(link)
 						window.location.href = link;
-
 					}
 				}
 			},

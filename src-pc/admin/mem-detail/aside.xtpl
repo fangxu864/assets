@@ -1,23 +1,25 @@
-        <div class="avatar-wrap">
-            <img onerror="this.src='//static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="<%=detail.avatar%>" alt="">
-            <% if( detail.certi_status == 2 ) { %>
-            <i class="icon-mems icon-ren"></i>
-            <% } %>
-            <% if( detail.transfer_stat == 1 ) { %>
-            <i class="icon-mems icon-zhuan"></i>
-            <% } %>
+        <div class="aside-avatar-wrap">
+            <img class="aside-avatar" onerror="this.src='//static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="<%='http://images.pft12301.cc' + detail.headphoto%>" alt="">
+            <div class="aside-icon-wrap">
+                <% if( detail.certi_status == 2 ) { %>
+                <i class="icon-mems icon-ren"></i>
+                <% } %>
+                <% if( detail.transfer_stat == 1 ) { %>
+                <i class="icon-mems icon-zhuan"></i>
+                <% } %>
+            </div>
         </div>
-        <div class="t-center t-title">ID: <%=detail.id%></div>
-        <div class="t-center t-info mt5">最近登录时间</div>
-        <div class="t-center t-info"><%=detail.lasttime%></div>
-        <div class="t-center <%= detail.certi_status == 2 ? 'c-org' : '' %>"><%= ['未认证', '审核中', '已认证', '已拒绝'][ detail.certi_status ] %></div>
-        <% if( (isManager || isDirector) && detail.certi_status == 1 ){ %>
+        <div class="t-center c-title f14 mt5">ID: <%=detail.id%></div>
+        <div class="t-center c-info mt5">最近登录时间</div>
+        <div class="t-center c-info"><%=detail.lasttime%></div>
+        <div class="t-center mt5 <%= detail.certi_status == 1 ? 'c-org' : '' %>"><%= ['未认证', '审核中', '已认证', '已拒绝'][ detail.certi_status ] %></div>
+        <% if( isManager && detail.certi_status == 1 ){ %>
         <div class="t-center">
             <a href="javascript:;" id="btnPassApply" data-id="<%=detail.id%>">通过</a>
             <a href="javascript:;" id="btnRejectApply" data-id="<%=detail.id%>">拒绝</a>
         </div>
         <% } %>
-        <div class="clearfix">
+        <div class="clearfix prod-item-wrap">
             <a class="prod-item" href="javascript:;">
                 <em><%=detail.selfSupply%></em>
                 <em>自供产品</em>

@@ -21,6 +21,7 @@ var Datepicker = PFT.Util.Class({
 		this.head.on("yearmonth.change",function(data){
 			var to = data.to;
 			this.renderDate(to,this.__cacheOpt);
+			that.position(that.__cacheOpt.picker);
 		},this)
 
 		this.bd = this.initBd(container);
@@ -187,14 +188,29 @@ var Datepicker = PFT.Util.Class({
 		var top = this.__cacheOpt.top || 0;
 		var left = this.__cacheOpt.left || 0;
 		var height = tarDom.outerHeight();
+		var ftop = top + offset.top + height;
+		var ch = this.container[0].offsetHeight;
+		var wh = this.mask.height();
+		if(ftop+ch>wh){
+			ftop = (ftop-height-ch);
+		}
 		this.container.css({
 			left : left + offset.left,
-			top : top + offset.top + height
-		})
+			top : ftop
+		});
+	},
+	animte : function(data){
+		var dir = data.dir;
+		var top = data.top;
+		var oTop = 0;
+		if(dir=="down"){
+			oTop = top - 20;
+		}
 	},
 	//对外暴露的核心方法
 	//date= "2016-09" | "2016-09-10" | "2016-09-10 10" | "2016-09-10 10:32" | "2016-09-10 10:32:48"
 	open : function(date,opt){
+		var that = this;
 		date = $.trim(date);
 		opt = opt || {};
 		opt["default_day"] = date.substr(8,2) ? date.substr(0,10) : "";
@@ -218,8 +234,8 @@ var Datepicker = PFT.Util.Class({
 		this.mask.show();
 		this.__cacheOpt = opt;
 		this.container.show();
-		this.position(picker);
-		this.renderDate(date,opt);
+		that.renderDate(date,opt);
+		that.position(picker);
 	},
 	show : function(date,opt){
 		this.open(date,opt);

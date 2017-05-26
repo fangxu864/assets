@@ -3,7 +3,7 @@ var Util = PFT.Util;
 var DatePicker = require("COMMON/Components/Datepicker/v0.1");
 var CalendarCore = DatePicker.CalendarCore;
 
-var Common = require("../common.js");
+var Common = require("../../common/index.js");
 
 var Filter = Util.Class({
     container : "#filterContainer",

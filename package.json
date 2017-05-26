@@ -276,6 +276,6 @@
     "yargs": "^4.8.1"
   },
   "dependencies": {
-    "pft-ui-component": "^1.2.9"
+    "pft-ui-component": "^1.2.10"
   }
 }

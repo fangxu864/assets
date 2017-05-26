@@ -1,0 +1,7 @@
+<%_.each(actions,function(act,index){%>
+    <%if(act.action=="edit"){%>
+        <a href="<%=PFT.PREFIX_DOMAIN()%>new/batchPushInfo_edit.html?id=<%=id%>" class="actionBtn <%=act.action%>"><%=act.text%></a>
+    <%}else{%>
+        <a id="actionBtn_<%=act.action%>_<%=id%>" href="###" data-id="<%=id%>" class="actionBtn actionBtn_<%=act.action%> <%=act.action%>"><%=act.text%></a>
+    <%}%>
+<%})%>

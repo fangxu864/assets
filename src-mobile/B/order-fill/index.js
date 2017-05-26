@@ -340,7 +340,7 @@ var Order_fill = PFT.Util.Class({
 
 				var ctx = (PFT.Util.UrlParse()).ctx;
 
-				var url = "http://wx."+ host[1] + host[2] +"/html/order_pay_b.html?h="+host[0]+"&"+"ordernum="+ordernum + "&ctx=" + ctx;
+				var url = "http://wx."+ host[1] + "." + host[2] +"/html/order_pay_b.html?h="+host[0]+"&"+"ordernum="+ordernum + "&ctx=" + ctx;
 
 				//跳转支付页面
 				// setTimeout(function(){

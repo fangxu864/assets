@@ -302,17 +302,19 @@ var Order_fill = PFT.Util.Class({
 
 				var host = window.location.host;
 				host = host.split(".");
-				host = host[0];
 
 				var ordernum = res.ordernum;
 				// var ordernum = "4003823";//写死的
 
-				var url = "http://wx.12301.cc/html/order_pay_b.html?h="+host+"&"+"ordernum="+ordernum;
+				var ctx = (PFT.Util.UrlParse()).ctx;
+
+				var url = "http://wx."+ host[1] + "." + host[2] +"/html/order_pay_b.html?h="+host[0]+"&"+"ordernum="+ordernum + "&ctx=" + ctx;
 
 				//跳转支付页面
 				// setTimeout(function(){
 					window.location.href = url;
 				// },2000)
+
 
 			},
 			complete:function () {

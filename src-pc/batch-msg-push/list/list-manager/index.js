@@ -5,7 +5,7 @@ var Message = require("pft-ui-component/Message");
 var AJAX_TIMEOUT_TEXT = PFT.AJAX_TIMEOUT_TEXT;
 var AJAX_ERROR_TEXT = PFT.AJAX_ERROR_TEXT;
 
-var Common = require("../common.js");
+var Common = require("../../common/index.js");
 var LoadingHtml = function(type){
     return Util.LoadingPc("努力加载中..",{
         height : type=="refresh" ? 600 : 80,
@@ -16,9 +16,12 @@ var LoadingHtml = function(type){
 };
 
 var ListTemplate = Util.ParseTemplate(require("./index.xtpl"));
-
+var ActionTemplate = Util.ParseTemplate(require("./action.xtpl"));
 
 var ListManager = Util.Class({
+    EVENTS : {
+        "click .actionBtn" : "onActionBtnClick"
+    },
     container : "#listTbody",
     state : {
         params : {},
@@ -27,6 +30,87 @@ var ListManager = Util.Class({
     },
     init : function(){
         
+    },
+    onActionBtnClick : function(e){
+        var that = this;
+        var tarBtn = $(e.currentTarget);
+        var id = tarBtn.attr("data-id");
+        if(tarBtn.hasClass("disable")) return false;
+        if(tarBtn.hasClass("close") || tarBtn.hasClass("setup")){ // close-关 setup-开
+            Message.confirm(function(){
+                return '<div style="text-align:center">确定要'+tarBtn.text()+'该消息吗？</div>';
+            },function(result){
+                if(!result) return false;
+                var type = tarBtn.hasClass("close") ? "off" : "on";
+                that.ajax_switchStatus(type,id);
+            })
+        }
+    },
+    /**
+     * ajax切换消息状态
+     * @type   {string}  当前该消息是打开还是关闭的
+     * @id     {string}  消息id
+     */
+    ajax_switchStatus : function(type,id){
+        if(typeof type!=="string") return false;
+        if(typeof id==="undefined") return false;
+        var that = this;
+        var actionFlag = type=="off" ? "close" : "setup";
+        var tarBtn = $("#actionBtn_"+actionFlag+"_"+id);
+        var ort = tarBtn.html();
+        var sucTip = type=="off" ? "关闭" : "启动";
+        Util.Ajax(Common.url.taskStatus,{
+            type : "post",
+            params : {
+                id : id,
+                do : type
+            },
+            loading : function(){
+                tarBtn.addClass("disable").html("请稍后..");
+            },
+            complete : function(){
+                tarBtn.removeClass("disable").html(ort);
+            },
+            success : function(res){
+                var code = res.code;
+                var msg = res.msg || AJAX_ERROR_TEXT;
+                if(code==200){
+                    Message.success(sucTip+"成功");
+                    that.switchStatus(id,type=="off" ? 0 : 1);
+
+                }else{
+                    Message.error(msg);
+                }
+            },
+            timeout : function(){
+                Message.error(AJAX_TIMEOUT_TEXT);
+            },
+            serverError : function(){
+                Message.error(AJAX_ERROR_TEXT);
+            }
+        })
+    },
+    /**
+     * 切换一条消息的状态
+     * @id     {string} 消息id
+     * @status {string} 当前状态值
+     */
+    switchStatus : function(id,status){
+        if(typeof id!=="string") return false;
+        if(typeof status!=="string" && typeof status!=="number") return false;
+        var actions = Common.getActionByStatus(status);
+        var statusText = Common.getStatusText(status);
+        if(!actions || !statusText) return false;
+        
+        var tr = $("#msgTrLine_"+id);
+        var actionHtml = this.renderActionHtml(actions,id);
+        tr.children(".statusTd").text(statusText);
+        tr.children(".actionTd").html(actionHtml);
+
+    },
+    renderActionHtml : function(actions,id){
+        var html = ActionTemplate({actions:actions,id:id});
+        return html;
     },
     setParams : function(params){
         var that = this;
@@ -136,10 +220,11 @@ var ListManager = Util.Class({
             (function(){
                 var item = data[i];
                 var msg_type = item.msg_type;
+                var actions = Common.getActionByStatus(item.status);
                 item["msg_type"] = Common.getMsgType(msg_type);
                 item["channel"] = Common.getChannelText(item.channel);
                 item["send_type"] = Common.sendType[item.send_type];
-                item["action"] = Common.getActionByStatus(item.status);
+                item["action"] = ActionTemplate({actions:actions,id:item.id});
                 item["status"] = Common.getStatusText(item.status);
             })(i);
         }

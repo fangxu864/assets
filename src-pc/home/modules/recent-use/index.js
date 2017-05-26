@@ -13,7 +13,8 @@ module.exports = function(parent){
 		container : $('<div id="RecentUseBox" class="RecentUseBox modBox"></div>').hide().appendTo(parent),
 		template : PFT.Util.ParseTemplate(Tpl),
 		init : function(){
-			var Apps = window.localStorage.getItem("PFT-RECENT-APP_B");
+			var KEY = PFT.Util.getRecentAppStorageKey();
+			var Apps = window.localStorage.getItem(KEY);
 			if(Apps){
 				 Apps = Apps.split(",");
 				 this.render(Apps);
