@@ -27,8 +27,8 @@ var Bd = PFT.Util.Class({
 	},
 	render :function(date,opt){
 		opt = opt || {};
-		var yearmonth = date.substr(0,7);
-		var current_day = date.substr(8,10);
+		var yearmonth = date.substring(0,7);
+		var current_day = date.substring(8,10);
 		var dateList = this.CalendarCore.outputDate(yearmonth);
 		var min = opt.min ? +new Date(opt.min) : "";
 		var max = opt.max ? +new Date(opt.max) : "";
@@ -58,6 +58,8 @@ var Bd = PFT.Util.Class({
 		if(!opt["default_day"] && current_day){
 			opt["default_day"] = current_day;
 		}
+
+
 		var html = this.template({data:{
 			dates : dateList,
 			option : opt
