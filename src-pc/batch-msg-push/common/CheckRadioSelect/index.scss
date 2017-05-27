@@ -36,6 +36,9 @@
         .inp{ background-position: left bottom; cursor: not-allowed}
         .label{ cursor: not-allowed; color: #999}
     }
+    &.checkbox .checkRadioOpt.checked.disable{
+        .inp{ background-position: right bottom}
+    }
     &.radio .checkRadioOpt{
         .inp{ background-position: left top}
     }
@@ -44,6 +47,9 @@
         .label{ cursor: pointer; color: #999}
     }
     &.radio .checkRadioOpt.checked{
+        .inp{ background-position: right top}
+    }
+    &.radio .checkRadioOpt.checked.disable{
         .inp{ background-position: right top}
     }
 }

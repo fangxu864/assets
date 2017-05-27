@@ -2,7 +2,7 @@
  * @Author: huangzhiyang 
  * @Date: 2017-05-23 18:15:09 
  * @Last Modified by: huangzhiyang
- * @Last Modified time: 2017-05-25 09:32:13
+ * @Last Modified time: 2017-05-27 17:05:37
  * @desc pc端checkbox、radio组件
  * 
  * var c = CheckRadioSelect("#containerId",{
@@ -234,12 +234,12 @@ var CheckRadioSelect = PFT.Util.Class({
         var container = this.container;
         var args = arguments;
         if(isUndefined(key)){
-            container.find(".checkRadioOpt").removeClass("checked").addClass("disable");
+            container.find(".checkRadioOpt").addClass("disable");
         }else{
             for(var i=0; i<args.length; i++){
                 var k = args[i];
                 var tarItem = container.find(".checkRadioOpt_"+that._createID(k));
-                if(tarItem.length) tarItem.removeClass("checked").addClass("disable");
+                if(tarItem.length) tarItem.addClass("disable");
             }
         }
         return this;
