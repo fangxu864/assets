@@ -6,7 +6,9 @@ var DatePicker = require("COMMON/modules/datepicker"),
     ParseTemplate = PFT.Util.ParseTemplate,
     trtpl = require('./tr.xtpl'),
     ParseMemberTpl = ParseTemplate( trtpl ),
-    Pagination = require("COMMON/modules/pagination-x/v1.0");;
+    Pagination = require("COMMON/modules/pagination-x/v1.0"),
+    Toast = require('COMMON/modules/Toast'),
+    toast = new Toast;;
 
 var MemberManage = PFT.Util.Class({
 
@@ -24,22 +26,24 @@ var MemberManage = PFT.Util.Class({
         'click .name_select_box':           'onNameSelectBoxClick',     // 过滤条件名称下拉，已合并至下拉框点击事件
         'click #schBtn':                    'onBtnSearchClick',         // 点击 搜索
 
-        'click .btnDisable':                'onBtnDisableClick',        // 点击 禁用
-        'click .btnDelete':                 'onBtnDeleteClick',         // 点击 删除
-        'click .btnEnable':                 'onBtnEnableClick',         // 点击 启用
-        'click .btnRenew':                  'onBtnRenewClick',          // 点击 恢复
-        'click .btnResetPassword':          'resetPassword',            // 点击 重置密码
-        'click .btnPassApply':              'passApply',                // 点击 通过
-        'click .btnRejectApply':            'rejectApply',              // 点击 拒绝
+        // 'click .btnDisable':                'onBtnDisableClick',        // 点击 禁用
+        // 'click .btnDelete':                 'onBtnDeleteClick',         // 点击 删除
+        // 'click .btnEnable':                 'onBtnEnableClick',         // 点击 启用
+        // 'click .btnRenew':                  'onBtnRenewClick',          // 点击 恢复
+        // 'click .btnResetPassword':          'resetPassword',            // 点击 重置密码
+        // 'click .btnPassApply':              'passApply',                // 点击 通过
+        // 'click .btnRejectApply':            'rejectApply',              // 点击 拒绝
+        'click .btnAction':                 'onBtnActionClick',         // 合并操作事件
         'click .btnDrawContract':           'drawContract',             // 点击 签单
         'mouseenter .hasTips':              'showTip',
         'mouseleave .hasTips':              'hideTip'
     },
 
     AJAX_URLS: {
-        memberManage: '/r/Admin_MemberManage/getSearchParam/',
-        getTotal: '/r/Admin_MemberManage/getTotalInfo/',
-        getLoginIdentity: '/r/Admin_MemberManage/getLoginIdentity/'
+        memberManage:       '/r/Admin_MemberManage/getSearchParam/',
+        getTotal:           '/r/Admin_MemberManage/getTotalInfo/',
+        getLoginIdentity:   '/r/Admin_MemberManage/getLoginIdentity/',
+        setMemberStatus:    '/call/jh_mem.php'
     },
 
     memberIdentity: {
@@ -59,6 +63,8 @@ var MemberManage = PFT.Util.Class({
 
     PAGE_SIZE: 10,
 
+    currentPage: 1,
+
     GROUP: {
         '1': '华东大区',
         '2': '华北大区',
@@ -69,11 +75,11 @@ var MemberManage = PFT.Util.Class({
 
     // 3 未启用 4 欠费 5 一个月内到期 6 待审核 7 待回款
     MerchantStat: {
-        'unEnableNum': '3',     // 未启用 条数
-        'ArrearsNum': '4',      // 欠费条数
-        'ExpireNum': '5',       // 一个月内到期 条数
-        'PendingNum': '6',      // 待审核 条数
-        'StandNum': '7'         // 待回款 条数
+        'unEnableNum': '3',     // 未启用 id
+        'ArrearsNum': '4',      // 欠费 id
+        'ExpireNum': '5',       // 一个月内到期 id
+        'PendingNum': '6',      // 待审核 id
+        'StandNum': '7'         // 待回款 id
     },
 
     init: function() {
@@ -249,88 +255,83 @@ var MemberManage = PFT.Util.Class({
         return arr.join("&");
     },
 
-    // 操作 事件列表
-    onBtnDisableClick: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
+    onBtnActionClick: function( e ) {
+        var that = this,
+            currTarget = $( e.currentTarget ),
+            id = currTarget.attr('data-id'),
+            CONFIRM_MSG = {
+                clearAccount:   '确定删除？',
+                Disable:        '确定禁用？',
+                Enable:         '确定启用？',
+                Renew:          '确定恢复？',
+                PassApply:      '确定通过？',
+                RejectApply:    '确定拒绝？',
+                resetPassword:  '是否重置此账号密码为【pft@12301】？'
+            },
+            actionParams = {};
 
-        Message.confirm( '确定禁用？', function( result ){
+        switch( currTarget.attr('data-action') ) {
+            case 'clearAccount':
+                actionParams.action = 'clearAccount';
+                actionParams.mid = id;
+                break;
+
+            case 'Disable':
+            case 'RejectApply':
+                actionParams.action = 'SetMemStatus';
+                actionParams.mid = id;
+                actionParams.status = 1;
+                break;
+
+            case 'Enable':
+            case 'Renew':
+            case 'PassApply':
+                actionParams.action = 'SetMemStatus';
+                actionParams.mid = id;
+                actionParams.status = 0;
+                break;
+
+            case 'resetPassword':
+                actionParams.action = 'resetPassword';
+                actionParams.mid = id;
+                break;
+        }
+
+        Message.confirm( CONFIRM_MSG[ currTarget.attr('data-action') ], function( result ){
             if( result ) {
-
+                that.ajaxSetMemberStatus( actionParams );
             } else {
 
             }
         });
     },
-    onBtnDeleteClick: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
 
-        Message.confirm( '确定删除？', function( result ){
-            if( result ) {
+    ajaxSetMemberStatus: function( params ) {
+        var that = this;
 
-            } else {
+        PFT.Util.Ajax( this.AJAX_URLS.setMemberStatus, {
+            type: 'post',
 
-            }
-        });
-    },
-    onBtnEnableClick: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
+            params: params,
 
-        Message.confirm( '确定启用？', function( result ){
-            if( result ) {
+            loading: function(){
+                toast.show('loading','正在设置，请稍候');
+            },
 
-            } else {
+            success: function( res ) {
+                toast.hide();
 
-            }
-        });
-    },
-    onBtnRenewClick: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
+                if( res.status == 'success' || res.status == 'ok' ) {
+                    // 数据修改成功，则清空缓存，异步请求当前页
+                    that.cacheData = {};
+                    that.ajaxGetData( that.currentPage );
+                } else {
+                    Message.alert( msg );
+                }
+            },
 
-        Message.confirm( '确定恢复？', function( result ){
-            if( result ) {
-
-            } else {
-
-            }
-        });
-    },
-    resetPassword: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
-
-        Message.confirm( '是否重置此账号密码为【pft@12301】？', function( result ){
-            if( result ) {
-
-            } else {
-
-            }
-        });
-    },
-    passApply: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
-
-        Message.confirm( '确定通过？', function( result ){
-            if( result ) {
-
-            } else {
-
-            }
-        });
-    },
-    rejectApply: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
-
-        Message.confirm( '确定拒绝？', function( result ){
-            if( result ) {
-
-            } else {
-
+            serverError: function( xhr, msg ) {
+                Message.alert( msg );
             }
         });
     },
@@ -432,9 +433,19 @@ var MemberManage = PFT.Util.Class({
     },
 
     renderStatisticsNum: function( data ){
-        var memsMerchant = $('#memsMerchant');
+        var memsMerchant = $('#memsMerchant'),
+            tempObj,
+            html;
+
         for( var key in data ) {
-            memsMerchant.find('.radioBox[data-stat=' + this.MerchantStat[ key ] +']').find('.radio-text').append( '(' + data[key] + ')' );
+            tempObj = memsMerchant.find('.radioBox[data-stat=' + this.MerchantStat[ key ] +']').find('.radio-text');
+            html = tempObj.html();
+
+            if( /\(\d+\)/.test( html ) ) {
+                tempObj.html( html.replace( /\(\d+\)/, '(' + data[key] + ')' ) );
+            } else {
+                tempObj.append( '(' + data[key] + ')' );
+            }
         }
     },
 
@@ -457,8 +468,9 @@ var MemberManage = PFT.Util.Class({
     },
 
     initDatepicker : function(){
-        var that = this;
-        var datepicker = this.datepicker = new DatePicker();
+        var that = this,
+            datepicker = this.datepicker = new DatePicker();
+
         $("#datetimepicker_begin").on("click",function(e){
             var tarInp = $("#btimeInp"),
                 endInp = $("#etimeInp"),
@@ -468,8 +480,6 @@ var MemberManage = PFT.Util.Class({
             if(!date) date = DatePicker.CalendarCore.gettoday();
 
             var max = endtime ? endtime.substr(0,10) : "";
-
-            console.log( date );
 
             datepicker.open(date,{
                 picker : tarInp,
@@ -498,7 +508,7 @@ var MemberManage = PFT.Util.Class({
                     }
                 }
             });
-        })
+        });
         $("#datetimepicker_end").on("click",function(e){
             var tarInp = $("#etimeInp"),
                 beginInp = $("#btimeInp"),
@@ -509,9 +519,6 @@ var MemberManage = PFT.Util.Class({
             if(!date) date = DatePicker.CalendarCore.gettoday();
 
             var min = beingTime ? beingTime.substr(0,10) : "";
-
-            console.log( date );
-
 
             datepicker.open(date,{
                 picker : tarInp,
@@ -541,7 +548,7 @@ var MemberManage = PFT.Util.Class({
                     }
                 }
             });
-        })
+        });
     },
 
     onBtnSearchClick: function() {
@@ -552,7 +559,7 @@ var MemberManage = PFT.Util.Class({
 
     ajaxGetData: function( page ) {
         var that = this,
-            page = page ? page : 1,
+            page = this.currentPage = page ? page : 1,
             params = $.extend( {}, this.filterParams, { page: page, pageSize: this.PAGE_SIZE }),
             paramsStr = this.JsonStringify( params ),
             cache;
@@ -594,6 +601,7 @@ var MemberManage = PFT.Util.Class({
                                 that.pagination.render({ current: toPage, total: totalPage });
 
                                 that.xhrGetData.readyState == 4 && that.ajaxGetData( toPage );
+
                             });
                         }
 

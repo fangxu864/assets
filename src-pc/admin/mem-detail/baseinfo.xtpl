@@ -1,0 +1,77 @@
+
+        <div class="clearfix detail-dname">
+            <h2 class="fl f22"><%=detail.dname%></h2>
+            <span class="fl ml15 mt10">
+            (
+                <%= {
+                        "0":'供应商',
+                        "1":'分销商',
+                        "2":'直接供应方',
+                        "3":'合并终端后的资源方',
+                        "5":'普通用户',
+                        "6":'员工',
+                        "7":'集团帐号',
+                        "9":'平台帐号'
+                    }[ detail.dtype ]
+                %>
+            )
+            </span>
+        </div>
+        <div class="form f14 mt20">
+            <div class="form-group">
+                <label class="form-label">账号：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.account%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">账户余额：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.money/100%> 元</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">账户分组：</label>
+                <div class="form-val">
+                    <div class="form-text"><%={ '1': '平台账号', '2': '测试账号', '3': '点餐账号', '4': '云顶账号', '5': '鼓浪屿', '6': '签约账号'}[ info.group ]%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">企业名称/类型：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.com_name%> (<%detail.com_type%>)</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">注册时间：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.creattime%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">启用时间：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.enable_time%></div>
+                </div>
+            </div>
+            <% if( detail.transfer_time ) { %>
+            <div class="form-group">
+                <label class="form-label">转供应商时间：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.transfer_time%></div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <% if( isKefu ) { %>
+        <div class="section-btn-wrap">
+            <a class="btn btn-reverse btn-default"
+                data-name="<%=detail.dname%>"
+                data-group="<%=detail.group%>"
+                data-comname="<%=detail.com_name%>"
+                data-comtype="<%detail.com_type%>"
+                data-transfer-time="<%=detail.transfer_time%>"
+                href="javascript:;" id="btnModBaseinfo">基本信息修改</a>
+            <a class="btn btn-reverse btn-default btnAction" data-action="resetPassword" data-id="<%=detail.id%>" href="javascript:;">重置密码</a>
+        </div>
+        <% } %>

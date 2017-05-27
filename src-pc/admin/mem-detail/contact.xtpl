@@ -1,0 +1,52 @@
+
+        <div class="detail-section-tit">联系人</div>
+        <div class="form form-inline">
+            <div class="form-group">
+                <label class="form-label">联系人：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.cname%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">QQ：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.qq%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">性别：</label>
+                <div class="form-val">
+                    <div class="form-text"><%={M:'男',F:'女'}[detail.sex]%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">邮箱：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.email%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">手机号：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.mobile%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">固定电话：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.ctel%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">支付宝：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.alipay%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">传真：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.fax%></div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,47 @@
+
+        <div class="detail-section-tit">权限设置</div>
+        <div class="form f14">
+            <div class="form-group">
+                <label class="form-label">接口编码：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.dcode%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">对接系统：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.sysInfo%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">添加分销商：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=['新建','搜索/新建'][+detail.add_saler_type]%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">绑定闸机：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=['关闭','开启'][ detail.jiutian_auth? detail.jiutian_auth: 0 ]%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">终端查询：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=['关闭','开启'][detail.terminalSearch]%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">分销商/散客退款：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=['账户','支付宝'][detail.refund_back]%></div>
+                </div>
+            </div>
+        </div>
+
+        <% if( isManager ) { %>
+        <div class="section-btn-wrap">
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="">更改</a>
+        </div>
+        <% } %>
+

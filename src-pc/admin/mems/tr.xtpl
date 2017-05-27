@@ -80,19 +80,19 @@
                         <div
                             class="hasTips"
                             data-action="cooperation"
-                            data-mode="<%= {'1':'套餐','3':'订单'}[item.contract_model] %>"
+                            data-mode="<%= { '0':'空', '1':'套餐', '3':'订单' }[item.contract_model] %>"
                             data-pay="<%=['未回款','回款'][item.is_pay]%>"
                             <% if( item.contract_model == 1 ) { %>
                             data-packagefee="<%=item.protocol_meal/100%>"
                             <% } %>
                             data-begindate="<%=item.protocol_start%>"
                             data-enddate="<%=item.protocol_end%>">
-                            <p><%= {'1':'套餐','3':'订单'}[item.contract_model] %> - <em class="<%= item.is_pay ? 'c-green' : 'c-org' %>"><%=['未回款','回款'][item.is_pay]%></em></p>
+                            <p><%= { '0':'空', '1':'套餐', '3':'订单' }[item.contract_model] %> - <em class="<%= item.is_pay ? 'c-green' : 'c-org' %>"><%=['未回款','回款'][item.is_pay]%></em></p>
                             <p><%=item.protocol_meal/100%></p>
                         </div>
                     </td>
                     <td>
-                        <em class="c-org"><%=item.amoney%></em>
+                        <em class="c-org"><%=item.amoney/100%></em>
                     </td>
                     <td>
                         <p><%= item.enable == 0 ? '未启用' : '启用' + item.enable + '个月' %></p>
@@ -118,34 +118,34 @@
                             switch( item.status ) {
                                 case "0":
                         %>
-                                    <a href="javascript:;" class="btnDisable" data-id="<%=item.id%>">禁用</a>
-                                    <a href="javascript:;" class="btnDelete" data-id="<%=item.id%>">删除</a>
+                                    <a href="javascript:;" class="btnAction" data-action="Disable" data-id="<%=item.id%>">禁用</a>
+                                    <a href="javascript:;" class="btnAction" data-action="clearAccount" data-id="<%=item.id%>">删除</a>
                         <%
                                     break;
 
                                 case "1":
                         %>
-                                    <a href="javascript:;" class="btnEnable" data-id="<%=item.id%>">启用</a>
+                                    <a href="javascript:;" class="btnAction" data-action="Enable" data-id="<%=item.id%>">启用</a>
                         <%
                                     break;
 
                                 case "2":
                         %>
-                                    <a href="javascript:;" class="btnRenew" data-id="<%=item.id%>">恢复</a>
+                                    <a href="javascript:;" class="btnAction" data-action="Renew" data-id="<%=item.id%>">恢复</a>
                         <%
                                     break;
                             }
                         %>
 
                         <% if( memberIdentity.isKefu ){ %>
-                        <a href="javascript:;" class="btnResetPassword" data-id="<%=item.id%>">重置密码</a>
+                        <a href="javascript:;" class="btnAction" data-action="resetPassword" data-id="<%=item.id%>">重置密码</a>
                         <% } %>
 
-                        <a href="count/Salestrends.html" title="查看检票报表-销售趋势">销售趋势</a>
+                        <a href="count/Salestrends.html?id=<%=item.id%>" title="查看检票报表-销售趋势">销售趋势</a>
 
                         <% if( memberIdentity.isManager && item.status == 3 ) { %>
-                        <a href="javascript:;" class="btnPassApply" data-id="<%=item.id%>">通过</a>
-                        <a href="javascript:;" class="btnRejectApply" data-id="<%=item.id%>">拒绝</a>
+                        <a href="javascript:;" class="btnAction" data-action="PassApply" data-id="<%=item.id%>">通过</a>
+                        <a href="javascript:;" class="btnAction" data-action="RejectApply" data-id="<%=item.id%>">拒绝</a>
                         <% } %>
 
                         <% if( memberIdentity.isManager ) { %>

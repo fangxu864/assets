@@ -4,6 +4,7 @@ require('./lightbox.js');
 
 var DatePicker = require("COMMON/modules/datepicker"),
     Message = require('pft-ui-component/Message'),
+    Dialog = require('pft-ui-component/Dialog'),
     ParseTemplate = PFT.Util.ParseTemplate,
     ParseAsideTpl = ParseTemplate( require('./aside.xtpl') ),
     ParseMainTpl = ParseTemplate( require('./main.xtpl') ),
@@ -19,11 +20,19 @@ var MemberManage = PFT.Util.Class({
     mainContainer: '#detailMain',
 
     EVENTS: {
-
+        'click .btnAction':                 'onBtnActionClick',         // 合并操作事件
+        'click #btnModBaseinfo':            'onBtnModBaseinfoClick'
     },
 
     AJAX_URLS: {
-        memberDetail: '/r/Admin_MemberManage/getMemberDetails/'
+        memberDetail: '/r/Admin_MemberManage/getMemberDetails/',
+        setMemberStatus:    '/call/jh_mem.php'
+    },
+
+    memberIdentity: {
+        isKefu: false,
+        isManager: false,
+        isFinancial: false
     },
 
     cacheData: {},
@@ -41,7 +50,20 @@ var MemberManage = PFT.Util.Class({
         this.getMemberDetails( id );
     },
 
-    getMemberDetails: function( id ) {
+    // 设置当前登录账户身份
+    setMemberIdentity: function( type ) {
+        switch( +type ) {
+            case 2:
+                this.memberIdentity.isKefu = true;
+                break;
+
+            case 4:
+                this.memberIdentity.isManager = true;
+                break;
+        }
+    },
+
+    getMemberDetails: function( id, section_id ) {
         var that = this;
 
         PFT.Util.Ajax( this.AJAX_URLS.memberDetail, {
@@ -57,8 +79,12 @@ var MemberManage = PFT.Util.Class({
                 toast.hide();
 
                 if( res.code == 200 ) {
-                    $( that.asideContainer ).html( ParseAsideTpl({ detail: res.data, isManager: 1 }) );
-                    $( that.mainContainer ).html( ParseMainTpl({ detail: res.data, isManager: 1, isKefu: 1 }) );
+
+                    that.setMemberIdentity( res.data.type );
+                    $( that.asideContainer ).html( ParseAsideTpl({ detail: res.data, isManager: that.memberIdentity.isManager }) );
+                    $( that.mainContainer ).html( ParseMainTpl({ detail: res.data, isManager: that.memberIdentity.isManager, isKefu: that.memberIdentity.isKefu }) );
+                } else {
+                    Message.alert( res.msg );
                 }
             },
 
@@ -67,6 +93,10 @@ var MemberManage = PFT.Util.Class({
                 Message.error( msg || PFT.AJAX_ERROR_TEXT );
             }
         })
+    },
+
+    renderMain: function( section_id, data ) {
+
     },
 
     JsonStringify:function (obj) {
@@ -79,17 +109,113 @@ var MemberManage = PFT.Util.Class({
         return arr.join("&");
     },
 
-    rejectApply: function( e ) {
-        var currTarget = $( e.currentTarget ),
-            id = currTarget.attr('data-id');
+    onBtnActionClick: function( e ) {
+        var that = this,
+            currTarget = $( e.currentTarget ),
+            id = currTarget.attr('data-id'),
+            CONFIRM_MSG = {
+                clearAccount:   '确定删除？',
+                Disable:        '确定禁用？',
+                Enable:         '确定启用？',
+                Renew:          '确定恢复？',
+                PassApply:      '确定通过？',
+                RejectApply:    '确定拒绝？',
+                resetPassword:  '是否重置此账号密码为【pft@12301】？'
+            },
+            actionParams = {};
 
-        Message.confirm( '确定拒绝？', function( result ){
+        switch( currTarget.attr('data-action') ) {
+            case 'clearAccount':
+                actionParams.action = 'clearAccount';
+                actionParams.mid = id;
+                break;
+
+            case 'Disable':
+            case 'RejectApply':
+                actionParams.action = 'SetMemStatus';
+                actionParams.mid = id;
+                actionParams.status = 1;
+                break;
+
+            case 'Enable':
+            case 'Renew':
+            case 'PassApply':
+                actionParams.action = 'SetMemStatus';
+                actionParams.mid = id;
+                actionParams.status = 0;
+                break;
+
+            case 'resetPassword':
+                actionParams.action = 'resetPassword';
+                actionParams.mid = id;
+                break;
+        }
+
+        Message.confirm( CONFIRM_MSG[ currTarget.attr('data-action') ], function( result ){
             if( result ) {
-
+                that.ajaxSetMemberStatus( actionParams );
             } else {
 
             }
         });
+    },
+
+    ajaxSetMemberStatus: function( params ) {
+        var that = this;
+
+        PFT.Util.Ajax( this.AJAX_URLS.setMemberStatus, {
+            type: 'post',
+
+            params: params,
+
+            loading: function(){
+                toast.show('loading','正在设置，请稍候');
+            },
+
+            success: function( res ) {
+                toast.hide();
+
+                if( res.status == 'success' || res.status == 'ok' ) {
+
+                    that.getMemberDetails( params.mid );
+
+                } else {
+                    Message.alert( res.msg );
+                }
+            },
+
+            serverError: function( xhr, msg ) {
+                Message.alert( msg );
+            }
+        });
+    },
+
+    onBtnModBaseinfoClick: function( e ) {
+        var that = this,
+            target = $( e.target ),
+            info = {},
+            info.dname = target.attr('data-name'),
+            info.group = target.attr('data-group'),
+            info.comname = target.attr('data-comname'),
+            info.comtype = target.attr('data-comtype'),
+            info.transfer_time = target.attr('data-transfer-time');
+
+
+
+        var d = new Dialog({
+            title: '基本信息修改',
+            content: '',
+            width: 550,
+            yesBtn: '保存',
+            cancelBtn: '取消',
+            zIndex: 999,
+            onOpenBefore : function() {},
+            onOpenAfter : function() {},
+            onCloseBefore : function() {},
+            onCloseAfter : function() {}
+        });
+
+        d.open();
     },
 
     selectRadio: function( e ){
@@ -117,44 +243,17 @@ var MemberManage = PFT.Util.Class({
     initDatepicker : function(){
         var that = this;
         var datepicker = this.datepicker = new DatePicker();
-        $("#datetimepicker_begin").on("click",function(e){
-            var tarInp = $("#btimeInp"),
-                endInp = $("#etimeInp"),
-                endtime = endInp.val(),
+        $("#dialogDatetimepicker").on("click",function(e){
+            var tarInp = $( this ).find('.input-date'),
                 date = tarInp.val();
 
             if(!date) date = DatePicker.CalendarCore.gettoday();
-
-            var max = endtime ? endtime.substr(0,10) : "";
-
-            console.log( date );
 
             datepicker.open(date,{
                 picker : tarInp,
                 todayAfterDisable : false,
                 // max : max,
-                onAfter : function(val,oldVal){
-                    var beginDate = val.substr(0,10),
-                        endDate = endtime.substr(0,10),
-                        queryLimit = $("#queryLimitHidInp").val(),
-                        queryLimitTip = $("#queryLimitTipHidInp").val(),
-                        begin_str = +new Date( beginDate ),
-                        end_str = +new Date( endDate );
-
-                    if(endDate && beginDate){
-                        if(queryLimit==1){
-                            if(end_str-begin_str >= (30*24*60*60*1000)){
-                                alert(queryLimitTip || "最多只能查询30天以内数据");
-                                tarInp.val(oldVal);
-                            }
-                        }else{
-                            if(end_str-begin_str >= (93*24*60*60*1000)){
-                                alert(queryLimitTip || "最多只能查询三个月以内数据");
-                                tarInp.val(oldVal);
-                            }
-                        }
-                    }
-                }
+                onAfter : function(val,oldVal){}
             });
         })
     },

@@ -1,0 +1,55 @@
+
+        <div class="detail-section-tit">签单-协议/费用</div>
+
+        <div class="clearfix">
+            <div class="qiandan-price">
+                <p class="clearfix">
+                    <span class="fl w100">协议价格：</span>
+                    <em class="f22 c-title"><%=detail.protocol_meal/100%>元</em>
+                </p>
+                <p class="c-gray clearfix">
+                    <span class="fl w100">协议截止日期：</span>
+                    <%=detail.protocol_end%>
+                </p>
+            </div>
+
+            <div class="qiandan-fee">
+                <p><span class="mr25">提现手续费：<%=detail.service_fee/10%>%（<%={ '1': '日结', '2': '周结', '3': '月结' }[detail.mode]%>）</span><span>短信费：<%=detail.fee_sms/100%>元/条</span></p>
+                <p><span class="mr25">凭证费：<%=detail.fee_code/100%>元/单</span><span>短信及凭证费收取：<%=['供应商','分销商'][+detail.fee_pay_way]%></span></p>
+            </div>
+        </div>
+
+
+        <div class="form f14">
+            <div class="form-group">
+                <label class="form-label">签单人员：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.sales%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">客服：</label>
+                <div class="form-val">
+                    <div class="form-text"><%=detail.kefu%></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">已开通应用：</label>
+                <div class="form-val">
+                    <div class="form-text"><%= detail.app ? detail.app : '' %></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">设备：</label>
+                <div class="form-val">
+                    <div class="form-text"><%= detail.equipment ? detail.equipment : '' %></div>
+                </div>
+            </div>
+        </div>
+
+        <% if( isManager ) { %>
+        <div class="section-btn-wrap">
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="">编辑</a>
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="btnConfigCash">提现清分配置</a>
+        </div>
+        <% } %>

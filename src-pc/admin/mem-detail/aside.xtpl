@@ -1,5 +1,5 @@
         <div class="aside-avatar-wrap">
-            <img class="aside-avatar" onerror="this.src='//static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="<%='http://images.pft12301.cc' + detail.headphoto%>" alt="">
+            <img class="aside-avatar" onerror="this.src='//static.12301.cc/assets/build/images/defaultThum.jpg'; this.onerror=null;" src="<%='http://images.pft12301.cc/' + detail.headphoto%>" alt="">
             <div class="aside-icon-wrap">
                 <% if( detail.certi_status == 2 ) { %>
                 <i class="icon-mems icon-ren"></i>
@@ -15,8 +15,8 @@
         <div class="t-center mt5 <%= detail.certi_status == 1 ? 'c-org' : '' %>"><%= ['未认证', '审核中', '已认证', '已拒绝'][ detail.certi_status ] %></div>
         <% if( isManager && detail.certi_status == 1 ){ %>
         <div class="t-center">
-            <a href="javascript:;" id="btnPassApply" data-id="<%=detail.id%>">通过</a>
-            <a href="javascript:;" id="btnRejectApply" data-id="<%=detail.id%>">拒绝</a>
+            <a href="javascript:;" class="btnAction" data-action="PassApply" data-id="<%=detail.id%>">通过</a>
+            <a href="javascript:;" class="btnAction" data-action="RejectApply" data-id="<%=detail.id%>">拒绝</a>
         </div>
         <% } %>
         <div class="clearfix prod-item-wrap">
