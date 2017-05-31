@@ -1,5 +1,5 @@
 require("./index.scss");
-var Select = require("COMMON/modules/select");
+var Select = require("./select");
 var STip = require("COMMON/js/util.simple.tip");
 var Datepicker = require("COMMON/modules/datepicker");
 var Fileupload = require("COMMON/modules/fileupload");
@@ -8,18 +8,21 @@ var ListTpl = require("./index.xtpl");
 //第145 key:getActivityDetail   第317
 
 var Main = PFT.Util.Class({
+	
+
 	container: "#bodyContainer",
 	EVENTS: {
 		"click #typeBox label": "changeShareType",
 		"focus #couponNumber": "checkCouponNum",
 		"click .inp-date": "initDatePicker",
-		"click #saveBtn": "saveAddNewActivity"
+		"click #saveBtn": "saveAddNewActivity",
+		"change #typeFourCouponNum": "changeCouponNumber",
+		"change .fileuploadFileInp": "changefile"
 	},
 	init: function () {
 
 		this.initPage();
 		this.datepicker = new Datepicker();
-
 	},
 
 	//初始化页面显示
@@ -51,12 +54,11 @@ var Main = PFT.Util.Class({
 			_this.getSpidActivity(spid);
 
 		}
-
+	
 
 	},
 	//初始化富文本编辑器
 	initUeditor: function (id,content,share_type) {
-
 		window.UEDITOR_CONFIG.initialFrameWidth = 600;
 		switch (id) {
 			case 1:
@@ -89,7 +91,7 @@ var Main = PFT.Util.Class({
 		if (!date) {
 			date = CalendarCore.gettoday() + " " + time;
 		}
-		console.log(date, time)
+		// console.log(date, time)
 		datepicker.show(date, {
 			picker: tarInp,              //必选
 			top: 0,                     //可选，相对偏移量
@@ -110,6 +112,7 @@ var Main = PFT.Util.Class({
 				STip("success", '<p style="width:160px;">正在上传图片,请稍后</p>', 3000);
 			},
 			complete: function (res) {
+			
 				if (res.code == 200) {
 					$('#imagePath').attr({ "src": res.data.src, "data-path": res.data.src });
 					STip("success", '<p style="width:160px;">上传图片成功</p>');
@@ -128,7 +131,7 @@ var Main = PFT.Util.Class({
 				STip("success", '<p style="width:160px;">正在上传图片,请稍后</p>', 3000);
 			},
 			complete: function (res) {
-
+	
 				if (res.code == 200) {
 					$('#imagePath_2').attr({ "src": res.data.src, "data-path": res.data.src })
 					STip("success", '<p style="width:160px;">上传图片成功</p>');
@@ -137,8 +140,6 @@ var Main = PFT.Util.Class({
 				}
 			}
 		});
-
-
 	},
 	//根据spid获取活动详细
 	getSpidActivity: function (spid) {
@@ -154,8 +155,6 @@ var Main = PFT.Util.Class({
 					var data = res.data.data[0];
 					data["spid"] = spid;
 					_this.renderActivityPage(data);
-
-
 				} else {
 					STip("fail", res.msg,2000);
 					window.location.href="marketing_share_list.html";
@@ -176,7 +175,7 @@ var Main = PFT.Util.Class({
 		m = (date.getMinutes()<10) ? '0' + date.getMinutes() :date.getMinutes();
 
 		var dateTime = Y + M + D + h + m;
-		console.log(dateTime)
+	
 		return dateTime;
 	},
 	//渲染活动页面
@@ -196,6 +195,7 @@ var Main = PFT.Util.Class({
 		_this.getActivityList(data.relation_pid);//初始化活动产品
 		_this.initGetCouponId("couponId", data.coupon_id);//初始化获取优惠券列表
 		_this.initGetCouponId("couponIdInp", data.coupon_id);
+		_this.initGetCouponId("typeFourCouponId", data.coupon_id);
 		/*if (data.share_type != 3) {
 			_this.setContent(data.share_type, data.content);//将富文本编辑器内容写入
 		}*/
@@ -213,6 +213,17 @@ var Main = PFT.Util.Class({
 		var tarNum = tarRadio.attr("value");
 		$("#share_type_" + tarNum).show().siblings(".share_type").hide();
 		$("#saveBtn").attr("data-type", tarNum);
+		if(tarNum == 4){
+			$('.shareTypeOneToTree').hide();
+			$('.shareTypeFour').show();
+			$('.date').hide();
+			$('.activityTime').hide();
+		}else{
+			$('.shareTypeOneToTree').show();
+			$('.shareTypeFour').hide();
+			$('.date').show();
+			$('.activityTime').show();
+		}
 
 	},
 	//获取产品列表
@@ -329,9 +340,12 @@ var Main = PFT.Util.Class({
 		var endDate = _this.formatDate($("#endDate").val());
 		var only_member = $(".inp-limit:checked").val();
 		if (!title) return STip("fail", "活动名称不为空!", 3000);
-		if (!beginDate) return STip("fail", "活动起始时间不为空!", 3000);
-		if (!endDate) return STip("fail", "活动截止时间不为空!", 3000);
-		if (beginDate > endDate) return STip("fail", "起始时间不能迟于截止时间!", 3000);
+		if(type!=4){
+			if (!beginDate) return STip("fail", "活动起始时间不为空!", 3000);
+			if (!endDate) return STip("fail", "活动截止时间不为空!", 3000);
+			if (beginDate > endDate) return STip("fail", "起始时间不能迟于截止时间!", 3000);
+		}
+		
 		if (!only_member) STip("fail", "请选择是否仅限会员卡!", 3000);
 		switch (type) {
 			case '1':
@@ -343,16 +357,27 @@ var Main = PFT.Util.Class({
 			case '3':
 				param = _this.getTypeCParam();
 				break;
+			case '4':
+				param = _this.getTypeDParam();
+				break;
 		}
 		params = param;
 		params["spid"] = spid;
 		params["id"] = mkid;
 		params["activity_name"] = title;
 		params["only_member"] = only_member;
-		params["bt"] = beginDate;
-		params["et"] = endDate;
+		if(type!=4){
+			params["bt"] = beginDate;
+			params["et"] = endDate;
+		}else{
+			var bt = this.todayTime()+"00:00";
+			var et = this.todayTime()+"23:59";
+			beginDate = _this.formatDate(bt)
+			endDate = _this.formatDate(et)
+			params["bt"] = beginDate;
+			params["et"] = endDate;
+		}
 		params["share_type"] = type;
-		//console.log(params);
 		_this.saveReq(params);
 		//window.location.href="marketing_share_list.html";
 	},
@@ -418,26 +443,114 @@ var Main = PFT.Util.Class({
 		}
 		return param;
 	},
+	//类别4参数
+	getTypeDParam: function () {
+		var couponIdInp = $("#typeFourCouponId").attr("data-id");
+		var couponNum = $("#typeFourCouponNum").val();
+
+		var param;
+		var reg = /^([1-9]\d{0,5}|999999|-1)$/;
+		
+		if (!reg.test(couponNum)) return STip("fail", "赠券张数在1~999999之间!", 3000);
+		if (!couponIdInp) return STip("fail", "优惠券ID不为空!", 3000);
+
+		param = {
+			coupon_id: couponIdInp,
+			coupon_num: couponNum,
+			relation_pid: "",
+			red_pack_money: "",
+			content: "",
+			thumb: "",
+			only_member : 2
+		}
+		return param;
+	},
 	//保存数据请求
-	saveReq: function (param) {
-		//console.log(param)
-		PFT.Util.Ajax('/r/product_Coupon/CreateShare', {
-			type: "POST",
-			dataType: "json",
-			params: param,
-			success: function (res) {
-				if (res.code == 200) {
-					STip("success", "保存成功!", 2000, function () {
+	saveReq: function (param) {	
+		var  CreateShare = "/r/product_Coupon/CreateShare";	
+		if(param.share_type == 4){
+
+			window["FileuploadCallbacks"][3] = [];
+			window["FileuploadCallbacks"][3].push(function(res){
+				if(res.code == 200){
+					STip("success", "保存成功!", 2000, function () {		
 						window.location.href = "marketing_share_list.html";
 					});
-				} else {
-					STip("fail", res.msg, 3000);
+				}else{
+					STip("fail", res.msg, 2000, function () {
+					});
 				}
-			}
-		})
-	},
+			
+			});
+			PFT.Util.Ajax(CreateShare, {
+				type: "POST",
+				dataType: "json",
+				params: param,
+				success: function (res) {
+					if (res.code == 200) {
+						$('#postCouponId').val(param.coupon_id)
+						$('#excelUploadForm').submit();
+					} else {
+						STip("fail", res.msg, 3000);
+					}
+				}
+			})
 
+		}else{
+			PFT.Util.Ajax(CreateShare, {
+				type: "POST",
+				dataType: "json",
+				params: param,
+				success: function (res) {
+					if (res.code == 200) {
+						STip("success", "保存成功!", 2000, function () {
+							window.location.href = "marketing_share_list.html";
+						});
+					} else {
+						STip("fail", res.msg, 3000);
+					}
+				}
+			})
+		}
+		
+	},
+	changeCouponNumber:function(e){
+		var tarBtn = $(e.currentTarget);
+		tarBtn.attr("value",tarBtn.val());
+	},
+	changefile:function(e){
+		var fileBtn = $(e.currentTarget);
+		var val=fileBtn.val();
+		var fileName = "";
+	 	if(typeof(val) != "undefined")  
+        {  
+            fileName = val.split("\\").pop();  
+            fileName = fileName.substring(0, fileName.lastIndexOf("."));  
+            fileName += val.substr(val.indexOf("."));
+        } 
+        $('.fileuploadTextInp').val(fileName);
+	},
+	todayTime:function(){
+	    var date = new Date();
+	    var seperator1 = "-";
+	    var seperator2 = ":";
+	    var month = date.getMonth() + 1;
+	    var strDate = date.getDate();
+	    if (month >= 1 && month <= 9) {
+	        month = "0" + month;
+	    }
+	    if (strDate >= 0 && strDate <= 9) {
+	        strDate = "0" + strDate;
+	    }
+	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+	            + " ";
+	    return currentdate;
+
+	}
 })
+
+
+
 
 $(function () {
 	new Main();

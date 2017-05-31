@@ -37,6 +37,8 @@ Fileupload.options = {
 	loading : function(){},
 	complete : function(){}
 };
+
+
 Fileupload.prototype = {
 	init : function(opt){
 		var that = this;
