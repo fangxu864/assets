@@ -1,0 +1,23 @@
+
+<div class="sec-nav-box fadeIn"></div>
+<div class="main-tb-box fadeIn">
+    <table class="main-tb">
+        <thead>
+            <tr>
+                <th class="fir-th">套餐ID</th>
+                <th>套餐名称</th>
+                <th>套餐周期</th>
+                <th>订购时间</th>
+                <th>到期时间</th>
+                <th>套餐状态</th>
+                <th>套餐价格</th>
+                <th class="last-th">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<div class="package-update-box fadeIn">
+</div>

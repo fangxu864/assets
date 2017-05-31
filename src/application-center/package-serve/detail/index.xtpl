@@ -1,0 +1,113 @@
+<%
+function fenToYuan( fen ){
+return (Number(fen) / 100).toFixed(2)
+}
+
+%>
+
+
+<div class="package-detail-box fadeIn">
+    <div class="title" ><%=data.name%></div>
+    <div class="detail-table-box">
+        <table class="detail-table">
+            <thead>
+            <tr>
+                <th class="th1">开通模块</th>
+                <th>生效周期</th>
+                <th>生效时间</th>
+                <th>服务价格(元)</th>
+            </tr>
+            </thead>
+
+
+            <tbody>
+            <tr class="parentTr odd">
+                <td colspan="4" class="th1">
+                    <span class="un-shrink "></span>
+                    基础模块
+                </td>
+            </tr>
+            <% _.each(data.base_module,function(item,index){%>
+            <tr class="" style="display: none;">
+                <td  class="th1 child-th"><%=item%></td>
+                <td><%=data.unit%>个月</td>
+                <td>即日起生效</td>
+                <td class="th4">0元</td>
+            </tr>
+            <% })%>
+            </tbody>
+
+            <%
+
+            function judgeTrue( param ) {
+            var type = Object.prototype.toString.call(param);
+            switch (type){
+            case '[object Array]':
+            return param.length === 0 ?  !1 : !0 ;
+            break;
+            case '[object Object]':
+            var t;
+            for (t in param)
+            return !0;
+            return !1;
+            break;
+            case '[object String]':
+            return param === '' ? !1 : !0 ;
+            break;
+            case '[object Number]':
+            return param === 0 ? !1 : !0 ;
+            break;
+            case '[object Boolean]':
+            return param === false ? !1 : !0;
+            break;
+            case '[object Null]':
+            return !1;
+            break;
+            case '[object Undefined]':
+            return !1;
+            break;
+            default :
+            return type;
+            }
+            }
+
+            %>
+
+            <% if(judgeTrue(data.increat_module) ){%>
+            <tbody>
+            <tr class="parentTr odd">
+                <td colspan="4" class="th1">
+                    <span class="un-shrink shrink"></span>
+                    应用模块
+                </td>
+            </tr>
+            <% }%>
+            <% _.each(data.increat_module,function(item,index){%>
+            <tr class="">
+                <td  class="th1 child-th"><%=item.name%></td>
+                <td><%=data.unit%>个月</td>
+                <td>即日起生效</td>
+                <td class="th4"><%=item.fee%>元</td>
+            </tr>
+            <%  })%>
+            </tbody>
+
+            <tbody>
+            <tr class="">
+                <td colspan="5" style="text-align: right ;padding-right: 40px">小计: ¥<%=data.old_price%>元</td>
+            </tr>
+            <tr style="border: none">
+                <td colspan="5" style="height: 20px"></td>
+            </tr>
+            <tr class="odd">
+                <td colspan="5" style="text-align: right ;padding-right: 40px">
+                    <p>购买套餐优惠: 省<%=fenToYuan(data.savePrice) %>元</p>
+                    <p>合计: <%=fenToYuan(data.fee == "免费" ? 0 : data.fee )%>元</p>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>

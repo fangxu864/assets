@@ -1,0 +1,44 @@
+<div class="clearfix update-package-wrap">
+<div class="title">当前套餐</div>
+    <% _.each(data.curPackage,function(item,index){%>
+    <div class="package-block">
+        <div class="con">
+            <div class="line line1"><%=item.name%></div>
+            <div class="line line2 <%=item.summary.length > 30 ? 'tooLong' : ''%>" data-title="<%=item.summary%>">
+                <%=item.summary.length > 30 ? item.summary.match(/.{0,30}/)[0] + "..." : item.summary%>
+            </div>
+            <div class="line line3">
+                <span class="money"><span class="rmb">¥</span><%=(Number(item.fee) / 100).toFixed(2)%></span>
+                <span class="btn btn-detail" data-id="<%=item.id%>">查看详情</span>
+            </div>
+        </div>
+    </div>
+    <%})%>
+</div>
+
+<div class="clearfix update-package-wrap newGroup">
+    <div class="title">选择升级套餐</div>
+    <% _.each(data.newPackage,function(item,index){%>
+    <div class="package-block" data-id="<%=item.id%>">
+        <div class="con">
+            <div class="line line1"><%=item.name%></div>
+            <div class="line line2 <%=item.summary.length > 30 ? 'tooLong' : ''%>" data-title="<%=item.summary%>">
+                <%=item.summary.length > 30 ? item.summary.match(/.{0,30}/)[0] + "..." : item.summary%>
+            </div>
+            <div class="line line3">
+                <span class="money"><span class="rmb">¥</span><%=(Number(item.fee) / 100).toFixed(2)%></span>
+                <span class="btn btn-detail" data-id="<%=item.id%>">查看详情</span>
+            </div>
+        </div>
+    </div>
+    <%})%>
+</div>
+
+<div class="package-update-bottom">
+    <div class="line">
+        <span>升级差价：</span><input type="text" class="update-price"><span class="loading-box" style="margin-left: 20px"></span>
+    </div>
+    <div class="line">
+        <span class="btn">确认升级</span><span class="prevBtn">返回列表</span>
+    </div>
+</div>

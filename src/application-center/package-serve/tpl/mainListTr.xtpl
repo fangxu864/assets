@@ -1,0 +1,25 @@
+
+<%
+var status = {
+0 :'未生效',  1:'过期',  2:'有效',
+}
+%>
+
+<% _.each(data,function(item,index){%>
+<tr>
+    <td class="fir-th"><%=item.id%></td>
+    <td><%=item.name%></td>
+    <td><%=item.unit%>个月</td>
+    <td><%=item.addTime%></td>
+    <td><%=item.endTime%></td>
+    <td><%=status[item.status]%></td>
+    <td><%=item.price%></td>
+    <td class="last-th">
+        <span class="btn btn-detail" data-id="<%=item.id%>" data-name="<%=item.name%>">详情</span>
+        <% if(item.status == 2){%>
+        <span class="btn btn-renew" data-id="<%=item.id%>">续费</span>
+        <span class="btn btn-update" data-id="<%=item.id%>">升级</span>
+        <%}%>
+    </td>
+</tr>
+<%})%>

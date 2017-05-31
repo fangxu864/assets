@@ -1,3 +1,78 @@
-.k{
-  color: #fff;
+.fadeIn{
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+.package-detail-box {
+  .title{
+    line-height: 44px;
+    padding-left: 20px;
+    font-size: 16px;
+    background: #e5e5e5;
+    border-bottom: #dedede 2px solid;
+  }
+  .detail-table-box{
+    max-height: 453px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    .detail-table{
+      width: 100%;
+      text-align: center;
+      thead tr th{
+        line-height: 40px;
+        border: 1px solid #e5e5e5;
+        background-color: #e4e4e4;
+      }
+      .th1{
+        text-align: left;
+        padding-left: 30px;
+      }
+      .parentTr{
+        cursor: pointer;
+        .th1{
+          border-right: 1px solid #e5e5e5;
+        }
+      }
+      .th4{
+        border-right: 1px solid #e5e5e5;
+      }
+      .child-th{
+        padding-left: 56px;
+      }
+      tbody tr{
+        line-height: 35px;
+        border: 1px solid #e5e5e5;
+      }
+      tbody tr:hover{
+        background-color: #fafafa;
+      }
+      tbody tr.odd{
+        background-color: #f4f4f4;
+      }
+      .un-shrink ,.shrink{
+        background-image: url('//static.12301.cc/assets/build/images/sale-report-shrink.png');
+        display: inline-block;
+        background-repeat: no-repeat;
+        width: 16px;
+        height: 16px;
+        position: relative;
+        margin-right: 7px;
+        top: 3px;
+        cursor: pointer;
+      }
+      .shrink{
+        background-position: 0 -16px;
+      }
+    }
+  }
 }
