@@ -8,6 +8,7 @@ var api = new Api();
 var AJAX_TIMEOUT_NUM = 5 * 60 * 1000; //5分钟超时，够了吧？？？？
 
 var Message = require('pft-ui-component/Message');
+var Dialog = require('pft-ui-component/Dialog');
 
 var ListDoAction = RichBase.extend({
     EVENTS: {
@@ -112,56 +113,93 @@ var ListDoAction = RichBase.extend({
     cancelOrder: function (tarBtn, ordernum) {
         var that = this;
         if(tarBtn.hasClass("loading")) return false;
-		if(!confirm("确定要取消此订单吗？")) return false;
-		PFT.Ajax({
-			url: "call/handle.php?from=order_cancel",
-			type: "get",
-			dataType: "json",
-			data: {
-				ordernum: ordernum
-			},
-			loading: function () {
-				tarBtn.html("正在取消...").addClass("loading");
-			},
-			removeLoading: function () {
-				tarBtn.html("取消").removeClass("loading");
-			},
-			timeout: function (res) {
-				alert("请求超时，请稍后重试")
-			},
-			serverError: function (res) {
-				alert("请求出错，请稍后重试")
-			}
-		}, function (res) {
-			if(res.outcome==1){ //审核成功
-				PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
-				var parent = tarBtn.parent();
-				tarBtn.parents(".col").siblings('.col_5').find(".tdCon").html("<em style='color:#bdbdbd'>已取消</em>");
-				tarBtn.siblings(".orderAlipay").remove();
-				tarBtn.siblings(".orderAlter").remove();
-				tarBtn.siblings(".orderCheck").remove();
-				tarBtn.siblings(".orderResend").remove();
-                tarBtn.siblings(".orderFinish").remove();
-				tarBtn.remove();
-				parent.children(".doBtn").first().prevAll("br").remove();
-				$("#listItem_" + ordernum).addClass("disable");
-				that.fire("cancelOrder.success");
-			}else if(res.outcome==-2){ //此订单取消需要审核，需要等待供应商审核结果才能知晓取消是否成功
-				var msg = res.msg || "此订单取消需审核，已向供应商发出取消订单申请，请等待供应商的审核结果";
-				var parent = tarBtn.parent();
-				tarBtn.parents(".col").siblings('.col_5').find(".tdCon").append("<span class='status' style='color: #f07845'>退票中</span>");
-				tarBtn.siblings(".orderAlter").remove();
-				tarBtn.siblings(".orderResend").remove();
-                tarBtn.siblings(".orderFinish").remove();
-				tarBtn.remove();
-				parent.children(".doBtn").first().prevAll("br").remove();
-				alert(msg);
-			}else{
-				var txt = res.msg || "";
-				PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + txt + '</p>');
-			}
-		});
+
+        if( tarBtn.attr('data-pack') == 2 ) {
+
+            if( !this.dialogCancelOrder ) {
+                this.dialogCancelOrder = new Dialog({
+                    title: '取消订单',
+                    content: '<div style="padding:50px;font-size:14px;line-height:2;"><p>该订单是子票订单，请谨慎操作：</p><p>1. 订单金额将不会退款给游客</p><p>2. 相关套票订单将无法取消</p></div>',
+                    width: 380,
+                    yesBtn: {
+                        text: '取消订单',
+                        onClick: function( e ) {
+                            that.ajaxCancelOrder( tarBtn, ordernum );
+                        }
+                    },
+                    cancelBtn: '容我想想',
+                    zIndex: 99,
+                    onOpenBefore : function() {},
+                    onOpenAfter : function() {},
+                    onCloseBefore : function() {},
+                    onCloseAfter : function() {}
+                });
+            }
+
+            this.dialogCancelOrder.open();
+
+        } else {
+            if( confirm("确定要取消此订单吗？") ) {
+                that.ajaxCancelOrder( tarBtn, ordernum );
+            }
+        }
+
+
     },
+
+    ajaxCancelOrder: function( tarBtn, ordernum ) {
+        var that = this;
+
+        PFT.Ajax({
+            url: "call/handle.php?from=order_cancel",
+            type: "get",
+            dataType: "json",
+            data: {
+                ordernum: ordernum
+            },
+            loading: function () {
+                tarBtn.html("正在取消...").addClass("loading");
+            },
+            removeLoading: function () {
+                tarBtn.html("取消").removeClass("loading");
+            },
+            timeout: function (res) {
+                alert("请求超时，请稍后重试")
+            },
+            serverError: function (res) {
+                alert("请求出错，请稍后重试")
+            }
+        }, function (res) {
+            if(res.outcome==1){ //审核成功
+                PFT.Help.AlertTo("success", '<p style="width:120px;">操作成功</p>');
+                var parent = tarBtn.parent();
+                tarBtn.parents(".col").siblings('.col_5').find(".tdCon").html("<em style='color:#bdbdbd'>已取消</em>");
+                tarBtn.siblings(".orderAlipay").remove();
+                tarBtn.siblings(".orderAlter").remove();
+                tarBtn.siblings(".orderCheck").remove();
+                tarBtn.siblings(".orderResend").remove();
+                tarBtn.siblings(".orderFinish").remove();
+                tarBtn.remove();
+                parent.children(".doBtn").first().prevAll("br").remove();
+                $("#listItem_" + ordernum).addClass("disable");
+                that.fire("cancelOrder.success");
+            }else if(res.outcome==-2){ //此订单取消需要审核，需要等待供应商审核结果才能知晓取消是否成功
+                var msg = res.msg || "此订单取消需审核，已向供应商发出取消订单申请，请等待供应商的审核结果";
+                var parent = tarBtn.parent();
+                tarBtn.parents(".col").siblings('.col_5').find(".tdCon").append("<span class='status' style='color: #f07845'>退票中</span>");
+                tarBtn.siblings(".orderAlter").remove();
+                tarBtn.siblings(".orderResend").remove();
+                tarBtn.siblings(".orderFinish").remove();
+                tarBtn.remove();
+                parent.children(".doBtn").first().prevAll("br").remove();
+                alert(msg);
+            }else{
+                var txt = res.msg || "";
+                PFT.Help.AlertTo("fail", '<p style="width:300px;">操作失败 ' + txt + '</p>');
+            }
+        });
+    },
+
     //重发短信
     resendMsg: function (tarBtn, ordernum) {
         if (!confirm("确定要重发短信？")) return false;

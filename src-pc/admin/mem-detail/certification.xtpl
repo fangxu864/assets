@@ -1,7 +1,7 @@
 
         <div class="detail-section-tit">认证信息</div>
         <% if( detail.id_card_no ){ %>
-        <div class="form form-inline">
+        <div class="form form-condensed form-inline">
             <div class="form-group">
                 <label class="form-label">姓名：</label>
                 <div class="form-val">

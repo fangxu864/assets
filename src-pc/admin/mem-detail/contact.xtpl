@@ -1,6 +1,6 @@
 
         <div class="detail-section-tit">联系人</div>
-        <div class="form form-inline">
+        <div class="form form-condensed form-inline">
             <div class="form-group">
                 <label class="form-label">联系人：</label>
                 <div class="form-val">

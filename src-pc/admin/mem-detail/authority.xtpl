@@ -1,6 +1,6 @@
 
         <div class="detail-section-tit">权限设置</div>
-        <div class="form f14">
+        <div class="form form-condensed f14">
             <div class="form-group">
                 <label class="form-label">接口编码：</label>
                 <div class="form-val">

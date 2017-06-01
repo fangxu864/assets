@@ -17,7 +17,7 @@
             )
             </span>
         </div>
-        <div class="form f14 mt20">
+        <div class="form form-condensed f14 mt20">
             <div class="form-group">
                 <label class="form-label">账号：</label>
                 <div class="form-val">
@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label class="form-label">账户分组：</label>
                 <div class="form-val">
-                    <div class="form-text"><%={ '1': '平台账号', '2': '测试账号', '3': '点餐账号', '4': '云顶账号', '5': '鼓浪屿', '6': '签约账号'}[ info.group ]%></div>
+                    <div class="form-text"><%={ '1': '平台账号', '2': '测试账号', '3': '点餐账号', '4': '云顶账号', '5': '鼓浪屿', '6': '签约账号'}[ detail.group ]%></div>
                 </div>
             </div>
             <div class="form-group">
@@ -69,7 +69,7 @@
                 data-name="<%=detail.dname%>"
                 data-group="<%=detail.group%>"
                 data-comname="<%=detail.com_name%>"
-                data-comtype="<%detail.com_type%>"
+                data-comtype="<%=detail.com_type%>"
                 data-transfer-time="<%=detail.transfer_time%>"
                 href="javascript:;" id="btnModBaseinfo">基本信息修改</a>
             <a class="btn btn-reverse btn-default btnAction" data-action="resetPassword" data-id="<%=detail.id%>" href="javascript:;">重置密码</a>

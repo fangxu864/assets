@@ -20,7 +20,7 @@
         </div>
 
 
-        <div class="form f14">
+        <div class="form form-condensed mt10 f14">
             <div class="form-group">
                 <label class="form-label">签单人员：</label>
                 <div class="form-val">
@@ -50,6 +50,6 @@
         <% if( isManager ) { %>
         <div class="section-btn-wrap">
             <a class="btn btn-reverse btn-default" href="javascript:;" id="">编辑</a>
-            <a class="btn btn-reverse btn-default" href="javascript:;" id="btnConfigCash">提现清分配置</a>
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="btnConfigCash" data-action="<%= detail.settleBlance==0?'add':'edit' %>" data-configid="<%=detail.settleId%>">提现清分配置</a>
         </div>
         <% } %>
