@@ -5,6 +5,7 @@ require('./lightbox.js');
 var DatePicker = require("COMMON/modules/datepicker"),
     Message = require('pft-ui-component/Message'),
     Dialog = require('pft-ui-component/Dialog'),
+    Drag = require("pft-ui-component/Drag"),
     ParseTemplate = PFT.Util.ParseTemplate,
     SECTION_TPL = {
         'detailAside': ParseTemplate( require('./aside.xtpl') ),
@@ -18,6 +19,7 @@ var DatePicker = require("COMMON/modules/datepicker"),
         'dialogBaseinfo': ParseTemplate( require('./dialog-baseinfo.xtpl') ),
         'dialogCashout': ParseTemplate( require('./dialog-cashout.xtpl') ),
         'dialogAuthority': ParseTemplate( require('./dialog-authority.xtpl') ),
+        'dialogBank': ParseTemplate( require('./dialog-bank.xtpl') )
     },
     Toast = require('COMMON/modules/Toast'),
     toast = new Toast;
@@ -33,14 +35,25 @@ var MemberManage = PFT.Util.Class({
     EVENTS: {
         'click .btnAction':         'onBtnActionClick',         // 合并操作事件
         'click .select':            'onSelectClick',            // 下拉框点击事件
+        'click .radioBox':          'selectRadio',              // 点击 单选项
         'click #btnModBaseinfo':    'onBtnModBaseinfoClick',
-        'click #btnConfigCash':     'onBtnConfigCashClick'
+        'click #btnConfigCash':     'onBtnConfigCashClick',
+        'click #btnModAuthority':   'onBtnModAuthorityClick'
     },
 
     AJAX_URLS: {
         memberDetail:       '/r/Admin_MemberManage/getMemberDetails/',
         setMemberStatus:    '/call/jh_mem.php',
-        saveMemberInfo:     '/r/Admin_MemberManage/saveMemberInfo/'
+        saveMemberInfo:     '/r/Admin_MemberManage/saveMemberInfo/',
+        modAuthority:       '/r/Admin_MemberManage/saveMemberPermissions/',
+        getAuthority:       '/r/Admin_MemberManage/getMemberPermissions/',
+        configCash: {
+            getSettingInfo: '/r/Finance_SettleBlance/getSettingInfo/',
+            getAccounts: '/r/Finance_SettleBlance/getAccounts/',
+            setStatus: '/r/Finance_SettleBlance/setStatus/',
+            edit: '/r/Finance_SettleBlance/udpate/',
+            add: '/r/Finance_SettleBlance/add/'
+        }
     },
 
     memberIdentity: null,
@@ -70,6 +83,27 @@ var MemberManage = PFT.Util.Class({
         $(document).on('click', function( e ){
             if( !$( e.target ).closest('.select').length && !$( e.target ).is('.select') ) {
                 $('.select').removeClass('active');
+            }
+        });
+
+        // 权限设置 -> 更改 ->
+        $(document).on('click', '#dialogSysRelated li', function(){
+            if( !$(this).hasClass('active') ) {
+                $(this).addClass('active').siblings().removeClass('active');
+            }
+        }).on('click', '#btnAddSys', function(){
+            var sysList = $('#dialogSysRelated').find('.sys-list'),
+                sysRelatedList = $('#dialogSysRelated').find('.sys-related-list');
+
+            if( sysList.find('.active').length ) {
+                sysList.find('.active').prependTo( sysRelatedList ).removeClass('active');
+            }
+        }).on('click', '#btnDelSys', function(){
+            var sysList = $('#dialogSysRelated').find('.sys-list'),
+                sysRelatedList = $('#dialogSysRelated').find('.sys-related-list');
+
+            if( sysRelatedList.find('.active').length ) {
+                sysRelatedList.find('.active').prependTo( sysList ).removeClass('active');
             }
         });
     },
@@ -335,26 +369,38 @@ var MemberManage = PFT.Util.Class({
         });
     },
 
+
+    // configCash: {
+    //     getSettingInfo:  清分配置-获取某条配置的具体信息
+    //     getAccounts:     清分配置-获取常用的银行账户
+    //     setStatus:       清分配置-设置配置的状态
+    //     edit:            清分配置-修改自动清分配置
+    //     add:             清分配置-新增自动清分配置
+    // }
     onBtnConfigCashClick: function( e ) {
         var that = this,
             target = $( e.target ),
-            info = {};
+            info = {},
+            configId = target.attr('data-configid') || '',
+            action = target.attr('data-action'),
+            yesBtnText = {'add':'新增', 'edit':'保存'}[ action ];
 
         if( !this.dialogConfigCash ) {
 
             this.dialogConfigCash = new Dialog({
+                drag : Drag,
                 title: '清分配置',
-                content: '初始化中，请稍候',
+                content: '<div id="dialogConfigCash"></div><div id="dialogConfigBank"></div>',
                 width: 550,
                 yesBtn: {
-                    text: '保存',
+                    text: yesBtnText,
                     onClick: function( e ) {
 
                         that.ajaxConfigCash({
-                            url: that.AJAX_URLS.saveMemberInfo,
+                            url: that.AJAX_URLS.configCash[ action ],
 
                             success: function( res ) {
-                                that.updateMemberDetails([ 'detailAside', 'detailBaseinfo' ]);
+                                that.updateMemberDetails([ 'detailContract' ]);
                             }
                         })
                     }
@@ -363,7 +409,8 @@ var MemberManage = PFT.Util.Class({
                 zIndex: 99,
                 onOpenBefore : function() {},
                 onOpenAfter : function() {
-                    that.ajaxGetConfigCash();
+                    that.ajaxGetConfigCash( configId );
+                    that.ajaxGetBankAccount( that.id );
                 },
                 onCloseBefore : function() {},
                 onCloseAfter : function() {}
@@ -374,13 +421,154 @@ var MemberManage = PFT.Util.Class({
         this.dialogConfigCash.open();
     },
 
-    ajaxGetConfigCash: function() {},
+    ajaxGetConfigCash: function( configId ) {
+        PFT.Util.Ajax( this.AJAX_URLS.configCash.getSettingInfo, {
+            type: 'post',
+
+            params: { id: configId },
+
+            loading: function() {
+                $('#dialogConfigCash').html('初始化中，请稍候');
+            },
+
+            success: function( res ) {
+                var html;
+
+                if( res.code == 200 ) {
+                    html = dialogTpl.dialogCashout({ info : res.data });
+                    $('#dialogConfigCash').html( html );
+                } else {
+                    $('#dialogConfigCash').html( res.msg );
+                }
+            },
+
+            serverError: function( xhr, msg ) {
+                $('#dialogConfigCash').html( msg || PFT.AJAX_ERROR_TEXT );
+            }
+        })
+    },
+
+    ajaxGetBankAccount: function( id ) {
+        PFT.Util.Ajax( this.AJAX_URLS.configCash.getAccounts, {
+            type: 'post',
+
+            params: { fid: id },
+
+            loading: function() {
+                $('#dialogConfigBank').html('正在获取提现账号信息，请稍候');
+            },
+
+            success: function( res ) {
+                var html;
+
+                if( res.code == 200 ) {
+                    html = dialogTpl.dialogBank({ info : res.data });
+                    $('#dialogConfigBank').html( html );
+                } else {
+                    $('#dialogConfigBank').html( res.msg );
+                }
+            },
+
+            serverError: function( xhr, msg ) {
+                $('#dialogConfigBank').html( msg || PFT.AJAX_ERROR_TEXT );
+            }
+        })
+    },
 
     ajaxConfigCash: function( opt ) {
         var params = {};
 
         params.id = this.id;
 
+
+        this.ajaxSetData({
+            url: opt.url,
+            params: params,
+            success: opt.success
+        });
+    },
+
+    onBtnModAuthorityClick: function( e ) {
+        var that = this,
+            target = $( e.target ),
+            info = {};
+
+        if( !this.dialogModAuthority ) {
+
+            this.dialogModAuthority = new Dialog({
+                drag : Drag,
+                title: '权限设置',
+                content: '<div id="dialogModAuthority"></div>',
+                width: 650,
+                yesBtn: {
+                    text: '保存',
+                    onClick: function( e ) {
+
+                        that.ajaxModAuthority({
+                            account: target.attr('data-account'),
+
+                            url: that.AJAX_URLS.modAuthority,
+
+                            success: function( res ) {
+                                that.updateMemberDetails([ 'detailAuthority' ]);
+                            }
+                        })
+                    }
+                },
+                cancelBtn: '取消',
+                zIndex: 99,
+                onOpenBefore : function() {},
+                onOpenAfter : function() {
+                    that.ajaxGetAuthority();
+                },
+                onCloseBefore : function() {},
+                onCloseAfter : function() {}
+            });
+
+        }
+
+        this.dialogModAuthority.open();
+    },
+
+    ajaxGetAuthority: function() {
+        PFT.Util.Ajax( this.AJAX_URLS.getAuthority, {
+            type: 'post',
+
+            params: { id: 925 }, // this.id
+
+            loading: function() {
+                $('#dialogModAuthority').html('初始化中，请稍候');
+            },
+
+            success: function( res ) {
+                var html;
+
+                if( res.code == 200 ) {
+                    html = dialogTpl.dialogAuthority({ info : res.data });
+                    $('#dialogModAuthority').html( html );
+                } else {
+                    $('#dialogModAuthority').html( res.msg );
+                }
+            },
+
+            serverError: function( xhr, msg ) {
+                $('#dialogModAuthority').html( msg || PFT.AJAX_ERROR_TEXT );
+            }
+        })
+    },
+
+    ajaxModAuthority: function( opt ) {
+        var params = {};
+
+        params.id = this.id;
+        params.account = opt.account;
+        params.add = $('#dialogAddSalerType').find('.active').attr('data-stat');
+        params.bind = $('#dialogJiutianAuth').find('.active').attr('data-stat');
+        params.search = $('#dialogTerminalSearch').find('.active').attr('data-stat');
+        params.refund = $('#dialogRefundBack').find('.active').attr('data-stat');
+        params.code = $('#dialogDCode').find('.input-text').val();
+        params.sysArr = $('#dialogSysRelated').find('.sys-related-list li').map(function(){ return $(this).attr('data-sysid') }).get().join();
+        params.sysType = params.sysArr ? 1 : 0;
 
         this.ajaxSetData({
             url: opt.url,

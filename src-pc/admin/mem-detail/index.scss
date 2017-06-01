@@ -1,3 +1,5 @@
+$borderColor: #e5e5e5;
+
 h1,h2,h3,h4,h5,h6 { font-weight: normal; }
 .fl {
     float: left;
@@ -60,6 +62,11 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
     background-position: -20px 0;
 }
 
+.radio-inline {
+    .radio {
+        min-width: 100px;
+    }
+}
 .radio{
     position: relative;
     padding-left: 18px;
@@ -89,16 +96,23 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
     overflow: visible;
     white-space: nowrap;
     text-align: center;
-}
-.btn-default {
-    background-color: #0797D9;
-    border-color: #0797D9;
-    color: #fff;
 
-    &.btn-reverse {
-        background-color: #fff;
+    &.btn-default {
+        background-color: #0797D9;
         border-color: #0797D9;
-        color: #0797D9;
+        color: #fff;
+
+        &.btn-reverse {
+            background-color: #fff;
+            border-color: #0797D9;
+            color: #0797D9;
+        }
+    }
+
+    &.btn-white {
+        background-color: #fff;
+        border-color: $borderColor;
+        color: #4c4e53;
     }
 }
 
@@ -164,7 +178,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
 .select {
     position: relative;
     float: left;
-    border: 1px solid #e5e5e5;
+    border: 1px solid $borderColor;
     cursor: pointer;
 
     &.w370 {
@@ -223,11 +237,11 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
         position: absolute;
         left: -1px; right: -1px; top: 34px;
         background-color: #fff;
-        border: 1px solid #e5e5e5;
+        border: 1px solid $borderColor;
 
         li {
             padding: 7px 9px;
-            border-bottom: 1px solid #e5e5e5;
+            border-bottom: 1px solid $borderColor;
             line-height: 20px;
             cursor: pointer;
 
@@ -245,7 +259,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
 .input-text {
     display: inline-block;
     padding: 7px 9px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid $borderColor;
     background-color: #fff;
     box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
     font-size: 14px;
@@ -253,6 +267,10 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
 
     &.w370 {
         width: 350px;
+    }
+
+    &.w410 {
+        width: 390px;
     }
 }
 .input-date-wrap {
@@ -282,7 +300,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
         position: relative;
         width: 140px;
         height: 140px;
-        border: 1px solid #e5e5e5;
+        border: 1px solid $borderColor;
 
         .aside-avatar {
             display: block;
@@ -308,7 +326,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
         padding: 10px 0 0;
         margin-left: -1px;
         margin-top: -1px;
-        border: 1px solid #e5e5e5;
+        border: 1px solid $borderColor;
         text-align: center;
         line-height: 2;
         color: #303D46;
@@ -330,7 +348,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
     .detail-section {
         position: relative;
         padding-bottom: 30px;
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: 1px solid $borderColor;
 
         .detail-section-tit {
             position: relative;
@@ -377,7 +395,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
 
         .identify-img {
             display: block;
-            border: 1px solid #e5e5e5;
+            border: 1px solid $borderColor;
 
             img {
                 display: block;
@@ -386,4 +404,32 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
             }
         }
     }
+}
+
+.sys-wrap {
+    position: relative;
+    float: left;
+    width: 150px;
+    height: 130px;
+    border: 1px solid $borderColor;
+    overflow-y: auto;
+
+    .sys-list li,
+    .sys-related-list li {
+        padding: 5px 10px;
+        cursor: pointer;
+
+        &.active {
+            background-color: #BFE7F8;
+        }
+    }
+}
+.sys-title {
+    padding: 8px 0;
+    text-align: center;
+}
+.sys-btns {
+    float: left;
+    margin: 35px 20px 0;
+    width: 65px;
 }

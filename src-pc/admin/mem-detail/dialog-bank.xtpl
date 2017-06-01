@@ -8,6 +8,7 @@
                         <i class="arrow"></i>
                         <div class="dropdown-options">
                             <ul>
+                                <li data-val="">手动提现</li>
                                 <li data-val="1">日结</li>
                                 <li data-val="2">周结</li>
                                 <li data-val="3">月结</li>

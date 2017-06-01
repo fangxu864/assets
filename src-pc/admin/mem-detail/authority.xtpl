@@ -41,7 +41,7 @@
 
         <% if( isManager ) { %>
         <div class="section-btn-wrap">
-            <a class="btn btn-reverse btn-default" href="javascript:;" id="">更改</a>
+            <a class="btn btn-reverse btn-default" href="javascript:;" id="btnModAuthority" data-account="<%=detail.account%>">更改</a>
         </div>
         <% } %>
 

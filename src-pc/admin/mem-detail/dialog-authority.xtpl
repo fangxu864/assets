@@ -1,64 +1,127 @@
     <div class="">
-        <div class="form f14">
-            <div class="form-group">
-                <label class="form-label">账户名称：</label>
+        <div class="form form-condensed f14">
+            <div class="form-group" id="dialogAddSalerType">
+                <label class="form-label">添加分销商：</label>
                 <div class="form-val">
-                    <input type="text" class="input-text" value="<%=info.dname%>" />
+                    <div class="form-text">
+                        <ul class="clearfix radio-inline">
+                            <li class="fl radioBox <%= info.add_saler_type==0 ? 'active' : '' %>" data-stat="0">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">新建</span>
+                                </div>
+                            </li>
+                            <li class="fl radioBox <%= info.add_saler_type==1 ? 'active' : '' %>" data-stat="1">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">搜索和新建</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">账户分组：</label>
+            <div class="form-group" id="dialogJiutianAuth">
+                <label class="form-label">绑定闸机：</label>
                 <div class="form-val">
-                    <div class="select w160" id="memsGroup">
-                        <div class="val" data-val="<%=info.group%>"><%={ '1': '平台账号', '2': '测试账号', '3': '点餐账号', '4': '云顶账号', '5': '鼓浪屿', '6': '签约账号'}[ info.group ]%></div>
-                        <i class="arrow"></i>
-                        <div class="dropdown-options">
-                            <ul>
-                                <li data-val="1">平台账号</li>
-                                <li data-val="2">测试账号</li>
-                                <li data-val="3">点餐账号</li>
-                                <li data-val="4">云顶账号</li>
-                                <li data-val="5">鼓浪屿</li>
-                                <li data-val="6">签约账号</li>
+                    <div class="form-text">
+                        <ul class="clearfix radio-inline">
+                            <li class="fl radioBox <%= info.jiutian_auth==1 ? 'active' : '' %>" data-stat="1">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">允许</span>
+                                </div>
+                            </li>
+                            <li class="fl radioBox <%= info.jiutian_auth==0 ? 'active' : '' %>" data-stat="0">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">禁止</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="dialogTerminalSearch">
+                <label class="form-label">终端查询：</label>
+                <div class="form-val">
+                    <div class="form-text">
+                        <ul class="clearfix radio-inline">
+                            <li class="fl radioBox <%= info.terminalSearch==1 ? 'active' : '' %>" data-stat="1">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">开启</span>
+                                </div>
+                            </li>
+                            <li class="fl radioBox <%= info.terminalSearch==0 ? 'active' : '' %>" data-stat="0">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">关闭</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="dialogRefundBack">
+                <label class="form-label">分销商/散客退款：</label>
+                <div class="form-val">
+                    <div class="form-text">
+                        <ul class="clearfix radio-inline">
+                            <li class="fl radioBox <%= info.refund_back==1 ? 'active' : '' %>" data-stat="1">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">支付宝</span>
+                                </div>
+                            </li>
+                            <li class="fl radioBox <%= info.refund_back==0 ? 'active' : '' %>" data-stat="0">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">账户</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form mt10 f14">
+            <div class="form-group" id="dialogDCode">
+                <label class="form-label">接口编码：</label>
+                <div class="form-val">
+                    <input type="text" class="input-text w410" value="<%=info.dcode%>" />
+                </div>
+            </div>
+            <div class="form-group" id="dialogSysRelated">
+                <label class="form-label">对接系统：</label>
+                <div class="form-val">
+                    <div class="fl">
+                        <div class="sys-title">可对接系统</div>
+                        <div class="sys-wrap">
+                            <ul class="sys-list">
+                            <% _.each( info.unjoint, function( item, index ){ %>
+                                <li data-sysid="<%=item.id%>"><%=item.name%></li>
+                            <% }) %>
                             </ul>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">企业名称：</label>
-                <div class="form-val">
-                    <input type="text" class="input-text" value="<%=info.comname%>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">企业类型：</label>
-                <div class="form-val">
-                    <div class="select w160" id="memsMerchantType">
-                        <div class="val" data-val=""><%=info.comtype%></div>
-                        <i class="arrow"></i>
-                        <div class="dropdown-options">
-                            <ul>
-                                <li data-val="">供应商</li>
-                                <li data-val="">分销商</li>
-                                <li data-val="">资源方</li>
-                                <li data-val="">普通用户</li>
-                                <li data-val="">员工</li>
-                                <li data-val="">集团账号</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">转供应商时间：</label>
-                <div class="form-val">
-                    <div id="dialogDatetimepicker" class="input-date-wrap">
-                        <input id="btimeInp" readonly="" class="input-text input-date" autocomplete="off" type="text" value="<%=info.transfer_time%>">
-                        <span class="triBtn input-group-addon"><i class="iconfont">&#xe65b;</i></span>
-                    </div>
-                </div>
-            </div>
 
+                    <div class="sys-btns">
+                        <a href="javascript:;" class="btn btn-white" id="btnAddSys">添加&gt;</a>
+                        <a href="javascript:;" class="btn btn-white mt10" id="btnDelSys">&lt;删除</a>
+                    </div>
+
+                    <div class="fl">
+                        <div class="sys-title">对接系统</div>
+                        <div class="sys-wrap">
+                            <ul class="sys-related-list">
+                            <% _.each( info.joint, function( item, index ){ %>
+                                <li data-sysid="<%=item.id%>"><%=item.name%></li>
+                            <% }) %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
