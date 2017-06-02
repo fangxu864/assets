@@ -80,13 +80,15 @@ var MemberManage = PFT.Util.Class({
     },
 
     bindEvents: function() {
+        var that = this;
+
         $(document).on('click', function( e ){
             if( !$( e.target ).closest('.select').length && !$( e.target ).is('.select') ) {
                 $('.select').removeClass('active');
             }
         });
 
-        // 权限设置 -> 更改 ->
+        // 权限设置 -> 更改 -> 对接系统
         $(document).on('click', '#dialogSysRelated li', function(){
             if( !$(this).hasClass('active') ) {
                 $(this).addClass('active').siblings().removeClass('active');
@@ -105,6 +107,24 @@ var MemberManage = PFT.Util.Class({
             if( sysRelatedList.find('.active').length ) {
                 sysRelatedList.find('.active').prependTo( sysList ).removeClass('active');
             }
+        });
+
+
+        $(document).on('click', '#memsDialogCashoutWay .dropdown-options li', function( e ){
+            var i = $( e.currentTarget ).index();
+            // 清分配置 -> 提现方式 显示对应清分时间设置
+            $('#cashoutTime').find('.cashout-time').eq(i).addClass('active').siblings().removeClass('active');
+            // 清分配置 -> 提现方式 设置手续费默认值
+            var defaultFee = { '1': 5, '2': 4, '3': 0};
+            $('#memsDialogServiceFee').val( defaultFee[ $( e.currentTarget ).attr('data-val') ] );
+        }).on('click', '#bankAccountList li', function( e ){
+            var target = $( e.target );
+            if( !target.hasClass('disabled') ) {
+                target.addClass('active').siblings().removeClass('active');
+            }
+        }).on('click', '#memsDialogSetAuto', function( e ){
+            $(this).toggleClass('close');
+            that.setAutoConfigStatus( e.target );
         });
     },
 
@@ -222,6 +242,7 @@ var MemberManage = PFT.Util.Class({
         var that = this,
             currTarget = $( e.currentTarget ),
             id = currTarget.attr('data-id'),
+            action = currTarget.attr('data-action'),
             CONFIRM_MSG = {
                 clearAccount:   '确定删除？',
                 Disable:        '确定禁用？',
@@ -229,21 +250,28 @@ var MemberManage = PFT.Util.Class({
                 Renew:          '确定恢复？',
                 PassApply:      '确定通过？',
                 RejectApply:    '确定拒绝？',
-                resetPassword:  '是否重置此账号密码为【pft@12301】？'
+                resetPassword:  '是否重置此账号密码为【pft@12301】？',
+                accredits_auth: {
+                    '0': '确定撤销审核？',
+                    '2': '确定通过审核？'
+                }
             },
-            actionParams = {};
+            actionParams = {},
+            msg;
 
-        actionParams.mid = id;
-
-        switch( currTarget.attr('data-action') ) {
+        switch( action ) {
             case 'clearAccount':
                 actionParams.action = 'clearAccount';
+                actionParams.mid = id;
+                msg = CONFIRM_MSG[ action ];
                 break;
 
             case 'Disable':
             case 'RejectApply':
                 actionParams.action = 'SetMemStatus';
                 actionParams.status = 1;
+                actionParams.mid = id;
+                msg = CONFIRM_MSG[ action ];
                 break;
 
             case 'Enable':
@@ -251,20 +279,54 @@ var MemberManage = PFT.Util.Class({
             case 'PassApply':
                 actionParams.action = 'SetMemStatus';
                 actionParams.status = 0;
+                actionParams.mid = id;
+                msg = CONFIRM_MSG[ action ];
                 break;
 
             case 'resetPassword':
                 actionParams.action = 'resetPassword';
+                actionParams.mid = id;
+                msg = CONFIRM_MSG[ action ];
+                break;
+
+            case 'accredits_auth':
+                actionParams.action = 'accredits_auth';
+                actionParams.did = id;
+                actionParams.status = currTarget.attr('data-status');
+                msg = CONFIRM_MSG[ action ][ currTarget.attr('data-status') ] || '';
                 break;
         }
 
-        Message.confirm( CONFIRM_MSG[ currTarget.attr('data-action') ], function( result ){
-            if( result ) {
-                that.ajaxSetMemberStatus( currTarget.attr('data-action'), actionParams );
-            } else {
+        if( action == 'accredits_auth' && currTarget.attr('data-status') == 3 ) {
+            if( !this.dialogRejectCert ) {
+                this.dialogRejectCert = new Dialog({
+                    drag: Drag,
+                    title: '驳回原因',
+                    content: '<div class="textarea-wrap"><textarea id="rejectCert" class="textarea"></textarea></div>',
+                    width: 420,
+                    yesBtn: {
+                        text: '确定',
+                        onClick: function( e ) {
 
+                            actionParams.msg = $('#rejectCert').val();
+                            that.ajaxSetMemberStatus( action, actionParams );
+
+                        }
+                    },
+                    cancelBtn: '取消',
+                    zIndex: 99
+                });
             }
-        });
+            this.dialogRejectCert.open();
+        } else {
+            Message.confirm( msg, function( result ){
+                if( result ) {
+                    that.ajaxSetMemberStatus( action, actionParams );
+                } else {
+
+                }
+            });
+        }
     },
 
     ajaxSetMemberStatus: function( action, params ) {
@@ -391,18 +453,26 @@ var MemberManage = PFT.Util.Class({
                 drag : Drag,
                 title: '清分配置',
                 content: '<div id="dialogConfigCash"></div><div id="dialogConfigBank"></div>',
-                width: 550,
+                width: 560,
                 yesBtn: {
                     text: yesBtnText,
                     onClick: function( e ) {
 
-                        that.ajaxConfigCash({
-                            url: that.AJAX_URLS.configCash[ action ],
+                        if( that.isConfigCashFormValid() ) {
+                            that.ajaxConfigCash({
+                                action: action,
 
-                            success: function( res ) {
-                                that.updateMemberDetails([ 'detailContract' ]);
-                            }
-                        })
+                                configId: configId,
+
+                                url: that.AJAX_URLS.configCash[ action ],
+
+                                success: function( res ) {
+                                    that.updateMemberDetails([ 'detailContract' ]);
+                                }
+                            })
+                        } else {
+                            return false;
+                        }
                     }
                 },
                 cancelBtn: '取消',
@@ -421,31 +491,96 @@ var MemberManage = PFT.Util.Class({
         this.dialogConfigCash.open();
     },
 
-    ajaxGetConfigCash: function( configId ) {
-        PFT.Util.Ajax( this.AJAX_URLS.configCash.getSettingInfo, {
+    setAutoConfigStatus: function( target ) {
+        var params = {};
+
+        params.id = $( target ).attr('data-id');
+        params.status = $( target ).hasClass('close') ? 'off' : 'on';
+
+        PFT.Util.Ajax( this.AJAX_URLS.configCash.setStatus, {
             type: 'post',
 
-            params: { id: configId },
+            params: params,
 
-            loading: function() {
-                $('#dialogConfigCash').html('初始化中，请稍候');
-            },
+            loading: function(){},
 
-            success: function( res ) {
-                var html;
-
-                if( res.code == 200 ) {
-                    html = dialogTpl.dialogCashout({ info : res.data });
-                    $('#dialogConfigCash').html( html );
-                } else {
-                    $('#dialogConfigCash').html( res.msg );
+            success: function( res ){
+                if( res.code != 200 ) {
+                    Message.alert( res.msg );
                 }
             },
 
-            serverError: function( xhr, msg ) {
-                $('#dialogConfigCash').html( msg || PFT.AJAX_ERROR_TEXT );
+            serverError: function(){
+                Message.alert( res.msg );
             }
         })
+    },
+
+    isConfigCashFormValid: function() {
+        var inp,
+            val;
+
+        inp = $('#memsDialogServiceFee');
+        val = $.trim( inp.val() );
+        if( !this.isFloat( val ) ) {
+            Message.alert('手续费输入有误！','',{
+                onCloseAfter : function(){
+                    inp.focus();
+                }
+            });
+            return false;
+        }
+
+        inp = $('#memsDialogReserveFee').find('.active').find('.input-text');
+        if( inp.length ) {
+            val = $.trim( inp.val() );
+            if( !this.isFloat( val ) ) {
+                Message.alert('预留金额输入有误！','',{
+                    onCloseAfter : function(){
+                        inp.focus();
+                    }
+                });
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    ajaxGetConfigCash: function( configId ) {
+        var params = {},
+            configId = configId; // 19为测试的配置id
+
+        if( configId ) {
+            params.id = configId;
+
+            PFT.Util.Ajax( this.AJAX_URLS.configCash.getSettingInfo, {
+                type: 'post',
+
+                params: params,
+
+                loading: function() {
+                    $('#dialogConfigCash').html('初始化中，请稍候');
+                },
+
+                success: function( res ) {
+                    var html;
+
+                    if( res.code == 200 ) {
+                        html = dialogTpl.dialogCashout({ info : res.data });
+                        $('#dialogConfigCash').html( html );
+                    } else {
+                        $('#dialogConfigCash').html( res.msg );
+                    }
+                },
+
+                serverError: function( xhr, msg ) {
+                    $('#dialogConfigCash').html( msg || PFT.AJAX_ERROR_TEXT );
+                }
+            })
+        } else {
+            $('#dialogConfigCash').html( dialogTpl.dialogCashout({ info : {} }) );
+        }
     },
 
     ajaxGetBankAccount: function( id ) {
@@ -462,7 +597,7 @@ var MemberManage = PFT.Util.Class({
                 var html;
 
                 if( res.code == 200 ) {
-                    html = dialogTpl.dialogBank({ info : res.data });
+                    html = dialogTpl.dialogBank({ info : res.data.account_info });
                     $('#dialogConfigBank').html( html );
                 } else {
                     $('#dialogConfigBank').html( res.msg );
@@ -476,10 +611,64 @@ var MemberManage = PFT.Util.Class({
     },
 
     ajaxConfigCash: function( opt ) {
-        var params = {};
+        // * mode  int 自动清分模式，1=日结，2=周结，3=月结 日结 手续费 5 周结 手续费 4 月结 手续费 0
+        // * freeze_type   int 资金冻结类型，1=冻结未使用的总额，2=按比例冻结
+        // * close_date    int 周结和月结模式中的清算日期，周结=1-7，月结=1-31
+        // * close_time    int 具体的清算时间
+        // * transfer_date int 月结模式中清分日期
+        // * transfer_time int 月结模式中清分时间
+        // * account_no    int 银行账户的序号 1或2
+        // * service_fee   float   提现手续费千分比例
+        // * cut_way   int 手续费扣除方式：0=提现金额中扣除，1=账户余额扣除 - 默认1
+        // * money_type    int 资金冻结详情类别：1=比例，2=具体金额
+        // * money_value   float   自资金冻结详情数值：具体比例或是具体金额
+        var params = {},
+            inp,
+            val;
 
-        params.id = this.id;
+        params.mode = $('#memsDialogCashoutWay').find('.val').attr('data-val');
 
+        params.service_fee = $('#memsDialogServiceFee').val();
+
+        params.freeze_type = $('#memsDialogReserveFee').find('.active').index() != 2 ? '2' : '1';
+        if( params.freeze_type == 2 ) {
+
+            inp = $('#memsDialogReserveFee').find('.active').find('.input-text');
+            val = $.trim( inp.val() );
+            params.money_value = val;
+            params.money_type = $('#memsDialogReserveFee').find('.active').index() == 0 ? 2 : 1;
+
+        }
+
+        switch( +params.mode ) {
+            case 1:
+                params.close_time = $('#cashoutTime').find('.cashout-time').eq(0).find('.val').attr('data-val');
+                break;
+            case 2:
+                params.close_date = $('#cashoutTime').find('.cashout-time').eq(1).find('.radioBox').filter(function(){ return $(this).hasClass('active') }).attr('data-day');
+                params.close_time = $('#cashoutTime').find('.cashout-time').eq(1).find('.val').attr('data-val');
+                break;
+            case 3:
+                params.close_date = $('#cashoutTime').find('.cashout-time').eq(2).find('.select').eq(0).find('.val').attr('data-val');
+                params.close_time = $('#cashoutTime').find('.cashout-time').eq(2).find('.select').eq(1).find('.val').attr('data-val');
+                params.transfer_date = params.close_date;
+                params.transfer_time = params.close_time;
+                break;
+        }
+
+        params.account_no = $('#bankAccountList').find('.active').length ? $('#bankAccountList').find('.active').attr('data-account-no') : '';
+        params.cut_way = $('#memsDialogServiceFeeFrom').find('.active').attr('data-stat');
+
+        switch( opt.action ) {
+            case 'add':
+                // * fid   int 用户ID
+                params.fid = this.id;
+                break;
+            case 'edit':
+                // * id  int 记录ID
+                params.id = opt.configId;
+                break;
+        }
 
         this.ajaxSetData({
             url: opt.url,
@@ -619,7 +808,7 @@ var MemberManage = PFT.Util.Class({
 
         if( target.closest('.dropdown-options').length ) {
             currTarget.removeClass('active');
-            currTarget.find('.val').html( target.text() );
+            currTarget.find('.val').html( target.text() ).attr('data-val', target.attr('data-val'));
         } else {
             currTarget.addClass('active');
         }

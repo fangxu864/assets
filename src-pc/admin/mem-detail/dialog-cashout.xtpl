@@ -1,10 +1,18 @@
     <div class="">
-        <div class="form f14">
+        <div class="form form-w100 f14">
+            <% if( info.status ) { %>
             <div class="form-group">
+                <label class="form-label">开启自动清分：</label>
+                <div class="form-val">
+                    <div class="switch-icon <%=info.status == 'on' ? '' : 'close' %>" id="memsDialogSetAuto" data-id="<%=info.id%>"></div>
+                </div>
+            </div>
+            <% } %>
+            <div class="form-group" id="memsDialogCashoutWay">
                 <label class="form-label">提现方式：</label>
                 <div class="form-val">
-                    <div class="select w160" id="memsGroup">
-                        <div class="val" data-val="<%= info.mode ? info.mode : 1 %>"><%={ '1': '日结', '2': '周结', '3': '月结'}[ info.mode ]%></div>
+                    <div class="select w370">
+                        <div class="val" data-val="<%= !info.mode ? 1 : info.mode %>"><%={ '1': '日结', '2': '周结', '3': '月结'}[ info.mode || 1 ]%></div>
                         <i class="arrow"></i>
                         <div class="dropdown-options">
                             <ul>
@@ -19,45 +27,47 @@
             <div class="form-group">
                 <label class="form-label">手续费：</label>
                 <div class="form-val">
-                    <input type="text" class="input-text" value="<%= info.service_fee ? info.service_fee : '' %>" />
+                    <input type="text" class="input-text w370" value="<%= info.service_fee ? info.service_fee : '' %>" id="memsDialogServiceFee" /> ‰
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="memsDialogServiceFeeFrom">
                 <label class="form-label">手续费扣除：</label>
                 <div class="form-val">
-                    <ul>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
-                            <div class="radio">
-                                <span class="i_radio"></span>
-                                <span class="radio-text">账户余额中扣除</span>
-                            </div>
-                        </li>
-                        <li class="radioBox <%= info.cut_way==0 ? 'active' : '' %>" data-stat="0">
-                            <div class="radio">
-                                <span class="i_radio"></span>
-                                <span class="radio-text">提现金额中扣除</span>
-                            </div>
-                        </li>
-                    </ul>
+                    <div class="form-text">
+                        <ul>
+                            <li class="fl radioBox mr25 <%= (info.cut_way==undefined || info.cut_way==1) ? 'active' : '' %>" data-stat="1">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">账户余额中扣除</span>
+                                </div>
+                            </li>
+                            <li class="fl radioBox <%= (info.cut_way!=undefined && info.cut_way==0) ? 'active' : '' %>" data-stat="0">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">提现金额中扣除</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="memsDialogReserveFee">
                 <label class="form-label">预留金额：</label>
                 <div class="form-val">
                     <ul>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
+                        <li class="radioBox <%= (!info.freeze_type || (info.freeze_type==2 && info.money_type==2) ) ? 'active' : '' %>">
                             <div class="radio">
                                 <span class="i_radio"></span>
-                                <span class="radio-text">余额中预留 <input type="text" class="input-text" value="<%= info.service_fee ? info.service_fee : '' %>" /> 元</span>
+                                <span class="radio-text">余额中预留 <input type="text" class="input-text w90" value="<%= info.money_value ? info.money_value : '' %>" /> 元</span>
                             </div>
                         </li>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
+                        <li class="radioBox mt10 <%= info.freeze_type==2 && info.money_type==1 ? 'active' : '' %>">
                             <div class="radio">
                                 <span class="i_radio"></span>
-                                <span class="radio-text">预留余额的 <input type="text" class="input-text" value="<%= info.service_fee ? info.service_fee : '' %>" /> %</span>
+                                <span class="radio-text">预留余额的 <input type="text" class="input-text w90" value="<%= info.money_value ? info.money_value : '' %>" /> %</span>
                             </div>
                         </li>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
+                        <li class="radioBox mt10 <%= info.freeze_type==1 ? 'active' : '' %>">
                             <div class="radio">
                                 <span class="i_radio"></span>
                                 <span class="radio-text">预留未使用订单的金额，其余情分</span>
@@ -66,29 +76,183 @@
                     </ul>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="cashoutTime">
                 <label class="form-label">清分时间：</label>
                 <div class="form-val">
-                    <div class="select w160" id="memsMerchantType">
-                        <div class="val" data-val=""><%=info.comtype%></div>
-                        <i class="arrow"></i>
-                        <div class="dropdown-options">
-                            <ul>
-                                <li data-val="">供应商</li>
-                                <li data-val="">分销商</li>
-                                <li data-val="">资源方</li>
-                                <li data-val="">普通用户</li>
-                                <li data-val="">员工</li>
-                                <li data-val="">集团账号</li>
-                            </ul>
+                    <div class="cashout-time <%=(!info.mode||info.mode==1) ? 'active' : ''%>">
+                        <span class="fl cashout-time-text mr10">每日</span>
+                        <div class="select w160">
+                            <div class="val" data-val="0">00:00</div>
+                            <i class="arrow"></i>
+                            <div class="dropdown-options">
+                                <ul>
+                                    <li data-val="0">00:00</li>
+                                    <li data-val="1">01:00</li>
+                                    <li data-val="2">02:00</li>
+                                    <li data-val="3">03:00</li>
+                                    <li data-val="4">04:00</li>
+                                    <li data-val="5">05:00</li>
+                                    <li data-val="6">06:00</li>
+                                    <li data-val="7">07:00</li>
+                                    <li data-val="8">08:00</li>
+                                    <li data-val="9">09:00</li>
+                                    <li data-val="10">10:00</li>
+                                    <li data-val="11">11:00</li>
+                                    <li data-val="12">12:00</li>
+                                    <li data-val="13">13:00</li>
+                                    <li data-val="14">14:00</li>
+                                    <li data-val="15">15:00</li>
+                                    <li data-val="16">16:00</li>
+                                    <li data-val="17">17:00</li>
+                                    <li data-val="18">18:00</li>
+                                    <li data-val="19">19:00</li>
+                                    <li data-val="20">20:00</li>
+                                    <li data-val="21">21:00</li>
+                                    <li data-val="22">22:00</li>
+                                    <li data-val="23">23:00</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">提现账户：</label>
-                <div class="form-val">
-
+                    <div class="cashout-time <%=(info.mode==2) ? 'active' : ''%>">
+                        <span class="fl cashout-time-text mr10">每周</span>
+                        <ul class="fl mt10">
+                            <li class="radioBox mr10 <%= (!info.close_date || info.close_date==1) ? 'active' : '' %>" data-day="1">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">一</span>
+                                </div>
+                            </li>
+                            <li class="radioBox mr10 <%= info.close_date==2 ? 'active' : '' %>" data-day="2">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">二</span>
+                                </div>
+                            </li>
+                            <li class="radioBox mr10 <%= info.close_date==3 ? 'active' : '' %>" data-day="3">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">三</span>
+                                </div>
+                            </li>
+                            <li class="radioBox mr10 <%= info.close_date==4 ? 'active' : '' %>" data-day="4">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">四</span>
+                                </div>
+                            </li>
+                            <li class="radioBox mr10 <%= info.close_date==5 ? 'active' : '' %>" data-day="5">
+                                <div class="radio">
+                                    <span class="i_radio"></span>
+                                    <span class="radio-text">五</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="select w160">
+                            <div class="val" data-val="0">00:00</div>
+                            <i class="arrow"></i>
+                            <div class="dropdown-options">
+                                <ul>
+                                    <li data-val="0">00:00</li>
+                                    <li data-val="1">01:00</li>
+                                    <li data-val="2">02:00</li>
+                                    <li data-val="3">03:00</li>
+                                    <li data-val="4">04:00</li>
+                                    <li data-val="5">05:00</li>
+                                    <li data-val="6">06:00</li>
+                                    <li data-val="7">07:00</li>
+                                    <li data-val="8">08:00</li>
+                                    <li data-val="9">09:00</li>
+                                    <li data-val="10">10:00</li>
+                                    <li data-val="11">11:00</li>
+                                    <li data-val="12">12:00</li>
+                                    <li data-val="13">13:00</li>
+                                    <li data-val="14">14:00</li>
+                                    <li data-val="15">15:00</li>
+                                    <li data-val="16">16:00</li>
+                                    <li data-val="17">17:00</li>
+                                    <li data-val="18">18:00</li>
+                                    <li data-val="19">19:00</li>
+                                    <li data-val="20">20:00</li>
+                                    <li data-val="21">21:00</li>
+                                    <li data-val="22">22:00</li>
+                                    <li data-val="23">23:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cashout-time <%=(info.mode==3) ? 'active' : ''%>">
+                        <span class="fl cashout-time-text mr10">每月</span>
+                        <div class="select w160 mr10">
+                            <div class="val" data-val="1">1</div>
+                            <i class="arrow"></i>
+                            <div class="dropdown-options">
+                                <ul>
+                                    <li data-val="1">1</li>
+                                    <li data-val="2">2</li>
+                                    <li data-val="3">3</li>
+                                    <li data-val="4">4</li>
+                                    <li data-val="5">5</li>
+                                    <li data-val="6">6</li>
+                                    <li data-val="7">7</li>
+                                    <li data-val="8">8</li>
+                                    <li data-val="9">9</li>
+                                    <li data-val="10">10</li>
+                                    <li data-val="11">11</li>
+                                    <li data-val="12">12</li>
+                                    <li data-val="13">13</li>
+                                    <li data-val="14">14</li>
+                                    <li data-val="15">15</li>
+                                    <li data-val="16">16</li>
+                                    <li data-val="17">17</li>
+                                    <li data-val="18">18</li>
+                                    <li data-val="19">19</li>
+                                    <li data-val="20">20</li>
+                                    <li data-val="21">21</li>
+                                    <li data-val="22">22</li>
+                                    <li data-val="23">23</li>
+                                    <li data-val="24">24</li>
+                                    <li data-val="25">25</li>
+                                    <li data-val="26">26</li>
+                                    <li data-val="27">27</li>
+                                    <li data-val="28">28</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <span class="fl cashout-time-text mr10">日,</span>
+                        <div class="select w160">
+                            <div class="val" data-val="0">00:00</div>
+                            <i class="arrow"></i>
+                            <div class="dropdown-options">
+                                <ul>
+                                    <li data-val="0">00:00</li>
+                                    <li data-val="1">01:00</li>
+                                    <li data-val="2">02:00</li>
+                                    <li data-val="3">03:00</li>
+                                    <li data-val="4">04:00</li>
+                                    <li data-val="5">05:00</li>
+                                    <li data-val="6">06:00</li>
+                                    <li data-val="7">07:00</li>
+                                    <li data-val="8">08:00</li>
+                                    <li data-val="9">09:00</li>
+                                    <li data-val="10">10:00</li>
+                                    <li data-val="11">11:00</li>
+                                    <li data-val="12">12:00</li>
+                                    <li data-val="13">13:00</li>
+                                    <li data-val="14">14:00</li>
+                                    <li data-val="15">15:00</li>
+                                    <li data-val="16">16:00</li>
+                                    <li data-val="17">17:00</li>
+                                    <li data-val="18">18:00</li>
+                                    <li data-val="19">19:00</li>
+                                    <li data-val="20">20:00</li>
+                                    <li data-val="21">21:00</li>
+                                    <li data-val="22">22:00</li>
+                                    <li data-val="23">23:00</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

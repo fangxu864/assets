@@ -16,6 +16,9 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
 .mt20 {
     margin-top: 20px;
 }
+.mr10 {
+    margin-right: 10px;
+}
 .mr25 {
     margin-right: 25px;
 }
@@ -32,6 +35,9 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
 
 .t-center {
     text-align: center;
+}
+.t-right {
+    text-align: right;
 }
 
 .c-title {
@@ -82,7 +88,7 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
     margin-top: -7px;
     background: url(http://images.12301.cc/icon/check.png) no-repeat;
 }
-.active .radio .i_radio{
+.radioBox.active .radio .i_radio{
     background-position: -14px 0;
 }
 
@@ -173,6 +179,15 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
             vertical-align: top;
         }
     }
+
+    &.form-w100 {
+        .form-label {
+            width: 90px;
+        }
+        .form-val {
+            margin-left: 100px;
+        }
+    }
 }
 
 .select {
@@ -236,6 +251,8 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
         display: none;
         position: absolute;
         left: -1px; right: -1px; top: 34px;
+        max-height: 240px;
+        overflow: auto;
         background-color: #fff;
         border: 1px solid $borderColor;
 
@@ -272,6 +289,10 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
     &.w410 {
         width: 390px;
     }
+
+    &.w90 {
+        width: 70px;
+    }
 }
 .input-date-wrap {
     position: relative;
@@ -284,6 +305,21 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
             top: 8px;
             line-height: 1;
         }
+    }
+}
+
+.textarea-wrap {
+    display: block;
+    padding: 5px 10px;
+
+    .textarea {
+        display: block;
+        width: 100%;
+        margin-left: -10px;
+        margin-right: -10px;
+        padding: 9px;
+        border: 1px solid #e5e5e5;
+        line-height: 2;
     }
 }
 
@@ -349,6 +385,10 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
         position: relative;
         padding-bottom: 30px;
         border-bottom: 1px solid $borderColor;
+
+        &:last-child {
+            border-bottom: 0 none;
+        }
 
         .detail-section-tit {
             position: relative;
@@ -432,4 +472,47 @@ h1,h2,h3,h4,h5,h6 { font-weight: normal; }
     float: left;
     margin: 35px 20px 0;
     width: 65px;
+}
+
+.switch-icon {
+    position: absolute;cursor:pointer;top:69px;left:132px;display: inline-block;width: 56px; height: 25px;background: url(http://static.12301.cc/images/opcolse.png) no-repeat;
+    &.close {
+        background-position: 0 -25px;
+    }
+}
+
+#bankAccountList {
+    li {
+        float: left;
+        width: 188px;
+        height: 60px;
+        padding: 5px;
+        border:1px solid #ddd;
+        margin-right: 5px;
+        line-height: 2;
+        cursor: pointer;
+
+        &.disabled {
+            line-height: 60px;
+            color: red;
+            cursor: not-allowed;
+        }
+
+        &.active {
+            border-color: #3DB93F;
+        }
+    }
+}
+.cashout-time {
+    display: none;
+
+    .radioBox {
+        float: left;
+    }
+    .cashout-time-text {
+        line-height: 36px;
+    }
+    &.active {
+        display: block;
+    }
 }
