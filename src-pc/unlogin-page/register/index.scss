@@ -8,6 +8,7 @@ $borderE5 : 1px solid #e5e5e5;
   background-color: #fff;
   margin-top: 10px;
   border: $borderE5;
+  font-size: 14px;
   .f-right{
     float: right;
   }
@@ -48,9 +49,9 @@ $borderE5 : 1px solid #e5e5e5;
     font-size: 14px;
     position: relative;
     line-height: 12px;
-    margin-left: 12px;
+    margin-right: 12px;
     cursor: pointer;
-    margin-top: 12px;
+    margin-top: 18px;
     margin-bottom: 10px;
     input[type = radio]{
       display: none;
@@ -90,15 +91,16 @@ $borderE5 : 1px solid #e5e5e5;
     width: 80%;
     margin: 0 auto;
     .line{
-      line-height: 38px;
-      margin-top: 14px;
+      line-height: 50px;
+      margin-top: 15px;
       border-bottom: $borderE5;
       .item-name{
-        width: 100px;
+        width: 120px;
         float: left;
         font-size: 14px;
         text-align: right;
         display: inline-block;
+        margin-right: 10px;
       }
       .com-input{
         width: 300px;
@@ -108,23 +110,64 @@ $borderE5 : 1px solid #e5e5e5;
         padding: 5px;
         text-indent: 0;
       }
+      select{
+        margin: 0 7px;
+        height: 35px;
+        line-height: 35px;
+        border: 1px solid #e5e5e5;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-indent: 0;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      }
+      &.active{
+        border-color: #499ffe;
+      }
+      .necessary{
+        color: #f00;
+        padding: 0 5px;
+        vertical-align: sub;
+      }
+      .send-vcode{
+        color: #499ffe;
+        cursor: pointer;
+        margin-left: 5px;
+        &:hover{
+          color:#4291e6;
+        }
+        &.disabled{
+          color: #adadad;
+        }
+      }
+      input[name = vcode]{
+        border:$borderE5;
+      }
+      .valid-flag{
+        color: #3eba40;
+        display: none;
+        margin-left: 10px;
+        position: absolute;
+      }
     }
     .agreement-line{
       padding-left: 100px;
       padding-top: 20px;
     }
     .register-btn{
-      padding: 10px 20px;
-      background-color: #f07845;
+      margin: 25px 50px;
+      background-color: #2087da;
       color: #ffffff;
+      line-height: 14px;
+      padding: 14px 60px;
       display: inline-block;
-      border-radius: 3px;
       text-align: center;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
-      margin: 30px 0;
       &:hover{
-        background-color: #e06e3d;
+        background-color: #2196F3;
+        box-shadow: 0 0 3px #2196F3;
       }
     }
   }

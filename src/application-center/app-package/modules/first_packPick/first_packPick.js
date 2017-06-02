@@ -5,7 +5,8 @@
 require("./first_packPick.scss");
 var first_packPickModuleTpl = require("./first_packPick.xtpl");
 var ParseTemplate =  require("COMMON/js/util.parseTemplate.js");
-
+var tips = require("COMMON/modules/tips/index.js");
+var Tips = new tips ();
 
 
 /**
@@ -38,6 +39,25 @@ var First_packPickModule = {
             _this.CR.pubSub.pub("DC.getSecondPackageDetail",moduleId);
             _this.CR.mainBox.find(".first_packPickBox ").hide();
             $("#G_Body").animate({"scrollTop": 0}, 200, "swing")
+        });
+
+        this.container.on("mouseenter" , ".package-block .tooLong",function (e) {
+            var tarTextBox =$(this);
+            _this.tipsTimer = setTimeout(function () {
+                Tips.closeAllTips();
+                Tips.show({
+                    lifetime : -1 ,
+                    direction:'right',
+                    hostObj : tarTextBox ,
+                    content : tarTextBox.attr("data-title"),
+                    bgcolor : "#0897d9"
+                });
+            },200);
+        });
+        this.container.on("mouseout" , ".package-block .tooLong",function (e) {
+            var tarTextBox =$(this);
+            clearTimeout(_this.tipsTimer);
+            Tips.closeAllTips();
         })
     },
 

@@ -3,7 +3,9 @@
 <div class="package-block">
     <div class="con">
         <div class="line line1"><%=item.name%></div>
-        <div class="line line2"><%=item.summary%></div>
+        <div class="line line2 <%=item.summary.length > 50 ? 'tooLong' : ''%>" data-title="<%=item.summary%>">
+            <%=item.summary.length > 50 ? item.summary.match(/.{0,50}/)[0] + "..." : item.summary%>
+        </div>
         <div class="line line3">
             <span class="money"><span class="rmb">¥</span><%=(Number(item.fee) / 100).toFixed(2)%></span>
             <span class="btn btn-book <%=item.fee == 0 ? 'free' : ''%>" data-moduleId="<%=item.id%>"><%=item.fee == 0 ? "免费开通" : "立即订购"%></span>

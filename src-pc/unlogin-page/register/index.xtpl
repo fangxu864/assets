@@ -1,78 +1,86 @@
-<form id="form-test">
+<form id="register-form"  autocomplete="off">
 <div class="line">
-    <span class="item-name">账户名称 : </span>
-    <input type="text" placeholder="显示的名称" class="com-input"/>
+    <span class="item-name"><i class="necessary">*</i>账户名称 : </span>
+    <input type="text" placeholder="显示的名称" class="com-input checkInp need-focus" validate-type="notEmpty" autocomplete="off"/>
+    <i class="iconfont ok valid-flag" ></i>
 </div>
 <div class="line">
-    <span class="item-name">个人/企业实名 : </span>
-    <input type="text" placeholder="个人真实姓名/营业执照上的注册公司，请认真填写" class="com-input"/>
+    <span class="item-name"><i class="necessary">*</i>个人/企业实名 : </span>
+    <input type="text" autocomplete="off" placeholder="个人真实姓名/营业执照上的注册公司，请认真填写" class="com-input checkInp need-focus" name="company" validate-type="chinese"/>
+    <i class="iconfont ok valid-flag"></i>
 </div>
 <div class="line clearfix">
-    <span class="item-name">公司类型 : </span>
+    <span class="item-name"><i class="necessary">*</i>公司类型 : </span>
     <div class="self-radio checked">
-        <input type="radio" name="type" checked="checked" value="1"/>
+        <input type="radio" name="company_type" checked="checked" value="1"/>
         <span class="radio-icon"></span>
         <span class="radio-des">景区</span>
     </div>
     <div class="self-radio">
-        <input type="radio" name="type" value="2"/>
+        <input type="radio" name="company_type" value="2"/>
         <span class="radio-icon"></span>
         <span class="radio-des">酒店</span>
     </div>
     <div class="self-radio">
-        <input type="radio" name="type" value="3"/>
+        <input type="radio" name="company_type" value="3"/>
         <span class="radio-icon"></span>
         <span class="radio-des">旅行社</span>
     </div>
     <div class="self-radio">
-        <input type="radio" name="type" value="4"/>
+        <input type="radio" name="company_type" value="4"/>
         <span class="radio-icon"></span>
         <span class="radio-des">加盟门店</span>
     </div>
     <div class="self-radio">
-        <input type="radio" name="type" value="5"/>
+        <input type="radio" name="company_type" value="5"/>
         <span class="radio-icon"></span>
         <span class="radio-des">电商</span>
     </div>
     <div class="self-radio">
-        <input type="radio" name="type" value="6"/>
+        <input type="radio" name="company_type" value="6"/>
         <span class="radio-icon"></span>
         <span class="radio-des">团购网</span>
     </div>
     <div class="self-radio">
-        <input type="radio" name="type" value="7"/>
+        <input type="radio" name="company_type" value="7"/>
         <span class="radio-icon"></span>
         <span class="radio-des">淘宝/天猫</span>
     </div>
     <div class="self-radio">
-        <input type="radio" name="type" value="8"/>
+        <input type="radio" name="company_type" value="8"/>
         <span class="radio-icon"></span>
         <span class="radio-des">其他</span>
     </div>
 </div>
 <div class="line">
     <span class="item-name">所在地区 : </span>
-    <input type="text" class="com-input"/>
+    <select name="province" id="provSelect"></select>
+    <select name="city" id="citySelect"></select>
 </div>
 <div class="line">
     <span class="item-name">公司地址 : </span>
-    <input type="text" class="com-input"/>
+    <input type="text" class="com-input need-focus" name="address" autocomplete="off"/>
 </div>
 <div class="line">
     <span class="item-name">经营范围 : </span>
-    <input type="text" class="com-input"/>
+    <input type="text" class="com-input need-focus" name="business" autocomplete="off"/>
 </div>
 <div class="line">
-    <span class="item-name">联系人手机 : </span>
-    <input type="text" class="com-input"/>
+    <span class="item-name"><i class="necessary">*</i>手机号 : </span>
+    <input type="text" class="com-input checkInp need-focus" name="mobile" validate-type="mobile" autocomplete="off"/>
+    <i class="iconfont ok valid-flag"></i>
 </div>
 <div class="line">
-    <span class="item-name">验证码 : </span>
-    <input type="text" class="com-input"/>
+    <span class="item-name"><i class="necessary">*</i>验证码 : </span>
+    <input type="text" class="com-input checkInp" name="vcode" validate-type="vCode" style="width:100px;" autocomplete="off"/>
+    <span class="send-vcode" style="display: none">发送校验码</span>
+    <i class="iconfont ok valid-flag"></i>
 </div>
 <div class="line">
-    <span class="item-name">密码 :</span>
-    <input type="text" class="com-input"/>
+    <span class="item-name"><i class="necessary">*</i>密码 :</span>
+    <input type="text" class="com-input checkInp need-focus" name="pwd"  validate-type="pwd" autocomplete="off"/>
+    <i class="iconfont ok valid-flag"></i>
+
 </div>
 <div class="clearfix agreement-line">
     <div class="self-checkbox checked">
@@ -80,7 +88,7 @@
     <span class="checkbox-icon"></span>
     <span class="checkbox-des">你已阅读并同意</span>
     </div>
-    <a href="http://www.12301.cc/Agreement.html" target="_blank" style="font-size: 14px">《微信公众平台服务协议》</a>
+    <a href="http://www.12301.cc/Agreement.html" target="_blank" style="font-size: 14px">《票付通服务使用协议》</a>
 </div>
 </form>
 <div style="text-align: center">

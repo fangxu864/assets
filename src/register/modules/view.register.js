@@ -9,6 +9,7 @@ var Dialog = require("COMMON/modules/easydialog");
 //var md5 = require("js-md5"); //md5.hex(pwd)   in node_modules/
 var AJAX_ERROR_TEXT = "请求出错，请稍后重试";
 var ImgCodeUrl = PFT.Config.Api.get("Login","getCode");
+
 var VRegister = Backbone.View.extend({
 	api : PFT.Config.Api.get("Member_Register"),
 	el : $("#regForm"),
