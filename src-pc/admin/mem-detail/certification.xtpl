@@ -1,6 +1,6 @@
 
         <div class="detail-section-tit">认证信息</div>
-        <% if( detail.id_card_no ){ %>
+        <% if( detail.com_type == '个人' ){ %>
         <div class="form form-condensed form-inline">
             <div class="form-group">
                 <label class="form-label">姓名：</label>
@@ -17,20 +17,20 @@
         </div>
         <div class="identify-imgs">
             <ul class="clearfix">
-                <li><a class="identify-img" href="<%=detail.id_card%>" data-lightbox="identify"><img src="<%=detail.id_card%>" /></a></li>
-                <li><a class="identify-img" href="<%=detail.id_card_B%>" data-lightbox="identify"><img src="<%=detail.id_card_B%>" /></a></li>
-                <li><a class="identify-img" href="<%=detail.id_card_hand%>" data-lightbox="identify"><img src="<%=detail.id_card_hand%>" /></a></li>
-                <li><a class="identify-img" href="<%=detail.other_les%>" data-lightbox="identify"><img src="<%=detail.other_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.id_card%>" data-lightbox="identify" data-title="证照片 正门面"><img src="<%=detail.id_card%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.id_card_B%>" data-lightbox="identify" data-title="身份证照片 反面"><img src="<%=detail.id_card_B%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.id_card_hand%>" data-lightbox="identify" data-title="手持身份证照片"><img src="<%=detail.id_card_hand%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.other_les%>" data-lightbox="identify" data-title="其他证件"><img src="<%=detail.other_les%>" /></a></li>
             </ul>
         </div>
             <% if( isManager ) { %>
             <div class="section-btn-wrap">
-                <a class="btn btn-reverse btn-default" href="javascript:;" id="">通过认证</a>
-                <a class="btn btn-reverse btn-default" href="javascript:;" id="">驳回</a>
+                <a class="btn btn-reverse btn-default btnAction" data-action="accredits_auth" data-status="2" data-id="<%=detail.id%>" href="javascript:;" id="">通过认证</a>
+                <a class="btn btn-reverse btn-default btnAction" data-action="accredits_auth" data-status="3" data-id="<%=detail.id%>" href="javascript:;" id="">驳回</a>
             </div>
             <% } %>
         <% } else { %>
-        <div class="form form-inline">
+        <div class="form form-condensed form-inline">
             <div class="form-group">
                 <label class="form-label">企业全称：</label>
                 <div class="form-val">
@@ -76,18 +76,18 @@
         </div>
         <div class="identify-imgs">
             <ul class="clearfix">
-                <li><a class="identify-img" href="<%=detail.bsn_les%>" data-lightbox="identify"><img src="<%=detail.bsn_les%>" /></a></li>
-                <li><a class="identify-img" href="<%=detail.opt_les%>" data-lightbox="identify"><img src="<%=detail.opt_les%>" /></a></li>
-                <li><a class="identify-img" href="<%=detail.auth_les%>" data-lightbox="identify"><img src="<%=detail.auth_les%>" /></a></li>
-                <li><a class="identify-img" href="<%=detail.org_les%>" data-lightbox="identify"><img src="<%=detail.org_les%>" /></a></li>
-                <li><a class="identify-img" href="<%=detail.tax_les%>" data-lightbox="identify"><img src="<%=detail.tax_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.bsn_les%>" data-lightbox="identify" data-title="经营执照"><img src="<%=detail.bsn_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.opt_les%>" data-lightbox="identify" data-title="经营许可证"><img src="<%=detail.opt_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.auth_les%>" data-lightbox="identify" data-title="资源方授权书"><img src="<%=detail.auth_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.org_les%>" data-lightbox="identify" data-title="组织机构代码证"><img src="<%=detail.org_les%>" /></a></li>
+                <li><a class="identify-img" href="<%=detail.tax_les%>" data-lightbox="identify" data-title="税务登记证"><img src="<%=detail.tax_les%>" /></a></li>
             </ul>
         </div>
             <% if( isManager ) { %>
             <div class="section-btn-wrap">
-                <a class="btn btn-reverse btn-default" href="javascript:;" id="">通过认证</a>
-                <a class="btn btn-reverse btn-default" href="javascript:;" id="">驳回</a>
-                <a class="btn btn-reverse btn-default" href="javascript:;" id="">撤销认证</a>
+                <a class="btn btn-reverse btn-default btnAction" data-action="accredits_auth" data-status="2" data-id="<%=detail.id%>" href="javascript:;" id="">通过认证</a>
+                <a class="btn btn-reverse btn-default btnAction" data-action="accredits_auth" data-status="3" data-id="<%=detail.id%>" href="javascript:;" id="">驳回</a>
+                <a class="btn btn-reverse btn-default btnAction" data-action="accredits_auth" data-status="0" data-id="<%=detail.id%>" href="javascript:;" id="">撤销认证</a>
             </div>
             <% } %>
         <% } %>

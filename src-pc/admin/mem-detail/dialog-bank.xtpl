@@ -1,96 +1,20 @@
-    <div class="">
-        <div class="form f14">
-            <div class="form-group">
-                <label class="form-label">提现方式：</label>
-                <div class="form-val">
-                    <div class="select w160" id="memsGroup">
-                        <div class="val" data-val="<%= info.mode ? info.mode : 1 %>"><%={ '1': '日结', '2': '周结', '3': '月结'}[ info.mode ]%></div>
-                        <i class="arrow"></i>
-                        <div class="dropdown-options">
-                            <ul>
-                                <li data-val="">手动提现</li>
-                                <li data-val="1">日结</li>
-                                <li data-val="2">周结</li>
-                                <li data-val="3">月结</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">手续费：</label>
-                <div class="form-val">
-                    <input type="text" class="input-text" value="<%= info.service_fee ? info.service_fee : '' %>" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">手续费扣除：</label>
-                <div class="form-val">
-                    <ul>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
-                            <div class="radio">
-                                <span class="i_radio"></span>
-                                <span class="radio-text">账户余额中扣除</span>
-                            </div>
-                        </li>
-                        <li class="radioBox <%= info.cut_way==0 ? 'active' : '' %>" data-stat="0">
-                            <div class="radio">
-                                <span class="i_radio"></span>
-                                <span class="radio-text">提现金额中扣除</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">预留金额：</label>
-                <div class="form-val">
-                    <ul>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
-                            <div class="radio">
-                                <span class="i_radio"></span>
-                                <span class="radio-text">余额中预留 <input type="text" class="input-text" value="<%= info.service_fee ? info.service_fee : '' %>" /> 元</span>
-                            </div>
-                        </li>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
-                            <div class="radio">
-                                <span class="i_radio"></span>
-                                <span class="radio-text">预留余额的 <input type="text" class="input-text" value="<%= info.service_fee ? info.service_fee : '' %>" /> %</span>
-                            </div>
-                        </li>
-                        <li class="radioBox <%= info.cut_way==1 ? 'active' : '' %>" data-stat="1">
-                            <div class="radio">
-                                <span class="i_radio"></span>
-                                <span class="radio-text">预留未使用订单的金额，其余情分</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">清分时间：</label>
-                <div class="form-val">
-                    <div class="select w160" id="memsMerchantType">
-                        <div class="val" data-val=""><%=info.comtype%></div>
-                        <i class="arrow"></i>
-                        <div class="dropdown-options">
-                            <ul>
-                                <li data-val="">供应商</li>
-                                <li data-val="">分销商</li>
-                                <li data-val="">资源方</li>
-                                <li data-val="">普通用户</li>
-                                <li data-val="">员工</li>
-                                <li data-val="">集团账号</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
+        <div class="form form-w100 f14">
+            <div class="form-group" id="">
                 <label class="form-label">提现账户：</label>
                 <div class="form-val">
-
+                    <ul id="bankAccountList">
+                    <% _.each( info, function(item, index){ %>
+                        <li class="<%= item.status==0 ? 'disabled' : '' %>" data-account-no="<%=index%>">
+                            <% if( item.status==0 ) { %>
+                                <p><%=item.msg%></p>
+                            <% } else { %>
+                            <p>银行：<%=item.bank_name%></p>
+                            <p>账号：<%=item.bank_account%></p>
+                            <p>户名：<%=item.account_name%></p>
+                            <% } %>
+                        </li>
+                    <% }) %>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
